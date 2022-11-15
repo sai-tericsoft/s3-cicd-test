@@ -1,16 +1,18 @@
 import React from 'react';
 import {Navigate, Route, Routes} from 'react-router-dom';
 import NotFoundScreen from "../screens/not-found/notFoundScreen";
-import AuthLayout from "../layouts/auth-layout/authLayout";
+import AuthLayout from "../layouts/auth-layout/AuthLayout";
 import {
     DASHBOARD,
-    DESIGN_SYSTEM_ROUTE,
+    DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE,
     NOT_FOUND_ROUTE,
     TEST_ROUTE
 } from "../constants/RoutesConfig";
 import TestScreen from "../screens/test/testScreen";
 import DesignSystemScreen from "../screens/design-system/DesignSystemScreen";
 import DashboardScreen from "../screens/dashboard/dashboardScreen";
+import LoginScreen from "../screens/auth/login/LoginScreen";
+import AppLayout from "../layouts/app-layout/AppLayout";
 // import {useSelector} from "react-redux";
 // import {IRootReducerState} from "../store/reducers";
 
@@ -40,7 +42,7 @@ const Navigator = (props: NavigatorProps) => {
     return (
         <>
             <Routes>
-                {/*<Route element={<AppLayout/>}>*/}
+                <Route element={<AppLayout/>}>
                     <Route index element={<DashboardScreen/>}/>
                     <Route
                         path={DASHBOARD}
@@ -51,10 +53,10 @@ const Navigator = (props: NavigatorProps) => {
                         }
                     />
                     {/*<Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>*/}
-                {/*</Route>*/}
+                </Route>
                 <Route element={<AuthLayout/>}>
-                    {/*<Route index element={<LoginScreen/>}/>*/}
-                    {/*<Route path={LOGIN_ROUTE} element={<LoginScreen/>}/>*/}
+                    <Route index element={<LoginScreen/>}/>
+                    <Route path={LOGIN_ROUTE} element={<LoginScreen/>}/>
                 </Route>
                 <Route path={TEST_ROUTE} element={<TestScreen/>}/>
                 <Route path={DESIGN_SYSTEM_ROUTE} element={<DesignSystemScreen/>}/>

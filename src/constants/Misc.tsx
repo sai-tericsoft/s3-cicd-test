@@ -1,7 +1,9 @@
 const LOCAL_STORAGE_LOGGED_IN_USER_DATA = "currentUser";
 const LOCAL_STORAGE_JWT_TOKEN = "jwtToken";
+const APP_NAME = "Zoella";
 
 export {
+    APP_NAME,
     LOCAL_STORAGE_LOGGED_IN_USER_DATA,
     LOCAL_STORAGE_JWT_TOKEN
 }

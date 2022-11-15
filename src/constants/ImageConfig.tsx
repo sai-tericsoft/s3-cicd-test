@@ -1,4 +1,4 @@
-import sdiLogo from './../assets/icons/sdi_logo.svg';
+import Logo from './../assets/icons/logo.svg';
 import {ReactComponent as userIcon} from './../assets/icons/user_icon.svg';
 import {ReactComponent as NotificationsIcon} from './../assets/icons/notifications.svg';
 import {ReactComponent as HelpIcon} from './../assets/icons/help.svg';
@@ -7,7 +7,7 @@ import {ReactComponent as ProfileIcon} from './../assets/icons/profile.svg';
 import PlaceHolderImage from '../assets/place_holder_image.png';
 
 export {
-    sdiLogo,
+    Logo,
     PlaceHolderImage,
     userIcon,
     NotificationsIcon,
