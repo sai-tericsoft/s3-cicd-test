@@ -1,0 +1,67 @@
+@import "mixins";
+
+$primary-color: #DE1C4E;
+$secondary-color: #000000;
+$accent-color: #FFE49A;
+$warn-color: #c00000;
+$white: #ffffff;
+$black: #000000;
+
+$default-color: #E8ECEF;
+$error-color: $warn-color;
+$success-color: #59f666;
+$warning-color: #ffa335;
+$info-color: #1a67ff;
+
+$font-family: 'Lato';
+
+$font-weight-thin: 300;
+$font-weight-normal: 400;
+$font-weight-bold: 700;
+$font-weight-bolder: 900;
+
+$header-height: 60;
+
+
+$body-background-color: #FFFFFF;
+$body-color: #202020;
+
+// side menu
+$side-menu-bar-width: 230;
+$side-menu-bar-bg-color: #FFFFFF;
+$side-menu-active-link-bg-color: #FFE1E8;
+$side-menu-hover-link-bg-color: #FFE1E8;
+$side-menu-active-link-border-color: #DE1C4E;
+$side-menu-active-link-color: $primary-color;
+$side-menu-hover-link-color: #DE1C4E;
+$side-menu-link-color: #202020;
+$side-menu-link-font-weight: $font-weight-normal;
+$side-menu-section-separator-bg-color: #A4E6DA;
+
+// PAGE CONTENT
+$page-content-bg-color: #f8f8f8;
+
+// Radio Button
+$radio-button-height: 20px;
+$radio-button-width: 20px;
+$radio-button-inner-circle-height: 12px;
+$radio-button-inner-circle-width: 12px;
+$radio-button-font-size: 16px;
+$radio-button-font-weight: $font-weight-normal;
+$radio-button-font-family: $font-family;
+$radio-button-border: 2px solid #8f8f8f;
+$radio-button-active-border-color: $primary-color;
+
+// Status card Variables
+$status-card-font-family: $font-family;
+$status-card-color: #496370;
+$status-card-font-weight: $font-weight-thin;
+$status-card-default-bg-color: $default-color;
+$status-card-error-bg-color: $error-color;
+$status-card-warning-bg-color: $warning-color;
+$status-card-success-bg-color: $success-color;
+$status-card-info-bg-color: $info-color;
+
+// Progressbar Variables
+$progressbar-default-bg-color: #D6E8FF;
+$progressbar-filled-bg-color: #005BCA;

@@ -1,0 +1,11 @@
+@import "assets/styles/common";
+
+body {
+  margin: 0;
+  font-family: $font-family, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: $body-color;
+  background: $body-background-color;
+  font-size: 16px;
+}

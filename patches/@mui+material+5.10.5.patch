@@ -1,0 +1,13 @@
+diff --git a/node_modules/@mui/material/Tooltip/Tooltip.d.ts b/node_modules/@mui/material/Tooltip/Tooltip.d.ts
+index c9d4afc..8022fee 100644
+--- a/node_modules/@mui/material/Tooltip/Tooltip.d.ts
++++ b/node_modules/@mui/material/Tooltip/Tooltip.d.ts
+@@ -16,7 +16,7 @@ export interface TooltipProps extends StandardProps<React.HTMLAttributes<HTMLDiv
+   /**
+    * Tooltip reference element.
+    */
+-  children: React.ReactElement<any, any>;
++  children: React.ReactElement<any, any> | React.ReactNode;
+   /**
+    * Override or extend the styles applied to the component.
+    */

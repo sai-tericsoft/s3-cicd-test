@@ -1,0 +1,13 @@
+diff --git a/node_modules/@mui/base/ClickAwayListener/ClickAwayListener.d.ts b/node_modules/@mui/base/ClickAwayListener/ClickAwayListener.d.ts
+index fb0fd17..8039261 100644
+--- a/node_modules/@mui/base/ClickAwayListener/ClickAwayListener.d.ts
++++ b/node_modules/@mui/base/ClickAwayListener/ClickAwayListener.d.ts
+@@ -5,7 +5,7 @@ export interface ClickAwayListenerProps {
+     /**
+      * The wrapped element.
+      */
+-    children: React.ReactElement;
++    children: React.ReactElement | React.ReactNode;
+     /**
+      * If `true`, the React tree is ignored and only the DOM tree is considered.
+      * This prop changes how portaled elements are handled.

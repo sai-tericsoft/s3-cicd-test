@@ -1,0 +1,14 @@
+@import "src/assets/styles/common";
+
+.page-loading {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #ffffff80;
+  z-index: 99999999;
+  @include display-center();
+  flex-direction: column;
+}
