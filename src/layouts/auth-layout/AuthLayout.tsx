@@ -3,7 +3,7 @@ import {Outlet, useLocation, useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../store/reducers";
 import {CommonService} from "../../shared/services";
-import {ImageConfig} from "../../constants";
+import {ImageConfig, Misc} from "../../constants";
 
 export interface AuthLayoutProps {
 
@@ -28,11 +28,11 @@ const AuthLayout = (props: React.PropsWithChildren<AuthLayoutProps>) => {
 
     return (
         <div className="auth-layout">
+            <div className="logo-wrapper">
+                <img src={ImageConfig.Logo} alt={Misc.APP_NAME + 'Logo'}/>
+            </div>
             <div className="auth-wrapper">
                 <div className="auth-form">
-                    <div className="logo-wrapper">
-                        <img src={ImageConfig.sdiLogo} alt={'sdiLogo'}/>
-                    </div>
                     <Outlet/>
                 </div>
             </div>
