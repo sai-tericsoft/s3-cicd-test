@@ -1,8 +1,9 @@
 import Logo from './../assets/icons/logo.svg';
 import {ReactComponent as userIcon} from './../assets/icons/user_icon.svg';
 import {ReactComponent as NotificationsIcon} from './../assets/icons/notifications.svg';
+import {ReactComponent as LockIcon} from './../assets/icons/lock.svg';
 import {ReactComponent as SelectDropDownIcon} from './../assets/icons/select_dropdown.svg';
-import {ReactComponent as ProfileIcon} from './../assets/icons/profile.svg';
+import ProfileIcon from './../assets/icons/profile.png';
 
 // MainMenu
 import {ReactComponent as DashboardIcon} from './../assets/icons/side-menu/dashboard.svg';
@@ -32,5 +33,6 @@ export {
     BillingIcon,
     SettingsIcon,
     InventoryIcon,
-    SchedulingIcon
+    SchedulingIcon,
+    LockIcon
 }

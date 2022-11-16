@@ -10,7 +10,7 @@ interface SideMenuComponentProps {
 
 const menuList: IMenuItem[] = [
     {
-        path: CommonService._routeConfig.ComingSoonRoute(),
+        path: CommonService._routeConfig.Dashboard(),
         title: 'Dashboard',
         icon: ImageConfig.DashboardIcon
     },

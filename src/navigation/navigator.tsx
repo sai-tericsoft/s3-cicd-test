@@ -3,6 +3,7 @@ import {Navigate, Route, Routes} from 'react-router-dom';
 import NotFoundScreen from "../screens/not-found/notFoundScreen";
 import AuthLayout from "../layouts/auth-layout/AuthLayout";
 import {
+    COMING_SOON_ROUTE,
     DASHBOARD,
     DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE,
     NOT_FOUND_ROUTE,
@@ -10,9 +11,10 @@ import {
 } from "../constants/RoutesConfig";
 import TestScreen from "../screens/test/testScreen";
 import DesignSystemScreen from "../screens/design-system/DesignSystemScreen";
-import DashboardScreen from "../screens/dashboard/dashboardScreen";
 import LoginScreen from "../screens/auth/login/LoginScreen";
 import AppLayout from "../layouts/app-layout/AppLayout";
+import DashboardScreen from "../screens/dashboard/DashboardScreen";
+import ComingSoonScreen from "../screens/coming-soon/ComingSoonScreen";
 // import {useSelector} from "react-redux";
 // import {IRootReducerState} from "../store/reducers";
 
@@ -52,7 +54,7 @@ const Navigator = (props: NavigatorProps) => {
                             </ProtectedRoute>
                         }
                     />
-                    {/*<Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>*/}
+                    <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
                 </Route>
                 <Route element={<AuthLayout/>}>
                     <Route index element={<LoginScreen/>}/>
