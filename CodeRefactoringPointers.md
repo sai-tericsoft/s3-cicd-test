@@ -1,0 +1,1 @@
+1. Clean up nav data on route change.

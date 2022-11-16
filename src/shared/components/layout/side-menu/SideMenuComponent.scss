@@ -1,0 +1,47 @@
+@import "src/assets/styles/common";
+
+.menu-list {
+
+  display: flex;
+  flex-direction: column;
+
+  .menu-item {
+    flex: 1;
+    padding: 8px;
+    border-radius: 5px;
+    font-weight: $side-menu-link-font-weight;
+    margin: 2px 5px 0;
+    display: flex;
+    align-items: center;
+    color: $side-menu-link-color;
+
+    .menu-item-icon {
+      margin: 5px 18px 5px 12px;
+    }
+
+    .menu-item-label {
+    }
+
+    &:hover {
+      background-color: $side-menu-hover-link-bg-color;
+      color: $side-menu-hover-link-color;
+
+      .menu-item-icon {
+        img {
+          color: $side-menu-hover-link-color;
+        }
+      }
+    }
+
+    &.active {
+      background-color: $side-menu-active-link-bg-color;
+      color: $side-menu-active-link-color;
+      font-weight: $side-menu-active-link-font-weight;
+      .menu-item-icon {
+        img {
+          color: $side-menu-hover-link-color;
+        }
+      }
+    }
+  }
+}

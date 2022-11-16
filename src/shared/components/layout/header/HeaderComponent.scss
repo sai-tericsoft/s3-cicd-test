@@ -1,0 +1,55 @@
+.header-component {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1;
+  width: 100%;
+
+  .header-title {
+
+  }
+
+  .header-options {
+    display: flex;
+    align-items: center;
+
+    .header-option {
+      margin: 0 8px;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &.profile {
+        display: flex;
+        align-items: center;
+
+        .profile-dp-icon {
+
+        }
+
+        .profile-name-id {
+          display: flex;
+          flex-direction: column;
+          align-items: start;
+          margin: 0 5px;
+          font-size: 12px;
+
+          .profile-name {
+            margin: 0 5px;
+            text-transform: capitalize;
+          }
+
+          .profile-id{
+            opacity: 0.4;
+          }
+
+          .profile-dropdown-icon {
+            position: relative;
+            top: -2px;
+          }
+        }
+      }
+    }
+  }
+}
