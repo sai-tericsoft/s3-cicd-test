@@ -106,25 +106,41 @@
 
   display: flex;
 
-  .side-menu-container {
-    width: $side-menu-bar-width + px;
-    min-width: $side-menu-bar-width + px;
+  .side-bar-holder {
+    width: #{$side-bar-holder-width}px;
+    min-width: #{$side-bar-holder-width}px;
     height: 100vh;
-    background: #FFFFFF;
+    background: $side-bar-holder-bg-color;
+
+    .logo-holder {
+      height: #{$branding-holder-height}px;
+      background: $branding-holder-bg-color;
+      border-bottom: $branding-holder-border;
+      @include display-center();
+    }
+
+    .side-menu-holder {
+      margin: 20px 0;
+    }
   }
 
   .header-and-page-container {
-    width: calc(100%);
+    width: calc(100% - #{$side-bar-holder-width}px);
     overflow: hidden;
 
-    .header-container {
+    .header-holder {
       height: $header-height + px;
-      width: calc(100% - #{$side-menu-bar-width}px);
+      width: 100%;
+      background: $header-bg-color;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
     }
 
-    .page-container {
+    .page-content-holder {
       background: $page-content-bg-color;
-      padding: 0 15px;
+      padding: 20px;
       height: calc(100vh - #{$header-height}px);
       overflow-x: hidden;
       overflow-y: auto;

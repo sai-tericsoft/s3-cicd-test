@@ -4,6 +4,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../store/reducers";
 import {CommonService} from "../../shared/services";
 import {logout} from "../../store/actions/account.action";
+import BrandingComponent from "../../shared/components/layout/branding/BrandingComponent";
+import SideMenuComponent from "../../shared/components/layout/side-menu/SideMenuComponent";
+import HeaderComponent from "../../shared/components/layout/header/HeaderComponent";
 
 export interface AppLayoutProps {
 
@@ -20,9 +23,9 @@ const AppLayout = (props: AppLayoutProps) => {
     console.log(props, location);
 
     useEffect(() => {
-        if (!token) {
-            navigate('/login?returnUrl=' + encodeURIComponent(location.pathname + location.search));
-        }
+        // if (!token) {
+        //     navigate('/login?returnUrl=' + encodeURIComponent(location.pathname + location.search));
+        // }
     }, [token, navigate, location]);
 
     useEffect(() => {
@@ -38,27 +41,30 @@ const AppLayout = (props: AppLayoutProps) => {
 
     useEffect(() => { // TODO: move to appropriate position later
         if (token) {
-            // dispatch(getActiveStatusList());
-            // dispatch(getFacilityStatusList());
-            // dispatch(getFacilityTypesList());
-            // dispatch(getUserList());
-            // dispatch(getLocationStatusList());
-            // dispatch(getLocationTypesList());
-            // dispatch(getFacilityListLite());
-            // dispatch(getLocationListLite());
+           // call and store static apis data
         }
     }, [dispatch, token]);
 
     return (
         <div className="app-layout">
+            <div className="side-bar-holder">
+                <div className="logo-holder">
+                    <BrandingComponent/>
+                </div>
+                <div className="side-menu-holder">
+                    <SideMenuComponent/>
+                </div>
+            </div>
             <div className="header-and-page-container">
-                <div className="page-container">
+                <div className="header-holder">
+                    <HeaderComponent/>
+                </div>
+                <div className="page-content-holder">
                     <Outlet/>
                 </div>
             </div>
         </div>
     );
-
 }
 
 

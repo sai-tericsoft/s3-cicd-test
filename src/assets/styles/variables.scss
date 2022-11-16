@@ -13,30 +13,34 @@ $success-color: #59f666;
 $warning-color: #ffa335;
 $info-color: #1a67ff;
 
-$font-family: 'Lato';
+$font-family: 'Roboto';
 
 $font-weight-thin: 300;
 $font-weight-normal: 400;
 $font-weight-bold: 700;
 $font-weight-bolder: 900;
 
-$header-height: 60;
-
-
 $body-background-color: #FFFFFF;
 $body-color: #202020;
 
 // side menu
-$side-menu-bar-width: 230;
-$side-menu-bar-bg-color: #FFFFFF;
-$side-menu-active-link-bg-color: #FFE1E8;
-$side-menu-hover-link-bg-color: #FFE1E8;
-$side-menu-active-link-border-color: #DE1C4E;
-$side-menu-active-link-color: $primary-color;
-$side-menu-hover-link-color: #DE1C4E;
-$side-menu-link-color: #202020;
+$side-bar-holder-width: 220;
+$side-bar-holder-bg-color: #00534F;
+$side-menu-active-link-bg-color: #BDE8CA;
+$side-menu-hover-link-bg-color: #BDE8CA;
+$side-menu-active-link-color: #00534F;
+$side-menu-hover-link-color: #00534F;
+$side-menu-link-color: #ffffff;
 $side-menu-link-font-weight: $font-weight-normal;
-$side-menu-section-separator-bg-color: #A4E6DA;
+
+//header
+$header-height: 60;
+$header-bg-color: #E1EBEA;
+
+//branding
+$branding-holder-height: 60;
+$branding-holder-bg-color: #135C59;
+$branding-holder-border: 1px solid #ABB6BE;
 
 // PAGE CONTENT
 $page-content-bg-color: #f8f8f8;
