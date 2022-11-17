@@ -25,24 +25,24 @@
         align-items: center;
 
         .profile-dp-icon {
+          height: 36px;
+          width: 36px;
+          border-radius: 50%;
+          overflow: hidden;
 
+          img {
+            width: 100%;
+            height: 100%;
+          }
         }
 
-        .profile-name-id {
+        .profile-name {
           display: flex;
           flex-direction: column;
           align-items: start;
           margin: 0 5px;
           font-size: 12px;
-
-          .profile-name {
-            margin: 0 5px;
-            text-transform: capitalize;
-          }
-
-          .profile-id{
-            opacity: 0.4;
-          }
+          text-transform: capitalize;
 
           .profile-dropdown-icon {
             position: relative;
