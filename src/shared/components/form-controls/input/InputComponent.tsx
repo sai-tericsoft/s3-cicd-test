@@ -1,28 +1,17 @@
 import "./InputComponent.scss";
-import {InputAdornment, TextField} from "@mui/material";
+import {FormControl, InputAdornment, TextField} from "@mui/material";
 import {useCallback} from "react";
+import {IInputFieldProps} from "../../../models/form-controls.model";
 
-export interface InputComponentProps {
-    label: string;
-    variant?: "outlined" | "filled" | "standard";
-    size?: 'medium' | 'small';
+export interface InputComponentProps extends IInputFieldProps{
     type?: 'email' | 'number' | 'password' | 'text';
-    value?: any;
-    required?: boolean;
-    placeholder?: string;
-    onChange?: (value: any) => void;
-    name?: string;
-    id?: string;
-    fullWidth?: boolean;
-    disabled?: boolean;
-    className?: string;
     prefix?: any;
     suffix?: any;
 }
 
 const InputComponent = (props: InputComponentProps) => {
 
-    const {label, prefix, suffix, className, disabled, id, name, required, value, onChange} = props;
+    const {label, prefix, errorMessage, readOnly, suffix, hasError, className, inputProps, disabled, id, name, required, value, onChange} = props;
     const variant = props.variant || "outlined";
     const size = props.size || "medium";
     const type = props.type || "text";
@@ -37,7 +26,7 @@ const InputComponent = (props: InputComponentProps) => {
     }, []);
 
     return (
-        <div className={'input-component ' + className}>
+        <FormControl className={'input-component ' + className} error={hasError}>
             <TextField type={type}
                        id={id}
                        fullWidth={fullWidth}
@@ -53,11 +42,17 @@ const InputComponent = (props: InputComponentProps) => {
                            startAdornment: prefix && <InputAdornment position="start">{prefix}</InputAdornment>,
                            endAdornment: suffix && <InputAdornment position="end">{suffix}</InputAdornment>,
                        }}
+                       inputProps={{
+                           ...inputProps,
+                           readOnly: readOnly
+                       }}
                        onChange={(event) => {
                            handleOnChange(event);
                        }}
+                       error={hasError}
+                       helperText={errorMessage}
             />
-        </div>
+        </FormControl>
     );
 
 };

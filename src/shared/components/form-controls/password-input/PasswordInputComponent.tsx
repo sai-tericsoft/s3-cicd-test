@@ -3,15 +3,30 @@ import InputComponent, {InputComponentProps} from "../input/InputComponent";
 import {useCallback, useState} from "react";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import IconButton from '@mui/material/IconButton';
+import {IInputFieldProps} from "../../../models/form-controls.model";
 
-interface PasswordInputComponentProps extends InputComponentProps {
-    type?: "password";
+export interface PasswordInputComponentProps extends IInputFieldProps {
     canToggle?: boolean;
 }
 
 const PasswordInputComponent = (props: PasswordInputComponentProps) => {
 
-    const {label, canToggle, prefix, className, disabled, id, name, required, value, onChange} = props;
+    const {
+        label,
+        prefix,
+        canToggle,
+        errorMessage,
+        readOnly,
+        hasError,
+        className,
+        inputProps,
+        disabled,
+        id,
+        name,
+        required,
+        value,
+        onChange
+    } = props;
     const variant = props.variant || "outlined";
     const size = props.size || "medium";
     const fullWidth = props.fullWidth || false;
@@ -37,6 +52,10 @@ const PasswordInputComponent = (props: PasswordInputComponentProps) => {
                             variant={variant}
                             placeholder={placeholder}
                             onChange={onChange}
+                            hasError={hasError}
+                            errorMessage={errorMessage}
+                            readOnly={readOnly}
+                            inputProps={inputProps}
                             prefix={prefix}
                             suffix={
                                 canToggle &&
