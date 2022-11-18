@@ -23,10 +23,8 @@ const InputComponent = (props: InputComponentProps) => {
         if (onChange) {
             onChange(value);
         }
-    }, []);
+    }, [onChange]);
     
-    console.log(fullWidth);
-
     return (
         <FormControl className={'input-component ' + className + ' ' + (fullWidth ? "full-width" : "")} error={hasError}>
             <TextField type={type}

@@ -1,10 +1,4 @@
 import {IActionModel} from "../../shared/models/action.model";
-import {
-    LOGOUT, SET_LOGGED_IN_USER_TOKEN, SET_LOGGED_USER_DATA
-} from "../actions/account.action";
-import {CommonService} from "../../shared/services";
-import {Misc} from "../../constants";
-import Communications from "../../shared/services/communications.service";
 import {SET_CURRENT_NAV_PARAMS} from "../actions/navigation.action";
 
 export interface INavigationReducerState {

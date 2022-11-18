@@ -2,11 +2,12 @@ import "./DesignSystemScreen.scss";
 import * as Yup from "yup";
 import {useCallback, useState} from "react";
 import {Field, FieldProps, Form, Formik} from 'formik';
-import ButtonComponent from "../../shared/components/button/ButtonComponent";
 import FormikPasswordInputComponent
     from "../../shared/components/form-controls/formik-password-input/FormikPasswordInputComponent";
 import FormikInputComponent from "../../shared/components/form-controls/formik-input/FormikInputComponent";
 import {Login} from "@mui/icons-material";
+import ChipComponent from "../../shared/components/chip/ChipComponent";
+import ButtonComponent from "../../shared/components/button/ButtonComponent";
 
 interface DesignSystemScreenProps {
 
@@ -40,7 +41,17 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
         <div className="design-system-screen screen">
             <div className="design-system-form-container">
                 <h2>Design System</h2>
-                <div>
+                <ChipComponent
+                    id={"login_info"}
+                    label={"Login to access"}
+                    onClick={() => {
+                        console.log("do some action...!");
+                    }}/>
+                <ChipComponent
+                    label={"Only 1 time login is allowed"}
+                    color={'error'}
+                />
+                <div className="design-system-form">
                     <Formik
                         validationSchema={designSystemFormValidationSchema}
                         initialValues={designSystemFormInitialValues}
@@ -90,7 +101,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                         fullWidth={true}
                                         id={"login_btn"}
                                     >
-                                        {isFormSubmitting ? "Submitting" : "Submit" }
+                                        {isFormSubmitting ? "Submitting" : "Submit"}
                                     </ButtonComponent>
                                 </Form>
                             )
