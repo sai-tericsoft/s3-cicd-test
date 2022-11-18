@@ -5,7 +5,7 @@ import AlertComponent from "./shared/components/alert/alertComponent";
 import {ColorConfig} from "./constants";
 import CheckLoginComponent from "./shared/components/check-login/checkLoginComponent";
 import ConfirmationComponent from "./shared/components/confirmation/confirmationComponent";
-import {ThemeProvider, createTheme, ThemeOptions} from '@mui/material/styles';
+import {createTheme, ThemeOptions, ThemeProvider} from '@mui/material/styles';
 
 interface AppProps {
     setCurrentUser?: any;
@@ -59,13 +59,13 @@ class App extends Component<AppProps, AppState> {
         return (
             // <LocalizationProvider dateAdapter={AdapterMoment}>
             <CheckLoginComponent>
-            <div className="app">
-                <ThemeProvider theme={theme}>
-                    <Navigator/>
-                    <AlertComponent/>
-                    <ConfirmationComponent/>
-                </ThemeProvider>
-            </div>
+                <div className="app">
+                    <ThemeProvider theme={theme}>
+                        <Navigator/>
+                        <AlertComponent/>
+                        <ConfirmationComponent/>
+                    </ThemeProvider>
+                </div>
             </CheckLoginComponent>
             // </LocalizationProvider>
         );

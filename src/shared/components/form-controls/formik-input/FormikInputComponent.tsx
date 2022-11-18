@@ -41,28 +41,26 @@ const FormikInputComponent = (props: FormikInputComponentProps) => {
     }, [name, handleBlur, setFieldTouched]);
 
     return (
-        <div className={'FormikInputComponent'}>
-            <InputComponent label={label}
-                            type={type}
-                            disabled={disabled}
-                            id={id}
-                            name={name}
-                            required={required}
-                            value={value}
-                            size={size} className={className}
-                            fullWidth={fullWidth}
-                            variant={variant}
-                            placeholder={placeholder}
-                            inputProps={{
-                                onBlur: onInputBlur,
-                            }}
-                            onChange={textChangeHandler}
-                            prefix={prefix}
-                            suffix={suffix}
-                            hasError={hasError}
-                            errorMessage={hasError && (_.get(errors, name))}
-            />
-        </div>
+        <InputComponent label={label}
+                        type={type}
+                        disabled={disabled}
+                        id={id}
+                        name={name}
+                        required={required}
+                        value={value}
+                        size={size} className={className}
+                        fullWidth={fullWidth}
+                        variant={variant}
+                        placeholder={placeholder}
+                        inputProps={{
+                            onBlur: onInputBlur,
+                        }}
+                        onChange={textChangeHandler}
+                        prefix={prefix}
+                        suffix={suffix}
+                        hasError={hasError}
+                        errorMessage={hasError && (_.get(errors, name))}
+        />
     );
 
 };

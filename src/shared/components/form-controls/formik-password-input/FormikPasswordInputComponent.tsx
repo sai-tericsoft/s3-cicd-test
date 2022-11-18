@@ -19,6 +19,7 @@ const FormikPasswordInputComponent = (props: FormikPasswordInputComponentProps) 
         id,
         required,
         formikField,
+        canToggle,
         onChange
     } = props;
 
@@ -46,26 +47,25 @@ const FormikPasswordInputComponent = (props: FormikPasswordInputComponentProps) 
     }, [name, handleBlur, setFieldTouched]);
 
     return (
-        <div className={'FormikPasswordInputComponent'}>
-            <PasswordInputComponent label={label}
-                                    disabled={disabled}
-                                    id={id}
-                                    name={name}
-                                    required={required}
-                                    value={value}
-                                    size={size} className={className}
-                                    fullWidth={fullWidth}
-                                    variant={variant}
-                                    placeholder={placeholder}
-                                    inputProps={{
-                                        onBlur: onInputBlur,
-                                    }}
-                                    onChange={textChangeHandler}
-                                    prefix={prefix}
-                                    hasError={hasError}
-                                    errorMessage={hasError && (_.get(errors, name))}
-            />
-        </div>
+        <PasswordInputComponent label={label}
+                                disabled={disabled}
+                                id={id}
+                                name={name}
+                                required={required}
+                                value={value}
+                                size={size} className={className}
+                                fullWidth={fullWidth}
+                                variant={variant}
+                                placeholder={placeholder}
+                                inputProps={{
+                                    onBlur: onInputBlur,
+                                }}
+                                canToggle={canToggle}
+                                onChange={textChangeHandler}
+                                prefix={prefix}
+                                hasError={hasError}
+                                errorMessage={hasError && (_.get(errors, name))}
+        />
     );
 
 };
