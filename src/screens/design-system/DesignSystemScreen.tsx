@@ -9,6 +9,7 @@ import {Login} from "@mui/icons-material";
 import ChipComponent from "../../shared/components/chip/ChipComponent";
 import ButtonComponent from "../../shared/components/button/ButtonComponent";
 import FormikCheckBoxComponent from "../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
+import SwitchComponent from "../../shared/components/form-controls/switch/SwitchComponent";
 
 interface DesignSystemScreenProps {
 
@@ -105,6 +106,12 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                             )
                                         }
                                     </Field>
+                                    <SwitchComponent label={'Switch'}
+                                                     color={'primary'}
+                                                     disabled={true}
+                                                     onChange={() => {
+                                                         console.log('switched')
+                                                     }}/>
                                     <ButtonComponent
                                         suffixIcon={<Login/>}
                                         isLoading={isFormSubmitting}
