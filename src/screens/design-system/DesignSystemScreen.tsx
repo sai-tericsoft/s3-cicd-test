@@ -93,6 +93,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                     </Field>
                                     <CheckBoxComponent label={"Accept TnC"}
                                                        checked={true}
+                                                       id={"accept_t_n_c"}
                                                        onChange={(isChecked) => {
                                                            console.log(isChecked, isChecked ? "accepted" : "not accepted");
                                                        }}/>
