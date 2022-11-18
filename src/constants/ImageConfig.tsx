@@ -4,6 +4,9 @@ import {ReactComponent as LockIcon} from '../assets/icons/header/lock.svg';
 import {ReactComponent as ProfileIcon} from '../assets/icons/header/profile.svg';
 import {ReactComponent as SelectDropDownIcon} from './../assets/icons/select_dropdown.svg';
 
+import {ReactComponent as CircleCheck} from './../assets/icons/check_circle.svg';
+import {ReactComponent as CircleError} from './../assets/icons/error_circle.svg';
+
 // MainMenu
 import {ReactComponent as DashboardIcon} from './../assets/icons/side-menu/dashboard.svg';
 import {ReactComponent as AdminIcon} from './../assets/icons/side-menu/admin.svg';
@@ -32,5 +35,7 @@ export {
     SettingsIcon,
     InventoryIcon,
     SchedulingIcon,
-    LockIcon
+    LockIcon,
+    CircleCheck,
+    CircleError
 }
