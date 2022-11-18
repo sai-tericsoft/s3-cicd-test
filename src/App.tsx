@@ -49,7 +49,7 @@ export const themeOptions: ThemeOptions = {
             contrastText: '#FFF'
         },
     },
-    typography: {fontFamily: 'Lato'},
+    typography: {fontFamily: 'Roboto'},
 };
 const theme = createTheme(themeOptions);
 
