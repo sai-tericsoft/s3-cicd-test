@@ -8,7 +8,7 @@ import FormikInputComponent from "../../shared/components/form-controls/formik-i
 import {Login} from "@mui/icons-material";
 import ChipComponent from "../../shared/components/chip/ChipComponent";
 import ButtonComponent from "../../shared/components/button/ButtonComponent";
-import PasswordValidationComponent from "../../shared/components/password-validation/PasswordValidationComponent";
+import CheckBoxComponent from "../../shared/components/form-controls/check-box/CheckBoxComponent";
 
 interface DesignSystemScreenProps {
 
@@ -41,7 +41,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
     return (
         <div className="design-system-screen screen">
             <div className="design-system-form-container">
-                <h2>Design System</h2>
+                <h2>Login</h2>
                 <ChipComponent
                     id={"login_info"}
                     label={"Login to access"}
@@ -91,7 +91,11 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                             )
                                         }
                                     </Field>
-                                    <PasswordValidationComponent password={values.password}/>
+                                    <CheckBoxComponent label={"Accept TnC"}
+                                                       checked={true}
+                                                       onChange={(isChecked) => {
+                                                           console.log(isChecked, isChecked ? "accepted" : "not accepted");
+                                                       }}/>
                                     <ButtonComponent
                                         suffixIcon={<Login/>}
                                         isLoading={isFormSubmitting}
