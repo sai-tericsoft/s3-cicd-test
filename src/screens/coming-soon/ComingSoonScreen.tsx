@@ -10,9 +10,10 @@ interface ComingSoonScreenProps {
 const ComingSoonScreen = (props: ComingSoonScreenProps) => {
 
     const dispatch = useDispatch();
+    
     useEffect(() => {
         dispatch(setCurrentNavParams("Coming soon"));
-    }, []);
+    }, [dispatch]);
 
     return (
         <div className={'ComingSoonScreen'}>

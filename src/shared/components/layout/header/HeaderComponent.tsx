@@ -24,7 +24,7 @@ const HeaderComponent = (props: HeaderComponentProps) => {
                 </div>
                 <div className="header-option profile">
                     <span className="profile-dp-icon">
-                        {userProfilePicture && <img src={userProfilePicture} alt={"profile picture"}/>}
+                        {userProfilePicture && <img src={userProfilePicture} alt={"user profile"}/>}
                         {!userProfilePicture && <ImageConfig.ProfileIcon/>}
                     </span>
                     <div className="profile-name">

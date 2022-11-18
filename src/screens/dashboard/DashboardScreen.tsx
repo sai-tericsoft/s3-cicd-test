@@ -10,9 +10,10 @@ interface DashboardScreenProps {
 const DashboardScreen = (props: DashboardScreenProps) => {
 
     const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(setCurrentNavParams("Dashboard"));
-    }, []);
+    }, [dispatch]);
 
     return (
         <div className={'DashboardScreen'}>

@@ -31,7 +31,7 @@ const ButtonComponent = (props: React.PropsWithChildren<ButtonComponentProps>) =
           if(onClick){
               onClick();
           }
-     }, []);
+     }, [onClick]);
 
     return (
         <>
