@@ -15,12 +15,13 @@ interface ButtonComponentProps {
     prefixIcon?: any;
     suffixIcon?: any;
     isLoading?: boolean;
+    id?: string;
     onClick?: ()=> void;
 }
 
 const ButtonComponent = (props: React.PropsWithChildren<ButtonComponentProps>) => {
 
-    const {className, fullWidth, disabled, isLoading, prefixIcon, suffixIcon, onClick, children} = props;
+    const {className, fullWidth, id, disabled, isLoading, prefixIcon, suffixIcon, onClick, children} = props;
     const color = props.color || "primary";
     const size = props.size || "medium";
     const variant = props.variant || "contained";
@@ -37,6 +38,7 @@ const ButtonComponent = (props: React.PropsWithChildren<ButtonComponentProps>) =
             {
                 isLoading && <>
                     <LoadingButton
+                        id={id}
                         loading
                         loadingPosition="start"
                         fullWidth={fullWidth}
@@ -50,6 +52,7 @@ const ButtonComponent = (props: React.PropsWithChildren<ButtonComponentProps>) =
             }
             {
                 !isLoading && <Button variant={variant}
+                                      id={id}
                                       disabled={disabled}
                                       fullWidth={fullWidth}
                                       className={className}

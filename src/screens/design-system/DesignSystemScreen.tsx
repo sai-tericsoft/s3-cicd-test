@@ -63,6 +63,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                                     required={true}
                                                     formikField={field}
                                                     fullWidth={true}
+                                                    id={"email_input"}
                                                 />
                                             )
                                         }
@@ -77,6 +78,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                                     formikField={field}
                                                     fullWidth={true}
                                                     canToggle={true}
+                                                    id={"password_input"}
                                                 />
                                             )
                                         }
@@ -86,6 +88,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                         isLoading={isFormSubmitting}
                                         type={"submit"}
                                         fullWidth={true}
+                                        id={"login_btn"}
                                     >
                                         {isFormSubmitting ? "Submitting" : "Submit" }
                                     </ButtonComponent>
