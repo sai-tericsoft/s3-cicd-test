@@ -8,6 +8,7 @@ import FormikInputComponent from "../../shared/components/form-controls/formik-i
 import {Login} from "@mui/icons-material";
 import ChipComponent from "../../shared/components/chip/ChipComponent";
 import ButtonComponent from "../../shared/components/button/ButtonComponent";
+import PasswordValidationComponent from "../../shared/components/password-validation/PasswordValidationComponent";
 
 interface DesignSystemScreenProps {
 
@@ -47,10 +48,6 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                     onClick={() => {
                         console.log("do some action...!");
                     }}/>
-                <ChipComponent
-                    label={"Only 1 time login is allowed"}
-                    color={'error'}
-                />
                 <div className="design-system-form">
                     <Formik
                         validationSchema={designSystemFormValidationSchema}
@@ -94,6 +91,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                             )
                                         }
                                     </Field>
+                                    <PasswordValidationComponent password={values.password}/>
                                     <ButtonComponent
                                         suffixIcon={<Login/>}
                                         isLoading={isFormSubmitting}
