@@ -8,7 +8,7 @@ import FormikInputComponent from "../../shared/components/form-controls/formik-i
 import {Login} from "@mui/icons-material";
 import ChipComponent from "../../shared/components/chip/ChipComponent";
 import ButtonComponent from "../../shared/components/button/ButtonComponent";
-import CheckBoxComponent from "../../shared/components/form-controls/check-box/CheckBoxComponent";
+import FormikCheckBoxComponent from "../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 
 interface DesignSystemScreenProps {
 
@@ -27,6 +27,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
     const [designSystemFormInitialValues] = useState({
         username: "",
         password: "",
+        tnc: true,
     });
 
     const [isFormSubmitting, setIsFormSubmitting] = useState(false);
@@ -60,7 +61,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                     >
                         {({isSubmitting, values, isValid, validateForm}) => {
                             return (
-                                <Form className={"login-holder"}>
+                                <Form className={"login-holder"} noValidate={true}>
                                     <Field name={'username'} className="t-form-control">
                                         {
                                             (field: FieldProps) => (
@@ -91,12 +92,19 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                             )
                                         }
                                     </Field>
-                                    <CheckBoxComponent label={"Accept TnC"}
-                                                       checked={true}
-                                                       id={"accept_t_n_c"}
-                                                       onChange={(isChecked) => {
-                                                           console.log(isChecked, isChecked ? "accepted" : "not accepted");
-                                                       }}/>
+                                    <Field name={'tnc'} className="t-form-control">
+                                        {
+                                            (field: FieldProps) => (
+                                                <FormikCheckBoxComponent
+                                                    label={"Accept TnC"}
+                                                    formikField={field}
+                                                    id={"accept_t_n_c"}
+                                                    onChange={(isChecked) => {
+                                                        console.log(isChecked, isChecked ? "accepted" : "not accepted");
+                                                    }}/>
+                                            )
+                                        }
+                                    </Field>
                                     <ButtonComponent
                                         suffixIcon={<Login/>}
                                         isLoading={isFormSubmitting}

@@ -1,24 +1,16 @@
 import "./CheckBoxComponent.scss";
-import {Checkbox, FormControlLabel} from "@mui/material";
+import {Checkbox, FormControlLabel, FormHelperText, FormControl} from "@mui/material";
 import {useCallback} from "react";
+import {ICheckBoxProps} from "../../../models/form-controls.model";
 
-interface CheckBoxComponentProps {
-    label: string;
+interface CheckBoxComponentProps extends ICheckBoxProps {
     checked?: boolean;
-    className?: string;
-    color?: 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
-    disabled?: boolean;
-    id?: string;
-    indeterminate?: boolean;
-    onChange?: (isChecked: boolean) => void;
-    required?: boolean;
-    size?: "medium" | "small";
     value?: any;
 }
 
 const CheckBoxComponent = (props: CheckBoxComponentProps) => {
 
-    const {label, checked, className, disabled, id, indeterminate, onChange, required, value} = props;
+    const {label, checked, className, disabled, id, hasError, errorMessage, indeterminate, onChange, required, value} = props;
     const size = props.size || "medium";
     const color = props.color || "primary";
 
@@ -30,21 +22,26 @@ const CheckBoxComponent = (props: CheckBoxComponentProps) => {
     }, [onChange]);
 
     return (
-        <FormControlLabel
-            control={<Checkbox
-                size={size}
-                color={color}
-                checked={checked}
-                className={className}
-                disabled={disabled}
-                id={id}
-                required={required}
-                value={value}
-                indeterminate={indeterminate}
-                onChange={handleCheckBoxOnChange}
-            />}
-            label={label}
-        />
+        <FormControl className="check-box-component-with-formik-wrapper" error={hasError}>
+            <FormControlLabel
+                control={<Checkbox
+                    size={size}
+                    color={color}
+                    checked={checked}
+                    className={className}
+                    disabled={disabled}
+                    id={id}
+                    required={required}
+                    value={value}
+                    indeterminate={indeterminate}
+                    onChange={handleCheckBoxOnChange}
+                />}
+                label={label}
+            />
+            <FormHelperText>
+                {hasError && <> {errorMessage} </>}
+            </FormHelperText>
+        </FormControl>
     );
 
 };

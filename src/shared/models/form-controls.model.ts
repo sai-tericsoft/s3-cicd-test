@@ -17,3 +17,18 @@ export interface IInputFieldProps {
     inputProps?: any;
     readOnly?: boolean;
 }
+
+export interface ICheckBoxProps {
+    label: string;
+    className?: string;
+    name?: string;
+    color?: 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
+    disabled?: boolean;
+    id?: string;
+    indeterminate?: boolean;
+    onChange?: (isChecked: boolean) => void;
+    required?: boolean;
+    size?: "medium" | "small";
+    hasError?: boolean;
+    errorMessage?: any;
+}
