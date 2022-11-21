@@ -2,7 +2,7 @@ import "./ButtonComponent.scss";
 import {Button} from "@mui/material";
 import {LoadingButton} from "@mui/lab";
 import SaveIcon from '@mui/icons-material/Save';
-import {useCallback} from "react";
+import {CSSProperties, useCallback} from "react";
 
 interface ButtonComponentProps {
     type?: "button" | "submit" | "reset";
@@ -17,11 +17,12 @@ interface ButtonComponentProps {
     isLoading?: boolean;
     id?: string;
     onClick?: ()=> void;
+    style?: CSSProperties;
 }
 
 const ButtonComponent = (props: React.PropsWithChildren<ButtonComponentProps>) => {
 
-    const {className, fullWidth, id, disabled, isLoading, prefixIcon, suffixIcon, onClick, children} = props;
+    const {className, style, fullWidth, id, disabled, isLoading, prefixIcon, suffixIcon, onClick, children} = props;
     const color = props.color || "primary";
     const size = props.size || "medium";
     const variant = props.variant || "contained";
@@ -39,6 +40,7 @@ const ButtonComponent = (props: React.PropsWithChildren<ButtonComponentProps>) =
                 isLoading && <>
                     <LoadingButton
                         id={id}
+                        style={style}
                         loading
                         loadingPosition="start"
                         fullWidth={fullWidth}
@@ -53,6 +55,7 @@ const ButtonComponent = (props: React.PropsWithChildren<ButtonComponentProps>) =
             {
                 !isLoading && <Button variant={variant}
                                       id={id}
+                                      style={style}
                                       disabled={disabled}
                                       fullWidth={fullWidth}
                                       className={className}

@@ -9,6 +9,7 @@ import {Login} from "@mui/icons-material";
 import ChipComponent from "../../shared/components/chip/ChipComponent";
 import ButtonComponent from "../../shared/components/button/ButtonComponent";
 import FormikCheckBoxComponent from "../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
+import ModalComponent from "../../shared/components/modal/ModalComponent";
 
 interface DesignSystemScreenProps {
 
@@ -31,6 +32,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
     });
 
     const [isFormSubmitting, setIsFormSubmitting] = useState(false);
+    const [isTnCModalOpened, setIsTnCModalOpened] = useState(false);
 
     const onSubmit = useCallback((values: any) => {
         setIsFormSubmitting(true);
@@ -105,6 +107,11 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                             )
                                         }
                                     </Field>
+                                    <div className="text-decoration-underline" onClick={() => {
+                                        setIsTnCModalOpened(true);
+                                    }}>
+                                        Terms and Conditions
+                                    </div>
                                     <ButtonComponent
                                         suffixIcon={<Login/>}
                                         isLoading={isFormSubmitting}
@@ -118,6 +125,31 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                             )
                         }}
                     </Formik>
+                    <ModalComponent isOpen={isTnCModalOpened}
+                                    // title={"Terms & Conditions"}
+                                    showClose={true}
+                                    direction={"up"}
+                                    closeOnBackDropClick={false}
+                                    closeOnEsc={false}
+                                    onClose={() => {
+                                        setIsTnCModalOpened(false);
+                                    }}
+                                    modalFooter={<>
+                                        <ButtonComponent variant={"outlined"}>
+                                            Decline
+                                        </ButtonComponent>&nbsp;&nbsp;
+                                        <ButtonComponent>
+                                            Accept
+                                        </ButtonComponent>
+                                    </>
+                                    }
+                    >
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione, repellendus! <br/><br/>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque cupiditate dignissimos eligendi,
+                        nam non numquam provident recusandae! Culpa, maxime sint! <br/><br/>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. A adipisci aut eius eos est expedita
+                        hic itaque, maxime minus voluptatibus.
+                    </ModalComponent>
                 </div>
             </div>
         </div>
