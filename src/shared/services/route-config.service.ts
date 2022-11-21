@@ -1,7 +1,6 @@
 import {
     COMING_SOON_ROUTE,
     LOGIN_ROUTE,
-    LOGOUT_ROUTE,
     NOT_FOUND_ROUTE,
     TEST_ROUTE,
     DASHBOARD,
@@ -26,16 +25,12 @@ const ComingSoonRoute = () => {
 const Dashboard = () => {
     return DASHBOARD;
 }
-const LogoutRoute = () => {
-    return LOGOUT_ROUTE;
-}
 
 const RouteConfigService = {
     LoginRoute,
     NotFoundRoute,
     TestRoute,
     ComingSoonRoute,
-    LogoutRoute,
     Dashboard
 }
 

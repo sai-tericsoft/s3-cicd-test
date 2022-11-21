@@ -14,37 +14,6 @@ export interface AppLayoutProps {
 
 const AppLayout = (props: AppLayoutProps) => {
 
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const location = useLocation();
-    const {token} = useSelector((state: IRootReducerState) => state.account);
-    const logoutSubscriptionRef = useRef(true);
-
-    console.log(props, location);
-
-    useEffect(() => {
-        // if (!token) {
-        //     navigate('/login?returnUrl=' + encodeURIComponent(location.pathname + location.search));
-        // }
-    }, [token, navigate, location]);
-
-    useEffect(() => {
-        CommonService._communications.logoutSubject.subscribe(() => {
-            // CommonService._alert.showToast('Session expired, Please register', 'info');
-            if (!logoutSubscriptionRef.current) return null;
-            dispatch(logout());
-        });
-        return () => {
-            logoutSubscriptionRef.current = false;
-        }
-    }, [dispatch]);
-
-    useEffect(() => { // TODO: move to appropriate position later
-        if (token) {
-           // call and store static apis data
-        }
-    }, [dispatch, token]);
-
     return (
         <div className="app-layout">
             <div className="side-bar-holder">

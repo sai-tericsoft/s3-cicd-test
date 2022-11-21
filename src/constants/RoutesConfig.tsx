@@ -1,6 +1,5 @@
 // AUTH ROUTES
 const LOGIN_ROUTE = "/login";
-const LOGOUT_ROUTE = "/logout";
 
 // NON-AUTH ROUTES
 const TEST_ROUTE = "/test";
@@ -13,7 +12,6 @@ const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
 export {
     LOGIN_ROUTE,
-    LOGOUT_ROUTE,
     COMING_SOON_ROUTE,
     NOT_FOUND_ROUTE,
     GUEST_ROUTES,

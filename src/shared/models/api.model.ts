@@ -5,11 +5,13 @@ import {
     AxiosResponseTransformer, CancelToken,
     ResponseType
 } from "axios";
+import {API_RESPONSE_MESSAGE_KEY} from "../../constants/Misc";
+import {Misc} from "../../constants";
 
 export interface IAPIResponseType<TYPE> {
     success: boolean,
     data: TYPE | any | { docs: any[], total: number, pages: number, limit: number, page: number },
-    message?: string,
+    [Misc.API_RESPONSE_MESSAGE_KEY]: string,
     error?: string,
     errors?: any[]
 }

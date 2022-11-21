@@ -5,14 +5,15 @@ import {
 import {CommonService} from "../../shared/services";
 import {Misc} from "../../constants";
 import Communications from "../../shared/services/communications.service";
+import {ILoggedInUser} from "../../shared/models/account.model";
 
 export interface IAccountReducerState {
-    currentUser: any;
-    token: string | null;
+    currentUser?: ILoggedInUser;
+    token?: string | null;
 }
 
 const INITIAL_STATE: IAccountReducerState = {
-    currentUser: CommonService._localStorage.getItem(Misc.LOCAL_STORAGE_LOGGED_IN_USER_DATA),
+    currentUser: undefined,
     token: CommonService._localStorage.getItem(Misc.LOCAL_STORAGE_JWT_TOKEN)
 };
 
@@ -39,8 +40,8 @@ const accountReducer = (state: IAccountReducerState = INITIAL_STATE, action: IAc
             Communications.updateLoginUserTokenSubject.next('');
             return {
                 ...state,
-                token: null,
-                currentUser: null
+                token: undefined,
+                currentUser: undefined
             };
         default:
             return state;

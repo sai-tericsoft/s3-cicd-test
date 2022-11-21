@@ -16,39 +16,9 @@ const menuList: IMenuItem[] = [
     },
     {
         path: CommonService._routeConfig.ComingSoonRoute(),
-        title: 'Clients',
-        icon: ImageConfig.ClientsIcon
-    },
-    {
-        path: CommonService._routeConfig.ComingSoonRoute(),
-        title: 'Scheduling',
-        icon: ImageConfig.SchedulingIcon
-    },
-    {
-        path: CommonService._routeConfig.ComingSoonRoute(),
-        title: 'Billing',
-        icon: ImageConfig.BillingIcon
-    },
-    {
-        path: CommonService._routeConfig.ComingSoonRoute(),
-        title: 'Settings',
-        icon: ImageConfig.SettingsIcon
-    },
-    {
-        path: CommonService._routeConfig.ComingSoonRoute(),
         title: 'Admin',
         icon: ImageConfig.AdminIcon
-    },
-    {
-        path: CommonService._routeConfig.ComingSoonRoute(),
-        title: 'Help',
-        icon: ImageConfig.HelpIcon
-    },
-    {
-        path: CommonService._routeConfig.ComingSoonRoute(),
-        title: 'Inventory',
-        icon: ImageConfig.InventoryIcon
-    },
+    }
 ]
 
 const SideMenuComponent = (props: SideMenuComponentProps) => {

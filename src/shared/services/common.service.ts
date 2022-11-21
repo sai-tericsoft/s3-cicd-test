@@ -13,6 +13,7 @@ import UserService from "./modules/user.service";
 import StaticDataService from "./modules/static-data.service";
 import * as yup from "yup";
 import {IConfirmationConfig} from "../models/confirmation.model";
+import _ from "lodash";
 
 yup.addMethod(yup.mixed, 'atLeastOne', (args) => {
     const {message, predicate} = args;
@@ -361,97 +362,9 @@ const Capitalize = (str:string) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-// const createValidationsObject = (questions: any) => {
-//
-//     const generateValidationsForQuestion = (question: IIntakeFormQuestion, parentQuestion: any = null, parentOption: any = null) => {
-//         if (question?.isRequired) {
-//             question.validationType = 'mixed';
-//             const validationsObj: any = {};
-//             question.validations = [];
-//             if (parentQuestion && parentOption) {
-//                 validationsObj.parent = parentQuestion.name + '.' + parentOption.code;
-//                 validationsObj.parentParams = [];
-//                 if (parentQuestion?.isRequired) {
-//                     const parentValidationsObj = {
-//                         type: 'when', params: [validationsObj.parent, {
-//                             is: true, then: yup[question.validationType]()["required"]('Required'),
-//                             otherwise: yup[question.validationType]().nullable()
-//                         }]
-//                     }
-//                     question.validations.push(parentValidationsObj);
-//                     if (parentQuestion.formControlType === "RadioButton") {
-//                         validationsObj.parent = parentQuestion.name;
-//                         const vobj = {
-//                             type: 'when', params: [validationsObj.parent, {
-//                                 is: parentOption.code, then: yup[question.validationType]()["required"]('Required'),
-//                                 otherwise: yup[question.validationType]().nullable()
-//                             }]
-//                         }
-//                         question.validations.push(vobj);
-//                     }
-//                 }
-//             } else {
-//                 validationsObj.type = "required";
-//                 validationsObj.params = ["Required"];
-//                 question.validations.push(validationsObj);
-//             }
-//             if (question.formControlType === "CheckBox") {
-//                 validationsObj.type = "test";
-//                 validationsObj.params = ['atLeastOne', 'Select at least one item', (answers: any) => {
-//                     return answers ? Object.values(answers).some(answer => answer === true) : false;
-//                 }];
-//                 question.validations.push(validationsObj);
-//             }
-//         }
-//         if (question.options) {
-//             question.options.forEach((option: any) => {
-//                 if (option.questions) {
-//                     option.questions.forEach((subQuestion: any) => {
-//                         if (!question.validations) {
-//                             question.validations = [];
-//                         }
-//                         question.validations.push(generateValidationsForQuestion(subQuestion, question, option));
-//                     })
-//                 }
-//             });
-//         }
-//         return question;
-//     };
-//     return questions?.map((question: any) => {
-//         return generateValidationsForQuestion(question);
-//     });
-// }
-
-// const createYupSchema = (mainSchema: any, config: any) => {
-//
-//     const generateYupSchema = (question: IIntakeFormQuestion) => {
-//         const {name, validationType, options, validations = []} = question;
-//         if (!yup[validationType]) {
-//             return;
-//         }
-//         let validator: any = yup[validationType]();
-//         validations.forEach((validation: any) => {
-//             const {params, type} = validation;
-//             if (!validator[type]) {
-//                 return;
-//             }
-//             validator = validator[type](...params);
-//         });
-//         mainSchema[name] = validator;
-//         if (options) {
-//             options?.forEach((option: any) => {
-//                 if (option?.questions) {
-//                     option?.questions?.forEach((subQuestion: any) => {
-//                         console.log({subQuestion});
-//                         generateYupSchema(subQuestion);
-//                     })
-//                 }
-//             });
-//         }
-//     }
-//     generateYupSchema(config);
-//     return mainSchema;
-// }
+const getObjectKeyValue = (object: any, key:string) => {
+    return _.get(object, key);
+}
 
 const CommonService = {
     CurrentDate,
@@ -478,6 +391,7 @@ const CommonService = {
     getFlatQuestionList,
     getArrayOfValuesOfOneKeyFromJSON,
     Capitalize,
+    getObjectKeyValue,
     // createValidationsObject,
     // createYupSchema,
 

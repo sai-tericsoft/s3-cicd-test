@@ -1,20 +1,16 @@
 export interface IAccountLoginCredentials {
-    username: string;
-    password: any
+    email: string;
+    password: string;
 }
 
 export interface ILoggedInUser {
     _id: string;
-    createdAt: string;
-    email: string;
-    isActive: boolean;
-    isDeleted: boolean;
-    name: string;
-    orgUId: string;
-    phone: string;
+    first_name: string;
+    last_name: string;
+    primary_email: string;
+    gender: string;
     role: string;
-    uid: string;
-    updatedAt: string;
+    is_active: boolean;
 }
 
 export interface ILoginResponse {
@@ -22,7 +18,8 @@ export interface ILoginResponse {
     user: ILoggedInUser;
 }
 
-export interface ICheckLoginResponse extends ILoggedInUser {
+export interface ICheckLoginResponse {
+    user: ILoggedInUser;
 }
 
 
