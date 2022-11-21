@@ -9,6 +9,7 @@ import {Login} from "@mui/icons-material";
 import ChipComponent from "../../shared/components/chip/ChipComponent";
 import ButtonComponent from "../../shared/components/button/ButtonComponent";
 import FormikCheckBoxComponent from "../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
+import FormikSwitchComponent from "../../shared/components/form-controls/formik-switch/FormikSwitchComponent";
 import ModalComponent from "../../shared/components/modal/ModalComponent";
 
 interface DesignSystemScreenProps {
@@ -29,6 +30,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
         username: "",
         password: "",
         tnc: true,
+        accessAsAdmin: true,
     });
 
     const [isFormSubmitting, setIsFormSubmitting] = useState(false);
@@ -101,6 +103,19 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                                     label={"Accept TnC"}
                                                     formikField={field}
                                                     id={"accept_t_n_c"}
+                                                    onChange={(isChecked) => {
+                                                        console.log(isChecked, isChecked ? "accepted" : "not accepted");
+                                                    }}/>
+                                            )
+                                        }
+                                    </Field>
+                                    <Field name={'accessAsAdmin'} className="t-form-control">
+                                        {
+                                            (field: FieldProps) => (
+                                                <FormikSwitchComponent
+                                                    label={"Access as Admin"}
+                                                    formikField={field}
+                                                    id={"access_as_admin"}
                                                     onChange={(isChecked) => {
                                                         console.log(isChecked, isChecked ? "accepted" : "not accepted");
                                                     }}/>
