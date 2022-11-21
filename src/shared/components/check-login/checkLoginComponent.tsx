@@ -5,6 +5,7 @@ import {Misc} from "../../../constants";
 import {logout, setLoggedInUserData, setLoggedInUserToken} from "../../../store/actions/account.action";
 import {useDispatch} from "react-redux";
 import {IAPIResponseType} from "../../models/api.model";
+import {ICheckLoginResponse} from "../../models/account.model";
 
 interface CheckLoginComponentProps {
 
@@ -22,10 +23,10 @@ const CheckLoginComponent = (props: React.PropsWithChildren<CheckLoginComponentP
         if (token) {
             setIsLoading(true);
             CommonService._account.CheckLoginAPICall(token)
-                .then((response: IAPIResponseType<any>) => {
+                .then((response: IAPIResponseType<ICheckLoginResponse>) => {
                     setIsLoading(false);
                     setIsLoaded(true);
-                    dispatch(setLoggedInUserData(response.data));
+                    dispatch(setLoggedInUserData(response.data.user));
                     dispatch(setLoggedInUserToken(token));
                 })
                 .catch(() => {

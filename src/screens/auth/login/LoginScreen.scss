@@ -1,0 +1,22 @@
+@import "src/assets/styles/common";
+
+.login-screen {
+
+  .login-form-container {
+
+    .login-form-welcome-text {
+      color: $text-light-1;
+      font-size: 1.143rem;
+    }
+
+    .login-form-helper-text {
+      font-size: 1.714rem;
+      padding: 10px 0 30px;
+      font-weight: $font-weight-bold;
+    }
+
+    .t-form-actions {
+      margin-top: 20px;
+    }
+  }
+}

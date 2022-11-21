@@ -1,11 +1,12 @@
-import React from 'react';
-import {Navigate, Route, Routes} from 'react-router-dom';
+import React, {useEffect} from 'react';
+import {Navigate, Route, Routes, useLocation, useNavigate} from 'react-router-dom';
 import NotFoundScreen from "../screens/not-found/notFoundScreen";
 import AuthLayout from "../layouts/auth-layout/AuthLayout";
 import {
     COMING_SOON_ROUTE,
     DASHBOARD,
-    DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE,
+    DESIGN_SYSTEM_ROUTE,
+    LOGIN_ROUTE,
     NOT_FOUND_ROUTE,
     TEST_ROUTE
 } from "../constants/RoutesConfig";
@@ -15,23 +16,44 @@ import LoginScreen from "../screens/auth/login/LoginScreen";
 import AppLayout from "../layouts/app-layout/AppLayout";
 import DashboardScreen from "../screens/dashboard/DashboardScreen";
 import ComingSoonScreen from "../screens/coming-soon/ComingSoonScreen";
-// import {useSelector} from "react-redux";
-// import {IRootReducerState} from "../store/reducers";
+import {useSelector} from "react-redux";
+import {IRootReducerState} from "../store/reducers";
+import {CommonService} from "../shared/services";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
     const {children} = props;
-    // const {aclRule} = data;
-    // const navigate = useNavigate();
+    const {token} = useSelector((state: IRootReducerState) => state.account);
+    const navigate = useNavigate();
+    const location = useLocation();
 
-    // const {currentUser} = useSelector((state: IRootReducerState) => state.account);
-    // const roleCode = currentUser?.roleObj?.code;
-    // const canAccess = aclRule.includes(UserRoles.STAR) || (aclRule.includes(roleCode));
-    // if (canAccess) {
-    //     return children;
-    // } else {
-    //     navigate(CommonService._routeConfig.RestrictedRoute());
-    // }
+    useEffect(() => {
+        if (!token) {
+            navigate('/login?returnUrl=' + encodeURIComponent(location.pathname + location.search));
+        }
+    }, [token, navigate, location]);
+
+    return children;
+}
+
+const UnProtectedRoute = (props: React.PropsWithChildren<any>) => {
+
+    const {children} = props;
+    const {token} = useSelector((state: IRootReducerState) => state.account);
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    useEffect(() => {
+        let returnUrl = CommonService._routeConfig.Dashboard();
+        if (!!token) {
+            const query = CommonService.parseQueryString(location.search);
+            if (Object.keys(query).includes('returnUrl')) {
+                returnUrl = query.returnUrl;
+            }
+            navigate(returnUrl);
+        }
+    }, [token, navigate, location])
+
     return children;
 }
 
@@ -42,30 +64,47 @@ export interface NavigatorProps {
 const Navigator = (props: NavigatorProps) => {
 
     return (
-        <>
-            <Routes>
-                <Route element={<AppLayout/>}>
-                    <Route index element={<DashboardScreen/>}/>
-                    <Route
-                        path={DASHBOARD}
-                        element={
-                            <ProtectedRoute>
-                                <DashboardScreen/>
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
-                </Route>
-                <Route element={<AuthLayout/>}>
-                    <Route index element={<LoginScreen/>}/>
-                    <Route path={LOGIN_ROUTE} element={<LoginScreen/>}/>
-                </Route>
-                <Route path={TEST_ROUTE} element={<TestScreen/>}/>
-                <Route path={DESIGN_SYSTEM_ROUTE} element={<DesignSystemScreen/>}/>
-                <Route path={NOT_FOUND_ROUTE} element={<NotFoundScreen/>}/>
-                <Route path="*" element={<Navigate to={NOT_FOUND_ROUTE}/>}/>
-            </Routes>
-        </>
+        <Routes>
+            <Route element={<AppLayout/>}>
+                <Route
+                    index
+                    element={
+                        <ProtectedRoute>
+                            <DashboardScreen/>
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path={DASHBOARD}
+                    element={
+                        <ProtectedRoute>
+                            <DashboardScreen/>
+                        </ProtectedRoute>
+                    }
+                />
+                <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
+            </Route>
+            <Route element={<AuthLayout/>}>
+                <Route index
+                       element={
+                           <UnProtectedRoute>
+                               <LoginScreen/>
+                           </UnProtectedRoute>
+                       }/>
+                <Route
+                    path={LOGIN_ROUTE}
+                    element={
+                        <UnProtectedRoute>
+                            <LoginScreen/>
+                        </UnProtectedRoute>
+                    }
+                />
+            </Route>
+            <Route path={TEST_ROUTE} element={<TestScreen/>}/>
+            <Route path={DESIGN_SYSTEM_ROUTE} element={<DesignSystemScreen/>}/>
+            <Route path={NOT_FOUND_ROUTE} element={<NotFoundScreen/>}/>
+            <Route path="*" element={<Navigate to={NOT_FOUND_ROUTE}/>}/>
+        </Routes>
     )
 };
 

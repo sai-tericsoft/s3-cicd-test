@@ -1,7 +1,12 @@
-import { ImageConfig } from "../../../../constants";
+import {ImageConfig} from "../../../../constants";
 import "./HeaderComponent.scss";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../../store/reducers";
+import {Logout} from "@mui/icons-material";
+import {logout} from "../../../../store/actions/account.action";
+import {CommonService} from "../../../services";
+import ButtonComponent from "../../button/ButtonComponent";
+import {useNavigate} from "react-router-dom";
 
 interface HeaderComponentProps {
 
@@ -9,9 +14,12 @@ interface HeaderComponentProps {
 
 const HeaderComponent = (props: HeaderComponentProps) => {
 
-    const { currentNavParams } = useSelector((state: IRootReducerState)=> state.navigation);
+    const {currentNavParams} = useSelector((state: IRootReducerState) => state.navigation);
+    const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const title = currentNavParams.title;
     const userProfilePicture = undefined;
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     return (
         <div className="header-component">
@@ -20,7 +28,19 @@ const HeaderComponent = (props: HeaderComponentProps) => {
             </div>
             <div className="header-options">
                 <div className="header-option lock">
-                    <ImageConfig.LockIcon/>
+                    <ButtonComponent isIconButton>
+                        <ImageConfig.LockIcon/>
+                    </ButtonComponent>
+                </div>
+                <div className="header-option logout">
+                    <ButtonComponent isIconButton
+                                     onClick={() => {
+                                         CommonService._alert.showToast("Logged out", "success");
+                                         navigate(CommonService._routeConfig.LoginRoute());
+                                         dispatch(logout());
+                                     }}>
+                        <Logout/>
+                    </ButtonComponent>
                 </div>
                 <div className="header-option profile">
                     <span className="profile-dp-icon">
@@ -28,11 +48,11 @@ const HeaderComponent = (props: HeaderComponentProps) => {
                         {!userProfilePicture && <ImageConfig.ProfileIcon/>}
                     </span>
                     <div className="profile-name">
-                        John Richardson
+                        {currentUser?.first_name} {currentUser?.last_name}
                     </div>
-                    <span className="profile-dropdown-icon">
-                        <ImageConfig.SelectDropDownIcon/>
-                    </span>
+                    {/*<span className="profile-dropdown-icon">*/}
+                    {/*    <ImageConfig.SelectDropDownIcon/>*/}
+                    {/*</span>*/}
                 </div>
             </div>
         </div>

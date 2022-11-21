@@ -3,6 +3,7 @@ import {Button} from "@mui/material";
 import {LoadingButton} from "@mui/lab";
 import SaveIcon from '@mui/icons-material/Save';
 import {CSSProperties, useCallback} from "react";
+import IconButton from "@mui/material/IconButton";
 
 interface ButtonComponentProps {
     type?: "button" | "submit" | "reset";
@@ -16,23 +17,36 @@ interface ButtonComponentProps {
     suffixIcon?: any;
     isLoading?: boolean;
     id?: string;
-    onClick?: ()=> void;
+    onClick?: () => void;
     style?: CSSProperties;
+    isIconButton?: boolean;
 }
 
 const ButtonComponent = (props: React.PropsWithChildren<ButtonComponentProps>) => {
 
-    const {className, style, fullWidth, id, disabled, isLoading, prefixIcon, suffixIcon, onClick, children} = props;
+    const {
+        className,
+        isIconButton,
+        style,
+        fullWidth,
+        id,
+        disabled,
+        isLoading,
+        prefixIcon,
+        suffixIcon,
+        onClick,
+        children
+    } = props;
     const color = props.color || "primary";
     const size = props.size || "medium";
     const variant = props.variant || "contained";
     const type = props.type || "button";
 
     const handleOnClick = useCallback(() => {
-          if(onClick){
-              onClick();
-          }
-     }, [onClick]);
+        if (onClick) {
+            onClick();
+        }
+    }, [onClick]);
 
     return (
         <>
@@ -53,21 +67,39 @@ const ButtonComponent = (props: React.PropsWithChildren<ButtonComponentProps>) =
                 </>
             }
             {
-                !isLoading && <Button variant={variant}
-                                      id={id}
-                                      style={style}
-                                      disabled={disabled}
-                                      fullWidth={fullWidth}
-                                      className={className}
-                                      size={size}
-                                      type={type}
-                                      color={color}
-                                      startIcon={prefixIcon}
-                                      endIcon={suffixIcon}
-                                      onClick={handleOnClick}
-                >
-                    {children}
-                </Button>
+                !isLoading && <>
+                    {
+                        isIconButton && <>
+                            <IconButton
+                                id={id}
+                                disabled={disabled}
+                                className={className}
+                                size={size}
+                                type={type}
+                                color={color}
+                                onClick={handleOnClick}>
+                                {children}
+                            </IconButton>
+                        </>
+                    }
+                    {
+                        !isIconButton && <Button variant={variant}
+                                                 id={id}
+                                                 style={style}
+                                                 disabled={disabled}
+                                                 fullWidth={fullWidth}
+                                                 className={className}
+                                                 size={size}
+                                                 type={type}
+                                                 color={color}
+                                                 startIcon={prefixIcon}
+                                                 endIcon={suffixIcon}
+                                                 onClick={handleOnClick}
+                        >
+                            {children}
+                        </Button>
+                    }
+                </>
             }
         </>
     );

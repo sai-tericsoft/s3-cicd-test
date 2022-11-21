@@ -1,9 +1,9 @@
-import "./loaderComponent.scss";
+import "./LoaderComponent.scss";
 
 import React from 'react';
-import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import CircularProgress from '@mui/material/CircularProgress';
+import {Box} from "@mui/material";
 
 interface LoaderComponentProps {
     size?: "xs" | "s" | "m" | "l" | "xl";
@@ -21,29 +21,19 @@ const sizeMap = {
 
 const LoaderComponent = (props: LoaderComponentProps) => {
 
-    let {type, color, size} = props;
-
-    if (!type) {
-        type = "progress";
-    }
-
-    if (!size) {
-        size = "m";
-    }
-
-    if (!color) {
-        color = "secondary";
-    }
+    const type = props.type || "progress";
+    const size = props.size || "m";
+    const color = props.color || "primary";
 
     return (
         <>
             <Box>
-                {type === "progress" &&
+            {type === "progress" &&
                 <LinearProgress color={color}/>
-                }
-                {type === "spinner" &&
+            }
+            {type === "spinner" &&
                 <CircularProgress color={color} size={sizeMap[size]}/>
-                }
+            }
             </Box>
         </>
     );
