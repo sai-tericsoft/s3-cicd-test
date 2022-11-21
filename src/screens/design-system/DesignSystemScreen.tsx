@@ -141,7 +141,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                         }}
                     </Formik>
                     <ModalComponent isOpen={isTnCModalOpened}
-                                    // title={"Terms & Conditions"}
+                                    title={"Terms & Conditions"}
                                     showClose={true}
                                     direction={"up"}
                                     closeOnBackDropClick={false}
@@ -150,11 +150,10 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                         setIsTnCModalOpened(false);
                                     }}
                                     modalFooter={<>
-                                        <ButtonComponent variant={"outlined"}>
-                                            Decline
-                                        </ButtonComponent>&nbsp;&nbsp;
-                                        <ButtonComponent>
-                                            Accept
+                                        <ButtonComponent onClick={() => {
+                                            setIsTnCModalOpened(false);
+                                        }}>
+                                            Close
                                         </ButtonComponent>
                                     </>
                                     }

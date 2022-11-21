@@ -29,7 +29,7 @@ interface ModalComponentProps {
     onClose?: (reason: string) => void;
     fullScreen?: boolean;
     fullWidth?: boolean;
-    maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false;
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
     closeOnEsc?: boolean;
     closeOnBackDropClick?: boolean;
     direction?: "up" | "down" | "left" | "right";
@@ -52,7 +52,7 @@ const ModalComponent = (props: React.PropsWithChildren<ModalComponentProps>) => 
         modalFooter
     } = props;
     const direction = props.direction || "down";
-    const maxWidth = props.maxWidth || "sm";
+    const size = props.size || "sm";
     const closeOnBackDropClick = props.closeOnBackDropClick !== undefined ? props.closeOnBackDropClick : true;
     const closeOnEsc = props.closeOnEsc !== undefined ? props.closeOnEsc : true;
 
@@ -66,7 +66,7 @@ const ModalComponent = (props: React.PropsWithChildren<ModalComponentProps>) => 
         if (onClose) {
             onClose(reason);
         }
-    }, []);
+    }, [closeOnBackDropClick, closeOnEsc, onClose]);
 
     return (
         <Dialog
@@ -78,7 +78,7 @@ const ModalComponent = (props: React.PropsWithChildren<ModalComponentProps>) => 
             }}
             TransitionComponent={Transition}
             keepMounted
-            maxWidth={maxWidth}
+            maxWidth={size}
             className={`modal-container ${className}`}
             onClose={handleOnClose}
             hideBackdrop={hideBackdrop}

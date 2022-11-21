@@ -351,13 +351,7 @@ const getArrayOfValuesOfOneKeyFromJSON = (array: any[], key: string) => {
     }
 }
 
-const openConfirmationDialog = (config: IConfirmationConfig = {}) => {
-    const defaultConfig: IConfirmationConfig = {
-        direction: "down",
-        yes: {text: 'Yes, Confirm', color: 'error'},
-        no: {text: 'No, Cancel', color: 'inherit'},
-    }
-    config = {...defaultConfig, ...config};
+const onConfirm = (config: IConfirmationConfig = {}) => {
     return new Promise((resolve, reject) => {
         Communications.ConfirmStateSubject.next({config, promise: {resolve, reject}})
     });
@@ -464,7 +458,7 @@ const CommonService = {
     parseQueryString,
     handleErrors,
     openDialog,
-    openConfirmationDialog,
+    onConfirm,
     formatSizeUnits,
     getRandomID,
     getBytesInMB,
