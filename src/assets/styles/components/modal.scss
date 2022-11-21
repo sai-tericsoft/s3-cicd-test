@@ -1,0 +1,42 @@
+.modal-container {
+
+  .modal-content-wrapper {
+    padding: 25px !important;
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+
+      .modal-title {
+        font-size: 1.1rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .modal-close {
+        cursor: pointer;
+        position: relative;
+        top: 2px;
+        opacity: 0.7;
+
+        svg {
+          height: 22px;
+          width: 22px;
+        }
+      }
+    }
+
+    .modal-body {
+    }
+
+    .modal-footer {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+}
