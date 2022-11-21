@@ -1,5 +1,6 @@
 export interface IConfirmationButtonItem {
     color?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
+    variant?: 'contained' | 'outlined' | 'text';
     text?: string;
 }
 
@@ -10,8 +11,7 @@ export interface IConfirmationConfig {
     confirmationTitle?: string;
     confirmationDescription?: string;
     confirmationSubTitle?: string;
-    disableEscKeyClose?: boolean;
-    disableBackdropClose?: boolean;
+    closeOnEsc?: boolean;
+    closeOnBackdropClick?: boolean;
     hideNoOption?: boolean;
-    imagePath?: string;
 }

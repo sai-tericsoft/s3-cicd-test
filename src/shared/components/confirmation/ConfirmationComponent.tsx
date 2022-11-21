@@ -1,0 +1,117 @@
+import "./ConfirmationComponent.scss";
+import * as React from 'react';
+import {useEffect, useState} from 'react';
+import {Communications} from "../../services";
+import {IConfirmationConfig} from "../../models/confirmation.model";
+import ModalComponent from "../modal/ModalComponent";
+import ButtonComponent from "../button/ButtonComponent";
+
+interface ConfirmationComponentProps {
+
+}
+
+const ConfirmationComponent = (props: ConfirmationComponentProps) => {
+
+    const [open, setOpen] = useState(false);
+    const [config, setConfig] = useState<IConfirmationConfig | null>(null);
+    const [promise, setPromise] = useState<{ resolve: any, reject: any } | null>(null);
+
+    useEffect(() => {
+        const subscription = Communications.ConfirmStateSubject.subscribe(({config, promise}) => {
+            setPromise(promise);
+            setConfig(config);
+            openConfirmationDialog();
+            console.log(config);
+        })
+        return () => {
+            subscription.unsubscribe();
+        }
+    }, []);
+
+    const openConfirmationDialog = () => {
+        setOpen(true);
+    };
+
+    const confirm = () => {
+        promise?.resolve();
+        closeConfirmationDialog();
+    }
+
+    const cancel = () => {
+        promise?.reject();
+        closeConfirmationDialog();
+    }
+
+    const closeConfirmationDialog = () => {
+        setOpen(false);
+    };
+
+    return (
+        <ModalComponent
+            isOpen={open}
+            onClose={() => {
+                closeConfirmationDialog();
+            }}
+            closeOnEsc={config?.closeOnEsc}
+            closeOnBackDropClick={config?.closeOnBackdropClick}
+            title={config?.confirmationTitle || 'Confirm ?'}
+            direction={config?.direction || "down"}
+            size={"md"}
+            showClose={false}
+            modalFooter={<>
+                {!config?.hideNoOption && <>
+                    <ButtonComponent
+                        onClick={cancel}
+                        color={config?.no?.color || 'inherit'}
+                        variant={config?.no?.variant || "outlined"}>
+                        {config?.no?.text || 'No, Cancel'}
+                    </ButtonComponent>&nbsp;&nbsp;&nbsp;
+                </>
+                }
+                <ButtonComponent
+                    onClick={confirm}
+                    color={config?.yes?.color || 'error'}
+                    variant={config?.yes?.variant || "contained"}>
+                    {config?.yes?.text || 'Yes, Confirm'}
+                </ButtonComponent>
+            </>
+            }>
+            <div className="confirmation-dialog-container">
+                <div className="confirmation-dialog-sub-title-and-description">
+                    <div className="confirmation-dialog-sub-title">{config?.confirmationSubTitle}</div>
+                    <div className="confirmation-dialog-sub-description">{config?.confirmationDescription}</div>
+                </div>
+            </div>
+        </ModalComponent>
+    );
+};
+
+export default ConfirmationComponent;
+
+// ****************************** USAGE ****************************** //
+
+// CommonService.onConfirm({
+    // closeOnBackdropClick: true,
+    // closeOnEsc: false,
+    // confirmationTitle: "Confirm",
+    // confirmationSubTitle: "Are you sure ?",
+    // confirmationDescription: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione, repellendus! ",
+    // direction: "left",
+    // yes: {
+    //     color: "primary",
+    //     text: "Agree",
+    //     variant: "contained"
+    // },
+    // no: {
+    //     color: "error",
+    //     text: "DisAgree",
+    //     variant: "outlined"
+    // }
+// })
+//     .then(() => {
+//         setIsTnCModalOpened(true);
+//     }).catch(() => {
+//     console.log('rejected');
+// });
+
+// ****************************** USAGE ****************************** //

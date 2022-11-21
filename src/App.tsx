@@ -4,7 +4,7 @@ import Navigator from "./navigation/navigator";
 import AlertComponent from "./shared/components/alert/alertComponent";
 import {ColorConfig} from "./constants";
 import CheckLoginComponent from "./shared/components/check-login/checkLoginComponent";
-import ConfirmationComponent from "./shared/components/confirmation/confirmationComponent";
+import ConfirmationComponent from "./shared/components/confirmation/ConfirmationComponent";
 import {createTheme, ThemeOptions, ThemeProvider} from '@mui/material/styles';
 
 interface AppProps {
