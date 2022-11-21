@@ -37,14 +37,14 @@ const LoginScreen = (props: LoginScreenProps) => {
     const [isLoggingIn, setIsLoggingIn] = useState(false);
     const dispatch = useDispatch();
 
-    // useEffect(() => {
-    //     if (ENV.ENV_MODE === "dev") {
-    //         setLoginFormInitialValues({
-    //             email: "terrill@gmail.com",
-    //             password: "12345678",
-    //         })
-    //     }
-    // }, []);
+    useEffect(() => {
+        if (ENV.ENV_MODE === "dev") {
+            setLoginFormInitialValues({
+                email: "terrill@gmail.com",
+                password: "12345678",
+            })
+        }
+    }, []);
 
     const onSubmit = useCallback((values: any, {setSubmitting, setErrors}: FormikHelpers<any>) => {
         setIsLoggingIn(true);
@@ -59,7 +59,7 @@ const LoginScreen = (props: LoginScreenProps) => {
                 CommonService.handleErrors(setErrors, error);
                 setIsLoggingIn(false);
             })
-    }, []);
+    }, [dispatch]);
 
     return (
         <div className="login-screen">

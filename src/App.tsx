@@ -15,10 +15,6 @@ interface AppProps {
     makeCheckLoginHTTPRequest?: any;
 }
 
-interface AppState {
-}
-
-
 export const themeOptions: ThemeOptions = {
     palette: {
         mode: 'light',

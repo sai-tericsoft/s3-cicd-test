@@ -12,7 +12,6 @@ import FormikCheckBoxComponent from "../../shared/components/form-controls/formi
 import FormikSwitchComponent from "../../shared/components/form-controls/formik-switch/FormikSwitchComponent";
 import ModalComponent from "../../shared/components/modal/ModalComponent";
 import CardComponent from "../../shared/components/card/CardComponent";
-import LoaderComponent from "../../shared/components/loader/LoaderComponent";
 
 interface DesignSystemScreenProps {
 

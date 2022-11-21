@@ -5,7 +5,6 @@ import {
     AxiosResponseTransformer, CancelToken,
     ResponseType
 } from "axios";
-import {API_RESPONSE_MESSAGE_KEY} from "../../constants/Misc";
 import {Misc} from "../../constants";
 
 export interface IAPIResponseType<TYPE> {
