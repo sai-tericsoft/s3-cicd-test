@@ -1,7 +1,8 @@
 import {IActionModel} from "../../shared/models/action.model";
-import {SET_CURRENT_NAV_PARAMS} from "../actions/navigation.action";
+import {SET_CURRENT_NAV_PARAMS, SET_SIDE_MENU_VIEW} from "../actions/navigation.action";
 
 export interface INavigationReducerState {
+    sideMenuView: "compact" | "default";
     currentNavParams: {
         title: string,
         meta: any
@@ -13,6 +14,7 @@ export interface INavigationReducerState {
 }
 
 const INITIAL_STATE: INavigationReducerState = {
+    sideMenuView: "default",
     currentNavParams: {
         title: "",
         meta: undefined
@@ -32,6 +34,11 @@ const navigationReducer = (state: INavigationReducerState = INITIAL_STATE, actio
                     title: action.payload.title,
                     meta: action.payload.meta,
                 }
+            };
+        case SET_SIDE_MENU_VIEW:
+            return {
+                ...state,
+                sideMenuView: action.payload.sideMenuView
             };
         default:
             return state;
