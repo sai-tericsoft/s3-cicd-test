@@ -110,6 +110,7 @@
     min-width: #{$side-bar-holder-width}px;
     height: 100vh;
     background: $side-bar-holder-bg-color;
+    position: relative;
 
     .logo-holder {
       height: #{$branding-holder-height}px;
@@ -121,11 +122,62 @@
     .side-menu-holder {
       margin: 20px 0;
     }
+
+    &.default-view {
+
+      .logo-sm {
+        display: none;
+      }
+    }
+
+    &.compact-view {
+
+      width: 48px;
+      min-width: 48px;
+      transition: 0.2s width;
+
+      .logo-default {
+        display: none;
+      }
+
+      .menu-item {
+        @include display-center();
+        margin: 2px;
+        padding: 8px;
+
+        .menu-item-icon {
+          margin: 2px;
+        }
+      }
+
+      .menu-item-title {
+        display: none;
+      }
+
+      .branding-component {
+        width: 20px;
+        height: auto;
+      }
+    }
+
+    .side-menu-toggle-icon {
+      position: absolute;
+      bottom: 120px;
+      right: -18px;
+      background: #fff;
+      padding: 5px;
+      border-radius: 50%;
+      display: flex;
+      border: 1px solid #E1E1E1;
+      box-shadow: 0 4px 4px rgb(0 83 79 / 23%);
+      cursor: pointer;
+      color: $side-bar-toggle-icon-color;
+    }
   }
 
   .header-and-page-container {
-    width: calc(100% - #{$side-bar-holder-width}px);
     overflow: hidden;
+    flex: 1;
 
     .header-holder {
       height: $header-height + px;

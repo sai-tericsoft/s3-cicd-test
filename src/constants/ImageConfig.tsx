@@ -1,4 +1,5 @@
 import Logo from './../assets/icons/logo.svg';
+import LogoSM from './../assets/icons/logo-sm.svg';
 import {ReactComponent as userIcon} from './../assets/icons/user_icon.svg';
 import {ReactComponent as LockIcon} from '../assets/icons/header/lock.svg';
 import {ReactComponent as ProfileIcon} from '../assets/icons/header/profile.svg';
@@ -7,6 +8,8 @@ import {ReactComponent as SelectDropDownIcon} from './../assets/icons/select_dro
 
 import {ReactComponent as CircleCheck} from './../assets/icons/check_circle.svg';
 import {ReactComponent as CircleError} from './../assets/icons/error_circle.svg';
+import {ReactComponent as LeftArrow} from './../assets/icons/left_arrow.svg';
+import {ReactComponent as RightArrow} from './../assets/icons/right_arrow.svg';
 
 // MainMenu
 import {ReactComponent as DashboardIcon} from './../assets/icons/side-menu/dashboard.svg';
@@ -40,5 +43,9 @@ export {
     CircleCheck,
     CircleError,
 
-    CloseIcon
+    CloseIcon,
+    LogoSM,
+
+    LeftArrow,
+    RightArrow
 }

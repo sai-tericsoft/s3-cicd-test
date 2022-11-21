@@ -10,7 +10,8 @@ const BrandingComponent = (props: BrandingComponentProps) => {
 
     return (
         <div className={'branding-component'}>
-            <img src={ImageConfig.Logo} alt={Misc.APP_NAME + 'Logo'}/>
+            <img className={"logo-default"} src={ImageConfig.Logo} alt={Misc.APP_NAME + 'Logo'}/>
+            <img className={"logo-sm"} src={ImageConfig.LogoSM} alt={Misc.APP_NAME + 'Logo'}/>
         </div>
     );
 
