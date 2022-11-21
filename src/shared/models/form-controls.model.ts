@@ -32,3 +32,17 @@ export interface ICheckBoxProps {
     hasError?: boolean;
     errorMessage?: any;
 }
+
+export interface ISwitchProps {
+    label: string;
+    className?: string;
+    name?: string;
+    color?: 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
+    disabled?: boolean;
+    id?: string;
+    onChange?: (isChecked: boolean) => void;
+    required?: boolean;
+    size?: "medium" | "small";
+    hasError?: boolean;
+    errorMessage?: any;
+}
