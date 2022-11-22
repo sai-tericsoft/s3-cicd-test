@@ -15,7 +15,7 @@ const menuList: IMenuItem[] = [
         icon: ImageConfig.DashboardIcon
     },
     {
-        path: CommonService._routeConfig.ComingSoonRoute(),
+        path: CommonService._routeConfig.Admin(),
         title: 'Admin',
         icon: ImageConfig.AdminIcon
     }
