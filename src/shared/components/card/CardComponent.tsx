@@ -1,6 +1,5 @@
-
 interface CardComponentProps {
-    title: string;
+    title?: string;
     className?: string;
     size?: "sm" | "md" | "lg" | "xl";
 }
@@ -12,11 +11,11 @@ const CardComponent = (props: React.PropsWithChildren<CardComponentProps>) => {
 
     return (
         <div className={`card-component ${className} ${size}`}>
-            <div className="card-header">
+            {title && <div className="card-header">
                 <div className="card-title">
                     {title}
                 </div>
-            </div>
+            </div>}
             <div className="card-body">
                 {children}
             </div>

@@ -3,6 +3,11 @@ export interface IAccountLoginCredentials {
     password: string;
 }
 
+export interface ILoginResponse {
+    token: string;
+    user: ILoggedInUser;
+}
+
 export interface ILoggedInUser {
     _id: string;
     first_name: string;
@@ -11,11 +16,6 @@ export interface ILoggedInUser {
     gender: string;
     role: string;
     is_active: boolean;
-}
-
-export interface ILoginResponse {
-    token: string;
-    user: ILoggedInUser;
 }
 
 export interface ICheckLoginResponse {

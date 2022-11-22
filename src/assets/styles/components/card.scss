@@ -1,4 +1,7 @@
 .card-component {
+  background: #ffffff;
+  border: 1px solid #F3F3F3;
+  border-radius: 4px;
 
   .card-header {
     padding: 20px 35px;
@@ -11,7 +14,7 @@
   }
 
   .card-body {
-    padding: 25px;
+    padding: 20px;
   }
 
   &.sm {

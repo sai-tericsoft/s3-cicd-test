@@ -54,7 +54,9 @@ const AdminModuleLayoutScreen = (props: AdminModuleLayoutScreenProps) => {
                 <div className="admin-module-menu">
                     {
                         ADMIN_MENU_ITEMS.map((item) => {
-                            return <NavLink to={item.link} className="admin-module-menu-item">
+                            return <NavLink to={item.link}
+                                            key={item.title}
+                                            className="admin-module-menu-item">
                                 {item.title}
                             </NavLink>
                         })
