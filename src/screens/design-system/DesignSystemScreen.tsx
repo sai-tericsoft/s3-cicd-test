@@ -123,11 +123,13 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                                 )
                                             }
                                         </Field>
-                                        <div className="text-decoration-underline mrg-bottom-10 cursor-pointer" onClick={() => {
-                                            setIsTnCModalOpened(true);
-                                        }}>
+                                        <div className="text-decoration-underline mrg-bottom-10 cursor-pointer"
+                                             onClick={() => {
+                                                 setIsTnCModalOpened(true);
+                                             }}>
                                             Terms and Conditions
                                         </div>
+
                                         <ButtonComponent
                                             suffixIcon={<Login/>}
                                             isLoading={isFormSubmitting}
@@ -142,29 +144,41 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                             }}
                         </Formik>
                         <ModalComponent isOpen={isTnCModalOpened}
-                                        title={"Terms & Conditions"}
+                            // title={"Terms & Conditions demo"}
                                         showClose={true}
                                         direction={"up"}
-                                        closeOnBackDropClick={false}
-                                        closeOnEsc={false}
+                                        closeOnBackDropClick={true}
+                                        closeOnEsc={true}
                                         onClose={() => {
                                             setIsTnCModalOpened(false);
                                         }}
                                         modalFooter={<>
-                                            <ButtonComponent onClick={() => {
-                                                setIsTnCModalOpened(false);
-                                            }}>
-                                                Close
+                                            <ButtonComponent
+                                                variant={"outlined"}
+                                                onClick={() => {
+                                                    setIsTnCModalOpened(false);
+                                                }}>
+                                                Accept
+                                            </ButtonComponent>&nbsp;
+                                            <ButtonComponent
+                                                color={"error"}
+                                                onClick={() => {
+                                                    setIsTnCModalOpened(false);
+                                                }}>
+                                                Reject
                                             </ButtonComponent>
                                         </>
                                         }
                         >
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione, repellendus! <br/><br/>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque cupiditate dignissimos eligendi,
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque cupiditate dignissimos
+                            eligendi,
                             nam non numquam provident recusandae! Culpa, maxime sint! <br/><br/>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A adipisci aut eius eos est expedita
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A adipisci aut eius eos est
+                            expedita
                             hic itaque, maxime minus voluptatibus.
                         </ModalComponent>
+
                     </div>
                 </CardComponent>
             </div>
