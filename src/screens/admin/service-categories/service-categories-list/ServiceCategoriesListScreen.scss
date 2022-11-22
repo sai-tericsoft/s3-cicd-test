@@ -1,0 +1,31 @@
+@import "src/assets/styles/common";
+
+.service-category-list-screen {
+
+  .service-category-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+
+    .service-category-list-title {
+      font-weight: $font-weight-bolder;
+      letter-spacing: 0.5px;
+      color: #6D6D6D;
+      font-size: 1.4286rem;
+    }
+
+    .service-category-list-options {
+
+
+    }
+  }
+
+  .service-category-list-wrapper {
+
+    .service-category-list {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+}

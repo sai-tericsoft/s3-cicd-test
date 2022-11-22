@@ -27,14 +27,16 @@ const LoaderComponent = (props: LoaderComponentProps) => {
 
     return (
         <>
-            <Box>
-            {type === "progress" &&
-                <LinearProgress color={color}/>
-            }
-            {type === "spinner" &&
-                <CircularProgress color={color} size={sizeMap[size]}/>
-            }
-            </Box>
+            {/*<Box>*/}
+            {/*{type === "progress" &&*/}
+            {/*    <LinearProgress color={color}/>*/}
+            {/*}*/}
+            {/*{type === "spinner" &&*/}
+            {/*    <CircularProgress color={color} size={sizeMap[size]}/>*/}
+            {/*}*/}
+            {/*</Box>*/}
+
+            <div>Loading...</div>
         </>
     );
 };

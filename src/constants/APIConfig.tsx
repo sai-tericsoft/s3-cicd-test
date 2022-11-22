@@ -1,6 +1,13 @@
 import ENV from "./ENV";
 
-const APIConfig = {
+interface IAPIConfig {
+    [k: string]: {
+        URL: string,
+        METHOD: "get" | "post" | "delete" | "put"
+    }
+}
+
+const APIConfig: IAPIConfig = {
     // authentication start
     LOGIN: {
         URL: ENV.API_URL + "/login",
@@ -15,6 +22,13 @@ const APIConfig = {
         METHOD: "delete"
     },
     // authentication end
+
+    // service category start
+    SERVICE_CATEGORY_LIST: {
+        URL: ENV.API_URL + "/category",
+        METHOD: "get"
+    },
+    // service category end
 
     // GET_LOCATION_PHYSICIAN_LIST: {
     //     URL: (location_id: any) => ENV.API_URL + '/location/' + location_id + '/getPhysiciansList',
