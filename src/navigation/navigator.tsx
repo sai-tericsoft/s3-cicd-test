@@ -7,7 +7,7 @@ import {
     DASHBOARD,
     DESIGN_SYSTEM_ROUTE,
     LOGIN_ROUTE,
-    NOT_FOUND_ROUTE,
+    NOT_FOUND_ROUTE, SERVICE_CATEGORY_LIST,
     TEST_ROUTE
 } from "../constants/RoutesConfig";
 import TestScreen from "../screens/test/testScreen";
@@ -19,6 +19,9 @@ import ComingSoonScreen from "../screens/coming-soon/ComingSoonScreen";
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../store/reducers";
 import {CommonService} from "../shared/services";
+import AdminModuleLayoutScreen from "../screens/admin-module-layout/AdminModuleLayoutScreen";
+import ServiceCategoriesListScreen
+    from "../screens/admin/service-categories/service-categories-list/ServiceCategoriesListScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -82,6 +85,16 @@ const Navigator = (props: NavigatorProps) => {
                         </ProtectedRoute>
                     }
                 />
+                <Route element={<AdminModuleLayoutScreen/>}>
+                    <Route
+                        path={SERVICE_CATEGORY_LIST}
+                        element={
+                            <ProtectedRoute>
+                                <ServiceCategoriesListScreen/>
+                            </ProtectedRoute>
+                        }
+                    />
+                </Route>
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
             </Route>
             <Route element={<AuthLayout/>}>
