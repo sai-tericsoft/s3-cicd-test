@@ -6,9 +6,10 @@ import {IServiceCategory} from "../../../../shared/models/service-category.model
 import {CommonService} from "../../../../shared/services";
 import {IAPIResponseType} from "../../../../shared/models/api.model";
 import CardComponent from "../../../../shared/components/card/CardComponent";
-import {NavLink} from "react-router-dom";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../../constants";
+import ServiceCategoryCardComponent
+    from "../../../../shared/components/service-category-card/ServiceCategoryCardComponent";
 
 interface ServiceCategoriesListScreenProps {
 
@@ -76,32 +77,8 @@ const ServiceCategoriesListScreen = (props: ServiceCategoriesListScreenProps) =>
                                     <div className="service-category-list">
                                         {
                                             serviceCategoryList?.map((serviceCategory) => {
-                                                return <div
-                                                    className={`service-category-card ${serviceCategory.is_active ? "active" : "inactive"}`}>
-                                                    <div className="service-category-poster"
-                                                         style={{backgroundImage: "url('" + serviceCategory?.image_url + "')"}}
-                                                    />
-                                                    <div className="service-category-details">
-                                                        <div className="service-category-name">
-                                                            {serviceCategory?.name || "-"}
-                                                        </div>
-                                                        <div className="service-category-extra-details">
-                                                            <div className="service-category-service-count">
-                                                                {serviceCategory?.services_count || 0} Services
-                                                            </div>
-                                                            <div className="service-category-separator"/>
-                                                            <div
-                                                                className={`service-category-status `}>
-                                                                {serviceCategory.is_active ? "Active" : "Inactive"}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <NavLink to={CommonService._routeConfig.ComingSoonRoute()}>
-                                                        <div className="service-category-view-details">
-                                                            View Details
-                                                        </div>
-                                                    </NavLink>
-                                                </div>
+                                                return <ServiceCategoryCardComponent serviceCategory={serviceCategory}
+                                                                                     key={serviceCategory._id}/>
                                             })
                                         }
                                     </div>
