@@ -3,7 +3,7 @@ import {
     LOGIN_ROUTE,
     NOT_FOUND_ROUTE,
     TEST_ROUTE,
-    DASHBOARD, SERVICE_CATEGORY_LIST,
+    DASHBOARD, SERVICE_CATEGORY_LIST, ADMIN,
 } from "../../constants/RoutesConfig";
 
 const LoginRoute = () => {
@@ -30,13 +30,18 @@ const ServiceCategoryList = () => {
     return SERVICE_CATEGORY_LIST;
 }
 
+const Admin = () => {
+    return ADMIN;
+}
+
 const RouteConfigService = {
     LoginRoute,
     NotFoundRoute,
     TestRoute,
     ComingSoonRoute,
     Dashboard,
-    ServiceCategoryList
+    ServiceCategoryList,
+    Admin
 }
 
 export default RouteConfigService;

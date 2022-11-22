@@ -8,6 +8,7 @@ const RESTRICTED_ROUTE = "/restricted";
 const DESIGN_SYSTEM_ROUTE = "/ds";
 const COMING_SOON_ROUTE = "/coming-soon";
 const DASHBOARD = "/dashboard";
+const ADMIN = "/admin";
 const SERVICE_CATEGORY_LIST = "/admin/service-category-list";
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
@@ -19,6 +20,7 @@ export {
     TEST_ROUTE,
     DESIGN_SYSTEM_ROUTE,
     DASHBOARD,
+    ADMIN,
     RESTRICTED_ROUTE,
     SERVICE_CATEGORY_LIST
 }

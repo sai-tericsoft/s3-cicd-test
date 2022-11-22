@@ -1,6 +1,7 @@
 import "./AdminModuleLayoutScreen.scss";
 import {Link, NavLink, Outlet} from "react-router-dom";
 import {COMING_SOON_ROUTE, SERVICE_CATEGORY_LIST} from "../../constants/RoutesConfig";
+import {CommonService} from "../../shared/services";
 
 interface AdminModuleLayoutScreenProps {
 
@@ -8,12 +9,40 @@ interface AdminModuleLayoutScreenProps {
 
 const ADMIN_MENU_ITEMS = [
     {
-        title: "Service Category",
-        link: SERVICE_CATEGORY_LIST
+        title: "Facility Management",
+        link: CommonService._routeConfig.ComingSoonRoute()
     },
     {
-        title: "Facility Management",
-        link: COMING_SOON_ROUTE
+        title: "Service Category",
+        link: CommonService._routeConfig.ServiceCategoryList()
+    },
+    {
+        title: "System Settings",
+        link: CommonService._routeConfig.ComingSoonRoute()
+    },
+    {
+        title: "Forms",
+        link: CommonService._routeConfig.ComingSoonRoute()
+    },
+    {
+        title: "Appointments",
+        link: CommonService._routeConfig.ComingSoonRoute()
+    },
+    {
+        title: "Discounts",
+        link: CommonService._routeConfig.ComingSoonRoute()
+    },
+    {
+        title: "Referral Discounts",
+        link: CommonService._routeConfig.ComingSoonRoute()
+    },
+    {
+        title: "User Management",
+        link: CommonService._routeConfig.ComingSoonRoute()
+    },
+    {
+        title: "Access Management",
+        link: CommonService._routeConfig.ComingSoonRoute()
     }
 ]
 

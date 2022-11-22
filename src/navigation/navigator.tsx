@@ -3,6 +3,7 @@ import {Navigate, Route, Routes, useLocation, useNavigate} from 'react-router-do
 import NotFoundScreen from "../screens/not-found/notFoundScreen";
 import AuthLayout from "../layouts/auth-layout/AuthLayout";
 import {
+    ADMIN,
     COMING_SOON_ROUTE,
     DASHBOARD,
     DESIGN_SYSTEM_ROUTE,
@@ -85,7 +86,13 @@ const Navigator = (props: NavigatorProps) => {
                         </ProtectedRoute>
                     }
                 />
-                <Route element={<AdminModuleLayoutScreen/>}>
+                <Route path={ADMIN} element={<AdminModuleLayoutScreen/>}>
+                    <Route
+                        index
+                        element={
+                            <Navigate to={SERVICE_CATEGORY_LIST}/>
+                        }
+                    />
                     <Route
                         path={SERVICE_CATEGORY_LIST}
                         element={

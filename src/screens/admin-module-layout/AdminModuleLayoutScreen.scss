@@ -26,6 +26,10 @@
           font-weight: $font-weight-bolder;
           background: #E1EBEA;
         }
+        &:hover {
+          color: $primary-color;
+          background: #E1EBEA;
+        }
       }
     }
   }
