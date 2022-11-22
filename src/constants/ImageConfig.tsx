@@ -21,6 +21,10 @@ import {ReactComponent as SettingsIcon} from './../assets/icons/side-menu/settin
 import {ReactComponent as InventoryIcon} from './../assets/icons/side-menu/inventory.svg';
 import {ReactComponent as SchedulingIcon} from './../assets/icons/side-menu/scheduling.svg';
 
+// general
+import {ReactComponent as AddIcon} from './../assets/icons/add.svg';
+
+
 import PlaceHolderImage from '../assets/place_holder_image.png';
 
 
@@ -47,5 +51,6 @@ export {
     LogoSM,
 
     LeftArrow,
-    RightArrow
+    RightArrow,
+    AddIcon
 }

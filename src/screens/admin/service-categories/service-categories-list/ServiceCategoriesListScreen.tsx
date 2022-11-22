@@ -7,6 +7,8 @@ import {CommonService} from "../../../../shared/services";
 import {IAPIResponseType} from "../../../../shared/models/api.model";
 import CardComponent from "../../../../shared/components/card/CardComponent";
 import {NavLink} from "react-router-dom";
+import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
+import {ImageConfig} from "../../../../constants";
 
 interface ServiceCategoriesListScreenProps {
 
@@ -46,6 +48,18 @@ const ServiceCategoriesListScreen = (props: ServiceCategoriesListScreenProps) =>
 
     return (
         <div className={'service-category-list-screen'}>
+            <div className="service-category-list-header">
+                <div className="service-category-list-title">
+                    Service Category
+                </div>
+                <div className="service-category-list-options">
+                    <ButtonComponent
+                        prefixIcon={<ImageConfig.AddIcon/>}
+                    >
+                        Add Service Category
+                    </ButtonComponent>
+                </div>
+            </div>
             <div className="service-category-list-wrapper">
                 {
                     isServiceCategoryListLoading && <div>Loading</div>
@@ -62,7 +76,8 @@ const ServiceCategoriesListScreen = (props: ServiceCategoriesListScreenProps) =>
                                     <div className="service-category-list">
                                         {
                                             serviceCategoryList?.map((serviceCategory) => {
-                                                return <div className={`service-category-card ${serviceCategory.is_active ? "active" : "inactive"}`}>
+                                                return <div
+                                                    className={`service-category-card ${serviceCategory.is_active ? "active" : "inactive"}`}>
                                                     <div className="service-category-poster"
                                                          style={{backgroundImage: "url('" + serviceCategory?.image_url + "')"}}
                                                     />
