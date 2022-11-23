@@ -24,7 +24,7 @@ const ServiceCategoriesListScreen = (props: ServiceCategoriesListScreenProps) =>
     const [isServiceCategoryListLoading, setIsServiceCategoryListLoading] = useState<boolean>(false);
     const [isServiceCategoryListLoaded, setIsServiceCategoryListLoaded] = useState<boolean>(false);
     const [isServiceCategoryListLoadingFailed, setIsServiceCategoryListLoadingFailed] = useState<boolean>(false);
-    const [isServiceCategoryAddFormOpened, setIsServiceCategoryAddFormOpened] = useState<boolean>(true);
+    const [isServiceCategoryAddFormOpened, setIsServiceCategoryAddFormOpened] = useState<boolean>(false);
 
     const fetchServiceCategoryList = useCallback(() => {
         setIsServiceCategoryListLoading(true);
