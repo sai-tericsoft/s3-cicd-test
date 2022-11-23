@@ -1,22 +1,21 @@
 import {FormControlLabel, Radio} from "@mui/material";
 import {useCallback} from "react";
 import RadioGroup from '@mui/material/RadioGroup';
+import {IRadioProps} from "../../../models/form-controls.model";
 
-interface RadioButtonGroupComponentProps {
-    name?: string;
-    label?: string;
+interface RadioButtonGroupComponentProps extends IRadioProps{
+
     checked?: boolean;
-    options?: any[];
-    required?: boolean;
-    onChange?: (value: any) => void
     value?: any;
-    id?: any,
-    disabled?: boolean;
+
 }
 
 const RadioButtonGroupComponent = (props: RadioButtonGroupComponentProps) => {
 
-    const {value, options, name, onChange, checked, disabled, id, required} = props;
+    let {value, options, name, onChange, checked,titleKey, disabled, id, required,valueKey} = props;
+
+    if (!titleKey) titleKey = "title";
+    if (!valueKey) valueKey = "code";
 
     const handleOnChange = useCallback((value: any)=>{
         if (onChange){
@@ -25,17 +24,17 @@ const RadioButtonGroupComponent = (props: RadioButtonGroupComponentProps) => {
     }, [onChange]);
 
     return (<>
-            <RadioGroup name={name}>
+            <RadioGroup name={name} >
                 {
                     (options && options?.length > 0) && options.map((option: any, index) => {
                         return <RadioButtonComponent
                             key={option.code}
-                            value={option.code}
-                            checked={checked}
+                            value={valueKey ? option[valueKey] : option}
+                            checked={valueKey ? option[valueKey] === value : option === value}
                             required={required}
                             id={id}
                             disabled={disabled}
-                            label={option.title}
+                            label={titleKey ? option[titleKey] : option}
                             onChange={handleOnChange}
                         />
                     })

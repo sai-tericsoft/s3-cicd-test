@@ -13,6 +13,8 @@ import FormikSwitchComponent from "../../shared/components/form-controls/formik-
 import ModalComponent from "../../shared/components/modal/ModalComponent";
 import CardComponent from "../../shared/components/card/CardComponent";
 import RadioButtonGroupComponent from "../../shared/components/form-controls/radio-button/RadioButtonComponent";
+import FormikRadioButtonComponent
+    from "../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
 // import FormikRadioButtonComponent
 //     from "../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
 
@@ -30,11 +32,12 @@ const designSystemFormValidationSchema = Yup.object({
 
 const DesignSystemScreen = (props: DesignSystemScreenProps) => {
 
-const options=[{title: 'Male', code: 'm'}, {title: 'Female', code: 'f'}]
+    const options = [{title: 'Male', code: 'm'}, {title: 'Female', code: 'f'}]
     const [designSystemFormInitialValues] = useState({
         username: "",
         password: "",
         tnc: true,
+        gender: "f",
         accessAsAdmin: true,
 
     });
@@ -104,6 +107,15 @@ const options=[{title: 'Male', code: 'm'}, {title: 'Female', code: 'f'}]
                                                 )
                                             }
                                         </Field>
+                                        <Field name={'gender'} >
+
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikRadioButtonComponent formikField={field} options={options}
+                                                                              onChange={(value) => console.log(value)}/>
+                                                )
+                                            }
+                                        </Field>
                                         <Field name={'tnc'} className="t-form-control">
                                             {
                                                 (field: FieldProps) => (
@@ -152,6 +164,7 @@ const options=[{title: 'Male', code: 'm'}, {title: 'Female', code: 'f'}]
                                              }}>
                                             Terms and Conditions
                                         </div>
+
 
                                         <ButtonComponent
                                             suffixIcon={<Login/>}
@@ -207,13 +220,13 @@ const options=[{title: 'Male', code: 'm'}, {title: 'Female', code: 'f'}]
 
                 {/*<RadioButtonGroupComponent label={'Male'} name={'gender'} value={'1'}/>*/}
                 {/*<RadioButtonGroupComponent label={'Female'} name={'gender'} value={'2'}/>*/}
-
-                <RadioButtonGroupComponent name={"gender"} options={options} onChange={(value)=>{
-                    console.log(value);
-                }}/>
             </div>
         </div>
     )
 };
+
+// <RadioButtonGroupComponent  options={options} onChange={(value)=>{
+//     console.log(value);
+// }}/>
 
 export default DesignSystemScreen;
