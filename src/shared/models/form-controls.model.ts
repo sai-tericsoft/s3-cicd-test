@@ -46,3 +46,18 @@ export interface ISwitchProps {
     hasError?: boolean;
     errorMessage?: any;
 }
+
+export interface IRadioProps {
+    label: string;
+    className?: string;
+    color?: 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
+    disabled?: boolean;
+    id?: string;
+    name?: string;
+    onChange?: ((value?:string | undefined) => void);
+    required?: boolean;
+    size?: 'medium' | 'small';
+    hasError?: boolean;
+    errorMessage?:any;
+
+}

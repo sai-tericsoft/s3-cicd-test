@@ -12,6 +12,9 @@ import FormikCheckBoxComponent from "../../shared/components/form-controls/formi
 import FormikSwitchComponent from "../../shared/components/form-controls/formik-switch/FormikSwitchComponent";
 import ModalComponent from "../../shared/components/modal/ModalComponent";
 import CardComponent from "../../shared/components/card/CardComponent";
+import RadioButtonGroupComponent from "../../shared/components/form-controls/radio-button/RadioButtonComponent";
+// import FormikRadioButtonComponent
+//     from "../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
 
 interface DesignSystemScreenProps {
 
@@ -27,15 +30,18 @@ const designSystemFormValidationSchema = Yup.object({
 
 const DesignSystemScreen = (props: DesignSystemScreenProps) => {
 
+const options=[{title: 'Male', code: 'm'}, {title: 'Female', code: 'f'}]
     const [designSystemFormInitialValues] = useState({
         username: "",
         password: "",
         tnc: true,
         accessAsAdmin: true,
+
     });
 
     const [isFormSubmitting, setIsFormSubmitting] = useState(false);
     const [isTnCModalOpened, setIsTnCModalOpened] = useState(false);
+
 
     const onSubmit = useCallback((values: any) => {
         setIsFormSubmitting(true);
@@ -43,6 +49,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
             setIsFormSubmitting(false);
         }, 10000);
     }, []);
+
 
     return (
         <div className="design-system-screen screen">
@@ -123,6 +130,22 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                                 )
                                             }
                                         </Field>
+                                        {/*<Field name={'gender'}>*/}
+                                        {/*    {*/}
+
+                                        {/*        (field: FieldProps) => (*/}
+                                        {/*           <>*/}
+                                        {/*            <FormikRadioButtonComponent formikField={field} label={'Male'}*/}
+                                        {/*                                        id={'male'}*/}
+                                        {/*                                       />*/}
+                                        {/*        <FormikRadioButtonComponent formikField={field} label={'Female'}*/}
+                                        {/*        id={'female'}*/}
+                                        {/*     />*/}
+                                        {/*    </>  )*/}
+
+                                        {/*    }*/}
+
+                                        {/*</Field>*/}
                                         <div className="text-decoration-underline mrg-bottom-10 cursor-pointer"
                                              onClick={() => {
                                                  setIsTnCModalOpened(true);
@@ -181,6 +204,13 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
 
                     </div>
                 </CardComponent>
+
+                {/*<RadioButtonGroupComponent label={'Male'} name={'gender'} value={'1'}/>*/}
+                {/*<RadioButtonGroupComponent label={'Female'} name={'gender'} value={'2'}/>*/}
+
+                <RadioButtonGroupComponent name={"gender"} options={options} onChange={(value)=>{
+                    console.log(value);
+                }}/>
             </div>
         </div>
     )
