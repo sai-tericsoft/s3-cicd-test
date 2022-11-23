@@ -1,23 +1,19 @@
-import "./InputComponent.scss";
-import {FormControl, InputAdornment, TextField} from "@mui/material";
+import "./TextAreaComponent.scss";
+import {ITextAreaProps} from "../../../models/form-controls.model";
 import {useCallback} from "react";
-import {IInputFieldProps} from "../../../models/form-controls.model";
+import {FormControl, TextField} from "@mui/material";
 
-export interface InputComponentProps extends IInputFieldProps{
-    type?: 'email' | 'number' | 'password' | 'text';
-    prefix?: any;
-    suffix?: any;
-    rows?: number;
+interface TextAreaComponentProps extends ITextAreaProps {
+
 }
 
-const InputComponent = (props: InputComponentProps) => {
+const TextAreaComponent = (props: TextAreaComponentProps) => {
 
-    const {label, prefix, errorMessage, readOnly, suffix, hasError, className, inputProps, disabled, id, name, required, value, onChange} = props;
+    const {label, errorMessage, readOnly, hasError, className, inputProps, disabled, id, name, required, value, onChange} = props;
     const variant = props.variant || "outlined";
     const size = props.size || "medium";
-    const type = props.type || "text";
     const fullWidth = props.fullWidth || false;
-    const rows = props.rows || 1;
+    const rows = props.rows || 4;
     const placeholder = props.placeholder || label;
 
     const handleOnChange = useCallback((event: any) => {
@@ -26,11 +22,10 @@ const InputComponent = (props: InputComponentProps) => {
             onChange(value);
         }
     }, [onChange]);
-    
+
     return (
         <FormControl className={'input-component ' + className + ' ' + (fullWidth ? "full-width" : "")} error={hasError}>
-            <TextField type={type}
-                       id={id}
+            <TextField id={id}
                        fullWidth={fullWidth}
                        placeholder={placeholder}
                        required={required}
@@ -40,12 +35,8 @@ const InputComponent = (props: InputComponentProps) => {
                        value={value}
                        variant={variant}
                        disabled={disabled}
-                       multiline={rows > 1}
+                       multiline={true}
                        rows={rows}
-                       InputProps={{
-                           startAdornment: prefix && <InputAdornment position="start">{prefix}</InputAdornment>,
-                           endAdornment: suffix && <InputAdornment position="end">{suffix}</InputAdornment>,
-                       }}
                        inputProps={{
                            ...inputProps,
                            readOnly: readOnly
@@ -61,4 +52,4 @@ const InputComponent = (props: InputComponentProps) => {
 
 };
 
-export default InputComponent;
+export default TextAreaComponent;

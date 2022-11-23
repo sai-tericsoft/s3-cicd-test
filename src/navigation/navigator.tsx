@@ -11,7 +11,7 @@ import {
     NOT_FOUND_ROUTE, SERVICE_CATEGORY_LIST,
     TEST_ROUTE
 } from "../constants/RoutesConfig";
-import TestScreen from "../screens/test/testScreen";
+import TestScreen from "../screens/test/TestScreen";
 import DesignSystemScreen from "../screens/design-system/DesignSystemScreen";
 import LoginScreen from "../screens/auth/login/LoginScreen";
 import AppLayout from "../layouts/app-layout/AppLayout";

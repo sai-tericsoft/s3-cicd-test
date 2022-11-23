@@ -13,6 +13,8 @@ import FormikSwitchComponent from "../../shared/components/form-controls/formik-
 import ModalComponent from "../../shared/components/modal/ModalComponent";
 import CardComponent from "../../shared/components/card/CardComponent";
 import FilePickerComponent from "../../shared/components/file-picker/FilePickerComponent";
+import FilePreviewThumbnailComponent
+    from "../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 
 interface DesignSystemScreenProps {
 
@@ -186,6 +188,9 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                         }}
                         maxFiles={2}
                         acceptedFilesText={"PNG, JPG and JPEG files are allowed"}/>
+
+                    {/*<FilePreviewThumbnailComponent removable={true}/>*/}
+
                 </CardComponent>
             </div>
         </div>
