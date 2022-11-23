@@ -12,6 +12,7 @@ import FormikCheckBoxComponent from "../../shared/components/form-controls/formi
 import FormikSwitchComponent from "../../shared/components/form-controls/formik-switch/FormikSwitchComponent";
 import ModalComponent from "../../shared/components/modal/ModalComponent";
 import CardComponent from "../../shared/components/card/CardComponent";
+import FilePickerComponent from "../../shared/components/file-picker/FilePickerComponent";
 
 interface DesignSystemScreenProps {
 
@@ -178,8 +179,13 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                             expedita
                             hic itaque, maxime minus voluptatibus.
                         </ModalComponent>
-
                     </div>
+                    <FilePickerComponent
+                        acceptedFileTypes={{
+                            'image/*': []
+                        }}
+                        maxFiles={2}
+                        acceptedFilesText={"PNG, JPG and JPEG files are allowed"}/>
                 </CardComponent>
             </div>
         </div>

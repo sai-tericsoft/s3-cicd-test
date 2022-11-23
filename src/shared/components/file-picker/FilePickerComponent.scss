@@ -1,0 +1,36 @@
+@import "src/assets/styles/common";
+
+.file-picker-wrapper {
+
+  padding: 25px 50px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  border: $file-picker-border;
+  box-sizing: border-box;
+
+  &.drag-active {
+    box-shadow: 2px 2px 10px 5px #D9D9D9;
+  }
+
+  .file-dnd-icon {
+    font-size: 2.5714rem;
+    opacity: 0.7;
+  }
+
+  .file-dnd-dnd-title {
+    margin: 10px 0;
+    font-size: 1.1429rem;
+  }
+
+  .accepted-files-type-text {
+    color: #A9B2B9;
+    margin-top: 18px;
+  }
+
+  .file-dnd-selected-files-details {
+    margin: 10px 0;
+  }
+
+}

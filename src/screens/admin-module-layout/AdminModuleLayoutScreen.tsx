@@ -1,6 +1,5 @@
 import "./AdminModuleLayoutScreen.scss";
-import {Link, NavLink, Outlet} from "react-router-dom";
-import {COMING_SOON_ROUTE, SERVICE_CATEGORY_LIST} from "../../constants/RoutesConfig";
+import {NavLink, Outlet} from "react-router-dom";
 import {CommonService} from "../../shared/services";
 
 interface AdminModuleLayoutScreenProps {
