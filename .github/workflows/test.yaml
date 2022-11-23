@@ -19,7 +19,7 @@ jobs:
         run: yarn install
 
       - name: Run build task
-        run: yarn build:qa
+        run: yarn build:test
       - name: deploy to server
         uses: AEnterprise/rsync-deploy@v1.0
         env:
@@ -29,5 +29,5 @@ jobs:
           FOLDER: build/*
           SERVER_IP: ${{ secrets.KINERGY_IP }}
           USERNAME: ${{ secrets.USERNAME }}
-          SERVER_DESTINATION: ${{ secrets.DESTINATION }}
+          SERVER_DESTINATION: ${{ secrets.DESTINATION_TEST }}
           
