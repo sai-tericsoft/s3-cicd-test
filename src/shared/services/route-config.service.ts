@@ -3,7 +3,7 @@ import {
     LOGIN_ROUTE,
     NOT_FOUND_ROUTE,
     TEST_ROUTE,
-    DASHBOARD, SERVICE_CATEGORY_LIST, ADMIN,
+    DASHBOARD, SERVICE_CATEGORY_LIST, ADMIN, SERVICE_CATEGORY_DETAILS,
 } from "../../constants/RoutesConfig";
 
 const LoginRoute = () => {
@@ -30,9 +30,14 @@ const ServiceCategoryList = () => {
     return SERVICE_CATEGORY_LIST;
 }
 
+const ServiceCategoryDetails = ( serviceCategoryId: string ) => {
+    return SERVICE_CATEGORY_DETAILS + '/' + serviceCategoryId;
+}
+
 const Admin = () => {
     return ADMIN;
 }
+
 
 const RouteConfigService = {
     LoginRoute,
@@ -41,7 +46,8 @@ const RouteConfigService = {
     ComingSoonRoute,
     Dashboard,
     ServiceCategoryList,
-    Admin
+    Admin,
+    ServiceCategoryDetails
 }
 
 export default RouteConfigService;

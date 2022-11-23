@@ -2,6 +2,7 @@ import "./FilePreviewThumbnailComponent.scss";
 import ButtonComponent from "../button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
 import {useCallback, useEffect, useState} from "react";
+import AvatarComponent from "../avatar/AvatarComponent";
 
 interface FilePreviewThumbnailComponentProps {
     file: File;
@@ -63,7 +64,7 @@ const FilePreviewThumbnailComponent = (props: FilePreviewThumbnailComponentProps
             <div className="file-data">
                 <div className="file-preview-thumbnail">
                     {
-                        filePreviewURL && <img src={filePreviewURL} alt={fileName}/>
+                        filePreviewURL && <AvatarComponent url={filePreviewURL} title={fileName} type={"square"}></AvatarComponent>
                     }
                 </div>
                 <div className="file-name">
