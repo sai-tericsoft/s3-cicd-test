@@ -13,7 +13,7 @@ const FormikInputComponent = (props: FormikInputComponentProps) => {
     const {
         label, suffix, type, prefix,
         className, disabled, id, required,
-        formikField,
+        formikField, rows,
         onChange
     } = props;
 
@@ -55,6 +55,7 @@ const FormikInputComponent = (props: FormikInputComponentProps) => {
                         inputProps={{
                             onBlur: onInputBlur,
                         }}
+                        rows={rows}
                         onChange={textChangeHandler}
                         prefix={prefix}
                         suffix={suffix}

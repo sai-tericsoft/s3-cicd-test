@@ -1,0 +1,32 @@
+.form-control-label-component {
+  display: flex;
+  font-weight: 700;
+  line-height: 19px;
+  color: #212B36;
+  font-size: 14px;
+  margin-bottom: 15px;
+
+  &.sm {
+    font-size: 14px;
+  }
+
+  &.md {
+    font-size: 16px;
+  }
+
+  &.lg {
+    font-size: 20px;
+  }
+
+  &.xl {
+    font-size: 24px;
+  }
+
+  .form-control-label {
+
+  }
+
+  .form-control-required {
+
+  }
+}

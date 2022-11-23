@@ -2,6 +2,7 @@ import Drawer from '@mui/material/Drawer';
 import {ImageConfig} from "../../../constants";
 import * as React from "react";
 import {useCallback} from "react";
+import ToolTipComponent from "../tool-tip/ToolTipComponent";
 
 interface DrawerComponentProps {
     isOpen: boolean;
@@ -12,12 +13,13 @@ interface DrawerComponentProps {
     hideBackdrop?: boolean;
     closeOnEsc?: boolean;
     closeOnBackDropClick?: boolean;
-    direction?: "top" | "bottom" | "left" | "right"
+    direction?: "top" | "bottom" | "left" | "right";
+    closeButtonId?: string;
 }
 
 const DrawerComponent = (props: React.PropsWithChildren<DrawerComponentProps>) => {
 
-    const {isOpen, hideBackdrop, className, title, onClose, showClose, children} = props;
+    const {isOpen, hideBackdrop, className, title, onClose, showClose, closeButtonId, children} = props;
     const direction = props.direction || "right";
     const closeOnEsc = props.closeOnEsc  !== undefined ? props.closeOnEsc : true;
     const closeOnBackDropClick = props.closeOnBackDropClick  !== undefined ? props.closeOnBackDropClick : true;
@@ -53,10 +55,14 @@ const DrawerComponent = (props: React.PropsWithChildren<DrawerComponentProps>) =
                 {
                     (title || showClose) && <div className="drawer-header">
                         <div className="drawer-title">{title}</div>
-                        {showClose && <div className="drawer-close" onClick={(event) => {
-                            handleOnClose(event, 'closeBtnClick');
-                        }
-                        }><ImageConfig.CloseIcon/></div>}
+                        {showClose && <ToolTipComponent tooltip={"Close"} position={"left"}>
+                            <div className="drawer-close"
+                                 id={closeButtonId}
+                                 onClick={(event) => {
+                                handleOnClose(event, 'closeBtnClick');
+                            }
+                            }><ImageConfig.CloseIcon/></div>
+                        </ToolTipComponent>}
                     </div>
                 }
                 <div className="drawer-body">

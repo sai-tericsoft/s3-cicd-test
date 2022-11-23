@@ -9,6 +9,9 @@
   text-align: center;
   border: $file-picker-border;
   box-sizing: border-box;
+  //margin-bottom: 20px;
+  cursor: pointer;
+
 
   &.drag-active {
     box-shadow: 2px 2px 10px 5px #D9D9D9;
@@ -16,7 +19,7 @@
 
   .file-dnd-icon {
     font-size: 2.5714rem;
-    opacity: 0.7;
+    color: #CFDBDA;
   }
 
   .file-dnd-dnd-title {

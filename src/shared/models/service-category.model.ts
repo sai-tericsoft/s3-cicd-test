@@ -10,3 +10,8 @@ export interface IServiceCategory {
     image_url: string;
     services_count: number;
 }
+
+export interface IServiceCategoryAddForm {
+    name: string;
+    image: any;
+}
