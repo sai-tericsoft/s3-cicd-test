@@ -1,0 +1,33 @@
+name: ADMIN TEST CI&CD setup
+
+on:
+  push:
+    tags:
+      - "*"
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Install Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
+      - name: Install yarn dependencies
+        run: yarn install
+
+      - name: Run build task
+        run: yarn build:qa
+      - name: deploy to server
+        uses: AEnterprise/rsync-deploy@v1.0
+        env:
+          DEPLOY_KEY: ${{ secrets.KINERGY_PEM }}
+          ARGS: "-e -c -r --delete"
+          SERVER_PORT: 22
+          FOLDER: build/*
+          SERVER_IP: ${{ secrets.KINERGY_IP }}
+          USERNAME: ${{ secrets.USERNAME }}
+          SERVER_DESTINATION: ${{ secrets.DESTINATION }}
+          
