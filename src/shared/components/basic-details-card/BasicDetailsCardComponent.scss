@@ -1,0 +1,47 @@
+@import "src/assets/styles/common";
+
+.basic-details-card {
+  background: #EAF3F2;
+  border: 1px solid #E2E2E2;
+  border-radius: 4px;
+  padding: 27px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .basic-details-card-avatar {
+
+  }
+
+  .basic-details-card-meta {
+    margin: 0 20px;
+    flex: 1;
+
+    .basic-details-card-name-status {
+      display: flex;
+      align-items: center;
+
+      .basic-details-card-name {
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 28px;
+        letter-spacing: 0.5px;
+        color: #212B36;
+        margin-right: 10px;
+      }
+
+      .basic-details-card-status {
+
+      }
+    }
+
+    .basic-details-card-description {
+      letter-spacing: 0.5px;
+      color: #858F94;
+    }
+  }
+
+  .basic-details-card-actions {
+    display: flex;
+  }
+}

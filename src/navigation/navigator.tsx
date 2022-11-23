@@ -8,7 +8,7 @@ import {
     DASHBOARD,
     DESIGN_SYSTEM_ROUTE,
     LOGIN_ROUTE,
-    NOT_FOUND_ROUTE, SERVICE_CATEGORY_LIST,
+    NOT_FOUND_ROUTE, SERVICE_CATEGORY_DETAILS, SERVICE_CATEGORY_LIST,
     TEST_ROUTE
 } from "../constants/RoutesConfig";
 import TestScreen from "../screens/test/TestScreen";
@@ -23,6 +23,8 @@ import {CommonService} from "../shared/services";
 import AdminModuleLayoutScreen from "../screens/admin-module-layout/AdminModuleLayoutScreen";
 import ServiceCategoriesListScreen
     from "../screens/admin/service-categories/service-categories-list/ServiceCategoriesListScreen";
+import ServiceCategoryDetailsScreen
+    from "../screens/admin/service-categories/service-category-details/ServiceCategoryDetailsScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -102,6 +104,14 @@ const Navigator = (props: NavigatorProps) => {
                         }
                     />
                 </Route>
+                <Route
+                    path={SERVICE_CATEGORY_DETAILS + '/:serviceCategoryId'}
+                    element={
+                        <ProtectedRoute>
+                            <ServiceCategoryDetailsScreen/>
+                        </ProtectedRoute>
+                    }
+                />
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
             </Route>
             <Route element={<AuthLayout/>}>

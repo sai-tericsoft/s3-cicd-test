@@ -7,6 +7,7 @@ import {logout} from "../../../../store/actions/account.action";
 import {CommonService} from "../../../services";
 import ButtonComponent from "../../button/ButtonComponent";
 import {useNavigate} from "react-router-dom";
+import {useCallback} from "react";
 
 interface HeaderComponentProps {
 
@@ -14,17 +15,31 @@ interface HeaderComponentProps {
 
 const HeaderComponent = (props: HeaderComponentProps) => {
 
-    const {currentNavParams} = useSelector((state: IRootReducerState) => state.navigation);
+    const {currentNavParams, canNavigateBack} = useSelector((state: IRootReducerState) => state.navigation);
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const title = currentNavParams.title;
     const userProfilePicture = undefined;
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const handleNavigateBack = useCallback(() => {
+        navigate(-1);
+    }, []);
+
     return (
         <div className="header-component">
-            <div className="header-title">
-                {title}
+            <div className="header-title-nav-back">
+                {
+                    canNavigateBack &&
+                    <ButtonComponent isIconButton={true}
+                                     onClick={handleNavigateBack}
+                                     className={"header-nav-back"}>
+                        <ImageConfig.NavigateBack/>
+                    </ButtonComponent>
+                }
+                <div className="header-title">
+                    {title}
+                </div>
             </div>
             <div className="header-options">
                 <div className="header-option lock">

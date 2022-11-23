@@ -1,3 +1,5 @@
+@import "src/assets/styles/common";
+
 .header-component {
   display: flex;
   align-items: center;
@@ -5,8 +7,15 @@
   z-index: 1;
   width: 100%;
 
-  .header-title {
+  .header-title-nav-back {
+    display: flex;
+    align-items: center;
 
+    .header-title {
+      font-weight: $font-weight-bolder;
+      font-size: 1.2857rem;
+      letter-spacing: 0.5px;
+    }
   }
 
   .header-options {

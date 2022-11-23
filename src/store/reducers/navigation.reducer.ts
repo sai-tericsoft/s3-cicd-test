@@ -3,6 +3,7 @@ import {SET_CURRENT_NAV_PARAMS, SET_SIDE_MENU_VIEW} from "../actions/navigation.
 
 export interface INavigationReducerState {
     sideMenuView: "compact" | "default";
+    canNavigateBack?: boolean;
     currentNavParams: {
         title: string,
         meta: any
@@ -15,6 +16,7 @@ export interface INavigationReducerState {
 
 const INITIAL_STATE: INavigationReducerState = {
     sideMenuView: "default",
+    canNavigateBack: false,
     currentNavParams: {
         title: "",
         meta: undefined
@@ -26,6 +28,7 @@ const navigationReducer = (state: INavigationReducerState = INITIAL_STATE, actio
         case SET_CURRENT_NAV_PARAMS:
             return {
                 ...state,
+                canNavigateBack: action.payload.canNavigateBack,
                 prevNavParams: {
                     title: state.currentNavParams.title,
                     meta: state.currentNavParams.meta,

@@ -4,6 +4,8 @@ import {ReactComponent as userIcon} from './../assets/icons/user_icon.svg';
 import {ReactComponent as LockIcon} from '../assets/icons/header/lock.svg';
 import {ReactComponent as ProfileIcon} from '../assets/icons/header/profile.svg';
 import {ReactComponent as CloseIcon} from '../assets/icons/close.svg';
+import {ReactComponent as NavigateBack} from '../assets/icons/header/navigate_back.svg';
+import {ReactComponent as EditIcon} from '../assets/icons/edit.svg';
 import {ReactComponent as UploadIcon} from '../assets/icons/upload.svg';
 import {ReactComponent as SelectDropDownIcon} from './../assets/icons/select_dropdown.svg';
 
@@ -54,5 +56,7 @@ export {
 
     LeftArrow,
     RightArrow,
-    AddIcon
+    AddIcon,
+    NavigateBack,
+    EditIcon
 }
