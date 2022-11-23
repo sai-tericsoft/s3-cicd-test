@@ -45,6 +45,7 @@ export interface ISwitchProps {
     size?: "medium" | "small";
     hasError?: boolean;
     errorMessage?: any;
+    labelPlacement?: 'bottom' | 'end' | 'start' | 'top';
 }
 
 export interface ITextAreaProps {

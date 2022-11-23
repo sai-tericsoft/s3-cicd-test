@@ -1,5 +1,5 @@
-import "./ServiceCategoryAddComponent.scss";
-import {IServiceCategory, IServiceCategoryAddForm} from "../../../../shared/models/service-category.model";
+import "./ServiceCategoryEditComponent.scss";
+import {IServiceCategory, IServiceCategoryEditForm} from "../../../../shared/models/service-category.model";
 import * as Yup from "yup";
 import {useCallback, useEffect, useState} from "react";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
@@ -16,56 +16,80 @@ import FilePreviewThumbnailComponent
     from "../../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import FormikTextAreaComponent
     from "../../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
+import FormikSwitchComponent from "../../../../shared/components/form-controls/formik-switch/FormikSwitchComponent";
 
-interface ServiceCategoryAddComponentProps {
-    onAdd: (data: IServiceCategory) => void;
+interface ServiceCategoryEditComponentProps {
+    serviceCategory: IServiceCategory;
+    onEdit: (data: IServiceCategory) => void;
 }
 
-const serviceCategoryAddFormValidationSchema = Yup.object({
+const serviceCategoryEditFormValidationSchema = Yup.object({
     name: Yup.string()
         .required("Name is required"),
     description: Yup.string()
         .nullable(),
     image: Yup.mixed()
-        .required("Image is required")
+        .required("Image is required"),
+    is_active: Yup.mixed()
+        .required("Is active is required"),
 });
 
-const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) => {
+const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) => {
 
-    const {onAdd} = props;
+    const {serviceCategory, onEdit} = props;
+    
+    console.log(serviceCategory);
 
-    const [serviceCategoryAddFormInitialValues] = useState<IServiceCategoryAddForm>({
+    const [serviceCategoryEditFormInitialValues, setServiceCategoryEditFormInitialValues] = useState<IServiceCategoryEditForm>({
         name: "",
-        description: "",
         image: "",
+        description: "",
+        is_active: false
     });
 
-    const [isServiceCategoryAddInProgress, setIsServiceCategoryAddInProgress] = useState(false);
+    const [isServiceCategoryEditInProgress, setIsServiceCategoryEditInProgress] = useState(false);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        setIsServiceCategoryAddInProgress(true);
+        setIsServiceCategoryEditInProgress(true);
         const formData = CommonService.getFormDataFromJSON(values);
-        CommonService._serviceCategory.ServiceCategoryAddAPICall(formData)
+        CommonService._serviceCategory.ServiceCategoryEditAPICall(serviceCategory._id, formData)
             .then((response: IAPIResponseType<IServiceCategory>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                setIsServiceCategoryAddInProgress(false);
-                onAdd(response.data);
+                setIsServiceCategoryEditInProgress(false);
+                onEdit(response.data);
             })
             .catch((error: any) => {
                 CommonService.handleErrors(setErrors, error);
-                setIsServiceCategoryAddInProgress(false);
+                setIsServiceCategoryEditInProgress(false);
             })
-    }, [onAdd]);
+    }, [serviceCategory, onEdit]);
+
+    useEffect(() => {
+        if (serviceCategory) {
+            setServiceCategoryEditFormInitialValues({
+                name: serviceCategory.name,
+                description: serviceCategory.description,
+                image: undefined,
+                is_active: serviceCategory.is_active
+            });
+            CommonService.generateBlobFileFromUrl(serviceCategory.image_url, serviceCategory.name, "image/jpg")
+                .then((response) => {
+                    setServiceCategoryEditFormInitialValues((oldSate) => {
+                        return {
+                            ...oldSate,
+                            image: response
+                        }
+                    })
+                });
+        }
+    }, [serviceCategory]);
 
     return (
         <div className="service-category-add-component">
             <div className="service-category-add-form-container">
-                <FormControlLabelComponent label={"Add New Service Category"}
-                                           size={"lg"}
-                                           required={true}/>
                 <Formik
-                    validationSchema={serviceCategoryAddFormValidationSchema}
-                    initialValues={serviceCategoryAddFormInitialValues}
+                    validationSchema={serviceCategoryEditFormValidationSchema}
+                    initialValues={serviceCategoryEditFormInitialValues}
                     validateOnChange={false}
                     validateOnBlur={true}
                     enableReinitialize={true}
@@ -79,6 +103,27 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
                         }, [validateForm, values]);
                         return (
                             <Form className="t-form" noValidate={true}>
+                                <div className={"mrg-bottom-20 display-flex align-items-center justify-content-space-between"}>
+                                    <FormControlLabelComponent label={"Edit Service Category"}
+                                                               size={"lg"}
+                                                               className={"mrg-bottom-0"}
+                                                               required={true}/>
+                                    <div className={"display-flex align-items-center"}>
+                                        <div>Status:</div>
+                                        <Field name={'is_active'} className="t-form-control">
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikSwitchComponent
+                                                        label={values.is_active ? "Active" : "Inactive"}
+                                                        required={true}
+                                                        formikField={field}
+                                                        labelPlacement={"start"}
+                                                    />
+                                                )
+                                            }
+                                        </Field>
+                                    </div>
+                                </div>
                                 <div className="t-form-controls">
                                     <Field name={'name'} className="t-form-control">
                                         {
@@ -152,12 +197,12 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
                                 </div>
                                 <div className="t-form-actions">
                                     <ButtonComponent
-                                        isLoading={isServiceCategoryAddInProgress}
+                                        isLoading={isServiceCategoryEditInProgress}
                                         type={"submit"}
                                         fullWidth={true}
                                         id={"sc_save_btn"}
                                     >
-                                        {isServiceCategoryAddInProgress ? "Saving" : "Save"}
+                                        {isServiceCategoryEditInProgress ? "Saving" : "Save"}
                                     </ButtonComponent>
                                 </div>
                             </Form>
@@ -170,4 +215,4 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
 
 };
 
-export default ServiceCategoryAddComponent;
+export default ServiceCategoryEditComponent;

@@ -24,7 +24,7 @@ const HeaderComponent = (props: HeaderComponentProps) => {
 
     const handleNavigateBack = useCallback(() => {
         navigate(-1);
-    }, []);
+    }, [navigate]);
 
     return (
         <div className="header-component">

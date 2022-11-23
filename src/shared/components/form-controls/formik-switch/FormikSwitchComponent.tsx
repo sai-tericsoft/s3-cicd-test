@@ -12,6 +12,8 @@ interface FormikSwitchComponentProps extends ISwitchProps {
 const FormikSwitchComponent = (props: FormikSwitchComponentProps) => {
 
     const {formikField, color, size, id, label, disabled, onChange, required} = props;
+    const labelPlacement = props.labelPlacement || 'end';
+
     const {field, form} = formikField;
     const {name, value} = field;
     const {setFieldTouched, touched, errors, setFieldValue} = form;
@@ -32,6 +34,7 @@ const FormikSwitchComponent = (props: FormikSwitchComponentProps) => {
             name={name}
             checked={value}
             label={label}
+            labelPlacement={labelPlacement}
             id={id}
             required={required}
             disabled={disabled}

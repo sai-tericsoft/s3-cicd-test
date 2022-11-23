@@ -158,6 +158,7 @@ $overflow-options: (visible, hidden, scroll, auto, none);
     overflow: #{$overflow-option} !important;
   }
 }
+
 // element overflow helpers ---< End
 
 
@@ -221,15 +222,17 @@ $align-items-options: (normal, stretch, center, start, end, flex-start, flex-end
     align-items: #{$align-items-option} !important;
   }
 }
+
 // align-items helpers ---< End
 
 //  text-decoration helpers ---> Start
-$text-decoration-options: (underline, overline red, none,inherit,initial,revert,unset);
+$text-decoration-options: (underline, overline red, none, inherit, initial, revert, unset);
 @each $text-decoration-option in $text-decoration-options {
   .text-decoration-#{$text-decoration-option} {
     text-decoration: #{$text-decoration-option} !important;
   }
 }
+
 // text-decoration helpers ---< End
 
 //  text-transform helpers ---> Start
@@ -239,15 +242,17 @@ $text-transform-options: (none, capitalize, uppercase, lowercase, full-width, fu
     text-transform: #{$text-transform-option} !important;
   }
 }
+
 // text-transform helpers ---< End
 
 //  visibility helpers ---> Start
-$visibility-options: (visible ,hidden ,collapse ,inherit ,initial ,revert ,revert-layer ,unset);
+$visibility-options: (visible, hidden, collapse, inherit, initial, revert, revert-layer, unset);
 @each $visibility-option in $visibility-options {
   .visibility-#{$visibility-option} {
     visibility: #{$visibility-option} !important;
   }
 }
+
 // visibility helpers ---< End
 
 
@@ -257,3 +262,10 @@ $visibility-options: (visible ,hidden ,collapse ,inherit ,initial ,revert ,rever
   justify-content: center;
 }
 
+.success {
+  color: #00534F;
+}
+
+.error {
+  color: #FA6187;
+}
