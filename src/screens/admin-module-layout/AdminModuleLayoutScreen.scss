@@ -8,6 +8,7 @@
     border: 1px solid #E7E7E7;
     border-radius: 8px;
     min-width: 216px;
+    height: 100%;
 
     .admin-module-menu {
       display: flex;
@@ -20,6 +21,7 @@
         color: $text-light-2;
         border-left: 4px solid transparent;
         border-radius: 4px;
+        margin-bottom: 2px;
 
         &.active {
           border-left-color: $primary-color;
