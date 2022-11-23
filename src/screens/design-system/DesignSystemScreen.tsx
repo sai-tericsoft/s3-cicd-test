@@ -13,8 +13,6 @@ import FormikSwitchComponent from "../../shared/components/form-controls/formik-
 import ModalComponent from "../../shared/components/modal/ModalComponent";
 import CardComponent from "../../shared/components/card/CardComponent";
 import FilePickerComponent from "../../shared/components/file-picker/FilePickerComponent";
-import FilePreviewThumbnailComponent
-    from "../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 
 interface DesignSystemScreenProps {
 

@@ -36,6 +36,10 @@ const APIConfig: IAPIConfig = {
         URL: (serviceCategoryId: string) => ENV.API_URL + '/category/' + serviceCategoryId,
         METHOD: "get"
     },
+    SERVICE_CATEGORY_EDIT: {
+        URL: (serviceCategoryId: string) => ENV.API_URL + '/category/' + serviceCategoryId,
+        METHOD: "put"
+    },
     // service category end
 
     // GET_LOCATION_PHYSICIAN_LIST: {

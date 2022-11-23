@@ -17,15 +17,6 @@ const FilePreviewThumbnailComponent = (props: FilePreviewThumbnailComponentProps
     const [filePreviewURL, setFilePreviewURL] = useState<string | null>("");
     const [fileName, setFileName] = useState<string>("");
 
-    useEffect(() => {
-        console.log(file);
-        const name = file.name;
-        setFileName(name);
-        const type = file.type;
-        getFileThumbnail(type, file, (thumbnailURL: string) => {
-            setFilePreviewURL(thumbnailURL);
-        });
-    }, [file]);
 
     const getFileThumbnail = useCallback((type: string, file: File, cb: (thumbnailURL: string) => void) => {
         if (type.includes('image')) {
@@ -51,6 +42,16 @@ const FilePreviewThumbnailComponent = (props: FilePreviewThumbnailComponentProps
                 break;
         }
     }, []);
+
+    useEffect(() => {
+        console.log(file);
+        const name = file.name;
+        setFileName(name);
+        const type = file.type;
+        getFileThumbnail(type, file, (thumbnailURL: string) => {
+            setFilePreviewURL(thumbnailURL);
+        });
+    }, [getFileThumbnail, file]);
 
     const handleFileRemove = useCallback(() => {
         if (onRemove) {

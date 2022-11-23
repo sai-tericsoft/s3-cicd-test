@@ -117,7 +117,6 @@ const ServiceCategoriesListScreen = (props: ServiceCategoriesListScreenProps) =>
                              onClose={closeServiceCategoryAddFormDrawer}>
                 <ServiceCategoryAddComponent onAdd={handleServiceCategoryAdd}/>
             </DrawerComponent>
-
         </div>
     );
 

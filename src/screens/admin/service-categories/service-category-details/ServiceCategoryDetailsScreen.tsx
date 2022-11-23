@@ -9,6 +9,8 @@ import {useParams} from "react-router-dom";
 import BasicDetailsCardComponent from "../../../../shared/components/basic-details-card/BasicDetailsCardComponent";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../../constants";
+import DrawerComponent from "../../../../shared/components/drawer/DrawerComponent";
+import ServiceCategoryEditComponent from "../service-category-edit/ServiceCategoryEditComponent";
 
 interface ServiceCategoryDetailsScreenProps {
 
@@ -22,6 +24,7 @@ const ServiceCategoryDetailsScreen = (props: ServiceCategoryDetailsScreenProps) 
     const [isServiceCategoryDetailsLoading, setIsServiceCategoryDetailsLoading] = useState<boolean>(false);
     const [isServiceCategoryDetailsLoaded, setIsServiceCategoryDetailsLoaded] = useState<boolean>(false);
     const [isServiceCategoryDetailsLoadingFailed, setIsServiceCategoryDetailsLoadingFailed] = useState<boolean>(false);
+    const [isServiceCategoryEditFormOpened, setIsServiceCategoryEditFormOpened] = useState<boolean>(false);
 
     const fetchServiceCategoryDetails = useCallback((serviceCategoryId: string) => {
         setIsServiceCategoryDetailsLoading(true);
@@ -48,6 +51,19 @@ const ServiceCategoryDetailsScreen = (props: ServiceCategoryDetailsScreenProps) 
         dispatch(setCurrentNavParams(serviceCategoryDetails?.name || "Service Category", null, true));
     }, [serviceCategoryDetails, dispatch]);
 
+    const openServiceCategoryEditFormDrawer = useCallback(() => {
+        setIsServiceCategoryEditFormOpened(true);
+    }, []);
+
+    const closeServiceCategoryEditFormDrawer = useCallback(() => {
+        setIsServiceCategoryEditFormOpened(false);
+    }, []);
+
+    const handleServiceCategoryEdit = useCallback((serviceCategory: IServiceCategory) => {
+        setServiceCategoryDetails(serviceCategory);
+        closeServiceCategoryEditFormDrawer();
+    }, [closeServiceCategoryEditFormDrawer]);
+
     return (
         <div className={'service-category-details-screen'}>
             {
@@ -67,6 +83,7 @@ const ServiceCategoryDetailsScreen = (props: ServiceCategoryDetailsScreenProps) 
                             actions={<>
                                 <ButtonComponent
                                     prefixIcon={<ImageConfig.EditIcon/>}
+                                    onClick={openServiceCategoryEditFormDrawer}
                                 >
                                     Edit Details
                                 </ButtonComponent>
@@ -75,6 +92,19 @@ const ServiceCategoryDetailsScreen = (props: ServiceCategoryDetailsScreenProps) 
                     </div>
                 </>
             }
+            <DrawerComponent isOpen={isServiceCategoryEditFormOpened}
+                             showClose={true}
+                             closeOnEsc={false}
+                             closeOnBackDropClick={false}
+                             closeButtonId={"sc_close_btn"}
+                             className={"t-side-bar-form service-category-add-form-drawer"}
+                             onClose={closeServiceCategoryEditFormDrawer}>
+                {
+                    serviceCategoryDetails && <ServiceCategoryEditComponent
+                        serviceCategory={serviceCategoryDetails}
+                        onEdit={handleServiceCategoryEdit}/>
+                }
+            </DrawerComponent>
         </div>
     );
 

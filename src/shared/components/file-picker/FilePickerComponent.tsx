@@ -60,7 +60,7 @@ const FilePickerComponent = (props: FilePickerComponentProps) => {
         if (onFilesDrop) {
             onFilesDrop(acceptedFiles, rejectedFiles);
         }
-    }, [onFilesDrop]);
+    }, [maxFiles, onFilesDrop]);
 
     const {
         getRootProps,
