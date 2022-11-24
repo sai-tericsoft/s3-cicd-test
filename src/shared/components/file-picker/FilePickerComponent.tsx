@@ -92,3 +92,14 @@ const FilePickerComponent = (props: FilePickerComponentProps) => {
 };
 
 export default FilePickerComponent;
+
+// ****************************** USAGE ****************************** //
+
+// <FilePickerComponent
+//     acceptedFileTypes={{
+//         'image/*': []
+//     }}
+//     maxFileCount={2}
+//     acceptedFilesText={"PNG, JPG and JPEG files are allowed"}/>
+
+// ****************************** USAGE ****************************** //
