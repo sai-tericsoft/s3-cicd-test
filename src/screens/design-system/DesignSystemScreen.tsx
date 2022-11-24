@@ -195,13 +195,6 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                             hic itaque, maxime minus voluptatibus.
                         </ModalComponent>
                     </div>
-                    <FilePickerComponent
-                        acceptedFileTypes={{
-                            'image/*': []
-                        }}
-                        maxFileCount={2}
-                        acceptedFilesText={"PNG, JPG and JPEG files are allowed"}/>
-
                 </CardComponent>
             </div>
         </div>
