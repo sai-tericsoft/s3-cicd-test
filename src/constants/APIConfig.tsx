@@ -47,6 +47,11 @@ const APIConfig: IAPIConfig = {
         URL: (serviceCategoryId: string) => ENV.API_URL + "/category/" + serviceCategoryId + "/service",
         METHOD: "get"
     },
+    SERVICE_DETAILS: {
+        URL: (serviceId: string) => ENV.API_URL + '/service/' + serviceId,
+        METHOD: "get"
+    },
+    // service end
 
     // GET_LOCATION_PHYSICIAN_LIST: {
     //     URL: (location_id: any) => ENV.API_URL + '/location/' + location_id + '/getPhysiciansList',

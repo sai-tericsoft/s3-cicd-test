@@ -8,7 +8,10 @@ import {
     DASHBOARD,
     DESIGN_SYSTEM_ROUTE,
     LOGIN_ROUTE,
-    NOT_FOUND_ROUTE, SERVICE_CATEGORY_DETAILS, SERVICE_CATEGORY_LIST,
+    NOT_FOUND_ROUTE,
+    SERVICE_CATEGORY_DETAILS,
+    SERVICE_CATEGORY_LIST,
+    SERVICE_DETAILS,
     TEST_ROUTE
 } from "../constants/RoutesConfig";
 import TestScreen from "../screens/test/TestScreen";
@@ -25,6 +28,7 @@ import ServiceCategoriesListScreen
     from "../screens/admin/service-categories/service-categories-list/ServiceCategoriesListScreen";
 import ServiceCategoryDetailsScreen
     from "../screens/admin/service-categories/service-category-details/ServiceCategoryDetailsScreen";
+import ServiceDetailsScreen from "../screens/admin/service/service-details/ServiceDetailsScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -109,6 +113,14 @@ const Navigator = (props: NavigatorProps) => {
                     element={
                         <ProtectedRoute>
                             <ServiceCategoryDetailsScreen/>
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path={SERVICE_DETAILS + '/:serviceId'}
+                    element={
+                        <ProtectedRoute>
+                            <ServiceDetailsScreen/>
                         </ProtectedRoute>
                     }
                 />

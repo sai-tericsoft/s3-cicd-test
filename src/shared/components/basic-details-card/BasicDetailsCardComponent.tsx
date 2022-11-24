@@ -3,6 +3,7 @@ import AvatarComponent from "../avatar/AvatarComponent";
 import ChipComponent from "../chip/ChipComponent";
 
 interface BasicDetailsCardComponentProps {
+    legend?: string;
     title?: string;
     avatarUrl?: string;
     status?: boolean;
@@ -12,7 +13,7 @@ interface BasicDetailsCardComponentProps {
 
 const BasicDetailsCardComponent = (props: BasicDetailsCardComponentProps) => {
 
-    const {title, avatarUrl, subTitle, status, actions} = props;
+    const {legend, title, avatarUrl, subTitle, status, actions} = props;
 
     return (
         <div className={'basic-details-card-component'}>
@@ -24,11 +25,14 @@ const BasicDetailsCardComponent = (props: BasicDetailsCardComponentProps) => {
                         title={title}/>
                 </div>
                 <div className="basic-details-card-meta">
-                    <div className="basic-details-card-name-status">
-                        <div className="basic-details-card-name">{title}</div>
-                        <div
-                            className="basic-details-card-status">
-                            <ChipComponent label={status ? "Active" : "Inactive"} color={status ? "success" : "error"}/>
+                    <div className="basic-details-card-legend-name-status">
+                        {legend && <div className="basic-details-card-legend">{legend}</div>}
+                        <div className="basic-details-card-name-status">
+                            <div className="basic-details-card-name">{title}</div>
+                            <div
+                                className="basic-details-card-status">
+                                <ChipComponent label={status ? "Active" : "Inactive"} color={status ? "success" : "error"}/>
+                            </div>
                         </div>
                     </div>
                     <div className="basic-details-card-description">
