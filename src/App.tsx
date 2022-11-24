@@ -41,7 +41,7 @@ export const themeOptions: ThemeOptions = {
         },
         success: {
             main: ColorConfig.success,
-            contrastText: '#FFF'
+            contrastText: ColorConfig.successContrastText
         },
         warning: {
             main: ColorConfig.warn,

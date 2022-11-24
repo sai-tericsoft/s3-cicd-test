@@ -1,0 +1,12 @@
+.link-component {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.002em;
+  text-decoration-line: underline;
+  color: #212B36;
+
+  &:hover {
+    color: #212B36;
+  }
+}

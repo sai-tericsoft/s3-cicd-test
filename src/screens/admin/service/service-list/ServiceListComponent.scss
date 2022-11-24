@@ -1,0 +1,19 @@
+@import "src/assets/styles/common";
+
+.service-list-component {
+  margin-top: 15px;
+
+  .service-list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+
+    .service-list-title {
+      font-weight: $font-weight-bolder;
+      font-size: 1.4286rem;
+      letter-spacing: 0.5px;
+      color: $text-light-2;
+    }
+  }
+}

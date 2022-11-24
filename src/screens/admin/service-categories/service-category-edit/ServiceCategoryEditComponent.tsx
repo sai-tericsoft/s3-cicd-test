@@ -37,7 +37,7 @@ const serviceCategoryEditFormValidationSchema = Yup.object({
 const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) => {
 
     const {serviceCategory, onEdit} = props;
-    
+
     console.log(serviceCategory);
 
     const [serviceCategoryEditFormInitialValues, setServiceCategoryEditFormInitialValues] = useState<IServiceCategoryEditForm>({
@@ -72,7 +72,7 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                 image: undefined,
                 is_active: serviceCategory.is_active
             });
-            CommonService.generateBlobFileFromUrl(serviceCategory.image_url, serviceCategory.name, "image/jpg")
+            CommonService.generateBlobFileFromUrl(serviceCategory.image.url, serviceCategory.name, serviceCategory.image.type)
                 .then((response) => {
                     setServiceCategoryEditFormInitialValues((oldSate) => {
                         return {
@@ -103,7 +103,8 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                         }, [validateForm, values]);
                         return (
                             <Form className="t-form" noValidate={true}>
-                                <div className={"mrg-bottom-20 display-flex align-items-center justify-content-space-between"}>
+                                <div
+                                    className={"mrg-bottom-20 display-flex align-items-center justify-content-space-between"}>
                                     <FormControlLabelComponent label={"Edit Service Category"}
                                                                size={"lg"}
                                                                className={"mrg-bottom-0"}

@@ -16,7 +16,7 @@ const ServiceCategoryCardComponent = (props: ServiceCategoryCardComponentProps) 
         <div
             className={`service-category-card ${serviceCategory.is_active ? "active" : "inactive"}`}>
             <div className="service-category-poster"
-                 style={{backgroundImage: "url('" + serviceCategory?.image_url + "')"}}
+                 style={{backgroundImage: "url('" + serviceCategory?.image?.url + "')"}}
             />
             <div className="service-category-details">
                 <ToolTipComponent tooltip={serviceCategory?.name || "-"}>

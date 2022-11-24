@@ -4,8 +4,9 @@ const info = "#5d9eff";
 const backgroundColor = "#FBFCFC";
 const textLight = '#000';
 const textDark = '#EDECEE';
-const error = '#D10000';
-const success = '#31C90D';
+const error = '#FA6187';
+const success = '#E4F6EA';
+const successContrastText = '#037223';
 const warn = '#d57b4b';
 
 export {
@@ -18,4 +19,5 @@ export {
     warn,
     success,
     error,
+    successContrastText
 }
