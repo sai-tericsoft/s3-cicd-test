@@ -1,44 +1,36 @@
 import "./TableComponent.scss";
 import Table from 'antd/lib/table';
-import {ITableColumn} from "../../models/table.model";
+import {ITableColumn, ITableComponentProps} from "../../models/table.model";
 import {CircularProgress} from "@mui/material";
 import {useCallback} from "react";
 
-interface TableComponentProps {
+interface TableComponentProps  extends ITableComponentProps{
     data: any[];
-    columns: ITableColumn[];
-    size?: 'small' | 'middle' | 'large';
-    bordered?: boolean;
-    fixedHeader?: boolean;
-    loading?: boolean;
-    rowClassName?: (row: any, index: number) => string;
-    rowKey?: string;
-    showHeader?: boolean;
-    onRowClick?: (row: any, index: any) => void;
 }
 
 const TableComponent = (props: TableComponentProps) => {
 
-    const {data, onRowClick, rowClassName, bordered, loading, columns} = props;
+    const {data, onRowClick, rowKey, rowClassName, bordered, loading, columns} = props;
     const size = props.size || "large";
     const showHeader = props.showHeader !== undefined ? props.fixedHeader : true;
 
-    const handleRowClick = useCallback((row: any, index: number | undefined) => {
+    const handleRowClick = useCallback((record: any, index: number | undefined) => {
           if (onRowClick){
-              onRowClick(row, index);
+              onRowClick(record, index);
           }
      }, [onRowClick]);
-
+    
     return (
         <div className={'table-component'}>
             <Table columns={columns}
-                   onRow={(row, index)=>{
+                   onRow={(record, index)=>{
                        return {
                            onClick: (event: any) => {
-                               handleRowClick(row, index);
+                               handleRowClick(record, index);
                            }
                        }
                    }}
+                   rowKey={rowKey}
                    showHeader={showHeader}
                    rowClassName={rowClassName}
                    loading={loading ? {
