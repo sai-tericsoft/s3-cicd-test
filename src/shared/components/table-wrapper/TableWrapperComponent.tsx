@@ -23,28 +23,12 @@ const TableWrapperComponent = (props: TableComponentProps) => {
     const [isDataLoaded, setIsDataLoaded] = useState<any>(false);
     const [isDataLoadingFailed, setIsDataLoadingFailed] = useState<any>(false);
     const [data, setData] = useState<any>([]);
-    const [error, setError] = useState<any>(null);
+    // const [error, setError] = useState<any>(null);
     const pageNumRef = useRef<number>(0);
     const totalResultsRef = useRef<number>(0);
     const pageSizeRef = useRef<number>(10);
     const fetchPageDataSubscriptionRef = useRef<boolean>(true);
 
-    const handlePageNumberChange = useCallback((event: unknown, newPage: number) => {
-        pageNumRef.current = newPage;
-        getListData();
-    }, []);
-
-    const handlePageSizeChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        pageSizeRef.current = +event.target.value;
-        pageNumRef.current = 0;
-        getListData();
-    }, []);
-
-    const handleSortColumn = useCallback((columnName: string, mode: string) => {
-        extraPayload.sort = {
-            columnName: mode
-        }
-    }, []);
 
     const getListData = useCallback(() => {
         const payload = {page: pageNumRef.current + 1, limit: pageSizeRef.current, ...extraPayload};
@@ -68,22 +52,39 @@ const TableWrapperComponent = (props: TableComponentProps) => {
                 }
             }
             setData(listData);
-            setError(null);
+            // setError(null);
             setIsDataLoading(false);
             setIsDataLoaded(true);
             setIsDataLoadingFailed(false);
         }).catch((error) => {
             setData(listData);
-            setError(error);
+            // setError(error);
             setIsDataLoading(false);
             setIsDataLoaded(false);
             setIsDataLoadingFailed(true);
         })
-    }, [[pageNumRef.current, pageSizeRef.current, extraPayload]]);
+    }, [isPaginated, method, url, extraPayload]);
+
+    const handlePageNumberChange = useCallback((event: unknown, newPage: number) => {
+        pageNumRef.current = newPage;
+        getListData();
+    }, [getListData]);
+
+    const handlePageSizeChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        pageSizeRef.current = +event.target.value;
+        pageNumRef.current = 0;
+        getListData();
+    }, [getListData]);
+
+    // const handleSortColumn = useCallback((columnName: string, mode: string) => {
+    //     extraPayload.sort = {
+    //         columnName: mode
+    //     }
+    // }, []);
 
     useEffect(() => {
         getListData();
-    }, [url, extraPayload]);
+    }, [url, extraPayload, getListData]);
 
     useEffect(() => {
         CommonService._communications.FetchPageDataSubject.subscribe(() => {
@@ -91,9 +92,9 @@ const TableWrapperComponent = (props: TableComponentProps) => {
             getListData();
         });
         return () => {
-            fetchPageDataSubscriptionRef.current = false
+            fetchPageDataSubscriptionRef.current = false;
         }
-    }, []);
+    }, [getListData]);
 
     return (
         <>
