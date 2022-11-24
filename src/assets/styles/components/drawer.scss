@@ -1,6 +1,7 @@
 .drawer-container {
   padding: 25px !important;
-  max-width: 400px;
+  max-width: 600px;
+  min-width: 400px;
 
   .drawer-header {
     display: flex;
@@ -19,11 +20,16 @@
       cursor: pointer;
       position: relative;
       top: 2px;
-      opacity: 0.7;
+      background: #F4F4F8;
+      padding: 16px;
+      border-radius: 50%;
+      height: 46px;
+      width: 46px;
+      @include display-center();
 
       svg {
-        height: 22px;
-        width: 22px;
+        height: 14px;
+        width: 14px;
       }
     }
   }

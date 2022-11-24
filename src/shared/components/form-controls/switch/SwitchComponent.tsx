@@ -14,6 +14,7 @@ const SwitchComponent = (props: SwitchComponentProps) => {
     const {label, checked, name, className, disabled, id, onChange, required, value} = props;
     const color = props.color || 'primary';
     const size = props.size || 'medium';
+    const labelPlacement = props.labelPlacement || 'end';
 
     const handleSwitchChange = useCallback((event: any) => {
         const isSwitched = event.target.checked;
@@ -23,7 +24,10 @@ const SwitchComponent = (props: SwitchComponentProps) => {
     }, [onChange]);
 
     return (
-        <FormControlLabel control={
+        <FormControlLabel
+            labelPlacement={labelPlacement}
+            label={label}
+            control={
             <Switch className={className}
                     color={color}
                     checked={checked}
@@ -34,8 +38,7 @@ const SwitchComponent = (props: SwitchComponentProps) => {
                     required={required}
                     value={value}
                     size={size}
-            />}
-          label={label}/>
+            />}/>
     );
 
 };

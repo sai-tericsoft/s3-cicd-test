@@ -267,3 +267,42 @@
     background: #F1F1F1;
   }
 }
+
+.t-side-bar-form {
+  .drawer-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 546px;
+
+    .drawer-body {
+      display: flex;
+      height: 100%;
+      flex: 1;
+
+      .service-category-add-component {
+        display: flex;
+        flex: 1;
+        height: 100%;
+
+        .service-category-add-form-container {
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+
+          .t-form {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+
+            .t-form-controls {
+              overflow: auto;
+              flex: 1;
+              padding: 5px 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}

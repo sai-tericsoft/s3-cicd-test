@@ -14,6 +14,7 @@ import ModalComponent from "../../shared/components/modal/ModalComponent";
 import CardComponent from "../../shared/components/card/CardComponent";
 import FormikRadioButtonGroupComponent
     from "../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
+import FilePickerComponent from "../../shared/components/file-picker/FilePickerComponent";
 
 interface DesignSystemScreenProps {
 
@@ -193,19 +194,19 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                             expedita
                             hic itaque, maxime minus voluptatibus.
                         </ModalComponent>
-
                     </div>
-                </CardComponent>
+                    <FilePickerComponent
+                        acceptedFileTypes={{
+                            'image/*': []
+                        }}
+                        maxFiles={2}
+                        acceptedFilesText={"PNG, JPG and JPEG files are allowed"}/>
 
-                {/*<RadioButtonGroupComponent label={'Male'} name={'gender'} value={'1'}/>*/}
-                {/*<RadioButtonGroupComponent label={'Female'} name={'gender'} value={'2'}/>*/}
+                </CardComponent>
             </div>
         </div>
     )
 };
 
-// <RadioButtonGroupComponent  options={options} onChange={(value)=>{
-//     console.log(value);
-// }}/>
 
 export default DesignSystemScreen;

@@ -10,6 +10,8 @@ import ButtonComponent from "../../../../shared/components/button/ButtonComponen
 import {ImageConfig} from "../../../../constants";
 import ServiceCategoryCardComponent
     from "../../../../shared/components/service-category-card/ServiceCategoryCardComponent";
+import DrawerComponent from "../../../../shared/components/drawer/DrawerComponent";
+import ServiceCategoryAddComponent from "../service-category-add/ServiceCategoryAddComponent";
 
 interface ServiceCategoriesListScreenProps {
 
@@ -22,10 +24,11 @@ const ServiceCategoriesListScreen = (props: ServiceCategoriesListScreenProps) =>
     const [isServiceCategoryListLoading, setIsServiceCategoryListLoading] = useState<boolean>(false);
     const [isServiceCategoryListLoaded, setIsServiceCategoryListLoaded] = useState<boolean>(false);
     const [isServiceCategoryListLoadingFailed, setIsServiceCategoryListLoadingFailed] = useState<boolean>(false);
+    const [isServiceCategoryAddFormOpened, setIsServiceCategoryAddFormOpened] = useState<boolean>(false);
 
     const fetchServiceCategoryList = useCallback(() => {
         setIsServiceCategoryListLoading(true);
-        CommonService._serviceCategory.ServiceCategoryAPICall({})
+        CommonService._serviceCategory.ServiceCategoryListAPICall({})
             .then((response: IAPIResponseType<IServiceCategory[]>) => {
                 setServiceCategoryList(response.data);
                 setIsServiceCategoryListLoading(false);
@@ -38,14 +41,29 @@ const ServiceCategoriesListScreen = (props: ServiceCategoriesListScreenProps) =>
         })
     }, []);
 
+    useEffect(() => {
+        fetchServiceCategoryList();
+    }, [fetchServiceCategoryList]);
 
     useEffect(() => {
         dispatch(setCurrentNavParams("Admin"));
     }, [dispatch]);
 
-    useEffect(() => {
-        fetchServiceCategoryList();
-    }, [fetchServiceCategoryList]);
+    const openServiceCategoryAddFormDrawer = useCallback(() => {
+        setIsServiceCategoryAddFormOpened(true);
+    }, []);
+
+    const closeServiceCategoryAddFormDrawer = useCallback(() => {
+        setIsServiceCategoryAddFormOpened(false);
+    }, []);
+
+    const handleServiceCategoryAdd = useCallback((serviceCategory: IServiceCategory) => {
+        closeServiceCategoryAddFormDrawer();
+        console.log(serviceCategory);
+        setServiceCategoryList((oldState) => {
+            return [serviceCategory, ...oldState];
+        })
+    }, [closeServiceCategoryAddFormDrawer]);
 
     return (
         <div className={'service-category-list-screen'}>
@@ -56,6 +74,8 @@ const ServiceCategoriesListScreen = (props: ServiceCategoriesListScreenProps) =>
                 <div className="service-category-list-options">
                     <ButtonComponent
                         prefixIcon={<ImageConfig.AddIcon/>}
+                        onClick={openServiceCategoryAddFormDrawer}
+                        id={"sc_add_btn"}
                     >
                         Add Service Category
                     </ButtonComponent>
@@ -88,6 +108,15 @@ const ServiceCategoriesListScreen = (props: ServiceCategoriesListScreenProps) =>
                     </>
                 }
             </div>
+            <DrawerComponent isOpen={isServiceCategoryAddFormOpened}
+                             showClose={true}
+                             closeOnEsc={false}
+                             closeOnBackDropClick={false}
+                             closeButtonId={"sc_close_btn"}
+                             className={"t-side-bar-form service-category-add-form-drawer"}
+                             onClose={closeServiceCategoryAddFormDrawer}>
+                <ServiceCategoryAddComponent onAdd={handleServiceCategoryAdd}/>
+            </DrawerComponent>
         </div>
     );
 

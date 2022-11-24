@@ -1,0 +1,37 @@
+.file-preview-thumbnail-component {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #F0F5F4;
+  border-radius: 4px;
+  padding: 14px;
+
+  .file-data {
+    display: flex;
+    align-items: center;
+
+    .file-preview-thumbnail {
+      height: 60px;
+      width: 60px;
+
+      img {
+        height: 100%;
+        width: 100%;
+        border-radius: 5px;
+      }
+    }
+
+    .file-name {
+      margin-left: 10px;
+    }
+  }
+
+  .file-options {
+    .file-remove {
+      svg {
+        height: 16px;
+        width: 16px;
+      }
+    }
+  }
+}

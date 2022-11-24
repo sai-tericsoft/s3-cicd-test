@@ -10,3 +10,16 @@ export interface IServiceCategory {
     image_url: string;
     services_count: number;
 }
+
+export interface IServiceCategoryAddForm {
+    name: string;
+    description: string;
+    image: any;
+}
+
+export interface IServiceCategoryEditForm {
+    name: string;
+    description: string;
+    image: any;
+    is_active: boolean;
+}

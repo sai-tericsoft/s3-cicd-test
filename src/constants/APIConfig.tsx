@@ -2,7 +2,7 @@ import ENV from "./ENV";
 
 interface IAPIConfig {
     [k: string]: {
-        URL: string,
+        URL: string | Function,
         METHOD: "get" | "post" | "delete" | "put"
     }
 }
@@ -27,6 +27,18 @@ const APIConfig: IAPIConfig = {
     SERVICE_CATEGORY_LIST: {
         URL: ENV.API_URL + "/category",
         METHOD: "get"
+    },
+    SERVICE_CATEGORY_ADD: {
+        URL: ENV.API_URL + "/category",
+        METHOD: "post"
+    },
+    SERVICE_CATEGORY_DETAILS: {
+        URL: (serviceCategoryId: string) => ENV.API_URL + '/category/' + serviceCategoryId,
+        METHOD: "get"
+    },
+    SERVICE_CATEGORY_EDIT: {
+        URL: (serviceCategoryId: string) => ENV.API_URL + '/category/' + serviceCategoryId,
+        METHOD: "put"
     },
     // service category end
 

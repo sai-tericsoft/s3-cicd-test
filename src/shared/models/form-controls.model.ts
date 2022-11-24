@@ -45,6 +45,7 @@ export interface ISwitchProps {
     size?: "medium" | "small";
     hasError?: boolean;
     errorMessage?: any;
+    labelPlacement?: 'bottom' | 'end' | 'start' | 'top';
 }
 
 export interface IRadioButtonGroupProps {
@@ -80,4 +81,24 @@ export interface IRadioButtonProps {
     errorMessage?: any;
     color?: 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
     size?: 'medium' | 'small';
+}
+
+export interface ITextAreaProps {
+    label: string;
+    variant?: "outlined" | "filled" | "standard";
+    size?: 'medium' | 'small';
+    value?: any;
+    required?: boolean;
+    placeholder?: string;
+    onChange?: (value: any) => void;
+    name?: string;
+    id?: string;
+    fullWidth?: boolean;
+    disabled?: boolean;
+    className?: string;
+    hasError?: boolean;
+    errorMessage?: any;
+    inputProps?: any;
+    readOnly?: boolean;
+    rows?: number;
 }
