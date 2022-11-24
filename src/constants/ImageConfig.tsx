@@ -14,6 +14,13 @@ import {ReactComponent as CircleError} from './../assets/icons/error_circle.svg'
 import {ReactComponent as LeftArrow} from './../assets/icons/left_arrow.svg';
 import {ReactComponent as RightArrow} from './../assets/icons/right_arrow.svg';
 
+//file types
+import PDFIcon from './../assets/icons/file-types/pdf.svg';
+import WordDocIcon from './../assets/icons/file-types/doc.svg';
+import ExcelIcon from './../assets/icons/file-types/xls.svg';
+import UnknownFileTypeIcon from '../assets/icons/file-types/unknown_file_type.svg';
+
+
 // MainMenu
 import {ReactComponent as DashboardIcon} from './../assets/icons/side-menu/dashboard.svg';
 import {ReactComponent as AdminIcon} from './../assets/icons/side-menu/admin.svg';
@@ -58,5 +65,9 @@ export {
     RightArrow,
     AddIcon,
     NavigateBack,
-    EditIcon
+    EditIcon,
+    PDFIcon,
+    WordDocIcon,
+    ExcelIcon,
+    UnknownFileTypeIcon
 }

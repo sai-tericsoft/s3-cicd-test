@@ -199,7 +199,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                         acceptedFileTypes={{
                             'image/*': []
                         }}
-                        maxFiles={2}
+                        maxFileCount={2}
                         acceptedFilesText={"PNG, JPG and JPEG files are allowed"}/>
 
                 </CardComponent>

@@ -114,7 +114,7 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
                                         <>
                                             {
                                                 (!values.image) && <>
-                                                    <FilePickerComponent maxFiles={1}
+                                                    <FilePickerComponent maxFileCount={1}
                                                                          id={"sc_upload_btn"}
                                                                          onFilesDrop={(acceptedFiles, rejectedFiles) => {
                                                                              if (acceptedFiles && acceptedFiles.length > 0) {

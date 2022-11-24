@@ -11,7 +11,7 @@ interface FilePickerComponentProps {
     onFilesDrop?: (acceptedFiles: any[], rejectedFiles: any[]) => void;
     acceptedFileTypes?: any;
     multiple?: boolean;
-    maxFiles?: number;
+    maxFileCount?: number;
     disabled?: boolean;
 }
 
@@ -20,12 +20,12 @@ const INVALID_FILE_TYPE_ERROR_CODE = "file-invalid-type";
 
 const FilePickerComponent = (props: FilePickerComponentProps) => {
 
-    const {acceptedFilesText, id, disabled, maxFiles, onFilesDrop, acceptedFileTypes, multiple} = props;
+    const {acceptedFilesText, id, disabled, maxFileCount, onFilesDrop, acceptedFileTypes, multiple} = props;
     const uploadText = props.uploadText || "Drag and drop or browse to choose a file";
 
     const onDrop = useCallback((acceptedFiles: any, rejectedFiles: any) => {
-        console.log("acceptedFiles", acceptedFiles);
-        console.log("rejectedFiles", rejectedFiles);
+        // console.log("acceptedFiles", acceptedFiles);
+        // console.log("rejectedFiles", rejectedFiles);
         acceptedFiles.forEach((file: any) => {
             const reader = new FileReader();
             reader.onabort = () => console.log('file reading was aborted')
@@ -33,7 +33,7 @@ const FilePickerComponent = (props: FilePickerComponentProps) => {
             reader.onload = () => {
                 // Do whatever you want with the file contents
                 const binaryStr = reader.result;
-                console.log(binaryStr);
+                // console.log(binaryStr);
             }
             reader.readAsArrayBuffer(file)
         });
@@ -45,7 +45,7 @@ const FilePickerComponent = (props: FilePickerComponentProps) => {
                 const itemErrorCodes = item.errors && item.errors.map((error: any) => error.code);
                 if (itemErrorCodes?.includes(TOO_MANY_FILES_ERROR_CODE)) {
                     if (!maxCountErrorShown) {
-                        CommonService._alert.showToast('Maximum allowed files: ' + maxFiles, 'error');
+                        CommonService._alert.showToast('Maximum allowed files: ' + maxFileCount, 'error');
                         maxCountErrorShown = true;
                     }
                 }
@@ -60,14 +60,14 @@ const FilePickerComponent = (props: FilePickerComponentProps) => {
         if (onFilesDrop) {
             onFilesDrop(acceptedFiles, rejectedFiles);
         }
-    }, [maxFiles, onFilesDrop]);
+    }, [maxFileCount, onFilesDrop]);
 
     const {
         getRootProps,
         getInputProps,
         isDragActive,
         isDragReject
-    } = useDropzone({onDrop, accept: acceptedFileTypes, multiple: multiple, maxFiles: maxFiles, disabled: disabled});
+    } = useDropzone({onDrop, accept: acceptedFileTypes, multiple: multiple, maxFiles: maxFileCount, disabled: disabled});
 
     return (
         <div id={id} className={`file-picker-wrapper ${isDragActive ? "drag-active" : ""}`} {...getRootProps()} >

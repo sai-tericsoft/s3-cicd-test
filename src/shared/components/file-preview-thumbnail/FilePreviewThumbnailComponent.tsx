@@ -17,12 +17,15 @@ const FilePreviewThumbnailComponent = (props: FilePreviewThumbnailComponentProps
     const [filePreviewURL, setFilePreviewURL] = useState<string | null>("");
     const [fileName, setFileName] = useState<string>("");
 
-
     const getFileThumbnail = useCallback((type: string, file: File, cb: (thumbnailURL: string) => void) => {
         if (type.includes('image')) {
             type = "image";
         } else if (type.includes('pdf')) {
             type = "pdf";
+        } else if (type.includes('word')) {
+            type = "word";
+        } else if (type.includes('spreadsheet')) {
+            type = "xls";
         } else {
             type = "application";
         }
@@ -35,10 +38,16 @@ const FilePreviewThumbnailComponent = (props: FilePreviewThumbnailComponentProps
                 fileReader.readAsDataURL(file);
                 break;
             case "pdf":
-                cb("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT6khLUE3QpL3AWurCiUYM8MRP_l-fe96D-3KvTtpMnw&s");
+                cb(ImageConfig.PDFIcon);
+                break;
+            case "doc":
+                cb(ImageConfig.WordDocIcon);
+                break;
+            case "xls":
+                cb(ImageConfig.ExcelIcon);
                 break;
             default:
-                cb("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqheWikyrG6Wt9fO4Ht-z9zSJd45DBRjgJ_A&usqp=CAU");
+                cb(ImageConfig.UnknownFileTypeIcon);
                 break;
         }
     }, []);
@@ -48,6 +57,7 @@ const FilePreviewThumbnailComponent = (props: FilePreviewThumbnailComponentProps
         const name = file.name;
         setFileName(name);
         const type = file.type;
+        console.log(file.type);
         getFileThumbnail(type, file, (thumbnailURL: string) => {
             setFilePreviewURL(thumbnailURL);
         });
@@ -65,7 +75,8 @@ const FilePreviewThumbnailComponent = (props: FilePreviewThumbnailComponentProps
             <div className="file-data">
                 <div className="file-preview-thumbnail">
                     {
-                        filePreviewURL && <AvatarComponent url={filePreviewURL} title={fileName} type={"square"}></AvatarComponent>
+                        filePreviewURL &&
+                        <AvatarComponent url={filePreviewURL} title={fileName} type={"square"}></AvatarComponent>
                     }
                 </div>
                 <div className="file-name">

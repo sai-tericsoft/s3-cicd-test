@@ -13,6 +13,7 @@
     .file-preview-thumbnail {
       height: 60px;
       width: 60px;
+      padding: 5px;
 
       img {
         height: 100%;
@@ -22,11 +23,13 @@
     }
 
     .file-name {
-      margin-left: 10px;
+      margin: 0 10px;
     }
   }
 
   .file-options {
+    white-space: nowrap;
+
     .file-remove {
       svg {
         height: 16px;
