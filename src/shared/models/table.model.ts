@@ -4,7 +4,7 @@ export interface ITableColumn {
     title?: any;
     render?: any;
     sorter?: any;
-    width?: number;
+    width?: number | string;
     fixed?: "left" | "right" | undefined;
 }
 

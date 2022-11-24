@@ -11,6 +11,7 @@ import ButtonComponent from "../../../../shared/components/button/ButtonComponen
 import {ImageConfig} from "../../../../constants";
 import DrawerComponent from "../../../../shared/components/drawer/DrawerComponent";
 import ServiceCategoryEditComponent from "../service-category-edit/ServiceCategoryEditComponent";
+import ServiceListComponent from "../../service/service-list/ServiceListComponent";
 
 interface ServiceCategoryDetailsScreenProps {
 
@@ -78,7 +79,7 @@ const ServiceCategoryDetailsScreen = (props: ServiceCategoryDetailsScreenProps) 
                         <BasicDetailsCardComponent
                             title={serviceCategoryDetails?.name}
                             status={serviceCategoryDetails?.is_active}
-                            avatarUrl={serviceCategoryDetails?.image_url}
+                            avatarUrl={serviceCategoryDetails?.image?.url}
                             subTitle={serviceCategoryDetails?.description}
                             actions={<>
                                 <ButtonComponent
@@ -90,6 +91,11 @@ const ServiceCategoryDetailsScreen = (props: ServiceCategoryDetailsScreenProps) 
                             </>}
                         ></BasicDetailsCardComponent>
                     </div>
+                    {
+                        serviceCategoryId && <div className="service-category-service-list">
+                            <ServiceListComponent serviceCategoryId={serviceCategoryId}/>
+                        </div>
+                    }
                 </>
             }
             <DrawerComponent isOpen={isServiceCategoryEditFormOpened}

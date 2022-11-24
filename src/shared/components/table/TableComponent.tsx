@@ -1,10 +1,11 @@
 import "./TableComponent.scss";
 import Table from 'antd/lib/table';
-import {ITableColumn, ITableComponentProps} from "../../models/table.model";
+import {ITableComponentProps} from "../../models/table.model";
 import {CircularProgress} from "@mui/material";
 import {useCallback} from "react";
+import StatusComponentComponent from "../status-component/StatusComponentComponent";
 
-interface TableComponentProps  extends ITableComponentProps{
+interface TableComponentProps extends ITableComponentProps {
     data: any[];
 }
 
@@ -15,15 +16,20 @@ const TableComponent = (props: TableComponentProps) => {
     const showHeader = props.showHeader !== undefined ? props.fixedHeader : true;
 
     const handleRowClick = useCallback((record: any, index: number | undefined) => {
-          if (onRowClick){
-              onRowClick(record, index);
-          }
-     }, [onRowClick]);
-    
+        if (onRowClick) {
+            onRowClick(record, index);
+        }
+    }, [onRowClick]);
+
     return (
         <div className={'table-component'}>
             <Table columns={columns}
-                   onRow={(record, index)=>{
+                   locale={{
+                       emptyText: (
+                           <StatusComponentComponent title={"No Data"}/>
+                       )
+                   }}
+                   onRow={(record, index) => {
                        return {
                            onClick: (event: any) => {
                                handleRowClick(record, index);

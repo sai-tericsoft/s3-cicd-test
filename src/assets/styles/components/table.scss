@@ -1,108 +1,22 @@
 @import "src/assets/styles/variables";
 
 .t-table-wrapper {
-  .t-table-container {
-    height: calc(100vh - 260px);
+  .ant-table-container {
+    //height: calc(100vh - 260px);
     min-height: 300px;
     position: relative;
 
-    .t-table {
-      .t-table-head {
-        .t-table-tr {
-          .t-table-cell {
-            background-color: #F9F9F9;
-            color: #000000;
-          }
+    .ant-table-content {
+
+      .ant-table-thead {
+
+        .ant-table-cell {
+          background: #EAF3F2;
+          font-weight: 700;
+          font-size: 16px;
+          line-height: 19px;
+          color: #212B36;
         }
-      }
-
-      .t-table-body {
-
-        .t-table-cell {
-          color: #000000;
-          opacity: 0.7;
-
-          .under-line-cell {
-            text-decoration: underline;
-          }
-
-          .status-cell {
-            font-weight: 700;
-            color: black;
-          }
-
-          .deleted {
-            color: #000000;
-            opacity: 0.4;
-            pointer-events: none;
-          }
-        }
-
-      }
-    }
-
-    .t-table-column-filter-holder {
-      position: absolute;
-      z-index: 99;
-      right: 0;
-      top: 0;
-
-      .t-table-column-filter-container {
-        position: fixed;
-        display: flex;
-        flex-direction: row-reverse;
-        right: 15px;
-
-        .t-table-column-filter-toggler {
-          position: relative;
-          top: 16px;
-          right: 0;
-
-          &:hover {
-            cursor: pointer;
-          }
-
-          .MuiDrawer-paper {
-            width: 30% !important;
-
-            .t-table-column-filter-wrapper {
-              padding: 20px;
-
-              .t-table-column-filter-header {
-                display: flex;
-                justify-content: space-between;
-
-                .deselect-content {
-                  padding-top: 25px;
-                  text-decoration: underline;
-
-                  &:hover {
-                    cursor: pointer;
-                  }
-                }
-              }
-
-              .t-table-column-filter-actions {
-                position: absolute;
-                bottom: 5%;
-                width: 90%;
-              }
-            }
-          }
-        }
-      }
-
-    }
-
-    .table-actions {
-      .table-action {
-        background-color: #D9D9D9;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 30px;
-        height: 30px
       }
     }
   }
