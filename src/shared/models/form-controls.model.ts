@@ -47,7 +47,7 @@ export interface ISwitchProps {
     errorMessage?: any;
 }
 
-export interface IRadioProps {
+export interface IRadioButtonGroupProps {
     name?: string;
     label?: string;
     checked?: boolean;
@@ -59,7 +59,25 @@ export interface IRadioProps {
     titleKey?: string;
     valueKey?: string;
     disabled?: boolean;
-    hasError?:boolean;
+    hasError?: boolean;
     errorMessage?: any;
+}
 
+export interface IRadioButtonProps {
+    className?: string;
+    name?: string;
+    label?: string;
+    checked?: boolean;
+    option?: any;
+    required?: boolean;
+    onChange?: (value: any) => void
+    value?: any;
+    id?: any;
+    titleKey?: string;
+    valueKey?: string;
+    disabled?: boolean;
+    hasError?: boolean;
+    errorMessage?: any;
+    color?: 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
+    size?: 'medium' | 'small';
 }

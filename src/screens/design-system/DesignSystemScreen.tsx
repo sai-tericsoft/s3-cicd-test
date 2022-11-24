@@ -12,11 +12,8 @@ import FormikCheckBoxComponent from "../../shared/components/form-controls/formi
 import FormikSwitchComponent from "../../shared/components/form-controls/formik-switch/FormikSwitchComponent";
 import ModalComponent from "../../shared/components/modal/ModalComponent";
 import CardComponent from "../../shared/components/card/CardComponent";
-import RadioButtonGroupComponent from "../../shared/components/form-controls/radio-button/RadioButtonComponent";
-import FormikRadioButtonComponent
+import FormikRadioButtonGroupComponent
     from "../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
-// import FormikRadioButtonComponent
-//     from "../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
 
 interface DesignSystemScreenProps {
 
@@ -32,12 +29,12 @@ const designSystemFormValidationSchema = Yup.object({
 
 const DesignSystemScreen = (props: DesignSystemScreenProps) => {
 
-    const options = [{title: 'Male', code: 'm'}, {title: 'Female', code: 'f'}]
+    const players = [{fName: 'Virat', lName: 'Kohli', id: 1}, {fName: 'Rohit', lName: 'Sharma', id: 2}]
     const [designSystemFormInitialValues] = useState({
         username: "",
         password: "",
         tnc: true,
-        gender: "f",
+        gender: "m",
         accessAsAdmin: true,
 
     });
@@ -107,12 +104,13 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                                 )
                                             }
                                         </Field>
-                                        <Field name={'gender'} >
-
+                                        <Field name={'gender'}>
                                             {
                                                 (field: FieldProps) => (
-                                                    <FormikRadioButtonComponent formikField={field} options={options}
-                                                                              onChange={(value) => console.log(value)}/>
+                                                    <FormikRadioButtonGroupComponent
+                                                        formikField={field}
+                                                        titleKey={"fName"}
+                                                        options={players}/>
                                                 )
                                             }
                                         </Field>
@@ -142,30 +140,12 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                                 )
                                             }
                                         </Field>
-                                        {/*<Field name={'gender'}>*/}
-                                        {/*    {*/}
-
-                                        {/*        (field: FieldProps) => (*/}
-                                        {/*           <>*/}
-                                        {/*            <FormikRadioButtonComponent formikField={field} label={'Male'}*/}
-                                        {/*                                        id={'male'}*/}
-                                        {/*                                       />*/}
-                                        {/*        <FormikRadioButtonComponent formikField={field} label={'Female'}*/}
-                                        {/*        id={'female'}*/}
-                                        {/*     />*/}
-                                        {/*    </>  )*/}
-
-                                        {/*    }*/}
-
-                                        {/*</Field>*/}
                                         <div className="text-decoration-underline mrg-bottom-10 cursor-pointer"
                                              onClick={() => {
                                                  setIsTnCModalOpened(true);
                                              }}>
                                             Terms and Conditions
                                         </div>
-
-
                                         <ButtonComponent
                                             suffixIcon={<Login/>}
                                             isLoading={isFormSubmitting}
@@ -180,7 +160,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                             }}
                         </Formik>
                         <ModalComponent isOpen={isTnCModalOpened}
-                            // title={"Terms & Conditions demo"}
+                                        title={"Terms & Conditions"}
                                         showClose={true}
                                         direction={"up"}
                                         closeOnBackDropClick={true}

@@ -1,30 +1,28 @@
 import {FormControlLabel, Radio} from "@mui/material";
 import {useCallback} from "react";
 import RadioGroup from '@mui/material/RadioGroup';
-import {IRadioProps} from "../../../models/form-controls.model";
+import {IRadioButtonGroupProps, IRadioButtonProps} from "../../../models/form-controls.model";
 
-interface RadioButtonGroupComponentProps extends IRadioProps{
-
+interface RadioButtonGroupComponentProps extends IRadioButtonGroupProps {
     checked?: boolean;
     value?: any;
-
 }
 
 const RadioButtonGroupComponent = (props: RadioButtonGroupComponentProps) => {
 
-    let {value, options, name, onChange, checked,titleKey, disabled, id, required,valueKey} = props;
+    let {value, options, name, onChange, checked, titleKey, disabled, id, required, valueKey} = props;
 
     if (!titleKey) titleKey = "title";
     if (!valueKey) valueKey = "code";
 
-    const handleOnChange = useCallback((value: any)=>{
-        if (onChange){
+    const handleOnChange = useCallback((value: any) => {
+        if (onChange) {
             onChange(value);
         }
     }, [onChange]);
 
     return (<>
-            <RadioGroup name={name} >
+            <RadioGroup name={name}>
                 {
                     (options && options?.length > 0) && options.map((option: any, index) => {
                         return <RadioButtonComponent
@@ -45,17 +43,7 @@ const RadioButtonGroupComponent = (props: RadioButtonGroupComponentProps) => {
 }
 export default RadioButtonGroupComponent;
 
-interface RadioButtonComponentProps {
-    onChange?: (value: any) => void;
-    value?: any;
-    checked?: boolean;
-    className?: string;
-    color?: 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
-    disabled?: boolean;
-    id?: string;
-    required?: boolean;
-    size?: 'medium' | 'small';
-    label?: string;
+interface RadioButtonComponentProps extends IRadioButtonProps {
 
 }
 
