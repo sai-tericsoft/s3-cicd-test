@@ -17,22 +17,38 @@
     margin: 0 20px;
     flex: 1;
 
-    .basic-details-card-name-status {
+    .basic-details-card-legend-name-status {
       display: flex;
-      align-items: center;
+      flex-direction: column;
 
-      .basic-details-card-name {
-        font-weight: 700;
-        font-size: 24px;
-        line-height: 28px;
+      .basic-details-card-legend {
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 16px;
         letter-spacing: 0.5px;
-        color: #212B36;
-        margin-right: 10px;
+        color: #8B8E90;
+        margin-bottom: 8px;
       }
 
-      .basic-details-card-status {
 
+      .basic-details-card-name-status {
+        display: flex;
+        align-items: center;
+
+        .basic-details-card-name {
+          font-weight: 700;
+          font-size: 24px;
+          line-height: 28px;
+          letter-spacing: 0.5px;
+          color: #212B36;
+          margin-right: 10px;
+        }
+
+        .basic-details-card-status {
+
+        }
       }
+
     }
 
     .basic-details-card-description {

@@ -21,11 +21,17 @@ const ServiceCategoryEditAPICall = (serviceCategoryId: string, payload: any) => 
     return ApiService[APIConfig.SERVICE_CATEGORY_EDIT.METHOD](APIConfig.SERVICE_CATEGORY_EDIT.URL(serviceCategoryId), payload, {'Content-Type': 'multipart/form-data'});
 }
 
+const ServiceDetailsAPICall = (serviceId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.SERVICE_DETAILS.METHOD](APIConfig.SERVICE_DETAILS.URL(serviceId), payload);
+}
+
 const ServiceCategoryService = {
     ServiceCategoryListAPICall,
     ServiceCategoryAddAPICall,
     ServiceCategoryDetailsAPICall,
-    ServiceCategoryEditAPICall
+    ServiceCategoryEditAPICall,
+    ServiceDetailsAPICall
 }
 
 export default ServiceCategoryService;

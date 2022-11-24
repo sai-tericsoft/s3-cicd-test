@@ -6,6 +6,7 @@ import TableWrapperComponent from "../../../../shared/components/table-wrapper/T
 import ChipComponent from "../../../../shared/components/chip/ChipComponent";
 import {CommonService} from "../../../../shared/services";
 import LinkComponent from "../../../../shared/components/link/LinkComponent";
+import {IService} from "../../../../shared/models/service-category.model";
 
 interface ServiceListComponentProps {
     serviceCategoryId: string;
@@ -28,7 +29,6 @@ const ServiceListComponent = (props: ServiceListComponentProps) => {
             width: "20%",
             title: "Status",
             render: (_: any, item: any) => {
-                console.log(item);
                 return <ChipComponent label={item?.is_active ? "Active" : "Inactive"}
                                       color={item?.is_active ? "success" : "error"}></ChipComponent>
             }
@@ -38,8 +38,8 @@ const ServiceListComponent = (props: ServiceListComponentProps) => {
             key: "viewDetails",
             title: "",
             width: "10%",
-            render: (_: any, item: any) => {
-                return <LinkComponent route={CommonService._routeConfig.ComingSoonRoute()}>
+            render: (_: any, item: IService) => {
+                return <LinkComponent route={CommonService._routeConfig.ServiceDetails(item._id)}>
                     View Details
                 </LinkComponent>
             }
