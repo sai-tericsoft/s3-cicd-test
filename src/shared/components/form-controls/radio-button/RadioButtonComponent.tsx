@@ -10,7 +10,7 @@ interface RadioButtonGroupComponentProps extends IRadioButtonGroupProps {
 
 const RadioButtonGroupComponent = (props: RadioButtonGroupComponentProps) => {
 
-    let {value, options, name, onChange, checked, titleKey, disabled, id, required, valueKey} = props;
+    let {value, options, name, onChange, titleKey, disabled, id, required, valueKey} = props;
 
     if (!titleKey) titleKey = "title";
     if (!valueKey) valueKey = "code";
