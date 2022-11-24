@@ -29,7 +29,7 @@ const designSystemFormValidationSchema = Yup.object({
 
 const DesignSystemScreen = (props: DesignSystemScreenProps) => {
 
-    const players = [{fName: 'Virat', lName: 'Kohli', id: 1}, {fName: 'Rohit', lName: 'Sharma', id: 2}]
+    const options = [{title: 'Male', code: 'm'}, {title: 'Female', code: 'f'}]
     const [designSystemFormInitialValues] = useState({
         username: "",
         password: "",
@@ -109,8 +109,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                                 (field: FieldProps) => (
                                                     <FormikRadioButtonGroupComponent
                                                         formikField={field}
-                                                        titleKey={"fName"}
-                                                        options={players}/>
+                                                        options={options}/>
                                                 )
                                             }
                                         </Field>
