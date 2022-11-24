@@ -12,6 +12,8 @@ import FormikCheckBoxComponent from "../../shared/components/form-controls/formi
 import FormikSwitchComponent from "../../shared/components/form-controls/formik-switch/FormikSwitchComponent";
 import ModalComponent from "../../shared/components/modal/ModalComponent";
 import CardComponent from "../../shared/components/card/CardComponent";
+import FormikRadioButtonGroupComponent
+    from "../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
 import FilePickerComponent from "../../shared/components/file-picker/FilePickerComponent";
 
 interface DesignSystemScreenProps {
@@ -28,15 +30,19 @@ const designSystemFormValidationSchema = Yup.object({
 
 const DesignSystemScreen = (props: DesignSystemScreenProps) => {
 
+    const options = [{title: 'Male', code: 'm'}, {title: 'Female', code: 'f'}]
     const [designSystemFormInitialValues] = useState({
         username: "",
         password: "",
         tnc: true,
+        gender: "m",
         accessAsAdmin: true,
+
     });
 
     const [isFormSubmitting, setIsFormSubmitting] = useState(false);
     const [isTnCModalOpened, setIsTnCModalOpened] = useState(false);
+
 
     const onSubmit = useCallback((values: any) => {
         setIsFormSubmitting(true);
@@ -44,6 +50,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
             setIsFormSubmitting(false);
         }, 10000);
     }, []);
+
 
     return (
         <div className="design-system-screen screen">
@@ -98,6 +105,15 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                                 )
                                             }
                                         </Field>
+                                        <Field name={'gender'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikRadioButtonGroupComponent
+                                                        formikField={field}
+                                                        options={options}/>
+                                                )
+                                            }
+                                        </Field>
                                         <Field name={'tnc'} className="t-form-control">
                                             {
                                                 (field: FieldProps) => (
@@ -130,7 +146,6 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                              }}>
                                             Terms and Conditions
                                         </div>
-
                                         <ButtonComponent
                                             suffixIcon={<Login/>}
                                             isLoading={isFormSubmitting}
@@ -145,7 +160,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                             }}
                         </Formik>
                         <ModalComponent isOpen={isTnCModalOpened}
-                            // title={"Terms & Conditions demo"}
+                                        title={"Terms & Conditions"}
                                         showClose={true}
                                         direction={"up"}
                                         closeOnBackDropClick={true}
@@ -187,12 +202,11 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                         maxFiles={2}
                         acceptedFilesText={"PNG, JPG and JPEG files are allowed"}/>
 
-                    {/*<FilePreviewThumbnailComponent removable={true}/>*/}
-
                 </CardComponent>
             </div>
         </div>
     )
 };
+
 
 export default DesignSystemScreen;
