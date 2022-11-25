@@ -18,7 +18,7 @@ jobs:
       - name: Install yarn dependencies
         run: yarn install
       - name: Run build task
-        run: PUBLIC_URL="/dev" yarn build:dev
+        run: REACT_APP_ROUTER_BASE="/dev" yarn build:dev
       - name: deploy to server
         uses: AEnterprise/rsync-deploy@v1.0
         env:
@@ -29,4 +29,3 @@ jobs:
           SERVER_IP: ${{ secrets.KINERGY_IP }}
           USERNAME: ${{ secrets.USERNAME }}
           SERVER_DESTINATION: ${{ secrets.DESTINATION }}
-          
