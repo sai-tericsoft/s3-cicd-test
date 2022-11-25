@@ -9,7 +9,7 @@ import {createTheme, ThemeOptions, ThemeProvider} from '@mui/material/styles';
 import {CommonService} from "./shared/services";
 import {logout} from "./store/actions/account.action";
 import {useDispatch} from "react-redux";
-
+console.log(process.env);
 interface AppProps {
     setCurrentUser?: any;
     makeCheckLoginHTTPRequest?: any;
