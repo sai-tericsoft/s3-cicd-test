@@ -6,10 +6,17 @@
   .card-header {
     padding: 20px 35px;
     background: #EAF3F2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
     .card-title {
       font-size: 18px;
       font-weight: 700;
+    }
+
+    .card-actions {
+      white-space: nowrap;
     }
   }
 

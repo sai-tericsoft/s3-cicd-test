@@ -14,6 +14,8 @@ import ModalComponent from "../../shared/components/modal/ModalComponent";
 import CardComponent from "../../shared/components/card/CardComponent";
 import FormikRadioButtonGroupComponent
     from "../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
+import SelectComponent from "../../shared/components/form-controls/select/SelectComponent";
+import FormikSelectComponent from "../../shared/components/form-controls/formik-select/FormikSelectComponent";
 
 interface DesignSystemScreenProps {
 
@@ -29,12 +31,15 @@ const designSystemFormValidationSchema = Yup.object({
 
 const DesignSystemScreen = (props: DesignSystemScreenProps) => {
 
-    const options = [{title: 'Male', code: 'm'}, {title: 'Female', code: 'f'}]
+    const options = [{title: 'Male', code: 'm'}, {title: 'Female', code: 'f'}];
+    const users = [{fName: 'Mick', lName: 'John', id: 1}, {fName: 'John', lName: 'Doe', id: 2}];
+
     const [designSystemFormInitialValues] = useState({
         username: "",
         password: "",
         tnc: true,
         gender: "m",
+        rm: 1,
         accessAsAdmin: true,
 
     });
@@ -42,14 +47,13 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
     const [isFormSubmitting, setIsFormSubmitting] = useState(false);
     const [isTnCModalOpened, setIsTnCModalOpened] = useState(false);
 
-
     const onSubmit = useCallback((values: any) => {
+        console.log(values);
         setIsFormSubmitting(true);
         setTimeout(() => {
             setIsFormSubmitting(false);
-        }, 10000);
+        }, 2000);
     }, []);
-
 
     return (
         <div className="design-system-screen screen">
@@ -110,6 +114,20 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                                     <FormikRadioButtonGroupComponent
                                                         formikField={field}
                                                         options={options}/>
+                                                )
+                                            }
+                                        </Field>
+                                        <Field name={'rm'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikSelectComponent
+                                                        formikField={field}
+                                                        fullWidth={true}
+                                                        displayWith={item => item.fName + " " +item.lName}
+                                                        valueExtractor={item => item.id}
+                                                        keyExtractor={item => item.id}
+                                                        label={"Reporting Manager"}
+                                                        options={users}/>
                                                 )
                                             }
                                         </Field>

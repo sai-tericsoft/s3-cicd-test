@@ -28,7 +28,7 @@ const InputComponent = (props: InputComponentProps) => {
     }, [onChange]);
     
     return (
-        <FormControl className={'input-component ' + className + ' ' + (fullWidth ? "full-width" : "")} error={hasError}>
+        <FormControl className={'input-component ' + className + ' ' + (fullWidth ? "full-width" : "")} error={hasError} fullWidth={fullWidth}>
             <TextField type={type}
                        id={id}
                        fullWidth={fullWidth}
@@ -40,7 +40,7 @@ const InputComponent = (props: InputComponentProps) => {
                        value={value}
                        variant={variant}
                        disabled={disabled}
-                       multiline={rows > 1}
+                       multiline={true}
                        rows={rows}
                        InputProps={{
                            startAdornment: prefix && <InputAdornment position="start">{prefix}</InputAdornment>,

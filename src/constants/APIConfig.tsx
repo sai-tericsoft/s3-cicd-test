@@ -8,6 +8,13 @@ interface IAPIConfig {
 }
 
 const APIConfig: IAPIConfig = {
+    //meta start
+    CONSULTATION_DURATION_LIST: {
+        URL: ENV.API_URL + "/consultation/duration",
+        METHOD: "get"
+    },
+    //meta end
+
     // authentication start
     LOGIN: {
         URL: ENV.API_URL + "/login",
@@ -43,7 +50,7 @@ const APIConfig: IAPIConfig = {
     SERVICE_ADD: {
         URL: ENV.API_URL + "/service",
         METHOD: "post"
-    }
+    },
     // service category end
 
     // service start

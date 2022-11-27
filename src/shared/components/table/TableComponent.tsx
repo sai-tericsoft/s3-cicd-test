@@ -7,13 +7,14 @@ import StatusComponentComponent from "../status-component/StatusComponentCompone
 
 interface TableComponentProps extends ITableComponentProps {
     data: any[];
+    loading?: boolean;
 }
 
 const TableComponent = (props: TableComponentProps) => {
 
     const {data, onRowClick, rowKey, rowClassName, bordered, loading, columns} = props;
     const size = props.size || "large";
-    const showHeader = props.showHeader !== undefined ? props.fixedHeader : true;
+    const showHeader = props.showHeader !== undefined ? props.showHeader : true;
 
     const handleRowClick = useCallback((record: any, index: number | undefined) => {
         if (onRowClick) {

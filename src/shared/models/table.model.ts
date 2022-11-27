@@ -9,15 +9,14 @@ export interface ITableColumn {
 }
 
 export interface ITableComponentProps {
-    columns: ITableColumn[];
-    size?: 'small' | 'middle' | 'large';
     bordered?: boolean;
+    columns: ITableColumn[];
     fixedHeader?: boolean;
-    loading?: boolean;
+    onRowClick?: (row: any, index: any) => void;
     rowClassName?: (row: any, index: number) => string;
     rowKey?: (row: any) => string;
     showHeader?: boolean;
-    onRowClick?: (row: any, index: any) => void;
+    size?: 'small' | 'middle' | 'large';
 }
 
 

@@ -53,11 +53,13 @@ const ServiceListComponent = (props: ServiceListComponentProps) => {
                         Services
                     </div>
                     <div className="service-list-options">
-                        <ButtonComponent
-                            prefixIcon={<ImageConfig.AddIcon/>}
-                        >
-                            Add Service
-                        </ButtonComponent>
+                        <LinkComponent route={CommonService._routeConfig.ServiceAdd(serviceCategoryId)}>
+                            <ButtonComponent
+                                prefixIcon={<ImageConfig.AddIcon/>}
+                            >
+                                Add Service
+                            </ButtonComponent>
+                        </LinkComponent>
                     </div>
                 </div>
             </div>
