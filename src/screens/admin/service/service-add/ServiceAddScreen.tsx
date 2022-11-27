@@ -2,7 +2,7 @@ import "./ServiceAddScreen.scss";
 import FormControlLabelComponent from "../../../../shared/components/form-control-label/FormControlLabelComponent";
 import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {useCallback, useEffect, useState} from "react";
-import {IServiceAdd} from "../../../../shared/models/service-add.model";
+import {IServiceAdd} from "../../../../shared/models/service.model";
 import * as Yup from "yup";
 import FormikInputComponent from "../../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import FormikTextAreaComponent
