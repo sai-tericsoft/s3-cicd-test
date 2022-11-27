@@ -33,6 +33,7 @@ import {ReactComponent as SchedulingIcon} from './../assets/icons/side-menu/sche
 
 // general
 import {ReactComponent as AddIcon} from './../assets/icons/add.svg';
+import {ReactComponent as AddCircleIcon} from './../assets/icons/add_circle.svg';
 
 
 import PlaceHolderImage from '../assets/place_holder_image.png';
@@ -69,5 +70,6 @@ export {
     PDFIcon,
     WordDocIcon,
     ExcelIcon,
-    UnknownFileTypeIcon
+    UnknownFileTypeIcon,
+    AddCircleIcon
 }

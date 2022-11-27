@@ -8,6 +8,13 @@ interface IAPIConfig {
 }
 
 const APIConfig: IAPIConfig = {
+    //meta start
+    CONSULTATION_DURATION_LIST: {
+        URL: ENV.API_URL + "/consultation/duration",
+        METHOD: "get"
+    },
+    //meta end
+
     // authentication start
     LOGIN: {
         URL: ENV.API_URL + "/login",
@@ -51,12 +58,15 @@ const APIConfig: IAPIConfig = {
         URL: (serviceId: string) => ENV.API_URL + '/service/' + serviceId,
         METHOD: "get"
     },
+    SERVICE_ADD: {
+        URL: ENV.API_URL + "/service",
+        METHOD: "post"
+    },
+    SERVICE_EDIT: {
+        URL: (serviceId: string) => ENV.API_URL + '/service/' + serviceId,
+        METHOD: "put"
+    },
     // service end
-
-    // GET_LOCATION_PHYSICIAN_LIST: {
-    //     URL: (location_id: any) => ENV.API_URL + '/location/' + location_id + '/getPhysiciansList',
-    //     METHOD: "get"
-    // },
 }
 
 export default APIConfig;

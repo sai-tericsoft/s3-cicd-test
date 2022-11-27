@@ -1,12 +1,15 @@
+import React from "react";
+
 interface CardComponentProps {
     title?: string;
     className?: string;
     size?: "sm" | "md" | "lg" | "xl";
+    actions?: React.ReactNode;
 }
 
 const CardComponent = (props: React.PropsWithChildren<CardComponentProps>) => {
 
-    const {title, className, children} = props;
+    const {title, actions, className, children} = props;
     const size = props.size || "lg";
 
     return (
@@ -15,6 +18,11 @@ const CardComponent = (props: React.PropsWithChildren<CardComponentProps>) => {
                 <div className="card-title">
                     {title}
                 </div>
+                {
+                    actions && <div className="card-actions">
+                        {actions}
+                    </div>
+                }
             </div>}
             <div className="card-body">
                 {children}

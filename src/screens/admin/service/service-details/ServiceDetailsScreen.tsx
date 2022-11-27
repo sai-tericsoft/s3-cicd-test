@@ -9,6 +9,7 @@ import {useParams} from "react-router-dom";
 import BasicDetailsCardComponent from "../../../../shared/components/basic-details-card/BasicDetailsCardComponent";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../../constants";
+import LinkComponent from "../../../../shared/components/link/LinkComponent";
 
 interface ServiceDetailsScreenProps {
 
@@ -66,11 +67,16 @@ const ServiceDetailsScreen = (props: ServiceDetailsScreenProps) => {
                             avatarUrl={serviceDetails?.image?.url}
                             subTitle={serviceDetails?.description}
                             actions={<>
-                                <ButtonComponent
-                                    prefixIcon={<ImageConfig.EditIcon/>}
-                                >
-                                    Edit Details
-                                </ButtonComponent>
+                                {(serviceDetails?.category_id && serviceId)&&
+                                    <LinkComponent
+                                        route={CommonService._routeConfig.ServiceEdit(serviceDetails?.category_id, serviceId)}>
+                                        <ButtonComponent
+                                            prefixIcon={<ImageConfig.EditIcon/>}
+                                        >
+                                            Edit Details
+                                        </ButtonComponent>
+                                    </LinkComponent>
+                                }
                             </>}
                         ></BasicDetailsCardComponent>
                     </div>

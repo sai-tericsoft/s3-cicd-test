@@ -38,8 +38,6 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
 
     const {serviceCategory, onEdit} = props;
 
-    console.log(serviceCategory);
-
     const [serviceCategoryEditFormInitialValues, setServiceCategoryEditFormInitialValues] = useState<IServiceCategoryEditForm>({
         name: "",
         image: "",

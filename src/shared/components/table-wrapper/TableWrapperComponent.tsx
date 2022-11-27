@@ -17,7 +17,7 @@ export interface TableComponentProps extends ITableComponentProps{
 
 const TableWrapperComponent = (props: TableComponentProps) => {
 
-    const {columns, size, url, method, extraPayload, fixedHeader, isPaginated} = props;
+    const {columns, showHeader, size, url, method, extraPayload, fixedHeader, isPaginated} = props;
 
     const [isDataLoading, setIsDataLoading] = useState<any>(false);
     const [isDataLoaded, setIsDataLoaded] = useState<any>(false);
@@ -101,6 +101,7 @@ const TableWrapperComponent = (props: TableComponentProps) => {
             {isDataLoadingFailed && <div>Failed to load</div>}
             <div className="t-table-wrapper">
                 <TableComponent
+                    showHeader={showHeader}
                     fixedHeader={fixedHeader}
                     columns={columns}
                     size={size}

@@ -27,6 +27,11 @@ const ServiceCategoryDetailsScreen = (props: ServiceCategoryDetailsScreenProps) 
     const [isServiceCategoryDetailsLoadingFailed, setIsServiceCategoryDetailsLoadingFailed] = useState<boolean>(false);
     const [isServiceCategoryEditFormOpened, setIsServiceCategoryEditFormOpened] = useState<boolean>(false);
 
+    // Add Service States Start from
+
+    const [isServiceCategoryAddFormOpened, setIsServiceCategoryAddFormOpened] = useState<boolean>(false)
+
+
     const fetchServiceCategoryDetails = useCallback((serviceCategoryId: string) => {
         setIsServiceCategoryDetailsLoading(true);
         CommonService._serviceCategory.ServiceCategoryDetailsAPICall(serviceCategoryId, {})
@@ -59,6 +64,17 @@ const ServiceCategoryDetailsScreen = (props: ServiceCategoryDetailsScreenProps) 
     const closeServiceCategoryEditFormDrawer = useCallback(() => {
         setIsServiceCategoryEditFormOpened(false);
     }, []);
+
+    // Add Service Drawer function starts here
+
+    const openServiceCategoryAddFormDrawer=useCallback(()=>{
+        setIsServiceCategoryAddFormOpened(true);
+    },[])
+
+    const closeServiceCategoryAddFormDrawer = useCallback(() => {
+        setIsServiceCategoryAddFormOpened(false);
+    }, []);
+// ---------------------------------------------------------------------------------------
 
     const handleServiceCategoryEdit = useCallback((serviceCategory: IServiceCategory) => {
         setServiceCategoryDetails(serviceCategory);
