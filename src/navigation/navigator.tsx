@@ -6,7 +6,7 @@ import {
     ADMIN,
     COMING_SOON_ROUTE,
     DASHBOARD,
-    DESIGN_SYSTEM_ROUTE,
+    DESIGN_SYSTEM_ROUTE, FACILITY_LIST,
     LOGIN_ROUTE,
     NOT_FOUND_ROUTE, SERVICE_ADD,
     SERVICE_CATEGORY_DETAILS,
@@ -31,6 +31,7 @@ import ServiceCategoryDetailsScreen
 import ServiceDetailsScreen from "../screens/admin/service/service-details/ServiceDetailsScreen";
 import ServiceAddScreen from "../screens/admin/service/service-add/ServiceAddScreen";
 import ServiceEditScreen from "../screens/admin/service/service-edit/ServiceEditScreen";
+import FacilityListScreen from "../screens/admin/facility/facility-list/FacilityListScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -98,7 +99,15 @@ const Navigator = (props: NavigatorProps) => {
                     <Route
                         index
                         element={
-                            <Navigate to={SERVICE_CATEGORY_LIST}/>
+                            <Navigate to={FACILITY_LIST}/>
+                        }
+                    />
+                    <Route
+                        path={FACILITY_LIST}
+                        element={
+                            <ProtectedRoute>
+                                <FacilityListScreen/>
+                            </ProtectedRoute>
                         }
                     />
                     <Route

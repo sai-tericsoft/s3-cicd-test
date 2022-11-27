@@ -1,7 +1,7 @@
 import {
     ADMIN,
     COMING_SOON_ROUTE,
-    DASHBOARD,
+    DASHBOARD, FACILITY_LIST,
     LOGIN_ROUTE,
     NOT_FOUND_ROUTE, SERVICE_ADD,
     SERVICE_CATEGORY_DETAILS,
@@ -54,6 +54,9 @@ const Admin = () => {
     return ADMIN;
 }
 
+const FacilityList = () => {
+    return FACILITY_LIST;
+}
 
 const RouteConfigService = {
     LoginRoute,
@@ -66,7 +69,8 @@ const RouteConfigService = {
     ServiceCategoryDetails,
     ServiceDetails,
     ServiceAdd,
-    ServiceEdit
+    ServiceEdit,
+    FacilityList
 }
 
 export default RouteConfigService;

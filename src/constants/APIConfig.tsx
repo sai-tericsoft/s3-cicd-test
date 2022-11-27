@@ -67,6 +67,13 @@ const APIConfig: IAPIConfig = {
         METHOD: "put"
     },
     // service end
+
+    // facility start
+    FACILITY_LIST: {
+        URL: ENV.API_URL + "/facility",
+        METHOD: "get"
+    },
+    // facility end
 }
 
 export default APIConfig;

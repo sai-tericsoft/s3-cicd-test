@@ -9,7 +9,7 @@ interface AdminModuleLayoutScreenProps {
 const ADMIN_MENU_ITEMS = [
     {
         title: "Facility Management",
-        link: CommonService._routeConfig.ComingSoonRoute()
+        link: CommonService._routeConfig.FacilityList()
     },
     {
         title: "Service Category",
