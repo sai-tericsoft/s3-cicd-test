@@ -14,7 +14,6 @@ import ModalComponent from "../../shared/components/modal/ModalComponent";
 import CardComponent from "../../shared/components/card/CardComponent";
 import FormikRadioButtonGroupComponent
     from "../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
-import SelectComponent from "../../shared/components/form-controls/select/SelectComponent";
 import FormikSelectComponent from "../../shared/components/form-controls/formik-select/FormikSelectComponent";
 
 interface DesignSystemScreenProps {

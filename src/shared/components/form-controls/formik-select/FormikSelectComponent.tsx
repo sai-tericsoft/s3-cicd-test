@@ -30,7 +30,7 @@ const FormikSelectComponent = (props: FormikSelectComponentProps) => {
         if (onUpdate) {
             onUpdate(value);
         }
-    }, [onUpdate, setFieldValue, name]);
+    }, [setFieldTouched, onUpdate, setFieldValue, name]);
 
     const onBlur = useCallback(() => {
         setFieldTouched(name);

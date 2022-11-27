@@ -135,7 +135,7 @@ const Navigator = (props: NavigatorProps) => {
                     }
                 />
                 <Route
-                    path={SERVICE_EDIT + '/:serviceCategoryId' + '/:serviceId'}
+                    path={SERVICE_EDIT + '/:serviceCategoryId/:serviceId'}
                     element={
                         <ProtectedRoute>
                             <ServiceEditScreen/>

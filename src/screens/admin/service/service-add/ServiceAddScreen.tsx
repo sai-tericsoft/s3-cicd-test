@@ -110,7 +110,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                 setIsServiceAddInProgress(false);
             })
 
-    }, [serviceCategoryId]);
+    }, [navigate, serviceCategoryId]);
 
     return (
         <div className={'service-add-component'}>

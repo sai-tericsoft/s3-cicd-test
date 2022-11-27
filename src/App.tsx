@@ -74,7 +74,7 @@ const App = (props: AppProps) => {
         if (token) {
             dispatch(getConsultationDurationList());
         }
-    }, [token])
+    }, [token, dispatch])
 
     return (
         // <LocalizationProvider dateAdapter={AdapterMoment}>

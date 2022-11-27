@@ -59,9 +59,9 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
     const navigate = useNavigate();
     const {serviceId} = useParams();
     const [serviceDetails, setServiceDetails] = useState<IService | undefined>(undefined);
-    const [isServiceDetailsLoading, setIsServiceDetailsLoading] = useState<boolean>(false);
-    const [isServiceDetailsLoaded, setIsServiceDetailsLoaded] = useState<boolean>(false);
-    const [isServiceDetailsLoadingFailed, setIsServiceDetailsLoadingFailed] = useState<boolean>(false);
+    // const [isServiceDetailsLoading, setIsServiceDetailsLoading] = useState<boolean>(false);
+    // const [isServiceDetailsLoaded, setIsServiceDetailsLoaded] = useState<boolean>(false);
+    // const [isServiceDetailsLoadingFailed, setIsServiceDetailsLoadingFailed] = useState<boolean>(false);
 
     const [editServiceFormInitialValues, setEditServiceFormInitialValues] = useState<IServiceEdit>({
         name: "",
@@ -101,17 +101,18 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
     }, [dispatch]);
 
     const fetchServiceDetails = useCallback((serviceId: string) => {
-        setIsServiceDetailsLoading(true);
+        // setIsServiceDetailsLoading(true);
         CommonService._serviceCategory.ServiceDetailsAPICall(serviceId, {})
             .then((response: IAPIResponseType<IService>) => {
                 setServiceDetails(response.data);
-                setIsServiceDetailsLoading(false);
-                setIsServiceDetailsLoaded(true);
-                setIsServiceDetailsLoadingFailed(false);
+                // setIsServiceDetailsLoading(false);
+                // setIsServiceDetailsLoaded(true);
+                // setIsServiceDetailsLoadingFailed(false);
             }).catch((error: any) => {
-            setIsServiceDetailsLoading(false);
-            setIsServiceDetailsLoaded(false);
-            setIsServiceDetailsLoadingFailed(true);
+            setServiceDetails(undefined);
+            // setIsServiceDetailsLoading(false);
+            // setIsServiceDetailsLoaded(false);
+            // setIsServiceDetailsLoadingFailed(true);
         })
     }, []);
 
@@ -161,7 +162,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                     setIsServiceEditInProgress(false);
                 });
         }
-    }, [serviceId]);
+    }, [navigate, serviceId]);
 
     return (
         <div className={'service-add-component'}>
