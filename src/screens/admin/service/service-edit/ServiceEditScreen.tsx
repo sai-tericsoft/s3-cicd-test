@@ -1,8 +1,8 @@
-import "./ServiceAddScreen.scss";
+import "./ServiceEditScreen.scss";
 import FormControlLabelComponent from "../../../../shared/components/form-control-label/FormControlLabelComponent";
 import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {useCallback, useEffect, useState} from "react";
-import {IServiceAdd} from "../../../../shared/models/service-add.model";
+import {IServiceEdit} from "../../../../shared/models/service-add.model";
 import * as Yup from "yup";
 import FormikInputComponent from "../../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import FormikTextAreaComponent
@@ -22,11 +22,13 @@ import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../../store/reducers";
 import {useNavigate, useParams} from "react-router-dom";
+import {IService} from "../../../../shared/models/service-category.model";
+import FormikSwitchComponent from "../../../../shared/components/form-controls/formik-switch/FormikSwitchComponent";
 
-interface ServiceAddComponentProps {
+interface ServiceEditComponentProps {
 }
 
-const serviceAddFormValidationSchema = Yup.object({
+const serviceEditFormValidationSchema = Yup.object({
     name: Yup.string()
         .required('The name field is required'),
     description: Yup.string()
@@ -51,17 +53,22 @@ const serviceAddFormValidationSchema = Yup.object({
     ),
 });
 
-const ServiceAddScreen = (props: ServiceAddComponentProps) => {
+const ServiceEditScreen = (props: ServiceEditComponentProps) => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {serviceCategoryId} = useParams();
+    const {serviceId} = useParams();
+    const [serviceDetails, setServiceDetails] = useState<IService | undefined>(undefined);
+    const [isServiceDetailsLoading, setIsServiceDetailsLoading] = useState<boolean>(false);
+    const [isServiceDetailsLoaded, setIsServiceDetailsLoaded] = useState<boolean>(false);
+    const [isServiceDetailsLoadingFailed, setIsServiceDetailsLoadingFailed] = useState<boolean>(false);
 
-    const [addServiceFormInitialValues] = useState<IServiceAdd>({
+    const [editServiceFormInitialValues, setEditServiceFormInitialValues] = useState<IServiceEdit>({
         name: "",
         description: "",
         image: "",
         category_id: "",
+        is_active: false,
         initial_consultation: [
             {
                 title: "",
@@ -86,39 +93,82 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
         ],
     });
 
-    const [isServiceAddInProgress, setIsServiceAddInProgress] = useState(false);
+    const [isServiceEditInProgress, setIsServiceEditInProgress] = useState(false);
     const {consultationDurationList} = useSelector((state: IRootReducerState) => state.staticData);
 
     useEffect(() => {
-        dispatch(setCurrentNavParams("Add Service", null, true));
+        dispatch(setCurrentNavParams("Edit Service", null, true));
     }, [dispatch]);
 
-    const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        values["category_id"] = serviceCategoryId;
-        setIsServiceAddInProgress(true);
-        const formData = CommonService.getFormDataFromJSON(values);
-        CommonService._service.ServiceAddAPICall(formData)
-            .then((response: IAPIResponseType<IServiceAdd>) => {
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                setIsServiceAddInProgress(false);
-                if (serviceCategoryId) {
-                    navigate(CommonService._routeConfig.ServiceCategoryDetails(serviceCategoryId));
-                }
-            })
-            .catch((error: any) => {
-                CommonService.handleErrors(setErrors, error);
-                setIsServiceAddInProgress(false);
-            })
+    const fetchServiceDetails = useCallback((serviceId: string) => {
+        setIsServiceDetailsLoading(true);
+        CommonService._serviceCategory.ServiceDetailsAPICall(serviceId, {})
+            .then((response: IAPIResponseType<IService>) => {
+                setServiceDetails(response.data);
+                setIsServiceDetailsLoading(false);
+                setIsServiceDetailsLoaded(true);
+                setIsServiceDetailsLoadingFailed(false);
+            }).catch((error: any) => {
+            setIsServiceDetailsLoading(false);
+            setIsServiceDetailsLoaded(false);
+            setIsServiceDetailsLoadingFailed(true);
+        })
+    }, []);
 
-    }, [serviceCategoryId]);
+    useEffect(() => {
+        if (serviceId) {
+            fetchServiceDetails(serviceId);
+        }
+    }, [serviceId, fetchServiceDetails]);
+
+    useEffect(() => {
+        if (serviceDetails) {
+            setEditServiceFormInitialValues({
+                name: serviceDetails.name,
+                description: serviceDetails.description,
+                image: undefined,
+                category_id: serviceDetails.category_id,
+                is_active: serviceDetails.is_active,
+                initial_consultation: serviceDetails.initial_consultation,
+                followup_consultation: serviceDetails.followup_consultation
+            });
+            CommonService.generateBlobFileFromUrl(serviceDetails.image.url, serviceDetails.name, serviceDetails.image.type)
+                .then((response) => {
+                    setEditServiceFormInitialValues((oldSate) => {
+                        return {
+                            ...oldSate,
+                            image: response
+                        }
+                    })
+                });
+        }
+    }, [serviceDetails]);
+
+    const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
+        if (serviceId) {
+            setIsServiceEditInProgress(true);
+            const formData = CommonService.getFormDataFromJSON(values);
+            CommonService._service.ServiceEditAPICall(serviceId, formData)
+                .then((response: IAPIResponseType<IServiceEdit>) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    setIsServiceEditInProgress(false);
+                    if (serviceId) {
+                        navigate(CommonService._routeConfig.ServiceDetails(serviceId));
+                    }
+                })
+                .catch((error: any) => {
+                    CommonService.handleErrors(setErrors, error);
+                    setIsServiceEditInProgress(false);
+                });
+        }
+    }, [serviceId]);
 
     return (
         <div className={'service-add-component'}>
             <div className={'service-category-service-add-form'}>
-                <FormControlLabelComponent label={"Add New Service"} size={'lg'}/>
                 <Formik
-                    validationSchema={serviceAddFormValidationSchema}
-                    initialValues={addServiceFormInitialValues}
+                    validationSchema={serviceEditFormValidationSchema}
+                    initialValues={editServiceFormInitialValues}
                     onSubmit={onSubmit}
                     validateOnChange={false}
                     validateOnBlur={true}
@@ -131,7 +181,29 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                         }, [validateForm, values]);
                         return (
                             <Form noValidate={true}>
-                                <div>
+                                <div
+                                    className={"mrg-bottom-20 display-flex align-items-center justify-content-space-between"}>
+                                    <FormControlLabelComponent label={"Edit Service"}
+                                                               size={"lg"}
+                                                               className={"mrg-bottom-0"}
+                                                               required={true}/>
+                                    <div className={"display-flex align-items-center"}>
+                                        <div>Status:</div>
+                                        <Field name={'is_active'} className="t-form-control">
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikSwitchComponent
+                                                        label={values.is_active ? "Active" : "Inactive"}
+                                                        required={true}
+                                                        formikField={field}
+                                                        labelPlacement={"start"}
+                                                    />
+                                                )
+                                            }
+                                        </Field>
+                                    </div>
+                                </div>
+                                <div className="t-form-controls">
                                     <Field name={'name'}>
                                         {
                                             (field: FieldProps) => (
@@ -153,6 +225,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                 <FormikTextAreaComponent formikField={field}
                                                                          label={'Service Description'}
                                                                          placeholder={'Service Description'}
+                                                                         required={true}
                                                                          fullWidth={true}
                                                 />)
                                         }
@@ -481,12 +554,12 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                 </div>
                                 <div className="t-form-actions">
                                     <ButtonComponent
-                                        isLoading={isServiceAddInProgress}
+                                        isLoading={isServiceEditInProgress}
                                         type={"submit"}
                                         fullWidth={true}
                                         id={"sc_save_btn"}
                                     >
-                                        {isServiceAddInProgress ? "Saving" : "Save"}
+                                        {isServiceEditInProgress ? "Saving" : "Save"}
                                     </ButtonComponent>
                                 </div>
 
@@ -500,4 +573,4 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
 
 };
 
-export default ServiceAddScreen;
+export default ServiceEditScreen;

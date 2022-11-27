@@ -6,7 +6,7 @@ import {
     NOT_FOUND_ROUTE, SERVICE_ADD,
     SERVICE_CATEGORY_DETAILS,
     SERVICE_CATEGORY_LIST,
-    SERVICE_DETAILS,
+    SERVICE_DETAILS, SERVICE_EDIT,
     TEST_ROUTE
 } from "../../constants/RoutesConfig";
 
@@ -46,6 +46,10 @@ const ServiceAdd = (serviceCategoryId: string) => {
     return SERVICE_ADD + '/' + serviceCategoryId;
 }
 
+const ServiceEdit = (serviceCategoryId: string, serviceId: string) => {
+    return SERVICE_EDIT + '/' + serviceCategoryId + '/' + serviceId;
+}
+
 const Admin = () => {
     return ADMIN;
 }
@@ -61,7 +65,8 @@ const RouteConfigService = {
     Admin,
     ServiceCategoryDetails,
     ServiceDetails,
-    ServiceAdd
+    ServiceAdd,
+    ServiceEdit
 }
 
 export default RouteConfigService;

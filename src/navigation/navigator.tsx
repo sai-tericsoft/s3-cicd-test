@@ -11,7 +11,7 @@ import {
     NOT_FOUND_ROUTE, SERVICE_ADD,
     SERVICE_CATEGORY_DETAILS,
     SERVICE_CATEGORY_LIST,
-    SERVICE_DETAILS,
+    SERVICE_DETAILS, SERVICE_EDIT,
     TEST_ROUTE
 } from "../constants/RoutesConfig";
 import TestScreen from "../screens/test/TestScreen";
@@ -30,6 +30,7 @@ import ServiceCategoryDetailsScreen
     from "../screens/admin/service-categories/service-category-details/ServiceCategoryDetailsScreen";
 import ServiceDetailsScreen from "../screens/admin/service/service-details/ServiceDetailsScreen";
 import ServiceAddScreen from "../screens/admin/service/service-add/ServiceAddScreen";
+import ServiceEditScreen from "../screens/admin/service/service-edit/ServiceEditScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -130,6 +131,14 @@ const Navigator = (props: NavigatorProps) => {
                     element={
                         <ProtectedRoute>
                             <ServiceAddScreen/>
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path={SERVICE_EDIT + '/:serviceCategoryId' + '/:serviceId'}
+                    element={
+                        <ProtectedRoute>
+                            <ServiceEditScreen/>
                         </ProtectedRoute>
                     }
                 />

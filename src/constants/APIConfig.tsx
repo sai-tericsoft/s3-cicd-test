@@ -47,10 +47,6 @@ const APIConfig: IAPIConfig = {
         URL: (serviceCategoryId: string) => ENV.API_URL + '/category/' + serviceCategoryId,
         METHOD: "put"
     },
-    SERVICE_ADD: {
-        URL: ENV.API_URL + "/service",
-        METHOD: "post"
-    },
     // service category end
 
     // service start
@@ -61,6 +57,14 @@ const APIConfig: IAPIConfig = {
     SERVICE_DETAILS: {
         URL: (serviceId: string) => ENV.API_URL + '/service/' + serviceId,
         METHOD: "get"
+    },
+    SERVICE_ADD: {
+        URL: ENV.API_URL + "/service",
+        METHOD: "post"
+    },
+    SERVICE_EDIT: {
+        URL: (serviceId: string) => ENV.API_URL + '/service/' + serviceId,
+        METHOD: "put"
     },
     // service end
 
