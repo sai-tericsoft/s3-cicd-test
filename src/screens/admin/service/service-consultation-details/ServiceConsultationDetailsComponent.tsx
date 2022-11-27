@@ -1,9 +1,9 @@
 import "./ServiceConsultationDetailsComponent.scss";
 import {IService} from "../../../../shared/models/service-category.model";
-import {ITableColumn} from "../../../../shared/models/table.model";
-import {Misc} from "../../../../constants";
-import TableComponent from "../../../../shared/components/table/TableComponent";
+// import {ITableColumn} from "../../../../shared/models/table.model";
+// import {Misc} from "../../../../constants";
 import CardComponent from "../../../../shared/components/card/CardComponent";
+// import TableComponent from "../../../../shared/components/table/TableComponent";
 
 interface ServiceConsultationDetailsComponentProps {
     serviceDetails: IService
@@ -11,23 +11,23 @@ interface ServiceConsultationDetailsComponentProps {
 
 const ServiceConsultationDetailsComponent = (props: ServiceConsultationDetailsComponentProps) => {
 
-    const {serviceDetails} = props;
-
-    const ServiceConsultationColumns: ITableColumn[] = [
-        {
-            title: "Duration",
-            key: "duration",
-            dataIndex: "duration"
-        },
-        {
-            title: "Price",
-            key: "price",
-            dataIndex: "price",
-            render: (_: any, item: any) => {
-                return <span> {Misc.CURRENCY_SYMBOL} {item.price} </span>
-            }
-        }
-    ]
+    // const {serviceDetails} = props;
+    //
+    // const ServiceConsultationColumns: ITableColumn[] = [
+    //     {
+    //         title: "Duration",
+    //         key: "duration",
+    //         dataIndex: "duration"
+    //     },
+    //     {
+    //         title: "Price",
+    //         key: "price",
+    //         dataIndex: "price",
+    //         render: (_: any, item: any) => {
+    //             return <span> {Misc.CURRENCY_SYMBOL} {item.price} </span>
+    //         }
+    //     }
+    // ]
 
     return (
         <div className={'service-consultation-details-component'}>
