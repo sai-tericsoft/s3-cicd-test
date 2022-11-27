@@ -1,7 +1,7 @@
 import {
     ADMIN,
     COMING_SOON_ROUTE,
-    DASHBOARD, FACILITY_LIST,
+    DASHBOARD, FACILITY_DETAILS, FACILITY_LIST,
     LOGIN_ROUTE,
     NOT_FOUND_ROUTE, SERVICE_ADD,
     SERVICE_CATEGORY_DETAILS,
@@ -58,6 +58,10 @@ const FacilityList = () => {
     return FACILITY_LIST;
 }
 
+const FacilityDetails = (facilityId: string) => {
+    return FACILITY_DETAILS + '/' + facilityId;
+}
+
 const RouteConfigService = {
     LoginRoute,
     NotFoundRoute,
@@ -70,7 +74,8 @@ const RouteConfigService = {
     ServiceDetails,
     ServiceAdd,
     ServiceEdit,
-    FacilityList
+    FacilityList,
+    FacilityDetails
 }
 
 export default RouteConfigService;

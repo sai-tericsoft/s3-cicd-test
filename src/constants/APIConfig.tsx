@@ -73,6 +73,10 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + "/facility",
         METHOD: "get"
     },
+    FACILITY_DETAILS: {
+        URL: (facilityId: string) => ENV.API_URL + '/facility/' + facilityId,
+        METHOD: "get"
+    },
     // facility end
 }
 

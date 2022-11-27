@@ -46,7 +46,7 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
             dataIndex: "actions",
             key: "actions",
             render: (_: any, item: IFacility) => {
-                return <LinkComponent route={CommonService._routeConfig.ComingSoonRoute()}>
+                return <LinkComponent route={CommonService._routeConfig.FacilityDetails(item._id)}>
                     View Details
                 </LinkComponent>
             }

@@ -10,7 +10,6 @@ import BasicDetailsCardComponent from "../../../../shared/components/basic-detai
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../../constants";
 import LinkComponent from "../../../../shared/components/link/LinkComponent";
-import ServiceConsultationDetailsComponent from "../service-consultation-details/ServiceConsultationDetailsComponent";
 
 interface ServiceDetailsScreenProps {
 

@@ -16,6 +16,7 @@ const SERVICE_EDIT = "/admin/service/edit";
 const SERVICE_CATEGORY_DETAILS = "/admin/service-category-details";
 
 const FACILITY_LIST = "/admin/facility-list";
+const FACILITY_DETAILS = "/admin/facility-details";
 
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
@@ -34,5 +35,6 @@ export {
     SERVICE_DETAILS,
     SERVICE_ADD,
     SERVICE_EDIT,
-    FACILITY_LIST
+    FACILITY_LIST,
+    FACILITY_DETAILS
 }
