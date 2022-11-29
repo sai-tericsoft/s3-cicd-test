@@ -6,7 +6,7 @@ const textLight = '#000';
 const textDark = '#EDECEE';
 const error = '#FA6187';
 const success = '#E4F6EA';
-const successContrastText = '#037223';
+const successContrastText = '#00534F';
 const warn = '#d57b4b';
 
 export {

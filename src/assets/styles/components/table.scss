@@ -8,16 +8,34 @@
 
     .ant-table-content {
 
+      table {
+        border-radius: 0 !important;
+      }
+
       .ant-table-thead {
 
         .ant-table-cell {
-          background: #EAF3F2;
+          background: #E1EBEA;
           font-weight: 700;
           font-size: 16px;
-          line-height: 19px;
+          line-height: 16px;
           color: #212B36;
+          letter-spacing: 0.2px;
+          border-radius: 0 !important;
+
+          &::before {
+            content: none !important;
+          }
         }
       }
     }
   }
+}
+
+.ant-spin {
+  top: 50% !important;
+}
+
+.ant-spin-dot.ant-spin-dot-spin {
+  display: none;
 }

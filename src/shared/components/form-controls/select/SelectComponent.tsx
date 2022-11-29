@@ -1,5 +1,5 @@
 import "./SelectComponent.scss";
-import {useCallback, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {InputLabel, MenuItem} from "@mui/material";
 import FormControl from '@mui/material/FormControl';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
@@ -19,12 +19,11 @@ const SelectComponent = (props: SelectComponentProps) => {
         onBlur,
         onUpdate,
         options,
-        value,
         required,
         ...otherProps
     } = props;
 
-    const [tmpValue, setTmpValue] = useState(value);
+    const [tmpValue, setTmpValue] = useState(props.value);
 
     const variant = props.variant || "outlined";
     const size = props.size || "medium";
@@ -42,6 +41,12 @@ const SelectComponent = (props: SelectComponentProps) => {
             onBlur();
         }
     }, [onBlur]);
+
+    useEffect(() => {
+        if (props.value) {
+           setTmpValue(props.value);
+        }
+    }, [props.value]);
 
     const defaultDisplayWith = useCallback((item: any) => item?.title || '', []);
     const defaultValueExtractor = useCallback((item: any) => item?.code || '', []);
