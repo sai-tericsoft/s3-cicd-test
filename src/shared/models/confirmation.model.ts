@@ -10,6 +10,7 @@ export interface IConfirmationConfig {
     direction?: 'left' | 'right' | 'up' | 'down';
     confirmationTitle?: string;
     confirmationDescription?: string;
+    image?: any;
     confirmationSubTitle?: string;
     closeOnEsc?: boolean;
     closeOnBackdropClick?: boolean;

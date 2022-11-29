@@ -9,6 +9,7 @@ import {useParams} from "react-router-dom";
 import BasicDetailsCardComponent from "../../../../shared/components/basic-details-card/BasicDetailsCardComponent";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../../constants";
+import ServiceProviderListComponent from "../service-provider-list/ServiceProviderListComponent";
 
 interface ServiceDetailsScreenProps {
 
@@ -74,8 +75,10 @@ const ServiceDetailsScreen = (props: ServiceDetailsScreenProps) => {
                             </>}
                         ></BasicDetailsCardComponent>
                     </div>
+                    {serviceId && <ServiceProviderListComponent serviceId={serviceId} serviceName={serviceDetails?.name}/>}
                 </>
             }
+
         </div>
     );
 

@@ -405,5 +405,6 @@ const CommonService = {
     _user: UserService,
     _staticData: StaticDataService,
     _serviceCategory: ServiceCategoryService,
+    _serviceProvider:ServiceCategoryService
 }
 export default CommonService;

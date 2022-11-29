@@ -33,14 +33,17 @@ import {ReactComponent as SchedulingIcon} from './../assets/icons/side-menu/sche
 
 // general
 import {ReactComponent as AddIcon} from './../assets/icons/add.svg';
-
+import {ReactComponent as DeleteIcon} from "./../assets/icons/delete.svg";
 
 import PlaceHolderImage from '../assets/place_holder_image.png';
+import RemoveImage from '../assets/images/remove.png'
+
 
 
 export {
     Logo,
     PlaceHolderImage,
+    RemoveImage,
     userIcon,
     SelectDropDownIcon,
     ProfileIcon,
@@ -64,6 +67,7 @@ export {
     LeftArrow,
     RightArrow,
     AddIcon,
+    DeleteIcon,
     NavigateBack,
     EditIcon,
     PDFIcon,

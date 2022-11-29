@@ -51,6 +51,10 @@ const APIConfig: IAPIConfig = {
         URL: (serviceId: string) => ENV.API_URL + '/service/' + serviceId,
         METHOD: "get"
     },
+    SERVICE_PROVIDER_DELETE: {
+        URL: (serviceId: string, providerId: string) => ENV.API_URL + '/service/' + serviceId + "/unlink/" + providerId,
+        METHOD: "delete"
+    }
     // service end
 
     // GET_LOCATION_PHYSICIAN_LIST: {
