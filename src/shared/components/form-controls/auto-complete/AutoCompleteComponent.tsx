@@ -90,7 +90,7 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
                 value={valueExtractor(option)}>
                 {option ? displayWith(option) : ""}
             </MenuItem>
-        ), [displayWith, keyExtractor, multiple]);
+        ), [displayWith, valueExtractor, keyExtractor]);
 
         const renderOption = props.renderOption || defaultRenderOption;
 
@@ -232,7 +232,7 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
                     noOptionsText={noDataMessage}
                     isOptionEqualToValue={useCallback((option: any, value: any) => {
                         return JSON.stringify(valueExtractor(option)) === JSON.stringify(value);
-                    }, [])}
+                    }, [valueExtractor])}
                     loadingText={loadingText}
                     options={dropDownData}
                     getOptionLabel={displayWith}

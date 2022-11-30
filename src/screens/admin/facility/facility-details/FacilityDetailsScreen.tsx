@@ -8,7 +8,6 @@ import {useParams} from "react-router-dom";
 import BasicDetailsCardComponent from "../../../../shared/components/basic-details-card/BasicDetailsCardComponent";
 import {IFacility} from "../../../../shared/models/facility.model";
 import CardComponent from "../../../../shared/components/card/CardComponent";
-import DataLabelValueComponent from "../../../../shared/components/data-label-value/DataLabelValueComponent";
 
 interface FacilityDetailsScreenProps {
 

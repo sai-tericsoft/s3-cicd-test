@@ -6,7 +6,6 @@ import FormikPasswordInputComponent
     from "../../shared/components/form-controls/formik-password-input/FormikPasswordInputComponent";
 import FormikInputComponent from "../../shared/components/form-controls/formik-input/FormikInputComponent";
 import {Login} from "@mui/icons-material";
-import ChipComponent from "../../shared/components/chip/ChipComponent";
 import ButtonComponent from "../../shared/components/button/ButtonComponent";
 import FormikCheckBoxComponent from "../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 import FormikSwitchComponent from "../../shared/components/form-controls/formik-switch/FormikSwitchComponent";
@@ -14,11 +13,8 @@ import ModalComponent from "../../shared/components/modal/ModalComponent";
 import CardComponent from "../../shared/components/card/CardComponent";
 import FormikRadioButtonGroupComponent
     from "../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
-import FormikSelectComponent from "../../shared/components/form-controls/formik-select/FormikSelectComponent";
-import AutoCompleteComponent from "../../shared/components/form-controls/auto-complete/AutoCompleteComponent";
 import FormikAutoCompleteComponent
     from "../../shared/components/form-controls/formik-auto-complete/FormikAutoCompleteComponent";
-import DataLabelValueComponent from "../../shared/components/data-label-value/DataLabelValueComponent";
 
 interface DesignSystemScreenProps {
 
@@ -57,12 +53,6 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
             setIsFormSubmitting(false);
         }, 2000);
     }, []);
-
-    const address = {
-        fNo: "101",
-        city: "Las Vegas",
-        state: "NV 89123 USA"
-    }
 
     return (
         <div className="design-system-screen screen">
