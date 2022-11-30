@@ -13,22 +13,21 @@ export interface TableComponentProps extends ITableComponentProps {
     method: "get" | "post" | string,
     isPaginated: boolean,
     extraPayload?: any;
+    refreshToken?: string; // TODO review and make it standard
 }
 
 const TableWrapperComponent = (props: TableComponentProps) => {
 
-    const {columns, showHeader, size, url, method, extraPayload, fixedHeader, isPaginated} = props;
+    const {columns, size, refreshToken, url, method, extraPayload, fixedHeader, isPaginated} = props;
 
     const [isDataLoading, setIsDataLoading] = useState<boolean>(false);
     const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
     const [isDataLoadingFailed, setIsDataLoadingFailed] = useState<boolean>(false);
     const [data, setData] = useState<any>([]);
-    // const [error, setError] = useState<any>(null);
     const pageNumRef = useRef<number>(0);
     const totalResultsRef = useRef<number>(0);
     const pageSizeRef = useRef<number>(10);
     const fetchPageDataSubscriptionRef = useRef<boolean>(true);
-
 
     const getListData = useCallback(() => {
         const payload = {page: pageNumRef.current + 1, limit: pageSizeRef.current, ...extraPayload};
@@ -52,18 +51,20 @@ const TableWrapperComponent = (props: TableComponentProps) => {
                 }
             }
             setData(listData);
-            // setError(null);
             setIsDataLoading(false);
             setIsDataLoaded(true);
             setIsDataLoadingFailed(false);
         }).catch((error) => {
             setData(listData);
-            // setError(error);
             setIsDataLoading(false);
             setIsDataLoaded(false);
             setIsDataLoadingFailed(true);
         })
     }, [isPaginated, method, url, extraPayload]);
+
+    useEffect(()=>{
+        getListData();
+    }, [refreshToken])
 
     const handlePageNumberChange = useCallback((event: unknown, newPage: number) => {
         pageNumRef.current = newPage;

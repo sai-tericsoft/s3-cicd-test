@@ -58,6 +58,10 @@ const APIConfig: IAPIConfig = {
         URL: (serviceId: string) => ENV.API_URL + '/service/' + serviceId,
         METHOD: "get"
     },
+    SERVICE_PROVIDER_DELETE: {
+        URL: (serviceId: string, providerId: string) => ENV.API_URL + '/service/' + serviceId + "/unlink/" + providerId,
+        METHOD: "delete"
+    }
     SERVICE_ADD: {
         URL: ENV.API_URL + "/service",
         METHOD: "post"
