@@ -12,7 +12,7 @@ import {IAutoCompleteProps} from "../../../models/form-controls.model";
 interface AutoCompleteDropdownComponentProps extends IAutoCompleteProps {
     hasError?: boolean;
     errorMessage?: any;
-    value: any;
+    value?: any;
 }
 
 const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps) => {
@@ -292,3 +292,18 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
 ;
 
 export default AutoCompleteDropdownComponent;
+
+
+
+// ****************************** USAGE ****************************** //
+
+// <AutoCompleteComponent
+//     value={{fName: 'Mick', lName: 'John', id: 1}}
+//     fullWidth={true}
+//     displayWith={item => item ? ( item.fName || "") + " " + ( item.lName || "") : ""}
+//     valueExtractor={item => item.id}
+//     keyExtractor={item => item.id}
+//     label={"Reporting Manager"}
+//     options={[{fName: 'Mick', lName: 'John', id: 1}, {fName: 'John', lName: 'Doe', id: 2}]}/>
+
+// ****************************** USAGE ****************************** //
