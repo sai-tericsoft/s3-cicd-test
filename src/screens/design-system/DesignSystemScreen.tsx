@@ -15,6 +15,9 @@ import CardComponent from "../../shared/components/card/CardComponent";
 import FormikRadioButtonGroupComponent
     from "../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
 import FormikSelectComponent from "../../shared/components/form-controls/formik-select/FormikSelectComponent";
+import AutoCompleteComponent from "../../shared/components/form-controls/auto-complete/AutoCompleteComponent";
+import FormikAutoCompleteComponent
+    from "../../shared/components/form-controls/formik-auto-complete/FormikAutoCompleteComponent";
 
 interface DesignSystemScreenProps {
 
@@ -38,7 +41,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
         password: "",
         tnc: true,
         gender: "m",
-        rm: 1,
+        rm: users[0],
         accessAsAdmin: true,
 
     });
@@ -116,13 +119,27 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                                 )
                                             }
                                         </Field>
+                                        {/*<Field name={'rm'}>*/}
+                                        {/*    {*/}
+                                        {/*        (field: FieldProps) => (*/}
+                                        {/*            <FormikSelectComponent*/}
+                                        {/*                formikField={field}*/}
+                                        {/*                fullWidth={true}*/}
+                                        {/*                displayWith={item => item.fName + " " +item.lName}*/}
+                                        {/*                valueExtractor={item => item.id}*/}
+                                        {/*                keyExtractor={item => item.id}*/}
+                                        {/*                label={"Reporting Manager"}*/}
+                                        {/*                options={users}/>*/}
+                                        {/*        )*/}
+                                        {/*    }*/}
+                                        {/*</Field>*/}
                                         <Field name={'rm'}>
                                             {
                                                 (field: FieldProps) => (
-                                                    <FormikSelectComponent
+                                                    <FormikAutoCompleteComponent
                                                         formikField={field}
                                                         fullWidth={true}
-                                                        displayWith={item => item.fName + " " +item.lName}
+                                                        displayWith={item => item ? ( item.fName || "") + " " + ( item.lName || "") : ""}
                                                         valueExtractor={item => item.id}
                                                         keyExtractor={item => item.id}
                                                         label={"Reporting Manager"}

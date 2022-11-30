@@ -1,3 +1,6 @@
+import React from "react";
+import {AutocompleteRenderOptionState} from "@mui/material";
+
 export interface IInputFieldProps {
     className?: string;
     disabled?: boolean;
@@ -108,13 +111,14 @@ export interface ISelectProps {
     autoWidth?: boolean;
     className?: string;
     disabled?: boolean;
-    displayWith?: (item: any) => any;
     errorMessage?: any;
     fullWidth?: boolean;
     hasError?: boolean;
     id?: string;
     required?: boolean;
+    displayWith?: (item: any) => any;
     keyExtractor?: (item: any) => any;
+    valueExtractor?: (item: any, index: number) => any;
     label?: string;
     onUpdate?: (value: any) => void;
     onBlur?: () => void;
@@ -122,6 +126,48 @@ export interface ISelectProps {
     readOnly?: boolean;
     size?: 'small' | 'medium';
     value?: any;
-    valueExtractor?: (item: any, index: number) => any;
     variant?: 'filled' | 'outlined' | 'standard';
+}
+
+export interface IAutoCompleteProps {
+    blurOnSelect?: boolean;
+    className?: string;
+    clearLocalListData?: boolean;
+    color?: "error" | "primary" | "secondary" | "info" | "success" | "warning" | undefined;
+    options: any[];
+    dataListKey?: string;
+    defaultData?: any[];
+    disableClearable?: boolean;
+    disabled?: boolean;
+    displayWith?: (item: any) => any;
+    extraPayload?: object;
+    freeSolo?: boolean;
+    fullWidth?: boolean;
+    id?: string;
+    isDataLoaded?: boolean;
+    isDataLoading?: boolean;
+    isDataLoadingFailed?: boolean;
+    keyExtractor?: (item: any) => any;
+    label: string;
+    loading?: boolean;
+    loadingText?: string;
+    method?: "get" | "post" | string;
+    multiple?: boolean;
+    name?: string;
+    noDataMessage?: string;
+    onUpdate?: (value: any) => void;
+    openOnFocus?: boolean;
+    payload?: object;
+    placeholder?: string;
+    readOnly?: boolean;
+    renderOption?: (
+        props: React.HTMLAttributes<HTMLLIElement>,
+        option: any,
+        state: AutocompleteRenderOptionState,
+    ) => React.ReactNode;
+    required?: boolean;
+    searchMode?: "clientSide" | "serverSide",
+    size?: 'small' | 'medium';
+    url?: string;
+    valueExtractor?: (item: any) => any;
 }
