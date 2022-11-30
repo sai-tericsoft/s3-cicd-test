@@ -1,5 +1,7 @@
 .data-label-value {
   margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
 
   .data-label {
     font-weight: 400;

@@ -8,6 +8,7 @@ import {useParams} from "react-router-dom";
 import BasicDetailsCardComponent from "../../../../shared/components/basic-details-card/BasicDetailsCardComponent";
 import {IFacility} from "../../../../shared/models/facility.model";
 import CardComponent from "../../../../shared/components/card/CardComponent";
+import DataLabelValueComponent from "../../../../shared/components/data-label-value/DataLabelValueComponent";
 
 interface FacilityDetailsScreenProps {
 
@@ -17,7 +18,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
 
     const {facilityId} = useParams();
     const dispatch = useDispatch();
-    const [facilityDetails, setFacilityDetails] = useState<IFacility | undefined>(undefined);
+    const [facilityDetails, setFacilityDetails] = useState<IFacility | undefined | any>(undefined);
     const [isFacilityDetailsLoading, setIsFacilityDetailsLoading] = useState<boolean>(false);
     const [isFacilityDetailsLoaded, setIsFacilityDetailsLoaded] = useState<boolean>(false);
     const [isFacilityDetailsLoadingFailed, setIsFacilityDetailsLoadingFailed] = useState<boolean>(false);
@@ -75,6 +76,14 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                     </CardComponent>
                     <CardComponent title={"Opening Hours"}>
                         Coming Soon
+                        {/*<div className={"facility-opening-hours"}>*/}
+                        {/*    <DataLabelValueComponent label={"Mon"}>*/}
+                        {/*        7:00 am - 6:00 pm*/}
+                        {/*    </DataLabelValueComponent>*/}
+                        {/*    <DataLabelValueComponent label={"Mon"}>*/}
+                        {/*        7:00 am - 6:00 pm*/}
+                        {/*    </DataLabelValueComponent>*/}
+                        {/*</div>*/}
                     </CardComponent>
                     <CardComponent title={"Address Information"}>
                         Coming Soon
