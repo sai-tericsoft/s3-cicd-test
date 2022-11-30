@@ -1,12 +1,12 @@
 import {
     ADMIN,
     COMING_SOON_ROUTE,
-    DASHBOARD,
+    DASHBOARD, FACILITY_DETAILS, FACILITY_LIST,
     LOGIN_ROUTE,
-    NOT_FOUND_ROUTE,
+    NOT_FOUND_ROUTE, SERVICE_ADD,
     SERVICE_CATEGORY_DETAILS,
     SERVICE_CATEGORY_LIST,
-    SERVICE_DETAILS,
+    SERVICE_DETAILS, SERVICE_EDIT,
     TEST_ROUTE
 } from "../../constants/RoutesConfig";
 
@@ -42,10 +42,25 @@ const ServiceDetails = (serviceId: string) => {
     return SERVICE_DETAILS + '/' + serviceId;
 }
 
+const ServiceAdd = (serviceCategoryId: string) => {
+    return SERVICE_ADD + '/' + serviceCategoryId;
+}
+
+const ServiceEdit = (serviceCategoryId: string, serviceId: string) => {
+    return SERVICE_EDIT + '/' + serviceCategoryId + '/' + serviceId;
+}
+
 const Admin = () => {
     return ADMIN;
 }
 
+const FacilityList = () => {
+    return FACILITY_LIST;
+}
+
+const FacilityDetails = (facilityId: string) => {
+    return FACILITY_DETAILS + '/' + facilityId;
+}
 
 const RouteConfigService = {
     LoginRoute,
@@ -56,7 +71,11 @@ const RouteConfigService = {
     ServiceCategoryList,
     Admin,
     ServiceCategoryDetails,
-    ServiceDetails
+    ServiceDetails,
+    ServiceAdd,
+    ServiceEdit,
+    FacilityList,
+    FacilityDetails
 }
 
 export default RouteConfigService;

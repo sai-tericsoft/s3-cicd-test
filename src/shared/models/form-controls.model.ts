@@ -1,104 +1,173 @@
+import React from "react";
+import {AutocompleteRenderOptionState} from "@mui/material";
+
 export interface IInputFieldProps {
+    className?: string;
+    disabled?: boolean;
+    errorMessage?: any;
+    fullWidth?: boolean;
+    hasError?: boolean;
+    id?: string;
+    inputProps?: any;
     label: string;
-    variant?: "outlined" | "filled" | "standard";
+    name?: string;
+    onChange?: (value: any) => void;
+    placeholder?: string;
+    prefix?: any;
+    readOnly?: boolean;
+    required?: boolean;
     size?: 'medium' | 'small';
     value?: any;
-    required?: boolean;
-    placeholder?: string;
-    onChange?: (value: any) => void;
-    name?: string;
-    id?: string;
-    fullWidth?: boolean;
-    disabled?: boolean;
-    className?: string;
-    prefix?: any;
-    hasError?: boolean;
-    errorMessage?: any;
-    inputProps?: any;
-    readOnly?: boolean;
+    variant?: "outlined" | "filled" | "standard";
 }
 
 export interface ICheckBoxProps {
-    label: string;
     className?: string;
-    name?: string;
     color?: 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
     disabled?: boolean;
+    errorMessage?: any;
+    hasError?: boolean;
     id?: string;
     indeterminate?: boolean;
+    label: string;
+    name?: string;
     onChange?: (isChecked: boolean) => void;
     required?: boolean;
     size?: "medium" | "small";
-    hasError?: boolean;
-    errorMessage?: any;
 }
 
 export interface ISwitchProps {
-    label: string;
     className?: string;
-    name?: string;
     color?: 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
     disabled?: boolean;
+    errorMessage?: any;
+    hasError?: boolean;
     id?: string;
+    label: string;
+    labelPlacement?: 'bottom' | 'end' | 'start' | 'top';
+    name?: string;
     onChange?: (isChecked: boolean) => void;
     required?: boolean;
     size?: "medium" | "small";
-    hasError?: boolean;
-    errorMessage?: any;
-    labelPlacement?: 'bottom' | 'end' | 'start' | 'top';
 }
 
 export interface IRadioButtonGroupProps {
-    name?: string;
-    label?: string;
     checked?: boolean;
+    disabled?: boolean;
+    errorMessage?: any;
+    hasError?: boolean;
+    id?: any;
+    label?: string;
+    name?: string;
+    onChange?: (value: any) => void
     options?: any[];
     required?: boolean;
-    onChange?: (value: any) => void
-    value?: any;
-    id?: any;
     titleKey?: string;
+    value?: any;
     valueKey?: string;
-    disabled?: boolean;
-    hasError?: boolean;
-    errorMessage?: any;
 }
 
 export interface IRadioButtonProps {
-    className?: string;
-    name?: string;
-    label?: string;
     checked?: boolean;
+    className?: string;
+    color?: 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
+    disabled?: boolean;
+    errorMessage?: any;
+    hasError?: boolean;
+    id?: any;
+    label?: string;
+    name?: string;
+    onChange?: (value: any) => void
     option?: any;
     required?: boolean;
-    onChange?: (value: any) => void
-    value?: any;
-    id?: any;
-    titleKey?: string;
-    valueKey?: string;
-    disabled?: boolean;
-    hasError?: boolean;
-    errorMessage?: any;
-    color?: 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
     size?: 'medium' | 'small';
+    titleKey?: string;
+    value?: any;
+    valueKey?: string;
 }
 
 export interface ITextAreaProps {
+    className?: string;
+    disabled?: boolean;
+    errorMessage?: any;
+    fullWidth?: boolean;
+    hasError?: boolean;
+    id?: string;
+    inputProps?: any;
     label: string;
-    variant?: "outlined" | "filled" | "standard";
+    name?: string;
+    onChange?: (value: any) => void;
+    placeholder?: string;
+    readOnly?: boolean;
+    required?: boolean;
+    rows?: number;
     size?: 'medium' | 'small';
     value?: any;
-    required?: boolean;
-    placeholder?: string;
-    onChange?: (value: any) => void;
-    name?: string;
-    id?: string;
-    fullWidth?: boolean;
-    disabled?: boolean;
+    variant?: "outlined" | "filled" | "standard";
+}
+
+
+export interface ISelectProps {
+    autoWidth?: boolean;
     className?: string;
-    hasError?: boolean;
+    disabled?: boolean;
     errorMessage?: any;
-    inputProps?: any;
+    fullWidth?: boolean;
+    hasError?: boolean;
+    id?: string;
+    required?: boolean;
+    displayWith?: (item: any) => any;
+    keyExtractor?: (item: any) => any;
+    valueExtractor?: (item: any, index: number) => any;
+    label?: string;
+    onUpdate?: (value: any) => void;
+    onBlur?: () => void;
+    options: any[];
     readOnly?: boolean;
-    rows?: number;
+    size?: 'small' | 'medium';
+    value?: any;
+    variant?: 'filled' | 'outlined' | 'standard';
+}
+
+export interface IAutoCompleteProps {
+    blurOnSelect?: boolean;
+    className?: string;
+    clearLocalListData?: boolean;
+    color?: "error" | "primary" | "secondary" | "info" | "success" | "warning" | undefined;
+    options: any[];
+    dataListKey?: string;
+    defaultData?: any[];
+    disableClearable?: boolean;
+    disabled?: boolean;
+    displayWith?: (item: any) => any;
+    extraPayload?: object;
+    freeSolo?: boolean;
+    fullWidth?: boolean;
+    id?: string;
+    isDataLoaded?: boolean;
+    isDataLoading?: boolean;
+    isDataLoadingFailed?: boolean;
+    keyExtractor?: (item: any) => any;
+    label: string;
+    loading?: boolean;
+    loadingText?: string;
+    method?: "get" | "post" | string;
+    multiple?: boolean;
+    name?: string;
+    noDataMessage?: string;
+    onUpdate?: (value: any) => void;
+    openOnFocus?: boolean;
+    payload?: object;
+    placeholder?: string;
+    readOnly?: boolean;
+    renderOption?: (
+        props: React.HTMLAttributes<HTMLLIElement>,
+        option: any,
+        state: AutocompleteRenderOptionState,
+    ) => React.ReactNode;
+    required?: boolean;
+    searchMode?: "clientSide" | "serverSide",
+    size?: 'small' | 'medium';
+    url?: string;
+    valueExtractor?: (item: any) => any;
 }

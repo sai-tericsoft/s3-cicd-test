@@ -5,19 +5,52 @@
     //height: calc(100vh - 260px);
     min-height: 300px;
     position: relative;
+  }
+}
 
-    .ant-table-content {
+.ant-table {
 
-      .ant-table-thead {
+  .ant-table-content {
 
-        .ant-table-cell {
-          background: #EAF3F2;
-          font-weight: 700;
-          font-size: 16px;
-          line-height: 19px;
-          color: #212B36;
+    table {
+      border-radius: 0 !important;
+    }
+
+    .ant-table-thead {
+
+      .ant-table-cell {
+        background: #E1EBEA;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 16px;
+        color: #212B36;
+        letter-spacing: 0.2px;
+        border-radius: 0 !important;
+
+        &::before {
+          content: none !important;
         }
       }
     }
   }
+
+
+  &.ant-table-small {
+    .ant-table-thead {
+      .ant-table-cell {
+        font-size: 14px;
+        line-height: 16px;
+      }
+    }
+  }
+
+}
+
+
+.ant-spin {
+  top: 50% !important;
+}
+
+.ant-spin-dot.ant-spin-dot-spin {
+  display: none;
 }

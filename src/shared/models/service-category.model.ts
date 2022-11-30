@@ -31,8 +31,8 @@ export interface IService {
     category: IServiceCategory;
     name: string;
     description: string;
-    initial_consultation: InitialConsultationOrFollowupConsultation;
-    followup_consultation: InitialConsultationOrFollowupConsultation;
+    initial_consultation: InitialConsultationOrFollowupConsultation[];
+    followup_consultation: InitialConsultationOrFollowupConsultation[];
     image: IAttachment;
     is_active: boolean;
     is_deleted: boolean;
@@ -42,7 +42,7 @@ export interface IService {
 
 export interface InitialConsultationOrFollowupConsultation {
     title: string;
-    consultation_details?: (ConsultationDetailsEntity)[] | null;
+    consultation_details: (ConsultationDetailsEntity)[];
 }
 
 export interface ConsultationDetailsEntity {

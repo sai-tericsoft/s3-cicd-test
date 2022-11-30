@@ -7,7 +7,6 @@ export interface InputComponentProps extends IInputFieldProps{
     type?: 'email' | 'number' | 'password' | 'text';
     prefix?: any;
     suffix?: any;
-    rows?: number;
 }
 
 const InputComponent = (props: InputComponentProps) => {
@@ -17,7 +16,6 @@ const InputComponent = (props: InputComponentProps) => {
     const size = props.size || "medium";
     const type = props.type || "text";
     const fullWidth = props.fullWidth || false;
-    const rows = props.rows || 1;
     const placeholder = props.placeholder || label;
 
     const handleOnChange = useCallback((event: any) => {
@@ -28,7 +26,7 @@ const InputComponent = (props: InputComponentProps) => {
     }, [onChange]);
     
     return (
-        <FormControl className={'input-component ' + className + ' ' + (fullWidth ? "full-width" : "")} error={hasError}>
+        <FormControl className={'input-component ' + className + ' ' + (fullWidth ? "full-width" : "")} error={hasError} fullWidth={fullWidth}>
             <TextField type={type}
                        id={id}
                        fullWidth={fullWidth}
@@ -40,8 +38,6 @@ const InputComponent = (props: InputComponentProps) => {
                        value={value}
                        variant={variant}
                        disabled={disabled}
-                       multiline={rows > 1}
-                       rows={rows}
                        InputProps={{
                            startAdornment: prefix && <InputAdornment position="start">{prefix}</InputAdornment>,
                            endAdornment: suffix && <InputAdornment position="end">{suffix}</InputAdornment>,

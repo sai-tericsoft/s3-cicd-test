@@ -6,12 +6,12 @@ import {
     ADMIN,
     COMING_SOON_ROUTE,
     DASHBOARD,
-    DESIGN_SYSTEM_ROUTE,
+    DESIGN_SYSTEM_ROUTE, FACILITY_DETAILS, FACILITY_LIST,
     LOGIN_ROUTE,
-    NOT_FOUND_ROUTE,
+    NOT_FOUND_ROUTE, SERVICE_ADD,
     SERVICE_CATEGORY_DETAILS,
     SERVICE_CATEGORY_LIST,
-    SERVICE_DETAILS,
+    SERVICE_DETAILS, SERVICE_EDIT,
     TEST_ROUTE
 } from "../constants/RoutesConfig";
 import TestScreen from "../screens/test/TestScreen";
@@ -29,6 +29,10 @@ import ServiceCategoriesListScreen
 import ServiceCategoryDetailsScreen
     from "../screens/admin/service-categories/service-category-details/ServiceCategoryDetailsScreen";
 import ServiceDetailsScreen from "../screens/admin/service/service-details/ServiceDetailsScreen";
+import ServiceAddScreen from "../screens/admin/service/service-add/ServiceAddScreen";
+import ServiceEditScreen from "../screens/admin/service/service-edit/ServiceEditScreen";
+import FacilityListScreen from "../screens/admin/facility/facility-list/FacilityListScreen";
+import FacilityDetailsScreen from "../screens/admin/facility/facility-details/FacilityDetailsScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -96,7 +100,15 @@ const Navigator = (props: NavigatorProps) => {
                     <Route
                         index
                         element={
-                            <Navigate to={SERVICE_CATEGORY_LIST}/>
+                            <Navigate to={FACILITY_LIST}/>
+                        }
+                    />
+                    <Route
+                        path={FACILITY_LIST}
+                        element={
+                            <ProtectedRoute>
+                                <FacilityListScreen/>
+                            </ProtectedRoute>
                         }
                     />
                     <Route
@@ -121,6 +133,30 @@ const Navigator = (props: NavigatorProps) => {
                     element={
                         <ProtectedRoute>
                             <ServiceDetailsScreen/>
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path={SERVICE_ADD + '/:serviceCategoryId'}
+                    element={
+                        <ProtectedRoute>
+                            <ServiceAddScreen/>
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path={SERVICE_EDIT + '/:serviceCategoryId/:serviceId'}
+                    element={
+                        <ProtectedRoute>
+                            <ServiceEditScreen/>
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path={FACILITY_DETAILS + '/:facilityId'}
+                    element={
+                        <ProtectedRoute>
+                            <FacilityDetailsScreen/>
                         </ProtectedRoute>
                     }
                 />

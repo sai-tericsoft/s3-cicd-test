@@ -8,7 +8,7 @@ import TableComponent from "../table/TableComponent";
 import {CommonService} from "../../services";
 import PaginationComponent from "../pagination/PaginationComponent";
 
-export interface TableComponentProps extends ITableComponentProps{
+export interface TableComponentProps extends ITableComponentProps {
     url: string,
     method: "get" | "post" | string,
     isPaginated: boolean,
@@ -20,9 +20,9 @@ const TableWrapperComponent = (props: TableComponentProps) => {
 
     const {columns, size, refreshToken, url, method, extraPayload, fixedHeader, isPaginated} = props;
 
-    const [isDataLoading, setIsDataLoading] = useState<any>(false);
-    const [isDataLoaded, setIsDataLoaded] = useState<any>(false);
-    const [isDataLoadingFailed, setIsDataLoadingFailed] = useState<any>(false);
+    const [isDataLoading, setIsDataLoading] = useState<boolean>(false);
+    const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
+    const [isDataLoadingFailed, setIsDataLoadingFailed] = useState<boolean>(false);
     const [data, setData] = useState<any>([]);
     const pageNumRef = useRef<number>(0);
     const totalResultsRef = useRef<number>(0);
@@ -99,25 +99,24 @@ const TableWrapperComponent = (props: TableComponentProps) => {
 
     return (
         <>
-            {isDataLoadingFailed && <div>Failed to load</div>}
-            <div className="t-table-wrapper">
-                <TableComponent
-                    fixedHeader={fixedHeader}
-                    columns={columns}
-                    size={size}
-                    loading={isDataLoading}
-                    data={data}/>
-                {
-                    (isDataLoaded && (data && data?.length) > 0 && isPaginated) && <PaginationComponent
-                        paginationOptions={[10, 25, 100]}
-                        totalResults={totalResultsRef.current}
-                        limit={pageSizeRef.current}
-                        page={pageNumRef.current}
-                        onPageChange={handlePageNumberChange}
-                        onRowsPerPageChange={handlePageSizeChange}
-                    />
-                }
-            </div>
+            <TableComponent
+                showHeader={showHeader}
+                fixedHeader={fixedHeader}
+                columns={columns}
+                size={size}
+                loading={isDataLoading}
+                errored={isDataLoadingFailed}
+                data={data}/>
+            {
+                (isDataLoaded && (data && data?.length) > 0 && isPaginated) && <PaginationComponent
+                    paginationOptions={[10, 25, 100]}
+                    totalResults={totalResultsRef.current}
+                    limit={pageSizeRef.current}
+                    page={pageNumRef.current}
+                    onPageChange={handlePageNumberChange}
+                    onRowsPerPageChange={handlePageSizeChange}
+                />
+            }
         </>
     );
 };

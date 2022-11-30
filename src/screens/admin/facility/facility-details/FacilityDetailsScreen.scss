@@ -1,0 +1,19 @@
+@import "src/assets/styles/common";
+
+.facility-opening-hours {
+  border: 1px solid black;
+  display: inline-block;
+
+  .data-label-value {
+    flex-direction: row;
+    border-bottom: 1px solid grey;
+
+    .data-label {
+      width: 66px;
+    }
+
+    .data-value {
+      font-weight: $font-weight-normal;
+    }
+  }
+}

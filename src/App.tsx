@@ -8,7 +8,9 @@ import ConfirmationComponent from "./shared/components/confirmation/Confirmation
 import {createTheme, ThemeOptions, ThemeProvider} from '@mui/material/styles';
 import {CommonService} from "./shared/services";
 import {logout} from "./store/actions/account.action";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {IRootReducerState} from "./store/reducers";
+import {getConsultationDurationList} from "./store/actions/static-data.action";
 
 interface AppProps {
     setCurrentUser?: any;
@@ -55,6 +57,7 @@ const theme = createTheme(themeOptions);
 const App = (props: AppProps) => {
 
     const dispatch = useDispatch();
+    const {token} = useSelector((state: IRootReducerState) => state.account);
     const logoutSubscriptionRef = useRef(true);
 
     useEffect(() => {
@@ -66,6 +69,12 @@ const App = (props: AppProps) => {
             logoutSubscriptionRef.current = false;
         }
     }, [dispatch]);
+
+    useEffect(() => {
+        if (token) {
+            dispatch(getConsultationDurationList());
+        }
+    }, [token, dispatch])
 
     return (
         // <LocalizationProvider dateAdapter={AdapterMoment}>

@@ -10,6 +10,8 @@ import BasicDetailsCardComponent from "../../../../shared/components/basic-detai
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../../constants";
 import ServiceProviderListComponent from "../service-provider-list/ServiceProviderListComponent";
+import LinkComponent from "../../../../shared/components/link/LinkComponent";
+import ServiceConsultationDetailsComponent from "../service-consultation-details/ServiceConsultationDetailsComponent";
 
 interface ServiceDetailsScreenProps {
 
@@ -67,15 +69,24 @@ const ServiceDetailsScreen = (props: ServiceDetailsScreenProps) => {
                             avatarUrl={serviceDetails?.image?.url}
                             subTitle={serviceDetails?.description}
                             actions={<>
-                                <ButtonComponent
-                                    prefixIcon={<ImageConfig.EditIcon/>}
-                                >
-                                    Edit Details
-                                </ButtonComponent>
+                                {(serviceDetails?.category_id && serviceId)&&
+                                    <LinkComponent
+                                        route={CommonService._routeConfig.ServiceEdit(serviceDetails?.category_id, serviceId)}>
+                                        <ButtonComponent
+                                            prefixIcon={<ImageConfig.EditIcon/>}
+                                        >
+                                            Edit Details
+                                        </ButtonComponent>
+                                    </LinkComponent>
+                                }
                             </>}
                         ></BasicDetailsCardComponent>
                     </div>
-                    {serviceDetails && <ServiceProviderListComponent serviceDetails={serviceDetails}/>}
+                    <div className="service-consultation-details">
+                        {
+                            serviceDetails && <ServiceConsultationDetailsComponent serviceDetails={serviceDetails}/>
+                        }
+                    </div>
                 </>
             }
 

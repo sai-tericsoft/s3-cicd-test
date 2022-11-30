@@ -15,6 +15,8 @@ import * as yup from "yup";
 import {IConfirmationConfig} from "../models/confirmation.model";
 import _ from "lodash";
 import ServiceCategoryService from "./modules/service-category.service";
+import ServiceService from "./modules/service.service";
+import FacilityService from "./modules/facility.service";
 
 yup.addMethod(yup.mixed, 'atLeastOne', (args) => {
     const {message, predicate} = args;
@@ -405,6 +407,7 @@ const CommonService = {
     _user: UserService,
     _staticData: StaticDataService,
     _serviceCategory: ServiceCategoryService,
-    _serviceProvider:ServiceCategoryService
+    _service: ServiceService,
+    _facility: FacilityService
 }
 export default CommonService;

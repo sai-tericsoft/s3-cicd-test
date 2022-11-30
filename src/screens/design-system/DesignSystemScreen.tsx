@@ -6,7 +6,6 @@ import FormikPasswordInputComponent
     from "../../shared/components/form-controls/formik-password-input/FormikPasswordInputComponent";
 import FormikInputComponent from "../../shared/components/form-controls/formik-input/FormikInputComponent";
 import {Login} from "@mui/icons-material";
-import ChipComponent from "../../shared/components/chip/ChipComponent";
 import ButtonComponent from "../../shared/components/button/ButtonComponent";
 import FormikCheckBoxComponent from "../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 import FormikSwitchComponent from "../../shared/components/form-controls/formik-switch/FormikSwitchComponent";
@@ -14,6 +13,8 @@ import ModalComponent from "../../shared/components/modal/ModalComponent";
 import CardComponent from "../../shared/components/card/CardComponent";
 import FormikRadioButtonGroupComponent
     from "../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
+import FormikAutoCompleteComponent
+    from "../../shared/components/form-controls/formik-auto-complete/FormikAutoCompleteComponent";
 
 interface DesignSystemScreenProps {
 
@@ -29,12 +30,15 @@ const designSystemFormValidationSchema = Yup.object({
 
 const DesignSystemScreen = (props: DesignSystemScreenProps) => {
 
-    const options = [{title: 'Male', code: 'm'}, {title: 'Female', code: 'f'}]
+    const options = [{title: 'Male', code: 'm'}, {title: 'Female', code: 'f'}];
+    const users = [{fName: 'Mick', lName: 'John', id: 1}, {fName: 'John', lName: 'Doe', id: 2}];
+
     const [designSystemFormInitialValues] = useState({
         username: "",
         password: "",
         tnc: true,
         gender: "m",
+        rm: users[0],
         accessAsAdmin: true,
 
     });
@@ -42,25 +46,18 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
     const [isFormSubmitting, setIsFormSubmitting] = useState(false);
     const [isTnCModalOpened, setIsTnCModalOpened] = useState(false);
 
-
     const onSubmit = useCallback((values: any) => {
+        console.log(values);
         setIsFormSubmitting(true);
         setTimeout(() => {
             setIsFormSubmitting(false);
-        }, 10000);
+        }, 2000);
     }, []);
-
 
     return (
         <div className="design-system-screen screen">
             <div className="design-system-form-container">
                 <CardComponent title={"Login"}>
-                    <ChipComponent
-                        id={"login_info"}
-                        label={"Login to access"}
-                        onClick={() => {
-                            console.log("do some action...!");
-                        }}/>
                     <div className="design-system-form">
                         <Formik
                             validationSchema={designSystemFormValidationSchema}
@@ -110,6 +107,34 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                                     <FormikRadioButtonGroupComponent
                                                         formikField={field}
                                                         options={options}/>
+                                                )
+                                            }
+                                        </Field>
+                                        {/*<Field name={'rm'}>*/}
+                                        {/*    {*/}
+                                        {/*        (field: FieldProps) => (*/}
+                                        {/*            <FormikSelectComponent*/}
+                                        {/*                formikField={field}*/}
+                                        {/*                fullWidth={true}*/}
+                                        {/*                displayWith={item => item.fName + " " +item.lName}*/}
+                                        {/*                valueExtractor={item => item.id}*/}
+                                        {/*                keyExtractor={item => item.id}*/}
+                                        {/*                label={"Reporting Manager"}*/}
+                                        {/*                options={users}/>*/}
+                                        {/*        )*/}
+                                        {/*    }*/}
+                                        {/*</Field>*/}
+                                        <Field name={'rm'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikAutoCompleteComponent
+                                                        formikField={field}
+                                                        fullWidth={true}
+                                                        displayWith={item => item ? ( item.fName || "") + " " + ( item.lName || "") : ""}
+                                                        valueExtractor={item => item.id}
+                                                        keyExtractor={item => item.id}
+                                                        label={"Reporting Manager"}
+                                                        options={users}/>
                                                 )
                                             }
                                         </Field>

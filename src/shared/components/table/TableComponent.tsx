@@ -1,19 +1,22 @@
 import "./TableComponent.scss";
 import Table from 'antd/lib/table';
-import {ITableComponentProps} from "../../models/table.model";
-import {CircularProgress} from "@mui/material";
-import {useCallback} from "react";
+import {ITableColumn, ITableComponentProps} from "../../models/table.model";
+import {useCallback, useEffect, useState} from "react";
 import StatusComponentComponent from "../status-component/StatusComponentComponent";
+import LoaderComponent from "../loader/LoaderComponent";
 
 interface TableComponentProps extends ITableComponentProps {
     data: any[];
+    loading?: boolean;
+    errored?: boolean;
 }
 
 const TableComponent = (props: TableComponentProps) => {
 
-    const {data, onRowClick, rowKey, rowClassName, bordered, loading, columns} = props;
+    const {data, onRowClick, rowKey, rowClassName, bordered, loading, errored} = props;
+    const [tableColumns, setTableColumns] = useState<ITableColumn[]>(props.columns);
     const size = props.size || "large";
-    const showHeader = props.showHeader !== undefined ? props.fixedHeader : true;
+    const showHeader = props.showHeader !== undefined ? props.showHeader : true;
 
     const handleRowClick = useCallback((record: any, index: number | undefined) => {
         if (onRowClick) {
@@ -21,12 +24,38 @@ const TableComponent = (props: TableComponentProps) => {
         }
     }, [onRowClick]);
 
+    useEffect(() => {
+        if (props.columns) {
+            const tableCols = props.columns.map((col) => {
+                const transformedCol = col;
+                if (col.className) {
+                    transformedCol['className'] = 't-cell-' + col.key + " " + col.className;
+                } else {
+                    transformedCol['className'] = 't-cell-' + col.key;
+                }
+                return transformedCol;
+            });
+            setTableColumns(tableCols);
+        }
+    }, [props.columns]);
+
     return (
         <div className={'table-component'}>
-            <Table columns={columns}
+            <Table columns={tableColumns}
                    locale={{
                        emptyText: (
-                           <StatusComponentComponent title={"No Data"}/>
+                           <>
+                               {
+                                   (!loading && data.length === 0) ? <>
+                                       {
+                                           errored && <StatusComponentComponent title={"Error Loading Data"}/>
+                                       }
+                                       {
+                                           !errored && <StatusComponentComponent title={"No Data"}/>
+                                       }
+                                   </> : <></>
+                               }
+                           </>
                        )
                    }}
                    onRow={(record, index) => {
@@ -40,8 +69,8 @@ const TableComponent = (props: TableComponentProps) => {
                    showHeader={showHeader}
                    rowClassName={rowClassName}
                    loading={loading ? {
-                       indicator: <CircularProgress color={"primary"} size={"2rem"}/>,
-                       spinning: true
+                       indicator: <LoaderComponent type={"spinner"} size={"md"}/>,
+                       spinning: loading
                    } : false}
                    dataSource={data}
                    bordered={bordered}

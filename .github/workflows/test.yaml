@@ -19,7 +19,7 @@ jobs:
         run: yarn install
 
       - name: Run build task
-        run: yarn build:test
+        run: PUBLIC_URL="/test" yarn build:test
       - name: deploy to server
         uses: AEnterprise/rsync-deploy@v1.0
         env:
