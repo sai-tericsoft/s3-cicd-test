@@ -97,7 +97,7 @@ const TableWrapperComponent = (props: TableComponentProps) => {
     }, [getListData]);
 
     return (
-        <div className="t-table-wrapper">
+        <>
             <TableComponent
                 showHeader={showHeader}
                 fixedHeader={fixedHeader}
@@ -116,7 +116,7 @@ const TableWrapperComponent = (props: TableComponentProps) => {
                     onRowsPerPageChange={handlePageSizeChange}
                 />
             }
-        </div>
+        </>
     );
 };
 
