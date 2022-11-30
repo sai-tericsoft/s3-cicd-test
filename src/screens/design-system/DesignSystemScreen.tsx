@@ -18,6 +18,7 @@ import FormikSelectComponent from "../../shared/components/form-controls/formik-
 import AutoCompleteComponent from "../../shared/components/form-controls/auto-complete/AutoCompleteComponent";
 import FormikAutoCompleteComponent
     from "../../shared/components/form-controls/formik-auto-complete/FormikAutoCompleteComponent";
+import DataLabelValueComponent from "../../shared/components/data-label-value/DataLabelValueComponent";
 
 interface DesignSystemScreenProps {
 
@@ -57,16 +58,16 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
         }, 2000);
     }, []);
 
+    const address = {
+        fNo: "101",
+        city: "Las Vegas",
+        state: "NV 89123 USA"
+    }
+
     return (
         <div className="design-system-screen screen">
             <div className="design-system-form-container">
                 <CardComponent title={"Login"}>
-                    <ChipComponent
-                        id={"login_info"}
-                        label={"Login to access"}
-                        onClick={() => {
-                            console.log("do some action...!");
-                        }}/>
                     <div className="design-system-form">
                         <Formik
                             validationSchema={designSystemFormValidationSchema}
