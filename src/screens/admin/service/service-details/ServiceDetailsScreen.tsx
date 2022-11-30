@@ -75,7 +75,7 @@ const ServiceDetailsScreen = (props: ServiceDetailsScreenProps) => {
                             </>}
                         ></BasicDetailsCardComponent>
                     </div>
-                    {serviceId && <ServiceProviderListComponent serviceId={serviceId} serviceName={serviceDetails?.name}/>}
+                    {serviceDetails && <ServiceProviderListComponent serviceDetails={serviceDetails}/>}
                 </>
             }
 
