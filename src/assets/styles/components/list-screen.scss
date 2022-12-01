@@ -1,0 +1,26 @@
+.list-screen {
+
+  .list-screen-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    .list-search-filters {
+      .input-component {
+        margin-bottom: 0 !important;
+      }
+    }
+
+    .list-options {
+      display: flex;
+    }
+  }
+
+  .list-content-wrapper {
+    .ant-table-container {
+      min-height: 400px;
+      height: calc(100vh - 250px);
+    }
+  }
+}

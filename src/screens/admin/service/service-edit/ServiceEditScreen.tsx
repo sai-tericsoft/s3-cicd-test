@@ -24,6 +24,7 @@ import {IRootReducerState} from "../../../../store/reducers";
 import {useNavigate, useParams} from "react-router-dom";
 import {IService} from "../../../../shared/models/service-category.model";
 import FormikSwitchComponent from "../../../../shared/components/form-controls/formik-switch/FormikSwitchComponent";
+import IconButtonComponent from "../../../../shared/components/icon-button/IconButtonComponent";
 
 interface ServiceEditComponentProps {
 }
@@ -345,9 +346,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                             {/*}*/}
                                                                                             {
                                                                                                 iIndex === values?.initial_consultation[index].consultation_details.length - 1 &&
-                                                                                                <ButtonComponent
-                                                                                                    isIconButton={true}
-                                                                                                    onClick={() => {
+                                                                                                <IconButtonComponent onClick={() => {
                                                                                                         push({
                                                                                                             duration: undefined,
                                                                                                             price: undefined
@@ -355,7 +354,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                                     }}
                                                                                                 >
                                                                                                     <ImageConfig.AddCircleIcon/>
-                                                                                                </ButtonComponent>
+                                                                                                </IconButtonComponent>
                                                                                             }
                                                                                         </div>
                                                                                     )
@@ -486,9 +485,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                             {/*}*/}
                                                                                             {
                                                                                                 iIndex === values?.followup_consultation[index].consultation_details.length - 1 &&
-                                                                                                <ButtonComponent
-                                                                                                    isIconButton={true}
-                                                                                                    onClick={() => {
+                                                                                                <IconButtonComponent onClick={() => {
                                                                                                         push({
                                                                                                             duration: undefined,
                                                                                                             price: undefined
@@ -496,7 +493,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                                     }}
                                                                                                 >
                                                                                                     <ImageConfig.AddCircleIcon/>
-                                                                                                </ButtonComponent>
+                                                                                                </IconButtonComponent>
                                                                                             }
                                                                                         </div>
                                                                                     )

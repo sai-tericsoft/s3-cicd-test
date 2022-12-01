@@ -3,7 +3,7 @@ export interface ITableColumn {
     key: string;
     title?: any;
     render?: any;
-    sorter?: any;
+    sortable?: any;
     className?: string;
     width?: number | string;
     fixed?: "left" | "right" | undefined;
@@ -18,6 +18,7 @@ export interface ITableComponentProps {
     rowKey?: (row: any) => string;
     showHeader?: boolean;
     size?: 'small' | 'middle' | 'large';
+    onSort?: (key: string, order: string) => void;
 }
 
 

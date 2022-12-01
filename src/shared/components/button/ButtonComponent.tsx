@@ -3,7 +3,6 @@ import {Button} from "@mui/material";
 import {LoadingButton} from "@mui/lab";
 import SaveIcon from '@mui/icons-material/Save';
 import {CSSProperties, useCallback} from "react";
-import IconButton from "@mui/material/IconButton";
 
 interface ButtonComponentProps {
     type?: "button" | "submit" | "reset";
@@ -19,14 +18,12 @@ interface ButtonComponentProps {
     id?: string;
     onClick?: () => void;
     style?: CSSProperties;
-    isIconButton?: boolean;
 }
 
 const ButtonComponent = (props: React.PropsWithChildren<ButtonComponentProps>) => {
 
     const {
         className,
-        isIconButton,
         style,
         fullWidth,
         id,
@@ -68,37 +65,21 @@ const ButtonComponent = (props: React.PropsWithChildren<ButtonComponentProps>) =
             }
             {
                 !isLoading && <>
-                    {
-                        isIconButton && <>
-                            <IconButton
-                                id={id}
-                                disabled={disabled}
-                                className={className}
-                                size={size}
-                                type={type}
-                                color={color}
-                                onClick={handleOnClick}>
-                                {children}
-                            </IconButton>
-                        </>
-                    }
-                    {
-                        !isIconButton && <Button variant={variant}
-                                                 id={id}
-                                                 style={style}
-                                                 disabled={disabled}
-                                                 fullWidth={fullWidth}
-                                                 className={className}
-                                                 size={size}
-                                                 type={type}
-                                                 color={color}
-                                                 startIcon={prefixIcon}
-                                                 endIcon={suffixIcon}
-                                                 onClick={handleOnClick}
-                        >
-                            {children}
-                        </Button>
-                    }
+                    <Button variant={variant}
+                            id={id}
+                            style={style}
+                            disabled={disabled}
+                            fullWidth={fullWidth}
+                            className={className}
+                            size={size}
+                            type={type}
+                            color={color}
+                            startIcon={prefixIcon}
+                            endIcon={suffixIcon}
+                            onClick={handleOnClick}
+                    >
+                        {children}
+                    </Button>
                 </>
             }
         </>

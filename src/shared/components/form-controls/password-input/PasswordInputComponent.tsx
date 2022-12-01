@@ -2,8 +2,8 @@ import "./PasswordInputComponent.scss";
 import InputComponent from "../input/InputComponent";
 import {useCallback, useState} from "react";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
-import IconButton from '@mui/material/IconButton';
 import {IInputFieldProps} from "../../../models/form-controls.model";
+import IconButtonComponent from "../../icon-button/IconButtonComponent";
 
 export interface PasswordInputComponentProps extends IInputFieldProps {
     canToggle?: boolean;
@@ -58,9 +58,9 @@ const PasswordInputComponent = (props: PasswordInputComponentProps) => {
                         prefix={prefix}
                         suffix={
                             canToggle &&
-                            <IconButton onClick={handleClickShowPassword} edge="end">
+                            <IconButtonComponent onClick={handleClickShowPassword}>
                                 {inputType === "text" ? <VisibilityOff/> : <Visibility/>}
-                            </IconButton>
+                            </IconButtonComponent>
                         }
         />
     );

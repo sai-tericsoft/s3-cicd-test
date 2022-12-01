@@ -1,14 +1,15 @@
 @import "src/assets/styles/variables";
 
-.t-table-wrapper {
-  .ant-table-container {
-    //height: calc(100vh - 260px);
-    min-height: 300px;
-    position: relative;
-  }
+.ant-table-container {
+  position: relative;
 }
 
 .ant-table {
+  border: 1px solid #F3F3F3;
+  border-radius: 4px !important;
+
+  .ant-table-container {
+  }
 
   .ant-table-content {
 
@@ -53,4 +54,8 @@
 
 .ant-spin-dot.ant-spin-dot-spin {
   display: none;
+}
+
+.ant-table-column-sorter-up.active, .ant-table-column-sorter-down.active {
+  color: #00534f !important;
 }
