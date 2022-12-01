@@ -26,18 +26,12 @@ const ServiceDetailsAPICall = (serviceId: string, payload: any) => {
     return ApiService[APIConfig.SERVICE_DETAILS.METHOD](APIConfig.SERVICE_DETAILS.URL(serviceId), payload);
 }
 
-const ServiceProviderDeleteAPICall = (serviceId: string, providerId: string, payload: any) => {
-    // @ts-ignore
-    return ApiService[APIConfig.SERVICE_PROVIDER_DELETE.METHOD](APIConfig.SERVICE_PROVIDER_DELETE.URL(serviceId, providerId), payload)
-}
-
 const ServiceCategoryService = {
     ServiceCategoryListAPICall,
     ServiceCategoryAddAPICall,
     ServiceCategoryDetailsAPICall,
     ServiceCategoryEditAPICall,
     ServiceDetailsAPICall,
-    ServiceProviderDeleteAPICall
 }
 
 export default ServiceCategoryService;

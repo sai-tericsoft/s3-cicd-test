@@ -79,7 +79,7 @@ const ConfirmationComponent = (props: ConfirmationComponentProps) => {
                 <div className="confirmation-dialog-sub-title-and-description">
                     <div className="confirmation-dialog-image-container">
                         <div className={"confirmation-dialog-image"}>
-                            <img src={config?.image}/>
+                            <img src={config?.image} alt={config?.confirmationTitle}/>
                         </div>
                     </div>
                     <div className={"confirmation-dialog-title"} >

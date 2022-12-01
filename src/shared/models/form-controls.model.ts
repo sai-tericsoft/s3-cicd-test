@@ -134,7 +134,7 @@ export interface IAutoCompleteProps {
     className?: string;
     clearLocalListData?: boolean;
     color?: "error" | "primary" | "secondary" | "info" | "success" | "warning" | undefined;
-    options: any[];
+    options?: any[];
     dataListKey?: string;
     defaultData?: any[];
     disableClearable?: boolean;

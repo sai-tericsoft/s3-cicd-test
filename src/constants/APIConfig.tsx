@@ -58,10 +58,18 @@ const APIConfig: IAPIConfig = {
         URL: (serviceId: string) => ENV.API_URL + '/service/' + serviceId,
         METHOD: "get"
     },
-    SERVICE_PROVIDER_DELETE: {
+    SERVICE_PROVIDER_UNLINK: {
         URL: (serviceId: string, providerId: string) => ENV.API_URL + '/service/' + serviceId + "/unlink/" + providerId,
         METHOD: "delete"
-    }
+    },
+    SERVICE_PROVIDER_LINK: {
+        URL: (serviceId: string) => ENV.API_URL + '/service/' + serviceId + "/link",
+        METHOD: "post"
+    },
+    AVAILABLE_SERVICE_PROVIDERS_TO_LINK: {
+        URL: (serviceId: string) => ENV.API_URL + '/service/' + serviceId + "/availableProviders",
+        METHOD: "get"
+    },
     SERVICE_ADD: {
         URL: ENV.API_URL + "/service",
         METHOD: "post"

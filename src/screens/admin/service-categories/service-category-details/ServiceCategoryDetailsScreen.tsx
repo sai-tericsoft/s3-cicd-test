@@ -12,7 +12,6 @@ import {ImageConfig} from "../../../../constants";
 import DrawerComponent from "../../../../shared/components/drawer/DrawerComponent";
 import ServiceCategoryEditComponent from "../service-category-edit/ServiceCategoryEditComponent";
 import ServiceListComponent from "../../service/service-list/ServiceListComponent";
-import ServiceProviderListComponent from "../../service/service-provider-list/ServiceProviderListComponent";
 
 interface ServiceCategoryDetailsScreenProps {
 

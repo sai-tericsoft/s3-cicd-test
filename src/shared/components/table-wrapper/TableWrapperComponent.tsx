@@ -18,7 +18,7 @@ export interface TableComponentProps extends ITableComponentProps {
 
 const TableWrapperComponent = (props: TableComponentProps) => {
 
-    const {columns, size, refreshToken, url, method, extraPayload, fixedHeader, isPaginated} = props;
+    const {columns, size, showHeader, refreshToken, url, method, extraPayload, fixedHeader, isPaginated} = props;
 
     const [isDataLoading, setIsDataLoading] = useState<boolean>(false);
     const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
@@ -64,7 +64,7 @@ const TableWrapperComponent = (props: TableComponentProps) => {
 
     useEffect(()=>{
         getListData();
-    }, [refreshToken])
+    }, [getListData, refreshToken]);
 
     const handlePageNumberChange = useCallback((event: unknown, newPage: number) => {
         pageNumRef.current = newPage;

@@ -75,7 +75,7 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
         const [formControlValue, setFormControlValue] = useState<any | undefined>(props.value || undefined);
 
         const defaultDisplayWith = useCallback((item: any) => item?.title || '', []);
-        const defaultKeyExtractor = useCallback((item: any, index?: number) => item?.code || index, []);
+        const defaultKeyExtractor = useCallback((item: any, index?: number) => item?._id || index, []);
         const defaultValueExtractor = useCallback((item: any) => item?.code || '', []);
         const displayWith = props.displayWith || defaultDisplayWith;
         const valueExtractor = props.valueExtractor || defaultValueExtractor;
@@ -234,7 +234,7 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
                         return JSON.stringify(valueExtractor(option)) === JSON.stringify(value);
                     }, [valueExtractor])}
                     loadingText={loadingText}
-                    options={dropDownData}
+                    options={dropDownData || []}
                     getOptionLabel={displayWith}
                     renderOption={renderOption}
                     renderInput={(params) => (

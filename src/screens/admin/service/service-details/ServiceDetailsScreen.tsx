@@ -61,7 +61,7 @@ const ServiceDetailsScreen = (props: ServiceDetailsScreenProps) => {
             }
             {
                 isServiceDetailsLoaded && <>
-                    <div className={"service-category-details-card"}>
+                    <div className={"service-details-card"}>
                         <BasicDetailsCardComponent
                             legend={serviceDetails?.category?.name}
                             title={serviceDetails?.name}
@@ -85,6 +85,11 @@ const ServiceDetailsScreen = (props: ServiceDetailsScreenProps) => {
                     <div className="service-consultation-details">
                         {
                             serviceDetails && <ServiceConsultationDetailsComponent serviceDetails={serviceDetails}/>
+                        }
+                    </div>
+                    <div className="service-providers-details">
+                        {
+                            serviceDetails && <ServiceProviderListComponent serviceDetails={serviceDetails}/>
                         }
                     </div>
                 </>
