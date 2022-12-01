@@ -107,9 +107,15 @@ const getPayloadFilterDates = (mode: 'day' | 'week' | 'month' | 'year'): { start
     return payload;
 }
 
+const transformTimeStamp = (date: Date) => {
+    return moment(date).format('D-MMM-YYYY | hh:mm A');
+}
+
 const convertDateFormat = (date: Date, format: string = 'MM-DD-YYYY') => {
     return moment(date).format(format);
 }
+
+
 
 const getFlatJsonFromNestedJSON = (jsonData: any, rootName: string = "", ignoreList: any[] = []): any => {
 
@@ -412,6 +418,7 @@ const CommonService = {
     getObjectKeyValue,
     getHoursAndMinutesFromMinutes,
     getSystemFormatTimeStamp,
+    transformTimeStamp,
     // createValidationsObject,
     // createYupSchema,
 
