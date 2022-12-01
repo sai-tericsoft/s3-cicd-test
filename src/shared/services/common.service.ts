@@ -17,6 +17,7 @@ import _ from "lodash";
 import ServiceCategoryService from "./modules/service-category.service";
 import ServiceService from "./modules/service.service";
 import FacilityService from "./modules/facility.service";
+import ClientService from "./modules/client.service";
 
 yup.addMethod(yup.mixed, 'atLeastOne', (args) => {
     const {message, predicate} = args;
@@ -417,6 +418,7 @@ const CommonService = {
     _staticData: StaticDataService,
     _serviceCategory: ServiceCategoryService,
     _service: ServiceService,
+    _client: ClientService,
     _facility: FacilityService
 }
 export default CommonService;

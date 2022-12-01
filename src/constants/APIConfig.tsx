@@ -13,6 +13,22 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + "/consultation/duration",
         METHOD: "get"
     },
+    GENDER_LIST: {
+        URL: ENV.API_URL + "/gender",
+        METHOD: "get"
+    },
+    LANGUAGE_LIST: {
+        URL: ENV.API_URL + "/language",
+        METHOD: "get"
+    },
+    PHONE_TYPE_LIST: {
+        URL: ENV.API_URL + "/phone/type",
+        METHOD: "get"
+    },
+    EMPLOYMENT_STATUS_LIST: {
+        URL: ENV.API_URL + "/employement/status",
+        METHOD: "get"
+    },
     //meta end
 
     // authentication start
@@ -95,6 +111,10 @@ const APIConfig: IAPIConfig = {
     CLIENT_LIST: {
         URL: ENV.API_URL + "/client",
         METHOD: "get"
+    },
+    CLIENT_BASIC_DETAILS_ADD: {
+        URL: ENV.API_URL + "/client",
+        METHOD: "post"
     },
     //
 }

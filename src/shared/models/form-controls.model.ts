@@ -1,5 +1,6 @@
 import React from "react";
 import {AutocompleteRenderOptionState} from "@mui/material";
+import {Moment} from "moment/moment";
 
 export interface IInputFieldProps {
     className?: string;
@@ -170,4 +171,22 @@ export interface IAutoCompleteProps {
     size?: 'small' | 'medium';
     url?: string;
     valueExtractor?: (item: any) => any;
+}
+
+export interface IDatePickerProps {
+    fullWidth?: boolean;
+    id?: string;
+    variant?: "filled" | "standard" | "outlined" | undefined;
+    color?: "error" | "primary" | "secondary" | "info" | "success" | "warning" | undefined;
+    size?: "small" | "medium" | undefined;
+    placeholder?: string;
+    required?: boolean;
+    disabled?: boolean;
+    readOnly?: boolean;
+    format?: string;
+    minDate?: Moment;
+    maxDate?: Moment;
+    onUpdate?: Function;
+    label?: string;
+    mask?: string
 }

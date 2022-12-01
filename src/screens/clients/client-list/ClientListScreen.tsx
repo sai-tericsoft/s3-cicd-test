@@ -7,6 +7,8 @@ import SearchComponent from "../../../shared/components/search/SearchComponent";
 import {IClientListFilterState} from "../../../shared/models/client.model";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
+import LinkComponent from "../../../shared/components/link/LinkComponent";
+import {CommonService} from "../../../shared/services";
 
 interface ClientListScreenProps {
 
@@ -41,9 +43,11 @@ const ClientListScreen = (props: ClientListScreenProps) => {
                     />
                 </div>
                 <div className="list-options">
-                    <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}>
-                        Add Client
-                    </ButtonComponent>
+                    <LinkComponent route={CommonService._routeConfig.ClientAdd()}>
+                        <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}>
+                            Add Client
+                        </ButtonComponent>
+                    </LinkComponent>
                 </div>
             </div>
             <div className="list-content-wrapper">
