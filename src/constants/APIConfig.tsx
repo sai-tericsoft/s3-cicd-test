@@ -90,6 +90,11 @@ const APIConfig: IAPIConfig = {
         METHOD: "get"
     },
     // facility end
+    //client-activity-log
+    CLIENT_ACTIVITY_LOG:{
+        URL:ENV.API_URL + '/client-activity-log',
+        METHOD:'get'
+}
 }
 
 export default APIConfig;
