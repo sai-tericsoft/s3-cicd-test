@@ -22,3 +22,10 @@ export interface ILanguage {
     code: string;
     title: string;
 }
+
+export interface IRelationship {
+    _id: string;
+    code: string;
+    title: string;
+}
+

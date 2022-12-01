@@ -1,12 +1,14 @@
 import "./SelectComponent.scss";
-import {useCallback, useEffect, useState} from "react";
-import {InputLabel, MenuItem} from "@mui/material";
+import React, {useCallback, useEffect, useState} from "react";
+import {FormHelperText, InputLabel, MenuItem} from "@mui/material";
 import FormControl from '@mui/material/FormControl';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
 import {ISelectProps} from "../../../models/form-controls.model";
 
 interface SelectComponentProps extends ISelectProps {
     value?: any;
+    hasError?: boolean;
+    errorMessage?: any;
 }
 
 const SelectComponent = (props: SelectComponentProps) => {
@@ -15,6 +17,7 @@ const SelectComponent = (props: SelectComponentProps) => {
         className,
         fullWidth,
         hasError,
+        errorMessage,
         label,
         onBlur,
         onUpdate,
@@ -54,7 +57,8 @@ const SelectComponent = (props: SelectComponentProps) => {
     const displayWith = props.displayWith || defaultDisplayWith;
     const valueExtractor = props.valueExtractor || defaultValueExtractor;
     const keyExtractor = props.keyExtractor || defaultKeyExtractor;
-
+    
+    console.log("errorMessage", errorMessage);
     return (
     <FormControl className={'select-component ' + className + ' ' + (fullWidth ? "full-width" : "")}
                  error={hasError} fullWidth={fullWidth} size={size}>
@@ -78,6 +82,9 @@ const SelectComponent = (props: SelectComponentProps) => {
                 })
             }
         </Select>
+        <FormHelperText>
+            {hasError && <> {errorMessage} </>}
+        </FormHelperText>
     </FormControl>
     );
 

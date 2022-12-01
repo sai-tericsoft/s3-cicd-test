@@ -1,7 +1,16 @@
 import {
-    GET_CONSULTATION_DURATION_LIST, GET_EMPLOYMENT_STATUS_LIST,
-    GET_GENDER_LIST, GET_LANGUAGE_LIST, GET_PHONE_TYPE_LIST,
-    SET_CONSULTATION_DURATION_LIST, SET_EMPLOYMENT_STATUS_LIST, SET_GENDER_LIST, SET_LANGUAGE_LIST, SET_PHONE_TYPE_LIST
+    GET_CONSULTATION_DURATION_LIST,
+    GET_EMPLOYMENT_STATUS_LIST,
+    GET_GENDER_LIST,
+    GET_LANGUAGE_LIST,
+    GET_PHONE_TYPE_LIST,
+    GET_RELATIONSHIP_LIST,
+    SET_CONSULTATION_DURATION_LIST,
+    SET_EMPLOYMENT_STATUS_LIST,
+    SET_GENDER_LIST,
+    SET_LANGUAGE_LIST,
+    SET_PHONE_TYPE_LIST,
+    SET_RELATIONSHIP_LIST
 } from "../actions/static-data.action";
 import {IActionModel} from "../../shared/models/action.model";
 
@@ -21,6 +30,9 @@ export interface IStaticDataReducerState {
     isLanguageListLoading: boolean,
     isLanguageListLoaded: boolean,
     languageList: any[],
+    isRelationshipListLoading: boolean,
+    isRelationshipListLoaded: boolean,
+    relationshipList: any[],
 }
 
 
@@ -40,6 +52,9 @@ const initialData: IStaticDataReducerState = {
     isLanguageListLoading: false,
     isLanguageListLoaded: false,
     languageList: [],
+    isRelationshipListLoading: false,
+    isRelationshipListLoaded: false,
+    relationshipList: [],
 };
 
 const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDataReducerState => {
@@ -117,6 +132,21 @@ const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDa
                 isPhoneTypeListLoading: false,
                 isPhoneTypeListLoaded: true,
                 phoneTypeList: action.payload.phoneTypeList
+            };
+            return state;
+        case GET_RELATIONSHIP_LIST:
+            state = {
+                ...state,
+                isRelationshipListLoading: true,
+                isRelationshipListLoaded: false,
+            };
+            return state;
+        case SET_RELATIONSHIP_LIST:
+            state = {
+                ...state,
+                isRelationshipListLoading: false,
+                isRelationshipListLoaded: true,
+                relationshipList: action.payload.relationshipList
             };
             return state;
         default:

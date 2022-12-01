@@ -112,9 +112,7 @@ export interface ISelectProps {
     autoWidth?: boolean;
     className?: string;
     disabled?: boolean;
-    errorMessage?: any;
     fullWidth?: boolean;
-    hasError?: boolean;
     id?: string;
     required?: boolean;
     displayWith?: (item: any) => any;

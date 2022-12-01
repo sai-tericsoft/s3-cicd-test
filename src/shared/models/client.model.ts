@@ -30,6 +30,7 @@ export interface IClientBasicDetailsForm {
     nick_name: string;
     ssn: string;
     primary_email: string;
+    show_secondary_emergency_form: boolean;
     secondary_emails: SecondaryEmail[];
     primary_contact_info: SecondaryContactInfoEntityOrPrimaryContactInfo;
     secondary_contact_info?: (SecondaryContactInfoEntityOrPrimaryContactInfo)[] | null;
@@ -60,6 +61,7 @@ export interface SecondaryEmergency {
     relationship: string;
     language: string;
     primary_contact_info: SecondaryContactInfoEntityOrPrimaryContactInfo;
+    secondary_contact_info?: (SecondaryContactInfoEntityOrPrimaryContactInfo)[] | null;
 }
 export interface WorkInfo {
     occupation: string;

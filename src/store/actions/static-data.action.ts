@@ -1,5 +1,5 @@
 import {IConsultationDuration} from "../../shared/models/static-data.model";
-import {IGender, ILanguage, IPhoneType} from "../../shared/models/common.model";
+import {IGender, ILanguage, IPhoneType, IRelationship} from "../../shared/models/common.model";
 
 export const GET_CONSULTATION_DURATION_LIST = 'GET_CONSULTATION_DURATION_LIST';
 export const SET_CONSULTATION_DURATION_LIST = 'SET_CONSULTATION_DURATION_LIST';
@@ -12,6 +12,9 @@ export const SET_EMPLOYMENT_STATUS_LIST = 'SET_EMPLOYMENT_STATUS_LIST';
 
 export const GET_LANGUAGE_LIST = 'GET_LANGUAGE_LIST';
 export const SET_LANGUAGE_LIST = 'SET_LANGUAGE_LIST';
+
+export const GET_RELATIONSHIP_LIST = 'GET_RELATIONSHIP_LIST';
+export const SET_RELATIONSHIP_LIST = 'SET_RELATIONSHIP_LIST';
 
 export const GET_PHONE_TYPE_LIST = 'GET_PHONE_TYPE_LIST';
 export const SET_PHONE_TYPE_LIST = 'SET_PHONE_TYPE_LIST';
@@ -73,6 +76,18 @@ export const setEmploymentStatusList = (employmentStatusList: IGender[]) => {
     return {
         type: SET_EMPLOYMENT_STATUS_LIST, payload: {
             employmentStatusList
+        }
+    };
+};
+
+export const getRelationShipList = () => {
+    return {type: GET_RELATIONSHIP_LIST};
+};
+
+export const setRelationShipList = (relationshipList: IRelationship[]) => {
+    return {
+        type: SET_RELATIONSHIP_LIST, payload: {
+            relationshipList
         }
     };
 };

@@ -26,7 +26,7 @@ const SearchComponent = (props: SearchComponentProps) => {
             onSearchChange(value);
         }
         setSearchText(value);
-    }, []);
+    }, [onSearchChange]);
 
     const handleSearchClear = useCallback(() => {
         handleSearchTextChange("");

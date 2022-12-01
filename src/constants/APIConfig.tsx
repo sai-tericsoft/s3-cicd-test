@@ -29,6 +29,10 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + "/employement/status",
         METHOD: "get"
     },
+    RELATIONSHIP_LIST: {
+        URL: ENV.API_URL + "/relationship",
+        METHOD: "get"
+    },
     //meta end
 
     // authentication start

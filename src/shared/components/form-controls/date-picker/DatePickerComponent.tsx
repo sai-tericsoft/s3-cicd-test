@@ -49,7 +49,10 @@ const DatePickerComponent = (props: DatePickerComponentProps) => {
     }, [props.value]);
 
     return (
-        <FormControl variant={variant} className="date-picker-component-wrapper" fullWidth={fullWidth}
+        <FormControl variant={variant}
+                     className="date-picker-component-wrapper"
+                     fullWidth={fullWidth}
+                     error={hasError}
         >
             <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
