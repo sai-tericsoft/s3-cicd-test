@@ -369,6 +369,14 @@ const getObjectKeyValue = (object: any, key:string) => {
     return _.get(object, key);
 }
 
+const getSystemFormatTimeStamp =  (date: Date | string, showTime: boolean = false) => {
+    if (showTime){
+        return moment(date).format('DD-MMM-YYYY hh:mm A');
+    } else {
+        return moment(date).format('DD-MMM-YYYY');
+    }
+};
+
 const CommonService = {
     CurrentDate,
     parseQueryString,
@@ -395,6 +403,7 @@ const CommonService = {
     getArrayOfValuesOfOneKeyFromJSON,
     Capitalize,
     getObjectKeyValue,
+    getSystemFormatTimeStamp,
     // createValidationsObject,
     // createYupSchema,
 

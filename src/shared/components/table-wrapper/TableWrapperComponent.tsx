@@ -11,14 +11,14 @@ import PaginationComponent from "../pagination/PaginationComponent";
 export interface TableComponentProps extends ITableComponentProps {
     url: string,
     method: "get" | "post" | string,
-    isPaginated: boolean,
+    isPaginated?: boolean,
     extraPayload?: any;
     refreshToken?: string; // TODO review and make it standard
 }
 
 const TableWrapperComponent = (props: TableComponentProps) => {
 
-    const {columns, size, showHeader, refreshToken, url, method, extraPayload, fixedHeader, isPaginated} = props;
+    const {columns, size, showHeader, refreshToken, url, method, extraPayload, fixedHeader, onSort} = props;
 
     const [isDataLoading, setIsDataLoading] = useState<boolean>(false);
     const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
@@ -28,10 +28,11 @@ const TableWrapperComponent = (props: TableComponentProps) => {
     const totalResultsRef = useRef<number>(0);
     const pageSizeRef = useRef<number>(10);
     const fetchPageDataSubscriptionRef = useRef<boolean>(true);
+    const isPaginated = props.isPaginated !== undefined ? props.isPaginated : true;
 
     const getListData = useCallback(() => {
         const payload = {page: pageNumRef.current + 1, limit: pageSizeRef.current, ...extraPayload};
-        let apiCall = null;
+        let apiCall;
         if (method === "post") {
             apiCall = CommonService._api.post(url, payload);
         } else {
@@ -43,6 +44,7 @@ const TableWrapperComponent = (props: TableComponentProps) => {
         let listData: any[] = [];
         apiCall.then((response: IAPIResponseType<any>) => {
             if (response.data) {
+                console.log(isPaginated);
                 if (isPaginated) {
                     listData = response?.data?.docs || [];
                     totalResultsRef.current = response?.data?.total;
@@ -77,12 +79,6 @@ const TableWrapperComponent = (props: TableComponentProps) => {
         getListData();
     }, [getListData]);
 
-    // const handleSortColumn = useCallback((columnName: string, mode: string) => {
-    //     extraPayload.sort = {
-    //         columnName: mode
-    //     }
-    // }, []);
-
     useEffect(() => {
         getListData();
     }, [url, extraPayload, getListData]);
@@ -106,6 +102,7 @@ const TableWrapperComponent = (props: TableComponentProps) => {
                 size={size}
                 loading={isDataLoading}
                 errored={isDataLoadingFailed}
+                onSort={onSort}
                 data={data}/>
             {
                 (isDataLoaded && (data && data?.length) > 0 && isPaginated) && <PaginationComponent

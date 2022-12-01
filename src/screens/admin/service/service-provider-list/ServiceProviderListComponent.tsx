@@ -3,10 +3,10 @@ import CardComponent from "../../../../shared/components/card/CardComponent";
 import TableWrapperComponent from "../../../../shared/components/table-wrapper/TableWrapperComponent";
 import {ENV, ImageConfig, Misc} from "../../../../constants";
 import {useCallback, useState} from "react";
-import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 import {CommonService} from "../../../../shared/services";
 import {ITableColumn} from "../../../../shared/models/table.model";
 import {IService} from "../../../../shared/models/service-category.model";
+import IconButtonComponent from "../../../../shared/components/icon-button/IconButtonComponent";
 // import DrawerComponent from "../../../../shared/components/drawer/DrawerComponent";
 // import AutoCompleteComponent from "../../../../shared/components/form-controls/auto-complete/AutoCompleteComponent";
 // import FormControlLabelComponent from "../../../../shared/components/form-control-label/FormControlLabelComponent";
@@ -35,12 +35,11 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
             title: 'Action',
             width: "10%",
             render: (item: any) => {
-                return <ButtonComponent isIconButton={true}
-                                        onClick={() => {
+                return <IconButtonComponent onClick={() => {
                                             handleDeleteProvider(item);
                                         }}>
                     <ImageConfig.DeleteIcon/>
-                </ButtonComponent>
+                </IconButtonComponent>
             }
         }
     ];

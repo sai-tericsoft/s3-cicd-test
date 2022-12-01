@@ -5,9 +5,9 @@ import {IRootReducerState} from "../../../../store/reducers";
 import {Logout} from "@mui/icons-material";
 import {logout} from "../../../../store/actions/account.action";
 import {CommonService} from "../../../services";
-import ButtonComponent from "../../button/ButtonComponent";
 import {useNavigate} from "react-router-dom";
 import {useCallback} from "react";
+import IconButtonComponent from "../../icon-button/IconButtonComponent";
 
 interface HeaderComponentProps {
 
@@ -31,11 +31,10 @@ const HeaderComponent = (props: HeaderComponentProps) => {
             <div className="header-title-nav-back">
                 {
                     canNavigateBack &&
-                    <ButtonComponent isIconButton={true}
-                                     onClick={handleNavigateBack}
+                    <IconButtonComponent onClick={handleNavigateBack}
                                      className={"header-nav-back"}>
                         <ImageConfig.NavigateBack/>
-                    </ButtonComponent>
+                    </IconButtonComponent>
                 }
                 <div className="header-title">
                     {title}
@@ -43,19 +42,19 @@ const HeaderComponent = (props: HeaderComponentProps) => {
             </div>
             <div className="header-options">
                 <div className="header-option lock">
-                    <ButtonComponent isIconButton>
+                    <IconButtonComponent>
                         <ImageConfig.LockIcon/>
-                    </ButtonComponent>
+                    </IconButtonComponent>
                 </div>
                 <div className="header-option logout">
-                    <ButtonComponent isIconButton
-                                     onClick={() => {
+                    <IconButtonComponent
+                        onClick={() => {
                                          CommonService._alert.showToast("Logged out", "success");
                                          navigate(CommonService._routeConfig.LoginRoute());
                                          dispatch(logout());
                                      }}>
                         <Logout/>
-                    </ButtonComponent>
+                    </IconButtonComponent>
                 </div>
                 <div className="header-option profile">
                     <span className="profile-dp-icon">

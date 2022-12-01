@@ -90,6 +90,13 @@ const APIConfig: IAPIConfig = {
         METHOD: "get"
     },
     // facility end
+
+    // client start
+    CLIENT_LIST: {
+        URL: ENV.API_URL + "/client",
+        METHOD: "get"
+    },
+    //
 }
 
 export default APIConfig;

@@ -13,6 +13,7 @@ import {ReactComponent as CircleCheck} from './../assets/icons/check_circle.svg'
 import {ReactComponent as CircleError} from './../assets/icons/error_circle.svg';
 import {ReactComponent as LeftArrow} from './../assets/icons/left_arrow.svg';
 import {ReactComponent as RightArrow} from './../assets/icons/right_arrow.svg';
+import {ReactComponent as SearchIcon} from './../assets/icons/search.svg';
 
 //file types
 import PDFIcon from './../assets/icons/file-types/pdf.svg';
@@ -75,5 +76,6 @@ export {
     WordDocIcon,
     ExcelIcon,
     UnknownFileTypeIcon,
-    AddCircleIcon
+    AddCircleIcon,
+    SearchIcon
 }
