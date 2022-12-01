@@ -1,6 +1,6 @@
 import "./TableComponent.scss";
 import Table from 'antd/lib/table';
-import {ITableColumn, ITableComponentProps} from "../../models/table.model";
+import {ITableComponentProps} from "../../models/table.model";
 import {useCallback, useEffect, useState} from "react";
 import StatusComponentComponent from "../status-component/StatusComponentComponent";
 import LoaderComponent from "../loader/LoaderComponent";
@@ -52,7 +52,7 @@ const TableComponent = (props: TableComponentProps) => {
         if (Object.entries(sorter).length && onSort) {
             onSort(sorter.field, sorter.order);
         }
-    }, []);
+    }, [onSort]);
 
     return (
         <div className={'table-component'}>

@@ -17,6 +17,7 @@ import _ from "lodash";
 import ServiceCategoryService from "./modules/service-category.service";
 import ServiceService from "./modules/service.service";
 import FacilityService from "./modules/facility.service";
+import ClientService from "./modules/client.service";
 
 yup.addMethod(yup.mixed, 'atLeastOne', (args) => {
     const {message, predicate} = args;
@@ -106,7 +107,7 @@ const getPayloadFilterDates = (mode: 'day' | 'week' | 'month' | 'year'): { start
     return payload;
 }
 
-const convertDateFormat = (date: Date, format: string = 'MM-DD-YYYY') => {
+const convertDateFormat = (date: Date, format: string = 'DD-MM-YYYY') => {
     return moment(date).format(format);
 }
 
@@ -417,6 +418,7 @@ const CommonService = {
     _staticData: StaticDataService,
     _serviceCategory: ServiceCategoryService,
     _service: ServiceService,
+    _client: ClientService,
     _facility: FacilityService
 }
 export default CommonService;
