@@ -3,11 +3,11 @@ import * as Yup from "yup";
 import {useCallback, useEffect, useState} from "react";
 import {IClientBasicDetailsForm} from "../../../shared/models/client.model";
 import _ from "lodash";
-import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
+import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {IServiceAdd} from "../../../shared/models/service.model";
-import {Misc} from "../../../constants";
+import {ImageConfig, Misc} from "../../../constants";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
@@ -16,6 +16,7 @@ import {IRootReducerState} from "../../../store/reducers";
 import FormikSelectComponent from "../../../shared/components/form-controls/formik-select/FormikSelectComponent";
 import FormikDatePickerComponent
     from "../../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
+import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 
 interface ClientBasicDetailsFormComponentProps {
     mode: "add" | "edit";
@@ -54,6 +55,9 @@ const ClientBasicDetailsFormInitialValues: IClientBasicDetailsForm = {
     nick_name: "",
     ssn: "",
     primary_email: "",
+    secondary_emails: [{
+        email: ""
+    }],
     primary_contact_info: {
         phone_type: "",
         phone: ""
@@ -108,7 +112,11 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
 
     const [clientBasicDetailsFormInitialValues] = useState<IClientBasicDetailsForm>(_.cloneDeep(ClientBasicDetailsFormInitialValues));
     const [isClientBasicDetailsSavingInProgress, setIsClientBasicDetailsSavingInProgress] = useState(false);
-    const {genderList, employmentStatusList} = useSelector((state: IRootReducerState) => state.staticData);
+    const {
+        genderList,
+        employmentStatusList,
+        phoneTypeList
+    } = useSelector((state: IRootReducerState) => state.staticData);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         console.log(values);
@@ -147,7 +155,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                         <Form noValidate={true} className={"t-form"}>
                             <CardComponent title={"Personal Details"} size={"md"}>
                                 <div className="ts-row">
-                                    <div className="ts-col-5">
+                                    <div className="ts-col-md-5">
                                         <Field name={'first_name'}>
                                             {
                                                 (field: FieldProps) => (
@@ -163,7 +171,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                             }
                                         </Field>
                                     </div>
-                                    <div className="ts-col-5">
+                                    <div className="ts-col-md-5">
                                         <Field name={'last_name'}>
                                             {
                                                 (field: FieldProps) => (
@@ -179,10 +187,10 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                             }
                                         </Field>
                                     </div>
-                                    <div className="ts-col-2"></div>
+                                    <div className="ts-col-md-2"></div>
                                 </div>
                                 <div className="ts-row">
-                                    <div className="ts-col-5">
+                                    <div className="ts-col-md-5">
                                         <Field name={'nick_name'}>
                                             {
                                                 (field: FieldProps) => (
@@ -198,7 +206,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                             }
                                         </Field>
                                     </div>
-                                    <div className="ts-col-5">
+                                    <div className="ts-col-md-5">
                                         <Field name={'dob'}>
                                             {
                                                 (field: FieldProps) => (
@@ -213,10 +221,10 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                             }
                                         </Field>
                                     </div>
-                                    <div className="ts-col-2"></div>
+                                    <div className="ts-col-md-2"></div>
                                 </div>
                                 <div className="ts-row">
-                                    <div className="ts-col-5">
+                                    <div className="ts-col-md-5">
                                         <Field name={'gender'}>
                                             {
                                                 (field: FieldProps) => (
@@ -231,7 +239,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                             }
                                         </Field>
                                     </div>
-                                    <div className="ts-col-5">
+                                    <div className="ts-col-md-5">
                                         <Field name={'ssn'}>
                                             {
                                                 (field: FieldProps) => (
@@ -247,12 +255,182 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                             }
                                         </Field>
                                     </div>
-                                    <div className="ts-col-2"></div>
+                                    <div className="ts-col-md-2"></div>
                                 </div>
+                            </CardComponent>
+                            <CardComponent title={"Contact Information"} size={"md"}>
+                                <div className="ts-row">
+                                    <div className="ts-col-md-5">
+                                        <Field name={'primary_contact_info.phone_type'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikSelectComponent
+                                                        options={phoneTypeList}
+                                                        label={'Phone Type (Primary)'}
+                                                        required={true}
+                                                        formikField={field}
+                                                        fullWidth={true}
+                                                    />
+                                                )
+                                            }
+                                        </Field>
+                                    </div>
+                                    <div className="ts-col-md-5">
+                                        <Field name={'primary_contact_info.phone'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikInputComponent
+                                                        label={'Phone Number (Primary)'}
+                                                        placeholder={'Phone Number (Primary)'}
+                                                        type={"text"}
+                                                        required={true}
+                                                        formikField={field}
+                                                        fullWidth={true}
+                                                    />
+                                                )
+                                            }
+                                        </Field>
+                                    </div>
+                                    <div className="ts-col-md-2">
+                                        <IconButtonComponent className={"form-helper-icon"}>
+                                            <ImageConfig.InfoIcon/>
+                                        </IconButtonComponent>
+                                    </div>
+                                </div>
+                                <FieldArray
+                                    name="secondary_contact_info"
+                                    render={(arrayHelpers) => (
+                                        <>
+                                            {values?.secondary_contact_info && values?.secondary_contact_info?.map((item: any, index: any) => {
+                                                return (
+                                                    <div className="ts-row" key={index}>
+                                                        <div className="ts-col-md-5">
+                                                            <Field name={`secondary_contact_info[${index}].phone_type`}>
+                                                                {
+                                                                    (field: FieldProps) => (
+                                                                        <FormikSelectComponent
+                                                                            options={phoneTypeList}
+                                                                            label={'Phone Type'}
+                                                                            formikField={field}
+                                                                            fullWidth={true}
+                                                                        />
+                                                                    )
+                                                                }
+                                                            </Field>
+                                                        </div>
+                                                        <div className="ts-col-md-5">
+                                                            <Field name={`secondary_contact_info[${index}].phone`}>
+                                                                {
+                                                                    (field: FieldProps) => (
+                                                                        <FormikInputComponent
+                                                                            label={'Phone Number'}
+                                                                            placeholder={'Phone Number'}
+                                                                            type={"text"}
+                                                                            formikField={field}
+                                                                            fullWidth={true}
+                                                                        />
+                                                                    )
+                                                                }
+                                                            </Field>
+                                                        </div>
+                                                        <div className="ts-col-md-2">
+                                                            <IconButtonComponent className={"form-helper-icon"}
+                                                                                 onClick={() => {
+                                                                                     arrayHelpers.push({
+                                                                                         phone_type: undefined,
+                                                                                         phone: undefined
+                                                                                     });
+                                                                                 }}
+                                                            >
+                                                                <ImageConfig.AddCircleIcon/>
+                                                            </IconButtonComponent>
+                                                            {index > 0 &&
+                                                                <IconButtonComponent className={"form-helper-icon"}
+                                                                                     onClick={() => {
+                                                                                         arrayHelpers.remove(index);
+                                                                                     }}
+                                                                >
+                                                                    <ImageConfig.DeleteIcon/>
+                                                                </IconButtonComponent>}
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })}
+                                        </>
+                                    )}/>
+                                <div className="ts-row">
+                                    <div className="ts-col-md-5">
+                                        <Field name={'primary_email'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikInputComponent
+                                                        label={'Email (Primary)'}
+                                                        placeholder={'Email (Primary)'}
+                                                        type={"email"}
+                                                        required={true}
+                                                        formikField={field}
+                                                        fullWidth={true}
+                                                    />
+                                                )
+                                            }
+                                        </Field>
+                                    </div>
+                                    <div className="ts-col-md-2">
+                                        <IconButtonComponent className={"form-helper-icon"}>
+                                            <ImageConfig.InfoIcon/>
+                                        </IconButtonComponent>
+                                    </div>
+                                </div>
+                                <FieldArray
+                                    name="secondary_emails"
+                                    render={(arrayHelpers) => (
+                                        <>
+                                            {values?.secondary_emails && values?.secondary_emails?.map((item: any, index: any) => {
+                                                return (
+                                                    <div className="ts-row" key={index}>
+                                                        <div className="ts-col-md-5">
+                                                            <Field name={`secondary_emails[${index}].email`}>
+                                                                {
+                                                                    (field: FieldProps) => (
+                                                                        <FormikInputComponent
+                                                                            label={'Email'}
+                                                                            placeholder={'Email'}
+                                                                            type={"email"}
+                                                                            formikField={field}
+                                                                            fullWidth={true}
+                                                                        />
+                                                                    )
+                                                                }
+                                                            </Field>
+                                                        </div>
+                                                        <div className="ts-col-md-2">
+                                                            <IconButtonComponent className={"form-helper-icon"}
+                                                                                 onClick={() => {
+                                                                                     arrayHelpers.push({
+                                                                                         email: undefined,
+                                                                                     });
+                                                                                 }}
+                                                            >
+                                                                <ImageConfig.AddCircleIcon/>
+                                                            </IconButtonComponent>
+                                                            {index > 0 &&
+                                                                <IconButtonComponent className={"form-helper-icon"}
+                                                                                     onClick={() => {
+                                                                                         arrayHelpers.remove(index);
+                                                                                     }}
+                                                                >
+                                                                    <ImageConfig.DeleteIcon/>
+                                                                </IconButtonComponent>}
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })}
+                                        </>
+                                    )}/>
                             </CardComponent>
                             <CardComponent title={"Address Information"} size={"md"}>
                                 <div className="ts-row">
-                                    <div className="ts-col-5">
+                                    <div className="ts-col-md-5">
                                         <Field name={'address.address_line'}>
                                             {
                                                 (field: FieldProps) => (
@@ -268,7 +446,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                             }
                                         </Field>
                                     </div>
-                                    <div className="ts-col-5">
+                                    <div className="ts-col-md-5">
                                         <Field name={'address.city'}>
                                             {
                                                 (field: FieldProps) => (
@@ -284,10 +462,10 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                             }
                                         </Field>
                                     </div>
-                                    <div className="ts-col-2"></div>
+                                    <div className="ts-col-md-2"></div>
                                 </div>
                                 <div className="ts-row">
-                                    <div className="ts-col-5">
+                                    <div className="ts-col-md-5">
                                         <Field name={'address.state'}>
                                             {
                                                 (field: FieldProps) => (
@@ -303,7 +481,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                             }
                                         </Field>
                                     </div>
-                                    <div className="ts-col-5">
+                                    <div className="ts-col-md-5">
                                         <Field name={'address.zip_code'}>
                                             {
                                                 (field: FieldProps) => (
@@ -319,10 +497,10 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                             }
                                         </Field>
                                     </div>
-                                    <div className="ts-col-2"></div>
+                                    <div className="ts-col-md-2"></div>
                                 </div>
                                 <div className="ts-row">
-                                    <div className="ts-col-5">
+                                    <div className="ts-col-md-5">
                                         <Field name={'address.country'}>
                                             {
                                                 (field: FieldProps) => (
@@ -338,14 +516,14 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                             }
                                         </Field>
                                     </div>
-                                    <div className="ts-col-5">
+                                    <div className="ts-col-md-5">
                                     </div>
-                                    <div className="ts-col-2"></div>
+                                    <div className="ts-col-md-2"></div>
                                 </div>
                             </CardComponent>
                             <CardComponent title={"Work Information"} size={"md"}>
                                 <div className="ts-row">
-                                    <div className="ts-col-5">
+                                    <div className="ts-col-md-5">
                                         <Field name={'work_info.occupation'}>
                                             {
                                                 (field: FieldProps) => (
@@ -361,7 +539,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                             }
                                         </Field>
                                     </div>
-                                    <div className="ts-col-5">
+                                    <div className="ts-col-md-5">
                                         <Field name={'work_info.employment_status'}>
                                             {
                                                 (field: FieldProps) => (
@@ -376,7 +554,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                             }
                                         </Field>
                                     </div>
-                                    <div className="ts-col-2"></div>
+                                    <div className="ts-col-md-2"></div>
                                 </div>
                             </CardComponent>
                             <div className="ts-row t-form-actions">

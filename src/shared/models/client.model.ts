@@ -30,11 +30,15 @@ export interface IClientBasicDetailsForm {
     nick_name: string;
     ssn: string;
     primary_email: string;
+    secondary_emails: SecondaryEmail[];
     primary_contact_info: SecondaryContactInfoEntityOrPrimaryContactInfo;
     secondary_contact_info?: (SecondaryContactInfoEntityOrPrimaryContactInfo)[] | null;
     emergency_contact_info: EmergencyContactInfo;
     work_info: WorkInfo;
     address: Address;
+}
+export interface SecondaryEmail {
+    email: string;
 }
 export interface SecondaryContactInfoEntityOrPrimaryContactInfo {
     phone_type: string;

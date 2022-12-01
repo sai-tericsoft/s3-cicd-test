@@ -67,7 +67,7 @@ function* getLanguageList() {
 export default function* staticDataSaga() {
     yield takeEvery(GET_CONSULTATION_DURATION_LIST, getConsultationDurationList);
     yield takeEvery(GET_GENDER_LIST, getGenderList);
-    yield takeEvery(GET_PHONE_TYPE_LIST, getGenderList);
+    yield takeEvery(GET_PHONE_TYPE_LIST, getPhoneTypeList);
     yield takeEvery(GET_LANGUAGE_LIST, getLanguageList);
     yield takeEvery(GET_EMPLOYMENT_STATUS_LIST, getEmploymentStatusList);
 }
