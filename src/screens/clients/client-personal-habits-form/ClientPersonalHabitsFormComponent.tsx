@@ -13,6 +13,7 @@ import LinkComponent from "../../../shared/components/link/LinkComponent";
 import FormikRadioButtonGroupComponent
     from "../../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
 import {IClientPersonalHabitsForm} from "../../../shared/models/client.model";
+import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 
 interface ClientPersonalHabitsFormComponentProps {
     clientId: string;
@@ -106,6 +107,7 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
 
     return (
         <div className={'client-personal-habits-form-component'}>
+            <FormControlLabelComponent label={"Add Personal Habits"}/>
             <CardComponent title={"Personal Habits"} description={"Has the client ever or do they currently:"}>
                 <Formik
                     validationSchema={ClientPersonalHabitsFormValidationSchema}
@@ -122,7 +124,6 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                         }, [validateForm, values]);
                         return (
                             <Form noValidate={true} className={"t-form"}>
-                                <CardComponent title={"Personal Details"} size={"md"}>
                                     {
                                         FormQuestions.map((question: any) => {
                                             const {key, title, placeholder } = question;
@@ -168,7 +169,6 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                                             </div>
                                         })
                                     }
-                                </CardComponent>
                                 <div className="t-form-actions">
                                     <LinkComponent route={CommonService._routeConfig.ClientList()}>
                                         <ButtonComponent
