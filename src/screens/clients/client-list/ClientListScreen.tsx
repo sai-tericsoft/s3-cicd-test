@@ -1,7 +1,7 @@
 import "./ClientListScreen.scss";
 import ClientListTableComponent from "../client-list-table/ClientListTableComponent";
 import {useDispatch} from "react-redux";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import SearchComponent from "../../../shared/components/search/SearchComponent";
 import {IClientListFilterState} from "../../../shared/models/client.model";
@@ -20,15 +20,20 @@ const ClientListScreen = (props: ClientListScreenProps) => {
     const dispatch = useDispatch();
     const [clientListFilterState, setClientListFilterState] = useState<IClientListFilterState>({
         search: "",
-        sort: {
-            key: "",
-            order: undefined
-        }
+        sort: {}
     });
 
     useEffect(() => {
         dispatch(setCurrentNavParams('Clients'));
     }, [dispatch]);
+
+    const handleClientSort = useCallback((key: string, order: string) => {
+        setClientListFilterState((oldState) => {
+            const newState = {...oldState};
+            newState["sort"][key] = order;
+            return newState;
+        });
+    }, []);
 
     return (
         <div className={'client-list-screen list-screen'}>
@@ -53,14 +58,7 @@ const ClientListScreen = (props: ClientListScreenProps) => {
             <div className="list-content-wrapper">
                 <ClientListTableComponent
                     clientListFilterState={clientListFilterState}
-                    onSort={(key, order) => {
-                        setClientListFilterState({
-                            ...clientListFilterState, sort: {
-                                key,
-                                order
-                            }
-                        })
-                    }}
+                    onSort={handleClientSort}
                 />
             </div>
         </div>

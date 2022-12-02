@@ -2,6 +2,7 @@ import {ApiService} from "../index";
 import {APIConfig} from "../../../constants";
 
 const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const yesNoOptions = ["Yes", "No"];
 
 const getConsultationDurationList = (payload: any) => {
     // @ts-ignore
@@ -36,6 +37,7 @@ const getRelationshipStatusList = (payload: any) => {
 
 const StaticDataService = {
     weekDays,
+    yesNoOptions,
     getConsultationDurationList,
     getGenderList,
     getPhoneTypeList,

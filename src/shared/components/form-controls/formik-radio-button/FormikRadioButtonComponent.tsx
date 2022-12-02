@@ -11,7 +11,11 @@ interface FormikRadioButtonComponentProps extends IRadioButtonGroupProps {
 
 const FormikRadioButtonGroupComponent = (props: FormikRadioButtonComponentProps) => {
 
-    const {formikField, id, label, titleKey, valueKey, disabled, options, onChange, required} = props;
+    const {
+        formikField,
+        onChange,
+        ...otherProps
+    } = props;
     const {form, field} = formikField;
     const {name, value} = field;
     const {setFieldTouched, touched, errors, setFieldValue} = form;
@@ -26,19 +30,13 @@ const FormikRadioButtonGroupComponent = (props: FormikRadioButtonComponentProps)
     }, [setFieldValue, setFieldTouched, onChange, name])
 
     return (
-        <RadioButtonGroupComponent label={label}
-                                   id={id}
-                                   name={name}
-                                   options={options}
-                                   value={value}
-                                   titleKey={titleKey}
-                                   valueKey={valueKey}
-                                   disabled={disabled}
-                                   required={required}
-                                   onChange={onValueChange}
-                                   hasError={hasError}
-                                   errorMessage={hasError && _.get(errors, name)}
-
+        <RadioButtonGroupComponent
+            name={name}
+            value={value}
+            onChange={onValueChange}
+            hasError={hasError}
+            errorMessage={hasError && _.get(errors, name)}
+            {...otherProps}
         />
     );
 

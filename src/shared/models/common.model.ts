@@ -35,3 +35,7 @@ export interface IEmploymentStatus {
     title: string;
 }
 
+export interface ITextValue {
+    value: string;
+    text?: string;
+}

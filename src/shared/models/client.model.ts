@@ -1,4 +1,4 @@
-import {IEmploymentStatus, IGender, ILanguage, IPhoneType, IRelationship} from "./common.model";
+import {IEmploymentStatus, IGender, ILanguage, IPhoneType, IRelationship, ITextValue} from "./common.model";
 
 export interface IClient {
     _id: string;
@@ -11,6 +11,7 @@ export interface IClient {
     last_appointment_date: string;
     last_provider: string;
 }
+
 export interface PrimaryContactInfo {
     phone_type: string;
     phone: string;
@@ -19,8 +20,7 @@ export interface PrimaryContactInfo {
 export interface IClientListFilterState {
     search: string;
     sort: {
-        key: string ,
-        order: string | undefined
+        [key: string]: string,
     }
 }
 
@@ -40,17 +40,21 @@ export interface IClientBasicDetailsForm {
     work_info: WorkInfo;
     address: Address;
 }
+
 export interface SecondaryEmail {
     email: string;
 }
+
 export interface SecondaryContactInfoEntityOrPrimaryContactInfo {
     phone_type: string;
     phone: string;
 }
+
 export interface EmergencyContactInfo {
     primary_emergency: PrimaryEmergency;
     secondary_emergency: SecondaryEmergency;
 }
+
 export interface PrimaryEmergency {
     name: string;
     relationship: string;
@@ -58,6 +62,7 @@ export interface PrimaryEmergency {
     primary_contact_info: SecondaryContactInfoEntityOrPrimaryContactInfo;
     secondary_contact_info?: (SecondaryContactInfoEntityOrPrimaryContactInfo)[] | null;
 }
+
 export interface SecondaryEmergency {
     name: string;
     relationship: string;
@@ -65,10 +70,12 @@ export interface SecondaryEmergency {
     primary_contact_info: SecondaryContactInfoEntityOrPrimaryContactInfo;
     secondary_contact_info?: (SecondaryContactInfoEntityOrPrimaryContactInfo)[] | null;
 }
+
 export interface WorkInfo {
     occupation: string;
     employment_status: string;
 }
+
 export interface Address {
     address_line: string;
     city: string;
@@ -112,10 +119,12 @@ export interface IContactInfo {
     phone_type: IPhoneType;
     phone: string;
 }
+
 export interface IEmergencyContactInfo {
     primary_emergency: IEmergency;
     secondary_emergency: IEmergency;
 }
+
 export interface IEmergency {
     name: string;
     relationship: IRelationship;
@@ -127,4 +136,15 @@ export interface IEmergency {
 export interface IWorkInfo {
     occupation: string;
     employment_status: IEmploymentStatus;
+}
+
+export type ClientAddFormSteps = "basicDetails" | "personalHabits" | "allergies";
+
+export interface IClientPersonalHabitsForm {
+    "personal_habits": {
+        "Smoke/Chew Tobacco?": ITextValue;
+        "Drink Alcohol?": ITextValue;
+        "Drink Coffee?": ITextValue;
+        "Drink Soda/Pop?": ITextValue;
+    }
 }
