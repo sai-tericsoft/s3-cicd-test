@@ -21,10 +21,17 @@ const ClientMedicalSupplementsAddAPICall = (clientId: string, payload: any) => {
     return ApiService[APIConfig.CLIENT_MEDICAL_SUPPLEMENTS_ADD.METHOD](APIConfig.CLIENT_MEDICAL_SUPPLEMENTS_ADD.URL(clientId), payload);
 }
 
+const ClientMedicalHistoryAddAPICall = (clientId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.CLIENT_MEDICAL_HISTORY_ADD.METHOD](APIConfig.CLIENT_MEDICAL_HISTORY_ADD.URL(clientId), payload);
+}
+
+
 const ClientService={
     ClientBasicDetailsAddAPICall,
     ClientDetailsAPICall,
     ClientPersonalHabitsAddAPICall,
-    ClientMedicalSupplementsAddAPICall
+    ClientMedicalSupplementsAddAPICall,
+    ClientMedicalHistoryAddAPICall
 }
 export default ClientService;

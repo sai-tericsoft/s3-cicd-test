@@ -1,5 +1,12 @@
 import {IConsultationDuration} from "../../shared/models/static-data.model";
-import {IEmploymentStatus, IGender, ILanguage, IPhoneType, IRelationship} from "../../shared/models/common.model";
+import {
+    IEmploymentStatus,
+    IGender,
+    ILanguage,
+    IMedicalHistoryOption,
+    IPhoneType,
+    IRelationship
+} from "../../shared/models/common.model";
 
 export const GET_CONSULTATION_DURATION_LIST = 'GET_CONSULTATION_DURATION_LIST';
 export const SET_CONSULTATION_DURATION_LIST = 'SET_CONSULTATION_DURATION_LIST';
@@ -18,6 +25,9 @@ export const SET_RELATIONSHIP_LIST = 'SET_RELATIONSHIP_LIST';
 
 export const GET_PHONE_TYPE_LIST = 'GET_PHONE_TYPE_LIST';
 export const SET_PHONE_TYPE_LIST = 'SET_PHONE_TYPE_LIST';
+
+export const GET_MEDICAL_HISTORY_OPTIONS_LIST = 'GET_MEDICAL_HISTORY_OPTIONS_LIST';
+export const SET_MEDICAL_HISTORY_OPTIONS_LIST = 'SET_MEDICAL_HISTORY_OPTIONS_LIST';
 
 export const getConsultationDurationList = () => {
     return {type: GET_CONSULTATION_DURATION_LIST};
@@ -88,6 +98,18 @@ export const setRelationShipList = (relationshipList: IRelationship[]) => {
     return {
         type: SET_RELATIONSHIP_LIST, payload: {
             relationshipList
+        }
+    };
+};
+
+export const getMedicalHistoryOptionsList = () => {
+    return {type: GET_MEDICAL_HISTORY_OPTIONS_LIST};
+};
+
+export const setMedicalHistoryOptionsList = (medicalHistoryOptionsList: IMedicalHistoryOption[]) => {
+    return {
+        type: SET_MEDICAL_HISTORY_OPTIONS_LIST, payload: {
+            medicalHistoryOptionsList
         }
     };
 };

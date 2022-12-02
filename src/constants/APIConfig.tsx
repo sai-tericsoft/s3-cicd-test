@@ -33,6 +33,10 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + "/relationship",
         METHOD: "get"
     },
+    MEDICAL_HISTORY_OPTIONS_LIST: {
+        URL: ENV.API_URL + "/medicalHistory/question",
+        METHOD: "get"
+    },
     //meta end
 
     // authentication start
@@ -130,6 +134,10 @@ const APIConfig: IAPIConfig = {
     },
     CLIENT_MEDICAL_SUPPLEMENTS_ADD: {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medication',
+        METHOD: "post"
+    },
+    CLIENT_MEDICAL_HISTORY_ADD: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medicalHistory',
         METHOD: "post"
     },
     //

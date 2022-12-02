@@ -5,10 +5,11 @@ import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {useDispatch} from "react-redux";
 import ClientPersonalHabitsFormComponent from "../client-personal-habits-form/ClientPersonalHabitsFormComponent";
 import {ClientAddFormSteps} from "../../../shared/models/client.model";
-import ClientMedicalSupplementsFormComponent
-    from "../client-medical-supplements-form/ClientMedicalSupplementsFormComponent";
 import {useNavigate} from "react-router-dom";
 import {CommonService} from "../../../shared/services";
+import ClientMedicalHistoryFormComponent from "../client-medical-history-form/ClientMedicalHistoryFormComponent";
+import ClientMedicalSupplementsFormComponent
+    from "../client-medical-supplements-form/ClientMedicalSupplementsFormComponent";
 
 interface ClientAddScreenProps {
 
@@ -17,7 +18,7 @@ interface ClientAddScreenProps {
 const ClientAddScreen = (props: ClientAddScreenProps) => {
 
     const navigate = useNavigate();
-    const [currentStep, setCurrentStep] = useState<ClientAddFormSteps>("medicalSupplements");
+    const [currentStep, setCurrentStep] = useState<ClientAddFormSteps>("basicDetails");
     const dispatch = useDispatch();
     const [clientId] = useState<string>("6388a3d1e6bdcac0ca1942a7");
 
@@ -58,6 +59,13 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
             }
             {
                 currentStep === "medicalSupplements" && <ClientMedicalSupplementsFormComponent
+                    mode={"add"}
+                    onSave={handleClientDetailsSave.bind('medicalSupplements')}
+                    clientId={clientId}
+                />
+            }
+            {
+                currentStep === "medicalHistory" && <ClientMedicalHistoryFormComponent
                     mode={"add"}
                     onSave={handleClientDetailsSave.bind('medicalSupplements')}
                     clientId={clientId}

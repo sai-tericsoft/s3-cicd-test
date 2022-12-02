@@ -34,6 +34,10 @@ const getRelationshipStatusList = (payload: any) => {
     return ApiService[APIConfig.RELATIONSHIP_LIST.METHOD](APIConfig.RELATIONSHIP_LIST.URL, payload);
 }
 
+const getMedicalHistoryOptionsList = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.MEDICAL_HISTORY_OPTIONS_LIST.METHOD](APIConfig.MEDICAL_HISTORY_OPTIONS_LIST.URL, payload);
+}
 
 const StaticDataService = {
     weekDays,
@@ -43,7 +47,8 @@ const StaticDataService = {
     getPhoneTypeList,
     getEmployeeStatusList,
     getLanguageList,
-    getRelationshipStatusList
+    getRelationshipStatusList,
+    getMedicalHistoryOptionsList
 }
 
 export default StaticDataService;

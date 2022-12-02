@@ -85,7 +85,6 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
                                                         placeholder={"Prescription Medications"}
                                                         required={true}
                                                         formikField={field}
-                                                        size={"small"}
                                                         fullWidth={true}
                                                     />
                                                 )
@@ -99,7 +98,6 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
                                                         placeholder={"Non-Prescription Medications / Supplements"}
                                                         required={true}
                                                         formikField={field}
-                                                        size={"small"}
                                                         fullWidth={true}
                                                     />
                                                 )

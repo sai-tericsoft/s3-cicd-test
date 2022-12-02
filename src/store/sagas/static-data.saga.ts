@@ -4,12 +4,12 @@ import {
     GET_CONSULTATION_DURATION_LIST,
     GET_EMPLOYMENT_STATUS_LIST,
     GET_GENDER_LIST,
-    GET_LANGUAGE_LIST,
+    GET_LANGUAGE_LIST, GET_MEDICAL_HISTORY_OPTIONS_LIST,
     GET_PHONE_TYPE_LIST, GET_RELATIONSHIP_LIST,
     setConsultationDurationList,
     setEmploymentStatusList,
     setGenderList,
-    setLanguageList,
+    setLanguageList, setMedicalHistoryOptionsList,
     setPhoneTypeList, setRelationShipList
 } from "../actions/static-data.action";
 import {CommonService} from "../../shared/services";
@@ -74,6 +74,16 @@ function* getRelationshipList() {
     }
 }
 
+function* getMedicalHistoryOptionsList() {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._staticData.getMedicalHistoryOptionsList);
+        yield put(setMedicalHistoryOptionsList(resp?.data));
+    } catch (error: any) {
+        yield put(setMedicalHistoryOptionsList([]));
+    }
+}
+
 export default function* staticDataSaga() {
     yield takeEvery(GET_CONSULTATION_DURATION_LIST, getConsultationDurationList);
     yield takeEvery(GET_GENDER_LIST, getGenderList);
@@ -81,4 +91,5 @@ export default function* staticDataSaga() {
     yield takeEvery(GET_LANGUAGE_LIST, getLanguageList);
     yield takeEvery(GET_EMPLOYMENT_STATUS_LIST, getEmploymentStatusList);
     yield takeEvery(GET_RELATIONSHIP_LIST, getRelationshipList);
+    yield takeEvery(GET_MEDICAL_HISTORY_OPTIONS_LIST, getMedicalHistoryOptionsList);
 }

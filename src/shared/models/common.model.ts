@@ -39,3 +39,8 @@ export interface ITextValue {
     value: string;
     text?: string;
 }
+
+export interface IMedicalHistoryOption {
+    _id: string;
+    title: string;
+}
