@@ -129,8 +129,8 @@ export interface IEmergency {
     name: string;
     relationship: IRelationship;
     language: ILanguage;
-    primary_contact_info: SecondaryContactInfoEntityOrPrimaryContactInfo;
-    secondary_contact_info?: (SecondaryContactInfoEntityOrPrimaryContactInfo)[] | null;
+    primary_contact_info: IContactInfo;
+    secondary_contact_info?: IContactInfo[] | null;
 }
 
 export interface IWorkInfo {
