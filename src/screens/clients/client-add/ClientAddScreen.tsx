@@ -11,6 +11,8 @@ import ClientMedicalHistoryFormComponent from "../client-medical-history-form/Cl
 import ClientMedicalSupplementsFormComponent
     from "../client-medical-supplements-form/ClientMedicalSupplementsFormComponent";
 import ClientSurgicalHistoryFormComponent from "../client-surgical-history-form/ClientSurgicalHistoryFormComponent";
+import ClientMedicalFemaleOnlyFormComponent
+    from "../client-medical-female-only-form/ClientMedicalFemaleOnlyFormComponent";
 
 interface ClientAddScreenProps {
 
@@ -19,7 +21,7 @@ interface ClientAddScreenProps {
 const ClientAddScreen = (props: ClientAddScreenProps) => {
 
     const navigate = useNavigate();
-    const [currentStep, setCurrentStep] = useState<ClientAddFormSteps>("surgicalHistory");
+    const [currentStep, setCurrentStep] = useState<ClientAddFormSteps>("personalHabits");
     const dispatch = useDispatch();
     const [clientId] = useState<string>("6388a3d1e6bdcac0ca1942a7");
 
@@ -31,10 +33,6 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
         switch (currentStep) {
             case "basicDetails": {
                 setCurrentStep('personalHabits');
-                break;
-            }
-            case "personalHabits": {
-                setCurrentStep('allergies');
                 break;
             }
             default: {
@@ -71,6 +69,12 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
             }
             {
                 currentStep === "surgicalHistory" && <ClientSurgicalHistoryFormComponent
+                    mode={"add"}
+                    onSave={handleClientDetailsSave}
+                    clientId={clientId}/>
+            }
+            {
+                currentStep === "medicalFemaleOnly" && <ClientMedicalFemaleOnlyFormComponent
                     mode={"add"}
                     onSave={handleClientDetailsSave}
                     clientId={clientId}/>

@@ -147,6 +147,7 @@ export type ClientAddFormSteps = "basicDetails" |
     | "allergies"
     | "medicalSupplements"
     | "surgicalHistory"
+    | "medicalFemaleOnly"
     | "medicalHistory";
 
 export interface IClientPersonalHabitsForm {
@@ -178,5 +179,12 @@ export interface IClientSurgicalHistoryForm {
         "questions": string[];
         isCustomOption: boolean;
         "comments": string;
+    }
+}
+
+export interface IClientMedicalFemaleOnlyForm {
+    "females_only_questions": {
+        "Pregnant or trying to get pregnant?": string;
+        "Nursing?": string;
     }
 }

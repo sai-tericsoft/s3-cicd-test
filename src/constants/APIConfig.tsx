@@ -148,6 +148,10 @@ const APIConfig: IAPIConfig = {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/surgicalHistory',
         METHOD: "post"
     },
+    CLIENT_MEDICAL_FEMALE_ONLY_ADD: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/femaleQuestion',
+        METHOD: "post"
+    },
     //
 }
 
