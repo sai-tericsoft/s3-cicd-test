@@ -11,8 +11,15 @@ const ClientDetailsAPICall = (clientId: string, payload: any) => {
     return ApiService[APIConfig.CLIENT_DETAILS.METHOD](APIConfig.CLIENT_DETAILS.URL(clientId), payload);
 }
 
+const ClientPersonalHabitsAddAPICall = (clientId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.CLIENT_PERSONAL_HABITS_ADD.METHOD](APIConfig.CLIENT_PERSONAL_HABITS_ADD.URL(clientId), payload);
+}
+
+
 const ClientService={
     ClientBasicDetailsAddAPICall,
-    ClientDetailsAPICall
+    ClientDetailsAPICall,
+    ClientPersonalHabitsAddAPICall
 }
 export default ClientService;
