@@ -31,7 +31,7 @@ const ServiceCategoryService = {
     ServiceCategoryAddAPICall,
     ServiceCategoryDetailsAPICall,
     ServiceCategoryEditAPICall,
-    ServiceDetailsAPICall
+    ServiceDetailsAPICall,
 }
 
 export default ServiceCategoryService;

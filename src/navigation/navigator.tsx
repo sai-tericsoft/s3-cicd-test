@@ -3,7 +3,7 @@ import {Navigate, Route, Routes, useLocation, useNavigate} from 'react-router-do
 import NotFoundScreen from "../screens/not-found/notFoundScreen";
 import AuthLayout from "../layouts/auth-layout/AuthLayout";
 import {
-    ADMIN,
+    ADMIN, CLIENT_ADD, CLIENT_DETAILS, CLIENT_LIST,
     COMING_SOON_ROUTE,
     DASHBOARD,
     DESIGN_SYSTEM_ROUTE, FACILITY_DETAILS, FACILITY_LIST,
@@ -33,6 +33,9 @@ import ServiceAddScreen from "../screens/admin/service/service-add/ServiceAddScr
 import ServiceEditScreen from "../screens/admin/service/service-edit/ServiceEditScreen";
 import FacilityListScreen from "../screens/admin/facility/facility-list/FacilityListScreen";
 import FacilityDetailsScreen from "../screens/admin/facility/facility-details/FacilityDetailsScreen";
+import ClientListScreen from "../screens/clients/client-list/ClientListScreen";
+import ClientAddScreen from "../screens/clients/client-add/ClientAddScreen";
+import ClientDetailsScreen from "../screens/clients/client-details/ClientDetailsScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -93,6 +96,30 @@ const Navigator = (props: NavigatorProps) => {
                     element={
                         <ProtectedRoute>
                             <DashboardScreen/>
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path={CLIENT_LIST}
+                    element={
+                        <ProtectedRoute>
+                            <ClientListScreen/>
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path={CLIENT_ADD}
+                    element={
+                        <ProtectedRoute>
+                            <ClientAddScreen/>
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path={CLIENT_DETAILS + '/:clientId'}
+                    element={
+                        <ProtectedRoute>
+                            <ClientDetailsScreen/>
                         </ProtectedRoute>
                     }
                 />

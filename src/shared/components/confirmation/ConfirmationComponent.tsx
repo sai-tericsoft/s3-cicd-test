@@ -54,7 +54,6 @@ const ConfirmationComponent = (props: ConfirmationComponentProps) => {
             }}
             closeOnEsc={config?.closeOnEsc}
             closeOnBackDropClick={config?.closeOnBackdropClick}
-            title={config?.confirmationTitle || 'Confirm ?'}
             direction={config?.direction || "down"}
             size={"md"}
             showClose={false}
@@ -78,6 +77,14 @@ const ConfirmationComponent = (props: ConfirmationComponentProps) => {
             }>
             <div className="confirmation-dialog-container">
                 <div className="confirmation-dialog-sub-title-and-description">
+                    <div className="confirmation-dialog-image-container">
+                        <div className={"confirmation-dialog-image"}>
+                            <img src={config?.image} alt={config?.confirmationTitle}/>
+                        </div>
+                    </div>
+                    <div className={"confirmation-dialog-title"} >
+                        {config?.confirmationTitle || 'Confirm ?'}
+                    </div>
                     <div className="confirmation-dialog-sub-title">{config?.confirmationSubTitle}</div>
                     <div className="confirmation-dialog-sub-description">{config?.confirmationDescription}</div>
                 </div>

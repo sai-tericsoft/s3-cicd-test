@@ -11,28 +11,28 @@ import PaginationComponent from "../pagination/PaginationComponent";
 export interface TableComponentProps extends ITableComponentProps {
     url: string,
     method: "get" | "post" | string,
-    isPaginated: boolean,
+    isPaginated?: boolean,
     extraPayload?: any;
+    refreshToken?: string; // TODO review and make it standard
 }
 
 const TableWrapperComponent = (props: TableComponentProps) => {
 
-    const {columns, showHeader, size, url, method, extraPayload, fixedHeader, isPaginated} = props;
+    const {columns, size, showHeader, refreshToken, url, method, extraPayload, fixedHeader, onSort} = props;
 
     const [isDataLoading, setIsDataLoading] = useState<boolean>(false);
     const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
     const [isDataLoadingFailed, setIsDataLoadingFailed] = useState<boolean>(false);
     const [data, setData] = useState<any>([]);
-    // const [error, setError] = useState<any>(null);
     const pageNumRef = useRef<number>(0);
     const totalResultsRef = useRef<number>(0);
     const pageSizeRef = useRef<number>(10);
     const fetchPageDataSubscriptionRef = useRef<boolean>(true);
-
+    const isPaginated = props.isPaginated !== undefined ? props.isPaginated : true;
 
     const getListData = useCallback(() => {
         const payload = {page: pageNumRef.current + 1, limit: pageSizeRef.current, ...extraPayload};
-        let apiCall = null;
+        let apiCall;
         if (method === "post") {
             apiCall = CommonService._api.post(url, payload);
         } else {
@@ -44,6 +44,7 @@ const TableWrapperComponent = (props: TableComponentProps) => {
         let listData: any[] = [];
         apiCall.then((response: IAPIResponseType<any>) => {
             if (response.data) {
+                console.log(isPaginated);
                 if (isPaginated) {
                     listData = response?.data?.docs || [];
                     totalResultsRef.current = response?.data?.total;
@@ -52,18 +53,20 @@ const TableWrapperComponent = (props: TableComponentProps) => {
                 }
             }
             setData(listData);
-            // setError(null);
             setIsDataLoading(false);
             setIsDataLoaded(true);
             setIsDataLoadingFailed(false);
         }).catch((error) => {
             setData(listData);
-            // setError(error);
             setIsDataLoading(false);
             setIsDataLoaded(false);
             setIsDataLoadingFailed(true);
         })
     }, [isPaginated, method, url, extraPayload]);
+
+    useEffect(()=>{
+        getListData();
+    }, [getListData, refreshToken]);
 
     const handlePageNumberChange = useCallback((event: unknown, newPage: number) => {
         pageNumRef.current = newPage;
@@ -75,12 +78,6 @@ const TableWrapperComponent = (props: TableComponentProps) => {
         pageNumRef.current = 0;
         getListData();
     }, [getListData]);
-
-    // const handleSortColumn = useCallback((columnName: string, mode: string) => {
-    //     extraPayload.sort = {
-    //         columnName: mode
-    //     }
-    // }, []);
 
     useEffect(() => {
         getListData();
@@ -97,7 +94,7 @@ const TableWrapperComponent = (props: TableComponentProps) => {
     }, [getListData]);
 
     return (
-        <div className="t-table-wrapper">
+        <>
             <TableComponent
                 showHeader={showHeader}
                 fixedHeader={fixedHeader}
@@ -105,6 +102,7 @@ const TableWrapperComponent = (props: TableComponentProps) => {
                 size={size}
                 loading={isDataLoading}
                 errored={isDataLoadingFailed}
+                onSort={onSort}
                 data={data}/>
             {
                 (isDataLoaded && (data && data?.length) > 0 && isPaginated) && <PaginationComponent
@@ -116,7 +114,7 @@ const TableWrapperComponent = (props: TableComponentProps) => {
                     onRowsPerPageChange={handlePageSizeChange}
                 />
             }
-        </div>
+        </>
     );
 };
 

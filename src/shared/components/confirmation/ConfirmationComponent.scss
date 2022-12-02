@@ -3,13 +3,39 @@
 .confirmation-dialog-container {
 
   .confirmation-dialog-sub-title-and-description {
-
-    .confirmation-dialog-sub-title {
+    .confirmation-dialog-title {
+      text-align: center;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 9px;
     }
 
-    .confirmation-dialog-sub-description {
-      margin: 10px 0;
+    .confirmation-dialog-image-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 4px;
+
+      .confirmation-dialog-image {
+        height: 124px;
+        width: 101px;
+
+        img {
+          height: 100%;
+          width: auto;
+        }
+      }
+
     }
   }
 
+  .confirmation-dialog-sub-title {
+    color: #6D6D6D;
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 30px;
+  }
+
+  .confirmation-dialog-sub-description {
+    margin: 10px 0;
+  }
 }

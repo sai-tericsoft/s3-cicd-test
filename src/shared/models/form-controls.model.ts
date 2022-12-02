@@ -1,3 +1,7 @@
+import React from "react";
+import {AutocompleteRenderOptionState} from "@mui/material";
+import {Moment} from "moment/moment";
+
 export interface IInputFieldProps {
     className?: string;
     disabled?: boolean;
@@ -51,17 +55,19 @@ export interface ISwitchProps {
 export interface IRadioButtonGroupProps {
     checked?: boolean;
     disabled?: boolean;
-    errorMessage?: any;
-    hasError?: boolean;
     id?: any;
     label?: string;
     name?: string;
-    onChange?: (value: any) => void
+    color?: 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
+    direction?: "row" | "column";
+    onChange?: (value: any) => void;
+    displayWith?: (item: any) => string;
+    keyExtractor?: (item: any) => any;
+    valueExtractor?: (item: any) => any;
     options?: any[];
+    size?: "medium" | "small";
     required?: boolean;
-    titleKey?: string;
     value?: any;
-    valueKey?: string;
 }
 
 export interface IRadioButtonProps {
@@ -74,13 +80,11 @@ export interface IRadioButtonProps {
     id?: any;
     label?: string;
     name?: string;
-    onChange?: (value: any) => void
+    onChange?: (value: any) => void;
     option?: any;
     required?: boolean;
     size?: 'medium' | 'small';
-    titleKey?: string;
     value?: any;
-    valueKey?: string;
 }
 
 export interface ITextAreaProps {
@@ -108,13 +112,12 @@ export interface ISelectProps {
     autoWidth?: boolean;
     className?: string;
     disabled?: boolean;
-    displayWith?: (item: any) => any;
-    errorMessage?: any;
     fullWidth?: boolean;
-    hasError?: boolean;
     id?: string;
     required?: boolean;
+    displayWith?: (item: any) => any;
     keyExtractor?: (item: any) => any;
+    valueExtractor?: (item: any, index: number) => any;
     label?: string;
     onUpdate?: (value: any) => void;
     onBlur?: () => void;
@@ -122,6 +125,66 @@ export interface ISelectProps {
     readOnly?: boolean;
     size?: 'small' | 'medium';
     value?: any;
-    valueExtractor?: (item: any, index: number) => any;
     variant?: 'filled' | 'outlined' | 'standard';
+}
+
+export interface IAutoCompleteProps {
+    blurOnSelect?: boolean;
+    className?: string;
+    clearLocalListData?: boolean;
+    color?: "error" | "primary" | "secondary" | "info" | "success" | "warning" | undefined;
+    options?: any[];
+    dataListKey?: string;
+    defaultData?: any[];
+    disableClearable?: boolean;
+    disabled?: boolean;
+    displayWith?: (item: any) => any;
+    extraPayload?: object;
+    freeSolo?: boolean;
+    fullWidth?: boolean;
+    id?: string;
+    isDataLoaded?: boolean;
+    isDataLoading?: boolean;
+    isDataLoadingFailed?: boolean;
+    keyExtractor?: (item: any) => any;
+    label: string;
+    loading?: boolean;
+    loadingText?: string;
+    method?: "get" | "post" | string;
+    multiple?: boolean;
+    name?: string;
+    noDataMessage?: string;
+    onUpdate?: (value: any) => void;
+    openOnFocus?: boolean;
+    payload?: object;
+    placeholder?: string;
+    readOnly?: boolean;
+    renderOption?: (
+        props: React.HTMLAttributes<HTMLLIElement>,
+        option: any,
+        state: AutocompleteRenderOptionState,
+    ) => React.ReactNode;
+    required?: boolean;
+    searchMode?: "clientSide" | "serverSide",
+    size?: 'small' | 'medium';
+    url?: string;
+    valueExtractor?: (item: any) => any;
+}
+
+export interface IDatePickerProps {
+    fullWidth?: boolean;
+    id?: string;
+    variant?: "filled" | "standard" | "outlined" | undefined;
+    color?: "error" | "primary" | "secondary" | "info" | "success" | "warning" | undefined;
+    size?: "small" | "medium" | undefined;
+    placeholder?: string;
+    required?: boolean;
+    disabled?: boolean;
+    readOnly?: boolean;
+    format?: string;
+    minDate?: Moment;
+    maxDate?: Moment;
+    onUpdate?: Function;
+    label?: string;
+    mask?: string
 }

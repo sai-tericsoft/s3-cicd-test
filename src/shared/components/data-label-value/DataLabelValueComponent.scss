@@ -18,4 +18,19 @@
     align-items: center;
     color: #212B36;
   }
+
+  &.row {
+    flex-direction: row;
+    .data-label {
+      margin-left: 6px;
+    }
+  }
+
+  &.column {
+    flex-direction: column;
+    .data-label {
+      margin-bottom: 6px;
+    }
+  }
+
 }

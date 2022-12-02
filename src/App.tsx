@@ -10,7 +10,17 @@ import {CommonService} from "./shared/services";
 import {logout} from "./store/actions/account.action";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "./store/reducers";
-import {getConsultationDurationList} from "./store/actions/static-data.action";
+import {
+    getConsultationDurationList,
+    getEmploymentStatusList,
+    getGenderList,
+    getLanguageList,
+    getMedicalHistoryOptionsList,
+    getMusculoskeletalHistoryOptionsList,
+    getPhoneTypeList,
+    getRelationShipList,
+    getSurgicalHistoryOptionsList
+} from "./store/actions/static-data.action";
 
 interface AppProps {
     setCurrentUser?: any;
@@ -73,6 +83,14 @@ const App = (props: AppProps) => {
     useEffect(() => {
         if (token) {
             dispatch(getConsultationDurationList());
+            dispatch(getGenderList());
+            dispatch(getLanguageList());
+            dispatch(getEmploymentStatusList());
+            dispatch(getPhoneTypeList());
+            dispatch(getRelationShipList());
+            dispatch(getMedicalHistoryOptionsList());
+            dispatch(getSurgicalHistoryOptionsList());
+            dispatch(getMusculoskeletalHistoryOptionsList());
         }
     }, [token, dispatch])
 

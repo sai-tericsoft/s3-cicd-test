@@ -17,6 +17,7 @@ import _ from "lodash";
 import ServiceCategoryService from "./modules/service-category.service";
 import ServiceService from "./modules/service.service";
 import FacilityService from "./modules/facility.service";
+import ClientService from "./modules/client.service";
 
 yup.addMethod(yup.mixed, 'atLeastOne', (args) => {
     const {message, predicate} = args;
@@ -375,6 +376,14 @@ const getObjectKeyValue = (object: any, key:string) => {
     return _.get(object, key);
 }
 
+const getSystemFormatTimeStamp =  (date: Date | string, showTime: boolean = false) => {
+    if (showTime){
+        return moment(date).format('DD-MMM-YYYY hh:mm A');
+    } else {
+        return moment(date).format('DD-MMM-YYYY');
+    }
+};
+
 const CommonService = {
     CurrentDate,
     parseQueryString,
@@ -402,6 +411,7 @@ const CommonService = {
     Capitalize,
     getObjectKeyValue,
     getHoursAndMinutesFromMinutes,
+    getSystemFormatTimeStamp,
     // createValidationsObject,
     // createYupSchema,
 
@@ -415,6 +425,7 @@ const CommonService = {
     _staticData: StaticDataService,
     _serviceCategory: ServiceCategoryService,
     _service: ServiceService,
+    _client: ClientService,
     _facility: FacilityService
 }
 export default CommonService;

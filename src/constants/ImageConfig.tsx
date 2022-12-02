@@ -13,6 +13,8 @@ import {ReactComponent as CircleCheck} from './../assets/icons/check_circle.svg'
 import {ReactComponent as CircleError} from './../assets/icons/error_circle.svg';
 import {ReactComponent as LeftArrow} from './../assets/icons/left_arrow.svg';
 import {ReactComponent as RightArrow} from './../assets/icons/right_arrow.svg';
+import {ReactComponent as SearchIcon} from './../assets/icons/search.svg';
+import {ReactComponent as InfoIcon} from './../assets/icons/info.svg';
 
 //file types
 import PDFIcon from './../assets/icons/file-types/pdf.svg';
@@ -33,15 +35,18 @@ import {ReactComponent as SchedulingIcon} from './../assets/icons/side-menu/sche
 
 // general
 import {ReactComponent as AddIcon} from './../assets/icons/add.svg';
+import {ReactComponent as DeleteIcon} from "./../assets/icons/delete.svg";
 import {ReactComponent as AddCircleIcon} from './../assets/icons/add_circle.svg';
 
-
 import PlaceHolderImage from '../assets/place_holder_image.png';
+import RemoveImage from '../assets/images/remove.png'
+
 
 
 export {
     Logo,
     PlaceHolderImage,
+    RemoveImage,
     userIcon,
     SelectDropDownIcon,
     ProfileIcon,
@@ -65,11 +70,14 @@ export {
     LeftArrow,
     RightArrow,
     AddIcon,
+    DeleteIcon,
     NavigateBack,
     EditIcon,
     PDFIcon,
     WordDocIcon,
     ExcelIcon,
     UnknownFileTypeIcon,
-    AddCircleIcon
+    AddCircleIcon,
+    SearchIcon,
+    InfoIcon
 }

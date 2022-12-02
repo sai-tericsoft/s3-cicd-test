@@ -10,9 +10,15 @@
     align-items: center;
     justify-content: space-between;
 
-    .card-title {
-      font-size: 18px;
-      font-weight: 700;
+    .card-title-description-wrapper {
+      .card-title {
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      .card-description {
+        margin-top: 8px;
+      }
     }
 
     .card-actions {

@@ -9,7 +9,9 @@ import {useParams} from "react-router-dom";
 import BasicDetailsCardComponent from "../../../../shared/components/basic-details-card/BasicDetailsCardComponent";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../../constants";
+import ServiceProviderListComponent from "../service-provider-list/ServiceProviderListComponent";
 import LinkComponent from "../../../../shared/components/link/LinkComponent";
+import ServiceConsultationDetailsComponent from "../service-consultation-details/ServiceConsultationDetailsComponent";
 
 interface ServiceDetailsScreenProps {
 
@@ -59,7 +61,7 @@ const ServiceDetailsScreen = (props: ServiceDetailsScreenProps) => {
             }
             {
                 isServiceDetailsLoaded && <>
-                    <div className={"service-category-details-card"}>
+                    <div className={"service-details-card"}>
                         <BasicDetailsCardComponent
                             legend={serviceDetails?.category?.name}
                             title={serviceDetails?.name}
@@ -80,13 +82,19 @@ const ServiceDetailsScreen = (props: ServiceDetailsScreenProps) => {
                             </>}
                         ></BasicDetailsCardComponent>
                     </div>
-                    {/*<div className="service-consultation-details">*/}
-                    {/*    {*/}
-                    {/*        serviceDetails && <ServiceConsultationDetailsComponent serviceDetails={serviceDetails}/>*/}
-                    {/*    }*/}
-                    {/*</div>*/}
+                    <div className="service-consultation-details">
+                        {
+                            serviceDetails && <ServiceConsultationDetailsComponent serviceDetails={serviceDetails}/>
+                        }
+                    </div>
+                    <div className="service-providers-details">
+                        {
+                            serviceDetails && <ServiceProviderListComponent serviceDetails={serviceDetails}/>
+                        }
+                    </div>
                 </>
             }
+
         </div>
     );
 
