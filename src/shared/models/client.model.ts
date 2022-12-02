@@ -88,7 +88,7 @@ export interface IClientBasicDetails {
     ssn: string;
     address: IAddress;
     primary_email: string;
-    secondary_emails?: string[] | null;
+    secondary_emails?: IEmail[] | null;
     primary_contact_info: IContactInfo;
     secondary_contact_info?: IContactInfo[] | null;
     emergency_contact_info: IEmergencyContactInfo;
@@ -112,6 +112,11 @@ export interface IContactInfo {
     phone_type: IPhoneType;
     phone: string;
 }
+
+export interface IEmail {
+    email: string;
+}
+
 export interface IEmergencyContactInfo {
     primary_emergency: IEmergency;
     secondary_emergency: IEmergency;
