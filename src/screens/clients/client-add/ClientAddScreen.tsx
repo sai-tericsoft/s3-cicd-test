@@ -21,7 +21,7 @@ interface ClientAddScreenProps {
 const ClientAddScreen = (props: ClientAddScreenProps) => {
 
     const navigate = useNavigate();
-    const [currentStep, setCurrentStep] = useState<ClientAddFormSteps>("personalHabits");
+    const [currentStep, setCurrentStep] = useState<ClientAddFormSteps>("basicDetails");
     const dispatch = useDispatch();
     const [clientId] = useState<string>("6388a3d1e6bdcac0ca1942a7");
 
