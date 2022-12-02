@@ -41,7 +41,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                 navigate(CommonService._routeConfig.ClientList());
             }
         }
-    }, [currentStep]);
+    }, [currentStep, navigate]);
 
     return (
         <div className={'client-add-screen'}>
