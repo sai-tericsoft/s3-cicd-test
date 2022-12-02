@@ -5,7 +5,7 @@ import {
     ILanguage,
     IMedicalHistoryOption,
     IPhoneType,
-    IRelationship
+    IRelationship, ISurgicalHistoryOption
 } from "../../shared/models/common.model";
 
 export const GET_CONSULTATION_DURATION_LIST = 'GET_CONSULTATION_DURATION_LIST';
@@ -28,6 +28,9 @@ export const SET_PHONE_TYPE_LIST = 'SET_PHONE_TYPE_LIST';
 
 export const GET_MEDICAL_HISTORY_OPTIONS_LIST = 'GET_MEDICAL_HISTORY_OPTIONS_LIST';
 export const SET_MEDICAL_HISTORY_OPTIONS_LIST = 'SET_MEDICAL_HISTORY_OPTIONS_LIST';
+
+export const GET_SURGICAL_HISTORY_OPTIONS_LIST = 'GET_SURGICAL_HISTORY_OPTIONS_LIST';
+export const SET_SURGICAL_HISTORY_OPTIONS_LIST = 'SET_SURGICAL_HISTORY_OPTIONS_LIST';
 
 export const getConsultationDurationList = () => {
     return {type: GET_CONSULTATION_DURATION_LIST};
@@ -110,6 +113,18 @@ export const setMedicalHistoryOptionsList = (medicalHistoryOptionsList: IMedical
     return {
         type: SET_MEDICAL_HISTORY_OPTIONS_LIST, payload: {
             medicalHistoryOptionsList
+        }
+    };
+};
+
+export const getSurgicalHistoryOptionsList = () => {
+    return {type: GET_SURGICAL_HISTORY_OPTIONS_LIST};
+};
+
+export const setSurgicalHistoryOptionsList = (surgicalHistoryOptionsList: ISurgicalHistoryOption[]) => {
+    return {
+        type: SET_SURGICAL_HISTORY_OPTIONS_LIST, payload: {
+            surgicalHistoryOptionsList
         }
     };
 };

@@ -44,3 +44,8 @@ export interface IMedicalHistoryOption {
     _id: string;
     title: string;
 }
+
+export interface ISurgicalHistoryOption {
+    _id: string;
+    title: string;
+}

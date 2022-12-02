@@ -10,6 +10,7 @@ import {CommonService} from "../../../shared/services";
 import ClientMedicalHistoryFormComponent from "../client-medical-history-form/ClientMedicalHistoryFormComponent";
 import ClientMedicalSupplementsFormComponent
     from "../client-medical-supplements-form/ClientMedicalSupplementsFormComponent";
+import ClientSurgicalHistoryFormComponent from "../client-surgical-history-form/ClientSurgicalHistoryFormComponent";
 
 interface ClientAddScreenProps {
 
@@ -18,7 +19,7 @@ interface ClientAddScreenProps {
 const ClientAddScreen = (props: ClientAddScreenProps) => {
 
     const navigate = useNavigate();
-    const [currentStep, setCurrentStep] = useState<ClientAddFormSteps>("basicDetails");
+    const [currentStep, setCurrentStep] = useState<ClientAddFormSteps>("surgicalHistory");
     const dispatch = useDispatch();
     const [clientId] = useState<string>("6388a3d1e6bdcac0ca1942a7");
 
@@ -26,7 +27,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
         dispatch(setCurrentNavParams('Add Client'));
     }, [dispatch]);
 
-    const handleClientDetailsSave = useCallback((currentStep: ClientAddFormSteps) => {
+    const handleClientDetailsSave = useCallback(() => {
         switch (currentStep) {
             case "basicDetails": {
                 setCurrentStep('personalHabits');
@@ -40,7 +41,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                 navigate(CommonService._routeConfig.ClientList());
             }
         }
-    }, []);
+    }, [currentStep]);
 
     return (
         <div className={'client-add-screen'}>
@@ -48,28 +49,31 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                 currentStep === "basicDetails" &&
                 <ClientBasicDetailsFormComponent
                     mode={"add"}
-                    onSave={handleClientDetailsSave.bind('basicDetails')}/>
+                    onSave={handleClientDetailsSave}/>
             }
             {
                 currentStep === "personalHabits" && <ClientPersonalHabitsFormComponent
                     mode={"add"}
-                    onSave={handleClientDetailsSave.bind('personalHabits')}
-                    clientId={clientId}
-                />
+                    onSave={handleClientDetailsSave}
+                    clientId={clientId}/>
             }
             {
                 currentStep === "medicalSupplements" && <ClientMedicalSupplementsFormComponent
                     mode={"add"}
-                    onSave={handleClientDetailsSave.bind('medicalSupplements')}
-                    clientId={clientId}
-                />
+                    onSave={handleClientDetailsSave}
+                    clientId={clientId}/>
             }
             {
                 currentStep === "medicalHistory" && <ClientMedicalHistoryFormComponent
                     mode={"add"}
-                    onSave={handleClientDetailsSave.bind('medicalSupplements')}
-                    clientId={clientId}
-                />
+                    onSave={handleClientDetailsSave}
+                    clientId={clientId}/>
+            }
+            {
+                currentStep === "surgicalHistory" && <ClientSurgicalHistoryFormComponent
+                    mode={"add"}
+                    onSave={handleClientDetailsSave}
+                    clientId={clientId}/>
             }
         </div>
     )

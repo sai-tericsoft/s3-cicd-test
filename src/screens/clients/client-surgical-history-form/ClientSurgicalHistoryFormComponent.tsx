@@ -1,6 +1,6 @@
-import "./ClientMedicalHistoryFormComponent.scss";
+import "./ClientSurgicalHistoryFormComponent.scss";
 import * as Yup from "yup";
-import {IClientMedicalHistoryForm} from "../../../shared/models/client.model";
+import {IClientSurgicalHistoryForm} from "../../../shared/models/client.model";
 import {useCallback, useEffect, useState} from "react";
 import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
@@ -13,20 +13,20 @@ import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
-import {IMedicalHistoryOption} from "../../../shared/models/common.model";
+import {ISurgicalHistoryOption} from "../../../shared/models/common.model";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 
-interface ClientMedicalHistoryFormComponentProps {
+interface ClientSurgicalHistoryFormComponentProps {
     clientId: string;
     mode: "add" | "edit";
-    onSave: (clientMedicalHistoryDetails: any) => void;
+    onSave: (clientSurgicalHistoryDetails: any) => void;
 }
 
-const ClientMedicalHistoryValidationSchema = Yup.object({
-    medical_history: Yup.object({
-        questions: Yup.array().min(1, 'Medical history is required'),
+const ClientSurgicalHistoryValidationSchema = Yup.object({
+    surgical_history: Yup.object({
+        questions: Yup.array().min(1, 'Surgical history is required'),
         isCustomOption: Yup.boolean().nullable(),
         comments: Yup.string().when("isCustomOption", {
             is: true,
@@ -35,37 +35,37 @@ const ClientMedicalHistoryValidationSchema = Yup.object({
     }),
 });
 
-const ClientMedicalHistoryInitialValues: IClientMedicalHistoryForm = {
-    medical_history: {
+const ClientSurgicalHistoryInitialValues: IClientSurgicalHistoryForm = {
+    surgical_history: {
         questions: [],
         isCustomOption: false,
         comments: ""
     }
 };
 
-const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormComponentProps) => {
+const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComponentProps) => {
 
     const {mode, clientId, onSave} = props;
     const {medicalHistoryOptionsList} = useSelector((state: IRootReducerState) => state.staticData);
-    const [clientMedicalHistoryInitialValues] = useState<IClientMedicalHistoryForm>(_.cloneDeep(ClientMedicalHistoryInitialValues));
-    const [isClientMedicalHistorySavingInProgress, setIsClientMedicalHistorySavingInProgress] = useState(false);
+    const [clientSurgicalHistoryInitialValues] = useState<IClientSurgicalHistoryForm>(_.cloneDeep(ClientSurgicalHistoryInitialValues));
+    const [isClientSurgicalHistorySavingInProgress, setIsClientSurgicalHistorySavingInProgress] = useState(false);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        setIsClientMedicalHistorySavingInProgress(true);
+        setIsClientSurgicalHistorySavingInProgress(true);
         console.log('mode', mode); // TODO make api call based on mode
-        CommonService._client.ClientMedicalHistoryAddAPICall(clientId, values)
-            .then((response: IAPIResponseType<IClientMedicalHistoryForm>) => {
+        CommonService._client.ClientSurgicalHistoryAddAPICall(clientId, values)
+            .then((response: IAPIResponseType<IClientSurgicalHistoryForm>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                setIsClientMedicalHistorySavingInProgress(false);
+                setIsClientSurgicalHistorySavingInProgress(false);
                 onSave(response);
             })
             .catch((error: any) => {
                 CommonService.handleErrors(setErrors, error);
-                setIsClientMedicalHistorySavingInProgress(false);
+                setIsClientSurgicalHistorySavingInProgress(false);
             })
     }, [clientId, onSave, mode]);
 
-    const handleMedicalHistoryOptionSelection = useCallback((optionId: string, selectedOptions: string[]) => {
+    const handleSurgicalHistoryOptionSelection = useCallback((optionId: string, selectedOptions: string[]) => {
         const index = selectedOptions?.findIndex((value: string) => value === optionId);
         if (index > -1) {
             selectedOptions.splice(index, 1);
@@ -76,13 +76,13 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
     }, []);
 
     return (
-        <div className={'client-medical-history-form-component'}>
-            <FormControlLabelComponent label={"Add Medical History"}/>
-            <CardComponent title={"Medical History"}
-                           description={"Has the client ever had or do they currently have: (Check all that apply)"}>
+        <div className={'client-surgical-history-form-component'}>
+            <FormControlLabelComponent label={"Add Surgical History"}/>
+            <CardComponent title={"Surgical History"}
+                           description={"Has the client ever had:"}>
                 <Formik
-                    validationSchema={ClientMedicalHistoryValidationSchema}
-                    initialValues={clientMedicalHistoryInitialValues}
+                    validationSchema={ClientSurgicalHistoryValidationSchema}
+                    initialValues={clientSurgicalHistoryInitialValues}
                     onSubmit={onSubmit}
                     validateOnChange={false}
                     validateOnBlur={true}
@@ -97,10 +97,10 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                             <Form noValidate={true} className={"t-form"}>
                                 <div className="ts-row">
                                     {
-                                        medicalHistoryOptionsList?.map((option: IMedicalHistoryOption) => {
-                                            return <div className="ts-col-md-6" key={option._id}>
+                                        medicalHistoryOptionsList?.map((option: ISurgicalHistoryOption) => {
+                                            return <div className="ts-col-md-6 ts-col-lg-4" key={option._id}>
                                                 <Field
-                                                    name={"medical_history.questions"}>
+                                                    name={"surgical_history.questions"}>
                                                     {(field: FieldProps) => (
                                                         <CheckBoxComponent
                                                             label={option?.title}
@@ -108,7 +108,7 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                                                             checked={field.field?.value?.indexOf(option._id) > -1}
                                                             onChange={() => {
                                                                 setFieldTouched(field.field?.name);
-                                                                setFieldValue(field.field?.name, handleMedicalHistoryOptionSelection(option._id, field.field?.value));
+                                                                setFieldValue(field.field?.name, handleSurgicalHistoryOptionSelection(option._id, field.field?.value));
                                                                 validateForm();
                                                             }}
                                                         />
@@ -119,13 +119,13 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                                     }
                                 </div>
                                 <div className="ts-row">
-                                    <div className="ts-col-md-6">
+                                    <div className="ts-col-4">
                                         <Field
-                                            name={"medical_history.isCustomOption"}>
+                                            name={"surgical_history.isCustomOption"}>
                                             {(field: FieldProps) => (
                                                 <FormikCheckBoxComponent
                                                     formikField={field}
-                                                    label={"Any other illnesses or conditions not listed above?"}
+                                                    label={"Other Surgery not Listed?"}
                                                 />
                                             )}
                                         </Field>
@@ -133,14 +133,14 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                                 </div>
                                 <div className="ts-row">
                                     <div className="ts-col-12">
-                                        <Field name={`medical_history.comments`}>
+                                        <Field name={`surgical_history.comments`}>
                                             {
                                                 (field: FieldProps) => (
                                                     <FormikTextAreaComponent
                                                         label={"Comments"}
                                                         placeholder={"Enter your comments here"}
-                                                        disabled={!values.medical_history.isCustomOption}
-                                                        required={values.medical_history.isCustomOption}
+                                                        disabled={!values.surgical_history.isCustomOption}
+                                                        required={values.surgical_history.isCustomOption}
                                                         formikField={field}
                                                         fullWidth={true}
                                                     />
@@ -153,17 +153,17 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                                     <LinkComponent route={CommonService._routeConfig.ClientList()}>
                                         <ButtonComponent
                                             variant={"outlined"}
-                                            disabled={isClientMedicalHistorySavingInProgress}
+                                            disabled={isClientSurgicalHistorySavingInProgress}
                                         >
                                             Cancel
                                         </ButtonComponent>
                                     </LinkComponent>&nbsp;
                                     <ButtonComponent
-                                        isLoading={isClientMedicalHistorySavingInProgress}
-                                        disabled={isClientMedicalHistorySavingInProgress || !isValid}
+                                        isLoading={isClientSurgicalHistorySavingInProgress}
+                                        disabled={isClientSurgicalHistorySavingInProgress || !isValid}
                                         type={"submit"}
                                     >
-                                        {isClientMedicalHistorySavingInProgress ? "Saving" : "Save & Next"}
+                                        {isClientSurgicalHistorySavingInProgress ? "Saving" : "Save & Next"}
                                     </ButtonComponent>
                                 </div>
                             </Form>
@@ -176,4 +176,4 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
 
 };
 
-export default ClientMedicalHistoryFormComponent;
+export default ClientSurgicalHistoryFormComponent;

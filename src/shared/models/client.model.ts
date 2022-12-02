@@ -142,7 +142,12 @@ export interface IWorkInfo {
     employment_status: IEmploymentStatus;
 }
 
-export type ClientAddFormSteps = "basicDetails" | "personalHabits" | "allergies" | "medicalSupplements"| "medicalHistory";
+export type ClientAddFormSteps = "basicDetails" |
+    "personalHabits"
+    | "allergies"
+    | "medicalSupplements"
+    | "surgicalHistory"
+    | "medicalHistory";
 
 export interface IClientPersonalHabitsForm {
     "personal_habits": {
@@ -162,6 +167,14 @@ export interface IClientMedicalSupplementsForm {
 
 export interface IClientMedicalHistoryForm {
     "medical_history": {
+        "questions": string[];
+        isCustomOption: boolean;
+        "comments": string;
+    }
+}
+
+export interface IClientSurgicalHistoryForm {
+    "surgical_history": {
         "questions": string[];
         isCustomOption: boolean;
         "comments": string;

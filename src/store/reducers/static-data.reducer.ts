@@ -4,13 +4,13 @@ import {
     GET_GENDER_LIST,
     GET_LANGUAGE_LIST, GET_MEDICAL_HISTORY_OPTIONS_LIST,
     GET_PHONE_TYPE_LIST,
-    GET_RELATIONSHIP_LIST,
+    GET_RELATIONSHIP_LIST, GET_SURGICAL_HISTORY_OPTIONS_LIST,
     SET_CONSULTATION_DURATION_LIST,
     SET_EMPLOYMENT_STATUS_LIST,
     SET_GENDER_LIST,
     SET_LANGUAGE_LIST, SET_MEDICAL_HISTORY_OPTIONS_LIST,
     SET_PHONE_TYPE_LIST,
-    SET_RELATIONSHIP_LIST
+    SET_RELATIONSHIP_LIST, SET_SURGICAL_HISTORY_OPTIONS_LIST
 } from "../actions/static-data.action";
 import {IActionModel} from "../../shared/models/action.model";
 
@@ -36,6 +36,9 @@ export interface IStaticDataReducerState {
     isMedicalHistoryOptionsListLoading: boolean,
     isMedicalHistoryOptionsListLoaded: boolean,
     medicalHistoryOptionsList: any[],
+    isSurgicalHistoryOptionsListLoading: boolean,
+    isSurgicalHistoryOptionsListLoaded: boolean,
+    surgicalHistoryOptionsList: any[],
 }
 
 
@@ -61,6 +64,9 @@ const initialData: IStaticDataReducerState = {
     isMedicalHistoryOptionsListLoading: false,
     isMedicalHistoryOptionsListLoaded: false,
     medicalHistoryOptionsList: [],
+    isSurgicalHistoryOptionsListLoading: false,
+    isSurgicalHistoryOptionsListLoaded: false,
+    surgicalHistoryOptionsList: [],
 };
 
 const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDataReducerState => {
@@ -168,6 +174,22 @@ const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDa
                 isMedicalHistoryOptionsListLoading: false,
                 isMedicalHistoryOptionsListLoaded: true,
                 medicalHistoryOptionsList: action.payload.medicalHistoryOptionsList
+            };
+            return state;
+
+        case GET_SURGICAL_HISTORY_OPTIONS_LIST:
+            state = {
+                ...state,
+                isSurgicalHistoryOptionsListLoading: true,
+                isSurgicalHistoryOptionsListLoaded: false,
+            };
+            return state;
+        case SET_SURGICAL_HISTORY_OPTIONS_LIST:
+            state = {
+                ...state,
+                isSurgicalHistoryOptionsListLoading: false,
+                isSurgicalHistoryOptionsListLoaded: true,
+                surgicalHistoryOptionsList: action.payload.surgicalHistoryOptionsList
             };
             return state;
         default:
