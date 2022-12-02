@@ -70,7 +70,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             dataIndex: "status",
             key: "status",
             width: "10%",
-            render: (_: any, item: any) => {
+            render: (_: any, item: IClient) => {
                 return <ChipComponent label={item?.is_active ? "Active" : "Inactive"}
                                       color={item?.is_active ? "success" : "error"}/>
             }
@@ -81,8 +81,8 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             key: "actions",
             width: "10%",
             fixed: "right",
-            render: (_: any, item: any) => {
-                return <LinkComponent route={CommonService._routeConfig.ComingSoonRoute()}>
+            render: (_: any, item: IClient) => {
+                return <LinkComponent route={CommonService._routeConfig.ClientDetails(item._id)}>
                     View Details
                 </LinkComponent>
             }

@@ -1,5 +1,5 @@
 import {IConsultationDuration} from "../../shared/models/static-data.model";
-import {IGender, ILanguage, IPhoneType, IRelationship} from "../../shared/models/common.model";
+import {IEmploymentStatus, IGender, ILanguage, IPhoneType, IRelationship} from "../../shared/models/common.model";
 
 export const GET_CONSULTATION_DURATION_LIST = 'GET_CONSULTATION_DURATION_LIST';
 export const SET_CONSULTATION_DURATION_LIST = 'SET_CONSULTATION_DURATION_LIST';
@@ -72,7 +72,7 @@ export const getEmploymentStatusList = () => {
     return {type: GET_EMPLOYMENT_STATUS_LIST};
 };
 
-export const setEmploymentStatusList = (employmentStatusList: IGender[]) => {
+export const setEmploymentStatusList = (employmentStatusList: IEmploymentStatus[]) => {
     return {
         type: SET_EMPLOYMENT_STATUS_LIST, payload: {
             employmentStatusList

@@ -1,3 +1,5 @@
+import {IEmploymentStatus, IGender, ILanguage, IPhoneType, IRelationship} from "./common.model";
+
 export interface IClient {
     _id: string;
     client_id: string;
@@ -75,3 +77,54 @@ export interface Address {
     state: string;
 }
 
+export interface IClientBasicDetails {
+    _id: string;
+    client_id: string;
+    first_name: string;
+    last_name: string;
+    nick_name: string;
+    dob: string;
+    gender: IGender;
+    ssn: string;
+    address: IAddress;
+    primary_email: string;
+    secondary_emails?: string[] | null;
+    primary_contact_info: IContactInfo;
+    secondary_contact_info?: IContactInfo[] | null;
+    emergency_contact_info: IEmergencyContactInfo;
+    work_info: IWorkInfo;
+    is_active: boolean;
+    is_deleted: boolean;
+    created_at: string;
+    updated_at: string;
+    language?: ILanguage;
+}
+
+export interface IAddress {
+    address_line: string;
+    city: string;
+    country: string;
+    zip_code: string;
+    state: string;
+}
+
+export interface IContactInfo {
+    phone_type: IPhoneType;
+    phone: string;
+}
+export interface IEmergencyContactInfo {
+    primary_emergency: IEmergency;
+    secondary_emergency: IEmergency;
+}
+export interface IEmergency {
+    name: string;
+    relationship: IRelationship;
+    language: ILanguage;
+    primary_contact_info: SecondaryContactInfoEntityOrPrimaryContactInfo;
+    secondary_contact_info?: (SecondaryContactInfoEntityOrPrimaryContactInfo)[] | null;
+}
+
+export interface IWorkInfo {
+    occupation: string;
+    employment_status: IEmploymentStatus;
+}

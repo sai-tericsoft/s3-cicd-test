@@ -29,3 +29,9 @@ export interface IRelationship {
     title: string;
 }
 
+export interface IEmploymentStatus {
+    _id: string;
+    code: string;
+    title: string;
+}
+

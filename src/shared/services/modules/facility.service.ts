@@ -6,6 +6,7 @@ const FacilityDetailsAPICall = (facilityId: string, payload: any) => {
     return ApiService[APIConfig.FACILITY_DETAILS.METHOD](APIConfig.FACILITY_DETAILS.URL(facilityId), payload);
 }
 
+
 const FacilityService = {
     FacilityDetailsAPICall,
 }

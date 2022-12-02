@@ -20,6 +20,7 @@ const FACILITY_DETAILS = "/admin/facility-details";
 
 const CLIENT_LIST = "/client-list";
 const CLIENT_ADD = "/client-add";
+const CLIENT_DETAILS = "/client-details";
 
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
@@ -41,5 +42,6 @@ export {
     FACILITY_LIST,
     FACILITY_DETAILS,
     CLIENT_LIST,
-    CLIENT_ADD
+    CLIENT_ADD,
+    CLIENT_DETAILS
 }

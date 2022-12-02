@@ -120,6 +120,10 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + "/client",
         METHOD: "post"
     },
+    CLIENT_DETAILS: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId,
+        METHOD: "get"
+    },
     //
 }
 

@@ -1,5 +1,5 @@
 import {
-    ADMIN, CLIENT_ADD, CLIENT_LIST,
+    ADMIN, CLIENT_ADD, CLIENT_DETAILS, CLIENT_LIST,
     COMING_SOON_ROUTE,
     DASHBOARD, FACILITY_DETAILS, FACILITY_LIST,
     LOGIN_ROUTE,
@@ -70,6 +70,10 @@ const ClientAdd = () => {
     return CLIENT_ADD;
 }
 
+const ClientDetails = (clientId: string) => {
+    return CLIENT_DETAILS + '/' + clientId;
+}
+
 const RouteConfigService = {
     LoginRoute,
     NotFoundRoute,
@@ -85,7 +89,8 @@ const RouteConfigService = {
     FacilityList,
     FacilityDetails,
     ClientList,
-    ClientAdd
+    ClientAdd,
+    ClientDetails
 }
 
 export default RouteConfigService;
