@@ -14,7 +14,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
 
     const [currentStep, setCurrentStep] = useState<ClientAddFormSteps>("basicDetails");
     const dispatch = useDispatch();
-    const [clientId, setClientId] = useState<string>("6388a3d1e6bdcac0ca1942a7");
+    const [clientId] = useState<string>("6388a3d1e6bdcac0ca1942a7");
 
     useEffect(() => {
         dispatch(setCurrentNavParams('Add Client'));
