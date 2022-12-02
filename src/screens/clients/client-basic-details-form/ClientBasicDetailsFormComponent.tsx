@@ -143,7 +143,6 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
     } = useSelector((state: IRootReducerState) => state.staticData);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        console.log(values);
         const payload = {...values};
         payload['dob'] = CommonService.convertDateFormat(payload['dob']);
         setIsClientBasicDetailsSavingInProgress(true);

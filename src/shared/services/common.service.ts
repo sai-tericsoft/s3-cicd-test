@@ -107,7 +107,7 @@ const getPayloadFilterDates = (mode: 'day' | 'week' | 'month' | 'year'): { start
     return payload;
 }
 
-const convertDateFormat = (date: Date, format: string = 'DD-MM-YYYY') => {
+const convertDateFormat = (date: Date, format: string = 'MM-DD-YYYY') => {
     return moment(date).format(format);
 }
 

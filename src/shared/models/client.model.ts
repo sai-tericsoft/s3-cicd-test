@@ -148,6 +148,7 @@ export type ClientAddFormSteps = "basicDetails" |
     | "medicalSupplements"
     | "surgicalHistory"
     | "medicalFemaleOnly"
+    | "medicalProvider"
     | "medicalHistory";
 
 export interface IClientPersonalHabitsForm {
@@ -161,30 +162,38 @@ export interface IClientPersonalHabitsForm {
 
 export interface IClientMedicalSupplementsForm {
     "medications": {
-        "prescription_medication": string;
         "non_prescription_medication": string;
+        "prescription_medication": string;
     }
 }
 
 export interface IClientMedicalHistoryForm {
     "medical_history": {
-        "questions": string[];
-        isCustomOption: boolean;
         "comments": string;
+        "isCustomOption": boolean;
+        "questions": string[];
     }
 }
 
 export interface IClientSurgicalHistoryForm {
     "surgical_history": {
-        "questions": string[];
-        isCustomOption: boolean;
         "comments": string;
+        "questions": string[];
+        "isCustomOption": boolean;
     }
 }
 
 export interface IClientMedicalFemaleOnlyForm {
     "females_only_questions": {
-        "Pregnant or trying to get pregnant?": string;
         "Nursing?": string;
+        "Pregnant or trying to get pregnant?": string;
+    }
+}
+
+export interface IClientMedicalProviderForm {
+    "medical_provider_info": {
+        "last_examination_date": string;
+        "name": string;
+        "primary_phone": string;
     }
 }
