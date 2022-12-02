@@ -128,6 +128,10 @@ const APIConfig: IAPIConfig = {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/personalHabits',
         METHOD: "post"
     },
+    CLIENT_MEDICAL_SUPPLEMENTS_ADD: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medication',
+        METHOD: "post"
+    },
     //
 }
 

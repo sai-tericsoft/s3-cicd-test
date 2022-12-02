@@ -142,7 +142,7 @@ export interface IWorkInfo {
     employment_status: IEmploymentStatus;
 }
 
-export type ClientAddFormSteps = "basicDetails" | "personalHabits" | "allergies";
+export type ClientAddFormSteps = "basicDetails" | "personalHabits" | "allergies" | "medicalSupplements";
 
 export interface IClientPersonalHabitsForm {
     "personal_habits": {
@@ -150,5 +150,12 @@ export interface IClientPersonalHabitsForm {
         "Drink Alcohol?": ITextValue;
         "Drink Coffee?": ITextValue;
         "Drink Soda/Pop?": ITextValue;
+    }
+}
+
+export interface IClientMedicalSupplementsForm {
+    "medications": {
+        "prescription_medication": string;
+        "non_prescription_medication": string;
     }
 }

@@ -3,10 +3,13 @@
   font-size: 14px;
   line-height: 16px;
   letter-spacing: 0.002em;
-  text-decoration-line: underline;
   color: #00534F;
 
-  &:hover{
+  :not(button) {
+    text-decoration-line: underline;
+  }
+
+  &:hover {
     color: #00534F;
   }
 }

@@ -5,6 +5,10 @@ import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {useDispatch} from "react-redux";
 import ClientPersonalHabitsFormComponent from "../client-personal-habits-form/ClientPersonalHabitsFormComponent";
 import {ClientAddFormSteps} from "../../../shared/models/client.model";
+import ClientMedicalSupplementsFormComponent
+    from "../client-medical-supplements-form/ClientMedicalSupplementsFormComponent";
+import {useNavigate} from "react-router-dom";
+import {CommonService} from "../../../shared/services";
 
 interface ClientAddScreenProps {
 
@@ -12,7 +16,8 @@ interface ClientAddScreenProps {
 
 const ClientAddScreen = (props: ClientAddScreenProps) => {
 
-    const [currentStep, setCurrentStep] = useState<ClientAddFormSteps>("basicDetails");
+    const navigate = useNavigate();
+    const [currentStep, setCurrentStep] = useState<ClientAddFormSteps>("medicalSupplements");
     const dispatch = useDispatch();
     const [clientId] = useState<string>("6388a3d1e6bdcac0ca1942a7");
 
@@ -31,7 +36,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                 break;
             }
             default: {
-                setCurrentStep('basicDetails');
+                navigate(CommonService._routeConfig.ClientList());
             }
         }
     }, []);
@@ -42,14 +47,21 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                 currentStep === "basicDetails" &&
                 <ClientBasicDetailsFormComponent
                     mode={"add"}
-                    onSave={handleClientDetailsSave.bind('personalHabits')}/>
+                    onSave={handleClientDetailsSave.bind('basicDetails')}/>
             }
             {
                 currentStep === "personalHabits" && <ClientPersonalHabitsFormComponent
-                        mode={"add"}
-                        onSave={handleClientDetailsSave.bind('personalHabits')}
-                        clientId={clientId}
-                    />
+                    mode={"add"}
+                    onSave={handleClientDetailsSave.bind('personalHabits')}
+                    clientId={clientId}
+                />
+            }
+            {
+                currentStep === "medicalSupplements" && <ClientMedicalSupplementsFormComponent
+                    mode={"add"}
+                    onSave={handleClientDetailsSave.bind('medicalSupplements')}
+                    clientId={clientId}
+                />
             }
         </div>
     )
