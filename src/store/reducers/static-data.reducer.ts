@@ -2,13 +2,13 @@ import {
     GET_CONSULTATION_DURATION_LIST,
     GET_EMPLOYMENT_STATUS_LIST,
     GET_GENDER_LIST,
-    GET_LANGUAGE_LIST, GET_MEDICAL_HISTORY_OPTIONS_LIST,
+    GET_LANGUAGE_LIST, GET_MEDICAL_HISTORY_OPTIONS_LIST, GET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
     GET_PHONE_TYPE_LIST,
     GET_RELATIONSHIP_LIST, GET_SURGICAL_HISTORY_OPTIONS_LIST,
     SET_CONSULTATION_DURATION_LIST,
     SET_EMPLOYMENT_STATUS_LIST,
     SET_GENDER_LIST,
-    SET_LANGUAGE_LIST, SET_MEDICAL_HISTORY_OPTIONS_LIST,
+    SET_LANGUAGE_LIST, SET_MEDICAL_HISTORY_OPTIONS_LIST, SET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
     SET_PHONE_TYPE_LIST,
     SET_RELATIONSHIP_LIST, SET_SURGICAL_HISTORY_OPTIONS_LIST
 } from "../actions/static-data.action";
@@ -39,6 +39,9 @@ export interface IStaticDataReducerState {
     isSurgicalHistoryOptionsListLoading: boolean,
     isSurgicalHistoryOptionsListLoaded: boolean,
     surgicalHistoryOptionsList: any[],
+    isMusculoskeletalHistoryOptionsListLoading: boolean,
+    isMusculoskeletalHistoryOptionsListLoaded: boolean,
+    musculoskeletalHistoryOptionsList: any[],
 }
 
 
@@ -67,6 +70,9 @@ const initialData: IStaticDataReducerState = {
     isSurgicalHistoryOptionsListLoading: false,
     isSurgicalHistoryOptionsListLoaded: false,
     surgicalHistoryOptionsList: [],
+    isMusculoskeletalHistoryOptionsListLoading: false,
+    isMusculoskeletalHistoryOptionsListLoaded: false,
+    musculoskeletalHistoryOptionsList: [],
 };
 
 const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDataReducerState => {
@@ -176,7 +182,6 @@ const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDa
                 medicalHistoryOptionsList: action.payload.medicalHistoryOptionsList
             };
             return state;
-
         case GET_SURGICAL_HISTORY_OPTIONS_LIST:
             state = {
                 ...state,
@@ -190,6 +195,21 @@ const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDa
                 isSurgicalHistoryOptionsListLoading: false,
                 isSurgicalHistoryOptionsListLoaded: true,
                 surgicalHistoryOptionsList: action.payload.surgicalHistoryOptionsList
+            };
+            return state;
+        case GET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST:
+            state = {
+                ...state,
+                isMusculoskeletalHistoryOptionsListLoading: true,
+                isMusculoskeletalHistoryOptionsListLoaded: false,
+            };
+            return state;
+        case SET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST:
+            state = {
+                ...state,
+                isMusculoskeletalHistoryOptionsListLoading: false,
+                isMusculoskeletalHistoryOptionsListLoaded: true,
+                musculoskeletalHistoryOptionsList: action.payload.musculoskeletalHistoryOptionsList
             };
             return state;
         default:

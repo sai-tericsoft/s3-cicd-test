@@ -42,7 +42,10 @@ const ClientMedicalProviderInformationAddAPICall = (clientId: string, payload: a
     return ApiService[APIConfig.CLIENT_MEDICAL_PROVIDER_ADD.METHOD](APIConfig.CLIENT_MEDICAL_PROVIDER_ADD.URL(clientId), payload);
 }
 
-
+const ClientMusculoskeletalHistoryAddAPICall = (clientId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.CLIENT_MUSCULOSKELETAL_HISTORY_ADD.METHOD](APIConfig.CLIENT_MUSCULOSKELETAL_HISTORY_ADD.URL(clientId), payload);
+}
 
 const ClientService={
     ClientBasicDetailsAddAPICall,
@@ -52,6 +55,7 @@ const ClientService={
     ClientMedicalHistoryAddAPICall,
     ClientSurgicalHistoryAddAPICall,
     ClientMedicalFemaleOnlyAddAPICall,
-    ClientMedicalProviderInformationAddAPICall
+    ClientMedicalProviderInformationAddAPICall,
+    ClientMusculoskeletalHistoryAddAPICall
 }
 export default ClientService;

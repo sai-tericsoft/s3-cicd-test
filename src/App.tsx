@@ -14,7 +14,12 @@ import {
     getConsultationDurationList,
     getEmploymentStatusList,
     getGenderList,
-    getLanguageList, getMedicalHistoryOptionsList, getPhoneTypeList, getRelationShipList, getSurgicalHistoryOptionsList
+    getLanguageList,
+    getMedicalHistoryOptionsList,
+    getMusculoskeletalHistoryOptionsList,
+    getPhoneTypeList,
+    getRelationShipList,
+    getSurgicalHistoryOptionsList
 } from "./store/actions/static-data.action";
 
 interface AppProps {
@@ -85,6 +90,7 @@ const App = (props: AppProps) => {
             dispatch(getRelationShipList());
             dispatch(getMedicalHistoryOptionsList());
             dispatch(getSurgicalHistoryOptionsList());
+            dispatch(getMusculoskeletalHistoryOptionsList());
         }
     }, [token, dispatch])
 

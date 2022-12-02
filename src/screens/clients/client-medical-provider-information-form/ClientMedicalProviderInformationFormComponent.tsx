@@ -21,7 +21,6 @@ interface ClientMedicalProviderInformationFormComponentProps {
     onSave: (clientMedicalProviderInformationDetails: any) => void;
 }
 
-
 const ClientMedicalProviderInformationValidationSchema = Yup.object({
     medical_provider_info: Yup.object({
         name: Yup.string().required('Name is required'),

@@ -41,6 +41,10 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + "/surgicalHistory/question",
         METHOD: "get"
     },
+    MUSCULOSKELETAL_HISTORY_OPTIONS_LIST: {
+        URL: ENV.API_URL + "/musculoSkeletal/question",
+        METHOD: "get"
+    },
     //meta end
 
     // authentication start
@@ -154,6 +158,10 @@ const APIConfig: IAPIConfig = {
     },
     CLIENT_MEDICAL_PROVIDER_ADD: {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medicalProvider',
+        METHOD: "post"
+    },
+    CLIENT_MUSCULOSKELETAL_HISTORY_ADD: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/musculoskeletalHistory',
         METHOD: "post"
     },
     //

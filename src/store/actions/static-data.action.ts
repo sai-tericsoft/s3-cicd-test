@@ -3,7 +3,7 @@ import {
     IEmploymentStatus,
     IGender,
     ILanguage,
-    IMedicalHistoryOption,
+    IMedicalHistoryOption, IMusculoskeletalHistoryOption,
     IPhoneType,
     IRelationship, ISurgicalHistoryOption
 } from "../../shared/models/common.model";
@@ -31,6 +31,9 @@ export const SET_MEDICAL_HISTORY_OPTIONS_LIST = 'SET_MEDICAL_HISTORY_OPTIONS_LIS
 
 export const GET_SURGICAL_HISTORY_OPTIONS_LIST = 'GET_SURGICAL_HISTORY_OPTIONS_LIST';
 export const SET_SURGICAL_HISTORY_OPTIONS_LIST = 'SET_SURGICAL_HISTORY_OPTIONS_LIST';
+
+export const GET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST = 'GET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST';
+export const SET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST = 'SET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST';
 
 export const getConsultationDurationList = () => {
     return {type: GET_CONSULTATION_DURATION_LIST};
@@ -125,6 +128,18 @@ export const setSurgicalHistoryOptionsList = (surgicalHistoryOptionsList: ISurgi
     return {
         type: SET_SURGICAL_HISTORY_OPTIONS_LIST, payload: {
             surgicalHistoryOptionsList
+        }
+    };
+};
+
+export const getMusculoskeletalHistoryOptionsList = () => {
+    return {type: GET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST};
+};
+
+export const setMusculoskeletalHistoryOptionsList = (musculoskeletalHistoryOptionsList: IMusculoskeletalHistoryOption[]) => {
+    return {
+        type: SET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST, payload: {
+            musculoskeletalHistoryOptionsList
         }
     };
 };

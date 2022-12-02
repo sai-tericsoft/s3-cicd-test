@@ -149,6 +149,7 @@ export type ClientAddFormSteps = "basicDetails" |
     | "surgicalHistory"
     | "medicalFemaleOnly"
     | "medicalProvider"
+    | "musculoskeletal"
     | "medicalHistory";
 
 export interface IClientPersonalHabitsForm {
@@ -195,5 +196,14 @@ export interface IClientMedicalProviderForm {
         "last_examination_date": string;
         "name": string;
         "primary_phone": string;
+    }
+}
+
+export interface IClientMusculoskeletalHistoryForm {
+    "musculoskeletal_history": {
+        [k: string]: {
+            "text": string,
+            "value": string
+        }
     }
 }

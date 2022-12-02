@@ -44,6 +44,12 @@ const getSurgicalHistoryOptionsList = (payload: any) => {
     return ApiService[APIConfig.SURGICAL_HISTORY_OPTIONS_LIST.METHOD](APIConfig.SURGICAL_HISTORY_OPTIONS_LIST.URL, payload);
 }
 
+const getMusculoskeletalHistoryOptionsList = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.MUSCULOSKELETAL_HISTORY_OPTIONS_LIST.METHOD](APIConfig.MUSCULOSKELETAL_HISTORY_OPTIONS_LIST.URL, payload);
+}
+
+
 const StaticDataService = {
     weekDays,
     yesNoOptions,
@@ -54,7 +60,8 @@ const StaticDataService = {
     getLanguageList,
     getRelationshipStatusList,
     getMedicalHistoryOptionsList,
-    getSurgicalHistoryOptionsList
+    getSurgicalHistoryOptionsList,
+    getMusculoskeletalHistoryOptionsList
 }
 
 export default StaticDataService;
