@@ -2,7 +2,6 @@ import "./ClientDetailsScreen.scss";
 import {useParams} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {useCallback, useEffect, useState} from "react";
-import {IFacility} from "../../../shared/models/facility.model";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
