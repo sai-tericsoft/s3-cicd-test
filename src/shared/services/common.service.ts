@@ -232,6 +232,12 @@ const getMinsAndSecondsFromSeconds = (numberOfSeconds: number) => {
     }
 }
 
+const getHoursAndMinutesFromMinutes=(minutes:number)=> {
+   return  moment().startOf('day').add(minutes, 'minutes').format('h:mm a');
+}
+
+console.log(getHoursAndMinutesFromMinutes(450));
+
 const downloadFile = (url: string, fileName: any, type = 'pdf') => {
     switch (type) {
         case 'image':
@@ -404,6 +410,7 @@ const CommonService = {
     getArrayOfValuesOfOneKeyFromJSON,
     Capitalize,
     getObjectKeyValue,
+    getHoursAndMinutesFromMinutes,
     getSystemFormatTimeStamp,
     // createValidationsObject,
     // createYupSchema,
