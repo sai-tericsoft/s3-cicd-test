@@ -1,9 +1,6 @@
 import "./ClientActivityLogComponent.scss";
 import TableWrapperComponent from "../../../../shared/components/table-wrapper/TableWrapperComponent";
-import {APIConfig, ENV} from "../../../../constants";
-
-
-
+import {APIConfig} from "../../../../constants";
 import {CommonService} from "../../../../shared/services";
 import TableComponent from "../../../../shared/components/table/TableComponent";
 
