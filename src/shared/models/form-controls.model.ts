@@ -55,17 +55,19 @@ export interface ISwitchProps {
 export interface IRadioButtonGroupProps {
     checked?: boolean;
     disabled?: boolean;
-    errorMessage?: any;
-    hasError?: boolean;
     id?: any;
     label?: string;
     name?: string;
-    onChange?: (value: any) => void
+    color?: 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
+    direction?: "row" | "column";
+    onChange?: (value: any) => void;
+    displayWith?: (item: any) => string;
+    keyExtractor?: (item: any) => any;
+    valueExtractor?: (item: any) => any;
     options?: any[];
+    size?: "medium" | "small";
     required?: boolean;
-    titleKey?: string;
     value?: any;
-    valueKey?: string;
 }
 
 export interface IRadioButtonProps {
@@ -78,13 +80,11 @@ export interface IRadioButtonProps {
     id?: any;
     label?: string;
     name?: string;
-    onChange?: (value: any) => void
+    onChange?: (value: any) => void;
     option?: any;
     required?: boolean;
     size?: 'medium' | 'small';
-    titleKey?: string;
     value?: any;
-    valueKey?: string;
 }
 
 export interface ITextAreaProps {

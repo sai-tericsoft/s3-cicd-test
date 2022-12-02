@@ -113,8 +113,8 @@ const APIConfig: IAPIConfig = {
 
     // client start
     CLIENT_LIST: {
-        URL: ENV.API_URL + "/client",
-        METHOD: "get"
+        URL: ENV.API_URL + "/client/list",
+        METHOD: "post"
     },
     CLIENT_BASIC_DETAILS_ADD: {
         URL: ENV.API_URL + "/client",
@@ -123,6 +123,10 @@ const APIConfig: IAPIConfig = {
     CLIENT_DETAILS: {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId,
         METHOD: "get"
+    },
+    CLIENT_PERSONAL_HABITS_ADD: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/personalHabits',
+        METHOD: "post"
     },
     //
 }
