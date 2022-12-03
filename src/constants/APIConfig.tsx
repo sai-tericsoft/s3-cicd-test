@@ -124,6 +124,12 @@ const APIConfig: IAPIConfig = {
     // facility end
 
     // client start
+
+    CLIENT_MEDICAL_DETAILS:{
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medicalQuestionnaire',
+        METHOD: "get"
+    },
+
     CLIENT_LIST: {
         URL: ENV.API_URL + "/client/list",
         METHOD: "post"
