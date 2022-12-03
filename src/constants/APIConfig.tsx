@@ -167,7 +167,14 @@ const APIConfig: IAPIConfig = {
     CLIENT_MUSCULOSKELETAL_HISTORY_ADD: {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/musculoskeletalHistory',
         METHOD: "post"
-    }
+    },
+    //client-activity-log
+    CLIENT_ACTIVITY_LOG: {
+        URL: ENV.API_URL + '/client-activity-log',
+        METHOD: 'get'
+    },
+
+
 }
 
 export default APIConfig;

@@ -7,6 +7,8 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {IClientBasicDetails} from "../../../shared/models/client.model";
 import ClientBasicDetailsComponent from "../client-basic-details/ClientBasicDetailsComponent";
+import ClientBasicDetailsCardComponent
+    from "../../admin/client/client-basic-details-card/ClientBasicDetailsCardComponent";
 
 interface ClientDetailsScreenProps {
 
@@ -48,7 +50,10 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
     }, [clientDetails, dispatch]);
 
     return (
+        <>
+
         <div className={'client-details-screen'}>
+
             {
                 isClientDetailsLoading && <div>Loading</div>
             }
@@ -56,11 +61,14 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
                 isClientDetailsLoadingFailed && <div>Loading Failed</div>
             }
             {
+
                 isClientDetailsLoaded && <>
+                <ClientBasicDetailsCardComponent clientBasicDetails={clientDetails}/>
                     <ClientBasicDetailsComponent clientBasicDetails={clientDetails}/>
                 </>
             }
         </div>
+        </>
     );
 
 };
