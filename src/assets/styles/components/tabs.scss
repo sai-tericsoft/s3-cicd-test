@@ -1,0 +1,31 @@
+@import "../variables";
+
+.t-tabs-wrapper {
+
+  .t-tabs {
+    border-bottom: 1px solid #dfdfdf;
+
+    .t-tab {
+      border-left: 1px solid #B3C5C4;
+
+      &:first-child {
+        border-left: none;
+      }
+    }
+
+    &.primary {
+      .t-tab.Mui-selected {
+        background: $primary-color;
+        color: $white;
+      }
+    }
+  }
+
+  .t-tab-panel {
+    padding: 10px 20px !important;
+  }
+
+  .MuiTabs-indicator {
+    display: none !important;
+  }
+}
