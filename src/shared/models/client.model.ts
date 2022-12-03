@@ -1,4 +1,12 @@
-import {IEmploymentStatus, IGender, ILanguage, IPhoneType, IRelationship, ITextValue} from "./common.model";
+import {
+    IEmploymentStatus,
+    IGender,
+    ILanguage,
+    IMedicalHistoryOption,
+    IPhoneType,
+    IRelationship, ISurgicalHistoryOption,
+    ITextValue
+} from "./common.model";
 
 export interface IClient {
     _id: string;
@@ -157,12 +165,14 @@ export type ClientAddFormSteps =
     ;
 
 export interface IClientPersonalHabitsForm {
-    "personal_habits": {
-        "Smoke/Chew Tobacco?": ITextValue;
-        "Drink Alcohol?": ITextValue;
-        "Drink Coffee?": ITextValue;
-        "Drink Soda/Pop?": ITextValue;
-    }
+    "personal_habits": IClientPersonalHabits;
+}
+
+export interface IClientPersonalHabits {
+    "Smoke/Chew Tobacco?": ITextValue;
+    "Drink Alcohol?": ITextValue;
+    "Drink Coffee?": ITextValue;
+    "Drink Soda/Pop?": ITextValue;
 }
 
 export interface IClientAllergiesForm {
@@ -170,41 +180,51 @@ export interface IClientAllergiesForm {
 }
 
 export interface IClientMedicalSupplementsForm {
-    "medications": {
-        "non_prescription_medication": string;
-        "prescription_medication": string;
-    }
-}
+    "medications": IClientMedicalSupplements
 
+}
+export interface IClientMedicalSupplements{
+    "non_prescription_medication": string;
+    "prescription_medication": string;
+}
 export interface IClientMedicalHistoryForm {
-    "medical_history": {
-        "comments": string;
-        "isCustomOption": boolean;
-        "questions": string[];
-    }
+    "medical_history": IClientMedicalHistory
+
+}
+export interface IClientMedicalHistory{
+    "comments": string;
+    "isCustomOption": boolean;
+    "questions": string[];
 }
 
 export interface IClientSurgicalHistoryForm {
-    "surgical_history": {
-        "comments": string;
-        "questions": string[];
-        "isCustomOption": boolean;
-    }
+    "surgical_history":IClientSurgicalHistory
+// {
+//         "comments": string;
+//         "questions": string[];
+//         "isCustomOption": boolean;
+//     }
+}
+export interface IClientSurgicalHistory{
+    "comments": string;
+    "questions": string[];
+    "isCustomOption": boolean;
 }
 
 export interface IClientMedicalFemaleOnlyForm {
-    "females_only_questions": {
-        "Nursing?": string;
-        "Pregnant or trying to get pregnant?": string;
-    }
+    "females_only_questions": IClientMedicalFemaleOnly
 }
-
+export interface IClientMedicalFemaleOnly{
+    "Nursing?": string;
+    "Pregnant or trying to get pregnant?": string;
+}
 export interface IClientMedicalProviderForm {
-    "medical_provider_info": {
-        "last_examination_date": string;
-        "name": string;
-        "primary_phone": string;
-    }
+    "medical_provider_info":IClientMedicalProvider
+}
+export interface IClientMedicalProvider{
+    "last_examination_date": string;
+    "name": string;
+    "primary_phone": string;
 }
 
 export interface IClientMusculoskeletalHistoryForm {
@@ -213,6 +233,39 @@ export interface IClientMusculoskeletalHistoryForm {
             "text": string,
             "value": string
         }
+    }
+}
+
+export interface IClientMedicalDetails {
+    _id: string;
+    client_id: string;
+    personal_habits: IClientPersonalHabits;
+    allergies: string;
+    medications: IClientMedicalSupplements;
+    medical_history: IMedicalHistory;
+    females_only_questions: IClientMedicalFemaleOnly;
+    surgical_history: IClientSurgicalHistory;
+    musculoskeletal_history: IMusculoskeletalHistory;
+    medical_provider_info: IClientMedicalProvider;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface IMedicalHistory {
+    questions: IMedicalHistoryOption,
+    comments: string;
+}
+
+export interface ISurgicalHistory {
+    questions: ISurgicalHistoryOption,
+    comments: string;
+}
+
+export interface IMusculoskeletalHistory {
+    [k: string]:{
+        value: string;
+        text: string;
+        title: string;
     }
 }
 
