@@ -17,6 +17,7 @@ import _ from "lodash";
 import ServiceCategoryService from "./modules/service-category.service";
 import ServiceService from "./modules/service.service";
 import FacilityService from "./modules/facility.service";
+import ClientService from "./modules/client.service";
 
 yup.addMethod(yup.mixed, 'atLeastOne', (args) => {
     const {message, predicate} = args;
@@ -112,6 +113,13 @@ const transformTimeStamp = (date: Date | string) => {
 
 const convertDateFormat = (date: Date, format: string = 'MM-DD-YYYY') => {
     return moment(date).format(format);
+}
+
+const getTheDifferenceBetweenDates = (fromDate:string) => {
+    let a = moment();
+    let b = moment(moment(fromDate), 'YYYY');
+    let diff = a.diff(b, 'years')
+    return diff;
 }
 
 
@@ -236,6 +244,12 @@ const getMinsAndSecondsFromSeconds = (numberOfSeconds: number) => {
         seconds: seconds < 10 ? '0' + seconds : seconds
     }
 }
+
+const getHoursAndMinutesFromMinutes = (minutes: number) => {
+    return moment().startOf('day').add(minutes, 'minutes').format('h:mm a');
+}
+
+console.log(getHoursAndMinutesFromMinutes(450));
 
 const downloadFile = (url: string, fileName: any, type = 'pdf') => {
     switch (type) {
@@ -367,13 +381,21 @@ const onConfirm = (config: IConfirmationConfig = {}) => {
     });
 }
 
-const Capitalize = (str:string) => {
+const Capitalize = (str: string) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-const getObjectKeyValue = (object: any, key:string) => {
+const getObjectKeyValue = (object: any, key: string) => {
     return _.get(object, key);
 }
+
+const getSystemFormatTimeStamp = (date: Date | string, showTime: boolean = false) => {
+    if (showTime) {
+        return moment(date).format('DD-MMM-YYYY hh:mm A');
+    } else {
+        return moment(date).format('DD-MMM-YYYY');
+    }
+};
 
 const CommonService = {
     CurrentDate,
@@ -401,7 +423,12 @@ const CommonService = {
     getArrayOfValuesOfOneKeyFromJSON,
     Capitalize,
     getObjectKeyValue,
+    getHoursAndMinutesFromMinutes,
+    getSystemFormatTimeStamp,
     transformTimeStamp,
+    getTheDifferenceBetweenDates,
+
+
     // createValidationsObject,
     // createYupSchema,
 
@@ -415,6 +442,7 @@ const CommonService = {
     _staticData: StaticDataService,
     _serviceCategory: ServiceCategoryService,
     _service: ServiceService,
+    _client: ClientService,
     _facility: FacilityService
 }
 export default CommonService;

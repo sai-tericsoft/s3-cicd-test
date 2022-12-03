@@ -1,12 +1,14 @@
 import "./SelectComponent.scss";
-import {useCallback, useEffect, useState} from "react";
-import {InputLabel, MenuItem} from "@mui/material";
+import React, {useCallback, useEffect, useState} from "react";
+import {FormHelperText, InputLabel, MenuItem} from "@mui/material";
 import FormControl from '@mui/material/FormControl';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
 import {ISelectProps} from "../../../models/form-controls.model";
 
 interface SelectComponentProps extends ISelectProps {
     value?: any;
+    hasError?: boolean;
+    errorMessage?: any;
 }
 
 const SelectComponent = (props: SelectComponentProps) => {
@@ -15,6 +17,7 @@ const SelectComponent = (props: SelectComponentProps) => {
         className,
         fullWidth,
         hasError,
+        errorMessage,
         label,
         onBlur,
         onUpdate,
@@ -44,7 +47,7 @@ const SelectComponent = (props: SelectComponentProps) => {
 
     useEffect(() => {
         if (props.value) {
-           setTmpValue(props.value);
+            setTmpValue(props.value);
         }
     }, [props.value]);
 
@@ -56,29 +59,32 @@ const SelectComponent = (props: SelectComponentProps) => {
     const keyExtractor = props.keyExtractor || defaultKeyExtractor;
 
     return (
-    <FormControl className={'select-component ' + className + ' ' + (fullWidth ? "full-width" : "")}
-                 error={hasError} fullWidth={fullWidth} size={size}>
-         <InputLabel>
-            {label} {required ? " * " : ""}
-        </InputLabel>
-        <Select
-            fullWidth={fullWidth}
-            value={tmpValue}
-            error={hasError}
-            label={label + "" + (required ? " * " : "")}
-            variant={variant}
-            onChange={handleUpdate}
-            onBlur={handleOnBlur}
-            {...otherProps}
-        >
-            {
-                (options.length > 0) && options?.map((item, index) => {
-                    return <MenuItem key={keyExtractor ? keyExtractor(item) : `drop-down-option-${index}`}
-                                     value={valueExtractor(item, index)}> {displayWith(item)} </MenuItem>;
-                })
-            }
-        </Select>
-    </FormControl>
+        <FormControl className={'select-component ' + className + ' ' + (fullWidth ? "full-width" : "")}
+                     error={hasError} fullWidth={fullWidth} size={size}>
+            <InputLabel>
+                {label} {required ? " * " : ""}
+            </InputLabel>
+            <Select
+                fullWidth={fullWidth}
+                value={tmpValue}
+                error={hasError}
+                label={label + "" + (required ? " * " : "")}
+                variant={variant}
+                onChange={handleUpdate}
+                onBlur={handleOnBlur}
+                {...otherProps}
+            >
+                {
+                    (options.length > 0) && options?.map((item, index) => {
+                        return <MenuItem key={keyExtractor ? keyExtractor(item) : `drop-down-option-${index}`}
+                                         value={valueExtractor(item, index)}> {displayWith(item)} </MenuItem>;
+                    })
+                }
+            </Select>
+            <FormHelperText>
+                {hasError && <> {errorMessage} </>}
+            </FormHelperText>
+        </FormControl>
     );
 
 };

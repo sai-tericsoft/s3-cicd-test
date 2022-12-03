@@ -1,9 +1,11 @@
 import "./TableComponent.scss";
 import Table from 'antd/lib/table';
-import {ITableColumn, ITableComponentProps} from "../../models/table.model";
+import {ITableComponentProps} from "../../models/table.model";
 import {useCallback, useEffect, useState} from "react";
 import StatusComponentComponent from "../status-component/StatusComponentComponent";
 import LoaderComponent from "../loader/LoaderComponent";
+import {TablePaginationConfig} from "antd";
+import {ColumnsType} from "antd/es/table";
 
 interface TableComponentProps extends ITableComponentProps {
     data: any[];
@@ -13,10 +15,14 @@ interface TableComponentProps extends ITableComponentProps {
 
 const TableComponent = (props: TableComponentProps) => {
 
-    const {data, onRowClick, rowKey, rowClassName, bordered, loading, errored} = props;
-    const [tableColumns, setTableColumns] = useState<ITableColumn[]>(props.columns);
+    const {data, onRowClick, rowClassName, bordered, loading, errored, onSort} = props;
+    const [tableColumns, setTableColumns] = useState<ColumnsType<any>>(props.columns);
     const size = props.size || "large";
     const showHeader = props.showHeader !== undefined ? props.showHeader : true;
+
+    const defaultRowKey = useCallback((item: any, index?: number) => item?._id || index, []);
+
+    const rowKey = props.rowKey || defaultRowKey;
 
     const handleRowClick = useCallback((record: any, index: number | undefined) => {
         if (onRowClick) {
@@ -26,18 +32,27 @@ const TableComponent = (props: TableComponentProps) => {
 
     useEffect(() => {
         if (props.columns) {
-            const tableCols = props.columns.map((col) => {
-                const transformedCol = col;
+            const tableCols: any = props.columns.map((col) => {
+                const transformedCol: any = col;
                 if (col.className) {
                     transformedCol['className'] = 't-cell-' + col.key + " " + col.className;
                 } else {
                     transformedCol['className'] = 't-cell-' + col.key;
+                }
+                if (col.sortable) {
+                    transformedCol['sorter'] = col.sortable;
                 }
                 return transformedCol;
             });
             setTableColumns(tableCols);
         }
     }, [props.columns]);
+
+    const handleTableChange = useCallback((pagination: TablePaginationConfig, filters: any, sorter: any, extra: any) => {
+        if (Object.entries(sorter).length && onSort) {
+            onSort(sorter.field, sorter.order);
+        }
+    }, [onSort]);
 
     return (
         <div className={'table-component'}>
@@ -75,6 +90,8 @@ const TableComponent = (props: TableComponentProps) => {
                    dataSource={data}
                    bordered={bordered}
                    size={size}
+                   showSorterTooltip={false}
+                   onChange={handleTableChange}
                    pagination={false}
                    scroll={{x: "100%"}}
             />

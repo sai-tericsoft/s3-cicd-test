@@ -13,6 +13,50 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + "/consultation/duration",
         METHOD: "get"
     },
+    GENDER_LIST: {
+        URL: ENV.API_URL + "/gender",
+        METHOD: "get"
+    },
+    LANGUAGE_LIST: {
+        URL: ENV.API_URL + "/language",
+        METHOD: "get"
+    },
+    PHONE_TYPE_LIST: {
+        URL: ENV.API_URL + "/phone/type",
+        METHOD: "get"
+    },
+    EMPLOYMENT_STATUS_LIST: {
+        URL: ENV.API_URL + "/employement/status",
+        METHOD: "get"
+    },
+    RELATIONSHIP_LIST: {
+        URL: ENV.API_URL + "/relationship",
+        METHOD: "get"
+    },
+    MEDICAL_HISTORY_OPTIONS_LIST: {
+        URL: ENV.API_URL + "/medicalHistory/question",
+        METHOD: "get"
+    },
+    SURGICAL_HISTORY_OPTIONS_LIST: {
+        URL: ENV.API_URL + "/surgicalHistory/question",
+        METHOD: "get"
+    },
+    MUSCULOSKELETAL_HISTORY_OPTIONS_LIST: {
+        URL: ENV.API_URL + "/musculoSkeletal/question",
+        METHOD: "get"
+    },
+    SOCIAL_MEDIA_PLATFORM_LIST: {
+        URL: ENV.API_URL + "/socialMedia",
+        METHOD: "get"
+    },
+    REFERRAL_TYPE_LIST: {
+        URL: ENV.API_URL + "/referral",
+        METHOD: "get"
+    },
+    COMMUNICATION_MODE_TYPE_LIST: {
+        URL: ENV.API_URL + "/communication/type",
+        METHOD: "get"
+    },
     //meta end
 
     // authentication start
@@ -90,11 +134,65 @@ const APIConfig: IAPIConfig = {
         METHOD: "get"
     },
     // facility end
-    //client-activity-log
+    
+    // client start
+    CLIENT_LIST: {
+        URL: ENV.API_URL + "/client/list",
+        METHOD: "post"
+    },
+    CLIENT_BASIC_DETAILS_ADD: {
+        URL: ENV.API_URL + "/client",
+        METHOD: "post"
+    },
+    CLIENT_DETAILS: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId,
+        METHOD: "get"
+    },
+    CLIENT_PERSONAL_HABITS_ADD: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/personalHabits',
+        METHOD: "post"
+    },
+    CLIENT_ALLERGIES_ADD: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/allergies',
+        METHOD: "post"
+    },
+    CLIENT_MEDICAL_SUPPLEMENTS_ADD: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medication',
+        METHOD: "post"
+    },
+    CLIENT_MEDICAL_HISTORY_ADD: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medicalHistory',
+        METHOD: "post"
+    },
+    CLIENT_SURGICAL_HISTORY_ADD: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/surgicalHistory',
+        METHOD: "post"
+    },
+    CLIENT_MEDICAL_FEMALE_ONLY_ADD: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/femaleQuestion',
+        METHOD: "post"
+    },
+    CLIENT_MEDICAL_PROVIDER_ADD: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medicalProvider',
+        METHOD: "post"
+    },
+    CLIENT_MUSCULOSKELETAL_HISTORY_ADD: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/musculoskeletalHistory',
+        METHOD: "post"
+    },
+    CLIENT_ACCOUNT_PREFERENCES_ADD: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/account',
+        METHOD: "post"
+    },
+    CLIENT_ACTIVITY_LOG: {
+        URL: ENV.API_URL + '/client-activity-log',
+        METHOD: 'get'
+    },
     CLIENT_ACTIVITY_LOG: {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/activityLog',
         METHOD: 'get'
     }
+    // client end
 }
 
 export default APIConfig;

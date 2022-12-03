@@ -1,5 +1,6 @@
 import React from "react";
 import {AutocompleteRenderOptionState} from "@mui/material";
+import {Moment} from "moment/moment";
 
 export interface IInputFieldProps {
     className?: string;
@@ -54,17 +55,19 @@ export interface ISwitchProps {
 export interface IRadioButtonGroupProps {
     checked?: boolean;
     disabled?: boolean;
-    errorMessage?: any;
-    hasError?: boolean;
     id?: any;
     label?: string;
     name?: string;
-    onChange?: (value: any) => void
+    color?: 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
+    direction?: "row" | "column";
+    onChange?: (value: any) => void;
+    displayWith?: (item: any) => string;
+    keyExtractor?: (item: any) => any;
+    valueExtractor?: (item: any) => any;
     options?: any[];
+    size?: "medium" | "small";
     required?: boolean;
-    titleKey?: string;
     value?: any;
-    valueKey?: string;
 }
 
 export interface IRadioButtonProps {
@@ -77,13 +80,11 @@ export interface IRadioButtonProps {
     id?: any;
     label?: string;
     name?: string;
-    onChange?: (value: any) => void
+    onChange?: (value: any) => void;
     option?: any;
     required?: boolean;
     size?: 'medium' | 'small';
-    titleKey?: string;
     value?: any;
-    valueKey?: string;
 }
 
 export interface ITextAreaProps {
@@ -111,9 +112,7 @@ export interface ISelectProps {
     autoWidth?: boolean;
     className?: string;
     disabled?: boolean;
-    errorMessage?: any;
     fullWidth?: boolean;
-    hasError?: boolean;
     id?: string;
     required?: boolean;
     displayWith?: (item: any) => any;
@@ -170,4 +169,22 @@ export interface IAutoCompleteProps {
     size?: 'small' | 'medium';
     url?: string;
     valueExtractor?: (item: any) => any;
+}
+
+export interface IDatePickerProps {
+    fullWidth?: boolean;
+    id?: string;
+    variant?: "filled" | "standard" | "outlined" | undefined;
+    color?: "error" | "primary" | "secondary" | "info" | "success" | "warning" | undefined;
+    size?: "small" | "medium" | undefined;
+    placeholder?: string;
+    required?: boolean;
+    disabled?: boolean;
+    readOnly?: boolean;
+    format?: string;
+    minDate?: Moment;
+    maxDate?: Moment;
+    onUpdate?: Function;
+    label?: string;
+    mask?: string
 }

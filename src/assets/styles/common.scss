@@ -20,6 +20,8 @@
 @import "components/modal";
 @import "components/card";
 @import "components/drawer";
+@import "components/tabs";
+@import "components/list-screen";
 
 .app-version {
   font-size: 10px;
@@ -305,5 +307,19 @@
         }
       }
     }
+  }
+}
+
+.t-form {
+  .form-helper-icon {
+    position: relative;
+    top: 15px;
+  }
+
+  .t-form-actions {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }

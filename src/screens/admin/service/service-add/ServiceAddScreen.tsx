@@ -22,6 +22,7 @@ import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../../store/reducers";
 import {useNavigate, useParams} from "react-router-dom";
+import IconButtonComponent from "../../../../shared/components/icon-button/IconButtonComponent";
 
 interface ServiceAddComponentProps {
 }
@@ -271,9 +272,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                             {/*}*/}
                                                                                             {
                                                                                                 iIndex === values?.initial_consultation[index].consultation_details.length - 1 &&
-                                                                                                <ButtonComponent
-                                                                                                    isIconButton={true}
-                                                                                                    onClick={() => {
+                                                                                                <IconButtonComponent onClick={() => {
                                                                                                         push({
                                                                                                             duration: undefined,
                                                                                                             price: undefined
@@ -281,7 +280,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                     }}
                                                                                                 >
                                                                                                     <ImageConfig.AddCircleIcon/>
-                                                                                                </ButtonComponent>
+                                                                                                </IconButtonComponent>
                                                                                             }
                                                                                         </div>
                                                                                     )
@@ -412,9 +411,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                             {/*}*/}
                                                                                             {
                                                                                                 iIndex === values?.followup_consultation[index].consultation_details.length - 1 &&
-                                                                                                <ButtonComponent
-                                                                                                    isIconButton={true}
-                                                                                                    onClick={() => {
+                                                                                                <IconButtonComponent onClick={() => {
                                                                                                         push({
                                                                                                             duration: undefined,
                                                                                                             price: undefined
@@ -422,7 +419,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                     }}
                                                                                                 >
                                                                                                     <ImageConfig.AddCircleIcon/>
-                                                                                                </ButtonComponent>
+                                                                                                </IconButtonComponent>
                                                                                             }
                                                                                         </div>
                                                                                     )

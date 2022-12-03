@@ -35,7 +35,7 @@ const FormikAutoCompleteComponent = (props: FormikAutoCompleteComponentProps) =>
             <AutoCompleteDropdownComponent
                 onUpdate={(value: any) => {handleValueChange(value)}}
                 hasError={hasError}
-                errorMessage={hasError || _.get(errors, name)}
+                errorMessage={hasError && (_.get(errors, name))}
                 value={value}
                 {...otherProps}
             />
