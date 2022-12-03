@@ -1,16 +1,27 @@
 import {
+    GET_COMMUNICATION_MODE_TYPE_LIST,
     GET_CONSULTATION_DURATION_LIST,
     GET_EMPLOYMENT_STATUS_LIST,
     GET_GENDER_LIST,
-    GET_LANGUAGE_LIST, GET_MEDICAL_HISTORY_OPTIONS_LIST, GET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
+    GET_LANGUAGE_LIST,
+    GET_MEDICAL_HISTORY_OPTIONS_LIST,
+    GET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
     GET_PHONE_TYPE_LIST,
-    GET_RELATIONSHIP_LIST, GET_SURGICAL_HISTORY_OPTIONS_LIST,
+    GET_REFERRAL_TYPE_LIST,
+    GET_RELATIONSHIP_LIST,
+    GET_SOCIAL_MEDIA_PLATFORM_LIST,
+    GET_SURGICAL_HISTORY_OPTIONS_LIST, SET_COMMUNICATION_MODE_TYPE_LIST,
     SET_CONSULTATION_DURATION_LIST,
     SET_EMPLOYMENT_STATUS_LIST,
     SET_GENDER_LIST,
-    SET_LANGUAGE_LIST, SET_MEDICAL_HISTORY_OPTIONS_LIST, SET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
+    SET_LANGUAGE_LIST,
+    SET_MEDICAL_HISTORY_OPTIONS_LIST,
+    SET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
     SET_PHONE_TYPE_LIST,
-    SET_RELATIONSHIP_LIST, SET_SURGICAL_HISTORY_OPTIONS_LIST
+    SET_REFERRAL_TYPE_LIST,
+    SET_RELATIONSHIP_LIST,
+    SET_SOCIAL_MEDIA_PLATFORM_LIST,
+    SET_SURGICAL_HISTORY_OPTIONS_LIST
 } from "../actions/static-data.action";
 import {IActionModel} from "../../shared/models/action.model";
 
@@ -42,6 +53,15 @@ export interface IStaticDataReducerState {
     isMusculoskeletalHistoryOptionsListLoading: boolean,
     isMusculoskeletalHistoryOptionsListLoaded: boolean,
     musculoskeletalHistoryOptionsList: any[],
+    isSocialMediaPlatformListLoading: boolean,
+    isSocialMediaPlatformListLoaded: boolean,
+    socialMediaPlatformList: any[],
+    isReferralTypeListLoading: boolean,
+    isReferralTypeListLoaded: boolean,
+    referralTypeList: any[],
+    isCommunicationModeTypeListLoading: boolean,
+    isCommunicationModeTypeListLoaded: boolean,
+    communicationModeTypeList: any[],
 }
 
 
@@ -73,6 +93,15 @@ const initialData: IStaticDataReducerState = {
     isMusculoskeletalHistoryOptionsListLoading: false,
     isMusculoskeletalHistoryOptionsListLoaded: false,
     musculoskeletalHistoryOptionsList: [],
+    isSocialMediaPlatformListLoading: false,
+    isSocialMediaPlatformListLoaded: false,
+    socialMediaPlatformList: [],
+    isReferralTypeListLoading: false,
+    isReferralTypeListLoaded: false,
+    referralTypeList: [],
+    isCommunicationModeTypeListLoading: false,
+    isCommunicationModeTypeListLoaded: false,
+    communicationModeTypeList: [],
 };
 
 const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDataReducerState => {
@@ -210,6 +239,51 @@ const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDa
                 isMusculoskeletalHistoryOptionsListLoading: false,
                 isMusculoskeletalHistoryOptionsListLoaded: true,
                 musculoskeletalHistoryOptionsList: action.payload.musculoskeletalHistoryOptionsList
+            };
+            return state;
+        case GET_SOCIAL_MEDIA_PLATFORM_LIST:
+            state = {
+                ...state,
+                isSocialMediaPlatformListLoading: true,
+                isSocialMediaPlatformListLoaded: false,
+            };
+            return state;
+        case SET_SOCIAL_MEDIA_PLATFORM_LIST:
+            state = {
+                ...state,
+                isSocialMediaPlatformListLoading: false,
+                isSocialMediaPlatformListLoaded: true,
+                socialMediaPlatformList: action.payload.socialMediaPlatformList
+            };
+            return state;
+        case GET_REFERRAL_TYPE_LIST:
+            state = {
+                ...state,
+                isReferralTypeListLoading: true,
+                isReferralTypeListLoaded: false,
+            };
+            return state;
+        case SET_REFERRAL_TYPE_LIST:
+            state = {
+                ...state,
+                isReferralTypeListLoading: false,
+                isReferralTypeListLoaded: true,
+                referralTypeList: action.payload.referralTypeList
+            };
+            return state;
+        case GET_COMMUNICATION_MODE_TYPE_LIST:
+            state = {
+                ...state,
+                isCommunicationModeTypeListLoading: true,
+                isCommunicationModeTypeListLoaded: false,
+            };
+            return state;
+        case SET_COMMUNICATION_MODE_TYPE_LIST:
+            state = {
+                ...state,
+                isCommunicationModeTypeListLoading: false,
+                isCommunicationModeTypeListLoaded: true,
+                communicationModeTypeList: action.payload.communicationModeTypeList
             };
             return state;
         default:

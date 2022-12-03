@@ -47,7 +47,7 @@ const SelectComponent = (props: SelectComponentProps) => {
 
     useEffect(() => {
         if (props.value) {
-           setTmpValue(props.value);
+            setTmpValue(props.value);
         }
     }, [props.value]);
 
@@ -57,35 +57,34 @@ const SelectComponent = (props: SelectComponentProps) => {
     const displayWith = props.displayWith || defaultDisplayWith;
     const valueExtractor = props.valueExtractor || defaultValueExtractor;
     const keyExtractor = props.keyExtractor || defaultKeyExtractor;
-    
-    console.log("errorMessage", errorMessage);
+
     return (
-    <FormControl className={'select-component ' + className + ' ' + (fullWidth ? "full-width" : "")}
-                 error={hasError} fullWidth={fullWidth} size={size}>
-         <InputLabel>
-            {label} {required ? " * " : ""}
-        </InputLabel>
-        <Select
-            fullWidth={fullWidth}
-            value={tmpValue}
-            error={hasError}
-            label={label + "" + (required ? " * " : "")}
-            variant={variant}
-            onChange={handleUpdate}
-            onBlur={handleOnBlur}
-            {...otherProps}
-        >
-            {
-                (options.length > 0) && options?.map((item, index) => {
-                    return <MenuItem key={keyExtractor ? keyExtractor(item) : `drop-down-option-${index}`}
-                                     value={valueExtractor(item, index)}> {displayWith(item)} </MenuItem>;
-                })
-            }
-        </Select>
-        <FormHelperText>
-            {hasError && <> {errorMessage} </>}
-        </FormHelperText>
-    </FormControl>
+        <FormControl className={'select-component ' + className + ' ' + (fullWidth ? "full-width" : "")}
+                     error={hasError} fullWidth={fullWidth} size={size}>
+            <InputLabel>
+                {label} {required ? " * " : ""}
+            </InputLabel>
+            <Select
+                fullWidth={fullWidth}
+                value={tmpValue}
+                error={hasError}
+                label={label + "" + (required ? " * " : "")}
+                variant={variant}
+                onChange={handleUpdate}
+                onBlur={handleOnBlur}
+                {...otherProps}
+            >
+                {
+                    (options.length > 0) && options?.map((item, index) => {
+                        return <MenuItem key={keyExtractor ? keyExtractor(item) : `drop-down-option-${index}`}
+                                         value={valueExtractor(item, index)}> {displayWith(item)} </MenuItem>;
+                    })
+                }
+            </Select>
+            <FormHelperText>
+                {hasError && <> {errorMessage} </>}
+            </FormHelperText>
+        </FormControl>
     );
 
 };

@@ -1,11 +1,12 @@
 import {IConsultationDuration} from "../../shared/models/static-data.model";
 import {
+    ICommunicationModeType,
     IEmploymentStatus,
     IGender,
     ILanguage,
     IMedicalHistoryOption, IMusculoskeletalHistoryOption,
-    IPhoneType,
-    IRelationship, ISurgicalHistoryOption
+    IPhoneType, IReferralType,
+    IRelationship, ISocialMediaPlatform, ISurgicalHistoryOption
 } from "../../shared/models/common.model";
 
 export const GET_CONSULTATION_DURATION_LIST = 'GET_CONSULTATION_DURATION_LIST';
@@ -34,6 +35,15 @@ export const SET_SURGICAL_HISTORY_OPTIONS_LIST = 'SET_SURGICAL_HISTORY_OPTIONS_L
 
 export const GET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST = 'GET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST';
 export const SET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST = 'SET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST';
+
+export const GET_COMMUNICATION_MODE_TYPE_LIST = 'GET_COMMUNICATION_MODE_TYPE_LIST';
+export const SET_COMMUNICATION_MODE_TYPE_LIST = 'SET_COMMUNICATION_MODE_TYPE_LIST';
+
+export const GET_REFERRAL_TYPE_LIST = 'GET_REFERRAL_TYPE_LIST';
+export const SET_REFERRAL_TYPE_LIST = 'SET_REFERRAL_TYPE_LIST';
+
+export const GET_SOCIAL_MEDIA_PLATFORM_LIST = 'GET_SOCIAL_MEDIA_PLATFORM_LIST';
+export const SET_SOCIAL_MEDIA_PLATFORM_LIST = 'SET_SOCIAL_MEDIA_PLATFORM_LIST';
 
 export const getConsultationDurationList = () => {
     return {type: GET_CONSULTATION_DURATION_LIST};
@@ -140,6 +150,42 @@ export const setMusculoskeletalHistoryOptionsList = (musculoskeletalHistoryOptio
     return {
         type: SET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST, payload: {
             musculoskeletalHistoryOptionsList
+        }
+    };
+};
+
+export const getReferralTypeList = () => {
+    return {type: GET_REFERRAL_TYPE_LIST};
+};
+
+export const setReferralTypeList = (referralTypeList: IReferralType[]) => {
+    return {
+        type: SET_REFERRAL_TYPE_LIST, payload: {
+            referralTypeList
+        }
+    };
+};
+
+export const getSocialMediaPlatformList = () => {
+    return {type: GET_SOCIAL_MEDIA_PLATFORM_LIST};
+};
+
+export const setSocialMediaPlatformList = (socialMediaPlatformList: ISocialMediaPlatform[]) => {
+    return {
+        type: SET_SOCIAL_MEDIA_PLATFORM_LIST, payload: {
+            socialMediaPlatformList
+        }
+    };
+};
+
+export const getCommunicationModeTypeList = () => {
+    return {type: GET_COMMUNICATION_MODE_TYPE_LIST};
+};
+
+export const setCommunicationModeTypeList = (communicationModeTypeList: ICommunicationModeType[]) => {
+    return {
+        type: SET_COMMUNICATION_MODE_TYPE_LIST, payload: {
+            communicationModeTypeList
         }
     };
 };

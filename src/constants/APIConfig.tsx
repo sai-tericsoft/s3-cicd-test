@@ -45,6 +45,18 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + "/musculoSkeletal/question",
         METHOD: "get"
     },
+    SOCIAL_MEDIA_PLATFORM_LIST: {
+        URL: ENV.API_URL + "/socialMedia",
+        METHOD: "get"
+    },
+    REFERRAL_TYPE_LIST: {
+        URL: ENV.API_URL + "/referral",
+        METHOD: "get"
+    },
+    COMMUNICATION_MODE_TYPE_LIST: {
+        URL: ENV.API_URL + "/communication/type",
+        METHOD: "get"
+    },
     //meta end
 
     // authentication start
@@ -166,6 +178,10 @@ const APIConfig: IAPIConfig = {
     },
     CLIENT_MUSCULOSKELETAL_HISTORY_ADD: {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/musculoskeletalHistory',
+        METHOD: "post"
+    },
+    CLIENT_ACCOUNT_PREFERENCES_ADD: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/account',
         METHOD: "post"
     }
 }
