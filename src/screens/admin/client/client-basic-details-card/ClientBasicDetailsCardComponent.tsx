@@ -6,9 +6,12 @@ import {CommonService} from "../../../../shared/services";
 
 interface ClientBasicDetailsCardComponentProps {
     clientBasicDetails: IClientBasicDetails;
+
 }
 
+
 const ClientBasicDetailsCardComponent = (props: ClientBasicDetailsCardComponentProps) => {
+
 
     const {clientBasicDetails} = props;
 
@@ -39,10 +42,9 @@ const ClientBasicDetailsCardComponent = (props: ClientBasicDetailsCardComponentP
                 </div>
 
             </div>
-
         </div>
-    );
+            );
 
 };
 
-export default ClientBasicDetailsCardComponent;
+  export default ClientBasicDetailsCardComponent;

@@ -172,7 +172,9 @@ const APIConfig: IAPIConfig = {
     CLIENT_ACTIVITY_LOG: {
         URL: ENV.API_URL + '/client-activity-log',
         METHOD: 'get'
-    }
+    },
+
+
 }
 
 export default APIConfig;

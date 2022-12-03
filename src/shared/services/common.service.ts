@@ -116,15 +116,12 @@ const convertDateFormat = (date: Date, format: string = 'MM-DD-YYYY') => {
 }
 
 const getTheDifferenceBetweenDates = (fromDate:string) => {
-    // const today = moment();
-    // const someday = moment(fromDate).date();
-    // const diff = today.diff(someday, 'years');
-    // return diff;
     let a = moment();
     let b = moment(moment(fromDate), 'YYYY');
     let diff = a.diff(b, 'years')
     return diff;
 }
+
 
 
 const getFlatJsonFromNestedJSON = (jsonData: any, rootName: string = "", ignoreList: any[] = []): any => {
@@ -430,6 +427,8 @@ const CommonService = {
     getSystemFormatTimeStamp,
     transformTimeStamp,
     getTheDifferenceBetweenDates,
+
+
     // createValidationsObject,
     // createYupSchema,
 
