@@ -5,6 +5,7 @@ import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {useDispatch} from "react-redux";
 import ClientPersonalHabitsFormComponent from "../client-personal-habits-form/ClientPersonalHabitsFormComponent";
 import {ClientAddFormSteps} from "../../../shared/models/client.model";
+import ClientAllergiesFormComponent from "../client-allergies-form/ClientAllergiesFormComponent";
 import {useNavigate} from "react-router-dom";
 import {CommonService} from "../../../shared/services";
 import ClientMedicalHistoryFormComponent from "../client-medical-history-form/ClientMedicalHistoryFormComponent";
@@ -93,6 +94,12 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                     mode={"add"}
                     onSave={handleClientDetailsSave}
                     clientId={clientId}/>
+            }
+            {
+                currentStep === 'allergies' && <ClientAllergiesFormComponent
+                    clientId={clientId}
+                    mode={"add"}
+                    onSave={handleClientDetailsSave.bind('allergies')}/>
             }
         </div>
     )
