@@ -7,7 +7,8 @@ import {CommonService} from "../../../services";
 import {useNavigate} from "react-router-dom";
 import {useCallback, useState} from "react";
 import IconButtonComponent from "../../icon-button/IconButtonComponent";
-import {Menu, MenuItem} from "@mui/material";
+import {ListItemIcon, ListItemText, Menu, MenuItem} from "@mui/material";
+import {Logout} from "@mui/icons-material";
 
 interface HeaderComponentProps {
 
@@ -89,11 +90,16 @@ const HeaderComponent = (props: HeaderComponentProps) => {
                     horizontal: 'right',
                 }}
             >
-                <MenuItem  onClick={() => {
+                <MenuItem onClick={() => {
                     CommonService._alert.showToast("Logged out", "success");
                     navigate(CommonService._routeConfig.LoginRoute());
                     dispatch(logout());
-                }}>Logout</MenuItem>
+                }}>
+                    <ListItemIcon>
+                        <Logout fontSize={"small"}/>
+                    </ListItemIcon>
+                    <ListItemText>Logout</ListItemText>
+                </MenuItem>
             </Menu>
         </div>
     );
