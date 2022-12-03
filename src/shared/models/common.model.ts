@@ -54,3 +54,21 @@ export interface IMusculoskeletalHistoryOption {
     _id: string;
     title: string;
 }
+
+export interface IReferralType {
+    _id: string;
+    title: string;
+    code: string;
+}
+
+export interface ISocialMediaPlatform {
+    _id: string;
+    title: string;
+    code: string;
+}
+
+export interface ICommunicationModeType {
+    _id: string;
+    title: string;
+    code: string;
+}

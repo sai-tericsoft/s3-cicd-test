@@ -11,6 +11,7 @@ import {logout} from "./store/actions/account.action";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "./store/reducers";
 import {
+    getCommunicationModeTypeList,
     getConsultationDurationList,
     getEmploymentStatusList,
     getGenderList,
@@ -18,7 +19,9 @@ import {
     getMedicalHistoryOptionsList,
     getMusculoskeletalHistoryOptionsList,
     getPhoneTypeList,
+    getReferralTypeList,
     getRelationShipList,
+    getSocialMediaPlatformList,
     getSurgicalHistoryOptionsList
 } from "./store/actions/static-data.action";
 
@@ -91,6 +94,9 @@ const App = (props: AppProps) => {
             dispatch(getMedicalHistoryOptionsList());
             dispatch(getSurgicalHistoryOptionsList());
             dispatch(getMusculoskeletalHistoryOptionsList());
+            dispatch(getSocialMediaPlatformList());
+            dispatch(getReferralTypeList());
+            dispatch(getCommunicationModeTypeList());
         }
     }, [token, dispatch])
 

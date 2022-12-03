@@ -151,15 +151,18 @@ export interface IWorkInfo {
     employment_status: IEmploymentStatus;
 }
 
-export type ClientAddFormSteps = "basicDetails" |
-    "personalHabits"
+export type ClientAddFormSteps =
+    "basicDetails"
+    | "personalHabits"
     | "allergies"
     | "medicalSupplements"
     | "surgicalHistory"
     | "medicalFemaleOnly"
     | "medicalProvider"
     | "musculoskeletal"
-    | "medicalHistory";
+    | "medicalHistory"
+    | "accountDetails"
+    ;
 
 export interface IClientPersonalHabitsForm {
     "personal_habits": IClientPersonalHabits;
@@ -263,5 +266,19 @@ export interface IMusculoskeletalHistory {
         value: string;
         text: string;
         title: string;
+    }
+}
+
+export interface IClientAccountDetailsForm {
+    "communication_preferences": {
+        "appointment_reminders": string;
+        "appointment_confirmations": string;
+    },
+    "referral_details": {
+        "source": string;
+        "source_info_name": string;
+        "source_info_phone"?: string;
+        "source_info_email"?: string;
+        "source_info_relationship"?: string;
     }
 }
