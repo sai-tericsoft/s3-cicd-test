@@ -34,6 +34,7 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         setIsClientAllergiesSavingSavingInProgress(true);
+        console.log('mode', mode); // TODO make api call based on mode
         CommonService._client.ClientAllergiesAddAPICall(clientId, values)
             .then((response: IAPIResponseType<IClientAllergiesForm>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
