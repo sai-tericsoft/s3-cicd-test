@@ -49,6 +49,21 @@ const getMusculoskeletalHistoryOptionsList = (payload: any) => {
     return ApiService[APIConfig.MUSCULOSKELETAL_HISTORY_OPTIONS_LIST.METHOD](APIConfig.MUSCULOSKELETAL_HISTORY_OPTIONS_LIST.URL, payload);
 }
 
+const getSocialMediaPlatformList = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.SOCIAL_MEDIA_PLATFORM_LIST.METHOD](APIConfig.SOCIAL_MEDIA_PLATFORM_LIST.URL, payload);
+}
+
+const getReferralTypeList = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.REFERRAL_TYPE_LIST.METHOD](APIConfig.REFERRAL_TYPE_LIST.URL, payload);
+}
+
+
+const getCommunicationModeTypeList = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.COMMUNICATION_MODE_TYPE_LIST.METHOD](APIConfig.COMMUNICATION_MODE_TYPE_LIST.URL, payload);
+}
 
 const StaticDataService = {
     weekDays,
@@ -61,7 +76,10 @@ const StaticDataService = {
     getRelationshipStatusList,
     getMedicalHistoryOptionsList,
     getSurgicalHistoryOptionsList,
-    getMusculoskeletalHistoryOptionsList
+    getMusculoskeletalHistoryOptionsList,
+    getSocialMediaPlatformList,
+    getReferralTypeList,
+    getCommunicationModeTypeList
 }
 
 export default StaticDataService;

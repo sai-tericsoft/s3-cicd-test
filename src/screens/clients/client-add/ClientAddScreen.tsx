@@ -17,6 +17,7 @@ import ClientMedicalFemaleOnlyFormComponent
 import ClientMedicalProviderInformationFormComponent
     from "../client-medical-provider-information-form/ClientMedicalProviderInformationFormComponent";
 import ClientMusculoskeletalHistoryFormComponent from "../client-musculoskeletal-history-form/ClientMusculoskeletalHistoryFormComponent";
+import ClientAccountDetailsFormComponent from "../client-account-details-form/ClientAccountDetailsFormComponent";
 
 interface ClientAddScreenProps {
 
@@ -99,7 +100,13 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                 currentStep === 'allergies' && <ClientAllergiesFormComponent
                     clientId={clientId}
                     mode={"add"}
-                    onSave={handleClientDetailsSave.bind('allergies')}/>
+                    onSave={handleClientDetailsSave}/>
+            }
+            {
+                currentStep === "accountDetails" && <ClientAccountDetailsFormComponent
+                    mode={"add"}
+                    onSave={handleClientDetailsSave}
+                    clientId={clientId}/>
             }
         </div>
     )
