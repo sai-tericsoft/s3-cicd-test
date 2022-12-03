@@ -25,19 +25,31 @@ const ClientPersonalHabitsFormValidationSchema = Yup.object({
     personal_habits: Yup.object({
         "Smoke/Chew Tobacco?": Yup.object({
             value: Yup.string().required('Value is required'),
-            text: Yup.string().nullable(),
+            text:  Yup.string().when("value", {
+                is: "Yes",
+                then: Yup.string().required('Text is required')
+            })
         }),
         "Drink Alcohol?": Yup.object({
             value: Yup.string().required('Value is required'),
-            text: Yup.string().nullable(),
+            text: Yup.string().when("value", {
+                is: "Yes",
+                then: Yup.string().required('Text is required')
+            })
         }),
         "Drink Coffee?": Yup.object({
             value: Yup.string().required('Value is required'),
-            text: Yup.string().nullable(),
+            text: Yup.string().when("value", {
+                is: "Yes",
+                then: Yup.string().required('Text is required')
+            })
         }),
         "Drink Soda/Pop?": Yup.object({
             value: Yup.string().required('Value is required'),
-            text: Yup.string().nullable(),
+            text: Yup.string().when("value", {
+                is: "Yes",
+                then: Yup.string().required('Text is required')
+            })
         }),
     }),
 });
@@ -117,7 +129,7 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                     validateOnBlur={true}
                     enableReinitialize={true}
                     validateOnMount={true}>
-                    {({values, touched, errors, setFieldValue, validateForm}) => {
+                    {({values,errors, isValid, validateForm}) => {
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
                             validateForm();
@@ -180,7 +192,7 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                                     </LinkComponent>&nbsp;
                                     <ButtonComponent
                                         isLoading={isClientPersonalHabitsSavingInProgress}
-                                        disabled={isClientPersonalHabitsSavingInProgress}
+                                        disabled={isClientPersonalHabitsSavingInProgress || !isValid}
                                         type={"submit"}
                                     >
                                         {isClientPersonalHabitsSavingInProgress ? "Saving" : "Save & Next"}

@@ -107,7 +107,7 @@ const getPayloadFilterDates = (mode: 'day' | 'week' | 'month' | 'year'): { start
     return payload;
 }
 
-const convertDateFormat = (date: Date, format: string = 'DD-MM-YYYY') => {
+const convertDateFormat = (date: Date, format: string = 'MM-DD-YYYY') => {
     return moment(date).format(format);
 }
 
@@ -231,6 +231,12 @@ const getMinsAndSecondsFromSeconds = (numberOfSeconds: number) => {
         seconds: seconds < 10 ? '0' + seconds : seconds
     }
 }
+
+const getHoursAndMinutesFromMinutes=(minutes:number)=> {
+   return  moment().startOf('day').add(minutes, 'minutes').format('h:mm a');
+}
+
+console.log(getHoursAndMinutesFromMinutes(450));
 
 const downloadFile = (url: string, fileName: any, type = 'pdf') => {
     switch (type) {
@@ -404,6 +410,7 @@ const CommonService = {
     getArrayOfValuesOfOneKeyFromJSON,
     Capitalize,
     getObjectKeyValue,
+    getHoursAndMinutesFromMinutes,
     getSystemFormatTimeStamp,
     // createValidationsObject,
     // createYupSchema,

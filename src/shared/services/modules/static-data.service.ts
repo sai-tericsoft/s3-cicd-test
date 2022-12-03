@@ -34,6 +34,21 @@ const getRelationshipStatusList = (payload: any) => {
     return ApiService[APIConfig.RELATIONSHIP_LIST.METHOD](APIConfig.RELATIONSHIP_LIST.URL, payload);
 }
 
+const getMedicalHistoryOptionsList = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.MEDICAL_HISTORY_OPTIONS_LIST.METHOD](APIConfig.MEDICAL_HISTORY_OPTIONS_LIST.URL, payload);
+}
+
+const getSurgicalHistoryOptionsList = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.SURGICAL_HISTORY_OPTIONS_LIST.METHOD](APIConfig.SURGICAL_HISTORY_OPTIONS_LIST.URL, payload);
+}
+
+const getMusculoskeletalHistoryOptionsList = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.MUSCULOSKELETAL_HISTORY_OPTIONS_LIST.METHOD](APIConfig.MUSCULOSKELETAL_HISTORY_OPTIONS_LIST.URL, payload);
+}
+
 
 const StaticDataService = {
     weekDays,
@@ -43,7 +58,10 @@ const StaticDataService = {
     getPhoneTypeList,
     getEmployeeStatusList,
     getLanguageList,
-    getRelationshipStatusList
+    getRelationshipStatusList,
+    getMedicalHistoryOptionsList,
+    getSurgicalHistoryOptionsList,
+    getMusculoskeletalHistoryOptionsList
 }
 
 export default StaticDataService;
