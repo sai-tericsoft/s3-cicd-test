@@ -1,82 +1,63 @@
 import "./ClientActivityLogComponent.scss";
 import TableWrapperComponent from "../../../../shared/components/table-wrapper/TableWrapperComponent";
-import {APIConfig, ENV} from "../../../../constants";
-
-
-
+import {APIConfig} from "../../../../constants";
 import {CommonService} from "../../../../shared/services";
-import TableComponent from "../../../../shared/components/table/TableComponent";
-
+import {ITableColumn} from "../../../../shared/models/table.model";
 
 interface ClientActivityLogComponentProps {
 
 }
 
-const data = [
-    {
-        section: "Medical History Questionnaire",
-        subSection: "Personal Habits",
-        field: "Drink Coffee",
-        oldValue: "Yes",
-        newValue: "No",
-        updateBy: {
-            first_name: "Terrill",
-            last_name: "Lobo"
-        },
-        updateAt: "2022-11-29T18:13:32.656Z"
-    }
-]
-
-
+export interface IClientActivityLog {
+    _id: string;
+    client_id: string;
+    module_name: string;
+    field_name: string;
+    updated_by: string;
+    created_at: string;
+    updated_at: string;
+}
 
 
 const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
 
-    const client_activity_log_column = [
+    const ClientActivityLogColumns: ITableColumn[] = [
         {
             key: 'activity',
             title: 'Activity',
-            width: '50%',
-            render: (item: any) => {
-                return <div>
-                    <div className={'client-activity-log-section'}>
-                        {item.section}
-                    </div>
-                    <div className={'client-activity-log-subsection'}>
-                        {item.subSection} &gt; {item.field} :   {item.oldValue} &rarr; {item.newValue}
-                    </div>
-                </div>
+            width: '60%',
+            render: (item: IClientActivityLog) => {
+                return <span>
+                    {item.module_name} &gt; {item.field_name}
+                </span>
             }
-
         },
         {
             key: 'staff',
             title: 'Staff',
             width: "25%",
-            render: (item: any) => {
-                return <>{item.updateBy.first_name}&nbsp;{item.updateBy.last_name}</>
-            },
-
+            render: (item: IClientActivityLog) => {
+                return <>{item.updated_by}</>
+            }
         },
         {
-            key: 'date/time',
+            key: 'date_time',
             title: 'Date/Time Stamp',
-            width: "25%",
-            render: (item: any) => {
+            width: "15%",
+            render: (item: IClientActivityLog) => {
                 return <>
-                    {CommonService.transformTimeStamp(item.updateAt)}
+                    {CommonService.transformTimeStamp(item.updated_at)}
                 </>
             }
-
         }
     ]
     return (
-        <div>
+        <div className={'client-activity-log-component'}>
             <TableWrapperComponent
-                url={APIConfig.CLIENT_ACTIVITY_LOG.URL}
+                url={APIConfig.CLIENT_ACTIVITY_LOG.URL("6388a3d1e6bdcac0ca1942a7")}
                 method={APIConfig.CLIENT_ACTIVITY_LOG.METHOD}
-                isPaginated={false} columns={client_activity_log_column}/>
-            <TableComponent data={data} columns={client_activity_log_column}/>
+                isPaginated={true}
+                columns={ClientActivityLogColumns}/>
         </div>
     );
 

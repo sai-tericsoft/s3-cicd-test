@@ -91,10 +91,10 @@ const APIConfig: IAPIConfig = {
     },
     // facility end
     //client-activity-log
-    CLIENT_ACTIVITY_LOG:{
-        URL:ENV.API_URL + '/client-activity-log',
-        METHOD:'get'
-}
+    CLIENT_ACTIVITY_LOG: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/activityLog',
+        METHOD: 'get'
+    }
 }
 
 export default APIConfig;

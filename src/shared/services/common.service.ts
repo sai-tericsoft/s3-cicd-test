@@ -106,7 +106,7 @@ const getPayloadFilterDates = (mode: 'day' | 'week' | 'month' | 'year'): { start
     return payload;
 }
 
-const transformTimeStamp = (date: Date) => {
+const transformTimeStamp = (date: Date | string) => {
     return moment(date).format('D-MMM-YYYY | hh:mm A');
 }
 
