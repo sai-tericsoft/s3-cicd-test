@@ -103,9 +103,9 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
     const [isClientPersonalHabitsSavingInProgress, setIsClientPersonalHabitsSavingInProgress] = useState(false);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
+        const payload = {...values, mode};
         setIsClientPersonalHabitsSavingInProgress(true);
-        console.log('mode', mode); // TODO make api call based on mode
-        CommonService._client.ClientPersonalHabitsAddAPICall(clientId, values)
+        CommonService._client.ClientPersonalHabitsAddAPICall(clientId, payload)
             .then((response: IAPIResponseType<IClientPersonalHabitsForm>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsClientPersonalHabitsSavingInProgress(false);

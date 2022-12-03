@@ -51,9 +51,9 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
     const [isClientMedicalHistorySavingInProgress, setIsClientMedicalHistorySavingInProgress] = useState(false);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
+        const payload = {...values, mode};
         setIsClientMedicalHistorySavingInProgress(true);
-        console.log('mode', mode); // TODO make api call based on mode
-        CommonService._client.ClientMedicalHistoryAddAPICall(clientId, values)
+        CommonService._client.ClientMedicalHistoryAddAPICall(clientId, payload)
             .then((response: IAPIResponseType<IClientMedicalHistoryForm>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsClientMedicalHistorySavingInProgress(false);

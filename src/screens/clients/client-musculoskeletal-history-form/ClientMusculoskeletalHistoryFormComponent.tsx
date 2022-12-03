@@ -42,9 +42,9 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
     const { musculoskeletalHistoryOptionsList } = useSelector((state: IRootReducerState)=> state.staticData);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
+        const payload = {...values, mode};
         setIsClientMusculoskeletalHistorySavingInProgress(true);
-        console.log('mode', mode); // TODO make api call based on mode
-        CommonService._client.ClientMusculoskeletalHistoryAddAPICall(clientId, values)
+        CommonService._client.ClientMusculoskeletalHistoryAddAPICall(clientId, payload)
             .then((response: IAPIResponseType<IClientMusculoskeletalHistoryForm>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsClientMusculoskeletalHistorySavingInProgress(false);

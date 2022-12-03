@@ -143,7 +143,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
     } = useSelector((state: IRootReducerState) => state.staticData);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        const payload = {...values};
+        const payload = {...values, mode};
         payload['dob'] = CommonService.convertDateFormat(payload['dob']);
         setIsClientBasicDetailsSavingInProgress(true);
         console.log('mode', mode); // TODO make api call based on mode

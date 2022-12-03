@@ -44,10 +44,9 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
     const [isClientMedicalProviderInformationSavingInProgress, setIsClientMedicalProviderInformationSavingInProgress] = useState(false);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        const payload = {...values};
+        const payload = {...values, mode};
         payload.medical_provider_info.last_examination_date = CommonService.convertDateFormat(payload.medical_provider_info.last_examination_date);
         setIsClientMedicalProviderInformationSavingInProgress(true);
-        console.log('mode', mode); // TODO make api call based on mode
         CommonService._client.ClientMedicalProviderInformationAddAPICall(clientId, payload)
             .then((response: IAPIResponseType<IClientMedicalProviderForm>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");

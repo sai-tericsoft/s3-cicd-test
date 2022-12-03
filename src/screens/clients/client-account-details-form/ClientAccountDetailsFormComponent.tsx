@@ -84,9 +84,9 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
     } = useSelector((state: IRootReducerState) => state.staticData);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
+        const payload = {...values, mode};
         setIsClientAccountDetailsFormSavingInProgress(true);
-        console.log('mode', mode); // TODO make api call based on mode
-        CommonService._client.ClientAccountDetailsAddAPICall(clientId, values)
+        CommonService._client.ClientAccountDetailsAddAPICall(clientId, payload)
             .then((response: IAPIResponseType<IClientAccountDetailsForm>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsClientAccountDetailsFormSavingInProgress(false);

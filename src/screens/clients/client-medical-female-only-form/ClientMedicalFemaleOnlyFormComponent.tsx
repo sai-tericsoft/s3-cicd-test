@@ -52,9 +52,9 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
     const [isClientMedicalFemaleOnlyFormSavingInProgress, setIsClientMedicalFemaleOnlyFormSavingInProgress] = useState(false);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
+        const payload = {...values, mode};
         setIsClientMedicalFemaleOnlyFormSavingInProgress(true);
-        console.log('mode', mode); // TODO make api call based on mode
-        CommonService._client.ClientMedicalFemaleOnlyAddAPICall(clientId, values)
+        CommonService._client.ClientMedicalFemaleOnlyAddAPICall(clientId, payload)
             .then((response: IAPIResponseType<IClientMedicalFemaleOnlyForm>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsClientMedicalFemaleOnlyFormSavingInProgress(false);
