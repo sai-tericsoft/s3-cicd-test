@@ -1,48 +1,90 @@
 import "./ClientDetailsScreen.scss";
 import {useParams} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
-import {IClientBasicDetails, IClientMedicalDetails} from "../../../shared/models/client.model";
-import ClientBasicDetailsComponent from "../client-basic-details/ClientBasicDetailsComponent";
+import {IClientAccountDetails, IClientBasicDetails, IClientMedicalDetails} from "../../../shared/models/client.model";
+import ClientMedicalDetailsComponent from "../client-medical-details/ClientMedicalDetailsComponent";
+import ButtonComponent from "../../../shared/components/button/ButtonComponent";
+import {ImageConfig} from "../../../constants";
 import ClientBasicDetailsCardComponent
     from "../../admin/client/client-basic-details-card/ClientBasicDetailsCardComponent";
-import ClientMedicalDetailsComponent from "../client-medical-details/ClientMedicalDetailsComponent";
+import SubMenuListComponent from "../../../shared/components/sub-menu-list/SubMenuListComponent";
+import TabsWrapperComponent, {
+    TabComponent,
+    TabContentComponent,
+    TabsComponent
+} from "../../../shared/components/tabs/TabsComponent";
+import ClientBasicDetailsComponent from "../client-basic-details/ClientBasicDetailsComponent";
+import ClientActivityLogComponent from "../../admin/client/client-activity-log/ClientActivityLogComponent";
+import ClientAccountDetailsComponent from "../client-account-details/ClientAccountDetailsComponent";
 
 interface ClientDetailsScreenProps {
 
 }
 
+const CLIENT_MENU_ITEMS = [
+    {
+        title: "Client Profile",
+        path: ""
+    },
+    {
+        title: "Chart Notes",
+        path: CommonService._routeConfig.ComingSoonRoute()
+    },
+    {
+        title: "Documents",
+        path: CommonService._routeConfig.ComingSoonRoute()
+    },
+    {
+        title: "Insurance",
+        path: CommonService._routeConfig.ComingSoonRoute()
+    },
+    {
+        title: "Appointments",
+        path: CommonService._routeConfig.ComingSoonRoute()
+    },
+    {
+        title: "Billing",
+        path: CommonService._routeConfig.ComingSoonRoute()
+    }
+]
+
 const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
 
     const {clientId} = useParams();
     const dispatch = useDispatch();
-    const [clientDetails, setClientDetails] = useState<IClientBasicDetails | undefined | any>(undefined);
-    const [isClientDetailsLoading, setIsClientDetailsLoading] = useState<boolean>(false);
-    const [isClientDetailsLoaded, setIsClientDetailsLoaded] = useState<boolean>(false);
-    const [isClientDetailsLoadingFailed, setIsClientDetailsLoadingFailed] = useState<boolean>(false);
+    const [clientBasicDetails, setClientBasicDetails] = useState<IClientBasicDetails | undefined | any>(undefined);
+    const [isClientBasicDetailsLoading, setIsClientBasicDetailsLoading] = useState<boolean>(false);
+    const [isClientBasicDetailsLoaded, setIsClientBasicDetailsLoaded] = useState<boolean>(false);
+    const [isClientBasicDetailsLoadingFailed, setIsClientBasicDetailsLoadingFailed] = useState<boolean>(false);
+    const [currentTab, setCurrentTab] = useState<"basicDetails" | "medicalHistoryQuestionnaire" | "accountDetails" | "activityLog">("basicDetails");
 
     const [clientMedicalDetails, setClientMedicalDetails] = useState<IClientMedicalDetails | undefined | any>(undefined);
     const [isClientMedicalDetailsLoading, setIsClientMedicalDetailsLoading] = useState<boolean>(false);
     const [isClientMedicalDetailsLoaded, setIsClientMedicalDetailsLoaded] = useState<boolean>(false);
     const [isClientMedicalDetailsLoadingFailed, setIsClientMedicalDetailsLoadingFailed] = useState<boolean>(false);
 
+    const [clientAccountDetails, setClientAccountDetails] = useState<IClientAccountDetails | undefined | any>(undefined);
+    const [isClientAccountDetailsLoading, setIsClientAccountDetailsLoading] = useState<boolean>(false);
+    const [isClientAccountDetailsLoaded, setIsClientAccountDetailsLoaded] = useState<boolean>(false);
+    const [isClientAccountDetailsLoadingFailed, setIsClientAccountDetailsLoadingFailed] = useState<boolean>(false);
 
-    const fetchClientDetails = useCallback((clientId: string) => {
-        setIsClientDetailsLoading(true);
-        CommonService._client.ClientDetailsAPICall(clientId, {})
+    const fetchClientBasicDetails = useCallback((clientId: string) => {
+        setIsClientBasicDetailsLoading(true);
+        CommonService._client.ClientBasicDetailsAPICall(clientId, {})
             .then((response: IAPIResponseType<IClientBasicDetails>) => {
-                setClientDetails(response.data);
-                setIsClientDetailsLoading(false);
-                setIsClientDetailsLoaded(true);
-                setIsClientDetailsLoadingFailed(false);
+                setClientBasicDetails(response.data);
+                setIsClientBasicDetailsLoading(false);
+                setIsClientBasicDetailsLoaded(true);
+                setIsClientBasicDetailsLoadingFailed(false);
             })
             .catch((error: any) => {
-                setIsClientDetailsLoading(false);
-                setIsClientDetailsLoaded(false);
-                setIsClientDetailsLoadingFailed(true);
+                setIsClientBasicDetailsLoading(false);
+                setIsClientBasicDetailsLoaded(false);
+                setIsClientBasicDetailsLoadingFailed(true);
             })
     }, []);
 
@@ -62,37 +104,107 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
             })
     }, []);
 
-    useEffect(() => {
-        if (clientId) {
-            fetchClientDetails(clientId);
-            fetchClientMedicalDetails(clientId);
-        }
-    }, [clientId, fetchClientDetails, fetchClientMedicalDetails]);
+    const fetchClientAccountDetails = useCallback((clientId: string) => {
+        setIsClientAccountDetailsLoading(true);
+        CommonService._client.ClientAccountDetailsApiCall(clientId, {})
+            .then((response: IAPIResponseType<IClientAccountDetails>) => {
+                setClientAccountDetails(response.data);
+                setIsClientAccountDetailsLoading(false);
+                setIsClientAccountDetailsLoaded(true);
+                setIsClientAccountDetailsLoadingFailed(false);
+            })
+            .catch((error: any) => {
+                setIsClientAccountDetailsLoading(false);
+                setIsClientAccountDetailsLoaded(false);
+                setIsClientAccountDetailsLoadingFailed(true);
+            })
+    }, []);
 
     useEffect(() => {
-        dispatch(setCurrentNavParams(clientDetails?.name || "Client Details", null, true));
-    }, [clientDetails, dispatch]);
+        if (clientId) {
+            fetchClientBasicDetails(clientId);
+            fetchClientMedicalDetails(clientId);
+            fetchClientAccountDetails(clientId);
+        }
+    }, [clientId, fetchClientBasicDetails, fetchClientMedicalDetails, fetchClientAccountDetails]);
+
+    useEffect(() => {
+        dispatch(setCurrentNavParams(clientBasicDetails?.name || "Client Details", null, true));
+    }, [clientBasicDetails, dispatch]);
+    
+    useEffect(()=>{
+        console.log(isClientAccountDetailsLoaded, isClientAccountDetailsLoading, isClientAccountDetailsLoadingFailed, isClientMedicalDetailsLoaded, isClientMedicalDetailsLoading, isClientMedicalDetailsLoadingFailed);
+    }, [isClientAccountDetailsLoaded, isClientAccountDetailsLoading, isClientAccountDetailsLoadingFailed, isClientMedicalDetailsLoaded, isClientMedicalDetailsLoading, isClientMedicalDetailsLoadingFailed])
 
     return (
         <>
+            <div className={'client-details-screen'}>
+                {
+                    isClientBasicDetailsLoading && <div>Loading</div>
+                }
+                {
+                    isClientBasicDetailsLoadingFailed && <div>Loading Failed</div>
+                }
+                {
 
-        <div className={'client-details-screen'}>
-
-            {
-                isClientDetailsLoading && <div>Loading</div>
-            }
-            {
-                isClientDetailsLoadingFailed && <div>Loading Failed</div>
-            }
-            {
-
-                isClientDetailsLoaded && <>
-                    <ClientMedicalDetailsComponent clientMedicalDetails={clientMedicalDetails}/>
-                    <ClientBasicDetailsCardComponent clientBasicDetails={clientDetails}/>
-                    <ClientBasicDetailsComponent clientBasicDetails={clientDetails}/>
-                </>
-            }
-        </div>
+                    isClientBasicDetailsLoaded && <>
+                        <div className="client-details-header">
+                            <div className={"client-details-title"}>
+                                Client Profile
+                            </div>
+                            <div className={"client-details-actions"}>
+                                {
+                                    currentTab === "basicDetails" && <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>
+                                        Edit Profile
+                                    </ButtonComponent>
+                                }
+                            </div>
+                        </div>
+                        <div className={"client-details-layout"}>
+                            <div className={"client-details-basic-card-sub-menu-wrapper"}>
+                                <div className={"client-details-basic-card-holder"}>
+                                    <ClientBasicDetailsCardComponent clientBasicDetails={clientBasicDetails}/>
+                                </div>
+                                <div className={"client-details-sub-menu-holder"}>
+                                    <SubMenuListComponent menuItems={CLIENT_MENU_ITEMS}/>
+                                </div>
+                            </div>
+                            <div className="client-details-tab-wrapper">
+                                <TabsWrapperComponent>
+                                    <TabsComponent
+                                        value={currentTab}
+                                        allowScrollButtonsMobile={false}
+                                        variant={"fullWidth"}
+                                        onUpdate={(e: any, v: any) => {
+                                            setCurrentTab(v);
+                                        }}
+                                    >
+                                        <TabComponent label="Client Details" value={"basicDetails"}/>
+                                        <TabComponent label="Medical History Questionnaire"
+                                                      value={"medicalHistoryQuestionnaire"}/>
+                                        <TabComponent label="Account Details" value={"accountDetails"}/>
+                                        <TabComponent label="Activity Log" value={"activityLog"}/>
+                                    </TabsComponent>
+                                    <TabContentComponent selectedTab={currentTab} value={"basicDetails"}>
+                                        <ClientBasicDetailsComponent clientBasicDetails={clientBasicDetails}/>
+                                    </TabContentComponent>
+                                    <TabContentComponent selectedTab={currentTab} value={"medicalHistoryQuestionnaire"}>
+                                        <ClientMedicalDetailsComponent clientMedicalDetails={clientMedicalDetails}/>
+                                    </TabContentComponent>
+                                    <TabContentComponent selectedTab={currentTab} value={"accountDetails"}>
+                                        <ClientAccountDetailsComponent clientAccountDetails={clientAccountDetails}/>
+                                    </TabContentComponent>
+                                    <TabContentComponent selectedTab={currentTab} value={"activityLog"}>
+                                        {
+                                            clientId && <ClientActivityLogComponent clientId={clientId}/>
+                                        }
+                                    </TabContentComponent>
+                                </TabsWrapperComponent>
+                            </div>
+                        </div>
+                    </>
+                }
+            </div>
         </>
     );
 

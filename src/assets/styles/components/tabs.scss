@@ -1,12 +1,17 @@
 @import "../variables";
 
 .t-tabs-wrapper {
+  height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
 
   .t-tabs {
-    border-bottom: 1px solid #dfdfdf;
+    //border-bottom: 1px solid #dfdfdf;
 
     .t-tab {
       border-left: 1px solid #B3C5C4;
+      background: #FFFFFF;
+      text-transform: unset !important;
 
       &:first-child {
         border-left: none;
@@ -15,14 +20,14 @@
 
     &.primary {
       .t-tab.Mui-selected {
-        background: $primary-color;
+        background: $primary-color !important;
         color: $white;
       }
     }
   }
 
   .t-tab-panel {
-    padding: 10px 20px !important;
+    padding: 10px 0 !important;
   }
 
   .MuiTabs-indicator {

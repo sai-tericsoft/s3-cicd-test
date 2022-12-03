@@ -1,9 +1,10 @@
 import {
+    ICommunicationModeType,
     IEmploymentStatus,
     IGender,
     ILanguage,
     IMedicalHistoryOption,
-    IPhoneType,
+    IPhoneType, IReferralType,
     IRelationship, ISurgicalHistoryOption,
     ITextValue
 } from "./common.model";
@@ -199,15 +200,10 @@ export interface IClientMedicalHistory{
 
 export interface IClientSurgicalHistoryForm {
     "surgical_history":IClientSurgicalHistory
-// {
-//         "comments": string;
-//         "questions": string[];
-//         "isCustomOption": boolean;
-//     }
 }
 export interface IClientSurgicalHistory{
     "comments": string;
-    "questions": string[];
+    "questions": ISurgicalHistoryOption[];
     "isCustomOption": boolean;
 }
 
@@ -242,22 +238,22 @@ export interface IClientMedicalDetails {
     personal_habits: IClientPersonalHabits;
     allergies: string;
     medications: IClientMedicalSupplements;
-    medical_history: IMedicalHistory;
+    medical_history: IClientMedicalHistoryDetails;
     females_only_questions: IClientMedicalFemaleOnly;
-    surgical_history: IClientSurgicalHistory;
+    surgical_history: IClientSurgicalHistoryDetails;
     musculoskeletal_history: IMusculoskeletalHistory;
     medical_provider_info: IClientMedicalProvider;
     created_at: string;
     updated_at: string;
 }
 
-export interface IMedicalHistory {
-    questions: IMedicalHistoryOption,
+export interface IClientMedicalHistoryDetails {
+    questions: IMedicalHistoryOption[],
     comments: string;
 }
 
-export interface ISurgicalHistory {
-    questions: ISurgicalHistoryOption,
+export interface IClientSurgicalHistoryDetails {
+    questions: ISurgicalHistoryOption[],
     comments: string;
 }
 
@@ -280,5 +276,29 @@ export interface IClientAccountDetailsForm {
         "source_info_phone"?: string;
         "source_info_email"?: string;
         "source_info_relationship"?: string;
+    }
+}
+
+export interface IClientActivityLog {
+    _id: string;
+    client_id: string;
+    module_name: string;
+    field_name: string;
+    updated_by: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface IClientAccountDetails {
+    "communication_preferences": {
+        "appointment_reminders": ICommunicationModeType;
+        "appointment_confirmations":  ICommunicationModeType;
+    },
+    "referral_details": {
+        "source": IReferralType;
+        "source_info_name": any; //Todo refactor model
+        "source_info_phone"?: string;
+        "source_info_email"?: string;
+        "source_info_relationship"?: IRelationship;
     }
 }

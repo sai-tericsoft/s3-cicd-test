@@ -26,7 +26,7 @@ interface ClientAddScreenProps {
 const ClientAddScreen = (props: ClientAddScreenProps) => {
 
     const navigate = useNavigate();
-    const [currentStep] = useState<ClientAddFormSteps>("basicDetails");
+    const [currentStep, setCurrentStep] = useState<ClientAddFormSteps>("basicDetails");
     const dispatch = useDispatch();
     const [clientId] = useState<string>("6388a3d1e6bdcac0ca1942a7");
 
@@ -36,10 +36,42 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
 
     const handleClientDetailsSave = useCallback(() => {
         switch (currentStep) {
-            // case "basicDetails": {
-            //     setCurrentStep('personalHabits');
-            //     break;
-            // }
+            case "basicDetails": {
+                setCurrentStep('personalHabits');
+                break;
+            }
+            case "personalHabits": {
+                setCurrentStep('allergies');
+                break;
+            }
+            case "allergies": {
+                setCurrentStep('medicalSupplements');
+                break;
+            }
+            case "medicalSupplements": {
+                setCurrentStep('medicalHistory');
+                break;
+            }
+            case "medicalHistory": {
+                setCurrentStep('medicalFemaleOnly');
+                break;
+            }
+            case "medicalFemaleOnly": {
+                setCurrentStep('surgicalHistory');
+                break;
+            }
+            case "surgicalHistory": {
+                setCurrentStep('musculoskeletal');
+                break;
+            }
+            case "musculoskeletal": {
+                setCurrentStep('medicalProvider');
+                break;
+            }
+            case "medicalProvider": {
+                navigate(CommonService._routeConfig.ClientList());
+                break;
+            }
             default: {
                 navigate(CommonService._routeConfig.ClientList());
             }

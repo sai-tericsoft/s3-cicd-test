@@ -20,9 +20,9 @@ const CardComponent = (props: React.PropsWithChildren<CardComponentProps>) => {
                     <div className="card-title">
                         {title}
                     </div>
-                    <div className="card-description">
+                    {description && <div className="card-description">
                         {description}
-                    </div>
+                    </div>}
                 </div>
                 {
                     actions && <div className="card-actions">

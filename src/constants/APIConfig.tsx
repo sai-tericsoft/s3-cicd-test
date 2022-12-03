@@ -150,8 +150,12 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + "/client",
         METHOD: "post"
     },
-    CLIENT_DETAILS: {
+    CLIENT_BASIC_DETAILS: {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId,
+        METHOD: "get"
+    },
+    CLIENT_ACCOUNT_DETAILS: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/account',
         METHOD: "get"
     },
     CLIENT_PERSONAL_HABITS_ADD: {
@@ -189,10 +193,6 @@ const APIConfig: IAPIConfig = {
     CLIENT_ACCOUNT_PREFERENCES_ADD: {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/account',
         METHOD: "post"
-    },
-    CLIENT_ACTIVITY_LOG: {
-        URL: ENV.API_URL + '/client-activity-log',
-        METHOD: 'get'
     },
     CLIENT_ACTIVITY_LOG: {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/activityLog',

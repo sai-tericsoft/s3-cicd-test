@@ -11,9 +11,14 @@ const ClientMedicalDetailsApiCall=(clientId: string, payload: any)=>{
     return ApiService[APIConfig.CLIENT_MEDICAL_DETAILS.METHOD](APIConfig.CLIENT_MEDICAL_DETAILS.URL(clientId), payload);
 }
 
-const ClientDetailsAPICall = (clientId: string, payload: any) => {
+const ClientAccountDetailsApiCall=(clientId: string, payload: any)=>{
     // @ts-ignore
-    return ApiService[APIConfig.CLIENT_DETAILS.METHOD](APIConfig.CLIENT_DETAILS.URL(clientId), payload);
+    return ApiService[APIConfig.CLIENT_ACCOUNT_DETAILS.METHOD](APIConfig.CLIENT_ACCOUNT_DETAILS.URL(clientId), payload);
+}
+
+const ClientBasicDetailsAPICall = (clientId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.CLIENT_BASIC_DETAILS.METHOD](APIConfig.CLIENT_BASIC_DETAILS.URL(clientId), payload);
 }
 
 const ClientPersonalHabitsAddAPICall = (clientId: string, payload: any) => {
@@ -64,7 +69,7 @@ const ClientAccountDetailsAddAPICall = (clientId: string, payload: any) => {
 
 const ClientService={
     ClientBasicDetailsAddAPICall,
-    ClientDetailsAPICall,
+    ClientBasicDetailsAPICall,
     ClientPersonalHabitsAddAPICall,
     ClientAllergiesAddAPICall,
     ClientMedicalSupplementsAddAPICall,
@@ -73,8 +78,9 @@ const ClientService={
     ClientMedicalFemaleOnlyAddAPICall,
     ClientMedicalProviderInformationAddAPICall,
     ClientMusculoskeletalHistoryAddAPICall,
-    ClientMedicalDetailsApiCall
-    ClientAccountDetailsAddAPICall
+    ClientMedicalDetailsApiCall,
+    ClientAccountDetailsAddAPICall,
+    ClientAccountDetailsApiCall
 }
 
 export default ClientService;

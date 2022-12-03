@@ -4,6 +4,8 @@ import DataLabelValueComponent from "../../../shared/components/data-label-value
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import {IClientBasicDetails, IContactInfo, IEmail} from "../../../shared/models/client.model";
 import moment from "moment";
+import HorizontalLineComponent
+    from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 
 interface ClientBasicDetailsComponentProps {
     clientBasicDetails: IClientBasicDetails;
@@ -166,6 +168,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                         </>
                     })
                 }
+                <HorizontalLineComponent/>
                 <div>
                     <FormControlLabelComponent label={'Secondary Emergency Contact'}/>
                     <div className={'ts-row'}>

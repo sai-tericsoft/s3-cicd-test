@@ -3,29 +3,20 @@ import TableWrapperComponent from "../../../../shared/components/table-wrapper/T
 import {APIConfig} from "../../../../constants";
 import {CommonService} from "../../../../shared/services";
 import {ITableColumn} from "../../../../shared/models/table.model";
+import {IClientActivityLog} from "../../../../shared/models/client.model";
 
 interface ClientActivityLogComponentProps {
-
+    clientId: string;
 }
-
-export interface IClientActivityLog {
-    _id: string;
-    client_id: string;
-    module_name: string;
-    field_name: string;
-    updated_by: string;
-    created_at: string;
-    updated_at: string;
-}
-
 
 const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
 
+    const {clientId} = props;
     const ClientActivityLogColumns: ITableColumn[] = [
         {
             key: 'activity',
             title: 'Activity',
-            width: '60%',
+            width: '50%',
             render: (item: IClientActivityLog) => {
                 return <span>
                     {item.module_name} &gt; {item.field_name}
@@ -35,7 +26,7 @@ const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
         {
             key: 'staff',
             title: 'Staff',
-            width: "25%",
+            width: "20%",
             render: (item: IClientActivityLog) => {
                 return <>{item.updated_by}</>
             }
@@ -43,7 +34,7 @@ const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
         {
             key: 'date_time',
             title: 'Date/Time Stamp',
-            width: "15%",
+            width: "20%",
             render: (item: IClientActivityLog) => {
                 return <>
                     {CommonService.transformTimeStamp(item.updated_at)}
@@ -51,10 +42,11 @@ const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
             }
         }
     ]
+
     return (
         <div className={'client-activity-log-component'}>
             <TableWrapperComponent
-                url={APIConfig.CLIENT_ACTIVITY_LOG.URL("6388a3d1e6bdcac0ca1942a7")}
+                url={APIConfig.CLIENT_ACTIVITY_LOG.URL(clientId)}
                 method={APIConfig.CLIENT_ACTIVITY_LOG.METHOD}
                 isPaginated={true}
                 columns={ClientActivityLogColumns}/>

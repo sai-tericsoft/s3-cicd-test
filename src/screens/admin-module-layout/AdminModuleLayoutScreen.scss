@@ -3,41 +3,6 @@
 .admin-module-layout {
   display: flex;
 
-  .admin-module-menu-wrapper {
-    background: #FFFFFF;
-    border: 1px solid #E7E7E7;
-    border-radius: 8px;
-    min-width: 216px;
-    height: 100%;
-
-    .admin-module-menu {
-      display: flex;
-      flex-direction: column;
-      padding: 6px;
-
-      .admin-module-menu-item {
-        padding: 13px 20px;
-        letter-spacing: 0.5px;
-        color: $text-light-2;
-        border-left: 4px solid transparent;
-        border-radius: 4px;
-        margin-bottom: 2px;
-
-        &.active {
-          border-left-color: $primary-color;
-          color: $primary-color;
-          font-weight: $font-weight-bolder;
-          background: #E1EBEA;
-        }
-
-        &:hover {
-          color: $primary-color;
-          background: #E1EBEA;
-        }
-      }
-    }
-  }
-
   .admin-module-content-wrapper {
     padding: 0 15px;
     flex: 1;
