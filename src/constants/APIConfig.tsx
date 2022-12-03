@@ -134,7 +134,7 @@ const APIConfig: IAPIConfig = {
         METHOD: "get"
     },
     // facility end
-
+    
     // client start
     CLIENT_LIST: {
         URL: ENV.API_URL + "/client/list",
@@ -188,6 +188,10 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + '/client-activity-log',
         METHOD: 'get'
     },
+    CLIENT_ACTIVITY_LOG: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/activityLog',
+        METHOD: 'get'
+    }
     // client end
 }
 
