@@ -184,6 +184,11 @@ const APIConfig: IAPIConfig = {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/account',
         METHOD: "post"
     }
+    //client-activity-log
+    CLIENT_ACTIVITY_LOG: {
+        URL: ENV.API_URL + '/client-activity-log',
+        METHOD: 'get'
+    },
 }
 
 export default APIConfig;
