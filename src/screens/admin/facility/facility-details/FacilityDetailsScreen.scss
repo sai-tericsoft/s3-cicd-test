@@ -1,12 +1,16 @@
 @import "src/assets/styles/common";
 
 .facility-opening-hours {
-  border: 1px solid black;
+  width: 300px;
   display: inline-block;
+  border: 1px solid #F3F3F3;
+  border-radius: 4px;
 
   .data-label-value {
     flex-direction: row;
-    border-bottom: 1px solid grey;
+    border-top: 1px solid #F3F3F3;
+    padding-top: 17px;
+    padding-left: 24px;
 
     .data-label {
       width: 66px;
@@ -14,6 +18,61 @@
 
     .data-value {
       font-weight: $font-weight-normal;
+      font-size: 14px;
+      width: 130px;
+      align-items: center;
+      margin-left: 50px;
+      margin-right: 24px;
+
     }
+  }
+}
+
+.facility-details-information {
+  .data-label-value {
+    .data-label {
+      margin-bottom: 6px;
+    }
+  }
+}
+
+
+.therapy-service-chip {
+  color: #EAF3F2;
+}
+
+.facility-opening-hours-closed-text {
+  width: 48px;
+  font-weight: 700;
+  margin-left: 30px;
+
+  font-size: 14px;
+  color: #FA6187;
+
+}
+
+.therapy-and-performance-training-wrapper {
+  display: inline-block;
+  width: 100%;
+
+
+  .data-label-value {
+    flex-direction: row;
+    margin-top: 23px;
+    margin-bottom: 23px;
+    .data-label {
+      width: 20%;
+    }
+    .data-value {
+      width: 80%;
+      padding-left: 10px;
+      font-weight: $font-weight-normal;
+      font-size: 14px;
+      margin-left: 20px;
+    }
+  }
+
+  .chip-component {
+    margin-right: 10px;
   }
 }

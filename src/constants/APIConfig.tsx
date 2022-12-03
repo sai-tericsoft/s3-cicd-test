@@ -33,6 +33,18 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + "/relationship",
         METHOD: "get"
     },
+    MEDICAL_HISTORY_OPTIONS_LIST: {
+        URL: ENV.API_URL + "/medicalHistory/question",
+        METHOD: "get"
+    },
+    SURGICAL_HISTORY_OPTIONS_LIST: {
+        URL: ENV.API_URL + "/surgicalHistory/question",
+        METHOD: "get"
+    },
+    MUSCULOSKELETAL_HISTORY_OPTIONS_LIST: {
+        URL: ENV.API_URL + "/musculoSkeletal/question",
+        METHOD: "get"
+    },
     //meta end
 
     // authentication start
@@ -132,7 +144,30 @@ const APIConfig: IAPIConfig = {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/allergies',
         METHOD: "post"
     },
-    //
+    CLIENT_MEDICAL_SUPPLEMENTS_ADD: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medication',
+        METHOD: "post"
+    },
+    CLIENT_MEDICAL_HISTORY_ADD: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medicalHistory',
+        METHOD: "post"
+    },
+    CLIENT_SURGICAL_HISTORY_ADD: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/surgicalHistory',
+        METHOD: "post"
+    },
+    CLIENT_MEDICAL_FEMALE_ONLY_ADD: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/femaleQuestion',
+        METHOD: "post"
+    },
+    CLIENT_MEDICAL_PROVIDER_ADD: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medicalProvider',
+        METHOD: "post"
+    },
+    CLIENT_MUSCULOSKELETAL_HISTORY_ADD: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/musculoskeletalHistory',
+        METHOD: "post"
+    }
 }
 
 export default APIConfig;

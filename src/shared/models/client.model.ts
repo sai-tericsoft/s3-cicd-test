@@ -143,7 +143,15 @@ export interface IWorkInfo {
     employment_status: IEmploymentStatus;
 }
 
-export type ClientAddFormSteps = "basicDetails" | "personalHabits" | "allergies";
+export type ClientAddFormSteps = "basicDetails" |
+    "personalHabits"
+    | "allergies"
+    | "medicalSupplements"
+    | "surgicalHistory"
+    | "medicalFemaleOnly"
+    | "medicalProvider"
+    | "musculoskeletal"
+    | "medicalHistory";
 
 export interface IClientPersonalHabitsForm {
     "personal_habits": {
@@ -152,9 +160,55 @@ export interface IClientPersonalHabitsForm {
         "Drink Coffee?": ITextValue;
         "Drink Soda/Pop?": ITextValue;
     }
-
 }
 
 export interface IClientAllergiesForm {
     allergies:string;
+}
+
+export interface IClientMedicalSupplementsForm {
+    "medications": {
+        "non_prescription_medication": string;
+        "prescription_medication": string;
+    }
+}
+
+export interface IClientMedicalHistoryForm {
+    "medical_history": {
+        "comments": string;
+        "isCustomOption": boolean;
+        "questions": string[];
+    }
+}
+
+export interface IClientSurgicalHistoryForm {
+    "surgical_history": {
+        "comments": string;
+        "questions": string[];
+        "isCustomOption": boolean;
+    }
+}
+
+export interface IClientMedicalFemaleOnlyForm {
+    "females_only_questions": {
+        "Nursing?": string;
+        "Pregnant or trying to get pregnant?": string;
+    }
+}
+
+export interface IClientMedicalProviderForm {
+    "medical_provider_info": {
+        "last_examination_date": string;
+        "name": string;
+        "primary_phone": string;
+    }
+}
+
+export interface IClientMusculoskeletalHistoryForm {
+    "musculoskeletal_history": {
+        [k: string]: {
+            "text": string,
+            "value": string
+        }
+    }
 }

@@ -39,3 +39,18 @@ export interface ITextValue {
     value: string;
     text?: string;
 }
+
+export interface IMedicalHistoryOption {
+    _id: string;
+    title: string;
+}
+
+export interface ISurgicalHistoryOption {
+    _id: string;
+    title: string;
+}
+
+export interface IMusculoskeletalHistoryOption {
+    _id: string;
+    title: string;
+}

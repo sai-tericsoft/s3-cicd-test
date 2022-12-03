@@ -1,6 +1,6 @@
 import './TestScreen.scss';
 import ServiceAddScreen from "../admin/service/service-add/ServiceAddScreen";
-import ClientAllergiesFormComponent from "../clients/client-allergies-form/ClientAllergiesFormComponent";
+import React from "react";
 
 interface TestScreenProps {
 
