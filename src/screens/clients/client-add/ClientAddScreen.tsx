@@ -5,6 +5,7 @@ import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {useDispatch} from "react-redux";
 import ClientPersonalHabitsFormComponent from "../client-personal-habits-form/ClientPersonalHabitsFormComponent";
 import {ClientAddFormSteps} from "../../../shared/models/client.model";
+import ClientAllergiesFormComponent from "../client-allergies-form/ClientAllergiesFormComponent";
 
 interface ClientAddScreenProps {
 
@@ -12,7 +13,7 @@ interface ClientAddScreenProps {
 
 const ClientAddScreen = (props: ClientAddScreenProps) => {
 
-    const [currentStep, setCurrentStep] = useState<ClientAddFormSteps>("basicDetails");
+    const [currentStep, setCurrentStep] = useState<ClientAddFormSteps>("allergies");
     const dispatch = useDispatch();
     const [clientId] = useState<string>("6388a3d1e6bdcac0ca1942a7");
 
@@ -50,6 +51,12 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                         onSave={handleClientDetailsSave.bind('personalHabits')}
                         clientId={clientId}
                     />
+            }
+            {
+                currentStep === 'allergies' && <ClientAllergiesFormComponent
+                    clientId={clientId}
+                    mode={"add"}
+                    onSave={handleClientDetailsSave.bind('allergies')}/>
             }
         </div>
     )

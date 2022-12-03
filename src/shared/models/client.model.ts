@@ -39,6 +39,7 @@ export interface IClientBasicDetailsForm {
     emergency_contact_info: EmergencyContactInfo;
     work_info: WorkInfo;
     address: Address;
+
 }
 
 export interface SecondaryEmail {
@@ -151,4 +152,9 @@ export interface IClientPersonalHabitsForm {
         "Drink Coffee?": ITextValue;
         "Drink Soda/Pop?": ITextValue;
     }
+
+}
+
+export interface IClientAllergiesForm {
+    allergies:string;
 }

@@ -16,10 +16,16 @@ const ClientPersonalHabitsAddAPICall = (clientId: string, payload: any) => {
     return ApiService[APIConfig.CLIENT_PERSONAL_HABITS_ADD.METHOD](APIConfig.CLIENT_PERSONAL_HABITS_ADD.URL(clientId), payload);
 }
 
+const ClientAllergiesAddAPICall = (clientId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.CLIENT_ALLERGIES_ADD.METHOD](APIConfig.CLIENT_ALLERGIES_ADD.URL(clientId), payload);
+}
+
 
 const ClientService={
     ClientBasicDetailsAddAPICall,
     ClientDetailsAPICall,
-    ClientPersonalHabitsAddAPICall
+    ClientPersonalHabitsAddAPICall,
+    ClientAllergiesAddAPICall
 }
 export default ClientService;
