@@ -45,6 +45,7 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
                 setIsClientAllergiesSavingSavingInProgress(false);
             })
     }, [clientId, onSave, mode]);
+
     return (
         <div className={'client-allergies-form-component'}>
             <FormControlLabelComponent label={"Add Allergies"}/>
