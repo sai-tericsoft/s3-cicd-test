@@ -22,7 +22,7 @@ import LinkComponent from "../../../shared/components/link/LinkComponent";
 
 interface ClientBasicDetailsFormComponentProps {
     mode: "add" | "edit";
-    onSave: (clientBasicDetails: any)=> void;
+    onSave: (clientBasicDetails: any) => void;
 }
 
 const ClientBasicDetailsFormValidationSchema = Yup.object({
@@ -62,20 +62,20 @@ const ClientBasicDetailsFormValidationSchema = Yup.object({
 });
 
 const ClientBasicDetailsFormInitialValues: IClientBasicDetailsForm = {
-    first_name: "",
-    last_name: "",
-    gender: "",
+    first_name: "johnson",
+    last_name: "johnson",
+    gender: "m",
     dob: "",
-    nick_name: "",
-    ssn: "",
-    primary_email: "",
+    nick_name: "johnson",
+    ssn: "123456",
+    primary_email: "johnson@johnson.com",
     show_secondary_emergency_form: false,
     secondary_emails: [{
         email: ""
     }],
     primary_contact_info: {
-        phone_type: "",
-        phone: ""
+        phone_type: "fax",
+        phone: "992323222"
     },
     secondary_contact_info: [
         {
@@ -85,7 +85,7 @@ const ClientBasicDetailsFormInitialValues: IClientBasicDetailsForm = {
     ],
     emergency_contact_info: {
         primary_emergency: {
-            name: "",
+            name: "mitchell",
             relationship: "",
             language: "",
             primary_contact_info: {
@@ -116,22 +116,22 @@ const ClientBasicDetailsFormInitialValues: IClientBasicDetailsForm = {
         }
     },
     work_info: {
-        occupation: "",
+        occupation: "cricketer",
         employment_status: ""
     },
     address: {
-        address_line: "",
-        city: "",
-        country: "",
-        zip_code: "",
-        state: ""
+        address_line: "1",
+        city: "Sydney",
+        country: "Australia",
+        zip_code: "6662323",
+        state: "Sydney"
     }
 };
 
 
 const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentProps) => {
 
-    const { mode, onSave } = props;
+    const {mode, onSave} = props;
     const [clientBasicDetailsFormInitialValues] = useState<IClientBasicDetailsForm>(_.cloneDeep(ClientBasicDetailsFormInitialValues));
     const [isClientBasicDetailsSavingInProgress, setIsClientBasicDetailsSavingInProgress] = useState(false);
     const {
@@ -151,7 +151,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
             .then((response: IAPIResponseType<IServiceAdd>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsClientBasicDetailsSavingInProgress(false);
-                onSave(response);
+                onSave(response.data);
             })
             .catch((error: any) => {
                 CommonService.handleErrors(setErrors, error);

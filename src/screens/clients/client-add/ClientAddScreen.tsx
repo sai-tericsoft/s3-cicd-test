@@ -4,9 +4,9 @@ import {useCallback, useEffect, useState} from "react";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {useDispatch} from "react-redux";
 import ClientPersonalHabitsFormComponent from "../client-personal-habits-form/ClientPersonalHabitsFormComponent";
-import {ClientAddFormSteps} from "../../../shared/models/client.model";
+import {ClientAddFormSteps, IClientBasicDetails} from "../../../shared/models/client.model";
 import ClientAllergiesFormComponent from "../client-allergies-form/ClientAllergiesFormComponent";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 import {CommonService} from "../../../shared/services";
 import ClientMedicalHistoryFormComponent from "../client-medical-history-form/ClientMedicalHistoryFormComponent";
 import ClientMedicalSupplementsFormComponent
@@ -16,7 +16,8 @@ import ClientMedicalFemaleOnlyFormComponent
     from "../client-medical-female-only-form/ClientMedicalFemaleOnlyFormComponent";
 import ClientMedicalProviderInformationFormComponent
     from "../client-medical-provider-information-form/ClientMedicalProviderInformationFormComponent";
-import ClientMusculoskeletalHistoryFormComponent from "../client-musculoskeletal-history-form/ClientMusculoskeletalHistoryFormComponent";
+import ClientMusculoskeletalHistoryFormComponent
+    from "../client-musculoskeletal-history-form/ClientMusculoskeletalHistoryFormComponent";
 import ClientAccountDetailsFormComponent from "../client-account-details-form/ClientAccountDetailsFormComponent";
 
 interface ClientAddScreenProps {
@@ -26,17 +27,26 @@ interface ClientAddScreenProps {
 const ClientAddScreen = (props: ClientAddScreenProps) => {
 
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
     const [currentStep, setCurrentStep] = useState<ClientAddFormSteps>("basicDetails");
     const dispatch = useDispatch();
-    const [clientId] = useState<string>("6388a3d1e6bdcac0ca1942a7");
+    const [clientId, setClientId] = useState<string | undefined>(undefined);
+    const [clientDetails, setClientDetails] = useState<IClientBasicDetails | undefined>(undefined);
 
     useEffect(() => {
         dispatch(setCurrentNavParams('Add Client'));
     }, [dispatch]);
 
-    const handleClientDetailsSave = useCallback(() => {
+    const handleClientDetailsSave = useCallback((data: any) => {
         switch (currentStep) {
             case "basicDetails": {
+                const clientId = data._id;
+                setClientDetails(data);
+                if (clientId) {
+                    setClientId(clientId);
+                    searchParams.set("clientId", clientId.toString());
+                    setSearchParams(searchParams);
+                }
                 setCurrentStep('personalHabits');
                 break;
             }
@@ -53,7 +63,11 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                 break;
             }
             case "medicalHistory": {
-                setCurrentStep('medicalFemaleOnly');
+                if (clientDetails?.gender?.code === "female"){
+                    setCurrentStep('medicalFemaleOnly');
+                } else {
+                    setCurrentStep('surgicalHistory');
+                }
                 break;
             }
             case "medicalFemaleOnly": {
@@ -69,6 +83,10 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                 break;
             }
             case "medicalProvider": {
+                setCurrentStep('accountDetails');
+                break;
+            }
+            case "accountDetails": {
                 navigate(CommonService._routeConfig.ClientList());
                 break;
             }
@@ -76,7 +94,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                 navigate(CommonService._routeConfig.ClientList());
             }
         }
-    }, [currentStep, navigate]);
+    }, [currentStep, clientDetails, navigate, searchParams, setSearchParams]);
 
     return (
         <div className={'client-add-screen'}>
@@ -87,58 +105,62 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                     onSave={handleClientDetailsSave}/>
             }
             {
-                currentStep === "personalHabits" && <ClientPersonalHabitsFormComponent
-                    mode={"add"}
-                    onSave={handleClientDetailsSave}
-                    clientId={clientId}/>
-            }
-            {
-                currentStep === "medicalSupplements" && <ClientMedicalSupplementsFormComponent
-                    mode={"add"}
-                    onSave={handleClientDetailsSave}
-                    clientId={clientId}/>
-            }
-            {
-                currentStep === "medicalHistory" && <ClientMedicalHistoryFormComponent
-                    mode={"add"}
-                    onSave={handleClientDetailsSave}
-                    clientId={clientId}/>
-            }
-            {
-                currentStep === "surgicalHistory" && <ClientSurgicalHistoryFormComponent
-                    mode={"add"}
-                    onSave={handleClientDetailsSave}
-                    clientId={clientId}/>
-            }
-            {
-                currentStep === "medicalFemaleOnly" && <ClientMedicalFemaleOnlyFormComponent
-                    mode={"add"}
-                    onSave={handleClientDetailsSave}
-                    clientId={clientId}/>
-            }
-            {
-                currentStep === "medicalProvider" && <ClientMedicalProviderInformationFormComponent
-                    mode={"add"}
-                    onSave={handleClientDetailsSave}
-                    clientId={clientId}/>
-            }
-            {
-                currentStep === "musculoskeletal" && <ClientMusculoskeletalHistoryFormComponent
-                    mode={"add"}
-                    onSave={handleClientDetailsSave}
-                    clientId={clientId}/>
-            }
-            {
-                currentStep === 'allergies' && <ClientAllergiesFormComponent
-                    clientId={clientId}
-                    mode={"add"}
-                    onSave={handleClientDetailsSave}/>
-            }
-            {
-                currentStep === "accountDetails" && <ClientAccountDetailsFormComponent
-                    mode={"add"}
-                    onSave={handleClientDetailsSave}
-                    clientId={clientId}/>
+                clientId && <>
+                    {
+                        currentStep === "personalHabits" && <ClientPersonalHabitsFormComponent
+                            mode={"add"}
+                            onSave={handleClientDetailsSave}
+                            clientId={clientId}/>
+                    }
+                    {
+                        currentStep === "medicalSupplements" && <ClientMedicalSupplementsFormComponent
+                            mode={"add"}
+                            onSave={handleClientDetailsSave}
+                            clientId={clientId}/>
+                    }
+                    {
+                        currentStep === "medicalHistory" && <ClientMedicalHistoryFormComponent
+                            mode={"add"}
+                            onSave={handleClientDetailsSave}
+                            clientId={clientId}/>
+                    }
+                    {
+                        currentStep === "surgicalHistory" && <ClientSurgicalHistoryFormComponent
+                            mode={"add"}
+                            onSave={handleClientDetailsSave}
+                            clientId={clientId}/>
+                    }
+                    {
+                        currentStep === "medicalFemaleOnly" && <ClientMedicalFemaleOnlyFormComponent
+                            mode={"add"}
+                            onSave={handleClientDetailsSave}
+                            clientId={clientId}/>
+                    }
+                    {
+                        currentStep === "medicalProvider" && <ClientMedicalProviderInformationFormComponent
+                            mode={"add"}
+                            onSave={handleClientDetailsSave}
+                            clientId={clientId}/>
+                    }
+                    {
+                        currentStep === "musculoskeletal" && <ClientMusculoskeletalHistoryFormComponent
+                            mode={"add"}
+                            onSave={handleClientDetailsSave}
+                            clientId={clientId}/>
+                    }
+                    {
+                        currentStep === 'allergies' && <ClientAllergiesFormComponent
+                            clientId={clientId}
+                            mode={"add"}
+                            onSave={handleClientDetailsSave}/>
+                    }
+                    {
+                        currentStep === "accountDetails" && <ClientAccountDetailsFormComponent
+                            mode={"add"}
+                            onSave={handleClientDetailsSave}
+                            clientId={clientId}/>
+                    }
+                </>
             }
         </div>
     )
