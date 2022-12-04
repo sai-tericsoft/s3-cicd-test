@@ -19,8 +19,9 @@
 
   .list-content-wrapper {
     .ant-table-container {
-      min-height: 400px;
-      height: calc(100vh - 250px);
+      //min-height: 300px;
+      //height: calc(100vh - 200px);
+      //overflow: auto;
     }
   }
 }

@@ -93,7 +93,7 @@ const TableComponent = (props: TableComponentProps) => {
                    showSorterTooltip={false}
                    onChange={handleTableChange}
                    pagination={false}
-                   scroll={{x: "100%"}}
+                   scroll={{x: "100%", y: "calc(100% - 54px)"}}
             />
         </div>
     );

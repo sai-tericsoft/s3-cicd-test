@@ -44,7 +44,6 @@ const TableWrapperComponent = (props: TableComponentProps) => {
         let listData: any[] = [];
         apiCall.then((response: IAPIResponseType<any>) => {
             if (response.data) {
-                console.log(isPaginated);
                 if (isPaginated) {
                     listData = response?.data?.docs || [];
                     totalResultsRef.current = response?.data?.total;

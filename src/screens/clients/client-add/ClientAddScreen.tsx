@@ -45,7 +45,6 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                 if (clientId) {
                     setClientId(clientId);
                     searchParams.set("clientId", clientId.toString());
-                    setSearchParams(searchParams);
                 }
                 setCurrentStep('personalHabits');
                 break;
@@ -94,6 +93,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                 navigate(CommonService._routeConfig.ClientList());
             }
         }
+        setSearchParams(searchParams);
     }, [currentStep, clientDetails, navigate, searchParams, setSearchParams]);
 
     return (
