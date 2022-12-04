@@ -284,7 +284,10 @@ export interface IClientActivityLog {
     client_id: string;
     module_name: string;
     field_name: string;
-    updated_by: string;
+    updated_by: {
+        _id: string;
+        name: string;
+    };
     created_at: string;
     updated_at: string;
 }

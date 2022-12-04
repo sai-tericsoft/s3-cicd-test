@@ -1,11 +1,12 @@
 import "./LinkComponent.scss";
 import {Link} from "react-router-dom";
+import {PropsWithChildren} from "react";
 
 interface LinkComponentProps {
     route: string;
 }
 
-const LinkComponent = (props: React.PropsWithChildren<LinkComponentProps>) => {
+const LinkComponent = (props: PropsWithChildren<LinkComponentProps>) => {
 
     const {route, children} = props;
 

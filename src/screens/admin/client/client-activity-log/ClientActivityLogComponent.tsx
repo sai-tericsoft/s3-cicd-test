@@ -19,7 +19,7 @@ const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
             width: '50%',
             render: (item: IClientActivityLog) => {
                 return <span>
-                    {item.module_name} &gt; {item.field_name}
+                    {item?.module_name} &gt; {item?.field_name}
                 </span>
             }
         },
@@ -28,7 +28,7 @@ const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
             title: 'Staff',
             width: "20%",
             render: (item: IClientActivityLog) => {
-                return <>{item.updated_by}</>
+                return <>{item?.updated_by?.name}</>
             }
         },
         {
@@ -37,7 +37,7 @@ const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
             width: "20%",
             render: (item: IClientActivityLog) => {
                 return <>
-                    {CommonService.transformTimeStamp(item.updated_at)}
+                    {CommonService.transformTimeStamp(item?.updated_at)}
                 </>
             }
         }
