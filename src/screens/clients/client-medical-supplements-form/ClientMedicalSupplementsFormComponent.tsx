@@ -14,7 +14,7 @@ import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 
 interface ClientMedicalSupplementsFormComponentProps {
-    clientId: string;
+    clientId: number;
     mode: "add" | "edit";
     onSave: (clientMedicalSupplementsDetails: any) => void;
 }

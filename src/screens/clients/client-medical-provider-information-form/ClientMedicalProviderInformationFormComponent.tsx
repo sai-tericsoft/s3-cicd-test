@@ -16,7 +16,7 @@ import FormikDatePickerComponent
     from "../../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
 
 interface ClientMedicalProviderInformationFormComponentProps {
-    clientId: string;
+    clientId: number;
     mode: "add" | "edit";
     onSave: (clientMedicalProviderInformationDetails: any) => void;
 }

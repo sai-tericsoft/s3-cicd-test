@@ -16,7 +16,7 @@ import {IClientPersonalHabitsForm} from "../../../shared/models/client.model";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 
 interface ClientPersonalHabitsFormComponentProps {
-    clientId: string;
+    clientId: number;
     mode: "add" | "edit";
     onSave: (clientPersonalHabits: any) => void;
 }

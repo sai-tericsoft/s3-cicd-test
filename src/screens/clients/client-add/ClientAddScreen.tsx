@@ -24,13 +24,15 @@ interface ClientAddScreenProps {
 
 }
 
+const ClientAddSteps: ClientAddFormSteps[] = ["basicDetails", "personalHabits", "allergies", "medicalSupplements", "surgicalHistory", "medicalFemaleOnly", "medicalProvider", "musculoskeletal", "medicalHistory", "accountDetails"];
+
 const ClientAddScreen = (props: ClientAddScreenProps) => {
 
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
-    const [currentStep, setCurrentStep] = useState<ClientAddFormSteps>("basicDetails");
+    const [currentStep, setCurrentStep] = useState<ClientAddFormSteps>(ClientAddSteps[0]);
     const dispatch = useDispatch();
-    const [clientId, setClientId] = useState<string | undefined>(undefined);
+    const [clientId, setClientId] = useState<number | undefined>(undefined);
     const [clientDetails, setClientDetails] = useState<IClientBasicDetails | undefined>(undefined);
 
     useEffect(() => {
@@ -38,51 +40,51 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
     }, [dispatch]);
 
     const handleClientDetailsSave = useCallback((data: any) => {
+        let nextStep = currentStep;
+        let clientId = undefined;
         switch (currentStep) {
             case "basicDetails": {
-                const clientId = data._id;
+                clientId = data._id;
+                nextStep = 'personalHabits';
+                setClientId(clientId);
                 setClientDetails(data);
-                if (clientId) {
-                    setClientId(clientId);
-                    searchParams.set("clientId", clientId.toString());
-                }
-                setCurrentStep('personalHabits');
+                searchParams.set("clientId", clientId.toString());
                 break;
             }
             case "personalHabits": {
-                setCurrentStep('allergies');
+                nextStep = 'allergies';
                 break;
             }
             case "allergies": {
-                setCurrentStep('medicalSupplements');
+                nextStep = 'medicalSupplements';
                 break;
             }
             case "medicalSupplements": {
-                setCurrentStep('medicalHistory');
+                nextStep = 'medicalHistory';
                 break;
             }
             case "medicalHistory": {
-                if (clientDetails?.gender?.code === "female"){
-                    setCurrentStep('medicalFemaleOnly');
+                if (clientDetails?.gender?.code === "female") {
+                    nextStep = 'medicalFemaleOnly';
                 } else {
-                    setCurrentStep('surgicalHistory');
+                    nextStep = 'surgicalHistory';
                 }
                 break;
             }
             case "medicalFemaleOnly": {
-                setCurrentStep('surgicalHistory');
+                nextStep = 'surgicalHistory';
                 break;
             }
             case "surgicalHistory": {
-                setCurrentStep('musculoskeletal');
+                nextStep = 'musculoskeletal';
                 break;
             }
             case "musculoskeletal": {
-                setCurrentStep('medicalProvider');
+                nextStep = 'medicalProvider';
                 break;
             }
             case "medicalProvider": {
-                setCurrentStep('accountDetails');
+                nextStep = 'accountDetails';
                 break;
             }
             case "accountDetails": {
@@ -93,8 +95,29 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                 navigate(CommonService._routeConfig.ClientList());
             }
         }
+        setCurrentStep(nextStep);
+        searchParams.set("currentStep", nextStep);
         setSearchParams(searchParams);
     }, [currentStep, clientDetails, navigate, searchParams, setSearchParams]);
+
+    useEffect(() => {
+        let currentStep: any = searchParams.get("currentStep");
+        const clientId = searchParams.get("clientId");
+        console.log(currentStep, clientId);
+        if (clientId) {
+            setClientId(parseInt(clientId, 10));
+            if (currentStep) {
+                if (!ClientAddSteps.includes(currentStep)) {
+                    currentStep = "basicDetails";
+                }
+            }
+        } else {
+            currentStep = "basicDetails";
+        }
+        if (currentStep) {
+            setCurrentStep(currentStep);
+        }
+    }, [searchParams]);
 
     return (
         <div className={'client-add-screen'}>

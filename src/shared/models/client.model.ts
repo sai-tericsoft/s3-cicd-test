@@ -305,3 +305,9 @@ export interface IClientAccountDetails {
         "source_info_relationship"?: IRelationship;
     }
 }
+
+// export interface IClientDetails {
+//     basic_details: any ;
+//     medical_details: any;
+//     account_details: any;
+// }

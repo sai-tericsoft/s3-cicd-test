@@ -6,7 +6,6 @@ import {CommonService} from "../../../shared/services";
 
 interface ClientBasicDetailsCardComponentProps {
     clientBasicDetails: IClientBasicDetails;
-
 }
 
 

@@ -20,7 +20,7 @@ import FormikInputComponent from "../../../shared/components/form-controls/formi
 import QuestionComponent from "../../../shared/components/question/QuestionComponent";
 
 interface ClientAccountDetailsFormComponentProps {
-    clientId: string;
+    clientId: number;
     mode: "add" | "edit";
     onSave: (clientAccountDetailsFormDetails: any) => void;
 }
