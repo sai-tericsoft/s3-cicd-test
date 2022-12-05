@@ -72,104 +72,114 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                         ></BasicDetailsCardComponent>
                     </div>
                     <CardComponent title={"Facility Details"}>
-                        <div className={'facility-details-information'}>
+                        <div className={'ts-row'}>
+                            <div className={'ts-col-lg-3'}>
                             <DataLabelValueComponent label={"Facility Name"}>
-                                {facilityDetails?.name}
+                                {facilityDetails?.name || "-"}
+                            </DataLabelValueComponent>
+                            </div>
+                            <div className={'ts-col-lg-3'}>
+                            <DataLabelValueComponent label={"Facility Location"}>
+                                {facilityDetails?.location?.title || "-"}
                             </DataLabelValueComponent>
                         </div>
-                        <div className={'facility-details-information'}>
-                            <DataLabelValueComponent label={"Facility Location"}>
-                                {facilityDetails?.location?.title}
-                            </DataLabelValueComponent>
                         </div>
                     </CardComponent>
                     <CardComponent title={"Contact Information"}>
 
                         <FormControlLabelComponent label={'Phone 1:'}/>
-                        <div className={'facility-details-information'}>
+                        <div className={'ts-row'}>
+                            <div className={'ts-col-lg-3'}>
                             <DataLabelValueComponent label={'Phone Type(Primary)'}>
-                                {facilityDetails?.primary_contact_info?.phone_type.title}
+                                {facilityDetails?.primary_contact_info?.phone_type.title || "-"}
                             </DataLabelValueComponent>
-                        </div>
-                        <div className={'facility-details-information'}>
+                            </div>
+                        <div className={'ts-col-lg-3'}>
                             <DataLabelValueComponent label={'Phone Number'}>
-                                {facilityDetails?.primary_contact_info?.phone}
+                                {facilityDetails?.primary_contact_info?.phone || "-"}
                             </DataLabelValueComponent>
                         </div>
-                        <HorizontalLineComponent/>
+                        </div>
+
 
                         {facilityDetails.secondary_contact_info.map((phone_number: any, index: number) => {
                             return (<div key={index}>
+                                    <HorizontalLineComponent/>
                                     <FormControlLabelComponent label={'Phone ' + (index + 2) + ":"}/>
-                                    <div className={'facility-details-information'}>
+                                    <div className={'ts-row'}>
+                                        <div className={'ts-col-lg-3'}>
                                         <DataLabelValueComponent label={'Phone Type'}>
-                                            <div>{phone_number?.phone_type?.title}</div>
+                                            <div>{phone_number?.phone_type?.title || "-"}</div>
+                                        </DataLabelValueComponent>
+                                        </div>
+                                    <div className={'ts-col-lg-3'}>
+                                        <DataLabelValueComponent label={'Phone Number'}>
+                                            {phone_number?.phone || '-'}
                                         </DataLabelValueComponent>
                                     </div>
-                                    <div className={'facility-details-information'}>
-                                        <DataLabelValueComponent label={'Phone Number'}>
-                                            {phone_number?.phone}
-                                        </DataLabelValueComponent>
                                     </div>
                                 </div>
                             )
                         })
                         }
-                        <div className={'facility-details-information'}>
-                            <DataLabelValueComponent label={'Email 1:'}>
-                                {facilityDetails?.primary_email}
+                        <div className={'ts-row'}>
+                            <div className={'ts-col-lg-3'}>
+                            <DataLabelValueComponent label={'Email(Primary)'}>
+                                {facilityDetails?.primary_email ||'-'}
                             </DataLabelValueComponent>
-                        </div>
-                        <HorizontalLineComponent/>
+                            </div>
+
+
                         {facilityDetails.secondary_emails?.map((email: any, index: number) => {
-                            return (<div className={'facility-details-information'} key={index}>
-                                    <DataLabelValueComponent label={'Email ' + (index + 2 + ":")}>
-                                        <div>{email}</div>
+                            return (<div className={'ts-col-lg-3'} key={index}>
+                                    <DataLabelValueComponent label={'Email '+(index+2)}>
+                                        <div>{email || '-'}</div>
                                     </DataLabelValueComponent>
                                 </div>
                             )
                         })
                         }
+                        </div>
                     </CardComponent>
                     <CardComponent title={"Opening Hours"}>
                         <div className={"facility-opening-hours"}>
-                            <DataLabelValueComponent label={"Mon"}>
+                            <DataLabelValueComponent direction={'row'} label={"Mon"}>
                                 {facilityDetails.timings?.mon?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.mon?.start_time) + " - "}{facilityDetails.timings?.mon?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.mon?.end_time)}
                                 {!(facilityDetails.timings?.mon?.start_time) &&
                                     <span className={'facility-opening-hours-closed-text'}>Closed</span>}
 
                             </DataLabelValueComponent>
-                            <DataLabelValueComponent label={"Tue"}>
+                            <DataLabelValueComponent direction={'row'} label={"Tue"}>
                                 {facilityDetails.timings?.tue?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.tue?.start_time) + " - "}{facilityDetails.timings?.tue?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.tue?.end_time)}
                                 {!(facilityDetails.timings?.tue?.start_time) &&
                                     <span className={'facility-opening-hours-closed-text'}>Closed</span>}
 
                             </DataLabelValueComponent>
-                            <DataLabelValueComponent label={"Wed"}>
+                            <DataLabelValueComponent direction={'row'} label={"Wed"}>
                                 {facilityDetails.timings?.wed?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.wed?.start_time) + " - "}{facilityDetails.timings?.wed?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.wed?.end_time)}
                                 {!(facilityDetails.timings?.wed?.start_time) &&
                                     <span className={'facility-opening-hours-closed-text'}>Closed</span>}
 
                             </DataLabelValueComponent>
-                            <DataLabelValueComponent label={"Thu"}>
+                            <DataLabelValueComponent direction={'row'} label={"Thu"}>
                                 {facilityDetails.timings?.thu?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.thu?.start_time) + " - "}{facilityDetails.timings?.thu?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.thu?.end_time)}
                                 {!(facilityDetails.timings?.thu?.start_time) &&
                                     <span className={'facility-opening-hours-closed-text'}>Closed</span>}
 
                             </DataLabelValueComponent>
-                            <DataLabelValueComponent label={"Fri"}>
+                            <DataLabelValueComponent direction={'row'} label={"Fri"}>
                                 {facilityDetails.timings?.fri?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.fri?.start_time) + " - "}{facilityDetails.timings?.fri?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.fri?.end_time)}
                                 {!(facilityDetails.timings?.fri?.start_time) &&
                                     <span className={'facility-opening-hours-closed-text'}>Closed</span>}
 
                             </DataLabelValueComponent>
-                            <DataLabelValueComponent label={"Sat"}>
+                            <DataLabelValueComponent direction={'row'} label={"Sat"}>
                                 {facilityDetails.timings?.sat?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.sat?.start_time) + " - "}{facilityDetails.timings?.sat?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.sat?.end_time)}
                                 {!(facilityDetails.timings?.sat?.start_time) &&
                                     <span className={'facility-opening-hours-closed-text'}>Closed</span>}
 
                             </DataLabelValueComponent>
-                            <DataLabelValueComponent label={"Sun"}>
+                            <DataLabelValueComponent direction={'row'} label={"Sun"}>
                                 {facilityDetails.timings?.sun?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.sun?.start_time) + " - "}{facilityDetails.timings?.sun?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.sun?.end_time)}
                                 {!(facilityDetails.timings?.sun?.start_time) &&
                                     <span className={'facility-opening-hours-closed-text'}>Closed</span>}
