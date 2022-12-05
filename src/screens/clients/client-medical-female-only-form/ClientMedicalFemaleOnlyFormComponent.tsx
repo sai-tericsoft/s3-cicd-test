@@ -1,7 +1,7 @@
 import "./ClientMedicalFemaleOnlyFormComponent.scss";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import * as Yup from "yup";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {CommonService} from "../../../shared/services";
@@ -17,6 +17,7 @@ import FormControlLabelComponent from "../../../shared/components/form-control-l
 interface ClientMedicalFemaleOnlyFormComponentProps {
     clientId: string;
     mode: "add" | "edit";
+    onCancel: () => void;
     onSave: (clientPersonalHabits: any) => void;
 }
 
@@ -47,7 +48,7 @@ const FormQuestions = [
 
 const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyFormComponentProps) => {
 
-    const {mode, clientId, onSave} = props;
+     const {mode, onCancel, clientId, onSave} = props;
     const [clientMedicalFemaleOnlyInitialValues] = useState<IClientMedicalFemaleOnlyForm>(_.cloneDeep(ClientMedicalFemaleOnlyInitialValues));
     const [isClientMedicalFemaleOnlyFormSavingInProgress, setIsClientMedicalFemaleOnlyFormSavingInProgress] = useState(false);
 
@@ -87,7 +88,7 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
                             <Form noValidate={true} className={"t-form"}>
                                 {
                                     FormQuestions.map((question: any) => {
-                                        const {key, title } = question;
+                                        const {key, title} = question;
                                         return <div className="ts-row ts-align-items-center" key={key}>
                                             <div className="ts-col-md-8 ts-col-xl-10">
                                                 {title}
@@ -111,14 +112,13 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
                                     })
                                 }
                                 <div className="t-form-actions">
-                                    <LinkComponent route={CommonService._routeConfig.ClientList()}>
-                                        <ButtonComponent
-                                            variant={"outlined"}
-                                            disabled={isClientMedicalFemaleOnlyFormSavingInProgress}
-                                        >
-                                            Cancel
-                                        </ButtonComponent>
-                                    </LinkComponent>&nbsp;
+                                    <ButtonComponent
+                                        variant={"outlined"}
+                                        onClick={onCancel}
+                                        disabled={isClientMedicalFemaleOnlyFormSavingInProgress}
+                                    >
+                                        Cancel
+                                    </ButtonComponent>&nbsp;
                                     <ButtonComponent
                                         isLoading={isClientMedicalFemaleOnlyFormSavingInProgress}
                                         disabled={isClientMedicalFemaleOnlyFormSavingInProgress || !isValid}

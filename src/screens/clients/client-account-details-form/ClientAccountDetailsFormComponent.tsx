@@ -8,7 +8,6 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import {Misc} from "../../../constants";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
@@ -25,6 +24,7 @@ import StatusComponentComponent from "../../../shared/components/status-componen
 interface ClientAccountDetailsFormComponentProps {
     clientId: string;
     mode: "add" | "edit";
+    onCancel: () => void;
     onSave: (clientAccountDetailsFormDetails: any) => void;
 }
 
@@ -76,7 +76,7 @@ const ClientAccountDetailsFormInitialValues: IClientAccountDetails = {
 
 const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormComponentProps) => {
 
-    const {mode, clientId, onSave} = props;
+    const {mode, onCancel, clientId, onSave} = props;
     const [clientAccountDetailsFormInitialValues, setClientAccountDetailsFormInitialValues] = useState<IClientAccountDetails>(_.cloneDeep(ClientAccountDetailsFormInitialValues));
     const [isClientAccountDetailsFormSavingInProgress, setIsClientAccountDetailsFormSavingInProgress] = useState(false);
     const dispatch = useDispatch();
@@ -124,7 +124,8 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
 
     return (
         <div className={'client-medical-provider-information-form-component'}>
-            <FormControlLabelComponent label={CommonService.capitalizeFirstLetter(mode) +" Communication and Referral Details"}/>
+            <FormControlLabelComponent
+                label={CommonService.capitalizeFirstLetter(mode) + " Communication and Referral Details"}/>
             <>
                 {
                     mode === "edit" && <>
@@ -341,15 +342,13 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                             </>
                                         }
                                         <div className="t-form-actions">
-                                            <LinkComponent
-                                                route={(mode === "edit" && clientId) ? CommonService._routeConfig.ClientDetails(clientId) : CommonService._routeConfig.ClientList()}>
-                                                <ButtonComponent
-                                                    variant={"outlined"}
-                                                    disabled={isClientAccountDetailsFormSavingInProgress}
-                                                >
-                                                    Cancel
-                                                </ButtonComponent>
-                                            </LinkComponent>&nbsp;
+                                            <ButtonComponent
+                                                variant={"outlined"}
+                                                onClick={onCancel}
+                                                disabled={isClientAccountDetailsFormSavingInProgress}
+                                            >
+                                                Cancel
+                                            </ButtonComponent>&nbsp;
                                             <ButtonComponent
                                                 isLoading={isClientAccountDetailsFormSavingInProgress}
                                                 disabled={isClientAccountDetailsFormSavingInProgress || !isValid}

@@ -1,7 +1,7 @@
 import "./ClientMedicalProviderInformationFormComponent.scss";
 import * as Yup from "yup";
 import {IClientMedicalProviderForm} from "../../../shared/models/client.model";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {CommonService} from "../../../shared/services";
@@ -18,6 +18,7 @@ import FormikDatePickerComponent
 interface ClientMedicalProviderInformationFormComponentProps {
     clientId: string;
     mode: "add" | "edit";
+    onCancel: () => void;
     onSave: (clientMedicalProviderInformationDetails: any) => void;
 }
 
@@ -39,7 +40,7 @@ const ClientMedicalProviderInformationInitialValues: IClientMedicalProviderForm 
 
 const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProviderInformationFormComponentProps) => {
 
-    const {mode, clientId, onSave} = props;
+     const {mode, onCancel, clientId, onSave} = props;
     const [clientMedicalProviderInformationInitialValues] = useState<IClientMedicalProviderForm>(_.cloneDeep(ClientMedicalProviderInformationInitialValues));
     const [isClientMedicalProviderInformationSavingInProgress, setIsClientMedicalProviderInformationSavingInProgress] = useState(false);
 
@@ -130,14 +131,13 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                     </div>
                                 </div>
                                 <div className="t-form-actions">
-                                    <LinkComponent route={CommonService._routeConfig.ClientList()}>
-                                        <ButtonComponent
-                                            variant={"outlined"}
-                                            disabled={isClientMedicalProviderInformationSavingInProgress}
-                                        >
-                                            Cancel
-                                        </ButtonComponent>
-                                    </LinkComponent>&nbsp;
+                                    <ButtonComponent
+                                        variant={"outlined"}
+                                        onClick={onCancel}
+                                        disabled={isClientMedicalProviderInformationSavingInProgress}
+                                    >
+                                        Cancel
+                                    </ButtonComponent>&nbsp;
                                     <ButtonComponent
                                         isLoading={isClientMedicalProviderInformationSavingInProgress}
                                         disabled={isClientMedicalProviderInformationSavingInProgress || !isValid}

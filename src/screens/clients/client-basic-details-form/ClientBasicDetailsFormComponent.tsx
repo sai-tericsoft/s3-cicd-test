@@ -17,7 +17,6 @@ import FormikDatePickerComponent
     from "../../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {IClientBasicDetails} from "../../../shared/models/client.model";
 import {getClientBasicDetails, setClientBasicDetails} from "../../../store/actions/client.action";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
@@ -26,6 +25,7 @@ import StatusComponentComponent from "../../../shared/components/status-componen
 interface ClientBasicDetailsFormComponentProps {
     clientId?: string;
     mode: "add" | "edit";
+    onCancel: () => void;
     onSave: (clientBasicDetails: any) => void;
 }
 
@@ -135,7 +135,7 @@ const ClientBasicDetailsFormInitialValues: IClientBasicDetails = {
 
 const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentProps) => {
 
-    const {clientId, mode, onSave} = props;
+    const {clientId, onCancel, mode, onSave} = props;
     const [clientBasicDetailsFormInitialValues, setClientBasicDetailsFormInitialValues] = useState<IClientBasicDetails>(_.cloneDeep(ClientBasicDetailsFormInitialValues));
     const [isClientBasicDetailsSavingInProgress, setIsClientBasicDetailsSavingInProgress] = useState(false);
     const dispatch = useDispatch();
@@ -979,15 +979,14 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                     </div>
                                 </CardComponent>
                                 <div className="t-form-actions">
-                                    <LinkComponent
-                                        route={(mode === "edit" && clientId) ? CommonService._routeConfig.ClientDetails(clientId) : CommonService._routeConfig.ClientList()}>
-                                        <ButtonComponent
-                                            variant={"outlined"}
-                                            disabled={isClientBasicDetailsSavingInProgress}
-                                        >
-                                            Cancel
-                                        </ButtonComponent>
-                                    </LinkComponent>&nbsp;
+                                    <ButtonComponent
+                                        variant={"outlined"}
+                                        disabled={isClientBasicDetailsSavingInProgress}
+                                        onClick={onCancel}
+                                    >
+                                        Cancel
+                                    </ButtonComponent>
+                                    &nbsp;
                                     <ButtonComponent
                                         isLoading={isClientBasicDetailsSavingInProgress}
                                         disabled={isClientBasicDetailsSavingInProgress}

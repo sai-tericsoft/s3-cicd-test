@@ -7,6 +7,9 @@ import {IRootReducerState} from "../../../store/reducers";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusComponentComponent from "../../../shared/components/status-component/StatusComponentComponent";
 import React from "react";
+import LinkComponent from "../../../shared/components/link/LinkComponent";
+import ButtonComponent from "../../../shared/components/button/ButtonComponent";
+import {ImageConfig} from "../../../constants";
 
 interface ClientMedicalDetailsComponentProps {
 }
@@ -79,7 +82,15 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             </div>
                         </div>
                     </CardComponent>
-                    <CardComponent title={'Allergies'}>
+                    <CardComponent title={'Allergies'}
+                                   actions={
+                                       clientMedicalDetails.client_id && <LinkComponent
+                                           route={CommonService._routeConfig.ClientEdit(clientMedicalDetails.client_id) + "?currentStep=allergies"}>
+                                           <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
+                                               Edit
+                                           </ButtonComponent>
+                                       </LinkComponent>
+                                   }>
                         {clientMedicalDetails?.allergies}
                     </CardComponent>
                     <CardComponent title={'Medication/Supplements'}>
@@ -117,7 +128,8 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             })
                         }
                         {
-                            clientMedicalDetails?.medical_history?.questions && clientMedicalDetails?.medical_history?.questions?.length > 0 && <span>, </span>
+                            clientMedicalDetails?.medical_history?.questions && clientMedicalDetails?.medical_history?.questions?.length > 0 &&
+                            <span>, </span>
                         }
                         {clientMedicalDetails?.medical_history?.comments &&
                             <span> {clientMedicalDetails?.medical_history?.comments}</span>
@@ -149,7 +161,8 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             })
                         }
                         {
-                            clientMedicalDetails?.surgical_history?.questions && clientMedicalDetails?.surgical_history?.questions?.length > 0 && <span>, </span>
+                            clientMedicalDetails?.surgical_history?.questions && clientMedicalDetails?.surgical_history?.questions?.length > 0 &&
+                            <span>, </span>
                         }
                         {clientMedicalDetails?.surgical_history?.comments &&
                             <span>{clientMedicalDetails?.surgical_history?.comments}</span>
@@ -160,7 +173,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             (Object.keys(clientMedicalDetails?.musculoskeletal_history || {})?.map((question, index) => {
                                 return <span key={question + index}>
                             <span>{clientMedicalDetails?.musculoskeletal_history[question]?.title}</span>
-                                    {(Object.keys(clientMedicalDetails?.musculoskeletal_history|| {})?.length - 1 !== index) &&
+                                    {(Object.keys(clientMedicalDetails?.musculoskeletal_history || {})?.length - 1 !== index) &&
                                         <span>, </span>
                                     }
                         </span>

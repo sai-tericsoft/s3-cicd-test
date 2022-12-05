@@ -1,7 +1,7 @@
 import "./ClientMedicalSupplementsFormComponent.scss";
 import * as Yup from "yup";
 import {IClientMedicalSupplementsForm} from "../../../shared/models/client.model";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {CommonService} from "../../../shared/services";
@@ -16,6 +16,7 @@ import FormikTextAreaComponent from "../../../shared/components/form-controls/fo
 interface ClientMedicalSupplementsFormComponentProps {
     clientId: string;
     mode: "add" | "edit";
+    onCancel: () => void;
     onSave: (clientMedicalSupplementsDetails: any) => void;
 }
 
@@ -36,7 +37,7 @@ const ClientMedicalSupplementsInitialValues: IClientMedicalSupplementsForm = {
 
 const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFormComponentProps) => {
 
-    const {mode, clientId, onSave} = props;
+     const {mode, onCancel, clientId, onSave} = props;
     const [clientMedicalSupplementsInitialValues] = useState<IClientMedicalSupplementsForm>(_.cloneDeep(ClientMedicalSupplementsInitialValues));
     const [isClientMedicalSupplementsSavingInProgress, setIsClientMedicalSupplementsSavingInProgress] = useState(false);
 
@@ -106,14 +107,13 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
                                     </div>
                                 </div>
                                 <div className="t-form-actions">
-                                    <LinkComponent route={CommonService._routeConfig.ClientList()}>
-                                        <ButtonComponent
-                                            variant={"outlined"}
-                                            disabled={isClientMedicalSupplementsSavingInProgress}
-                                        >
-                                            Cancel
-                                        </ButtonComponent>
-                                    </LinkComponent>&nbsp;
+                                    <ButtonComponent
+                                        variant={"outlined"}
+                                        onClick={onCancel}
+                                        disabled={isClientMedicalSupplementsSavingInProgress}
+                                    >
+                                        Cancel
+                                    </ButtonComponent>&nbsp;
                                     <ButtonComponent
                                         isLoading={isClientMedicalSupplementsSavingInProgress}
                                         disabled={isClientMedicalSupplementsSavingInProgress || !isValid}

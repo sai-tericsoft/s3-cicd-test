@@ -9,6 +9,13 @@ import {
     ITextValue
 } from "./common.model";
 
+export type IClientDetailsSteps =
+    "basicDetails"
+    | "medicalHistoryQuestionnaire"
+    | "accountDetails"
+    | "activityLog"
+    ;
+
 export type IClientFormSteps =
     "basicDetails"
     | "personalHabits"

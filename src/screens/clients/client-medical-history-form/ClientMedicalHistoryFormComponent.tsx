@@ -1,7 +1,7 @@
 import "./ClientMedicalHistoryFormComponent.scss";
 import * as Yup from "yup";
 import {IClientMedicalHistoryForm} from "../../../shared/models/client.model";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {CommonService} from "../../../shared/services";
@@ -21,6 +21,7 @@ import FormikCheckBoxComponent from "../../../shared/components/form-controls/fo
 interface ClientMedicalHistoryFormComponentProps {
     clientId: string;
     mode: "add" | "edit";
+    onCancel: () => void;
     onSave: (clientMedicalHistoryDetails: any) => void;
 }
 
@@ -45,7 +46,7 @@ const ClientMedicalHistoryInitialValues: IClientMedicalHistoryForm = {
 
 const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormComponentProps) => {
 
-    const {mode, clientId, onSave} = props;
+     const {mode, onCancel, clientId, onSave} = props;
     const {medicalHistoryOptionsList} = useSelector((state: IRootReducerState) => state.staticData);
     const [clientMedicalHistoryInitialValues] = useState<IClientMedicalHistoryForm>(_.cloneDeep(ClientMedicalHistoryInitialValues));
     const [isClientMedicalHistorySavingInProgress, setIsClientMedicalHistorySavingInProgress] = useState(false);
@@ -150,14 +151,13 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                                     </div>
                                 </div>
                                 <div className="t-form-actions">
-                                    <LinkComponent route={CommonService._routeConfig.ClientList()}>
-                                        <ButtonComponent
-                                            variant={"outlined"}
-                                            disabled={isClientMedicalHistorySavingInProgress}
-                                        >
-                                            Cancel
-                                        </ButtonComponent>
-                                    </LinkComponent>&nbsp;
+                                    <ButtonComponent
+                                        variant={"outlined"}
+                                        onClick={onCancel}
+                                        disabled={isClientMedicalHistorySavingInProgress}
+                                    >
+                                        Cancel
+                                    </ButtonComponent>&nbsp;
                                     <ButtonComponent
                                         isLoading={isClientMedicalHistorySavingInProgress}
                                         disabled={isClientMedicalHistorySavingInProgress || !isValid}

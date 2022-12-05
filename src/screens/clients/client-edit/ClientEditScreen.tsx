@@ -19,11 +19,6 @@ import ClientMedicalProviderInformationFormComponent
 import ClientMusculoskeletalHistoryFormComponent
     from "../client-musculoskeletal-history-form/ClientMusculoskeletalHistoryFormComponent";
 import ClientAccountDetailsFormComponent from "../client-account-details-form/ClientAccountDetailsFormComponent";
-import {
-    setClientAccountDetails,
-    setClientBasicDetails,
-    setClientMedicalDetails
-} from "../../../store/actions/client.action";
 
 interface ClientEditScreenProps {
 
@@ -58,7 +53,7 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                 case "surgicalHistory":
                 case "musculoskeletal":
                 case "medicalProvider": {
-                    navigate(CommonService._routeConfig.ClientDetails(clientId) + "?currentStep=" + currentStep);
+                    navigate(CommonService._routeConfig.ClientDetails(clientId) + "?currentStep=medicalHistoryQuestionnaire");
                     break;
                 }
                 case "accountDetails": {
@@ -72,24 +67,57 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
         }
     }, [currentStep, clientId, navigate]);
 
+    const handleClientDetailsCancel = useCallback(() => {
+        if (clientId) {
+            switch (currentStep) {
+                case "basicDetails": {
+                    navigate(CommonService._routeConfig.ClientDetails(clientId) + "?currentStep=" + currentStep);
+                    break;
+                }
+                case "personalHabits":
+                case "allergies":
+                case "medicalHistory":
+                case "medicalFemaleOnly":
+                case "surgicalHistory":
+                case "musculoskeletal":
+                case "medicalProvider": {
+                    navigate(CommonService._routeConfig.ClientDetails(clientId) + "?currentStep=medicalHistoryQuestionnaire");
+                    break;
+                }
+                case "accountDetails": {
+                    navigate(CommonService._routeConfig.ClientDetails(clientId) + "?currentStep=" + currentStep);
+                    break;
+                }
+                default: {
+                    navigate(CommonService._routeConfig.ClientList());
+                }
+            }
+        }
+    }, [clientId, currentStep]);
+
     useEffect(() => {
         let currentStep: any = searchParams.get("currentStep");
         if (currentStep) {
             if (!ClientAddSteps.includes(currentStep)) {
                 currentStep = "basicDetails";
             }
+        } else {
+            currentStep = "basicDetails";
         }
         setCurrentStep(currentStep);
     }, [searchParams]);
 
+    console.log(clientId, currentStep);
+
     return (
-        <div className={'client-add-screen'}>
+        <div className={'client-edit-screen'}>
             {
                 currentStep === "basicDetails" &&
                 <ClientBasicDetailsFormComponent
                     mode={mode}
                     clientId={clientId}
                     onSave={handleClientDetailsSave}
+                    onCancel={handleClientDetailsCancel}
                 />
             }
             {
@@ -98,54 +126,63 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                         currentStep === "personalHabits" && <ClientPersonalHabitsFormComponent
                             mode={mode}
                             onSave={handleClientDetailsSave}
+                            onCancel={handleClientDetailsCancel}
                             clientId={clientId}/>
                     }
                     {
                         currentStep === "medicalSupplements" && <ClientMedicalSupplementsFormComponent
                             mode={mode}
                             onSave={handleClientDetailsSave}
+                            onCancel={handleClientDetailsCancel}
                             clientId={clientId}/>
                     }
                     {
                         currentStep === "medicalHistory" && <ClientMedicalHistoryFormComponent
                             mode={mode}
                             onSave={handleClientDetailsSave}
+                            onCancel={handleClientDetailsCancel}
                             clientId={clientId}/>
                     }
                     {
                         currentStep === "surgicalHistory" && <ClientSurgicalHistoryFormComponent
                             mode={mode}
                             onSave={handleClientDetailsSave}
+                            onCancel={handleClientDetailsCancel}
                             clientId={clientId}/>
                     }
                     {
                         currentStep === "medicalFemaleOnly" && <ClientMedicalFemaleOnlyFormComponent
                             mode={mode}
                             onSave={handleClientDetailsSave}
+                            onCancel={handleClientDetailsCancel}
                             clientId={clientId}/>
                     }
                     {
                         currentStep === "medicalProvider" && <ClientMedicalProviderInformationFormComponent
                             mode={mode}
                             onSave={handleClientDetailsSave}
+                            onCancel={handleClientDetailsCancel}
                             clientId={clientId}/>
                     }
                     {
                         currentStep === "musculoskeletal" && <ClientMusculoskeletalHistoryFormComponent
                             mode={mode}
                             onSave={handleClientDetailsSave}
+                            onCancel={handleClientDetailsCancel}
                             clientId={clientId}/>
                     }
                     {
                         currentStep === 'allergies' && <ClientAllergiesFormComponent
                             clientId={clientId}
                             mode={mode}
-                            onSave={handleClientDetailsSave}/>
+                            onSave={handleClientDetailsSave}
+                            onCancel={handleClientDetailsCancel}/>
                     }
                     {
                         currentStep === "accountDetails" && <ClientAccountDetailsFormComponent
                             mode={mode}
                             onSave={handleClientDetailsSave}
+                            onCancel={handleClientDetailsCancel}
                             clientId={clientId}/>
                     }
                 </>

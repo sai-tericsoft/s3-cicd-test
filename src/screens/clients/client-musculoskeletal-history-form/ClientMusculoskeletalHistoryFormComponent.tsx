@@ -1,7 +1,7 @@
 import "./ClientMusculoskeletalHistoryFormComponent.scss";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import * as Yup from "yup";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {CommonService} from "../../../shared/services";
@@ -21,25 +21,24 @@ import FormikTextAreaComponent from "../../../shared/components/form-controls/fo
 interface ClientMusculoskeletalFormComponentProps {
     clientId: string;
     mode: "add" | "edit";
+    onCancel: () => void;
     onSave: (clientMusculoskeletalHistory: any) => void;
 }
 
 const ClientMusculoskeletalHistoryFormValidationSchema = Yup.object({
-    musculoskeletal_history: Yup.object({
-    }),
+    musculoskeletal_history: Yup.object({}),
 });
 
 const ClientMusculoskeletalHistoryFormInitialValues: IClientMusculoskeletalHistoryForm = {
-    "musculoskeletal_history": {
-    }
+    "musculoskeletal_history": {}
 };
 
 const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalFormComponentProps) => {
 
-    const {mode, clientId, onSave} = props;
+     const {mode, onCancel, clientId, onSave} = props;
     const [clientMusculoskeletalHistoryFormInitialValues] = useState<IClientMusculoskeletalHistoryForm>(_.cloneDeep(ClientMusculoskeletalHistoryFormInitialValues));
     const [isClientMusculoskeletalHistorySavingInProgress, setIsClientMusculoskeletalHistorySavingInProgress] = useState(false);
-    const { musculoskeletalHistoryOptionsList } = useSelector((state: IRootReducerState)=> state.staticData);
+    const {musculoskeletalHistoryOptionsList} = useSelector((state: IRootReducerState) => state.staticData);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         const payload = {...values, mode};
@@ -68,7 +67,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                     validateOnBlur={true}
                     enableReinitialize={true}
                     validateOnMount={true}>
-                    {({values,errors, isValid, validateForm}) => {
+                    {({values, errors, isValid, validateForm}) => {
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
                             validateForm();
@@ -77,7 +76,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                             <Form noValidate={true} className={"t-form"}>
                                 {
                                     musculoskeletalHistoryOptionsList.map((question: IMusculoskeletalHistoryOption) => {
-                                        const {_id, title } = question;
+                                        const {_id, title} = question;
                                         return <div className="ts-row ts-align-items-center mrg-bottom-10" key={_id}>
                                             <div className="ts-col-md-6">
                                                 <div className={"mrg-bottom-10"}>
@@ -99,7 +98,8 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                             </div>
                                             <div className="ts-col-md-6">
                                                 {
-                                                    values.musculoskeletal_history[_id]?.value === "Yes" && <Field name={`musculoskeletal_history.${_id}.text`}>
+                                                    values.musculoskeletal_history[_id]?.value === "Yes" &&
+                                                    <Field name={`musculoskeletal_history.${_id}.text`}>
                                                         {
                                                             (field: FieldProps) => (
                                                                 <FormikTextAreaComponent
@@ -119,14 +119,13 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                     })
                                 }
                                 <div className="t-form-actions">
-                                    <LinkComponent route={CommonService._routeConfig.ClientList()}>
-                                        <ButtonComponent
-                                            variant={"outlined"}
-                                            disabled={isClientMusculoskeletalHistorySavingInProgress}
-                                        >
-                                            Cancel
-                                        </ButtonComponent>
-                                    </LinkComponent>&nbsp;
+                                    <ButtonComponent
+                                        variant={"outlined"}
+                                        onClick={onCancel}
+                                        disabled={isClientMusculoskeletalHistorySavingInProgress}
+                                    >
+                                        Cancel
+                                    </ButtonComponent>&nbsp;
                                     <ButtonComponent
                                         isLoading={isClientMusculoskeletalHistorySavingInProgress}
                                         disabled={isClientMusculoskeletalHistorySavingInProgress || !isValid}

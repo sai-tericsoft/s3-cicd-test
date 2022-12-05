@@ -1,7 +1,7 @@
 import "./ClientDetailsScreen.scss";
-import {useParams} from "react-router-dom";
+import {useParams, useSearchParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {CommonService} from "../../../shared/services";
 import {IRootReducerState} from "../../../store/reducers";
 import {
@@ -26,6 +26,7 @@ import ClientMedicalDetailsComponent from "../client-medical-details/ClientMedic
 import StatusComponentComponent from "../../../shared/components/status-component/StatusComponentComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
+import {IClientDetailsSteps} from "../../../shared/models/client.model";
 
 // import LinkComponent from "../../../shared/components/link/LinkComponent";
 
@@ -60,17 +61,32 @@ const CLIENT_MENU_ITEMS = [
     }
 ];
 
+const ClientDetailsSteps: IClientDetailsSteps[] = ["basicDetails", "medicalHistoryQuestionnaire", "accountDetails", "activityLog"];
+
 const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
 
     const {clientId} = useParams();
     const dispatch = useDispatch();
-    const [currentTab, setCurrentTab] = useState<"basicDetails" | "medicalHistoryQuestionnaire" | "accountDetails" | "activityLog">("basicDetails");
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [currentTab, setCurrentTab] = useState<IClientDetailsSteps>("basicDetails");
     const {
         isClientBasicDetailsLoaded,
         isClientBasicDetailsLoading,
         isClientBasicDetailsLoadingFailed,
         clientBasicDetails,
     } = useSelector((state: IRootReducerState) => state.client);
+
+    useEffect(() => {
+        let currentTab: any = searchParams.get("currentStep");
+        if (currentTab) {
+            if (!ClientDetailsSteps.includes(currentTab)) {
+                currentTab = "basicDetails";
+            }
+        } else {
+            currentTab = "basicDetails";
+        }
+        setCurrentTab(currentTab);
+    }, [searchParams]);
 
     useEffect(() => {
         if (clientId) {
@@ -83,6 +99,12 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
     useEffect(() => {
         dispatch(setCurrentNavParams("Client Details", null, true));
     }, [dispatch]);
+
+    const handleTabChange = useCallback((e: any, value: any) => {
+        searchParams.set("currentStep", value);
+        setSearchParams(searchParams);
+        setCurrentTab(value);
+    }, [searchParams, setSearchParams]);
 
     return (
         <>
@@ -114,7 +136,8 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
                                         <div className={"client-details-actions"}>
                                             {
                                                 currentTab === "basicDetails" &&
-                                                <LinkComponent route={CommonService._routeConfig.ClientEdit(clientId) + "?currentStep=basicDetails"}>
+                                                <LinkComponent
+                                                    route={CommonService._routeConfig.ClientEdit(clientId) + "?currentStep=basicDetails"}>
                                                     <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>
                                                         Edit Profile
                                                     </ButtonComponent>
@@ -138,9 +161,7 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
                                                     value={currentTab}
                                                     allowScrollButtonsMobile={false}
                                                     variant={"fullWidth"}
-                                                    onUpdate={(e, value: any) => {
-                                                        setCurrentTab(value);
-                                                    }}
+                                                    onUpdate={handleTabChange}
                                                 >
                                                     <TabComponent label="Client Details" value={"basicDetails"}/>
                                                     <TabComponent label="Medical History Questionnaire"
@@ -151,7 +172,8 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
                                                 <TabContentComponent value={"basicDetails"} selectedTab={currentTab}>
                                                     <ClientBasicDetailsComponent/>
                                                 </TabContentComponent>
-                                                <TabContentComponent value={"medicalHistoryQuestionnaire"} selectedTab={currentTab}>
+                                                <TabContentComponent value={"medicalHistoryQuestionnaire"}
+                                                                     selectedTab={currentTab}>
                                                     <ClientMedicalDetailsComponent/>
                                                 </TabContentComponent>
                                                 <TabContentComponent value={"accountDetails"} selectedTab={currentTab}>
