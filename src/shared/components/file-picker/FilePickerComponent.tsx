@@ -70,8 +70,8 @@ const FilePickerComponent = (props: FilePickerComponentProps) => {
     } = useDropzone({onDrop, accept: acceptedFileTypes, multiple: multiple, maxFiles: maxFileCount, disabled: disabled});
 
     return (
-        <div id={id} className={`file-picker-wrapper ${isDragActive ? "drag-active" : ""}`} {...getRootProps()} >
-            <input {...getInputProps()} />
+        <div className={`file-picker-wrapper ${isDragActive ? "drag-active" : ""}`} {...getRootProps()} >
+            <input id={id} {...getInputProps()} />
             <div className="file-dnd-icon">
                 <ImageConfig.UploadIcon/>
             </div>

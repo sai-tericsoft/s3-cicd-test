@@ -25,6 +25,7 @@ import ClientActivityLogComponent from "../client-activity-log/ClientActivityLog
 import ClientMedicalDetailsComponent from "../client-medical-details/ClientMedicalDetailsComponent";
 import StatusComponentComponent from "../../../shared/components/status-component/StatusComponentComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
+import LinkComponent from "../../../shared/components/link/LinkComponent";
 
 // import LinkComponent from "../../../shared/components/link/LinkComponent";
 
@@ -113,11 +114,11 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
                                         <div className={"client-details-actions"}>
                                             {
                                                 currentTab === "basicDetails" &&
-                                                // <LinkComponent route={CommonService._routeConfig.ClientEdit(clientId) + "?currentTab=basicDetails"}>
-                                                <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>
-                                                    Edit Profile
-                                                </ButtonComponent>
-                                                // </LinkComponent>
+                                                <LinkComponent route={CommonService._routeConfig.ClientEdit(clientId) + "?currentStep=basicDetails"}>
+                                                    <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>
+                                                        Edit Profile
+                                                    </ButtonComponent>
+                                                </LinkComponent>
                                             }
                                         </div>
                                     </div>

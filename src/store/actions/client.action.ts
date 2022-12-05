@@ -1,4 +1,8 @@
-import {IClientAccountDetails, IClientBasicDetails, IClientMedicalDetails} from "../../shared/models/client.model";
+import {
+    IClientAccountDetails,
+    IClientBasicDetails,
+    IClientMedicalDetails
+} from "../../shared/models/client.model";
 
 export const GET_CLIENT_BASIC_DETAILS = 'GET_CLIENT_BASIC_DETAILS';
 export const GET_CLIENT_MEDICAL_DETAILS = 'GET_CLIENT_MEDICAL_DETAILS';
@@ -54,3 +58,4 @@ export const setClientAccountDetails = (clientAccountDetails: IClientAccountDeta
         }
     };
 };
+

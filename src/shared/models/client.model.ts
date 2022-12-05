@@ -9,7 +9,7 @@ import {
     ITextValue
 } from "./common.model";
 
-export type ClientAddFormSteps =
+export type IClientFormSteps =
     "basicDetails"
     | "personalHabits"
     | "allergies"
