@@ -24,6 +24,7 @@ import {
     getSocialMediaPlatformList,
     getSurgicalHistoryOptionsList
 } from "./store/actions/static-data.action";
+import AppVersionComponent from "./shared/components/app-version/appVersionComponent";
 
 interface AppProps {
     setCurrentUser?: any;
@@ -108,6 +109,7 @@ const App = (props: AppProps) => {
                     <Navigator/>
                     <AlertComponent/>
                     <ConfirmationComponent/>
+                    <AppVersionComponent/>
                 </ThemeProvider>
             </div>
         </CheckLoginComponent>
