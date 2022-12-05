@@ -19,7 +19,7 @@ import TabsWrapperComponent, {
 import ClientBasicDetailsComponent from "../client-basic-details/ClientBasicDetailsComponent";
 import ClientActivityLogComponent from "../client-activity-log/ClientActivityLogComponent";
 import ClientAccountDetailsComponent from "../client-account-details/ClientAccountDetailsComponent";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
+// import LinkComponent from "../../../shared/components/link/LinkComponent";
 
 interface ClientDetailsScreenProps {
 

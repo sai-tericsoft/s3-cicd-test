@@ -1,9 +1,7 @@
 import "./PasswordInputComponent.scss";
 import InputComponent from "../input/InputComponent";
 import {useCallback, useState} from "react";
-import {Visibility, VisibilityOff} from "@mui/icons-material";
 import {IInputFieldProps} from "../../../models/form-controls.model";
-import IconButtonComponent from "../../icon-button/IconButtonComponent";
 import ButtonComponent from "../../button/ButtonComponent";
 
 export interface PasswordInputComponentProps extends IInputFieldProps {

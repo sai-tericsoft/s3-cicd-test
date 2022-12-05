@@ -1,5 +1,5 @@
 import "./ClientEditScreen.scss";
-import {useParams} from "react-router-dom";
+// import {useParams} from "react-router-dom";
 
 interface ClientEditScreenProps {
 
@@ -7,7 +7,7 @@ interface ClientEditScreenProps {
 
 const ClientEditScreen = (props: ClientEditScreenProps) => {
 
-    const {clientId} = useParams();
+    // const {clientId} = useParams();
 
     return (
         <div className={'client-edit-screen'}>
