@@ -124,7 +124,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
 
     return (
         <div className={'client-medical-provider-information-form-component'}>
-            <FormControlLabelComponent label={"Add Communication and Referral Details"}/>
+            <FormControlLabelComponent label={CommonService.capitalizeFirstLetter(mode) +" Communication and Referral Details"}/>
             <>
                 {
                     mode === "edit" && <>
