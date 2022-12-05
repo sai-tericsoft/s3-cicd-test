@@ -25,7 +25,7 @@ interface ClientAddScreenProps {
 
 }
 
-const ClientAddSteps: IClientFormSteps[] = ["basicDetails", "personalHabits", "allergies", "medicalSupplements", "surgicalHistory", "medicalFemaleOnly", "medicalProvider", "musculoskeletal", "medicalHistory", "accountDetails"];
+const ClientAddSteps: IClientFormSteps[] = ["basicDetails", "personalHabits", "allergies", "medicalSupplements", "surgicalHistory", "medicalFemaleOnly", "medicalProvider", "musculoskeletalHistory", "medicalHistory", "accountDetails"];
 
 const ClientAddScreen = (props: ClientAddScreenProps) => {
 
@@ -77,10 +77,10 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                 break;
             }
             case "surgicalHistory": {
-                nextStep = 'musculoskeletal';
+                nextStep = 'musculoskeletalHistory';
                 break;
             }
-            case "musculoskeletal": {
+            case "musculoskeletalHistory": {
                 nextStep = 'medicalProvider';
                 break;
             }
@@ -176,7 +176,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                             clientId={clientId}/>
                     }
                     {
-                        currentStep === "musculoskeletal" && <ClientMusculoskeletalHistoryFormComponent
+                        currentStep === "musculoskeletalHistory" && <ClientMusculoskeletalHistoryFormComponent
                             mode={mode}
                             onSave={handleClientDetailsSave}
                             onCancel={handleClientDetailsCancel}

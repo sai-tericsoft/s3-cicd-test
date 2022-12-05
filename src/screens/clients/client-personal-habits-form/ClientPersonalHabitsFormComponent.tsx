@@ -14,6 +14,11 @@ import FormikRadioButtonGroupComponent
     from "../../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
 import {IClientPersonalHabitsForm} from "../../../shared/models/client.model";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
+import {useDispatch, useSelector} from "react-redux";
+import {IRootReducerState} from "../../../store/reducers";
+import {getClientMedicalDetails} from "../../../store/actions/client.action";
+import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
+import StatusComponentComponent from "../../../shared/components/status-component/StatusComponentComponent";
 
 interface ClientPersonalHabitsFormComponentProps {
     clientId: string;
@@ -99,9 +104,17 @@ const FormQuestions = [
 
 const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormComponentProps) => {
 
-     const {mode, onCancel, clientId, onSave} = props;
-    const [clientPersonalHabitsFormInitialValues] = useState<IClientPersonalHabitsForm>(_.cloneDeep(ClientPersonalHabitsFormInitialValues));
+    const {mode, onCancel, clientId, onSave} = props;
+    const [clientPersonalHabitsFormInitialValues, setClientPersonalHabitsFormInitialValues] = useState<IClientPersonalHabitsForm>(_.cloneDeep(ClientPersonalHabitsFormInitialValues));
     const [isClientPersonalHabitsSavingInProgress, setIsClientPersonalHabitsSavingInProgress] = useState(false);
+    const dispatch = useDispatch();
+
+    const {
+        clientMedicalDetails,
+        isClientMedicalDetailsLoaded,
+        isClientMedicalDetailsLoading,
+        isClientMedicalDetailsLoadingFailed
+    } = useSelector((state: IRootReducerState) => state.client);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         const payload = {...values, mode};
@@ -118,92 +131,124 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
             })
     }, [clientId, onSave, mode]);
 
+    useEffect(() => {
+        if (mode === "edit") {
+            if (clientMedicalDetails) {
+                setClientPersonalHabitsFormInitialValues({
+                    personal_habits: clientMedicalDetails.personal_habits
+                });
+            } else {
+                if (clientId) {
+                    dispatch(getClientMedicalDetails(clientId));
+                }
+            }
+        }
+    }, [mode, clientId, dispatch, clientMedicalDetails]);
+
     return (
-        <div className={'client-personal-habits-form-component'}>
-            <FormControlLabelComponent label={"Add Personal Habits"}/>
-            <CardComponent title={"Personal Habits"} description={"Has the client ever or do they currently:"}>
-                <Formik
-                    validationSchema={ClientPersonalHabitsFormValidationSchema}
-                    initialValues={clientPersonalHabitsFormInitialValues}
-                    onSubmit={onSubmit}
-                    validateOnChange={false}
-                    validateOnBlur={true}
-                    enableReinitialize={true}
-                    validateOnMount={true}>
-                    {({values, errors, isValid, validateForm}) => {
-                        // eslint-disable-next-line react-hooks/rules-of-hooks
-                        useEffect(() => {
-                            validateForm();
-                        }, [validateForm, values]);
-                        return (
-                            <Form noValidate={true} className={"t-form"}>
-                                {
-                                    FormQuestions.map((question: any) => {
-                                        const {key, title, placeholder} = question;
-                                        return <div className="ts-row ts-align-items-center" key={key}>
-                                            <div className="ts-col-md-5">
-                                                {title}
-                                            </div>
-                                            <div className="ts-col-md-5">
-                                                <Field name={`personal_habits.${key}.value`}>
-                                                    {
-                                                        (field: FieldProps) => (
-                                                            <FormikRadioButtonGroupComponent
-                                                                options={CommonService._staticData.yesNoOptions}
-                                                                displayWith={(option) => option}
-                                                                valueExtractor={(option) => option}
-                                                                required={true}
-                                                                formikField={field}
-                                                            />
-                                                        )
-                                                    }
-                                                </Field>
-                                            </div>
-                                            <div className="ts-col-md-2">
-                                                {
-                                                    // @ts-ignore
-                                                    values.personal_habits[key].value === 'Yes' &&
-                                                    <Field name={`personal_habits.${key}.text`}>
+        <div className={'client-personal-habits-form-component'}><>
+            {
+                mode === "edit" && <>
+                    {
+                        isClientMedicalDetailsLoading && <div>
+                            <LoaderComponent/>
+                        </div>
+                    }
+                    {
+                        isClientMedicalDetailsLoadingFailed &&
+                        <StatusComponentComponent title={"Failed to fetch medical Details"}/>
+                    }
+                </>
+            }
+        </>
+            {
+                ((mode === "edit" && isClientMedicalDetailsLoaded && clientMedicalDetails) || mode === "add") && <>
+                    <FormControlLabelComponent label={CommonService.capitalizeFirstLetter(mode) + " Personal Habits"}/>
+                    <CardComponent title={"Personal Habits"} description={"Has the client ever or do they currently:"}>
+                        <Formik
+                            validationSchema={ClientPersonalHabitsFormValidationSchema}
+                            initialValues={clientPersonalHabitsFormInitialValues}
+                            onSubmit={onSubmit}
+                            validateOnChange={false}
+                            validateOnBlur={true}
+                            enableReinitialize={true}
+                            validateOnMount={true}>
+                            {({values, errors, isValid, validateForm}) => {
+                                // eslint-disable-next-line react-hooks/rules-of-hooks
+                                useEffect(() => {
+                                    validateForm();
+                                }, [validateForm, values]);
+                                return (
+                                    <Form noValidate={true} className={"t-form"}>
+                                        {
+                                            FormQuestions.map((question: any) => {
+                                                const {key, title, placeholder} = question;
+                                                return <div className="ts-row ts-align-items-center" key={key}>
+                                                    <div className="ts-col-md-5">
+                                                        {title}
+                                                    </div>
+                                                    <div className="ts-col-md-5">
+                                                        <Field name={`personal_habits.${key}.value`}>
+                                                            {
+                                                                (field: FieldProps) => (
+                                                                    <FormikRadioButtonGroupComponent
+                                                                        options={CommonService._staticData.yesNoOptions}
+                                                                        displayWith={(option) => option}
+                                                                        valueExtractor={(option) => option}
+                                                                        required={true}
+                                                                        formikField={field}
+                                                                    />
+                                                                )
+                                                            }
+                                                        </Field>
+                                                    </div>
+                                                    <div className="ts-col-md-2">
                                                         {
-                                                            (field: FieldProps) => (
-                                                                <FormikInputComponent
-                                                                    label={placeholder}
-                                                                    placeholder={placeholder}
-                                                                    type={"text"}
-                                                                    required={true}
-                                                                    formikField={field}
-                                                                    size={"small"}
-                                                                    fullWidth={true}
-                                                                />
-                                                            )
+                                                            // @ts-ignore
+                                                            values.personal_habits[key].value === 'Yes' &&
+                                                            <Field name={`personal_habits.${key}.text`}>
+                                                                {
+                                                                    (field: FieldProps) => (
+                                                                        <FormikInputComponent
+                                                                            label={placeholder}
+                                                                            placeholder={placeholder}
+                                                                            type={"text"}
+                                                                            required={true}
+                                                                            formikField={field}
+                                                                            size={"small"}
+                                                                            fullWidth={true}
+                                                                        />
+                                                                    )
+                                                                }
+                                                            </Field>
                                                         }
-                                                    </Field>
-                                                }
-                                            </div>
+                                                    </div>
+                                                </div>
+                                            })
+                                        }
+                                        <div className="t-form-actions">
+                                            <ButtonComponent
+                                                variant={"outlined"}
+                                                onClick={onCancel}
+                                                disabled={isClientPersonalHabitsSavingInProgress}
+                                            >
+                                                Cancel
+                                            </ButtonComponent>&nbsp;
+                                            <ButtonComponent
+                                                isLoading={isClientPersonalHabitsSavingInProgress}
+                                                disabled={isClientPersonalHabitsSavingInProgress || !isValid}
+                                                type={"submit"}
+                                            >
+                                                {isClientPersonalHabitsSavingInProgress ? "Saving" : "Save & Next"}
+                                            </ButtonComponent>
                                         </div>
-                                    })
-                                }
-                                <div className="t-form-actions">
-                                    <ButtonComponent
-                                        variant={"outlined"}
-                                        onClick={onCancel}
-                                        disabled={isClientPersonalHabitsSavingInProgress}
-                                    >
-                                        Cancel
-                                    </ButtonComponent>&nbsp;
-                                    <ButtonComponent
-                                        isLoading={isClientPersonalHabitsSavingInProgress}
-                                        disabled={isClientPersonalHabitsSavingInProgress || !isValid}
-                                        type={"submit"}
-                                    >
-                                        {isClientPersonalHabitsSavingInProgress ? "Saving" : "Save & Next"}
-                                    </ButtonComponent>
-                                </div>
-                            </Form>
-                        )
-                    }}
-                </Formik>
-            </CardComponent>
+                                    </Form>
+                                )
+                            }}
+                        </Formik>
+                    </CardComponent>
+                </>
+            }
         </div>
     );
 

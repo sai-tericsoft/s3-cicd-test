@@ -137,7 +137,7 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
                                             {
                                                 currentTab === "basicDetails" &&
                                                 <LinkComponent
-                                                    route={CommonService._routeConfig.ClientEdit(clientId) + "?currentStep=basicDetails"}>
+                                                    route={CommonService._client.NavigateToClientEdit(clientId, "basicDetails")}>
                                                     <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>
                                                         Edit Profile
                                                     </ButtonComponent>
@@ -170,14 +170,14 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
                                                     <TabComponent label="Activity Log" value={"activityLog"}/>
                                                 </TabsComponent>
                                                 <TabContentComponent value={"basicDetails"} selectedTab={currentTab}>
-                                                    <ClientBasicDetailsComponent/>
+                                                    <ClientBasicDetailsComponent clientId={clientId}/>
                                                 </TabContentComponent>
                                                 <TabContentComponent value={"medicalHistoryQuestionnaire"}
                                                                      selectedTab={currentTab}>
-                                                    <ClientMedicalDetailsComponent/>
+                                                    <ClientMedicalDetailsComponent clientId={clientId}/>
                                                 </TabContentComponent>
                                                 <TabContentComponent value={"accountDetails"} selectedTab={currentTab}>
-                                                    <ClientAccountDetailsComponent/>
+                                                    <ClientAccountDetailsComponent clientId={clientId}/>
                                                 </TabContentComponent>
                                                 <TabContentComponent value={"activityLog"} selectedTab={currentTab}>
                                                     <ClientActivityLogComponent clientId={clientId}/>

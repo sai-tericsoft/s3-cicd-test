@@ -1,5 +1,7 @@
 import {ApiService} from "../index";
 import {APIConfig} from "../../../constants";
+import RouteConfigService from "../route-config.service";
+import {IClientDetailsSteps, IClientFormSteps} from "../../models/client.model";
 
 const ClientBasicDetailsAPICall = (clientId: string, payload: any) => {
     // @ts-ignore
@@ -72,6 +74,14 @@ const ClientBasicDetailsEditAPICall = (clientId: string, payload: any) => {
     return ApiService[APIConfig.CLIENT_BASIC_DETAILS_EDIT.METHOD](APIConfig.CLIENT_BASIC_DETAILS_EDIT.URL(clientId), payload);
 }
 
+const NavigateToClientDetails = (clientId: string, step: IClientDetailsSteps) => {
+    return RouteConfigService.ClientDetails(clientId) + "?currentStep=" + step;
+}
+
+const NavigateToClientEdit = (clientId: string, step: IClientFormSteps) => {
+    return RouteConfigService.ClientEdit(clientId) + "?currentStep=" + step;
+}
+
 const ClientService={
     ClientBasicDetailsAddAPICall,
     ClientBasicDetailsAPICall,
@@ -86,7 +96,9 @@ const ClientService={
     ClientMedicalDetailsApiCall,
     ClientAccountDetailsAddAPICall,
     ClientAccountDetailsApiCall,
-    ClientBasicDetailsEditAPICall
+    ClientBasicDetailsEditAPICall,
+    NavigateToClientEdit,
+    NavigateToClientDetails
 }
 
 export default ClientService;

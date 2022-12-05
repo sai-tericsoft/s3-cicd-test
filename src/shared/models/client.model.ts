@@ -21,11 +21,11 @@ export type IClientFormSteps =
     | "personalHabits"
     | "allergies"
     | "medicalSupplements"
+    | "medicalHistory"
     | "surgicalHistory"
     | "medicalFemaleOnly"
     | "medicalProvider"
-    | "musculoskeletal"
-    | "medicalHistory"
+    | "musculoskeletalHistory"
     | "accountDetails"
     ;
 

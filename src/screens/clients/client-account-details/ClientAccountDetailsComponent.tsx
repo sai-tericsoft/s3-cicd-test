@@ -16,10 +16,12 @@ import {ImageConfig} from "../../../constants";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 
 interface ClientAccountDetailsComponentProps {
+    clientId: string;
 }
 
 const ClientAccountDetailsComponent = (props: ClientAccountDetailsComponentProps) => {
 
+    const {clientId} = props;
     const {
         clientAccountDetails,
         isClientAccountDetailsLoaded,
@@ -42,14 +44,12 @@ const ClientAccountDetailsComponent = (props: ClientAccountDetailsComponentProps
                 (isClientAccountDetailsLoaded && clientAccountDetails) && <>
                     <CardComponent title={"Communication and Referral Details"}
                                    actions={<>
-                                       {
-                                           clientAccountDetails.client_id && <LinkComponent
-                                               route={CommonService._routeConfig.ClientEdit(clientAccountDetails.client_id) + "?currentStep=accountDetails"}>
-                                               <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
-                                                   Edit
-                                               </ButtonComponent>
-                                           </LinkComponent>
-                                       }
+                                       <LinkComponent
+                                           route={CommonService._routeConfig.ClientEdit(clientId) + "?currentStep=accountDetails"}>
+                                           <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
+                                               Edit
+                                           </ButtonComponent>
+                                       </LinkComponent>
                                    </>
                                    }
                     >

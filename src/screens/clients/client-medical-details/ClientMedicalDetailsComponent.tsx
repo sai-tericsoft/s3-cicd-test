@@ -12,9 +12,12 @@ import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
 
 interface ClientMedicalDetailsComponentProps {
+    clientId: string;
 }
 
 const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps) => {
+
+    const {clientId} = props;
 
     const {
         clientMedicalDetails,
@@ -36,7 +39,13 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
             }
             {
                 (isClientMedicalDetailsLoaded && clientMedicalDetails) && <>
-                    <CardComponent title={'Personal Habits'}>
+                    <CardComponent title={'Personal Habits'} actions={<LinkComponent
+                        route={CommonService._client.NavigateToClientEdit(clientId, "personalHabits")}>
+                        <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
+                            Edit
+                        </ButtonComponent>
+                    </LinkComponent>
+                    }>
                         <div className={'ts-row mrg-bottom-20'}>
                             <div className={'ts-col-lg-8'}>
                                 Smoke/Chew Tobacco?
@@ -83,21 +92,32 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                         </div>
                     </CardComponent>
                     <CardComponent title={'Allergies'}
-                                   actions={
-                                       clientMedicalDetails.client_id && <LinkComponent
-                                           route={CommonService._routeConfig.ClientEdit(clientMedicalDetails.client_id) + "?currentStep=allergies"}>
-                                           <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
-                                               Edit
-                                           </ButtonComponent>
-                                       </LinkComponent>
+                                   actions={<LinkComponent
+                                       route={CommonService._client.NavigateToClientEdit(clientId, "allergies")}>
+                                       <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
+                                           Edit
+                                       </ButtonComponent>
+                                   </LinkComponent>
                                    }>
                         {clientMedicalDetails?.allergies}
                     </CardComponent>
-                    <CardComponent title={'Medication/Supplements'}>
+                    <CardComponent title={'Medication/Supplements'} actions={<LinkComponent
+                        route={CommonService._client.NavigateToClientEdit(clientId, "medicalSupplements")}>
+                        <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
+                            Edit
+                        </ButtonComponent>
+                    </LinkComponent>
+                    }>
                         {clientMedicalDetails?.medications?.prescription_medication || "-"},
                         {clientMedicalDetails?.medications?.non_prescription_medication || "-"}
                     </CardComponent>
-                    <CardComponent title={'Medical Provider Information'}>
+                    <CardComponent title={'Medical Provider Information'} actions={<LinkComponent
+                        route={CommonService._client.NavigateToClientEdit(clientId, "medicalProvider")}>
+                        <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
+                            Edit
+                        </ButtonComponent>
+                    </LinkComponent>
+                    }>
                         <div className={'ts-row'}>
                             <div className={'ts-col-lg-3'}>
                                 <DataLabelValueComponent label={'Family Doctor Name'}>
@@ -116,7 +136,13 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             </div>
                         </div>
                     </CardComponent>
-                    <CardComponent title={'Medical History'}>
+                    <CardComponent title={'Medical History'} actions={<LinkComponent
+                        route={CommonService._client.NavigateToClientEdit(clientId, "medicalHistory")}>
+                        <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
+                            Edit
+                        </ButtonComponent>
+                    </LinkComponent>
+                    }>
                         {
                             clientMedicalDetails?.medical_history?.questions_details?.map((question, index) => {
                                 return <span key={question?._id + index}>
@@ -135,7 +161,13 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             <span> {clientMedicalDetails?.medical_history?.comments}</span>
                         }
                     </CardComponent>
-                    <CardComponent title={'Females Only'}>
+                    <CardComponent title={'Females Only'} actions={<LinkComponent
+                        route={CommonService._client.NavigateToClientEdit(clientId, "medicalFemaleOnly")}>
+                        <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
+                            Edit
+                        </ButtonComponent>
+                    </LinkComponent>
+                    }>
                         <div className={'ts-row'}>
                             <div className={'ts-col-lg-4'}>
                                 <DataLabelValueComponent label={'Pregnant or Attempting to be pregnant?'}>
@@ -149,7 +181,13 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             </div>
                         </div>
                     </CardComponent>
-                    <CardComponent title={'Surgical History'}>
+                    <CardComponent title={'Surgical History'} actions={<LinkComponent
+                        route={CommonService._client.NavigateToClientEdit(clientId, "surgicalHistory")}>
+                        <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
+                            Edit
+                        </ButtonComponent>
+                    </LinkComponent>
+                    }>
                         {
                             clientMedicalDetails?.surgical_history?.questions_details?.map((question, index) => {
                                 return <span key={question._id + index}>
@@ -168,7 +206,13 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             <span>{clientMedicalDetails?.surgical_history?.comments}</span>
                         }
                     </CardComponent>
-                    <CardComponent title={'Musculoskeletal History'}>
+                    <CardComponent title={'Musculoskeletal History'} actions={<LinkComponent
+                        route={CommonService._client.NavigateToClientEdit(clientId, "musculoskeletalHistory")}>
+                        <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
+                            Edit
+                        </ButtonComponent>
+                    </LinkComponent>
+                    }>
                         {
                             (Object.keys(clientMedicalDetails?.musculoskeletal_history || {})?.map((question, index) => {
                                 return <span key={question + index}>

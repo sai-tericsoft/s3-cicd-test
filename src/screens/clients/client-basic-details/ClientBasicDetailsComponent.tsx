@@ -12,6 +12,7 @@ import StatusComponentComponent from "../../../shared/components/status-componen
 import React from "react";
 
 interface ClientBasicDetailsComponentProps {
+    clientId: string;
 }
 
 const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) => {

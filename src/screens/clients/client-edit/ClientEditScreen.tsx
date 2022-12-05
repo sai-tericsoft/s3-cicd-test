@@ -24,7 +24,7 @@ interface ClientEditScreenProps {
 
 }
 
-const ClientAddSteps: IClientFormSteps[] = ["basicDetails", "personalHabits", "allergies", "medicalSupplements", "surgicalHistory", "medicalFemaleOnly", "medicalProvider", "musculoskeletal", "medicalHistory", "accountDetails"];
+const ClientAddSteps: IClientFormSteps[] = ["basicDetails", "personalHabits", "allergies", "medicalSupplements", "surgicalHistory", "medicalFemaleOnly", "medicalProvider", "musculoskeletalHistory", "medicalHistory", "accountDetails"];
 
 const ClientEditScreen = (props: ClientEditScreenProps) => {
 
@@ -42,8 +42,9 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
     const handleClientDetailsSave = useCallback((data: any) => {
         if (clientId) {
             switch (currentStep) {
-                case "basicDetails": {
-                    navigate(CommonService._routeConfig.ClientDetails(clientId) + "?currentStep=" + currentStep);
+                case "basicDetails":
+                case "accountDetails": {
+                    navigate(CommonService._client.NavigateToClientDetails(clientId, currentStep));
                     break;
                 }
                 case "personalHabits":
@@ -51,13 +52,9 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                 case "medicalHistory":
                 case "medicalFemaleOnly":
                 case "surgicalHistory":
-                case "musculoskeletal":
+                case "musculoskeletalHistory":
                 case "medicalProvider": {
-                    navigate(CommonService._routeConfig.ClientDetails(clientId) + "?currentStep=medicalHistoryQuestionnaire");
-                    break;
-                }
-                case "accountDetails": {
-                    navigate(CommonService._routeConfig.ClientDetails(clientId) + "?currentStep=" + currentStep);
+                    navigate(CommonService._client.NavigateToClientDetails(clientId, "medicalHistoryQuestionnaire"));
                     break;
                 }
                 default: {
@@ -70,6 +67,7 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
     const handleClientDetailsCancel = useCallback(() => {
         if (clientId) {
             switch (currentStep) {
+                case "accountDetails":
                 case "basicDetails": {
                     navigate(CommonService._routeConfig.ClientDetails(clientId) + "?currentStep=" + currentStep);
                     break;
@@ -79,13 +77,9 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                 case "medicalHistory":
                 case "medicalFemaleOnly":
                 case "surgicalHistory":
-                case "musculoskeletal":
+                case "musculoskeletalHistory":
                 case "medicalProvider": {
-                    navigate(CommonService._routeConfig.ClientDetails(clientId) + "?currentStep=medicalHistoryQuestionnaire");
-                    break;
-                }
-                case "accountDetails": {
-                    navigate(CommonService._routeConfig.ClientDetails(clientId) + "?currentStep=" + currentStep);
+                    navigate(CommonService._client.NavigateToClientDetails(clientId, "medicalHistoryQuestionnaire"));
                     break;
                 }
                 default: {
@@ -165,7 +159,7 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                             clientId={clientId}/>
                     }
                     {
-                        currentStep === "musculoskeletal" && <ClientMusculoskeletalHistoryFormComponent
+                        currentStep === "musculoskeletalHistory" && <ClientMusculoskeletalHistoryFormComponent
                             mode={mode}
                             onSave={handleClientDetailsSave}
                             onCancel={handleClientDetailsCancel}
