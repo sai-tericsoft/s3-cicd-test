@@ -9,14 +9,16 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import {Misc} from "../../../constants";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {IMedicalHistoryOption} from "../../../shared/models/common.model";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
+import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
+import StatusComponentComponent from "../../../shared/components/status-component/StatusComponentComponent";
+import {getClientMedicalDetails} from "../../../store/actions/client.action";
 
 interface ClientMedicalHistoryFormComponentProps {
     clientId: string;
@@ -46,10 +48,19 @@ const ClientMedicalHistoryInitialValues: IClientMedicalHistoryForm = {
 
 const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormComponentProps) => {
 
-     const {mode, onCancel, clientId, onSave} = props;
+    const {mode, onCancel, clientId, onSave} = props;
     const {medicalHistoryOptionsList} = useSelector((state: IRootReducerState) => state.staticData);
-    const [clientMedicalHistoryInitialValues] = useState<IClientMedicalHistoryForm>(_.cloneDeep(ClientMedicalHistoryInitialValues));
+    const [clientMedicalHistoryInitialValues, SetClientMedicalHistoryInitialValues] = useState<IClientMedicalHistoryForm>(_.cloneDeep(ClientMedicalHistoryInitialValues));
     const [isClientMedicalHistorySavingInProgress, setIsClientMedicalHistorySavingInProgress] = useState(false);
+
+    const dispatch = useDispatch();
+
+    const {
+        clientMedicalDetails,
+        isClientMedicalDetailsLoaded,
+        isClientMedicalDetailsLoading,
+        isClientMedicalDetailsLoadingFailed
+    } = useSelector((state: IRootReducerState) => state.client);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         const payload = {...values, mode};
@@ -66,6 +77,24 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
             })
     }, [clientId, onSave, mode]);
 
+    useEffect(() => {
+        if (mode === "edit") {
+            if (clientMedicalDetails) {
+                if (clientMedicalDetails.medical_history.comments) {
+                    clientMedicalDetails.medical_history.isCustomOption = true;
+                }
+                SetClientMedicalHistoryInitialValues({
+                    medical_history: clientMedicalDetails.medical_history
+                });
+            } else {
+                if (clientId) {
+                    dispatch(getClientMedicalDetails(clientId));
+                }
+            }
+        }
+    }, [mode, clientId, dispatch, clientMedicalDetails]);
+
+
     const handleMedicalHistoryOptionSelection = useCallback((optionId: string, selectedOptions: string[]) => {
         const index = selectedOptions?.findIndex((value: string) => value === optionId);
         if (index > -1) {
@@ -78,99 +107,123 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
 
     return (
         <div className={'client-medical-history-form-component'}>
-            <FormControlLabelComponent label={"Add Medical History"}/>
-            <CardComponent title={"Medical History"}
-                           description={"Has the client ever had or do they currently have: (Check all that apply)"}>
-                <Formik
-                    validationSchema={ClientMedicalHistoryValidationSchema}
-                    initialValues={clientMedicalHistoryInitialValues}
-                    onSubmit={onSubmit}
-                    validateOnChange={false}
-                    validateOnBlur={true}
-                    enableReinitialize={true}
-                    validateOnMount={true}>
-                    {({values, errors, setFieldTouched, setFieldValue, isValid, validateForm}) => {
-                        // eslint-disable-next-line react-hooks/rules-of-hooks
-                        useEffect(() => {
-                            validateForm();
-                        }, [validateForm, values]);
-                        return (
-                            <Form noValidate={true} className={"t-form"}>
-                                <div className="ts-row">
-                                    {
-                                        medicalHistoryOptionsList?.map((option: IMedicalHistoryOption) => {
-                                            return <div className="ts-col-md-6" key={option._id}>
+            <>
+                {
+                    mode === "edit" && <>
+                        {
+                            isClientMedicalDetailsLoading && <div>
+                                <LoaderComponent/>
+                            </div>
+                        }
+                        {
+                            isClientMedicalDetailsLoadingFailed &&
+                            <StatusComponentComponent title={"Failed to fetch medical Details"}/>
+                        }
+                    </>
+                }
+            </>
+            {
+                ((mode === "edit" && isClientMedicalDetailsLoaded && clientMedicalDetails) || mode === "add") && <>
+                    <FormControlLabelComponent label={CommonService.capitalizeFirstLetter(mode) + " Add Medical History"}/>
+                    <CardComponent title={"Medical History"}
+                                   description={"Has the client ever had or do they currently have: (Check all that apply)"}>
+                        <Formik
+                            validationSchema={ClientMedicalHistoryValidationSchema}
+                            initialValues={clientMedicalHistoryInitialValues}
+                            onSubmit={onSubmit}
+                            validateOnChange={false}
+                            validateOnBlur={true}
+                            enableReinitialize={true}
+                            validateOnMount={true}>
+                            {({values, errors, setFieldTouched, setFieldValue, isValid, validateForm}) => {
+                                // eslint-disable-next-line react-hooks/rules-of-hooks
+                                useEffect(() => {
+                                    validateForm();
+                                }, [validateForm, values]);
+                                return (
+                                    <Form noValidate={true} className={"t-form"}>
+                                        <div className="ts-row">
+                                            {
+                                                medicalHistoryOptionsList?.map((option: IMedicalHistoryOption) => {
+                                                    return <div className="ts-col-md-6" key={option._id}>
+                                                        <Field
+                                                            name={"medical_history.questions"}>
+                                                            {(field: FieldProps) => (
+                                                                <CheckBoxComponent
+                                                                    label={option?.title}
+                                                                    required={true}
+                                                                    checked={field.field?.value?.indexOf(option._id) > -1}
+                                                                    onChange={() => {
+                                                                        setFieldTouched(field.field?.name);
+                                                                        setFieldValue(field.field?.name, handleMedicalHistoryOptionSelection(option._id, field.field?.value));
+                                                                        validateForm();
+                                                                    }}
+                                                                />
+                                                            )}
+                                                        </Field>
+                                                    </div>
+                                                })
+                                            }
+                                        </div>
+                                        <div className="ts-row">
+                                            <div className="ts-col-md-6">
                                                 <Field
-                                                    name={"medical_history.questions"}>
+                                                    name={"medical_history.isCustomOption"}>
                                                     {(field: FieldProps) => (
-                                                        <CheckBoxComponent
-                                                            label={option?.title}
-                                                            required={true}
-                                                            checked={field.field?.value?.indexOf(option._id) > -1}
-                                                            onChange={() => {
-                                                                setFieldTouched(field.field?.name);
-                                                                setFieldValue(field.field?.name, handleMedicalHistoryOptionSelection(option._id, field.field?.value));
-                                                                validateForm();
+                                                        <FormikCheckBoxComponent
+                                                            formikField={field}
+                                                            label={"Any other illnesses or conditions not listed above?"}
+                                                            onChange={(isChecked) => {
+                                                                if (!isChecked) {
+                                                                    setFieldValue('medical_history.comments', '');
+                                                                }
                                                             }}
                                                         />
                                                     )}
                                                 </Field>
                                             </div>
-                                        })
-                                    }
-                                </div>
-                                <div className="ts-row">
-                                    <div className="ts-col-md-6">
-                                        <Field
-                                            name={"medical_history.isCustomOption"}>
-                                            {(field: FieldProps) => (
-                                                <FormikCheckBoxComponent
-                                                    formikField={field}
-                                                    label={"Any other illnesses or conditions not listed above?"}
-                                                />
-                                            )}
-                                        </Field>
-                                    </div>
-                                </div>
-                                <div className="ts-row">
-                                    <div className="ts-col-12">
-                                        <Field name={`medical_history.comments`}>
-                                            {
-                                                (field: FieldProps) => (
-                                                    <FormikTextAreaComponent
-                                                        label={"Comments"}
-                                                        placeholder={"Enter your comments here"}
-                                                        disabled={!values.medical_history.isCustomOption}
-                                                        required={values.medical_history.isCustomOption}
-                                                        formikField={field}
-                                                        fullWidth={true}
-                                                    />
-                                                )
-                                            }
-                                        </Field>
-                                    </div>
-                                </div>
-                                <div className="t-form-actions">
-                                    <ButtonComponent
-                                        variant={"outlined"}
-                                        onClick={onCancel}
-                                        disabled={isClientMedicalHistorySavingInProgress}
-                                    >
-                                        Cancel
-                                    </ButtonComponent>&nbsp;
-                                    <ButtonComponent
-                                        isLoading={isClientMedicalHistorySavingInProgress}
-                                        disabled={isClientMedicalHistorySavingInProgress || !isValid}
-                                        type={"submit"}
-                                    >
-                                        {isClientMedicalHistorySavingInProgress ? "Saving" : "Save & Next"}
-                                    </ButtonComponent>
-                                </div>
-                            </Form>
-                        )
-                    }}
-                </Formik>
-            </CardComponent>
+                                        </div>
+                                        <div className="ts-row">
+                                            <div className="ts-col-12">
+                                                <Field name={`medical_history.comments`}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikTextAreaComponent
+                                                                label={"Comments"}
+                                                                placeholder={"Enter your comments here"}
+                                                                disabled={!values.medical_history.isCustomOption}
+                                                                required={values.medical_history.isCustomOption}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                        </div>
+                                        <div className="t-form-actions">
+                                            <ButtonComponent
+                                                variant={"outlined"}
+                                                onClick={onCancel}
+                                                disabled={isClientMedicalHistorySavingInProgress}
+                                            >
+                                                Cancel
+                                            </ButtonComponent>&nbsp;
+                                            <ButtonComponent
+                                                isLoading={isClientMedicalHistorySavingInProgress}
+                                                disabled={isClientMedicalHistorySavingInProgress || !isValid}
+                                                type={"submit"}
+                                            >
+                                                {isClientMedicalHistorySavingInProgress ? "Saving" : "Save & Next"}
+                                            </ButtonComponent>
+                                        </div>
+                                    </Form>
+                                )
+                            }}
+                        </Formik>
+                    </CardComponent>
+                </>
+            }
         </div>
     );
 

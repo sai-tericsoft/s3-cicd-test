@@ -129,7 +129,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                     {clientMedicalDetails?.medical_provider_info?.primary_phone || "-"}
                                 </DataLabelValueComponent>
                             </div>
-                            <div className={'ts-col-lg-3'}>
+                            <div className={'ts-col-lg-6'}>
                                 <DataLabelValueComponent label={'Last Date of Physical Examination'}>
                                     {clientMedicalDetails?.medical_provider_info?.last_examination_date ? CommonService.getSystemFormatTimeStamp(clientMedicalDetails?.medical_provider_info?.last_examination_date) : "-"}
                                 </DataLabelValueComponent>

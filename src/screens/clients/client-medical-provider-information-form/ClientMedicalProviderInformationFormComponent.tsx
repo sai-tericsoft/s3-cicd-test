@@ -9,11 +9,15 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import {Misc} from "../../../constants";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import FormikDatePickerComponent
     from "../../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
+import {useDispatch, useSelector} from "react-redux";
+import {IRootReducerState} from "../../../store/reducers";
+import {getClientMedicalDetails} from "../../../store/actions/client.action";
+import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
+import StatusComponentComponent from "../../../shared/components/status-component/StatusComponentComponent";
 
 interface ClientMedicalProviderInformationFormComponentProps {
     clientId: string;
@@ -40,9 +44,16 @@ const ClientMedicalProviderInformationInitialValues: IClientMedicalProviderForm 
 
 const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProviderInformationFormComponentProps) => {
 
-     const {mode, onCancel, clientId, onSave} = props;
-    const [clientMedicalProviderInformationInitialValues] = useState<IClientMedicalProviderForm>(_.cloneDeep(ClientMedicalProviderInformationInitialValues));
+    const {mode, onCancel, clientId, onSave} = props;
+    const [clientMedicalProviderInformationInitialValues, setClientMedicalProviderInformationInitialValues] = useState<IClientMedicalProviderForm>(_.cloneDeep(ClientMedicalProviderInformationInitialValues));
     const [isClientMedicalProviderInformationSavingInProgress, setIsClientMedicalProviderInformationSavingInProgress] = useState(false);
+    const dispatch = useDispatch();
+    const {
+        clientMedicalDetails,
+        isClientMedicalDetailsLoaded,
+        isClientMedicalDetailsLoading,
+        isClientMedicalDetailsLoadingFailed
+    } = useSelector((state: IRootReducerState) => state.client);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         const payload = {...values, mode};
@@ -60,97 +71,130 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
             })
     }, [clientId, onSave, mode]);
 
+    useEffect(() => {
+        if (mode === "edit") {
+            if (clientMedicalDetails) {
+                setClientMedicalProviderInformationInitialValues({
+                    medical_provider_info: clientMedicalDetails.medical_provider_info
+                });
+            } else {
+                if (clientId) {
+                    dispatch(getClientMedicalDetails(clientId));
+                }
+            }
+        }
+    }, [mode, clientId, dispatch, clientMedicalDetails]);
+
     return (
         <div className={'client-medical-provider-information-form-component'}>
-            <FormControlLabelComponent label={"Add Medical Provider Information"}/>
-            <CardComponent title={"Medical Provider Information"}>
-                <Formik
-                    validationSchema={ClientMedicalProviderInformationValidationSchema}
-                    initialValues={clientMedicalProviderInformationInitialValues}
-                    onSubmit={onSubmit}
-                    validateOnChange={false}
-                    validateOnBlur={true}
-                    enableReinitialize={true}
-                    validateOnMount={true}>
-                    {({values, isValid, validateForm}) => {
-                        // eslint-disable-next-line react-hooks/rules-of-hooks
-                        useEffect(() => {
-                            validateForm();
-                        }, [validateForm, values]);
-                        return (
-                            <Form noValidate={true} className={"t-form"}>
-                                <FormControlLabelComponent label={"Family Doctor"}/>
-                                <div className="ts-row">
-                                    <div className="ts-col-4">
-                                        <Field name={`medical_provider_info.name`}>
-                                            {
-                                                (field: FieldProps) => (
-                                                    <FormikInputComponent
-                                                        label={"Full Name"}
-                                                        placeholder={"Full Name"}
-                                                        required={true}
-                                                        formikField={field}
-                                                        fullWidth={true}
-                                                    />
-                                                )
-                                            }
-                                        </Field>
-                                    </div>
-                                    <div className="ts-col-4">
-                                        <Field name={`medical_provider_info.primary_phone`}>
-                                            {
-                                                (field: FieldProps) => (
-                                                    <FormikInputComponent
-                                                        label={"Primary Phone Number"}
-                                                        placeholder={"Primary Phone Number"}
-                                                        required={true}
-                                                        formikField={field}
-                                                        fullWidth={true}
-                                                    />
-                                                )
-                                            }
-                                        </Field>
-                                    </div>
-                                </div>
-                                <FormControlLabelComponent label={"Date of Last Physical Examination"}/>
-                                <div className="ts-row">
-                                    <div className="ts-col-4">
-                                        <Field name={`medical_provider_info.last_examination_date`}>
-                                            {
-                                                (field: FieldProps) => (
-                                                    <FormikDatePickerComponent
-                                                        label={"Date"}
-                                                        placeholder={"Date"}
-                                                        required={true}
-                                                        formikField={field}
-                                                        fullWidth={true}
-                                                    />
-                                                )
-                                            }
-                                        </Field>
-                                    </div>
-                                </div>
-                                <div className="t-form-actions">
-                                    <ButtonComponent
-                                        variant={"outlined"}
-                                        onClick={onCancel}
-                                        disabled={isClientMedicalProviderInformationSavingInProgress}
-                                    >
-                                        Cancel
-                                    </ButtonComponent>&nbsp;
-                                    <ButtonComponent
-                                        isLoading={isClientMedicalProviderInformationSavingInProgress}
-                                        disabled={isClientMedicalProviderInformationSavingInProgress || !isValid}
-                                        type={"submit"}
-                                    >
-                                        {isClientMedicalProviderInformationSavingInProgress ? "Saving" : "Save & Next"}
-                                    </ButtonComponent>
-                                </div>
-                            </Form>
-                        )
-                    }}
-                </Formik>
-            </CardComponent>
+            <>
+                {
+                    mode === "edit" && <>
+                        {
+                            isClientMedicalDetailsLoading && <div>
+                                <LoaderComponent/>
+                            </div>
+                        }
+                        {
+                            isClientMedicalDetailsLoadingFailed &&
+                            <StatusComponentComponent title={"Failed to fetch medical Details"}/>
+                        }
+                    </>
+                }
+            </>
+            {
+                ((mode === "edit" && isClientMedicalDetailsLoaded && clientMedicalDetails) || mode === "add") && <>
+                    <FormControlLabelComponent label={CommonService.capitalizeFirstLetter(mode) + " Add Medical Provider Information"}/>
+                    <CardComponent title={"Medical Provider Information"}>
+                        <Formik
+                            validationSchema={ClientMedicalProviderInformationValidationSchema}
+                            initialValues={clientMedicalProviderInformationInitialValues}
+                            onSubmit={onSubmit}
+                            validateOnChange={false}
+                            validateOnBlur={true}
+                            enableReinitialize={true}
+                            validateOnMount={true}>
+                            {({values, isValid, validateForm}) => {
+                                // eslint-disable-next-line react-hooks/rules-of-hooks
+                                useEffect(() => {
+                                    validateForm();
+                                }, [validateForm, values]);
+                                return (
+                                    <Form noValidate={true} className={"t-form"}>
+                                        <FormControlLabelComponent label={"Family Doctor"}/>
+                                        <div className="ts-row">
+                                            <div className="ts-col-4">
+                                                <Field name={`medical_provider_info.name`}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikInputComponent
+                                                                label={"Full Name"}
+                                                                placeholder={"Full Name"}
+                                                                required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                            <div className="ts-col-4">
+                                                <Field name={`medical_provider_info.primary_phone`}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikInputComponent
+                                                                label={"Primary Phone Number"}
+                                                                placeholder={"Primary Phone Number"}
+                                                                required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                        </div>
+                                        <FormControlLabelComponent label={"Date of Last Physical Examination"}/>
+                                        <div className="ts-row">
+                                            <div className="ts-col-4">
+                                                <Field name={`medical_provider_info.last_examination_date`}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikDatePickerComponent
+                                                                label={"Date"}
+                                                                placeholder={"Date"}
+                                                                required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                        </div>
+                                        <div className="t-form-actions">
+                                            <ButtonComponent
+                                                variant={"outlined"}
+                                                onClick={onCancel}
+                                                disabled={isClientMedicalProviderInformationSavingInProgress}
+                                            >
+                                                Cancel
+                                            </ButtonComponent>&nbsp;
+                                            <ButtonComponent
+                                                isLoading={isClientMedicalProviderInformationSavingInProgress}
+                                                disabled={isClientMedicalProviderInformationSavingInProgress || !isValid}
+                                                type={"submit"}
+                                            >
+                                                {isClientMedicalProviderInformationSavingInProgress ? "Saving" : "Save & Next"}
+                                            </ButtonComponent>
+                                        </div>
+                                    </Form>
+                                )
+                            }}
+                        </Formik>
+                    </CardComponent>
+                </>
+            }
         </div>
     );
 

@@ -50,6 +50,7 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                 case "personalHabits":
                 case "allergies":
                 case "medicalHistory":
+                case "medicalSupplements":
                 case "medicalFemaleOnly":
                 case "surgicalHistory":
                 case "musculoskeletalHistory":

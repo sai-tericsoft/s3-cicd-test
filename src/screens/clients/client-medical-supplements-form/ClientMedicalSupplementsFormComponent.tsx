@@ -12,6 +12,11 @@ import CardComponent from "../../../shared/components/card/CardComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
+import {useDispatch, useSelector} from "react-redux";
+import {IRootReducerState} from "../../../store/reducers";
+import {getClientMedicalDetails} from "../../../store/actions/client.action";
+import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
+import StatusComponentComponent from "../../../shared/components/status-component/StatusComponentComponent";
 
 interface ClientMedicalSupplementsFormComponentProps {
     clientId: string;
@@ -37,9 +42,19 @@ const ClientMedicalSupplementsInitialValues: IClientMedicalSupplementsForm = {
 
 const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFormComponentProps) => {
 
-     const {mode, onCancel, clientId, onSave} = props;
-    const [clientMedicalSupplementsInitialValues] = useState<IClientMedicalSupplementsForm>(_.cloneDeep(ClientMedicalSupplementsInitialValues));
+    const {mode, onCancel, clientId, onSave} = props;
+    const [clientMedicalSupplementsInitialValues, setClientMedicalSupplementsInitialValues] = useState<IClientMedicalSupplementsForm>(_.cloneDeep(ClientMedicalSupplementsInitialValues));
     const [isClientMedicalSupplementsSavingInProgress, setIsClientMedicalSupplementsSavingInProgress] = useState(false);
+
+    const dispatch = useDispatch();
+
+    const {
+        clientMedicalDetails,
+        isClientMedicalDetailsLoaded,
+        isClientMedicalDetailsLoading,
+        isClientMedicalDetailsLoadingFailed
+    } = useSelector((state: IRootReducerState) => state.client);
+
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         const payload = {...values, mode};
@@ -56,77 +71,110 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
             })
     }, [clientId, onSave, mode]);
 
+    useEffect(() => {
+        if (mode === "edit") {
+            if (clientMedicalDetails) {
+                setClientMedicalSupplementsInitialValues({
+                    medications: clientMedicalDetails.medications
+                });
+            } else {
+                if (clientId) {
+                    dispatch(getClientMedicalDetails(clientId));
+                }
+            }
+        }
+    }, [mode, clientId, dispatch, clientMedicalDetails]);
+
     return (
         <div className={'client-medical-supplements-form-component'}>
-            <FormControlLabelComponent label={"Add Medications/Supplements"}/>
-            <CardComponent title={"Medications/Supplements"}
-                           description={"Please list all prescription and non-prescription medications for the client:"}>
-                <Formik
-                    validationSchema={ClientMedicalSupplementsValidationSchema}
-                    initialValues={clientMedicalSupplementsInitialValues}
-                    onSubmit={onSubmit}
-                    validateOnChange={false}
-                    validateOnBlur={true}
-                    enableReinitialize={true}
-                    validateOnMount={true}>
-                    {({values, isValid, validateForm}) => {
-                        // eslint-disable-next-line react-hooks/rules-of-hooks
-                        useEffect(() => {
-                            validateForm();
-                        }, [validateForm, values]);
-                        return (
-                            <Form noValidate={true} className={"t-form"}>
-                                <div className="ts-row">
-                                    <div className="ts-col-12">
-                                        <Field name={`medications.prescription_medication`}>
-                                            {
-                                                (field: FieldProps) => (
-                                                    <FormikTextAreaComponent
-                                                        label={"Prescription Medications"}
-                                                        placeholder={"Prescription Medications"}
-                                                        required={true}
-                                                        formikField={field}
-                                                        fullWidth={true}
-                                                    />
-                                                )
-                                            }
-                                        </Field>
-                                        <Field name={`medications.non_prescription_medication`}>
-                                            {
-                                                (field: FieldProps) => (
-                                                    <FormikTextAreaComponent
-                                                        label={"Non-Prescription Medications / Supplements"}
-                                                        placeholder={"Non-Prescription Medications / Supplements"}
-                                                        required={true}
-                                                        formikField={field}
-                                                        fullWidth={true}
-                                                    />
-                                                )
-                                            }
-                                        </Field>
-                                    </div>
-                                </div>
-                                <div className="t-form-actions">
-                                    <ButtonComponent
-                                        variant={"outlined"}
-                                        onClick={onCancel}
-                                        disabled={isClientMedicalSupplementsSavingInProgress}
-                                    >
-                                        Cancel
-                                    </ButtonComponent>&nbsp;
-                                    <ButtonComponent
-                                        isLoading={isClientMedicalSupplementsSavingInProgress}
-                                        disabled={isClientMedicalSupplementsSavingInProgress || !isValid}
-                                        type={"submit"}
-                                    >
-                                        {isClientMedicalSupplementsSavingInProgress ? "Saving" : "Save & Next"}
-                                    </ButtonComponent>
-                                </div>
-                            </Form>
-                        )
-                    }}
-                </Formik>
-            </CardComponent>
+            <>
+                {
+                    mode === "edit" && <>
+                        {
+                            isClientMedicalDetailsLoading && <div>
+                                <LoaderComponent/>
+                            </div>
+                        }
+                        {
+                            isClientMedicalDetailsLoadingFailed &&
+                            <StatusComponentComponent title={"Failed to fetch medical Details"}/>
+                        }
+                    </>
+                }
+            </>
+            {
+                ((mode === "edit" && isClientMedicalDetailsLoaded && clientMedicalDetails) || mode === "add") && <>
+                    <FormControlLabelComponent label={CommonService.capitalizeFirstLetter(mode) + " Add Medications/Supplements"}/>
+                    <CardComponent title={"Medications/Supplements"}
+                                   description={"Please list all prescription and non-prescription medications for the client:"}>
+                        <Formik
+                            validationSchema={ClientMedicalSupplementsValidationSchema}
+                            initialValues={clientMedicalSupplementsInitialValues}
+                            onSubmit={onSubmit}
+                            validateOnChange={false}
+                            validateOnBlur={true}
+                            enableReinitialize={true}
+                            validateOnMount={true}>
+                            {({values, isValid, validateForm}) => {
+                                // eslint-disable-next-line react-hooks/rules-of-hooks
+                                useEffect(() => {
+                                    validateForm();
+                                }, [validateForm, values]);
+                                return (
+                                    <Form noValidate={true} className={"t-form"}>
+                                        <div className="ts-row">
+                                            <div className="ts-col-12">
+                                                <Field name={`medications.prescription_medication`}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikTextAreaComponent
+                                                                label={"Prescription Medications"}
+                                                                placeholder={"Prescription Medications"}
+                                                                required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                                <Field name={`medications.non_prescription_medication`}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikTextAreaComponent
+                                                                label={"Non-Prescription Medications / Supplements"}
+                                                                placeholder={"Non-Prescription Medications / Supplements"}
+                                                                required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                        </div>
+                                        <div className="t-form-actions">
+                                            <ButtonComponent
+                                                variant={"outlined"}
+                                                onClick={onCancel}
+                                                disabled={isClientMedicalSupplementsSavingInProgress}
+                                            >
+                                                Cancel
+                                            </ButtonComponent>&nbsp;
+                                            <ButtonComponent
+                                                isLoading={isClientMedicalSupplementsSavingInProgress}
+                                                disabled={isClientMedicalSupplementsSavingInProgress || !isValid}
+                                                type={"submit"}
+                                            >
+                                                {isClientMedicalSupplementsSavingInProgress ? "Saving" : "Save & Next"}
+                                            </ButtonComponent>
+                                        </div>
+                                    </Form>
+                                )
+                            }}
+                        </Formik>
+                    </CardComponent>
+                </>
+            }
         </div>
     );
 
