@@ -8,11 +8,15 @@ import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {Misc} from "../../../constants";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 import FormikRadioButtonGroupComponent
     from "../../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
 import {IClientMedicalFemaleOnlyForm} from "../../../shared/models/client.model";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
+import {useDispatch, useSelector} from "react-redux";
+import {IRootReducerState} from "../../../store/reducers";
+import {getClientMedicalDetails} from "../../../store/actions/client.action";
+import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
+import StatusComponentComponent from "../../../shared/components/status-component/StatusComponentComponent";
 
 interface ClientMedicalFemaleOnlyFormComponentProps {
     clientId: string;
@@ -48,9 +52,17 @@ const FormQuestions = [
 
 const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyFormComponentProps) => {
 
-     const {mode, onCancel, clientId, onSave} = props;
-    const [clientMedicalFemaleOnlyInitialValues] = useState<IClientMedicalFemaleOnlyForm>(_.cloneDeep(ClientMedicalFemaleOnlyInitialValues));
+    const {mode, onCancel, clientId, onSave} = props;
+    const [clientMedicalFemaleOnlyInitialValues, setClientMedicalFemaleOnlyInitialValues] = useState<IClientMedicalFemaleOnlyForm>(_.cloneDeep(ClientMedicalFemaleOnlyInitialValues));
     const [isClientMedicalFemaleOnlyFormSavingInProgress, setIsClientMedicalFemaleOnlyFormSavingInProgress] = useState(false);
+    const dispatch = useDispatch();
+
+    const {
+        clientMedicalDetails,
+        isClientMedicalDetailsLoaded,
+        isClientMedicalDetailsLoading,
+        isClientMedicalDetailsLoadingFailed
+    } = useSelector((state: IRootReducerState) => state.client);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         const payload = {...values, mode};
@@ -67,71 +79,104 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
             })
     }, [clientId, onSave, mode]);
 
+    useEffect(() => {
+        if (mode === "edit") {
+            if (clientMedicalDetails) {
+                setClientMedicalFemaleOnlyInitialValues({
+                    females_only_questions: clientMedicalDetails.females_only_questions
+                });
+            } else {
+                if (clientId) {
+                    dispatch(getClientMedicalDetails(clientId));
+                }
+            }
+        }
+    }, [mode, clientId, dispatch, clientMedicalDetails]);
+
     return (
         <div className={'client-medical-female-only-form-component'}>
-            <FormControlLabelComponent label={"Add Females Only"}/>
-            <CardComponent title={"Females Only"} description={"Is the client currently:"}>
-                <Formik
-                    validationSchema={ClientMedicalFemaleOnlyValidationSchema}
-                    initialValues={clientMedicalFemaleOnlyInitialValues}
-                    onSubmit={onSubmit}
-                    validateOnChange={false}
-                    validateOnBlur={true}
-                    enableReinitialize={true}
-                    validateOnMount={true}>
-                    {({values, isValid, validateForm}) => {
-                        // eslint-disable-next-line react-hooks/rules-of-hooks
-                        useEffect(() => {
-                            validateForm();
-                        }, [validateForm, values]);
-                        return (
-                            <Form noValidate={true} className={"t-form"}>
-                                {
-                                    FormQuestions.map((question: any) => {
-                                        const {key, title} = question;
-                                        return <div className="ts-row ts-align-items-center" key={key}>
-                                            <div className="ts-col-md-8 ts-col-xl-10">
-                                                {title}
-                                            </div>
-                                            <div className="ts-col-md-4 ts-col-xl-2">
-                                                <Field name={`females_only_questions.${key}`}>
-                                                    {
-                                                        (field: FieldProps) => (
-                                                            <FormikRadioButtonGroupComponent
-                                                                options={CommonService._staticData.yesNoOptions}
-                                                                displayWith={(option) => option}
-                                                                valueExtractor={(option) => option}
-                                                                required={true}
-                                                                formikField={field}
-                                                            />
-                                                        )
-                                                    }
-                                                </Field>
-                                            </div>
+            <>
+                {
+                    mode === "edit" && <>
+                        {
+                            isClientMedicalDetailsLoading && <div>
+                                <LoaderComponent/>
+                            </div>
+                        }
+                        {
+                            isClientMedicalDetailsLoadingFailed &&
+                            <StatusComponentComponent title={"Failed to fetch medical Details"}/>
+                        }
+                    </>
+                }
+            </>
+            {
+                ((mode === "edit" && isClientMedicalDetailsLoaded && clientMedicalDetails) || mode === "add") && <>
+                    <FormControlLabelComponent label={CommonService.capitalizeFirstLetter(mode) + " Add Females Only"}/>
+                    <CardComponent title={"Females Only"} description={"Is the client currently:"}>
+                        <Formik
+                            validationSchema={ClientMedicalFemaleOnlyValidationSchema}
+                            initialValues={clientMedicalFemaleOnlyInitialValues}
+                            onSubmit={onSubmit}
+                            validateOnChange={false}
+                            validateOnBlur={true}
+                            enableReinitialize={true}
+                            validateOnMount={true}>
+                            {({values, isValid, validateForm}) => {
+                                // eslint-disable-next-line react-hooks/rules-of-hooks
+                                useEffect(() => {
+                                    validateForm();
+                                }, [validateForm, values]);
+                                return (
+                                    <Form noValidate={true} className={"t-form"}>
+                                        {
+                                            FormQuestions.map((question: any) => {
+                                                const {key, title} = question;
+                                                return <div className="ts-row ts-align-items-center" key={key}>
+                                                    <div className="ts-col-md-8 ts-col-xl-10">
+                                                        {title}
+                                                    </div>
+                                                    <div className="ts-col-md-4 ts-col-xl-2">
+                                                        <Field name={`females_only_questions.${key}`}>
+                                                            {
+                                                                (field: FieldProps) => (
+                                                                    <FormikRadioButtonGroupComponent
+                                                                        options={CommonService._staticData.yesNoOptions}
+                                                                        displayWith={(option) => option}
+                                                                        valueExtractor={(option) => option}
+                                                                        required={true}
+                                                                        formikField={field}
+                                                                    />
+                                                                )
+                                                            }
+                                                        </Field>
+                                                    </div>
+                                                </div>
+                                            })
+                                        }
+                                        <div className="t-form-actions">
+                                            <ButtonComponent
+                                                variant={"outlined"}
+                                                onClick={onCancel}
+                                                disabled={isClientMedicalFemaleOnlyFormSavingInProgress}
+                                            >
+                                                Cancel
+                                            </ButtonComponent>&nbsp;
+                                            <ButtonComponent
+                                                isLoading={isClientMedicalFemaleOnlyFormSavingInProgress}
+                                                disabled={isClientMedicalFemaleOnlyFormSavingInProgress || !isValid}
+                                                type={"submit"}
+                                            >
+                                                {isClientMedicalFemaleOnlyFormSavingInProgress ? "Saving" : "Save & Next"}
+                                            </ButtonComponent>
                                         </div>
-                                    })
-                                }
-                                <div className="t-form-actions">
-                                    <ButtonComponent
-                                        variant={"outlined"}
-                                        onClick={onCancel}
-                                        disabled={isClientMedicalFemaleOnlyFormSavingInProgress}
-                                    >
-                                        Cancel
-                                    </ButtonComponent>&nbsp;
-                                    <ButtonComponent
-                                        isLoading={isClientMedicalFemaleOnlyFormSavingInProgress}
-                                        disabled={isClientMedicalFemaleOnlyFormSavingInProgress || !isValid}
-                                        type={"submit"}
-                                    >
-                                        {isClientMedicalFemaleOnlyFormSavingInProgress ? "Saving" : "Save & Next"}
-                                    </ButtonComponent>
-                                </div>
-                            </Form>
-                        )
-                    }}
-                </Formik>
-            </CardComponent>
+                                    </Form>
+                                )
+                            }}
+                        </Formik>
+                    </CardComponent>
+                </>
+            }
         </div>
     );
 
