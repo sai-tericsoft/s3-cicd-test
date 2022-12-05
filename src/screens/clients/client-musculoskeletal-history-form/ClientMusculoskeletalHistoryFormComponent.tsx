@@ -19,7 +19,7 @@ import {IMusculoskeletalHistoryOption} from "../../../shared/models/common.model
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 
 interface ClientMusculoskeletalFormComponentProps {
-    clientId: number;
+    clientId: string;
     mode: "add" | "edit";
     onSave: (clientMusculoskeletalHistory: any) => void;
 }

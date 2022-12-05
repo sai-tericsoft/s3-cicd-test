@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../store/reducers";
 import {ImageConfig} from "../../constants";
 import {setSideMenuView} from "../../store/actions/navigation.action";
+import ToolTipComponent from "../../shared/components/tool-tip/ToolTipComponent";
 
 export interface AppLayoutProps {
 
@@ -26,16 +27,18 @@ const AppLayout = (props: AppLayoutProps) => {
                 <div className="side-menu-holder">
                     <SideMenuComponent/>
                 </div>
-                <div className="side-menu-toggle-icon" onClick={() => {
-                    dispatch(setSideMenuView(sideMenuView === "default" ? "compact" : "default"));
-                }}>
-                    {
-                        sideMenuView === "default" && <ImageConfig.LeftArrow/>
-                    }
-                    {
-                        sideMenuView === "compact" && <ImageConfig.RightArrow/>
-                    }
-                </div>
+                <ToolTipComponent tooltip={sideMenuView === "default" ? "Collapse" : "Expand"}>
+                    <div className="side-menu-toggle-icon" onClick={() => {
+                        dispatch(setSideMenuView(sideMenuView === "default" ? "compact" : "default"));
+                    }}>
+                        {
+                            sideMenuView === "default" && <ImageConfig.LeftArrow/>
+                        }
+                        {
+                            sideMenuView === "compact" && <ImageConfig.RightArrow/>
+                        }
+                    </div>
+                </ToolTipComponent>
             </div>
             <div className="header-and-page-container">
                 <div className="header-holder">

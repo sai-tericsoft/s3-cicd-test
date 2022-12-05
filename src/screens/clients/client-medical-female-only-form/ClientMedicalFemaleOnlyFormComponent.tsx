@@ -15,7 +15,7 @@ import {IClientMedicalFemaleOnlyForm} from "../../../shared/models/client.model"
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 
 interface ClientMedicalFemaleOnlyFormComponentProps {
-    clientId: number;
+    clientId: string;
     mode: "add" | "edit";
     onSave: (clientPersonalHabits: any) => void;
 }

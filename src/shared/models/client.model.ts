@@ -1,156 +1,13 @@
 import {
     ICommunicationModeType,
-    IEmploymentStatus,
-    IGender,
+    IEmploymentStatus, IGender,
     ILanguage,
     IMedicalHistoryOption,
     IPhoneType, IReferralType,
-    IRelationship, ISurgicalHistoryOption,
+    IRelationship,
+    ISocialMediaPlatform, ISurgicalHistoryOption,
     ITextValue
 } from "./common.model";
-
-export interface IClient {
-    _id: string;
-    client_id: string;
-    first_name: string;
-    last_name: string;
-    primary_email: string;
-    primary_contact_info: PrimaryContactInfo;
-    is_active: boolean;
-    last_appointment_date: string;
-    last_provider: string;
-}
-
-export interface PrimaryContactInfo {
-    phone_type: string;
-    phone: string;
-}
-
-export interface IClientListFilterState {
-    search: string;
-    sort: {
-        [key: string]: string,
-    }
-}
-
-export interface IClientBasicDetailsForm {
-    first_name: string;
-    last_name: string;
-    gender: string;
-    dob: string;
-    nick_name: string;
-    ssn: string;
-    primary_email: string;
-    show_secondary_emergency_form: boolean;
-    secondary_emails: SecondaryEmail[];
-    primary_contact_info: SecondaryContactInfoEntityOrPrimaryContactInfo;
-    secondary_contact_info?: (SecondaryContactInfoEntityOrPrimaryContactInfo)[] | null;
-    emergency_contact_info: EmergencyContactInfo;
-    work_info: WorkInfo;
-    address: Address;
-
-}
-
-export interface SecondaryEmail {
-    email: string;
-}
-
-export interface SecondaryContactInfoEntityOrPrimaryContactInfo {
-    phone_type: string;
-    phone: string;
-}
-
-export interface EmergencyContactInfo {
-    primary_emergency: PrimaryEmergency;
-    secondary_emergency: SecondaryEmergency;
-}
-
-export interface PrimaryEmergency {
-    name: string;
-    relationship: string;
-    language: string;
-    primary_contact_info: SecondaryContactInfoEntityOrPrimaryContactInfo;
-    secondary_contact_info?: (SecondaryContactInfoEntityOrPrimaryContactInfo)[] | null;
-}
-
-export interface SecondaryEmergency {
-    name: string;
-    relationship: string;
-    language: string;
-    primary_contact_info: SecondaryContactInfoEntityOrPrimaryContactInfo;
-    secondary_contact_info?: (SecondaryContactInfoEntityOrPrimaryContactInfo)[] | null;
-}
-
-export interface WorkInfo {
-    occupation: string;
-    employment_status: string;
-}
-
-export interface Address {
-    address_line: string;
-    city: string;
-    country: string;
-    zip_code: string;
-    state: string;
-}
-
-export interface IClientBasicDetails {
-    _id: string;
-    client_id: string;
-    first_name: string;
-    last_name: string;
-    nick_name: string;
-    dob: string;
-    gender: IGender;
-    ssn: string;
-    address: IAddress;
-    primary_email: string;
-    secondary_emails?: IEmail[] | null;
-    primary_contact_info: IContactInfo;
-    secondary_contact_info?: IContactInfo[] | null;
-    emergency_contact_info: IEmergencyContactInfo;
-    work_info: IWorkInfo;
-    is_active: boolean;
-    is_deleted: boolean;
-    created_at: string;
-    updated_at: string;
-    language?: ILanguage;
-}
-
-export interface IAddress {
-    address_line: string;
-    city: string;
-    country: string;
-    zip_code: string;
-    state: string;
-}
-
-export interface IContactInfo {
-    phone_type: IPhoneType;
-    phone: string;
-}
-
-export interface IEmail {
-    email: string;
-}
-
-export interface IEmergencyContactInfo {
-    primary_emergency: IEmergency;
-    secondary_emergency: IEmergency;
-}
-
-export interface IEmergency {
-    name: string;
-    relationship: IRelationship;
-    language: ILanguage;
-    primary_contact_info: IContactInfo;
-    secondary_contact_info?: IContactInfo[] | null;
-}
-
-export interface IWorkInfo {
-    occupation: string;
-    employment_status: IEmploymentStatus;
-}
 
 export type ClientAddFormSteps =
     "basicDetails"
@@ -164,6 +21,90 @@ export type ClientAddFormSteps =
     | "medicalHistory"
     | "accountDetails"
     ;
+
+export interface IClientListFilterState {
+    search: string;
+    sort: {
+        [key: string]: string,
+    }
+}
+
+export interface IClientBasicDetails {
+    _id?: string;
+    first_name: string;
+    last_name: string;
+    gender: string;
+    gender_details?: IGender;
+    dob: string;
+    nick_name: string;
+    client_id?: string;
+    ssn: string;
+    is_active?: boolean;
+    primary_email: string;
+    show_secondary_emergency_form: boolean;
+    secondary_emails: IEmail[];
+    primary_contact_info: IContactInfo;
+    secondary_contact_info?: IContactInfo[] | null;
+    emergency_contact_info: IEmergencyContactInfo;
+    work_info: IWorkInfo;
+    address: IAddress;
+    last_appointment_date?: string;
+    last_provider?: string;
+}
+
+export interface IEmergencyContactInfo {
+    primary_emergency: IEmergencyContact;
+    secondary_emergency: IEmergencyContact;
+}
+
+export interface IWorkInfo {
+    occupation: string;
+    employment_status: string;
+    employment_status_details?: IEmploymentStatus;
+}
+
+export interface IAddress {
+    address_line: string;
+    city: string;
+    country: string;
+    zip_code: string;
+    state: string;
+}
+
+export interface IContactInfo {
+    phone_type: string;
+    phone_type_details?: IPhoneType;
+    phone: string;
+}
+
+export interface IEmail {
+    email: string;
+}
+
+export interface IEmergencyContact {
+    name: string;
+    relationship_details?: IRelationship;
+    relationship: string;
+    language: string;
+    language_details?: ILanguage;
+    primary_contact_info: IContactInfo;
+    secondary_contact_info?: IContactInfo[] | null;
+}
+
+export interface IClientMedicalDetails {
+    _id: string;
+    client_id: string;
+    personal_habits: IClientPersonalHabits;
+    allergies: string;
+    medications: IClientMedicalSupplements;
+    medical_history: IClientMedicalHistoryDetails;
+    females_only_questions: IClientMedicalFemaleOnly;
+    surgical_history: IClientSurgicalHistoryDetails;
+    musculoskeletal_history: IClientMusculoskeletalHistory;
+    medical_provider_info: IClientMedicalProvider;
+    created_at: string;
+    updated_at: string;
+}
 
 export interface IClientPersonalHabitsForm {
     "personal_habits": IClientPersonalHabits;
@@ -182,100 +123,82 @@ export interface IClientAllergiesForm {
 
 export interface IClientMedicalSupplementsForm {
     "medications": IClientMedicalSupplements
-
 }
-export interface IClientMedicalSupplements{
+
+export interface IClientMedicalSupplements {
     "non_prescription_medication": string;
     "prescription_medication": string;
 }
-export interface IClientMedicalHistoryForm {
-    "medical_history": IClientMedicalHistory
 
-}
-export interface IClientMedicalHistory{
-    "comments": string;
-    "isCustomOption": boolean;
-    "questions": string[];
+export interface IClientMedicalHistoryForm {
+    "medical_history": IClientMedicalHistoryDetails
 }
 
 export interface IClientSurgicalHistoryForm {
-    "surgical_history":IClientSurgicalHistory
-}
-export interface IClientSurgicalHistory{
-    "comments": string;
-    "questions": ISurgicalHistoryOption[];
-    "isCustomOption": boolean;
+    "surgical_history": IClientSurgicalHistoryDetails
 }
 
 export interface IClientMedicalFemaleOnlyForm {
     "females_only_questions": IClientMedicalFemaleOnly
 }
-export interface IClientMedicalFemaleOnly{
+
+export interface IClientMedicalFemaleOnly {
     "Nursing?": string;
     "Pregnant or trying to get pregnant?": string;
 }
+
 export interface IClientMedicalProviderForm {
-    "medical_provider_info":IClientMedicalProvider
+    "medical_provider_info": IClientMedicalProvider
 }
-export interface IClientMedicalProvider{
+
+export interface IClientMedicalProvider {
     "last_examination_date": string;
     "name": string;
     "primary_phone": string;
+    "primary_phone_details"?: IPhoneType;
 }
 
 export interface IClientMusculoskeletalHistoryForm {
-    "musculoskeletal_history": {
-        [k: string]: {
-            "text": string,
-            "value": string
-        }
-    }
-}
-
-export interface IClientMedicalDetails {
-    _id: string;
-    client_id: string;
-    personal_habits: IClientPersonalHabits;
-    allergies: string;
-    medications: IClientMedicalSupplements;
-    medical_history: IClientMedicalHistoryDetails;
-    females_only_questions: IClientMedicalFemaleOnly;
-    surgical_history: IClientSurgicalHistoryDetails;
-    musculoskeletal_history: IMusculoskeletalHistory;
-    medical_provider_info: IClientMedicalProvider;
-    created_at: string;
-    updated_at: string;
+    "musculoskeletal_history": IClientMusculoskeletalHistory
 }
 
 export interface IClientMedicalHistoryDetails {
-    questions: IMedicalHistoryOption[],
+    questions: string[],
+    questions_details?: IMedicalHistoryOption[]
     comments: string;
+    isCustomOption: boolean;
 }
 
 export interface IClientSurgicalHistoryDetails {
-    questions: ISurgicalHistoryOption[],
+    questions: string[],
+    questions_details?: ISurgicalHistoryOption[],
     comments: string;
+    isCustomOption: boolean;
 }
 
-export interface IMusculoskeletalHistory {
-    [k: string]:{
+export interface IClientMusculoskeletalHistory {
+    [k: string]: {
         value: string;
         text: string;
         title: string;
     }
 }
 
-export interface IClientAccountDetailsForm {
+export interface IClientAccountDetails {
     "communication_preferences": {
         "appointment_reminders": string;
+        "appointment_reminders_details"?: ICommunicationModeType;
         "appointment_confirmations": string;
+        "appointment_confirmations_details"?: ICommunicationModeType;
     },
     "referral_details": {
         "source": string;
-        "source_info_name": string;
+        "source_details"?: IReferralType;
+        "source_info_name": string | ICommunicationModeType | ISocialMediaPlatform | any;
         "source_info_phone"?: string;
         "source_info_email"?: string;
         "source_info_relationship"?: string;
+        "source_info_relationship_details"?: IRelationship;
     }
 }
 
@@ -291,23 +214,3 @@ export interface IClientActivityLog {
     created_at: string;
     updated_at: string;
 }
-
-export interface IClientAccountDetails {
-    "communication_preferences": {
-        "appointment_reminders": ICommunicationModeType;
-        "appointment_confirmations":  ICommunicationModeType;
-    },
-    "referral_details": {
-        "source": IReferralType;
-        "source_info_name": any; //Todo refactor model
-        "source_info_phone"?: string;
-        "source_info_email"?: string;
-        "source_info_relationship"?: IRelationship;
-    }
-}
-
-// export interface IClientDetails {
-//     basic_details: any ;
-//     medical_details: any;
-//     account_details: any;
-// }

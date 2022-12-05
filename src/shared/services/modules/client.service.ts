@@ -21,48 +21,48 @@ const ClientBasicDetailsAddAPICall = (payload: any) => {
     return ApiService[APIConfig.CLIENT_BASIC_DETAILS_ADD.METHOD](APIConfig.CLIENT_BASIC_DETAILS_ADD.URL, payload);
 }
 
-const ClientPersonalHabitsAddAPICall = (clientId: number, payload: any) => {
+const ClientPersonalHabitsAddAPICall = (clientId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.CLIENT_PERSONAL_HABITS_ADD.METHOD](APIConfig.CLIENT_PERSONAL_HABITS_ADD.URL(clientId), payload);
 }
 
-const ClientAllergiesAddAPICall = (clientId: number, payload: any) => {
+const ClientAllergiesAddAPICall = (clientId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.CLIENT_ALLERGIES_ADD.METHOD](APIConfig.CLIENT_ALLERGIES_ADD.URL(clientId), payload);
 }
 
-const ClientMedicalSupplementsAddAPICall = (clientId: number, payload: any) => {
+const ClientMedicalSupplementsAddAPICall = (clientId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.CLIENT_MEDICAL_SUPPLEMENTS_ADD.METHOD](APIConfig.CLIENT_MEDICAL_SUPPLEMENTS_ADD.URL(clientId), payload);
 }
 
-const ClientMedicalHistoryAddAPICall = (clientId: number, payload: any) => {
+const ClientMedicalHistoryAddAPICall = (clientId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.CLIENT_MEDICAL_HISTORY_ADD.METHOD](APIConfig.CLIENT_MEDICAL_HISTORY_ADD.URL(clientId), payload);
 }
 
 
-const ClientSurgicalHistoryAddAPICall = (clientId: number, payload: any) => {
+const ClientSurgicalHistoryAddAPICall = (clientId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.CLIENT_SURGICAL_HISTORY_ADD.METHOD](APIConfig.CLIENT_SURGICAL_HISTORY_ADD.URL(clientId), payload);
 }
 
-const ClientMedicalFemaleOnlyAddAPICall = (clientId: number, payload: any) => {
+const ClientMedicalFemaleOnlyAddAPICall = (clientId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.CLIENT_MEDICAL_FEMALE_ONLY_ADD.METHOD](APIConfig.CLIENT_MEDICAL_FEMALE_ONLY_ADD.URL(clientId), payload);
 }
 
-const ClientMedicalProviderInformationAddAPICall = (clientId: number, payload: any) => {
+const ClientMedicalProviderInformationAddAPICall = (clientId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.CLIENT_MEDICAL_PROVIDER_ADD.METHOD](APIConfig.CLIENT_MEDICAL_PROVIDER_ADD.URL(clientId), payload);
 }
 
-const ClientMusculoskeletalHistoryAddAPICall = (clientId: number, payload: any) => {
+const ClientMusculoskeletalHistoryAddAPICall = (clientId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.CLIENT_MUSCULOSKELETAL_HISTORY_ADD.METHOD](APIConfig.CLIENT_MUSCULOSKELETAL_HISTORY_ADD.URL(clientId), payload);
 }
 
-const ClientAccountDetailsAddAPICall = (clientId: number, payload: any) => {
+const ClientAccountDetailsAddAPICall = (clientId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.CLIENT_ACCOUNT_PREFERENCES_ADD.METHOD](APIConfig.CLIENT_ACCOUNT_PREFERENCES_ADD.URL(clientId), payload);
 }

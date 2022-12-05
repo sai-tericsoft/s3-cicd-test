@@ -24,7 +24,6 @@ import ClientBasicDetailsComponent from "../client-basic-details/ClientBasicDeta
 import ClientActivityLogComponent from "../client-activity-log/ClientActivityLogComponent";
 import ClientMedicalDetailsComponent from "../client-medical-details/ClientMedicalDetailsComponent";
 import StatusComponentComponent from "../../../shared/components/status-component/StatusComponentComponent";
-import PageLoaderComponent from "../../../shared/components/page-loader/pageLoaderComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 
 // import LinkComponent from "../../../shared/components/link/LinkComponent";
@@ -148,11 +147,10 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
                                                     <TabComponent label="Account Details" value={"accountDetails"}/>
                                                     <TabComponent label="Activity Log" value={"activityLog"}/>
                                                 </TabsComponent>
-                                                <TabContentComponent selectedTab={currentTab} value={"basicDetails"}>
+                                                <TabContentComponent value={"basicDetails"} selectedTab={currentTab}>
                                                     <ClientBasicDetailsComponent/>
                                                 </TabContentComponent>
-                                                <TabContentComponent value={"medicalHistoryQuestionnaire"}
-                                                                     selectedTab={currentTab}>
+                                                <TabContentComponent value={"medicalHistoryQuestionnaire"} selectedTab={currentTab}>
                                                     <ClientMedicalDetailsComponent/>
                                                 </TabContentComponent>
                                                 <TabContentComponent value={"accountDetails"} selectedTab={currentTab}>

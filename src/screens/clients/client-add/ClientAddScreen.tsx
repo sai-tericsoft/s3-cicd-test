@@ -32,7 +32,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [currentStep, setCurrentStep] = useState<ClientAddFormSteps>(ClientAddSteps[0]);
     const dispatch = useDispatch();
-    const [clientId, setClientId] = useState<number | undefined>(undefined);
+    const [clientId, setClientId] = useState<string | undefined>(undefined);
     const [clientDetails, setClientDetails] = useState<IClientBasicDetails | undefined>(undefined);
 
     useEffect(() => {
@@ -64,7 +64,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                 break;
             }
             case "medicalHistory": {
-                if (clientDetails?.gender?.code === "female") {
+                if (clientDetails?.gender === "female") {
                     nextStep = 'medicalFemaleOnly';
                 } else {
                     nextStep = 'surgicalHistory';
@@ -105,7 +105,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
         const clientId = searchParams.get("clientId");
         console.log(currentStep, clientId);
         if (clientId) {
-            setClientId(parseInt(clientId, 10));
+            setClientId(clientId);
             if (currentStep) {
                 if (!ClientAddSteps.includes(currentStep)) {
                     currentStep = "basicDetails";

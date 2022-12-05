@@ -5,7 +5,7 @@ import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {CommonService} from "../../../shared/services";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
 import {APIConfig} from "../../../constants";
-import {IClient, IClientListFilterState} from "../../../shared/models/client.model";
+import {IClientBasicDetails, IClientListFilterState} from "../../../shared/models/client.model";
 
 interface ClientListTableComponentProps {
     clientListFilterState: IClientListFilterState;
@@ -30,7 +30,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             dataIndex: "first_name",
             sortable: true,
             width: "20%",
-            render: (_: any, item: IClient) => {
+            render: (_: any, item: IClientBasicDetails) => {
                 return <span>{item?.last_name} {item?.first_name}</span>
             }
         },
@@ -39,7 +39,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             key: "primary_contact_info",
             dataIndex: "primary_contact_info",
             width: "15%",
-            render: (_: any, item: IClient) => {
+            render: (_: any, item: IClientBasicDetails) => {
                 return <span>{item?.primary_contact_info?.phone}</span>
             }
         },
@@ -48,9 +48,9 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             key: "last_appointment_date",
             dataIndex: "lastAppointmentDate",
             width: "15%",
-            render: (_: any, item: IClient) => {
+            render: (_: any, item: IClientBasicDetails) => {
                 return <span>
-                    {CommonService.getSystemFormatTimeStamp(item.last_appointment_date)}
+                    {item?.last_appointment_date ? CommonService.getSystemFormatTimeStamp(item?.last_appointment_date) : "-"}
                 </span>
             }
         },
@@ -59,9 +59,9 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             key: "last_provider",
             dataIndex: "last_provider",
             width: "20%",
-            render: (_: any, item: IClient) => {
+            render: (_: any, item: IClientBasicDetails) => {
                 return <span>
-                    {item.last_provider}
+                    {item?.last_provider}
                 </span>
             }
         },
@@ -70,7 +70,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             dataIndex: "status",
             key: "status",
             width: "10%",
-            render: (_: any, item: IClient) => {
+            render: (_: any, item: IClientBasicDetails) => {
                 return <ChipComponent label={item?.is_active ? "Active" : "Inactive"}
                                       color={item?.is_active ? "success" : "error"}/>
             }
@@ -81,10 +81,12 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             key: "actions",
             width: "10%",
             fixed: "right",
-            render: (_: any, item: IClient) => {
-                return <LinkComponent route={CommonService._routeConfig.ClientDetails(item._id)}>
-                    View Details
-                </LinkComponent>
+            render: (_: any, item: IClientBasicDetails) => {
+                if (item?._id){
+                    return <LinkComponent route={CommonService._routeConfig.ClientDetails(item?._id)}>
+                        View Details
+                    </LinkComponent>
+                }
             }
         }
     ];

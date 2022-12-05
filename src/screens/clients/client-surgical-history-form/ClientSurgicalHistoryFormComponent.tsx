@@ -19,7 +19,7 @@ import FormikTextAreaComponent from "../../../shared/components/form-controls/fo
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 
 interface ClientSurgicalHistoryFormComponentProps {
-    clientId: number;
+    clientId: string;
     mode: "add" | "edit";
     onSave: (clientSurgicalHistoryDetails: any) => void;
 }

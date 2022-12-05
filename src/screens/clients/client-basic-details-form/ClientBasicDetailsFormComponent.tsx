@@ -1,7 +1,6 @@
 import "./ClientBasicDetailsFormComponent.scss";
 import * as Yup from "yup";
 import {useCallback, useEffect, useState} from "react";
-import {IClientBasicDetailsForm} from "../../../shared/models/client.model";
 import _ from "lodash";
 import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {CommonService} from "../../../shared/services";
@@ -19,6 +18,7 @@ import FormikDatePickerComponent
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
+import {IClientBasicDetails} from "../../../shared/models/client.model";
 
 interface ClientBasicDetailsFormComponentProps {
     mode: "add" | "edit";
@@ -61,7 +61,7 @@ const ClientBasicDetailsFormValidationSchema = Yup.object({
     })
 });
 
-const ClientBasicDetailsFormInitialValues: IClientBasicDetailsForm = {
+const ClientBasicDetailsFormInitialValues: IClientBasicDetails = {
     first_name: "johnson4",
     last_name: "johnson4",
     gender: "male",
@@ -132,7 +132,7 @@ const ClientBasicDetailsFormInitialValues: IClientBasicDetailsForm = {
 const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentProps) => {
 
     const {mode, onSave} = props;
-    const [clientBasicDetailsFormInitialValues] = useState<IClientBasicDetailsForm>(_.cloneDeep(ClientBasicDetailsFormInitialValues));
+    const [clientBasicDetailsFormInitialValues] = useState<IClientBasicDetails>(_.cloneDeep(ClientBasicDetailsFormInitialValues));
     const [isClientBasicDetailsSavingInProgress, setIsClientBasicDetailsSavingInProgress] = useState(false);
     const {
         genderList,

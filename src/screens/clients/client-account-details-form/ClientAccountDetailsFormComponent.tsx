@@ -1,6 +1,5 @@
 import "./ClientAccountDetailsFormComponent.scss";
 import * as Yup from "yup";
-import {IClientAccountDetailsForm} from "../../../shared/models/client.model";
 import {useCallback, useEffect, useState} from "react";
 import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
@@ -18,9 +17,10 @@ import HorizontalLineComponent
     from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import QuestionComponent from "../../../shared/components/question/QuestionComponent";
+import {IClientAccountDetails} from "../../../shared/models/client.model";
 
 interface ClientAccountDetailsFormComponentProps {
-    clientId: number;
+    clientId: string;
     mode: "add" | "edit";
     onSave: (clientAccountDetailsFormDetails: any) => void;
 }
@@ -57,7 +57,7 @@ const ClientAccountDetailsFormValidationSchema = Yup.object({
     }),
 });
 
-const ClientAccountDetailsFormInitialValues: IClientAccountDetailsForm = {
+const ClientAccountDetailsFormInitialValues: IClientAccountDetails = {
     communication_preferences: {
         appointment_reminders: "",
         appointment_confirmations: ""
@@ -74,7 +74,7 @@ const ClientAccountDetailsFormInitialValues: IClientAccountDetailsForm = {
 const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormComponentProps) => {
 
     const {mode, clientId, onSave} = props;
-    const [clientAccountDetailsFormInitialValues] = useState<IClientAccountDetailsForm>(_.cloneDeep(ClientAccountDetailsFormInitialValues));
+    const [clientAccountDetailsFormInitialValues] = useState<IClientAccountDetails>(_.cloneDeep(ClientAccountDetailsFormInitialValues));
     const [isClientAccountDetailsFormSavingInProgress, setIsClientAccountDetailsFormSavingInProgress] = useState(false);
     const {
         communicationModeTypeList,
@@ -87,7 +87,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
         const payload = {...values, mode};
         setIsClientAccountDetailsFormSavingInProgress(true);
         CommonService._client.ClientAccountDetailsAddAPICall(clientId, payload)
-            .then((response: IAPIResponseType<IClientAccountDetailsForm>) => {
+            .then((response: IAPIResponseType<IClientAccountDetails>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsClientAccountDetailsFormSavingInProgress(false);
                 onSave(response);

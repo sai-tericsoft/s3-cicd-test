@@ -39,15 +39,15 @@ const ClientAccountDetailsComponent = (props: ClientAccountDetailsComponentProps
                     <CardComponent title={"Communication and Referral Details"}>
                         <FormControlLabelComponent label={"Communication Preferences"}/>
                         <QuestionComponent title={"Appointment Reminders"}
-                                           description={clientAccountDetails?.communication_preferences?.appointment_reminders?.title || "-"}/>
+                                           description={clientAccountDetails?.communication_preferences?.appointment_reminders_details?.title || "-"}/>
                         <QuestionComponent title={"Appointment Confirmations"}
-                                           description={clientAccountDetails?.communication_preferences?.appointment_confirmations?.title || "-"}/>
+                                           description={clientAccountDetails?.communication_preferences?.appointment_confirmations_details?.title || "-"}/>
                         <HorizontalLineComponent/>
                         <FormControlLabelComponent label={"Referral Details"}/>
                         <QuestionComponent title={"How did you find us?"}
-                                           description={clientAccountDetails?.referral_details.source?.title || "-"}/>
+                                           description={clientAccountDetails?.referral_details.source_details?.title || "-"}/>
                         {
-                            clientAccountDetails?.referral_details.source?.code === "friends_family_colleague" && <>
+                            clientAccountDetails?.referral_details.source_details?.code === "friends_family_colleague" && <>
                                 <DataLabelValueComponent
                                     label={"Name"}> {clientAccountDetails?.referral_details?.source_info_name} </DataLabelValueComponent>
                                 <DataLabelValueComponent
@@ -55,17 +55,17 @@ const ClientAccountDetailsComponent = (props: ClientAccountDetailsComponentProps
                                 <DataLabelValueComponent
                                     label={"Email"}> {clientAccountDetails?.referral_details?.source_info_email} </DataLabelValueComponent>
                                 <DataLabelValueComponent
-                                    label={"Relationship"}> {clientAccountDetails?.referral_details.source_info_relationship?.title} </DataLabelValueComponent>
+                                    label={"Relationship"}> {clientAccountDetails?.referral_details.source_info_relationship_details?.title} </DataLabelValueComponent>
                             </>
                         }
                         {
-                            clientAccountDetails?.referral_details.source?.code === "social_media" && <>
+                            clientAccountDetails?.referral_details.source_details?.code === "social_media" && <>
                                 <DataLabelValueComponent
                                     label={"Social Media"}> {clientAccountDetails?.referral_details?.source_info_name?.title} </DataLabelValueComponent>
                             </>
                         }
                         {
-                            clientAccountDetails?.referral_details.source?.code === "other" && <>
+                            clientAccountDetails?.referral_details.source_details?.code === "other" && <>
                                 <DataLabelValueComponent
                                     label={"Other"}> {clientAccountDetails?.referral_details?.source_info_name} </DataLabelValueComponent>
                             </>

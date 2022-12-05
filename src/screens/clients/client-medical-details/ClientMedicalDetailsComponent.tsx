@@ -107,10 +107,10 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                     </CardComponent>
                     <CardComponent title={'Medical History'}>
                         {
-                            clientMedicalDetails?.medical_history?.questions?.map((question, index) => {
-                                return <span key={question._id + index}>
+                            clientMedicalDetails?.medical_history?.questions_details?.map((question, index) => {
+                                return <span key={question?._id + index}>
                             <span>{question.title}</span>
-                                    {(clientMedicalDetails?.medical_history?.questions.length - 1 !== index) &&
+                                    {(clientMedicalDetails?.medical_history?.questions_details && clientMedicalDetails?.medical_history?.questions_details?.length - 1 !== index) &&
                                         <span>, </span>
                                     }
                         </span>
@@ -139,10 +139,10 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                     </CardComponent>
                     <CardComponent title={'Surgical History'}>
                         {
-                            clientMedicalDetails?.surgical_history?.questions?.map((question, index) => {
+                            clientMedicalDetails?.surgical_history?.questions_details?.map((question, index) => {
                                 return <span key={question._id + index}>
                             <span>{question.title}</span>
-                                    {(clientMedicalDetails?.surgical_history?.questions.length - 1 !== index) &&
+                                    {(clientMedicalDetails?.surgical_history?.questions_details && clientMedicalDetails?.surgical_history?.questions_details.length - 1 !== index) &&
                                         <span>, </span>
                                     }
                         </span>
