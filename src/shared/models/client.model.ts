@@ -185,6 +185,7 @@ export interface IClientMusculoskeletalHistory {
 }
 
 export interface IClientAccountDetails {
+    client_id?: string;
     "communication_preferences": {
         "appointment_reminders": string;
         "appointment_reminders_details"?: ICommunicationModeType;
@@ -194,7 +195,8 @@ export interface IClientAccountDetails {
     "referral_details": {
         "source": string;
         "source_details"?: IReferralType;
-        "source_info_name": string | ICommunicationModeType | ISocialMediaPlatform | any;
+        "source_info_name": string
+        "source_info_name_details"?: string | ICommunicationModeType | ISocialMediaPlatform | any;
         "source_info_phone"?: string;
         "source_info_email"?: string;
         "source_info_relationship"?: string;

@@ -45,44 +45,29 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
     }, [dispatch]);
 
     const handleClientDetailsSave = useCallback((data: any) => {
-        switch (currentStep) {
-            case "basicDetails": {
-                if (clientId) {
-                    console.log(clientId, currentStep);
-                    navigate(CommonService._routeConfig.ClientDetails(clientId));
+        if (clientId) {
+            switch (currentStep) {
+                case "basicDetails": {
+                    navigate(CommonService._routeConfig.ClientDetails(clientId) + "?currentStep=" + currentStep);
+                    break;
                 }
-                break;
-            }
-            case "personalHabits": {
-                break;
-            }
-            case "allergies": {
-                break;
-            }
-            case "medicalSupplements": {
-                break;
-            }
-            case "medicalHistory": {
-                break;
-            }
-            case "medicalFemaleOnly": {
-                break;
-            }
-            case "surgicalHistory": {
-                break;
-            }
-            case "musculoskeletal": {
-                break;
-            }
-            case "medicalProvider": {
-                break;
-            }
-            case "accountDetails": {
-                navigate(CommonService._routeConfig.ClientList());
-                break;
-            }
-            default: {
-                navigate(CommonService._routeConfig.ClientList());
+                case "personalHabits":
+                case "allergies":
+                case "medicalHistory":
+                case "medicalFemaleOnly":
+                case "surgicalHistory":
+                case "musculoskeletal":
+                case "medicalProvider": {
+                    navigate(CommonService._routeConfig.ClientDetails(clientId) + "?currentStep=" + currentStep);
+                    break;
+                }
+                case "accountDetails": {
+                    navigate(CommonService._routeConfig.ClientDetails(clientId) + "?currentStep=" + currentStep);
+                    break;
+                }
+                default: {
+                    navigate(CommonService._routeConfig.ClientList());
+                }
             }
         }
     }, [currentStep, clientId, navigate]);
@@ -96,15 +81,6 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
         }
         setCurrentStep(currentStep);
     }, [searchParams]);
-
-
-    useEffect(() => {
-        return () => {
-            dispatch(setClientBasicDetails(undefined));
-            dispatch(setClientMedicalDetails(undefined));
-            dispatch(setClientAccountDetails(undefined));
-        }
-    }, [dispatch])
 
     return (
         <div className={'client-add-screen'}>

@@ -12,10 +12,15 @@
       border-left: 1px solid #B3C5C4;
       background: #FFFFFF;
       text-transform: unset !important;
+      font-weight: $font-weight-normal;
 
       &:first-child {
         border-left: none;
       }
+    }
+
+    .t-tab.Mui-selected {
+      font-weight: $font-weight-bold;
     }
 
     &.primary {

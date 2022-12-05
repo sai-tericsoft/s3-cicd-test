@@ -57,6 +57,7 @@ const TableComponent = (props: TableComponentProps) => {
     return (
         <div className={'table-component'}>
             <Table columns={tableColumns}
+                   className={`${loading ? "loading" : ""}`}
                    locale={{
                        emptyText: (
                            <>

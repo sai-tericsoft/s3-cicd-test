@@ -63,7 +63,7 @@ const TableWrapperComponent = (props: TableComponentProps) => {
         })
     }, [isPaginated, method, url, extraPayload]);
 
-    useEffect(()=>{
+    useEffect(() => {
         getListData();
     }, [getListData, refreshToken]);
 

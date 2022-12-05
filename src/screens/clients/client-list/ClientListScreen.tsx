@@ -7,8 +7,13 @@ import SearchComponent from "../../../shared/components/search/SearchComponent";
 import {IClientListFilterState} from "../../../shared/models/client.model";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {CommonService} from "../../../shared/services";
+import {
+    setClientAccountDetails,
+    setClientBasicDetails,
+    setClientMedicalDetails
+} from "../../../store/actions/client.action";
+import {useNavigate} from "react-router-dom";
 
 interface ClientListScreenProps {
 
@@ -18,6 +23,7 @@ interface ClientListScreenProps {
 const ClientListScreen = (props: ClientListScreenProps) => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [clientListFilterState, setClientListFilterState] = useState<IClientListFilterState>({
         search: "",
         sort: {}
@@ -35,6 +41,13 @@ const ClientListScreen = (props: ClientListScreenProps) => {
         });
     }, []);
 
+    const handleClientAdd = useCallback(() => {
+        dispatch(setClientBasicDetails(undefined));
+        dispatch(setClientMedicalDetails(undefined));
+        dispatch(setClientAccountDetails(undefined));
+        navigate(CommonService._routeConfig.ClientAdd());
+    }, [navigate, dispatch]);
+
     return (
         <div className={'client-list-screen list-screen'}>
             <div className={'list-screen-header'}>
@@ -48,11 +61,9 @@ const ClientListScreen = (props: ClientListScreenProps) => {
                     />
                 </div>
                 <div className="list-options">
-                    <LinkComponent route={CommonService._routeConfig.ClientAdd()}>
-                        <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}>
-                            Add Client
-                        </ButtonComponent>
-                    </LinkComponent>
+                    <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>} onClick={handleClientAdd}>
+                        Add Client
+                    </ButtonComponent>
                 </div>
             </div>
             <div className="list-content-wrapper">

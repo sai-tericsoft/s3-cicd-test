@@ -10,6 +10,10 @@ import {IRootReducerState} from "../../../store/reducers";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusComponentComponent from "../../../shared/components/status-component/StatusComponentComponent";
 import React from "react";
+import {CommonService} from "../../../shared/services";
+import ButtonComponent from "../../../shared/components/button/ButtonComponent";
+import {ImageConfig} from "../../../constants";
+import LinkComponent from "../../../shared/components/link/LinkComponent";
 
 interface ClientAccountDetailsComponentProps {
 }
@@ -36,7 +40,19 @@ const ClientAccountDetailsComponent = (props: ClientAccountDetailsComponentProps
             }
             {
                 (isClientAccountDetailsLoaded && clientAccountDetails) && <>
-                    <CardComponent title={"Communication and Referral Details"}>
+                    <CardComponent title={"Communication and Referral Details"}
+                                   actions={<>
+                                       {
+                                           clientAccountDetails.client_id && <LinkComponent
+                                               route={CommonService._routeConfig.ClientEdit(clientAccountDetails.client_id) + "?currentStep=accountDetails"}>
+                                               <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
+                                                   Edit
+                                               </ButtonComponent>
+                                           </LinkComponent>
+                                       }
+                                   </>
+                                   }
+                    >
                         <FormControlLabelComponent label={"Communication Preferences"}/>
                         <QuestionComponent title={"Appointment Reminders"}
                                            description={clientAccountDetails?.communication_preferences?.appointment_reminders_details?.title || "-"}/>
@@ -61,7 +77,7 @@ const ClientAccountDetailsComponent = (props: ClientAccountDetailsComponentProps
                         {
                             clientAccountDetails?.referral_details.source_details?.code === "social_media" && <>
                                 <DataLabelValueComponent
-                                    label={"Social Media"}> {clientAccountDetails?.referral_details?.source_info_name?.title} </DataLabelValueComponent>
+                                    label={"Social Media"}> {clientAccountDetails?.referral_details.source_info_name_details?.title} </DataLabelValueComponent>
                             </>
                         }
                         {

@@ -6,6 +6,12 @@
 
 .ant-table-wrapper {
 
+  &.loading {
+    .ant-table-body {
+      overflow: hidden !important;
+    }
+  }
+
 }
 
 .ant-table {
@@ -41,7 +47,6 @@
       }
     }
   }
-
 
   &.ant-table-small {
     .ant-table-thead {
