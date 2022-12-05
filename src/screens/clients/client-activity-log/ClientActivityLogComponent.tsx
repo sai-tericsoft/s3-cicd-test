@@ -1,9 +1,9 @@
 import "./ClientActivityLogComponent.scss";
-import TableWrapperComponent from "../../../../shared/components/table-wrapper/TableWrapperComponent";
-import {APIConfig} from "../../../../constants";
-import {CommonService} from "../../../../shared/services";
-import {ITableColumn} from "../../../../shared/models/table.model";
-import {IClientActivityLog} from "../../../../shared/models/client.model";
+import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
+import {APIConfig} from "../../../constants";
+import {CommonService} from "../../../shared/services";
+import {ITableColumn} from "../../../shared/models/table.model";
+import {IClientActivityLog} from "../../../shared/models/client.model";
 
 interface ClientActivityLogComponentProps {
     clientId: string;

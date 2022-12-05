@@ -9,8 +9,7 @@ import {IClientAccountDetails, IClientBasicDetails, IClientMedicalDetails} from 
 import ClientMedicalDetailsComponent from "../client-medical-details/ClientMedicalDetailsComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
-import ClientBasicDetailsCardComponent
-    from "../../admin/client/client-basic-details-card/ClientBasicDetailsCardComponent";
+import ClientBasicDetailsCardComponent from "../client-basic-details-card/ClientBasicDetailsCardComponent";
 import SubMenuListComponent from "../../../shared/components/sub-menu-list/SubMenuListComponent";
 import TabsWrapperComponent, {
     TabComponent,
@@ -18,8 +17,9 @@ import TabsWrapperComponent, {
     TabsComponent
 } from "../../../shared/components/tabs/TabsComponent";
 import ClientBasicDetailsComponent from "../client-basic-details/ClientBasicDetailsComponent";
-import ClientActivityLogComponent from "../../admin/client/client-activity-log/ClientActivityLogComponent";
+import ClientActivityLogComponent from "../client-activity-log/ClientActivityLogComponent";
 import ClientAccountDetailsComponent from "../client-account-details/ClientAccountDetailsComponent";
+import LinkComponent from "../../../shared/components/link/LinkComponent";
 
 interface ClientDetailsScreenProps {
 
@@ -131,8 +131,8 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
     useEffect(() => {
         dispatch(setCurrentNavParams(clientBasicDetails?.name || "Client Details", null, true));
     }, [clientBasicDetails, dispatch]);
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         console.log(isClientAccountDetailsLoaded, isClientAccountDetailsLoading, isClientAccountDetailsLoadingFailed, isClientMedicalDetailsLoaded, isClientMedicalDetailsLoading, isClientMedicalDetailsLoadingFailed);
     }, [isClientAccountDetailsLoaded, isClientAccountDetailsLoading, isClientAccountDetailsLoadingFailed, isClientMedicalDetailsLoaded, isClientMedicalDetailsLoading, isClientMedicalDetailsLoadingFailed])
 
@@ -147,16 +147,19 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
                 }
                 {
 
-                    isClientBasicDetailsLoaded && <>
+                    (isClientBasicDetailsLoaded && clientId) && <>
                         <div className="client-details-header">
                             <div className={"client-details-title"}>
                                 Client Profile
                             </div>
                             <div className={"client-details-actions"}>
                                 {
-                                    currentTab === "basicDetails" && <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>
-                                        Edit Profile
-                                    </ButtonComponent>
+                                    currentTab === "basicDetails" &&
+                                    // <LinkComponent route={CommonService._routeConfig.ClientEdit(clientId) + "?currentTab=basicDetails"}>
+                                        <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>
+                                            Edit Profile
+                                        </ButtonComponent>
+                                    // </LinkComponent>
                                 }
                             </div>
                         </div>
@@ -175,8 +178,8 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
                                         value={currentTab}
                                         allowScrollButtonsMobile={false}
                                         variant={"fullWidth"}
-                                        onUpdate={(e: any, v: any) => {
-                                            setCurrentTab(v);
+                                        onUpdate={(e,value: any) => {
+                                            setCurrentTab(value);
                                         }}
                                     >
                                         <TabComponent label="Client Details" value={"basicDetails"}/>
@@ -195,9 +198,7 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
                                         <ClientAccountDetailsComponent clientAccountDetails={clientAccountDetails}/>
                                     </TabContentComponent>
                                     <TabContentComponent selectedTab={currentTab} value={"activityLog"}>
-                                        {
-                                            clientId && <ClientActivityLogComponent clientId={clientId}/>
-                                        }
+                                        <ClientActivityLogComponent clientId={clientId}/>
                                     </TabContentComponent>
                                 </TabsWrapperComponent>
                             </div>

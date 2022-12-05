@@ -62,20 +62,20 @@ const ClientBasicDetailsFormValidationSchema = Yup.object({
 });
 
 const ClientBasicDetailsFormInitialValues: IClientBasicDetailsForm = {
-    first_name: "johnson",
-    last_name: "johnson",
-    gender: "m",
+    first_name: "",
+    last_name: "",
+    gender: "",
     dob: "",
-    nick_name: "johnson",
-    ssn: "123456",
-    primary_email: "johnson@johnson.com",
+    nick_name: "",
+    ssn: "",
+    primary_email: "",
     show_secondary_emergency_form: false,
     secondary_emails: [{
         email: ""
     }],
     primary_contact_info: {
-        phone_type: "fax",
-        phone: "992323222"
+        phone_type: "",
+        phone: ""
     },
     secondary_contact_info: [
         {
@@ -85,7 +85,7 @@ const ClientBasicDetailsFormInitialValues: IClientBasicDetailsForm = {
     ],
     emergency_contact_info: {
         primary_emergency: {
-            name: "mitchell",
+            name: "",
             relationship: "",
             language: "",
             primary_contact_info: {
@@ -116,15 +116,15 @@ const ClientBasicDetailsFormInitialValues: IClientBasicDetailsForm = {
         }
     },
     work_info: {
-        occupation: "cricketer",
+        occupation: "",
         employment_status: ""
     },
     address: {
-        address_line: "1",
-        city: "Sydney",
-        country: "Australia",
-        zip_code: "6662323",
-        state: "Sydney"
+        address_line: "",
+        city: "",
+        country: "",
+        zip_code: "",
+        state: ""
     }
 };
 

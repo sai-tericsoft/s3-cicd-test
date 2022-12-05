@@ -26,7 +26,7 @@ interface TabsComponentProps {
     className?: string;
     scrollButtons?: 'auto' | true | false;
     allowScrollButtonsMobile?: boolean;
-    onUpdate?: Function;
+    onUpdate?: (event: React.SyntheticEvent, value: string)=> void;
 }
 
 const TabsComponent = (props: React.PropsWithChildren<TabsComponentProps>) => {
@@ -38,7 +38,7 @@ const TabsComponent = (props: React.PropsWithChildren<TabsComponentProps>) => {
     if (!scrollButtons) scrollButtons = false;
     if (!orientation) orientation = "horizontal";
 
-    const handleChange = useCallback((event: React.SyntheticEvent, value: string | number) => {
+    const handleChange = useCallback((event: React.SyntheticEvent, value: string) => {
         if (onUpdate) {
             onUpdate(event, value);
         }

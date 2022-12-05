@@ -1,8 +1,8 @@
 import "./ClientBasicDetailsCardComponent.scss";
-import AvatarComponent from "../../../../shared/components/avatar/AvatarComponent";
-import DataLabelValueComponent from "../../../../shared/components/data-label-value/DataLabelValueComponent";
-import {IClientBasicDetails} from "../../../../shared/models/client.model";
-import {CommonService} from "../../../../shared/services";
+import AvatarComponent from "../../../shared/components/avatar/AvatarComponent";
+import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
+import {IClientBasicDetails} from "../../../shared/models/client.model";
+import {CommonService} from "../../../shared/services";
 
 interface ClientBasicDetailsCardComponentProps {
     clientBasicDetails: IClientBasicDetails;

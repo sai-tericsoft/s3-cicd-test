@@ -4,6 +4,7 @@ import {useCallback, useState} from "react";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import {IInputFieldProps} from "../../../models/form-controls.model";
 import IconButtonComponent from "../../icon-button/IconButtonComponent";
+import ButtonComponent from "../../button/ButtonComponent";
 
 export interface PasswordInputComponentProps extends IInputFieldProps {
     canToggle?: boolean;
@@ -57,10 +58,12 @@ const PasswordInputComponent = (props: PasswordInputComponentProps) => {
                         inputProps={inputProps}
                         prefix={prefix}
                         suffix={
-                            canToggle &&
-                            <IconButtonComponent onClick={handleClickShowPassword}>
-                                {inputType === "text" ? <VisibilityOff/> : <Visibility/>}
-                            </IconButtonComponent>
+                            (canToggle) &&
+                            <ButtonComponent variant={"text"}
+                                             color={"inherit"}
+                                             onClick={handleClickShowPassword}>
+                                {inputType === "text" ? "Hide" : "Show"}
+                            </ButtonComponent>
                         }
         />
     );
