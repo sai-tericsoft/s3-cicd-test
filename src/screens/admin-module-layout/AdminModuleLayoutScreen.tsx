@@ -18,31 +18,31 @@ const ADMIN_MENU_ITEMS = [
     },
     {
         title: "System Settings",
-        path: CommonService._routeConfig.ComingSoonRoute()
+        path: ""
     },
     {
         title: "Forms",
-        path: CommonService._routeConfig.ComingSoonRoute()
+        path: ""
     },
     {
         title: "Appointments",
-        path: CommonService._routeConfig.ComingSoonRoute()
+        path: ""
     },
     {
         title: "Discounts",
-        path: CommonService._routeConfig.ComingSoonRoute()
+        path: ""
     },
     {
         title: "Referral Discounts",
-        path: CommonService._routeConfig.ComingSoonRoute()
+        path: ""
     },
     {
         title: "User Management",
-        path: CommonService._routeConfig.ComingSoonRoute()
+        path: ""
     },
     {
         title: "Access Management",
-        path: CommonService._routeConfig.ComingSoonRoute()
+        path: ""
     }
 ]
 

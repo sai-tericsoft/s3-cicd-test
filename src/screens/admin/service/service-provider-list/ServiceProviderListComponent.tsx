@@ -5,7 +5,7 @@ import {ENV, ImageConfig, Misc} from "../../../../constants";
 import {useCallback, useState} from "react";
 import {CommonService} from "../../../../shared/services";
 import {ITableColumn} from "../../../../shared/models/table.model";
-import {IService} from "../../../../shared/models/service-category.model";
+import {IService} from "../../../../shared/models/service.model";
 import IconButtonComponent from "../../../../shared/components/icon-button/IconButtonComponent";
 // import DrawerComponent from "../../../../shared/components/drawer/DrawerComponent";
 // import AutoCompleteComponent from "../../../../shared/components/form-controls/auto-complete/AutoCompleteComponent";
@@ -36,8 +36,8 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
             width: "10%",
             render: (item: any) => {
                 return <IconButtonComponent onClick={() => {
-                                            handleDeleteProvider(item);
-                                        }}>
+                    handleDeleteProvider(item);
+                }}>
                     <ImageConfig.DeleteIcon/>
                 </IconButtonComponent>
             }
@@ -58,13 +58,15 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
             image: ImageConfig.RemoveImage,
             confirmationSubTitle: `Do you want to remove "${item.provider_name}" as a provider for "${serviceDetails.name}"?`
         }).then(() => {
-            CommonService._service.ServiceProviderUnlinkAPICall(serviceDetails._id, item?.provider_id, {})
-                .then((response) => {
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                    setTableRefreshToken(CommonService.getUUID()); // TODO review and make it standard to refresh list
-                }).catch((error: any) => {
-                CommonService._alert.showToast(error.error || "Error deleting provider", "error");
-            })
+            if (serviceDetails._id) {
+                CommonService._service.ServiceProviderUnlinkAPICall(serviceDetails._id, item?.provider_id, {})
+                    .then((response) => {
+                        CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                        setTableRefreshToken(CommonService.getUUID()); // TODO review and make it standard to refresh list
+                    }).catch((error: any) => {
+                    CommonService._alert.showToast(error.error || "Error deleting provider", "error");
+                })
+            }
         })
     }, [serviceDetails]);
 

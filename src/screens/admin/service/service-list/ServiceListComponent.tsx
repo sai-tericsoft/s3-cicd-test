@@ -6,7 +6,7 @@ import TableWrapperComponent from "../../../../shared/components/table-wrapper/T
 import ChipComponent from "../../../../shared/components/chip/ChipComponent";
 import {CommonService} from "../../../../shared/services";
 import LinkComponent from "../../../../shared/components/link/LinkComponent";
-import {IService} from "../../../../shared/models/service-category.model";
+import {IService} from "../../../../shared/models/service.model";
 
 interface ServiceListComponentProps {
     serviceCategoryId: string;
@@ -39,9 +39,11 @@ const ServiceListComponent = (props: ServiceListComponentProps) => {
             title: "",
             width: "10%",
             render: (_: any, item: IService) => {
-                return <LinkComponent route={CommonService._routeConfig.ServiceDetails(item._id)}>
-                    View Details
-                </LinkComponent>
+                if (item._id){
+                    return <LinkComponent route={CommonService._routeConfig.ServiceDetails(item._id)}>
+                        View Details
+                    </LinkComponent>
+                }
             }
         }];
 

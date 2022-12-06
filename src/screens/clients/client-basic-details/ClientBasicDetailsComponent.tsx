@@ -8,7 +8,7 @@ import HorizontalLineComponent
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import StatusComponentComponent from "../../../shared/components/status-component/StatusComponentComponent";
+import StatusCardComponent from "../../../shared/components/status-component/StatusCardComponent";
 import React from "react";
 
 interface ClientBasicDetailsComponentProps {
@@ -33,7 +33,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
             }
             {
                 isClientBasicDetailsLoadingFailed &&
-                <StatusComponentComponent title={"Failed to fetch client Details"}/>
+                <StatusCardComponent title={"Failed to fetch client Details"}/>
             }
             {
                 (isClientBasicDetailsLoaded && clientBasicDetails) && <>

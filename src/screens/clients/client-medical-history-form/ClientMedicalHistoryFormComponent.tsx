@@ -17,7 +17,7 @@ import CheckBoxComponent from "../../../shared/components/form-controls/check-bo
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import StatusComponentComponent from "../../../shared/components/status-component/StatusComponentComponent";
+import StatusCardComponent from "../../../shared/components/status-component/StatusCardComponent";
 import {getClientMedicalDetails} from "../../../store/actions/client.action";
 
 interface ClientMedicalHistoryFormComponentProps {
@@ -117,7 +117,7 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                         }
                         {
                             isClientMedicalDetailsLoadingFailed &&
-                            <StatusComponentComponent title={"Failed to fetch medical Details"}/>
+                            <StatusCardComponent title={"Failed to fetch medical Details"}/>
                         }
                     </>
                 }

@@ -15,7 +15,7 @@ import {IRootReducerState} from "../../../store/reducers";
 import {getClientMedicalDetails} from "../../../store/actions/client.action";
 import _ from "lodash";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import StatusComponentComponent from "../../../shared/components/status-component/StatusComponentComponent";
+import StatusCardComponent from "../../../shared/components/status-component/StatusCardComponent";
 
 interface ClientAllergiesFormComponentProps {
     clientId: string;
@@ -87,7 +87,7 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
                         }
                         {
                             isClientMedicalDetailsLoadingFailed &&
-                            <StatusComponentComponent title={"Failed to fetch medical Details"}/>
+                            <StatusCardComponent title={"Failed to fetch medical Details"}/>
                         }
                     </>
                 }

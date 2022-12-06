@@ -1,6 +1,5 @@
 import "./ServiceDetailsScreen.scss";
 import React, {useCallback, useEffect, useState} from "react";
-import {IService} from "../../../../shared/models/service-category.model";
 import {CommonService} from "../../../../shared/services";
 import {IAPIResponseType} from "../../../../shared/models/api.model";
 import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
@@ -13,7 +12,8 @@ import ServiceProviderListComponent from "../service-provider-list/ServiceProvid
 import LinkComponent from "../../../../shared/components/link/LinkComponent";
 import ServiceConsultationDetailsComponent from "../service-consultation-details/ServiceConsultationDetailsComponent";
 import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
-import StatusComponentComponent from "../../../../shared/components/status-component/StatusComponentComponent";
+import StatusCardComponent from "../../../../shared/components/status-component/StatusCardComponent";
+import {IService} from "../../../../shared/models/service.model";
 
 interface ServiceDetailsScreenProps {
 
@@ -60,7 +60,7 @@ const ServiceDetailsScreen = (props: ServiceDetailsScreenProps) => {
             }
             {
                 isServiceDetailsLoadingFailed &&
-                <StatusComponentComponent title={"Failed to fetch service details"}/>
+                <StatusCardComponent title={"Failed to fetch service details"}/>
             }
             {
                 isServiceDetailsLoaded && <>

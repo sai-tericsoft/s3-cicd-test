@@ -17,6 +17,7 @@ const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
             key: 'activity',
             title: 'Activity',
             width: '50%',
+            fixed: "left",
             render: (item: IClientActivityLog) => {
                 return <span>
                     {item?.module_name} &gt; {item?.field_name}
@@ -26,7 +27,7 @@ const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
         {
             key: 'staff',
             title: 'Staff',
-            width: "20%",
+            width: "25%",
             render: (item: IClientActivityLog) => {
                 return <>{item?.updated_by?.name}</>
             }
@@ -34,7 +35,8 @@ const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
         {
             key: 'date_time',
             title: 'Date/Time Stamp',
-            width: "20%",
+            width: "25%",
+            fixed: "right",
             render: (item: IClientActivityLog) => {
                 return <>
                     {CommonService.transformTimeStamp(item?.updated_at)}

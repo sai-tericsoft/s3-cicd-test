@@ -18,7 +18,7 @@ export interface TableComponentProps extends ITableComponentProps {
 
 const TableWrapperComponent = (props: TableComponentProps) => {
 
-    const {columns, size, showHeader, refreshToken, url, method, extraPayload, fixedHeader, onSort} = props;
+    const {refreshToken, url, method, extraPayload, ...otherProps} = props;
 
     const [isDataLoading, setIsDataLoading] = useState<boolean>(false);
     const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
@@ -95,14 +95,11 @@ const TableWrapperComponent = (props: TableComponentProps) => {
     return (
         <>
             <TableComponent
-                showHeader={showHeader}
-                fixedHeader={fixedHeader}
-                columns={columns}
-                size={size}
                 loading={isDataLoading}
                 errored={isDataLoadingFailed}
-                onSort={onSort}
-                data={data}/>
+                data={data}
+                {...otherProps}
+            />
             {
                 (isDataLoaded && (data && data?.length) > 0 && isPaginated) && <PaginationComponent
                     paginationOptions={[10, 25, 100]}

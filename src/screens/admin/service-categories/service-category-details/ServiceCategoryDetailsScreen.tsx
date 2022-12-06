@@ -13,7 +13,7 @@ import DrawerComponent from "../../../../shared/components/drawer/DrawerComponen
 import ServiceCategoryEditComponent from "../service-category-edit/ServiceCategoryEditComponent";
 import ServiceListComponent from "../../service/service-list/ServiceListComponent";
 import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
-import StatusComponentComponent from "../../../../shared/components/status-component/StatusComponentComponent";
+import StatusCardComponent from "../../../../shared/components/status-component/StatusCardComponent";
 
 interface ServiceCategoryDetailsScreenProps {
 
@@ -74,7 +74,7 @@ const ServiceCategoryDetailsScreen = (props: ServiceCategoryDetailsScreenProps) 
             }
             {
                 isServiceCategoryDetailsLoadingFailed &&
-                <StatusComponentComponent title={"Failed to fetch service category details"}/>
+                <StatusCardComponent title={"Failed to fetch service category details"}/>
             }
             {
                 isServiceCategoryDetailsLoaded && <>

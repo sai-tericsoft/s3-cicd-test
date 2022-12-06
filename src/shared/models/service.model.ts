@@ -1,8 +1,14 @@
-export interface IServiceAdd{
+import {IConsultationDuration} from "./static-data.model";
+import {IServiceCategory} from "./service-category.model";
+
+export interface IService{
+    _id?: string;
     name:string;
     description:string;
     image:any;
-    category_id: string;
+    category_id?: string;
+    is_active?: boolean;
+    category?: IServiceCategory;
     initial_consultation: IInitialConsultation[];
     followup_consultation: IInitialConsultation[];
 }
@@ -12,17 +18,8 @@ export interface IInitialConsultation {
     consultation_details: IConsultation[];
 }
 
-interface IConsultation {
+export interface IConsultation {
     duration?: string;
+    duration_details?: IConsultationDuration;
     price?: string;
-}
-
-export interface IServiceEdit{
-    name:string;
-    description:string;
-    image:any;
-    is_active: boolean;
-    category_id: string;
-    initial_consultation: IInitialConsultation[];
-    followup_consultation: IInitialConsultation[];
 }

@@ -2,7 +2,6 @@ import "./ServiceEditScreen.scss";
 import FormControlLabelComponent from "../../../../shared/components/form-control-label/FormControlLabelComponent";
 import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {useCallback, useEffect, useState} from "react";
-import {IServiceEdit} from "../../../../shared/models/service.model";
 import * as Yup from "yup";
 import FormikInputComponent from "../../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import FormikTextAreaComponent
@@ -22,12 +21,40 @@ import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../../store/reducers";
 import {useNavigate, useParams} from "react-router-dom";
-import {IService} from "../../../../shared/models/service-category.model";
-import FormikSwitchComponent from "../../../../shared/components/form-controls/formik-switch/FormikSwitchComponent";
 import IconButtonComponent from "../../../../shared/components/icon-button/IconButtonComponent";
+import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
+import StatusCardComponent from "../../../../shared/components/status-component/StatusCardComponent";
+import {IService} from "../../../../shared/models/service.model";
 
 interface ServiceEditComponentProps {
 }
+
+const CONSULTATION_DURATION_SLOT = {
+    duration: undefined,
+    price: undefined
+};
+
+const CONSULTATION_BLOCK = {
+    title: "",
+    consultation_details: [
+        CONSULTATION_DURATION_SLOT
+    ]
+}
+
+const ServiceEditFormInitialValues: IService = {
+    name: "",
+    description: "",
+    image: "",
+    category_id: "",
+    is_active: false,
+    initial_consultation: [
+        CONSULTATION_BLOCK
+    ],
+    followup_consultation: [
+        CONSULTATION_BLOCK
+    ],
+};
+
 
 const serviceEditFormValidationSchema = Yup.object({
     name: Yup.string()
@@ -60,39 +87,11 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
     const navigate = useNavigate();
     const {serviceId} = useParams();
     const [serviceDetails, setServiceDetails] = useState<IService | undefined>(undefined);
-    // const [isServiceDetailsLoading, setIsServiceDetailsLoading] = useState<boolean>(false);
-    // const [isServiceDetailsLoaded, setIsServiceDetailsLoaded] = useState<boolean>(false);
-    // const [isServiceDetailsLoadingFailed, setIsServiceDetailsLoadingFailed] = useState<boolean>(false);
+    const [isServiceDetailsLoading, setIsServiceDetailsLoading] = useState<boolean>(false);
+    const [isServiceDetailsLoaded, setIsServiceDetailsLoaded] = useState<boolean>(false);
+    const [isServiceDetailsLoadingFailed, setIsServiceDetailsLoadingFailed] = useState<boolean>(false);
 
-    const [editServiceFormInitialValues, setEditServiceFormInitialValues] = useState<IServiceEdit>({
-        name: "",
-        description: "",
-        image: "",
-        category_id: "",
-        is_active: false,
-        initial_consultation: [
-            {
-                title: "",
-                consultation_details: [
-                    {
-                        duration: undefined,
-                        price: undefined
-                    }
-                ]
-            }
-        ],
-        followup_consultation: [
-            {
-                title: "",
-                consultation_details: [
-                    {
-                        duration: undefined,
-                        price: undefined
-                    }
-                ]
-            }
-        ],
-    });
+    const [editServiceFormInitialValues, setEditServiceFormInitialValues] = useState<IService>(_.cloneDeep(ServiceEditFormInitialValues));
 
     const [isServiceEditInProgress, setIsServiceEditInProgress] = useState(false);
     const {consultationDurationList} = useSelector((state: IRootReducerState) => state.staticData);
@@ -102,18 +101,18 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
     }, [dispatch]);
 
     const fetchServiceDetails = useCallback((serviceId: string) => {
-        // setIsServiceDetailsLoading(true);
+        setIsServiceDetailsLoading(true);
         CommonService._serviceCategory.ServiceDetailsAPICall(serviceId, {})
             .then((response: IAPIResponseType<IService>) => {
                 setServiceDetails(response.data);
-                // setIsServiceDetailsLoading(false);
-                // setIsServiceDetailsLoaded(true);
-                // setIsServiceDetailsLoadingFailed(false);
+                setIsServiceDetailsLoading(false);
+                setIsServiceDetailsLoaded(true);
+                setIsServiceDetailsLoadingFailed(false);
             }).catch((error: any) => {
             setServiceDetails(undefined);
-            // setIsServiceDetailsLoading(false);
-            // setIsServiceDetailsLoaded(false);
-            // setIsServiceDetailsLoadingFailed(true);
+            setIsServiceDetailsLoading(false);
+            setIsServiceDetailsLoaded(false);
+            setIsServiceDetailsLoadingFailed(true);
         })
     }, []);
 
@@ -125,6 +124,13 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
 
     useEffect(() => {
         if (serviceDetails) {
+            console.log(serviceDetails);
+            if (serviceDetails.initial_consultation.length === 0) {
+                serviceDetails.initial_consultation = [CONSULTATION_BLOCK];
+            }
+            if (serviceDetails.followup_consultation.length === 0) {
+                serviceDetails.followup_consultation = [CONSULTATION_BLOCK];
+            }
             setEditServiceFormInitialValues({
                 name: serviceDetails.name,
                 description: serviceDetails.description,
@@ -151,7 +157,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
             setIsServiceEditInProgress(true);
             const formData = CommonService.getFormDataFromJSON(values);
             CommonService._service.ServiceEditAPICall(serviceId, formData)
-                .then((response: IAPIResponseType<IServiceEdit>) => {
+                .then((response: IAPIResponseType<IService>) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     setIsServiceEditInProgress(false);
                     if (serviceId) {
@@ -167,71 +173,58 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
 
     return (
         <div className={'service-add-component'}>
-            <div className={'service-category-service-add-form'}>
-                <Formik
-                    validationSchema={serviceEditFormValidationSchema}
-                    initialValues={editServiceFormInitialValues}
-                    onSubmit={onSubmit}
-                    validateOnChange={false}
-                    validateOnBlur={true}
-                    enableReinitialize={true}
-                    validateOnMount={true}>
-                    {({values, touched, errors, setFieldValue, validateForm}) => {
-                        // eslint-disable-next-line react-hooks/rules-of-hooks
-                        useEffect(() => {
-                            validateForm();
-                        }, [validateForm, values]);
-                        return (
-                            <Form noValidate={true}>
-                                <div
-                                    className={"mrg-bottom-20 display-flex align-items-center justify-content-space-between"}>
-                                    <FormControlLabelComponent label={"Edit Service"}
-                                                               size={"lg"}
-                                                               className={"mrg-bottom-0"}
-                                                               required={true}/>
-                                    <div className={"display-flex align-items-center"}>
-                                        <div>Status:</div>
-                                        <Field name={'is_active'} className="t-form-control">
-                                            {
-                                                (field: FieldProps) => (
-                                                    <FormikSwitchComponent
-                                                        label={values.is_active ? "Active" : "Inactive"}
-                                                        required={true}
-                                                        formikField={field}
-                                                        labelPlacement={"start"}
-                                                    />
-                                                )
-                                            }
-                                        </Field>
-                                    </div>
-                                </div>
-                                <div className="t-form-controls">
-                                    <Field name={'name'}>
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikInputComponent
-                                                    label={'Service Name'}
-                                                    placeholder={'Service Name'}
-                                                    type={"text"}
-                                                    required={true}
-                                                    formikField={field}
-                                                    fullWidth={true}
-                                                />
-                                            )
-                                        }
+            <div className={'service-category-service-edit-form'}>
+                {
+                    isServiceDetailsLoading && <LoaderComponent/>
+                }
+                {
+                    isServiceDetailsLoadingFailed && <StatusCardComponent title={"Failed to fetch service details"}/>
+                }
+                {
+                    isServiceDetailsLoaded && <Formik
+                        validationSchema={serviceEditFormValidationSchema}
+                        initialValues={editServiceFormInitialValues}
+                        onSubmit={onSubmit}
+                        validateOnChange={false}
+                        validateOnBlur={true}
+                        enableReinitialize={true}
+                        validateOnMount={true}>
+                        {({values, touched, errors, setFieldValue, validateForm}) => {
+                            // eslint-disable-next-line react-hooks/rules-of-hooks
+                            useEffect(() => {
+                                validateForm();
+                            }, [validateForm, values]);
+                            return (
+                                <Form noValidate={true}>
+                                    <div className={"ts-row"}>
+                                        <div className="ts-col-lg-10">
+                                            <Field name={'name'}>
+                                                {
+                                                    (field: FieldProps) => (
+                                                        <FormikInputComponent
+                                                            label={'Service Name'}
+                                                            placeholder={'Service Name'}
+                                                            type={"text"}
+                                                            required={true}
+                                                            formikField={field}
+                                                            fullWidth={true}
+                                                        />
+                                                    )
+                                                }
 
-                                    </Field>
-                                    <Field name={'description'}>
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikTextAreaComponent formikField={field}
-                                                                         label={'Service Description'}
-                                                                         placeholder={'Service Description'}
-                                                                         required={true}
-                                                                         fullWidth={true}
-                                                />)
-                                        }
-                                    </Field>
+                                            </Field>
+                                            <Field name={'description'}>
+                                                {
+                                                    (field: FieldProps) => (
+                                                        <FormikTextAreaComponent formikField={field}
+                                                                                 label={'Service Description'}
+                                                                                 placeholder={'Service Description'}
+                                                                                 fullWidth={true}
+                                                        />)
+                                                }
+                                            </Field>
+                                        </div>
+                                    </div>
                                     <FieldArray
                                         name="initial_consultation"
                                         render={arrayHelpers => (
@@ -242,22 +235,14 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                <ButtonComponent size={"small"}
                                                                                 prefixIcon={<ImageConfig.AddIcon/>}
                                                                                 onClick={() => {
-                                                                                    arrayHelpers.push({
-                                                                                        title: "",
-                                                                                        consultation_details: [
-                                                                                            {
-                                                                                                duration: undefined,
-                                                                                                price: undefined
-                                                                                            }
-                                                                                        ]
-                                                                                    })
+                                                                                    arrayHelpers.push(_.cloneDeep(CONSULTATION_BLOCK))
                                                                                 }
                                                                                 }>
                                                                    Add more
                                                                </ButtonComponent>
                                                            </>
                                                            }>
-                                                <div>
+                                                <>
                                                     {values?.initial_consultation && values?.initial_consultation?.map((item: any, index: any) => {
                                                         return (
                                                             <div key={index}>
@@ -276,30 +261,34 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                         </ButtonComponent>}
                                                                     </div>
                                                                 </div>
-                                                                <div>
-                                                                    <Field
-                                                                        name={`initial_consultation[${index}].title`}>
-                                                                        {
-                                                                            (field: FieldProps) => (
-                                                                                <FormikInputComponent
-                                                                                    label={'Title'}
-                                                                                    placeholder={'Title'}
-                                                                                    type={"text"}
-                                                                                    required={true}
-                                                                                    formikField={field}
-                                                                                    fullWidth={true}
-                                                                                />
-                                                                            )
-                                                                        }
-                                                                    </Field>
-                                                                    <FieldArray
-                                                                        name={`initial_consultation[${index}].consultation_details`}
-                                                                        render={({push, remove}) => (
-                                                                            <div>
-                                                                                {values?.initial_consultation[index].consultation_details && values?.initial_consultation[index].consultation_details?.map((item: any, iIndex: any) => {
-                                                                                    return (
-                                                                                        <div key={iIndex}
-                                                                                             className={"display-flex align-items-center"}>
+                                                                <div className={"ts-row"}>
+                                                                    <div className="ts-col-lg-10">
+                                                                        <Field
+                                                                            name={`initial_consultation[${index}].title`}>
+                                                                            {
+                                                                                (field: FieldProps) => (
+                                                                                    <FormikInputComponent
+                                                                                        label={'Title'}
+                                                                                        placeholder={'Title'}
+                                                                                        type={"text"}
+                                                                                        required={true}
+                                                                                        formikField={field}
+                                                                                        fullWidth={true}
+                                                                                    />
+                                                                                )
+                                                                            }
+                                                                        </Field>
+                                                                    </div>
+                                                                </div>
+                                                                <FieldArray
+                                                                    name={`initial_consultation[${index}].consultation_details`}
+                                                                    render={({push, remove}) => (
+                                                                        <div>
+                                                                            {values?.initial_consultation[index].consultation_details && values?.initial_consultation[index].consultation_details?.map((item: any, iIndex: any) => {
+                                                                                return (
+                                                                                    <div key={iIndex}
+                                                                                         className={"ts-row"}>
+                                                                                        <div className="ts-col-lg-5">
                                                                                             <Field
                                                                                                 name={`initial_consultation[${index}].consultation_details[${iIndex}].duration`}>
                                                                                                 {
@@ -313,7 +302,9 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                                             options={consultationDurationList}/>
                                                                                                     )
                                                                                                 }
-                                                                                            </Field>&nbsp;
+                                                                                            </Field>
+                                                                                        </div>
+                                                                                        <div className="ts-col-lg-5">
                                                                                             <Field
                                                                                                 name={`initial_consultation[${index}].consultation_details[${iIndex}].price`}>
                                                                                                 {
@@ -329,46 +320,45 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                                         />
                                                                                                     )
                                                                                                 }
-                                                                                            </Field>&nbsp;
-                                                                                            {/*{*/}
-                                                                                            {/*    iIndex > 0 &&*/}
-                                                                                            {/*    <>*/}
-                                                                                            {/*        &nbsp;*/}
-                                                                                            {/*        <ButtonComponent*/}
-                                                                                            {/*            isIconButton={true}*/}
-                                                                                            {/*            onClick={() => {*/}
-                                                                                            {/*                remove(iIndex);*/}
-                                                                                            {/*            }}*/}
-                                                                                            {/*        >*/}
-                                                                                            {/*            <ImageConfig.CloseIcon/>*/}
-                                                                                            {/*        </ButtonComponent>*/}
-                                                                                            {/*    </>*/}
-                                                                                            {/*}*/}
+                                                                                            </Field>
+                                                                                        </div>
+                                                                                        <div className="ts-col-lg-2">
                                                                                             {
                                                                                                 iIndex === values?.initial_consultation[index].consultation_details.length - 1 &&
-                                                                                                <IconButtonComponent onClick={() => {
-                                                                                                        push({
-                                                                                                            duration: undefined,
-                                                                                                            price: undefined
-                                                                                                        })
+                                                                                                <IconButtonComponent
+                                                                                                    onClick={() => {
+                                                                                                        push(_.cloneDeep(CONSULTATION_DURATION_SLOT));
                                                                                                     }}
                                                                                                 >
                                                                                                     <ImageConfig.AddCircleIcon/>
                                                                                                 </IconButtonComponent>
                                                                                             }
+                                                                                            {
+                                                                                                iIndex > 0 &&
+                                                                                                <>
+                                                                                                    &nbsp;
+                                                                                                    <IconButtonComponent
+                                                                                                        onClick={() => {
+                                                                                                            remove(iIndex);
+                                                                                                        }}
+                                                                                                    >
+                                                                                                        <ImageConfig.DeleteIcon/>
+                                                                                                    </IconButtonComponent>
+                                                                                                </>
+                                                                                            }
                                                                                         </div>
-                                                                                    )
-                                                                                })}
-                                                                            </div>
-                                                                        )
-                                                                        }
-                                                                    />
-                                                                </div>
+                                                                                    </div>
+                                                                                )
+                                                                            })}
+                                                                        </div>
+                                                                    )
+                                                                    }
+                                                                />
                                                             </div>
                                                         )
                                                     })
                                                     }
-                                                </div>
+                                                </>
                                             </CardComponent>
                                         )}/>
                                     <FieldArray
@@ -381,15 +371,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                <ButtonComponent size={"small"}
                                                                                 prefixIcon={<ImageConfig.AddIcon/>}
                                                                                 onClick={() => {
-                                                                                    arrayHelpers.push({
-                                                                                        title: "",
-                                                                                        consultation_details: [
-                                                                                            {
-                                                                                                duration: undefined,
-                                                                                                price: undefined
-                                                                                            }
-                                                                                        ]
-                                                                                    })
+                                                                                    arrayHelpers.push(_.cloneDeep(CONSULTATION_BLOCK))
                                                                                 }
                                                                                 }>
                                                                    Add more
@@ -415,30 +397,34 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                         </ButtonComponent>}
                                                                     </div>
                                                                 </div>
-                                                                <div>
-                                                                    <Field
-                                                                        name={`followup_consultation[${index}].title`}>
-                                                                        {
-                                                                            (field: FieldProps) => (
-                                                                                <FormikInputComponent
-                                                                                    label={'Title'}
-                                                                                    placeholder={'Title'}
-                                                                                    type={"text"}
-                                                                                    required={true}
-                                                                                    formikField={field}
-                                                                                    fullWidth={true}
-                                                                                />
-                                                                            )
-                                                                        }
-                                                                    </Field>
-                                                                    <FieldArray
-                                                                        name={`followup_consultation[${index}].consultation_details`}
-                                                                        render={({push, remove}) => (
-                                                                            <div>
-                                                                                {values?.followup_consultation[index].consultation_details && values?.followup_consultation[index].consultation_details?.map((item: any, iIndex: any) => {
-                                                                                    return (
-                                                                                        <div key={iIndex}
-                                                                                             className={"display-flex align-items-center"}>
+                                                                <div className={"ts-row"}>
+                                                                    <div className="ts-col-lg-10">
+                                                                        <Field
+                                                                            name={`followup_consultation[${index}].title`}>
+                                                                            {
+                                                                                (field: FieldProps) => (
+                                                                                    <FormikInputComponent
+                                                                                        label={'Title'}
+                                                                                        placeholder={'Title'}
+                                                                                        type={"text"}
+                                                                                        required={true}
+                                                                                        formikField={field}
+                                                                                        fullWidth={true}
+                                                                                    />
+                                                                                )
+                                                                            }
+                                                                        </Field>
+                                                                    </div>
+                                                                </div>
+                                                                <FieldArray
+                                                                    name={`followup_consultation[${index}].consultation_details`}
+                                                                    render={({push, remove}) => (
+                                                                        <div>
+                                                                            {values?.followup_consultation[index].consultation_details && values?.followup_consultation[index].consultation_details?.map((item: any, iIndex: any) => {
+                                                                                return (
+                                                                                    <div key={iIndex}
+                                                                                         className={"ts-row"}>
+                                                                                        <div className="ts-col-lg-5">
                                                                                             <Field
                                                                                                 name={`followup_consultation[${index}].consultation_details[${iIndex}].duration`}>
                                                                                                 {
@@ -452,7 +438,9 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                                             options={consultationDurationList}/>
                                                                                                     )
                                                                                                 }
-                                                                                            </Field>&nbsp;
+                                                                                            </Field>
+                                                                                        </div>
+                                                                                        <div className="ts-col-lg-5">
                                                                                             <Field
                                                                                                 name={`followup_consultation[${index}].consultation_details[${iIndex}].price`}>
                                                                                                 {
@@ -468,41 +456,40 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                                         />
                                                                                                     )
                                                                                                 }
-                                                                                            </Field>&nbsp;
-                                                                                            {/*{*/}
-                                                                                            {/*    iIndex > 0 &&*/}
-                                                                                            {/*    <>*/}
-                                                                                            {/*        &nbsp;*/}
-                                                                                            {/*        <ButtonComponent*/}
-                                                                                            {/*            isIconButton={true}*/}
-                                                                                            {/*            onClick={() => {*/}
-                                                                                            {/*                remove(iIndex);*/}
-                                                                                            {/*            }}*/}
-                                                                                            {/*        >*/}
-                                                                                            {/*            <ImageConfig.CloseIcon/>*/}
-                                                                                            {/*        </ButtonComponent>*/}
-                                                                                            {/*    </>*/}
-                                                                                            {/*}*/}
+                                                                                            </Field>
+                                                                                        </div>
+                                                                                        <div className="ts-col-lg-2">
                                                                                             {
                                                                                                 iIndex === values?.followup_consultation[index].consultation_details.length - 1 &&
-                                                                                                <IconButtonComponent onClick={() => {
-                                                                                                        push({
-                                                                                                            duration: undefined,
-                                                                                                            price: undefined
-                                                                                                        })
+                                                                                                <IconButtonComponent
+                                                                                                    onClick={() => {
+                                                                                                        push(_.cloneDeep(CONSULTATION_DURATION_SLOT));
                                                                                                     }}
                                                                                                 >
                                                                                                     <ImageConfig.AddCircleIcon/>
                                                                                                 </IconButtonComponent>
                                                                                             }
+                                                                                            {
+                                                                                                iIndex > 0 &&
+                                                                                                <>
+                                                                                                    &nbsp;
+                                                                                                    <IconButtonComponent
+                                                                                                        onClick={() => {
+                                                                                                            remove(iIndex);
+                                                                                                        }}
+                                                                                                    >
+                                                                                                        <ImageConfig.DeleteIcon/>
+                                                                                                    </IconButtonComponent>
+                                                                                                </>
+                                                                                            }
                                                                                         </div>
-                                                                                    )
-                                                                                })}
-                                                                            </div>
-                                                                        )
-                                                                        }
-                                                                    />
-                                                                </div>
+                                                                                    </div>
+                                                                                )
+                                                                            })}
+                                                                        </div>
+                                                                    )
+                                                                    }
+                                                                />
                                                             </div>
                                                         )
                                                     })
@@ -547,22 +534,22 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                             }
                                         </>
                                     </div>
-                                </div>
-                                <div className="t-form-actions">
-                                    <ButtonComponent
-                                        isLoading={isServiceEditInProgress}
-                                        type={"submit"}
-                                        fullWidth={true}
-                                        id={"sc_save_btn"}
-                                    >
-                                        {isServiceEditInProgress ? "Saving" : "Save"}
-                                    </ButtonComponent>
-                                </div>
+                                    <div className="t-form-actions">
+                                        <ButtonComponent
+                                            isLoading={isServiceEditInProgress}
+                                            type={"submit"}
+                                            fullWidth={true}
+                                            id={"sc_save_btn"}
+                                        >
+                                            {isServiceEditInProgress ? "Saving" : "Save"}
+                                        </ButtonComponent>
+                                    </div>
 
-                            </Form>
-                        )
-                    }}
-                </Formik>
+                                </Form>
+                            )
+                        }}
+                    </Formik>
+                }
             </div>
         </div>
     );

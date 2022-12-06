@@ -1,17 +1,13 @@
 import './TestScreen.scss';
-import React from "react";
+import React  from 'react';
 import ServiceAddScreen from "../admin/service/service-add/ServiceAddScreen";
 
-interface TestScreenProps {
+const TestScreen: React.FC = () => {
 
-}
-
-const TestScreen = (props: TestScreenProps) => {
-
-    return (
-        <div style={{margin: '20px'}}>
+        return (
+            <>
             <ServiceAddScreen/>
-        </div>
+        </>
     );
 };
 

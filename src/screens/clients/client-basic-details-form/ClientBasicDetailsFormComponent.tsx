@@ -5,7 +5,6 @@ import _ from "lodash";
 import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {IServiceAdd} from "../../../shared/models/service.model";
 import {ImageConfig, Misc} from "../../../constants";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
@@ -20,7 +19,7 @@ import FormControlLabelComponent from "../../../shared/components/form-control-l
 import {IClientBasicDetails} from "../../../shared/models/client.model";
 import {getClientBasicDetails, setClientBasicDetails} from "../../../store/actions/client.action";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import StatusComponentComponent from "../../../shared/components/status-component/StatusComponentComponent";
+import StatusCardComponent from "../../../shared/components/status-component/StatusCardComponent";
 
 interface ClientBasicDetailsFormComponentProps {
     clientId?: string;
@@ -166,7 +165,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
         } else {
             apiCall = CommonService._client.ClientBasicDetailsAddAPICall(payload);
         }
-        apiCall.then((response: IAPIResponseType<IServiceAdd>) => {
+        apiCall.then((response: IAPIResponseType<IClientBasicDetails>) => {
             CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
             setIsClientBasicDetailsSavingInProgress(false);
             dispatch(setClientBasicDetails(response.data));
@@ -218,7 +217,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                         }
                         {
                             isClientBasicDetailsLoadingFailed &&
-                            <StatusComponentComponent title={"Failed to fetch client Details"}/>
+                            <StatusCardComponent title={"Failed to fetch client Details"}/>
                         }
                     </>
                 }

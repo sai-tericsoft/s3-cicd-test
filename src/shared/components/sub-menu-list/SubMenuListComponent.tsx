@@ -1,6 +1,7 @@
 import "./SubMenuListComponent.scss";
 import {ISubMenuItem} from "../../models/menu.model";
 import {NavLink} from "react-router-dom";
+import {CommonService} from "../../services";
 
 interface SubMenuListComponentProps {
     menuItems: ISubMenuItem[]
@@ -8,7 +9,7 @@ interface SubMenuListComponentProps {
 
 const SubMenuListComponent = (props: SubMenuListComponentProps) => {
 
-    const { menuItems } = props;
+    const {menuItems} = props;
 
     return (
         <div className={'sub-menu-list-component'}>
@@ -16,11 +17,22 @@ const SubMenuListComponent = (props: SubMenuListComponentProps) => {
                 <div className="sub-menu">
                     {
                         menuItems.map((item) => {
-                            return <NavLink to={item.path}
+                            if (item.path) {
+                                return <NavLink to={item.path}
+                                                key={item.title}
+                                                className="sub-menu-item">
+                                    {item.title}
+                                </NavLink>
+                            } else {
+                                return <div onClick={() => {
+                                    CommonService._alert.showToast('Coming Soon');
+                                }
+                                }
                                             key={item.title}
                                             className="sub-menu-item">
-                                {item.title}
-                            </NavLink>
+                                    {item.title}
+                                </div>
+                            }
                         })
                     }
                 </div>

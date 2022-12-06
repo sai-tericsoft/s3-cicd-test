@@ -23,7 +23,7 @@ import TabsWrapperComponent, {
 import ClientBasicDetailsComponent from "../client-basic-details/ClientBasicDetailsComponent";
 import ClientActivityLogComponent from "../client-activity-log/ClientActivityLogComponent";
 import ClientMedicalDetailsComponent from "../client-medical-details/ClientMedicalDetailsComponent";
-import StatusComponentComponent from "../../../shared/components/status-component/StatusComponentComponent";
+import StatusCardComponent from "../../../shared/components/status-component/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {IClientDetailsSteps} from "../../../shared/models/client.model";
@@ -33,33 +33,6 @@ import {IClientDetailsSteps} from "../../../shared/models/client.model";
 interface ClientDetailsScreenProps {
 
 }
-
-const CLIENT_MENU_ITEMS = [
-    {
-        title: "Client Profile",
-        path: ""
-    },
-    {
-        title: "Chart Notes",
-        path: CommonService._routeConfig.ComingSoonRoute()
-    },
-    {
-        title: "Documents",
-        path: CommonService._routeConfig.ComingSoonRoute()
-    },
-    {
-        title: "Insurance",
-        path: CommonService._routeConfig.ComingSoonRoute()
-    },
-    {
-        title: "Appointments",
-        path: CommonService._routeConfig.ComingSoonRoute()
-    },
-    {
-        title: "Billing",
-        path: CommonService._routeConfig.ComingSoonRoute()
-    }
-];
 
 const ClientDetailsSteps: IClientDetailsSteps[] = ["basicDetails", "medicalHistoryQuestionnaire", "accountDetails", "activityLog"];
 
@@ -106,12 +79,39 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
         setCurrentTab(value);
     }, [searchParams, setSearchParams]);
 
+    const CLIENT_MENU_ITEMS = [
+        {
+            title: "Client Profile",
+            path: clientId ? CommonService._routeConfig.ClientDetails(clientId) : ""
+        },
+        {
+            title: "Chart Notes",
+            path: ""
+        },
+        {
+            title: "Documents",
+            path: ""
+        },
+        {
+            title: "Insurance",
+            path: ""
+        },
+        {
+            title: "Appointments",
+            path: ""
+        },
+        {
+            title: "Billing",
+            path: ""
+        }
+    ];
+
     return (
         <>
             <div className={'client-details-screen'}>
                 <>
                     {
-                        !clientId && <StatusComponentComponent title={"Client ID missing. cannot fetch details"}/>
+                        !clientId && <StatusCardComponent title={"Client ID missing. cannot fetch details"}/>
                     }
                 </>
 
@@ -125,7 +125,7 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
                             }
                             {
                                 isClientBasicDetailsLoadingFailed &&
-                                <StatusComponentComponent title={"Failed to fetch client Details"}/>
+                                <StatusCardComponent title={"Failed to fetch client Details"}/>
                             }
                             {
                                 (isClientBasicDetailsLoaded && clientBasicDetails) && <>

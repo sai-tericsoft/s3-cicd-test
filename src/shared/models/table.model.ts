@@ -17,6 +17,8 @@ export interface ITableComponentProps {
     rowClassName?: (row: any, index: number) => string;
     rowKey?: (row: any) => string;
     showHeader?: boolean;
+    tableLayout?: 'auto' | 'fixed' | undefined;
+    scroll?:  "unset" | "scroll";
     size?: 'small' | 'middle' | 'large';
     onSort?: (key: string, order: string) => void;
 }

@@ -17,7 +17,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {getClientMedicalDetails} from "../../../store/actions/client.action";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import StatusComponentComponent from "../../../shared/components/status-component/StatusComponentComponent";
+import StatusCardComponent from "../../../shared/components/status-component/StatusCardComponent";
 
 interface ClientMedicalProviderInformationFormComponentProps {
     clientId: string;
@@ -97,7 +97,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                         }
                         {
                             isClientMedicalDetailsLoadingFailed &&
-                            <StatusComponentComponent title={"Failed to fetch medical Details"}/>
+                            <StatusCardComponent title={"Failed to fetch medical Details"}/>
                         }
                     </>
                 }

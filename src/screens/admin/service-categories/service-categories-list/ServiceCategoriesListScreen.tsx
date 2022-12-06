@@ -13,7 +13,7 @@ import ServiceCategoryCardComponent
 import DrawerComponent from "../../../../shared/components/drawer/DrawerComponent";
 import ServiceCategoryAddComponent from "../service-category-add/ServiceCategoryAddComponent";
 import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
-import StatusComponentComponent from "../../../../shared/components/status-component/StatusComponentComponent";
+import StatusCardComponent from "../../../../shared/components/status-component/StatusCardComponent";
 
 interface ServiceCategoriesListScreenProps {
 
@@ -89,11 +89,11 @@ const ServiceCategoriesListScreen = (props: ServiceCategoriesListScreenProps) =>
                 }
                 {
                     isServiceCategoryListLoadingFailed &&
-                    <StatusComponentComponent title={"Failed to fetch service category list"}/>
+                    <StatusCardComponent title={"Failed to fetch service category list"}/>
                 }
                 {
                     isServiceCategoryListLoaded && <>
-                        {serviceCategoryList?.length === 0 && <div>List is empty</div>}
+                        {serviceCategoryList?.length === 0 && <StatusCardComponent title={"Service category list is empty"}/>}
                         {
                             serviceCategoryList?.length !== 0 && <>
                                 <CardComponent>

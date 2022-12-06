@@ -1,12 +1,9 @@
 import "./ServiceConsultationDetailsComponent.scss";
-import {IService} from "../../../../shared/models/service-category.model";
-// import {ITableColumn} from "../../../../shared/models/table.model";
-// import {Misc} from "../../../../constants";
 import CardComponent from "../../../../shared/components/card/CardComponent";
 import {Misc} from "../../../../constants";
 import {ITableColumn} from "../../../../shared/models/table.model";
 import TableComponent from "../../../../shared/components/table/TableComponent";
-// import TableComponent from "../../../../shared/components/table/TableComponent";
+import {IConsultation, IService} from "../../../../shared/models/service.model";
 
 interface ServiceConsultationDetailsComponentProps {
     serviceDetails: IService
@@ -22,8 +19,8 @@ const ServiceConsultationDetailsComponent = (props: ServiceConsultationDetailsCo
             key: "duration",
             dataIndex: "duration",
             width: "80%",
-            render: (_: any, item: any) => {
-                return <span> {item.duration.title} </span>
+            render: (_: any, item: IConsultation) => {
+                return <span> {item?.duration_details?.title} </span>
             }
         },
         {

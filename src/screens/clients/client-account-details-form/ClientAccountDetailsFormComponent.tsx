@@ -19,7 +19,7 @@ import QuestionComponent from "../../../shared/components/question/QuestionCompo
 import {IClientAccountDetails} from "../../../shared/models/client.model";
 import {getClientAccountDetails} from "../../../store/actions/client.action";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import StatusComponentComponent from "../../../shared/components/status-component/StatusComponentComponent";
+import StatusCardComponent from "../../../shared/components/status-component/StatusCardComponent";
 
 interface ClientAccountDetailsFormComponentProps {
     clientId: string;
@@ -140,7 +140,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                         }
                         {
                             isClientAccountDetailsLoadingFailed &&
-                            <StatusComponentComponent title={"Failed to fetch account Details"}/>
+                            <StatusCardComponent title={"Failed to fetch account Details"}/>
                         }
                     </>
                 }

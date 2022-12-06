@@ -8,7 +8,7 @@ import DataLabelValueComponent from "../../../shared/components/data-label-value
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import StatusComponentComponent from "../../../shared/components/status-component/StatusComponentComponent";
+import StatusCardComponent from "../../../shared/components/status-component/StatusCardComponent";
 import React from "react";
 import {CommonService} from "../../../shared/services";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
@@ -38,7 +38,7 @@ const ClientAccountDetailsComponent = (props: ClientAccountDetailsComponentProps
             }
             {
                 isClientAccountDetailsLoadingFailed &&
-                <StatusComponentComponent title={"Failed to fetch client Details"}/>
+                <StatusCardComponent title={"Failed to fetch client Details"}/>
             }
             {
                 (isClientAccountDetailsLoaded && clientAccountDetails) && <>

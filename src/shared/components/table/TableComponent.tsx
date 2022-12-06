@@ -2,7 +2,7 @@ import "./TableComponent.scss";
 import Table from 'antd/lib/table';
 import {ITableComponentProps} from "../../models/table.model";
 import {useCallback, useEffect, useState} from "react";
-import StatusComponentComponent from "../status-component/StatusComponentComponent";
+import StatusCardComponent from "../status-component/StatusCardComponent";
 import LoaderComponent from "../loader/LoaderComponent";
 import {TablePaginationConfig} from "antd";
 import {ColumnsType} from "antd/es/table";
@@ -18,6 +18,8 @@ const TableComponent = (props: TableComponentProps) => {
     const {data, onRowClick, rowClassName, bordered, loading, errored, onSort} = props;
     const [tableColumns, setTableColumns] = useState<ColumnsType<any>>(props.columns);
     const size = props.size || "large";
+    const scroll = props.scroll || "scroll";
+    const tableLayout = props.tableLayout || "fixed";
     const showHeader = props.showHeader !== undefined ? props.showHeader : true;
 
     const defaultRowKey = useCallback((item: any, index?: number) => item?._id || index, []);
@@ -64,10 +66,10 @@ const TableComponent = (props: TableComponentProps) => {
                                {
                                    (!loading && data.length === 0) ? <>
                                        {
-                                           errored && <StatusComponentComponent title={"Error Loading Data"}/>
+                                           errored && <StatusCardComponent title={"Error Loading Data"}/>
                                        }
                                        {
-                                           !errored && <StatusComponentComponent title={"No Data"}/>
+                                           !errored && <StatusCardComponent title={"No Data"}/>
                                        }
                                    </> : <></>
                                }
@@ -94,7 +96,8 @@ const TableComponent = (props: TableComponentProps) => {
                    showSorterTooltip={false}
                    onChange={handleTableChange}
                    pagination={false}
-                   scroll={{x: "100%", y: "calc(100% - 54px)"}}
+                   tableLayout={tableLayout}
+                   scroll={ scroll === "scroll" ? {x: "100%", y: "calc(100% - 54px)" } : undefined}
             />
         </div>
     );

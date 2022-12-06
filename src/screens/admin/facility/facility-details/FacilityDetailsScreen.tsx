@@ -13,7 +13,7 @@ import FormControlLabelComponent from "../../../../shared/components/form-contro
 import HorizontalLineComponent
     from "../../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
-import StatusComponentComponent from "../../../../shared/components/status-component/StatusComponentComponent";
+import StatusCardComponent from "../../../../shared/components/status-component/StatusCardComponent";
 
 interface FacilityDetailsScreenProps {
 
@@ -61,7 +61,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
             }
             {
                 isFacilityDetailsLoadingFailed &&
-                <StatusComponentComponent title={"Failed to fetch facility details"}/>
+                <StatusCardComponent title={"Failed to fetch facility details"}/>
             }
             {
                 isFacilityDetailsLoaded && <>
