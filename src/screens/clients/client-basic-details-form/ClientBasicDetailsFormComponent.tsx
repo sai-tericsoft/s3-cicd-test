@@ -249,6 +249,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                             placeholder={'First Name'}
                                                             type={"text"}
                                                             required={true}
+                                                            titleCase={true}
                                                             formikField={field}
                                                             fullWidth={true}
                                                         />
@@ -265,6 +266,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                             placeholder={'Last Name'}
                                                             type={"text"}
                                                             required={true}
+                                                            titleCase={true}
                                                             formikField={field}
                                                             fullWidth={true}
                                                         />

@@ -49,7 +49,7 @@ const ClientSurgicalHistoryInitialValues: IClientSurgicalHistoryForm = {
 const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComponentProps) => {
 
     const {mode, onCancel, clientId, onSave} = props;
-    const {medicalHistoryOptionsList} = useSelector((state: IRootReducerState) => state.staticData);
+    const {surgicalHistoryOptionsList} = useSelector((state: IRootReducerState) => state.staticData);
     const [clientSurgicalHistoryInitialValues, setClientSurgicalHistoryInitialValues] = useState<IClientSurgicalHistoryForm>(_.cloneDeep(ClientSurgicalHistoryInitialValues));
     const [isClientSurgicalHistorySavingInProgress, setIsClientSurgicalHistorySavingInProgress] = useState(false);
     const dispatch = useDispatch();
@@ -142,7 +142,7 @@ const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComp
                                     <Form noValidate={true} className={"t-form"}>
                                         <div className="ts-row">
                                             {
-                                                medicalHistoryOptionsList?.map((option: ISurgicalHistoryOption) => {
+                                                surgicalHistoryOptionsList?.map((option: ISurgicalHistoryOption) => {
                                                     return <div className="ts-col-md-6 ts-col-lg-4" key={option._id}>
                                                         <Field
                                                             name={"surgical_history.questions"}>

@@ -134,6 +134,7 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                                     required={true}
                                                     formikField={field}
                                                     fullWidth={true}
+                                                    titleCase={true}
                                                     id={"sc_input"}
                                                 />
                                             )

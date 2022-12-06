@@ -115,13 +115,12 @@ const convertDateFormat = (date: Date, format: string = 'MM-DD-YYYY') => {
     return moment(date).format(format);
 }
 
-const getTheDifferenceBetweenDates = (fromDate:string) => {
+const getTheDifferenceBetweenDates = (fromDate: string) => {
     let a = moment();
     let b = moment(moment(fromDate), 'YYYY');
     let diff = a.diff(b, 'years')
     return diff;
 }
-
 
 
 const getFlatJsonFromNestedJSON = (jsonData: any, rootName: string = "", ignoreList: any[] = []): any => {
@@ -382,7 +381,10 @@ const onConfirm = (config: IConfirmationConfig = {}) => {
 }
 
 const Capitalize = (str: string) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+    const capitalize = (str: string) => {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+    return str.split(' ').map(capitalize).join(' ');
 }
 
 const getObjectKeyValue = (object: any, key: string) => {

@@ -208,6 +208,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                             required={true}
                                                             formikField={field}
                                                             fullWidth={true}
+                                                            titleCase={true}
                                                         />
                                                     )
                                                 }

@@ -143,9 +143,11 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                         label={'Service Name'}
                                                         placeholder={'Service Name'}
                                                         type={"text"}
-                                                        required={true}
                                                         formikField={field}
+                                                        titleCase={true}
+                                                        required={true}
                                                         fullWidth={true}
+                                                        id={"email_input"}
                                                     />
                                                 )
                                             }

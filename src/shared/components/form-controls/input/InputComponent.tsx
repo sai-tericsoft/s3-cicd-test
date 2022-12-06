@@ -2,7 +2,7 @@ import "./InputComponent.scss";
 import {FormControl, InputAdornment, TextField} from "@mui/material";
 import {useCallback} from "react";
 import {IInputFieldProps} from "../../../models/form-controls.model";
-import _ from "lodash";
+import {CommonService} from "../../../services";
 
 export interface InputComponentProps extends IInputFieldProps {
     type?: 'email' | 'number' | 'password' | 'text';
@@ -37,18 +37,20 @@ const InputComponent = (props: InputComponentProps) => {
 
     const handleOnChange = useCallback((event: any) => {
         let value = event.target.value;
-        let transformedValue = value;
+        let transformedValue = "";
         if (titleCase) {
-            transformedValue = _.startCase(_.toLower(transformedValue));
+            transformedValue = CommonService.Capitalize(value);
+        } else {
+            transformedValue = value;
         }
-        value = transformedValue;
         if (onChange) {
-            onChange(value);
+            onChange(transformedValue);
         }
     }, [titleCase, onChange]);
 
     return (
-        <FormControl className={'input-component ' + className + ' ' + (fullWidth ? "full-width" : "")} error={hasError}
+        <FormControl className={'input-component ' + className + ' ' + (fullWidth ? "full-width" : "")}
+                     error={hasError}
                      fullWidth={fullWidth}>
             <TextField type={type}
                        id={id}

@@ -1,7 +1,7 @@
 import "./ServiceCategoryAddComponent.scss";
 import {IServiceCategory, IServiceCategoryAddForm} from "../../../../shared/models/service-category.model";
 import * as Yup from "yup";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {CommonService} from "../../../../shared/services";
 import {IAPIResponseType} from "../../../../shared/models/api.model";
@@ -90,7 +90,7 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
                                                     required={true}
                                                     formikField={field}
                                                     fullWidth={true}
-                                                    id={"sc_input"}
+                                                    titleCase={true}
                                                 />
                                             )
                                         }
