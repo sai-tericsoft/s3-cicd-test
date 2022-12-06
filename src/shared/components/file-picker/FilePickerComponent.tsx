@@ -1,6 +1,6 @@
 import "./FilePickerComponent.scss";
 import {useDropzone} from "react-dropzone";
-import {useCallback} from "react";
+import {useCallback, useState} from "react";
 import {ImageConfig} from "../../../constants";
 import {CommonService} from "../../services";
 
@@ -9,7 +9,7 @@ interface FilePickerComponentProps {
     uploadText?: string;
     acceptedFilesText?: string;
     onFilesDrop?: (acceptedFiles: any[], rejectedFiles: any[]) => void;
-    acceptedFileTypes?: any;
+    acceptedFileTypes?: IFileType[];
     multiple?: boolean;
     maxFileCount?: number;
     disabled?: boolean;
@@ -18,9 +18,28 @@ interface FilePickerComponentProps {
 const TOO_MANY_FILES_ERROR_CODE = "too-many-files";
 const INVALID_FILE_TYPE_ERROR_CODE = "file-invalid-type";
 
+type IFileType = "png" | "jpg" | "jpeg";
+
+const fileTypeMappings: any = {
+    "png": 'image/png',
+    "jpg": 'image/jpg',
+    "jpeg": 'image/jpeg',
+}
+
 const FilePickerComponent = (props: FilePickerComponentProps) => {
 
-    const {acceptedFilesText, id, disabled, maxFileCount, onFilesDrop, acceptedFileTypes, multiple} = props;
+    const getConvertedFileTypes = useCallback((acceptedFileTypes: IFileType[] | undefined) => {
+        const mappings: any = {};
+        acceptedFileTypes?.forEach((fileType) => {
+            const mapping = fileTypeMappings[fileType];
+            mappings[mapping] = [];
+        });
+        return mappings;
+    }, []);
+
+    const [acceptedFileTypes] = useState(getConvertedFileTypes(props.acceptedFileTypes));
+
+    const {acceptedFilesText, id, disabled, maxFileCount, onFilesDrop, multiple} = props;
     const uploadText = props.uploadText || "Drag and drop or browse to choose a file";
 
     const onDrop = useCallback((acceptedFiles: any, rejectedFiles: any) => {
@@ -67,7 +86,13 @@ const FilePickerComponent = (props: FilePickerComponentProps) => {
         getInputProps,
         isDragActive,
         isDragReject
-    } = useDropzone({onDrop, accept: acceptedFileTypes, multiple: multiple, maxFiles: maxFileCount, disabled: disabled});
+    } = useDropzone({
+        onDrop,
+        accept: acceptedFileTypes,
+        multiple: multiple,
+        maxFiles: maxFileCount,
+        disabled: disabled
+    });
 
     return (
         <div className={`file-picker-wrapper ${isDragActive ? "drag-active" : ""}`} {...getRootProps()} >

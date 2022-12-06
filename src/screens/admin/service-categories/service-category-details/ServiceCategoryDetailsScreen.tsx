@@ -1,5 +1,5 @@
 import "./ServiceCategoryDetailsScreen.scss";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {IServiceCategory} from "../../../../shared/models/service-category.model";
 import {CommonService} from "../../../../shared/services";
 import {IAPIResponseType} from "../../../../shared/models/api.model";
@@ -12,6 +12,8 @@ import {ImageConfig} from "../../../../constants";
 import DrawerComponent from "../../../../shared/components/drawer/DrawerComponent";
 import ServiceCategoryEditComponent from "../service-category-edit/ServiceCategoryEditComponent";
 import ServiceListComponent from "../../service/service-list/ServiceListComponent";
+import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
+import StatusComponentComponent from "../../../../shared/components/status-component/StatusComponentComponent";
 
 interface ServiceCategoryDetailsScreenProps {
 
@@ -68,10 +70,11 @@ const ServiceCategoryDetailsScreen = (props: ServiceCategoryDetailsScreenProps) 
     return (
         <div className={'service-category-details-screen'}>
             {
-                isServiceCategoryDetailsLoading && <div>Loading</div>
+                isServiceCategoryDetailsLoading && <LoaderComponent/>
             }
             {
-                isServiceCategoryDetailsLoadingFailed && <div>Loading Failed</div>
+                isServiceCategoryDetailsLoadingFailed &&
+                <StatusComponentComponent title={"Failed to fetch service category details"}/>
             }
             {
                 isServiceCategoryDetailsLoaded && <>

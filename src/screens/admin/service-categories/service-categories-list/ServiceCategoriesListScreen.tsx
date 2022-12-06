@@ -1,6 +1,6 @@
 import "./ServiceCategoriesListScreen.scss";
 import {useDispatch} from "react-redux";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import {IServiceCategory} from "../../../../shared/models/service-category.model";
 import {CommonService} from "../../../../shared/services";
@@ -12,6 +12,8 @@ import ServiceCategoryCardComponent
     from "../../../../shared/components/service-category-card/ServiceCategoryCardComponent";
 import DrawerComponent from "../../../../shared/components/drawer/DrawerComponent";
 import ServiceCategoryAddComponent from "../service-category-add/ServiceCategoryAddComponent";
+import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
+import StatusComponentComponent from "../../../../shared/components/status-component/StatusComponentComponent";
 
 interface ServiceCategoriesListScreenProps {
 
@@ -83,10 +85,11 @@ const ServiceCategoriesListScreen = (props: ServiceCategoriesListScreenProps) =>
             </div>
             <div className="service-category-list-wrapper">
                 {
-                    isServiceCategoryListLoading && <div>Loading</div>
+                    isServiceCategoryListLoading && <LoaderComponent/>
                 }
                 {
-                    isServiceCategoryListLoadingFailed && <div>Loading Failed</div>
+                    isServiceCategoryListLoadingFailed &&
+                    <StatusComponentComponent title={"Failed to fetch service category list"}/>
                 }
                 {
                     isServiceCategoryListLoaded && <>

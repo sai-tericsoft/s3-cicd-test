@@ -74,9 +74,10 @@ const DatePickerComponent = (props: DatePickerComponentProps) => {
                         name={name}
                         onClick={(e) => setOpen(true)}
                         color={color}
-                        error={hasError}
                         placeholder={placeholder}
-                        {...params} />}
+                        {...params}
+                        error={hasError} // to be added to show error in date picker
+                    />}
                 />
             </LocalizationProvider>
             <FormHelperText>

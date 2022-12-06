@@ -1,5 +1,5 @@
 import "./FacilityDetailsScreen.scss";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {CommonService} from "../../../../shared/services";
 import {IAPIResponseType} from "../../../../shared/models/api.model";
 import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
@@ -12,6 +12,8 @@ import DataLabelValueComponent from "../../../../shared/components/data-label-va
 import FormControlLabelComponent from "../../../../shared/components/form-control-label/FormControlLabelComponent";
 import HorizontalLineComponent
     from "../../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
+import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
+import StatusComponentComponent from "../../../../shared/components/status-component/StatusComponentComponent";
 
 interface FacilityDetailsScreenProps {
 
@@ -55,10 +57,11 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
     return (
         <div className={'service-category-details-screen'}>
             {
-                isFacilityDetailsLoading && <div>Loading</div>
+                isFacilityDetailsLoading && <LoaderComponent/>
             }
             {
-                isFacilityDetailsLoadingFailed && <div>Loading Failed</div>
+                isFacilityDetailsLoadingFailed &&
+                <StatusComponentComponent title={"Failed to fetch facility details"}/>
             }
             {
                 isFacilityDetailsLoaded && <>

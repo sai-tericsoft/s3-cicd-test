@@ -1,6 +1,6 @@
 import "./DesignSystemScreen.scss";
 import * as Yup from "yup";
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {Field, FieldProps, Form, Formik} from 'formik';
 import FormikPasswordInputComponent
     from "../../shared/components/form-controls/formik-password-input/FormikPasswordInputComponent";
@@ -20,6 +20,9 @@ import TabsWrapperComponent, {
     TabContentComponent,
     TabsComponent
 } from "../../shared/components/tabs/TabsComponent";
+import FormikDatePickerComponent
+    from "../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
+import {CommonService} from "../../shared/services";
 
 interface DesignSystemScreenProps {
 
@@ -28,6 +31,8 @@ interface DesignSystemScreenProps {
 const designSystemFormValidationSchema = Yup.object({
     username: Yup.string()
         .required("Username is required"),
+    dob: Yup.string()
+        .required("Date of Birth is required"),
     password: Yup.string()
         .min(8, "Password must contain at least 8 characters")
         .required("Password is required")
@@ -35,14 +40,15 @@ const designSystemFormValidationSchema = Yup.object({
 
 const DesignSystemScreen = (props: DesignSystemScreenProps) => {
 
-    const options = [{title: 'Male', code: 'm'}, {title: 'Female', code: 'f'}];
-    const users = [{fName: 'Mick', lName: 'John', id: 1}, {fName: 'John', lName: 'Doe', id: 2}];
+    const options = [{title: 'Male', code: 'm', _id: 'm'}, {title: 'Female', code: 'f', _id: 'f'}];
+    const users = [{fName: 'Mick', lName: 'John', _id: 1}, {fName: 'John', lName: 'Doe', _id: 2}];
 
     const [designSystemFormInitialValues] = useState({
         username: "",
         password: "",
         tnc: true,
         gender: "m",
+        dob: "",
         rm: users[0],
         accessAsAdmin: true,
 
@@ -51,6 +57,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
     const [isFormSubmitting, setIsFormSubmitting] = useState(false);
     const [isTnCModalOpened, setIsTnCModalOpened] = useState(false);
     const [currentTab, setCurrentTab] = useState<string>("tab1");
+
 
     const onSubmit = useCallback((values: any) => {
         console.log(values);
@@ -117,6 +124,19 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                                                 fullWidth={true}
                                                                 canToggle={true}
                                                                 id={"password_input"}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                                <Field name={'dob'} className="t-form-control">
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikDatePickerComponent
+                                                                label={'Date of Birth'}
+                                                                placeholder={'Date of Birth'}
+                                                                required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
                                                             />
                                                         )
                                                     }

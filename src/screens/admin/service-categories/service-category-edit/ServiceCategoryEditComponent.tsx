@@ -167,9 +167,7 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                                                              }
                                                                          }}
                                                                          acceptedFilesText={"PNG, JPG and JPEG files are allowed"}
-                                                                         acceptedFileTypes={{
-                                                                             'image/*': []
-                                                                         }}
+                                                                         acceptedFileTypes={["png", "jpg", "jpeg"]}
                                                     />
                                                     {
                                                         (_.get(touched, "image") && !!(_.get(errors, "image"))) &&
