@@ -134,26 +134,20 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
             setEditServiceFormInitialValues({
                 name: serviceDetails.name,
                 description: serviceDetails.description,
-                image: undefined,
+                image: serviceDetails.image,
                 category_id: serviceDetails.category_id,
                 is_active: serviceDetails.is_active,
                 initial_consultation: serviceDetails.initial_consultation,
                 followup_consultation: serviceDetails.followup_consultation
             });
-            CommonService.generateBlobFileFromUrl(serviceDetails.image.url, serviceDetails.name, serviceDetails.image.type)
-                .then((response) => {
-                    setEditServiceFormInitialValues((oldSate) => {
-                        return {
-                            ...oldSate,
-                            image: response
-                        }
-                    })
-                });
         }
     }, [serviceDetails]);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         if (serviceId) {
+            if (!(values.image instanceof File)) {
+                delete values.image;
+            }
             setIsServiceEditInProgress(true);
             const formData = CommonService.getFormDataFromJSON(values);
             CommonService._service.ServiceEditAPICall(serviceId, formData)

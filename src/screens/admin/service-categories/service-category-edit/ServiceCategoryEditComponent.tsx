@@ -48,8 +48,11 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
     const [isServiceCategoryEditInProgress, setIsServiceCategoryEditInProgress] = useState(false);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        setIsServiceCategoryEditInProgress(true);
+        if (!(values.image instanceof File)) {
+            delete values.image;
+        }
         const formData = CommonService.getFormDataFromJSON(values);
+        setIsServiceCategoryEditInProgress(true);
         CommonService._serviceCategory.ServiceCategoryEditAPICall(serviceCategory._id, formData)
             .then((response: IAPIResponseType<IServiceCategory>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
@@ -67,18 +70,9 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
             setServiceCategoryEditFormInitialValues({
                 name: serviceCategory.name,
                 description: serviceCategory.description,
-                image: undefined,
+                image: serviceCategory.image,
                 is_active: serviceCategory.is_active
             });
-            CommonService.generateBlobFileFromUrl(serviceCategory.image.url, serviceCategory.name, serviceCategory.image.type)
-                .then((response) => {
-                    setServiceCategoryEditFormInitialValues((oldSate) => {
-                        return {
-                            ...oldSate,
-                            image: response
-                        }
-                    })
-                });
         }
     }, [serviceCategory]);
 

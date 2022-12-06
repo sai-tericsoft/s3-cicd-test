@@ -3,15 +3,17 @@ import ButtonComponent from "../button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
 import {useCallback, useEffect, useState} from "react";
 import AvatarComponent from "../avatar/AvatarComponent";
+import {IAttachment} from "../../models/common.model";
 
 interface FilePreviewThumbnailComponentProps {
-    file: File;
+    file: File | IAttachment;
     removable?: boolean;
     removeButtonId?: string;
-    onRemove?: (file: File) => void;
+    onRemove?: (file: File | IAttachment) => void;
 }
 
 const FilePreviewThumbnailComponent = (props: FilePreviewThumbnailComponentProps) => {
+
 
     const {file, removable, removeButtonId, onRemove} = props;
     const [filePreviewURL, setFilePreviewURL] = useState<string | null>("");
@@ -53,14 +55,17 @@ const FilePreviewThumbnailComponent = (props: FilePreviewThumbnailComponentProps
     }, []);
 
     useEffect(() => {
-        console.log(file);
-        const name = file.name;
-        setFileName(name);
-        const type = file.type;
-        console.log(file.type);
-        getFileThumbnail(type, file, (thumbnailURL: string) => {
-            setFilePreviewURL(thumbnailURL);
-        });
+        if (file instanceof File) {
+            const name = file.name;
+            setFileName(name);
+            const type = file.type;
+            getFileThumbnail(type, file, (thumbnailURL: string) => {
+                setFilePreviewURL(thumbnailURL);
+            });
+        } else {
+            setFileName(file.name);
+            setFilePreviewURL(file.url);
+        }
     }, [getFileThumbnail, file]);
 
     const handleFileRemove = useCallback(() => {
@@ -68,7 +73,6 @@ const FilePreviewThumbnailComponent = (props: FilePreviewThumbnailComponentProps
             onRemove(file);
         }
     }, [onRemove, file]);
-
 
     return (
         <div className={'file-preview-thumbnail-component'}>
