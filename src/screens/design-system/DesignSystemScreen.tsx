@@ -1,6 +1,6 @@
 import "./DesignSystemScreen.scss";
 import * as Yup from "yup";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useState} from "react";
 import {Field, FieldProps, Form, Formik} from 'formik';
 import FormikPasswordInputComponent
     from "../../shared/components/form-controls/formik-password-input/FormikPasswordInputComponent";
@@ -22,7 +22,6 @@ import TabsWrapperComponent, {
 } from "../../shared/components/tabs/TabsComponent";
 import FormikDatePickerComponent
     from "../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
-import {CommonService} from "../../shared/services";
 
 interface DesignSystemScreenProps {
 
