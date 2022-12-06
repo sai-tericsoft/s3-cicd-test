@@ -3,7 +3,7 @@ import {useDispatch} from "react-redux";
 import React, {useEffect, useState} from "react";
 import {setCurrentNavParams} from "../../store/actions/navigation.action";
 import {Form, Radio, RadioChangeEvent, Space, Switch, Table} from "antd";
-import {ColumnsType, TableProps} from "antd/es/table";
+import {ColumnsType} from "antd/es/table";
 import {DownOutlined} from "@ant-design/icons";
 
 interface DashboardScreenProps {
@@ -38,13 +38,10 @@ const columns: ColumnsType<DataType> = [
         sorter: true,
         render: () => (
             <Space size="middle">
-                <a>Delete</a>
-                <a>
-                    <Space>
-                        More actions
-                        <DownOutlined />
-                    </Space>
-                </a>
+                <Space>
+                    More actions
+                    <DownOutlined/>
+                </Space>
             </Space>
         ),
     },
@@ -90,7 +87,7 @@ const DashboardScreen = (props: DashboardScreenProps) => {
         scroll.x = '100vw';
     }
 
-    const tableColumns = columns.map((item) => ({ ...item, ellipsis }));
+    const tableColumns = columns.map((item) => ({...item, ellipsis}));
     if (xScroll === 'fixed') {
         tableColumns[0].fixed = true;
         tableColumns[tableColumns.length - 1].fixed = 'right';
@@ -101,10 +98,10 @@ const DashboardScreen = (props: DashboardScreenProps) => {
             <Form
                 layout="inline"
                 className="components-table-demo-control-bar"
-                style={{ marginBottom: 16 }}
+                style={{marginBottom: 16}}
             >
                 <Form.Item label="Ellipsis">
-                    <Switch checked={ellipsis} onChange={handleEllipsisChange} />
+                    <Switch checked={ellipsis} onChange={handleEllipsisChange}/>
                 </Form.Item>
                 <Form.Item label="Table Scroll">
                     <Radio.Group value={xScroll} onChange={handleXScrollChange}>

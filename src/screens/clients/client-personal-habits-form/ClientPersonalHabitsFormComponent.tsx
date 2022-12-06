@@ -17,7 +17,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {getClientMedicalDetails} from "../../../store/actions/client.action";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import StatusCardComponent from "../../../shared/components/status-component/StatusCardComponent";
+import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 
 interface ClientPersonalHabitsFormComponentProps {
     clientId: string;

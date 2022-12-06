@@ -8,7 +8,7 @@ import HorizontalLineComponent
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import StatusCardComponent from "../../../shared/components/status-component/StatusCardComponent";
+import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import React from "react";
 
 interface ClientBasicDetailsComponentProps {

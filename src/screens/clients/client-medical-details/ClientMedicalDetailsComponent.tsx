@@ -5,7 +5,7 @@ import {CommonService} from "../../../shared/services";
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import StatusCardComponent from "../../../shared/components/status-component/StatusCardComponent";
+import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import React from "react";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";

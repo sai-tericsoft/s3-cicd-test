@@ -19,7 +19,7 @@ import FormControlLabelComponent from "../../../shared/components/form-control-l
 import {IClientBasicDetails} from "../../../shared/models/client.model";
 import {getClientBasicDetails, setClientBasicDetails} from "../../../store/actions/client.action";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import StatusCardComponent from "../../../shared/components/status-component/StatusCardComponent";
+import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 
 interface ClientBasicDetailsFormComponentProps {
     clientId?: string;

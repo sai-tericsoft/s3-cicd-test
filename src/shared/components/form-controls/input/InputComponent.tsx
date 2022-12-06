@@ -2,8 +2,9 @@ import "./InputComponent.scss";
 import {FormControl, InputAdornment, TextField} from "@mui/material";
 import {useCallback} from "react";
 import {IInputFieldProps} from "../../../models/form-controls.model";
+import _ from "lodash";
 
-export interface InputComponentProps extends IInputFieldProps{
+export interface InputComponentProps extends IInputFieldProps {
     type?: 'email' | 'number' | 'password' | 'text';
     prefix?: any;
     suffix?: any;
@@ -11,7 +12,23 @@ export interface InputComponentProps extends IInputFieldProps{
 
 const InputComponent = (props: InputComponentProps) => {
 
-    const {label, prefix, errorMessage, readOnly, suffix, hasError, className, inputProps, disabled, id, name, required, value, onChange} = props;
+    const {
+        label,
+        prefix,
+        titleCase,
+        errorMessage,
+        readOnly,
+        suffix,
+        hasError,
+        className,
+        inputProps,
+        disabled,
+        id,
+        name,
+        required,
+        value,
+        onChange
+    } = props;
     const variant = props.variant || "outlined";
     const size = props.size || "medium";
     const type = props.type || "text";
@@ -19,14 +36,20 @@ const InputComponent = (props: InputComponentProps) => {
     const placeholder = props.placeholder || label;
 
     const handleOnChange = useCallback((event: any) => {
-        const value = event.target.value;
+        let value = event.target.value;
+        let transformedValue = value;
+        if (titleCase) {
+            transformedValue = _.startCase(_.toLower(transformedValue));
+        }
+        value = transformedValue;
         if (onChange) {
             onChange(value);
         }
-    }, [onChange]);
-    
+    }, [titleCase, onChange]);
+
     return (
-        <FormControl className={'input-component ' + className + ' ' + (fullWidth ? "full-width" : "")} error={hasError} fullWidth={fullWidth}>
+        <FormControl className={'input-component ' + className + ' ' + (fullWidth ? "full-width" : "")} error={hasError}
+                     fullWidth={fullWidth}>
             <TextField type={type}
                        id={id}
                        fullWidth={fullWidth}

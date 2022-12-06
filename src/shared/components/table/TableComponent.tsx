@@ -2,7 +2,7 @@ import "./TableComponent.scss";
 import Table from 'antd/lib/table';
 import {ITableComponentProps} from "../../models/table.model";
 import {useCallback, useEffect, useState} from "react";
-import StatusCardComponent from "../status-component/StatusCardComponent";
+import StatusCardComponent from "../status-card/StatusCardComponent";
 import LoaderComponent from "../loader/LoaderComponent";
 import {TablePaginationConfig} from "antd";
 import {ColumnsType} from "antd/es/table";

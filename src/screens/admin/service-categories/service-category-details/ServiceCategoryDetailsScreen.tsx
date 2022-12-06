@@ -13,7 +13,7 @@ import DrawerComponent from "../../../../shared/components/drawer/DrawerComponen
 import ServiceCategoryEditComponent from "../service-category-edit/ServiceCategoryEditComponent";
 import ServiceListComponent from "../../service/service-list/ServiceListComponent";
 import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
-import StatusCardComponent from "../../../../shared/components/status-component/StatusCardComponent";
+import StatusCardComponent from "../../../../shared/components/status-card/StatusCardComponent";
 
 interface ServiceCategoryDetailsScreenProps {
 

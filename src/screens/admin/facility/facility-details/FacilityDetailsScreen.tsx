@@ -13,7 +13,7 @@ import FormControlLabelComponent from "../../../../shared/components/form-contro
 import HorizontalLineComponent
     from "../../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
-import StatusCardComponent from "../../../../shared/components/status-component/StatusCardComponent";
+import StatusCardComponent from "../../../../shared/components/status-card/StatusCardComponent";
 
 interface FacilityDetailsScreenProps {
 

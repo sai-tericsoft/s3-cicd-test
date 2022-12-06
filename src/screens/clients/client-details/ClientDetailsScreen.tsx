@@ -23,7 +23,7 @@ import TabsWrapperComponent, {
 import ClientBasicDetailsComponent from "../client-basic-details/ClientBasicDetailsComponent";
 import ClientActivityLogComponent from "../client-activity-log/ClientActivityLogComponent";
 import ClientMedicalDetailsComponent from "../client-medical-details/ClientMedicalDetailsComponent";
-import StatusCardComponent from "../../../shared/components/status-component/StatusCardComponent";
+import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {IClientDetailsSteps} from "../../../shared/models/client.model";

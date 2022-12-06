@@ -11,16 +11,10 @@ interface FormikInputComponentProps extends InputComponentProps {
 const FormikInputComponent = (props: FormikInputComponentProps) => {
 
     const {
-        label, suffix, type, prefix,
-        className, disabled, id, required,
         formikField,
-        onChange
+        onChange,
+        ...otherProps
     } = props;
-
-    const variant = props.variant || "outlined";
-    const size = props.size || "medium";
-    const fullWidth = props.fullWidth || false;
-    const placeholder = props.placeholder || label;
 
     const {field, form} = formikField;
     const {name, value} = field;
@@ -41,25 +35,16 @@ const FormikInputComponent = (props: FormikInputComponentProps) => {
     }, [name, handleBlur, setFieldTouched]);
 
     return (
-        <InputComponent label={label}
-                        type={type}
-                        disabled={disabled}
-                        id={id}
-                        name={name}
-                        required={required}
-                        value={value}
-                        size={size} className={className}
-                        fullWidth={fullWidth}
-                        variant={variant}
-                        placeholder={placeholder}
-                        inputProps={{
-                            onBlur: onInputBlur,
-                        }}
-                        onChange={textChangeHandler}
-                        prefix={prefix}
-                        suffix={suffix}
-                        hasError={hasError}
-                        errorMessage={hasError && (_.get(errors, name))}
+        <InputComponent
+            name={name}
+            value={value}
+            inputProps={{
+                onBlur: onInputBlur,
+            }}
+            onChange={textChangeHandler}
+            hasError={hasError}
+            errorMessage={hasError && (_.get(errors, name))}
+            {...otherProps}
         />
     );
 

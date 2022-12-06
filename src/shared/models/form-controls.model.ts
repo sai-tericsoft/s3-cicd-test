@@ -19,6 +19,7 @@ export interface IInputFieldProps {
     required?: boolean;
     size?: 'medium' | 'small';
     value?: any;
+    titleCase?: boolean;
     variant?: "outlined" | "filled" | "standard";
 }
 

@@ -23,7 +23,7 @@ import {IRootReducerState} from "../../../../store/reducers";
 import {useNavigate, useParams} from "react-router-dom";
 import IconButtonComponent from "../../../../shared/components/icon-button/IconButtonComponent";
 import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
-import StatusCardComponent from "../../../../shared/components/status-component/StatusCardComponent";
+import StatusCardComponent from "../../../../shared/components/status-card/StatusCardComponent";
 import {IService} from "../../../../shared/models/service.model";
 
 interface ServiceEditComponentProps {

@@ -12,7 +12,7 @@ import ServiceProviderListComponent from "../service-provider-list/ServiceProvid
 import LinkComponent from "../../../../shared/components/link/LinkComponent";
 import ServiceConsultationDetailsComponent from "../service-consultation-details/ServiceConsultationDetailsComponent";
 import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
-import StatusCardComponent from "../../../../shared/components/status-component/StatusCardComponent";
+import StatusCardComponent from "../../../../shared/components/status-card/StatusCardComponent";
 import {IService} from "../../../../shared/models/service.model";
 
 interface ServiceDetailsScreenProps {

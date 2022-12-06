@@ -1,10 +1,10 @@
 import "./StatusCardComponent.scss";
 
-interface StatusCardComponent {
+interface StatusCardComponentProps {
     title: string;
 }
 
-const StatusCardComponent = (props: StatusCardComponent) => {
+const StatusCardComponent = (props: StatusCardComponentProps) => {
 
     const {title} = props;
 

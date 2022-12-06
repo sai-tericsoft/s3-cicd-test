@@ -28,6 +28,8 @@ interface DesignSystemScreenProps {
 }
 
 const designSystemFormValidationSchema = Yup.object({
+    name: Yup.string()
+        .required("Name is required"),
     username: Yup.string()
         .required("Username is required"),
     dob: Yup.string()
@@ -43,6 +45,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
     const users = [{fName: 'Mick', lName: 'John', _id: 1}, {fName: 'John', lName: 'Doe', _id: 2}];
 
     const [designSystemFormInitialValues] = useState({
+        name: "",
         username: "",
         password: "",
         tnc: true,
@@ -97,6 +100,22 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                     {({isSubmitting, values, isValid, validateForm}) => {
                                         return (
                                             <Form className={"login-holder"} noValidate={true}>
+                                                <Field name={'name'} className="t-form-control">
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikInputComponent
+                                                                label={'Name'}
+                                                                titleCase={true}
+                                                                placeholder={'Enter Name'}
+                                                                type={"email"}
+                                                                required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                                id={"email_input"}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
                                                 <Field name={'username'} className="t-form-control">
                                                     {
                                                         (field: FieldProps) => (
