@@ -104,7 +104,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
             </>
             {
                 ((mode === "edit" && isClientMedicalDetailsLoaded && clientMedicalDetails) || mode === "add") && <>
-                    <FormControlLabelComponent label={CommonService.capitalizeFirstLetter(mode) + " Add Medical Provider Information"}/>
+                    <FormControlLabelComponent label={CommonService.capitalizeFirstLetter(mode) + " Medical Provider Information"}/>
                     <CardComponent title={"Medical Provider Information"}>
                         <Formik
                             validationSchema={ClientMedicalProviderInformationValidationSchema}

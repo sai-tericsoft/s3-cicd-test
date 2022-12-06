@@ -98,16 +98,20 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         const payload = {...values, mode};
         setIsClientAccountDetailsFormSavingInProgress(true);
-        CommonService._client.ClientAccountDetailsAddAPICall(clientId, payload)
-            .then((response: IAPIResponseType<IClientAccountDetails>) => {
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                setIsClientAccountDetailsFormSavingInProgress(false);
-                onSave(response);
-            })
-            .catch((error: any) => {
-                CommonService.handleErrors(setErrors, error);
-                setIsClientAccountDetailsFormSavingInProgress(false);
-            })
+        let apiCall;
+        if (mode === "add") {
+            apiCall = CommonService._client.ClientAccountDetailsAddAPICall(clientId, payload);
+        } else {
+            apiCall = CommonService._client.ClientAccountDetailsEditAPICall(clientId, payload);
+        }
+        apiCall.then((response: IAPIResponseType<IClientAccountDetails>) => {
+            CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+            setIsClientAccountDetailsFormSavingInProgress(false);
+            onSave(response);
+        }).catch((error: any) => {
+            CommonService.handleErrors(setErrors, error);
+            setIsClientAccountDetailsFormSavingInProgress(false);
+        })
     }, [clientId, onSave, mode]);
 
     useEffect(() => {

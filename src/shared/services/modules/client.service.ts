@@ -69,6 +69,11 @@ const ClientAccountDetailsAddAPICall = (clientId: string, payload: any) => {
     return ApiService[APIConfig.CLIENT_ACCOUNT_PREFERENCES_ADD.METHOD](APIConfig.CLIENT_ACCOUNT_PREFERENCES_ADD.URL(clientId), payload);
 }
 
+const ClientAccountDetailsEditAPICall = (clientId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.CLIENT_ACCOUNT_PREFERENCES_EDIT.METHOD](APIConfig.CLIENT_ACCOUNT_PREFERENCES_EDIT.URL(clientId), payload);
+}
+
 const ClientBasicDetailsEditAPICall = (clientId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.CLIENT_BASIC_DETAILS_EDIT.METHOD](APIConfig.CLIENT_BASIC_DETAILS_EDIT.URL(clientId), payload);
@@ -98,7 +103,8 @@ const ClientService={
     ClientAccountDetailsApiCall,
     ClientBasicDetailsEditAPICall,
     NavigateToClientEdit,
-    NavigateToClientDetails
+    NavigateToClientDetails,
+    ClientAccountDetailsEditAPICall
 }
 
 export default ClientService;

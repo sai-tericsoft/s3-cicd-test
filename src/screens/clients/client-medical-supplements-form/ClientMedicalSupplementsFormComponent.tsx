@@ -9,7 +9,6 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import {Misc} from "../../../constants";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import {useDispatch, useSelector} from "react-redux";
@@ -104,7 +103,7 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
             </>
             {
                 ((mode === "edit" && isClientMedicalDetailsLoaded && clientMedicalDetails) || mode === "add") && <>
-                    <FormControlLabelComponent label={CommonService.capitalizeFirstLetter(mode) + " Add Medications/Supplements"}/>
+                    <FormControlLabelComponent label={CommonService.capitalizeFirstLetter(mode) + " Medications/Supplements"}/>
                     <CardComponent title={"Medications/Supplements"}
                                    description={"Please list all prescription and non-prescription medications for the client:"}>
                         <Formik

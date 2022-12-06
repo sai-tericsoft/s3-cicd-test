@@ -88,7 +88,7 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                 }
             }
         }
-    }, [clientId, currentStep]);
+    }, [navigate, clientId, currentStep]);
 
     useEffect(() => {
         let currentStep: any = searchParams.get("currentStep");

@@ -9,7 +9,6 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import {Misc} from "../../../constants";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 import FormikRadioButtonGroupComponent
     from "../../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
 import {IClientPersonalHabitsForm} from "../../../shared/models/client.model";

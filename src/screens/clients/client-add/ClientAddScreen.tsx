@@ -103,7 +103,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
 
     const handleClientDetailsCancel = useCallback(() => {
         navigate(CommonService._routeConfig.ClientList());
-    }, []);
+    }, [navigate]);
 
     useEffect(() => {
         let currentStep: any = searchParams.get("currentStep");

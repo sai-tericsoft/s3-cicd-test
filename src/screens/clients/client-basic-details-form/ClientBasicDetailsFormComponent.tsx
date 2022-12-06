@@ -160,9 +160,11 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
         const payload = {...values, mode};
         payload['dob'] = CommonService.convertDateFormat(payload['dob']);
         setIsClientBasicDetailsSavingInProgress(true);
-        let apiCall = CommonService._client.ClientBasicDetailsAddAPICall(payload);
+        let apiCall;
         if (mode === "edit" && clientId) {
             apiCall = CommonService._client.ClientBasicDetailsEditAPICall(clientId, payload);
+        } else {
+            apiCall = CommonService._client.ClientBasicDetailsAddAPICall(payload);
         }
         apiCall.then((response: IAPIResponseType<IServiceAdd>) => {
             CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
