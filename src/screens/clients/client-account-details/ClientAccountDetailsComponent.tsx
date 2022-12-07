@@ -64,14 +64,24 @@ const ClientAccountDetailsComponent = (props: ClientAccountDetailsComponentProps
                                            description={clientAccountDetails?.referral_details.source_details?.title || "NA"}/>
                         {
                             clientAccountDetails?.referral_details.source_details?.code === "friends_family_colleague" && <>
-                                <DataLabelValueComponent
-                                    label={"Name"}> {clientAccountDetails?.referral_details?.source_info_name || "NA"} </DataLabelValueComponent>
-                                <DataLabelValueComponent
-                                    label={"Phone Number"}> {clientAccountDetails?.referral_details?.source_info_phone || "NA"} </DataLabelValueComponent>
-                                <DataLabelValueComponent
-                                    label={"Email"}> {clientAccountDetails?.referral_details?.source_info_email || "NA"} </DataLabelValueComponent>
-                                <DataLabelValueComponent
-                                    label={"Relationship"}> {clientAccountDetails?.referral_details.source_info_relationship_details?.title || "NA"} </DataLabelValueComponent>
+                                <div className="ts-row">
+                                    <div className="ts-col-3">
+                                        <DataLabelValueComponent
+                                            label={"Name"}> {clientAccountDetails?.referral_details?.source_info_name || "NA"} </DataLabelValueComponent>
+                                    </div>
+                                    <div className="ts-col-3">
+                                        <DataLabelValueComponent
+                                            label={"Phone Number"}> {clientAccountDetails?.referral_details?.source_info_phone || "NA"} </DataLabelValueComponent>
+                                    </div>
+                                    <div className="ts-col-3">
+                                        <DataLabelValueComponent
+                                            label={"Email"}> {clientAccountDetails?.referral_details?.source_info_email || "NA"} </DataLabelValueComponent>
+                                    </div>
+                                    <div className="ts-col-3">
+                                        <DataLabelValueComponent
+                                            label={"Relationship"}> {clientAccountDetails?.referral_details.source_info_relationship_details?.title || "NA"} </DataLabelValueComponent>
+                                    </div>
+                                </div>
                             </>
                         }
                         {

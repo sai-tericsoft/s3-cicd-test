@@ -73,8 +73,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                             title={facilityDetails?.name}
                             status={facilityDetails?.is_active}
                             avatarUrl={facilityDetails?.image?.url}
-                            // @ts-ignore
-                            subTitle={facilityDetails?.location?.title} // TODO
+                            subTitle={facilityDetails?.location_details?.title} // TODO
                         ></BasicDetailsCardComponent>
                     </div>
                     <CardComponent title={"Facility Details"}>
@@ -86,7 +85,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                             </div>
                             <div className={'ts-col-lg-3'}>
                                 <DataLabelValueComponent label={"Facility Location"}>
-                                    {facilityDetails?.location?.title || "-"}
+                                    {facilityDetails?.location_details?.title || "-"}
                                 </DataLabelValueComponent>
                             </div>
                         </div>
@@ -97,7 +96,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                         <div className={'ts-row'}>
                             <div className={'ts-col-lg-3'}>
                                 <DataLabelValueComponent label={'Phone Type(Primary)'}>
-                                    {facilityDetails?.primary_contact_info?.phone_type.title || "-"}
+                                    {facilityDetails?.primary_contact_info?.phone_type_details.title || "-"}
                                 </DataLabelValueComponent>
                             </div>
                             <div className={'ts-col-lg-3'}>
@@ -113,7 +112,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                                     <div className={'ts-row'}>
                                         <div className={'ts-col-lg-3'}>
                                             <DataLabelValueComponent label={'Phone Type'}>
-                                                <div>{phone_number?.phone_type?.title || "-"}</div>
+                                                <div>{phone_number?.phone_type_details?.title || "-"}</div>
                                             </DataLabelValueComponent>
                                         </div>
                                         <div className={'ts-col-lg-3'}>
