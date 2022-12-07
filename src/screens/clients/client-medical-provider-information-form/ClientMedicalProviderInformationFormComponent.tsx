@@ -185,7 +185,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                                 disabled={isClientMedicalProviderInformationSavingInProgress || !isValid}
                                                 type={"submit"}
                                             >
-                                                {isClientMedicalProviderInformationSavingInProgress ? "Saving" : "Save & Next"}
+                                                {isClientMedicalProviderInformationSavingInProgress ? "Saving" : <>{mode === "add" ? "Save & Next" : "Save"}</>}
                                             </ButtonComponent>
                                         </div>
                                     </Form>

@@ -212,8 +212,8 @@ const getFormDataFromJSON = (obj: any, rootName = '', ignoreList = []): FormData
     appendFormData(obj, rootName);
 
     return formData;
-
 }
+
 const capitalizeFirstLetter = (string: string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -398,6 +398,33 @@ const getSystemFormatTimeStamp = (date: Date | string, showTime: boolean = false
         return moment(date).format('DD-MMM-YYYY');
     }
 };
+
+const removeKeysFromJSON = (obj: any, key: string[]): any => {
+        // let index;
+        // for (var prop in obj) {
+        //     // important check that this is objects own property
+        //     // not from prototype prop inherited
+        //     if(obj.hasOwnProperty(prop)){
+        //         switch(typeof(obj[prop])){
+        //             case 'string':
+        //                 index = keys.indexOf(prop);
+        //                 if(index > -1){
+        //                     delete obj[prop];
+        //                 }
+        //                 break;
+        //             case 'object':
+        //                 index = keys.indexOf(prop);
+        //                 if(index > -1){
+        //                     delete obj[prop];
+        //                 }else{
+        //                     removeKeysFromJSON(obj[prop], keys);
+        //                 }
+        //                 break;
+        //         }
+        //     }
+        // }
+}
+
 
 const CommonService = {
     CurrentDate,

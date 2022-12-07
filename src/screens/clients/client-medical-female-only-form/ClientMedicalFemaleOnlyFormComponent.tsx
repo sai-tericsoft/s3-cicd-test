@@ -167,7 +167,7 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
                                                 disabled={isClientMedicalFemaleOnlyFormSavingInProgress || !isValid}
                                                 type={"submit"}
                                             >
-                                                {isClientMedicalFemaleOnlyFormSavingInProgress ? "Saving" : "Save & Next"}
+                                                {isClientMedicalFemaleOnlyFormSavingInProgress ? "Saving" : <>{mode === "add" ? "Save & Next" : "Save"}</>}
                                             </ButtonComponent>
                                         </div>
                                     </Form>

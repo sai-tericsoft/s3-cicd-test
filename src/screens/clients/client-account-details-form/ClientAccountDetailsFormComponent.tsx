@@ -96,7 +96,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
     } = useSelector((state: IRootReducerState) => state.client);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        const payload = {...values, mode};
+        const payload = {...values};
         setIsClientAccountDetailsFormSavingInProgress(true);
         let apiCall;
         if (mode === "add") {
@@ -358,7 +358,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                                 disabled={isClientAccountDetailsFormSavingInProgress || !isValid}
                                                 type={"submit"}
                                             >
-                                                {isClientAccountDetailsFormSavingInProgress ? "Saving" : "Save & Next"}
+                                                {isClientAccountDetailsFormSavingInProgress ? "Saving" : <>{mode === "add" ? "Save & Next" : "Save"}</>}
                                             </ButtonComponent>
                                         </div>
                                     </Form>

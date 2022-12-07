@@ -135,7 +135,7 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
                                                 disabled={isClientAllergiesSavingInProgress || !isValid}
                                                 type={"submit"}
                                             >
-                                                {isClientAllergiesSavingInProgress ? "Saving" : "Save & Next"}
+                                                {isClientAllergiesSavingInProgress ? "Saving" : <>{mode === "add" ? "Save & Next" : "Save"}</>}
                                             </ButtonComponent>
                                         </div>
                                     </Form>

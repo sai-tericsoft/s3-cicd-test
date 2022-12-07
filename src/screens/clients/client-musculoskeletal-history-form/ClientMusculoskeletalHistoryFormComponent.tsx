@@ -109,7 +109,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                             validateOnBlur={true}
                             enableReinitialize={true}
                             validateOnMount={true}>
-                            {({values, errors, isValid, validateForm}) => {
+                            {({values, setFieldValue, isValid, validateForm}) => {
                                 // eslint-disable-next-line react-hooks/rules-of-hooks
                                 useEffect(() => {
                                     validateForm();
@@ -134,6 +134,12 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                                         valueExtractor={(option) => option}
                                                                         required={true}
                                                                         formikField={field}
+                                                                        onChange={(value)=>{
+                                                                            console.log(value);
+                                                                            if (value === "No"){
+                                                                                setFieldValue(`musculoskeletal_history.${_id}.text`, undefined);
+                                                                            }
+                                                                        }}
                                                                     />
                                                                 )
                                                             }
@@ -174,7 +180,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                 disabled={isClientMusculoskeletalHistorySavingInProgress || !isValid}
                                                 type={"submit"}
                                             >
-                                                {isClientMusculoskeletalHistorySavingInProgress ? "Saving" : "Save & Next"}
+                                                {isClientMusculoskeletalHistorySavingInProgress ? "Saving" : <>{mode === "add" ? <>{mode === "add" ? "Save & Next" : "Save"}</> : "Save"}</>}
                                             </ButtonComponent>
                                         </div>
                                     </Form>

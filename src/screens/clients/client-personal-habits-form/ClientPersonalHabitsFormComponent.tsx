@@ -172,7 +172,7 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                             validateOnBlur={true}
                             enableReinitialize={true}
                             validateOnMount={true}>
-                            {({values, errors, isValid, validateForm}) => {
+                            {({values, setFieldValue, isValid, validateForm}) => {
                                 // eslint-disable-next-line react-hooks/rules-of-hooks
                                 useEffect(() => {
                                     validateForm();
@@ -196,6 +196,11 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                                                                         valueExtractor={(option) => option}
                                                                         required={true}
                                                                         formikField={field}
+                                                                        onChange={(value)=>{
+                                                                            if (value === "No"){
+                                                                                setFieldValue(`personal_habits.${key}.text`, undefined);
+                                                                            }
+                                                                        }}
                                                                     />
                                                                 )
                                                             }
@@ -204,7 +209,7 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                                                     <div className="ts-col-md-2">
                                                         {
                                                             // @ts-ignore
-                                                            values.personal_habits[key].value === 'Yes' &&
+                                                            values.personal_habits[key]?.value === 'Yes' &&
                                                             <Field name={`personal_habits.${key}.text`}>
                                                                 {
                                                                     (field: FieldProps) => (
@@ -238,7 +243,7 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                                                 disabled={isClientPersonalHabitsSavingInProgress || !isValid}
                                                 type={"submit"}
                                             >
-                                                {isClientPersonalHabitsSavingInProgress ? "Saving" : "Save & Next"}
+                                                {isClientPersonalHabitsSavingInProgress ? "Saving" : <>{mode === "add" ? "Save & Next" : "Save"}</>}
                                             </ButtonComponent>
                                         </div>
                                     </Form>
