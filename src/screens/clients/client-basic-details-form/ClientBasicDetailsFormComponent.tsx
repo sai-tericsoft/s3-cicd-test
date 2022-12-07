@@ -20,7 +20,7 @@ import {IClientBasicDetails} from "../../../shared/models/client.model";
 import {getClientBasicDetails, setClientBasicDetails} from "../../../store/actions/client.action";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
-// import FormikSwitchComponent from "../../../shared/components/form-controls/formik-switch/FormikSwitchComponent";
+import FormikSwitchComponent from "../../../shared/components/form-controls/formik-switch/FormikSwitchComponent";
 
 interface ClientBasicDetailsFormComponentProps {
     clientId?: string;
@@ -238,26 +238,26 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                         }, [validateForm, values]);
                         return (
                             <Form noValidate={true} className={"t-form"}>
-                                {/*{*/}
-                                {/*    mode === "edit" && <div*/}
-                                {/*        className={"mrg-bottom-20 display-flex flex-direction-row-reverse"}>*/}
-                                {/*        <div className={"display-flex align-items-center"}>*/}
-                                {/*            <div>Status:</div>*/}
-                                {/*            <Field name={'is_active'} className="t-form-control">*/}
-                                {/*                {*/}
-                                {/*                    (field: FieldProps) => (*/}
-                                {/*                        <FormikSwitchComponent*/}
-                                {/*                            label={values.is_active ? "Active" : "Inactive"}*/}
-                                {/*                            required={true}*/}
-                                {/*                            formikField={field}*/}
-                                {/*                            labelPlacement={"start"}*/}
-                                {/*                        />*/}
-                                {/*                    )*/}
-                                {/*                }*/}
-                                {/*            </Field>*/}
-                                {/*        </div>*/}
-                                {/*    </div>*/}
-                                {/*}*/}
+                                {
+                                    mode === "edit" && <div
+                                        className={"mrg-bottom-20 display-flex flex-direction-row-reverse"}>
+                                        <div className={"display-flex align-items-center"}>
+                                            <div>Status:</div>
+                                            <Field name={'is_active'} className="t-form-control">
+                                                {
+                                                    (field: FieldProps) => (
+                                                        <FormikSwitchComponent
+                                                            label={values.is_active ? "Active" : "Inactive"}
+                                                            required={true}
+                                                            formikField={field}
+                                                            labelPlacement={"start"}
+                                                        />
+                                                    )
+                                                }
+                                            </Field>
+                                        </div>
+                                    </div>
+                                }
                                 <CardComponent title={"Personal Details"} size={"md"}>
                                     <div className="ts-row">
                                         <div className="ts-col-md-5">

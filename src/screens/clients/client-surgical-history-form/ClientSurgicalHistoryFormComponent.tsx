@@ -29,11 +29,16 @@ interface ClientSurgicalHistoryFormComponentProps {
 
 const ClientSurgicalHistoryValidationSchema = Yup.object({
     surgical_history: Yup.object({
-        questions: Yup.array().min(1, 'Surgical history is required'),
         isCustomOption: Yup.boolean().nullable(),
+        questions: Yup.array().nullable().when("isCustomOption", {
+            is: false,
+            then: Yup.array().min(1, 'Surgical history is required'),
+            otherwise: Yup.array().nullable()
+        }),
         comments: Yup.string().when("isCustomOption", {
             is: true,
-            then: Yup.string().required('Comments is required')
+            then: Yup.string().required('Comments is required'),
+            otherwise: Yup.string().nullable()
         })
     }),
 });
@@ -62,7 +67,7 @@ const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComp
     } = useSelector((state: IRootReducerState) => state.client);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        const payload = {...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['questions_details' ]), mode};
+        const payload = {...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['questions_details']), mode};
         setIsClientSurgicalHistorySavingInProgress(true);
         CommonService._client.ClientSurgicalHistoryAddAPICall(clientId, payload)
             .then((response: IAPIResponseType<IClientSurgicalHistoryForm>) => {
@@ -133,9 +138,10 @@ const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComp
                             validateOnBlur={true}
                             enableReinitialize={true}
                             validateOnMount={true}>
-                            {({values, errors, setFieldTouched, setFieldValue, isValid, validateForm}) => {
+                            {({values, errors, setFieldTouched, setFieldValue, setFieldError, isValid, validateForm}) => {
                                 // eslint-disable-next-line react-hooks/rules-of-hooks
                                 useEffect(() => {
+                                    console.log(values);
                                     validateForm();
                                 }, [validateForm, values]);
                                 return (
@@ -171,6 +177,15 @@ const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComp
                                                         <FormikCheckBoxComponent
                                                             formikField={field}
                                                             label={"Other Surgery not Listed?"}
+                                                            onChange={(isChecked) => {
+                                                                if (!isChecked) {
+                                                                    setFieldValue('surgical_history.comments', "");
+                                                                    setFieldError('surgical_history.comments', undefined);
+                                                                    setTimeout(() => { // TODO solve fool proof
+                                                                        validateForm();
+                                                                    }, 10);
+                                                                }
+                                                            }}
                                                         />
                                                     )}
                                                 </Field>

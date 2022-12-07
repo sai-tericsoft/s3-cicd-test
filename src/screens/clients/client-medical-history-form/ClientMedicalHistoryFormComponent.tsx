@@ -29,11 +29,16 @@ interface ClientMedicalHistoryFormComponentProps {
 
 const ClientMedicalHistoryValidationSchema = Yup.object({
     medical_history: Yup.object({
-        questions: Yup.array().min(1, 'Medical history is required'),
         isCustomOption: Yup.boolean().nullable(),
+        questions: Yup.array().nullable().when("isCustomOption", {
+            is: false,
+            then: Yup.array().min(1, 'Medical history is required'),
+            otherwise: Yup.array().nullable()
+        }),
         comments: Yup.string().when("isCustomOption", {
             is: true,
-            then: Yup.string().required('Comments is required')
+            then: Yup.string().required('Comments is required'),
+            otherwise: Yup.string().nullable()
         })
     }),
 });
@@ -135,7 +140,7 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                             validateOnBlur={true}
                             enableReinitialize={true}
                             validateOnMount={true}>
-                            {({values, errors, setFieldTouched, setFieldValue, isValid, validateForm}) => {
+                            {({values, setFieldError, setFieldTouched, setFieldValue, isValid, validateForm}) => {
                                 // eslint-disable-next-line react-hooks/rules-of-hooks
                                 useEffect(() => {
                                     validateForm();
@@ -175,7 +180,11 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                                                             label={"Any other illnesses or conditions not listed above?"}
                                                             onChange={(isChecked) => {
                                                                 if (!isChecked) {
-                                                                    setFieldValue('medical_history.comments', '');
+                                                                    setFieldValue('medical_history.comments', "");
+                                                                    setFieldError('medical_history.comments', undefined);
+                                                                    setTimeout(() => { // TODO solve fool proof
+                                                                        validateForm();
+                                                                    }, 10);
                                                                 }
                                                             }}
                                                         />
