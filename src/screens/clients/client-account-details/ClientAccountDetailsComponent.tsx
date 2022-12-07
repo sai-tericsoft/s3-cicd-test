@@ -55,35 +55,35 @@ const ClientAccountDetailsComponent = (props: ClientAccountDetailsComponentProps
                     >
                         <FormControlLabelComponent label={"Communication Preferences"}/>
                         <QuestionComponent title={"Appointment Reminders"}
-                                           description={clientAccountDetails?.communication_preferences?.appointment_reminders_details?.title || "-"}/>
+                                           description={clientAccountDetails?.communication_preferences?.appointment_reminders_details?.title || "NA"}/>
                         <QuestionComponent title={"Appointment Confirmations"}
-                                           description={clientAccountDetails?.communication_preferences?.appointment_confirmations_details?.title || "-"}/>
+                                           description={clientAccountDetails?.communication_preferences?.appointment_confirmations_details?.title || "NA"}/>
                         <HorizontalLineComponent/>
                         <FormControlLabelComponent label={"Referral Details"}/>
                         <QuestionComponent title={"How did you find us?"}
-                                           description={clientAccountDetails?.referral_details.source_details?.title || "-"}/>
+                                           description={clientAccountDetails?.referral_details.source_details?.title || "NA"}/>
                         {
                             clientAccountDetails?.referral_details.source_details?.code === "friends_family_colleague" && <>
                                 <DataLabelValueComponent
-                                    label={"Name"}> {clientAccountDetails?.referral_details?.source_info_name} </DataLabelValueComponent>
+                                    label={"Name"}> {clientAccountDetails?.referral_details?.source_info_name || "NA"} </DataLabelValueComponent>
                                 <DataLabelValueComponent
-                                    label={"Phone Number"}> {clientAccountDetails?.referral_details?.source_info_phone} </DataLabelValueComponent>
+                                    label={"Phone Number"}> {clientAccountDetails?.referral_details?.source_info_phone || "NA"} </DataLabelValueComponent>
                                 <DataLabelValueComponent
-                                    label={"Email"}> {clientAccountDetails?.referral_details?.source_info_email} </DataLabelValueComponent>
+                                    label={"Email"}> {clientAccountDetails?.referral_details?.source_info_email || "NA"} </DataLabelValueComponent>
                                 <DataLabelValueComponent
-                                    label={"Relationship"}> {clientAccountDetails?.referral_details.source_info_relationship_details?.title} </DataLabelValueComponent>
+                                    label={"Relationship"}> {clientAccountDetails?.referral_details.source_info_relationship_details?.title || "NA"} </DataLabelValueComponent>
                             </>
                         }
                         {
                             clientAccountDetails?.referral_details.source_details?.code === "social_media" && <>
                                 <DataLabelValueComponent
-                                    label={"Social Media"}> {clientAccountDetails?.referral_details.source_info_name_details?.title} </DataLabelValueComponent>
+                                    label={"Social Media"}> {clientAccountDetails?.referral_details.source_info_name_details?.title || "NA"} </DataLabelValueComponent>
                             </>
                         }
                         {
                             clientAccountDetails?.referral_details.source_details?.code === "other" && <>
                                 <DataLabelValueComponent
-                                    label={"Other"}> {clientAccountDetails?.referral_details?.source_info_name} </DataLabelValueComponent>
+                                    label={"Other"}> {clientAccountDetails?.referral_details?.source_info_name || "NA"} </DataLabelValueComponent>
                             </>
                         }
                     </CardComponent>

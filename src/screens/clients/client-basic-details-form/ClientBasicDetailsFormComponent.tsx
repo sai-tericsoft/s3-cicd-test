@@ -31,13 +31,13 @@ interface ClientBasicDetailsFormComponentProps {
 const ClientBasicDetailsFormValidationSchema = Yup.object({
     first_name: Yup.string().required('First Name is required'),
     last_name: Yup.string().required('Last Name is required'),
-    dob: Yup.string().required('Date of birth is required'),
+    dob: Yup.string().required('Date of Birth is required'),
     nick_name: Yup.string().required('Nickname is required'),
     ssn: Yup.string().required('SSN is required'),
     gender: Yup.string().required('Gender is required'),
     work_info: Yup.object({
         occupation: Yup.string().required('Occupation is required'),
-        employment_status: Yup.string().required('Employment status is required'),
+        employment_status: Yup.string().required('Employment Status is required'),
     }),
     primary_email: Yup.string().required('Primary email is required'),
     primary_contact_info: Yup.object({
@@ -46,12 +46,12 @@ const ClientBasicDetailsFormValidationSchema = Yup.object({
     }),
     emergency_contact_info: Yup.object({
         primary_emergency: Yup.object({
-            name: Yup.string().required('Name is required'),
+            name: Yup.string().required('Full Name is required'),
             relationship: Yup.string().required('Relationship is required'),
             language: Yup.string().required('Language is required'),
             primary_contact_info: Yup.object({
-                phone_type: Yup.string().required('Phone type is required'),
-                phone: Yup.string().required('Phone number is required'),
+                phone_type: Yup.string().required('Phone Type is required'),
+                phone: Yup.string().required('Phone Number is required'),
             })
         })
     }),
@@ -145,7 +145,6 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
         isClientBasicDetailsLoadingFailed,
         isClientBasicDetailsLoading
     } = useSelector((state: IRootReducerState) => state.client);
-
 
     const {
         genderList,
@@ -301,6 +300,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                             label={'Date of Birth'}
                                                             placeholder={'Date of Birth'}
                                                             required={true}
+                                                            maxDate={CommonService._staticData.today}
                                                             formikField={field}
                                                             fullWidth={true}
                                                         />
@@ -792,7 +792,6 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                         label={'Full Name'}
                                                                         placeholder={'Full Name'}
                                                                         type={"text"}
-                                                                        required={true}
                                                                         formikField={field}
                                                                         fullWidth={true}
                                                                     />
@@ -807,7 +806,6 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                     <FormikSelectComponent
                                                                         options={relationshipList}
                                                                         label={'Relationship'}
-                                                                        required={true}
                                                                         formikField={field}
                                                                         fullWidth={true}
                                                                     />
@@ -825,7 +823,6 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                     <FormikSelectComponent
                                                                         options={languageList}
                                                                         label={'Language'}
-                                                                        required={true}
                                                                         formikField={field}
                                                                         fullWidth={true}
                                                                     />
@@ -846,7 +843,6 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                     <FormikSelectComponent
                                                                         options={phoneTypeList}
                                                                         label={'Phone Type (Primary)'}
-                                                                        required={true}
                                                                         formikField={field}
                                                                         fullWidth={true}
                                                                     />
@@ -863,7 +859,6 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                         label={'Phone Number (Primary)'}
                                                                         placeholder={'Phone Number (Primary)'}
                                                                         type={"text"}
-                                                                        required={true}
                                                                         formikField={field}
                                                                         fullWidth={true}
                                                                     />

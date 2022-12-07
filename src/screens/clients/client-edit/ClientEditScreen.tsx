@@ -37,11 +37,17 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
 
     useEffect(() => {
         dispatch(setCurrentNavParams('Edit Client', null, () => {
-            if (clientId){
-                navigate(CommonService._routeConfig.ClientDetails(clientId));
+            if (clientId) {
+                if (currentStep === "basicDetails") {
+                    navigate(CommonService._client.NavigateToClientDetails(clientId, "basicDetails"));
+                } else if (currentStep === "accountDetails") {
+                    navigate(CommonService._client.NavigateToClientDetails(clientId, "accountDetails"));
+                } else {
+                    navigate(CommonService._client.NavigateToClientDetails(clientId, "medicalHistoryQuestionnaire"));
+                }
             }
         }));
-    }, [dispatch, clientId, navigate]);
+    }, [dispatch, currentStep, clientId, navigate]);
 
     const handleClientDetailsSave = useCallback((data: any) => {
         if (clientId) {

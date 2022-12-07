@@ -1,6 +1,8 @@
 import {ApiService} from "../index";
 import {APIConfig} from "../../../constants";
+import moment from "moment";
 
+const today = moment();
 const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const yesNoOptions = ["Yes", "No"];
 
@@ -66,6 +68,7 @@ const getCommunicationModeTypeList = (payload: any) => {
 }
 
 const StaticDataService = {
+    today,
     weekDays,
     yesNoOptions,
     getConsultationDurationList,

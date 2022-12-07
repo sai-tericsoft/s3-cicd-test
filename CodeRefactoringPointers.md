@@ -4,3 +4,4 @@
 4. make use of spread operator like select and autocomplete.
 5. Add usage to all the components.
 6. Make onChange consistent across the components
+7. Validate date picker to validate input being entered to be a valid date.

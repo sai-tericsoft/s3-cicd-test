@@ -164,6 +164,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                                                 label={"Date"}
                                                                 placeholder={"Date"}
                                                                 required={true}
+                                                                maxDate={CommonService._staticData.today}
                                                                 formikField={field}
                                                                 fullWidth={true}
                                                             />
