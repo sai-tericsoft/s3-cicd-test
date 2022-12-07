@@ -18,6 +18,12 @@
   border: 1px solid #F3F3F3;
   border-radius: 4px !important;
 
+  &.ant-table-empty {
+    .ant-table-body {
+      overflow: hidden !important;
+    }
+  }
+
   .ant-table-container {
     border-radius: 0 !important;
   }

@@ -40,7 +40,7 @@ const ChipComponent = (props: ChipComponentProps) => {
               size={size}
               variant={variant}
               disabled={disabled}
-              className={className}
+              className={'chip ' + className}
               clickable={!!onClick}
               onDelete={onDelete && handleChipDelete}
               onClick={handleChipClick}

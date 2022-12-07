@@ -326,3 +326,15 @@
     }
   }
 }
+
+.chip {
+  &.active {
+    background: #E4F6EA;
+    color: #00534F;
+  }
+
+  &.inactive {
+    background: #F4F4F8;
+    color: #787879;
+  }
+}

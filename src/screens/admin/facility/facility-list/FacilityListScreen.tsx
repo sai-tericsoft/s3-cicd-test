@@ -47,7 +47,8 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
             width: "10%",
             render: (_: any, item: IFacility) => {
                 return <ChipComponent label={item.is_active ? "Active" : "Inactive"}
-                                      color={item.is_active ? "success" : "error"}/>
+                                      className={item?.is_active ? "active" : "inactive"}
+                />
             }
         },
         {

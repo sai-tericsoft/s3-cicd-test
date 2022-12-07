@@ -72,7 +72,8 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             width: "10%",
             render: (_: any, item: IClientBasicDetails) => {
                 return <ChipComponent label={item?.is_active ? "Active" : "Inactive"}
-                                      color={item?.is_active ? "success" : "error"}/>
+                                      className={item?.is_active ? "active" : "inactive"}
+                />
             }
         },
         {
@@ -82,7 +83,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             width: "10%",
             fixed: "right",
             render: (_: any, item: IClientBasicDetails) => {
-                if (item?._id){
+                if (item?._id) {
                     return <LinkComponent route={CommonService._routeConfig.ClientDetails(item?._id)}>
                         View Details
                     </LinkComponent>
