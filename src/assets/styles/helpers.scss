@@ -263,9 +263,9 @@ $visibility-options: (visible, hidden, collapse, inherit, initial, revert, rever
 }
 
 .success {
-  color: #00534F;
+  color: #00534F !important;
 }
 
 .error {
-  color: #FA6187;
+  color: #FA6187 !important;
 }

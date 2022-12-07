@@ -26,7 +26,7 @@ const ClientBasicDetailsCardComponent = (props: ClientBasicDetailsCardComponentP
                     <div className={'client-name'}>
                         {clientBasicDetails?.first_name} {clientBasicDetails?.last_name}
                     </div>
-                    <div className={'client-status'}>
+                    <div className={`client-status ${clientBasicDetails?.is_active ? "success" : "error" }`}>
                         {clientBasicDetails?.is_active ? 'Active' : 'Inactive'}
                     </div>
                     <div className={'dashed-border'}/>

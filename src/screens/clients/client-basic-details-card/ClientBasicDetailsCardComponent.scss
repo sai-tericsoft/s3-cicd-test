@@ -25,6 +25,7 @@
         }
       }
     }
+
     .client-details-wrapper {
       padding-left: 14px;
       padding-right: 14px;
@@ -42,20 +43,14 @@
       }
 
       .client-status {
-        color: #037223;
-        margin: auto;
         margin-top: 6px;
         text-align: center;
-        width: 90%;
-
       }
 
       .dashed-border {
         width: 100%;
         border-bottom: 1px dashed #E7E7E7;
-        margin: auto;
         margin-top: 11px;
-
       }
 
       .client-id-age-wrapper {

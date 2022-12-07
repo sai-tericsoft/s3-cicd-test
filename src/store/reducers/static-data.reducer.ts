@@ -112,7 +112,7 @@ const initialData: IStaticDataReducerState = {
         },
         {
             code: false,
-            title: "InActive"
+            title: "Inactive"
         }
     ]
 };
