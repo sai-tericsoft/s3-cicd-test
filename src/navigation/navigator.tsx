@@ -5,7 +5,6 @@ import AuthLayout from "../layouts/auth-layout/AuthLayout";
 import {
     ADMIN, CLIENT_ADD, CLIENT_DETAILS, CLIENT_EDIT, CLIENT_LIST,
     COMING_SOON_ROUTE,
-    DASHBOARD,
     DESIGN_SYSTEM_ROUTE, FACILITY_DETAILS, FACILITY_LIST,
     LOGIN_ROUTE,
     NOT_FOUND_ROUTE, SERVICE_ADD,
@@ -18,7 +17,6 @@ import TestScreen from "../screens/test/TestScreen";
 import DesignSystemScreen from "../screens/design-system/DesignSystemScreen";
 import LoginScreen from "../screens/auth/login/LoginScreen";
 import AppLayout from "../layouts/app-layout/AppLayout";
-import DashboardScreen from "../screens/dashboard/DashboardScreen";
 import ComingSoonScreen from "../screens/coming-soon/ComingSoonScreen";
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../store/reducers";
@@ -62,7 +60,7 @@ const UnProtectedRoute = (props: React.PropsWithChildren<any>) => {
     const location = useLocation();
 
     useEffect(() => {
-        let returnUrl = CommonService._routeConfig.Dashboard();
+        let returnUrl = CommonService._routeConfig.DefaultRoute();
         if (!!token) {
             const query = CommonService.parseQueryString(location.search);
             if (Object.keys(query).includes('returnUrl')) {
@@ -87,19 +85,17 @@ const Navigator = (props: NavigatorProps) => {
                 <Route
                     index
                     element={
-                        <ProtectedRoute>
-                            <DashboardScreen/>
-                        </ProtectedRoute>
+                        <Navigate to={CLIENT_LIST}/>
                     }
                 />
-                <Route
-                    path={DASHBOARD}
-                    element={
-                        <ProtectedRoute>
-                            <DashboardScreen/>
-                        </ProtectedRoute>
-                    }
-                />
+                {/*<Route*/}
+                {/*    path={DASHBOARD}*/}
+                {/*    element={*/}
+                {/*        <ProtectedRoute>*/}
+                {/*            <DashboardScreen/>*/}
+                {/*        </ProtectedRoute>*/}
+                {/*    }*/}
+                {/*/>*/}
                 <Route
                     path={CLIENT_LIST}
                     element={

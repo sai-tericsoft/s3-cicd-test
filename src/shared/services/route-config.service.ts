@@ -10,6 +10,10 @@ import {
     TEST_ROUTE
 } from "../../constants/RoutesConfig";
 
+const DefaultRoute = () => {
+    return "/";
+}
+
 const LoginRoute = () => {
     return LOGIN_ROUTE;
 }
@@ -79,6 +83,7 @@ const ClientEdit = (clientId: string) => {
 }
 
 const RouteConfigService = {
+    DefaultRoute,
     LoginRoute,
     NotFoundRoute,
     TestRoute,
