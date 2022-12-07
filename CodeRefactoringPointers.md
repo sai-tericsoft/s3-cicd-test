@@ -3,3 +3,4 @@
 3. Improve components to have hasError, errorMessage at non formik level like autocomplete.
 4. make use of spread operator like select and autocomplete.
 5. Add usage to all the components.
+6. Make onChange consistent across the components

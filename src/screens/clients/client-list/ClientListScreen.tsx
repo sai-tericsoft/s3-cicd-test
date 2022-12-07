@@ -1,6 +1,6 @@
 import "./ClientListScreen.scss";
 import ClientListTableComponent from "../client-list-table/ClientListTableComponent";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useCallback, useEffect, useState} from "react";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import SearchComponent from "../../../shared/components/search/SearchComponent";
@@ -14,6 +14,8 @@ import {
     setClientMedicalDetails
 } from "../../../store/actions/client.action";
 import {useNavigate} from "react-router-dom";
+import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
+import {IRootReducerState} from "../../../store/reducers";
 
 interface ClientListScreenProps {
 
@@ -24,8 +26,10 @@ const ClientListScreen = (props: ClientListScreenProps) => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const {statusList} = useSelector((store: IRootReducerState) => store.staticData);
     const [clientListFilterState, setClientListFilterState] = useState<IClientListFilterState>({
         search: "",
+        is_active: undefined,
         sort: {}
     });
 
@@ -52,13 +56,29 @@ const ClientListScreen = (props: ClientListScreenProps) => {
         <div className={'client-list-screen list-screen'}>
             <div className={'list-screen-header'}>
                 <div className={'list-search-filters'}>
-                    <SearchComponent
-                        label={"Search for clients"}
-                        value={clientListFilterState.search}
-                        onSearchChange={(value) => {
-                            setClientListFilterState({...clientListFilterState, search: value})
-                        }}
-                    />
+                    <div className="ts-row">
+                        <div className="ts-col-lg-3">
+                            <SearchComponent
+                                label={"Search for clients"}
+                                value={clientListFilterState.search}
+                                onSearchChange={(value) => {
+                                    setClientListFilterState({...clientListFilterState, search: value})
+                                }}
+                            />
+                        </div>
+                        <div className="ts-col-lg-3">
+                            <SelectComponent
+                                label={"Status"}
+                                size={"small"}
+                                fullWidth={true}
+                                options={statusList}
+                                value={clientListFilterState.is_active}
+                                onUpdate={(value) => {
+                                    setClientListFilterState({...clientListFilterState, is_active: value})
+                                }}
+                            />
+                        </div>
+                    </div>
                 </div>
                 <div className="list-options">
                     <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>} onClick={handleClientAdd}>

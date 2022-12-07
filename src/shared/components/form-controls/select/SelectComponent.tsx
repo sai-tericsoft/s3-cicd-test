@@ -51,8 +51,8 @@ const SelectComponent = (props: SelectComponentProps) => {
         }
     }, [props.value]);
 
-    const defaultDisplayWith = useCallback((item: any) => item?.title || '', []);
-    const defaultValueExtractor = useCallback((item: any) => item?.code || '', []);
+    const defaultDisplayWith = useCallback((item: any) => item?.title !==  undefined  ? item?.title : '', []);
+    const defaultValueExtractor = useCallback((item: any) => item?.code !==  undefined  ? item?.code : '', []);
     const defaultKeyExtractor = useCallback((item: any, index?: number) => item?.code || index, []);
     const displayWith = props.displayWith || defaultDisplayWith;
     const valueExtractor = props.valueExtractor || defaultValueExtractor;

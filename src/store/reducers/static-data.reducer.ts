@@ -10,7 +10,8 @@ import {
     GET_REFERRAL_TYPE_LIST,
     GET_RELATIONSHIP_LIST,
     GET_SOCIAL_MEDIA_PLATFORM_LIST,
-    GET_SURGICAL_HISTORY_OPTIONS_LIST, SET_COMMUNICATION_MODE_TYPE_LIST,
+    GET_SURGICAL_HISTORY_OPTIONS_LIST,
+    SET_COMMUNICATION_MODE_TYPE_LIST,
     SET_CONSULTATION_DURATION_LIST,
     SET_EMPLOYMENT_STATUS_LIST,
     SET_GENDER_LIST,
@@ -24,8 +25,10 @@ import {
     SET_SURGICAL_HISTORY_OPTIONS_LIST
 } from "../actions/static-data.action";
 import {IActionModel} from "../../shared/models/action.model";
+import {ICommonType} from "../../shared/models/static-data.model";
 
 export interface IStaticDataReducerState {
+    statusList: ICommonType[],
     isConsultationDurationListLoading: boolean,
     isConsultationDurationListLoaded: boolean,
     consultationDurationList: any[],
@@ -102,6 +105,16 @@ const initialData: IStaticDataReducerState = {
     isCommunicationModeTypeListLoading: false,
     isCommunicationModeTypeListLoaded: false,
     communicationModeTypeList: [],
+    statusList: [
+        {
+            code: true,
+            title: "Active"
+        },
+        {
+            code: false,
+            title: "InActive"
+        }
+    ]
 };
 
 const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDataReducerState => {

@@ -7,7 +7,17 @@
     margin-bottom: 20px;
 
     .list-search-filters {
+      display: flex;
+      flex: 1;
+
+      .ts-row{
+        flex: 1;
+      }
+
       .input-component {
+        margin-bottom: 0 !important;
+      }
+      .select-component {
         margin-bottom: 0 !important;
       }
     }

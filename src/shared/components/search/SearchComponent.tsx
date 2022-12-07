@@ -39,6 +39,7 @@ const SearchComponent = (props: SearchComponentProps) => {
                 value={searchText}
                 onChange={handleSearchTextChange}
                 size={"small"}
+                fullWidth={true}
                 placeholder={placeholder}
                 suffix={
                     <>
