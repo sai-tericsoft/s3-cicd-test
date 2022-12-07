@@ -140,6 +140,7 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
                     <FormControlLabelComponent label={"Add Provider"}/>
                     <AutoCompleteComponent
                         label={"Providers"}
+                        placeholder={"Search for provider by name"}
                         searchMode={"serverSide"}
                         value={selectedProviderIDsForLinking}
                         url={APIConfig.AVAILABLE_SERVICE_PROVIDERS_TO_LINK.URL(serviceDetails._id)}
@@ -147,6 +148,7 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
                         dataListKey={"data"}
                         multiple={true}
                         displayWith={item => item ? (item.first_name || "") + " " + (item.last_name || "") : ""}
+                        // valueExtractor={item => item ? item._id : ""}
                         onUpdate={(value) => {
                             setSelectedProviderIDsForLinking(value);
                         }}
