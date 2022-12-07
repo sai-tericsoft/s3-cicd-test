@@ -96,7 +96,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
     } = useSelector((state: IRootReducerState) => state.client);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        const payload = {...values};
+        const payload = CommonService.removeKeysFromJSON(_.cloneDeep(values), ['source_details', 'appointment_confirmations_details', 'appointment_reminders_details']);
         setIsClientAccountDetailsFormSavingInProgress(true);
         let apiCall;
         if (mode === "add") {

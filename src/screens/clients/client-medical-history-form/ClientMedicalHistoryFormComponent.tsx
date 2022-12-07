@@ -63,7 +63,7 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
     } = useSelector((state: IRootReducerState) => state.client);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        const payload = {...values, mode};
+        const payload = {...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['questions_details' ]), mode};
         setIsClientMedicalHistorySavingInProgress(true);
         CommonService._client.ClientMedicalHistoryAddAPICall(clientId, payload)
             .then((response: IAPIResponseType<IClientMedicalHistoryForm>) => {

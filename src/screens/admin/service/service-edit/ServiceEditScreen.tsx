@@ -153,7 +153,8 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                 delete values.image;
             }
             setIsServiceEditInProgress(true);
-            const formData = CommonService.getFormDataFromJSON(values);
+            const payload = {...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['duration_details'])};
+            const formData = CommonService.getFormDataFromJSON(payload);
             CommonService._service.ServiceEditAPICall(serviceId, formData)
                 .then((response: IAPIResponseType<IService>) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");

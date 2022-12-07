@@ -399,32 +399,27 @@ const getSystemFormatTimeStamp = (date: Date | string, showTime: boolean = false
     }
 };
 
-const removeKeysFromJSON = (obj: any, key: string[]): any => {
-        // let index;
-        // for (var prop in obj) {
-        //     // important check that this is objects own property
-        //     // not from prototype prop inherited
-        //     if(obj.hasOwnProperty(prop)){
-        //         switch(typeof(obj[prop])){
-        //             case 'string':
-        //                 index = keys.indexOf(prop);
-        //                 if(index > -1){
-        //                     delete obj[prop];
-        //                 }
-        //                 break;
-        //             case 'object':
-        //                 index = keys.indexOf(prop);
-        //                 if(index > -1){
-        //                     delete obj[prop];
-        //                 }else{
-        //                     removeKeysFromJSON(obj[prop], keys);
-        //                 }
-        //                 break;
-        //         }
-        //     }
-        // }
+const removeKeysFromJSON = (obj: any, keys: string[]): any => {
+    for (let prop in obj) {
+        if(obj.hasOwnProperty(prop)) {
+            switch(typeof(obj[prop])) {
+                case 'object':
+                    if(keys.indexOf(prop) > -1) {
+                        delete obj[prop];
+                    } else {
+                        removeKeysFromJSON(obj[prop], keys);
+                    }
+                    break;
+                default:
+                    if(keys.indexOf(prop) > -1) {
+                        delete obj[prop];
+                    }
+                    break;
+            }
+        }
+    }
+    return obj;
 }
-
 
 const CommonService = {
     CurrentDate,
@@ -456,7 +451,7 @@ const CommonService = {
     getSystemFormatTimeStamp,
     transformTimeStamp,
     getTheDifferenceBetweenDates,
-
+    removeKeysFromJSON,
 
     // createValidationsObject,
     // createYupSchema,
