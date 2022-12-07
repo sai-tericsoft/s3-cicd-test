@@ -38,8 +38,10 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
     const [clientId, setClientId] = useState<string | undefined>(undefined);
 
     useEffect(() => {
-        dispatch(setCurrentNavParams('Add Client'));
-    }, [dispatch]);
+        dispatch(setCurrentNavParams('Add Client', null, () => {
+            navigate(CommonService._routeConfig.ClientList());
+        }));
+    }, [navigate, dispatch]);
 
     const handleClientDetailsSave = useCallback((data: any) => {
         let nextStep = currentStep;

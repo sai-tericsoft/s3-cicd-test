@@ -55,7 +55,6 @@ const ServiceAddFormInitialValues: IService = {
 };
 
 
-
 const serviceAddFormValidationSchema = Yup.object({
     name: Yup.string()
         .required('The name field is required'),
@@ -93,8 +92,12 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
     const {consultationDurationList} = useSelector((state: IRootReducerState) => state.staticData);
 
     useEffect(() => {
-        dispatch(setCurrentNavParams("Add Service", null, true));
-    }, [dispatch]);
+        dispatch(setCurrentNavParams("Add Service", null, () => {
+            if (serviceCategoryId) {
+                navigate(CommonService._routeConfig.ServiceCategoryDetails(serviceCategoryId));
+            }
+        }));
+    }, [navigate, serviceCategoryId, dispatch]);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         values["category_id"] = serviceCategoryId;
@@ -201,100 +204,100 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                     </ButtonComponent>}
                                                                 </div>
                                                             </div>
-                                                                <div className={"ts-row"}>
-                                                                    <div className="ts-col-lg-10">
-                                                                        <Field
-                                                                            name={`initial_consultation[${index}].title`}>
-                                                                            {
-                                                                                (field: FieldProps) => (
-                                                                                    <FormikInputComponent
-                                                                                        label={'Title'}
-                                                                                        placeholder={'Title'}
-                                                                                        type={"text"}
-                                                                                        required={true}
-                                                                                        formikField={field}
-                                                                                        fullWidth={true}
-                                                                                    />
-                                                                                )
-                                                                            }
-                                                                        </Field>
-                                                                    </div>
+                                                            <div className={"ts-row"}>
+                                                                <div className="ts-col-lg-10">
+                                                                    <Field
+                                                                        name={`initial_consultation[${index}].title`}>
+                                                                        {
+                                                                            (field: FieldProps) => (
+                                                                                <FormikInputComponent
+                                                                                    label={'Title'}
+                                                                                    placeholder={'Title'}
+                                                                                    type={"text"}
+                                                                                    required={true}
+                                                                                    formikField={field}
+                                                                                    fullWidth={true}
+                                                                                />
+                                                                            )
+                                                                        }
+                                                                    </Field>
                                                                 </div>
-                                                                <FieldArray
-                                                                    name={`initial_consultation[${index}].consultation_details`}
-                                                                    render={({push, remove}) => (
-                                                                        <div>
-                                                                            {values?.initial_consultation[index].consultation_details && values?.initial_consultation[index].consultation_details?.map((item: any, iIndex: any) => {
-                                                                                return (
-                                                                                    <div key={iIndex}
-                                                                                         className={"ts-row"}>
-                                                                                        <div className="ts-col-lg-5">
-                                                                                            <Field
-                                                                                                name={`initial_consultation[${index}].consultation_details[${iIndex}].duration`}>
-                                                                                                {
-                                                                                                    (field: FieldProps) => (
-                                                                                                        <FormikSelectComponent
-                                                                                                            formikField={field}
-                                                                                                            fullWidth={true}
-                                                                                                            required={true}
-                                                                                                            keyExtractor={item => item.id}
-                                                                                                            label={"Duration"}
-                                                                                                            options={consultationDurationList}/>
-                                                                                                    )
-                                                                                                }
-                                                                                            </Field>
-                                                                                        </div>
-                                                                                        <div className="ts-col-lg-5">
-                                                                                            <Field
-                                                                                                name={`initial_consultation[${index}].consultation_details[${iIndex}].price`}>
-                                                                                                {
-                                                                                                    (field: FieldProps) => (
-                                                                                                        <FormikInputComponent
-                                                                                                            label={'Price'}
-                                                                                                            placeholder={'Price'}
-                                                                                                            type={"number"}
-                                                                                                            required={true}
-                                                                                                            prefix={Misc.CURRENCY_SYMBOL}
-                                                                                                            formikField={field}
-                                                                                                            fullWidth={true}
-                                                                                                        />
-                                                                                                    )
-                                                                                                }
-                                                                                            </Field>
-                                                                                        </div>
-                                                                                        <div className="ts-col-lg-2">
+                                                            </div>
+                                                            <FieldArray
+                                                                name={`initial_consultation[${index}].consultation_details`}
+                                                                render={({push, remove}) => (
+                                                                    <div>
+                                                                        {values?.initial_consultation[index].consultation_details && values?.initial_consultation[index].consultation_details?.map((item: any, iIndex: any) => {
+                                                                            return (
+                                                                                <div key={iIndex}
+                                                                                     className={"ts-row"}>
+                                                                                    <div className="ts-col-lg-5">
+                                                                                        <Field
+                                                                                            name={`initial_consultation[${index}].consultation_details[${iIndex}].duration`}>
                                                                                             {
-                                                                                                iIndex === values?.initial_consultation[index].consultation_details.length - 1 &&
+                                                                                                (field: FieldProps) => (
+                                                                                                    <FormikSelectComponent
+                                                                                                        formikField={field}
+                                                                                                        fullWidth={true}
+                                                                                                        required={true}
+                                                                                                        keyExtractor={item => item.id}
+                                                                                                        label={"Duration"}
+                                                                                                        options={consultationDurationList}/>
+                                                                                                )
+                                                                                            }
+                                                                                        </Field>
+                                                                                    </div>
+                                                                                    <div className="ts-col-lg-5">
+                                                                                        <Field
+                                                                                            name={`initial_consultation[${index}].consultation_details[${iIndex}].price`}>
+                                                                                            {
+                                                                                                (field: FieldProps) => (
+                                                                                                    <FormikInputComponent
+                                                                                                        label={'Price'}
+                                                                                                        placeholder={'Price'}
+                                                                                                        type={"number"}
+                                                                                                        required={true}
+                                                                                                        prefix={Misc.CURRENCY_SYMBOL}
+                                                                                                        formikField={field}
+                                                                                                        fullWidth={true}
+                                                                                                    />
+                                                                                                )
+                                                                                            }
+                                                                                        </Field>
+                                                                                    </div>
+                                                                                    <div className="ts-col-lg-2">
+                                                                                        {
+                                                                                            iIndex === values?.initial_consultation[index].consultation_details.length - 1 &&
+                                                                                            <IconButtonComponent
+                                                                                                onClick={() => {
+                                                                                                    push(_.cloneDeep(CONSULTATION_DURATION_SLOT))
+                                                                                                }}
+                                                                                            >
+                                                                                                <ImageConfig.AddCircleIcon/>
+                                                                                            </IconButtonComponent>
+                                                                                        }
+                                                                                        {
+                                                                                            iIndex > 0 &&
+                                                                                            <>
+                                                                                                &nbsp;
                                                                                                 <IconButtonComponent
                                                                                                     onClick={() => {
-                                                                                                        push(_.cloneDeep(CONSULTATION_DURATION_SLOT))
+                                                                                                        remove(iIndex);
                                                                                                     }}
                                                                                                 >
-                                                                                                    <ImageConfig.AddCircleIcon/>
+                                                                                                    <ImageConfig.DeleteIcon/>
                                                                                                 </IconButtonComponent>
-                                                                                            }
-                                                                                            {
-                                                                                                iIndex > 0 &&
-                                                                                                <>
-                                                                                                    &nbsp;
-                                                                                                    <IconButtonComponent
-                                                                                                        onClick={() => {
-                                                                                                            remove(iIndex);
-                                                                                                        }}
-                                                                                                    >
-                                                                                                        <ImageConfig.DeleteIcon/>
-                                                                                                    </IconButtonComponent>
-                                                                                                </>
-                                                                                            }
-                                                                                        </div>
+                                                                                            </>
+                                                                                        }
                                                                                     </div>
-                                                                                )
-                                                                            })}
-                                                                        </div>
-                                                                    )
-                                                                    }
-                                                                />
-                                                            </div>
+                                                                                </div>
+                                                                            )
+                                                                        })}
+                                                                    </div>
+                                                                )
+                                                                }
+                                                            />
+                                                        </div>
                                                     )
                                                 })
                                                 }

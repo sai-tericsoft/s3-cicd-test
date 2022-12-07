@@ -27,11 +27,18 @@ const ServiceProviderLinkAPICall = (serviceId: string, payload: any) => {
     return ApiService[APIConfig.SERVICE_PROVIDER_LINK.METHOD](APIConfig.SERVICE_PROVIDER_LINK.URL(serviceId), payload)
 }
 
+const ServiceProviderListAPICall = (serviceId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.SERVICE_PROVIDERS_LINKED_TO_SERVICE.METHOD](APIConfig.SERVICE_PROVIDERS_LINKED_TO_SERVICE.URL(serviceId), payload)
+}
+
+
 const ServiceService={
     ServiceAddAPICall,
     ServiceEditAPICall,
     ServiceDetailsAPICall,
     ServiceProviderUnlinkAPICall,
-    ServiceProviderLinkAPICall
+    ServiceProviderLinkAPICall,
+    ServiceProviderListAPICall
 }
 export default ServiceService;

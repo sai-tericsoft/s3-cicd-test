@@ -5,7 +5,7 @@ import {CommonService} from "../../../../shared/services";
 import {IAPIResponseType} from "../../../../shared/models/api.model";
 import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import {useDispatch} from "react-redux";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import BasicDetailsCardComponent from "../../../../shared/components/basic-details-card/BasicDetailsCardComponent";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../../constants";
@@ -23,6 +23,7 @@ const ServiceCategoryDetailsScreen = (props: ServiceCategoryDetailsScreenProps) 
 
     const {serviceCategoryId} = useParams();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [serviceCategoryDetails, setServiceCategoryDetails] = useState<IServiceCategory | undefined>(undefined);
     const [isServiceCategoryDetailsLoading, setIsServiceCategoryDetailsLoading] = useState<boolean>(false);
     const [isServiceCategoryDetailsLoaded, setIsServiceCategoryDetailsLoaded] = useState<boolean>(false);
@@ -51,8 +52,10 @@ const ServiceCategoryDetailsScreen = (props: ServiceCategoryDetailsScreenProps) 
     }, [serviceCategoryId, fetchServiceCategoryDetails]);
 
     useEffect(() => {
-        dispatch(setCurrentNavParams(serviceCategoryDetails?.name || "Service Category", null, true));
-    }, [serviceCategoryDetails, dispatch]);
+        dispatch(setCurrentNavParams(serviceCategoryDetails?.name || "Service Category", null, ()=>{
+            navigate(CommonService._routeConfig.ServiceCategoryList());
+        }));
+    }, [navigate, serviceCategoryDetails, dispatch]);
 
     const openServiceCategoryEditFormDrawer = useCallback(() => {
         setIsServiceCategoryEditFormOpened(true);

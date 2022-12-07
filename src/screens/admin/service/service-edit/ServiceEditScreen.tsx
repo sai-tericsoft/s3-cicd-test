@@ -97,8 +97,12 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
     const {consultationDurationList} = useSelector((state: IRootReducerState) => state.staticData);
 
     useEffect(() => {
-        dispatch(setCurrentNavParams("Edit Service", null, true));
-    }, [dispatch]);
+        dispatch(setCurrentNavParams("Edit Service", null, () => {
+            if (serviceId){
+                navigate(CommonService._routeConfig.ServiceDetails(serviceId));
+            }
+        }));
+    }, [navigate, serviceId, dispatch]);
 
     const fetchServiceDetails = useCallback((serviceId: string) => {
         setIsServiceDetailsLoading(true);

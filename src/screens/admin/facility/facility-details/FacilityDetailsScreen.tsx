@@ -4,7 +4,7 @@ import {CommonService} from "../../../../shared/services";
 import {IAPIResponseType} from "../../../../shared/models/api.model";
 import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import {useDispatch} from "react-redux";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import BasicDetailsCardComponent from "../../../../shared/components/basic-details-card/BasicDetailsCardComponent";
 import {IFacility} from "../../../../shared/models/facility.model";
 import CardComponent from "../../../../shared/components/card/CardComponent";
@@ -23,6 +23,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
 
     const {facilityId} = useParams();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [facilityDetails, setFacilityDetails] = useState<IFacility | undefined | any>(undefined);
     const [isFacilityDetailsLoading, setIsFacilityDetailsLoading] = useState<boolean>(false);
     const [isFacilityDetailsLoaded, setIsFacilityDetailsLoaded] = useState<boolean>(false);
@@ -51,8 +52,10 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
     }, [facilityId, fetchFacilityDetails]);
 
     useEffect(() => {
-        dispatch(setCurrentNavParams(facilityDetails?.name || "Facility", null, true));
-    }, [facilityDetails, dispatch]);
+        dispatch(setCurrentNavParams(facilityDetails?.name || "Facility", null, ()=>{
+            navigate(CommonService._routeConfig.FacilityList());
+        }));
+    }, [facilityDetails, navigate, dispatch]);
 
     return (
         <div className={'service-category-details-screen'}>

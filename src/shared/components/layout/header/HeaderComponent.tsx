@@ -16,7 +16,7 @@ interface HeaderComponentProps {
 
 const HeaderComponent = (props: HeaderComponentProps) => {
 
-    const {currentNavParams, canNavigateBack} = useSelector((state: IRootReducerState) => state.navigation);
+    const {currentNavParams, onNavigateBack} = useSelector((state: IRootReducerState) => state.navigation);
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const title = currentNavParams.title;
     const userProfilePicture = undefined;
@@ -24,8 +24,10 @@ const HeaderComponent = (props: HeaderComponentProps) => {
     const navigate = useNavigate();
 
     const handleNavigateBack = useCallback(() => {
-        navigate(-1);
-    }, [navigate]);
+        if (onNavigateBack) {
+            onNavigateBack();
+        }
+    }, [onNavigateBack]);
 
     const [profileMenuAnchorEl, setProfileMenuAnchorE] = useState<null | HTMLElement>(null);
 
@@ -34,6 +36,7 @@ const HeaderComponent = (props: HeaderComponentProps) => {
     const handleProfileMenuOpen = (event: React.MouseEvent<HTMLDivElement>) => {
         setProfileMenuAnchorE(event.currentTarget);
     };
+
     const handleProfileMenuClose = () => {
         setProfileMenuAnchorE(null);
     };
@@ -42,9 +45,9 @@ const HeaderComponent = (props: HeaderComponentProps) => {
         <div className="header-component">
             <div className="header-title-nav-back">
                 {
-                    canNavigateBack &&
+                    onNavigateBack &&
                     <IconButtonComponent onClick={handleNavigateBack}
-                                     className={"header-nav-back"}>
+                                         className={"header-nav-back"}>
                         <ImageConfig.NavigateBack/>
                     </IconButtonComponent>
                 }

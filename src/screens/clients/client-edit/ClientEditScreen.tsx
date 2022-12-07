@@ -36,8 +36,12 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(setCurrentNavParams('Edit Client'));
-    }, [dispatch]);
+        dispatch(setCurrentNavParams('Edit Client', null, () => {
+            if (clientId){
+                navigate(CommonService._routeConfig.ClientDetails(clientId));
+            }
+        }));
+    }, [dispatch, clientId, navigate]);
 
     const handleClientDetailsSave = useCallback((data: any) => {
         if (clientId) {

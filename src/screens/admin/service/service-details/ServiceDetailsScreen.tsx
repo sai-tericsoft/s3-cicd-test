@@ -4,7 +4,7 @@ import {CommonService} from "../../../../shared/services";
 import {IAPIResponseType} from "../../../../shared/models/api.model";
 import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import {useDispatch} from "react-redux";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import BasicDetailsCardComponent from "../../../../shared/components/basic-details-card/BasicDetailsCardComponent";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../../constants";
@@ -23,6 +23,7 @@ const ServiceDetailsScreen = (props: ServiceDetailsScreenProps) => {
 
     const {serviceId} = useParams();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [serviceDetails, setServiceDetails] = useState<IService | undefined>(undefined);
     const [isServiceDetailsLoading, setIsServiceDetailsLoading] = useState<boolean>(false);
     const [isServiceDetailsLoaded, setIsServiceDetailsLoaded] = useState<boolean>(false);
@@ -50,8 +51,12 @@ const ServiceDetailsScreen = (props: ServiceDetailsScreenProps) => {
     }, [serviceId, fetchServiceDetails]);
 
     useEffect(() => {
-        dispatch(setCurrentNavParams(serviceDetails?.name || "Service", null, true));
-    }, [serviceDetails, dispatch]);
+        dispatch(setCurrentNavParams(serviceDetails?.name || "Service", null, () => {
+            if (serviceDetails?.category_id) {
+                navigate(CommonService._routeConfig.ServiceCategoryDetails(serviceDetails?.category_id));
+            }
+        }));
+    }, [navigate, serviceDetails, dispatch]);
 
     return (
         <div className={'service-category-details-screen'}>
@@ -72,7 +77,7 @@ const ServiceDetailsScreen = (props: ServiceDetailsScreenProps) => {
                             avatarUrl={serviceDetails?.image?.url}
                             subTitle={serviceDetails?.description}
                             actions={<>
-                                {(serviceDetails?.category_id && serviceId)&&
+                                {(serviceDetails?.category_id && serviceId) &&
                                     <LinkComponent
                                         route={CommonService._routeConfig.ServiceEdit(serviceDetails?.category_id, serviceId)}>
                                         <ButtonComponent
@@ -87,12 +92,15 @@ const ServiceDetailsScreen = (props: ServiceDetailsScreenProps) => {
                     </div>
                     <div className="service-consultation-details">
                         {
-                            serviceDetails && <ServiceConsultationDetailsComponent serviceDetails={serviceDetails}/>
+                            serviceDetails && <ServiceConsultationDetailsComponent
+                                serviceDetails={serviceDetails}/>
                         }
                     </div>
                     <div className="service-providers-details">
                         {
-                            serviceDetails && <ServiceProviderListComponent serviceDetails={serviceDetails}/>
+                            (serviceDetails && serviceId) && <ServiceProviderListComponent
+                                serviceId={serviceId}
+                                serviceDetails={serviceDetails}/>
                         }
                     </div>
                 </>

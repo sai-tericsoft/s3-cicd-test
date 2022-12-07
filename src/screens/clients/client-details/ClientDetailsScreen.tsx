@@ -1,5 +1,5 @@
 import "./ClientDetailsScreen.scss";
-import {useParams, useSearchParams} from "react-router-dom";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import React, {useCallback, useEffect, useState} from "react";
 import {CommonService} from "../../../shared/services";
@@ -40,6 +40,7 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
 
     const {clientId} = useParams();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
     const [currentTab, setCurrentTab] = useState<IClientDetailsSteps>("basicDetails");
     const {
@@ -70,8 +71,10 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
     }, [clientId, dispatch]);
 
     useEffect(() => {
-        dispatch(setCurrentNavParams("Client Details", null, true));
-    }, [dispatch]);
+        dispatch(setCurrentNavParams("Client Details", null, () => {
+            navigate(CommonService._routeConfig.ClientList());
+        }));
+    }, [navigate, dispatch]);
 
     const handleTabChange = useCallback((e: any, value: any) => {
         searchParams.set("currentStep", value);

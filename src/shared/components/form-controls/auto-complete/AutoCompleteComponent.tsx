@@ -53,7 +53,7 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
             openOnFocus,
             loadingText
         } = props;
-        if (!placeholder) placeholder = "Placeholder";
+        if (!placeholder) placeholder = label;
         if (!method) method = "get";
         if (!size) size = "medium";
         if (!searchMode) searchMode = "clientSide";
@@ -88,7 +88,11 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
                 {...props}
                 key={keyExtractor ? keyExtractor(option) : `drop-down-option-${option}`}
                 value={valueExtractor(option)}>
-                {option ? displayWith(option) : ""}
+                {/*<CheckBoxComponent*/}
+                {/*    label={displayWith(option)}*/}
+                {/*    checked={formControlValue.includes(valueExtractor(option))}*/}
+                {/*/>*/}
+                { option ? displayWith(option) : "" }
             </MenuItem>
         ), [displayWith, valueExtractor, keyExtractor]);
 
@@ -282,7 +286,7 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
                 <FormHelperText>
                     {hasError && <> {errorMessage} </>}
                     {isDropDownDataLoaded && dropDownData && !value && dropDownData.length === 0 && <> Data is empty </>}
-                    {isDropDownDataLoading && <> Data is loading </>}
+                    {/*{isDropDownDataLoading && <> Data is loading </>}*/}
                     {isDropDownDataLoadingFailed && <> Data failed to load </>}
                 </FormHelperText>
             </FormControl>

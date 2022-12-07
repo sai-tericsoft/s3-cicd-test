@@ -4,6 +4,7 @@ import {all, fork} from 'redux-saga/effects';
 import accountSaga from './account.saga';
 import staticDataSaga from "./static-data.saga";
 import clientSaga from "./client.saga";
+import serviceSaga from "./service.saga";
 
 // Redux Saga: Root Saga
 export default function* rootSaga() {
@@ -11,5 +12,6 @@ export default function* rootSaga() {
         fork(accountSaga),
         fork(staticDataSaga),
         fork(clientSaga),
+        fork(serviceSaga),
     ]);
 }

@@ -110,6 +110,10 @@ const APIConfig: IAPIConfig = {
         URL: (serviceId: string) => ENV.API_URL + '/service/' + serviceId + "/link",
         METHOD: "post"
     },
+    SERVICE_PROVIDERS_LINKED_TO_SERVICE: {
+        URL: (serviceId: string) => ENV.API_URL + '/service/' + serviceId + "/providers",
+        METHOD: "get"
+    },
     AVAILABLE_SERVICE_PROVIDERS_TO_LINK: {
         URL: (serviceId: string) => ENV.API_URL + '/service/' + serviceId + "/availableProviders",
         METHOD: "get"
