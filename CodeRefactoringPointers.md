@@ -5,3 +5,4 @@
 5. Add usage to all the components.
 6. Make onChange consistent across the components
 7. Validate date picker to validate input being entered to be a valid date.
+8. Review and refactor facility details

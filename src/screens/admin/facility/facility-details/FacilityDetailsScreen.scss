@@ -17,9 +17,8 @@
     }
 
     .data-value {
-      font-weight: $font-weight-normal;
-      font-size: 14px;
       width: 130px;
+      font-weight: $font-weight-normal;
       align-items: center;
       margin-left: 50px;
       margin-right: 24px;
@@ -36,41 +35,40 @@
   }
 }
 
-
-.therapy-service-chip {
-  color: #EAF3F2;
-}
+//.therapy-service-chip {
+//  color: #EAF3F2;
+//}
 
 .facility-opening-hours-closed-text {
   width: 48px;
-  font-weight: 700;
+  font-weight: $font-weight-bolder;
   margin-left: 30px;
-  font-size: 14px;
-  color: #FA6187;
+  color: $warn-color;
 }
-
-.therapy-and-performance-training-wrapper {
-  display: inline-block;
-  width: 100%;
-
-
-  .data-label-value {
-    flex-direction: row;
-    margin-top: 23px;
-    margin-bottom: 23px;
-    .data-label {
-      width: 20%;
-    }
-    .data-value {
-      width: 80%;
-      padding-left: 10px;
-      font-weight: $font-weight-normal;
-      font-size: 14px;
-      margin-left: 20px;
-    }
-  }
-
-  .chip-component {
-    margin-right: 10px;
-  }
-}
+//
+//.therapy-and-performance-training-wrapper {
+//  display: inline-block;
+//  width: 100%;
+//
+//
+//  .data-label-value {
+//    flex-direction: row;
+//    margin-top: 23px;
+//    margin-bottom: 23px;
+//
+//    .data-label {
+//      width: 20%;
+//    }
+//
+//    .data-value {
+//      width: 80%;
+//      padding-left: 10px;
+//      font-weight: $font-weight-normal;
+//      margin-left: 20px;
+//    }
+//  }
+//
+//  .chip-component {
+//    margin-right: 10px;
+//  }
+//}

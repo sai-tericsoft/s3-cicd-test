@@ -52,7 +52,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
     }, [facilityId, fetchFacilityDetails]);
 
     useEffect(() => {
-        dispatch(setCurrentNavParams(facilityDetails?.name || "Facility", null, ()=>{
+        dispatch(setCurrentNavParams(facilityDetails?.name || "Facility", null, () => {
             navigate(CommonService._routeConfig.FacilityList());
         }));
     }, [facilityDetails, navigate, dispatch]);
@@ -80,15 +80,15 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                     <CardComponent title={"Facility Details"}>
                         <div className={'ts-row'}>
                             <div className={'ts-col-lg-3'}>
-                            <DataLabelValueComponent label={"Facility Name"}>
-                                {facilityDetails?.name || "-"}
-                            </DataLabelValueComponent>
+                                <DataLabelValueComponent label={"Facility Name"}>
+                                    {facilityDetails?.name || "-"}
+                                </DataLabelValueComponent>
                             </div>
                             <div className={'ts-col-lg-3'}>
-                            <DataLabelValueComponent label={"Facility Location"}>
-                                {facilityDetails?.location?.title || "-"}
-                            </DataLabelValueComponent>
-                        </div>
+                                <DataLabelValueComponent label={"Facility Location"}>
+                                    {facilityDetails?.location?.title || "-"}
+                                </DataLabelValueComponent>
+                            </div>
                         </div>
                     </CardComponent>
                     <CardComponent title={"Contact Information"}>
@@ -96,33 +96,31 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                         <FormControlLabelComponent label={'Phone 1:'}/>
                         <div className={'ts-row'}>
                             <div className={'ts-col-lg-3'}>
-                            <DataLabelValueComponent label={'Phone Type(Primary)'}>
-                                {facilityDetails?.primary_contact_info?.phone_type.title || "-"}
-                            </DataLabelValueComponent>
+                                <DataLabelValueComponent label={'Phone Type(Primary)'}>
+                                    {facilityDetails?.primary_contact_info?.phone_type.title || "-"}
+                                </DataLabelValueComponent>
                             </div>
-                        <div className={'ts-col-lg-3'}>
-                            <DataLabelValueComponent label={'Phone Number'}>
-                                {facilityDetails?.primary_contact_info?.phone || "-"}
-                            </DataLabelValueComponent>
+                            <div className={'ts-col-lg-3'}>
+                                <DataLabelValueComponent label={'Phone Number'}>
+                                    {facilityDetails?.primary_contact_info?.phone || "-"}
+                                </DataLabelValueComponent>
+                            </div>
                         </div>
-                        </div>
-
-
                         {facilityDetails.secondary_contact_info.map((phone_number: any, index: number) => {
                             return (<div key={index}>
                                     <HorizontalLineComponent/>
                                     <FormControlLabelComponent label={'Phone ' + (index + 2) + ":"}/>
                                     <div className={'ts-row'}>
                                         <div className={'ts-col-lg-3'}>
-                                        <DataLabelValueComponent label={'Phone Type'}>
-                                            <div>{phone_number?.phone_type?.title || "-"}</div>
-                                        </DataLabelValueComponent>
+                                            <DataLabelValueComponent label={'Phone Type'}>
+                                                <div>{phone_number?.phone_type?.title || "-"}</div>
+                                            </DataLabelValueComponent>
                                         </div>
-                                    <div className={'ts-col-lg-3'}>
-                                        <DataLabelValueComponent label={'Phone Number'}>
-                                            {phone_number?.phone || '-'}
-                                        </DataLabelValueComponent>
-                                    </div>
+                                        <div className={'ts-col-lg-3'}>
+                                            <DataLabelValueComponent label={'Phone Number'}>
+                                                {phone_number?.phone || '-'}
+                                            </DataLabelValueComponent>
+                                        </div>
                                     </div>
                                 </div>
                             )
@@ -130,21 +128,21 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                         }
                         <div className={'ts-row'}>
                             <div className={'ts-col-lg-3'}>
-                            <DataLabelValueComponent label={'Email(Primary)'}>
-                                {facilityDetails?.primary_email ||'-'}
-                            </DataLabelValueComponent>
+                                <DataLabelValueComponent label={'Email(Primary)'}>
+                                    {facilityDetails?.primary_email || '-'}
+                                </DataLabelValueComponent>
                             </div>
 
 
-                        {facilityDetails.secondary_emails?.map((email: any, index: number) => {
-                            return (<div className={'ts-col-lg-3'} key={index}>
-                                    <DataLabelValueComponent label={'Email '+(index+2)}>
-                                        <div>{email || '-'}</div>
-                                    </DataLabelValueComponent>
-                                </div>
-                            )
-                        })
-                        }
+                            {facilityDetails.secondary_emails?.map((email: any, index: number) => {
+                                return (<div className={'ts-col-lg-3'} key={index}>
+                                        <DataLabelValueComponent label={'Email ' + (index + 2)}>
+                                            <div>{email || '-'}</div>
+                                        </DataLabelValueComponent>
+                                    </div>
+                                )
+                            })
+                            }
                         </div>
                     </CardComponent>
                     <CardComponent title={"Opening Hours"}>
