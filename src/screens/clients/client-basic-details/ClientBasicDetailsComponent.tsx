@@ -10,6 +10,7 @@ import {IRootReducerState} from "../../../store/reducers";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import React from "react";
+import MaskTextComponent from "../../../shared/components/mask-text/MaskTextComponent";
 
 interface ClientBasicDetailsComponentProps {
     clientId: string;
@@ -61,12 +62,12 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                             </div>
                             <div className="ts-col-md-6 ts-col-lg-3">
                                 <DataLabelValueComponent label={'Nickname/Preferred Name'}>
-                                    {clientBasicDetails?.nick_name}
+                                    {clientBasicDetails?.nick_name || "NA"}
                                 </DataLabelValueComponent>
                             </div>
                             <div className="ts-col-md-6 ts-col-lg-3">
                                 <DataLabelValueComponent label={'SSN'}>
-                                    {clientBasicDetails?.ssn}
+                                    <MaskTextComponent value={clientBasicDetails?.ssn} maskingCharacter={"*"}/>
                                 </DataLabelValueComponent>
                             </div>
                         </div>
