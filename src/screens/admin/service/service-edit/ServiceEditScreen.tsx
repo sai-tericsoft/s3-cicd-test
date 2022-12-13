@@ -1,7 +1,7 @@
 import "./ServiceEditScreen.scss";
 import FormControlLabelComponent from "../../../../shared/components/form-control-label/FormControlLabelComponent";
 import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers} from "formik";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import * as Yup from "yup";
 import FormikInputComponent from "../../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import FormikTextAreaComponent
@@ -25,6 +25,7 @@ import IconButtonComponent from "../../../../shared/components/icon-button/IconB
 import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../../shared/components/status-card/StatusCardComponent";
 import {IService} from "../../../../shared/models/service.model";
+import LinkComponent from "../../../../shared/components/link/LinkComponent";
 
 interface ServiceEditComponentProps {
 }
@@ -98,7 +99,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
 
     useEffect(() => {
         dispatch(setCurrentNavParams("Edit Service", null, () => {
-            if (serviceId){
+            if (serviceId) {
                 navigate(CommonService._routeConfig.ServiceDetails(serviceId));
             }
         }));
@@ -174,13 +175,16 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
         <div className={'service-add-component'}>
             <div className={'service-category-service-edit-form'}>
                 {
+                    !serviceId && <StatusCardComponent title={"Service ID Not Found, Cannot edit a service"}/>
+                }
+                {
                     isServiceDetailsLoading && <LoaderComponent/>
                 }
                 {
                     isServiceDetailsLoadingFailed && <StatusCardComponent title={"Failed to fetch service details"}/>
                 }
                 {
-                    isServiceDetailsLoaded && <Formik
+                    (isServiceDetailsLoaded && serviceId) && <Formik
                         validationSchema={serviceEditFormValidationSchema}
                         initialValues={editServiceFormInitialValues}
                         onSubmit={onSubmit}
@@ -194,7 +198,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                 validateForm();
                             }, [validateForm, values]);
                             return (
-                                <Form noValidate={true}>
+                                <Form className="t-form" noValidate={true}>
                                     <div className={"ts-row"}>
                                         <div className="ts-col-lg-10">
                                             <Field name={'name'}>
@@ -203,11 +207,11 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                         <FormikInputComponent
                                                             label={'Service Name'}
                                                             placeholder={'Service Name'}
-                                                            type={"text"}
                                                             required={true}
                                                             formikField={field}
                                                             fullWidth={true}
                                                             titleCase={true}
+                                                            id={"sv_edit_name_input"}
                                                         />
                                                     )
                                                 }
@@ -220,6 +224,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                  label={'Service Description'}
                                                                                  placeholder={'Service Description'}
                                                                                  fullWidth={true}
+                                                                                 id={"sv_edit_desc_input"}
                                                         />)
                                                 }
                                             </Field>
@@ -236,8 +241,9 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                 prefixIcon={<ImageConfig.AddIcon/>}
                                                                                 onClick={() => {
                                                                                     arrayHelpers.push(_.cloneDeep(CONSULTATION_BLOCK))
-                                                                                }
-                                                                                }>
+                                                                                }}
+                                                                                id={"sv_ic_add"}
+                                                               >
                                                                    Add more
                                                                </ButtonComponent>
                                                            </>
@@ -256,6 +262,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                             onClick={() => {
                                                                                 arrayHelpers.remove(index);
                                                                             }}
+                                                                            id={"sv_ic_remove_" + index}
                                                                         >
                                                                             Remove
                                                                         </ButtonComponent>}
@@ -274,6 +281,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                         required={true}
                                                                                         formikField={field}
                                                                                         fullWidth={true}
+                                                                                        id={"sv_ic_title_" + index}
                                                                                     />
                                                                                 )
                                                                             }
@@ -299,7 +307,9 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                                             required={true}
                                                                                                             keyExtractor={item => item.id}
                                                                                                             label={"Duration"}
-                                                                                                            options={consultationDurationList}/>
+                                                                                                            options={consultationDurationList}
+                                                                                                            id={"sv_ic_cd_duration_" + index}
+                                                                                                        />
                                                                                                     )
                                                                                                 }
                                                                                             </Field>
@@ -317,6 +327,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                                             prefix={Misc.CURRENCY_SYMBOL}
                                                                                                             formikField={field}
                                                                                                             fullWidth={true}
+                                                                                                            id={"sv_ic_cd_price" + index}
                                                                                                         />
                                                                                                     )
                                                                                                 }
@@ -329,6 +340,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                                     onClick={() => {
                                                                                                         push(_.cloneDeep(CONSULTATION_DURATION_SLOT));
                                                                                                     }}
+                                                                                                    id={"sv_ic_cd_add"}
                                                                                                 >
                                                                                                     <ImageConfig.AddCircleIcon/>
                                                                                                 </IconButtonComponent>
@@ -341,6 +353,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                                         onClick={() => {
                                                                                                             remove(iIndex);
                                                                                                         }}
+                                                                                                        id={"sv_ic_cd_remove_" + index}
                                                                                                     >
                                                                                                         <ImageConfig.DeleteIcon/>
                                                                                                     </IconButtonComponent>
@@ -372,8 +385,9 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                 prefixIcon={<ImageConfig.AddIcon/>}
                                                                                 onClick={() => {
                                                                                     arrayHelpers.push(_.cloneDeep(CONSULTATION_BLOCK))
-                                                                                }
-                                                                                }>
+                                                                                }}
+                                                                                id={"sv_fc_add"}
+                                                               >
                                                                    Add more
                                                                </ButtonComponent>
                                                            </>
@@ -392,6 +406,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                             onClick={() => {
                                                                                 arrayHelpers.remove(index);
                                                                             }}
+                                                                            id={"sv_fc_remove" + index}
                                                                         >
                                                                             Remove
                                                                         </ButtonComponent>}
@@ -410,6 +425,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                         required={true}
                                                                                         formikField={field}
                                                                                         fullWidth={true}
+                                                                                        id={"sv_fc_title_" + index}
                                                                                     />
                                                                                 )
                                                                             }
@@ -435,7 +451,9 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                                             required={true}
                                                                                                             keyExtractor={item => item.id}
                                                                                                             label={"Duration"}
-                                                                                                            options={consultationDurationList}/>
+                                                                                                            options={consultationDurationList}
+                                                                                                            id={"sv_fc_cd_duration_" + index}
+                                                                                                        />
                                                                                                     )
                                                                                                 }
                                                                                             </Field>
@@ -453,6 +471,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                                             prefix={Misc.CURRENCY_SYMBOL}
                                                                                                             formikField={field}
                                                                                                             fullWidth={true}
+                                                                                                            id={"sv_fc_cd_price_" + index}
                                                                                                         />
                                                                                                     )
                                                                                                 }
@@ -465,6 +484,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                                     onClick={() => {
                                                                                                         push(_.cloneDeep(CONSULTATION_DURATION_SLOT));
                                                                                                     }}
+                                                                                                    id={"sv_fc_cd_add"}
                                                                                                 >
                                                                                                     <ImageConfig.AddCircleIcon/>
                                                                                                 </IconButtonComponent>
@@ -477,6 +497,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                                         onClick={() => {
                                                                                                             remove(iIndex);
                                                                                                         }}
+                                                                                                        id={"sv_fc_cd_remove_" + index}
                                                                                                     >
                                                                                                         <ImageConfig.DeleteIcon/>
                                                                                                     </IconButtonComponent>
@@ -512,6 +533,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                      }}
                                                                      acceptedFilesText={"PNG, JPG and JPEG files are allowed"}
                                                                      acceptedFileTypes={["png", "jpg", "jpeg"]}
+                                                                     id={"sv_upload_btn"}
                                                 />
                                                 {
                                                     (_.get(touched, "image") && !!(_.get(errors, "image"))) &&
@@ -526,7 +548,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                 (values.image) && <>
                                                     <FilePreviewThumbnailComponent removable={true}
                                                                                    file={values.image}
-                                                                                   removeButtonId={"sc_delete_img"}
+                                                                                   removeButtonId={"sv_delete_img"}
                                                                                    onRemove={() => {
                                                                                        setFieldValue('image', undefined);
                                                                                    }}/>
@@ -535,11 +557,20 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                         </>
                                     </div>
                                     <div className="t-form-actions">
+                                        <LinkComponent route={CommonService._routeConfig.ServiceDetails(serviceId)}>
+                                            <ButtonComponent
+                                                variant={"outlined"}
+                                                disabled={isServiceEditInProgress}
+                                                id={"sv_cancel_btn"}
+                                            >
+                                                Cancel
+                                            </ButtonComponent>
+                                        </LinkComponent>
+                                        &nbsp;
                                         <ButtonComponent
                                             isLoading={isServiceEditInProgress}
                                             type={"submit"}
-                                            fullWidth={true}
-                                            id={"sc_save_btn"}
+                                            id={"sv_save_btn"}
                                         >
                                             {isServiceEditInProgress ? "Saving" : "Save"}
                                         </ButtonComponent>

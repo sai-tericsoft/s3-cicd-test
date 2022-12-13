@@ -105,6 +105,7 @@ export interface ITextAreaProps {
     rows?: number;
     size?: 'medium' | 'small';
     value?: any;
+    prefix?: any;
     variant?: "outlined" | "filled" | "standard";
 }
 

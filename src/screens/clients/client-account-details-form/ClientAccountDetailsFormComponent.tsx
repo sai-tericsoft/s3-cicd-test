@@ -96,6 +96,8 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
     } = useSelector((state: IRootReducerState) => state.client);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
+        onSave(undefined);
+        return;
         const payload = CommonService.removeKeysFromJSON(_.cloneDeep(values), ['source_details', 'appointment_confirmations_details', 'appointment_reminders_details']);
         setIsClientAccountDetailsFormSavingInProgress(true);
         let apiCall;
@@ -149,7 +151,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                 ((mode === "edit" && isClientAccountDetailsLoaded && clientAccountDetails) || mode === "add") && <>
                     <CardComponent title={"Communication and Referral Details"}>
                         <Formik
-                            validationSchema={ClientAccountDetailsFormValidationSchema}
+                            // validationSchema={ClientAccountDetailsFormValidationSchema}
                             initialValues={clientAccountDetailsFormInitialValues}
                             onSubmit={onSubmit}
                             validateOnChange={false}
@@ -355,7 +357,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
                                                 isLoading={isClientAccountDetailsFormSavingInProgress}
-                                                disabled={isClientAccountDetailsFormSavingInProgress || !isValid}
+                                                // disabled={isClientAccountDetailsFormSavingInProgress || !isValid}
                                                 type={"submit"}
                                             >
                                                 {isClientAccountDetailsFormSavingInProgress ? "Saving" : <>{mode === "add" ? "Save & Next" : "Save"}</>}

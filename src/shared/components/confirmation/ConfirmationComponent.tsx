@@ -52,6 +52,7 @@ const ConfirmationComponent = (props: ConfirmationComponentProps) => {
             onClose={() => {
                 closeConfirmationDialog();
             }}
+            id={"confirmation-popup"}
             closeOnEsc={config?.closeOnEsc}
             closeOnBackDropClick={config?.closeOnBackdropClick}
             direction={config?.direction || "down"}
@@ -62,7 +63,9 @@ const ConfirmationComponent = (props: ConfirmationComponentProps) => {
                     <ButtonComponent
                         onClick={cancel}
                         color={config?.no?.color || 'inherit'}
-                        variant={config?.no?.variant || "outlined"}>
+                        variant={config?.no?.variant || "outlined"}
+                        id={"no-btn"}
+                    >
                         {config?.no?.text || 'No, Cancel'}
                     </ButtonComponent>&nbsp;&nbsp;&nbsp;
                 </>
@@ -70,7 +73,9 @@ const ConfirmationComponent = (props: ConfirmationComponentProps) => {
                 <ButtonComponent
                     onClick={confirm}
                     color={config?.yes?.color || 'error'}
-                    variant={config?.yes?.variant || "contained"}>
+                    variant={config?.yes?.variant || "contained"}
+                    id={"yes-btn"}
+                >
                     {config?.yes?.text || 'Yes, Confirm'}
                 </ButtonComponent>
             </>

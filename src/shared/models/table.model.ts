@@ -21,6 +21,7 @@ export interface ITableComponentProps {
     scroll?:  "unset" | "scroll";
     size?: 'small' | 'middle' | 'large';
     onSort?: (key: string, order: string) => void;
+    id?: string;
 }
 
 

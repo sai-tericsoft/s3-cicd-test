@@ -26,16 +26,16 @@ const BasicDetailsCardComponent = (props: BasicDetailsCardComponentProps) => {
                 </div>
                 <div className="basic-details-card-meta">
                     <div className="basic-details-card-legend-name-status">
-                        {legend && <div className="basic-details-card-legend">{legend}</div>}
+                        {legend && <div className="basic-details-card-legend" id={"card-legend"}>{legend}</div>}
                         <div className="basic-details-card-name-status">
-                            <div className="basic-details-card-name">{title}</div>
+                            <div className="basic-details-card-name" id={"card-title"}>{title}</div>
                             <div
-                                className="basic-details-card-status">
+                                className="basic-details-card-status" id={"card-status"}>
                                 <ChipComponent label={status ? "Active" : "Inactive"} color={status ? "success" : "error"}/>
                             </div>
                         </div>
                     </div>
-                    <div className="basic-details-card-description">
+                    <div className="basic-details-card-description" id={"card-sub-title"}>
                         {subTitle || "-"}
                     </div>
                 </div>

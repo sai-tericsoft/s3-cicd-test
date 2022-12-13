@@ -15,7 +15,7 @@ interface TableComponentProps extends ITableComponentProps {
 
 const TableComponent = (props: TableComponentProps) => {
 
-    const {data, onRowClick, rowClassName, bordered, loading, errored, onSort} = props;
+    const {data, id, onRowClick, rowClassName, bordered, loading, errored, onSort} = props;
     const [tableColumns, setTableColumns] = useState<ColumnsType<any>>(props.columns);
     const size = props.size || "large";
     const scroll = props.scroll || "scroll";
@@ -58,46 +58,48 @@ const TableComponent = (props: TableComponentProps) => {
 
     return (
         <div className={'table-component'}>
-            <Table columns={tableColumns}
-                   className={`${loading ? "loading" : ""}`}
-                   locale={{
-                       emptyText: (
-                           <>
-                               {
-                                   (!loading && data.length === 0) ? <>
-                                       {
-                                           errored && <StatusCardComponent title={"Error Loading Data"}/>
-                                       }
-                                       {
-                                           !errored && <StatusCardComponent title={"No Data"}/>
-                                       }
-                                   </> : <></>
-                               }
-                           </>
-                       )
-                   }}
-                   onRow={(record, index) => {
-                       return {
-                           onClick: (event: any) => {
-                               handleRowClick(record, index);
-                           }
-                       }
-                   }}
-                   rowKey={rowKey}
-                   showHeader={showHeader}
-                   rowClassName={rowClassName}
-                   loading={loading ? {
-                       indicator: <LoaderComponent type={"spinner"} size={"md"}/>,
-                       spinning: loading
-                   } : false}
-                   dataSource={data}
-                   bordered={bordered}
-                   size={size}
-                   showSorterTooltip={false}
-                   onChange={handleTableChange}
-                   pagination={false}
-                   tableLayout={tableLayout}
-                   scroll={ scroll === "scroll" ? {x: "100%", y: "calc(100% - 54px)" } : undefined}
+            <Table
+                id={id}
+                columns={tableColumns}
+                className={`${loading ? "loading" : ""}`}
+                locale={{
+                    emptyText: (
+                        <>
+                            {
+                                (!loading && data.length === 0) ? <>
+                                    {
+                                        errored && <StatusCardComponent title={"Error Loading Data"}/>
+                                    }
+                                    {
+                                        !errored && <StatusCardComponent title={"No Data"}/>
+                                    }
+                                </> : <></>
+                            }
+                        </>
+                    )
+                }}
+                onRow={(record, index) => {
+                    return {
+                        onClick: (event: any) => {
+                            handleRowClick(record, index);
+                        }
+                    }
+                }}
+                rowKey={rowKey}
+                showHeader={showHeader}
+                rowClassName={rowClassName}
+                loading={loading ? {
+                    indicator: <LoaderComponent type={"spinner"} size={"md"}/>,
+                    spinning: loading
+                } : false}
+                dataSource={data}
+                bordered={bordered}
+                size={size}
+                showSorterTooltip={false}
+                onChange={handleTableChange}
+                pagination={false}
+                tableLayout={tableLayout}
+                scroll={scroll === "scroll" ? {x: "100%", y: "calc(100% - 54px)"} : undefined}
             />
         </div>
     );

@@ -22,6 +22,7 @@ import TabsWrapperComponent, {
 } from "../../shared/components/tabs/TabsComponent";
 import FormikDatePickerComponent
     from "../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
+import FormikTextAreaComponent from "../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 
 interface DesignSystemScreenProps {
 

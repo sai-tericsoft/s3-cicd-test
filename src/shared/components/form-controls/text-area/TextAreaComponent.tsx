@@ -1,7 +1,7 @@
 import "./TextAreaComponent.scss";
 import {ITextAreaProps} from "../../../models/form-controls.model";
 import {useCallback} from "react";
-import {FormControl, TextField} from "@mui/material";
+import {FormControl, InputAdornment, TextField} from "@mui/material";
 
 interface TextAreaComponentProps extends ITextAreaProps {
 
@@ -9,7 +9,7 @@ interface TextAreaComponentProps extends ITextAreaProps {
 
 const TextAreaComponent = (props: TextAreaComponentProps) => {
 
-    const {label, errorMessage, readOnly, hasError, className, inputProps, disabled, id, name, required, value, onChange} = props;
+    const {label, errorMessage, prefix,readOnly, hasError, className, inputProps, disabled, id, name, required, value, onChange} = props;
     const variant = props.variant || "outlined";
     const size = props.size || "medium";
     const fullWidth = props.fullWidth || false;
@@ -43,6 +43,9 @@ const TextAreaComponent = (props: TextAreaComponentProps) => {
                        }}
                        onChange={(event) => {
                            handleOnChange(event);
+                       }}
+                       InputProps={{
+                           startAdornment: prefix && <InputAdornment position="start">{prefix}</InputAdornment>,
                        }}
                        error={hasError}
                        helperText={errorMessage}

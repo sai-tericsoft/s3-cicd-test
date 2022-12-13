@@ -38,9 +38,9 @@ const ServiceListComponent = (props: ServiceListComponentProps) => {
             key: "viewDetails",
             title: "",
             width: "10%",
-            render: (_: any, item: IService) => {
+            render: (_: any, item: IService, index: number) => {
                 if (item._id){
-                    return <LinkComponent route={CommonService._routeConfig.ServiceDetails(item._id)}>
+                    return <LinkComponent id={"sv_view_details_" + index} route={CommonService._routeConfig.ServiceDetails(item._id)}>
                         View Details
                     </LinkComponent>
                 }
@@ -58,6 +58,7 @@ const ServiceListComponent = (props: ServiceListComponentProps) => {
                         <LinkComponent route={CommonService._routeConfig.ServiceAdd(serviceCategoryId)}>
                             <ButtonComponent
                                 prefixIcon={<ImageConfig.AddIcon/>}
+                                id={"add_sv_btn"}
                             >
                                 Add Service
                             </ButtonComponent>

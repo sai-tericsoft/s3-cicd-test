@@ -22,6 +22,7 @@ const Transition = React.forwardRef(function Transition(
 });
 
 interface ModalComponentProps {
+    id?: string;
     isOpen: boolean;
     title?: string;
     className?: string;
@@ -41,6 +42,7 @@ const ModalComponent = (props: React.PropsWithChildren<ModalComponentProps>) => 
 
     const {
         isOpen,
+        id,
         fullWidth,
         fullScreen,
         showClose,
@@ -70,6 +72,7 @@ const ModalComponent = (props: React.PropsWithChildren<ModalComponentProps>) => 
 
     return (
         <Dialog
+            id={id}
             open={isOpen}
             fullScreen={fullScreen}
             fullWidth={fullWidth}

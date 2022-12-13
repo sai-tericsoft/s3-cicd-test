@@ -46,7 +46,8 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
             render: (item: any) => {
                 return <IconButtonComponent onClick={() => {
                     handleDeleteProvider(item);
-                }}>
+                }}
+                id={"pv_delete_btn_" + item.provider_name}>
                     <ImageConfig.DeleteIcon/>
                 </IconButtonComponent>
             }
@@ -120,7 +121,9 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
                 <ButtonComponent
                     size={"small"}
                     prefixIcon={<ImageConfig.AddIcon/>}
-                    onClick={openProviderLinkFormDrawer}>
+                    onClick={openProviderLinkFormDrawer}
+                    id={"pv_add_btn"}
+                >
                     Add Provider
                 </ButtonComponent>
             </>}>
@@ -167,7 +170,9 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
                         <ButtonComponent fullWidth={true}
                                          isLoading={isLinkProviderInProgress}
                                          disabled={isLinkProviderInProgress || selectedProviderIDsForLinking.length === 0}
-                                         onClick={handleProviderLinking}>
+                                         onClick={handleProviderLinking}
+                                         id={"pv_save_btn"}
+                        >
                             Save
                         </ButtonComponent>
                     </div>
