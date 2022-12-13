@@ -73,6 +73,7 @@ const ClientListScreen = (props: ClientListScreenProps) => {
                                 fullWidth={true}
                                 options={statusList}
                                 value={clientListFilterState.is_active}
+                                keyExtractor={(item) => item.code}
                                 onUpdate={(value) => {
                                     setClientListFilterState({...clientListFilterState, is_active: value})
                                 }}

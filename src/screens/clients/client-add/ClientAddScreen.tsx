@@ -92,10 +92,11 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
             }
             case "accountDetails": {
                 navigate(CommonService._routeConfig.ClientList());
-                break;
+                return;
             }
             default: {
                 navigate(CommonService._routeConfig.ClientList());
+                return;
             }
         }
         setCurrentStep(nextStep);
