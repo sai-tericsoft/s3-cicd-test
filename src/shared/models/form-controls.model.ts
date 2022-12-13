@@ -17,7 +17,7 @@ export interface IInputFieldProps {
     prefix?: any;
     readOnly?: boolean;
     required?: boolean;
-    size?: 'medium' | 'small';
+    size?: 'medium' | 'small' ;
     value?: any;
     titleCase?: boolean;
     variant?: "outlined" | "filled" | "standard";

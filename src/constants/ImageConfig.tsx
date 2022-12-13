@@ -16,7 +16,7 @@ import {ReactComponent as LeftArrow} from './../assets/icons/left_arrow.svg';
 import {ReactComponent as RightArrow} from './../assets/icons/right_arrow.svg';
 import {ReactComponent as SearchIcon} from './../assets/icons/search.svg';
 import {ReactComponent as InfoIcon} from './../assets/icons/info.svg';
-
+import {ReactComponent as ChartNotes} from './../assets/icons/ChartNotes.svg';
 //file types
 import PDFIcon from './../assets/icons/file-types/pdf.svg';
 import WordDocIcon from './../assets/icons/file-types/doc.svg';
@@ -35,12 +35,14 @@ import {ReactComponent as InventoryIcon} from './../assets/icons/side-menu/inven
 import {ReactComponent as SchedulingIcon} from './../assets/icons/side-menu/scheduling.svg';
 
 // general
+
 import {ReactComponent as AddIcon} from './../assets/icons/add.svg';
 import {ReactComponent as DeleteIcon} from "./../assets/icons/delete.svg";
 import {ReactComponent as AddCircleIcon} from './../assets/icons/add_circle.svg';
 
 import PlaceHolderImage from '../assets/place_holder_image.png';
-import RemoveImage from '../assets/images/remove.png'
+import RemoveImage from '../assets/images/remove.png';
+import BigSearch  from '../assets/BigSearch.png'
 
 
 
@@ -48,6 +50,7 @@ export {
     Logo,
     PlaceHolderImage,
     RemoveImage,
+    BigSearch,
     userIcon,
     SelectDropDownIcon,
     ProfileIcon,
@@ -81,5 +84,6 @@ export {
     AddCircleIcon,
     SearchIcon,
     InfoIcon,
-    ToastCloseIcon
+    ToastCloseIcon,
+    ChartNotes
 }
