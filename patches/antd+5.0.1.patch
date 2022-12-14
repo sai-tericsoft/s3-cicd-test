@@ -1,0 +1,16 @@
+diff --git a/node_modules/antd/.DS_Store b/node_modules/antd/.DS_Store
+new file mode 100644
+index 0000000..6e881fb
+Binary files /dev/null and b/node_modules/antd/.DS_Store differ
+diff --git a/node_modules/antd/lib/table/Table.d.ts b/node_modules/antd/lib/table/Table.d.ts
+index 94c0074..426fe46 100644
+--- a/node_modules/antd/lib/table/Table.d.ts
++++ b/node_modules/antd/lib/table/Table.d.ts
+@@ -17,6 +17,7 @@ export interface TableProps<RecordType> extends Omit<RcTableProps<RecordType>, '
+     loading?: boolean | SpinProps;
+     size?: SizeType;
+     bordered?: boolean;
++    showExpandColumn?: boolean;
+     locale?: TableLocale;
+     onChange?: (pagination: TablePaginationConfig, filters: Record<string, FilterValue | null>, sorter: SorterResult<RecordType> | SorterResult<RecordType>[], extra: TableCurrentDataSource<RecordType>) => void;
+     rowSelection?: TableRowSelection<RecordType>;

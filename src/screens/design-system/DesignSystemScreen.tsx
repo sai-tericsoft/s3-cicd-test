@@ -22,6 +22,9 @@ import TabsWrapperComponent, {
 } from "../../shared/components/tabs/TabsComponent";
 import FormikDatePickerComponent
     from "../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
+import {ITableColumn} from "../../shared/models/table.model";
+import TableComponent from "../../shared/components/table/TableComponent";
+import {ImageConfig} from "../../constants";
 
 interface DesignSystemScreenProps {
 
@@ -58,7 +61,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
 
     const [isFormSubmitting, setIsFormSubmitting] = useState(false);
     const [isTnCModalOpened, setIsTnCModalOpened] = useState(false);
-    const [currentTab, setCurrentTab] = useState<string>("tab1");
+    const [currentTab, setCurrentTab] = useState<string>("tab2");
 
 
     const onSubmit = useCallback((values: any) => {
@@ -68,6 +71,52 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
             setIsFormSubmitting(false);
         }, 2000);
     }, []);
+
+
+    const columns: ITableColumn[] = [
+        {title: "Name", dataIndex: "name"},
+        {title: "Age", dataIndex: "age"},
+        {title: "Address", dataIndex: "address"},
+        {
+            title: "Action",
+            dataIndex: "",
+            render: () => <a>Delete</a>
+        }
+    ];
+
+    const data: any = [
+        {
+            key: 1,
+            name: "John Brown",
+            age: 32,
+            address: "New York No. 1 Lake Park",
+            description:
+                "My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park."
+        },
+        {
+            key: 2,
+            name: "Jim Green",
+            age: 42,
+            address: "London No. 1 Lake Park",
+            description:
+                "My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park."
+        },
+        {
+            key: 3,
+            name: "Not Expandable",
+            age: 29,
+            address: "Jiangsu No. 1 Lake Park",
+            description: "This not expandable"
+        },
+        {
+            key: 4,
+            name: "Joe Black",
+            age: 32,
+            address: "Sidney No. 1 Lake Park",
+            description:
+                "My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park."
+        }
+    ];
 
     return (
         <div className="design-system-screen screen">
@@ -282,7 +331,17 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                             </div>
                         </TabContentComponent>
                         <TabContentComponent selectedTab={currentTab} value={"tab2"}>
-                            Register Content
+                            <TableComponent
+                                columns={columns}
+                                defaultExpandAllRows
+                                showExpandColumn={false}
+                                expandRow={(record: any) => (
+                                    <p style={{margin: 0}}>
+                                        <div><ImageConfig.ChartNotes/> {record.description}</div>
+                                    </p>
+                                )}
+                                data={data}
+                            />
                         </TabContentComponent>
                         <TabContentComponent selectedTab={currentTab} value={"tab3"}>
                             SSO
