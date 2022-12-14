@@ -77,7 +77,8 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
                 </div>
             </div>
             <div className="facility-list-wrapper">
-                <TableWrapperComponent url={APIConfig.FACILITY_LIST.URL}
+                <TableWrapperComponent id="facility_list"
+                                       url={APIConfig.FACILITY_LIST.URL}
                                        method={APIConfig.FACILITY_LIST.METHOD}
                                        rowKey={(item: IFacility) => item._id}
                                        isPaginated={true}

@@ -134,6 +134,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             {clientListFilterState.search &&
                 <div className="list-content-wrapper">
                     <TableWrapperComponent
+                        id={"client_search"}
                         url={APIConfig.CLIENT_LIST.URL}
                         method={APIConfig.CLIENT_LIST.METHOD}
                         columns={ClientListTableColumns}

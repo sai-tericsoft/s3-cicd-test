@@ -95,6 +95,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
     return (
         <div className={'client-list-table-component'}>
             <TableWrapperComponent
+                id={"client_list"}
                 url={APIConfig.CLIENT_LIST.URL}
                 method={APIConfig.CLIENT_LIST.METHOD}
                 columns={ClientListTableColumns}

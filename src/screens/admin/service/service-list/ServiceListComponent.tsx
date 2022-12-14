@@ -68,6 +68,7 @@ const ServiceListComponent = (props: ServiceListComponentProps) => {
             </div>
             <div className="service-list-table-container">
                 <TableWrapperComponent
+                    id={"service_list"}
                     url={APIConfig.SERVICE_LIST.URL(serviceCategoryId)}
                     method={APIConfig.SERVICE_LIST.METHOD}
                     isPaginated={true}

@@ -35,7 +35,7 @@ const ServiceCategoryCardComponent = (props: ServiceCategoryCardComponentProps) 
                 </div>
             </div>
             <NavLink to={CommonService._routeConfig.ServiceCategoryDetails(serviceCategory._id)}>
-                <div className="service-category-view-details" id={`sc_${serviceCategory?.name}`}>
+                <div className="service-category-view-details" id={`sc_${serviceCategory?.name}_view_details`}>
                     View Details
                 </div>
             </NavLink>

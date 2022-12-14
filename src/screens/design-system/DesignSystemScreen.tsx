@@ -26,7 +26,6 @@ import {ITableColumn} from "../../shared/models/table.model";
 import TableComponent from "../../shared/components/table/TableComponent";
 import {ImageConfig} from "../../constants";
 import IconButtonComponent from "../../shared/components/icon-button/IconButtonComponent";
-import InputComponent from "../../shared/components/form-controls/input/InputComponent";
 import FormikSelectComponent from "../../shared/components/form-controls/formik-select/FormikSelectComponent";
 
 interface DesignSystemScreenProps {
