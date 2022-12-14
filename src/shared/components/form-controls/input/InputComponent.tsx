@@ -8,6 +8,7 @@ export interface InputComponentProps extends IInputFieldProps {
     type?: 'email' | 'number' | 'password' | 'text';
     prefix?: any;
     suffix?: any;
+    size?:'small' | 'medium';
 }
 
 const InputComponent = (props: InputComponentProps) => {

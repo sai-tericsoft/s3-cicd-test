@@ -3,7 +3,7 @@ import {Navigate, Route, Routes, useLocation, useNavigate} from 'react-router-do
 import NotFoundScreen from "../screens/not-found/notFoundScreen";
 import AuthLayout from "../layouts/auth-layout/AuthLayout";
 import {
-    ADMIN, CLIENT_ADD, CLIENT_DETAILS, CLIENT_EDIT, CLIENT_LIST,
+    ADMIN, CLIENT_ADD, CLIENT_DETAILS, CLIENT_EDIT, CLIENT_LIST, CLIENT_SEARCH,
     COMING_SOON_ROUTE,
     DESIGN_SYSTEM_ROUTE, FACILITY_DETAILS, FACILITY_LIST,
     LOGIN_ROUTE,
@@ -35,6 +35,7 @@ import ClientListScreen from "../screens/clients/client-list/ClientListScreen";
 import ClientAddScreen from "../screens/clients/client-add/ClientAddScreen";
 import ClientDetailsScreen from "../screens/clients/client-details/ClientDetailsScreen";
 import ClientEditScreen from "../screens/clients/client-edit/ClientEditScreen";
+import ClientSearchScreen from "../screens/chart-notes/client-search/ClientSearchScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -192,6 +193,9 @@ const Navigator = (props: NavigatorProps) => {
                         </ProtectedRoute>
                     }
                 />
+                <Route path={CLIENT_SEARCH} element={<ProtectedRoute>
+                    <ClientSearchScreen/>
+                </ProtectedRoute>}/>
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
             </Route>
             <Route element={<AuthLayout/>}>
@@ -210,6 +214,9 @@ const Navigator = (props: NavigatorProps) => {
                     }
                 />
             </Route>
+
+
+
             <Route path={TEST_ROUTE} element={<TestScreen/>}/>
             <Route path={DESIGN_SYSTEM_ROUTE} element={<DesignSystemScreen/>}/>
             <Route path={NOT_FOUND_ROUTE} element={<NotFoundScreen/>}/>

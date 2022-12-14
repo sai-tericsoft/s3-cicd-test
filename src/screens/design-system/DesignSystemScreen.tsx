@@ -290,6 +290,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                     </TabsWrapperComponent>
                 </CardComponent>
             </div>
+
         </div>
     );
 };

@@ -23,7 +23,6 @@ import WordDocIcon from './../assets/icons/file-types/doc.svg';
 import ExcelIcon from './../assets/icons/file-types/xls.svg';
 import UnknownFileTypeIcon from '../assets/icons/file-types/unknown_file_type.svg';
 
-
 // MainMenu
 import {ReactComponent as DashboardIcon} from './../assets/icons/side-menu/dashboard.svg';
 import {ReactComponent as AdminIcon} from './../assets/icons/side-menu/admin.svg';
@@ -33,21 +32,23 @@ import {ReactComponent as HelpIcon} from './../assets/icons/side-menu/help.svg';
 import {ReactComponent as SettingsIcon} from './../assets/icons/side-menu/settings.svg';
 import {ReactComponent as InventoryIcon} from './../assets/icons/side-menu/inventory.svg';
 import {ReactComponent as SchedulingIcon} from './../assets/icons/side-menu/scheduling.svg';
+import {ReactComponent as ChartNotes} from '../assets/icons/side-menu/chart_notes.svg';
 
 // general
 import {ReactComponent as AddIcon} from './../assets/icons/add.svg';
 import {ReactComponent as DeleteIcon} from "./../assets/icons/delete.svg";
 import {ReactComponent as AddCircleIcon} from './../assets/icons/add_circle.svg';
 
-import PlaceHolderImage from '../assets/place_holder_image.png';
-import RemoveImage from '../assets/images/remove.png'
-
+import PlaceHolderImage from '../assets/images/place_holder_image.png';
+import RemoveImage from '../assets/images/remove.png';
+import Search from '../assets/images/search.png';
 
 
 export {
     Logo,
     PlaceHolderImage,
     RemoveImage,
+    Search,
     userIcon,
     SelectDropDownIcon,
     ProfileIcon,
@@ -81,5 +82,6 @@ export {
     AddCircleIcon,
     SearchIcon,
     InfoIcon,
-    ToastCloseIcon
+    ToastCloseIcon,
+    ChartNotes
 }
