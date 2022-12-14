@@ -10,7 +10,7 @@ export interface IInputFieldProps {
     hasError?: boolean;
     id?: string;
     inputProps?: any;
-    label: string;
+    label?: string;
     name?: string;
     onChange?: (value: any) => void;
     placeholder?: string;

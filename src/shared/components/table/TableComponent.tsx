@@ -1,7 +1,7 @@
 import "./TableComponent.scss";
 import Table from 'antd/lib/table';
 import {ITableComponentProps} from "../../models/table.model";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import StatusCardComponent from "../status-card/StatusCardComponent";
 import LoaderComponent from "../loader/LoaderComponent";
 import {TablePaginationConfig} from "antd";
@@ -15,7 +15,20 @@ interface TableComponentProps extends ITableComponentProps {
 
 const TableComponent = (props: TableComponentProps) => {
 
-    const {data, id, onRowClick, rowClassName, bordered, loading, errored, onSort} = props;
+    const {
+        bordered,
+        data,
+        defaultExpandAllRows,
+        errored,
+        id,
+        loading,
+        onRowClick,
+        onSort,
+        rowClassName,
+        showExpandColumn,
+        expandRow
+    } = props;
+
     const [tableColumns, setTableColumns] = useState<ColumnsType<any>>(props.columns);
     const size = props.size || "large";
     const scroll = props.scroll || "scroll";
@@ -60,6 +73,11 @@ const TableComponent = (props: TableComponentProps) => {
         <div className={'table-component'}>
             <Table
                 id={id}
+                defaultExpandAllRows={defaultExpandAllRows}
+                showExpandColumn={showExpandColumn}
+                expandable={expandRow && {
+                    expandedRowRender: expandRow
+                }}
                 columns={tableColumns}
                 className={`${loading ? "loading" : ""}`}
                 locale={{
