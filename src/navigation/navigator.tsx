@@ -49,6 +49,7 @@ import ClientEditScreen from "../screens/clients/client-edit/ClientEditScreen";
 import ClientSearchScreen from "../screens/chart-notes/client-search/ClientSearchScreen";
 import AddMedicalRecordScreen from "../screens/chart-notes/add-medical-record/AddMedicalRecordScreen";
 import AddMedicalInterventionScreen from "../screens/chart-notes/add-medical-intervention/AddMedicalInterventionScreen";
+import ClientBasicDetailsComponent from "../screens/chart-notes/client-basic-details/ClientBasicDetailsComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -223,6 +224,14 @@ const Navigator = (props: NavigatorProps) => {
                            <AddMedicalInterventionScreen/>
                        </ProtectedRoute>
                        }
+                />
+                <Route
+                    path={CLIENT_INFO + '/:clientId'}
+                    element={
+                        <ProtectedRoute>
+                            <ClientBasicDetailsComponent/>
+                        </ProtectedRoute>
+                    }
                 />
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
             </Route>

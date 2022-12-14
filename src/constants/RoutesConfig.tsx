@@ -23,9 +23,10 @@ const CLIENT_ADD = "/client-add";
 const CLIENT_DETAILS = "/client-details";
 const CLIENT_EDIT = "/client-edit";
 
-const CLIENT_SEARCH= '/client-search';
-const ADD_MEDICAL_RECORD= '/chart-notes/:clientId/add-medical-record';
-const ADD_MEDICAL_INTERVENTION= '/chart-notes/:clientId/:medicalInterventionId/add-medical-intervention';
+const CLIENT_SEARCH = '/client-search';
+const ADD_MEDICAL_RECORD = '/chart-notes/:clientId/add-medical-record';
+const ADD_MEDICAL_INTERVENTION = '/chart-notes/:clientId/:medicalInterventionId/add-medical-intervention';
+const CLIENT_INFO = "/client-info";
 
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
@@ -52,5 +53,6 @@ export {
     CLIENT_EDIT,
     CLIENT_SEARCH,
     ADD_MEDICAL_RECORD,
-    ADD_MEDICAL_INTERVENTION
+    ADD_MEDICAL_INTERVENTION,
+    CLIENT_INFO
 }
