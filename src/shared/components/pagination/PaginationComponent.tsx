@@ -23,7 +23,7 @@ const PaginationComponent = (props: PaginationComponentProps) => {
             component="div"
             labelDisplayedRows={( paginationInfo)=> {
                 return <>
-                    <span>{paginationInfo.from}</span> - <span>{paginationInfo.to}</span> of <span className={`${id}`+"_total_count"}>{paginationInfo.count !== -1 ? paginationInfo.count : 'more than' + paginationInfo.count}</span>
+                    <span id={`${id}_from`}>{paginationInfo.from}</span> - <span id={`${id}_to`}>{paginationInfo.to}</span> of <span id={`${id}_total_count`}>{paginationInfo.count !== -1 ? paginationInfo.count : 'more than' + paginationInfo.count}</span>
                 </>
             }}
             // showFirstButton={true}
