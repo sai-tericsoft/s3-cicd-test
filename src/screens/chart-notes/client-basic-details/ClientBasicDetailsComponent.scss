@@ -1,0 +1,33 @@
+@import "src/assets/styles/common";
+
+.client-details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0 25px;
+  height: 30px;
+
+  .client-details-title {
+    font-weight: $font-weight-bolder;
+    font-size: 20px;
+    line-height: 16px;
+    letter-spacing: 0.5px;
+    color: $text-light-2;
+  }
+}
+
+.client-details-layout {
+  display: flex;
+
+  .client-details-basic-card-holder {
+    margin-bottom: 6px;
+    padding: 0 15px 0 0;
+    flex: 0;
+
+
+  }
+
+  .client-details-tab-wrapper {
+    flex: 1;
+  }
+}

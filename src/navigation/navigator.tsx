@@ -3,7 +3,7 @@ import {Navigate, Route, Routes, useLocation, useNavigate} from 'react-router-do
 import NotFoundScreen from "../screens/not-found/notFoundScreen";
 import AuthLayout from "../layouts/auth-layout/AuthLayout";
 import {
-    ADMIN, CLIENT_ADD, CLIENT_DETAILS, CLIENT_EDIT, CLIENT_LIST,
+    ADMIN, CLIENT_ADD, CLIENT_DETAILS, CLIENT_EDIT, CLIENT_INFO, CLIENT_LIST,
     COMING_SOON_ROUTE,
     DESIGN_SYSTEM_ROUTE, FACILITY_DETAILS, FACILITY_LIST,
     LOGIN_ROUTE,
@@ -35,6 +35,7 @@ import ClientListScreen from "../screens/clients/client-list/ClientListScreen";
 import ClientAddScreen from "../screens/clients/client-add/ClientAddScreen";
 import ClientDetailsScreen from "../screens/clients/client-details/ClientDetailsScreen";
 import ClientEditScreen from "../screens/clients/client-edit/ClientEditScreen";
+import ClientBasicDetailsComponent from "../screens/chart-notes/client-basic-details/ClientBasicDetailsComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -189,6 +190,14 @@ const Navigator = (props: NavigatorProps) => {
                     element={
                         <ProtectedRoute>
                             <FacilityDetailsScreen/>
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path={CLIENT_INFO + '/:clientId'}
+                    element={
+                        <ProtectedRoute>
+                            <ClientBasicDetailsComponent/>
                         </ProtectedRoute>
                     }
                 />
