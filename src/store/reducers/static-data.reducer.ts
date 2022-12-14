@@ -1,4 +1,5 @@
 import {
+    GET_BODY_PART_LIST,
     GET_COMMUNICATION_MODE_TYPE_LIST,
     GET_CONSULTATION_DURATION_LIST,
     GET_EMPLOYMENT_STATUS_LIST,
@@ -10,7 +11,7 @@ import {
     GET_REFERRAL_TYPE_LIST,
     GET_RELATIONSHIP_LIST,
     GET_SOCIAL_MEDIA_PLATFORM_LIST,
-    GET_SURGICAL_HISTORY_OPTIONS_LIST,
+    GET_SURGICAL_HISTORY_OPTIONS_LIST, SET_BODY_PART_LIST,
     SET_COMMUNICATION_MODE_TYPE_LIST,
     SET_CONSULTATION_DURATION_LIST,
     SET_EMPLOYMENT_STATUS_LIST,
@@ -65,6 +66,9 @@ export interface IStaticDataReducerState {
     isCommunicationModeTypeListLoading: boolean,
     isCommunicationModeTypeListLoaded: boolean,
     communicationModeTypeList: any[],
+    isBodyPartListLoading: boolean,
+    isBodyPartListLoaded: boolean,
+    bodyPartList: any[],
 }
 
 
@@ -105,6 +109,9 @@ const initialData: IStaticDataReducerState = {
     isCommunicationModeTypeListLoading: false,
     isCommunicationModeTypeListLoaded: false,
     communicationModeTypeList: [],
+    isBodyPartListLoading: false,
+    isBodyPartListLoaded: false,
+    bodyPartList: [],
     statusList: [
         {
             code: true,
@@ -297,6 +304,21 @@ const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDa
                 isCommunicationModeTypeListLoading: false,
                 isCommunicationModeTypeListLoaded: true,
                 communicationModeTypeList: action.payload.communicationModeTypeList
+            };
+            return state;
+        case GET_BODY_PART_LIST:
+            state = {
+                ...state,
+                isBodyPartListLoading: true,
+                isBodyPartListLoaded: false,
+            };
+            return state;
+        case SET_BODY_PART_LIST:
+            state = {
+                ...state,
+                isBodyPartListLoading: false,
+                isBodyPartListLoaded: true,
+                bodyPartList: action.payload.bodyPartList
             };
             return state;
         default:

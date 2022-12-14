@@ -61,10 +61,14 @@ const getReferralTypeList = (payload: any) => {
     return ApiService[APIConfig.REFERRAL_TYPE_LIST.METHOD](APIConfig.REFERRAL_TYPE_LIST.URL, payload);
 }
 
-
 const getCommunicationModeTypeList = (payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.COMMUNICATION_MODE_TYPE_LIST.METHOD](APIConfig.COMMUNICATION_MODE_TYPE_LIST.URL, payload);
+}
+
+const getBodyPartList = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.BODY_PART_LIST.METHOD](APIConfig.BODY_PART_LIST.URL, payload);
 }
 
 const StaticDataService = {
@@ -82,7 +86,8 @@ const StaticDataService = {
     getMusculoskeletalHistoryOptionsList,
     getSocialMediaPlatformList,
     getReferralTypeList,
-    getCommunicationModeTypeList
+    getCommunicationModeTypeList,
+    getBodyPartList
 }
 
 export default StaticDataService;

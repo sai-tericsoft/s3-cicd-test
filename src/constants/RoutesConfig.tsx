@@ -23,7 +23,8 @@ const CLIENT_ADD = "/client-add";
 const CLIENT_DETAILS = "/client-details";
 const CLIENT_EDIT = "/client-edit";
 
-const CLIENT_SEARCH='/client-search'
+const CLIENT_SEARCH= '/client-search';
+const ADD_MEDICAL_RECORD= '/chart-notes/:clientId/add-medical-record';
 
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
@@ -48,5 +49,6 @@ export {
     CLIENT_ADD,
     CLIENT_DETAILS,
     CLIENT_EDIT,
-    CLIENT_SEARCH
+    CLIENT_SEARCH,
+    ADD_MEDICAL_RECORD
 }

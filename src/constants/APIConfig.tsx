@@ -57,6 +57,10 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + "/communication/type",
         METHOD: "get"
     },
+    BODY_PART_LIST: {
+        URL: ENV.API_URL + "/bodyParts",
+        METHOD: "get"
+    },
     //meta end
 
     // authentication start
