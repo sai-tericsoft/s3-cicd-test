@@ -3,15 +3,12 @@ import {FormControl, InputAdornment, TextField} from "@mui/material";
 import {useCallback} from "react";
 import {IInputFieldProps} from "../../../models/form-controls.model";
 import {CommonService} from "../../../services";
-import {primary} from "../../../../constants/ColorConfig";
 
 export interface InputComponentProps extends IInputFieldProps {
     type?: 'email' | 'number' | 'password' | 'text';
     prefix?: any;
     suffix?: any;
     size?:'small' | 'medium';
-
-
 }
 
 const InputComponent = (props: InputComponentProps) => {
@@ -38,8 +35,6 @@ const InputComponent = (props: InputComponentProps) => {
     const type = props.type || "text";
     const fullWidth = props.fullWidth || false;
     const placeholder = props.placeholder || label;
-
-
 
     const handleOnChange = useCallback((event: any) => {
         let value = event.target.value;

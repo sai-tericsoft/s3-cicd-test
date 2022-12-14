@@ -1,4 +1,4 @@
-import "./ClientSearchComponent.scss";
+import "./ClientSearchScreen.scss";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import SearchComponent from "../../../shared/components/search/SearchComponent";
 import {IClientBasicDetails, IClientListFilterState} from "../../../shared/models/client.model";
@@ -12,12 +12,17 @@ import ChipComponent from "../../../shared/components/chip/ChipComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
 
-interface ClientSearchComponentProps {
+interface ClientSearchScreenProps {
 
 }
 
-const ClientSearchComponent = (props: ClientSearchComponentProps) => {
+const ClientSearchScreen = (props: ClientSearchScreenProps) => {
 
+    const dispatch = useDispatch();
+    const [clientListFilterState, setClientListFilterState] = useState<IClientListFilterState>({
+        search: "",
+        sort: {}
+    });
     const ClientListTableColumns: ITableColumn[] = [
         {
             title: "Client ID",
@@ -94,12 +99,6 @@ const ClientSearchComponent = (props: ClientSearchComponentProps) => {
         }
     ];
 
-    const dispatch = useDispatch();
-
-    const [clientListFilterState, setClientListFilterState] = useState<IClientListFilterState>({
-        search: "",
-        sort: {}
-    });
     const handleClientSort = useCallback((key: string, order: string) => {
         setClientListFilterState((oldState) => {
             const newState = {...oldState};
@@ -111,58 +110,41 @@ const ClientSearchComponent = (props: ClientSearchComponentProps) => {
     useEffect(() => {
         dispatch(setCurrentNavParams("Chart Notes"));
     }, [dispatch]);
-    return (
 
+    return (
         <div className={'client-search-component'}>
             <CardComponent color={"primary"} size={'md'}>
-                <div className="ts-col-lg mrg-top-15 ">
-                    <SearchComponent size={'medium'}
-                                     className={'searchbar'}
-                                     label={'Search for Client'}
-                                     value={clientListFilterState.search}
-                                     onSearchChange={(value) => {
-                                         setClientListFilterState({...clientListFilterState, search: value})
-                                     }}/>
-
-                </div>
+                <SearchComponent size={'medium'}
+                                 className={'client-search-input mrg-top-20'}
+                                 label={'Search for Client'}
+                                 value={clientListFilterState.search}
+                                 onSearchChange={(value) => {
+                                     setClientListFilterState({...clientListFilterState, search: value})
+                                 }}/>
             </CardComponent>
-
-
-
-
-                    {clientListFilterState.search && <div className="list-content-wrapper">
-                        <TableWrapperComponent
-                            url={APIConfig.CLIENT_LIST.URL}
-                            method={APIConfig.CLIENT_LIST.METHOD}
-                            columns={ClientListTableColumns}
-                            extraPayload={clientListFilterState}
-                            onSort={handleClientSort}
-                        />
+            {
+                !clientListFilterState.search &&
+                <CardComponent className={"client-search-card"}>
+                    <div className={'client-search-logo-wrapper'}>
+                        <img src={ImageConfig.Search} alt="client-search"/>
+                        <div className={'client-search-label'}>Search for Clients</div>
                     </div>
-                    }
-
-                    {
-                        !clientListFilterState.search &&
-                        <CardComponent>
-                        <div className={'big-search-logo'}>
-                           <div>
-                            <img src={ImageConfig.BigSearch}/>
-                            <div className={'search-logo-heading'}>Search for Clients</div>
-                        </div>
-                        </div>
-                        </CardComponent>
-                    }
-
-
-
-
+                </CardComponent>
+            }
+            {clientListFilterState.search &&
+                <div className="list-content-wrapper">
+                    <TableWrapperComponent
+                        url={APIConfig.CLIENT_LIST.URL}
+                        method={APIConfig.CLIENT_LIST.METHOD}
+                        columns={ClientListTableColumns}
+                        extraPayload={clientListFilterState}
+                        onSort={handleClientSort}
+                    />
+                </div>
+            }
         </div>
-
     );
 
 };
 
-export default ClientSearchComponent;
-
-
-// CommonService._routeConfig.ClientDetails(item?._id)
+export default ClientSearchScreen;

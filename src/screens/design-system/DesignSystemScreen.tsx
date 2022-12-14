@@ -22,7 +22,6 @@ import TabsWrapperComponent, {
 } from "../../shared/components/tabs/TabsComponent";
 import FormikDatePickerComponent
     from "../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
-import ClientSearchComponent from "../chart-notes/client-search/ClientSearchComponent";
 
 interface DesignSystemScreenProps {
 

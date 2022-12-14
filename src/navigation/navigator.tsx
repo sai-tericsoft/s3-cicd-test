@@ -35,7 +35,7 @@ import ClientListScreen from "../screens/clients/client-list/ClientListScreen";
 import ClientAddScreen from "../screens/clients/client-add/ClientAddScreen";
 import ClientDetailsScreen from "../screens/clients/client-details/ClientDetailsScreen";
 import ClientEditScreen from "../screens/clients/client-edit/ClientEditScreen";
-import ClientSearchComponent from "../screens/chart-notes/client-search/ClientSearchComponent";
+import ClientSearchScreen from "../screens/chart-notes/client-search/ClientSearchScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -194,7 +194,7 @@ const Navigator = (props: NavigatorProps) => {
                     }
                 />
                 <Route path={CLIENT_SEARCH} element={<ProtectedRoute>
-                    <ClientSearchComponent/>
+                    <ClientSearchScreen/>
                 </ProtectedRoute>}/>
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
             </Route>
