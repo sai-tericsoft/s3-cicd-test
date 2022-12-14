@@ -61,9 +61,11 @@ const SelectComponent = (props: SelectComponentProps) => {
     return (
         <FormControl className={'select-component ' + className + ' ' + (fullWidth ? "full-width" : "")}
                      error={hasError} fullWidth={fullWidth} size={size}>
-            <InputLabel>
-                {label} {required ? " * " : ""}
-            </InputLabel>
+            {
+                label && <InputLabel>
+                    {label} {required ? " * " : ""}
+                </InputLabel>
+            }
             <Select
                 fullWidth={fullWidth}
                 value={tmpValue}

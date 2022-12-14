@@ -25,6 +25,9 @@ import FormikDatePickerComponent
 import {ITableColumn} from "../../shared/models/table.model";
 import TableComponent from "../../shared/components/table/TableComponent";
 import {ImageConfig} from "../../constants";
+import IconButtonComponent from "../../shared/components/icon-button/IconButtonComponent";
+import InputComponent from "../../shared/components/form-controls/input/InputComponent";
+import FormikSelectComponent from "../../shared/components/form-controls/formik-select/FormikSelectComponent";
 
 interface DesignSystemScreenProps {
 
@@ -72,49 +75,96 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
         }, 2000);
     }, []);
 
-
     const columns: ITableColumn[] = [
-        {title: "Name", dataIndex: "name"},
-        {title: "Age", dataIndex: "age"},
-        {title: "Address", dataIndex: "address"},
         {
-            title: "Action",
+            title: "Movement",
+            dataIndex: "movement",
+            key: "movement"
+        },
+        {
+            title: "AROM",
+            dataIndex: "arom",
+            key: "arom",
+            render: (index: number, item: any) => <Field name={`arom-${item?.movement}`} className="t-form-control">
+                {
+                    (field: FieldProps) => (
+                        <FormikInputComponent
+                            required={true}
+                            formikField={field}
+                            size={"small"}
+                        />
+                    )
+                }
+            </Field>
+        },
+        {
+            title: "PROM",
+            dataIndex: "prom",
+            key: "prom",
+            render: (index: number, item: any) => <Field name={`prom-${item?.movement}`} className="t-form-control">
+                {
+                    (field: FieldProps) => (
+                        <FormikInputComponent
+                            required={true}
+                            formikField={field}
+                            size={"small"}
+                        />
+                    )
+                }
+            </Field>
+        },
+        {
+            title: "Strength",
+            dataIndex: "strength",
+            key: "strength",
+            render: (index: number, item: any) => <Field name={`strength-${item?.movement}`} className="t-form-control">
+                {
+                    (field: FieldProps) => (
+                        <FormikSelectComponent
+                            options={[
+                                {
+                                    code: "1/5",
+                                    title: "1/5"
+                                },
+                                {
+                                    code: "2/5",
+                                    title: "2/5"
+                                }
+                            ]}
+                            autoWidth={true}
+                            required={true}
+                            formikField={field}
+                            size={"small"}
+                        />
+                    )
+                }
+            </Field>
+        },
+        {
+            title: "Comments",
             dataIndex: "",
-            render: () => <a>Delete</a>
+            render: (item: any) => <IconButtonComponent color={"inherit"}>
+                <ImageConfig.CommentIcon/>
+            </IconButtonComponent>
         }
     ];
 
     const data: any = [
         {
             key: 1,
-            name: "John Brown",
-            age: 32,
-            address: "New York No. 1 Lake Park",
-            description:
-                "My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park."
+            movement: "Flexion",
         },
         {
             key: 2,
-            name: "Jim Green",
-            age: 42,
-            address: "London No. 1 Lake Park",
-            description:
-                "My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park."
+            movement: "Extension",
         },
         {
             key: 3,
-            name: "Not Expandable",
-            age: 29,
-            address: "Jiangsu No. 1 Lake Park",
-            description: "This not expandable"
+            movement: "Supination",
         },
         {
             key: 4,
-            name: "Joe Black",
-            age: 32,
-            address: "Sidney No. 1 Lake Park",
-            description:
-                "My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park."
+            movement: "Pronation",
         }
     ];
 
@@ -331,17 +381,22 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                             </div>
                         </TabContentComponent>
                         <TabContentComponent selectedTab={currentTab} value={"tab2"}>
-                            <TableComponent
-                                columns={columns}
-                                defaultExpandAllRows
-                                showExpandColumn={false}
-                                expandRow={(record: any) => (
-                                    <p style={{margin: 0}}>
-                                        <div><ImageConfig.ChartNotes/> {record.description}</div>
-                                    </p>
-                                )}
-                                data={data}
-                            />
+                            <Formik
+                                initialValues={{}}
+                                validateOnChange={false}
+                                validateOnBlur={true}
+                                enableReinitialize={true}
+                                validateOnMount={true}
+                                onSubmit={onSubmit}
+                            >
+                                {(formik) => {
+                                    return (
+                                        <Form className={"login-holder"} noValidate={true}>
+                                            <TableComponent data={data} columns={columns}/>
+                                        </Form>
+                                    )
+                                }}
+                            </Formik>
                         </TabContentComponent>
                         <TabContentComponent selectedTab={currentTab} value={"tab3"}>
                             SSO
@@ -349,7 +404,6 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                     </TabsWrapperComponent>
                 </CardComponent>
             </div>
-
         </div>
     );
 };
