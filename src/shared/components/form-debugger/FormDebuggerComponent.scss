@@ -1,0 +1,12 @@
+.form-debugger {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 500px;
+  border: 2px dashed #777777;
+  height: calc(100vh - 30px);
+  box-sizing: content-box;
+  padding: 10px;
+  margin: 10px;
+  overflow: auto;
+}
