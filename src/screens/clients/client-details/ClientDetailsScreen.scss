@@ -24,17 +24,17 @@
 
   .client-details-layout {
     display: flex;
-
     .client-details-basic-card-sub-menu-wrapper {
+      position: fixed;
       padding: 0 15px 0 0;
       flex: 0;
-
       .client-details-basic-card-holder {
         margin-bottom: 6px;
       }
     }
 
     .client-details-tab-wrapper {
+      margin-left: 233px;
       flex: 1;
     }
   }

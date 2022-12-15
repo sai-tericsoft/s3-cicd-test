@@ -28,14 +28,6 @@ interface ClientAccountDetailsFormComponentProps {
     onSave: (clientAccountDetailsFormDetails: any) => void;
 }
 
-const ClientAccountDetailsFormValidationSchema = Yup.object({
-    communication_preferences: Yup.object({
-        appointment_reminders: Yup.string().required('Appointment Reminders is required'),
-        appointment_confirmations: Yup.string().required('Appointment Confirmation is required'),
-    }),
-
-});
-
 const ClientAccountDetailsFormInitialValues: IClientAccountDetails = {
     communication_preferences: {
         appointment_reminders: "",
@@ -125,7 +117,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                 ((mode === "edit" && isClientAccountDetailsLoaded && clientAccountDetails) || mode === "add") && <>
                     <CardComponent title={"Communication and Referral Details"}>
                         <Formik
-                            validationSchema={ClientAccountDetailsFormValidationSchema}
+
                             initialValues={clientAccountDetailsFormInitialValues}
                             onSubmit={onSubmit}
                             validateOnChange={false}
@@ -152,7 +144,6 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                                             <FormikSelectComponent
                                                                 options={communicationModeTypeList}
                                                                 label={"Select"}
-                                                                required={true}
                                                                 formikField={field}
                                                                 fullWidth={true}
                                                             />
@@ -173,7 +164,6 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                                             <FormikSelectComponent
                                                                 options={communicationModeTypeList}
                                                                 label={"Select"}
-                                                                required={true}
                                                                 formikField={field}
                                                                 fullWidth={true}
                                                             />
