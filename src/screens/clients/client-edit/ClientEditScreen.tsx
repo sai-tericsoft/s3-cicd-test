@@ -80,7 +80,7 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
             switch (currentStep) {
                 case "accountDetails":
                 case "basicDetails": {
-                    navigate(CommonService._routeConfig.ClientDetails(clientId) + "?currentStep=" + currentStep);
+                    navigate(CommonService._client.NavigateToClientDetails(clientId, currentStep));
                     break;
                 }
                 case "personalHabits":
