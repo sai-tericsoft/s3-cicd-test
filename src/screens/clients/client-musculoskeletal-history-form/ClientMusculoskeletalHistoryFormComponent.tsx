@@ -69,7 +69,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
         if (mode === "edit") {
             if (clientMedicalDetails) {
                 setClientMusculoskeletalHistoryFormInitialValues({
-                    musculoskeletal_history: clientMedicalDetails.musculoskeletal_history
+                    musculoskeletal_history: clientMedicalDetails?.musculoskeletal_history
                 });
             } else {
                 if (clientId) {
@@ -117,7 +117,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                 return (
                                     <Form noValidate={true} className={"t-form"}>
                                         {
-                                            musculoskeletalHistoryOptionsList.map((question: IMusculoskeletalHistoryOption) => {
+                                            musculoskeletalHistoryOptionsList?.map((question: IMusculoskeletalHistoryOption) => {
                                                 const {_id, title} = question;
                                                 return <div className="ts-row ts-align-items-center mrg-bottom-10"
                                                             key={_id}>
@@ -134,9 +134,9 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                                         valueExtractor={(option) => option}
                                                                         required={true}
                                                                         formikField={field}
-                                                                        onChange={(value)=>{
+                                                                        onChange={(value) => {
                                                                             console.log(value);
-                                                                            if (value === "No"){
+                                                                            if (value === "No") {
                                                                                 setFieldValue(`musculoskeletal_history.${_id}.text`, undefined);
                                                                             }
                                                                         }}
@@ -145,7 +145,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                             }
                                                         </Field>
                                                     </div>
-                                                    <div className="ts-col-md-6">
+                                                    <div className={"ts-col-md-6"}>
                                                         {
                                                             values.musculoskeletal_history[_id]?.value === "Yes" &&
                                                             <Field name={`musculoskeletal_history.${_id}.text`}>
