@@ -1,5 +1,4 @@
 import "./ClientAccountDetailsFormComponent.scss";
-import * as Yup from "yup";
 import React, {useCallback, useEffect, useState} from "react";
 import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
