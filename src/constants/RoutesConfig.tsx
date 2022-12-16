@@ -23,6 +23,8 @@ const CLIENT_ADD = "/client-add";
 const CLIENT_DETAILS = "/client-details";
 const CLIENT_EDIT = "/client-edit";
 
+const CLIENT_SEARCH='/client-search'
+
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
 export {
@@ -45,5 +47,6 @@ export {
     CLIENT_LIST,
     CLIENT_ADD,
     CLIENT_DETAILS,
-    CLIENT_EDIT
+    CLIENT_EDIT,
+    CLIENT_SEARCH
 }

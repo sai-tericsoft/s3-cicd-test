@@ -6,6 +6,8 @@ import IconButtonComponent from "../icon-button/IconButtonComponent";
 
 interface SearchComponentProps {
     label: string;
+    size?: 'small' | 'medium';
+    className?:any;
     placeholder?: string;
     value?: string;
     onSearchChange?: (value: any) => void;
@@ -13,9 +15,10 @@ interface SearchComponentProps {
 
 const SearchComponent = (props: SearchComponentProps) => {
 
-    const {label, onSearchChange} = props;
+    const {label,className, onSearchChange} = props;
     const [searchText, setSearchText] = useState<string | undefined>(props.value);
     const placeholder = props.placeholder || label;
+    const size = props.size || 'small'
 
     useEffect(() => {
         setSearchText(props.value);
@@ -36,9 +39,10 @@ const SearchComponent = (props: SearchComponentProps) => {
         <div className={'search-component'}>
             <InputComponent
                 label={label}
+                className={className}
                 value={searchText}
                 onChange={handleSearchTextChange}
-                size={"small"}
+                size={size}
                 fullWidth={true}
                 placeholder={placeholder}
                 suffix={

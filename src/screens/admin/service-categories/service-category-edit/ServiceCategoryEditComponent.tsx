@@ -111,6 +111,7 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                                         required={true}
                                                         formikField={field}
                                                         labelPlacement={"start"}
+                                                        id={"sc_edit_is_active_toggle"}
                                                     />
                                                 )
                                             }
@@ -129,7 +130,7 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                                     formikField={field}
                                                     fullWidth={true}
                                                     titleCase={true}
-                                                    id={"sc_input"}
+                                                    id={"sc_name_input"}
                                                 />
                                             )
                                         }

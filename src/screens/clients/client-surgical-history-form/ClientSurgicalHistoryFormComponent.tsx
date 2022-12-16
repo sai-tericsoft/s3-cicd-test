@@ -84,11 +84,11 @@ const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComp
     useEffect(() => {
         if (mode === "edit") {
             if (clientMedicalDetails) {
-                if (clientMedicalDetails.surgical_history.comments) {
+                if (clientMedicalDetails?.surgical_history?.comments) {
                     clientMedicalDetails.surgical_history.isCustomOption = true;
                 }
                 setClientSurgicalHistoryInitialValues({
-                    surgical_history: clientMedicalDetails.surgical_history
+                    surgical_history: clientMedicalDetails?.surgical_history
                 });
             } else {
                 if (clientId) {
@@ -199,8 +199,8 @@ const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComp
                                                             <FormikTextAreaComponent
                                                                 label={"Comments"}
                                                                 placeholder={"Enter your comments here"}
-                                                                disabled={!values.surgical_history.isCustomOption}
-                                                                required={values.surgical_history.isCustomOption}
+                                                                disabled={!values.surgical_history?.isCustomOption}
+                                                                required={values.surgical_history?.isCustomOption}
                                                                 formikField={field}
                                                                 fullWidth={true}
                                                             />

@@ -82,6 +82,7 @@ const ServiceDetailsScreen = (props: ServiceDetailsScreenProps) => {
                                         route={CommonService._routeConfig.ServiceEdit(serviceDetails?.category_id, serviceId)}>
                                         <ButtonComponent
                                             prefixIcon={<ImageConfig.EditIcon/>}
+                                            id={"sv_edit_btn"}
                                         >
                                             Edit Details
                                         </ButtonComponent>

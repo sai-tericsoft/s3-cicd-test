@@ -47,7 +47,9 @@ const HeaderComponent = (props: HeaderComponentProps) => {
                 {
                     onNavigateBack &&
                     <IconButtonComponent onClick={handleNavigateBack}
-                                         className={"header-nav-back"}>
+                                         className={"header-nav-back"}
+                                         id={"header-back-nav-btn"}
+                    >
                         <ImageConfig.NavigateBack/>
                     </IconButtonComponent>
                 }

@@ -12,16 +12,11 @@ interface FormikTextAreaComponentProps extends ITextAreaProps {
 const FormikTextAreaComponent = (props: FormikTextAreaComponentProps) => {
 
     const {
-        label,
-        className, disabled, id, required,
-        formikField, rows,
-        onChange
+        className,
+        formikField,
+        onChange,
+        ...otherProps
     } = props;
-
-    const variant = props.variant || "outlined";
-    const size = props.size || "medium";
-    const fullWidth = props.fullWidth || false;
-    const placeholder = props.placeholder || label;
 
     const {field, form} = formikField;
     const {name, value} = field;
@@ -42,23 +37,17 @@ const FormikTextAreaComponent = (props: FormikTextAreaComponentProps) => {
     }, [name, handleBlur, setFieldTouched]);
 
     return (
-        <TextAreaComponent label={label}
-                           disabled={disabled}
-                           id={id}
-                           name={name}
-                           required={required}
-                           value={value}
-                           size={size} className={className}
-                           fullWidth={fullWidth}
-                           variant={variant}
-                           placeholder={placeholder}
-                           inputProps={{
-                               onBlur: onInputBlur,
-                           }}
-                           rows={rows}
-                           onChange={textChangeHandler}
-                           hasError={hasError}
-                           errorMessage={hasError && (_.get(errors, name))}
+        <TextAreaComponent
+            name={name}
+            value={value}
+            className={className}
+            inputProps={{
+                onBlur: onInputBlur,
+            }}
+            onChange={textChangeHandler}
+            hasError={hasError}
+            errorMessage={hasError && (_.get(errors, name))}
+            {...otherProps}
         />
     );
 

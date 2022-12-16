@@ -10,14 +10,14 @@ export interface IInputFieldProps {
     hasError?: boolean;
     id?: string;
     inputProps?: any;
-    label: string;
+    label?: string;
     name?: string;
     onChange?: (value: any) => void;
     placeholder?: string;
     prefix?: any;
     readOnly?: boolean;
     required?: boolean;
-    size?: 'medium' | 'small';
+    size?: 'medium' | 'small' ;
     value?: any;
     titleCase?: boolean;
     variant?: "outlined" | "filled" | "standard";
@@ -105,6 +105,7 @@ export interface ITextAreaProps {
     rows?: number;
     size?: 'medium' | 'small';
     value?: any;
+    prefix?: any;
     variant?: "outlined" | "filled" | "standard";
 }
 

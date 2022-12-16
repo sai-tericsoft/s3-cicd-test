@@ -123,7 +123,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                     <Form noValidate={true} className={"t-form"}>
                                         <FormControlLabelComponent label={"Family Doctor"}/>
                                         <div className="ts-row">
-                                            <div className="ts-col-4">
+                                            <div className="ts-col-md-6 ts-col-lg-4">
                                                 <Field name={`medical_provider_info.name`}>
                                                     {
                                                         (field: FieldProps) => (
@@ -138,7 +138,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                                     }
                                                 </Field>
                                             </div>
-                                            <div className="ts-col-4">
+                                            <div className="ts-col-md-6 ts-col-lg-4">
                                                 <Field name={`medical_provider_info.primary_phone`}>
                                                     {
                                                         (field: FieldProps) => (
@@ -156,7 +156,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                         </div>
                                         <FormControlLabelComponent label={"Date of Last Physical Examination"}/>
                                         <div className="ts-row">
-                                            <div className="ts-col-4">
+                                            <div className="ts-col-md-6 ts-col-lg-4">
                                                 <Field name={`medical_provider_info.last_examination_date`}>
                                                     {
                                                         (field: FieldProps) => (

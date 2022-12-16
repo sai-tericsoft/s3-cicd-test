@@ -8,6 +8,7 @@ export interface InputComponentProps extends IInputFieldProps {
     type?: 'email' | 'number' | 'password' | 'text';
     prefix?: any;
     suffix?: any;
+    size?: 'small' | 'medium';
 }
 
 const InputComponent = (props: InputComponentProps) => {
@@ -52,30 +53,31 @@ const InputComponent = (props: InputComponentProps) => {
         <FormControl className={'input-component ' + className + ' ' + (fullWidth ? "full-width" : "")}
                      error={hasError}
                      fullWidth={fullWidth}>
-            <TextField type={type}
-                       id={id}
-                       fullWidth={fullWidth}
-                       placeholder={placeholder}
-                       required={required}
-                       name={name}
-                       size={size}
-                       label={label}
-                       value={value}
-                       variant={variant}
-                       disabled={disabled}
-                       InputProps={{
-                           startAdornment: prefix && <InputAdornment position="start">{prefix}</InputAdornment>,
-                           endAdornment: suffix && <InputAdornment position="end">{suffix}</InputAdornment>,
-                       }}
-                       inputProps={{
-                           ...inputProps,
-                           readOnly: readOnly
-                       }}
-                       onChange={(event) => {
-                           handleOnChange(event);
-                       }}
-                       error={hasError}
-                       helperText={errorMessage}
+            <TextField
+                type={type}
+                id={id}
+                fullWidth={fullWidth}
+                placeholder={placeholder}
+                required={required}
+                name={name}
+                size={size}
+                label={label}
+                value={value}
+                variant={variant}
+                disabled={disabled}
+                InputProps={{
+                    startAdornment: prefix && <InputAdornment position="start">{prefix}</InputAdornment>,
+                    endAdornment: suffix && <InputAdornment position="end">{suffix}</InputAdornment>,
+                }}
+                inputProps={{
+                    ...inputProps,
+                    readOnly: readOnly
+                }}
+                onChange={(event) => {
+                    handleOnChange(event);
+                }}
+                error={hasError}
+                helperText={errorMessage}
             />
         </FormControl>
     );

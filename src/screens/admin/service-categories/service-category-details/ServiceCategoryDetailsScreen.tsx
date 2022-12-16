@@ -91,6 +91,7 @@ const ServiceCategoryDetailsScreen = (props: ServiceCategoryDetailsScreenProps) 
                                 <ButtonComponent
                                     prefixIcon={<ImageConfig.EditIcon/>}
                                     onClick={openServiceCategoryEditFormDrawer}
+                                    id={"sc_edit_btn"}
                                 >
                                     Edit Details
                                 </ButtonComponent>

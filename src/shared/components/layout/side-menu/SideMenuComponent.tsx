@@ -23,6 +23,11 @@ const menuList: IMenuItem[] = [
         path: CommonService._routeConfig.Admin(),
         title: 'Admin',
         icon: ImageConfig.AdminIcon
+    },
+    {
+        path: CommonService._routeConfig.ClientSearch(),
+        title: 'Chart Notes',
+        icon: ImageConfig.ChartNotes
     }
 ]
 

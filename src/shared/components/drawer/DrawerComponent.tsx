@@ -50,6 +50,7 @@ const DrawerComponent = (props: React.PropsWithChildren<DrawerComponentProps>) =
             classes={{
                 root: className
             }}
+            id={"close-drawer-btn"}
         >
             <div className="drawer-container">
                 {

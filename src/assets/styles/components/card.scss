@@ -3,6 +3,13 @@
   border: 1px solid #F3F3F3;
   border-radius: 4px;
 
+  &.primary {
+    background-color: #EAF3F2;
+    margin-bottom: 30px;
+    border: 1px solid #E2E2E2 ;
+  }
+
+
   .card-header {
     padding: 8px 35px;
     background: #EAF3F2;

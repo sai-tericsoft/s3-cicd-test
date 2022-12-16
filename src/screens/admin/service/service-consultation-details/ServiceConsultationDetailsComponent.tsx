@@ -44,6 +44,7 @@ const ServiceConsultationDetailsComponent = (props: ServiceConsultationDetailsCo
                                 <TableComponent data={consultation.consultation_details || []}
                                                 columns={ServiceConsultationColumns}
                                                 size={"small"}
+                                                id={"ic_table"}
                                 />
                             </CardComponent>
                         })
@@ -56,6 +57,7 @@ const ServiceConsultationDetailsComponent = (props: ServiceConsultationDetailsCo
                                 <TableComponent data={consultation.consultation_details || []}
                                                 columns={ServiceConsultationColumns}
                                                 size={"small"}
+                                                id={"fa_table"}
                                 />
                             </CardComponent>
                         })

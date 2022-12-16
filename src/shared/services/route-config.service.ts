@@ -1,5 +1,5 @@
 import {
-    ADMIN, CLIENT_ADD, CLIENT_DETAILS, CLIENT_EDIT, CLIENT_LIST,
+    ADMIN, CLIENT_ADD, CLIENT_DETAILS, CLIENT_EDIT, CLIENT_LIST, CLIENT_SEARCH,
     COMING_SOON_ROUTE,
     DASHBOARD, FACILITY_DETAILS, FACILITY_LIST,
     LOGIN_ROUTE,
@@ -82,6 +82,10 @@ const ClientEdit = (clientId: string) => {
     return CLIENT_EDIT + '/' + clientId;
 }
 
+const ClientSearch = ()=>{
+    return CLIENT_SEARCH
+}
+
 const RouteConfigService = {
     DefaultRoute,
     LoginRoute,
@@ -100,7 +104,8 @@ const RouteConfigService = {
     ClientList,
     ClientAdd,
     ClientDetails,
-    ClientEdit
+    ClientEdit,
+    ClientSearch
 }
 
 export default RouteConfigService;

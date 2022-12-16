@@ -1,0 +1,24 @@
+
+.client-search-component {
+
+  .client-search-input {
+    background-color: #FFFFFF;;
+  }
+
+  .client-search-card{
+    .client-search-logo-wrapper{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 500px;
+      max-height: 100%;
+      flex-direction: column;
+    }
+
+    .client-search-label {
+      font-size: 1.5714rem;
+      color: #8B8E90;
+    }
+  }
+
+}

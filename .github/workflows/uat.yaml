@@ -1,31 +1,22 @@
-name: ADMIN DEV CI&CD setup
-
+name: ADMIN UAT CI&CD setup
 on:
-  push:
-    branches:
-      - main
-
+  release:
+    types: [published]
+  
 jobs:
   build:
-
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+
       - name: Install Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: '14.x'
-      - name: Yarn install cache
-        uses: c-hive/gha-yarn-cache@v1
-        with:  
-          node-version: '14.x' 
-          cache: 'yarn'  
-          
-                 
+          node-version: "14.x"
       - name: Install yarn dependencies
         run: yarn install
       - name: Run build task
-        run: PUBLIC_URL="/dev" yarn build:dev
+        run:  yarn build:uat
       - name: deploy to server
         uses: AEnterprise/rsync-deploy@v1.0
         env:
@@ -33,7 +24,7 @@ jobs:
           ARGS: "-e -c -r --delete"
           SERVER_PORT: 22
           FOLDER: build/*
-          SERVER_IP: ${{ secrets.KINERGY_IP }}
+          SERVER_IP: ${{ secrets.KINERGY_UAT_IP }}
           USERNAME: ${{ secrets.USERNAME }}
-          SERVER_DESTINATION: ${{ secrets.DESTINATION }}
+          SERVER_DESTINATION: ${{ secrets.DESTINATION_UAT }}
           
