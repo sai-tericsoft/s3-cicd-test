@@ -33,7 +33,6 @@ const ClientBasicDetailsFormValidationSchema = Yup.object({
     first_name: Yup.string().required('First Name is required'),
     last_name: Yup.string().required('Last Name is required'),
     dob: Yup.string().required('Date of Birth is required'),
-    nick_name: Yup.string().required('Nickname is required'),
     ssn: Yup.string().required('SSN is required'),
     gender: Yup.string().required('Gender is required'),
     work_info: Yup.object({
@@ -305,7 +304,6 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                             label={'Nickname/Preferred Name'}
                                                             placeholder={'Nickname/Preferred Name'}
                                                             type={"text"}
-                                                            required={true}
                                                             formikField={field}
                                                             fullWidth={true}
                                                         />

@@ -65,7 +65,7 @@ const serviceEditFormValidationSchema = Yup.object({
     image: Yup.mixed()
         .required('The image field is required'),
     initial_consultation: Yup.array(Yup.object({
-            title: Yup.string().required("Initial Consultation Title is required"),
+            title: Yup.string().nullable(),
             consultation_details: Yup.array(Yup.object({
                 duration: Yup.number().required("Duration is required"),
                 price: Yup.number().required("Price is required"),
@@ -73,7 +73,7 @@ const serviceEditFormValidationSchema = Yup.object({
         })
     ),
     followup_consultation: Yup.array(Yup.object({
-            title: Yup.string().required("Followup Consultation Title is required"),
+            title: Yup.string().nullable(),
             consultation_details: Yup.array(Yup.object({
                 duration: Yup.number().required("Duration is required"),
                 price: Yup.number().required("Price is required"),
@@ -278,7 +278,6 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                         label={'Title'}
                                                                                         placeholder={'Title'}
                                                                                         type={"text"}
-                                                                                        required={true}
                                                                                         formikField={field}
                                                                                         fullWidth={true}
                                                                                         id={"sv_ic_title_" + index}
@@ -422,7 +421,6 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                         label={'Title'}
                                                                                         placeholder={'Title'}
                                                                                         type={"text"}
-                                                                                        required={true}
                                                                                         formikField={field}
                                                                                         fullWidth={true}
                                                                                         id={"sv_fc_title_" + index}
@@ -448,7 +446,6 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                                         <FormikSelectComponent
                                                                                                             formikField={field}
                                                                                                             fullWidth={true}
-                                                                                                            required={true}
                                                                                                             keyExtractor={item => item.id}
                                                                                                             label={"Duration"}
                                                                                                             options={consultationDurationList}
@@ -467,7 +464,6 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                                             label={'Price'}
                                                                                                             placeholder={'Price'}
                                                                                                             type={"number"}
-                                                                                                            required={true}
                                                                                                             prefix={Misc.CURRENCY_SYMBOL}
                                                                                                             formikField={field}
                                                                                                             fullWidth={true}
