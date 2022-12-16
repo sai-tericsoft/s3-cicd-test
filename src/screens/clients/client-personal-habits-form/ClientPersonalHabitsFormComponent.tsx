@@ -134,7 +134,7 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
         if (mode === "edit") {
             if (clientMedicalDetails) {
                 setClientPersonalHabitsFormInitialValues({
-                    personal_habits: clientMedicalDetails.personal_habits
+                    personal_habits: clientMedicalDetails?.personal_habits
                 });
             } else {
                 if (clientId) {

@@ -85,7 +85,7 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
     useEffect(() => {
         if (mode === "edit") {
             if (clientMedicalDetails) {
-                if (clientMedicalDetails.medical_history.comments) {
+                if (clientMedicalDetails?.medical_history?.comments) {
                     clientMedicalDetails.medical_history.isCustomOption = true;
                 }
                 SetClientMedicalHistoryInitialValues({
@@ -150,7 +150,7 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                                         <div className="ts-row">
                                             {
                                                 medicalHistoryOptionsList?.map((option: IMedicalHistoryOption) => {
-                                                    return <div className="ts-col-md-6" key={option._id}>
+                                                    return <div className="ts-col-md-6" key={option?._id}>
                                                         <Field
                                                             name={"medical_history.questions"}>
                                                             {(field: FieldProps) => (
@@ -200,8 +200,8 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                                                             <FormikTextAreaComponent
                                                                 label={"Comments"}
                                                                 placeholder={"Enter your comments here"}
-                                                                disabled={!values.medical_history.isCustomOption}
-                                                                required={values.medical_history.isCustomOption}
+                                                                disabled={!values.medical_history?.isCustomOption}
+                                                                required={values.medical_history?.isCustomOption}
                                                                 formikField={field}
                                                                 fullWidth={true}
                                                             />
