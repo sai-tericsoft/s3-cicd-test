@@ -63,6 +63,22 @@ const serviceEditFormValidationSchema = Yup.object({
         .nullable(),
     image: Yup.mixed()
         .required('The image field is required'),
+    initial_consultation: Yup.array(Yup.object({
+            title: Yup.string().nullable(),
+            consultation_details: Yup.array(Yup.object({
+                duration: Yup.number().required("Duration is required"),
+                price: Yup.number().required("Price is required"),
+            })),
+        })
+    ),
+    followup_consultation: Yup.array(Yup.object({
+            title: Yup.string().nullable(),
+            consultation_details: Yup.array(Yup.object({
+                duration: Yup.number().required("Duration is required"),
+                price: Yup.number().required("Price is required"),
+            })),
+        })
+    ),
 });
 
 const ServiceEditScreen = (props: ServiceEditComponentProps) => {
@@ -255,7 +271,6 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                         label={'Title'}
                                                                                         placeholder={'Title'}
                                                                                         type={"text"}
-                                                                                        required={true}
                                                                                         formikField={field}
                                                                                         fullWidth={true}
                                                                                     />
@@ -280,6 +295,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                                         <FormikSelectComponent
                                                                                                             formikField={field}
                                                                                                             fullWidth={true}
+                                                                                                            required={true}
                                                                                                             keyExtractor={item => item.id}
                                                                                                             label={"Duration"}
                                                                                                             options={consultationDurationList}/>
@@ -296,6 +312,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                                             label={'Price'}
                                                                                                             placeholder={'Price'}
                                                                                                             type={"number"}
+                                                                                                            required={true}
                                                                                                             prefix={Misc.CURRENCY_SYMBOL}
                                                                                                             formikField={field}
                                                                                                             fullWidth={true}

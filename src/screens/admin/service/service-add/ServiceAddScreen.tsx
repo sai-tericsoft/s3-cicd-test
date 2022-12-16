@@ -62,6 +62,22 @@ const serviceAddFormValidationSchema = Yup.object({
         .nullable(),
     image: Yup.mixed()
         .required('The image field is required'),
+    initial_consultation: Yup.array(Yup.object({
+            title: Yup.string().nullable(),
+            consultation_details: Yup.array(Yup.object({
+                duration: Yup.number().required("Duration is required"),
+                price: Yup.number().required("Price is required"),
+            })),
+        })
+    ),
+    followup_consultation: Yup.array(Yup.object({
+            title: Yup.string().nullable(),
+            consultation_details: Yup.array(Yup.object({
+                duration: Yup.number().required("Duration is required"),
+                price: Yup.number().required("Price is required"),
+            })),
+        })
+    ),
 });
 
 const ServiceAddScreen = (props: ServiceAddComponentProps) => {
@@ -222,6 +238,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                     <FormikSelectComponent
                                                                                                         formikField={field}
                                                                                                         fullWidth={true}
+                                                                                                        required={true}
                                                                                                         keyExtractor={item => item.id}
                                                                                                         label={"Duration"}
                                                                                                         options={consultationDurationList}/>
@@ -239,6 +256,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                         placeholder={'Price'}
                                                                                                         type={"number"}
                                                                                                         prefix={Misc.CURRENCY_SYMBOL}
+                                                                                                        required={true}
                                                                                                         formikField={field}
                                                                                                         fullWidth={true}
                                                                                                     />
@@ -357,6 +375,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                         fullWidth={true}
                                                                                                         keyExtractor={item => item.id}
                                                                                                         label={"Duration"}
+                                                                                                        required={true}
                                                                                                         options={consultationDurationList}/>
                                                                                                 )
                                                                                             }
@@ -373,6 +392,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                         type={"number"}
                                                                                                         prefix={Misc.CURRENCY_SYMBOL}
                                                                                                         formikField={field}
+                                                                                                        required={true}
                                                                                                         fullWidth={true}
                                                                                                     />
                                                                                                 )

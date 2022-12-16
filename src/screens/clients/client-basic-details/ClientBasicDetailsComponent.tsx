@@ -67,7 +67,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                             </div>
                             <div className="ts-col-md-6 ts-col-lg-3">
                                 <DataLabelValueComponent label={'SSN'}>
-                                    <MaskTextComponent value={clientBasicDetails?.ssn} maskingCharacter={"*"}/>
+                                    <MaskTextComponent value={clientBasicDetails?.ssn}/>
                                 </DataLabelValueComponent>
                             </div>
                         </div>
