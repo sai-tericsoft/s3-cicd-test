@@ -65,7 +65,7 @@ const serviceAddFormValidationSchema = Yup.object({
     image: Yup.mixed()
         .required('The image field is required'),
     initial_consultation: Yup.array(Yup.object({
-            title: Yup.string().required("Initial Consultation Title is required"),
+            title: Yup.string().nullable(),
             consultation_details: Yup.array(Yup.object({
                 duration: Yup.number().required("Duration is required"),
                 price: Yup.number().required("Price is required"),
@@ -73,7 +73,7 @@ const serviceAddFormValidationSchema = Yup.object({
         })
     ),
     followup_consultation: Yup.array(Yup.object({
-            title: Yup.string().required("Followup Consultation Title is required"),
+            title: Yup.string().nullable(),
             consultation_details: Yup.array(Yup.object({
                 duration: Yup.number().required("Duration is required"),
                 price: Yup.number().required("Price is required"),
@@ -214,25 +214,25 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                         </ButtonComponent>}
                                                                     </div>
                                                                 </div>
-                                                                <div className={"ts-row"}>
-                                                                    <div className="ts-col-lg-10">
-                                                                        <Field
-                                                                            name={`initial_consultation[${index}].title`}>
-                                                                            {
-                                                                                (field: FieldProps) => (
-                                                                                    <FormikInputComponent
-                                                                                        label={'Title'}
-                                                                                        placeholder={'Title'}
-                                                                                        type={"text"}
-                                                                                        required={true}
-                                                                                        formikField={field}
-                                                                                        fullWidth={true}
-                                                                                        id={"sv_ic_title_" + index}
-                                                                                    />
-                                                                                )
-                                                                            }
-                                                                        </Field>
-                                                                    </div>
+                                                            </div>
+                                                            <div className={"ts-row"}>
+                                                                <div className="ts-col-lg-10">
+                                                                    <Field
+                                                                        name={`initial_consultation[${index}].title`}>
+                                                                        {
+                                                                            (field: FieldProps) => (
+                                                                                <FormikInputComponent
+                                                                                    label={'Title'}
+                                                                                    placeholder={'Title'}
+                                                                                    type={"text"}
+                                                                                    formikField={field}
+                                                                                    fullWidth={true}
+                                                                                    id={"sv_ic_title_" + index}
+                                                                                />
+                                                                            )
+                                                                        }
+                                                                    </Field>
+                                                                  </div>
                                                                 </div>
                                                                 <FieldArray
                                                                     name={`initial_consultation[${index}].consultation_details`}
@@ -281,6 +281,52 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                         </div>
                                                                                         <div className="ts-col-lg-2">
                                                                                             {
+                                                                                                (field: FieldProps) => (
+                                                                                                    <FormikSelectComponent
+                                                                                                        formikField={field}
+                                                                                                        fullWidth={true}
+                                                                                                        required={true}
+                                                                                                        keyExtractor={item => item.id}
+                                                                                                        label={"Duration"}
+                                                                                                        required={true}
+                                                                                                        options={consultationDurationList}/>
+                                                                                                )
+                                                                                            }
+                                                                                        </Field>
+                                                                                    </div>
+                                                                                    <div className="ts-col-lg-5">
+                                                                                        <Field
+                                                                                            name={`initial_consultation[${index}].consultation_details[${iIndex}].price`}>
+                                                                                            {
+                                                                                                (field: FieldProps) => (
+                                                                                                    <FormikInputComponent
+                                                                                                        label={'Price'}
+                                                                                                        placeholder={'Price'}
+                                                                                                        type={"number"}
+                                                                                                        prefix={Misc.CURRENCY_SYMBOL}
+                                                                                                        required={true}
+                                                                                                        formikField={field}
+                                                                                                        fullWidth={true}
+                                                                                                    />
+                                                                                                )
+                                                                                            }
+                                                                                        </Field>
+                                                                                    </div>
+                                                                                    <div className="ts-col-lg-2">
+                                                                                        {
+                                                                                            iIndex === values?.initial_consultation[index].consultation_details.length - 1 &&
+                                                                                            <IconButtonComponent
+                                                                                                onClick={() => {
+                                                                                                    push(_.cloneDeep(CONSULTATION_DURATION_SLOT))
+                                                                                                }}
+                                                                                            >
+                                                                                                <ImageConfig.AddCircleIcon/>
+                                                                                            </IconButtonComponent>
+                                                                                        }
+                                                                                        {
+                                                                                            iIndex > 0 &&
+                                                                                            <>
+                                                                                                &nbsp;
                                                                                                 iIndex === values?.initial_consultation[index].consultation_details.length - 1 &&
                                                                                                 <IconButtonComponent
                                                                                                     onClick={() => {
@@ -358,6 +404,24 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                         </ButtonComponent>}
                                                                     </div>
                                                                 </div>
+                                                            </div>
+                                                            <div className={"ts-row"}>
+                                                                <div className="ts-col-lg-10">
+                                                                    <Field
+                                                                        name={`followup_consultation[${index}].title`}>
+                                                                        {
+                                                                            (field: FieldProps) => (
+                                                                                <FormikInputComponent
+                                                                                    label={'Title'}
+                                                                                    placeholder={'Title'}
+                                                                                    type={"text"}
+                                                                                    formikField={field}
+                                                                                    fullWidth={true}
+                                                                                />
+                                                                            )
+                                                                        }
+                                                                    </Field>
+                                                                    
                                                                 <div className={"ts-row"}>
                                                                     <div className="ts-col-lg-10">
                                                                         <Field
@@ -425,6 +489,51 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                         </div>
                                                                                         <div className="ts-col-lg-2">
                                                                                             {
+                                                                                                (field: FieldProps) => (
+                                                                                                    <FormikSelectComponent
+                                                                                                        formikField={field}
+                                                                                                        fullWidth={true}
+                                                                                                        keyExtractor={item => item.id}
+                                                                                                        label={"Duration"}
+                                                                                                        required={true}
+                                                                                                        options={consultationDurationList}/>
+                                                                                                )
+                                                                                            }
+                                                                                        </Field>
+                                                                                    </div>
+                                                                                    <div className="ts-col-lg-5">
+                                                                                        <Field
+                                                                                            name={`followup_consultation[${index}].consultation_details[${iIndex}].price`}>
+                                                                                            {
+                                                                                                (field: FieldProps) => (
+                                                                                                    <FormikInputComponent
+                                                                                                        label={'Price'}
+                                                                                                        placeholder={'Price'}
+                                                                                                        type={"number"}
+                                                                                                        prefix={Misc.CURRENCY_SYMBOL}
+                                                                                                        formikField={field}
+                                                                                                        required={true}
+                                                                                                        fullWidth={true}
+                                                                                                    />
+                                                                                                )
+                                                                                            }
+                                                                                        </Field>
+                                                                                    </div>
+                                                                                    <div className="ts-col-lg-2">
+                                                                                        {
+                                                                                            iIndex === values?.followup_consultation[index].consultation_details.length - 1 &&
+                                                                                            <IconButtonComponent
+                                                                                                onClick={() => {
+                                                                                                    push(_.cloneDeep(CONSULTATION_DURATION_SLOT));
+                                                                                                }}
+                                                                                            >
+                                                                                                <ImageConfig.AddCircleIcon/>
+                                                                                            </IconButtonComponent>
+                                                                                        }
+                                                                                        {
+                                                                                            iIndex > 0 &&
+                                                                                            <>
+                                                                                                &nbsp;
                                                                                                 iIndex === values?.followup_consultation[index].consultation_details.length - 1 &&
                                                                                                 <IconButtonComponent
                                                                                                     onClick={() => {
