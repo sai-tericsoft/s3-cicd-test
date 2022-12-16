@@ -49,7 +49,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             dataIndex: "lastAppointmentDate",
             width: "15%",
             render: (_: any, item: IClientBasicDetails) => {
-                return <span>
+                return <span className={'appointment-head'}>
                     {item?.last_appointment_date ? CommonService.getSystemFormatTimeStamp(item?.last_appointment_date) : "-"}
                 </span>
             }
@@ -60,7 +60,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             dataIndex: "last_provider",
             width: "20%",
             render: (_: any, item: IClientBasicDetails) => {
-                return <span>
+                return <span className={'last-provider-head'}>
                     {item?.last_provider}
                 </span>
             }
@@ -68,6 +68,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
         {
             title: "Status",
             dataIndex: "status",
+            className:'head',
             key: "status",
             width: "10%",
             render: (_: any, item: IClientBasicDetails) => {
