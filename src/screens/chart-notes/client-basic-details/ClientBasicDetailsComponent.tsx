@@ -28,7 +28,10 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
             key: "date_of_onset",
             dataIndex: "date_of_onset",
             width: "12%",
-            fixed: "left"
+            fixed: "left",
+            render: (_: any, item: any) => {
+                 return <>{CommonService.convertDateFormat2(item.date_of_onset)}</>
+            }
         },
         {
             title: "Body Part",
@@ -42,6 +45,11 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
             key: "body_side",
             dataIndex: "body_side",
             width: "10%",
+            render: (_: any, item: any) => {
+                return <>{item.injury_details.map((e: any) => {
+                    return <>{e.body_side}</>
+                })}</>
+            }
         },
 
         {
@@ -49,6 +57,10 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
             dataIndex: "status",
             key: "status",
             width: "20%",
+            render: (_: any, item: any) => {
+                return <ChipComponent label={item?.status}
+                                      color={item?.status === 'Open/Active' ? "success" : "error"}></ChipComponent>
+            }
 
         },
         {
@@ -121,19 +133,19 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                     </div>
                                 </div>
                                 <div className={"client-details-layout"}>
-                                <div className={"client-details-basic-card-holder"}>
-                                    <ClientBasicDetailsCardComponent
-                                        clientBasicDetails={clientBasicDetails} viewDetails={true}/>
-                                </div>
+                                    <div className={"client-details-basic-card-holder"}>
+                                        <ClientBasicDetailsCardComponent
+                                            clientBasicDetails={clientBasicDetails} viewDetails={true}/>
+                                    </div>
 
-                                <div className="client-details-tab-wrapper">
-                                    <TableWrapperComponent
-                                        url={APIConfig.CLIENT_INFO.URL}
-                                        method={APIConfig.CLIENT_INFO.METHOD}
-                                        columns={ClientListTableColumns}
+                                    <div className="client-details-tab-wrapper">
+                                        <TableWrapperComponent
+                                            url={APIConfig.CLIENT_MEDICAL_INFO.URL(clientId)}
+                                            method={APIConfig.CLIENT_MEDICAL_INFO.METHOD}
+                                            columns={ClientListTableColumns}
 
-                                    />
-                                </div>
+                                        />
+                                    </div>
                                 </div>
                             </>
                         }

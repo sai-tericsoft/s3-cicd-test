@@ -244,8 +244,8 @@ const APIConfig: IAPIConfig = {
         URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId,
         METHOD: "get"
     },
-    CLIENT_INFO: {
-        URL: ENV.API_URL + "",
+    CLIENT_MEDICAL_INFO: {
+        URL:(clientId:string)=> ENV.API_URL + '/client/'+ clientId +'/medicalRecord',
         METHOD: "get"
     }
     // chart notes end

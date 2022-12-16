@@ -11,6 +11,7 @@ import {
     CLIENT_EDIT,
     CLIENT_LIST,
     CLIENT_SEARCH,
+    CLIENT_MEDICAL_INFO,
     COMING_SOON_ROUTE,
     DESIGN_SYSTEM_ROUTE,
     FACILITY_DETAILS,
@@ -226,7 +227,7 @@ const Navigator = (props: NavigatorProps) => {
                        }
                 />
                 <Route
-                    path={CLIENT_INFO + '/:clientId'}
+                    path={CLIENT_MEDICAL_INFO + '/:clientId/medicalRecord'}
                     element={
                         <ProtectedRoute>
                             <ClientBasicDetailsComponent/>
