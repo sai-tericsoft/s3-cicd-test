@@ -114,6 +114,9 @@ const transformTimeStamp = (date: Date | string) => {
 const convertDateFormat = (date: Date, format: string = 'MM-DD-YYYY') => {
     return moment(date).format(format);
 }
+const convertDateFormat2 = (date: Date, format: string = 'DD-MMM-YYYY') => {
+    return moment(date).format(format);
+}
 
 const getTheDifferenceBetweenDates = (fromDate: string) => {
     let a = moment();
@@ -452,6 +455,7 @@ const CommonService = {
     transformTimeStamp,
     getTheDifferenceBetweenDates,
     removeKeysFromJSON,
+    convertDateFormat2,
 
     // createValidationsObject,
     // createYupSchema,

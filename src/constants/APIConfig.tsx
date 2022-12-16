@@ -213,8 +213,8 @@ const APIConfig: IAPIConfig = {
     // client end
 
     //Chart Notes
-    CLIENT_INFO: {
-        URL: ENV.API_URL + "",
+    CLIENT_MEDICAL_INFO: {
+        URL:(clientId:string)=> ENV.API_URL + '/client/'+ clientId +'/medicalRecord',
         METHOD: "get"
     }
 }

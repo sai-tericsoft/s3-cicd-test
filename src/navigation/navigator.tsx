@@ -3,7 +3,7 @@ import {Navigate, Route, Routes, useLocation, useNavigate} from 'react-router-do
 import NotFoundScreen from "../screens/not-found/notFoundScreen";
 import AuthLayout from "../layouts/auth-layout/AuthLayout";
 import {
-    ADMIN, CLIENT_ADD, CLIENT_DETAILS, CLIENT_EDIT, CLIENT_INFO, CLIENT_LIST,
+    ADMIN, CLIENT_ADD, CLIENT_DETAILS, CLIENT_EDIT, CLIENT_LIST, CLIENT_MEDICAL_INFO,
     COMING_SOON_ROUTE,
     DESIGN_SYSTEM_ROUTE, FACILITY_DETAILS, FACILITY_LIST,
     LOGIN_ROUTE,
@@ -194,7 +194,7 @@ const Navigator = (props: NavigatorProps) => {
                     }
                 />
                 <Route
-                    path={CLIENT_INFO + '/:clientId'}
+                    path={CLIENT_MEDICAL_INFO + '/:clientId/medicalRecord'}
                     element={
                         <ProtectedRoute>
                             <ClientBasicDetailsComponent/>
