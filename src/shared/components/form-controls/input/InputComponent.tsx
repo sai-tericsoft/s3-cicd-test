@@ -35,7 +35,6 @@ const InputComponent = (props: InputComponentProps) => {
     const type = props.type || "text";
     const fullWidth = props.fullWidth || false;
     const placeholder = props.placeholder || label;
-
     const handleOnChange = useCallback((event: any) => {
         let value = event.target.value;
         let transformedValue = "";

@@ -4,7 +4,13 @@ import moment from "moment";
 
 const today = moment();
 const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-const yesNoOptions = ["Yes", "No"];
+const yesNoOptions = [{
+    title: "Yes",
+    code: true
+}, {
+    title: "No",
+    code: false
+}];
 
 const getConsultationDurationList = (payload: any) => {
     // @ts-ignore
@@ -71,6 +77,11 @@ const getBodyPartList = (payload: any) => {
     return ApiService[APIConfig.BODY_PART_LIST.METHOD](APIConfig.BODY_PART_LIST.URL, payload);
 }
 
+const getInjuryTypeList = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.INJURY_TYPE_LIST.METHOD](APIConfig.INJURY_TYPE_LIST.URL, payload);
+}
+
 const StaticDataService = {
     today,
     weekDays,
@@ -87,7 +98,8 @@ const StaticDataService = {
     getSocialMediaPlatformList,
     getReferralTypeList,
     getCommunicationModeTypeList,
-    getBodyPartList
+    getBodyPartList,
+    getInjuryTypeList
 }
 
 export default StaticDataService;

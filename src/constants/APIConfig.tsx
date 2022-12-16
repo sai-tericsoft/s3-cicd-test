@@ -61,6 +61,10 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + "/bodyParts",
         METHOD: "get"
     },
+    INJURY_TYPE_LIST: {
+        URL: ENV.API_URL + "/injuryTypes",
+        METHOD: "get"
+    },
     //meta end
 
     // authentication start
@@ -213,8 +217,26 @@ const APIConfig: IAPIConfig = {
     CLIENT_ACTIVITY_LOG: {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/activityLog',
         METHOD: 'get'
-    }
+    },
     // client end
+
+    // user start
+    USER_LIST: {
+        URL: ENV.API_URL + "/user",
+        METHOD: "get"
+    },
+    USER_LIST_LITE: {
+        URL: ENV.API_URL + "/user/lite",
+        METHOD: "get"
+    },
+    // user end
+
+    // chart notes start
+    MEDICAL_RECORD_ADD: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medicalRecord',
+        METHOD: "post"
+    }
+    // chart notes end
 }
 
 export default APIConfig;

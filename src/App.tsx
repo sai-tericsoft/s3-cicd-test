@@ -16,6 +16,7 @@ import {
     getConsultationDurationList,
     getEmploymentStatusList,
     getGenderList,
+    getInjuryTypeList,
     getLanguageList,
     getMedicalHistoryOptionsList,
     getMusculoskeletalHistoryOptionsList,
@@ -26,6 +27,7 @@ import {
     getSurgicalHistoryOptionsList
 } from "./store/actions/static-data.action";
 import AppVersionComponent from "./shared/components/app-version/appVersionComponent";
+import {getAllProvidersList} from "./store/actions/user.action";
 
 interface AppProps {
     setCurrentUser?: any;
@@ -100,6 +102,8 @@ const App = (props: AppProps) => {
             dispatch(getReferralTypeList());
             dispatch(getCommunicationModeTypeList());
             dispatch(getBodyPartsList());
+            dispatch(getInjuryTypeList());
+            dispatch(getAllProvidersList());
         }
     }, [token, dispatch])
 

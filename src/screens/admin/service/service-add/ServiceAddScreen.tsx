@@ -125,7 +125,8 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
             <div className={'service-category-service-add-form'}>
                 <FormControlLabelComponent label={"Add New Service"} size={'lg'}/>
                 {
-                    !serviceCategoryId && <StatusCardComponent title={"Service Category Not Found, Cannot add a service"}/>
+                    !serviceCategoryId &&
+                    <StatusCardComponent title={"Service Category Not Found, Cannot add a service"}/>
                 }
                 {
                     serviceCategoryId && <Formik
@@ -160,7 +161,6 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                         />
                                                     )
                                                 }
-
                                             </Field>
                                             <Field name={'description'}>
                                                 {
@@ -492,18 +492,19 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                         <>
                                             {
                                                 (values.image) && <>
-                                                    <FilePreviewThumbnailComponent removable={true}
-                                                                                   file={values.image}
-                                                                                   removeButtonId={"sv_delete_img"}
-                                                                                   onRemove={() => {
-                                                                                       setFieldValue('image', undefined);
-                                                                                   }}/>
+                                                    <FilePreviewThumbnailComponent
+                                                        file={values.image}
+                                                        removeButtonId={"sv_delete_img"}
+                                                        onRemove={() => {
+                                                            setFieldValue('image', undefined);
+                                                        }}/>
                                                 </>
                                             }
                                         </>
                                     </div>
                                     <div className="t-form-actions">
-                                        <LinkComponent route={CommonService._routeConfig.ServiceCategoryDetails(serviceCategoryId)}>
+                                        <LinkComponent
+                                            route={CommonService._routeConfig.ServiceCategoryDetails(serviceCategoryId)}>
                                             <ButtonComponent
                                                 variant={"outlined"}
                                                 disabled={isServiceAddInProgress}

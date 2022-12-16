@@ -1,9 +1,10 @@
-import { combineReducers } from "redux";
-import AccountReducer, { IAccountReducerState } from "./account.reducer";
+import {combineReducers} from "redux";
+import AccountReducer, {IAccountReducerState} from "./account.reducer";
 import NavigationReducer, {INavigationReducerState} from "./navigation.reducer";
 import StaticDataReducer, {IStaticDataReducerState} from "./static-data.reducer";
 import ClientReducer, {IClientReducerState} from "./client.reducer";
 import ServiceReducer, {IServiceReducerState} from "./service.reducer";
+import UserReducer, {IUserReducerState} from "./user.reducer";
 
 export interface IRootReducerState {
     account: IAccountReducerState,
@@ -11,6 +12,7 @@ export interface IRootReducerState {
     staticData: IStaticDataReducerState,
     client: IClientReducerState,
     service: IServiceReducerState,
+    user: IUserReducerState,
 }
 
 const rootReducer = combineReducers({
@@ -18,7 +20,8 @@ const rootReducer = combineReducers({
     navigation: NavigationReducer,
     staticData: StaticDataReducer,
     client: ClientReducer,
-    service: ServiceReducer
+    service: ServiceReducer,
+    user: UserReducer
 });
 
 export default rootReducer;

@@ -23,6 +23,7 @@ const SelectComponent = (props: SelectComponentProps) => {
         onUpdate,
         options,
         required,
+        disabled,
         ...otherProps
     } = props;
 
@@ -60,7 +61,8 @@ const SelectComponent = (props: SelectComponentProps) => {
 
     return (
         <FormControl className={'select-component ' + className + ' ' + (fullWidth ? "full-width" : "")}
-                     error={hasError} fullWidth={fullWidth} size={size}>
+                     error={hasError} fullWidth={fullWidth} size={size}
+                     disabled={disabled}>
             {
                 label && <InputLabel>
                     {label} {required ? " * " : ""}
@@ -77,7 +79,7 @@ const SelectComponent = (props: SelectComponentProps) => {
                 {...otherProps}
             >
                 {
-                    (options.length > 0) && options?.map((item, index) => {
+                    (options?.length > 0) && options?.map((item, index) => {
                         return <MenuItem key={keyExtractor ? keyExtractor(item) : `drop-down-option-${index}`}
                                          value={valueExtractor(item, index)}> {displayWith(item)} </MenuItem>;
                     })

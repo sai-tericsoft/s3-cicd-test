@@ -3,7 +3,7 @@ import {
     GET_COMMUNICATION_MODE_TYPE_LIST,
     GET_CONSULTATION_DURATION_LIST,
     GET_EMPLOYMENT_STATUS_LIST,
-    GET_GENDER_LIST,
+    GET_GENDER_LIST, GET_INJURY_TYPE_LIST,
     GET_LANGUAGE_LIST,
     GET_MEDICAL_HISTORY_OPTIONS_LIST,
     GET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
@@ -15,7 +15,7 @@ import {
     SET_COMMUNICATION_MODE_TYPE_LIST,
     SET_CONSULTATION_DURATION_LIST,
     SET_EMPLOYMENT_STATUS_LIST,
-    SET_GENDER_LIST,
+    SET_GENDER_LIST, SET_INJURY_TYPE_LIST,
     SET_LANGUAGE_LIST,
     SET_MEDICAL_HISTORY_OPTIONS_LIST,
     SET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
@@ -69,6 +69,9 @@ export interface IStaticDataReducerState {
     isBodyPartListLoading: boolean,
     isBodyPartListLoaded: boolean,
     bodyPartList: any[],
+    isInjuryTypeListLoading: boolean,
+    isInjuryTypeListLoaded: boolean,
+    injuryTypeList: any[],
 }
 
 
@@ -112,6 +115,9 @@ const initialData: IStaticDataReducerState = {
     isBodyPartListLoading: false,
     isBodyPartListLoaded: false,
     bodyPartList: [],
+    isInjuryTypeListLoading: false,
+    isInjuryTypeListLoaded: false,
+    injuryTypeList: [],
     statusList: [
         {
             code: true,
@@ -319,6 +325,21 @@ const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDa
                 isBodyPartListLoading: false,
                 isBodyPartListLoaded: true,
                 bodyPartList: action.payload.bodyPartList
+            };
+            return state;
+        case GET_INJURY_TYPE_LIST:
+            state = {
+                ...state,
+                isInjuryTypeListLoading: true,
+                isInjuryTypeListLoaded: false,
+            };
+            return state;
+        case SET_INJURY_TYPE_LIST:
+            state = {
+                ...state,
+                isInjuryTypeListLoading: false,
+                isInjuryTypeListLoaded: true,
+                injuryTypeList: action.payload.injuryTypeList
             };
             return state;
         default:

@@ -5,7 +5,7 @@ import {
     GET_COMMUNICATION_MODE_TYPE_LIST,
     GET_CONSULTATION_DURATION_LIST,
     GET_EMPLOYMENT_STATUS_LIST,
-    GET_GENDER_LIST,
+    GET_GENDER_LIST, GET_INJURY_TYPE_LIST,
     GET_LANGUAGE_LIST,
     GET_MEDICAL_HISTORY_OPTIONS_LIST,
     GET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
@@ -16,7 +16,7 @@ import {
     GET_SURGICAL_HISTORY_OPTIONS_LIST, setBodyPartsList, setCommunicationModeTypeList,
     setConsultationDurationList,
     setEmploymentStatusList,
-    setGenderList,
+    setGenderList, setInjuryTypeList,
     setLanguageList,
     setMedicalHistoryOptionsList,
     setMusculoskeletalHistoryOptionsList,
@@ -156,6 +156,16 @@ function* getBodyPartList() {
     }
 }
 
+function* getInjuryTypeList() {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._staticData.getInjuryTypeList);
+        yield put(setInjuryTypeList(resp?.data));
+    } catch (error: any) {
+        yield put(setInjuryTypeList([]));
+    }
+}
+
 export default function* staticDataSaga() {
     yield takeEvery(GET_CONSULTATION_DURATION_LIST, getConsultationDurationList);
     yield takeEvery(GET_GENDER_LIST, getGenderList);
@@ -170,4 +180,5 @@ export default function* staticDataSaga() {
     yield takeEvery(GET_REFERRAL_TYPE_LIST, getReferralTypeList);
     yield takeEvery(GET_COMMUNICATION_MODE_TYPE_LIST, getCommunicationModeTypeList);
     yield takeEvery(GET_BODY_PART_LIST, getBodyPartList);
+    yield takeEvery(GET_INJURY_TYPE_LIST, getInjuryTypeList);
 }

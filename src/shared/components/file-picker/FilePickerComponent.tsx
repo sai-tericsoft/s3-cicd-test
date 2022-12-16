@@ -3,8 +3,10 @@ import {useDropzone} from "react-dropzone";
 import {useCallback, useState} from "react";
 import {ImageConfig} from "../../../constants";
 import {CommonService} from "../../services";
+import ButtonComponent from "../button/ButtonComponent";
 
 interface FilePickerComponentProps {
+    showDropZone?: boolean;
     id?: string;
     uploadText?: string;
     acceptedFilesText?: string;
@@ -18,12 +20,13 @@ interface FilePickerComponentProps {
 const TOO_MANY_FILES_ERROR_CODE = "too-many-files";
 const INVALID_FILE_TYPE_ERROR_CODE = "file-invalid-type";
 
-type IFileType = "png" | "jpg" | "jpeg";
+type IFileType = "png" | "jpg" | "jpeg" | "pdf";
 
 const fileTypeMappings: any = {
     "png": 'image/png',
     "jpg": 'image/jpg',
     "jpeg": 'image/jpeg',
+    "pdf": "application/pdf"
 }
 
 const FilePickerComponent = (props: FilePickerComponentProps) => {
@@ -41,6 +44,7 @@ const FilePickerComponent = (props: FilePickerComponentProps) => {
 
     const {acceptedFilesText, id, disabled, maxFileCount, onFilesDrop, multiple} = props;
     const uploadText = props.uploadText || "Drag and drop or browse to choose a file";
+    const showDropZone = props.showDropZone !== undefined ? props.showDropZone : true;
 
     const onDrop = useCallback((acceptedFiles: any, rejectedFiles: any) => {
         // console.log("acceptedFiles", acceptedFiles);
@@ -95,23 +99,38 @@ const FilePickerComponent = (props: FilePickerComponentProps) => {
     });
 
     return (
-        <div className={`file-picker-wrapper ${isDragActive ? "drag-active" : ""}`} {...getRootProps()} >
-            <input id={id} {...getInputProps()} />
-            <div className="file-dnd-icon">
-                <ImageConfig.UploadIcon/>
-            </div>
-            <div className="file-dnd-title">
-                {uploadText}
-            </div>
-            {acceptedFilesText && <div className="accepted-files-type-text">
-                {acceptedFilesText}
-            </div>}
+        <>
             {
-                isDragReject && <div className="">
+                showDropZone &&
+                <div className={`file-picker-wrapper ${isDragActive ? "drag-active" : ""}`} {...getRootProps()} >
+                    <input id={id} {...getInputProps()} />
+                    <div className="file-dnd-icon">
+                        <ImageConfig.UploadIcon/>
+                    </div>
+                    <div className="file-dnd-title">
+                        {uploadText}
+                    </div>
+                    {acceptedFilesText && <div className="accepted-files-type-text">
+                        {acceptedFilesText}
+                    </div>}
+                    {
+                        isDragReject && <div className="">
 
+                        </div>
+                    }
                 </div>
             }
-        </div>
+            {
+                !showDropZone && <div {...getRootProps()}>
+                    <input id={id} {...getInputProps()} />
+                    <ButtonComponent variant={"outlined"}
+                                     prefixIcon={<ImageConfig.AddIcon/>}
+                    >
+                        Add Document
+                    </ButtonComponent>
+                </div>
+            }
+        </>
     );
 
 };

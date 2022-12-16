@@ -78,3 +78,8 @@ export interface IBodyPart {
     name: string;
     sides: string[];
 }
+
+export interface IInjuryType {
+    _id: string;
+    title: string;
+}

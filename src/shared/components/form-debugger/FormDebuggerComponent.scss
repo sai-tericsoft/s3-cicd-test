@@ -4,9 +4,14 @@
   right: 0;
   width: 500px;
   border: 2px dashed #777777;
-  height: calc(100vh - 30px);
+  max-height: calc(100vh - 30px);
   box-sizing: content-box;
-  padding: 10px;
   margin: 10px;
   overflow: auto;
+  z-index: 9999;
+  background: #fff;
+
+  .card-header {
+    cursor: move;
+  }
 }
