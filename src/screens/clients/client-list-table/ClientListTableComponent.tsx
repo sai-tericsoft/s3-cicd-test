@@ -22,7 +22,15 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             key: "client_id",
             dataIndex: "client_id",
             width: "10%",
-            fixed: "left"
+            fixed: "left",
+            render: (_: any, item: IClientBasicDetails) => {
+                if (item?._id) {
+                    return <LinkComponent route={CommonService._routeConfig.ClientDetails(item?._id)}>
+                        {item?.client_id}
+                    </LinkComponent>
+                }
+            }
+
         },
         {
             title: "Client Name",
