@@ -26,7 +26,6 @@ import IconButtonComponent from "../../../shared/components/icon-button/IconButt
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import moment from "moment";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import {useParams} from "react-router-dom";
 
 interface AddMedicalRecordScreenProps {
