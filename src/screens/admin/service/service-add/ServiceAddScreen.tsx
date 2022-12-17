@@ -161,7 +161,6 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                         />
                                                     )
                                                 }
-
                                             </Field>
                                             <Field name={'description'}>
                                                 {
@@ -491,12 +490,12 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                         <>
                                             {
                                                 (values.image) && <>
-                                                    <FilePreviewThumbnailComponent removable={true}
-                                                                                   file={values.image}
-                                                                                   removeButtonId={"sv_delete_img"}
-                                                                                   onRemove={() => {
-                                                                                       setFieldValue('image', undefined);
-                                                                                   }}/>
+                                                    <FilePreviewThumbnailComponent
+                                                        file={values.image}
+                                                        removeButtonId={"sv_delete_img"}
+                                                        onRemove={() => {
+                                                            setFieldValue('image', undefined);
+                                                        }}/>
                                                 </>
                                             }
                                         </>

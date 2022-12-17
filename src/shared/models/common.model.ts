@@ -72,3 +72,14 @@ export interface ICommunicationModeType {
     title: string;
     code: string;
 }
+
+export interface IBodyPart {
+    _id: string;
+    name: string;
+    sides: string[];
+}
+
+export interface IInjuryType {
+    _id: string;
+    title: string;
+}

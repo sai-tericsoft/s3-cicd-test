@@ -1,10 +1,11 @@
 import {call, put, takeEvery} from "redux-saga/effects";
 
 import {
+    GET_BODY_PART_LIST,
     GET_COMMUNICATION_MODE_TYPE_LIST,
     GET_CONSULTATION_DURATION_LIST,
     GET_EMPLOYMENT_STATUS_LIST,
-    GET_GENDER_LIST,
+    GET_GENDER_LIST, GET_INJURY_TYPE_LIST,
     GET_LANGUAGE_LIST,
     GET_MEDICAL_HISTORY_OPTIONS_LIST,
     GET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
@@ -12,10 +13,10 @@ import {
     GET_REFERRAL_TYPE_LIST,
     GET_RELATIONSHIP_LIST,
     GET_SOCIAL_MEDIA_PLATFORM_LIST,
-    GET_SURGICAL_HISTORY_OPTIONS_LIST, setCommunicationModeTypeList,
+    GET_SURGICAL_HISTORY_OPTIONS_LIST, setBodyPartsList, setCommunicationModeTypeList,
     setConsultationDurationList,
     setEmploymentStatusList,
-    setGenderList,
+    setGenderList, setInjuryTypeList,
     setLanguageList,
     setMedicalHistoryOptionsList,
     setMusculoskeletalHistoryOptionsList,
@@ -145,6 +146,26 @@ function* getCommunicationModeTypeList() {
     }
 }
 
+function* getBodyPartList() {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._staticData.getBodyPartList);
+        yield put(setBodyPartsList(resp?.data));
+    } catch (error: any) {
+        yield put(setBodyPartsList([]));
+    }
+}
+
+function* getInjuryTypeList() {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._staticData.getInjuryTypeList);
+        yield put(setInjuryTypeList(resp?.data));
+    } catch (error: any) {
+        yield put(setInjuryTypeList([]));
+    }
+}
+
 export default function* staticDataSaga() {
     yield takeEvery(GET_CONSULTATION_DURATION_LIST, getConsultationDurationList);
     yield takeEvery(GET_GENDER_LIST, getGenderList);
@@ -158,4 +179,6 @@ export default function* staticDataSaga() {
     yield takeEvery(GET_SOCIAL_MEDIA_PLATFORM_LIST, getSocialMediaPlatformList);
     yield takeEvery(GET_REFERRAL_TYPE_LIST, getReferralTypeList);
     yield takeEvery(GET_COMMUNICATION_MODE_TYPE_LIST, getCommunicationModeTypeList);
+    yield takeEvery(GET_BODY_PART_LIST, getBodyPartList);
+    yield takeEvery(GET_INJURY_TYPE_LIST, getInjuryTypeList);
 }

@@ -4,7 +4,13 @@ import moment from "moment";
 
 const today = moment();
 const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-const yesNoOptions = ["Yes", "No"];
+const yesNoOptions = [{
+    title: "Yes",
+    code: true
+}, {
+    title: "No",
+    code: false
+}];
 
 const getConsultationDurationList = (payload: any) => {
     // @ts-ignore
@@ -61,10 +67,19 @@ const getReferralTypeList = (payload: any) => {
     return ApiService[APIConfig.REFERRAL_TYPE_LIST.METHOD](APIConfig.REFERRAL_TYPE_LIST.URL, payload);
 }
 
-
 const getCommunicationModeTypeList = (payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.COMMUNICATION_MODE_TYPE_LIST.METHOD](APIConfig.COMMUNICATION_MODE_TYPE_LIST.URL, payload);
+}
+
+const getBodyPartList = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.BODY_PART_LIST.METHOD](APIConfig.BODY_PART_LIST.URL, payload);
+}
+
+const getInjuryTypeList = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.INJURY_TYPE_LIST.METHOD](APIConfig.INJURY_TYPE_LIST.URL, payload);
 }
 
 const StaticDataService = {
@@ -82,7 +97,9 @@ const StaticDataService = {
     getMusculoskeletalHistoryOptionsList,
     getSocialMediaPlatformList,
     getReferralTypeList,
-    getCommunicationModeTypeList
+    getCommunicationModeTypeList,
+    getBodyPartList,
+    getInjuryTypeList
 }
 
 export default StaticDataService;

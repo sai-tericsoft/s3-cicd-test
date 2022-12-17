@@ -1,0 +1,17 @@
+.form-debugger {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 500px;
+  border: 2px dashed #777777;
+  max-height: calc(100vh - 30px);
+  box-sizing: content-box;
+  margin: 10px;
+  overflow: auto;
+  z-index: 9999;
+  background: #fff;
+
+  .card-header {
+    cursor: move;
+  }
+}

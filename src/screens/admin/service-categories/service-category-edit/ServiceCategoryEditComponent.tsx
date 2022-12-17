@@ -176,12 +176,12 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                         <>
                                             {
                                                 (values.image) && <>
-                                                    <FilePreviewThumbnailComponent removable={true}
-                                                                                   file={values.image}
-                                                                                   removeButtonId={"sc_delete_img"}
-                                                                                   onRemove={() => {
-                                                                                       setFieldValue('image', undefined);
-                                                                                   }}
+                                                    <FilePreviewThumbnailComponent
+                                                        file={values.image}
+                                                        removeButtonId={"sc_delete_img"}
+                                                        onRemove={() => {
+                                                            setFieldValue('image', undefined);
+                                                        }}
                                                     />
                                                 </>
                                             }
