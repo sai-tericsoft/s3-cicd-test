@@ -99,8 +99,7 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                     className={"mrg-bottom-20 display-flex align-items-center justify-content-space-between"}>
                                     <FormControlLabelComponent label={"Edit Service Category"}
                                                                size={"lg"}
-                                                               className={"mrg-bottom-0"}
-                                                               required={true}/>
+                                                               className={"mrg-bottom-0"}/>
                                     <div className={"display-flex align-items-center"}>
                                         <div>Status:</div>
                                         <Field name={'is_active'} className="t-form-control">

@@ -61,8 +61,7 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
         <div className="service-category-add-component">
             <div className="service-category-add-form-container">
                 <FormControlLabelComponent label={"Add New Service Category"}
-                                           size={"lg"}
-                                           required={true}/>
+                                           size={"lg"}/>
                 <Formik
                     validationSchema={serviceCategoryAddFormValidationSchema}
                     initialValues={serviceCategoryAddFormInitialValues}

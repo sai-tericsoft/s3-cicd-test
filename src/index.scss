@@ -7,5 +7,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: $body-color;
   background: $body-background-color;
-  font-size: 14px;
+  font-size: 10px;
+
+  @include md() {
+    font-size: 12px;
+  }
+
+  @include lg() {
+    font-size: 14px;
+  }
+
+
 }

@@ -47,6 +47,8 @@ const InputComponent = (props: InputComponentProps) => {
             onChange(transformedValue);
         }
     }, [titleCase, onChange]);
+    
+    console.log(name, errorMessage);
 
     return (
         <FormControl className={'input-component ' + className + ' ' + (fullWidth ? "full-width" : "")}
