@@ -87,6 +87,10 @@ const NavigateToClientEdit = (clientId: string, step: IClientFormSteps) => {
     return RouteConfigService.ClientEdit(clientId) + "?currentStep=" + step;
 }
 
+const HandleICDStar=()=>{
+
+}
+
 const ClientService={
     ClientBasicDetailsAddAPICall,
     ClientBasicDetailsAPICall,
@@ -104,7 +108,8 @@ const ClientService={
     ClientBasicDetailsEditAPICall,
     NavigateToClientEdit,
     NavigateToClientDetails,
-    ClientAccountDetailsEditAPICall
+    ClientAccountDetailsEditAPICall,
+    HandleICDStar
 }
 
 export default ClientService;

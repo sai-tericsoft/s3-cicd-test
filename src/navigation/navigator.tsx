@@ -214,9 +214,6 @@ const Navigator = (props: NavigatorProps) => {
                     }
                 />
             </Route>
-
-
-
             <Route path={TEST_ROUTE} element={<TestScreen/>}/>
             <Route path={DESIGN_SYSTEM_ROUTE} element={<DesignSystemScreen/>}/>
             <Route path={NOT_FOUND_ROUTE} element={<NotFoundScreen/>}/>
