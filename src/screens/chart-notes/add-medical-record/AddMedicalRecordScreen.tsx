@@ -27,6 +27,7 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import moment from "moment";
 import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
+import {useParams} from "react-router-dom";
 
 interface AddMedicalRecordScreenProps {
 
@@ -37,7 +38,6 @@ const MEDICAL_RECORD_BODY_PART = {
     body_side: "",
     injury_type_id: "",
 };
-
 
 const MedicalRecordAddFormInitialValues: any = { // TODO type properly
     date_of_onset: "",
@@ -55,7 +55,7 @@ const MedicalRecordAddFormInitialValues: any = { // TODO type properly
     limitations: "",
     surgery_details: {
         surgery_date: "",
-        reported_by: "",
+        reported_by: undefined,
         surgeon_name: "",
         details: "",
         documents: []
@@ -73,13 +73,13 @@ const MedicalRecordAddFormValidationSchema = Yup.object({
 
 const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
 
-    const clientId = "63905e4ba2bba5718d3b4c4a"; // TODO get from route params
+    const {clientId} = useParams();
     const dispatch = useDispatch();
     const {injuryTypeList, bodyPartList} = useSelector((state: IRootReducerState) => state.staticData);
     const {allProvidersList} = useSelector((state: IRootReducerState) => state.user);
     const [addMedicalRecordFormInitialValues] = useState<any>(_.cloneDeep(MedicalRecordAddFormInitialValues));  // TODO type properly
     const [isMedicalRecordAddInProgress, setIsMedicalRecordAddInProgress] = useState<boolean>(false);
-    const [isSurgeryRecordDrawerOpen, setIsSurgeryRecordDrawerOpen] = useState<boolean>(true);
+    const [isSurgeryRecordDrawerOpen, setIsSurgeryRecordDrawerOpen] = useState<boolean>(false);
 
     useEffect(() => {
         dispatch(setCurrentNavParams("Add New Medical Record"));
@@ -94,22 +94,25 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
     }, []);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        setIsMedicalRecordAddInProgress(true);
-        values.surgery_details.reported_by = values?.surgery_details?.reported_by?._id;
-        values.date_of_onset = CommonService.convertDateFormat(values?.date_of_onset);
-        values.case_physician.next_appointment = CommonService.convertDateFormat(values?.case_physician?.next_appointment);
-        values.surgery_details.surgery_date = CommonService.convertDateFormat(values?.surgery_details?.surgery_date);
-        const formData = CommonService.getFormDataFromJSON(values);
-        CommonService._chartNotes.MedicalRecordAddAPICall(clientId, formData)
-            .then((response: IAPIResponseType<any>) => {
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                setIsMedicalRecordAddInProgress(false);
-            })
-            .catch((error: any) => {
-                CommonService.handleErrors(setErrors, error);
-                setIsMedicalRecordAddInProgress(false);
-            })
-    }, []);
+        if (clientId) {
+            setIsMedicalRecordAddInProgress(true);
+            values.surgery_details.reported_by = values?.surgery_details?.reported_by?._id;
+            values.date_of_onset = CommonService.convertDateFormat(values?.date_of_onset);
+            values.case_physician.next_appointment = CommonService.convertDateFormat(values?.case_physician?.next_appointment);
+            values.surgery_details.surgery_date = CommonService.convertDateFormat(values?.surgery_details?.surgery_date);
+            const formData = CommonService.getFormDataFromJSON(values);
+            CommonService._chartNotes.MedicalRecordAddAPICall(clientId, formData)
+                .then((response: IAPIResponseType<any>) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    setIsMedicalRecordAddInProgress(false);
+                    // TODO to redirect to medical intervention details screen to fill chart notes.
+                })
+                .catch((error: any) => {
+                    CommonService.handleErrors(setErrors, error);
+                    setIsMedicalRecordAddInProgress(false);
+                })
+        }
+    }, [clientId]);
 
     return (
         <div className={'add-medical-record-screen'}>
@@ -128,7 +131,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
-                            <FormDebuggerComponent values={values} errors={errors}/>
+                            {/*<FormDebuggerComponent values={values} errors={errors}/>*/}
                             {
                                 (!SurgeryRecordValidationSchema.isValidSync(values?.surgery_details)) && <div
                                     className={"mrg-bottom-20 display-flex flex-direction-row-reverse"}>
@@ -195,7 +198,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                     {
                                                         values?.surgery_details?.documents?.length === 0 && "NA"
                                                     }
-                                                    {   values?.surgery_details?.documents?.map((item: any, index: any) => {
+                                                    {values?.surgery_details?.documents?.map((item: any, index: any) => {
                                                         return (
                                                             <FilePreviewThumbnailComponent file={item}
                                                                                            variant={"compact"}
@@ -474,9 +477,10 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                             <DrawerComponent isOpen={isSurgeryRecordDrawerOpen}
                                              showClose={true}
                                              onClose={handleSurgeryRecordDrawerClose}
+                                             className={"t-surgery-record-drawer"}
                             >
-                                <FormControlLabelComponent label={"Add Surgery Record"}/>
-                                <div>
+                                <FormControlLabelComponent label={"Surgery Record"}/>
+                                <div className={"t-surgery-record-drawer-form-controls"}>
                                     <Field name={'surgery_details.surgery_date'}>
                                         {
                                             (field: FieldProps) => (
@@ -557,13 +561,13 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                         }}
                                         acceptedFileTypes={["pdf"]}
                                     />
-                                    <div className="t-form-actions mrg-top-20">
-                                        <ButtonComponent fullWidth={true}
-                                                         disabled={!SurgeryRecordValidationSchema.isValidSync(values?.surgery_details)}
-                                                         onClick={handleSurgeryRecordDrawerClose}>
-                                            Save
-                                        </ButtonComponent>
-                                    </div>
+                                </div>
+                                <div className="t-form-actions mrg-top-20">
+                                    <ButtonComponent fullWidth={true}
+                                                     disabled={!SurgeryRecordValidationSchema.isValidSync(values?.surgery_details)}
+                                                     onClick={handleSurgeryRecordDrawerClose}>
+                                        Save
+                                    </ButtonComponent>
                                 </div>
                             </DrawerComponent>
                         </Form>
