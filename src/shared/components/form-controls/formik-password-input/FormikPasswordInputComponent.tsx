@@ -11,23 +11,7 @@ interface FormikPasswordInputComponentProps extends PasswordInputComponentProps 
 
 const FormikPasswordInputComponent = (props: FormikPasswordInputComponentProps) => {
 
-    const {
-        label,
-        prefix,
-        className,
-        disabled,
-        id,
-        required,
-        formikField,
-        canToggle,
-        onChange
-    } = props;
-
-    const variant = props.variant || "outlined";
-    const size = props.size || "medium";
-    const fullWidth = props.fullWidth || false;
-    const placeholder = props.placeholder || label;
-
+    const {formikField, onChange, ...otherProps} = props;
     const {field, form} = formikField;
     const {name, value} = field;
     const {setFieldTouched, touched, handleBlur, errors, setFieldValue} = form;
@@ -47,24 +31,16 @@ const FormikPasswordInputComponent = (props: FormikPasswordInputComponentProps) 
     }, [name, handleBlur, setFieldTouched]);
 
     return (
-        <PasswordInputComponent label={label}
-                                disabled={disabled}
-                                id={id}
-                                name={name}
-                                required={required}
-                                value={value}
-                                size={size} className={className}
-                                fullWidth={fullWidth}
-                                variant={variant}
-                                placeholder={placeholder}
-                                inputProps={{
-                                    onBlur: onInputBlur,
-                                }}
-                                canToggle={canToggle}
-                                onChange={textChangeHandler}
-                                prefix={prefix}
-                                hasError={hasError}
-                                errorMessage={hasError && (_.get(errors, name))}
+        <PasswordInputComponent
+            name={name}
+            value={value}
+            inputProps={{
+                onBlur: onInputBlur,
+            }}
+            onChange={textChangeHandler}
+            hasError={hasError}
+            errorMessage={hasError && (_.get(errors, name))}
+            {...otherProps}
         />
     );
 
