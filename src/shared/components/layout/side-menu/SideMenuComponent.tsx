@@ -39,7 +39,9 @@ const SideMenuComponent = (props: SideMenuComponentProps) => {
                 {
                     menuList.map((menu, index) => {
                         return <NavLink key={menu.title} to={menu.path} className="menu-item"
-                                        id={`${menu.title.toLowerCase().split(' ').join('_')}_menu`}>
+                                        id={`${menu.title.toLowerCase().split(' ').join('_')}_menu`}
+                                        {...props}
+                        >
                         <span className="menu-item-icon">
                             <menu.icon/>
                         </span>

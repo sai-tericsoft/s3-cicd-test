@@ -8,16 +8,12 @@
     align-items: center;
     margin-bottom: 10px;
 
-    .facility-list-title {
-      font-weight: $font-weight-bolder;
-      letter-spacing: 0.5px;
-      color: #6D6D6D;
-      font-size: 1.4286rem;
+    .facility-list-filters {
+      flex: 1;
     }
 
     .facility-list-options {
-
-
+      flex: 0;
     }
   }
 

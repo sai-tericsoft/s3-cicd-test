@@ -2,13 +2,14 @@ import "./FacilityListScreen.scss";
 import {ITableColumn} from "../../../../shared/models/table.model";
 import {APIConfig} from "../../../../constants";
 import TableWrapperComponent from "../../../../shared/components/table-wrapper/TableWrapperComponent";
-import {IFacility} from "../../../../shared/models/facility.model";
+import {IFacility, IFacilityListFilterState} from "../../../../shared/models/facility.model";
 import ChipComponent from "../../../../shared/components/chip/ChipComponent";
 import LinkComponent from "../../../../shared/components/link/LinkComponent";
 import {CommonService} from "../../../../shared/services";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import {useDispatch} from "react-redux";
+import SearchComponent from "../../../../shared/components/search/SearchComponent";
 
 interface FacilityListScreenProps {
 
@@ -17,6 +18,9 @@ interface FacilityListScreenProps {
 const FacilityListScreen = (props: FacilityListScreenProps) => {
 
     const dispatch = useDispatch();
+    const [facilityListFilterState, setFacilityListFilterState] = useState<IFacilityListFilterState>({
+        search: "",
+    });
 
     const FacilityListColumns: ITableColumn[] = [
         {
@@ -70,12 +74,21 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
         dispatch(setCurrentNavParams("Admin"));
     }, [dispatch]);
 
-
     return (
         <div className={'facility-list-screen'}>
             <div className="facility-list-header">
-                <div className="facility-list-title">
-                    Facility Management
+                <div className="facility-list-filters">
+                    <div className="ts-row">
+                        <div className="ts-col-lg-3">
+                            <SearchComponent
+                                label={"Search for clients"}
+                                value={facilityListFilterState.search}
+                                onSearchChange={(value) => {
+                                    setFacilityListFilterState({...facilityListFilterState, search: value})
+                                }}
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
             <div className="facility-list-wrapper">
