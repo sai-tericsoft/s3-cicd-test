@@ -2,16 +2,21 @@ import "./FormikPasswordInputComponent.scss";
 import {FieldProps} from "formik";
 import _ from "lodash";
 import {useCallback} from "react";
-import PasswordInputComponent, {PasswordInputComponentProps} from "../password-input/PasswordInputComponent";
+import PasswordInputComponent from "../password-input/PasswordInputComponent";
+import {IPasswordFieldProps} from "../../../models/form-controls.model";
 
-interface FormikPasswordInputComponentProps extends PasswordInputComponentProps {
+interface FormikPasswordInputComponentProps extends IPasswordFieldProps {
     formikField: FieldProps;
-    canToggle?: boolean;
 }
 
 const FormikPasswordInputComponent = (props: FormikPasswordInputComponentProps) => {
 
-    const {formikField, onChange, ...otherProps} = props;
+    const {
+        formikField,
+        onChange,
+        ...otherProps
+    } = props;
+
     const {field, form} = formikField;
     const {name, value} = field;
     const {setFieldTouched, touched, handleBlur, errors, setFieldValue} = form;
@@ -37,9 +42,9 @@ const FormikPasswordInputComponent = (props: FormikPasswordInputComponentProps) 
             inputProps={{
                 onBlur: onInputBlur,
             }}
-            onChange={textChangeHandler}
             hasError={hasError}
             errorMessage={hasError && (_.get(errors, name))}
+            onChange={textChangeHandler}
             {...otherProps}
         />
     );
