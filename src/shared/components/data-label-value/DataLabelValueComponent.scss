@@ -8,11 +8,10 @@
     font-size: 14px;
     line-height: 16px;
     letter-spacing: 0.5px;
-    color: #A9B2B9;
+    color: #949494;
   }
 
   .data-value {
-    font-weight: 500;
     font-size: 16px;
     line-height: 19px;
     align-items: center;
@@ -22,7 +21,7 @@
   &.row {
     flex-direction: row;
 
-    &:not(:first-child){
+    &:not(:first-child) {
       .data-label {
         margin-left: 6px;
       }
