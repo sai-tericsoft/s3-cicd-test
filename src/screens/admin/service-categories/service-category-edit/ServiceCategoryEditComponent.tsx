@@ -27,7 +27,7 @@ const serviceCategoryEditFormValidationSchema = Yup.object({
     name: Yup.string()
         .required("Name is required"),
     description: Yup.string()
-        .nullable(),
+        .required("Description is required"),
     image: Yup.mixed()
         .required("Image is required"),
     is_active: Yup.mixed()
@@ -60,7 +60,7 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                 onEdit(response.data);
             })
             .catch((error: any) => {
-                CommonService.handleErrors(setErrors, error);
+                CommonService.handleErrors(setErrors, error, true);
                 setIsServiceCategoryEditInProgress(false);
             })
     }, [serviceCategory, onEdit]);
@@ -143,6 +143,7 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                                     formikField={field}
                                                     fullWidth={true}
                                                     id={"sc_desc_input"}
+                                                    required={true}
                                                 />
                                             )
                                         }

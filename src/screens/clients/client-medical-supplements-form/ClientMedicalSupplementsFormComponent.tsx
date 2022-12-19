@@ -21,6 +21,7 @@ interface ClientMedicalSupplementsFormComponentProps {
     clientId: string;
     mode: "add" | "edit";
     onCancel: () => void;
+    onNext?: () => void;
     onSave: (clientMedicalSupplementsDetails: any) => void;
 }
 
@@ -41,7 +42,7 @@ const ClientMedicalSupplementsInitialValues: IClientMedicalSupplementsForm = {
 
 const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFormComponentProps) => {
 
-    const {mode, onCancel, clientId, onSave} = props;
+    const {mode, onCancel, onNext, clientId, onSave} = props;
     const [clientMedicalSupplementsInitialValues, setClientMedicalSupplementsInitialValues] = useState<IClientMedicalSupplementsForm>(_.cloneDeep(ClientMedicalSupplementsInitialValues));
     const [isClientMedicalSupplementsSavingInProgress, setIsClientMedicalSupplementsSavingInProgress] = useState(false);
 
@@ -65,7 +66,7 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
                 onSave(response);
             })
             .catch((error: any) => {
-                CommonService.handleErrors(setErrors, error);
+                CommonService.handleErrors(setErrors, error, true);
                 setIsClientMedicalSupplementsSavingInProgress(false);
             })
     }, [clientId, onSave, mode]);
@@ -161,11 +162,21 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
                                                 isLoading={isClientMedicalSupplementsSavingInProgress}
-                                                disabled={isClientMedicalSupplementsSavingInProgress || !isValid}
+                                                disabled={isClientMedicalSupplementsSavingInProgress || !isValid || CommonService.isEqual(values, clientMedicalSupplementsInitialValues)}
                                                 type={"submit"}
                                             >
                                                 {isClientMedicalSupplementsSavingInProgress ? "Saving" : <>{mode === "add" ? "Save & Next" : "Save"}</>}
                                             </ButtonComponent>
+                                            {
+                                                mode === "edit" && <>
+                                                    &nbsp;&nbsp;<ButtonComponent
+                                                    disabled={isClientMedicalSupplementsSavingInProgress || !CommonService.isEqual(values, clientMedicalSupplementsInitialValues)}
+                                                    onClick={onNext}
+                                                >
+                                                    Next
+                                                </ButtonComponent>
+                                                </>
+                                            }
                                         </div>
                                     </Form>
                                 )

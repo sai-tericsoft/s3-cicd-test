@@ -107,7 +107,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                     // TODO to redirect to medical intervention details screen to fill chart notes.
                 })
                 .catch((error: any) => {
-                    CommonService.handleErrors(setErrors, error);
+                    CommonService.handleErrors(setErrors, error, true);
                     setIsMedicalRecordAddInProgress(false);
                 })
         }
@@ -255,6 +255,8 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                 (field: FieldProps) => (
                                                     <FormikSelectComponent
                                                         options={CommonService._staticData.yesNoOptions}
+                                                        displayWith={(option) => option.title}
+                                                        valueExtractor={(option) => option.title}
                                                         label={'Is there a Case Physician?'}
                                                         formikField={field}
                                                         required={true}
@@ -294,6 +296,8 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                         (field: FieldProps) => (
                                                             <FormikSelectComponent
                                                                 options={CommonService._staticData.yesNoOptions}
+                                                                displayWith={(option) => option.title}
+                                                                valueExtractor={(option) => option.title}
                                                                 label={'Treated Script Received'}
                                                                 formikField={field}
                                                                 required={true}

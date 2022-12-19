@@ -54,7 +54,7 @@ const HeaderComponent = (props: HeaderComponentProps) => {
                     </IconButtonComponent>
                 }
                 <div className="header-title">
-                    {title}
+                    {!!onNavigateBack ? "Back": title}
                 </div>
             </div>
             <div className="header-options">

@@ -60,11 +60,11 @@ const ServiceEditFormInitialValues: IService = {
 
 const serviceEditFormValidationSchema = Yup.object({
     name: Yup.string()
-        .required('The name field is required'),
+        .required('Service Name field is required'),
     description: Yup.string()
-        .nullable(),
+        .required("Service Description is required"),
     image: Yup.mixed()
-        .required('The image field is required'),
+        .required('Image field is required'),
     initial_consultation: Yup.array(Yup.object({
             title: Yup.string().nullable(),
             consultation_details: Yup.array(Yup.object({
@@ -170,7 +170,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                     }
                 })
                 .catch((error: any) => {
-                    CommonService.handleErrors(setErrors, error);
+                    CommonService.handleErrors(setErrors, error, true);
                     setIsServiceEditInProgress(false);
                 });
         }
@@ -249,6 +249,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                      label={'Service Description'}
                                                                                      placeholder={'Service Description'}
                                                                                      fullWidth={true}
+                                                                                     required={true}
                                                                                      id={"sv_edit_desc_input"}
                                                             />)
                                                     }

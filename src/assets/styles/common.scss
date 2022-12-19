@@ -351,11 +351,26 @@
       flex: 1;
       overflow: auto;
 
-      .t-surgery-record-drawer-form-controls{
+      .t-surgery-record-drawer-form-controls {
         overflow: auto;
         flex: 1;
         padding-top: 6px;
       }
+    }
+  }
+}
+
+.form-question-list {
+  .form-question {
+    border-bottom: 1px solid #ddd;
+    min-height: 74px;
+
+    .input-component {
+      margin-bottom: 0 !important;
+    }
+
+    &:last-child {
+      border-bottom: none;
     }
   }
 }

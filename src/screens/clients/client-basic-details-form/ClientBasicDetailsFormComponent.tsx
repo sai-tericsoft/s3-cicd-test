@@ -29,24 +29,6 @@ interface ClientBasicDetailsFormComponentProps {
     onSave: (clientBasicDetails: any) => void;
 }
 
-const ContactInfoValidationSchema = Yup.object({
-    phone_type: Yup.string().required('Phone type is required'),
-    phone: Yup.string().required('Phone number is required'),
-});
-
-const EmailValidationSchema = Yup.object({
-    email: Yup.string().required('Email is required').email('Invalid email'),
-});
-
-const ContactInfoObject = {
-    phone_type: "",
-    phone: "",
-};
-
-const EmailObject = {
-    email: "",
-};
-
 const ClientBasicDetailsFormValidationSchema = Yup.object({
     first_name: Yup.string().required('First Name is required'),
     last_name: Yup.string().required('Last Name is required'),
@@ -58,16 +40,19 @@ const ClientBasicDetailsFormValidationSchema = Yup.object({
         employment_status: Yup.string().required('Employment Status is required'),
     }),
     primary_email: Yup.string().required('Primary email is required'),
-    primary_contact_info: ContactInfoValidationSchema,
-    secondary_contact_info: Yup.array(ContactInfoValidationSchema),
-    secondary_emails: Yup.array(EmailValidationSchema),
+    primary_contact_info: Yup.object({
+        phone_type: Yup.string().required('Phone type is required'),
+        phone: Yup.string().required('Phone number is required'),
+    }),
     emergency_contact_info: Yup.object({
         primary_emergency: Yup.object({
             name: Yup.string().required('Full Name is required'),
             relationship: Yup.string().required('Relationship is required'),
             language: Yup.string().required('Language is required'),
-            primary_contact_info: ContactInfoValidationSchema,
-            secondary_contact_info: Yup.array(ContactInfoValidationSchema),
+            primary_contact_info: Yup.object({
+                phone_type: Yup.string().required('Phone Type is required'),
+                phone: Yup.string().required('Phone Number is required'),
+            })
         })
     }),
     address: Yup.object({
@@ -88,23 +73,49 @@ const ClientBasicDetailsFormInitialValues: IClientBasicDetails = {
     ssn: "",
     primary_email: "",
     show_secondary_emergency_form: false,
-    secondary_emails: [EmailObject],
-    primary_contact_info: ContactInfoObject,
-    secondary_contact_info: [ContactInfoObject],
+    secondary_emails: [{
+        email: ""
+    }],
+    primary_contact_info: {
+        phone_type: "",
+        phone: ""
+    },
+    secondary_contact_info: [
+        {
+            phone_type: "",
+            phone: ""
+        }
+    ],
     emergency_contact_info: {
         primary_emergency: {
             name: "",
             relationship: "",
             language: "",
-            primary_contact_info: ContactInfoObject,
-            secondary_contact_info: [ContactInfoObject]
+            primary_contact_info: {
+                phone_type: "",
+                phone: ""
+            },
+            secondary_contact_info: [
+                {
+                    phone_type: "",
+                    phone: ""
+                }
+            ]
         },
         secondary_emergency: {
             name: "",
             relationship: "",
             language: "",
-            primary_contact_info: ContactInfoObject,
-            secondary_contact_info: [ContactInfoObject]
+            primary_contact_info: {
+                phone_type: "",
+                phone: ""
+            },
+            secondary_contact_info: [
+                {
+                    phone_type: "",
+                    phone: ""
+                }
+            ]
         }
     },
     work_info: {
@@ -144,10 +155,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
     } = useSelector((state: IRootReducerState) => state.staticData);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        const payload = {
-            ...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['language_details', 'phone_type_details', 'relationship_details', 'gender_details', 'employment_status_details']),
-            mode
-        };
+        const payload = {...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['language_details', 'phone_type_details', 'relationship_details', 'gender_details', 'employment_status_details' ]), mode};
         payload['dob'] = CommonService.convertDateFormat(payload['dob']);
         setIsClientBasicDetailsSavingInProgress(true);
         let apiCall;
@@ -162,7 +170,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
             dispatch(setClientBasicDetails(response.data));
             onSave(response.data);
         }).catch((error: any) => {
-            CommonService.handleErrors(setErrors, error);
+            CommonService.handleErrors(setErrors, error, true);
             setIsClientBasicDetailsSavingInProgress(false);
         })
     }, [clientId, dispatch, mode, onSave]);
@@ -222,14 +230,13 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                     validateOnBlur={true}
                     enableReinitialize={true}
                     validateOnMount={true}>
-                    {({values, errors, setFieldValue, validateForm}) => {
+                    {({values, touched, errors, setFieldValue, validateForm}) => {
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
                             validateForm();
                         }, [validateForm, values]);
                         return (
                             <Form noValidate={true} className={"t-form"}>
-                                {/*<pre>{JSON.stringify(errors?.secondary_contact_info ? errors?.secondary_contact_info[0] : [], null, 2)}</pre>*/}
                                 {
                                     mode === "edit" && <div
                                         className={"mrg-bottom-20 display-flex flex-direction-row-reverse"}>
@@ -407,12 +414,11 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                 <Field name={`secondary_contact_info[${index}].phone_type`}>
                                                                     {
                                                                         (field: FieldProps) => (
-                                                                            <FormikInputComponent
-                                                                                label={'Phone Type (Secondary)'}
-                                                                                placeholder={'Phone Type (Secondary)'}
+                                                                            <FormikSelectComponent
+                                                                                options={phoneTypeList}
+                                                                                label={'Phone Type'}
                                                                                 formikField={field}
                                                                                 fullWidth={true}
-                                                                                required={true}
                                                                             />
                                                                         )
                                                                     }
@@ -423,11 +429,11 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                     {
                                                                         (field: FieldProps) => (
                                                                             <FormikInputComponent
-                                                                                label={'Phone Number (Secondary)'}
-                                                                                placeholder={'Phone Number (Secondary)'}
+                                                                                label={'Phone Number'}
+                                                                                placeholder={'Phone Number'}
+                                                                                type={"text"}
                                                                                 formikField={field}
                                                                                 fullWidth={true}
-                                                                                required={true}
                                                                             />
                                                                         )
                                                                     }
@@ -436,23 +442,26 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                             <div className="ts-col-md-2">
                                                                 <IconButtonComponent className={"form-helper-icon"}
                                                                                      onClick={() => {
-                                                                                         arrayHelpers.remove(index);
+                                                                                         arrayHelpers.push({
+                                                                                             phone_type: undefined,
+                                                                                             phone: undefined
+                                                                                         });
                                                                                      }}
                                                                 >
-                                                                    <ImageConfig.DeleteIcon/>
+                                                                    <ImageConfig.AddCircleIcon/>
                                                                 </IconButtonComponent>
+                                                                {index > 0 &&
+                                                                    <IconButtonComponent className={"form-helper-icon"}
+                                                                                         onClick={() => {
+                                                                                             arrayHelpers.remove(index);
+                                                                                         }}
+                                                                    >
+                                                                        <ImageConfig.DeleteIcon/>
+                                                                    </IconButtonComponent>}
                                                             </div>
                                                         </div>
                                                     )
                                                 })}
-                                                <ButtonComponent variant={"outlined"}
-                                                                 onClick={() => {
-                                                                     arrayHelpers.push(_.cloneDeep(ContactInfoObject));
-                                                                 }}
-                                                                 prefixIcon={<ImageConfig.AddIcon/>}
-                                                >
-                                                    Add Secondary Phone Number
-                                                </ButtonComponent>
                                             </>
                                         )}/>
                                     <div className="ts-row">
@@ -495,7 +504,6 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                                 type={"email"}
                                                                                 formikField={field}
                                                                                 fullWidth={true}
-                                                                                required={true}
                                                                             />
                                                                         )
                                                                     }
@@ -504,23 +512,25 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                             <div className="ts-col-md-2">
                                                                 <IconButtonComponent className={"form-helper-icon"}
                                                                                      onClick={() => {
-                                                                                         arrayHelpers.remove(index);
+                                                                                         arrayHelpers.push({
+                                                                                             email: undefined,
+                                                                                         });
                                                                                      }}
                                                                 >
-                                                                    <ImageConfig.DeleteIcon/>
+                                                                    <ImageConfig.AddCircleIcon/>
                                                                 </IconButtonComponent>
+                                                                {index > 0 &&
+                                                                    <IconButtonComponent className={"form-helper-icon"}
+                                                                                         onClick={() => {
+                                                                                             arrayHelpers.remove(index);
+                                                                                         }}
+                                                                    >
+                                                                        <ImageConfig.DeleteIcon/>
+                                                                    </IconButtonComponent>}
                                                             </div>
                                                         </div>
                                                     )
                                                 })}
-                                                <ButtonComponent variant={"outlined"}
-                                                                 onClick={() => {
-                                                                     arrayHelpers.push(_.cloneDeep(EmailObject));
-                                                                 }}
-                                                                 prefixIcon={<ImageConfig.AddIcon/>}
-                                                >
-                                                    Add Secondary Email
-                                                </ButtonComponent>
                                             </>
                                         )}/>
                                 </CardComponent>
@@ -730,7 +740,6 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                                 label={'Phone Type'}
                                                                                 formikField={field}
                                                                                 fullWidth={true}
-                                                                                required={true}
                                                                             />
                                                                         )
                                                                     }
@@ -747,7 +756,6 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                                 type={"text"}
                                                                                 formikField={field}
                                                                                 fullWidth={true}
-                                                                                required={true}
                                                                             />
                                                                         )
                                                                     }
@@ -756,24 +764,26 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                             <div className="ts-col-md-2">
                                                                 <IconButtonComponent className={"form-helper-icon"}
                                                                                      onClick={() => {
-                                                                                         arrayHelpers.remove(index);
+                                                                                         arrayHelpers.push({
+                                                                                             phone_type: undefined,
+                                                                                             phone: undefined
+                                                                                         });
                                                                                      }}
                                                                 >
-                                                                    <ImageConfig.DeleteIcon/>
+                                                                    <ImageConfig.AddCircleIcon/>
                                                                 </IconButtonComponent>
+                                                                {index > 0 &&
+                                                                    <IconButtonComponent className={"form-helper-icon"}
+                                                                                         onClick={() => {
+                                                                                             arrayHelpers.remove(index);
+                                                                                         }}
+                                                                    >
+                                                                        <ImageConfig.DeleteIcon/>
+                                                                    </IconButtonComponent>}
                                                             </div>
                                                         </div>
                                                     )
                                                 })}
-                                                <ButtonComponent className={"mrg-bottom-20"}
-                                                                 variant={"outlined"}
-                                                                 onClick={() => {
-                                                                     arrayHelpers.push(_.cloneDeep(ContactInfoObject));
-                                                                 }}
-                                                                 prefixIcon={<ImageConfig.AddIcon/>}
-                                                >
-                                                    Add Secondary Phone Number
-                                                </ButtonComponent>
                                             </>
                                         )}/>
                                     {
@@ -922,7 +932,10 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                         <div className="ts-col-md-2">
                                                                             <IconButtonComponent className={"form-helper-icon"}
                                                                                                  onClick={() => {
-                                                                                                     arrayHelpers.push(_.cloneDeep(ContactInfoObject));
+                                                                                                     arrayHelpers.push({
+                                                                                                         phone_type: undefined,
+                                                                                                         phone: undefined
+                                                                                                     });
                                                                                                  }}
                                                                             >
                                                                                 <ImageConfig.AddCircleIcon/>

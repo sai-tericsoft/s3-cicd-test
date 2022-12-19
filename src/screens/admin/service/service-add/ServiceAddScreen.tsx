@@ -72,11 +72,11 @@ const FollowupConsultationValidationSchema = Yup.object({
 
 const serviceAddFormValidationSchema = Yup.object({
     name: Yup.string()
-        .required('The name field is required'),
+        .required('Service Name field is required'),
     description: Yup.string()
-        .nullable(),
+        .required("Service Description is required"),
     image: Yup.mixed()
-        .required('The image field is required'),
+        .required('Image field is required'),
     initial_consultation: Yup.array(InitialConsultationValidationSchema),
     followup_consultation: Yup.array(FollowupConsultationValidationSchema),
 });
@@ -113,7 +113,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                 }
             })
             .catch((error: any) => {
-                CommonService.handleErrors(setErrors, error);
+                CommonService.handleErrors(setErrors, error, true);
                 setIsServiceAddInProgress(false);
             })
 
@@ -169,6 +169,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                 label={'Service Description'}
                                                                 placeholder={'Service Description'}
                                                                 fullWidth={true}
+                                                                required={true}
                                                                 id={"sv_desc_input"}
                                                             />)
                                                     }

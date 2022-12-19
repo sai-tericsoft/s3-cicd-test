@@ -29,6 +29,7 @@ import TableComponent from "../../shared/components/table/TableComponent";
 import {ImageConfig} from "../../constants";
 import IconButtonComponent from "../../shared/components/icon-button/IconButtonComponent";
 import FormikSelectComponent from "../../shared/components/form-controls/formik-select/FormikSelectComponent";
+import DateRangePickerComponent from "../../shared/components/form-controls/date-range-picker/DateRangePickerComponent";
 
 interface DesignSystemScreenProps {
 
@@ -58,6 +59,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
         name: "terrill",
         username: "terrill@gmail.com",
         password: "123455",
+        price: '',
         tnc: true,
         gender: "m",
         pricePerHour: "",
@@ -69,8 +71,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
 
     const [isFormSubmitting, setIsFormSubmitting] = useState(false);
     const [isTnCModalOpened, setIsTnCModalOpened] = useState(false);
-    const [currentTab, setCurrentTab] = useState<string>("tab2");
-
+    const [currentTab, setCurrentTab] = useState<string>("tab1");
 
     const onSubmit = useCallback((values: any) => {
         console.log(values);
@@ -204,7 +205,8 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                     {(form) => {
                                         return (
                                             <Form className={"login-holder"} noValidate={true}>
-                                                <FormDebuggerComponent form={form}/>
+                                                <FormDebuggerComponent form={form} showDebugger={false}/>
+                                                <DateRangePickerComponent/>
                                                 {/*<Field name={'name'} className="t-form-control">*/}
                                                 {/*    {*/}
                                                 {/*        (field: FieldProps) => (*/}
@@ -251,21 +253,21 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                                 {/*        )*/}
                                                 {/*    }*/}
                                                 {/*</Field>*/}
-                                                <Field name={'pricePerHour'} className="t-form-control">
-                                                    {
-                                                        (field: FieldProps) => (
-                                                            <FormikInputComponent
-                                                                label={'Price Per Hour'}
-                                                                placeholder={'Enter Price Per Hour'}
-                                                                required={true}
-                                                                formikField={field}
-                                                                fullWidth={true}
-                                                                type={"number"}
-                                                                validationPattern={Patterns.POSITIVE_INTEGERS_PARTIAL}
-                                                            />
-                                                        )
-                                                    }
-                                                </Field>
+                                                {/*<Field name={'pricePerHour'} className="t-form-control">*/}
+                                                {/*    {*/}
+                                                {/*        (field: FieldProps) => (*/}
+                                                {/*            <FormikInputComponent*/}
+                                                {/*                label={'Price Per Hour'}*/}
+                                                {/*                placeholder={'Enter Price Per Hour'}*/}
+                                                {/*                required={true}*/}
+                                                {/*                formikField={field}*/}
+                                                {/*                fullWidth={true}*/}
+                                                {/*                type={"number"}*/}
+                                                {/*                validationPattern={Patterns.POSITIVE_INTEGERS_PARTIAL}*/}
+                                                {/*            />*/}
+                                                {/*        )*/}
+                                                {/*    }*/}
+                                                {/*</Field>*/}
                                                 {/*<Field name={'dob'} className="t-form-control">*/}
                                                 {/*    {*/}
                                                 {/*        (field: FieldProps) => (*/}
@@ -288,6 +290,20 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                                 {/*        )*/}
                                                 {/*    }*/}
                                                 {/*</Field>*/}
+                                                {/*/!*<Field name={'rm'}>*!/*/}
+                                                {/*/!*    {*!/*/}
+                                                {/*/!*        (field: FieldProps) => (*!/*/}
+                                                {/*/!*            <FormikSelectComponent*!/*/}
+                                                {/*/!*                formikField={field}*!/*/}
+                                                {/*/!*                fullWidth={true}*!/*/}
+                                                {/*/!*                displayWith={item => item.fName + " " +item.lName}*!/*/}
+                                                {/*/!*                valueExtractor={item => item.id}*!/*/}
+                                                {/*/!*                keyExtractor={item => item.id}*!/*/}
+                                                {/*/!*                label={"Reporting Manager"}*!/*/}
+                                                {/*/!*                options={users}/>*!/*/}
+                                                {/*/!*        )*!/*/}
+                                                {/*/!*    }*!/*/}
+                                                {/*/!*</Field>*!/*/}
                                                 {/*<Field name={'rm'}>*/}
                                                 {/*    {*/}
                                                 {/*        (field: FieldProps) => (*/}

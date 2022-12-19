@@ -22,6 +22,7 @@ interface ClientMedicalFemaleOnlyFormComponentProps {
     clientId: string;
     mode: "add" | "edit";
     onCancel: () => void;
+    onNext?: () => void;
     onSave: (clientPersonalHabits: any) => void;
 }
 
@@ -52,7 +53,7 @@ const FormQuestions = [
 
 const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyFormComponentProps) => {
 
-    const {mode, onCancel, clientId, onSave} = props;
+    const {mode, onCancel, onNext, clientId, onSave} = props;
     const [clientMedicalFemaleOnlyInitialValues, setClientMedicalFemaleOnlyInitialValues] = useState<IClientMedicalFemaleOnlyForm>(_.cloneDeep(ClientMedicalFemaleOnlyInitialValues));
     const [isClientMedicalFemaleOnlyFormSavingInProgress, setIsClientMedicalFemaleOnlyFormSavingInProgress] = useState(false);
     const dispatch = useDispatch();
@@ -142,8 +143,8 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
                                                                 (field: FieldProps) => (
                                                                     <FormikRadioButtonGroupComponent
                                                                         options={CommonService._staticData.yesNoOptions}
-                                                                        displayWith={(option) => option}
-                                                                        valueExtractor={(option) => option}
+                                                                        displayWith={(option) => option.title}
+                                                                        valueExtractor={(option) => option.title}
                                                                         required={true}
                                                                         formikField={field}
                                                                     />
@@ -164,11 +165,21 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
                                                 isLoading={isClientMedicalFemaleOnlyFormSavingInProgress}
-                                                disabled={isClientMedicalFemaleOnlyFormSavingInProgress || !isValid}
+                                                disabled={isClientMedicalFemaleOnlyFormSavingInProgress || !isValid || CommonService.isEqual(values, clientMedicalFemaleOnlyInitialValues)}
                                                 type={"submit"}
                                             >
                                                 {isClientMedicalFemaleOnlyFormSavingInProgress ? "Saving" : <>{mode === "add" ? "Save & Next" : "Save"}</>}
                                             </ButtonComponent>
+                                            {
+                                                mode === "edit" && <>
+                                                    &nbsp;&nbsp;<ButtonComponent
+                                                    disabled={isClientMedicalFemaleOnlyFormSavingInProgress || !CommonService.isEqual(values, clientMedicalFemaleOnlyInitialValues)}
+                                                    onClick={onNext}
+                                                >
+                                                    Next
+                                                </ButtonComponent>
+                                                </>
+                                            }
                                         </div>
                                     </Form>
                                 )

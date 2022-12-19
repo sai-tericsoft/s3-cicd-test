@@ -65,7 +65,7 @@ const getUUID = () => {
     return uuidv4();
 }
 
-const handleErrors = (setErrors: (errors: FormikErrors<any>) => void, err: any) => {
+const handleErrors = ((setErrors: (errors: FormikErrors<any>) => void, err: any, showGlobalError: boolean = false) => {
     if (err.errors) {
         const errors: any = {};
         for (let field in err.errors) {
@@ -77,7 +77,10 @@ const handleErrors = (setErrors: (errors: FormikErrors<any>) => void, err: any) 
     } else if (err.error) {
         AlertService.showToast(err.error);
     }
-}
+    if (showGlobalError) {
+        AlertService.showToast('Form contain errors, please check once', 'error');
+    }
+});
 
 const openDialog = (component: any) => {
     return new Promise((resolve, reject) => {
@@ -402,17 +405,17 @@ const getSystemFormatTimeStamp = (date: Date | string, showTime: boolean = false
 
 const removeKeysFromJSON = (obj: any, keys: string[]): any => {
     for (let prop in obj) {
-        if(obj.hasOwnProperty(prop)) {
-            switch(typeof(obj[prop])) {
+        if (obj.hasOwnProperty(prop)) {
+            switch (typeof (obj[prop])) {
                 case 'object':
-                    if(keys.indexOf(prop) > -1) {
+                    if (keys.indexOf(prop) > -1) {
                         delete obj[prop];
                     } else {
                         removeKeysFromJSON(obj[prop], keys);
                     }
                     break;
                 default:
-                    if(keys.indexOf(prop) > -1) {
+                    if (keys.indexOf(prop) > -1) {
                         delete obj[prop];
                     }
                     break;
@@ -420,6 +423,11 @@ const removeKeysFromJSON = (obj: any, keys: string[]): any => {
         }
     }
     return obj;
+}
+
+const isEqual = (a: any, b: any) => {
+    console.log(a, b);
+    return _.isEqual(a, b);
 }
 
 const CommonService = {
@@ -453,6 +461,7 @@ const CommonService = {
     transformTimeStamp,
     getTheDifferenceBetweenDates,
     removeKeysFromJSON,
+    isEqual,
 
     // createValidationsObject,
     // createYupSchema,

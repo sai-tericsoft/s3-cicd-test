@@ -82,7 +82,8 @@ export interface IAddress {
 export interface IContactInfo {
     phone_type: string;
     phone_type_details?: IPhoneType;
-    phone: string;
+    phone?: string;
+    terisoft?: string;
 }
 
 export interface IEmail {

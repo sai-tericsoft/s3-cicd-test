@@ -24,6 +24,7 @@ interface ClientMusculoskeletalFormComponentProps {
     clientId: string;
     mode: "add" | "edit";
     onCancel: () => void;
+    onNext?: () => void;
     onSave: (clientMusculoskeletalHistory: any) => void;
 }
 
@@ -37,7 +38,7 @@ const ClientMusculoskeletalHistoryFormInitialValues: IClientMusculoskeletalHisto
 
 const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalFormComponentProps) => {
 
-    const {mode, onCancel, clientId, onSave} = props;
+    const {mode, onCancel, onNext, clientId, onSave} = props;
     const [clientMusculoskeletalHistoryFormInitialValues, setClientMusculoskeletalHistoryFormInitialValues] = useState<IClientMusculoskeletalHistoryForm>(_.cloneDeep(ClientMusculoskeletalHistoryFormInitialValues));
     const [isClientMusculoskeletalHistorySavingInProgress, setIsClientMusculoskeletalHistorySavingInProgress] = useState(false);
     const {musculoskeletalHistoryOptionsList} = useSelector((state: IRootReducerState) => state.staticData);
@@ -130,8 +131,8 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                                 (field: FieldProps) => (
                                                                     <FormikRadioButtonGroupComponent
                                                                         options={CommonService._staticData.yesNoOptions}
-                                                                        displayWith={(option) => option}
-                                                                        valueExtractor={(option) => option}
+                                                                        displayWith={(option) => option.title}
+                                                                        valueExtractor={(option) => option.title}
                                                                         required={true}
                                                                         formikField={field}
                                                                         onChange={(value) => {
@@ -177,11 +178,21 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
                                                 isLoading={isClientMusculoskeletalHistorySavingInProgress}
-                                                disabled={isClientMusculoskeletalHistorySavingInProgress || !isValid}
+                                                disabled={isClientMusculoskeletalHistorySavingInProgress || !isValid || CommonService.isEqual(values, clientMusculoskeletalHistoryFormInitialValues)}
                                                 type={"submit"}
                                             >
                                                 {isClientMusculoskeletalHistorySavingInProgress ? "Saving" : <>{mode === "add" ? <>{mode === "add" ? "Save & Next" : "Save"}</> : "Save"}</>}
                                             </ButtonComponent>
+                                            {
+                                                mode === "edit" && <>
+                                                    &nbsp;&nbsp;<ButtonComponent
+                                                    disabled={isClientMusculoskeletalHistorySavingInProgress || !CommonService.isEqual(values, clientMusculoskeletalHistoryFormInitialValues)}
+                                                    onClick={onNext}
+                                                >
+                                                    Next
+                                                </ButtonComponent>
+                                                </>
+                                            }
                                         </div>
                                     </Form>
                                 )
