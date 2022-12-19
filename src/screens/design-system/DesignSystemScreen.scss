@@ -3,13 +3,14 @@
 .design-system-screen {
   height: 100vh;
   width: 100vw;
-  @include display-center();
+  //@include display-center();
 
   .design-system-form-container {
-    width: 600px;
+    width: 400px;
 
     .design-system-form {
       margin: 20px 0;
     }
   }
+
 }

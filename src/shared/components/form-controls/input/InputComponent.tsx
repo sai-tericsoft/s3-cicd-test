@@ -1,14 +1,14 @@
 import "./InputComponent.scss";
 import {FormControl, InputAdornment, TextField} from "@mui/material";
-import {useCallback} from "react";
+import {useCallback, useState} from "react";
 import {IInputFieldProps} from "../../../models/form-controls.model";
 import {CommonService} from "../../../services";
 
 export interface InputComponentProps extends IInputFieldProps {
-    type?: 'email' | 'number' | 'password' | 'text';
-    prefix?: any;
-    suffix?: any;
-    size?:'small' | 'medium';
+    name?: string;
+    value?: string;
+    errorMessage?: any;
+    hasError?: boolean;
 }
 
 const InputComponent = (props: InputComponentProps) => {
@@ -28,6 +28,7 @@ const InputComponent = (props: InputComponentProps) => {
         name,
         required,
         value,
+        validationPattern,
         onChange
     } = props;
     const variant = props.variant || "outlined";
@@ -35,25 +36,39 @@ const InputComponent = (props: InputComponentProps) => {
     const type = props.type || "text";
     const fullWidth = props.fullWidth || false;
     const placeholder = props.placeholder || label;
+    const [inputValue, setInputValue] = useState(value);
 
     const handleOnChange = useCallback((event: any) => {
-        let value = event.target.value;
-        let transformedValue = "";
+        let nextValue = event.target.value;
         if (titleCase) {
-            transformedValue = CommonService.Capitalize(value);
-        } else {
-            transformedValue = value;
+            nextValue = CommonService.Capitalize(nextValue);
         }
         if (onChange) {
-            onChange(transformedValue);
+            if (validationPattern) {
+                const reg = RegExp(validationPattern);
+                console.log(reg.test(nextValue), 1);
+                console.log(reg.test(nextValue), 2);
+                console.log(reg.test(nextValue), 3);
+                console.log(reg.test(nextValue), 4);
+                if (nextValue === "" || reg.test(nextValue)) {
+                    console.log(nextValue, reg, reg.test(nextValue), "regex passed");
+                    setInputValue(nextValue);
+                    onChange(nextValue);
+                } else {
+                    console.log(nextValue, reg, reg.test(nextValue), "regex failed");
+                }
+            } else {
+                setInputValue(nextValue);
+                onChange(nextValue);
+            }
         }
-    }, [titleCase, onChange]);
+    }, [titleCase, inputValue, validationPattern, onChange]);
 
     return (
         <FormControl className={'input-component ' + className + ' ' + (fullWidth ? "full-width" : "")}
                      error={hasError}
                      fullWidth={fullWidth}>
-            <TextField type={type}
+            <TextField type={type === "password" ? "password" : "text"}
                        id={id}
                        fullWidth={fullWidth}
                        placeholder={placeholder}
@@ -61,7 +76,7 @@ const InputComponent = (props: InputComponentProps) => {
                        name={name}
                        size={size}
                        label={label}
-                       value={value}
+                       value={inputValue}
                        variant={variant}
                        disabled={disabled}
                        InputProps={{

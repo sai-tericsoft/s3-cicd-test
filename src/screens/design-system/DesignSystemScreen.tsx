@@ -2,54 +2,60 @@ import "./DesignSystemScreen.scss";
 import * as Yup from "yup";
 import React, {useCallback, useState} from "react";
 import {Field, FieldProps, Form, Formik} from 'formik';
-import FormikPasswordInputComponent
-    from "../../shared/components/form-controls/formik-password-input/FormikPasswordInputComponent";
+// import FormikPasswordInputComponent
+//     from "../../shared/components/form-controls/formik-password-input/FormikPasswordInputComponent";
 import FormikInputComponent from "../../shared/components/form-controls/formik-input/FormikInputComponent";
 import {Login} from "@mui/icons-material";
 import ButtonComponent from "../../shared/components/button/ButtonComponent";
-import FormikCheckBoxComponent from "../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
-import FormikSwitchComponent from "../../shared/components/form-controls/formik-switch/FormikSwitchComponent";
+// import FormikCheckBoxComponent from "../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
+// import FormikSwitchComponent from "../../shared/components/form-controls/formik-switch/FormikSwitchComponent";
 import ModalComponent from "../../shared/components/modal/ModalComponent";
 import CardComponent from "../../shared/components/card/CardComponent";
-import FormikRadioButtonGroupComponent
-    from "../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
-import FormikAutoCompleteComponent
-    from "../../shared/components/form-controls/formik-auto-complete/FormikAutoCompleteComponent";
+// import FormikRadioButtonGroupComponent
+//     from "../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
+// import FormikAutoCompleteComponent
+//     from "../../shared/components/form-controls/formik-auto-complete/FormikAutoCompleteComponent";
 import TabsWrapperComponent, {
     TabComponent,
     TabContentComponent,
     TabsComponent
 } from "../../shared/components/tabs/TabsComponent";
-import FormikDatePickerComponent
-    from "../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
+// import FormikDatePickerComponent
+//     from "../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
+import FormDebuggerComponent from "../../shared/components/form-debugger/FormDebuggerComponent";
+import {Patterns} from "../../constants";
 
 interface DesignSystemScreenProps {
 
 }
 
 const designSystemFormValidationSchema = Yup.object({
-    name: Yup.string()
-        .required("Name is required"),
-    username: Yup.string()
-        .required("Username is required"),
-    dob: Yup.string()
-        .required("Date of Birth is required"),
-    password: Yup.string()
-        .min(8, "Password must contain at least 8 characters")
-        .required("Password is required")
+    pricePerHour: Yup.string()
+        .matches(Patterns.POSITIVE_INTEGERS, "Price per hour must be a number")
+        .required('Price per hour is required'),
+    // name: Yup.string()
+    //     .required("Name is required"),
+    // username: Yup.string()
+    //     .required("Username is required"),
+    // dob: Yup.string()
+    //     .required("Date of Birth is required"),
+    // password: Yup.string()
+    //     .min(8, "Password must contain at least 8 characters")
+    //     .required("Password is required")
 });
 
 const DesignSystemScreen = (props: DesignSystemScreenProps) => {
 
-    const options = [{title: 'Male', code: 'm', _id: 'm'}, {title: 'Female', code: 'f', _id: 'f'}];
+    // const options = [{title: 'Male', code: 'm', _id: 'm'}, {title: 'Female', code: 'f', _id: 'f'}];
     const users = [{fName: 'Mick', lName: 'John', _id: 1}, {fName: 'John', lName: 'Doe', _id: 2}];
 
     const [designSystemFormInitialValues] = useState({
-        name: "",
-        username: "",
-        password: "",
+        name: "terrill",
+        username: "terrill@gmail.com",
+        password: "123455",
         tnc: true,
         gender: "m",
+        pricePerHour: "",
         dob: "",
         rm: users[0],
         accessAsAdmin: true,
@@ -66,7 +72,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
         setIsFormSubmitting(true);
         setTimeout(() => {
             setIsFormSubmitting(false);
-        }, 2000);
+        }, 1000);
     }, []);
 
     return (
@@ -97,84 +103,100 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                     validateOnMount={true}
                                     onSubmit={onSubmit}
                                 >
-                                    {({isSubmitting, values, isValid, validateForm}) => {
+                                    {(form) => {
                                         return (
                                             <Form className={"login-holder"} noValidate={true}>
-                                                <Field name={'name'} className="t-form-control">
+                                                <FormDebuggerComponent form={form}/>
+                                                {/*<Field name={'name'} className="t-form-control">*/}
+                                                {/*    {*/}
+                                                {/*        (field: FieldProps) => (*/}
+                                                {/*            <FormikInputComponent*/}
+                                                {/*                label={'Name'}*/}
+                                                {/*                titleCase={true}*/}
+                                                {/*                placeholder={'Enter Name'}*/}
+                                                {/*                type={"email"}*/}
+                                                {/*                required={true}*/}
+                                                {/*                formikField={field}*/}
+                                                {/*                fullWidth={true}*/}
+                                                {/*                id={"email_input"}*/}
+                                                {/*            />*/}
+                                                {/*        )*/}
+                                                {/*    }*/}
+                                                {/*</Field>*/}
+                                                {/*<Field name={'username'} className="t-form-control">*/}
+                                                {/*    {*/}
+                                                {/*        (field: FieldProps) => (*/}
+                                                {/*            <FormikInputComponent*/}
+                                                {/*                label={'Email'}*/}
+                                                {/*                placeholder={'Enter Email'}*/}
+                                                {/*                type={"email"}*/}
+                                                {/*                required={true}*/}
+                                                {/*                formikField={field}*/}
+                                                {/*                fullWidth={true}*/}
+                                                {/*                id={"email_input"}*/}
+                                                {/*            />*/}
+                                                {/*        )*/}
+                                                {/*    }*/}
+                                                {/*</Field>*/}
+                                                {/*<Field name={'password'} className="t-form-control">*/}
+                                                {/*    {*/}
+                                                {/*        (field: FieldProps) => (*/}
+                                                {/*            <FormikPasswordInputComponent*/}
+                                                {/*                label={'Password'}*/}
+                                                {/*                placeholder={'Enter Password'}*/}
+                                                {/*                required={true}*/}
+                                                {/*                formikField={field}*/}
+                                                {/*                fullWidth={true}*/}
+                                                {/*                canToggle={true}*/}
+                                                {/*                id={"password_input"}*/}
+                                                {/*            />*/}
+                                                {/*        )*/}
+                                                {/*    }*/}
+                                                {/*</Field>*/}
+                                                <Field name={'pricePerHour'} className="t-form-control">
                                                     {
                                                         (field: FieldProps) => (
                                                             <FormikInputComponent
-                                                                label={'Name'}
-                                                                titleCase={true}
-                                                                placeholder={'Enter Name'}
-                                                                type={"email"}
+                                                                label={'Price Per Hour'}
+                                                                placeholder={'Enter Price Per Hour'}
                                                                 required={true}
                                                                 formikField={field}
                                                                 fullWidth={true}
-                                                                id={"email_input"}
+                                                                type={"number"}
+                                                                validationPattern={Patterns.POSITIVE_INTEGERS_PARTIAL}
                                                             />
                                                         )
                                                     }
                                                 </Field>
-                                                <Field name={'username'} className="t-form-control">
-                                                    {
-                                                        (field: FieldProps) => (
-                                                            <FormikInputComponent
-                                                                label={'Email'}
-                                                                placeholder={'Enter Email'}
-                                                                type={"email"}
-                                                                required={true}
-                                                                formikField={field}
-                                                                fullWidth={true}
-                                                                id={"email_input"}
-                                                            />
-                                                        )
-                                                    }
-                                                </Field>
-                                                <Field name={'password'} className="t-form-control">
-                                                    {
-                                                        (field: FieldProps) => (
-                                                            <FormikPasswordInputComponent
-                                                                label={'Password'}
-                                                                placeholder={'Enter Password'}
-                                                                required={true}
-                                                                formikField={field}
-                                                                fullWidth={true}
-                                                                canToggle={true}
-                                                                id={"password_input"}
-                                                            />
-                                                        )
-                                                    }
-                                                </Field>
-                                                <Field name={'dob'} className="t-form-control">
-                                                    {
-                                                        (field: FieldProps) => (
-                                                            <FormikDatePickerComponent
-                                                                label={'Date of Birth'}
-                                                                placeholder={'Date of Birth'}
-                                                                required={true}
-                                                                formikField={field}
-                                                                fullWidth={true}
-                                                            />
-                                                        )
-                                                    }
-                                                </Field>
-                                                <Field name={'gender'}>
-                                                    {
-                                                        (field: FieldProps) => (
-                                                            <FormikRadioButtonGroupComponent
-                                                                formikField={field}
-                                                                options={options}/>
-                                                        )
-                                                    }
-                                                </Field>
+                                                {/*<Field name={'dob'} className="t-form-control">*/}
+                                                {/*    {*/}
+                                                {/*        (field: FieldProps) => (*/}
+                                                {/*            <FormikDatePickerComponent*/}
+                                                {/*                label={'Date of Birth'}*/}
+                                                {/*                placeholder={'Date of Birth'}*/}
+                                                {/*                required={true}*/}
+                                                {/*                formikField={field}*/}
+                                                {/*                fullWidth={true}*/}
+                                                {/*            />*/}
+                                                {/*        )*/}
+                                                {/*    }*/}
+                                                {/*</Field>*/}
+                                                {/*<Field name={'gender'}>*/}
+                                                {/*    {*/}
+                                                {/*        (field: FieldProps) => (*/}
+                                                {/*            <FormikRadioButtonGroupComponent*/}
+                                                {/*                formikField={field}*/}
+                                                {/*                options={options}/>*/}
+                                                {/*        )*/}
+                                                {/*    }*/}
+                                                {/*</Field>*/}
                                                 {/*<Field name={'rm'}>*/}
                                                 {/*    {*/}
                                                 {/*        (field: FieldProps) => (*/}
-                                                {/*            <FormikSelectComponent*/}
+                                                {/*            <FormikAutoCompleteComponent*/}
                                                 {/*                formikField={field}*/}
                                                 {/*                fullWidth={true}*/}
-                                                {/*                displayWith={item => item.fName + " " +item.lName}*/}
+                                                {/*                displayWith={item => item ? (item.fName || "") + " " + (item.lName || "") : ""}*/}
                                                 {/*                valueExtractor={item => item.id}*/}
                                                 {/*                keyExtractor={item => item.id}*/}
                                                 {/*                label={"Reporting Manager"}*/}
@@ -182,52 +204,38 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                                 {/*        )*/}
                                                 {/*    }*/}
                                                 {/*</Field>*/}
-                                                <Field name={'rm'}>
-                                                    {
-                                                        (field: FieldProps) => (
-                                                            <FormikAutoCompleteComponent
-                                                                formikField={field}
-                                                                fullWidth={true}
-                                                                displayWith={item => item ? (item.fName || "") + " " + (item.lName || "") : ""}
-                                                                valueExtractor={item => item.id}
-                                                                keyExtractor={item => item.id}
-                                                                label={"Reporting Manager"}
-                                                                options={users}/>
-                                                        )
-                                                    }
-                                                </Field>
-                                                <Field name={'tnc'} className="t-form-control">
-                                                    {
-                                                        (field: FieldProps) => (
-                                                            <FormikCheckBoxComponent
-                                                                label={"Accept TnC"}
-                                                                formikField={field}
-                                                                id={"accept_t_n_c"}
-                                                                onChange={(isChecked) => {
-                                                                    console.log(isChecked, isChecked ? "accepted" : "not accepted");
-                                                                }}/>
-                                                        )
-                                                    }
-                                                </Field>
-                                                <Field name={'accessAsAdmin'} className="t-form-control">
-                                                    {
-                                                        (field: FieldProps) => (
-                                                            <FormikSwitchComponent
-                                                                label={"Access as Admin"}
-                                                                formikField={field}
-                                                                id={"access_as_admin"}
-                                                                onChange={(isChecked) => {
-                                                                    console.log(isChecked, isChecked ? "accepted" : "not accepted");
-                                                                }}/>
-                                                        )
-                                                    }
-                                                </Field>
-                                                <div className="text-decoration-underline mrg-bottom-10 cursor-pointer"
-                                                     onClick={() => {
-                                                         setIsTnCModalOpened(true);
-                                                     }}>
-                                                    Terms and Conditions
-                                                </div>
+                                                {/*<Field name={'tnc'} className="t-form-control">*/}
+                                                {/*    {*/}
+                                                {/*        (field: FieldProps) => (*/}
+                                                {/*            <FormikCheckBoxComponent*/}
+                                                {/*                label={"Accept TnC"}*/}
+                                                {/*                formikField={field}*/}
+                                                {/*                id={"accept_t_n_c"}*/}
+                                                {/*                onChange={(isChecked) => {*/}
+                                                {/*                    console.log(isChecked, isChecked ? "accepted" : "not accepted");*/}
+                                                {/*                }}/>*/}
+                                                {/*        )*/}
+                                                {/*    }*/}
+                                                {/*</Field>*/}
+                                                {/*<Field name={'accessAsAdmin'} className="t-form-control">*/}
+                                                {/*    {*/}
+                                                {/*        (field: FieldProps) => (*/}
+                                                {/*            <FormikSwitchComponent*/}
+                                                {/*                label={"Access as Admin"}*/}
+                                                {/*                formikField={field}*/}
+                                                {/*                id={"access_as_admin"}*/}
+                                                {/*                onChange={(isChecked) => {*/}
+                                                {/*                    console.log(isChecked, isChecked ? "accepted" : "not accepted");*/}
+                                                {/*                }}/>*/}
+                                                {/*        )*/}
+                                                {/*    }*/}
+                                                {/*</Field>*/}
+                                                {/*<div className="text-decoration-underline mrg-bottom-10 cursor-pointer"*/}
+                                                {/*     onClick={() => {*/}
+                                                {/*         setIsTnCModalOpened(true);*/}
+                                                {/*     }}>*/}
+                                                {/*    Terms and Conditions*/}
+                                                {/*</div>*/}
                                                 <ButtonComponent
                                                     suffixIcon={<Login/>}
                                                     isLoading={isFormSubmitting}
