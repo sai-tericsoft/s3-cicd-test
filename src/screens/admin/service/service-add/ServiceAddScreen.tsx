@@ -65,7 +65,7 @@ const serviceAddFormValidationSchema = Yup.object({
     image: Yup.mixed()
         .required('The image field is required'),
     initial_consultation: Yup.array(Yup.object({
-            title: Yup.string().required("Initial Consultation Title is required"),
+            title: Yup.string().nullable(),
             consultation_details: Yup.array(Yup.object({
                 duration: Yup.number().required("Duration is required"),
                 price: Yup.string()
@@ -75,7 +75,7 @@ const serviceAddFormValidationSchema = Yup.object({
         })
     ),
     followup_consultation: Yup.array(Yup.object({
-            title: Yup.string().required("Followup Consultation Title is required"),
+            title: Yup.string().nullable(),
             consultation_details: Yup.array(Yup.object({
                 duration: Yup.number().required("Duration is required"),
                 price: Yup.string()
@@ -165,7 +165,6 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                         />
                                                     )
                                                 }
-
                                             </Field>
                                             <Field name={'description'}>
                                                 {
@@ -229,7 +228,6 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                         label={'Title'}
                                                                                         placeholder={'Title'}
                                                                                         type={"text"}
-                                                                                        required={true}
                                                                                         formikField={field}
                                                                                         fullWidth={true}
                                                                                         id={"sv_ic_title_" + index}
@@ -374,7 +372,6 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                         label={'Title'}
                                                                                         placeholder={'Title'}
                                                                                         type={"text"}
-                                                                                        required={true}
                                                                                         formikField={field}
                                                                                         fullWidth={true}
                                                                                         id={"sv_fc_title_" + index}
@@ -499,12 +496,12 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                         <>
                                             {
                                                 (values.image) && <>
-                                                    <FilePreviewThumbnailComponent removable={true}
-                                                                                   file={values.image}
-                                                                                   removeButtonId={"sv_delete_img"}
-                                                                                   onRemove={() => {
-                                                                                       setFieldValue('image', undefined);
-                                                                                   }}/>
+                                                    <FilePreviewThumbnailComponent
+                                                        file={values.image}
+                                                        removeButtonId={"sv_delete_img"}
+                                                        onRemove={() => {
+                                                            setFieldValue('image', undefined);
+                                                        }}/>
                                                 </>
                                             }
                                         </>

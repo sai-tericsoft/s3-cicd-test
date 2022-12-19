@@ -1,6 +1,6 @@
 export interface ITableColumn {
     dataIndex?: string;
-    key: string;
+    key?: string;
     title?: any;
     render?: any;
     sortable?: any;
@@ -22,6 +22,9 @@ export interface ITableComponentProps {
     size?: 'small' | 'middle' | 'large';
     onSort?: (key: string, order: string) => void;
     id?: string;
+    defaultExpandAllRows?: boolean;
+    showExpandColumn?: boolean;
+    expandRow?: (row: any) => React.ReactNode;
 }
 
 

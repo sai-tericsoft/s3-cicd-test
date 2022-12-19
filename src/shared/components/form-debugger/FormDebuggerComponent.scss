@@ -7,6 +7,15 @@
   height: calc(100vh - 30px);
   box-sizing: content-box;
   padding: 10px;
+  overflow: auto;
+  max-height: calc(100vh - 30px);
+  box-sizing: content-box;
   margin: 10px;
   overflow: auto;
+  z-index: 9999;
+  background: #fff;
+
+  .card-header {
+    cursor: move;
+  }
 }

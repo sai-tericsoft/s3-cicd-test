@@ -23,7 +23,8 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
             title: "Facility",
             dataIndex: "name",
             width: "30%",
-            key: "name"
+            key: "name",
+            fixed: "left",
         },
         {
             title: "Facility Location",
@@ -56,6 +57,7 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
             dataIndex: "actions",
             key: "actions",
             width: "15%",
+            fixed: "right",
             render: (_: any, item: IFacility) => {
                 return <LinkComponent route={CommonService._routeConfig.FacilityDetails(item._id)}>
                     View Details
@@ -77,11 +79,13 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
                 </div>
             </div>
             <div className="facility-list-wrapper">
-                <TableWrapperComponent url={APIConfig.FACILITY_LIST.URL}
+                <TableWrapperComponent id="facility_list"
+                                       url={APIConfig.FACILITY_LIST.URL}
                                        method={APIConfig.FACILITY_LIST.METHOD}
                                        rowKey={(item: IFacility) => item._id}
                                        isPaginated={true}
-                                       columns={FacilityListColumns}/>
+                                       columns={FacilityListColumns}
+                />
             </div>
         </div>
     );

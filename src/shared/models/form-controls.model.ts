@@ -9,7 +9,8 @@ export interface IInputFieldProps {
     fullWidth?: boolean;
     id?: string;
     inputProps?: any;
-    label: string;
+    label?: string;
+    name?: string;
     onChange?: (value: any) => void;
     placeholder?: string;
     readOnly?: boolean;

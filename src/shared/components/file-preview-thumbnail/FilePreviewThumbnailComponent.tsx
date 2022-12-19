@@ -4,20 +4,21 @@ import {ImageConfig} from "../../../constants";
 import {useCallback, useEffect, useState} from "react";
 import AvatarComponent from "../avatar/AvatarComponent";
 import {IAttachment} from "../../models/common.model";
+import IconButtonComponent from "../icon-button/IconButtonComponent";
 
 interface FilePreviewThumbnailComponentProps {
+    variant?: "compact" | "detailed";
     file: File | IAttachment;
-    removable?: boolean;
     removeButtonId?: string;
     onRemove?: (file: File | IAttachment) => void;
 }
 
 const FilePreviewThumbnailComponent = (props: FilePreviewThumbnailComponentProps) => {
 
-
-    const {file, removable, removeButtonId, onRemove} = props;
+    const {file, removeButtonId, onRemove} = props;
     const [filePreviewURL, setFilePreviewURL] = useState<string | null>("");
     const [fileName, setFileName] = useState<string>("");
+    const variant = props.variant || "detailed";
 
     const getFileThumbnail = useCallback((type: string, file: File, cb: (thumbnailURL: string) => void) => {
         if (type.includes('image')) {
@@ -39,15 +40,15 @@ const FilePreviewThumbnailComponent = (props: FilePreviewThumbnailComponentProps
                 };
                 fileReader.readAsDataURL(file);
                 break;
-            case "pdf":
-                cb(ImageConfig.PDFIcon);
-                break;
-            case "doc":
-                cb(ImageConfig.WordDocIcon);
-                break;
-            case "xls":
-                cb(ImageConfig.ExcelIcon);
-                break;
+            // case "pdf":
+            //     cb(ImageConfig.PDFIcon);
+            //     break;
+            // case "doc":
+            //     cb(ImageConfig.WordDocIcon);
+            //     break;
+            // case "xls":
+            //     cb(ImageConfig.ExcelIcon);
+            //     break;
             default:
                 cb(ImageConfig.UnknownFileTypeIcon);
                 break;
@@ -75,7 +76,7 @@ const FilePreviewThumbnailComponent = (props: FilePreviewThumbnailComponentProps
     }, [onRemove, file]);
 
     return (
-        <div className={'file-preview-thumbnail-component'}>
+        <div className={'file-preview-thumbnail-component ' + variant}>
             <div className="file-data">
                 <div className="file-preview-thumbnail">
                     {
@@ -89,16 +90,30 @@ const FilePreviewThumbnailComponent = (props: FilePreviewThumbnailComponentProps
             </div>
             <div className="file-options">
                 {
-                    removable && <ButtonComponent color={"error"}
-                                                  variant={"outlined"}
-                                                  className={"file-remove"}
-                                                  size={"small"}
-                                                  id={removeButtonId}
-                                                  prefixIcon={<ImageConfig.CloseIcon/>}
-                                                  onClick={handleFileRemove}
-                    >
-                        Remove Image
-                    </ButtonComponent>
+                    onRemove && <>
+                        {
+                            variant === "detailed" && <ButtonComponent
+                                color={"error"}
+                                variant={"outlined"}
+                                size={"small"}
+                                className={"file-remove"}
+                                id={removeButtonId}
+                                prefixIcon={<ImageConfig.CloseIcon/>}
+                                onClick={handleFileRemove}
+                            >
+                                Remove Image
+                            </ButtonComponent>
+                        }
+                        {
+                            variant === "compact" && <IconButtonComponent
+                                className={"file-remove"}
+                                id={removeButtonId}
+                                onClick={handleFileRemove}
+                            >
+                                <ImageConfig.CloseIcon/>
+                            </IconButtonComponent>
+                        }
+                    </>
                 }
             </div>
         </div>

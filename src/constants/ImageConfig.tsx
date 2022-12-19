@@ -16,6 +16,7 @@ import {ReactComponent as LeftArrow} from './../assets/icons/left_arrow.svg';
 import {ReactComponent as RightArrow} from './../assets/icons/right_arrow.svg';
 import {ReactComponent as SearchIcon} from './../assets/icons/search.svg';
 import {ReactComponent as InfoIcon} from './../assets/icons/info.svg';
+import {ReactComponent as CommentIcon} from './../assets/icons/comment.svg';
 
 //file types
 import PDFIcon from './../assets/icons/file-types/pdf.svg';
@@ -83,5 +84,6 @@ export {
     SearchIcon,
     InfoIcon,
     ToastCloseIcon,
-    ChartNotes
+    ChartNotes,
+    CommentIcon
 }

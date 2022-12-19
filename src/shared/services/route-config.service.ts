@@ -83,7 +83,11 @@ const ClientEdit = (clientId: string) => {
 }
 
 const ClientSearch = ()=>{
-    return CLIENT_SEARCH
+    return CLIENT_SEARCH;
+}
+
+const AddMedicalRecord = (clientId: string)=>{
+    return "/chart-notes/" + clientId + '/add-medical-record';
 }
 
 const RouteConfigService = {
@@ -105,7 +109,8 @@ const RouteConfigService = {
     ClientAdd,
     ClientDetails,
     ClientEdit,
-    ClientSearch
+    ClientSearch,
+    AddMedicalRecord
 }
 
 export default RouteConfigService;

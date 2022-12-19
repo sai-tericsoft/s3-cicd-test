@@ -91,6 +91,7 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
                                                     formikField={field}
                                                     fullWidth={true}
                                                     titleCase={true}
+                                                    id={"sc_name_input"}
                                                 />
                                             )
                                         }
@@ -136,12 +137,12 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
                                         <>
                                             {
                                                 (values.image) && <>
-                                                    <FilePreviewThumbnailComponent removable={true}
-                                                                                   file={values.image}
-                                                                                   removeButtonId={"sc_delete_img"}
-                                                                                   onRemove={() => {
-                                                                                       setFieldValue('image', undefined);
-                                                                                   }}
+                                                    <FilePreviewThumbnailComponent
+                                                        file={values.image}
+                                                        removeButtonId={"sc_delete_img"}
+                                                        onRemove={() => {
+                                                            setFieldValue('image', undefined);
+                                                        }}
                                                     />
                                                 </>
                                             }

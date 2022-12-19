@@ -44,7 +44,7 @@ export interface IClientBasicDetails {
     gender: string;
     gender_details?: IGender;
     dob: string;
-    nick_name: string;
+    nick_name?: string;
     client_id?: string;
     ssn: string;
     is_active?: boolean;

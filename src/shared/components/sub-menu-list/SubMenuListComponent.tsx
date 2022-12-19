@@ -18,18 +18,21 @@ const SubMenuListComponent = (props: SubMenuListComponentProps) => {
                     {
                         menuItems.map((item) => {
                             if (item.path) {
-                                return <NavLink to={item.path}
+                                return <NavLink id={`${item.title.toLowerCase().split(' ').join('_')}_menu`}
+                                                to={item.path}
                                                 key={item.title}
                                                 className="sub-menu-item">
                                     {item.title}
                                 </NavLink>
                             } else {
-                                return <div onClick={() => {
-                                    CommonService._alert.showToast('Coming Soon');
-                                }
-                                }
-                                            key={item.title}
-                                            className="sub-menu-item">
+                                return <div
+                                    id={`${item.title.toLowerCase().split(' ').join('_')}_menu`}
+                                    onClick={() => {
+                                        CommonService._alert.showToast('Coming Soon');
+                                    }
+                                    }
+                                    key={item.title}
+                                    className="sub-menu-item">
                                     {item.title}
                                 </div>
                             }

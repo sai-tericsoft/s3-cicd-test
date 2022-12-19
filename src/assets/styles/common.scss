@@ -338,3 +338,24 @@
     color: #787879;
   }
 }
+
+.t-surgery-record-drawer {
+  .drawer-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .drawer-body {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      overflow: auto;
+
+      .t-surgery-record-drawer-form-controls{
+        overflow: auto;
+        flex: 1;
+        padding-top: 6px;
+      }
+    }
+  }
+}
