@@ -1,8 +1,6 @@
 import "./FormDebuggerComponent.scss";
 import DataLabelValueComponent from "../data-label-value/DataLabelValueComponent";
 import HorizontalLineComponent from "../horizontal-line/horizontal-line/HorizontalLineComponent";
-import React from "react";
-import {FormikProps} from "formik";
 import React, {useCallback} from "react";
 import {FormikProps} from "formik";
 import CardComponent from "../card/CardComponent";
@@ -20,27 +18,6 @@ interface FormDebuggerComponentProps {
 }
 
 const FormDebuggerComponent = (props: FormDebuggerComponentProps) => {
-
-    const {isValid, values, errors} = props.form;
-
-    return (
-        <div className={"form-debugger"}>
-            <DataLabelValueComponent label={"Form Valid"}>
-                {isValid ? "Valid" : "Invalid"}
-            </DataLabelValueComponent>
-            <HorizontalLineComponent/>
-            <DataLabelValueComponent label={"Values"}>
-               <pre>
-                   {JSON.stringify(values, null, 2)}
-               </pre>
-            </DataLabelValueComponent>
-            <HorizontalLineComponent/>
-            <DataLabelValueComponent label={"Errors"}>
-               <pre>
-                   {JSON.stringify(errors, null, 2)}
-               </pre>
-            </DataLabelValueComponent>
-        </div>
 
     const {form, isValid, values, errors} = props;
     const [showDebugger, setShowDebugger] = React.useState(props.showDebugger !== undefined ? props.showDebugger : true);

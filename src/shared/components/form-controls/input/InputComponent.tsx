@@ -62,7 +62,7 @@ const InputComponent = (props: InputComponentProps) => {
                 onChange(nextValue);
             }
         }
-    }, [titleCase, inputValue, validationPattern, onChange]);
+    }, [titleCase, validationPattern, onChange]);
 
     return (
         <FormControl className={'input-component ' + className + ' ' + (fullWidth ? "full-width" : "")}
