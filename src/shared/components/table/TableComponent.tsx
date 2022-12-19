@@ -73,10 +73,11 @@ const TableComponent = (props: TableComponentProps) => {
         <div className={'table-component'}>
             <Table
                 id={id}
-                defaultExpandAllRows={defaultExpandAllRows}
-                showExpandColumn={showExpandColumn}
                 expandable={expandRow && {
-                    expandedRowRender: expandRow
+                    expandedRowKeys: rowKey ? data.map(rowKey) : [],
+                    showExpandColumn: showExpandColumn,
+                    defaultExpandAllRows: defaultExpandAllRows,
+                    expandedRowRender: expandRow,
                 }}
                 columns={tableColumns}
                 className={`${loading ? "loading" : ""}`}
