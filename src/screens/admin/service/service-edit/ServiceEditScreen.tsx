@@ -26,6 +26,7 @@ import LoaderComponent from "../../../../shared/components/loader/LoaderComponen
 import StatusCardComponent from "../../../../shared/components/status-card/StatusCardComponent";
 import {IService} from "../../../../shared/models/service.model";
 import LinkComponent from "../../../../shared/components/link/LinkComponent";
+import FormikSwitchComponent from "../../../../shared/components/form-controls/formik-switch/FormikSwitchComponent";
 
 interface ServiceEditComponentProps {
 }
@@ -75,7 +76,7 @@ const serviceEditFormValidationSchema = Yup.object({
         })
     ),
     followup_consultation: Yup.array(Yup.object({
-        title: Yup.string().nullable(),
+            title: Yup.string().nullable(),
             consultation_details: Yup.array(Yup.object({
                 duration: Yup.number().required("Duration is required"),
                 price: Yup.string()
@@ -203,37 +204,58 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                             }, [validateForm, values]);
                             return (
                                 <Form className="t-form" noValidate={true}>
-                                    <div className={"ts-row"}>
-                                        <div className="ts-col-lg-10">
-                                            <Field name={'name'}>
+                                    <div
+                                        className={"mrg-bottom-20 display-flex flex-direction-row-reverse"}>
+                                        <div className={"display-flex align-items-center"}>
+                                            <div>Status:</div>
+                                            <Field name={'is_active'} className="t-form-control">
                                                 {
                                                     (field: FieldProps) => (
-                                                        <FormikInputComponent
-                                                            label={'Service Name'}
-                                                            placeholder={'Service Name'}
+                                                        <FormikSwitchComponent
+                                                            label={values.is_active ? "Active" : "Inactive"}
                                                             required={true}
                                                             formikField={field}
-                                                            fullWidth={true}
-                                                            titleCase={true}
-                                                            id={"sv_edit_name_input"}
+                                                            labelPlacement={"start"}
+                                                            id={"sc_edit_is_active_toggle"}
                                                         />
                                                     )
-                                                }
-
-                                            </Field>
-                                            <Field name={'description'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikTextAreaComponent formikField={field}
-                                                                                 label={'Service Description'}
-                                                                                 placeholder={'Service Description'}
-                                                                                 fullWidth={true}
-                                                                                 id={"sv_edit_desc_input"}
-                                                        />)
                                                 }
                                             </Field>
                                         </div>
                                     </div>
+                                    <CardComponent title={"Service Details"}>
+                                        <div className={"ts-row"}>
+                                            <div className="ts-col-lg-10">
+                                                <Field name={'name'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikInputComponent
+                                                                label={'Service Name'}
+                                                                placeholder={'Service Name'}
+                                                                required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                                titleCase={true}
+                                                                id={"sv_edit_name_input"}
+                                                            />
+                                                        )
+                                                    }
+
+                                                </Field>
+                                                <Field name={'description'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikTextAreaComponent formikField={field}
+                                                                                     label={'Service Description'}
+                                                                                     placeholder={'Service Description'}
+                                                                                     fullWidth={true}
+                                                                                     id={"sv_edit_desc_input"}
+                                                            />)
+                                                    }
+                                                </Field>
+                                            </div>
+                                        </div>
+                                    </CardComponent>
                                     <FieldArray
                                         name="initial_consultation"
                                         render={arrayHelpers => (
@@ -381,7 +403,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                     <FieldArray
                                         name="followup_consultation"
                                         render={arrayHelpers => (
-                                            <CardComponent title={"Followup Consultation Details"}
+                                            <CardComponent title={"Follow Up Consultation Details"}
                                                            className={"mrg-bottom-20"}
                                                            size={"md"}
                                                            actions={<>
@@ -403,7 +425,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                 <div
                                                                     className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
                                                                     <FormControlLabelComponent
-                                                                        label={`Followup Consultation Details ${index + 1}`}/>
+                                                                        label={`Follow Up Consultation Details ${index + 1}`}/>
                                                                     <div>
                                                                         {(index > 0) && <ButtonComponent
                                                                             prefixIcon={<ImageConfig.CloseIcon/>}
@@ -522,10 +544,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                 </div>
                                             </CardComponent>
                                         )}/>
-                                    <div className="mrg-bottom-20">
-                                        <FormControlLabelComponent label={'Upload Image for Service'}
-                                                                   required={true}
-                                        />
+                                    <CardComponent title="Upload Image for Service">
                                         <>
                                             {(!values.image) && <>
                                                 <FilePickerComponent maxFileCount={1}
@@ -559,7 +578,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                 </>
                                             }
                                         </>
-                                    </div>
+                                    </CardComponent>
                                     <div className="t-form-actions">
                                         <LinkComponent route={CommonService._routeConfig.ServiceDetails(serviceId)}>
                                             <ButtonComponent

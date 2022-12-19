@@ -15,8 +15,18 @@
       font-weight: $font-weight-bold;
     }
 
+    .t-form-controls {
+      height:200px;
+      @include md() {
+        height: 220px;
+      }
+      @include lg() {
+        height: 255px;
+      }
+    }
+
     .t-form-actions {
-      margin-top: 20px;
+      margin: 0;
     }
   }
 }

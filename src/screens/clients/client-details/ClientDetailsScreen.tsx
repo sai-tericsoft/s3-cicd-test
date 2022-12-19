@@ -146,16 +146,14 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
                                             </div>
                                         </div>
                                         <div className="client-details-content-wrapper">
-                                            <div className={"client-details-actions"}>
-                                                {
-                                                    currentTab === "basicDetails" &&
-                                                    <LinkComponent
-                                                        route={CommonService._client.NavigateToClientEdit(clientId, "basicDetails")}>
-                                                        <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>
-                                                            Edit Profile
-                                                        </ButtonComponent>
-                                                    </LinkComponent>
-                                                }
+                                            <div
+                                                className={`client-details-actions ${currentTab === "basicDetails" ? "visibility-visible" : "visibility-hidden"}`}>
+                                                <LinkComponent
+                                                    route={CommonService._client.NavigateToClientEdit(clientId, "basicDetails")}>
+                                                    <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>
+                                                        Edit Profile
+                                                    </ButtonComponent>
+                                                </LinkComponent>
                                             </div>
                                             <TabsWrapperComponent>
                                                 <TabsComponent

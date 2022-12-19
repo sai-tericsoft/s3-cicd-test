@@ -11,7 +11,7 @@ interface FormikCheckBoxComponentProps extends ICheckBoxProps {
 
 const FormikCheckBoxComponent = (props: FormikCheckBoxComponentProps) => {
 
-    const {formikField, color, size, id, label, disabled, onChange, required} = props;
+    const {formikField, onChange, ...otherProps} = props;
     const {field, form} = formikField;
     const {name, value} = field;
     const {setFieldTouched, touched, errors, setFieldValue} = form;
@@ -27,18 +27,13 @@ const FormikCheckBoxComponent = (props: FormikCheckBoxComponentProps) => {
 
     return (
         <CheckBoxComponent
-            color={color}
-            size={size}
             name={name}
             checked={value}
-            label={label}
-            id={id}
-            required={required}
-            disabled={disabled}
             value={value}
             onChange={onValueChange}
             hasError={hasError}
             errorMessage={hasError && _.get(errors, name)}
+            {...otherProps}
         />
     );
 };

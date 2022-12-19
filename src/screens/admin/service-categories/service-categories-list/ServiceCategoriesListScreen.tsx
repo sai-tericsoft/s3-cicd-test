@@ -70,8 +70,8 @@ const ServiceCategoriesListScreen = (props: ServiceCategoriesListScreenProps) =>
     return (
         <div className={'service-category-list-screen'}>
             <div className="service-category-list-header">
-                <div className="service-category-list-title">
-                    Service Category
+                <div className="service-category-list-filters">
+
                 </div>
                 <div className="service-category-list-options">
                     <ButtonComponent
@@ -93,17 +93,22 @@ const ServiceCategoriesListScreen = (props: ServiceCategoriesListScreenProps) =>
                 }
                 {
                     isServiceCategoryListLoaded && <>
-                        {serviceCategoryList?.length === 0 && <StatusCardComponent title={"Service category list is empty"}/>}
+                        {serviceCategoryList?.length === 0 &&
+                            <StatusCardComponent title={"Service category list is empty"}/>}
                         {
                             serviceCategoryList?.length !== 0 && <>
                                 <CardComponent>
                                     <div className="service-category-list">
-                                        {
-                                            serviceCategoryList?.map((serviceCategory) => {
-                                                return <ServiceCategoryCardComponent serviceCategory={serviceCategory}
-                                                                                     key={serviceCategory._id}/>
-                                            })
-                                        }
+                                        <div className="ts-row">
+                                            {
+                                                serviceCategoryList?.map((serviceCategory) => {
+                                                    return <div className="ts-col-lg-3">
+                                                        <ServiceCategoryCardComponent serviceCategory={serviceCategory}
+                                                                                      key={serviceCategory._id}/>
+                                                    </div>
+                                                })
+                                            }
+                                        </div>
                                     </div>
                                 </CardComponent>
                             </>
