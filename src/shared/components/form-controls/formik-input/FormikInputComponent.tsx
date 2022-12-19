@@ -1,10 +1,11 @@
 import "./FormikInputComponent.scss";
-import InputComponent, {InputComponentProps} from "../input/InputComponent";
+import InputComponent from "../input/InputComponent";
 import {FieldProps} from "formik";
 import _ from "lodash";
 import {useCallback} from "react";
+import {IInputFieldProps} from "../../../models/form-controls.model";
 
-interface FormikInputComponentProps extends InputComponentProps {
+interface FormikInputComponentProps extends IInputFieldProps {
     formikField: FieldProps;
 }
 

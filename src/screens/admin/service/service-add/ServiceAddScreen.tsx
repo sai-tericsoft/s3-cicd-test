@@ -14,7 +14,7 @@ import FilePreviewThumbnailComponent
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 import {CommonService} from "../../../../shared/services";
 import {IAPIResponseType} from "../../../../shared/models/api.model";
-import {ImageConfig, Misc} from "../../../../constants";
+import {ImageConfig, Misc, Patterns} from "../../../../constants";
 import CardComponent from "../../../../shared/components/card/CardComponent";
 import FormikSelectComponent from "../../../../shared/components/form-controls/formik-select/FormikSelectComponent";
 import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
@@ -32,7 +32,7 @@ interface ServiceAddComponentProps {
 
 const CONSULTATION_DURATION_SLOT = {
     duration: undefined,
-    price: undefined
+    price: ""
 };
 
 const CONSULTATION_BLOCK = {
@@ -68,7 +68,9 @@ const serviceAddFormValidationSchema = Yup.object({
             title: Yup.string().nullable(),
             consultation_details: Yup.array(Yup.object({
                 duration: Yup.number().required("Duration is required"),
-                price: Yup.number().required("Price is required"),
+                price: Yup.string()
+                    .matches(Patterns.POSITIVE_INTEGERS, "Price per hour must be a number")
+                    .required("Price is required"),
             })),
         })
     ),
@@ -76,7 +78,9 @@ const serviceAddFormValidationSchema = Yup.object({
             title: Yup.string().nullable(),
             consultation_details: Yup.array(Yup.object({
                 duration: Yup.number().required("Duration is required"),
-                price: Yup.number().required("Price is required"),
+                price: Yup.string()
+                    .matches(Patterns.POSITIVE_INTEGERS, "Price per hour must be a number")
+                    .required("Price is required"),
             })),
         })
     ),
@@ -273,6 +277,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                             formikField={field}
                                                                                                             fullWidth={true}
                                                                                                             id={"sv_ic_cd_price" + index}
+                                                                                                            validationPattern={Patterns.POSITIVE_INTEGERS_PARTIAL}
                                                                                                         />
                                                                                                     )
                                                                                                 }
@@ -416,6 +421,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                             formikField={field}
                                                                                                             fullWidth={true}
                                                                                                             id={"sv_fc_cd_price_" + index}
+                                                                                                            validationPattern={Patterns.POSITIVE_INTEGERS_PARTIAL}
                                                                                                         />
                                                                                                     )
                                                                                                 }
