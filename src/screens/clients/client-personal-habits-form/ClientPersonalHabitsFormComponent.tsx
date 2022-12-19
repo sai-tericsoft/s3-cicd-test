@@ -18,8 +18,6 @@ import {IRootReducerState} from "../../../store/reducers";
 import {getClientMedicalDetails} from "../../../store/actions/client.action";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
-import HorizontalLineComponent
-    from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 
 interface ClientPersonalHabitsFormComponentProps {
     clientId: string;

@@ -133,7 +133,7 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
         setCurrentStep(nextStep);
         searchParams.set("currentStep", nextStep);
         setSearchParams(searchParams);
-    }, [currentStep, clientId, navigate, clientBasicDetails]);
+    }, [currentStep, searchParams, setSearchParams, clientId, navigate, clientBasicDetails]);
 
     const handleClientDetailsCancel = useCallback(() => {
         if (clientId) {
