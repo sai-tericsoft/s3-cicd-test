@@ -70,7 +70,7 @@ const ButtonComponent = (props: React.PropsWithChildren<ButtonComponentProps>) =
                             style={style}
                             disabled={disabled}
                             fullWidth={fullWidth}
-                            className={className}
+                            className={"button-"+ size + " " +className}
                             size={size}
                             type={type}
                             color={color}

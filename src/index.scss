@@ -1,12 +1,6 @@
 @import "assets/styles/common";
 
-body {
-  margin: 0;
-  font-family: $font-family, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: $body-color;
-  background: $body-background-color;
+html, body{
   font-size: 14px;
 
   //@include md() {
@@ -18,4 +12,13 @@ body {
   //}
 
 
+}
+
+body {
+  margin: 0;
+  font-family: $font-family, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: $body-color;
+  background: $body-background-color;
 }

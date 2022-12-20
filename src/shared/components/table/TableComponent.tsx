@@ -31,7 +31,7 @@ const TableComponent = (props: TableComponentProps) => {
 
     const [tableColumns, setTableColumns] = useState<ColumnsType<any>>(props.columns);
     const size = props.size || "large";
-    const scroll = props.scroll || "scroll";
+    const scroll = props.scroll || "unset";
     const tableLayout = props.tableLayout || "fixed";
     const showHeader = props.showHeader !== undefined ? props.showHeader : true;
 
