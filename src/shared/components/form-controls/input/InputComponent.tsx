@@ -1,6 +1,6 @@
 import "./InputComponent.scss";
 import {FormControl, InputAdornment, TextField} from "@mui/material";
-import {useCallback, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {IInputFieldProps} from "../../../models/form-controls.model";
 import {CommonService} from "../../../services";
 
@@ -63,6 +63,10 @@ const InputComponent = (props: InputComponentProps) => {
             }
         }
     }, [titleCase, validationPattern, onChange]);
+
+    useEffect(() => {
+        setInputValue(props.value);
+    }, [props.value]);
 
     return (
         <FormControl className={'input-component ' + className + ' ' + (fullWidth ? "full-width" : "")}
