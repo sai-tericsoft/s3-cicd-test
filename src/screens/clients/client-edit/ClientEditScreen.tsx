@@ -78,7 +78,7 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                 }
             }
         }
-    }, [currentStep, clientId, navigate]);
+    }, [currentStep, clientId]);
 
     const handleClientDetailsNext = useCallback(() => {
         let nextStep = currentStep;
