@@ -6,7 +6,7 @@ import {IFacility, IFacilityListFilterState} from "../../../../shared/models/fac
 import ChipComponent from "../../../../shared/components/chip/ChipComponent";
 import LinkComponent from "../../../../shared/components/link/LinkComponent";
 import {CommonService} from "../../../../shared/services";
-import {useCallback, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import {useDispatch} from "react-redux";
 import SearchComponent from "../../../../shared/components/search/SearchComponent";
@@ -81,7 +81,7 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
                     <div className="ts-row">
                         <div className="ts-col-lg-3">
                             <SearchComponent
-                                label={"Search Facility"}
+                                label={"Search for Facilities"}
                                 value={facilityListFilterState.search}
                                 onSearchChange={(value) => {
                                     setFacilityListFilterState({...facilityListFilterState, search: value})
