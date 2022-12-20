@@ -194,6 +194,7 @@ export interface IAutoCompleteProps {
     size?: 'small' | 'medium';
     url?: string;
     valueExtractor?: (item: any) => any;
+    filterSelectedOptions?: boolean;
 }
 
 export interface IDatePickerProps {
