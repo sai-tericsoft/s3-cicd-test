@@ -48,10 +48,11 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
     const [isServiceCategoryEditInProgress, setIsServiceCategoryEditInProgress] = useState(false);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        if (!(values.image instanceof File)) {
-            delete values.image;
+        const payload = _.cloneDeep(values);
+        if (!(payload.image instanceof File)) {
+            delete payload.image;
         }
-        const formData = CommonService.getFormDataFromJSON(values);
+        const formData = CommonService.getFormDataFromJSON(payload);
         setIsServiceCategoryEditInProgress(true);
         CommonService._serviceCategory.ServiceCategoryEditAPICall(serviceCategory._id, formData)
             .then((response: IAPIResponseType<IServiceCategory>) => {
