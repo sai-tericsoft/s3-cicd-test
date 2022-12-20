@@ -59,18 +59,18 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
             switch (currentStep) {
                 case "basicDetails":
                 case "accountDetails": {
-                    // navigate(CommonService._client.NavigateToClientDetails(clientId, currentStep));
+                    navigate(CommonService._client.NavigateToClientDetails(clientId, currentStep));
                     break;
                 }
-                case "personalHabits":
-                case "allergies":
-                case "medicalHistory":
-                case "medicalSupplements":
-                case "medicalFemaleOnly":
-                case "surgicalHistory":
-                case "musculoskeletalHistory":
+                // case "personalHabits":
+                // case "allergies":
+                // case "medicalHistory":
+                // case "medicalSupplements":
+                // case "medicalFemaleOnly":
+                // case "surgicalHistory":
+                // case "musculoskeletalHistory":
                 case "medicalProvider": {
-                    // navigate(CommonService._client.NavigateToClientDetails(clientId, "medicalHistoryQuestionnaire"));
+                    navigate(CommonService._client.NavigateToClientDetails(clientId, "medicalHistoryQuestionnaire"));
                     break;
                 }
                 default: {
