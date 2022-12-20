@@ -75,6 +75,7 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
             .then((response: IAPIResponseType<IClientMedicalHistoryForm>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsClientMedicalHistorySavingInProgress(false);
+                SetClientMedicalHistoryInitialValues(_.cloneDeep(values));
                 onSave(response);
             })
             .catch((error: any) => {

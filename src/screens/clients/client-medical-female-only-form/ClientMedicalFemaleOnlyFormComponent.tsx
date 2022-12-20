@@ -72,6 +72,7 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
             .then((response: IAPIResponseType<IClientMedicalFemaleOnlyForm>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsClientMedicalFemaleOnlyFormSavingInProgress(false);
+                setClientMedicalFemaleOnlyInitialValues(_.cloneDeep(values));
                 onSave(response);
             })
             .catch((error: any) => {

@@ -123,6 +123,7 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
             .then((response: IAPIResponseType<IClientPersonalHabitsForm>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsClientPersonalHabitsSavingInProgress(false);
+                setClientPersonalHabitsFormInitialValues(_.cloneDeep(values));
                 onSave(response);
             })
             .catch((error: any) => {

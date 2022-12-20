@@ -54,6 +54,7 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
             .then((response: IAPIResponseType<IClientAllergiesForm>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsClientAllergiesSavingSavingInProgress(false);
+                setClientAllergiesFormInitialValues(_.cloneDeep(values));
                 onSave(response);
             })
             .catch((error: any) => {

@@ -58,6 +58,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
             .then((response: IAPIResponseType<IClientMusculoskeletalHistoryForm>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsClientMusculoskeletalHistorySavingInProgress(false);
+                setClientMusculoskeletalHistoryFormInitialValues(_.cloneDeep(values));
                 onSave(response);
             })
             .catch((error: any) => {

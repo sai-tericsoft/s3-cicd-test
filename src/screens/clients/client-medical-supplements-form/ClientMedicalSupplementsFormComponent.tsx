@@ -63,6 +63,7 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
             .then((response: IAPIResponseType<IClientMedicalSupplementsForm>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsClientMedicalSupplementsSavingInProgress(false);
+                setClientMedicalSupplementsInitialValues(_.cloneDeep(values));
                 onSave(response);
             })
             .catch((error: any) => {
