@@ -6,7 +6,7 @@ import {IFacility, IFacilityListFilterState} from "../../../../shared/models/fac
 import ChipComponent from "../../../../shared/components/chip/ChipComponent";
 import LinkComponent from "../../../../shared/components/link/LinkComponent";
 import {CommonService} from "../../../../shared/services";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import {useDispatch} from "react-redux";
 import SearchComponent from "../../../../shared/components/search/SearchComponent";
@@ -81,7 +81,7 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
                     <div className="ts-row">
                         <div className="ts-col-lg-3">
                             <SearchComponent
-                                label={"Search for clients"}
+                                label={"Search Facility"}
                                 value={facilityListFilterState.search}
                                 onSearchChange={(value) => {
                                     setFacilityListFilterState({...facilityListFilterState, search: value})
@@ -97,7 +97,9 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
                                        method={APIConfig.FACILITY_LIST.METHOD}
                                        rowKey={(item: IFacility) => item._id}
                                        isPaginated={true}
+                                       extraPayload={facilityListFilterState}
                                        columns={FacilityListColumns}
+
                 />
             </div>
         </div>
