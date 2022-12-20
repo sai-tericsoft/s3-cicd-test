@@ -182,7 +182,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                             <div className={'ts-row'}>
                                                 <div className={'ts-col-lg-3'}>
                                                     <DataLabelValueComponent label={'Phone Type (Secondary)'}>
-                                                        {phone_number?.phone_type.title || "-"}
+                                                        {phone_number?.phone_type_details?.title || "-"}
                                                     </DataLabelValueComponent>
                                                 </div>
                                                 <div className={'ts-col-lg-3'}>
