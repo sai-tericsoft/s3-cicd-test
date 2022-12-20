@@ -41,7 +41,7 @@ const ServiceConsultationDetailsComponent = (props: ServiceConsultationDetailsCo
                     {
                         serviceDetails.initial_consultation.map((consultation, index) => {
                             return <CardComponent
-                                title={consultation.title ? "Initial Consultation " + (index + 1) + " ( " + consultation.title + " ) " : "Initial Consultation " + (index + 1)}
+                                title={"Initial Consultation " + (index + 1) + (consultation.title ? " ( " + consultation.title + " ) " : "")}
                                 size={"sm"}>
                                 <TableComponent data={consultation.consultation_details || []}
                                                 columns={ServiceConsultationColumns}
