@@ -17,14 +17,7 @@ import FormikAutoCompleteComponent
     from "../../shared/components/form-controls/formik-auto-complete/FormikAutoCompleteComponent";
 import FormikDatePickerComponent
     from "../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
-import FormDebuggerComponent from "../../shared/components/form-debugger/FormDebuggerComponent";
 import {Patterns} from "../../constants";
-import {ITableColumn} from "../../shared/models/table.model";
-import TableComponent from "../../shared/components/table/TableComponent";
-import {ImageConfig} from "../../constants";
-import IconButtonComponent from "../../shared/components/icon-button/IconButtonComponent";
-import FormikSelectComponent from "../../shared/components/form-controls/formik-select/FormikSelectComponent";
-import DateRangePickerComponent from "../../shared/components/form-controls/date-range-picker/DateRangePickerComponent";
 
 interface DesignSystemScreenProps {
 
@@ -43,7 +36,7 @@ const designSystemFormValidationSchema = Yup.object({
 });
 
 const DesignSystemScreen = (props: DesignSystemScreenProps) => {
-
+ 
     const options = [{title: 'Male', code: 'm', _id: 'm'}, {title: 'Female', code: 'f', _id: 'f'}];
     const users = [{fName: 'Mick', lName: 'John', _id: 1}, {fName: 'John', lName: 'Doe', _id: 2}];
 
@@ -62,7 +55,6 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
 
     const [isFormSubmitting, setIsFormSubmitting] = useState(false);
     const [isTnCModalOpened, setIsTnCModalOpened] = useState(false);
-    const [currentTab, setCurrentTab] = useState<string>("tab1");
 
     const onSubmit = useCallback((values: any) => {
         console.log(values);
