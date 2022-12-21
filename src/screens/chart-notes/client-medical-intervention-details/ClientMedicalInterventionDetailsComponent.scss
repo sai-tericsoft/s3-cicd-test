@@ -1,0 +1,76 @@
+.client-medical-intervention-details-component {
+  .client-medical-intervention-details-wrapper {
+    line-height: 24px;
+
+    .observation-wrapper {
+      font-weight: 700;
+    }
+
+    .objective-table-wrapper {
+      border: 1px solid #ABB6BE;
+      border-radius: 5px;
+      margin-top: 24px;
+
+      .range-of-motion-label {
+        margin-top: 16px;
+        margin-left: 16px;
+
+      }
+    }
+
+    .medical-details-wrapper {
+      margin-top: 24px;
+      margin-bottom: 24px;
+    }
+
+    .assessment-table-wrapper {
+      border: 1px solid #ABB6BE;
+      border-radius: 5px;
+
+      .assessment-sub-table-wrapper {
+        display: flex;
+        border-bottom: 1px solid #EAF3F2;;
+        background-color: #EAF3F2;
+        height: 57px;
+        align-items: center;
+
+        .header-icd {
+          width: 10%;
+          height: auto;
+          text-align: center;
+          border-right: 1px solid #D9E2E2;
+          font-size: 1.1429rem;
+        }
+        .header-description{
+          font-size: 1.1429rem;
+          margin-left: 20px;
+        }
+      }
+
+
+      .medical-diagnosis-label {
+        margin: 16px;
+      }
+    }
+  }
+  .assessment-rows{
+    display: flex;
+    height: 57px;
+    align-items: center;
+    border-bottom: 1px solid #D9E2E2;
+
+    .code-row{
+      width: 10%;
+      height: auto;
+      text-align: center;
+      border-right: 1px solid #D9E2E2;
+      font-size: 1rem;
+    }
+    .code-description{
+      width: 80%;
+      height: auto;
+      margin-left: 20px;
+      font-size: 1rem;
+    }
+  }
+}
