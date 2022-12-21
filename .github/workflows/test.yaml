@@ -17,10 +17,10 @@ jobs:
           node-version: "14.x"
 
       - name: Yarn install cache
-      uses: c-hive/gha-yarn-cache@v1
-      with:  
-        node-version: '14.x' 
-        cache: 'yarn'  
+        uses: c-hive/gha-yarn-cache@v1
+        with:  
+          node-version: '14.x' 
+          cache: 'yarn'  
 
       - name: Install yarn dependencies
         run: yarn install
