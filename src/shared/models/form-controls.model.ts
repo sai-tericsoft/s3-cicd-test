@@ -58,6 +58,7 @@ export interface ICheckBoxProps {
     name?: string;
     onChange?: (isChecked: boolean) => void;
     required?: boolean;
+    labelPlacement?: 'bottom' | 'end' | 'start' | 'top';
     size?: "medium" | "small";
 }
 

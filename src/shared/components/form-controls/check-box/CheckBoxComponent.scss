@@ -1,0 +1,7 @@
+.check-box-component {
+  &.label-position-start, &.label-position-top, &.label-position-bottom {
+    .MuiFormControlLabel-root {
+      margin-left: 0 !important;
+    }
+  }
+}

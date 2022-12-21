@@ -3,7 +3,7 @@
 .design-system-screen {
   height: 100vh;
   width: 100vw;
-  //@include display-center();
+  @include display-center();
 
   .design-system-form-container {
     width: 400px;
