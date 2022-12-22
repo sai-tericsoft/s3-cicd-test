@@ -1,11 +1,25 @@
 import './TestScreen.scss';
-import React from 'react';
-import GroupingTableComponent from "../chart-notes/grouping-table/GroupingTableComponent";
+<<<<<<< HEAD
+
+=======
+import React  from 'react';
+>>>>>>> b385e268b80614d4a8311ba7df19218383a74cdd
+import ClientMedicalInterventionDetailsComponent
+    from "../chart-notes/client-medical-intervention-details/ClientMedicalInterventionDetailsComponent";
 
 const TestScreen: React.FC = () => {
 
+<<<<<<< HEAD
     return (
-        <GroupingTableComponent/>
+        <>
+            <ClientMedicalInterventionDetailsComponent/>
+=======
+        return (
+            <>
+                <ClientMedicalInterventionDetailsComponent/>
+>>>>>>> b385e268b80614d4a8311ba7df19218383a74cdd
+
+        </>
     );
 };
 
