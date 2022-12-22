@@ -1,13 +1,17 @@
 import './TestScreen.scss';
 import React  from 'react';
-import ICDCodeListComponent from "../chart-notes/ICD-code-list/ICDCodeListComponent";
+import ClientMedicalInterventionDetailsComponent
+    from "../chart-notes/client-medical-intervention-details/ClientMedicalInterventionDetailsComponent";
+
+
+
 
 const TestScreen: React.FC = () => {
-
+    
         return (
             <>
-            {/*<ServiceAddScreen/>*/}
-                <ICDCodeListComponent/>
+                <ClientMedicalInterventionDetailsComponent/>
+
         </>
 
     );
