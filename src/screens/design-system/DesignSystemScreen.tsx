@@ -36,7 +36,7 @@ const designSystemFormValidationSchema = Yup.object({
 });
 
 const DesignSystemScreen = (props: DesignSystemScreenProps) => {
- 
+
     const options = [{title: 'Male', code: 'm', _id: 'm'}, {title: 'Female', code: 'f', _id: 'f'}];
     const users = [{fName: 'Mick', lName: 'John', _id: 1}, {fName: 'John', lName: 'Doe', _id: 2}];
 
@@ -67,7 +67,7 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
     return (
         <div className="design-system-screen screen">
             <div className="design-system-form-container">
-                <CardComponent>
+                <CardComponent title={"Sign up"}>
                     <Formik
                         validationSchema={designSystemFormValidationSchema}
                         initialValues={designSystemFormInitialValues}

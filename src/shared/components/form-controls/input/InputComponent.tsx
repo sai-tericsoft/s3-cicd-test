@@ -36,7 +36,6 @@ const InputComponent = (props: InputComponentProps) => {
     const type = props.type || "text";
     const fullWidth = props.fullWidth || false;
     const placeholder = props.placeholder || label;
-    const [inputValue, setInputValue] = useState(value);
 
     const handleOnChange = useCallback((event: any) => {
         let nextValue = event.target.value;
@@ -52,21 +51,15 @@ const InputComponent = (props: InputComponentProps) => {
                 console.log(reg.test(nextValue), 4);
                 if (nextValue === "" || reg.test(nextValue)) {
                     console.log(nextValue, reg, reg.test(nextValue), "regex passed");
-                    setInputValue(nextValue);
                     onChange(nextValue);
                 } else {
                     console.log(nextValue, reg, reg.test(nextValue), "regex failed");
                 }
             } else {
-                setInputValue(nextValue);
                 onChange(nextValue);
             }
         }
     }, [titleCase, validationPattern, onChange]);
-
-    useEffect(() => {
-        setInputValue(props.value);
-    }, [props.value]);
 
     return (
         <FormControl className={'input-component ' + className + ' ' + (fullWidth ? "full-width" : "")}
@@ -80,7 +73,7 @@ const InputComponent = (props: InputComponentProps) => {
                        name={name}
                        size={size}
                        label={label}
-                       value={inputValue}
+                       value={value}
                        variant={variant}
                        disabled={disabled}
                        InputProps={{
