@@ -16,7 +16,7 @@ interface ButtonComponentProps {
     suffixIcon?: any;
     isLoading?: boolean;
     id?: string;
-    onClick?: () => void;
+    onClick?: (event: any) => void;
     style?: CSSProperties;
 }
 
@@ -39,9 +39,9 @@ const ButtonComponent = (props: React.PropsWithChildren<ButtonComponentProps>) =
     const variant = props.variant || "contained";
     const type = props.type || "button";
 
-    const handleOnClick = useCallback(() => {
+    const handleOnClick = useCallback((event: any) => {
         if (onClick) {
-            onClick();
+            onClick(event);
         }
     }, [onClick]);
 
