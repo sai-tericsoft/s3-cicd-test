@@ -115,7 +115,7 @@ const transformTimeStamp = (date: Date | string) => {
     return moment(date).format('D-MMM-YYYY | hh:mm A');
 }
 
-const convertDateFormat = (date: Date, format: string = 'MM-DD-YYYY') => {
+const convertDateFormat = (date: Date, format: string = 'YYYY-MM-DD') => {
     return moment(date).format(format);
 }
 

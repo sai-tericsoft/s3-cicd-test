@@ -3,6 +3,7 @@ import {Navigate, Route, Routes, useLocation, useNavigate} from 'react-router-do
 import NotFoundScreen from "../screens/not-found/notFoundScreen";
 import AuthLayout from "../layouts/auth-layout/AuthLayout";
 import {
+    ADD_MEDICAL_INTERVENTION,
     ADD_MEDICAL_RECORD,
     ADMIN,
     CLIENT_ADD,
@@ -47,6 +48,7 @@ import ClientDetailsScreen from "../screens/clients/client-details/ClientDetails
 import ClientEditScreen from "../screens/clients/client-edit/ClientEditScreen";
 import ClientSearchScreen from "../screens/chart-notes/client-search/ClientSearchScreen";
 import AddMedicalRecordScreen from "../screens/chart-notes/add-medical-record/AddMedicalRecordScreen";
+import AddMedicalInterventionScreen from "../screens/chart-notes/add-medical-intervention/AddMedicalInterventionScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -213,6 +215,12 @@ const Navigator = (props: NavigatorProps) => {
                 <Route path={ADD_MEDICAL_RECORD}
                        element={<ProtectedRoute>
                            <AddMedicalRecordScreen/>
+                       </ProtectedRoute>
+                       }
+                />
+                <Route path={ADD_MEDICAL_INTERVENTION}
+                       element={<ProtectedRoute>
+                           <AddMedicalInterventionScreen/>
                        </ProtectedRoute>
                        }
                 />

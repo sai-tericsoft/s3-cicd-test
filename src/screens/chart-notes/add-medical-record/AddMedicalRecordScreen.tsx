@@ -26,7 +26,7 @@ import IconButtonComponent from "../../../shared/components/icon-button/IconButt
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import moment from "moment";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 interface AddMedicalRecordScreenProps {
 
@@ -39,7 +39,7 @@ const MEDICAL_RECORD_BODY_PART = {
 };
 
 const MedicalRecordAddFormInitialValues: any = { // TODO type properly
-    date_of_onset: "",
+    onset_date: "",
     treated_by: "",
     case_physician: {
         is_case_physician: false,
@@ -74,6 +74,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
 
     const {clientId} = useParams();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const {injuryTypeList, bodyPartList} = useSelector((state: IRootReducerState) => state.staticData);
     const {allProvidersList} = useSelector((state: IRootReducerState) => state.user);
     const [addMedicalRecordFormInitialValues] = useState<any>(_.cloneDeep(MedicalRecordAddFormInitialValues));  // TODO type properly
@@ -96,15 +97,19 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
         if (clientId) {
             setIsMedicalRecordAddInProgress(true);
             values.surgery_details.reported_by = values?.surgery_details?.reported_by?._id;
-            values.date_of_onset = CommonService.convertDateFormat(values?.date_of_onset);
-            values.case_physician.next_appointment = CommonService.convertDateFormat(values?.case_physician?.next_appointment);
-            values.surgery_details.surgery_date = CommonService.convertDateFormat(values?.surgery_details?.surgery_date);
+            values.onset_date = CommonService.convertDateFormat(values?.onset_date);
+            if (values.case_physician.next_appointment) {
+                values.case_physician.next_appointment = CommonService.convertDateFormat(values?.case_physician?.next_appointment);
+            }
+            if (values.surgery_details.surgery_date) {
+                values.surgery_details.surgery_date = CommonService.convertDateFormat(values?.surgery_details?.surgery_date);
+            }
             const formData = CommonService.getFormDataFromJSON(values);
             CommonService._chartNotes.MedicalRecordAddAPICall(clientId, formData)
                 .then((response: IAPIResponseType<any>) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     setIsMedicalRecordAddInProgress(false);
-                    // TODO to redirect to medical intervention details screen to fill chart notes.
+                    navigate(CommonService._routeConfig.AddMedicalIntervention(clientId, response?.data?.intervention_id));
                 })
                 .catch((error: any) => {
                     CommonService.handleErrors(setErrors, error, true);
@@ -130,7 +135,6 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
-                            {/*<FormDebuggerComponent values={values} errors={errors}/>*/}
                             {
                                 (!SurgeryRecordValidationSchema.isValidSync(values?.surgery_details)) && <div
                                     className={"mrg-bottom-20 display-flex flex-direction-row-reverse"}>
@@ -214,7 +218,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                             <CardComponent title={"Medical Record Details"}>
                                 <div className="ts-row">
                                     <div className="ts-col-lg-4">
-                                        <Field name={'date_of_onset'}>
+                                        <Field name={'onset_date'}>
                                             {
                                                 (field: FieldProps) => (
                                                     <FormikDatePickerComponent
@@ -256,7 +260,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                     <FormikSelectComponent
                                                         options={CommonService._staticData.yesNoOptions}
                                                         displayWith={(option) => option.title}
-                                                        valueExtractor={(option) => option.title}
+                                                        valueExtractor={(option) => option.code}
                                                         label={'Is there a Case Physician?'}
                                                         formikField={field}
                                                         required={true}
@@ -366,8 +370,8 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                                                         disabled={values?.injury_details[index]?.body_part_id === ""}
                                                                                         options={bodyPartList?.find((item: IBodyPart) => item?._id === values?.injury_details[index]?.body_part_id)?.sides}
                                                                                         label={'Body Side'}
-                                                                                        displayWith={(item: any) => item}
-                                                                                        valueExtractor={(item: any) => item}
+                                                                                        displayWith={(item: any) => item.name}
+                                                                                        valueExtractor={(item: any) => item.name}
                                                                                         formikField={field}
                                                                                         required={true}
                                                                                         fullWidth={true}
@@ -387,7 +391,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                                                     <FormikSelectComponent
                                                                                         options={injuryTypeList}
                                                                                         displayWith={(item: any) => item?.title}
-                                                                                        valueExtractor={(item: any) => item?.title}
+                                                                                        valueExtractor={(item: any) => item?._id}
                                                                                         label={'Injury Type'}
                                                                                         formikField={field}
                                                                                         required={true}
@@ -553,7 +557,6 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                             </>
                                         )}/>
                                     <FilePickerComponent
-                                        showDropZone={false}
                                         maxFileCount={1}
                                         id={"sv_upload_btn"}
                                         onFilesDrop={(acceptedFiles, rejectedFiles) => {
@@ -562,6 +565,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                 setFieldValue(`surgery_details.documents[${values?.surgery_details?.documents?.length || 0}]`, file);
                                             }
                                         }}
+                                        acceptedFilesText={"PDF files are allowed"}
                                         acceptedFileTypes={["pdf"]}
                                     />
                                 </div>
