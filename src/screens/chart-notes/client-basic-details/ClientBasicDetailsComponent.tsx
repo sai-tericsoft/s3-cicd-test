@@ -14,7 +14,7 @@ import {ITableColumn} from "../../../shared/models/table.model";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
-import {APIConfig} from "../../../constants";
+import {APIConfig, ImageConfig} from "../../../constants";
 
 interface ClientBasicDetailsComponentProps {
 
@@ -24,34 +24,50 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
 
     const ClientListTableColumns: ITableColumn[] = [
         {
+            title: '',
+            key: 'alert_icon',
+            width: '5%',
+            render: (re_: any, item: any) => {
+                return <>
+                    {item.alert_type === "high" && <ImageConfig.RedAlertIcon/>}
+                    {item.alert_type === "medium" && <ImageConfig.YellowAlertIcon/>}
+                </>
+            }
+        },
+        {
             title: "Date of Onset",
             key: "date_of_onset",
             dataIndex: "date_of_onset",
-            width: "12%",
+            width: "15%",
             fixed: "left",
             render: (_: any, item: any) => {
-                 return <>{CommonService.convertDateFormat2(item.date_of_onset)}</>
+                return <>{CommonService.convertDateFormat2(item.date_of_onset)}</>
             }
         },
         {
             title: "Body Part",
             key: "body part",
             dataIndex: "body_part",
-            width: "10%",
+            width: "13%",
 
+            render: (_: any, item: any) => {
+                return <>{item.injury_details.map((e: any) => {
+                    return <>{e.body_part_id?.name}</>
+                })}{item.injury_details.length > 1 && "(+" + item.injury_details.length + ")"}</>
+
+            }
         },
         {
             title: "Body Side",
             key: "body_side",
             dataIndex: "body_side",
-            width: "10%",
+            width: "15%",
             render: (_: any, item: any) => {
                 return <>{item.injury_details.map((e: any) => {
                     return <>{e.body_side}</>
                 })}</>
             }
         },
-
         {
             title: "Current Case Status",
             dataIndex: "status",
@@ -59,22 +75,20 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
             width: "20%",
             render: (_: any, item: any) => {
                 return <ChipComponent label={item?.status}
-                                      color={item?.status === 'Open/Active' ? "success" : "error"}></ChipComponent>
+                                      className={item?.status === 'Open/Active' ? "active" : "inactive"}></ChipComponent>
             }
-
         },
         {
             title: "Last Provider",
             key: "last_provider",
             dataIndex: "last_provider",
             width: "15%",
-
         },
         {
             title: "",
             dataIndex: "actions",
             key: "actions",
-            width: "13%",
+            width: "12%",
             fixed: "right",
             render: (_: any, item: IClientBasicDetails) => {
                 if (item?._id) {
@@ -112,7 +126,6 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                     !clientId && <StatusCardComponent title={"Client ID missing. cannot fetch details"}/>
                 }
             </>
-
             <>
                 {
                     clientId && <>
@@ -143,7 +156,6 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                             url={APIConfig.CLIENT_MEDICAL_INFO.URL(clientId)}
                                             method={APIConfig.CLIENT_MEDICAL_INFO.METHOD}
                                             columns={ClientListTableColumns}
-
                                         />
                                     </div>
                                 </div>
@@ -154,7 +166,6 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
             </>
         </div>
     );
-
 };
 
 export default ClientBasicDetailsComponent;
