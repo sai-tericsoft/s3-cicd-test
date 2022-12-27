@@ -7,7 +7,7 @@ import {CommonService} from "../../../services";
 import {useNavigate} from "react-router-dom";
 import {useCallback} from "react";
 import IconButtonComponent from "../../icon-button/IconButtonComponent";
-import {ListItemIcon, ListItemText, MenuItem} from "@mui/material";
+import {ListItemIcon, ListItemText} from "@mui/material";
 import {Logout} from "@mui/icons-material";
 import MenuDropdownComponent from "../../menu-dropdown/MenuDropdownComponent";
 
