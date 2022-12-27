@@ -5,10 +5,11 @@ import {IRootReducerState} from "../../../../store/reducers";
 import {logout} from "../../../../store/actions/account.action";
 import {CommonService} from "../../../services";
 import {useNavigate} from "react-router-dom";
-import {useCallback, useState} from "react";
+import {useCallback} from "react";
 import IconButtonComponent from "../../icon-button/IconButtonComponent";
-import {ListItemIcon, ListItemText, Menu, MenuItem} from "@mui/material";
+import {ListItemIcon, ListItemText} from "@mui/material";
 import {Logout} from "@mui/icons-material";
+import MenuDropdownComponent from "../../menu-dropdown/MenuDropdownComponent";
 
 interface HeaderComponentProps {
 
@@ -29,18 +30,6 @@ const HeaderComponent = (props: HeaderComponentProps) => {
         }
     }, [onNavigateBack]);
 
-    const [profileMenuAnchorEl, setProfileMenuAnchorE] = useState<null | HTMLElement>(null);
-
-    const showProfileMenu = Boolean(profileMenuAnchorEl);
-
-    const handleProfileMenuOpen = (event: React.MouseEvent<HTMLDivElement>) => {
-        setProfileMenuAnchorE(event.currentTarget);
-    };
-
-    const handleProfileMenuClose = () => {
-        setProfileMenuAnchorE(null);
-    };
-
     return (
         <div className="header-component">
             <div className="header-title-nav-back">
@@ -54,7 +43,7 @@ const HeaderComponent = (props: HeaderComponentProps) => {
                     </IconButtonComponent>
                 }
                 <div className="header-title">
-                    {!!onNavigateBack ? "Back": title}
+                    {!!onNavigateBack ? "Back" : title}
                 </div>
             </div>
             <div className="header-options">
@@ -63,49 +52,34 @@ const HeaderComponent = (props: HeaderComponentProps) => {
                         <ImageConfig.LockIcon/>
                     </IconButtonComponent>
                 </div>
-                <div className="header-option profile"
-                     id="profile-menu"
-                     aria-controls={showProfileMenu ? 'profile-menu' : undefined}
-                     aria-haspopup="true"
-                     aria-expanded={showProfileMenu ? 'true' : undefined}
-                     onClick={handleProfileMenuOpen}
-                >
-                    <span className="profile-dp-icon">
+                <MenuDropdownComponent menuBase={<>
+                    <div className="header-option profile">
+                     <span className="profile-dp-icon">
                         {userProfilePicture && <img src={userProfilePicture} alt={"user profile"}/>}
-                        {!userProfilePicture && <ImageConfig.ProfileIcon/>}
-                    </span>
-                    <div className="profile-name">
-                        {currentUser?.first_name} {currentUser?.last_name}
+                         {!userProfilePicture && <ImageConfig.ProfileIcon/>}
+                        </span>
+                        <div className="profile-name">
+                            {currentUser?.first_name} {currentUser?.last_name}
+                        </div>
+                        <span className="profile-dropdown-icon">
+                            <ImageConfig.SelectDropDownIcon/>
+                        </span>
                     </div>
-                    <span className="profile-dropdown-icon">
-                        <ImageConfig.SelectDropDownIcon/>
-                    </span>
-                </div>
+                </>} menuOptions={
+                    [
+                        <div className={"menu-item"} onClick={() => {
+                            CommonService._alert.showToast("Logged out", "success");
+                            navigate(CommonService._routeConfig.LoginRoute());
+                            dispatch(logout());
+                        }}>
+                            <ListItemIcon>
+                                <Logout fontSize={"small"}/>
+                            </ListItemIcon>
+                            <ListItemText>Logout</ListItemText>
+                        </div>
+                    ]
+                }/>
             </div>
-            <Menu // Todo refactor to extract menu logic
-                id="profile-menu"
-                anchorEl={profileMenuAnchorEl}
-                open={showProfileMenu}
-                onClose={handleProfileMenuClose}
-                MenuListProps={{
-                    'aria-labelledby': 'profile-menu',
-                }}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'right',
-                }}
-            >
-                <MenuItem onClick={() => {
-                    CommonService._alert.showToast("Logged out", "success");
-                    navigate(CommonService._routeConfig.LoginRoute());
-                    dispatch(logout());
-                }}>
-                    <ListItemIcon>
-                        <Logout fontSize={"small"}/>
-                    </ListItemIcon>
-                    <ListItemText>Logout</ListItemText>
-                </MenuItem>
-            </Menu>
         </div>
     );
 

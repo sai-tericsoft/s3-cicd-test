@@ -8,7 +8,6 @@
 @import "responsive-mixins";
 @import "responsive-display";
 @import "normalize";
-@import "components/grid";
 
 // components
 @import "components/button";
@@ -22,6 +21,9 @@
 @import "components/drawer";
 @import "components/tabs";
 @import "components/list-screen";
+@import "components/grid";
+@import "components/drop-down-menu";
+
 
 .app-version {
   font-size: 10px;

@@ -1,6 +1,6 @@
 import "./InputComponent.scss";
 import {FormControl, InputAdornment, TextField} from "@mui/material";
-import {useCallback, useEffect, useState} from "react";
+import {useCallback} from "react";
 import {IInputFieldProps} from "../../../models/form-controls.model";
 import {CommonService} from "../../../services";
 
