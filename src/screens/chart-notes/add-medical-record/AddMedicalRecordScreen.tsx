@@ -116,7 +116,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                     setIsMedicalRecordAddInProgress(false);
                 })
         }
-    }, [clientId]);
+    }, [navigate, clientId]);
 
     return (
         <div className={'add-medical-record-screen'}>

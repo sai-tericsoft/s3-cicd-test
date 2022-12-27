@@ -48,6 +48,7 @@ const FormAutoSave = (props: FormAutoSaveProps) => {
     const [isSaved, setIsSaved] = useState<boolean | undefined>(undefined);
     const [savedAt, setSavedAt] = useState<Moment | undefined>(undefined);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const debouncedSubmit = useCallback(_.debounce(() => {
         return formikCtx.submitForm()
             .then(() => {
