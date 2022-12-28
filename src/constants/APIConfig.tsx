@@ -146,7 +146,7 @@ const APIConfig: IAPIConfig = {
         METHOD: "get"
     },
     // facility end
-    
+
     // client start
 
     CLIENT_MEDICAL_DETAILS:{
@@ -235,6 +235,14 @@ const APIConfig: IAPIConfig = {
     MEDICAL_RECORD_ADD: {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medicalRecord',
         METHOD: "post"
+    },
+    MEDICAL_INTERVENTION_BASIC_DETAILS_UPDATE: {
+        URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId,
+        METHOD: "put"
+    },
+    GET_MEDICAL_INTERVENTION_BASIC_DETAILS: {
+        URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId,
+        METHOD: "get"
     }
     // chart notes end
 }

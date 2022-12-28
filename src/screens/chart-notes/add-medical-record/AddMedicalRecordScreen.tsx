@@ -465,7 +465,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                 </div>
                             </CardComponent>
                             <div className="t-form-actions">
-                                <ButtonComponent
+                                <ButtonComponent // TODO: Add CTA to take back to the previous screen
                                     variant={"outlined"}
                                     disabled={isMedicalRecordAddInProgress}
                                     id={"medical_record_add_cancel_btn"}
