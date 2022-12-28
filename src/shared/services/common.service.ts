@@ -118,6 +118,7 @@ const transformTimeStamp = (date: Date | string) => {
 const convertDateFormat = (date: Date, format: string = 'YYYY-MM-DD') => {
     return moment(date).format(format);
 }
+
 const convertDateFormat2 = (date: Date, format: string = 'DD-MMM-YYYY') => {
     return moment(date).format(format);
 }
