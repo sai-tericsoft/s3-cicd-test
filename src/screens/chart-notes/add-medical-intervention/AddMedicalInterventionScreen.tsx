@@ -104,7 +104,8 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                     // eslint-disable-next-line react-hooks/rules-of-hooks
                     useEffect(() => {
                         formik.validateForm();
-                    }, [formik, formik.validateForm, formik.values]);
+                        // eslint-disable-next-line react-hooks/exhaustive-deps
+                    }, [formik.validateForm, formik.values]);
                     return (
                         <Form className="t-form" noValidate={true}>
                             <FormAutoSave formikCtx={formik}/>
