@@ -13,7 +13,6 @@ import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import FormAutoSave from "../../../shared/utils/formAutoSave";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import {IServiceCategory} from "../../../shared/models/service-category.model";
-import BasicDetailsCardComponent from "../../../shared/components/basic-details-card/BasicDetailsCardComponent";
 
 interface AddMedicalInterventionScreenProps {
 
@@ -26,6 +25,13 @@ const MedicalInterventionAddFormInitialValues: any = { // TODO type properly
         md_recommendations: "",
         education: "",
         treatment_goals: "",
+    },
+    objective: {
+        observation: "",
+        palpation: "",
+        functional_tests: "",
+        treatment: "",
+        treatment_response: ""
     },
 };
 
@@ -119,6 +125,78 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 )
                                             }
                                         </Field>
+                                    </div>
+                                </div>
+                            </CardComponent>
+                            <CardComponent title={'Objective (O)'}>
+                                <div className="ts-row">
+                                    <div className="ts-col-12">
+                                        <Field name={'objective.observation'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikTextAreaComponent
+                                                        label={'Observation'}
+                                                        placeholder={'Observation'}
+                                                        formikField={field}
+                                                        required={false}
+                                                        fullWidth={true}
+                                                    />
+                                                )
+                                            }
+                                        </Field>
+                                        <Field name={'objective.palpation'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikTextAreaComponent
+                                                        label={'Palpation'}
+                                                        placeholder={'Palpation'}
+                                                        formikField={field}
+                                                        required={false}
+                                                        fullWidth={true}
+                                                    />
+                                                )
+                                            }
+                                        </Field>
+                                        <Field name={'objective.functional_tests'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikTextAreaComponent
+                                                        label={'Functional Tests'}
+                                                        placeholder={'Functional Tests'}
+                                                        formikField={field}
+                                                        required={false}
+                                                        fullWidth={true}
+                                                    />
+                                                )
+                                            }
+                                        </Field>
+                                        <Field name={'objective.treatment'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikTextAreaComponent
+                                                        label={'Treatment'}
+                                                        placeholder={'Treatment'}
+                                                        formikField={field}
+                                                        required={false}
+                                                        fullWidth={true}
+                                                    />
+                                                )
+                                            }
+                                        </Field>
+                                        <Field name={'objective.treatment_response'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikTextAreaComponent
+                                                        label={'Response to Treatment'}
+                                                        placeholder={'Response to Treatment'}
+                                                        formikField={field}
+                                                        required={false}
+                                                        fullWidth={true}
+                                                    />
+                                                )
+                                            }
+                                        </Field>
+
                                     </div>
                                 </div>
                             </CardComponent>
