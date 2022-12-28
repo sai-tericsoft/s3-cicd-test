@@ -2,29 +2,6 @@ import React, {useEffect} from 'react';
 import {Navigate, Route, Routes, useLocation, useNavigate} from 'react-router-dom';
 import NotFoundScreen from "../screens/not-found/notFoundScreen";
 import AuthLayout from "../layouts/auth-layout/AuthLayout";
-import {
-    ADD_MEDICAL_INTERVENTION,
-    ADD_MEDICAL_RECORD,
-    ADMIN,
-    CLIENT_ADD,
-    CLIENT_DETAILS,
-    CLIENT_EDIT,
-    CLIENT_LIST,
-    CLIENT_SEARCH,
-    CLIENT_MEDICAL_INFO,
-    COMING_SOON_ROUTE,
-    DESIGN_SYSTEM_ROUTE,
-    FACILITY_DETAILS,
-    FACILITY_LIST,
-    LOGIN_ROUTE,
-    NOT_FOUND_ROUTE,
-    SERVICE_ADD,
-    SERVICE_CATEGORY_DETAILS,
-    SERVICE_CATEGORY_LIST,
-    SERVICE_DETAILS,
-    SERVICE_EDIT,
-    TEST_ROUTE
-} from "../constants/RoutesConfig";
 import TestScreen from "../screens/test/TestScreen";
 import DesignSystemScreen from "../screens/design-system/DesignSystemScreen";
 import LoginScreen from "../screens/auth/login/LoginScreen";
@@ -50,7 +27,30 @@ import ClientEditScreen from "../screens/clients/client-edit/ClientEditScreen";
 import ClientSearchScreen from "../screens/chart-notes/client-search/ClientSearchScreen";
 import AddMedicalRecordScreen from "../screens/chart-notes/add-medical-record/AddMedicalRecordScreen";
 import AddMedicalInterventionScreen from "../screens/chart-notes/add-medical-intervention/AddMedicalInterventionScreen";
-import ClientBasicDetailsComponent from "../screens/chart-notes/client-basic-details/ClientBasicDetailsComponent";
+import {
+    ADD_MEDICAL_INTERVENTION,
+    ADD_MEDICAL_RECORD,
+    ADMIN,
+    CLIENT_ADD,
+    CLIENT_CHART_NOTES,
+    CLIENT_DETAILS,
+    CLIENT_EDIT,
+    CLIENT_LIST,
+    CLIENT_SEARCH,
+    COMING_SOON_ROUTE,
+    DESIGN_SYSTEM_ROUTE,
+    FACILITY_DETAILS,
+    FACILITY_LIST,
+    LOGIN_ROUTE,
+    NOT_FOUND_ROUTE,
+    SERVICE_ADD,
+    SERVICE_CATEGORY_DETAILS,
+    SERVICE_CATEGORY_LIST,
+    SERVICE_DETAILS,
+    SERVICE_EDIT,
+    TEST_ROUTE
+} from "../constants/RoutesConfig";
+import ChartNotesDetailsScreen from "../screens/chart-notes/chart-notes-details/ChartNotesDetailsScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -227,10 +227,10 @@ const Navigator = (props: NavigatorProps) => {
                        }
                 />
                 <Route
-                    path={CLIENT_MEDICAL_INFO + '/:clientId/medicalRecord'}
+                    path={CLIENT_CHART_NOTES}
                     element={
                         <ProtectedRoute>
-                            <ClientBasicDetailsComponent/>
+                            <ChartNotesDetailsScreen/>
                         </ProtectedRoute>
                     }
                 />

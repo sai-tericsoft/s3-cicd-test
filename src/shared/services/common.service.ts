@@ -21,11 +21,10 @@ import ClientService from "./modules/client.service";
 import ChartNotesService from "./modules/chart-notes.service";
 
 yup.addMethod(yup.mixed, 'atLeastOne', (args) => {
-    const {message, predicate} = args;
+    const {message} = args;
     // @ts-ignore
     return this.test('atLeastOne', message, (list: any) => {
         // If there are 2+ elements after filtering, we know atMostOne must be false.
-        console.log(predicate);
         return Object.keys(list).filter(item => item).length > 0
     })
 });

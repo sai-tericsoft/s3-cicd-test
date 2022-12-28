@@ -39,9 +39,7 @@ import {ReactComponent as ChartNotes} from '../assets/icons/side-menu/chart_note
 import {ReactComponent as AddIcon} from './../assets/icons/add.svg';
 import {ReactComponent as DeleteIcon} from "./../assets/icons/delete.svg";
 import {ReactComponent as AddCircleIcon} from './../assets/icons/add_circle.svg';
-import {ReactComponent as RedAlertIcon} from './../assets/icons/red_alert_icon.svg';
-import {ReactComponent as YellowAlertIcon} from './../assets/icons/yellow_alert_icon.svg';
-
+import {ReactComponent as AlertIcon} from './../assets/icons/alert_icon.svg';
 
 import PlaceHolderImage from '../assets/images/place_holder_image.png';
 import RemoveImage from '../assets/images/remove.png';
@@ -89,6 +87,5 @@ export {
     ToastCloseIcon,
     ChartNotes,
     CommentIcon,
-    RedAlertIcon,
-    YellowAlertIcon
+    AlertIcon
 }

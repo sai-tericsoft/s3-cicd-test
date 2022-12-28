@@ -1,4 +1,4 @@
-import "./ClientBasicDetailsComponent.scss";
+import "./ChartNotesDetailsScreen.scss";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import React, {useEffect} from "react";
@@ -20,25 +20,26 @@ interface ClientBasicDetailsComponentProps {
 
 }
 
-const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) => {
+const ChartNotesDetailsScreen = (props: ClientBasicDetailsComponentProps) => {
 
-    const ClientListTableColumns: ITableColumn[] = [
+    const MedicalRecordListTableColumns: ITableColumn[] = [
         {
             title: '',
             key: 'alert_icon',
-            width: '5%',
-            render: (re_: any, item: any) => {
-                return <>
-                    {item.alert_type === "high" && <ImageConfig.RedAlertIcon/>}
-                    {item.alert_type === "medium" && <ImageConfig.YellowAlertIcon/>}
-                </>
+            width: 50,
+            render: (_: any, item: any) => {
+                return <span className={`medical-record-alert ${item.alert_type}`}>
+                    {
+                        (item.alert_type === "high" || item.alert_type === "medium") && <ImageConfig.AlertIcon/>
+                    }
+                </span>
             }
         },
         {
             title: "Date of Onset",
             key: "date_of_onset",
             dataIndex: "date_of_onset",
-            width: "15%",
+            width: 130,
             fixed: "left",
             render: (_: any, item: any) => {
                 return <>{CommonService.convertDateFormat2(item.date_of_onset)}</>
@@ -48,8 +49,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
             title: "Body Part",
             key: "body part",
             dataIndex: "body_part",
-            width: "13%",
-
+            width: 120,
             render: (_: any, item: any) => {
                 return <>{item.injury_details.map((e: any) => {
                     return <>{e.body_part_id?.name}</>
@@ -61,7 +61,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
             title: "Body Side",
             key: "body_side",
             dataIndex: "body_side",
-            width: "15%",
+            width: 100,
             render: (_: any, item: any) => {
                 return <>{item.injury_details.map((e: any) => {
                     return <>{e.body_side}</>
@@ -72,7 +72,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
             title: "Current Case Status",
             dataIndex: "status",
             key: "status",
-            width: "20%",
+            width: 175,
             render: (_: any, item: any) => {
                 return <ChipComponent label={item?.status}
                                       className={item?.status === 'Open/Active' ? "active" : "inactive"}></ChipComponent>
@@ -82,13 +82,13 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
             title: "Last Provider",
             key: "last_provider",
             dataIndex: "last_provider",
-            width: "15%",
+            width: 126,
         },
         {
             title: "",
             dataIndex: "actions",
             key: "actions",
-            width: "12%",
+            width: 95,
             fixed: "right",
             render: (_: any, item: IClientBasicDetails) => {
                 if (item?._id) {
@@ -108,6 +108,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
         isClientBasicDetailsLoadingFailed,
         clientBasicDetails,
     } = useSelector((state: IRootReducerState) => state.client);
+
     useEffect(() => {
         if (clientId) {
             dispatch(getClientBasicDetails(clientId));
@@ -116,11 +117,11 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
 
     useEffect(() => {
         dispatch(setCurrentNavParams("Chart Notes", null, () => {
-            navigate(CommonService._routeConfig.ComingSoonRoute());
+            navigate(CommonService._routeConfig.ClientSearch());
         }));
     }, [navigate, dispatch]);
     return (
-        <div className={'client-basic-details-component'}>
+        <div className={'chart-notes-details-screen'}>
             <>
                 {
                     !clientId && <StatusCardComponent title={"Client ID missing. cannot fetch details"}/>
@@ -148,14 +149,17 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                 <div className={"client-details-layout"}>
                                     <div className={"client-details-basic-card-holder"}>
                                         <ClientBasicDetailsCardComponent
-                                            clientBasicDetails={clientBasicDetails} viewDetails={true}/>
+                                            clientBasicDetails={clientBasicDetails}
+                                            showViewDetailsRedirection={true}
+                                        />
                                     </div>
 
                                     <div className="client-details-tab-wrapper">
                                         <TableWrapperComponent
                                             url={APIConfig.CLIENT_MEDICAL_INFO.URL(clientId)}
                                             method={APIConfig.CLIENT_MEDICAL_INFO.METHOD}
-                                            columns={ClientListTableColumns}
+                                            columns={MedicalRecordListTableColumns}
+                                            scroll={"scroll"}
                                         />
                                     </div>
                                 </div>
@@ -168,4 +172,4 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
     );
 };
 
-export default ClientBasicDetailsComponent;
+export default ChartNotesDetailsScreen;

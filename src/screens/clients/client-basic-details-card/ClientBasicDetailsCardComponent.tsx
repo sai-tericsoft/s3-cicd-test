@@ -7,14 +7,14 @@ import {Link} from "react-router-dom";
 
 interface ClientBasicDetailsCardComponentProps {
     clientBasicDetails: IClientBasicDetails;
-    viewDetails?:boolean;
+    showViewDetailsRedirection?: boolean;
 }
 
 
 const ClientBasicDetailsCardComponent = (props: ClientBasicDetailsCardComponentProps) => {
 
 
-    const {clientBasicDetails,viewDetails} = props;
+    const {clientBasicDetails, showViewDetailsRedirection} = props;
 
     return (
         <div className={'client-basic-detail-card-wrapper'}>
@@ -28,11 +28,11 @@ const ClientBasicDetailsCardComponent = (props: ClientBasicDetailsCardComponentP
                     <div className={'client-name'}>
                         {clientBasicDetails?.first_name} {clientBasicDetails?.last_name}
                     </div>
-                    <div className={`client-status ${clientBasicDetails?.is_active ? "success" : "error" }`}>
+                    <div className={`client-status ${clientBasicDetails?.is_active ? "success" : "error"}`}>
                         {clientBasicDetails?.is_active ? 'Active' : 'Inactive'}
                     </div>
                     <div className={'dashed-border-wrapper'}>
-                    <div className={'dashed-border'}/>
+                        <div className={'dashed-border'}/>
                     </div>
                     <div className={'client-id-age-wrapper'}>
                         <DataLabelValueComponent label={'Client ID'}>
@@ -43,21 +43,20 @@ const ClientBasicDetailsCardComponent = (props: ClientBasicDetailsCardComponentP
                         </DataLabelValueComponent>
                     </div>
                     {
-                        viewDetails && <>
+                        (showViewDetailsRedirection && clientBasicDetails._id )&& <>
                             <div className={'dashed-border'}/>
-                        <div className={'client-details-info-wrapper'}>
-                            <Link className={'client-details'} to={CommonService._routeConfig.ComingSoonRoute()}>
+                            <div className={'client-details-info-wrapper'}>
+                                <a className={'client-details-view-redirection-list'} href={CommonService._routeConfig.ClientDetails(clientBasicDetails._id)} target="_blank">
                                     View Details
-                                </Link>
-                        </div>
+                                </a>
+                            </div>
                         </>
                     }
                 </div>
-
             </div>
         </div>
-            );
+    );
 
 };
 
-  export default ClientBasicDetailsCardComponent;
+export default ClientBasicDetailsCardComponent;

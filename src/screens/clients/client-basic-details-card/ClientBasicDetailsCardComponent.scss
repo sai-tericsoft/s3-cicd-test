@@ -1,3 +1,5 @@
+@import "src/assets/styles/common";
+
 .client-basic-detail-card-wrapper {
   width: 100%;
 
@@ -74,10 +76,11 @@
         margin-top: 11px;
         text-align: center;
         margin-bottom: 10px;
-        .client-details {
+
+        .client-details-view-redirection-list {
           color: #00534F;
           text-decoration: underline;
-
+          font-weight: $font-weight-bolder;
         }
       }
     }
