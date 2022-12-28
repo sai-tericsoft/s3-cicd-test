@@ -43,7 +43,7 @@ interface FormAutoSaveProps {
 const FormAutoSave = (props: FormAutoSaveProps) => {
 
     const {formikCtx} = props;
-    const delay = props.delay || 1000;
+    const delay = props.delay || 5000;
 
     const [isSaved, setIsSaved] = useState<boolean | undefined>(undefined);
     const [savedAt, setSavedAt] = useState<Moment | undefined>(undefined);
