@@ -3,16 +3,18 @@ import AvatarComponent from "../../../shared/components/avatar/AvatarComponent";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import {IClientBasicDetails} from "../../../shared/models/client.model";
 import {CommonService} from "../../../shared/services";
+import {Link} from "react-router-dom";
 
 interface ClientBasicDetailsCardComponentProps {
     clientBasicDetails: IClientBasicDetails;
+    showViewDetailsRedirection?: boolean;
 }
 
 
 const ClientBasicDetailsCardComponent = (props: ClientBasicDetailsCardComponentProps) => {
 
 
-    const {clientBasicDetails} = props;
+    const {clientBasicDetails, showViewDetailsRedirection} = props;
 
     return (
         <div className={'client-basic-detail-card-wrapper'}>
@@ -26,10 +28,12 @@ const ClientBasicDetailsCardComponent = (props: ClientBasicDetailsCardComponentP
                     <div className={'client-name'}>
                         {clientBasicDetails?.first_name} {clientBasicDetails?.last_name}
                     </div>
-                    <div className={`client-status ${clientBasicDetails?.is_active ? "success" : "error" }`}>
+                    <div className={`client-status ${clientBasicDetails?.is_active ? "success" : "error"}`}>
                         {clientBasicDetails?.is_active ? 'Active' : 'Inactive'}
                     </div>
-                    <div className={'dashed-border'}/>
+                    <div className={'dashed-border-wrapper'}>
+                        <div className={'dashed-border'}/>
+                    </div>
                     <div className={'client-id-age-wrapper'}>
                         <DataLabelValueComponent label={'Client ID'}>
                             {clientBasicDetails?.client_id}
@@ -38,12 +42,21 @@ const ClientBasicDetailsCardComponent = (props: ClientBasicDetailsCardComponentP
                             {CommonService.getTheDifferenceBetweenDates(clientBasicDetails?.dob)}
                         </DataLabelValueComponent>
                     </div>
+                    {
+                        (showViewDetailsRedirection && clientBasicDetails._id )&& <>
+                            <div className={'dashed-border'}/>
+                            <div className={'client-details-info-wrapper'}>
+                                <a className={'client-details-view-redirection-list'} href={CommonService._routeConfig.ClientDetails(clientBasicDetails._id)} target="_blank">
+                                    View Details
+                                </a>
+                            </div>
+                        </>
+                    }
                 </div>
-
             </div>
         </div>
-            );
+    );
 
 };
 
-  export default ClientBasicDetailsCardComponent;
+export default ClientBasicDetailsCardComponent;

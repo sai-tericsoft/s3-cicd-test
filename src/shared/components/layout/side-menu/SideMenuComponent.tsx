@@ -24,11 +24,11 @@ const menuList: IMenuItem[] = [
         title: 'Admin',
         icon: ImageConfig.AdminIcon
     },
-    // {
-    //     path: CommonService._routeConfig.ClientSearch(),
-    //     title: 'Chart Notes',
-    //     icon: ImageConfig.ChartNotes
-    // }
+    {
+        path: CommonService._routeConfig.ClientSearch(),
+        title: 'Chart Notes',
+        icon: ImageConfig.ChartNotes
+    }
 ]
 
 const SideMenuComponent = (props: SideMenuComponentProps) => {

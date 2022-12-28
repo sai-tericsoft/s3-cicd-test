@@ -94,6 +94,10 @@ const AddMedicalIntervention = (clientId: string, medicalInterventionId: string,
     return "/chart-notes/" + clientId + '/' + medicalInterventionId + '/add-medical-intervention';
 }
 
+const ChartNotesDetails = (clientId: string)=>{
+    return "/chart-notes/" + clientId + '/medical-record-list';
+}
+
 const RouteConfigService = {
     DefaultRoute,
     LoginRoute,
@@ -115,7 +119,8 @@ const RouteConfigService = {
     ClientEdit,
     ClientSearch,
     AddMedicalRecord,
-    AddMedicalIntervention
+    AddMedicalIntervention,
+    ChartNotesDetails
 }
 
 export default RouteConfigService;

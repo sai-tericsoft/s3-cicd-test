@@ -2,7 +2,7 @@ import "./ClientSearchScreen.scss";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import SearchComponent from "../../../shared/components/search/SearchComponent";
 import {IClientBasicDetails, IClientListFilterState} from "../../../shared/models/client.model";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {APIConfig, ImageConfig} from "../../../constants";
 import {useDispatch} from "react-redux";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
@@ -19,16 +19,18 @@ interface ClientSearchScreenProps {
 const ClientSearchScreen = (props: ClientSearchScreenProps) => {
 
     const dispatch = useDispatch();
+
     const [clientListFilterState, setClientListFilterState] = useState<IClientListFilterState>({
         search: "",
         sort: {}
     });
+
     const ClientListTableColumns: ITableColumn[] = [
         {
             title: "Client ID",
             key: "client_id",
             dataIndex: "client_id",
-            width: "10%",
+            width: 120,
             fixed: "left"
         },
         {
@@ -36,7 +38,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             key: "name",
             dataIndex: "first_name",
             sortable: true,
-            width: "15%",
+            width: 150,
             render: (_: any, item: IClientBasicDetails) => {
                 return <span>{item?.last_name} {item?.first_name}</span>
             }
@@ -45,7 +47,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             title: "Phone",
             key: "primary_contact_info",
             dataIndex: "primary_contact_info",
-            width: "15%",
+            width: 150,
             render: (_: any, item: IClientBasicDetails) => {
                 return <span>{item?.primary_contact_info?.phone}</span>
             }
@@ -54,7 +56,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             title: "Last Appointment",
             key: "last_appointment_date",
             dataIndex: "lastAppointmentDate",
-            width: "15%",
+            width: 150,
             render: (_: any, item: IClientBasicDetails) => {
                 return <span>
                     {item?.last_appointment_date ? CommonService.getSystemFormatTimeStamp(item?.last_appointment_date) : "-"}
@@ -65,7 +67,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             title: "Last Provider",
             key: "last_provider",
             dataIndex: "last_provider",
-            width: "15%",
+            width: 140,
             render: (_: any, item: IClientBasicDetails) => {
                 return <span>
                     {item?.last_provider}
@@ -76,7 +78,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             title: "Status",
             dataIndex: "status",
             key: "status",
-            width: "10%",
+            width: 90,
             render: (_: any, item: IClientBasicDetails) => {
                 return <ChipComponent label={item?.is_active ? "Active" : "Inactive"}
                                       className={item?.is_active ? "active" : "inactive"}
@@ -87,11 +89,11 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             title: "",
             dataIndex: "actions",
             key: "actions",
-            width: "10%",
+            width: 120,
             fixed: "right",
             render: (_: any, item: IClientBasicDetails) => {
                 if (item?._id) {
-                    return <LinkComponent route={CommonService._routeConfig.ComingSoonRoute()}>
+                    return <LinkComponent route={CommonService._routeConfig.ChartNotesDetails(item?._id)}>
                         View Details
                     </LinkComponent>
                 }
@@ -135,6 +137,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
                 <div className="list-content-wrapper">
                     <TableWrapperComponent
                         id={"client_search"}
+                        scroll={"scroll"}
                         url={APIConfig.CLIENT_LIST.URL}
                         method={APIConfig.CLIENT_LIST.METHOD}
                         columns={ClientListTableColumns}
