@@ -26,6 +26,7 @@ const ChartNotesDetailsScreen = (props: ClientBasicDetailsComponentProps) => {
         {
             title: '',
             key: 'alert_icon',
+            fixed: "left",
             width: 50,
             render: (_: any, item: any) => {
                 return <span className={`medical-record-alert ${item.alert_type}`}>
@@ -88,7 +89,7 @@ const ChartNotesDetailsScreen = (props: ClientBasicDetailsComponentProps) => {
             title: "",
             dataIndex: "actions",
             key: "actions",
-            width: 95,
+            width: 120,
             fixed: "right",
             render: (_: any, item: IClientBasicDetails) => {
                 if (item?._id) {
