@@ -3,7 +3,6 @@ import AvatarComponent from "../../../shared/components/avatar/AvatarComponent";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import {IClientBasicDetails} from "../../../shared/models/client.model";
 import {CommonService} from "../../../shared/services";
-import {Link} from "react-router-dom";
 
 interface ClientBasicDetailsCardComponentProps {
     clientBasicDetails: IClientBasicDetails;
@@ -46,7 +45,7 @@ const ClientBasicDetailsCardComponent = (props: ClientBasicDetailsCardComponentP
                         (showViewDetailsRedirection && clientBasicDetails._id )&& <>
                             <div className={'dashed-border'}/>
                             <div className={'client-details-info-wrapper'}>
-                                <a className={'client-details-view-redirection-list'} href={CommonService._routeConfig.ClientDetails(clientBasicDetails._id)} target="_blank">
+                                <a className={'client-details-view-redirection-list'} href={CommonService._routeConfig.ClientDetails(clientBasicDetails._id)} target="_blank" rel="noreferrer">
                                     View Details
                                 </a>
                             </div>

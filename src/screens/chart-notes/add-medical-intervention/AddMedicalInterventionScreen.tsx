@@ -13,7 +13,6 @@ import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import FormAutoSave from "../../../shared/utils/formAutoSave";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import {IServiceCategory} from "../../../shared/models/service-category.model";
-import BasicDetailsCardComponent from "../../../shared/components/basic-details-card/BasicDetailsCardComponent";
 
 interface AddMedicalInterventionScreenProps {
 
@@ -52,22 +51,22 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
     }, [medicalInterventionId]);
 
     const [medicalInterventionDetails, setMedicalInterventionDetails] = useState<IServiceCategory | undefined>(undefined);
-    const [isMedicalInterventionDetailsLoading, setIsMedicalInterventionDetailsLoading] = useState<boolean>(false);
-    const [isMedicalInterventionDetailsLoaded, setIsMedicalInterventionDetailsLoaded] = useState<boolean>(false);
-    const [isMedicalInterventionDetailsLoadingFailed, setIsMedicalInterventionDetailsLoadingFailed] = useState<boolean>(false);
+    // const [isMedicalInterventionDetailsLoading, setIsMedicalInterventionDetailsLoading] = useState<boolean>(false);
+    // const [isMedicalInterventionDetailsLoaded, setIsMedicalInterventionDetailsLoaded] = useState<boolean>(false);
+    // const [isMedicalInterventionDetailsLoadingFailed, setIsMedicalInterventionDetailsLoadingFailed] = useState<boolean>(false);
 
     const fetchMedicalInterventionDetails = useCallback((serviceCategoryId: string) => {
-        setIsMedicalInterventionDetailsLoading(true);
+        // setIsMedicalInterventionDetailsLoading(true);
         CommonService._chartNotes.FetchMedicalInterventionBasicDetailsAPICall(serviceCategoryId, {})
             .then((response: IAPIResponseType<any>) => { // TODO: to type properly
                 setMedicalInterventionDetails(response.data);
-                setIsMedicalInterventionDetailsLoading(false);
-                setIsMedicalInterventionDetailsLoaded(true);
-                setIsMedicalInterventionDetailsLoadingFailed(false);
+                // setIsMedicalInterventionDetailsLoading(false);
+                // setIsMedicalInterventionDetailsLoaded(true);
+                // setIsMedicalInterventionDetailsLoadingFailed(false);
             }).catch((error: any) => {
-            setIsMedicalInterventionDetailsLoading(false);
-            setIsMedicalInterventionDetailsLoaded(false);
-            setIsMedicalInterventionDetailsLoadingFailed(true);
+            // setIsMedicalInterventionDetailsLoading(false);
+            // setIsMedicalInterventionDetailsLoaded(false);
+            // setIsMedicalInterventionDetailsLoadingFailed(true);
         })
     }, []);
 
@@ -98,7 +97,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                     // eslint-disable-next-line react-hooks/rules-of-hooks
                     useEffect(() => {
                         formik.validateForm();
-                    }, [formik.validateForm, formik.values]);
+                    }, [formik, formik.validateForm, formik.values]);
                     return (
                         <Form className="t-form" noValidate={true}>
                             <FormAutoSave formikCtx={formik}/>
