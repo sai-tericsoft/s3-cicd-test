@@ -13,6 +13,7 @@ import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import FormAutoSave from "../../../shared/utils/formAutoSave";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import {IServiceCategory} from "../../../shared/models/service-category.model";
+import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 
 interface AddMedicalInterventionScreenProps {
 
@@ -33,6 +34,7 @@ const MedicalInterventionAddFormInitialValues: any = { // TODO type properly
         treatment: "",
         treatment_response: ""
     },
+    is_flagged: false
 };
 
 const MedicalInterventionAddFormValidationSchema = Yup.object().shape({});
@@ -129,7 +131,22 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                     </div>
                                 </div>
                             </CardComponent>
-                            <CardComponent title={'Objective (O)'}>
+                            <CardComponent title={'Objective (O)'}
+                                           actions={<>
+                                               <Field name={'is_flagged'}>
+                                                   {
+                                                       (field: FieldProps) => (
+                                                           <FormikCheckBoxComponent
+                                                               label={'Flag Note'}
+                                                               formikField={field}
+                                                               required={false}
+                                                               labelPlacement={"start"}
+                                                           />
+                                                       )
+                                                   }
+                                               </Field>
+                                           </>}
+                            >
                                 <div className="ts-row">
                                     <div className="ts-col-12">
                                         <Field name={'objective.observation'}>
