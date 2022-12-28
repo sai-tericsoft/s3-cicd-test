@@ -104,8 +104,9 @@ const getRequestPromise = (request: Promise<AxiosResponse>) => {
                 if (ENV.ENABLE_HTTP_LOGS) {
                     console.log('====>>>>>>', resp.data);
                 }
-                // @ts-ignore
-                resolve({...resp.data, status: resp.status});
+                setTimeout(() => {
+                    resolve({...resp.data, status: resp.status});
+                }, 300);
             })
             .catch((err: any) => {
                 if (ENV.ENABLE_HTTP_LOGS) {
@@ -125,7 +126,9 @@ const getRequestPromise = (request: Promise<AxiosResponse>) => {
                         error.status = 499;
                         error.reason = AXIOS_REQUEST_CANCELLED;
                     }
-                    reject(error);
+                    setTimeout(() => {
+                        reject(error);
+                    }, 300);
                 } catch (e) {
                     console.error('=====>', e, 'Api Function Catch');
                 }

@@ -10,7 +10,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 interface FormDebuggerComponentProps {
-    form: FormikProps<any>;
+    form?: FormikProps<any>;
     values?: any;
     errors?: any;
     isValid?: boolean;

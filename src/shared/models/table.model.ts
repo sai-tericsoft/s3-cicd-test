@@ -7,6 +7,7 @@ export interface ITableColumn {
     className?: string;
     width?: number | string;
     fixed?: "left" | "right" | undefined;
+    children?: ITableColumn[];
 }
 
 export interface ITableComponentProps {

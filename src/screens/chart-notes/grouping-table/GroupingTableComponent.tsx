@@ -15,8 +15,6 @@ const GroupingTableComponent = (props: GroupingTableComponentProps) => {
             fixed: 'left',
             align: "center"
         },
-
-
         {
             title: 'Left Side',
             className: 'left_side',
