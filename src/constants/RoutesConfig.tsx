@@ -25,6 +25,7 @@ const CLIENT_EDIT = "/client-edit";
 
 const CLIENT_SEARCH = '/client-search';
 const ADD_MEDICAL_RECORD = '/chart-notes/:clientId/add-medical-record';
+const EDIT_MEDICAL_RECORD = '/chart-notes/:medicalId';
 const ADD_MEDICAL_INTERVENTION = '/chart-notes/:clientId/:medicalInterventionId/add-medical-intervention';
 const CLIENT_CHART_NOTES = '/chart-notes/:clientId/medical-record-list';
 
@@ -54,5 +55,6 @@ export {
     CLIENT_SEARCH,
     ADD_MEDICAL_RECORD,
     ADD_MEDICAL_INTERVENTION,
-    CLIENT_CHART_NOTES
+    CLIENT_CHART_NOTES,
+    EDIT_MEDICAL_RECORD
 }

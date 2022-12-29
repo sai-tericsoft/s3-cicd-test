@@ -38,7 +38,7 @@ import {
     CLIENT_LIST,
     CLIENT_SEARCH,
     COMING_SOON_ROUTE,
-    DESIGN_SYSTEM_ROUTE,
+    DESIGN_SYSTEM_ROUTE, EDIT_MEDICAL_RECORD,
     FACILITY_DETAILS,
     FACILITY_LIST,
     LOGIN_ROUTE,
@@ -51,6 +51,7 @@ import {
     TEST_ROUTE
 } from "../constants/RoutesConfig";
 import ChartNotesDetailsScreen from "../screens/chart-notes/chart-notes-details/ChartNotesDetailsScreen";
+import EditMedicalRecordComponent from "../screens/chart-notes/edit-medical-record/EditMedicalRecordComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -217,6 +218,12 @@ const Navigator = (props: NavigatorProps) => {
                 <Route path={ADD_MEDICAL_RECORD}
                        element={<ProtectedRoute>
                            <AddMedicalRecordScreen/>
+                       </ProtectedRoute>
+                       }
+                />
+                <Route path={EDIT_MEDICAL_RECORD}
+                       element={<ProtectedRoute>
+                          <EditMedicalRecordComponent/>
                        </ProtectedRoute>
                        }
                 />
