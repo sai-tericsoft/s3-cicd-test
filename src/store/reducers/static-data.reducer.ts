@@ -30,6 +30,7 @@ import {ICommonType} from "../../shared/models/static-data.model";
 
 export interface IStaticDataReducerState {
     statusList: ICommonType[],
+    medicalStatusList: ICommonType[],
     isConsultationDurationListLoading: boolean,
     isConsultationDurationListLoaded: boolean,
     consultationDurationList: any[],
@@ -127,7 +128,17 @@ const initialData: IStaticDataReducerState = {
             code: false,
             title: "Inactive"
         }
-    ]
+    ],
+    medicalStatusList: [
+        {
+            code: 'open',
+            title: "Open/Active"
+        },
+        {
+            code: 'closed',
+            title: "Closed/Inactive"
+        }
+        ],
 };
 
 const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDataReducerState => {

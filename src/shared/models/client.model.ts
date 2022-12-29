@@ -36,6 +36,9 @@ export interface IClientListFilterState {
         [key: string]: string,
     }
 }
+export interface IClientMedicalStatusFilterState {
+    status?: boolean;
+}
 
 export interface IClientBasicDetails {
     _id?: string;
