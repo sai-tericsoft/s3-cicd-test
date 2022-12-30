@@ -156,9 +156,8 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
                 globalRomConfig.map((bodyPart, index) => {
                     return <RomConfigComponent
                         key={bodyPart.body_part._id}
-                        mode={"write"}
                         bodyPart={bodyPart.body_part}
-                        bodySides={bodyPart.sides}
+                        selectedBodySides={bodyPart.sides}
                         onDelete={handleDeleteBodyPart}
                     />
                 })

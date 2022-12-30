@@ -9,111 +9,148 @@ import {ImageConfig} from "../../../constants";
 import {CommonService} from "../../../shared/services";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
+import _ from "lodash";
+import {ITableColumn} from "../../../shared/models/table.model";
+import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
 
 interface RomConfigComponentProps {
-    mode: "read" | "write";
     bodyPart: IBodyPart;
-    bodySides?: string[];
+    selectedBodySides: string[];
     onDelete?: (body_part_id: string) => void;
 }
 
-const tableColumns = [
-    {
-        title: 'Movement',
-        key: 'movement',
-        render: (_: any, record: any) => {
-            return record.name;
-        }
-    },
-    {
-        title: "Left",
-        children: [
-            {
-                title: 'AROM',
-                key: 'arom',
-                render: (_: any, record: any) => {
-                    return <Field
-                        name={`63aaa40bfa2621a3af6ace12.${record?.name}.left.arom`}
-                        className="t-form-control">
-                        {
-                            (field: FieldProps) => (
-                                <FormikInputComponent
-                                    formikField={field}
-                                    size={"small"}/>
-                            )
-                        }
-                    </Field>;
-                }
-            },
-            {
-                title: 'PROM',
-                key: 'prom',
-                render: (_: any, record: any) => {
-                    return <Field
-                        name={`63aaa40bfa2621a3af6ace12.${record?.name}.left.prom`}
-                        className="t-form-control">
-                        {
-                            (field: FieldProps) => (
-                                <FormikInputComponent
-                                    formikField={field}
-                                    size={"small"}
-                                />
-                            )
-                        }
-                    </Field>;
-                }
-            },
-            {
-                title: 'Strength',
-                key: 'strength',
-                render: (_: any, record: any) => {
-                    return <Field
-                        name={`63aaa40bfa2621a3af6ace12.${record?.name}.left.strength`}
-                        className="t-form-control">
-                        {
-                            (field: FieldProps) => (
-                                <FormikInputComponent
-                                    formikField={field}
-                                    size={"small"}/>
-                            )
-                        }
-                    </Field>;
-                }
-            },
-        ]
-    },
-    {
-        title: '',
-        key: 'comments',
-        render: (_: any, record: any) => {
-            return <IconButtonComponent
-                color={record?.comment?.length > 0 ? "primary" : "inherit"}>
-                <ImageConfig.CommentIcon/>
-            </IconButtonComponent>
-        }
-    }
-];
+interface IROMConfig extends IBodyPart {
+    tableConfig: ITableColumn[]
+}
 
 const RomConfigComponent = (props: RomConfigComponentProps) => {
 
-    const {mode, bodySides, bodyPart, onDelete} = props;
-    const [romConfigValues, setRomConfigValues] = useState<IBodyPart>(bodyPart);
+    const {selectedBodySides, bodyPart, onDelete} = props;
+    const [bodySides, setBodySides] = useState<string[]>(selectedBodySides);
+    const [romConfigValues, setRomConfigValues] = useState<IROMConfig | any | undefined>({});
+
+    const generateROMConfigColumns = useCallback((bodyPart: IBodyPart) => {
+        const columns: any = [
+            {
+                title: 'Movement',
+                key: 'movement',
+                render: (_: any, record: any) => {
+                    return record.name;
+                }
+            }
+        ];
+        bodySides?.forEach((side: any) => {
+            columns.push({
+                title: side,
+                children: [
+                    {
+                        title: 'AROM',
+                        key: 'arom',
+                        render: (_: any, record: any) => {
+                            return <Field
+                                name={`${bodyPart._id}.${record?.name}.${side}.arom`}
+                                className="t-form-control">
+                                {
+                                    (field: FieldProps) => (
+                                        <FormikInputComponent
+                                            formikField={field}
+                                            size={"small"}/>
+                                    )
+                                }
+                            </Field>;
+                        }
+                    },
+                    {
+                        title: 'PROM',
+                        key: 'prom',
+                        render: (_: any, record: any) => {
+                            return <Field
+                                name={`${bodyPart._id}.${record?.name}.${side}.prom`}
+                                className="t-form-control">
+                                {
+                                    (field: FieldProps) => (
+                                        <FormikInputComponent
+                                            formikField={field}
+                                            size={"small"}
+                                        />
+                                    )
+                                }
+                            </Field>;
+                        }
+                    },
+                    {
+                        title: 'Strength',
+                        key: 'strength',
+                        render: (_: any, record: any) => {
+                            return <Field
+                                name={`${bodyPart._id}.${record?.name}.${side}.strength`}
+                                className="t-form-control">
+                                {
+                                    (field: FieldProps) => (
+                                        <FormikInputComponent
+                                            formikField={field}
+                                            size={"small"}/>
+                                    )
+                                }
+                            </Field>;
+                        }
+                    },
+                ]
+            });
+        });
+        columns.push({
+            title: '',
+            key: 'comments',
+            render: (_: any, record: any) => {
+                return <IconButtonComponent color={record?.comment?.length > 0 ? "primary" : "inherit"}
+                                            onClick={() => {
+                                                console.log('comment clicked open dialog');
+                                            }
+                                            }>
+                    <ImageConfig.CommentIcon/>
+                </IconButtonComponent>
+            }
+        });
+        return columns;
+    }, [bodySides]);
+
+    const generateROMConfigForAnInjury = useCallback((bodyPart: IBodyPart) => {
+        const bodyPartConfig: any = _.cloneDeep(bodyPart);
+        bodyPartConfig.movements = bodyPart?.movements?.map((movement: any, index: number) => {
+            return {...movement, comment: "", commentMode: "add", commentTemp: "", commentDialogOpen: false};
+        });
+        bodyPartConfig.tableConfig = generateROMConfigColumns(bodyPartConfig);
+        return bodyPartConfig;
+    }, [generateROMConfigColumns]);
 
     useEffect(() => {
         if (bodyPart) {
             setRomConfigValues({
-                ...bodyPart,
+                ...generateROMConfigForAnInjury(bodyPart)
             });
         }
-    }, [bodyPart]);
+    }, [bodyPart, bodySides]);
 
     const handleBodyPartDelete = useCallback(() => {
         if (onDelete) {
             CommonService.onConfirm().then(() => {
+                // TODO make an API Call to delete the body part and then announce to the parent
                 onDelete(bodyPart._id);
             });
         }
     }, [onDelete]);
+
+    const handleBodySideSelect = useCallback((isSelected: boolean, bodySide: string) => {
+        if (isSelected) {
+            setBodySides((prevBodySides) => {
+                return [...prevBodySides, bodySide];
+            });
+        } else {
+            setBodySides((prevBodySides) => {
+                return prevBodySides?.filter((side: string) => side !== bodySide);
+            });
+        }
+    }, []);
 
     return (
         <div className={'rom-config-component'}>
@@ -140,10 +177,24 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                                </ButtonComponent>
                                            </>}
                             >
+                                {
+                                    bodyPart?.sides?.map((side: any, index: number) => {
+                                        return <CheckBoxComponent
+                                            label={side}
+                                            key={index + side}
+                                            disabled={selectedBodySides.includes(side)}
+                                            checked={bodySides?.includes(side)}
+                                            onChange={(isChecked) => {
+                                                handleBodySideSelect(isChecked, side);
+                                            }
+                                            }
+                                        />
+                                    })
+                                }
                                 <TableComponent
                                     data={romConfigValues.movements || []}
                                     bordered={true}
-                                    columns={tableColumns}/>
+                                    columns={romConfigValues.tableConfig}/>
                                 <div className="t-form-actions">
                                     <ButtonComponent type={"submit"}>
                                         Save
