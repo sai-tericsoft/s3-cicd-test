@@ -12,6 +12,8 @@ import FormikInputComponent from "../../../shared/components/form-controls/formi
 import _ from "lodash";
 import {ITableColumn} from "../../../shared/models/table.model";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
+import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
+import ModalComponent from "../../../shared/components/modal/ModalComponent";
 
 interface RomConfigComponentProps {
     bodyPart: IBodyPart;
@@ -28,6 +30,8 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
     const {selectedBodySides, bodyPart, onDelete} = props;
     const [bodySides, setBodySides] = useState<string[]>(selectedBodySides);
     const [romConfigValues, setRomConfigValues] = useState<IROMConfig | any | undefined>({});
+    const [showROMMovementCommentsModal, setShowROMMovementCommentsModal] = useState<boolean>(false);
+    const [selectedROMMovementComments, setSelectedROMMovementComments] = useState<any>(undefined);
 
     const generateROMConfigColumns = useCallback((bodyPart: IBodyPart) => {
         const columns: any = [
@@ -35,7 +39,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                 title: 'Movement',
                 key: 'movement',
                 render: (_: any, record: any) => {
-                    return record.name;
+                    return record.name
                 }
             }
         ];
@@ -102,11 +106,13 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
             title: '',
             key: 'comments',
             render: (_: any, record: any) => {
-                return <IconButtonComponent color={record?.comment?.length > 0 ? "primary" : "inherit"}
-                                            onClick={() => {
-                                                console.log('comment clicked open dialog');
-                                            }
-                                            }>
+                return <IconButtonComponent
+                    color={romConfigValues?.[bodyPart._id]?.[record?.name]?.comments ? "primary" : "inherit"}
+                    onClick={() => {
+                        setShowROMMovementCommentsModal(true);
+                        setSelectedROMMovementComments(record);
+                    }
+                    }>
                     <ImageConfig.CommentIcon/>
                 </IconButtonComponent>
             }
@@ -117,7 +123,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
     const generateROMConfigForAnInjury = useCallback((bodyPart: IBodyPart) => {
         const bodyPartConfig: any = _.cloneDeep(bodyPart);
         bodyPartConfig.movements = bodyPart?.movements?.map((movement: any, index: number) => {
-            return {...movement, comment: "", commentMode: "add", commentTemp: "", commentDialogOpen: false};
+            return {...movement, comment: "", commentTemp: ""};
         });
         bodyPartConfig.tableConfig = generateROMConfigColumns(bodyPartConfig);
         return bodyPartConfig;
@@ -129,7 +135,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                 ...generateROMConfigForAnInjury(bodyPart)
             });
         }
-    }, [bodyPart, bodySides]);
+    }, [bodyPart, bodySides, generateROMConfigForAnInjury]);
 
     const handleBodyPartDelete = useCallback(() => {
         if (onDelete) {
@@ -138,7 +144,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                 onDelete(bodyPart._id);
             });
         }
-    }, [onDelete]);
+    }, [onDelete, bodyPart._id]);
 
     const handleBodySideSelect = useCallback((isSelected: boolean, bodySide: string) => {
         if (isSelected) {
@@ -177,20 +183,22 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                                </ButtonComponent>
                                            </>}
                             >
-                                {
-                                    bodyPart?.sides?.map((side: any, index: number) => {
-                                        return <CheckBoxComponent
-                                            label={side}
-                                            key={index + side}
-                                            disabled={selectedBodySides.includes(side)}
-                                            checked={bodySides?.includes(side)}
-                                            onChange={(isChecked) => {
-                                                handleBodySideSelect(isChecked, side);
-                                            }
-                                            }
-                                        />
-                                    })
-                                }
+                                <div style={{float: "right"}}>
+                                    {
+                                        bodyPart?.sides?.map((side: any, index: number) => {
+                                            return <CheckBoxComponent
+                                                label={side}
+                                                key={index + side}
+                                                disabled={selectedBodySides.includes(side)}
+                                                checked={bodySides?.includes(side)}
+                                                onChange={(isChecked) => {
+                                                    handleBodySideSelect(isChecked, side);
+                                                }
+                                                }
+                                            />
+                                        })
+                                    }
+                                </div>
                                 <TableComponent
                                     data={romConfigValues.movements || []}
                                     bordered={true}
@@ -201,6 +209,59 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                     </ButtonComponent>
                                 </div>
                             </CardComponent>
+                            <ModalComponent
+                                isOpen={showROMMovementCommentsModal}
+                                title={"Comments"}
+                                closeOnBackDropClick={true}
+                                className={"intervention-comments-modal"}
+                                modalFooter={<>
+                                    <ButtonComponent variant={"outlined"}
+                                                     onClick={() => {
+                                                         const comment = values?.[bodyPart._id]?.[selectedROMMovementComments?.name]?.comment;
+                                                         setShowROMMovementCommentsModal(false);
+                                                         setFieldValue(`${bodyPart._id}.${selectedROMMovementComments?.name}.commentTemp`, comment);
+                                                         setSelectedROMMovementComments(undefined);
+                                                     }}>
+                                        Cancel
+                                    </ButtonComponent>&nbsp;
+                                    <ButtonComponent
+                                        onClick={() => {
+                                            const newComment = values?.[bodyPart._id]?.[selectedROMMovementComments?.name]?.commentTemp;
+                                            setShowROMMovementCommentsModal(false);
+                                            setFieldValue(`${bodyPart._id}.${selectedROMMovementComments?.name}.comment`, newComment);
+                                            setSelectedROMMovementComments(undefined);
+                                        }}>
+                                        Add
+                                    </ButtonComponent>
+                                </>
+                                }>
+                                {/*{*/}
+                                {/*    JSON.stringify(`${bodyPart._id}.${selectedROMMovementComments?.name}.commentTemp`)*/}
+                                {/*}*/}
+                                {/*<hr/>*/}
+                                {/*{*/}
+                                {/*    JSON.stringify(values?.[bodyPart._id]?.[selectedROMMovementComments?.name]?.commentTemp) ? "cOMMENT" : "NO COMMENT"*/}
+                                {/*}*/}
+                                {/*<hr/>*/}
+                                {/*{*/}
+                                {/*    JSON.stringify(values[bodyPart._id])*/}
+                                {/*}*/}
+                                <Field
+                                    name={`${bodyPart._id}.${selectedROMMovementComments?.name}.commentTemp`}
+                                    className="t-form-control">
+                                    {
+                                        (field: FieldProps) => (
+                                            <FormikTextAreaComponent
+                                                label={selectedROMMovementComments?.name}
+                                                placeholder={"Enter your comments here..."}
+                                                formikField={field}
+                                                size={"small"}
+                                                fullWidth={true}
+                                            />
+                                        )
+                                    }
+                                </Field>
+                            </ModalComponent>
                         </Form>
                     );
                 }}
