@@ -27,7 +27,7 @@
 
 .app-version {
   font-size: 10px;
-  position: absolute;
+  position: fixed;
   bottom: 5px;
   right: 5px;
 }
@@ -380,5 +380,11 @@
 .intervention-comments-modal {
   .modal-content-wrapper {
     min-width: 600px;
+  }
+}
+
+.intervention-rom-config-add-body-part-modal{
+  .modal-content-wrapper {
+    min-width: 900px;
   }
 }

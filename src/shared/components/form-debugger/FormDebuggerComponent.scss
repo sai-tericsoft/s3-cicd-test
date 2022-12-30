@@ -6,13 +6,16 @@
   border: 2px dashed #777777;
   box-sizing: content-box;
   padding: 10px;
-  overflow: auto;
-  max-height: calc(100vh - 30px);
   margin: 10px;
   z-index: 9999;
   background: #fff;
 
   .card-header {
     cursor: move;
+  }
+
+  .card-body{
+    max-height: calc(100vh - 30px);
+    overflow: auto;
   }
 }

@@ -82,12 +82,12 @@ const ConfirmationComponent = (props: ConfirmationComponentProps) => {
             }>
             <div className="confirmation-dialog-container">
                 <div className="confirmation-dialog-sub-title-and-description">
-                    <div className="confirmation-dialog-image-container">
+                    {config?.image && <div className="confirmation-dialog-image-container">
                         <div className={"confirmation-dialog-image"}>
                             <img src={config?.image} alt={config?.confirmationTitle}/>
                         </div>
-                    </div>
-                    <div className={"confirmation-dialog-title"} >
+                    </div>}
+                    <div className={"confirmation-dialog-title"}>
                         {config?.confirmationTitle || 'Confirm ?'}
                     </div>
                     <div className="confirmation-dialog-sub-title">{config?.confirmationSubTitle}</div>
@@ -103,22 +103,22 @@ export default ConfirmationComponent;
 // ****************************** USAGE ****************************** //
 
 // CommonService.onConfirm({
-    // closeOnBackdropClick: true,
-    // closeOnEsc: false,
-    // confirmationTitle: "Confirm",
-    // confirmationSubTitle: "Are you sure ?",
-    // confirmationDescription: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione, repellendus! ",
-    // direction: "left",
-    // yes: {
-    //     color: "primary",
-    //     text: "Agree",
-    //     variant: "contained"
-    // },
-    // no: {
-    //     color: "error",
-    //     text: "DisAgree",
-    //     variant: "outlined"
-    // }
+// closeOnBackdropClick: true,
+// closeOnEsc: false,
+// confirmationTitle: "Confirm",
+// confirmationSubTitle: "Are you sure ?",
+// confirmationDescription: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione, repellendus! ",
+// direction: "left",
+// yes: {
+//     color: "primary",
+//     text: "Agree",
+//     variant: "contained"
+// },
+// no: {
+//     color: "error",
+//     text: "DisAgree",
+//     variant: "outlined"
+// }
 // })
 //     .then(() => {
 //         setIsTnCModalOpened(true);

@@ -1,5 +1,9 @@
 .modal-container {
 
+  .MuiDialog-paper {
+    max-width: unset !important;
+  }
+
   .modal-content-wrapper {
     padding: 25px !important;
 

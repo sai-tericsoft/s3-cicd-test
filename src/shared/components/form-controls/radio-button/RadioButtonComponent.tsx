@@ -60,7 +60,7 @@ interface RadioButtonComponentProps extends IRadioButtonProps {
 
 }
 
-const RadioButtonComponent = (props: RadioButtonComponentProps) => {
+export const RadioButtonComponent = (props: RadioButtonComponentProps) => {
 
     const {label, checked, color, size, className, id, disabled, required, onChange, value} = props;
 
@@ -72,7 +72,7 @@ const RadioButtonComponent = (props: RadioButtonComponentProps) => {
 
     return (
         <FormControlLabel
-            className={"radio-component"}
+            className={`radio-component ${className}`}
             onChange={handleRadioOnChange}
             control={<Radio value={value}
                             checked={checked}
