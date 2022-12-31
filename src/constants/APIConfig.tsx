@@ -238,7 +238,7 @@ const APIConfig: IAPIConfig = {
     },
     MEDICAL_RECORD_EDIT: {
         URL: (medicalId: string) => ENV.API_URL + '/medicalRecord/' + medicalId,
-        METHOD: "post"
+        METHOD: "put"
     },
     MEDICAL_INTERVENTION_BASIC_DETAILS_UPDATE: {
         URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId,

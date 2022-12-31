@@ -13,14 +13,17 @@ import {IBodyPart} from "../../../shared/models/common.model";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 import {ImageConfig, Misc} from "../../../constants";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {useParams} from "react-router-dom";
+import * as Yup from "yup";
+
 
 interface EditMedicalRecordComponentProps {
 
 }
+
 
 const MEDICAL_RECORD_BODY_PART = {
     body_part_id: "",
@@ -28,13 +31,24 @@ const MEDICAL_RECORD_BODY_PART = {
     injury_type_id: "",
 };
 
+const MedicalRecordValidationSchema = Yup.object({
+    onset_date: Yup.date().required("Onset date is required"),
+    case_physician: Yup.object({
+        name: Yup.string().required("Case physician name is required"),
+
+    }),
+});
+
+
 const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
 
     const {medicalId} = useParams();
     const [isMedicalRecordEditInProgress, setIsMedicalRecordEditInProgress] = useState<boolean>(false);
     const [MedicalDetails, setMedicalDetails] = useState<any | undefined>(undefined);
     const {injuryTypeList, bodyPartList} = useSelector((state: IRootReducerState) => state.staticData);
-    const [medicalRecordEditInitialValues,setMedicalRecordEditInitialValues] = useState<any>({
+    const [isMedicalRecordDrawerOpen, setIsMedicalRecordDrawerOpen] = useState<boolean>(false);
+
+    const [medicalRecordEditInitialValues, setMedicalRecordEditInitialValues] = useState<any>({
         onset_date: "",
         injury_description: "",
         limitations: "",
@@ -55,8 +69,12 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
         }
     }, [medicalId]);
 
+    const handleMedicalDrawer = useCallback( () => {
+        setIsMedicalRecordDrawerOpen(false)
+    }, []);
+
     const getMedicalRecordData = useCallback((medicalId: string) => {
-        CommonService._chartNotes.MedicalRecordDetailsAPICall(medicalId,{})
+        CommonService._chartNotes.MedicalRecordDetailsAPICall(medicalId, {})
             .then((response: IAPIResponseType<any>) => {
                 setMedicalDetails(response.data);
             }).catch((error: any) => {
@@ -75,7 +93,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                     name: MedicalDetails.case_physician.name,
                     next_appointment: MedicalDetails.case_physician.next_appointment,
                 },
-        injury_details: MedicalDetails.injury_details
+                injury_details: MedicalDetails.injury_details
             })
         }
     }, [MedicalDetails]);
@@ -101,13 +119,16 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
 
     return (
         <div className={'edit-medical-record-component'}>
+            <ButtonComponent onClick={()=>setIsMedicalRecordDrawerOpen(true)}>Open</ButtonComponent>
             <div>
-                <DrawerComponent isOpen={true} closeOnEsc={true}
-                                 showClose={true}>
+                <DrawerComponent isOpen={isMedicalRecordDrawerOpen}
+                                 showClose={true}
+                                 onClose={handleMedicalDrawer}>
 
                     <FormControlLabelComponent label={'Edit Details'} size={'lg'}/>
                     <div className={'edit-medical-record-container'}>
                         <Formik initialValues={medicalRecordEditInitialValues}
+                                validationSchema={MedicalRecordValidationSchema}
                                 validateOnChange={false}
                                 validateOnBlur={true}
                                 enableReinitialize={true}
@@ -227,8 +248,8 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                         return (
                                                             <>
                                                                 {
-                                                                    index > 0 && <div className="ts-col-lg-1 ">
-                                                                        <IconButtonComponent  onClick={() => {
+                                                                    index > 0 && <div className="remove-btn ">
+                                                                        <IconButtonComponent onClick={() => {
                                                                             arrayHelpers.remove(index)
                                                                         }}>
                                                                             <ImageConfig.DeleteIcon/>
@@ -309,16 +330,16 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                                 {
                                                                     (index === values?.injury_details?.length - 1) &&
                                                                     <div className={'add-body-part-button'}>
-                                                                    <ButtonComponent
-                                                                        onClick={() => {
-                                                                            arrayHelpers.push(MEDICAL_RECORD_BODY_PART);
-                                                                        }}
-                                                                        prefixIcon={<ImageConfig.AddIcon/>}
-                                                                        variant={"text"}
-                                                                        className={"mrg-bottom-20"}
-                                                                    >
-                                                                        Add New Body Part
-                                                                    </ButtonComponent>
+                                                                        <ButtonComponent
+                                                                            onClick={() => {
+                                                                                arrayHelpers.push(MEDICAL_RECORD_BODY_PART);
+                                                                            }}
+                                                                            prefixIcon={<ImageConfig.AddIcon/>}
+                                                                            variant={"text"}
+                                                                            className={"mrg-bottom-20"}
+                                                                        >
+                                                                            Add New Body Part
+                                                                        </ButtonComponent>
                                                                     </div>
                                                                 }
 
