@@ -113,13 +113,15 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
             width: 80,
             render: (_: any, record: any) => {
                 return <IconButtonComponent
-                    color={romConfigValues?.[bodyPart._id]?.[record?.name]?.comments ? "primary" : "inherit"}
+                    color={record?.comment ? "primary" : "inherit"}
                     onClick={() => {
                         setShowROMMovementCommentsModal(true);
                         setSelectedROMMovementComments(record);
                     }
                     }>
-                    <ImageConfig.CommentIcon/>
+                    {
+                        record?.comment ? <ImageConfig.ChatIcon/> :  <ImageConfig.CommentAddIcon/>
+                    }
                 </IconButtonComponent>
             }
         });
@@ -132,6 +134,20 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
             return {...movement, comment: "", commentTemp: ""};
         });
         bodyPartConfig.tableConfig = generateROMConfigColumns(bodyPartConfig);
+        bodyPartConfig[bodyPart._id] = {};
+        bodyPartConfig.movements?.forEach((movement: any) => {
+            bodyPartConfig[bodyPart._id][movement.name] = {
+                comment: movement.comment,
+                commentTemp:  movement.comment,
+            };
+            bodySides?.forEach((side: any) => {
+                bodyPartConfig[bodyPart._id][movement.name][side] = {
+                    arom: "",
+                    prom: "",
+                    strength: "",
+                }
+            });
+        });
         return bodyPartConfig;
     }, [generateROMConfigColumns]);
 
@@ -224,59 +240,58 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                     </ButtonComponent>
                                 </div>
                             </CardComponent>
-                            <ModalComponent
-                                isOpen={showROMMovementCommentsModal}
-                                title={"Comments"}
-                                closeOnBackDropClick={true}
-                                className={"intervention-comments-modal"}
-                                modalFooter={<>
-                                    <ButtonComponent variant={"outlined"}
-                                                     onClick={() => {
-                                                         const comment = values?.[bodyPart._id]?.[selectedROMMovementComments?.name]?.comment;
-                                                         setShowROMMovementCommentsModal(false);
-                                                         setFieldValue(`${bodyPart._id}.${selectedROMMovementComments?.name}.commentTemp`, comment);
-                                                         setSelectedROMMovementComments(undefined);
-                                                     }}>
-                                        Cancel
-                                    </ButtonComponent>&nbsp;
-                                    <ButtonComponent
-                                        onClick={() => {
-                                            const newComment = values?.[bodyPart._id]?.[selectedROMMovementComments?.name]?.commentTemp;
-                                            setShowROMMovementCommentsModal(false);
-                                            setFieldValue(`${bodyPart._id}.${selectedROMMovementComments?.name}.comment`, newComment);
-                                            setSelectedROMMovementComments(undefined);
-                                        }}>
-                                        Add
-                                    </ButtonComponent>
-                                </>
-                                }>
-                                {/*{*/}
-                                {/*    JSON.stringify(`${bodyPart._id}.${selectedROMMovementComments?.name}.commentTemp`)*/}
-                                {/*}*/}
-                                {/*<hr/>*/}
-                                {/*{*/}
-                                {/*    JSON.stringify(values?.[bodyPart._id]?.[selectedROMMovementComments?.name]?.commentTemp) ? "cOMMENT" : "NO COMMENT"*/}
-                                {/*}*/}
-                                {/*<hr/>*/}
-                                {/*{*/}
-                                {/*    JSON.stringify(values[bodyPart._id])*/}
-                                {/*}*/}
-                                <Field
-                                    name={`${bodyPart._id}.${selectedROMMovementComments?.name}.commentTemp`}
-                                    className="t-form-control">
-                                    {
-                                        (field: FieldProps) => (
-                                            <FormikTextAreaComponent
-                                                label={selectedROMMovementComments?.name}
-                                                placeholder={"Enter your comments here..."}
-                                                formikField={field}
-                                                size={"small"}
-                                                fullWidth={true}
-                                            />
-                                        )
+                            {
+                                bodyPart.movements?.map((movement, index: number) => {
+                                    if (showROMMovementCommentsModal && movement.name === selectedROMMovementComments?.name) {
+                                        return <ModalComponent
+                                            key={index + movement.name}
+                                            isOpen={showROMMovementCommentsModal}
+                                            title={"Comments"}
+                                            closeOnBackDropClick={true}
+                                            className={"intervention-comments-modal"}
+                                            modalFooter={<>
+                                                <ButtonComponent variant={"outlined"}
+                                                                 onClick={() => {
+                                                                     const comment = values?.[bodyPart._id]?.[selectedROMMovementComments?.name]?.comment;
+                                                                     setShowROMMovementCommentsModal(false);
+                                                                     setFieldValue(`${bodyPart._id}.${selectedROMMovementComments?.name}.commentTemp`, comment);
+                                                                     setSelectedROMMovementComments(undefined);
+                                                                 }}>
+                                                    Cancel
+                                                </ButtonComponent>&nbsp;
+                                                <ButtonComponent
+                                                    onClick={() => {
+                                                        const newComment = values?.[bodyPart._id]?.[selectedROMMovementComments?.name]?.commentTemp;
+                                                        setShowROMMovementCommentsModal(false);
+                                                        setFieldValue(`${bodyPart._id}.${selectedROMMovementComments?.name}.comment`, newComment);
+                                                        setSelectedROMMovementComments(undefined);
+                                                    }}>
+                                                    Add
+                                                </ButtonComponent>
+                                            </>
+                                            }>
+                                            {/*{*/}
+                                            {/*    JSON.stringify(values)*/}
+                                            {/*}*/}
+                                            <Field
+                                                name={`${bodyPart._id}.${selectedROMMovementComments?.name}.commentTemp`}
+                                                className="t-form-control">
+                                                {
+                                                    (field: FieldProps) => (
+                                                        <FormikTextAreaComponent
+                                                            label={selectedROMMovementComments?.name + " ( Comments ) "}
+                                                            placeholder={"Enter your comments here..."}
+                                                            formikField={field}
+                                                            size={"small"}
+                                                            fullWidth={true}
+                                                        />
+                                                    )
+                                                }
+                                            </Field>
+                                        </ModalComponent>
                                     }
-                                </Field>
-                            </ModalComponent>
+                                })
+                            }
                         </Form>
                     );
                 }}

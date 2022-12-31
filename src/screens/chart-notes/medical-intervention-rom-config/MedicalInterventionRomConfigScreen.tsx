@@ -128,8 +128,12 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
 
     const handleAddNewBodyPart = useCallback(() => {
         setShowAddBodyPartModal(false);
-        // setSelectedBodyPartToBeAdded(undefined);
-    }, [selectedBodyPartToBeAdded]);
+        setGlobalRomConfig([...globalRomConfig, {
+            body_part: selectedBodyPartToBeAdded,
+            sides: [selectedBodyPartToBeAdded.default_body_side]
+        }]);
+        setSelectedBodyPartToBeAdded(undefined);
+    }, [globalRomConfig, selectedBodyPartToBeAdded]);
 
     const handleDeleteBodyPart = useCallback((body_part_id: string) => {
         setGlobalRomConfig((prev) => prev.filter((item) => item.body_part._id !== body_part_id));

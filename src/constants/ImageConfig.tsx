@@ -16,7 +16,8 @@ import {ReactComponent as LeftArrow} from './../assets/icons/left_arrow.svg';
 import {ReactComponent as RightArrow} from './../assets/icons/right_arrow.svg';
 import {ReactComponent as SearchIcon} from './../assets/icons/search.svg';
 import {ReactComponent as InfoIcon} from './../assets/icons/info.svg';
-import {ReactComponent as CommentIcon} from './../assets/icons/comment.svg';
+import {ReactComponent as CommentAddIcon} from '../assets/icons/comment-add.svg';
+import {ReactComponent as ChatIcon} from '../assets/icons/chat.svg';
 import {ReactComponent as MoreVerticalIcon} from './../assets/icons/more_vertical.svg';
 
 //file types
@@ -87,7 +88,8 @@ export {
     InfoIcon,
     ToastCloseIcon,
     ChartNotes,
-    CommentIcon,
+    CommentAddIcon,
+    ChatIcon,
     AlertIcon,
     MoreVerticalIcon
 }
