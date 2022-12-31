@@ -1,10 +1,10 @@
 import "./RomConfigComponent.scss";
 import {IBodyPart} from "../../../shared/models/static-data.model";
-import {Field, FieldProps, Form, Formik} from "formik";
+import {Field, FieldProps, Form, Formik, FormikProps} from "formik";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import {ImageConfig} from "../../../constants";
 import {CommonService} from "../../../shared/services";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
@@ -15,6 +15,7 @@ import CheckBoxComponent from "../../../shared/components/form-controls/check-bo
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
+import FormikCommentComponent from "../../../shared/components/form-controls/formik-comment/FormikCommentComponent";
 
 interface RomConfigComponentProps {
     bodyPart: IBodyPart;
@@ -28,6 +29,7 @@ interface IROMConfig extends IBodyPart {
 
 const RomConfigComponent = (props: RomConfigComponentProps) => {
 
+    const formikRef = useRef<FormikProps<any>>(null);
     const {selectedBodySides, bodyPart, onDelete} = props;
     const [bodySides, setBodySides] = useState<string[]>(selectedBodySides);
     const [romConfigValues, setRomConfigValues] = useState<IROMConfig | any | undefined>({});
@@ -111,19 +113,20 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
             title: '',
             key: 'comments',
             width: 80,
-            render: (_: any, record: any) => {
-                return <IconButtonComponent
-                    color={record?.comment ? "primary" : "inherit"}
-                    onClick={() => {
-                        setShowROMMovementCommentsModal(true);
-                        setSelectedROMMovementComments(record);
-                    }
-                    }>
-                    {
-                        record?.comment ? <ImageConfig.ChatIcon/> :  <ImageConfig.CommentAddIcon/>
-                    }
-                </IconButtonComponent>
-            }
+            render: (index: any, record: any) => <Field
+                name={`${bodyPart._id}.${record?.name}.comment`}
+                className="t-form-control">
+                {
+                    (field: FieldProps) => (
+                        <FormikCommentComponent
+                            formikField={field}
+                            onClick={() => {
+                                setShowROMMovementCommentsModal(true);
+                                setSelectedROMMovementComments(record);
+                            }}/>
+                    )
+                }
+            </Field>
         });
         return columns;
     }, [bodySides]);
@@ -138,7 +141,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
         bodyPartConfig.movements?.forEach((movement: any) => {
             bodyPartConfig[bodyPart._id][movement.name] = {
                 comment: movement.comment,
-                commentTemp:  movement.comment,
+                commentTemp: movement.comment,
             };
             bodySides?.forEach((side: any) => {
                 bodyPartConfig[bodyPart._id][movement.name][side] = {
@@ -149,7 +152,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
             });
         });
         return bodyPartConfig;
-    }, [generateROMConfigColumns]);
+    }, [bodySides, generateROMConfigColumns]);
 
     useEffect(() => {
         if (bodyPart) {
@@ -184,6 +187,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
         <div className={'rom-config-component'}>
             <Formik initialValues={romConfigValues}
                     enableReinitialize={true}
+                    innerRef={formikRef}
                     onSubmit={(values, formikHelpers) => {
                         console.log(values);
                     }}>
@@ -231,7 +235,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                     </div>
                                     <TableComponent
                                         data={romConfigValues.movements || []}
-                                        bordered={false}
+                                        bordered={true}
                                         columns={romConfigValues.tableConfig}/>
                                 </div>
                                 <div className="t-form-actions">
@@ -266,13 +270,10 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                                         setFieldValue(`${bodyPart._id}.${selectedROMMovementComments?.name}.comment`, newComment);
                                                         setSelectedROMMovementComments(undefined);
                                                     }}>
-                                                    Add
+                                                    Save
                                                 </ButtonComponent>
                                             </>
                                             }>
-                                            {/*{*/}
-                                            {/*    JSON.stringify(values)*/}
-                                            {/*}*/}
                                             <Field
                                                 name={`${bodyPart._id}.${selectedROMMovementComments?.name}.commentTemp`}
                                                 className="t-form-control">

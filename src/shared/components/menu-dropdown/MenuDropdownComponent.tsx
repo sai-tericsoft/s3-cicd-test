@@ -16,8 +16,6 @@ const MenuDropdownComponent = (props: MenuDropdownComponentProps) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [open, setOpen] = useState(!!isOpen);
 
-    console.log(menuOptions);
-
     const handleClick = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
         setOpen(true);
         setAnchorEl(event.currentTarget);

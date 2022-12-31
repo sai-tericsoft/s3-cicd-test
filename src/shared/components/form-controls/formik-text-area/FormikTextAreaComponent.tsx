@@ -1,7 +1,7 @@
 import "./FormikTextAreaComponent.scss";
 import {FieldProps} from "formik";
 import _ from "lodash";
-import {useCallback, useEffect} from "react";
+import {useCallback} from "react";
 import TextAreaComponent from "../text-area/TextAreaComponent";
 import {ITextAreaProps} from "../../../models/form-controls.model";
 
@@ -35,13 +35,6 @@ const FormikTextAreaComponent = (props: FormikTextAreaComponentProps) => {
         handleBlur(name);
         setFieldTouched(name);
     }, [name, handleBlur, setFieldTouched]);
-
-    // useEffect(() => {
-    //     return () => {
-    //         setFieldTouched(name);
-    //         setFieldValue(name, "");
-    //     }
-    // }, [name]);
 
     return (
         <TextAreaComponent
