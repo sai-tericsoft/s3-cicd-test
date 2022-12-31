@@ -14,6 +14,7 @@ import {ITableColumn} from "../../../shared/models/table.model";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
+import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
 
 interface RomConfigComponentProps {
     bodyPart: IBodyPart;
@@ -38,6 +39,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
             {
                 title: 'Movement',
                 key: 'movement',
+                width: 200,
                 render: (_: any, record: any) => {
                     return record.name
                 }
@@ -50,6 +52,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                     {
                         title: 'AROM',
                         key: 'arom',
+                        width: 80,
                         render: (_: any, record: any) => {
                             return <Field
                                 name={`${bodyPart._id}.${record?.name}.${side}.arom`}
@@ -67,6 +70,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                     {
                         title: 'PROM',
                         key: 'prom',
+                        width: 80,
                         render: (_: any, record: any) => {
                             return <Field
                                 name={`${bodyPart._id}.${record?.name}.${side}.prom`}
@@ -85,6 +89,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                     {
                         title: 'Strength',
                         key: 'strength',
+                        width: 100,
                         render: (_: any, record: any) => {
                             return <Field
                                 name={`${bodyPart._id}.${record?.name}.${side}.strength`}
@@ -105,6 +110,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
         columns.push({
             title: '',
             key: 'comments',
+            width: 80,
             render: (_: any, record: any) => {
                 return <IconButtonComponent
                     color={romConfigValues?.[bodyPart._id]?.[record?.name]?.comments ? "primary" : "inherit"}
@@ -183,26 +189,35 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                                </ButtonComponent>
                                            </>}
                             >
-                                <div style={{float: "right"}}>
-                                    {
-                                        bodyPart?.sides?.map((side: any, index: number) => {
-                                            return <CheckBoxComponent
-                                                label={side}
-                                                key={index + side}
-                                                disabled={selectedBodySides.includes(side)}
-                                                checked={bodySides?.includes(side)}
-                                                onChange={(isChecked) => {
-                                                    handleBodySideSelect(isChecked, side);
-                                                }
-                                                }
-                                            />
-                                        })
-                                    }
+                                <div className={'rom-config-table-container'}>
+                                    <div className={'rom-config-table-context'}>
+                                        <MenuDropdownComponent
+                                            menuBase={
+                                                <IconButtonComponent>
+                                                    <ImageConfig.MoreVerticalIcon/>
+                                                </IconButtonComponent>
+                                            }
+                                            menuOptions={
+                                                bodyPart?.sides?.map((side: any, index: number) => {
+                                                    return <CheckBoxComponent
+                                                        label={side}
+                                                        key={index + side}
+                                                        disabled={selectedBodySides.includes(side)}
+                                                        checked={bodySides?.includes(side)}
+                                                        onChange={(isChecked) => {
+                                                            handleBodySideSelect(isChecked, side);
+                                                        }
+                                                        }
+                                                    />
+                                                })
+                                            }
+                                        />
+                                    </div>
+                                    <TableComponent
+                                        data={romConfigValues.movements || []}
+                                        bordered={false}
+                                        columns={romConfigValues.tableConfig}/>
                                 </div>
-                                <TableComponent
-                                    data={romConfigValues.movements || []}
-                                    bordered={true}
-                                    columns={romConfigValues.tableConfig}/>
                                 <div className="t-form-actions">
                                     <ButtonComponent type={"submit"}>
                                         Save

@@ -5,7 +5,7 @@ import {MenuItem} from "@mui/material";
 interface MenuDropdownComponentProps {
     isOpen?: boolean;
     menuBase: ReactNode | null;
-    menuOptions: ReactNode[] | null;
+    menuOptions: ReactNode[] | null | undefined;
     onOpen?: () => void;
     onClose?: () => void;
 }
@@ -15,6 +15,8 @@ const MenuDropdownComponent = (props: MenuDropdownComponentProps) => {
     const {isOpen, menuBase, onClose, onOpen, menuOptions} = props;
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [open, setOpen] = useState(!!isOpen);
+
+    console.log(menuOptions);
 
     const handleClick = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
         setOpen(true);
@@ -59,7 +61,9 @@ const MenuDropdownComponent = (props: MenuDropdownComponentProps) => {
                 className={"menu-dropdown-component-menu"}
             >
                 {menuOptions && menuOptions.map((option, index) => (
-                    <MenuItem key={index} disableRipple={true}>
+                    <MenuItem key={index}
+                              disableRipple={true}
+                              className={"menu-dropdown-option"}>
                         {option}
                     </MenuItem>
                 ))}

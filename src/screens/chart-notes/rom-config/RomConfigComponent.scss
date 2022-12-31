@@ -1,0 +1,11 @@
+.rom-config-table-container {
+  position: relative;
+
+  .rom-config-table-context {
+    position: absolute;
+    right: 18px;
+    top: 18px;
+    z-index: 1;
+
+  }
+}
