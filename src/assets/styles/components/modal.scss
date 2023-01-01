@@ -1,3 +1,5 @@
+@import "../variables";
+
 .modal-container {
 
   .MuiDialog-paper {
@@ -11,13 +13,14 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
 
       .modal-title {
         font-size: 1.1rem;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        color: $primary-color;
       }
 
       .modal-close {

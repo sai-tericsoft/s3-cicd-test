@@ -247,6 +247,14 @@ const APIConfig: IAPIConfig = {
     CLIENT_MEDICAL_INFO: {
         URL:(clientId:string)=> ENV.API_URL + '/client/'+ clientId +'/medicalRecord',
         METHOD: "get"
+    },
+    SAVE_MEDICAL_INTERVENTION_ROM_CONFIG_FOR_A_BODY_PART: {
+        URL:(medicalInterventionId:string, bodyPartId:string)=> ENV.API_URL + '/intervention/'+ medicalInterventionId +'/rom/'+ bodyPartId,
+        METHOD: "post"
+    },
+    DELETE_BODY_PART_UNDER_MEDICAL_INTERVENTION_ROM_CONFIG: {
+        URL:(medicalInterventionId:string, bodyPartId:string)=> ENV.API_URL + '/intervention/'+ medicalInterventionId +'/rom/'+ bodyPartId,
+        METHOD: "delete"
     }
     // chart notes end
 }

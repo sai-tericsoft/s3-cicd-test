@@ -1,6 +1,6 @@
 import "./RomConfigComponent.scss";
 import {IBodyPart} from "../../../shared/models/static-data.model";
-import {Field, FieldProps, Form, Formik, FormikProps} from "formik";
+import {Field, FieldProps, Form, Formik, FormikHelpers, FormikProps} from "formik";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
@@ -18,23 +18,27 @@ import MenuDropdownComponent from "../../../shared/components/menu-dropdown/Menu
 import FormikCommentComponent from "../../../shared/components/form-controls/formik-comment/FormikCommentComponent";
 
 interface RomConfigComponentProps {
+    medicalInterventionDetails: any;
+    medicalInterventionId: string;
     bodyPart: IBodyPart;
     selectedBodySides: string[];
     onDelete?: (body_part_id: string) => void;
+    onSave?: (romConfig: string) => void;
 }
 
 interface IROMConfig extends IBodyPart {
-    tableConfig: ITableColumn[]
+    tableConfig: ITableColumn[];
 }
 
 const RomConfigComponent = (props: RomConfigComponentProps) => {
 
     const formikRef = useRef<FormikProps<any>>(null);
-    const {selectedBodySides, bodyPart, onDelete} = props;
+    const {medicalInterventionId, medicalInterventionDetails, selectedBodySides, bodyPart, onDelete} = props;
     const [bodySides, setBodySides] = useState<string[]>(selectedBodySides);
     const [romConfigValues, setRomConfigValues] = useState<IROMConfig | any | undefined>({});
     const [showROMMovementCommentsModal, setShowROMMovementCommentsModal] = useState<boolean>(false);
     const [selectedROMMovementComments, setSelectedROMMovementComments] = useState<any>(undefined);
+    const [isBodyPartBeingDeleted, setIsBodyPartBeingDeleted] = useState<boolean>(false);
 
     const generateROMConfigColumns = useCallback((bodyPart: IBodyPart) => {
         const columns: any = [
@@ -42,6 +46,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                 title: 'Movement',
                 key: 'movement',
                 width: 200,
+                fixed: 'left',
                 render: (_: any, record: any) => {
                     return record.name
                 }
@@ -164,9 +169,27 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
 
     const handleBodyPartDelete = useCallback(() => {
         if (onDelete) {
-            CommonService.onConfirm().then(() => {
-                // TODO make an API Call to delete the body part and then announce to the parent
-                onDelete(bodyPart._id);
+            CommonService.onConfirm({
+                image: ImageConfig.RemoveBodyPartConfirmationIcon,
+                confirmationTitle: "REMOVE BODY PART",
+                confirmationSubTitle: "Are you sure you want to remove this body part?",
+            }).then(() => {
+                const bodyPartId = bodyPart._id;
+                if (medicalInterventionDetails?.medical_record_details?.injury_details?.findIndex((injury: any) => injury?.body_part_id === bodyPartId) === -1) {
+                    onDelete(bodyPartId);
+                } else {
+                    setIsBodyPartBeingDeleted(true);
+                    CommonService._chartNotes.DeleteBodyPartUnderMedicalInterventionROMConfigAPICall(medicalInterventionId, bodyPartId)
+                        .then((response: any) => {
+                            CommonService._alert.showToast(response.message, 'success');
+                            setIsBodyPartBeingDeleted(false);
+                            onDelete(bodyPartId);
+                        })
+                        .catch((error: any) => {
+                            CommonService._alert.showToast(error.error || error.errors || 'Error deleting body part', 'error');
+                            setIsBodyPartBeingDeleted(false);
+                        });
+                }
             });
         }
     }, [onDelete, bodyPart._id]);
@@ -183,15 +206,37 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
         }
     }, []);
 
+    const handleROMConfigSubmit = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
+        const config = values[values._id];
+        const payload: any = {
+            rom_config: [],
+            mode: "add"
+        };
+        Object.keys(config).forEach((movement: string) => {
+            payload.rom_config.push({
+                movement_name: movement,
+                config: config[movement]
+            })
+        });
+        setSubmitting(true);
+        CommonService._chartNotes.SaveMedicalInterventionROMConfigForABodyPartAPICall(medicalInterventionId, values._id, payload)
+            .then((response: any) => {
+                CommonService._alert.showToast(response.message, 'success');
+                setSubmitting(false);
+            })
+            .catch((error: any) => {
+                CommonService._alert.showToast(error.error || error.errors || 'Error saving ROM configuration', 'error');
+                setSubmitting(false);
+            });
+    }, [medicalInterventionId]);
+
     return (
         <div className={'rom-config-component'}>
             <Formik initialValues={romConfigValues}
                     enableReinitialize={true}
                     innerRef={formikRef}
-                    onSubmit={(values, formikHelpers) => {
-                        console.log(values);
-                    }}>
-                {({values, validateForm, setFieldValue}) => {
+                    onSubmit={handleROMConfigSubmit}>
+                {({values, validateForm, setFieldValue, isSubmitting}) => {
                     // eslint-disable-next-line react-hooks/rules-of-hooks
                     useEffect(() => {
                         validateForm();
@@ -204,6 +249,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                                    size={"small"}
                                                    prefixIcon={<ImageConfig.DeleteIcon/>}
                                                    onClick={handleBodyPartDelete}
+                                                   disabled={isSubmitting || isBodyPartBeingDeleted}
                                                >
                                                    Delete
                                                </ButtonComponent>
@@ -239,7 +285,9 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                         columns={romConfigValues.tableConfig}/>
                                 </div>
                                 <div className="t-form-actions">
-                                    <ButtonComponent type={"submit"}>
+                                    <ButtonComponent type={"submit"}
+                                                     disabled={isSubmitting}
+                                                     isLoading={isSubmitting}>
                                         Save
                                     </ButtonComponent>
                                 </div>
@@ -250,7 +298,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                         return <ModalComponent
                                             key={index + movement.name}
                                             isOpen={showROMMovementCommentsModal}
-                                            title={"Comments"}
+                                            title={`${values?.[bodyPart._id]?.[selectedROMMovementComments?.name]?.comment ? "Edit Comments" : "Comments:"}`}
                                             closeOnBackDropClick={true}
                                             className={"intervention-comments-modal"}
                                             modalFooter={<>
@@ -270,7 +318,9 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                                         setFieldValue(`${bodyPart._id}.${selectedROMMovementComments?.name}.comment`, newComment);
                                                         setSelectedROMMovementComments(undefined);
                                                     }}>
-                                                    Save
+                                                    {
+                                                        values?.[bodyPart._id]?.[selectedROMMovementComments?.name]?.comment ? "Save" : "Add"
+                                                    }
                                                 </ButtonComponent>
                                             </>
                                             }>

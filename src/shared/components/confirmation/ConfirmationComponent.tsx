@@ -62,21 +62,23 @@ const ConfirmationComponent = (props: ConfirmationComponentProps) => {
                 {!config?.hideNoOption && <>
                     <ButtonComponent
                         onClick={cancel}
-                        color={config?.no?.color || 'inherit'}
+                        color={config?.no?.color || 'primary'}
                         variant={config?.no?.variant || "outlined"}
                         id={"no-btn"}
+                        className={"pdd-left-60 pdd-right-60"}
                     >
-                        {config?.no?.text || 'No, Cancel'}
+                        {config?.no?.text || 'No'}
                     </ButtonComponent>&nbsp;&nbsp;&nbsp;
                 </>
                 }
                 <ButtonComponent
                     onClick={confirm}
-                    color={config?.yes?.color || 'error'}
+                    color={config?.yes?.color || 'primary'}
                     variant={config?.yes?.variant || "contained"}
                     id={"yes-btn"}
+                    className={"pdd-left-60 pdd-right-60"}
                 >
-                    {config?.yes?.text || 'Yes, Confirm'}
+                    {config?.yes?.text || 'Yes'}
                 </ButtonComponent>
             </>
             }>

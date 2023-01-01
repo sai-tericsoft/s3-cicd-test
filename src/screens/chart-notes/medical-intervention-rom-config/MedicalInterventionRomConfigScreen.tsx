@@ -6,97 +6,19 @@ import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {CommonService} from "../../../shared/services";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import {IRootReducerState} from "../../../store/reducers";
-import RomConfigComponent from "../rom-config/RomConfigComponent";
 import {IBodyPartROMConfig} from "../../../shared/models/static-data.model";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
 import {RadioButtonComponent} from "../../../shared/components/form-controls/radio-button/RadioButtonComponent";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
+import RomConfigComponent from "../rom-config/RomConfigComponent";
+import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
+import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
+import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 
 interface MedicalInterventionRomConfigScreenProps {
 
 }
-
-const medicalInterventionDetails = {
-    injury_details: [
-        {
-            body_part_id: "63aaa40bfa2621a3af6ace12",
-            body_side: "Left",
-            body_part_details: {
-                "_id": "63aaa40bfa2621a3af6ace12",
-                "name": "Jaw",
-                "sides": ['Left', 'Right', 'Central'],
-                "movements": [
-                    {
-                        "name": "Lateral Deviation",
-                        "applicable_rom": ["AROM", "Strength"],
-                        "applicable_sides": ['Left', 'Right', 'Central']
-                    },
-                    {
-                        "name": "Protrusion",
-                        "applicable_rom": ["AROM", "Strength", "PROM"],
-                        "applicable_sides": ['Left', 'Right']
-                    },
-                    {
-                        "name": "Elevation (Closing)",
-                        "applicable_rom": ["AROM", "Strength", "PROM"],
-                        "applicable_sides": ['Left', 'Right']
-                    },
-                    {
-                        "name": "Retraction",
-                        "applicable_rom": ["AROM", "Strength", "PROM"],
-                        "applicable_sides": ['Left', 'Right']
-                    }
-                ],
-                "special_tests": [
-                    "Tinel’s Test",
-                    "Valgus Stress Test",
-                    "Varusus Stress Test",
-                    "Lateral Epicondylitis Test"
-                ],
-                "default_body_side": "Central"
-            }
-        },
-        {
-            body_part_id: "63aaa5dbfa2621a3af6ace14",
-            body_side: "Right",
-            body_part_details: {
-                "_id": "63aaa5dbfa2621a3af6ace14",
-                "name": "Shoulder",
-                "sides": ['Left', 'Right'],
-                "movements": [
-                    {
-                        "name": "Lateral Deviation",
-                        "applicable_rom": ["AROM", "Strength"],
-                        "applicable_sides": ['Left', 'Right', 'Central']
-                    },
-                    {
-                        "name": "Protrusion",
-                        "applicable_rom": ["AROM", "Strength", "PROM"],
-                        "applicable_sides": ['Left', 'Right']
-                    },
-                    {
-                        "name": "Elevation (Closing)",
-                        "applicable_rom": ["AROM", "Strength", "PROM"],
-                        "applicable_sides": ['Left', 'Right']
-                    },
-                    {
-                        "name": "Retraction",
-                        "applicable_rom": ["AROM", "Strength", "PROM"],
-                        "applicable_sides": ['Left', 'Right']
-                    }
-                ],
-                "special_tests": [
-                    "Tinel’s Test",
-                    "Valgus Stress Test",
-                    "Varusus Stress Test",
-                    "Lateral Epicondylitis Test"
-                ],
-                "default_body_side": "Central"
-            }
-        }
-    ]
-};
 
 const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigScreenProps) => {
 
@@ -107,7 +29,11 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
     const [showAddBodyPartModal, setShowAddBodyPartModal] = useState<boolean>(false);
     const {bodyPartList} = useSelector((state: IRootReducerState) => state.staticData);
     const [selectedBodyPartToBeAdded, setSelectedBodyPartToBeAdded] = useState<any>(undefined);
-    // const {medicalInterventionDetails} = useSelector((state: IRootReducerState) => state.chartNotes);
+    const {
+        medicalInterventionDetails,
+        isMedicalInterventionDetailsLoading,
+        isMedicalInterventionDetailsLoaded,
+    } = useSelector((state: IRootReducerState) => state.chartNotes);
 
     useEffect(() => {
         dispatch(setCurrentNavParams("SOAP Note", null, () => {
@@ -115,11 +41,11 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
         }));
     }, [dispatch, navigate, medicalInterventionId]);
 
-    // useEffect(() => {
-    //     if (medicalInterventionId && !medicalInterventionDetails) {
-    //         dispatch(getMedicalInterventionDetails(medicalInterventionId));
-    //     }
-    // }, [medicalInterventionId, medicalInterventionDetails, dispatch]);
+    useEffect(() => {
+        if (medicalInterventionId && !medicalInterventionDetails) {
+            dispatch(getMedicalInterventionDetails(medicalInterventionId));
+        }
+    }, [medicalInterventionId, medicalInterventionDetails, dispatch]);
 
     const handleAddNewBodyPartOpenModal = useCallback(() => {
         setShowAddBodyPartModal(true);
@@ -141,8 +67,8 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
 
     useEffect(() => {
         const romConfig: any = [];
-        if (medicalInterventionDetails.injury_details) {
-            const injuryDetails = medicalInterventionDetails.injury_details;
+        if (medicalInterventionDetails?.medical_record_details?.injury_details) {
+            const injuryDetails = medicalInterventionDetails?.medical_record_details?.injury_details;
             injuryDetails.forEach((injury: any) => {
                 romConfig.push({
                     sides: [injury.body_side],
@@ -155,23 +81,56 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
 
     return (
         <div className={'medical-intervention-rom-config-screen'}>
-            <FormControlLabelComponent label={'Range of Motion and Strength'}/>
-            {
-                globalRomConfig.map((bodyPart, index) => {
-                    return <RomConfigComponent
-                        key={bodyPart.body_part._id}
-                        bodyPart={bodyPart.body_part}
-                        selectedBodySides={bodyPart.sides}
-                        onDelete={handleDeleteBodyPart}
-                    />
-                })
-            }
-            <ButtonComponent
-                prefixIcon={<ImageConfig.AddIcon/>}
-                onClick={handleAddNewBodyPartOpenModal}
-            >
-                Add Body Part
-            </ButtonComponent>
+            <>
+                {
+                    isMedicalInterventionDetailsLoading && <>
+                        <LoaderComponent/>
+                    </>
+                }
+                {
+                    isMedicalInterventionDetailsLoaded && <>
+                        {
+                            globalRomConfig.length === 0 && <>
+                                <StatusCardComponent
+                                    title={"There are no body parts listed under the Range of Motion and Strength. Please add a body part."}>
+                                    <ButtonComponent
+                                        prefixIcon={<ImageConfig.AddIcon/>}
+                                        onClick={handleAddNewBodyPartOpenModal}
+                                    >
+                                        Add Body Part
+                                    </ButtonComponent>
+                                </StatusCardComponent>
+                            </>
+                        }
+                        {
+                            globalRomConfig.length > 0 && <>
+                                {medicalInterventionId && <>
+                                    <FormControlLabelComponent label={'Range of Motion and Strength'}/>
+                                    {
+                                        globalRomConfig.map((bodyPart, index) => {
+                                            return <RomConfigComponent
+                                                medicalInterventionDetails={medicalInterventionDetails}
+                                                key={bodyPart.body_part._id}
+                                                bodyPart={bodyPart.body_part}
+                                                selectedBodySides={bodyPart.sides}
+                                                onDelete={handleDeleteBodyPart}
+                                                medicalInterventionId={medicalInterventionId}
+                                            />
+                                        })
+                                    }
+                                </>
+                                }
+                                <ButtonComponent
+                                    prefixIcon={<ImageConfig.AddIcon/>}
+                                    onClick={handleAddNewBodyPartOpenModal}
+                                >
+                                    Add Body Part
+                                </ButtonComponent>
+                            </>
+                        }
+                    </>
+                }
+            </>
             <ModalComponent
                 isOpen={showAddBodyPartModal}
                 title={"Add Body Part: "}

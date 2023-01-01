@@ -20,6 +20,7 @@ import {ReactComponent as CommentAddIcon} from '../assets/icons/comment-add.svg'
 import {ReactComponent as ChatIcon} from '../assets/icons/chat.svg';
 import {ReactComponent as MoreVerticalIcon} from './../assets/icons/more_vertical.svg';
 
+
 //file types
 import PDFIcon from './../assets/icons/file-types/pdf.svg';
 import WordDocIcon from './../assets/icons/file-types/doc.svg';
@@ -45,6 +46,7 @@ import {ReactComponent as AlertIcon} from './../assets/icons/alert_icon.svg';
 
 import PlaceHolderImage from '../assets/images/place_holder_image.png';
 import RemoveImage from '../assets/images/remove.png';
+import RemoveBodyPartConfirmationIcon from './../assets/confirmation/delete_body_part.svg';
 import Search from '../assets/images/search.png';
 
 
@@ -91,5 +93,7 @@ export {
     CommentAddIcon,
     ChatIcon,
     AlertIcon,
-    MoreVerticalIcon
+    MoreVerticalIcon,
+
+    RemoveBodyPartConfirmationIcon
 }
