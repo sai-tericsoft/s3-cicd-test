@@ -116,8 +116,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
             title: '',
             key: 'comments',
             width: 80,
-            render: (index: any, record: any) =>
-                <Field
+            render: (index: any, record: any) => <Field
                     name={`${bodyPart._id}.${record?.name}.comment`}
                     className="t-form-control">
                     {

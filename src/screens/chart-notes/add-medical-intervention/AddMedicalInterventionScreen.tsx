@@ -96,7 +96,19 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                     return (
                         <Form className="t-form" noValidate={true}>
                             <FormAutoSave formikCtx={formik}/>
-                            <FormControlLabelComponent label={"Soap Note"}/>
+                            <div className={"display-flex justify-content-space-between"}>
+                                <FormControlLabelComponent label={"Soap Note"}/>
+                                {
+                                    medicalInterventionId && <LinkComponent
+                                        route={CommonService._routeConfig.MedicalInterventionExerciseLog(medicalInterventionId)}>
+                                        <ButtonComponent
+                                            prefixIcon={<ImageConfig.AddIcon/>}
+                                        >
+                                            Add Exercise Log
+                                        </ButtonComponent>
+                                    </LinkComponent>
+                                }
+                            </div>
                             <CardComponent title={'Subjective (S)'}>
                                 <div className="ts-row">
                                     <div className="ts-col-12">

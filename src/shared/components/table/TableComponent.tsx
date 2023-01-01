@@ -6,6 +6,7 @@ import StatusCardComponent from "../status-card/StatusCardComponent";
 import LoaderComponent from "../loader/LoaderComponent";
 import {TablePaginationConfig} from "antd";
 import {ColumnsType} from "antd/es/table";
+import {GetRowKey} from "rc-table/lib/interface";
 
 interface TableComponentProps extends ITableComponentProps {
     data: any[];
@@ -69,6 +70,10 @@ const TableComponent = (props: TableComponentProps) => {
         }
     }, [onSort]);
 
+    useEffect(() => {
+        console.log('data changes', props.data);
+    }, [props.data]);
+
     return (
         <div className={'table-component'}>
             <Table
@@ -104,7 +109,7 @@ const TableComponent = (props: TableComponentProps) => {
                         }
                     }
                 }}
-                rowKey={rowKey}
+                rowKey={rowKey as string | GetRowKey<any>}
                 showHeader={showHeader}
                 rowClassName={rowClassName}
                 loading={loading ? {
