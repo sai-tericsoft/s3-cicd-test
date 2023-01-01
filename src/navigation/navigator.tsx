@@ -41,7 +41,9 @@ import {
     DESIGN_SYSTEM_ROUTE,
     FACILITY_DETAILS,
     FACILITY_LIST,
-    LOGIN_ROUTE, MEDICAL_INTERVENTION_ROM_CONFIG,
+    LOGIN_ROUTE,
+    MEDICAL_INTERVENTION_ROM_CONFIG,
+    MEDICAL_INTERVENTION_SPECIAL_TESTS,
     NOT_FOUND_ROUTE,
     SERVICE_ADD,
     SERVICE_CATEGORY_DETAILS,
@@ -53,6 +55,8 @@ import {
 import ChartNotesDetailsScreen from "../screens/chart-notes/chart-notes-details/ChartNotesDetailsScreen";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
+import MedicalInterventionSpecialTestsScreen
+    from "../screens/chart-notes/medical-intervention-special-tests/MedicalInterventionSpecialTestsScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -231,6 +235,12 @@ const Navigator = (props: NavigatorProps) => {
                 <Route path={MEDICAL_INTERVENTION_ROM_CONFIG}
                        element={<ProtectedRoute>
                            <MedicalInterventionRomConfigScreen/>
+                       </ProtectedRoute>
+                       }
+                />
+                <Route path={MEDICAL_INTERVENTION_SPECIAL_TESTS}
+                       element={<ProtectedRoute>
+                           <MedicalInterventionSpecialTestsScreen/>
                        </ProtectedRoute>
                        }
                 />

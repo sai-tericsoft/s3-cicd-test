@@ -255,6 +255,14 @@ const APIConfig: IAPIConfig = {
     DELETE_BODY_PART_UNDER_MEDICAL_INTERVENTION_ROM_CONFIG: {
         URL:(medicalInterventionId:string, bodyPartId:string)=> ENV.API_URL + '/intervention/'+ medicalInterventionId +'/rom/'+ bodyPartId,
         METHOD: "delete"
+    },
+    SAVE_MEDICAL_INTERVENTION_SPECIAL_TEST_FOR_A_BODY_PART: {
+        URL:(medicalInterventionId:string, bodyPartId:string)=> ENV.API_URL + '/intervention/'+ medicalInterventionId +'/specialTest/'+ bodyPartId,
+        METHOD: "post"
+    },
+    DELETE_BODY_PART_UNDER_MEDICAL_INTERVENTION_SPECIAL_TEST: {
+        URL:(medicalInterventionId:string, bodyPartId:string)=> ENV.API_URL + '/intervention/'+ medicalInterventionId +'/specialTest/'+ bodyPartId,
+        METHOD: "delete"
     }
     // chart notes end
 }

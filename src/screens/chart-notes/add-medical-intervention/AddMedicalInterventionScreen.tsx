@@ -172,7 +172,19 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                                </LinkComponent>
                                                            }
                                                        </>}
-
+                                        ></CardComponent>
+                                        <CardComponent title={"Special Test"}
+                                                       actions={<>
+                                                           {
+                                                               medicalInterventionId && <LinkComponent
+                                                                   route={CommonService._routeConfig.MedicalInterventionSpecialTests(medicalInterventionId)}>
+                                                                   <ButtonComponent
+                                                                       prefixIcon={<ImageConfig.AddIcon/>}>
+                                                                       Add
+                                                                   </ButtonComponent>
+                                                               </LinkComponent>
+                                                           }
+                                                       </>}
                                         ></CardComponent>
                                         <Field name={'objective.functional_tests'}>
                                             {

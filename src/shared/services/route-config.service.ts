@@ -102,6 +102,10 @@ const MedicalInterventionROMConfig = (medicalInterventionId: string, )=>{
     return "/chart-notes/" + medicalInterventionId + '/rom-config';
 }
 
+const MedicalInterventionSpecialTests = (medicalInterventionId: string, )=>{
+    return "/chart-notes/" + medicalInterventionId + '/special-tests';
+}
+
 const RouteConfigService = {
     DefaultRoute,
     LoginRoute,
@@ -125,7 +129,8 @@ const RouteConfigService = {
     AddMedicalRecord,
     AddMedicalIntervention,
     ChartNotesDetails,
-    MedicalInterventionROMConfig
+    MedicalInterventionROMConfig,
+    MedicalInterventionSpecialTests
 }
 
 export default RouteConfigService;

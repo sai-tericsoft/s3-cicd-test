@@ -1,4 +1,4 @@
-import "./MedicalInterventionRomConfigScreen.scss";
+import "./MedicalInterventionSpecialTestsScreen.scss";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate, useParams} from "react-router-dom";
 import React, {useCallback, useEffect, useState} from "react";
@@ -11,16 +11,16 @@ import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
 import {RadioButtonComponent} from "../../../shared/components/form-controls/radio-button/RadioButtonComponent";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
-import RomConfigComponent from "../rom-config/RomConfigComponent";
 import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
+import SpecialTestComponent from "../special-test/SpecialTestComponent";
 
-interface MedicalInterventionRomConfigScreenProps {
+interface MedicalInterventionSpecialTestsScreenProps {
 
 }
 
-const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigScreenProps) => {
+const MedicalInterventionSpecialTestsScreen = (props: MedicalInterventionSpecialTestsScreenProps) => {
 
     const [globalRomConfig, setGlobalRomConfig] = useState<IBodyPartROMConfig[]>([]);
     const dispatch = useDispatch();
@@ -80,8 +80,8 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
     }, [medicalInterventionDetails]);
 
     return (
-        <div className={'medical-intervention-rom-config-screen'}>
-            <FormControlLabelComponent label={'Range of Motion and Strength'}/>
+        <div className={'medical-intervention-special-tests-screen'}>
+            <FormControlLabelComponent label={'Special Test'}/>
             <>
                 {
                     isMedicalInterventionDetailsLoading && <>
@@ -108,11 +108,10 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
                                 {medicalInterventionId && <>
                                     {
                                         globalRomConfig.map((bodyPart, index) => {
-                                            return <RomConfigComponent
+                                            return <SpecialTestComponent
                                                 medicalInterventionDetails={medicalInterventionDetails}
                                                 key={bodyPart.body_part._id}
                                                 bodyPart={bodyPart.body_part}
-                                                selectedBodySides={bodyPart.sides}
                                                 onDelete={handleDeleteBodyPart}
                                                 medicalInterventionId={medicalInterventionId}
                                             />
@@ -174,4 +173,4 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
 
 };
 
-export default MedicalInterventionRomConfigScreen;
+export default MedicalInterventionSpecialTestsScreen;

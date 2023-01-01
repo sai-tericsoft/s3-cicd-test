@@ -26,11 +26,23 @@ const DeleteBodyPartUnderMedicalInterventionROMConfigAPICall = (medicalIntervent
     return ApiService[APIConfig.DELETE_BODY_PART_UNDER_MEDICAL_INTERVENTION_ROM_CONFIG.METHOD](APIConfig.DELETE_BODY_PART_UNDER_MEDICAL_INTERVENTION_ROM_CONFIG.URL(medicalInterventionId, bodyPartId), {});
 }
 
+const SaveMedicalInterventionSpecialTestForABodyPartAPICall = (medicalInterventionId: string, bodyPartId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.SAVE_MEDICAL_INTERVENTION_SPECIAL_TEST_FOR_A_BODY_PART.METHOD](APIConfig.SAVE_MEDICAL_INTERVENTION_SPECIAL_TEST_FOR_A_BODY_PART.URL(medicalInterventionId, bodyPartId), payload);
+}
+
+const DeleteBodyPartUnderMedicalInterventionSpecialTestAPICall = (medicalInterventionId: string, bodyPartId: string) => {
+    // @ts-ignore
+    return ApiService[APIConfig.DELETE_BODY_PART_UNDER_MEDICAL_INTERVENTION_SPECIAL_TEST.METHOD](APIConfig.DELETE_BODY_PART_UNDER_MEDICAL_INTERVENTION_SPECIAL_TEST.URL(medicalInterventionId, bodyPartId), {});
+}
+
 const ChartNotesService = {
     MedicalRecordAddAPICall,
     MedicalInterventionBasicDetailsUpdateAPICall,
     FetchMedicalInterventionBasicDetailsAPICall,
     SaveMedicalInterventionROMConfigForABodyPartAPICall,
-    DeleteBodyPartUnderMedicalInterventionROMConfigAPICall
+    DeleteBodyPartUnderMedicalInterventionROMConfigAPICall,
+    SaveMedicalInterventionSpecialTestForABodyPartAPICall,
+    DeleteBodyPartUnderMedicalInterventionSpecialTestAPICall
 }
 export default ChartNotesService;

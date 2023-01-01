@@ -27,6 +27,7 @@ const CLIENT_SEARCH = '/client-search';
 const ADD_MEDICAL_RECORD = '/chart-notes/:clientId/add-medical-record';
 const ADD_MEDICAL_INTERVENTION = '/chart-notes/:medicalInterventionId/add-medical-intervention';
 const MEDICAL_INTERVENTION_ROM_CONFIG = '/chart-notes/:medicalInterventionId/rom-config';
+const MEDICAL_INTERVENTION_SPECIAL_TESTS = '/chart-notes/:medicalInterventionId/special-tests';
 const CLIENT_CHART_NOTES = '/chart-notes/:clientId/medical-record-list';
 
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
@@ -56,5 +57,6 @@ export {
     ADD_MEDICAL_RECORD,
     ADD_MEDICAL_INTERVENTION,
     CLIENT_CHART_NOTES,
-    MEDICAL_INTERVENTION_ROM_CONFIG
+    MEDICAL_INTERVENTION_ROM_CONFIG,
+    MEDICAL_INTERVENTION_SPECIAL_TESTS
 }

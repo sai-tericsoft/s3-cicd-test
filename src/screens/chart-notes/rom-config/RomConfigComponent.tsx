@@ -1,10 +1,10 @@
 import "./RomConfigComponent.scss";
 import {IBodyPart} from "../../../shared/models/static-data.model";
-import {Field, FieldProps, Form, Formik, FormikHelpers, FormikProps} from "formik";
+import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import {useCallback, useEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {ImageConfig} from "../../../constants";
 import {CommonService} from "../../../shared/services";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
@@ -15,7 +15,6 @@ import CheckBoxComponent from "../../../shared/components/form-controls/check-bo
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
-import FormikCommentComponent from "../../../shared/components/form-controls/formik-comment/FormikCommentComponent";
 
 interface RomConfigComponentProps {
     medicalInterventionDetails: any;
@@ -32,7 +31,6 @@ interface IROMConfig extends IBodyPart {
 
 const RomConfigComponent = (props: RomConfigComponentProps) => {
 
-    const formikRef = useRef<FormikProps<any>>(null);
     const {medicalInterventionId, medicalInterventionDetails, selectedBodySides, bodyPart, onDelete} = props;
     const [bodySides, setBodySides] = useState<string[]>(selectedBodySides);
     const [romConfigValues, setRomConfigValues] = useState<IROMConfig | any | undefined>({});
@@ -118,20 +116,26 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
             title: '',
             key: 'comments',
             width: 80,
-            render: (index: any, record: any) => <Field
-                name={`${bodyPart._id}.${record?.name}.comment`}
-                className="t-form-control">
-                {
-                    (field: FieldProps) => (
-                        <FormikCommentComponent
-                            formikField={field}
-                            onClick={() => {
-                                setShowROMMovementCommentsModal(true);
-                                setSelectedROMMovementComments(record);
-                            }}/>
-                    )
-                }
-            </Field>
+            render: (index: any, record: any) =>
+                <Field
+                    name={`${bodyPart._id}.${record?.name}.comment`}
+                    className="t-form-control">
+                    {
+                        (field: FieldProps) => (
+                            <IconButtonComponent
+                                color={field.form.values[bodyPart._id]?.[record?.name].comment ? "primary" : "inherit"}
+                                onClick={() => {
+                                    setShowROMMovementCommentsModal(true);
+                                    setSelectedROMMovementComments(record);
+                                }}>
+                                {
+                                    field.form.values[bodyPart._id]?.[record?.name].comment ? <ImageConfig.ChatIcon/> :
+                                        <ImageConfig.CommentAddIcon/>
+                                }
+                            </IconButtonComponent>
+                        )
+                    }
+                </Field>
         });
         return columns;
     }, [bodySides]);
@@ -192,7 +196,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                 }
             });
         }
-    }, [onDelete, bodyPart._id]);
+    }, [onDelete, bodyPart._id, medicalInterventionDetails, medicalInterventionId]);
 
     const handleBodySideSelect = useCallback((isSelected: boolean, bodySide: string) => {
         if (isSelected) {
@@ -234,7 +238,6 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
         <div className={'rom-config-component'}>
             <Formik initialValues={romConfigValues}
                     enableReinitialize={true}
-                    innerRef={formikRef}
                     onSubmit={handleROMConfigSubmit}>
                 {({values, validateForm, setFieldValue, isSubmitting}) => {
                     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -293,56 +296,58 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                 </div>
                             </CardComponent>
                             {
-                                bodyPart.movements?.map((movement, index: number) => {
-                                    if (showROMMovementCommentsModal && movement.name === selectedROMMovementComments?.name) {
-                                        return <ModalComponent
-                                            key={index + movement.name}
-                                            isOpen={showROMMovementCommentsModal}
-                                            title={`${values?.[bodyPart._id]?.[selectedROMMovementComments?.name]?.comment ? "Edit Comments" : "Comments:"}`}
-                                            closeOnBackDropClick={true}
-                                            className={"intervention-comments-modal"}
-                                            modalFooter={<>
-                                                <ButtonComponent variant={"outlined"}
-                                                                 onClick={() => {
-                                                                     const comment = values?.[bodyPart._id]?.[selectedROMMovementComments?.name]?.comment;
-                                                                     setShowROMMovementCommentsModal(false);
-                                                                     setFieldValue(`${bodyPart._id}.${selectedROMMovementComments?.name}.commentTemp`, comment);
-                                                                     setSelectedROMMovementComments(undefined);
-                                                                 }}>
-                                                    Cancel
-                                                </ButtonComponent>&nbsp;
-                                                <ButtonComponent
-                                                    onClick={() => {
-                                                        const newComment = values?.[bodyPart._id]?.[selectedROMMovementComments?.name]?.commentTemp;
-                                                        setShowROMMovementCommentsModal(false);
-                                                        setFieldValue(`${bodyPart._id}.${selectedROMMovementComments?.name}.comment`, newComment);
-                                                        setSelectedROMMovementComments(undefined);
-                                                    }}>
+                                    bodyPart.movements?.map((movement, index: number) => {
+                                        if (showROMMovementCommentsModal && movement.name === selectedROMMovementComments?.name) {
+                                            return <ModalComponent
+                                                key={index + movement.name}
+                                                isOpen={showROMMovementCommentsModal}
+                                                title={`${values?.[bodyPart._id]?.[selectedROMMovementComments?.name]?.comment ? "Edit Comments" : "Comments:"}`}
+                                                closeOnBackDropClick={true}
+                                                className={"intervention-comments-modal"}
+                                                modalFooter={<>
+                                                    <ButtonComponent variant={"outlined"}
+                                                                     onClick={() => {
+                                                                         const comment = values?.[bodyPart._id]?.[selectedROMMovementComments?.name]?.comment;
+                                                                         setShowROMMovementCommentsModal(false);
+                                                                         setFieldValue(`${bodyPart._id}.${selectedROMMovementComments?.name}.commentTemp`, comment);
+                                                                         setSelectedROMMovementComments(undefined);
+                                                                     }}>
+                                                        Cancel
+                                                    </ButtonComponent>&nbsp;
+                                                    <ButtonComponent
+                                                        onClick={() => {
+                                                            const newComment = values?.[bodyPart._id]?.[selectedROMMovementComments?.name]?.commentTemp;
+                                                            setShowROMMovementCommentsModal(false);
+                                                            setFieldValue(`${bodyPart._id}.${selectedROMMovementComments?.name}.comment`, newComment);
+                                                            setSelectedROMMovementComments(undefined);
+                                                        }}>
+                                                        {
+                                                            values?.[bodyPart._id]?.[selectedROMMovementComments?.name]?.comment ? "Save" : "Add"
+                                                        }
+                                                    </ButtonComponent>
+                                                </>
+                                                }>
+                                                <Field
+                                                    name={`${bodyPart._id}.${selectedROMMovementComments?.name}.commentTemp`}
+                                                    className="t-form-control">
                                                     {
-                                                        values?.[bodyPart._id]?.[selectedROMMovementComments?.name]?.comment ? "Save" : "Add"
+                                                        (field: FieldProps) => (
+                                                            <FormikTextAreaComponent
+                                                                label={selectedROMMovementComments?.name + " ( Comments ) "}
+                                                                placeholder={"Enter your comments here..."}
+                                                                formikField={field}
+                                                                size={"small"}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
                                                     }
-                                                </ButtonComponent>
-                                            </>
-                                            }>
-                                            <Field
-                                                name={`${bodyPart._id}.${selectedROMMovementComments?.name}.commentTemp`}
-                                                className="t-form-control">
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikTextAreaComponent
-                                                            label={selectedROMMovementComments?.name + " ( Comments ) "}
-                                                            placeholder={"Enter your comments here..."}
-                                                            formikField={field}
-                                                            size={"small"}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-                                        </ModalComponent>
-                                    }
-                                })
-                            }
+                                                </Field>
+                                            </ModalComponent>
+                                        } else {
+                                            return <></>
+                                        }
+                                    })
+                                }
                         </Form>
                     );
                 }}
