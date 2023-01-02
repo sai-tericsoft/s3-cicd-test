@@ -94,9 +94,14 @@ const AddMedicalIntervention = (medicalInterventionId: string, )=>{
     return "/chart-notes/" + medicalInterventionId + '/add-medical-intervention';
 }
 
-const ChartNotesDetails = (clientId: string)=>{
+const ChartNotesDetails = ()=>{
+    return "/chart-notes";
+}
+
+const MedicalRecordList = (clientId: string)=>{
     return "/chart-notes/" + clientId + '/medical-record-list';
 }
+
 
 const MedicalInterventionROMConfig = (medicalInterventionId: string, )=>{
     return "/chart-notes/" + medicalInterventionId + '/rom-config';
@@ -135,7 +140,8 @@ const RouteConfigService = {
     ChartNotesDetails,
     MedicalInterventionROMConfig,
     MedicalInterventionSpecialTests,
-    MedicalInterventionExerciseLog
+    MedicalInterventionExerciseLog,
+    MedicalRecordList
 }
 
 export default RouteConfigService;

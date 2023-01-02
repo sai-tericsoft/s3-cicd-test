@@ -10,7 +10,7 @@ import {ImageConfig, Misc} from "../../../constants";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import FormAutoSave from "../../../shared/utils/formAutoSave";
+import FormAutoSave from "../../../shared/utils/FormAutoSave";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 import {useDispatch, useSelector} from "react-redux";

@@ -31,8 +31,7 @@ import {
     ADD_MEDICAL_INTERVENTION,
     ADD_MEDICAL_RECORD,
     ADMIN,
-    CLIENT_ADD,
-    CLIENT_CHART_NOTES,
+    CLIENT_ADD, CLIENT_CHART_NOTES_DETAILS,
     CLIENT_DETAILS,
     CLIENT_EDIT,
     CLIENT_LIST,
@@ -44,7 +43,7 @@ import {
     LOGIN_ROUTE,
     MEDICAL_INTERVENTION_EXERCISE_LOG,
     MEDICAL_INTERVENTION_ROM_CONFIG,
-    MEDICAL_INTERVENTION_SPECIAL_TESTS,
+    MEDICAL_INTERVENTION_SPECIAL_TESTS, MEDICAL_RECORD_LIST,
     NOT_FOUND_ROUTE,
     SERVICE_ADD,
     SERVICE_CATEGORY_DETAILS,
@@ -53,13 +52,15 @@ import {
     SERVICE_EDIT,
     TEST_ROUTE
 } from "../constants/RoutesConfig";
-import ChartNotesDetailsScreen from "../screens/chart-notes/chart-notes-details/ChartNotesDetailsScreen";
+import MedicalRecordListScreen from "../screens/chart-notes/medical-record-list/MedicalRecordListScreen";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
 import MedicalInterventionSpecialTestsScreen
     from "../screens/chart-notes/medical-intervention-special-tests/MedicalInterventionSpecialTestsScreen";
 import MedicalInterventionExerciseLogScreen
     from "../screens/chart-notes/medical-intervention-exercise-log/MedicalInterventionExerciseLogScreen";
+import ChartNotesDetailsMainLayoutComponent
+    from "../screens/chart-notes/chart-notes-details-main-layout/ChartNotesDetailsMainLayoutComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -223,6 +224,20 @@ const Navigator = (props: NavigatorProps) => {
                        </ProtectedRoute>
                        }
                 />
+                <Route path={CLIENT_CHART_NOTES_DETAILS} element={<ChartNotesDetailsMainLayoutComponent/>} {...props}>
+                    <Route
+                        index
+                        element={
+                            <Navigate to={MEDICAL_RECORD_LIST}/>
+                        }
+                    />
+                    <Route path={MEDICAL_RECORD_LIST}
+                           element={<ProtectedRoute>
+                               <MedicalRecordListScreen/>
+                           </ProtectedRoute>
+                           }
+                    />
+                </Route>
                 <Route path={ADD_MEDICAL_RECORD}
                        element={<ProtectedRoute>
                            <AddMedicalRecordScreen/>
@@ -252,14 +267,6 @@ const Navigator = (props: NavigatorProps) => {
                            <MedicalInterventionExerciseLogScreen/>
                        </ProtectedRoute>
                        }
-                />
-                <Route
-                    path={CLIENT_CHART_NOTES}
-                    element={
-                        <ProtectedRoute>
-                            <ChartNotesDetailsScreen/>
-                        </ProtectedRoute>
-                    }
                 />
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
             </Route>

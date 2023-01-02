@@ -6,7 +6,7 @@ import FormikPasswordInputComponent
     from "../../shared/components/form-controls/formik-password-input/FormikPasswordInputComponent";
 import FormikInputComponent from "../../shared/components/form-controls/formik-input/FormikInputComponent";
 import CardComponent from "../../shared/components/card/CardComponent";
-import FormAutoSave from "../../shared/utils/formAutoSave";
+import FormAutoSave from "../../shared/utils/FormAutoSave";
 import {Login} from "@mui/icons-material";
 import ButtonComponent from "../../shared/components/button/ButtonComponent";
 

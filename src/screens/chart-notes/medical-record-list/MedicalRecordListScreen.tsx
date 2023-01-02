@@ -1,4 +1,4 @@
-import "./ChartNotesDetailsScreen.scss";
+import "./MedicalRecordListScreen.scss";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import React, {useEffect, useState} from "react";
@@ -9,22 +9,20 @@ import {CommonService} from "../../../shared/services";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import ClientBasicDetailsCardComponent from "../../clients/client-basic-details-card/ClientBasicDetailsCardComponent";
-import {
-    IClientBasicDetails,
-    IClientMedicalStatusFilterState
-} from "../../../shared/models/client.model";
+import {IClientBasicDetails, IClientMedicalStatusFilterState} from "../../../shared/models/client.model";
 import {ITableColumn} from "../../../shared/models/table.model";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
 import {APIConfig, ImageConfig} from "../../../constants";
 import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
+import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 
 interface ClientBasicDetailsComponentProps {
 
 }
 
-const ChartNotesDetailsScreen = (props: ClientBasicDetailsComponentProps) => {
+const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
 
     const MedicalRecordListTableColumns: ITableColumn[] = [
         {
@@ -107,9 +105,9 @@ const ChartNotesDetailsScreen = (props: ClientBasicDetailsComponentProps) => {
     const {clientId} = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {medicalStatusList}=useSelector((state: IRootReducerState) => state.staticData);
+    const {medicalStatusList} = useSelector((state: IRootReducerState) => state.staticData);
     const [medicalListFilterState, setMedicalListFilterState] = useState<IClientMedicalStatusFilterState>({
-        status:undefined,
+        status: undefined,
     })
 
     const {
@@ -133,7 +131,6 @@ const ChartNotesDetailsScreen = (props: ClientBasicDetailsComponentProps) => {
 
     return (
         <div className={'chart-notes-details-screen'}>
-
             <>
                 {
                     !clientId && <StatusCardComponent title={"Client ID missing. cannot fetch details"}/>
@@ -153,21 +150,37 @@ const ChartNotesDetailsScreen = (props: ClientBasicDetailsComponentProps) => {
                         }
                         {
                             (isClientBasicDetailsLoaded && clientBasicDetails) && <>
-                                <div className=" client-details-header">
-                                    <div className={"client-details-title"}>
-                                        Medical Records
+                                <div className="client-details-header">
+                                    <div className="client-details-title">
+                                        Medical Record List
                                     </div>
-                                    <div className="ts-col-md-6 ts-col-lg-3 client-details-select-filter">
-                                        <SelectComponent options={medicalStatusList}
-                                                         label={'Status'}
-                                                         size={'medium'}
-                                                         fullWidth={true}
-                                                         value={medicalListFilterState.status}
-                                                         keyExtractor={(item) => item.code}
-                                                         onUpdate={(value) => {
-                                                             setMedicalListFilterState({...medicalListFilterState, status: value})
-                                                         }}
-                                        />
+                                    <div className="client-details-filters-options">
+                                        <div className="client-details-filters ts-row">
+                                            <div className="ts-col-lg-3">
+                                                <SelectComponent options={medicalStatusList}
+                                                                 label={'Status'}
+                                                                 size={'small'}
+                                                                 fullWidth={true}
+                                                                 value={medicalListFilterState.status}
+                                                                 keyExtractor={(item) => item.code}
+                                                                 onUpdate={(value) => {
+                                                                     setMedicalListFilterState({
+                                                                         ...medicalListFilterState,
+                                                                         status: value
+                                                                     })
+                                                                 }}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <LinkComponent route={CommonService._routeConfig.AddMedicalRecord(clientId)}>
+                                                <ButtonComponent
+                                                    prefixIcon={<ImageConfig.AddIcon/>}
+                                                >
+                                                    Add Medical Record
+                                                </ButtonComponent>
+                                            </LinkComponent>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className={"client-details-layout"}>
@@ -197,4 +210,4 @@ const ChartNotesDetailsScreen = (props: ClientBasicDetailsComponentProps) => {
     );
 };
 
-export default ChartNotesDetailsScreen;
+export default MedicalRecordListScreen;
