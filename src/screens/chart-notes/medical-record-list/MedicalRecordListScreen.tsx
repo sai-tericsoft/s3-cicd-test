@@ -54,8 +54,8 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             dataIndex: "body_part",
             width: 120,
             render: (_: any, item: any) => {
-                return <>{item.injury_details.map((e: any) => {
-                    return <>{e.body_part_id?.name}</>
+                return <>{item.injury_details.map((injury: any) => {
+                    return <>{injury.body_part_details?.name}</>
                 })}{item.injury_details.length > 1 && "(+" + item.injury_details.length + ")"}</>
 
             }
@@ -196,7 +196,6 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                                             url={APIConfig.CLIENT_MEDICAL_INFO.URL(clientId)}
                                             method={APIConfig.CLIENT_MEDICAL_INFO.METHOD}
                                             columns={MedicalRecordListTableColumns}
-                                            scroll={"scroll"}
                                             extraPayload={medicalListFilterState}
                                         />
                                     </div>
