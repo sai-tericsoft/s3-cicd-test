@@ -102,7 +102,6 @@ const MedicalRecordList = (clientId: string)=>{
     return "/chart-notes/" + clientId + '/medical-record-list';
 }
 
-
 const MedicalInterventionROMConfig = (medicalInterventionId: string, )=>{
     return "/chart-notes/" + medicalInterventionId + '/rom-config';
 }

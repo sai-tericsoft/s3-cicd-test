@@ -49,12 +49,14 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
     const {medicalInterventionId} = useParams();
     const [addMedicalInterventionFormInitialValues, setAddMedicalInterventionFormInitialValues] = useState<any>(_.cloneDeep(MedicalInterventionAddFormInitialValues));  // TODO type properly
 
-    const onSubmit = useCallback((values: any, {setSubmitting, setErrors}: FormikHelpers<any>) => {
+    const onSubmit = useCallback((values: any, {setSubmitting, setErrors}: FormikHelpers<any>, announce = false) => {
         if (medicalInterventionId) {
             setSubmitting(true);
             CommonService._chartNotes.MedicalInterventionBasicDetailsUpdateAPICall(medicalInterventionId, values)
                 .then((response: IAPIResponseType<any>) => {
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    if (announce) {
+                        CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    }
                     setSubmitting(false);
                 })
                 .catch((error: any) => {
@@ -82,7 +84,9 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
             <Formik
                 validationSchema={MedicalInterventionAddFormValidationSchema}
                 initialValues={addMedicalInterventionFormInitialValues}
-                onSubmit={onSubmit}
+                onSubmit={(values, formikHelpers) => {
+                    onSubmit(values, formikHelpers, false);
+                }}
                 validateOnChange={false}
                 validateOnBlur={true}
                 enableReinitialize={true}
@@ -96,8 +100,9 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                     return (
                         <Form className="t-form" noValidate={true}>
                             <FormAutoSave formikCtx={formik}/>
-                            <div className={"display-flex justify-content-space-between"}>
-                                <FormControlLabelComponent label={"Soap Note"}/>
+                            <div
+                                className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
+                                <FormControlLabelComponent label={"Soap Note"} className={"mrg-0"}/>
                                 {
                                     medicalInterventionId && <LinkComponent
                                         route={CommonService._routeConfig.MedicalInterventionExerciseLog(medicalInterventionId)}>

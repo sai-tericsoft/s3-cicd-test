@@ -66,8 +66,17 @@ const SurgeryRecordValidationSchema = Yup.object().shape({
     reported_by: Yup.mixed().required("Reported by is required"),
 });
 
+const InjuryDetailsValidationSchema = Yup.object().shape({
+    body_part_id: Yup.string().required("Body Part is required"),
+    body_side: Yup.mixed().required("Body Side is required"),
+    injury_type_id: Yup.string().required("Injury Type is required"),
+});
+
 const MedicalRecordAddFormValidationSchema = Yup.object({
-    surgery_details: SurgeryRecordValidationSchema
+    onset_date: Yup.string().required("Date Of Onset is required"),
+    treated_by: Yup.mixed().required("Treated By is required"),
+    surgery_details: SurgeryRecordValidationSchema,
+    injury_details: Yup.array().of(InjuryDetailsValidationSchema),
 });
 
 const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
@@ -82,8 +91,10 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
     const [isSurgeryRecordDrawerOpen, setIsSurgeryRecordDrawerOpen] = useState<boolean>(false);
 
     useEffect(() => {
-        dispatch(setCurrentNavParams("Add New Medical Record"));
-    }, [dispatch]);
+        dispatch(setCurrentNavParams("Add New Medical Record", null, () => {
+            clientId && navigate(CommonService._routeConfig.MedicalRecordList(clientId));
+        }));
+    }, [clientId, dispatch]);
 
     const handleSurgeryRecordDrawerOpen = useCallback(() => {
         setIsSurgeryRecordDrawerOpen(true);
@@ -370,8 +381,8 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                                                         disabled={values?.injury_details[index]?.body_part_id === ""}
                                                                                         options={bodyPartList?.find((item: IBodyPart) => item?._id === values?.injury_details[index]?.body_part_id)?.sides}
                                                                                         label={'Body Side'}
-                                                                                        displayWith={(item: any) => item.name}
-                                                                                        valueExtractor={(item: any) => item.name}
+                                                                                        displayWith={(item: any) => item}
+                                                                                        valueExtractor={(item: any) => item}
                                                                                         formikField={field}
                                                                                         required={true}
                                                                                         fullWidth={true}
@@ -437,9 +448,8 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                             {
                                                 (field: FieldProps) => (
                                                     <FormikTextAreaComponent
-                                                        label={'Injury Description'}
+                                                        label={'Injury/Condition Description'}
                                                         formikField={field}
-                                                        required={true}
                                                         fullWidth={true}
                                                     />
                                                 )
@@ -455,7 +465,6 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                     <FormikTextAreaComponent
                                                         label={'Restrictions/Limitations'}
                                                         formikField={field}
-                                                        required={true}
                                                         fullWidth={true}
                                                     />
                                                 )

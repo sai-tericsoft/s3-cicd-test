@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useLayoutEffect} from 'react';
 import {Navigate, Route, Routes, useLocation, useNavigate} from 'react-router-dom';
 import NotFoundScreen from "../screens/not-found/notFoundScreen";
 import AuthLayout from "../layouts/auth-layout/AuthLayout";
@@ -31,7 +31,8 @@ import {
     ADD_MEDICAL_INTERVENTION,
     ADD_MEDICAL_RECORD,
     ADMIN,
-    CLIENT_ADD, CLIENT_CHART_NOTES_DETAILS,
+    CLIENT_ADD,
+    CLIENT_CHART_NOTES_DETAILS,
     CLIENT_DETAILS,
     CLIENT_EDIT,
     CLIENT_LIST,
@@ -43,7 +44,8 @@ import {
     LOGIN_ROUTE,
     MEDICAL_INTERVENTION_EXERCISE_LOG,
     MEDICAL_INTERVENTION_ROM_CONFIG,
-    MEDICAL_INTERVENTION_SPECIAL_TESTS, MEDICAL_RECORD_LIST,
+    MEDICAL_INTERVENTION_SPECIAL_TESTS,
+    MEDICAL_RECORD_LIST,
     NOT_FOUND_ROUTE,
     SERVICE_ADD,
     SERVICE_CATEGORY_DETAILS,
@@ -104,6 +106,12 @@ export interface NavigatorProps {
 }
 
 const Navigator = (props: NavigatorProps) => {
+
+    const location = useLocation();
+
+    useLayoutEffect(() => {
+        document.querySelector("body")?.scrollTo(0, 0);
+    }, [location.pathname]);
 
     return (
         <Routes>

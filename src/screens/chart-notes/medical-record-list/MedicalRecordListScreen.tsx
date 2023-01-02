@@ -156,11 +156,11 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                                     </div>
                                     <div className="client-details-filters-options">
                                         <div className="client-details-filters ts-row">
-                                            <div className="ts-col-lg-3">
+                                            <div className="ts-col-md-6 ts-col-lg-3">
                                                 <SelectComponent options={medicalStatusList}
                                                                  label={'Status'}
-                                                                 size={'small'}
                                                                  fullWidth={true}
+                                                                 size={'small'}
                                                                  value={medicalListFilterState.status}
                                                                  keyExtractor={(item) => item.code}
                                                                  onUpdate={(value) => {
