@@ -95,7 +95,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             fixed: "right",
             render: (_: any, item: IClientBasicDetails) => {
                 if (item?._id) {
-                    return <LinkComponent route={CommonService._routeConfig.ComingSoonRoute()}>
+                    return <LinkComponent route={CommonService._routeConfig.ClientMedicalRecordDetails(item?._id)}>
                         View Details
                     </LinkComponent>
                 }

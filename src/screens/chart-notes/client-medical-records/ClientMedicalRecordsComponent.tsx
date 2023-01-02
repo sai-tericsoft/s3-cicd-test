@@ -75,20 +75,19 @@ const ClientMedicalRecordsComponent = (props: ClientMedicalRecordsComponentProps
         }
     ];
 
-
     return (
         <div className={'client-medical-records-component'}>
             <div className={'client-medical-records-header-button-wrapper'}>
                 <div className={'client-medical-records-header'}>Medical Records</div>
-                <div>
-                    <ButtonComponent className={'outlined-button'} variant={"outlined"}>Repeat Last
-                        Treatment</ButtonComponent>
-                    <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}>Add New Treatment</ButtonComponent>
-                </div>
+                {/*<div>*/}
+                {/*    <ButtonComponent className={'outlined-button'} variant={"outlined"}>Repeat Last*/}
+                {/*        Treatment</ButtonComponent>*/}
+                {/*    <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}>Add New Treatment</ButtonComponent>*/}
+                {/*</div>*/}
             </div>
             <TableWrapperComponent url={APIConfig.CLIENT_MEDICAL_INTERVENTION_LIST.URL(medicalRecordId)}
                                    method={APIConfig.CLIENT_MEDICAL_INTERVENTION_LIST.METHOD} columns={medicalRecord}
-                                   isPaginated={true}/>
+                                   isPaginated={false}/>
         </div>
     );
 

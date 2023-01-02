@@ -1,5 +1,6 @@
 import "./ClientMedicalRecordDetailsComponent.scss";
 import ClientMedicalDetailsCardComponent from "../client-medical-details-card/ClientMedicalDetailsCardComponent";
+import ClientMedicalRecordsComponent from "../client-medical-records/ClientMedicalRecordsComponent";
 
 interface ClientMedicalDetailsComponentProps {
 
@@ -10,7 +11,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
     return (
         <div className={'client-medical-record-details-component'}>
             <ClientMedicalDetailsCardComponent />
-            {/*<ClientMedicalRecordsComponent/>*/}
+            <ClientMedicalRecordsComponent/>
             {/*<ClientMedicalAttachmentsComponent/>*/}
         </div>
     );

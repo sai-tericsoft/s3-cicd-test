@@ -65,10 +65,12 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
     }, [medicalRecordId, dispatch]);
 
     useEffect(() => {
-        dispatch(setCurrentNavParams("Medical Record Main Page", null, () => {
-            navigate(CommonService._routeConfig.ClientSearch());
-        }));
-    }, [navigate, dispatch]);
+        if (clientMedicalRecord?.client_id) {
+            dispatch(setCurrentNavParams("Medical Record details", null, () => {
+                navigate(CommonService._routeConfig.MedicalRecordList(clientMedicalRecord?.client_id));
+            }));
+        }
+    }, [navigate, dispatch, clientMedicalRecord?.client_id]);
 
     return (
         <div className={'client-medical-details-card-component'}>
@@ -106,11 +108,11 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                     </ButtonComponent>
                                 </div>
                                 <DataLabelValueComponent label={'Intervention Linked to:'} direction={"row"}>
-                        <span className={'client-intervention'}>{clientMedicalRecord?.intervention_linked_to}
-                            {clientMedicalRecord?.created_at && CommonService.transformTimeStamp(clientMedicalRecord?.created_at)}{" "}
-                            {"-"} {clientMedicalRecord?.injury_details.map((e: any) => {
-                                return <>{e.body_part_details.name}({e.body_side})</>
-                            })}</span>
+                                    <span className={'client-intervention'}>{clientMedicalRecord?.intervention_linked_to}
+                                    {clientMedicalRecord?.created_at && CommonService.transformTimeStamp(clientMedicalRecord?.created_at)}{" "}
+                                    {"-"} {clientMedicalRecord?.injury_details.map((e: any, index: number) => {
+                                    return <>{e.body_part_details.name}({e.body_side}) {index !== clientMedicalRecord?.injury_details.length - 1 ? <> | </> : ""}</>
+                                    })}</span>
                                     <span className={'view-all-body-parts'} onClick={() => {
                                         setIsModalOpen(true);
                                     }
