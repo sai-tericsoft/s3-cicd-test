@@ -89,7 +89,7 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
         },
         {
             title: "Chart Notes",
-            path: ""
+            path: clientId ? CommonService._routeConfig.MedicalRecordList(clientId) : ""
         },
         {
             title: "Documents",
