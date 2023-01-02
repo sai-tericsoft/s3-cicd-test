@@ -30,7 +30,7 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
             dataIndex: "body_part",
             key: "body_part",
             width: 91,
-            render:(_:any,item:any)=>{
+            render: (_: any, item: any) => {
                 return <>{item.body_part_details.name}</>
             }
 
@@ -40,18 +40,15 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
             dataIndex: "body_part",
             key: "body_part",
             width: 114,
-            render:(_:any,item:any)=>{
+            render: (_: any, item: any) => {
                 return <>{item?.body_side}</>
             }
         }
     ];
 
-
-
-
-    const {clientId} = useParams();
+    const {medicalRecordId} = useParams();
     const dispatch = useDispatch();
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
 
     const {
@@ -62,27 +59,26 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
     } = useSelector((state: IRootReducerState) => state.client);
 
     useEffect(() => {
-        if (clientId) {
-            dispatch(getClientMedicalRecord(clientId));
+        if (medicalRecordId) {
+            dispatch(getClientMedicalRecord(medicalRecordId));
         }
-    }, [clientId, dispatch]);
+    }, [medicalRecordId, dispatch]);
 
-
-        useEffect(() => {
-            dispatch(setCurrentNavParams("Medical Record Main Page", null, () => {
-                navigate(CommonService._routeConfig.ClientSearch());
-            }));
-        }, [navigate, dispatch]);
+    useEffect(() => {
+        dispatch(setCurrentNavParams("Medical Record Main Page", null, () => {
+            navigate(CommonService._routeConfig.ClientSearch());
+        }));
+    }, [navigate, dispatch]);
 
     return (
         <div className={'client-medical-details-card-component'}>
             <>
                 {
-                    !clientId && <StatusCardComponent title={"Client ID missing. cannot fetch client medical details"}/>
+                    !medicalRecordId && <StatusCardComponent title={"Medical Record ID missing. Cannot fetch Medical Record  details"}/>
                 }
             </>
             {
-                clientId && <>
+                medicalRecordId && <>
                     {
                         isClientMedicalRecordLoading && <div>
                             <LoaderComponent/>
@@ -97,14 +93,14 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                         (isClientMedicalRecordLoaded && clientMedicalRecord) && <>
                             <CardComponent color={'primary'}>
                                 <div className={'client-name-button-wrapper'}>
-                        <span className={'client-name-wrapper'}>
-                            <span className={'client-name'}>
-                            {clientMedicalRecord?.client_details?.first_name || "-"} {clientMedicalRecord?.client_details?.last_name || "-"}
-                                </span>
-                            <ChipComponent className={clientMedicalRecord?.status ? "active" : "inactive"}
-                                           size={'small'}
-                                           label={clientMedicalRecord?.status || "-"}/>
-                        </span>
+                                    <span className={'client-name-wrapper'}>
+                                        <span className={'client-name'}>
+                                        {clientMedicalRecord?.client_details?.first_name || "-"} {clientMedicalRecord?.client_details?.last_name || "-"}
+                                            </span>
+                                        <ChipComponent className={clientMedicalRecord?.status ? "active" : "inactive"}
+                                                       size={'small'}
+                                                       label={clientMedicalRecord?.status || "-"}/>
+                                    </span>
                                     <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                         Edit Details
                                     </ButtonComponent>
@@ -167,11 +163,10 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
             }
             <ModalComponent isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
                 <FormControlLabelComponent label={'View All Body Parts'} className={'view-all-body-parts-header'}/>
-               <TableComponent data={clientMedicalRecord?.injury_details} columns={bodyPartsColumns}  />
-               <div className={'close-modal-btn'}>
-                   <ButtonComponent variant={'contained'} onClick={()=>setIsModalOpen(false)}>Close</ButtonComponent>
-               </div>
-
+                <TableComponent data={clientMedicalRecord?.injury_details} columns={bodyPartsColumns}/>
+                <div className={'close-modal-btn'}>
+                    <ButtonComponent variant={'contained'} onClick={() => setIsModalOpen(false)}>Close</ButtonComponent>
+                </div>
             </ModalComponent>
         </div>
 

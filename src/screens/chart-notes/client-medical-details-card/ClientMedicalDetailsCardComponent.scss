@@ -1,6 +1,10 @@
 
 .client-medical-details-card-component {
 
+  .data-label {
+    margin-left: 0;
+  }
+
   .client-name-button-wrapper {
     display: flex;
     justify-content: space-between;
@@ -32,8 +36,9 @@
   }
 
 }
+
 .view-all-body-parts-header {
-color: #00534F;
+  color: #00534F;
 }
 
 .close-modal-btn {
