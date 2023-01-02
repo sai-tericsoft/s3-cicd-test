@@ -1,7 +1,7 @@
 import "./ChartNotesDetailsScreen.scss";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {IRootReducerState} from "../../../store/reducers";
 import {getClientBasicDetails,} from "../../../store/actions/client.action";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
@@ -9,12 +9,16 @@ import {CommonService} from "../../../shared/services";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import ClientBasicDetailsCardComponent from "../../clients/client-basic-details-card/ClientBasicDetailsCardComponent";
-import {IClientBasicDetails} from "../../../shared/models/client.model";
+import {
+    IClientBasicDetails,
+    IClientMedicalStatusFilterState
+} from "../../../shared/models/client.model";
 import {ITableColumn} from "../../../shared/models/table.model";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
 import {APIConfig, ImageConfig} from "../../../constants";
+import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
 
 interface ClientBasicDetailsComponentProps {
 
@@ -103,6 +107,11 @@ const ChartNotesDetailsScreen = (props: ClientBasicDetailsComponentProps) => {
     const {clientId} = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const {medicalStatusList}=useSelector((state: IRootReducerState) => state.staticData);
+    const [medicalListFilterState, setMedicalListFilterState] = useState<IClientMedicalStatusFilterState>({
+        status:undefined,
+    })
+
     const {
         isClientBasicDetailsLoaded,
         isClientBasicDetailsLoading,
@@ -121,8 +130,10 @@ const ChartNotesDetailsScreen = (props: ClientBasicDetailsComponentProps) => {
             navigate(CommonService._routeConfig.ClientSearch());
         }));
     }, [navigate, dispatch]);
+
     return (
         <div className={'chart-notes-details-screen'}>
+
             <>
                 {
                     !clientId && <StatusCardComponent title={"Client ID missing. cannot fetch details"}/>
@@ -142,9 +153,21 @@ const ChartNotesDetailsScreen = (props: ClientBasicDetailsComponentProps) => {
                         }
                         {
                             (isClientBasicDetailsLoaded && clientBasicDetails) && <>
-                                <div className="client-details-header">
+                                <div className=" client-details-header">
                                     <div className={"client-details-title"}>
                                         Medical Records
+                                    </div>
+                                    <div className="ts-col-md-6 ts-col-lg-3 client-details-select-filter">
+                                        <SelectComponent options={medicalStatusList}
+                                                         label={'Status'}
+                                                         size={'medium'}
+                                                         fullWidth={true}
+                                                         value={medicalListFilterState.status}
+                                                         keyExtractor={(item) => item.code}
+                                                         onUpdate={(value) => {
+                                                             setMedicalListFilterState({...medicalListFilterState, status: value})
+                                                         }}
+                                        />
                                     </div>
                                 </div>
                                 <div className={"client-details-layout"}>
@@ -161,6 +184,7 @@ const ChartNotesDetailsScreen = (props: ClientBasicDetailsComponentProps) => {
                                             method={APIConfig.CLIENT_MEDICAL_INFO.METHOD}
                                             columns={MedicalRecordListTableColumns}
                                             scroll={"scroll"}
+                                            extraPayload={medicalListFilterState}
                                         />
                                     </div>
                                 </div>
