@@ -219,7 +219,7 @@ const APIConfig: IAPIConfig = {
         METHOD: 'get'
     },
     // client end
-
+   
     // user start
     USER_LIST: {
         URL: ENV.API_URL + "/user",
@@ -264,6 +264,18 @@ const APIConfig: IAPIConfig = {
         URL:(medicalInterventionId:string, bodyPartId:string)=> ENV.API_URL + '/intervention/'+ medicalInterventionId +'/specialTest/'+ bodyPartId,
         METHOD: "delete"
     }
+     CLIENT_MEDICAL_ATTACHMENT: {
+        URL:  ENV.API_URL +'',
+        METHOD: 'get'
+    },
+    CLIENT_MEDICAL_RECORD: {
+        URL:(clientId:string)=>ENV.API_URL +'/medicalRecord/' + clientId,
+        METHOD: 'get'
+    },
+    CLIENT_MEDICAL_INTERVENTION_LIST: {
+        URL:(medicalRecordId:string)=> ENV.API_URL + "/medicalRecord/"+ medicalRecordId +"/intervention",
+        METHOD: "get"
+    },
     // chart notes end
 }
 
