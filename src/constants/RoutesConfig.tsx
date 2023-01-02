@@ -31,6 +31,7 @@ const ADD_MEDICAL_INTERVENTION = '/chart-notes/:medicalRecordId/:medicalInterven
 const MEDICAL_INTERVENTION_ROM_CONFIG = '/chart-notes/:medicalRecordId/:medicalInterventionId/rom-config';
 const MEDICAL_INTERVENTION_SPECIAL_TESTS = '/chart-notes/:medicalRecordId/:medicalInterventionId/special-tests';
 const MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE = '/chart-notes/:medicalRecordId/:medicalInterventionId/exercise-log-update';
+const MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW = '/chart-notes/:medicalRecordId/:medicalInterventionId/exercise-log-view';
 const MEDICAL_RECORD_LIST = '/chart-notes/:clientId/medical-record-list';
 
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
@@ -64,5 +65,6 @@ export {
     MEDICAL_INTERVENTION_ROM_CONFIG,
     MEDICAL_INTERVENTION_SPECIAL_TESTS,
     MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE,
-    MEDICAL_RECORD_LIST
+    MEDICAL_RECORD_LIST,
+    MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW
 };

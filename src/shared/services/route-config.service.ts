@@ -114,6 +114,10 @@ const MedicalInterventionExerciseLogUpdate = (medicalRecordId: string, medicalIn
     return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/exercise-log-update';
 }
 
+const MedicalInterventionExerciseLogView = (medicalRecordId: string, medicalInterventionId: string)=>{
+    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/exercise-log-view';
+}
+
 const ClientMedicalRecordDetails = (medicalRecordId: string)=>{
     return '/chart-notes/' + medicalRecordId + '/medical-record-details';
 }
@@ -145,7 +149,8 @@ const RouteConfigService = {
     MedicalInterventionROMConfig,
     MedicalInterventionSpecialTests,
     MedicalInterventionExerciseLogUpdate,
-    MedicalRecordList
+    MedicalRecordList,
+    MedicalInterventionExerciseLogView
 }
 
 export default RouteConfigService;
