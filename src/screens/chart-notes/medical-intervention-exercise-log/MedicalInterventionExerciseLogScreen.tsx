@@ -12,24 +12,24 @@ import {CommonService} from "../../../shared/services";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {useDispatch} from "react-redux";
 import {useNavigate, useParams} from "react-router-dom";
+import LinkComponent from "../../../shared/components/link/LinkComponent";
 
 interface MedicalInterventionExerciseLogScreenProps {
 }
 
 const MedicalInterventionExerciseLogRow = {
-    name: undefined,
-    set: undefined,
-    rep: undefined,
+    key: undefined,
+    no_of_sets: undefined,
+    no_of_reps: undefined,
     time: undefined,
     resistance: undefined,
-    id: undefined,
 }
 
 const MedicalInterventionExerciseLogInitialValues = {
-    logs: [
+    exercise_records: [
         {
             ...MedicalInterventionExerciseLogRow,
-            _id: CommonService.getUUID()
+            key: CommonService.getUUID()
         }
     ]
 }
@@ -55,7 +55,7 @@ const MedicalInterventionExerciseLogScreen = (props: MedicalInterventionExercise
             key: 'name',
             render: (_: any, record: any, index: any) => {
                 return <Field
-                    name={`logs.${index}.name`}
+                    name={`exercise_records.${index}.name`}
                     className="t-form-control">
                     {
                         (field: FieldProps) => (
@@ -73,7 +73,7 @@ const MedicalInterventionExerciseLogScreen = (props: MedicalInterventionExercise
             key: 'set',
             render: (_: any, record: any, index: any) => {
                 return <Field
-                    name={`logs.${index}.set`}
+                    name={`exercise_records.${index}.no_of_sets`}
                     className="t-form-control">
                     {
                         (field: FieldProps) => (
@@ -91,7 +91,7 @@ const MedicalInterventionExerciseLogScreen = (props: MedicalInterventionExercise
             key: 'rep',
             render: (_: any, record: any, index: any) => {
                 return <Field
-                    name={`logs.${index}.rep`}
+                    name={`exercise_records.${index}.no_of_reps`}
                     className="t-form-control">
                     {
                         (field: FieldProps) => (
@@ -109,7 +109,7 @@ const MedicalInterventionExerciseLogScreen = (props: MedicalInterventionExercise
             key: 'time',
             render: (_: any, record: any, index: any) => {
                 return <Field
-                    name={`logs.${index}.time`}
+                    name={`exercise_records.${index}.time`}
                     className="t-form-control">
                     {
                         (field: FieldProps) => (
@@ -127,7 +127,7 @@ const MedicalInterventionExerciseLogScreen = (props: MedicalInterventionExercise
             key: 'resistance',
             render: (_: any, record: any, index: any) => {
                 return <Field
-                    name={`logs.${index}.resistance`}
+                    name={`exercise_records.${index}.resistance`}
                     className="t-form-control">
                     {
                         (field: FieldProps) => (
@@ -145,18 +145,17 @@ const MedicalInterventionExerciseLogScreen = (props: MedicalInterventionExercise
             key: 'actions',
             render: (_: any, record: any, index: any) => {
                 return <Field
-                    name={`logs.${index}.actions`}
+                    name={`exercise_records.${index}.actions`}
                     className="t-form-control">
                     {
                         (field: FieldProps) => (
                             <IconButtonComponent
                                 disabled={index === 0}
                                 onClick={() => {
-                                    const logs = field.form.values.logs;
-                                    logs.splice(index, 1);
-                                    const newLogs = logs.filter((log: any, i: number) => record._id !==  log._id);
-                                    field.form.setFieldValue("logs", newLogs);
-                                    // setMedicalInterventionExerciseLogValues({ logs: newLogs });
+                                    const exercise_records = field.form.values.exercise_records;
+                                    exercise_records.splice(index, 1);
+                                    const newLogs = exercise_records.filter((log: any, i: number) => record._id !== log._id);
+                                    field.form.setFieldValue("exercise_records", newLogs);
                                 }}>
                                 <ImageConfig.DeleteIcon/>
                             </IconButtonComponent>
@@ -168,13 +167,31 @@ const MedicalInterventionExerciseLogScreen = (props: MedicalInterventionExercise
     ];
 
     const handleSubmit = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
-        console.log(values);
-        return;
-        // make api call to save data
+        if (medicalInterventionId) {
+            const payload: any = {
+                exercise_records: []
+            };
+            values.exercise_records.forEach((record: any, index: number) => {
+                payload.exercise_records.push({
+                    id: index === 0 ? "Warm Up" : "Ex " + index,
+                    ...record
+                });
+            });
+            setSubmitting(true);
+            CommonService._chartNotes.SaveMedicalInterventionExerciseLogAPICall(medicalInterventionId, payload)
+                .then((response: any) => {
+                    CommonService._alert.showToast(response.message, 'success');
+                    setSubmitting(false);
+                })
+                .catch((error: any) => {
+                    CommonService._alert.showToast(error.error || error.errors || 'Error saving Exercise log', 'error');
+                    setSubmitting(false);
+                });
+        }
     }, []);
 
     useEffect(() => {
-        if (medicalRecordId && medicalInterventionId){
+        if (medicalRecordId && medicalInterventionId) {
             dispatch(setCurrentNavParams("SOAP Note", null, () => {
                 medicalInterventionId && navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, medicalInterventionId));
             }));
@@ -196,7 +213,7 @@ const MedicalInterventionExerciseLogScreen = (props: MedicalInterventionExercise
                         <Form className="t-form" noValidate={true}>
                             <div className={'special-test-table-container'}>
                                 <TableComponent
-                                    data={values.logs}
+                                    data={values.exercise_records}
                                     rowKey={(item: any) => item._id}
                                     bordered={true}
                                     columns={medicalInterventionExerciseLogColumns}/>
@@ -207,9 +224,9 @@ const MedicalInterventionExerciseLogScreen = (props: MedicalInterventionExercise
                                         onClick={() => {
                                             setMedicalInterventionExerciseLogValues({
                                                 ...medicalInterventionExerciseLogValues,
-                                                logs: [...medicalInterventionExerciseLogValues.logs, {
+                                                exercise_records: [...medicalInterventionExerciseLogValues.exercise_records, {
                                                     ...MedicalInterventionExerciseLogRow,
-                                                    _id: CommonService.getUUID()
+                                                    key: CommonService.getUUID()
                                                 }]
                                             })
                                         }}
@@ -219,11 +236,15 @@ const MedicalInterventionExerciseLogScreen = (props: MedicalInterventionExercise
                                 </div>
                             </div>
                             <div className="t-form-actions">
-                                <ButtonComponent variant={"outlined"}
-                                                 disabled={isSubmitting}
-                                                 isLoading={isSubmitting}>
-                                    Cancel
-                                </ButtonComponent>&nbsp;&nbsp;
+                                {(medicalRecordId && medicalInterventionId) && <LinkComponent
+                                    route={CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, medicalInterventionId)}>
+                                    <ButtonComponent variant={"outlined"}
+                                                     disabled={isSubmitting}
+                                                     isLoading={isSubmitting}>
+                                        Cancel
+                                    </ButtonComponent>
+                                </LinkComponent>}
+                                &nbsp;&nbsp;
                                 <ButtonComponent type={"submit"}
                                                  disabled={isSubmitting}
                                                  isLoading={isSubmitting}>
