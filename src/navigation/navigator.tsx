@@ -41,7 +41,7 @@ import {
     FACILITY_DETAILS,
     FACILITY_LIST,
     LOGIN_ROUTE,
-    MEDICAL_INTERVENTION_EXERCISE_LOG,
+    MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE,
     MEDICAL_INTERVENTION_ROM_CONFIG,
     MEDICAL_INTERVENTION_SPECIAL_TESTS,
     MEDICAL_RECORD_LIST,
@@ -58,8 +58,8 @@ import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
 import MedicalInterventionSpecialTestsScreen
     from "../screens/chart-notes/medical-intervention-special-tests/MedicalInterventionSpecialTestsScreen";
-import MedicalInterventionExerciseLogScreen
-    from "../screens/chart-notes/medical-intervention-exercise-log/MedicalInterventionExerciseLogScreen";
+import MedicalInterventionExerciseLogUpdateScreen
+    from "../screens/chart-notes/medical-intervention-exercise-log-update/MedicalInterventionExerciseLogUpdateScreen";
 import ChartNotesDetailsMainLayoutComponent
     from "../screens/chart-notes/chart-notes-details-main-layout/ChartNotesDetailsMainLayoutComponent";
 import ClientAddScreen from "../screens/clients/client-add/ClientAddScreen";
@@ -275,9 +275,9 @@ const Navigator = (props: NavigatorProps) => {
                        </ProtectedRoute>
                        }
                 />
-                <Route path={MEDICAL_INTERVENTION_EXERCISE_LOG}
+                <Route path={MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE}
                        element={<ProtectedRoute>
-                           <MedicalInterventionExerciseLogScreen/>
+                           <MedicalInterventionExerciseLogUpdateScreen/>
                        </ProtectedRoute>
                        }
                 />

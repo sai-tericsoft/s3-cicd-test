@@ -1,4 +1,4 @@
-import "./MedicalInterventionExerciseLogScreen.scss";
+import "./MedicalInterventionExerciseLogUpdateScreen.scss";
 import React, {useCallback, useEffect, useState} from "react";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
@@ -53,7 +53,7 @@ const MedicalInterventionExerciseLogFormValidationSchema = Yup.object({
     exercise_records: Yup.array(ExerciseLogRecordValidationSchema)
 });
 
-const MedicalInterventionExerciseLogScreen = (props: MedicalInterventionExerciseLogScreenProps) => {
+const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionExerciseLogScreenProps) => {
 
     const [medicalInterventionExerciseLogValues, setMedicalInterventionExerciseLogValues] = useState<any>(_.cloneDeep(MedicalInterventionExerciseLogInitialValues));
     const dispatch = useDispatch();
@@ -321,4 +321,4 @@ const MedicalInterventionExerciseLogScreen = (props: MedicalInterventionExercise
 
 };
 
-export default MedicalInterventionExerciseLogScreen;
+export default MedicalInterventionExerciseLogUpdateScreen;

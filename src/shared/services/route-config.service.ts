@@ -110,8 +110,8 @@ const MedicalInterventionSpecialTests = (medicalRecordId: string, medicalInterve
     return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/special-tests';
 }
 
-const MedicalInterventionExerciseLog = (medicalRecordId: string, medicalInterventionId: string)=>{
-    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/exercise-log';
+const MedicalInterventionExerciseLogUpdate = (medicalRecordId: string, medicalInterventionId: string)=>{
+    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/exercise-log-update';
 }
 
 const ClientMedicalRecordDetails = (medicalRecordId: string)=>{
@@ -144,7 +144,7 @@ const RouteConfigService = {
     ChartNotesDetails,
     MedicalInterventionROMConfig,
     MedicalInterventionSpecialTests,
-    MedicalInterventionExerciseLog,
+    MedicalInterventionExerciseLogUpdate,
     MedicalRecordList
 }
 
