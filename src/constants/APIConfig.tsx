@@ -277,6 +277,14 @@ const APIConfig: IAPIConfig = {
         METHOD: "get"
     },
     // chart notes end
+    EXERCISE_LOG_ATTACHMENT_LIST :{
+        URL:(interventionId:string)=> ENV.API_URL + '/intervention/'+ interventionId +'/exerciseLog',
+        METHOD :'get'
+    },
+    REMOVE_ATTACHMENT:{
+        URL:(interventionId:string,id:string)=>ENV.API_URL +'/intervention/'+interventionId+'/exerciseLog/attachment/'+id,
+        METHOD:'delete'
+    }
 }
 
 export default APIConfig;

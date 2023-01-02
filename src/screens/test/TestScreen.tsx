@@ -1,12 +1,11 @@
 import './TestScreen.scss';
 import React from 'react';
-import MedicalInterventionRomConfigScreen
-    from "../chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
-
+import ExerciseLogAttachmentListComponent
+    from "../chart-notes/exercise-log-attachment-list/ExerciseLogAttachmentListComponent";
 const TestScreen: React.FC = () => {
 
     return (
-        <MedicalInterventionRomConfigScreen/>
+        <ExerciseLogAttachmentListComponent/>
     );
 };
 
