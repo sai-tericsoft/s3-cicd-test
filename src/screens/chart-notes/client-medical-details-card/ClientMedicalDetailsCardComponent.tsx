@@ -2,7 +2,6 @@ import "./ClientMedicalDetailsCardComponent.scss";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
-import {APIConfig, ImageConfig} from "../../../constants";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
@@ -12,9 +11,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import {IRootReducerState} from "../../../store/reducers";
 import {CommonService} from "../../../shared/services";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
-import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
@@ -103,9 +100,9 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                                        size={'small'}
                                                        label={clientMedicalRecord?.status || "-"}/>
                                     </span>
-                                    <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
-                                        Edit Details
-                                    </ButtonComponent>
+                                    {/*<ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>*/}
+                                    {/*    Edit Details*/}
+                                    {/*</ButtonComponent>*/}
                                 </div>
                                 <DataLabelValueComponent label={'Intervention Linked to:'} direction={"row"}>
                                     <span className={'client-intervention'}>{clientMedicalRecord?.intervention_linked_to}

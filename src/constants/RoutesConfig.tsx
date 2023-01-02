@@ -27,10 +27,10 @@ const CLIENT_SEARCH='/client-search';
 const CLIENT_MEDICAL_RECORD_DETAILS = '/chart-notes/:medicalRecordId/medical-record-details';
 const CLIENT_CHART_NOTES_DETAILS = "/chart-notes";
 const ADD_MEDICAL_RECORD = '/chart-notes/:clientId/add-medical-record';
-const ADD_MEDICAL_INTERVENTION = '/chart-notes/:medicalInterventionId/add-medical-intervention';
-const MEDICAL_INTERVENTION_ROM_CONFIG = '/chart-notes/:medicalInterventionId/rom-config';
-const MEDICAL_INTERVENTION_SPECIAL_TESTS = '/chart-notes/:medicalInterventionId/special-tests';
-const MEDICAL_INTERVENTION_EXERCISE_LOG = '/chart-notes/:medicalInterventionId/exercise-log';
+const ADD_MEDICAL_INTERVENTION = '/chart-notes/:medicalRecordId/:medicalInterventionId/add-medical-intervention';
+const MEDICAL_INTERVENTION_ROM_CONFIG = '/chart-notes/:medicalRecordId/:medicalInterventionId/rom-config';
+const MEDICAL_INTERVENTION_SPECIAL_TESTS = '/chart-notes/:medicalRecordId/:medicalInterventionId/special-tests';
+const MEDICAL_INTERVENTION_EXERCISE_LOG = '/chart-notes/:medicalRecordId/:medicalInterventionId/exercise-log';
 const MEDICAL_RECORD_LIST = '/chart-notes/:clientId/medical-record-list';
 
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];

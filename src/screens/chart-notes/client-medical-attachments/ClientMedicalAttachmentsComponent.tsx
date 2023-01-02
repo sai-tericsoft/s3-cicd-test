@@ -1,8 +1,6 @@
 import "./ClientMedicalAttachmentsComponent.scss";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
-import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
-import {APIConfig} from "../../../constants";
 
 interface ClientMedicalAttachmentsComponentProps {
 

@@ -39,7 +39,7 @@ const MedicalInterventionExerciseLogScreen = (props: MedicalInterventionExercise
     const [medicalInterventionExerciseLogValues, setMedicalInterventionExerciseLogValues] = useState<any>(_.cloneDeep(MedicalInterventionExerciseLogInitialValues));
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {medicalInterventionId} = useParams();
+    const {medicalRecordId, medicalInterventionId} = useParams();
 
     const medicalInterventionExerciseLogColumns = [
         {
@@ -174,10 +174,12 @@ const MedicalInterventionExerciseLogScreen = (props: MedicalInterventionExercise
     }, []);
 
     useEffect(() => {
-        dispatch(setCurrentNavParams("SOAP Note", null, () => {
-            medicalInterventionId && navigate(CommonService._routeConfig.AddMedicalIntervention(medicalInterventionId));
-        }));
-    }, [dispatch, navigate, medicalInterventionId]);
+        if (medicalRecordId && medicalInterventionId){
+            dispatch(setCurrentNavParams("SOAP Note", null, () => {
+                medicalInterventionId && navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, medicalInterventionId));
+            }));
+        }
+    }, [dispatch, navigate, medicalRecordId, medicalInterventionId]);
 
     return (
         <div className={'medical-intervention-exercise-log-screen'}>

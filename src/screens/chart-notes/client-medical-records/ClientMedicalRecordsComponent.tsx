@@ -1,5 +1,4 @@
 import "./ClientMedicalRecordsComponent.scss";
-import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {APIConfig, ImageConfig} from "../../../constants";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
@@ -55,7 +54,7 @@ const ClientMedicalRecordsComponent = (props: ClientMedicalRecordsComponentProps
             dataIndex: 'status',
             render: (_: any, item: any) => {
                 return <ChipComponent label={item?.status}
-                                      className={item?.status==='Completed' ? "completed" : "draft"}/>
+                                      className={item?.status==='completed' ? "completed" : "draft"}/>
             }
         },
         {

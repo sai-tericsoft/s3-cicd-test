@@ -94,7 +94,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
         dispatch(setCurrentNavParams("Add New Medical Record", null, () => {
             clientId && navigate(CommonService._routeConfig.MedicalRecordList(clientId));
         }));
-    }, [clientId, dispatch]);
+    }, [clientId, navigate, dispatch]);
 
     const handleSurgeryRecordDrawerOpen = useCallback(() => {
         setIsSurgeryRecordDrawerOpen(true);
@@ -120,7 +120,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                 .then((response: IAPIResponseType<any>) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     setIsMedicalRecordAddInProgress(false);
-                    navigate(CommonService._routeConfig.AddMedicalIntervention(response?.data?.intervention_id));
+                    navigate(CommonService._routeConfig.AddMedicalIntervention(response?.data._id, response?.data?.intervention_id));
                 })
                 .catch((error: any) => {
                     CommonService.handleErrors(setErrors, error, true);

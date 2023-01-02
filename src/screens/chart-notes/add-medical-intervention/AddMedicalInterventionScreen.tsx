@@ -1,6 +1,6 @@
 import "./AddMedicalInterventionScreen.scss";
 import * as Yup from "yup";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import React, {useCallback, useEffect, useState} from "react";
 import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
@@ -17,6 +17,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
+import {setCurrentNavParams} from "../../../store/actions/navigation.action";
+import ClientMedicalDetailsCardComponent from "../client-medical-details-card/ClientMedicalDetailsCardComponent";
 
 interface AddMedicalInterventionScreenProps {
 
@@ -45,8 +47,9 @@ const MedicalInterventionAddFormValidationSchema = Yup.object().shape({});
 const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const {medicalInterventionDetails} = useSelector((state: IRootReducerState) => state.chartNotes);
-    const {medicalInterventionId} = useParams();
+    const {medicalRecordId, medicalInterventionId} = useParams();
     const [addMedicalInterventionFormInitialValues, setAddMedicalInterventionFormInitialValues] = useState<any>(_.cloneDeep(MedicalInterventionAddFormInitialValues));  // TODO type properly
 
     const onSubmit = useCallback((values: any, {setSubmitting, setErrors}: FormikHelpers<any>, announce = false) => {
@@ -78,9 +81,17 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
         }
     }, [medicalInterventionDetails]);
 
+    useEffect(() => {
+        if (medicalRecordId) {
+            dispatch(setCurrentNavParams("Medical Record details", null, () => {
+                navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+            }));
+        }
+    }, [navigate, dispatch, medicalRecordId]);
+
     return (
         <div className={'add-medical-intervention-screen'}>
-            {/* Medical Intervention details card goes here.*/}
+            <ClientMedicalDetailsCardComponent/>
             <Formik
                 validationSchema={MedicalInterventionAddFormValidationSchema}
                 initialValues={addMedicalInterventionFormInitialValues}
@@ -103,16 +114,16 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                             <div
                                 className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
                                 <FormControlLabelComponent label={"Soap Note"} className={"mrg-0"}/>
-                                {
-                                    medicalInterventionId && <LinkComponent
-                                        route={CommonService._routeConfig.MedicalInterventionExerciseLog(medicalInterventionId)}>
-                                        <ButtonComponent
-                                            prefixIcon={<ImageConfig.AddIcon/>}
-                                        >
-                                            Add Exercise Log
-                                        </ButtonComponent>
-                                    </LinkComponent>
-                                }
+                                {/*{*/}
+                                {/*    (medicalInterventionId && medicalRecordId) && <LinkComponent*/}
+                                {/*        route={CommonService._routeConfig.MedicalInterventionExerciseLog(medicalRecordId, medicalInterventionId)}>*/}
+                                {/*        <ButtonComponent*/}
+                                {/*            prefixIcon={<ImageConfig.AddIcon/>}*/}
+                                {/*        >*/}
+                                {/*            Add Exercise Log*/}
+                                {/*        </ButtonComponent>*/}
+                                {/*    </LinkComponent>*/}
+                                {/*}*/}
                             </div>
                             <CardComponent title={'Subjective (S)'}>
                                 <div className="ts-row">
@@ -180,8 +191,8 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                         <CardComponent title={"Range of Motion and Strength"}
                                                        actions={<>
                                                            {
-                                                               medicalInterventionId && <LinkComponent
-                                                                   route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalInterventionId)}>
+                                                               (medicalInterventionId && medicalRecordId) && <LinkComponent
+                                                                   route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId)}>
                                                                    <ButtonComponent
                                                                        prefixIcon={<ImageConfig.AddIcon/>}>
                                                                        Add
@@ -193,8 +204,8 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                         <CardComponent title={"Special Test"}
                                                        actions={<>
                                                            {
-                                                               medicalInterventionId && <LinkComponent
-                                                                   route={CommonService._routeConfig.MedicalInterventionSpecialTests(medicalInterventionId)}>
+                                                               (medicalInterventionId && medicalRecordId) &&  <LinkComponent
+                                                                   route={CommonService._routeConfig.MedicalInterventionSpecialTests(medicalRecordId, medicalInterventionId)}>
                                                                    <ButtonComponent
                                                                        prefixIcon={<ImageConfig.AddIcon/>}>
                                                                        Add
