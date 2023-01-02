@@ -1,6 +1,6 @@
 import {IConsultationDuration} from "../../shared/models/static-data.model";
 import {
-    IBodyPart,
+    IBodyPart, ICaseStatus,
     ICommunicationModeType,
     IEmploymentStatus,
     IGender, IInjuryType,
@@ -51,6 +51,9 @@ export const SET_BODY_PART_LIST = 'SET_BODY_PART_LIST';
 
 export const GET_INJURY_TYPE_LIST = 'GET_INJURY_TYPE_LIST';
 export const SET_INJURY_TYPE_LIST = 'SET_INJURY_TYPE_LIST';
+
+export const GET_CASE_STATUS_LIST =  'GET_CASE_STATUS_LIST';
+export const SET_CASE_STATUS_LIST =  'SET_CASE_STATUS_LIST';
 
 
 export const getConsultationDurationList = () => {
@@ -223,3 +226,14 @@ export const setInjuryTypeList = (injuryTypeList: IInjuryType[]) => {
     };
 };
 
+export const getCaseStatusList =()=>{
+    return {type : GET_CASE_STATUS_LIST}
+}
+
+export const setCaseStatusList = (caseStatusList : ICaseStatus[])=>{
+    return {
+        type : SET_CASE_STATUS_LIST , payload :{
+            caseStatusList
+        }
+    }
+}

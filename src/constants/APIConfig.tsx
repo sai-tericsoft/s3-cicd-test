@@ -277,6 +277,10 @@ const APIConfig: IAPIConfig = {
         METHOD: "get"
     },
     // chart notes end
+    CASE_STATUS_LIST : {
+        URL: ENV.API_URL + "/caseStatus",
+        METHOD: "get"
+    }
 }
 
 export default APIConfig;

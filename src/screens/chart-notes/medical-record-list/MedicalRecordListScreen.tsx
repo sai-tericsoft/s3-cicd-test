@@ -105,8 +105,8 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
     const {clientId} = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {medicalStatusList} = useSelector((state: IRootReducerState) => state.staticData);
-    const [medicalListFilterState, setMedicalListFilterState] = useState<IClientMedicalStatusFilterState>({
+    const {caseStatusList} = useSelector((state: IRootReducerState) => state.staticData);
+    const [caseStatusFilterState, setCaseStatusFilterState] = useState<IClientMedicalStatusFilterState>({
         status: undefined,
     })
 
@@ -157,15 +157,13 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                                     <div className="client-details-filters-options">
                                         <div className="client-details-filters ts-row">
                                             <div className="ts-col-md-6 ts-col-lg-3">
-                                                <SelectComponent options={medicalStatusList}
+                                                <SelectComponent options={caseStatusList}
                                                                  label={'Status'}
                                                                  fullWidth={true}
                                                                  size={'small'}
-                                                                 value={medicalListFilterState.status}
-                                                                 keyExtractor={(item) => item.code}
                                                                  onUpdate={(value) => {
-                                                                     setMedicalListFilterState({
-                                                                         ...medicalListFilterState,
+                                                                     setCaseStatusFilterState({
+                                                                         ...caseStatusList,
                                                                          status: value
                                                                      })
                                                                  }}
@@ -197,7 +195,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                                             method={APIConfig.CLIENT_MEDICAL_INFO.METHOD}
                                             columns={MedicalRecordListTableColumns}
                                             scroll={"scroll"}
-                                            extraPayload={medicalListFilterState}
+                                            extraPayload={caseStatusFilterState}
                                         />
                                     </div>
                                 </div>

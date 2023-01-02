@@ -1,7 +1,7 @@
 import {call, put, takeEvery} from "redux-saga/effects";
 
 import {
-    GET_BODY_PART_LIST,
+    GET_BODY_PART_LIST, GET_CASE_STATUS_LIST,
     GET_COMMUNICATION_MODE_TYPE_LIST,
     GET_CONSULTATION_DURATION_LIST,
     GET_EMPLOYMENT_STATUS_LIST,
@@ -13,7 +13,7 @@ import {
     GET_REFERRAL_TYPE_LIST,
     GET_RELATIONSHIP_LIST,
     GET_SOCIAL_MEDIA_PLATFORM_LIST,
-    GET_SURGICAL_HISTORY_OPTIONS_LIST, setBodyPartsList, setCommunicationModeTypeList,
+    GET_SURGICAL_HISTORY_OPTIONS_LIST, setBodyPartsList, setCaseStatusList, setCommunicationModeTypeList,
     setConsultationDurationList,
     setEmploymentStatusList,
     setGenderList, setInjuryTypeList,
@@ -166,6 +166,16 @@ function* getInjuryTypeList() {
     }
 }
 
+function* getCaseStatusList() {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._staticData.getCaseStatusList);
+        yield put(setCaseStatusList(resp?.data));
+    } catch (error: any) {
+        yield put(setCaseStatusList([]));
+    }
+}
+
 export default function* staticDataSaga() {
     yield takeEvery(GET_CONSULTATION_DURATION_LIST, getConsultationDurationList);
     yield takeEvery(GET_GENDER_LIST, getGenderList);
@@ -181,4 +191,5 @@ export default function* staticDataSaga() {
     yield takeEvery(GET_COMMUNICATION_MODE_TYPE_LIST, getCommunicationModeTypeList);
     yield takeEvery(GET_BODY_PART_LIST, getBodyPartList);
     yield takeEvery(GET_INJURY_TYPE_LIST, getInjuryTypeList);
+    yield takeEvery(GET_CASE_STATUS_LIST, getCaseStatusList);
 }

@@ -11,7 +11,7 @@ import {logout} from "./store/actions/account.action";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "./store/reducers";
 import {
-    getBodyPartsList,
+    getBodyPartsList, getCaseStatusList,
     getCommunicationModeTypeList,
     getConsultationDurationList,
     getEmploymentStatusList,
@@ -104,6 +104,7 @@ const App = (props: AppProps) => {
             dispatch(getBodyPartsList());
             dispatch(getInjuryTypeList());
             dispatch(getAllProvidersList());
+            dispatch(getCaseStatusList());
         }
     }, [token, dispatch])
 

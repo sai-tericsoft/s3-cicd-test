@@ -83,3 +83,9 @@ export interface IInjuryType {
     _id: string;
     title: string;
 }
+
+export interface ICaseStatus {
+    _id : string,
+    title:string,
+    code: string
+}
