@@ -280,6 +280,10 @@ const APIConfig: IAPIConfig = {
         URL:(medicalInterventionId:string)=> ENV.API_URL + '/intervention/'+ medicalInterventionId +'/exerciseLog',
         METHOD: "put"
     },
+    GET_MEDICAL_INTERVENTION_EXERCISE_LOG_DETAILS: {
+        URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/exerciseLog',
+        METHOD: "get"
+    },
     // chart notes end
 }
 

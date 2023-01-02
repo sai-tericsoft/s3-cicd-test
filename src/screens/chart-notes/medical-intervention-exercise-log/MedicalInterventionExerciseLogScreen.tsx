@@ -13,12 +13,19 @@ import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {useDispatch} from "react-redux";
 import {useNavigate, useParams} from "react-router-dom";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
+import {IAPIResponseType} from "../../../shared/models/api.model";
+import {IService} from "../../../shared/models/service.model";
+import * as Yup from "yup";
+import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
+import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 
 interface MedicalInterventionExerciseLogScreenProps {
+
 }
 
 const MedicalInterventionExerciseLogRow = {
     key: undefined,
+    name: undefined,
     no_of_sets: undefined,
     no_of_reps: undefined,
     time: undefined,
@@ -34,18 +41,33 @@ const MedicalInterventionExerciseLogInitialValues = {
     ]
 }
 
+const ExerciseLogRecordValidationSchema = Yup.object({
+    no_of_sets: Yup.string().required('Required'),
+    no_of_reps: Yup.string().required('Required'),
+    time: Yup.string().required('Required'),
+    resistance: Yup.string().required('Required'),
+    name: Yup.string().required('Required'),
+})
+
+const MedicalInterventionExerciseLogFormValidationSchema = Yup.object({
+    exercise_records: Yup.array(ExerciseLogRecordValidationSchema)
+});
+
 const MedicalInterventionExerciseLogScreen = (props: MedicalInterventionExerciseLogScreenProps) => {
 
     const [medicalInterventionExerciseLogValues, setMedicalInterventionExerciseLogValues] = useState<any>(_.cloneDeep(MedicalInterventionExerciseLogInitialValues));
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {medicalRecordId, medicalInterventionId} = useParams();
+    const [medicalInterventionExerciseLogDetails, setMedicalInterventionExerciseLogDetails] = useState<any>(undefined);
+    const [isMedicalInterventionExerciseLogDetailsLoading, setIsMedicalInterventionExerciseLogDetailsLoading] = useState<boolean>(false);
 
     const medicalInterventionExerciseLogColumns = [
         {
             title: 'Exercise',
             dataIndex: 'exercise',
             key: 'exercise',
+            width: 130,
             render: (_: any, record: any, index: any) => {
                 return index === 0 ? "Warm Up" : "Ex " + index;
             }
@@ -53,6 +75,7 @@ const MedicalInterventionExerciseLogScreen = (props: MedicalInterventionExercise
         {
             title: 'Exercise Name',
             key: 'name',
+            width: 280,
             render: (_: any, record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.name`}
@@ -71,6 +94,7 @@ const MedicalInterventionExerciseLogScreen = (props: MedicalInterventionExercise
         {
             title: 'SET',
             key: 'set',
+            width: 150,
             render: (_: any, record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.no_of_sets`}
@@ -89,6 +113,7 @@ const MedicalInterventionExerciseLogScreen = (props: MedicalInterventionExercise
         {
             title: 'REP',
             key: 'rep',
+            width: 150,
             render: (_: any, record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.no_of_reps`}
@@ -107,6 +132,7 @@ const MedicalInterventionExerciseLogScreen = (props: MedicalInterventionExercise
         {
             title: 'TIME',
             key: 'time',
+            width: 150,
             render: (_: any, record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.time`}
@@ -125,6 +151,7 @@ const MedicalInterventionExerciseLogScreen = (props: MedicalInterventionExercise
         {
             title: 'RESISTANCE',
             key: 'resistance',
+            width: 150,
             render: (_: any, record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.resistance`}
@@ -154,7 +181,7 @@ const MedicalInterventionExerciseLogScreen = (props: MedicalInterventionExercise
                                 onClick={() => {
                                     const exercise_records = field.form.values.exercise_records;
                                     exercise_records.splice(index, 1);
-                                    const newLogs = exercise_records.filter((log: any, i: number) => record._id !== log._id);
+                                    const newLogs = exercise_records.filter((log: any) => record.key !== log.key);
                                     field.form.setFieldValue("exercise_records", newLogs);
                                 }}>
                                 <ImageConfig.DeleteIcon/>
@@ -198,63 +225,97 @@ const MedicalInterventionExerciseLogScreen = (props: MedicalInterventionExercise
         }
     }, [dispatch, navigate, medicalRecordId, medicalInterventionId]);
 
+    const fetchMedicalInterventionExerciseLogDetails = useCallback((medicalInterventionId: string) => {
+        setIsMedicalInterventionExerciseLogDetailsLoading(true);
+        CommonService._chartNotes.FetchMedicalInterventionExerciseLogAPICall(medicalInterventionId, {})
+            .then((response: IAPIResponseType<IService>) => {
+                setMedicalInterventionExerciseLogDetails(response.data);
+                setIsMedicalInterventionExerciseLogDetailsLoading(false);
+            }).catch((error: any) => {
+            setMedicalInterventionExerciseLogDetails({});
+            setIsMedicalInterventionExerciseLogDetailsLoading(false);
+        })
+    }, []);
+
+    useEffect(() => {
+        if (medicalInterventionId) {
+            fetchMedicalInterventionExerciseLogDetails(medicalInterventionId);
+        }
+    }, [medicalInterventionId, fetchMedicalInterventionExerciseLogDetails]);
+
+    useEffect(() => {
+        if (medicalInterventionExerciseLogDetails && medicalInterventionExerciseLogDetails.exercise_records) {
+            setMedicalInterventionExerciseLogValues({
+                exercise_records: _.cloneDeep(medicalInterventionExerciseLogDetails.exercise_records)
+            });
+        }
+    }, [medicalInterventionExerciseLogDetails]);
+
     return (
         <div className={'medical-intervention-exercise-log-screen'}>
             <FormControlLabelComponent label={'Exercise Log'}/>
-            <Formik initialValues={medicalInterventionExerciseLogValues}
-                    enableReinitialize={true}
-                    onSubmit={handleSubmit}>
-                {({values, validateForm, isSubmitting}) => {
-                    // eslint-disable-next-line react-hooks/rules-of-hooks
-                    useEffect(() => {
-                        validateForm();
-                    }, [validateForm, values]);
-                    return (
-                        <Form className="t-form" noValidate={true}>
-                            <div className={'special-test-table-container'}>
-                                <TableComponent
-                                    data={values.exercise_records}
-                                    rowKey={(item: any) => item._id}
-                                    bordered={true}
-                                    columns={medicalInterventionExerciseLogColumns}/>
-                                <div className={"h-v-center mrg-top-20"}>
-                                    <ButtonComponent
-                                        size={"large"}
-                                        prefixIcon={<ImageConfig.AddIcon/>}
-                                        onClick={() => {
-                                            setMedicalInterventionExerciseLogValues({
-                                                ...medicalInterventionExerciseLogValues,
-                                                exercise_records: [...medicalInterventionExerciseLogValues.exercise_records, {
-                                                    ...MedicalInterventionExerciseLogRow,
-                                                    key: CommonService.getUUID()
-                                                }]
-                                            })
-                                        }}
-                                    >
-                                        Add Exercise Row
-                                    </ButtonComponent>
-                                </div>
-                            </div>
-                            <div className="t-form-actions">
-                                {(medicalRecordId && medicalInterventionId) && <LinkComponent
-                                    route={CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, medicalInterventionId)}>
-                                    <ButtonComponent variant={"outlined"}
-                                                     disabled={isSubmitting}
-                                                     isLoading={isSubmitting}>
-                                        Cancel
-                                    </ButtonComponent>
-                                </LinkComponent>}
-                                &nbsp;&nbsp;
-                                <ButtonComponent type={"submit"}
-                                                 disabled={isSubmitting}
-                                                 isLoading={isSubmitting}>
-                                    Save
-                                </ButtonComponent>
-                            </div>
-                        </Form>
-                    );
-                }}
-            </Formik>
+            <>
+                {
+                    isMedicalInterventionExerciseLogDetailsLoading && <LoaderComponent/>
+                }
+                {
+                    !isMedicalInterventionExerciseLogDetailsLoading && <Formik initialValues={medicalInterventionExerciseLogValues}
+                                                                               validationSchema={MedicalInterventionExerciseLogFormValidationSchema}
+                                                                               enableReinitialize={true}
+                                                                               onSubmit={handleSubmit}>
+                        {({values, validateForm, isSubmitting, setFieldValue, isValid}) => {
+                            // eslint-disable-next-line react-hooks/rules-of-hooks
+                            useEffect(() => {
+                                validateForm();
+                            }, [validateForm, values]);
+                            return (
+                                <Form className="t-form" noValidate={true}>
+                                    <div className={'special-test-table-container'}>
+                                        <TableComponent
+                                            data={values.exercise_records}
+                                            rowKey={(item: any) => item.key}
+                                            bordered={true}
+                                            columns={medicalInterventionExerciseLogColumns}/>
+                                        <div className={"h-v-center mrg-top-20"}>
+                                            <ButtonComponent
+                                                size={"large"}
+                                                prefixIcon={<ImageConfig.AddIcon/>}
+                                                disabled={ExerciseLogRecordValidationSchema.isValidSync(values.exercise_records[values.exercise_records.length - 1]) === false}
+                                                onClick={() => {
+                                                    const exercise_records = _.cloneDeep(values.exercise_records);
+                                                    exercise_records.push({
+                                                        ...MedicalInterventionExerciseLogRow,
+                                                        key: CommonService.getUUID()
+                                                    });
+                                                    setFieldValue("exercise_records", exercise_records);
+                                                }}
+                                            >
+                                                Add Exercise Row
+                                            </ButtonComponent>
+                                        </div>
+                                    </div>
+                                    <div className="t-form-actions">
+                                        {(medicalRecordId && medicalInterventionId) && <LinkComponent
+                                            route={CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, medicalInterventionId)}>
+                                            <ButtonComponent variant={"outlined"}
+                                                             disabled={isSubmitting}
+                                                             isLoading={isSubmitting}>
+                                                Cancel
+                                            </ButtonComponent>
+                                        </LinkComponent>}
+                                        &nbsp;&nbsp;
+                                        <ButtonComponent type={"submit"}
+                                                         disabled={isSubmitting || !isValid}
+                                                         isLoading={isSubmitting}>
+                                            Save
+                                        </ButtonComponent>
+                                    </div>
+                                </Form>
+                            );
+                        }}
+                    </Formik>
+                }
+            </>
         </div>
     );
 
