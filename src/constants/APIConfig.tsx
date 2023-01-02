@@ -209,8 +209,22 @@ const APIConfig: IAPIConfig = {
     CLIENT_ACTIVITY_LOG: {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/activityLog',
         METHOD: 'get'
-    }
+    },
     // client end
+    //client Medical Records
+    CLIENT_MEDICAL_ATTACHMENT: {
+        URL:  ENV.API_URL +'',
+        METHOD: 'get'
+    },
+    CLIENT_MEDICAL_RECORD: {
+        URL:(clientId:string)=>ENV.API_URL +'/medicalRecord/' + clientId,
+        METHOD: 'get'
+    },
+    CLIENT_MEDICAL_INTERVENTION_LIST: {
+        URL:(medicalRecordId:string)=> ENV.API_URL + "/medicalRecord/"+ medicalRecordId +"/intervention",
+        METHOD: "get"
+    },
+
 }
 
 export default APIConfig;

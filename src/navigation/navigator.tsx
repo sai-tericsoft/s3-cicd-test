@@ -3,14 +3,24 @@ import {Navigate, Route, Routes, useLocation, useNavigate} from 'react-router-do
 import NotFoundScreen from "../screens/not-found/notFoundScreen";
 import AuthLayout from "../layouts/auth-layout/AuthLayout";
 import {
-    ADMIN, CLIENT_ADD, CLIENT_DETAILS, CLIENT_EDIT, CLIENT_LIST, CLIENT_SEARCH,
+    ADMIN,
+    CLIENT_ADD,
+    CLIENT_DETAILS,
+    CLIENT_EDIT,
+    CLIENT_LIST,
+    CLIENT_MEDICAL_RECORD,
+    CLIENT_SEARCH,
     COMING_SOON_ROUTE,
-    DESIGN_SYSTEM_ROUTE, FACILITY_DETAILS, FACILITY_LIST,
+    DESIGN_SYSTEM_ROUTE,
+    FACILITY_DETAILS,
+    FACILITY_LIST,
     LOGIN_ROUTE,
-    NOT_FOUND_ROUTE, SERVICE_ADD,
+    NOT_FOUND_ROUTE,
+    SERVICE_ADD,
     SERVICE_CATEGORY_DETAILS,
     SERVICE_CATEGORY_LIST,
-    SERVICE_DETAILS, SERVICE_EDIT,
+    SERVICE_DETAILS,
+    SERVICE_EDIT,
     TEST_ROUTE
 } from "../constants/RoutesConfig";
 import TestScreen from "../screens/test/TestScreen";
@@ -36,6 +46,7 @@ import ClientAddScreen from "../screens/clients/client-add/ClientAddScreen";
 import ClientDetailsScreen from "../screens/clients/client-details/ClientDetailsScreen";
 import ClientEditScreen from "../screens/clients/client-edit/ClientEditScreen";
 import ClientSearchScreen from "../screens/chart-notes/client-search/ClientSearchScreen";
+import ClientMedicalDetailsComponent from "../screens/chart-notes/client-medical-details/ClientMedicalDetailsComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -196,6 +207,10 @@ const Navigator = (props: NavigatorProps) => {
                 <Route path={CLIENT_SEARCH} element={<ProtectedRoute>
                     <ClientSearchScreen/>
                 </ProtectedRoute>}/>
+                <Route path={CLIENT_MEDICAL_RECORD+ '/:clientId'} element={<ProtectedRoute>
+                    <ClientMedicalDetailsComponent/>
+                </ProtectedRoute>}/>
+
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
             </Route>
             <Route element={<AuthLayout/>}>

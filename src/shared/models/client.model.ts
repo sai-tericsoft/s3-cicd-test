@@ -58,6 +58,7 @@ export interface IClientBasicDetails {
     address: IAddress;
     last_appointment_date?: string;
     last_provider?: string;
+    created_at?: string;
 }
 
 export interface IEmergencyContactInfo {
@@ -112,6 +113,26 @@ export interface IClientMedicalDetails {
     medical_provider_info: IClientMedicalProvider;
     created_at: string;
     updated_at: string;
+}
+
+export interface IClientMedicalRecord {
+    _id: string;
+    client_id: string;
+    name: string;
+    status: string;
+    onset_date: string;
+    date_of_surgery: string;
+    case_physician: any;
+    next_md_appointment: string;
+    total_direct_minutes: number;
+    injury_description: string;
+    limitations: string;
+    intervention_linked_to:string;
+    next_appointment:string;
+    injury_details: any;
+    body_side: string;
+    created_at: string | undefined;
+    client_details: IClientBasicDetails;
 }
 
 export interface IClientPersonalHabitsForm {

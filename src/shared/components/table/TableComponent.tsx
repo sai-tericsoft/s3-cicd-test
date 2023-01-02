@@ -66,7 +66,7 @@ const TableComponent = (props: TableComponentProps) => {
                     emptyText: (
                         <>
                             {
-                                (!loading && data.length === 0) ? <>
+                                (!loading && data?.length === 0) ? <>
                                     {
                                         errored && <StatusCardComponent title={"Error Loading Data"}/>
                                     }
@@ -135,7 +135,7 @@ export default TableComponent;
 //         key: 'actions',
 //         width: 140,
 //         fixed: "right",
-//         render: (item: any) => {
+//         render: (_: any, item: any) => {
 //             return <ButtonComponent
 //                 size={"small"}
 //                 prefixIcon={<ImageConfig.EditIcon/>}

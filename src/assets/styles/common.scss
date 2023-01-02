@@ -337,4 +337,12 @@
     background: #F4F4F8;
     color: #787879;
   }
+  &.completed{
+    background: #E4F6EA;
+    color: #00534F;
+  }
+  &.draft{
+    background:#FFEDDD;
+    color: #EF7300;
+  }
 }
