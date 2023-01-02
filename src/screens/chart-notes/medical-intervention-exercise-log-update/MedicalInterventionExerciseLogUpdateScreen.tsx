@@ -250,18 +250,31 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
         }
     }, [medicalInterventionExerciseLogDetails]);
 
+    const handleExerciseLogClear = useCallback((values: any, setFieldValue: any)=>{
+        const exercise_records = _.cloneDeep(values.exercise_records);
+        const new_exercise_records = exercise_records.map((record: any)=> ({
+            ...record,
+            name: "",
+            no_of_reps: "",
+            no_of_sets: "",
+            time: "",
+            resistance: "",
+        }));
+        setFieldValue("exercise_records", new_exercise_records);
+    }, []);
+
     return (
         <div className={'medical-intervention-exercise-log-screen'}>
-            <FormControlLabelComponent label={'Exercise Log'}/>
             <>
                 {
                     isMedicalInterventionExerciseLogDetailsLoading && <LoaderComponent/>
                 }
                 {
-                    !isMedicalInterventionExerciseLogDetailsLoading && <Formik initialValues={medicalInterventionExerciseLogValues}
-                                                                               validationSchema={MedicalInterventionExerciseLogFormValidationSchema}
-                                                                               enableReinitialize={true}
-                                                                               onSubmit={handleSubmit}>
+                    !isMedicalInterventionExerciseLogDetailsLoading &&
+                    <Formik initialValues={medicalInterventionExerciseLogValues}
+                            validationSchema={MedicalInterventionExerciseLogFormValidationSchema}
+                            enableReinitialize={true}
+                            onSubmit={handleSubmit}>
                         {({values, validateForm, isSubmitting, setFieldValue, isValid}) => {
                             // eslint-disable-next-line react-hooks/rules-of-hooks
                             useEffect(() => {
@@ -270,6 +283,17 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                             return (
                                 <Form className="t-form" noValidate={true}>
                                     <div className={'special-test-table-container'}>
+                                        <div className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
+                                            <FormControlLabelComponent label={'Exercise Log'} className={"mrg-0"}/>
+                                            <ButtonComponent
+                                                prefixIcon={<ImageConfig.CloseIcon/>}
+                                                onClick={() => {
+                                                    handleExerciseLogClear(values, setFieldValue);
+                                                }}
+                                            >
+                                                Clear Exercise Log
+                                            </ButtonComponent>
+                                        </div>
                                         <TableComponent
                                             data={values.exercise_records}
                                             rowKey={(item: any) => item.key}
