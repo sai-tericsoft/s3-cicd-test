@@ -68,7 +68,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
                 medicalInterventionId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
             }));
         }
-    }, [dispatch, navigate, medicalRecordId]);
+    }, [dispatch, navigate, medicalRecordId, medicalInterventionId]);
 
     const fetchMedicalInterventionExerciseLogDetails = useCallback((medicalInterventionId: string) => {
         setIsMedicalInterventionExerciseLogDetailsLoading(true);

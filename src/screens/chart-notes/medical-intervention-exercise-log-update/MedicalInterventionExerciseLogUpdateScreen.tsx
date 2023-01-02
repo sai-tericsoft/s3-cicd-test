@@ -16,7 +16,6 @@ import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {IService} from "../../../shared/models/service.model";
 import * as Yup from "yup";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 
 interface MedicalInterventionExerciseLogScreenProps {
@@ -215,7 +214,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     setSubmitting(false);
                 });
         }
-    }, []);
+    }, [medicalInterventionId]);
 
     useEffect(() => {
         if (medicalRecordId && medicalInterventionId) {
