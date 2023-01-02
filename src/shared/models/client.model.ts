@@ -36,6 +36,9 @@ export interface IClientListFilterState {
         [key: string]: string,
     }
 }
+export interface IClientMedicalStatusFilterState {
+    status?: boolean;
+}
 
 export interface IClientBasicDetails {
     _id?: string;
@@ -44,7 +47,7 @@ export interface IClientBasicDetails {
     gender: string;
     gender_details?: IGender;
     dob: string;
-    nick_name: string;
+    nick_name?: string;
     client_id?: string;
     ssn: string;
     is_active?: boolean;
@@ -52,7 +55,7 @@ export interface IClientBasicDetails {
     show_secondary_emergency_form: boolean;
     secondary_emails: IEmail[];
     primary_contact_info: IContactInfo;
-    secondary_contact_info?: IContactInfo[] | null;
+    secondary_contact_info: IContactInfo[];
     emergency_contact_info: IEmergencyContactInfo;
     work_info: IWorkInfo;
     address: IAddress;
@@ -83,7 +86,8 @@ export interface IAddress {
 export interface IContactInfo {
     phone_type: string;
     phone_type_details?: IPhoneType;
-    phone: string;
+    phone?: string;
+    terisoft?: string;
 }
 
 export interface IEmail {
@@ -97,7 +101,7 @@ export interface IEmergencyContact {
     language: string;
     language_details?: ILanguage;
     primary_contact_info: IContactInfo;
-    secondary_contact_info?: IContactInfo[] | null;
+    secondary_contact_info: IContactInfo[];
 }
 
 export interface IClientMedicalDetails {

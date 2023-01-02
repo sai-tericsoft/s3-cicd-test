@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useLayoutEffect} from 'react';
 import {Navigate, Route, Routes, useLocation, useNavigate} from 'react-router-dom';
 import NotFoundScreen from "../screens/not-found/notFoundScreen";
 import AuthLayout from "../layouts/auth-layout/AuthLayout";
@@ -47,6 +47,44 @@ import ClientDetailsScreen from "../screens/clients/client-details/ClientDetails
 import ClientEditScreen from "../screens/clients/client-edit/ClientEditScreen";
 import ClientSearchScreen from "../screens/chart-notes/client-search/ClientSearchScreen";
 import ClientMedicalRecordDetailsComponent from "../screens/chart-notes/client-medical-record-details/ClientMedicalRecordDetailsComponent";
+import AddMedicalRecordScreen from "../screens/chart-notes/add-medical-record/AddMedicalRecordScreen";
+import AddMedicalInterventionScreen from "../screens/chart-notes/add-medical-intervention/AddMedicalInterventionScreen";
+import {
+    ADD_MEDICAL_INTERVENTION,
+    ADD_MEDICAL_RECORD,
+    ADMIN,
+    CLIENT_ADD,
+    CLIENT_CHART_NOTES_DETAILS,
+    CLIENT_DETAILS,
+    CLIENT_EDIT,
+    CLIENT_LIST,
+    CLIENT_SEARCH,
+    COMING_SOON_ROUTE,
+    DESIGN_SYSTEM_ROUTE,
+    FACILITY_DETAILS,
+    FACILITY_LIST,
+    LOGIN_ROUTE,
+    MEDICAL_INTERVENTION_EXERCISE_LOG,
+    MEDICAL_INTERVENTION_ROM_CONFIG,
+    MEDICAL_INTERVENTION_SPECIAL_TESTS,
+    MEDICAL_RECORD_LIST,
+    NOT_FOUND_ROUTE,
+    SERVICE_ADD,
+    SERVICE_CATEGORY_DETAILS,
+    SERVICE_CATEGORY_LIST,
+    SERVICE_DETAILS,
+    SERVICE_EDIT,
+    TEST_ROUTE
+} from "../constants/RoutesConfig";
+import MedicalRecordListScreen from "../screens/chart-notes/medical-record-list/MedicalRecordListScreen";
+import MedicalInterventionRomConfigScreen
+    from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
+import MedicalInterventionSpecialTestsScreen
+    from "../screens/chart-notes/medical-intervention-special-tests/MedicalInterventionSpecialTestsScreen";
+import MedicalInterventionExerciseLogScreen
+    from "../screens/chart-notes/medical-intervention-exercise-log/MedicalInterventionExerciseLogScreen";
+import ChartNotesDetailsMainLayoutComponent
+    from "../screens/chart-notes/chart-notes-details-main-layout/ChartNotesDetailsMainLayoutComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -90,6 +128,12 @@ export interface NavigatorProps {
 }
 
 const Navigator = (props: NavigatorProps) => {
+
+    const location = useLocation();
+
+    useLayoutEffect(() => {
+        document.querySelector("body")?.scrollTo(0, 0);
+    }, [location.pathname]);
 
     return (
         <Routes>
@@ -140,7 +184,7 @@ const Navigator = (props: NavigatorProps) => {
                         </ProtectedRoute>
                     }
                 />
-                <Route path={ADMIN} element={<AdminModuleLayoutScreen/>}>
+                <Route path={ADMIN} element={<AdminModuleLayoutScreen/>} {...props}>
                     <Route
                         index
                         element={
@@ -204,13 +248,60 @@ const Navigator = (props: NavigatorProps) => {
                         </ProtectedRoute>
                     }
                 />
-                <Route path={CLIENT_SEARCH} element={<ProtectedRoute>
-                    <ClientSearchScreen/>
-                </ProtectedRoute>}/>
-                <Route path={CLIENT_MEDICAL_RECORD_DETAILS} element={<ProtectedRoute>
+              
+                <Route path={CLIENT_SEARCH}
+                       element={<ProtectedRoute>
+                           <ClientSearchScreen/>
+                       </ProtectedRoute>
+                       }
+                />
+                 <Route path={CLIENT_MEDICAL_RECORD_DETAILS} element={<ProtectedRoute>
                     <ClientMedicalRecordDetailsComponent/>
                 </ProtectedRoute>}/>
-
+                <Route path={CLIENT_CHART_NOTES_DETAILS} element={<ChartNotesDetailsMainLayoutComponent/>} {...props}>
+                    <Route
+                        index
+                        element={
+                            <Navigate to={MEDICAL_RECORD_LIST}/>
+                        }
+                    />
+                    <Route path={MEDICAL_RECORD_LIST}
+                           element={<ProtectedRoute>
+                               <MedicalRecordListScreen/>
+                           </ProtectedRoute>
+                           }
+                    />
+                </Route>
+                <Route path={ADD_MEDICAL_RECORD}
+                       element={<ProtectedRoute>
+                           <AddMedicalRecordScreen/>
+                       </ProtectedRoute>
+                       }
+                />
+                <Route path={ADD_MEDICAL_INTERVENTION}
+                       element={<ProtectedRoute>
+                           <AddMedicalInterventionScreen/>
+                       </ProtectedRoute>
+                       }
+                />
+                <Route path={MEDICAL_INTERVENTION_ROM_CONFIG}
+                       element={<ProtectedRoute>
+                           <MedicalInterventionRomConfigScreen/>
+                       </ProtectedRoute>
+                       }
+                />
+                <Route path={MEDICAL_INTERVENTION_SPECIAL_TESTS}
+                       element={<ProtectedRoute>
+                           <MedicalInterventionSpecialTestsScreen/>
+                       </ProtectedRoute>
+                       }
+                />
+                <Route path={MEDICAL_INTERVENTION_EXERCISE_LOG}
+                       element={<ProtectedRoute>
+                           <MedicalInterventionExerciseLogScreen/>
+                       </ProtectedRoute>
+                       }
+                />
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
             </Route>
             <Route element={<AuthLayout/>}>
@@ -229,9 +320,6 @@ const Navigator = (props: NavigatorProps) => {
                     }
                 />
             </Route>
-
-
-
             <Route path={TEST_ROUTE} element={<TestScreen/>}/>
             <Route path={DESIGN_SYSTEM_ROUTE} element={<DesignSystemScreen/>}/>
             <Route path={NOT_FOUND_ROUTE} element={<NotFoundScreen/>}/>

@@ -1,0 +1,25 @@
+.special-test-table-container {
+  position: relative;
+
+  .ant-table-cell {
+    &:not(&.t-cell-test) {
+      text-align: center !important;
+    }
+  }
+
+  .t-cell-select {
+    width: 40px;
+  }
+
+  .t-cell-test {
+    width: 170px;
+  }
+
+  .t-cell-results {
+    width: 186px;
+  }
+
+  .t-cell-comments {
+    width: 100px;
+  }
+}

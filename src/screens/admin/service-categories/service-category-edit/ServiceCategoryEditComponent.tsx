@@ -27,7 +27,7 @@ const serviceCategoryEditFormValidationSchema = Yup.object({
     name: Yup.string()
         .required("Name is required"),
     description: Yup.string()
-        .nullable(),
+        .required("Description is required"),
     image: Yup.mixed()
         .required("Image is required"),
     is_active: Yup.mixed()
@@ -48,10 +48,11 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
     const [isServiceCategoryEditInProgress, setIsServiceCategoryEditInProgress] = useState(false);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        if (!(values.image instanceof File)) {
-            delete values.image;
+        const payload = _.cloneDeep(values);
+        if (!(payload.image instanceof File)) {
+            delete payload.image;
         }
-        const formData = CommonService.getFormDataFromJSON(values);
+        const formData = CommonService.getFormDataFromJSON(payload);
         setIsServiceCategoryEditInProgress(true);
         CommonService._serviceCategory.ServiceCategoryEditAPICall(serviceCategory._id, formData)
             .then((response: IAPIResponseType<IServiceCategory>) => {
@@ -60,7 +61,7 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                 onEdit(response.data);
             })
             .catch((error: any) => {
-                CommonService.handleErrors(setErrors, error);
+                CommonService.handleErrors(setErrors, error, true);
                 setIsServiceCategoryEditInProgress(false);
             })
     }, [serviceCategory, onEdit]);
@@ -99,8 +100,7 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                     className={"mrg-bottom-20 display-flex align-items-center justify-content-space-between"}>
                                     <FormControlLabelComponent label={"Edit Service Category"}
                                                                size={"lg"}
-                                                               className={"mrg-bottom-0"}
-                                                               required={true}/>
+                                                               className={"mrg-bottom-0"}/>
                                     <div className={"display-flex align-items-center"}>
                                         <div>Status:</div>
                                         <Field name={'is_active'} className="t-form-control">
@@ -111,6 +111,7 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                                         required={true}
                                                         formikField={field}
                                                         labelPlacement={"start"}
+                                                        id={"sc_edit_is_active_toggle"}
                                                     />
                                                 )
                                             }
@@ -129,7 +130,7 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                                     formikField={field}
                                                     fullWidth={true}
                                                     titleCase={true}
-                                                    id={"sc_input"}
+                                                    id={"sc_name_input"}
                                                 />
                                             )
                                         }
@@ -143,6 +144,7 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                                     formikField={field}
                                                     fullWidth={true}
                                                     id={"sc_desc_input"}
+                                                    required={true}
                                                 />
                                             )
                                         }
@@ -175,12 +177,12 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                         <>
                                             {
                                                 (values.image) && <>
-                                                    <FilePreviewThumbnailComponent removable={true}
-                                                                                   file={values.image}
-                                                                                   removeButtonId={"sc_delete_img"}
-                                                                                   onRemove={() => {
-                                                                                       setFieldValue('image', undefined);
-                                                                                   }}
+                                                    <FilePreviewThumbnailComponent
+                                                        file={values.image}
+                                                        removeButtonId={"sc_delete_img"}
+                                                        onRemove={() => {
+                                                            setFieldValue('image', undefined);
+                                                        }}
                                                     />
                                                 </>
                                             }

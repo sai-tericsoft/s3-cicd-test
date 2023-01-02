@@ -17,3 +17,7 @@ export interface PrimaryContactInfo {
     phone_type: string;
     phone: string;
 }
+
+export interface IFacilityListFilterState {
+    search: string;
+}

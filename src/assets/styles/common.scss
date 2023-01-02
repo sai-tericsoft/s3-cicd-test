@@ -8,7 +8,6 @@
 @import "responsive-mixins";
 @import "responsive-display";
 @import "normalize";
-@import "components/grid";
 
 // components
 @import "components/button";
@@ -22,10 +21,13 @@
 @import "components/drawer";
 @import "components/tabs";
 @import "components/list-screen";
+@import "components/grid";
+@import "components/drop-down-menu";
+
 
 .app-version {
   font-size: 10px;
-  position: absolute;
+  position: fixed;
   bottom: 5px;
   right: 5px;
 }
@@ -344,5 +346,53 @@
   &.draft{
     background:#FFEDDD;
     color: #EF7300;
+  }
+}
+
+.t-surgery-record-drawer {
+  .drawer-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .drawer-body {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      overflow: auto;
+
+      .t-surgery-record-drawer-form-controls {
+        overflow: auto;
+        flex: 1;
+        padding-top: 6px;
+      }
+    }
+  }
+}
+
+.form-question-list {
+  .form-question {
+    border-bottom: 1px solid #ddd;
+    min-height: 74px;
+
+    .input-component {
+      margin-bottom: 0 !important;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+.intervention-comments-modal {
+  .modal-content-wrapper {
+    min-width: 600px;
+  }
+}
+
+.intervention-rom-config-add-body-part-modal{
+  .modal-content-wrapper {
+    min-width: 900px;
   }
 }

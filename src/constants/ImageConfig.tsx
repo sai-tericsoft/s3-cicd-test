@@ -16,6 +16,10 @@ import {ReactComponent as LeftArrow} from './../assets/icons/left_arrow.svg';
 import {ReactComponent as RightArrow} from './../assets/icons/right_arrow.svg';
 import {ReactComponent as SearchIcon} from './../assets/icons/search.svg';
 import {ReactComponent as InfoIcon} from './../assets/icons/info.svg';
+import {ReactComponent as CommentAddIcon} from '../assets/icons/comment-add.svg';
+import {ReactComponent as ChatIcon} from '../assets/icons/chat.svg';
+import {ReactComponent as MoreVerticalIcon} from './../assets/icons/more_vertical.svg';
+
 
 //file types
 import PDFIcon from './../assets/icons/file-types/pdf.svg';
@@ -39,9 +43,11 @@ import {ReactComponent as AddIcon} from './../assets/icons/add.svg';
 import {ReactComponent as DeleteIcon} from "./../assets/icons/delete.svg";
 import {ReactComponent as AddCircleIcon} from './../assets/icons/add_circle.svg';
 import {ReactComponent as FlagIcon} from "./../assets/icons/flag.svg";
+import {ReactComponent as AlertIcon} from './../assets/icons/alert_icon.svg';
 
 import PlaceHolderImage from '../assets/images/place_holder_image.png';
 import RemoveImage from '../assets/images/remove.png';
+import RemoveBodyPartConfirmationIcon from './../assets/confirmation/delete_body_part.svg';
 import Search from '../assets/images/search.png';
 
 
@@ -85,5 +91,10 @@ export {
     InfoIcon,
     ToastCloseIcon,
     ChartNotes,
-    FlagIcon
+    FlagIcon,
+    CommentAddIcon,
+    ChatIcon,
+    AlertIcon,
+    MoreVerticalIcon,
+    RemoveBodyPartConfirmationIcon
 }

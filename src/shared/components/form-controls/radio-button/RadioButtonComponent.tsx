@@ -1,3 +1,4 @@
+import "./RadioButtonComponent.scss";
 import {FormControlLabel, Radio} from "@mui/material";
 import {useCallback} from "react";
 import RadioGroup from '@mui/material/RadioGroup';
@@ -32,7 +33,7 @@ const RadioButtonGroupComponent = (props: RadioButtonGroupComponentProps) => {
     }, [onChange]);
 
     return (<FormControl error={hasError}>
-            <RadioGroup name={name} row={direction === "row"} color={color}>
+            <RadioGroup name={name} row={direction === "row"} color={color} className={"radio-group-component"}>
                 {
                     (options && options?.length > 0) && options.map((option: any) => {
                         return <RadioButtonComponent
@@ -59,7 +60,7 @@ interface RadioButtonComponentProps extends IRadioButtonProps {
 
 }
 
-const RadioButtonComponent = (props: RadioButtonComponentProps) => {
+export const RadioButtonComponent = (props: RadioButtonComponentProps) => {
 
     const {label, checked, color, size, className, id, disabled, required, onChange, value} = props;
 
@@ -71,6 +72,7 @@ const RadioButtonComponent = (props: RadioButtonComponentProps) => {
 
     return (
         <FormControlLabel
+            className={`radio-component ${className}`}
             onChange={handleRadioOnChange}
             control={<Radio value={value}
                             checked={checked}

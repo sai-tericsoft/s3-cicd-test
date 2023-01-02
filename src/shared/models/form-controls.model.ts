@@ -3,24 +3,47 @@ import {AutocompleteRenderOptionState} from "@mui/material";
 import {Moment} from "moment/moment";
 
 export interface IInputFieldProps {
+    validationPattern?: RegExp;
     className?: string;
     disabled?: boolean;
-    errorMessage?: any;
     fullWidth?: boolean;
-    hasError?: boolean;
     id?: string;
     inputProps?: any;
-    label: string;
+    label?: string;
     name?: string;
     onChange?: (value: any) => void;
     placeholder?: string;
-    prefix?: any;
     readOnly?: boolean;
     required?: boolean;
-    size?: 'medium' | 'small' ;
     value?: any;
     titleCase?: boolean;
     variant?: "outlined" | "filled" | "standard";
+    type?: 'email' | 'number' | 'password' | 'text';
+    prefix?: any;
+    suffix?: any;
+    size?: 'small' | 'medium';
+}
+
+
+export interface IPasswordFieldProps {
+    validationPattern?: RegExp;
+    canToggle?: boolean;
+    className?: string;
+    disabled?: boolean;
+    fullWidth?: boolean;
+    id?: string;
+    inputProps?: any;
+    label: string;
+    onChange?: (value: any) => void;
+    placeholder?: string;
+    readOnly?: boolean;
+    required?: boolean;
+    value?: any;
+    titleCase?: boolean;
+    variant?: "outlined" | "filled" | "standard";
+    prefix?: any;
+    suffix?: any;
+    size?: 'small' | 'medium';
 }
 
 export interface ICheckBoxProps {
@@ -35,6 +58,7 @@ export interface ICheckBoxProps {
     name?: string;
     onChange?: (isChecked: boolean) => void;
     required?: boolean;
+    labelPlacement?: 'bottom' | 'end' | 'start' | 'top';
     size?: "medium" | "small";
 }
 
@@ -171,6 +195,7 @@ export interface IAutoCompleteProps {
     size?: 'small' | 'medium';
     url?: string;
     valueExtractor?: (item: any) => any;
+    filterSelectedOptions?: boolean;
 }
 
 export interface IDatePickerProps {

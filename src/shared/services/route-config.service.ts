@@ -83,7 +83,35 @@ const ClientEdit = (clientId: string) => {
 }
 
 const ClientSearch = ()=>{
-    return CLIENT_SEARCH
+    return CLIENT_SEARCH;
+}
+
+const AddMedicalRecord = (clientId: string)=>{
+    return "/chart-notes/" + clientId + '/add-medical-record';
+}
+
+const AddMedicalIntervention = (medicalInterventionId: string, )=>{
+    return "/chart-notes/" + medicalInterventionId + '/add-medical-intervention';
+}
+
+const ChartNotesDetails = ()=>{
+    return "/chart-notes";
+}
+
+const MedicalRecordList = (clientId: string)=>{
+    return "/chart-notes/" + clientId + '/medical-record-list';
+}
+
+const MedicalInterventionROMConfig = (medicalInterventionId: string, )=>{
+    return "/chart-notes/" + medicalInterventionId + '/rom-config';
+}
+
+const MedicalInterventionSpecialTests = (medicalInterventionId: string, )=>{
+    return "/chart-notes/" + medicalInterventionId + '/special-tests';
+}
+
+const MedicalInterventionExerciseLog = (medicalInterventionId: string, )=>{
+    return "/chart-notes/" + medicalInterventionId + '/exercise-log';
 }
 
 const ClientMedicalRecordDetails = (medicalRecordId: string)=>{
@@ -111,6 +139,13 @@ const RouteConfigService = {
     ClientEdit,
     ClientSearch,
     ClientMedicalRecordDetails
+    AddMedicalRecord,
+    AddMedicalIntervention,
+    ChartNotesDetails,
+    MedicalInterventionROMConfig,
+    MedicalInterventionSpecialTests,
+    MedicalInterventionExerciseLog,
+    MedicalRecordList
 }
 
 export default RouteConfigService;

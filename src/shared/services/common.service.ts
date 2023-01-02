@@ -18,13 +18,13 @@ import ServiceCategoryService from "./modules/service-category.service";
 import ServiceService from "./modules/service.service";
 import FacilityService from "./modules/facility.service";
 import ClientService from "./modules/client.service";
+import ChartNotesService from "./modules/chart-notes.service";
 
 yup.addMethod(yup.mixed, 'atLeastOne', (args) => {
-    const {message, predicate} = args;
+    const {message} = args;
     // @ts-ignore
     return this.test('atLeastOne', message, (list: any) => {
         // If there are 2+ elements after filtering, we know atMostOne must be false.
-        console.log(predicate);
         return Object.keys(list).filter(item => item).length > 0
     })
 });
@@ -64,7 +64,7 @@ const getUUID = () => {
     return uuidv4();
 }
 
-const handleErrors = (setErrors: (errors: FormikErrors<any>) => void, err: any) => {
+const handleErrors = ((setErrors: (errors: FormikErrors<any>) => void, err: any, showGlobalError: boolean = false) => {
     if (err.errors) {
         const errors: any = {};
         for (let field in err.errors) {
@@ -76,7 +76,10 @@ const handleErrors = (setErrors: (errors: FormikErrors<any>) => void, err: any) 
     } else if (err.error) {
         AlertService.showToast(err.error);
     }
-}
+    if (showGlobalError) {
+        AlertService.showToast('Form contain errors, please check once', 'error');
+    }
+});
 
 const openDialog = (component: any) => {
     return new Promise((resolve, reject) => {
@@ -111,7 +114,11 @@ const transformTimeStamp = (date: Date | string) => {
     return moment(date).format('D-MMM-YYYY | hh:mm A');
 }
 
-const convertDateFormat = (date: Date, format: string = 'MM-DD-YYYY') => {
+const convertDateFormat = (date: Date, format: string = 'YYYY-MM-DD') => {
+    return moment(date).format(format);
+}
+
+const convertDateFormat2 = (date: Date, format: string = 'DD-MMM-YYYY') => {
     return moment(date).format(format);
 }
 
@@ -401,17 +408,17 @@ const getSystemFormatTimeStamp = (date: Date | string, showTime: boolean = false
 
 const removeKeysFromJSON = (obj: any, keys: string[]): any => {
     for (let prop in obj) {
-        if(obj.hasOwnProperty(prop)) {
-            switch(typeof(obj[prop])) {
+        if (obj.hasOwnProperty(prop)) {
+            switch (typeof (obj[prop])) {
                 case 'object':
-                    if(keys.indexOf(prop) > -1) {
+                    if (keys.indexOf(prop) > -1) {
                         delete obj[prop];
                     } else {
                         removeKeysFromJSON(obj[prop], keys);
                     }
                     break;
                 default:
-                    if(keys.indexOf(prop) > -1) {
+                    if (keys.indexOf(prop) > -1) {
                         delete obj[prop];
                     }
                     break;
@@ -419,6 +426,11 @@ const removeKeysFromJSON = (obj: any, keys: string[]): any => {
         }
     }
     return obj;
+}
+
+const isEqual = (a: any, b: any) => {
+    console.log(a, b);
+    return _.isEqual(a, b);
 }
 
 const CommonService = {
@@ -452,6 +464,8 @@ const CommonService = {
     transformTimeStamp,
     getTheDifferenceBetweenDates,
     removeKeysFromJSON,
+    isEqual,
+    convertDateFormat2,
 
     // createValidationsObject,
     // createYupSchema,
@@ -467,6 +481,7 @@ const CommonService = {
     _serviceCategory: ServiceCategoryService,
     _service: ServiceService,
     _client: ClientService,
-    _facility: FacilityService
+    _facility: FacilityService,
+    _chartNotes: ChartNotesService
 }
 export default CommonService;

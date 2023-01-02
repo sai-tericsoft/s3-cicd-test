@@ -1,11 +1,12 @@
 import "./TableComponent.scss";
 import Table from 'antd/lib/table';
 import {ITableComponentProps} from "../../models/table.model";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import StatusCardComponent from "../status-card/StatusCardComponent";
 import LoaderComponent from "../loader/LoaderComponent";
 import {TablePaginationConfig} from "antd";
 import {ColumnsType} from "antd/es/table";
+import {GetRowKey} from "rc-table/lib/interface";
 
 interface TableComponentProps extends ITableComponentProps {
     data: any[];
@@ -15,10 +16,23 @@ interface TableComponentProps extends ITableComponentProps {
 
 const TableComponent = (props: TableComponentProps) => {
 
-    const {data, id, onRowClick, rowClassName, bordered, loading, errored, onSort} = props;
+    const {
+        bordered,
+        data,
+        defaultExpandAllRows,
+        errored,
+        id,
+        loading,
+        onRowClick,
+        onSort,
+        rowClassName,
+        showExpandColumn,
+        expandRow
+    } = props;
+
     const [tableColumns, setTableColumns] = useState<ColumnsType<any>>(props.columns);
     const size = props.size || "large";
-    const scroll = props.scroll || "scroll";
+    const scroll = props.scroll || "unset";
     const tableLayout = props.tableLayout || "fixed";
     const showHeader = props.showHeader !== undefined ? props.showHeader : true;
 
@@ -56,10 +70,20 @@ const TableComponent = (props: TableComponentProps) => {
         }
     }, [onSort]);
 
+    useEffect(() => {
+        console.log('data changes', props.data);
+    }, [props.data]);
+
     return (
         <div className={'table-component'}>
             <Table
                 id={id}
+                expandable={expandRow && {
+                    expandedRowKeys: rowKey ? data.map(rowKey) : [],
+                    showExpandColumn: showExpandColumn,
+                    defaultExpandAllRows: defaultExpandAllRows,
+                    expandedRowRender: expandRow,
+                }}
                 columns={tableColumns}
                 className={`${loading ? "loading" : ""}`}
                 locale={{
@@ -85,7 +109,7 @@ const TableComponent = (props: TableComponentProps) => {
                         }
                     }
                 }}
-                rowKey={rowKey}
+                rowKey={rowKey as string | GetRowKey<any>}
                 showHeader={showHeader}
                 rowClassName={rowClassName}
                 loading={loading ? {

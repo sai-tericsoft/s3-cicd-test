@@ -39,8 +39,10 @@ const ServiceConsultationDetailsComponent = (props: ServiceConsultationDetailsCo
             <div className={"ts-row display-flex mrg-bottom-15"}>
                 <div className={"ts-col-sm-12 ts-col-md-12 ts-col-lg-6"}>
                     {
-                        serviceDetails.initial_consultation.map((consultation, index)=>{
-                            return <CardComponent title={"Initial Consultation " + (index + 1) + " ( " + consultation.title  + " ) "} size={"sm"}>
+                        serviceDetails.initial_consultation.map((consultation, index) => {
+                            return <CardComponent
+                                title={"Initial Consultation " + (index + 1) + (consultation.title ? " ( " + consultation.title + " ) " : "")}
+                                size={"sm"}>
                                 <TableComponent data={consultation.consultation_details || []}
                                                 columns={ServiceConsultationColumns}
                                                 size={"small"}
@@ -52,8 +54,10 @@ const ServiceConsultationDetailsComponent = (props: ServiceConsultationDetailsCo
                 </div>
                 <div className={"ts-col-sm-12 ts-col-md-12 ts-col-lg-6"}>
                     {
-                        serviceDetails.followup_consultation.map((consultation, index)=>{
-                            return <CardComponent title={"Follow-up Appointment " + (index + 1) + " ( " + consultation.title  + " ) " } size={"sm"}>
+                        serviceDetails.followup_consultation.map((consultation, index) => {
+                            return <CardComponent
+                                title={consultation.title ? "Follow-up Appointment" + (index + 1) + " ( " + consultation.title + " ) " : "Follow-up Appointment " + (index + 1)}
+                                size={"sm"}>
                                 <TableComponent data={consultation.consultation_details || []}
                                                 columns={ServiceConsultationColumns}
                                                 size={"small"}

@@ -24,6 +24,7 @@ interface ClientMedicalHistoryFormComponentProps {
     clientId: string;
     mode: "add" | "edit";
     onCancel: () => void;
+    onNext?: () => void;
     onSave: (clientMedicalHistoryDetails: any) => void;
 }
 
@@ -53,7 +54,7 @@ const ClientMedicalHistoryInitialValues: IClientMedicalHistoryForm = {
 
 const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormComponentProps) => {
 
-    const {mode, onCancel, clientId, onSave} = props;
+    const {mode, onCancel, onNext, clientId, onSave} = props;
     const {medicalHistoryOptionsList} = useSelector((state: IRootReducerState) => state.staticData);
     const [clientMedicalHistoryInitialValues, SetClientMedicalHistoryInitialValues] = useState<IClientMedicalHistoryForm>(_.cloneDeep(ClientMedicalHistoryInitialValues));
     const [isClientMedicalHistorySavingInProgress, setIsClientMedicalHistorySavingInProgress] = useState(false);
@@ -68,16 +69,17 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
     } = useSelector((state: IRootReducerState) => state.client);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        const payload = {...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['questions_details' ]), mode};
+        const payload = {...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['questions_details']), mode};
         setIsClientMedicalHistorySavingInProgress(true);
         CommonService._client.ClientMedicalHistoryAddAPICall(clientId, payload)
             .then((response: IAPIResponseType<IClientMedicalHistoryForm>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsClientMedicalHistorySavingInProgress(false);
+                SetClientMedicalHistoryInitialValues(_.cloneDeep(values));
                 onSave(response);
             })
             .catch((error: any) => {
-                CommonService.handleErrors(setErrors, error);
+                CommonService.handleErrors(setErrors, error, true);
                 setIsClientMedicalHistorySavingInProgress(false);
             })
     }, [clientId, onSave, mode]);
@@ -85,11 +87,11 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
     useEffect(() => {
         if (mode === "edit") {
             if (clientMedicalDetails) {
-                if (clientMedicalDetails.medical_history.comments) {
+                if (clientMedicalDetails?.medical_history?.comments) {
                     clientMedicalDetails.medical_history.isCustomOption = true;
                 }
                 SetClientMedicalHistoryInitialValues({
-                    medical_history: clientMedicalDetails.medical_history
+                    medical_history: clientMedicalDetails.medical_history || []
                 });
             } else {
                 if (clientId) {
@@ -101,13 +103,14 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
 
 
     const handleMedicalHistoryOptionSelection = useCallback((optionId: string, selectedOptions: string[]) => {
-        const index = selectedOptions?.findIndex((value: string) => value === optionId);
+        const options = _.cloneDeep(selectedOptions);
+        const index = options?.findIndex((value: string) => value === optionId);
         if (index > -1) {
-            selectedOptions.splice(index, 1);
+            options.splice(index, 1);
         } else {
-            selectedOptions.push(optionId);
+            options.push(optionId);
         }
-        return selectedOptions;
+        return options;
     }, []);
 
     return (
@@ -150,7 +153,7 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                                         <div className="ts-row">
                                             {
                                                 medicalHistoryOptionsList?.map((option: IMedicalHistoryOption) => {
-                                                    return <div className="ts-col-md-6" key={option._id}>
+                                                    return <div className="ts-col-md-6" key={option?._id}>
                                                         <Field
                                                             name={"medical_history.questions"}>
                                                             {(field: FieldProps) => (
@@ -200,8 +203,8 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                                                             <FormikTextAreaComponent
                                                                 label={"Comments"}
                                                                 placeholder={"Enter your comments here"}
-                                                                disabled={!values.medical_history.isCustomOption}
-                                                                required={values.medical_history.isCustomOption}
+                                                                disabled={!values.medical_history?.isCustomOption}
+                                                                required={values.medical_history?.isCustomOption}
                                                                 formikField={field}
                                                                 fullWidth={true}
                                                             />
@@ -220,11 +223,21 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
                                                 isLoading={isClientMedicalHistorySavingInProgress}
-                                                disabled={isClientMedicalHistorySavingInProgress || !isValid}
+                                                disabled={isClientMedicalHistorySavingInProgress || !isValid || CommonService.isEqual(values, clientMedicalHistoryInitialValues)}
                                                 type={"submit"}
                                             >
                                                 {isClientMedicalHistorySavingInProgress ? "Saving" : <>{mode === "add" ? "Save & Next" : "Save"}</>}
                                             </ButtonComponent>
+                                            {
+                                                mode === "edit" && <>
+                                                    &nbsp;&nbsp;<ButtonComponent
+                                                    disabled={isClientMedicalHistorySavingInProgress || !CommonService.isEqual(values, clientMedicalHistoryInitialValues)}
+                                                    onClick={onNext}
+                                                >
+                                                    Next
+                                                </ButtonComponent>
+                                                </>
+                                            }
                                         </div>
                                     </Form>
                                 )

@@ -1,0 +1,15 @@
+.add-medical-record-screen {
+
+  .surgery-record-documents {
+    .data-value {
+      display: flex;
+      flex-wrap: wrap;
+      font-size: 14px;
+
+      .file-preview-thumbnail-component {
+        margin-right: 10px;
+      }
+    }
+  }
+
+}

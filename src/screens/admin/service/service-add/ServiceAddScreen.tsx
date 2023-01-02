@@ -14,7 +14,7 @@ import FilePreviewThumbnailComponent
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 import {CommonService} from "../../../../shared/services";
 import {IAPIResponseType} from "../../../../shared/models/api.model";
-import {ImageConfig, Misc} from "../../../../constants";
+import {ImageConfig, Misc, Patterns} from "../../../../constants";
 import CardComponent from "../../../../shared/components/card/CardComponent";
 import FormikSelectComponent from "../../../../shared/components/form-controls/formik-select/FormikSelectComponent";
 import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
@@ -29,10 +29,9 @@ import StatusCardComponent from "../../../../shared/components/status-card/Statu
 interface ServiceAddComponentProps {
 }
 
-
 const CONSULTATION_DURATION_SLOT = {
     duration: undefined,
-    price: undefined
+    price: ""
 };
 
 const CONSULTATION_BLOCK = {
@@ -56,30 +55,30 @@ const ServiceAddFormInitialValues: IService = {
     ],
 };
 
+const ConsultationDurationSlotValidationSchema = Yup.object({
+    duration: Yup.number().required("Duration is required"),
+    price: Yup.number().required("Price is required"),
+});
+
+const InitialConsultationValidationSchema = Yup.object({
+    title: Yup.string().nullable(),
+    consultation_details: Yup.array(ConsultationDurationSlotValidationSchema),
+})
+
+const FollowupConsultationValidationSchema = Yup.object({
+    title: Yup.string().nullable(),
+    consultation_details: Yup.array(ConsultationDurationSlotValidationSchema),
+})
 
 const serviceAddFormValidationSchema = Yup.object({
     name: Yup.string()
-        .required('The name field is required'),
+        .required('Service Name field is required'),
     description: Yup.string()
-        .nullable(),
+        .required("Service Description is required"),
     image: Yup.mixed()
-        .required('The image field is required'),
-    initial_consultation: Yup.array(Yup.object({
-            title: Yup.string().required("Initial Consultation Title is required"),
-            consultation_details: Yup.array(Yup.object({
-                duration: Yup.number().required("Duration is required"),
-                price: Yup.number().required("Price is required"),
-            })),
-        })
-    ),
-    followup_consultation: Yup.array(Yup.object({
-            title: Yup.string().required("Followup Consultation Title is required"),
-            consultation_details: Yup.array(Yup.object({
-                duration: Yup.number().required("Duration is required"),
-                price: Yup.number().required("Price is required"),
-            })),
-        })
-    ),
+        .required('Image field is required'),
+    initial_consultation: Yup.array(InitialConsultationValidationSchema),
+    followup_consultation: Yup.array(FollowupConsultationValidationSchema),
 });
 
 const ServiceAddScreen = (props: ServiceAddComponentProps) => {
@@ -114,7 +113,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                 }
             })
             .catch((error: any) => {
-                CommonService.handleErrors(setErrors, error);
+                CommonService.handleErrors(setErrors, error, true);
                 setIsServiceAddInProgress(false);
             })
 
@@ -123,9 +122,9 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
     return (
         <div className={'service-add-component'}>
             <div className={'service-category-service-add-form'}>
-                <FormControlLabelComponent label={"Add New Service"} size={'lg'}/>
                 {
-                    !serviceCategoryId && <StatusCardComponent title={"Service Category Not Found, Cannot add a service"}/>
+                    !serviceCategoryId &&
+                    <StatusCardComponent title={"Service Category Not Found, Cannot add a service"}/>
                 }
                 {
                     serviceCategoryId && <Formik
@@ -143,39 +142,41 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                             }, [validateForm, values]);
                             return (
                                 <Form className="t-form" noValidate={true}>
-                                    <div className={"ts-row"}>
-                                        <div className="ts-col-lg-10">
-                                            <Field name={'name'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikInputComponent
-                                                            label={'Service Name'}
-                                                            placeholder={'Service Name'}
-                                                            type={"text"}
-                                                            formikField={field}
-                                                            titleCase={true}
-                                                            required={true}
-                                                            fullWidth={true}
-                                                            id={"sv_name_input"}
-                                                        />
-                                                    )
-                                                }
-
-                                            </Field>
-                                            <Field name={'description'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikTextAreaComponent
-                                                            formikField={field}
-                                                            label={'Service Description'}
-                                                            placeholder={'Service Description'}
-                                                            fullWidth={true}
-                                                            id={"sv_desc_input"}
-                                                        />)
-                                                }
-                                            </Field>
+                                    <CardComponent title={"Service Details"}>
+                                        <div className={"ts-row"}>
+                                            <div className="ts-col-lg-10">
+                                                <Field name={'name'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikInputComponent
+                                                                label={'Service Name'}
+                                                                placeholder={'Service Name'}
+                                                                type={"text"}
+                                                                formikField={field}
+                                                                titleCase={true}
+                                                                required={true}
+                                                                fullWidth={true}
+                                                                id={"sv_name_input"}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                                <Field name={'description'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikTextAreaComponent
+                                                                formikField={field}
+                                                                label={'Service Description'}
+                                                                placeholder={'Service Description'}
+                                                                fullWidth={true}
+                                                                required={true}
+                                                                id={"sv_desc_input"}
+                                                            />)
+                                                    }
+                                                </Field>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </CardComponent>
                                     <FieldArray
                                         name="initial_consultation"
                                         render={arrayHelpers => (
@@ -224,7 +225,6 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                         label={'Title'}
                                                                                         placeholder={'Title'}
                                                                                         type={"text"}
-                                                                                        required={true}
                                                                                         formikField={field}
                                                                                         fullWidth={true}
                                                                                         id={"sv_ic_title_" + index}
@@ -274,6 +274,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                             formikField={field}
                                                                                                             fullWidth={true}
                                                                                                             id={"sv_ic_cd_price" + index}
+                                                                                                            validationPattern={Patterns.POSITIVE_INTEGERS_PARTIAL}
                                                                                                         />
                                                                                                     )
                                                                                                 }
@@ -287,6 +288,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                         push(_.cloneDeep(CONSULTATION_DURATION_SLOT))
                                                                                                     }}
                                                                                                     id={"sv_ic_cd_add"}
+                                                                                                    disabled={!ConsultationDurationSlotValidationSchema.isValidSync(values?.initial_consultation[index]?.consultation_details[iIndex])}
                                                                                                 >
                                                                                                     <ImageConfig.AddCircleIcon/>
                                                                                                 </IconButtonComponent>
@@ -323,7 +325,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                     <FieldArray
                                         name="followup_consultation"
                                         render={arrayHelpers => (
-                                            <CardComponent title={"Followup Consultation Details"}
+                                            <CardComponent title={"Follow Up Consultation Details"}
                                                            className={"mrg-bottom-20"}
                                                            size={"md"}
                                                            actions={<>
@@ -345,7 +347,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                 <div
                                                                     className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
                                                                     <FormControlLabelComponent
-                                                                        label={`Followup Consultation Details ${index + 1}`}/>
+                                                                        label={`Follow Up Consultation Details ${index + 1}`}/>
                                                                     <div>
                                                                         {(index > 0) && <ButtonComponent
                                                                             prefixIcon={<ImageConfig.CloseIcon/>}
@@ -368,7 +370,6 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                         label={'Title'}
                                                                                         placeholder={'Title'}
                                                                                         type={"text"}
-                                                                                        required={true}
                                                                                         formikField={field}
                                                                                         fullWidth={true}
                                                                                         id={"sv_fc_title_" + index}
@@ -418,6 +419,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                             formikField={field}
                                                                                                             fullWidth={true}
                                                                                                             id={"sv_fc_cd_price_" + index}
+                                                                                                            validationPattern={Patterns.POSITIVE_INTEGERS_PARTIAL}
                                                                                                         />
                                                                                                     )
                                                                                                 }
@@ -431,6 +433,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                         push(_.cloneDeep(CONSULTATION_DURATION_SLOT));
                                                                                                     }}
                                                                                                     id={"sv_fc_cd_add"}
+                                                                                                    disabled={!ConsultationDurationSlotValidationSchema.isValidSync(values?.followup_consultation[index]?.consultation_details[iIndex])}
                                                                                                 >
                                                                                                     <ImageConfig.AddCircleIcon/>
                                                                                                 </IconButtonComponent>
@@ -464,11 +467,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                 </div>
                                             </CardComponent>
                                         )}/>
-                                    <div className="mrg-bottom-20">
-                                        <FormControlLabelComponent label={'Upload Image for Service'}
-                                                                   required={true}
-                                        />
-                                        <>
+                                    <CardComponent title={'Upload Image for Service'}>
                                             {(!values.image) && <>
                                                 <FilePickerComponent maxFileCount={1}
                                                                      id={"sv_upload_btn"}
@@ -488,22 +487,20 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                 }
                                             </>
                                             }
-                                        </>
-                                        <>
                                             {
                                                 (values.image) && <>
-                                                    <FilePreviewThumbnailComponent removable={true}
-                                                                                   file={values.image}
-                                                                                   removeButtonId={"sv_delete_img"}
-                                                                                   onRemove={() => {
-                                                                                       setFieldValue('image', undefined);
-                                                                                   }}/>
+                                                    <FilePreviewThumbnailComponent
+                                                        file={values.image}
+                                                        removeButtonId={"sv_delete_img"}
+                                                        onRemove={() => {
+                                                            setFieldValue('image', undefined);
+                                                        }}/>
                                                 </>
                                             }
-                                        </>
-                                    </div>
+                                    </CardComponent>
                                     <div className="t-form-actions">
-                                        <LinkComponent route={CommonService._routeConfig.ServiceCategoryDetails(serviceCategoryId)}>
+                                        <LinkComponent
+                                            route={CommonService._routeConfig.ServiceCategoryDetails(serviceCategoryId)}>
                                             <ButtonComponent
                                                 variant={"outlined"}
                                                 disabled={isServiceAddInProgress}
