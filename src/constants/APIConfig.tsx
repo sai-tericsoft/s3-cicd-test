@@ -276,6 +276,10 @@ const APIConfig: IAPIConfig = {
         URL:(medicalRecordId:string)=> ENV.API_URL + "/medicalRecord/"+ medicalRecordId +"/intervention",
         METHOD: "get"
     },
+    SAVE_MEDICAL_INTERVENTION_EXERCISE_LOG: {
+        URL:(medicalInterventionId:string)=> ENV.API_URL + '/intervention/'+ medicalInterventionId +'/exerciseLog',
+        METHOD: "put"
+    },
     // chart notes end
     EXERCISE_LOG_ATTACHMENT_LIST :{
         URL:(interventionId:string)=> ENV.API_URL + '/intervention/'+ interventionId +'/exerciseLog',

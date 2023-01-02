@@ -36,6 +36,7 @@ const DeleteBodyPartUnderMedicalInterventionSpecialTestAPICall = (medicalInterve
     return ApiService[APIConfig.DELETE_BODY_PART_UNDER_MEDICAL_INTERVENTION_SPECIAL_TEST.METHOD](APIConfig.DELETE_BODY_PART_UNDER_MEDICAL_INTERVENTION_SPECIAL_TEST.URL(medicalInterventionId, bodyPartId), {});
 }
 
+
 const ExerciseLogAttachmentListAPICall = (interventionId:string,payload:any)=>{
     // @ts-ignore
     return ApiService[APIConfig.EXERCISE_LOG_ATTACHMENT_LIST.METHOD](APIConfig.EXERCISE_LOG_ATTACHMENT_LIST.URL(interventionId),payload)
@@ -47,6 +48,11 @@ const RemoveExerciseLogAttachmentAPICall=(attachmentId:string,id:string,payload:
 
 }
 
+const SaveMedicalInterventionExerciseLogAPICall = (medicalInterventionId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.SAVE_MEDICAL_INTERVENTION_EXERCISE_LOG.METHOD](APIConfig.SAVE_MEDICAL_INTERVENTION_EXERCISE_LOG.URL(medicalInterventionId), payload);
+}
+
 const ChartNotesService = {
     MedicalRecordAddAPICall,
     MedicalInterventionBasicDetailsUpdateAPICall,
@@ -56,6 +62,8 @@ const ChartNotesService = {
     SaveMedicalInterventionSpecialTestForABodyPartAPICall,
     DeleteBodyPartUnderMedicalInterventionSpecialTestAPICall,
     ExerciseLogAttachmentListAPICall,
-    RemoveExerciseLogAttachmentAPICall
+    RemoveExerciseLogAttachmentAPICall,
+    SaveMedicalInterventionExerciseLogAPICall
+
 }
 export default ChartNotesService;
