@@ -66,14 +66,6 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
     const handleDeleteProvider = useCallback((item: any) => {
         CommonService.onConfirm({
             confirmationTitle: "REMOVE USER",
-            yes: {
-                color: 'primary',
-                text: "Yes"
-            },
-            no: {
-                color: 'primary',
-                text: "No"
-            },
             image: ImageConfig.RemoveImage,
             confirmationSubTitle: `Do you want to remove "${item.provider_name}" as a provider for "${serviceDetails.name}"?`
         }).then(() => {

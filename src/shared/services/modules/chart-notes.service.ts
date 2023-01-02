@@ -16,9 +16,33 @@ const FetchMedicalInterventionBasicDetailsAPICall = (medicalInterventionId: stri
     return ApiService[APIConfig.GET_MEDICAL_INTERVENTION_BASIC_DETAILS.METHOD](APIConfig.GET_MEDICAL_INTERVENTION_BASIC_DETAILS.URL(medicalInterventionId), payload);
 }
 
-const ChartNotesService={
+const SaveMedicalInterventionROMConfigForABodyPartAPICall = (medicalInterventionId: string, bodyPartId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.SAVE_MEDICAL_INTERVENTION_ROM_CONFIG_FOR_A_BODY_PART.METHOD](APIConfig.SAVE_MEDICAL_INTERVENTION_ROM_CONFIG_FOR_A_BODY_PART.URL(medicalInterventionId, bodyPartId), payload);
+}
+
+const DeleteBodyPartUnderMedicalInterventionROMConfigAPICall = (medicalInterventionId: string, bodyPartId: string) => {
+    // @ts-ignore
+    return ApiService[APIConfig.DELETE_BODY_PART_UNDER_MEDICAL_INTERVENTION_ROM_CONFIG.METHOD](APIConfig.DELETE_BODY_PART_UNDER_MEDICAL_INTERVENTION_ROM_CONFIG.URL(medicalInterventionId, bodyPartId), {});
+}
+
+const SaveMedicalInterventionSpecialTestForABodyPartAPICall = (medicalInterventionId: string, bodyPartId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.SAVE_MEDICAL_INTERVENTION_SPECIAL_TEST_FOR_A_BODY_PART.METHOD](APIConfig.SAVE_MEDICAL_INTERVENTION_SPECIAL_TEST_FOR_A_BODY_PART.URL(medicalInterventionId, bodyPartId), payload);
+}
+
+const DeleteBodyPartUnderMedicalInterventionSpecialTestAPICall = (medicalInterventionId: string, bodyPartId: string) => {
+    // @ts-ignore
+    return ApiService[APIConfig.DELETE_BODY_PART_UNDER_MEDICAL_INTERVENTION_SPECIAL_TEST.METHOD](APIConfig.DELETE_BODY_PART_UNDER_MEDICAL_INTERVENTION_SPECIAL_TEST.URL(medicalInterventionId, bodyPartId), {});
+}
+
+const ChartNotesService = {
     MedicalRecordAddAPICall,
     MedicalInterventionBasicDetailsUpdateAPICall,
-    FetchMedicalInterventionBasicDetailsAPICall
+    FetchMedicalInterventionBasicDetailsAPICall,
+    SaveMedicalInterventionROMConfigForABodyPartAPICall,
+    DeleteBodyPartUnderMedicalInterventionROMConfigAPICall,
+    SaveMedicalInterventionSpecialTestForABodyPartAPICall,
+    DeleteBodyPartUnderMedicalInterventionSpecialTestAPICall
 }
 export default ChartNotesService;

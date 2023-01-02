@@ -1,11 +1,12 @@
 import './TestScreen.scss';
 import React from 'react';
-import GroupingTableComponent from "../chart-notes/grouping-table/GroupingTableComponent";
+import MedicalInterventionRomConfigScreen
+    from "../chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
 
 const TestScreen: React.FC = () => {
 
     return (
-        <GroupingTableComponent/>
+        <MedicalInterventionRomConfigScreen/>
     );
 };
 

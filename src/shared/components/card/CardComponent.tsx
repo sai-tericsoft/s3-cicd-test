@@ -2,7 +2,7 @@ import React from "react";
 
 interface CardComponentProps {
     title?: string;
-    color?: 'default' | 'primary' | 'error' ;
+    color?: 'default' | 'primary' | 'error';
     description?: string;
     className?: string;
     size?: "sm" | "md" | "lg" | "xl";
@@ -32,9 +32,11 @@ const CardComponent = (props: React.PropsWithChildren<CardComponentProps>) => {
                     </div>
                 }
             </div>}
-            <div className="card-body">
-                {children}
-            </div>
+            {
+                children && <div className="card-body">
+                    {children}
+                </div>
+            }
         </div>
     );
 

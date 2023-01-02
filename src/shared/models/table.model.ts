@@ -7,6 +7,7 @@ export interface ITableColumn {
     className?: string;
     width?: number | string;
     fixed?: "left" | "right" | undefined;
+    children?: ITableColumn[];
 }
 
 export interface ITableComponentProps {
@@ -15,7 +16,7 @@ export interface ITableComponentProps {
     fixedHeader?: boolean;
     onRowClick?: (row: any, index: any) => void;
     rowClassName?: (row: any, index: number) => string;
-    rowKey?: (row: any) => string;
+    rowKey?: (row: any, index: number) => string;
     showHeader?: boolean;
     tableLayout?: 'auto' | 'fixed' | undefined;
     scroll?:  "unset" | "scroll";
