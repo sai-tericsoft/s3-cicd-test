@@ -10,7 +10,6 @@ import FormikSelectComponent from "../../../shared/components/form-controls/form
 import {CommonService} from "../../../shared/services";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import {IBodyPart} from "../../../shared/models/common.model";
-import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 import {ImageConfig, Misc} from "../../../constants";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {useSelector} from "react-redux";
@@ -18,12 +17,13 @@ import {IRootReducerState} from "../../../store/reducers";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {useParams} from "react-router-dom";
 import * as Yup from "yup";
-
+import HorizontalLineComponent
+    from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
+import _ from "lodash";
 
 interface EditMedicalRecordComponentProps {
 
 }
-
 
 const MEDICAL_RECORD_BODY_PART = {
     body_part_id: "",
@@ -31,12 +31,18 @@ const MEDICAL_RECORD_BODY_PART = {
     injury_type_id: "",
 };
 
+const InjuryDetailsRecordValidationSchema = Yup.object().shape({
+    body_part_id: Yup.string().required("Body Part is required"),
+    body_side: Yup.mixed().required("Body Side is required"),
+    injury_type_id: Yup.mixed().required("Injury Type is required"),
+});
+
 const MedicalRecordValidationSchema = Yup.object({
     onset_date: Yup.date().required("Onset date is required"),
     case_physician: Yup.object({
         name: Yup.string().required("Case physician name is required"),
-
     }),
+    injury_details: Yup.array().of(InjuryDetailsRecordValidationSchema)
 });
 
 
@@ -94,16 +100,17 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                     next_appointment: MedicalDetails.case_physician.next_appointment,
                 },
                 injury_details: MedicalDetails.injury_details
-            })
+            });
         }
     }, [MedicalDetails]);
 
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
+        const payload = {...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['body_part_details'])};
         if (medicalId) {
             setIsMedicalRecordEditInProgress(true);
             values.onset_date = CommonService.convertDateFormat(values?.onset_date);
-            const formData = CommonService.getFormDataFromJSON(values);
+            const formData = CommonService.getFormDataFromJSON(payload);
             CommonService._chartNotes.MedicalRecordEditAPICall(medicalId, formData)
                 .then((response: IAPIResponseType<any>) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
@@ -115,7 +122,6 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                 })
         }
     }, [medicalId]);
-
 
     return (
         <div className={'edit-medical-record-component'}>
@@ -248,12 +254,17 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                         return (
                                                             <>
                                                                 {
-                                                                    index > 0 && <div className="remove-btn ">
-                                                                        <IconButtonComponent onClick={() => {
-                                                                            arrayHelpers.remove(index)
+                                                                  <div className="remove-btn">
+                                                                        <ButtonComponent
+                                                                            size={"small"}
+                                                                            color={"error"}
+                                                                            variant={"outlined"}
+                                                                            prefixIcon={<ImageConfig.DeleteIcon/>}
+                                                                            onClick={() => {
+                                                                            arrayHelpers.remove(index);
                                                                         }}>
-                                                                            <ImageConfig.DeleteIcon/>
-                                                                        </IconButtonComponent>
+                                                                            Delete
+                                                                        </ButtonComponent>
                                                                     </div>
                                                                 }
                                                                 <div key={index} className="ts-row">
@@ -290,8 +301,8 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                                                                 disabled={values?.injury_details[index]?.body_part_id === ""}
                                                                                                 options={bodyPartList?.find((item: IBodyPart) => item?._id === values?.injury_details[index]?.body_part_id)?.sides}
                                                                                                 label={'Body Side'}
-                                                                                                displayWith={(item: any) => item.name}
-                                                                                                valueExtractor={(item: any) => item.name}
+                                                                                                displayWith={(item: any) => item}
+                                                                                                valueExtractor={(item: any) => item}
                                                                                                 formikField={field}
                                                                                                 required={true}
                                                                                                 fullWidth={true}
@@ -326,26 +337,24 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                                         </div>
                                                                     </div>
                                                                 </div>
-
-                                                                {
-                                                                    (index === values?.injury_details?.length - 1) &&
-                                                                    <div className={'add-body-part-button'}>
-                                                                        <ButtonComponent
-                                                                            onClick={() => {
-                                                                                arrayHelpers.push(MEDICAL_RECORD_BODY_PART);
-                                                                            }}
-                                                                            prefixIcon={<ImageConfig.AddIcon/>}
-                                                                            variant={"text"}
-                                                                            className={"mrg-bottom-20"}
-                                                                        >
-                                                                            Add New Body Part
-                                                                        </ButtonComponent>
-                                                                    </div>
-                                                                }
-
+                                                                <HorizontalLineComponent/>
                                                             </>
                                                         )
                                                     })}
+                                                    {
+                                                        <div className={'add-body-part-button'}>
+                                                            <ButtonComponent
+                                                                onClick={() => {
+                                                                    arrayHelpers.push(MEDICAL_RECORD_BODY_PART);
+                                                                }}
+                                                                prefixIcon={<ImageConfig.AddIcon/>}
+                                                                variant={"text"}
+                                                                className={"mrg-bottom-20"}
+                                                            >
+                                                                Add New Body Part
+                                                            </ButtonComponent>
+                                                        </div>
+                                                    }
                                                 </>
                                             )}/>
                                         <ButtonComponent fullWidth={true}
