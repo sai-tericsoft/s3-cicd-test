@@ -99,7 +99,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                     setIsMedicalRecordEditInProgress(false)
                 });
         }
-    }, [medicalRecordId]);
+    }, [medicalRecordId, onSave]);
 
     return (
         <div className={'edit-medical-record-component'}>

@@ -94,7 +94,7 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
         if (medicalRecordId){
             dispatch(getClientMedicalRecord(medicalRecordId));
         }
-    },[medicalRecordId, closeEditMedicalRecordDrawer]);
+    },[dispatch, medicalRecordId, closeEditMedicalRecordDrawer]);
 
     return (
         <div className={'client-medical-details-card-component'}>

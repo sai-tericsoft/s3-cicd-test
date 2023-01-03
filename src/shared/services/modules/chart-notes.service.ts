@@ -11,7 +11,7 @@ const MedicalRecordEditAPICall = (medicalId: string, payload: any) => {
 }
 const MedicalRecordDetailsAPICall = (medicalId: string, payload: any) => {
     // @ts-ignore
-    return ApiService[APIConfig. CLIENT_MEDICAL_DETAIL.METHOD](APIConfig. CLIENT_MEDICAL_DETAIL.URL(medicalId), payload);
+    return ApiService[APIConfig.CLIENT_MEDICAL_DETAIL.METHOD](APIConfig.CLIENT_MEDICAL_DETAIL.URL(medicalId), payload);
 }
 const MedicalInterventionBasicDetailsUpdateAPICall = (medicalInterventionId: string, payload: any) => {
     // @ts-ignore
