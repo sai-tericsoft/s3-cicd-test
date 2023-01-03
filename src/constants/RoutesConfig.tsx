@@ -32,6 +32,7 @@ const MEDICAL_INTERVENTION_ROM_CONFIG = '/chart-notes/:medicalRecordId/:medicalI
 const MEDICAL_INTERVENTION_SPECIAL_TESTS = '/chart-notes/:medicalRecordId/:medicalInterventionId/special-tests';
 const MEDICAL_INTERVENTION_EXERCISE_LOG = '/chart-notes/:medicalRecordId/:medicalInterventionId/exercise-log';
 const MEDICAL_RECORD_LIST = '/chart-notes/:clientId/medical-record-list';
+
 const INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST ='/chart-notes/:interventionId/exercise-log';
 const ADD_EXERCISE_LOG_ATTACHMENT='/chart-notes/:interventionId/exerciseLog/attachment'
 
