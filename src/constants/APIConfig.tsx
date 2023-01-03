@@ -209,8 +209,12 @@ const APIConfig: IAPIConfig = {
     CLIENT_ACTIVITY_LOG: {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/activityLog',
         METHOD: 'get'
-    }
+    },
     // client end
+    CLIENT_EIGHT_MINUTES_RULE_CHART: {
+        URL:ENV.API_URL + '/ruleChart',
+        METHOD: 'get'
+    }
 }
 
 export default APIConfig;

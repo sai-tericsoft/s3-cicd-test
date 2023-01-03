@@ -1,12 +1,13 @@
 import './TestScreen.scss';
 import React  from 'react';
-import ServiceAddScreen from "../admin/service/service-add/ServiceAddScreen";
+import Client8MinutesRuleChartComponent
+    from "../chart-notes/client-8-minutes-rule-chart/Client8MinutesRuleChartComponent";
 
 const TestScreen: React.FC = () => {
 
         return (
             <>
-            <ServiceAddScreen/>
+            <Client8MinutesRuleChartComponent/>
 
         </>
     );
