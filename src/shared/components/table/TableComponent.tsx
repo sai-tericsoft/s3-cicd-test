@@ -50,11 +50,7 @@ const TableComponent = (props: TableComponentProps) => {
         if (props.columns) {
             const tableCols: any = props.columns.map((col) => {
                 const transformedCol: any = col;
-                if (col.className) {
-                    transformedCol['className'] = 't-cell t-cell-' + col.key + " " + col.className;
-                } else {
-                    transformedCol['className'] = 't-cell t-cell-' + col.key;
-                }
+                transformedCol['className'] = 't-cell t-cell-' + col.key?.split(' ').join('-') + " " + col.className;
                 if (col.sortable) {
                     transformedCol['sorter'] = col.sortable;
                 }
