@@ -11,12 +11,13 @@ interface ChipComponentProps {
     onDelete?: () => void;
     size?: 'medium' | 'small';
     variant?: 'filled' | 'outlined';
+    prefixIcon?:any;
     color?: 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
 }
 
 const ChipComponent = (props: ChipComponentProps) => {
 
-    const {label, id, disabled, className, onDelete, onClick} = props;
+    const {label, id, disabled, className, onDelete, onClick ,prefixIcon} = props;
     const color = props.color || "primary";
     const size = props.size || "medium";
     const variant = props.variant || "filled";
@@ -38,6 +39,7 @@ const ChipComponent = (props: ChipComponentProps) => {
               id={id}
               color={color}
               size={size}
+             icon={prefixIcon}
               variant={variant}
               disabled={disabled}
               className={'chip ' + className}

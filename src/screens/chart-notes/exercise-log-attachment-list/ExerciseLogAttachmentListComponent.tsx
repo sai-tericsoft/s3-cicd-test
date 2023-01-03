@@ -32,15 +32,15 @@ const ExerciseLogAttachmentListComponent = (props: ExerciseLogAttachmentListComp
         }
     }, [interventionId, dispatch]);
 
-    const removeAttachment = useCallback((item: any) => {
+    const removeAttachment = useCallback((item: any, interventionId: string) => {
         CommonService.onConfirm({
             confirmationTitle: 'Do you want to remove this attachment',
             confirmationSubTitle: `Do you want to remove "${item.name}" this attachment"?`
         }).then(() => {
-            CommonService._chartNotes.RemoveExerciseLogAttachmentAPICall(item.intervention_id, item._id, {})
+            CommonService._chartNotes.RemoveExerciseLogAttachmentAPICall(interventionId, item._id, {})
                 .then((response) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                     dispatch(getInterventionAttachmentList(item.intervention_id));
+                    dispatch(getInterventionAttachmentList(interventionId));
                 }).catch((error: any) => {
                 CommonService._alert.showToast(error.error || "Error deleting attachment", "error");
             })
@@ -67,23 +67,25 @@ const ExerciseLogAttachmentListComponent = (props: ExerciseLogAttachmentListComp
                         <StatusCardComponent title={"Failed to fetch attachment list"}/>
                     }
                     {
-                        (isAttachmentListLoaded && attachmentList) && <>
+                        (isAttachmentListLoaded && attachmentList.attachments.length > 0) && <>
                             <CardComponent title={'Attachments'}>
-                                <div className={'ts-row'}>
-                                    <div className={'ts-col-lg-auto'}>
-                                        <ChipComponent label={attachmentList?.attachments?.map((attachment: any) => {
-                                            return <>
-                                                <span className={'pdf_icon'}>{<ImageConfig.PDF_Icon/>}</span>
-                                                <span className={'attachment-name'}>{attachment.name}</span>
-                                                <span className={'close-icon'} onClick={() => removeAttachment(attachment)}>{
-                                                    <ImageConfig.CloseIcon/>}</span>
+                                {attachmentList?.attachments?.map((attachment: any) => {
+                                    return <span className={'chip-wrapper'}>
+                                        <ChipComponent className={'chip chip-wrapper'} label={attachment.name}
+                                                       prefixIcon={<ImageConfig.PDF_Icon/>}
+                                                       onDelete={() => removeAttachment(attachment, interventionId)}/>
+                                    </span>
 
-                                            </>
+                                })}
 
-                                        })}/>
-                                    </div>
-                                </div>
                             </CardComponent>
+                        </>
+                    }
+                    {
+                        (isAttachmentListLoaded && !attachmentList.attachments.length) &&
+                        <> <CardComponent title={'Attachments'}>
+                            <StatusCardComponent title={'No Attachments'}/>
+                        </CardComponent>
                         </>
                     }
                 </>

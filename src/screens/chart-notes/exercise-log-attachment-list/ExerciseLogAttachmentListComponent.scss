@@ -1,16 +1,7 @@
-.exercise-log-attachment-list-component{
-  .ts-row{
-    .ts-col-lg-auto{
-      .pdf_icon{
-        margin-right: 23px;
-      }
-      .close-icon{
-        margin-left: 32px;
-        cursor: pointer;
-      }
-      .attachment-name{
-      font-size: 1rem;
-      }
-    }
+.exercise-log-attachment-list-component {
+
+  .chip-wrapper {
+    padding: 20px 12px;
+    margin-bottom: 20px;
   }
 }
