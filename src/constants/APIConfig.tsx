@@ -236,6 +236,10 @@ const APIConfig: IAPIConfig = {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medicalRecord',
         METHOD: "post"
     },
+    MEDICAL_RECORD_EDIT: {
+        URL: (medicalId: string) => ENV.API_URL + '/medicalRecord/' + medicalId,
+        METHOD: "put"
+    },
     MEDICAL_INTERVENTION_BASIC_DETAILS_UPDATE: {
         URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId,
         METHOD: "put"
@@ -246,6 +250,10 @@ const APIConfig: IAPIConfig = {
     },
     CLIENT_MEDICAL_INFO: {
         URL:(clientId:string)=> ENV.API_URL + '/client/'+ clientId +'/medicalRecord',
+        METHOD: "get"
+    },
+    CLIENT_MEDICAL_DETAIL: {
+        URL:(medicalId:string)=> ENV.API_URL + '/medicalRecord/'+ medicalId,
         METHOD: "get"
     },
     SAVE_MEDICAL_INTERVENTION_ROM_CONFIG_FOR_A_BODY_PART: {
