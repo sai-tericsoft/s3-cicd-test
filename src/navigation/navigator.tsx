@@ -37,7 +37,7 @@ import {
     CLIENT_LIST, CLIENT_MEDICAL_RECORD_DETAILS,
     CLIENT_SEARCH,
     COMING_SOON_ROUTE,
-    DESIGN_SYSTEM_ROUTE, EDIT_MEDICAL_RECORD,
+    DESIGN_SYSTEM_ROUTE,
     FACILITY_DETAILS,
     FACILITY_LIST,
     LOGIN_ROUTE,
@@ -53,8 +53,6 @@ import {
     SERVICE_EDIT,
     TEST_ROUTE
 } from "../constants/RoutesConfig";
-import ChartNotesDetailsScreen from "../screens/chart-notes/chart-notes-details/ChartNotesDetailsScreen";
-import EditMedicalRecordComponent from "../screens/chart-notes/edit-medical-record/EditMedicalRecordComponent";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
 import MedicalInterventionSpecialTestsScreen
@@ -258,12 +256,6 @@ const Navigator = (props: NavigatorProps) => {
                 <Route path={ADD_MEDICAL_RECORD}
                        element={<ProtectedRoute>
                            <AddMedicalRecordScreen/>
-                       </ProtectedRoute>
-                       }
-                />
-                <Route path={EDIT_MEDICAL_RECORD}
-                       element={<ProtectedRoute>
-                          <EditMedicalRecordComponent/>
                        </ProtectedRoute>
                        }
                 />

@@ -27,8 +27,6 @@ const CLIENT_SEARCH='/client-search';
 const CLIENT_MEDICAL_RECORD_DETAILS = '/chart-notes/:medicalRecordId/medical-record-details';
 const CLIENT_CHART_NOTES_DETAILS = "/chart-notes";
 const ADD_MEDICAL_RECORD = '/chart-notes/:clientId/add-medical-record';
-const EDIT_MEDICAL_RECORD = '/chart-notes/:medicalId';
-const ADD_MEDICAL_INTERVENTION = '/chart-notes/:clientId/:medicalInterventionId/add-medical-intervention';
 const CLIENT_CHART_NOTES = '/chart-notes/:clientId/medical-record-list';
 const ADD_MEDICAL_INTERVENTION = '/chart-notes/:medicalRecordId/:medicalInterventionId/add-medical-intervention';
 const MEDICAL_INTERVENTION_ROM_CONFIG = '/chart-notes/:medicalRecordId/:medicalInterventionId/rom-config';
@@ -65,7 +63,6 @@ export {
     ADD_MEDICAL_RECORD,
     ADD_MEDICAL_INTERVENTION,
     CLIENT_CHART_NOTES,
-    EDIT_MEDICAL_RECORD,
     CLIENT_CHART_NOTES_DETAILS,
     MEDICAL_INTERVENTION_ROM_CONFIG,
     MEDICAL_INTERVENTION_SPECIAL_TESTS,
