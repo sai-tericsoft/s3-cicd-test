@@ -7,7 +7,7 @@ const MedicalRecordAddAPICall = (clientId: string, payload: any) => {
 }
 const MedicalRecordEditAPICall = (medicalId: string, payload: any) => {
     // @ts-ignore
-    return ApiService[APIConfig.MEDICAL_RECORD_EDIT.METHOD](APIConfig.MEDICAL_RECORD_EDIT.URL(medicalId), payload, {'Content-Type': 'multipart/form-data'});
+    return ApiService[APIConfig.MEDICAL_RECORD_EDIT.METHOD](APIConfig.MEDICAL_RECORD_EDIT.URL(medicalId), payload);
 }
 const MedicalRecordDetailsAPICall = (medicalId: string, payload: any) => {
     // @ts-ignore

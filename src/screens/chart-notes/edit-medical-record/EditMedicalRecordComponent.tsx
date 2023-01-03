@@ -88,8 +88,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
         if (medicalRecordId) {
             setIsMedicalRecordEditInProgress(true);
             payload.onset_date = CommonService.convertDateFormat(payload?.onset_date);
-            const formData = CommonService.getFormDataFromJSON(payload);
-            CommonService._chartNotes.MedicalRecordEditAPICall(medicalRecordId, formData)
+            CommonService._chartNotes.MedicalRecordEditAPICall(medicalRecordId, payload)
                 .then((response: IAPIResponseType<any>) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Medical Record edited successfully", "success");
                     setIsMedicalRecordEditInProgress(false);

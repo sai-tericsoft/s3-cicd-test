@@ -132,13 +132,13 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                         Edit Details
                                     </ButtonComponent>
                                 </div>
-                                <DataLabelValueComponent label={'Intervention Linked to:'} direction={"row"}>
-                                    <span className={'client-intervention'}>{clientMedicalRecord?.intervention_linked_to}
+                                <DataLabelValueComponent label={'Intervention Linked to:'} direction={"row"} className={'intervention-injury-details-wrapper'}>
+                                    <div className={'client-intervention'}>{clientMedicalRecord?.intervention_linked_to}
                                     {clientMedicalRecord?.created_at && CommonService.transformTimeStamp(clientMedicalRecord?.created_at)}{" "}
-                                    {"-"} {clientMedicalRecord?.injury_details.map((e: any, index: number) => {
-                                    return <>{e.body_part_details.name}({e.body_side}) {index !== clientMedicalRecord?.injury_details.length - 1 ? <> | </> : ""}</>
-                                    })}</span>
-                                    <span className={'view-all-body-parts'} onClick={openBodyPartsModal}>View All Body Parts </span>
+                                    {"-"} {clientMedicalRecord?.injury_details.map((injury: any, index: number) => {
+                                    return <>{injury.body_part_details.name}({injury.body_side}) {index !== clientMedicalRecord?.injury_details.length - 1 ? <> | </> : ""}</>
+                                    })}</div>
+                                    <span className={'view-all-body-parts'} onClick={openBodyPartsModal}> View All Body Parts </span>
                                 </DataLabelValueComponent>
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-md-3'}>
@@ -146,7 +146,6 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                             {CommonService.transformTimeStamp(clientMedicalRecord?.onset_date) || "-"}
                                         </DataLabelValueComponent>
                                     </div>
-
                                     <div className={'ts-col-md-3'}>
                                         <DataLabelValueComponent label={'Date of Surgery'}>
                                             {clientMedicalRecord?.date_of_surgery || "-"}
