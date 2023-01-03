@@ -93,7 +93,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             fixed: "right",
             render: (_: any, item: IClientBasicDetails) => {
                 if (item?._id) {
-                    return <LinkComponent route={CommonService._routeConfig.ChartNotesDetails(item?._id)}>
+                    return <LinkComponent route={CommonService._routeConfig.MedicalRecordList(item?._id)}>
                         View Details
                     </LinkComponent>
                 }

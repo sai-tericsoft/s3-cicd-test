@@ -1,19 +1,24 @@
 import "./AddMedicalInterventionScreen.scss";
 import * as Yup from "yup";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import React, {useCallback, useEffect, useState} from "react";
 import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {Misc} from "../../../constants";
+import {ImageConfig, Misc} from "../../../constants";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import FormAutoSave from "../../../shared/utils/formAutoSave";
+import FormAutoSave from "../../../shared/utils/FormAutoSave";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
-import {IServiceCategory} from "../../../shared/models/service-category.model";
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
+import {useDispatch, useSelector} from "react-redux";
+import {IRootReducerState} from "../../../store/reducers";
+import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
+import LinkComponent from "../../../shared/components/link/LinkComponent";
+import {setCurrentNavParams} from "../../../store/actions/navigation.action";
+import ClientMedicalDetailsCardComponent from "../client-medical-details-card/ClientMedicalDetailsCardComponent";
 
 interface AddMedicalInterventionScreenProps {
 
@@ -41,15 +46,20 @@ const MedicalInterventionAddFormValidationSchema = Yup.object().shape({});
 
 const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) => {
 
-    const {medicalInterventionId} = useParams();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const {medicalInterventionDetails} = useSelector((state: IRootReducerState) => state.chartNotes);
+    const {medicalRecordId, medicalInterventionId} = useParams();
     const [addMedicalInterventionFormInitialValues, setAddMedicalInterventionFormInitialValues] = useState<any>(_.cloneDeep(MedicalInterventionAddFormInitialValues));  // TODO type properly
 
-    const onSubmit = useCallback((values: any, {setSubmitting, setErrors}: FormikHelpers<any>) => {
+    const onSubmit = useCallback((values: any, {setSubmitting, setErrors}: FormikHelpers<any>, announce = false) => {
         if (medicalInterventionId) {
             setSubmitting(true);
             CommonService._chartNotes.MedicalInterventionBasicDetailsUpdateAPICall(medicalInterventionId, values)
                 .then((response: IAPIResponseType<any>) => {
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    if (announce) {
+                        CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    }
                     setSubmitting(false);
                 })
                 .catch((error: any) => {
@@ -59,31 +69,11 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
         }
     }, [medicalInterventionId]);
 
-    const [medicalInterventionDetails, setMedicalInterventionDetails] = useState<IServiceCategory | undefined>(undefined);
-    // const [isMedicalInterventionDetailsLoading, setIsMedicalInterventionDetailsLoading] = useState<boolean>(false);
-    // const [isMedicalInterventionDetailsLoaded, setIsMedicalInterventionDetailsLoaded] = useState<boolean>(false);
-    // const [isMedicalInterventionDetailsLoadingFailed, setIsMedicalInterventionDetailsLoadingFailed] = useState<boolean>(false);
-
-    const fetchMedicalInterventionDetails = useCallback((serviceCategoryId: string) => {
-        // setIsMedicalInterventionDetailsLoading(true);
-        CommonService._chartNotes.FetchMedicalInterventionBasicDetailsAPICall(serviceCategoryId, {})
-            .then((response: IAPIResponseType<any>) => { // TODO: to type properly
-                setMedicalInterventionDetails(response.data);
-                // setIsMedicalInterventionDetailsLoading(false);
-                // setIsMedicalInterventionDetailsLoaded(true);
-                // setIsMedicalInterventionDetailsLoadingFailed(false);
-            }).catch((error: any) => {
-            // setIsMedicalInterventionDetailsLoading(false);
-            // setIsMedicalInterventionDetailsLoaded(false);
-            // setIsMedicalInterventionDetailsLoadingFailed(true);
-        })
-    }, []);
-
     useEffect(() => {
         if (medicalInterventionId) {
-            fetchMedicalInterventionDetails(medicalInterventionId);
+            dispatch(getMedicalInterventionDetails(medicalInterventionId));
         }
-    }, [medicalInterventionId, fetchMedicalInterventionDetails]);
+    }, [medicalInterventionId, dispatch]);
 
     useEffect(() => {
         if (medicalInterventionDetails) {
@@ -91,13 +81,23 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
         }
     }, [medicalInterventionDetails]);
 
+    useEffect(() => {
+        if (medicalRecordId) {
+            dispatch(setCurrentNavParams("Medical Record details", null, () => {
+                navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+            }));
+        }
+    }, [navigate, dispatch, medicalRecordId]);
+
     return (
         <div className={'add-medical-intervention-screen'}>
-            {/* Medical Intervention details card goes here.*/}
+            <ClientMedicalDetailsCardComponent/>
             <Formik
                 validationSchema={MedicalInterventionAddFormValidationSchema}
                 initialValues={addMedicalInterventionFormInitialValues}
-                onSubmit={onSubmit}
+                onSubmit={(values, formikHelpers) => {
+                    onSubmit(values, formikHelpers, false);
+                }}
                 validateOnChange={false}
                 validateOnBlur={true}
                 enableReinitialize={true}
@@ -111,7 +111,22 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                     return (
                         <Form className="t-form" noValidate={true}>
                             <FormAutoSave formikCtx={formik}/>
-                            <FormControlLabelComponent label={"Soap Note"}/>
+                            <div
+                                className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
+                                <FormControlLabelComponent label={"Soap Note"} className={"mrg-0"}/>
+                                {
+                                    (medicalInterventionId && medicalRecordId) && <LinkComponent
+                                        route={CommonService._routeConfig.MedicalInterventionExerciseLogUpdate(medicalRecordId, medicalInterventionId)}>
+                                        <ButtonComponent
+                                            prefixIcon={medicalInterventionDetails.is_having_exercise_log ? <ImageConfig.EditIcon/> :<ImageConfig.AddIcon/>}
+                                        >
+                                            {
+                                                (medicalInterventionDetails.is_having_exercise_log ? "Edit" : "Add") + " Exercise Log"
+                                            }
+                                        </ButtonComponent>
+                                    </LinkComponent>
+                                }
+                            </div>
                             <CardComponent title={'Subjective (S)'}>
                                 <div className="ts-row">
                                     <div className="ts-col-12">
@@ -175,6 +190,32 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 )
                                             }
                                         </Field>
+                                        <CardComponent title={"Range of Motion and Strength"}
+                                                       actions={<>
+                                                           {
+                                                               (medicalInterventionId && medicalRecordId) && <LinkComponent
+                                                                   route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId)}>
+                                                                   <ButtonComponent
+                                                                       prefixIcon={<ImageConfig.AddIcon/>}>
+                                                                       Add
+                                                                   </ButtonComponent>
+                                                               </LinkComponent>
+                                                           }
+                                                       </>}
+                                        ></CardComponent>
+                                        <CardComponent title={"Special Test"}
+                                                       actions={<>
+                                                           {
+                                                               (medicalInterventionId && medicalRecordId) &&  <LinkComponent
+                                                                   route={CommonService._routeConfig.MedicalInterventionSpecialTests(medicalRecordId, medicalInterventionId)}>
+                                                                   <ButtonComponent
+                                                                       prefixIcon={<ImageConfig.AddIcon/>}>
+                                                                       Add
+                                                                   </ButtonComponent>
+                                                               </LinkComponent>
+                                                           }
+                                                       </>}
+                                        ></CardComponent>
                                         <Field name={'objective.functional_tests'}>
                                             {
                                                 (field: FieldProps) => (

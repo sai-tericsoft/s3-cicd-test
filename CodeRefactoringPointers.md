@@ -9,3 +9,5 @@
 8. Review and refactor facility details.
 9. Move keys delete logic to value patching level from onSubmit function.
 10. Make route config and service to follow chart notes approach ( No clutter in navigator ).
+11. Make Client Medical records to follow admin layout approach.
+12. Don't auto save form for first time form value patch.

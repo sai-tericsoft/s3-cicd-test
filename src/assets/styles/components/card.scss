@@ -2,6 +2,7 @@
   background: #ffffff;
   border: 1px solid #F3F3F3;
   border-radius: 4px;
+  margin-bottom: 20px;
 
   &.primary {
     background-color: #EAF3F2;
@@ -11,7 +12,7 @@
 
 
   .card-header {
-    padding: 8px 35px;
+    padding: 10px 30px;
     background: #EAF3F2;
     display: flex;
     align-items: center;

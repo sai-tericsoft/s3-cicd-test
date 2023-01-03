@@ -1,13 +1,11 @@
 import './TestScreen.scss';
 import React from 'react';
-// import GroupingTableComponent from "../chart-notes/grouping-table/GroupingTableComponent";
-import EditMedicalRecordComponent from "../chart-notes/edit-medical-record/EditMedicalRecordComponent";
+import GroupingTableComponent from "../chart-notes/grouping-table/GroupingTableComponent";
 
 const TestScreen: React.FC = () => {
 
     return (
-        // <GroupingTableComponent/>
-        <EditMedicalRecordComponent/>
+         <GroupingTableComponent/>
     );
 };
 

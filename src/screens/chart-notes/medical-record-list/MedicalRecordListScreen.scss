@@ -4,7 +4,6 @@
 
   .client-details-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     margin: 5px 0 25px;
     height: 30px;
@@ -15,6 +14,25 @@
       line-height: 16px;
       letter-spacing: 0.5px;
       color: $text-light-2;
+      width: 233px; // TODO refactor
+    }
+
+    .client-details-filters-options {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex: 1;
+
+      .ts-row{
+        flex: 1;
+      }
+
+      .input-component {
+        margin-bottom: 0 !important;
+      }
+      .select-component {
+        margin-bottom: 0 !important;
+      }
     }
   }
 
@@ -35,25 +53,29 @@
     }
   }
 
-  .medical-record-alert{
-    &.high{
+  .medical-record-alert {
+    &.high {
       color: #FD0000;
     }
 
-    &.medium{
+    &.medium {
       color: #FA9C2F;
     }
   }
+
   .client-details-tab-wrapper {
     .t-cell-body_side {
       text-align: center !important;
     }
+
     .t-cell-status {
       text-align: center !important;
     }
+
     .t-cell-last_provider {
       text-align: center !important;
     }
+
     .t-cell-status {
       text-align: center !important;
     }

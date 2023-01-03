@@ -1,7 +1,7 @@
-import "./ChartNotesDetailsScreen.scss";
+import "./MedicalRecordListScreen.scss";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {IRootReducerState} from "../../../store/reducers";
 import {getClientBasicDetails,} from "../../../store/actions/client.action";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
@@ -9,18 +9,20 @@ import {CommonService} from "../../../shared/services";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import ClientBasicDetailsCardComponent from "../../clients/client-basic-details-card/ClientBasicDetailsCardComponent";
-import {IClientBasicDetails} from "../../../shared/models/client.model";
+import {IClientBasicDetails, IClientMedicalStatusFilterState} from "../../../shared/models/client.model";
 import {ITableColumn} from "../../../shared/models/table.model";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
 import {APIConfig, ImageConfig} from "../../../constants";
+import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
+import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 
 interface ClientBasicDetailsComponentProps {
 
 }
 
-const ChartNotesDetailsScreen = (props: ClientBasicDetailsComponentProps) => {
+const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
 
     const MedicalRecordListTableColumns: ITableColumn[] = [
         {
@@ -52,8 +54,8 @@ const ChartNotesDetailsScreen = (props: ClientBasicDetailsComponentProps) => {
             dataIndex: "body_part",
             width: 120,
             render: (_: any, item: any) => {
-                return <>{item.injury_details.map((e: any) => {
-                    return <>{e.body_part_id?.name}</>
+                return <>{item.injury_details.map((injury: any) => {
+                    return <>{injury.body_part_details?.name}</>
                 })}{item.injury_details.length > 1 && "(+" + item.injury_details.length + ")"}</>
 
             }
@@ -93,7 +95,7 @@ const ChartNotesDetailsScreen = (props: ClientBasicDetailsComponentProps) => {
             fixed: "right",
             render: (_: any, item: IClientBasicDetails) => {
                 if (item?._id) {
-                    return <LinkComponent route={CommonService._routeConfig.ComingSoonRoute()}>
+                    return <LinkComponent route={CommonService._routeConfig.ClientMedicalRecordDetails(item?._id)}>
                         View Details
                     </LinkComponent>
                 }
@@ -103,6 +105,11 @@ const ChartNotesDetailsScreen = (props: ClientBasicDetailsComponentProps) => {
     const {clientId} = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const {medicalStatusList} = useSelector((state: IRootReducerState) => state.staticData);
+    const [medicalListFilterState, setMedicalListFilterState] = useState<IClientMedicalStatusFilterState>({
+        status: undefined,
+    })
+
     const {
         isClientBasicDetailsLoaded,
         isClientBasicDetailsLoading,
@@ -121,6 +128,7 @@ const ChartNotesDetailsScreen = (props: ClientBasicDetailsComponentProps) => {
             navigate(CommonService._routeConfig.ClientSearch());
         }));
     }, [navigate, dispatch]);
+
     return (
         <div className={'chart-notes-details-screen'}>
             <>
@@ -143,8 +151,36 @@ const ChartNotesDetailsScreen = (props: ClientBasicDetailsComponentProps) => {
                         {
                             (isClientBasicDetailsLoaded && clientBasicDetails) && <>
                                 <div className="client-details-header">
-                                    <div className={"client-details-title"}>
-                                        Medical Records
+                                    <div className="client-details-title">
+                                        Medical Record List
+                                    </div>
+                                    <div className="client-details-filters-options">
+                                        <div className="client-details-filters ts-row">
+                                            <div className="ts-col-md-6 ts-col-lg-3">
+                                                <SelectComponent options={medicalStatusList}
+                                                                 label={'Status'}
+                                                                 fullWidth={true}
+                                                                 size={'small'}
+                                                                 value={medicalListFilterState.status}
+                                                                 keyExtractor={(item) => item.code}
+                                                                 onUpdate={(value) => {
+                                                                     setMedicalListFilterState({
+                                                                         ...medicalListFilterState,
+                                                                         status: value
+                                                                     })
+                                                                 }}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <LinkComponent route={CommonService._routeConfig.AddMedicalRecord(clientId)}>
+                                                <ButtonComponent
+                                                    prefixIcon={<ImageConfig.AddIcon/>}
+                                                >
+                                                    Add Medical Record
+                                                </ButtonComponent>
+                                            </LinkComponent>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className={"client-details-layout"}>
@@ -160,7 +196,7 @@ const ChartNotesDetailsScreen = (props: ClientBasicDetailsComponentProps) => {
                                             url={APIConfig.CLIENT_MEDICAL_INFO.URL(clientId)}
                                             method={APIConfig.CLIENT_MEDICAL_INFO.METHOD}
                                             columns={MedicalRecordListTableColumns}
-                                            scroll={"scroll"}
+                                            extraPayload={medicalListFilterState}
                                         />
                                     </div>
                                 </div>
@@ -173,4 +209,4 @@ const ChartNotesDetailsScreen = (props: ClientBasicDetailsComponentProps) => {
     );
 };
 
-export default ChartNotesDetailsScreen;
+export default MedicalRecordListScreen;

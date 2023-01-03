@@ -27,7 +27,7 @@
 
 .app-version {
   font-size: 10px;
-  position: absolute;
+  position: fixed;
   bottom: 5px;
   right: 5px;
 }
@@ -339,6 +339,14 @@
     background: #F4F4F8;
     color: #787879;
   }
+  &.completed{
+    background: #E4F6EA;
+    color: #00534F;
+  }
+  &.draft{
+    background:#FFEDDD;
+    color: #EF7300;
+  }
 }
 
 .t-surgery-record-drawer {
@@ -374,5 +382,17 @@
     &:last-child {
       border-bottom: none;
     }
+  }
+}
+
+.intervention-comments-modal {
+  .modal-content-wrapper {
+    min-width: 600px;
+  }
+}
+
+.intervention-rom-config-add-body-part-modal{
+  .modal-content-wrapper {
+    min-width: 900px;
   }
 }

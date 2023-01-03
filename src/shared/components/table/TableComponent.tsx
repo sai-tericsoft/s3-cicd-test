@@ -6,6 +6,7 @@ import StatusCardComponent from "../status-card/StatusCardComponent";
 import LoaderComponent from "../loader/LoaderComponent";
 import {TablePaginationConfig} from "antd";
 import {ColumnsType} from "antd/es/table";
+import {GetRowKey} from "rc-table/lib/interface";
 
 interface TableComponentProps extends ITableComponentProps {
     data: any[];
@@ -50,9 +51,9 @@ const TableComponent = (props: TableComponentProps) => {
             const tableCols: any = props.columns.map((col) => {
                 const transformedCol: any = col;
                 if (col.className) {
-                    transformedCol['className'] = 't-cell-' + col.key + " " + col.className;
+                    transformedCol['className'] = 't-cell t-cell-' + col.key + " " + col.className;
                 } else {
-                    transformedCol['className'] = 't-cell-' + col.key;
+                    transformedCol['className'] = 't-cell t-cell-' + col.key;
                 }
                 if (col.sortable) {
                     transformedCol['sorter'] = col.sortable;
@@ -68,6 +69,10 @@ const TableComponent = (props: TableComponentProps) => {
             onSort(sorter.field, sorter.order);
         }
     }, [onSort]);
+
+    useEffect(() => {
+        console.log('data changes', props.data);
+    }, [props.data]);
 
     return (
         <div className={'table-component'}>
@@ -85,7 +90,7 @@ const TableComponent = (props: TableComponentProps) => {
                     emptyText: (
                         <>
                             {
-                                (!loading && data.length === 0) ? <>
+                                (!loading && data?.length === 0) ? <>
                                     {
                                         errored && <StatusCardComponent title={"Error Loading Data"}/>
                                     }
@@ -104,7 +109,7 @@ const TableComponent = (props: TableComponentProps) => {
                         }
                     }
                 }}
-                rowKey={rowKey}
+                rowKey={rowKey as string | GetRowKey<any>}
                 showHeader={showHeader}
                 rowClassName={rowClassName}
                 loading={loading ? {
@@ -154,7 +159,7 @@ export default TableComponent;
 //         key: 'actions',
 //         width: 140,
 //         fixed: "right",
-//         render: (item: any) => {
+//         render: (_: any, item: any) => {
 //             return <ButtonComponent
 //                 size={"small"}
 //                 prefixIcon={<ImageConfig.EditIcon/>}

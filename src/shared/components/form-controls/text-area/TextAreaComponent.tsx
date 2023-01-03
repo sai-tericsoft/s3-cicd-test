@@ -13,7 +13,7 @@ const TextAreaComponent = (props: TextAreaComponentProps) => {
     const variant = props.variant || "outlined";
     const size = props.size || "medium";
     const fullWidth = props.fullWidth || false;
-    const rows = props.rows || 4;
+    const rows = props.rows || 3;
     const placeholder = props.placeholder || label;
 
     const handleOnChange = useCallback((event: any) => {

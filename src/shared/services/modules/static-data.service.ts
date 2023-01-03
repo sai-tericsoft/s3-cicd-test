@@ -12,6 +12,14 @@ const yesNoOptions = [{
     code: false
 }];
 
+const resultOptions = [{
+    title: "Positive",
+    code: "Positive"
+}, {
+    title: "Negative",
+    code: "Negative"
+}];
+
 const getConsultationDurationList = (payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.CONSULTATION_DURATION_LIST.METHOD](APIConfig.CONSULTATION_DURATION_LIST.URL, payload);
@@ -86,6 +94,7 @@ const StaticDataService = {
     today,
     weekDays,
     yesNoOptions,
+    resultOptions,
     getConsultationDurationList,
     getGenderList,
     getPhoneTypeList,

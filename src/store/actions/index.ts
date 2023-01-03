@@ -4,6 +4,7 @@ import * as staticData from "./static-data.action";
 import * as client from "./client.action";
 import * as service from "./service.action";
 import * as user from "./user.action";
+import * as chartNotes from "./chart-notes.action";
 
 export {
     account,
@@ -11,5 +12,6 @@ export {
     staticData,
     client,
     service,
-    user
+    user,
+    chartNotes
 };

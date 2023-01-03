@@ -3,7 +3,8 @@ import {
     GET_COMMUNICATION_MODE_TYPE_LIST,
     GET_CONSULTATION_DURATION_LIST,
     GET_EMPLOYMENT_STATUS_LIST,
-    GET_GENDER_LIST, GET_INJURY_TYPE_LIST,
+    GET_GENDER_LIST,
+    GET_INJURY_TYPE_LIST,
     GET_LANGUAGE_LIST,
     GET_MEDICAL_HISTORY_OPTIONS_LIST,
     GET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
@@ -11,11 +12,13 @@ import {
     GET_REFERRAL_TYPE_LIST,
     GET_RELATIONSHIP_LIST,
     GET_SOCIAL_MEDIA_PLATFORM_LIST,
-    GET_SURGICAL_HISTORY_OPTIONS_LIST, SET_BODY_PART_LIST,
+    GET_SURGICAL_HISTORY_OPTIONS_LIST,
+    SET_BODY_PART_LIST,
     SET_COMMUNICATION_MODE_TYPE_LIST,
     SET_CONSULTATION_DURATION_LIST,
     SET_EMPLOYMENT_STATUS_LIST,
-    SET_GENDER_LIST, SET_INJURY_TYPE_LIST,
+    SET_GENDER_LIST,
+    SET_INJURY_TYPE_LIST,
     SET_LANGUAGE_LIST,
     SET_MEDICAL_HISTORY_OPTIONS_LIST,
     SET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
@@ -30,6 +33,7 @@ import {ICommonType} from "../../shared/models/static-data.model";
 
 export interface IStaticDataReducerState {
     statusList: ICommonType[],
+    medicalStatusList: ICommonType[],
     isConsultationDurationListLoading: boolean,
     isConsultationDurationListLoaded: boolean,
     consultationDurationList: any[],
@@ -127,7 +131,17 @@ const initialData: IStaticDataReducerState = {
             code: false,
             title: "Inactive"
         }
-    ]
+    ],
+    medicalStatusList: [
+        {
+            code: 'open',
+            title: "Open/Active"
+        },
+        {
+            code: 'closed',
+            title: "Closed/Inactive"
+        }
+        ],
 };
 
 const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDataReducerState => {
