@@ -281,6 +281,10 @@ const APIConfig: IAPIConfig = {
         METHOD: "put"
     },
     // chart notes end
+    ADD_EXERCISE_LOG_ATTACHMENT : {
+        URL:(interventionId:string)=>ENV.API_URL + '/intervention/'+interventionId+'/exerciseLog/attachment',
+        METHOD:'post'
+    }
 }
 
 export default APIConfig;
