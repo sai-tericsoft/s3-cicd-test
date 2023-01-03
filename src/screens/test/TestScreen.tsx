@@ -1,11 +1,14 @@
 import './TestScreen.scss';
 import React from 'react';
-import ExerciseLogAttachmentListComponent
-    from "../chart-notes/exercise-log-attachment-list/ExerciseLogAttachmentListComponent";
+import ExerciseLogAttachmentAddComponent
+    from "../chart-notes/exercise-log-attachment-add/ExerciseLogAttachmentAddComponent";
+
+
 const TestScreen: React.FC = () => {
 
     return (
-        <ExerciseLogAttachmentListComponent/>
+   <ExerciseLogAttachmentAddComponent/>
+
     );
 };
 

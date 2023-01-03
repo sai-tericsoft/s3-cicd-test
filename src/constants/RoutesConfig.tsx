@@ -33,6 +33,8 @@ const MEDICAL_INTERVENTION_SPECIAL_TESTS = '/chart-notes/:medicalRecordId/:medic
 const MEDICAL_INTERVENTION_EXERCISE_LOG = '/chart-notes/:medicalRecordId/:medicalInterventionId/exercise-log';
 const MEDICAL_RECORD_LIST = '/chart-notes/:clientId/medical-record-list';
 const INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST ='/chart-notes/:interventionId/exercise-log';
+const ADD_EXERCISE_LOG_ATTACHMENT='/chart-notes/:interventionId/exerciseLog/attachment'
+
 
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
@@ -66,5 +68,6 @@ export {
     MEDICAL_INTERVENTION_SPECIAL_TESTS,
     MEDICAL_INTERVENTION_EXERCISE_LOG,
     MEDICAL_RECORD_LIST,
-    INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST
+    INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST,
+    ADD_EXERCISE_LOG_ATTACHMENT
 };

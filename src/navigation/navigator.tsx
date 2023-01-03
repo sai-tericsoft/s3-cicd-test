@@ -27,6 +27,7 @@ import ClientSearchScreen from "../screens/chart-notes/client-search/ClientSearc
 import AddMedicalRecordScreen from "../screens/chart-notes/add-medical-record/AddMedicalRecordScreen";
 import AddMedicalInterventionScreen from "../screens/chart-notes/add-medical-intervention/AddMedicalInterventionScreen";
 import {
+    ADD_EXERCISE_LOG_ATTACHMENT,
     ADD_MEDICAL_INTERVENTION,
     ADD_MEDICAL_RECORD,
     ADMIN,
@@ -67,6 +68,8 @@ import ClientMedicalRecordDetailsComponent
     from "../screens/chart-notes/client-medical-record-details/ClientMedicalRecordDetailsComponent";
 import ExerciseLogAttachmentListComponent
     from "../screens/chart-notes/exercise-log-attachment-list/ExerciseLogAttachmentListComponent";
+import ExerciseLogAttachmentAddComponent
+    from "../screens/chart-notes/exercise-log-attachment-add/ExerciseLogAttachmentAddComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -283,11 +286,20 @@ const Navigator = (props: NavigatorProps) => {
                        </ProtectedRoute>
                        }
                 />
+
                 <Route path={INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST}
                        element={<ProtectedRoute>
                            <ExerciseLogAttachmentListComponent/>
                        </ProtectedRoute>
                        }/>
+
+                <Route path={ADD_EXERCISE_LOG_ATTACHMENT}
+                       element={<ProtectedRoute>
+                           <ExerciseLogAttachmentAddComponent/>
+                       </ProtectedRoute>
+                       }
+                />
+
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
             </Route>
             <Route element={<AuthLayout/>}>
