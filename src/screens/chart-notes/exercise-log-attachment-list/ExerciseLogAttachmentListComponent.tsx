@@ -71,7 +71,7 @@ const ExerciseLogAttachmentListComponent = (props: ExerciseLogAttachmentListComp
                             <CardComponent title={'Attachments'}>
                                 {attachmentList?.attachments?.map((attachment: any) => {
                                     return <span className={'chip-wrapper'}>
-                                        <ChipComponent className={'chip chip-wrapper'} label={attachment.name}
+                                        <ChipComponent className={'chip chip-items'}  label={attachment.name}
                                                        prefixIcon={<ImageConfig.PDF_Icon/>}
                                                        onDelete={() => removeAttachment(attachment, interventionId)}/>
                                     </span>
