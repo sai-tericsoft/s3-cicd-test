@@ -273,7 +273,7 @@ const APIConfig: IAPIConfig = {
         METHOD: "delete"
     },
      CLIENT_MEDICAL_ATTACHMENT: {
-        URL:  ENV.API_URL +'',
+        URL:(medicalRecordId:string)=>ENV.API_URL +'/medicalRecord/'+ medicalRecordId + '/attachment',
         METHOD: 'get'
     },
     CLIENT_MEDICAL_RECORD: {
