@@ -219,6 +219,9 @@ const APIConfig: IAPIConfig = {
         METHOD: 'get'
     },
     // client end
+    CLIENT_EIGHT_MINUTES_RULE_CHART: {
+        URL:ENV.API_URL + '/ruleChart',
+        METHOD: 'get'
 
     // user start
     USER_LIST: {
