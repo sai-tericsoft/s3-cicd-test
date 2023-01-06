@@ -114,16 +114,18 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                             <div
                                 className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
                                 <FormControlLabelComponent label={"Soap Note"} className={"mrg-0"}/>
-                                {/*{*/}
-                                {/*    (medicalInterventionId && medicalRecordId) && <LinkComponent*/}
-                                {/*        route={CommonService._routeConfig.MedicalInterventionExerciseLog(medicalRecordId, medicalInterventionId)}>*/}
-                                {/*        <ButtonComponent*/}
-                                {/*            prefixIcon={<ImageConfig.AddIcon/>}*/}
-                                {/*        >*/}
-                                {/*            Add Exercise Log*/}
-                                {/*        </ButtonComponent>*/}
-                                {/*    </LinkComponent>*/}
-                                {/*}*/}
+                                {
+                                    (medicalInterventionId && medicalRecordId) && <LinkComponent
+                                        route={CommonService._routeConfig.MedicalInterventionExerciseLogUpdate(medicalRecordId, medicalInterventionId)}>
+                                        <ButtonComponent
+                                            prefixIcon={medicalInterventionDetails.is_having_exercise_log ? <ImageConfig.EditIcon/> :<ImageConfig.AddIcon/>}
+                                        >
+                                            {
+                                                (medicalInterventionDetails.is_having_exercise_log ? "Edit" : "Add") + " Exercise Log"
+                                            }
+                                        </ButtonComponent>
+                                    </LinkComponent>
+                                }
                             </div>
                             <CardComponent title={'Subjective (S)'}>
                                 <div className="ts-row">

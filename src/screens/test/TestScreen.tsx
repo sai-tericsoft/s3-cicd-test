@@ -1,11 +1,11 @@
 import './TestScreen.scss';
 import React from 'react';
-import ExerciseLogAttachmentListComponent
-    from "../chart-notes/exercise-log-attachment-list/ExerciseLogAttachmentListComponent";
+import GroupingTableComponent from "../chart-notes/grouping-table/GroupingTableComponent";
+
 const TestScreen: React.FC = () => {
 
     return (
-        <ExerciseLogAttachmentListComponent/>
+         <GroupingTableComponent/>
     );
 };
 

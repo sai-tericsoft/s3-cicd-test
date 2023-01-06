@@ -1,0 +1,20 @@
+.medical-intervention-exercise-log-update-screen {
+  .input-component {
+    margin-bottom: 0 !important;
+  }
+
+  .t-cell {
+    text-align: center !important;
+    .input-component{
+      input{
+        text-align: center !important;
+      }
+    }
+
+    &:not(&.t-cell-name) {
+      .input-component {
+        width: 100px !important;
+      }
+    }
+  }
+}

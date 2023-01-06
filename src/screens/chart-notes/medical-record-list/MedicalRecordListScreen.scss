@@ -23,13 +23,14 @@
       justify-content: space-between;
       flex: 1;
 
-      .ts-row{
+      .ts-row {
         flex: 1;
       }
 
       .input-component {
         margin-bottom: 0 !important;
       }
+
       .select-component {
         margin-bottom: 0 !important;
       }
@@ -64,20 +65,12 @@
   }
 
   .client-details-tab-wrapper {
-    .t-cell-body_side {
+    .t-cell {
       text-align: center !important;
     }
 
-    .t-cell-status {
-      text-align: center !important;
-    }
-
-    .t-cell-last_provider {
-      text-align: center !important;
-    }
-
-    .t-cell-status {
-      text-align: center !important;
+    .t-cell-body-part {
+      white-space: nowrap;
     }
 
   }
