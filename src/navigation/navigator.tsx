@@ -39,7 +39,7 @@ import {
     COMING_SOON_ROUTE,
     DESIGN_SYSTEM_ROUTE,
     FACILITY_DETAILS,
-    FACILITY_LIST,
+    FACILITY_LIST, INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST,
     LOGIN_ROUTE,
     MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE, MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW,
     MEDICAL_INTERVENTION_ROM_CONFIG,
@@ -64,6 +64,8 @@ import ChartNotesDetailsMainLayoutComponent
 import ClientAddScreen from "../screens/clients/client-add/ClientAddScreen";
 import ClientMedicalRecordDetailsComponent
     from "../screens/chart-notes/client-medical-record-details/ClientMedicalRecordDetailsComponent";
+import ExerciseLogAttachmentListComponent
+    from "../screens/chart-notes/exercise-log-attachment-list/ExerciseLogAttachmentListComponent";
 import MedicalInterventionExerciseLogViewScreen
     from "../screens/chart-notes/medical-intervention-exercise-log-view/MedicalInterventionExerciseLogViewScreen";
 import MedicalRecordListScreen from "../screens/chart-notes/medical-record-list/MedicalRecordListScreen";
@@ -289,6 +291,11 @@ const Navigator = (props: NavigatorProps) => {
                        </ProtectedRoute>
                        }
                 />
+                <Route path={INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST}
+                       element={<ProtectedRoute>
+                           <ExerciseLogAttachmentListComponent/>
+                       </ProtectedRoute>
+                       }/>
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
             </Route>
             <Route element={<AuthLayout/>}>
