@@ -20,6 +20,7 @@ export const setMedicalInterventionDetails = (medicalInterventionDetails: any) =
     };
 };
 
+
 export const getInterventionAttachmentList = (interventionId: any) => {
     return {
         type: GET_INTERVENTION_ATTACHMENT_LIST, payload: {

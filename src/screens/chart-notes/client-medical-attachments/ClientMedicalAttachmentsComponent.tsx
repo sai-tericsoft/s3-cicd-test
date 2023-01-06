@@ -1,6 +1,10 @@
 import "./ClientMedicalAttachmentsComponent.scss";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
-import TableComponent from "../../../shared/components/table/TableComponent";
+import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
+import {APIConfig} from "../../../constants";
+import {useParams} from "react-router-dom";
+import {CommonService} from "../../../shared/services";
+import {ITableColumn} from "../../../shared/models/table.model";
 
 interface ClientMedicalAttachmentsComponentProps {
 
@@ -8,71 +12,67 @@ interface ClientMedicalAttachmentsComponentProps {
 
 const ClientMedicalAttachmentsComponent = (props: ClientMedicalAttachmentsComponentProps) => {
 
-    const attachmentRecord: any = [
+    const {medicalRecordId} = useParams();
+
+    const attachmentRecord: ITableColumn[] = [
         {
             title: 'Date of Attachment',
             key: 'date_of_attachment',
             dataIndex: 'date_of_attachment',
-            fixed: 'left'
-
+            fixed: 'left',
+            width: 173,
+            render: (_: any, item: any) => {
+                return <>{CommonService.transformTimeStamp(item?.updated_at)}</>
+            }
         },
         {
             title: 'File',
             key: 'file',
             dataIndex: 'file',
+            width: 97,
+            render: (_: any, item: any) => {
+                return <>{item?.note_type}</>
+            }
         },
         {
             title: 'Last Updated',
             key: 'last_updated',
             dataIndex: 'last_updated',
-            width: '25%'
+            width: 178,
+            render: (_: any, item: any) => {
+                return <>{CommonService.transformTimeStamp(item?.updated_at)}</>
+            }
         },
         {
             title: 'Posted By',
             key: 'posted_by',
             dataIndex: 'posted_by',
+            width: 151,
+            render: (_: any, item: any) => {
+                return <>{item?.posted_by?.first_name} {item?.posted_by?.last_name}</>
+            }
         },
         {
             title: '',
             key: 'actions',
+            width: 99,
+            fixed: 'right',
             render: () => {
                 return <LinkComponent route={''}>View Details</LinkComponent>
             }
         }
     ];
 
-    const attachmentData: any = [
-        {
-            date_of_attachment: '08-Nov-2022',
-            file: 'Surgery Record',
-            last_updated: '08-Nov-2022, 10:45 AM PST',
-            posted_by: 'Terill Lobo',
-
-        },
-        {
-            date_of_attachment: '08-Nov-2022',
-            file: 'Surgery Record',
-            last_updated: '08-Nov-2022, 10:45 AM PST',
-            posted_by: 'Terill Lobo',
-
-        },
-        {
-            date_of_attachment: '08-Nov-2022',
-            file: 'Surgery Record',
-            last_updated: '08-Nov-2022, 10:45 AM PST',
-            posted_by: 'Terill Lobo',
-
-        }
-    ];
 
     return (
         <div className={'client-medical-attachments-component'}>
             <div className={'client-medical-attachments-header'}>
                 Attachment
             </div>
-            {/*<TableWrapperComponent url={APIConfig.CLIENT_MEDICAL_ATTACHMENT.URL}*/}
-            {/*                       method={APIConfig.CLIENT_MEDICAL_ATTACHMENT.METHOD} columns={attachmentRecord}/>*/}
-            <TableComponent data={attachmentData} columns={attachmentRecord}/>
+            <TableWrapperComponent url={APIConfig.CLIENT_MEDICAL_ATTACHMENT.URL(medicalRecordId)}
+                                   method={APIConfig.CLIENT_MEDICAL_ATTACHMENT.METHOD}
+                                   isPaginated={false}
+                                   columns={attachmentRecord}/>
         </div>
     );
 

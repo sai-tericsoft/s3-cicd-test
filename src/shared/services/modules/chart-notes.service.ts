@@ -5,7 +5,14 @@ const MedicalRecordAddAPICall = (clientId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.MEDICAL_RECORD_ADD.METHOD](APIConfig.MEDICAL_RECORD_ADD.URL(clientId), payload, {'Content-Type': 'multipart/form-data'});
 }
-
+const MedicalRecordEditAPICall = (medicalId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.MEDICAL_RECORD_EDIT.METHOD](APIConfig.MEDICAL_RECORD_EDIT.URL(medicalId), payload);
+}
+const MedicalRecordDetailsAPICall = (medicalId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.CLIENT_MEDICAL_DETAIL.METHOD](APIConfig.CLIENT_MEDICAL_DETAIL.URL(medicalId), payload);
+}
 const MedicalInterventionBasicDetailsUpdateAPICall = (medicalInterventionId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.MEDICAL_INTERVENTION_BASIC_DETAILS_UPDATE.METHOD](APIConfig.MEDICAL_INTERVENTION_BASIC_DETAILS_UPDATE.URL(medicalInterventionId), payload);
@@ -45,20 +52,26 @@ const RemoveExerciseLogAttachmentAPICall=(attachmentId:string,id:string,payload:
     // @ts-ignore
     return ApiService[APIConfig.REMOVE_ATTACHMENT.METHOD](APIConfig.REMOVE_ATTACHMENT.URL(attachmentId,id),payload)
 
-}
+
 const SaveMedicalInterventionExerciseLogAPICall = (medicalInterventionId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.SAVE_MEDICAL_INTERVENTION_EXERCISE_LOG.METHOD](APIConfig.SAVE_MEDICAL_INTERVENTION_EXERCISE_LOG.URL(medicalInterventionId), payload);
 }
 
+
 const AddExerciseLogAttachment = (interventionId: string | undefined, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.ADD_EXERCISE_LOG_ATTACHMENT.METHOD](APIConfig.ADD_EXERCISE_LOG_ATTACHMENT.URL(interventionId),payload,{'Content-Type': 'multipart/form-data'});
 
+const FetchMedicalInterventionExerciseLogAPICall = (medicalInterventionId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.GET_MEDICAL_INTERVENTION_EXERCISE_LOG_DETAILS.METHOD](APIConfig.GET_MEDICAL_INTERVENTION_EXERCISE_LOG_DETAILS.URL(medicalInterventionId), payload);
 }
 
 const ChartNotesService = {
     MedicalRecordAddAPICall,
+    MedicalRecordEditAPICall,
+    MedicalRecordDetailsAPICall,
     MedicalInterventionBasicDetailsUpdateAPICall,
     FetchMedicalInterventionBasicDetailsAPICall,
     SaveMedicalInterventionROMConfigForABodyPartAPICall,
@@ -69,6 +82,6 @@ const ChartNotesService = {
     RemoveExerciseLogAttachmentAPICall,
     SaveMedicalInterventionExerciseLogAPICall,
     AddExerciseLogAttachment
-
+    FetchMedicalInterventionExerciseLogAPICall
 }
 export default ChartNotesService;

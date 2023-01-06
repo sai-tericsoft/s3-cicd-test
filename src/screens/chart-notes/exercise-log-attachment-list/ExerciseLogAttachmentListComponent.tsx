@@ -51,6 +51,7 @@ const ExerciseLogAttachmentListComponent = (props: ExerciseLogAttachmentListComp
         })
     }, [dispatch,interventionId])
 
+
     const removeAttachment = useCallback((item: any, interventionId: string) => {
         CommonService.onConfirm({
             confirmationTitle: 'Do you want to remove this attachment',
@@ -103,6 +104,7 @@ const ExerciseLogAttachmentListComponent = (props: ExerciseLogAttachmentListComp
                                                        onDelete={() => removeAttachment(attachment, interventionId)}/>
                                     </span>
                                 })}
+
                             </CardComponent>
                         </>
                     }

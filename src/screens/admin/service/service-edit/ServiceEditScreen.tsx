@@ -155,11 +155,11 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         if (serviceId) {
-            if (!(values.image instanceof File)) {
-                delete values.image;
+            const payload = {...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['duration_details'])};
+            if (!(payload.image instanceof File)) {
+                delete payload.image;
             }
             setIsServiceEditInProgress(true);
-            const payload = {...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['duration_details'])};
             const formData = CommonService.getFormDataFromJSON(payload);
             CommonService._service.ServiceEditAPICall(serviceId, formData)
                 .then((response: IAPIResponseType<IService>) => {

@@ -116,11 +116,13 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                 <FormControlLabelComponent label={"Soap Note"} className={"mrg-0"}/>
                                 {
                                     (medicalInterventionId && medicalRecordId) && <LinkComponent
-                                        route={CommonService._routeConfig.MedicalInterventionExerciseLog(medicalRecordId, medicalInterventionId)}>
+                                        route={CommonService._routeConfig.MedicalInterventionExerciseLogUpdate(medicalRecordId, medicalInterventionId)}>
                                         <ButtonComponent
-                                            prefixIcon={<ImageConfig.AddIcon/>}
+                                            prefixIcon={medicalInterventionDetails.is_having_exercise_log ? <ImageConfig.EditIcon/> :<ImageConfig.AddIcon/>}
                                         >
-                                            Add Exercise Log
+                                            {
+                                                (medicalInterventionDetails.is_having_exercise_log ? "Edit" : "Add") + " Exercise Log"
+                                            }
                                         </ButtonComponent>
                                     </LinkComponent>
                                 }
