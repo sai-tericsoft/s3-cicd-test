@@ -291,6 +291,7 @@ const Navigator = (props: NavigatorProps) => {
                        </ProtectedRoute>
                        }
                 />
+
                 <Route path={INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST}
                        element={<ProtectedRoute>
                            <ExerciseLogAttachmentListComponent/>

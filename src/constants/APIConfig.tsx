@@ -297,9 +297,14 @@ const APIConfig: IAPIConfig = {
         URL:(interventionId:string)=> ENV.API_URL + '/intervention/'+ interventionId +'/exerciseLog',
         METHOD :'get'
     },
-    REMOVE_ATTACHMENT:{
-        URL:(interventionId:string,id:string)=>ENV.API_URL +'/intervention/'+interventionId+'/exerciseLog/attachment/'+id,
-        METHOD:'delete'
+    REMOVE_ATTACHMENT: {
+        URL: (interventionId: string, id: string) => ENV.API_URL + '/intervention/' + interventionId + '/exerciseLog/attachment/' + id,
+        METHOD: 'delete'
+    },
+
+    ADD_EXERCISE_LOG_ATTACHMENT : {
+        URL:(interventionId:string)=>ENV.API_URL + '/intervention/'+interventionId+'/exerciseLog/attachment',
+        METHOD:'post'
     }
 }
 
