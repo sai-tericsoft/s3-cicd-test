@@ -25,7 +25,7 @@ const MedicalInterventionSpecialTestsScreen = (props: MedicalInterventionSpecial
     const [globalRomConfig, setGlobalRomConfig] = useState<IBodyPartROMConfig[]>([]);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {medicalInterventionId} = useParams();
+    const {medicalRecordId, medicalInterventionId} = useParams();
     const [showAddBodyPartModal, setShowAddBodyPartModal] = useState<boolean>(false);
     const {bodyPartList} = useSelector((state: IRootReducerState) => state.staticData);
     const [selectedBodyPartToBeAdded, setSelectedBodyPartToBeAdded] = useState<any>(undefined);
@@ -36,10 +36,12 @@ const MedicalInterventionSpecialTestsScreen = (props: MedicalInterventionSpecial
     } = useSelector((state: IRootReducerState) => state.chartNotes);
 
     useEffect(() => {
-        dispatch(setCurrentNavParams("SOAP Note", null, () => {
-            medicalInterventionId && navigate(CommonService._routeConfig.AddMedicalIntervention(medicalInterventionId));
-        }));
-    }, [dispatch, navigate, medicalInterventionId]);
+        if (medicalRecordId && medicalInterventionId){
+            dispatch(setCurrentNavParams("SOAP Note", null, () => {
+                medicalInterventionId && navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, medicalInterventionId));
+            }));
+        }
+    }, [dispatch, navigate, medicalRecordId, medicalInterventionId]);
 
     useEffect(() => {
         if (medicalInterventionId && !medicalInterventionDetails) {

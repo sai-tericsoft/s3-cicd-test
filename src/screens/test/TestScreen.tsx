@@ -1,12 +1,14 @@
 import './TestScreen.scss';
-import React from 'react';
-import MedicalInterventionRomConfigScreen
-    from "../chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
+import React  from 'react';
+import Client8MinutesRuleChartComponent
+    from "../chart-notes/client-8-minutes-rule-chart/Client8MinutesRuleChartComponent";
 
-const TestScreen: React.FC = () => {
+import GroupingTableComponent from "../chart-notes/grouping-table/GroupingTableComponent";
 
-    return (
-        <MedicalInterventionRomConfigScreen/>
+        return (
+            <>
+            <Client8MinutesRuleChartComponent/>
+            </>
     );
 };
 

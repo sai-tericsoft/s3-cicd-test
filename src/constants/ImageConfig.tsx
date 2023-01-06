@@ -19,6 +19,7 @@ import {ReactComponent as InfoIcon} from './../assets/icons/info.svg';
 import {ReactComponent as CommentAddIcon} from '../assets/icons/comment-add.svg';
 import {ReactComponent as ChatIcon} from '../assets/icons/chat.svg';
 import {ReactComponent as MoreVerticalIcon} from './../assets/icons/more_vertical.svg';
+import {ReactComponent as PDF_Icon} from './../assets/icons/pdf_icon.svg';
 
 
 //file types
@@ -96,5 +97,6 @@ export {
     ChatIcon,
     AlertIcon,
     MoreVerticalIcon,
-    RemoveBodyPartConfirmationIcon
+    RemoveBodyPartConfirmationIcon,
+    PDF_Icon
 }

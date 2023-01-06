@@ -39,9 +39,9 @@ import {
     COMING_SOON_ROUTE,
     DESIGN_SYSTEM_ROUTE,
     FACILITY_DETAILS,
-    FACILITY_LIST,
+    FACILITY_LIST, INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST,
     LOGIN_ROUTE,
-    MEDICAL_INTERVENTION_EXERCISE_LOG,
+    MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE, MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW,
     MEDICAL_INTERVENTION_ROM_CONFIG,
     MEDICAL_INTERVENTION_SPECIAL_TESTS,
     MEDICAL_RECORD_LIST,
@@ -53,18 +53,22 @@ import {
     SERVICE_EDIT,
     TEST_ROUTE
 } from "../constants/RoutesConfig";
-import MedicalRecordListScreen from "../screens/chart-notes/medical-record-list/MedicalRecordListScreen";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
 import MedicalInterventionSpecialTestsScreen
     from "../screens/chart-notes/medical-intervention-special-tests/MedicalInterventionSpecialTestsScreen";
-import MedicalInterventionExerciseLogScreen
-    from "../screens/chart-notes/medical-intervention-exercise-log/MedicalInterventionExerciseLogScreen";
+import MedicalInterventionExerciseLogUpdateScreen
+    from "../screens/chart-notes/medical-intervention-exercise-log-update/MedicalInterventionExerciseLogUpdateScreen";
 import ChartNotesDetailsMainLayoutComponent
     from "../screens/chart-notes/chart-notes-details-main-layout/ChartNotesDetailsMainLayoutComponent";
 import ClientAddScreen from "../screens/clients/client-add/ClientAddScreen";
 import ClientMedicalRecordDetailsComponent
     from "../screens/chart-notes/client-medical-record-details/ClientMedicalRecordDetailsComponent";
+import ExerciseLogAttachmentListComponent
+    from "../screens/chart-notes/exercise-log-attachment-list/ExerciseLogAttachmentListComponent";
+import MedicalInterventionExerciseLogViewScreen
+    from "../screens/chart-notes/medical-intervention-exercise-log-view/MedicalInterventionExerciseLogViewScreen";
+import MedicalRecordListScreen from "../screens/chart-notes/medical-record-list/MedicalRecordListScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -275,12 +279,24 @@ const Navigator = (props: NavigatorProps) => {
                        </ProtectedRoute>
                        }
                 />
-                <Route path={MEDICAL_INTERVENTION_EXERCISE_LOG}
+                <Route path={MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE}
                        element={<ProtectedRoute>
-                           <MedicalInterventionExerciseLogScreen/>
+                           <MedicalInterventionExerciseLogUpdateScreen/>
                        </ProtectedRoute>
                        }
                 />
+                <Route path={MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW}
+                       element={<ProtectedRoute>
+                           <MedicalInterventionExerciseLogViewScreen/>
+                       </ProtectedRoute>
+                       }
+                />
+
+                <Route path={INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST}
+                       element={<ProtectedRoute>
+                           <ExerciseLogAttachmentListComponent/>
+                       </ProtectedRoute>
+                       }/>
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
             </Route>
             <Route element={<AuthLayout/>}>
@@ -308,6 +324,3 @@ const Navigator = (props: NavigatorProps) => {
 };
 
 export default Navigator;
-
-
-

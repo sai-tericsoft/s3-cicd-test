@@ -52,23 +52,22 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             title: "Body Part",
             key: "body part",
             dataIndex: "body_part",
-            width: 120,
+            width: 160,
             render: (_: any, item: any) => {
-                return <>{item.injury_details.map((e: any) => {
-                    return <>{e.body_part_id?.name}</>
-                })}{item.injury_details.length > 1 && "(+" + item.injury_details.length + ")"}</>
-
+                if (item.injury_details.length === 1) {
+                    return <>{item.injury_details[0].body_part_details?.name}</>
+                } else {
+                    return <>{item.injury_details[0].body_part_details?.name} ( + {item.injury_details.length} )</>
+                }
             }
         },
         {
             title: "Body Side",
             key: "body_side",
             dataIndex: "body_side",
-            width: 100,
+            width: 120,
             render: (_: any, item: any) => {
-                return <>{item.injury_details.map((e: any) => {
-                    return <>{e.body_side}</>
-                })}</>
+                return <>{item.injury_details[0].body_side}</>
             }
         },
         {

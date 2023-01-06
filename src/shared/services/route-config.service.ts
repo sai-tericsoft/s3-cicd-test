@@ -90,8 +90,8 @@ const AddMedicalRecord = (clientId: string)=>{
     return "/chart-notes/" + clientId + '/add-medical-record';
 }
 
-const AddMedicalIntervention = (medicalInterventionId: string, )=>{
-    return "/chart-notes/" + medicalInterventionId + '/add-medical-intervention';
+const AddMedicalIntervention = (medicalRecordId: string, medicalInterventionId: string, )=>{
+    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/add-medical-intervention';
 }
 
 const ChartNotesDetails = ()=>{
@@ -102,16 +102,20 @@ const MedicalRecordList = (clientId: string)=>{
     return "/chart-notes/" + clientId + '/medical-record-list';
 }
 
-const MedicalInterventionROMConfig = (medicalInterventionId: string)=>{
-    return "/chart-notes/" + medicalInterventionId + '/rom-config';
+const MedicalInterventionROMConfig = (medicalRecordId: string, medicalInterventionId: string)=>{
+    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/rom-config';
 }
 
-const MedicalInterventionSpecialTests = (medicalInterventionId: string)=>{
-    return "/chart-notes/" + medicalInterventionId + '/special-tests';
+const MedicalInterventionSpecialTests = (medicalRecordId: string, medicalInterventionId: string)=>{
+    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/special-tests';
 }
 
-const MedicalInterventionExerciseLog = (medicalInterventionId: string)=>{
-    return "/chart-notes/" + medicalInterventionId + '/exercise-log';
+const MedicalInterventionExerciseLogUpdate = (medicalRecordId: string, medicalInterventionId: string)=>{
+    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/exercise-log-update';
+}
+
+const MedicalInterventionExerciseLogView = (medicalRecordId: string, medicalInterventionId: string)=>{
+    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/exercise-log-view';
 }
 
 const ClientMedicalRecordDetails = (medicalRecordId: string)=>{
@@ -144,8 +148,9 @@ const RouteConfigService = {
     ChartNotesDetails,
     MedicalInterventionROMConfig,
     MedicalInterventionSpecialTests,
-    MedicalInterventionExerciseLog,
-    MedicalRecordList
+    MedicalInterventionExerciseLogUpdate,
+    MedicalRecordList,
+    MedicalInterventionExerciseLogView
 }
 
 export default RouteConfigService;

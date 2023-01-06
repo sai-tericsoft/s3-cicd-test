@@ -1,5 +1,4 @@
-import "./ClientMedicalRecordsComponent.scss";
-import ButtonComponent from "../../../shared/components/button/ButtonComponent";
+import "./MedicalInterventionListComponent.scss";
 import {APIConfig, ImageConfig} from "../../../constants";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
@@ -11,7 +10,7 @@ interface ClientMedicalRecordsComponentProps {
 
 }
 
-const ClientMedicalRecordsComponent = (props: ClientMedicalRecordsComponentProps) => {
+const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentProps) => {
 
     const {medicalRecordId} = useParams();
 
@@ -45,7 +44,7 @@ const ClientMedicalRecordsComponent = (props: ClientMedicalRecordsComponentProps
             key: 'last_updated',
             dataIndex: 'updated_at',
             width: '25%',
-            render:(_:any,item:any)=>{
+            render: (_: any, item: any) => {
                 return <>{CommonService.transformTimeStamp(item.updated_at)}</>
             }
         },
@@ -55,22 +54,31 @@ const ClientMedicalRecordsComponent = (props: ClientMedicalRecordsComponentProps
             dataIndex: 'status',
             render: (_: any, item: any) => {
                 return <ChipComponent label={item?.status}
-                                      className={item?.status==='Completed' ? "completed" : "draft"}/>
+                                      className={item?.status === 'completed' ? "completed" : "draft"}/>
             }
         },
         {
             title: 'Posted By',
             key: 'name',
             dataIndex: 'name',
-            render:(_:any,item:any)=>{
+            render: (_: any, item: any) => {
                 return <>{item?.posted_by.first_name} {item?.posted_by.last_name}</>
             }
         },
         {
             title: '',
             key: 'actions',
-            render: () => {
-                return <LinkComponent route={''}>View Details</LinkComponent>
+            render: (_: any, item: any) => {
+                if (medicalRecordId) {
+                    if (item?.note_type?.toLowerCase() === 'exercise log') {
+                        return <LinkComponent
+                            route={CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, item.intervention_id)}>
+                            View Details
+                        </LinkComponent>
+                    } else {
+                        return <LinkComponent route={''}>View Details</LinkComponent>
+                    }
+                }
             }
         }
     ];
@@ -93,4 +101,4 @@ const ClientMedicalRecordsComponent = (props: ClientMedicalRecordsComponentProps
 
 };
 
-export default ClientMedicalRecordsComponent;
+export default MedicalInterventionListComponent;
