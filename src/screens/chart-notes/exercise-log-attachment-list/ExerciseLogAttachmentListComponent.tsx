@@ -46,10 +46,11 @@ const ExerciseLogAttachmentListComponent = (props: ExerciseLogAttachmentListComp
             .then((response: any) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 dispatch(getInterventionAttachmentList(interventionId));
-            }).catch((error: any) => {
-            CommonService._alert.showToast(error[Misc.API_RESPONSE_MESSAGE_KEY], "error");
-        })
-    }, [dispatch,interventionId])
+            })
+            .catch((error: any) => {
+                CommonService._alert.showToast(error[Misc.API_RESPONSE_MESSAGE_KEY], "error");
+            })
+    }, [dispatch, interventionId])
 
 
     const removeAttachment = useCallback((item: any, interventionId: string) => {
@@ -65,7 +66,7 @@ const ExerciseLogAttachmentListComponent = (props: ExerciseLogAttachmentListComp
                 CommonService._alert.showToast(error.error || "Error deleting attachment", "error");
             })
         })
-    }, [interventionId]);
+    }, [dispatch]);
 
     return (
         <div className={'exercise-log-attachment-list-component'}>

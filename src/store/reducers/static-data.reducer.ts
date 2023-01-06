@@ -1,5 +1,6 @@
 import {
-    GET_BODY_PART_LIST, GET_CASE_STATUS_LIST,
+    GET_BODY_PART_LIST,
+    GET_CASE_STATUS_LIST,
     GET_COMMUNICATION_MODE_TYPE_LIST,
     GET_CONSULTATION_DURATION_LIST,
     GET_EMPLOYMENT_STATUS_LIST,
@@ -13,7 +14,8 @@ import {
     GET_RELATIONSHIP_LIST,
     GET_SOCIAL_MEDIA_PLATFORM_LIST,
     GET_SURGICAL_HISTORY_OPTIONS_LIST,
-    SET_BODY_PART_LIST, SET_CASE_STATUS_LIST,
+    SET_BODY_PART_LIST,
+    SET_CASE_STATUS_LIST,
     SET_COMMUNICATION_MODE_TYPE_LIST,
     SET_CONSULTATION_DURATION_LIST,
     SET_EMPLOYMENT_STATUS_LIST,
@@ -30,7 +32,6 @@ import {
 } from "../actions/static-data.action";
 import {IActionModel} from "../../shared/models/action.model";
 import {ICommonType} from "../../shared/models/static-data.model";
-import {ICaseStatus} from "../../shared/models/common.model";
 
 export interface IStaticDataReducerState {
     statusList: ICommonType[],
@@ -41,9 +42,9 @@ export interface IStaticDataReducerState {
     isGenderListLoading: boolean,
     isGenderListLoaded: boolean,
     genderList: any[],
-    isCaseStatusLoading:boolean,
-    isCaseStatusLoaded:boolean,
-    caseStatusList : any[],
+    isCaseStatusLoading: boolean,
+    isCaseStatusLoaded: boolean,
+    caseStatusList: any[],
     isEmploymentStatusListLoading: boolean,
     isEmploymentStatusListLoaded: boolean,
     employmentStatusList: any[],
@@ -90,9 +91,9 @@ const initialData: IStaticDataReducerState = {
     isGenderListLoading: false,
     isGenderListLoaded: false,
     genderList: [],
-    isCaseStatusLoading:false,
-    isCaseStatusLoaded:false,
-    caseStatusList:[],
+    isCaseStatusLoading: false,
+    isCaseStatusLoaded: false,
+    caseStatusList: [],
     isEmploymentStatusListLoading: false,
     isEmploymentStatusListLoaded: false,
     employmentStatusList: [],
@@ -148,7 +149,7 @@ const initialData: IStaticDataReducerState = {
             code: 'closed',
             title: "Closed/Inactive"
         }
-        ],
+    ],
 };
 
 const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDataReducerState => {
@@ -366,16 +367,16 @@ const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDa
         case GET_CASE_STATUS_LIST:
             state = {
                 ...state,
-                isGenderListLoading:true,
-                isCaseStatusLoaded:false
+                isGenderListLoading: true,
+                isCaseStatusLoaded: false
             }
             return state;
         case SET_CASE_STATUS_LIST:
             state = {
                 ...state,
-                isGenderListLoading:false,
-                isCaseStatusLoaded:true,
-                caseStatusList :action.payload.caseStatusList
+                isGenderListLoading: false,
+                isCaseStatusLoaded: true,
+                caseStatusList: action.payload.caseStatusList
             }
             return state;
 
