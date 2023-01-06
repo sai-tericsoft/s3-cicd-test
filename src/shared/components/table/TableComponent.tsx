@@ -6,6 +6,7 @@ import StatusCardComponent from "../status-card/StatusCardComponent";
 import LoaderComponent from "../loader/LoaderComponent";
 import {TablePaginationConfig} from "antd";
 import {ColumnsType} from "antd/es/table";
+import {GetRowKey} from "rc-table/lib/interface";
 
 interface TableComponentProps extends ITableComponentProps {
     data: any[];
@@ -31,7 +32,7 @@ const TableComponent = (props: TableComponentProps) => {
 
     const [tableColumns, setTableColumns] = useState<ColumnsType<any>>(props.columns);
     const size = props.size || "large";
-    const scroll = props.scroll || "scroll";
+    const scroll = props.scroll || "unset";
     const tableLayout = props.tableLayout || "fixed";
     const showHeader = props.showHeader !== undefined ? props.showHeader : true;
 
@@ -49,11 +50,7 @@ const TableComponent = (props: TableComponentProps) => {
         if (props.columns) {
             const tableCols: any = props.columns.map((col) => {
                 const transformedCol: any = col;
-                if (col.className) {
-                    transformedCol['className'] = 't-cell-' + col.key + " " + col.className;
-                } else {
-                    transformedCol['className'] = 't-cell-' + col.key;
-                }
+                transformedCol['className'] = 't-cell t-cell-' + col.key?.split(' ').join('-') + " " + col.className;
                 if (col.sortable) {
                     transformedCol['sorter'] = col.sortable;
                 }
@@ -69,14 +66,19 @@ const TableComponent = (props: TableComponentProps) => {
         }
     }, [onSort]);
 
+    useEffect(() => {
+        console.log('data changes', props.data);
+    }, [props.data]);
+
     return (
         <div className={'table-component'}>
             <Table
                 id={id}
-                defaultExpandAllRows={defaultExpandAllRows}
-                showExpandColumn={showExpandColumn}
                 expandable={expandRow && {
-                    expandedRowRender: expandRow
+                    expandedRowKeys: rowKey ? data.map(rowKey) : [],
+                    showExpandColumn: showExpandColumn,
+                    defaultExpandAllRows: defaultExpandAllRows,
+                    expandedRowRender: expandRow,
                 }}
                 columns={tableColumns}
                 className={`${loading ? "loading" : ""}`}
@@ -84,7 +86,7 @@ const TableComponent = (props: TableComponentProps) => {
                     emptyText: (
                         <>
                             {
-                                (!loading && data.length === 0) ? <>
+                                (!loading && data?.length === 0) ? <>
                                     {
                                         errored && <StatusCardComponent title={"Error Loading Data"}/>
                                     }
@@ -103,7 +105,7 @@ const TableComponent = (props: TableComponentProps) => {
                         }
                     }
                 }}
-                rowKey={rowKey}
+                rowKey={rowKey as string | GetRowKey<any>}
                 showHeader={showHeader}
                 rowClassName={rowClassName}
                 loading={loading ? {
@@ -153,7 +155,7 @@ export default TableComponent;
 //         key: 'actions',
 //         width: 140,
 //         fixed: "right",
-//         render: (item: any) => {
+//         render: (_: any, item: any) => {
 //             return <ButtonComponent
 //                 size={"small"}
 //                 prefixIcon={<ImageConfig.EditIcon/>}

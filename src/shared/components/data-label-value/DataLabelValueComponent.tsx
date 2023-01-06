@@ -4,15 +4,16 @@ import React from "react";
 interface DataLabelValueComponentProps {
     label: string;
     direction?: "row" | "column";
+    className?:any;
 }
 
 const DataLabelValueComponent = (props: React.PropsWithChildren<DataLabelValueComponentProps>) => {
 
-    const { label, children } = props;
+    const { label, children,className } = props;
     const direction = props.direction || "column";
 
     return (
-        <div className={`data-label-value ${direction}`}>
+        <div className={`data-label-value ${direction} ${className}`}>
             <div className={"data-label"}>
                 {label}
             </div>

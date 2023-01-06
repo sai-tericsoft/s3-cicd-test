@@ -2,31 +2,20 @@ import "./FormikPasswordInputComponent.scss";
 import {FieldProps} from "formik";
 import _ from "lodash";
 import {useCallback} from "react";
-import PasswordInputComponent, {PasswordInputComponentProps} from "../password-input/PasswordInputComponent";
+import PasswordInputComponent from "../password-input/PasswordInputComponent";
+import {IPasswordFieldProps} from "../../../models/form-controls.model";
 
-interface FormikPasswordInputComponentProps extends PasswordInputComponentProps {
+interface FormikPasswordInputComponentProps extends IPasswordFieldProps {
     formikField: FieldProps;
-    canToggle?: boolean;
 }
 
 const FormikPasswordInputComponent = (props: FormikPasswordInputComponentProps) => {
 
     const {
-        label,
-        prefix,
-        className,
-        disabled,
-        id,
-        required,
         formikField,
-        canToggle,
-        onChange
+        onChange,
+        ...otherProps
     } = props;
-
-    const variant = props.variant || "outlined";
-    const size = props.size || "medium";
-    const fullWidth = props.fullWidth || false;
-    const placeholder = props.placeholder || label;
 
     const {field, form} = formikField;
     const {name, value} = field;
@@ -47,24 +36,16 @@ const FormikPasswordInputComponent = (props: FormikPasswordInputComponentProps) 
     }, [name, handleBlur, setFieldTouched]);
 
     return (
-        <PasswordInputComponent label={label}
-                                disabled={disabled}
-                                id={id}
-                                name={name}
-                                required={required}
-                                value={value}
-                                size={size} className={className}
-                                fullWidth={fullWidth}
-                                variant={variant}
-                                placeholder={placeholder}
-                                inputProps={{
-                                    onBlur: onInputBlur,
-                                }}
-                                canToggle={canToggle}
-                                onChange={textChangeHandler}
-                                prefix={prefix}
-                                hasError={hasError}
-                                errorMessage={hasError && (_.get(errors, name))}
+        <PasswordInputComponent
+            name={name}
+            value={value}
+            inputProps={{
+                onBlur: onInputBlur,
+            }}
+            hasError={hasError}
+            errorMessage={hasError && (_.get(errors, name))}
+            onChange={textChangeHandler}
+            {...otherProps}
         />
     );
 

@@ -49,46 +49,46 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                     </LinkComponent>
                     }>
                         <div className={'ts-row mrg-bottom-20'}>
-                            <div className={'ts-col-lg-8'}>
+                            <div className={'ts-col-lg-4'}>
                                 Smoke/Chew Tobacco?
                             </div>
-                            <div className={'ts-col-lg-2'}>
+                            <div className={'ts-col-lg-3'}>
                                 {clientMedicalDetails?.personal_habits?.["Smoke/Chew Tobacco?"]?.value || "NA"}
                             </div>
-                            <div className={'ts-col-lg-2'}>
+                            <div className={'ts-col-lg-3'}>
                                 {clientMedicalDetails?.personal_habits?.["Smoke/Chew Tobacco?"]?.text ? clientMedicalDetails?.personal_habits?.["Smoke/Chew Tobacco?"]?.text + " Cigarettes/day" : "NA"}
                             </div>
                         </div>
                         <div className={'ts-row mrg-bottom-20'}>
-                            <div className={'ts-col-lg-8'}>
+                            <div className={'ts-col-lg-4'}>
                                 Drink Alcohol?
                             </div>
-                            <div className={'ts-col-lg-2'}>
+                            <div className={'ts-col-lg-3'}>
                                 {clientMedicalDetails?.personal_habits?.["Drink Alcohol?"]?.value || "NA"}
                             </div>
-                            <div className={'ts-col-lg-2'}>
+                            <div className={'ts-col-lg-3'}>
                                 {clientMedicalDetails?.personal_habits?.["Drink Alcohol?"]?.text ? clientMedicalDetails?.personal_habits?.["Drink Alcohol?"]?.text + " Drinks/day" : "NA"}
                             </div>
                         </div>
                         <div className={'ts-row mrg-bottom-20'}>
-                            <div className={'ts-col-lg-8'}>
+                            <div className={'ts-col-lg-4'}>
                                 Drink Coffee?
                             </div>
-                            <div className={'ts-col-lg-2'}>
+                            <div className={'ts-col-lg-3'}>
                                 {clientMedicalDetails?.personal_habits?.["Drink Coffee?"]?.value || "NA"}
                             </div>
-                            <div className={'ts-col-lg-2'}>
+                            <div className={'ts-col-lg-3'}>
                                 {clientMedicalDetails?.personal_habits?.["Drink Coffee?"]?.text ? clientMedicalDetails?.personal_habits?.["Drink Coffee?"]?.text + " Cups/day" : "NA"}
                             </div>
                         </div>
                         <div className={'ts-row mrg-bottom-20'}>
-                            <div className={'ts-col-lg-8'}>
+                            <div className={'ts-col-lg-4'}>
                                 Drink Soda/Pop?
                             </div>
-                            <div className={'ts-col-lg-2'}>
+                            <div className={'ts-col-lg-3'}>
                                 {clientMedicalDetails?.personal_habits?.["Drink Soda/Pop?"]?.value || "NA"}
                             </div>
-                            <div className={'ts-col-lg-2'}>
+                            <div className={'ts-col-lg-3'}>
                                 {clientMedicalDetails?.personal_habits?.["Drink Soda/Pop?"]?.text ? clientMedicalDetails?.personal_habits?.["Drink Soda/Pop?"]?.text + " Cups/day" : "NA"}
                             </div>
                         </div>

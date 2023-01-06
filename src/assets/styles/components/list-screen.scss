@@ -24,13 +24,14 @@
 
     .list-options {
       display: flex;
+      margin-left: 20px;
     }
   }
 
   .list-content-wrapper {
     .ant-table-container {
       min-height: 300px;
-      height: calc(100vh - 215px);
+      height: calc(100vh - 220px);
       overflow: auto;
     }
   }

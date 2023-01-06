@@ -21,6 +21,7 @@ interface ClientAllergiesFormComponentProps {
     clientId: string;
     mode: "add" | "edit";
     onCancel: () => void;
+    onNext?: () => void;
     onSave: (clientAllergies: any) => void;
 }
 
@@ -34,7 +35,7 @@ const ClientAllergiesFormInitialValues: IClientAllergiesForm = {
 
 const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) => {
 
-    const {mode, onCancel, clientId, onSave} = props;
+    const {mode, onCancel, onNext, clientId, onSave} = props;
     const [clientAllergiesFormInitialValues, setClientAllergiesFormInitialValues] = useState<IClientAllergiesForm>(_.cloneDeep(ClientAllergiesFormInitialValues));
     const [isClientAllergiesSavingInProgress, setIsClientAllergiesSavingSavingInProgress] = useState(false);
     const dispatch = useDispatch();
@@ -53,6 +54,7 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
             .then((response: IAPIResponseType<IClientAllergiesForm>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsClientAllergiesSavingSavingInProgress(false);
+                setClientAllergiesFormInitialValues(_.cloneDeep(values));
                 onSave(response);
             })
             .catch((error: any) => {
@@ -114,11 +116,12 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
                                         <Field name={'allergies'}>
                                             {
                                                 (field: FieldProps) => (
-                                                    <FormikTextAreaComponent formikField={field}
-                                                                             label={'Allergies'}
-                                                                             required={true}
-                                                                             fullWidth={true}
-                                                                             placeholder={'Allergies'}/>
+                                                    <FormikTextAreaComponent
+                                                        formikField={field}
+                                                        label={'Allergies'}
+                                                        required={true}
+                                                        fullWidth={true}
+                                                        placeholder={'Allergies'}/>
                                                 )
                                             }
                                         </Field>
@@ -129,14 +132,24 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
                                                 onClick={onCancel}
                                             >
                                                 Cancel
-                                            </ButtonComponent>&nbsp;
+                                            </ButtonComponent>&nbsp;&nbsp;
                                             <ButtonComponent
                                                 isLoading={isClientAllergiesSavingInProgress}
-                                                disabled={isClientAllergiesSavingInProgress || !isValid}
+                                                disabled={isClientAllergiesSavingInProgress || !isValid || CommonService.isEqual(values, clientAllergiesFormInitialValues)}
                                                 type={"submit"}
                                             >
                                                 {isClientAllergiesSavingInProgress ? "Saving" : <>{mode === "add" ? "Save & Next" : "Save"}</>}
                                             </ButtonComponent>
+                                            {
+                                                mode === "edit" && <>
+                                                    &nbsp;&nbsp;<ButtonComponent
+                                                        disabled={isClientAllergiesSavingInProgress || !CommonService.isEqual(values, clientAllergiesFormInitialValues)}
+                                                        onClick={onNext}
+                                                    >
+                                                        Next
+                                                    </ButtonComponent>
+                                                </>
+                                            }
                                         </div>
                                     </Form>
                                 )

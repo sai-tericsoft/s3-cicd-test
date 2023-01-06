@@ -5,10 +5,10 @@ import {IInputFieldProps} from "../../../models/form-controls.model";
 import {CommonService} from "../../../services";
 
 export interface InputComponentProps extends IInputFieldProps {
-    type?: 'email' | 'number' | 'password' | 'text';
-    prefix?: any;
-    suffix?: any;
-    size?: 'small' | 'medium';
+    name?: string;
+    value?: string;
+    errorMessage?: any;
+    hasError?: boolean;
 }
 
 const InputComponent = (props: InputComponentProps) => {
@@ -28,6 +28,7 @@ const InputComponent = (props: InputComponentProps) => {
         name,
         required,
         value,
+        validationPattern,
         onChange
     } = props;
     const variant = props.variant || "outlined";
@@ -37,47 +38,57 @@ const InputComponent = (props: InputComponentProps) => {
     const placeholder = props.placeholder || label;
 
     const handleOnChange = useCallback((event: any) => {
-        let value = event.target.value;
-        let transformedValue = "";
+        let nextValue = event.target.value;
         if (titleCase) {
-            transformedValue = CommonService.Capitalize(value);
-        } else {
-            transformedValue = value;
+            nextValue = CommonService.Capitalize(nextValue);
         }
         if (onChange) {
-            onChange(transformedValue);
+            if (validationPattern) {
+                const reg = RegExp(validationPattern);
+                console.log(reg.test(nextValue), 1);
+                console.log(reg.test(nextValue), 2);
+                console.log(reg.test(nextValue), 3);
+                console.log(reg.test(nextValue), 4);
+                if (nextValue === "" || reg.test(nextValue)) {
+                    console.log(nextValue, reg, reg.test(nextValue), "regex passed");
+                    onChange(nextValue);
+                } else {
+                    console.log(nextValue, reg, reg.test(nextValue), "regex failed");
+                }
+            } else {
+                onChange(nextValue);
+            }
         }
-    }, [titleCase, onChange]);
+    }, [titleCase, validationPattern, onChange]);
 
     return (
         <FormControl className={'input-component ' + className + ' ' + (fullWidth ? "full-width" : "")}
                      error={hasError}
                      fullWidth={fullWidth}>
-            <TextField
-                type={type}
-                id={id}
-                fullWidth={fullWidth}
-                placeholder={placeholder}
-                required={required}
-                name={name}
-                size={size}
-                label={label}
-                value={value}
-                variant={variant}
-                disabled={disabled}
-                InputProps={{
-                    startAdornment: prefix && <InputAdornment position="start">{prefix}</InputAdornment>,
-                    endAdornment: suffix && <InputAdornment position="end">{suffix}</InputAdornment>,
-                }}
-                inputProps={{
-                    ...inputProps,
-                    readOnly: readOnly
-                }}
-                onChange={(event) => {
-                    handleOnChange(event);
-                }}
-                error={hasError}
-                helperText={errorMessage}
+            <TextField type={type === "password" ? "password" : "text"}
+                       id={id}
+                       fullWidth={fullWidth}
+                       placeholder={placeholder}
+                       required={required}
+                       name={name}
+                       size={size}
+                       label={label}
+                       value={value}
+                       variant={variant}
+                       disabled={disabled}
+                       InputProps={{
+                           startAdornment: prefix && <InputAdornment position="start">{prefix}</InputAdornment>,
+                           endAdornment: suffix && <InputAdornment position="end">{suffix}</InputAdornment>,
+                       }}
+                       inputProps={{
+                           ...inputProps,
+                           readOnly: readOnly
+                       }}
+                       onChange={(event) => {
+                           handleOnChange(event);
+                       }}
+                       error={hasError}
+                       helperText={errorMessage}
             />
         </FormControl>
     );

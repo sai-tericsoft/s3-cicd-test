@@ -4,10 +4,10 @@ import {CommonService} from "../../shared/services";
 import {
     GET_CLIENT_ACCOUNT_DETAILS,
     GET_CLIENT_BASIC_DETAILS,
-    GET_CLIENT_MEDICAL_DETAILS,
+    GET_CLIENT_MEDICAL_DETAILS, GET_CLIENT_MEDICAL_RECORD,
     setClientAccountDetails,
     setClientBasicDetails,
-    setClientMedicalDetails,
+    setClientMedicalDetails, setClientMedicalRecord,
 } from "../actions/client.action";
 
 function* getClientBasicDetails(action: any) {
@@ -29,6 +29,16 @@ function* getClientMedicalDetails(action: any) {
         yield put(setClientMedicalDetails(undefined));
     }
 }
+function* getClientMedicalRecord(action: any) {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._client.ClientMedicalRecordApiCall, action.payload.clientId);
+        yield put(setClientMedicalRecord(resp.data));
+    } catch (error) {
+        yield put(setClientMedicalRecord(undefined));
+    }
+}
+
 
 function* getClientAccountDetails(action: any) {
     try {
@@ -44,4 +54,5 @@ export default function* clientSaga() {
     yield takeEvery(GET_CLIENT_BASIC_DETAILS, getClientBasicDetails);
     yield takeEvery(GET_CLIENT_MEDICAL_DETAILS, getClientMedicalDetails);
     yield takeEvery(GET_CLIENT_ACCOUNT_DETAILS, getClientAccountDetails);
+    yield takeEvery(GET_CLIENT_MEDICAL_RECORD, getClientMedicalRecord);
 }

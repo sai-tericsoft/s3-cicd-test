@@ -1,3 +1,5 @@
+@import "src/assets/styles/common";
+
 .client-basic-detail-card-wrapper {
   width: 100%;
 
@@ -29,6 +31,7 @@
     .client-details-wrapper {
       padding-left: 14px;
       padding-right: 14px;
+      height: auto;
 
       .client-name {
         width: 100%;
@@ -47,10 +50,12 @@
         text-align: center;
       }
 
-      .dashed-border {
-        width: 100%;
-        border-bottom: 1px dashed #E7E7E7;
+      .dashed-border-wrapper {
         margin-top: 11px;
+        .dashed-border {
+          width: 100%;
+          border-bottom: 1px dashed #E7E7E7;
+        }
       }
 
       .client-id-age-wrapper {
@@ -61,6 +66,21 @@
         .data-label {
           margin-bottom: 8px;
 
+        }
+      }
+      .dashed-border {
+        width: 100%;
+        border-bottom: 1px dashed #E7E7E7;
+      }
+      .client-details-info-wrapper {
+        margin-top: 11px;
+        text-align: center;
+        margin-bottom: 10px;
+
+        .client-details-view-redirection-list {
+          color: #00534F;
+          text-decoration: underline;
+          font-weight: $font-weight-bolder;
         }
       }
     }

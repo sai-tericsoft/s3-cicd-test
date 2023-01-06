@@ -2,7 +2,7 @@ import "./ClientEditScreen.scss";
 import ClientBasicDetailsFormComponent from "../client-basic-details-form/ClientBasicDetailsFormComponent";
 import {useCallback, useEffect, useState} from "react";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import ClientPersonalHabitsFormComponent from "../client-personal-habits-form/ClientPersonalHabitsFormComponent";
 import {IClientFormSteps} from "../../../shared/models/client.model";
 import ClientAllergiesFormComponent from "../client-allergies-form/ClientAllergiesFormComponent";
@@ -19,6 +19,7 @@ import ClientMedicalProviderInformationFormComponent
 import ClientMusculoskeletalHistoryFormComponent
     from "../client-musculoskeletal-history-form/ClientMusculoskeletalHistoryFormComponent";
 import ClientAccountDetailsFormComponent from "../client-account-details-form/ClientAccountDetailsFormComponent";
+import {IRootReducerState} from "../../../store/reducers";
 
 interface ClientEditScreenProps {
 
@@ -31,9 +32,13 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
     const mode = "edit";
     const navigate = useNavigate();
     const {clientId} = useParams();
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     const [currentStep, setCurrentStep] = useState<IClientFormSteps>(ClientAddSteps[0]);
     const dispatch = useDispatch();
+    const {
+        clientBasicDetails,
+    } = useSelector((state: IRootReducerState) => state.client);
+
 
     useEffect(() => {
         dispatch(setCurrentNavParams('Edit Client', null, () => {
@@ -57,23 +62,78 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                     navigate(CommonService._client.NavigateToClientDetails(clientId, currentStep));
                     break;
                 }
-                case "personalHabits":
-                case "allergies":
-                case "medicalHistory":
-                case "medicalSupplements":
-                case "medicalFemaleOnly":
-                case "surgicalHistory":
-                case "musculoskeletalHistory":
+                // case "personalHabits":
+                // case "allergies":
+                // case "medicalHistory":
+                // case "medicalSupplements":
+                // case "medicalFemaleOnly":
+                // case "surgicalHistory":
+                // case "musculoskeletalHistory":
                 case "medicalProvider": {
                     navigate(CommonService._client.NavigateToClientDetails(clientId, "medicalHistoryQuestionnaire"));
                     break;
                 }
                 default: {
-                    navigate(CommonService._routeConfig.ClientList());
+                    // navigate(CommonService._routeConfig.ClientList());
                 }
             }
         }
     }, [currentStep, clientId, navigate]);
+
+    const handleClientDetailsNext = useCallback(() => {
+        let nextStep = currentStep;
+        if (clientId) {
+            switch (currentStep) {
+                case "personalHabits": {
+                    nextStep = 'allergies';
+                    break;
+                }
+                case "allergies": {
+                    nextStep = 'medicalSupplements';
+                    break;
+                }
+                case "medicalSupplements": {
+                    nextStep = 'medicalHistory';
+                    break;
+                }
+                case "medicalHistory": {
+                    if (clientBasicDetails?.gender === "female") {
+                        nextStep = 'medicalFemaleOnly';
+                    } else {
+                        nextStep = 'surgicalHistory';
+                    }
+                    break;
+                }
+                case "medicalFemaleOnly": {
+                    nextStep = 'surgicalHistory';
+                    break;
+                }
+                case "surgicalHistory": {
+                    nextStep = 'musculoskeletalHistory';
+                    break;
+                }
+                case "musculoskeletalHistory": {
+                    nextStep = 'medicalProvider';
+                    break;
+                }
+                case "medicalProvider": {
+                    nextStep = 'accountDetails';
+                    break;
+                }
+                case "accountDetails": {
+                    navigate(CommonService._routeConfig.ClientList());
+                    return;
+                }
+                default: {
+                    navigate(CommonService._client.NavigateToClientDetails(clientId, "basicDetails"));
+                    return;
+                }
+            }
+        }
+        setCurrentStep(nextStep);
+        searchParams.set("currentStep", nextStep);
+        setSearchParams(searchParams);
+    }, [currentStep, searchParams, setSearchParams, clientId, navigate, clientBasicDetails]);
 
     const handleClientDetailsCancel = useCallback(() => {
         if (clientId) {
@@ -86,6 +146,7 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                 case "personalHabits":
                 case "allergies":
                 case "medicalHistory":
+                case 'medicalSupplements':
                 case "medicalFemaleOnly":
                 case "surgicalHistory":
                 case "musculoskeletalHistory":
@@ -112,8 +173,6 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
         setCurrentStep(currentStep);
     }, [searchParams]);
 
-    console.log(clientId, currentStep);
-
     return (
         <div className={'client-edit-screen'}>
             {
@@ -132,56 +191,71 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                             mode={mode}
                             onSave={handleClientDetailsSave}
                             onCancel={handleClientDetailsCancel}
-                            clientId={clientId}/>
+                            clientId={clientId}
+                            onNext={handleClientDetailsNext}
+                        />
                     }
                     {
                         currentStep === "medicalSupplements" && <ClientMedicalSupplementsFormComponent
                             mode={mode}
                             onSave={handleClientDetailsSave}
                             onCancel={handleClientDetailsCancel}
-                            clientId={clientId}/>
+                            clientId={clientId}
+                            onNext={handleClientDetailsNext}
+                        />
                     }
                     {
                         currentStep === "medicalHistory" && <ClientMedicalHistoryFormComponent
                             mode={mode}
                             onSave={handleClientDetailsSave}
                             onCancel={handleClientDetailsCancel}
-                            clientId={clientId}/>
+                            clientId={clientId}
+                            onNext={handleClientDetailsNext}
+                        />
                     }
                     {
                         currentStep === "surgicalHistory" && <ClientSurgicalHistoryFormComponent
                             mode={mode}
                             onSave={handleClientDetailsSave}
                             onCancel={handleClientDetailsCancel}
-                            clientId={clientId}/>
+                            clientId={clientId}
+                            onNext={handleClientDetailsNext}
+                        />
                     }
                     {
                         currentStep === "medicalFemaleOnly" && <ClientMedicalFemaleOnlyFormComponent
                             mode={mode}
                             onSave={handleClientDetailsSave}
                             onCancel={handleClientDetailsCancel}
-                            clientId={clientId}/>
+                            clientId={clientId}
+                            onNext={handleClientDetailsNext}
+                        />
                     }
                     {
                         currentStep === "medicalProvider" && <ClientMedicalProviderInformationFormComponent
                             mode={mode}
                             onSave={handleClientDetailsSave}
                             onCancel={handleClientDetailsCancel}
-                            clientId={clientId}/>
+                            clientId={clientId}
+                        />
                     }
                     {
                         currentStep === "musculoskeletalHistory" && <ClientMusculoskeletalHistoryFormComponent
                             mode={mode}
                             onSave={handleClientDetailsSave}
                             onCancel={handleClientDetailsCancel}
-                            clientId={clientId}/>
+                            clientId={clientId}
+                            onNext={handleClientDetailsNext}
+                        />
                     }
                     {
                         currentStep === 'allergies' && <ClientAllergiesFormComponent
                             clientId={clientId}
                             mode={mode}
                             onSave={handleClientDetailsSave}
-                            onCancel={handleClientDetailsCancel}/>
+                            onCancel={handleClientDetailsCancel}
+                            onNext={handleClientDetailsNext}
+                        />
                     }
                     {
                         currentStep === "accountDetails" && <ClientAccountDetailsFormComponent

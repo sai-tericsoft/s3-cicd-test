@@ -3,10 +3,10 @@
   font-size: 14px;
   line-height: 16px;
   letter-spacing: 0.002em;
-  color: #00534F;
 
   &:not(&:has(button)) {
     text-decoration: underline;
+    color: #00534F;
   }
 
   &:hover {

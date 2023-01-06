@@ -62,32 +62,34 @@ const ConfirmationComponent = (props: ConfirmationComponentProps) => {
                 {!config?.hideNoOption && <>
                     <ButtonComponent
                         onClick={cancel}
-                        color={config?.no?.color || 'inherit'}
+                        color={config?.no?.color || 'primary'}
                         variant={config?.no?.variant || "outlined"}
                         id={"no-btn"}
+                        className={"pdd-left-60 pdd-right-60"}
                     >
-                        {config?.no?.text || 'No, Cancel'}
+                        {config?.no?.text || 'No'}
                     </ButtonComponent>&nbsp;&nbsp;&nbsp;
                 </>
                 }
                 <ButtonComponent
                     onClick={confirm}
-                    color={config?.yes?.color || 'error'}
+                    color={config?.yes?.color || 'primary'}
                     variant={config?.yes?.variant || "contained"}
                     id={"yes-btn"}
+                    className={"pdd-left-60 pdd-right-60"}
                 >
-                    {config?.yes?.text || 'Yes, Confirm'}
+                    {config?.yes?.text || 'Yes'}
                 </ButtonComponent>
             </>
             }>
             <div className="confirmation-dialog-container">
                 <div className="confirmation-dialog-sub-title-and-description">
-                    <div className="confirmation-dialog-image-container">
+                    {config?.image && <div className="confirmation-dialog-image-container">
                         <div className={"confirmation-dialog-image"}>
                             <img src={config?.image} alt={config?.confirmationTitle}/>
                         </div>
-                    </div>
-                    <div className={"confirmation-dialog-title"} >
+                    </div>}
+                    <div className={"confirmation-dialog-title"}>
                         {config?.confirmationTitle || 'Confirm ?'}
                     </div>
                     <div className="confirmation-dialog-sub-title">{config?.confirmationSubTitle}</div>
@@ -103,22 +105,22 @@ export default ConfirmationComponent;
 // ****************************** USAGE ****************************** //
 
 // CommonService.onConfirm({
-    // closeOnBackdropClick: true,
-    // closeOnEsc: false,
-    // confirmationTitle: "Confirm",
-    // confirmationSubTitle: "Are you sure ?",
-    // confirmationDescription: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione, repellendus! ",
-    // direction: "left",
-    // yes: {
-    //     color: "primary",
-    //     text: "Agree",
-    //     variant: "contained"
-    // },
-    // no: {
-    //     color: "error",
-    //     text: "DisAgree",
-    //     variant: "outlined"
-    // }
+// closeOnBackdropClick: true,
+// closeOnEsc: false,
+// confirmationTitle: "Confirm",
+// confirmationSubTitle: "Are you sure ?",
+// confirmationDescription: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione, repellendus! ",
+// direction: "left",
+// yes: {
+//     color: "primary",
+//     text: "Agree",
+//     variant: "contained"
+// },
+// no: {
+//     color: "error",
+//     text: "DisAgree",
+//     variant: "outlined"
+// }
 // })
 //     .then(() => {
 //         setIsTnCModalOpened(true);
