@@ -90,6 +90,11 @@ const getInjuryTypeList = (payload: any) => {
     return ApiService[APIConfig.INJURY_TYPE_LIST.METHOD](APIConfig.INJURY_TYPE_LIST.URL, payload);
 }
 
+const getCaseStatusList=(payload:any)=>{
+    // @ts-ignore
+    return ApiService[APIConfig.CASE_STATUS_LIST.METHOD](APIConfig.CASE_STATUS_LIST.URL,payload)
+}
+
 const StaticDataService = {
     today,
     weekDays,
@@ -108,7 +113,8 @@ const StaticDataService = {
     getReferralTypeList,
     getCommunicationModeTypeList,
     getBodyPartList,
-    getInjuryTypeList
+    getInjuryTypeList,
+    getCaseStatusList
 }
 
 export default StaticDataService;

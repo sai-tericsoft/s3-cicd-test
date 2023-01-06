@@ -296,6 +296,9 @@ const APIConfig: IAPIConfig = {
         METHOD: "get"
     },
     // chart notes end
+    CASE_STATUS_LIST : {
+        URL: ENV.API_URL + "/caseStatus",
+        METHOD: "get"
     EXERCISE_LOG_ATTACHMENT_LIST :{
         URL:(interventionId:string)=> ENV.API_URL + '/intervention/'+ interventionId +'/exerciseLog',
         METHOD :'get'
