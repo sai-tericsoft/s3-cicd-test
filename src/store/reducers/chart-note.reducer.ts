@@ -1,5 +1,4 @@
 import {GET_CLIENT_FAVOURITE_CODES, SET_CLIENT_FAVOURITE_CODES} from "../actions/chart-notes.action";
-import _ from "lodash";
 
 
 export interface IChartNoteReducerState {
@@ -16,7 +15,7 @@ const initialData: IChartNoteReducerState = {
     favouriteCodeList: undefined
 }
 
- const chartNoteReducer = (state: IChartNoteReducerState = initialData, action: any) => {
+const chartNoteReducer = (state: IChartNoteReducerState = initialData, action: any) => {
     switch (action.type) {
         case GET_CLIENT_FAVOURITE_CODES :
             state = {
@@ -41,4 +40,4 @@ const initialData: IChartNoteReducerState = {
     }
 }
 
-export  default chartNoteReducer
+export default chartNoteReducer

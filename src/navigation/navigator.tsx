@@ -34,15 +34,19 @@ import {
     CLIENT_CHART_NOTES_DETAILS,
     CLIENT_DETAILS,
     CLIENT_EDIT,
-    CLIENT_LIST, CLIENT_MEDICAL_RECORD_DETAILS,
+    CLIENT_LIST,
+    CLIENT_MEDICAL_RECORD_DETAILS,
     CLIENT_SEARCH,
     COMING_SOON_ROUTE,
     DESIGN_SYSTEM_ROUTE,
     FACILITY_DETAILS,
-    FACILITY_LIST, INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST,
+    FACILITY_LIST,
+    INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST,
     LOGIN_ROUTE,
-   MEDICAL_INTERVENTION_DETAILS,
-    MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE, MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW,
+    MEDICAL_INTERVENTION_DETAILS,
+    MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE,
+    MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW,
+    MEDICAL_INTERVENTION_ICD_CODES,
     MEDICAL_INTERVENTION_ROM_CONFIG,
     MEDICAL_INTERVENTION_SPECIAL_TESTS,
     MEDICAL_RECORD_LIST,
@@ -52,8 +56,7 @@ import {
     SERVICE_CATEGORY_LIST,
     SERVICE_DETAILS,
     SERVICE_EDIT,
-    TEST_ROUTE,
-    MEDICAL_INTERVENTION_VIEW, MEDICAL_INTERVENTION_ICD_CODES
+    TEST_ROUTE
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
@@ -312,7 +315,7 @@ const Navigator = (props: NavigatorProps) => {
 
                 <Route path={MEDICAL_INTERVENTION_DETAILS} element={<ProtectedRoute>
                     <ClientMedicalInterventionDetailsComponent/>
-                    </ProtectedRoute>}/>
+                </ProtectedRoute>}/>
 
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
             </Route>

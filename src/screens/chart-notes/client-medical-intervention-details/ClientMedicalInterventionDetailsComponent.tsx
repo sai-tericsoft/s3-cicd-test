@@ -277,7 +277,7 @@ const ClientMedicalInterventionDetailsComponent = (props: ClientMedicalIntervent
         if (medicalInterventionId) {
             dispatch(getClientMedicalInterventionDetails(medicalInterventionId));
         }
-    }, []);
+    }, [dispatch, medicalInterventionId]);
 
     return (
         <div className={'client-medical-intervention-details-component'}>
@@ -399,7 +399,7 @@ const ClientMedicalInterventionDetailsComponent = (props: ClientMedicalIntervent
                                         </div>
                                         <div className={'signature-wrapper'}>
                                             <div className={'signature-container'}>
-                                                <img width="200" height="50" src={currentUser?.signature_url || "-"}/>
+                                                <img width="200" height="50" alt={'signature'} src={currentUser?.signature_url || "-"}/>
                                             </div>
                                         </div>
                                         <div className={'electronic-sign'}>Electronically signed on

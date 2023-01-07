@@ -98,7 +98,7 @@ const AddFavouriteCode=(codeId:string,payload:any)=>{
 
 }
 const RemoveFavouriteCode=(codeId:string,payload:any)=>{
-    return ApiService[APIConfig.ICD_CODE_FAVOURITE_REMOVE.METHOD](APIConfig. ICD_CODE_FAVOURITE_REMOVE.URL(codeId), payload);
+    return ApiService[APIConfig.ICD_CODE_FAVOURITE_REMOVE.METHOD](APIConfig.ICD_CODE_FAVOURITE_REMOVE.URL(codeId), payload);
 
 }
 const GetAllFavouriteCodes=()=>{

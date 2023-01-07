@@ -1,12 +1,21 @@
 import {
-    ADMIN, CLIENT_ADD, CLIENT_DETAILS, CLIENT_EDIT, CLIENT_LIST, CLIENT_SEARCH,
+    ADMIN,
+    CLIENT_ADD,
+    CLIENT_DETAILS,
+    CLIENT_EDIT,
+    CLIENT_LIST,
+    CLIENT_SEARCH,
     COMING_SOON_ROUTE,
-    DASHBOARD, FACILITY_DETAILS, FACILITY_LIST,
+    DASHBOARD,
+    FACILITY_DETAILS,
+    FACILITY_LIST,
     LOGIN_ROUTE,
-    NOT_FOUND_ROUTE, SERVICE_ADD,
+    NOT_FOUND_ROUTE,
+    SERVICE_ADD,
     SERVICE_CATEGORY_DETAILS,
     SERVICE_CATEGORY_LIST,
-    SERVICE_DETAILS, SERVICE_EDIT,
+    SERVICE_DETAILS,
+    SERVICE_EDIT,
     TEST_ROUTE
 } from "../../constants/RoutesConfig";
 
@@ -82,47 +91,51 @@ const ClientEdit = (clientId: string) => {
     return CLIENT_EDIT + '/' + clientId;
 }
 
-const ClientSearch = ()=>{
+const ClientSearch = () => {
     return CLIENT_SEARCH;
 }
 
-const AddMedicalRecord = (clientId: string)=>{
+const AddMedicalRecord = (clientId: string) => {
     return "/chart-notes/" + clientId + '/add-medical-record';
 }
 
-const AddMedicalIntervention = (medicalRecordId: string, medicalInterventionId: string, )=>{
+const AddMedicalIntervention = (medicalRecordId: string, medicalInterventionId: string,) => {
     return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/add-medical-intervention';
 }
 
-const ChartNotesDetails = ()=>{
+const ChartNotesDetails = () => {
     return "/chart-notes";
 }
 
-const MedicalRecordList = (clientId: string)=>{
+const MedicalRecordList = (clientId: string) => {
     return "/chart-notes/" + clientId + '/medical-record-list';
 }
 
-const MedicalInterventionROMConfig = (medicalRecordId: string, medicalInterventionId: string)=>{
+const MedicalInterventionROMConfig = (medicalRecordId: string, medicalInterventionId: string) => {
     return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/rom-config';
 }
 
-const MedicalInterventionSpecialTests = (medicalRecordId: string, medicalInterventionId: string)=>{
+const MedicalInterventionSpecialTests = (medicalRecordId: string, medicalInterventionId: string) => {
     return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/special-tests';
 }
-const MedicalInterventionICDCodes = (medicalRecordId: string, medicalInterventionId: string)=>{
+const MedicalInterventionICDCodes = (medicalRecordId: string, medicalInterventionId: string) => {
     return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/icd-codes'; // todo: why is this not referred from constants
 }
 
-const MedicalInterventionExerciseLogUpdate = (medicalRecordId: string, medicalInterventionId: string)=>{
+const MedicalInterventionExerciseLogUpdate = (medicalRecordId: string, medicalInterventionId: string) => {
     return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/exercise-log-update';
 }
 
-const MedicalInterventionExerciseLogView = (medicalRecordId: string, medicalInterventionId: string)=>{
+const MedicalInterventionExerciseLogView = (medicalRecordId: string, medicalInterventionId: string) => {
     return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/exercise-log-view';
 }
 
-const ClientMedicalRecordDetails = (medicalRecordId: string)=>{
+const ClientMedicalRecordDetails = (medicalRecordId: string) => {
     return '/chart-notes/' + medicalRecordId + '/medical-record-details';
+}
+
+const MedicalInterventionDetails = (medicalInterventionId: string) => {
+    return '/chart-notes/intervention-details/' + medicalInterventionId
 }
 
 const RouteConfigService = {
@@ -154,7 +167,8 @@ const RouteConfigService = {
     MedicalInterventionExerciseLogUpdate,
     MedicalRecordList,
     MedicalInterventionExerciseLogView,
-    MedicalInterventionICDCodes
+    MedicalInterventionICDCodes,
+    MedicalInterventionDetails
 
 }
 
