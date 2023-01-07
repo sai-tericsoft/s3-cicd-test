@@ -29,7 +29,7 @@ const TableComponent = (props: TableComponentProps) => {
         showExpandColumn,
         expandRow
     } = props;
-
+    
     const [tableColumns, setTableColumns] = useState<ColumnsType<any>>(props.columns);
     const size = props.size || "large";
     const scroll = props.scroll || "unset";

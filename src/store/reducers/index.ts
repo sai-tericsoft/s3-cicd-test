@@ -4,8 +4,10 @@ import NavigationReducer, {INavigationReducerState} from "./navigation.reducer";
 import StaticDataReducer, {IStaticDataReducerState} from "./static-data.reducer";
 import ClientReducer, {IClientReducerState} from "./client.reducer";
 import ServiceReducer, {IServiceReducerState} from "./service.reducer";
+
 import UserReducer, {IUserReducerState} from "./user.reducer";
 import ChartNotesReducer, {IChartNotesReducerState} from "./chart-notes.reducer";
+
 
 export interface IRootReducerState {
     account: IAccountReducerState,

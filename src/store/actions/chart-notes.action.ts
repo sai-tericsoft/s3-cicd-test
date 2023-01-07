@@ -1,17 +1,27 @@
+
+
+export const GET_CLIENT_FAVOURITE_CODES='GET_CLIENT_FAVOURITE_CODES';
+export const SET_CLIENT_FAVOURITE_CODES='SET_CLIENT_FAVOURITE_CODES';
 export const GET_MEDICAL_INTERVENTION_DETAILS = 'GET_MEDICAL_INTERVENTION_DETAILS';
 export const SET_MEDICAL_INTERVENTION_DETAILS = 'SET_MEDICAL_INTERVENTION_DETAILS';
 
 export const GET_INTERVENTION_ATTACHMENT_LIST = 'GET_INTERVENTION_ATTACHMENT_LIST';
 export const SET_INTERVENTION_ATTACHMENT_LIST = 'SET_INTERVENTION_ATTACHMENT_LIST';
 
-export const getMedicalInterventionDetails = (medicalInterventionId: string) => {
+export const getClientFavouriteCodes= () => {
     return {
-        type: GET_MEDICAL_INTERVENTION_DETAILS, payload: {
-            medicalInterventionId
+        type: GET_CLIENT_FAVOURITE_CODES, payload: {
         }
     };
 };
 
+export const setClientFavouriteCode = (favouriteCodeList: any) => {
+    return {
+        type: SET_CLIENT_FAVOURITE_CODES, payload: {
+            favouriteCodeList
+        }
+    };
+};
 export const setMedicalInterventionDetails = (medicalInterventionDetails: any) => { // TODO type properly
     return {
         type: SET_MEDICAL_INTERVENTION_DETAILS, payload: {

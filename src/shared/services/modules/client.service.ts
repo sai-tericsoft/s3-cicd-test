@@ -93,6 +93,18 @@ const NavigateToClientEdit = (clientId: string, step: IClientFormSteps) => {
     return RouteConfigService.ClientEdit(clientId) + "?currentStep=" + step;
 }
 
+const AddFavouriteCode=(codeId:string,payload:any)=>{
+    return ApiService[APIConfig.ICD_CODE_FAVOURITE_ADD.METHOD](APIConfig.ICD_CODE_FAVOURITE_ADD.URL(codeId), payload);
+
+}
+const RemoveFavouriteCode=(codeId:string,payload:any)=>{
+    return ApiService[APIConfig.ICD_CODE_FAVOURITE_REMOVE.METHOD](APIConfig. ICD_CODE_FAVOURITE_REMOVE.URL(codeId), payload);
+
+}
+const GetAllFavouriteCodes=()=>{
+    return ApiService[APIConfig.ICD_CODE_FAVOURITE_LIST.METHOD](APIConfig.ICD_CODE_FAVOURITE_LIST.URL);
+}
+
 const ClientService={
     ClientBasicDetailsAddAPICall,
     ClientBasicDetailsAPICall,
@@ -111,6 +123,9 @@ const ClientService={
     NavigateToClientEdit,
     NavigateToClientDetails,
     ClientAccountDetailsEditAPICall,
+    AddFavouriteCode,
+    RemoveFavouriteCode,
+    GetAllFavouriteCodes,
     ClientMedicalRecordApiCall
 }
 
