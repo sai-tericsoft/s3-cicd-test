@@ -1,3 +1,5 @@
+import {TableRowSelection} from "antd/lib/table/interface";
+
 export interface ITableColumn {
     dataIndex?: string;
     key?: string;
@@ -26,6 +28,7 @@ export interface ITableComponentProps {
     defaultExpandAllRows?: boolean;
     showExpandColumn?: boolean;
     expandRow?: (row: any) => React.ReactNode;
+    rowSelection?: TableRowSelection<any>;
 }
 
 

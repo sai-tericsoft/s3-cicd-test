@@ -270,7 +270,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                        actions={<>
                                                            {
                                                                (medicalInterventionId && medicalRecordId) &&  <LinkComponent
-                                                                   route={CommonService._routeConfig.MedicalInterventionSpecialTests(medicalRecordId, medicalInterventionId)}>
+                                                                   route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId)}>
                                                                    <ButtonComponent
                                                                        prefixIcon={<ImageConfig.AddIcon/>}>
                                                                        Add

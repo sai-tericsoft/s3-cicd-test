@@ -26,6 +26,7 @@ const TableComponent = (props: TableComponentProps) => {
         onRowClick,
         onSort,
         rowClassName,
+        rowSelection,
         showExpandColumn,
         expandRow
     } = props;
@@ -74,6 +75,7 @@ const TableComponent = (props: TableComponentProps) => {
         <div className={'table-component'}>
             <Table
                 id={id}
+                rowSelection={rowSelection}
                 expandable={expandRow && {
                     // expandedRowKeys: rowKey ? data.map(rowKey) : [], // todo: make it unique if required
                     showExpandColumn: showExpandColumn,

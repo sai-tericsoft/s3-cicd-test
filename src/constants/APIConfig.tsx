@@ -308,6 +308,10 @@ const APIConfig: IAPIConfig = {
         URL:(medicalRecordId:string)=> ENV.API_URL + "/intervention/"+ medicalRecordId,
         METHOD: "get"
     },
+    SAVE_MEDICAL_INTERVENTION_ICD_CODES: {
+        URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/icdCodes',
+        METHOD: "post"
+    },
     SAVE_MEDICAL_INTERVENTION_EXERCISE_LOG: {
         URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/exerciseLog',
         METHOD: "put"

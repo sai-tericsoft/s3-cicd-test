@@ -73,7 +73,10 @@ const FetchClientMedicalInterventionEAPICall = (medicalInterventionId: string, p
     return ApiService[APIConfig.GET_CLIENT_MEDICAL_INTERVENTION_DETAILS.METHOD](APIConfig.GET_CLIENT_MEDICAL_INTERVENTION_DETAILS.URL(medicalInterventionId), payload);
 }
 
-
+const AddMedicalInterventionICDCodesAPICall = (medicalInterventionId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.SAVE_MEDICAL_INTERVENTION_ICD_CODES.METHOD](APIConfig.SAVE_MEDICAL_INTERVENTION_ICD_CODES.URL(medicalInterventionId), payload);
+}
 
 const ChartNotesService = {
     MedicalRecordAddAPICall,
@@ -91,7 +94,7 @@ const ChartNotesService = {
     AddExerciseLogAttachment,
     FetchMedicalInterventionExerciseLogAPICall,
     FetchClientMedicalInterventionEAPICall,
-
+    AddMedicalInterventionICDCodesAPICall,
 
 }
 
