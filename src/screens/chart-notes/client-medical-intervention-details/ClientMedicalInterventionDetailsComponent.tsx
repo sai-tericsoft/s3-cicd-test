@@ -1,7 +1,6 @@
 import "./ClientMedicalInterventionDetailsComponent.scss";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
-import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
@@ -14,10 +13,10 @@ import {CommonService} from "../../../shared/services";
 import {ImageConfig} from "../../../constants";
 
 interface ClientMedicalInterventionDetailsComponentProps {
+
 }
 
 const ClientMedicalInterventionDetailsComponent = (props: ClientMedicalInterventionDetailsComponentProps) => {
-
 
     const ClientMedicalInterventionDetailsColumn: any = [
         {
@@ -416,6 +415,7 @@ const ClientMedicalInterventionDetailsComponent = (props: ClientMedicalIntervent
             </>
         </div>
     );
+
 };
 
 export default ClientMedicalInterventionDetailsComponent;

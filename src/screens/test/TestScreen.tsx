@@ -1,20 +1,10 @@
 import './TestScreen.scss';
-import React  from 'react';
-import ClientMedicalInterventionDetailsComponent
-    from "../chart-notes/client-medical-intervention-details/ClientMedicalInterventionDetailsComponent";
 
-
-
-
-const TestScreen: React.FC = () => {
-
-        return (
-            <>
-                <ClientMedicalInterventionDetailsComponent/>
-
-        </>
-
+const TestScreen = () => {
+    return (
+        <div className="test-screen">
+            <h1>Test Screen</h1>
+        </div>
     );
 };
-
 export default TestScreen;
