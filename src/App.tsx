@@ -11,10 +11,12 @@ import {logout} from "./store/actions/account.action";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "./store/reducers";
 import {
+    getBodyPartsList, getCaseStatusList,
     getCommunicationModeTypeList,
     getConsultationDurationList,
     getEmploymentStatusList,
     getGenderList,
+    getInjuryTypeList,
     getLanguageList,
     getMedicalHistoryOptionsList,
     getMusculoskeletalHistoryOptionsList,
@@ -25,6 +27,7 @@ import {
     getSurgicalHistoryOptionsList
 } from "./store/actions/static-data.action";
 import AppVersionComponent from "./shared/components/app-version/appVersionComponent";
+import {getAllProvidersList} from "./store/actions/user.action";
 
 interface AppProps {
     setCurrentUser?: any;
@@ -98,6 +101,10 @@ const App = (props: AppProps) => {
             dispatch(getSocialMediaPlatformList());
             dispatch(getReferralTypeList());
             dispatch(getCommunicationModeTypeList());
+            dispatch(getBodyPartsList());
+            dispatch(getInjuryTypeList());
+            dispatch(getAllProvidersList());
+            dispatch(getCaseStatusList());
         }
     }, [token, dispatch])
 

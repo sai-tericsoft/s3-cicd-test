@@ -13,6 +13,7 @@ const CheckBoxComponent = (props: CheckBoxComponentProps) => {
     const {label, checked, className, disabled, id, hasError, errorMessage, indeterminate, onChange, required, value} = props;
     const size = props.size || "medium";
     const color = props.color || "primary";
+    const labelPlacement = props.labelPlacement || "end";
 
     const handleCheckBoxOnChange = useCallback((event: any) => {
         const isChecked = event.target.checked;
@@ -22,8 +23,9 @@ const CheckBoxComponent = (props: CheckBoxComponentProps) => {
     }, [onChange]);
 
     return (
-        <FormControl className="check-box-component-with-formik-wrapper" error={hasError}>
+        <FormControl className={`check-box-component label-position-${labelPlacement}`} error={hasError}>
             <FormControlLabel
+                labelPlacement={labelPlacement}
                 control={<Checkbox
                     size={size}
                     color={color}

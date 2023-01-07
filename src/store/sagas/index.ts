@@ -5,7 +5,8 @@ import accountSaga from './account.saga';
 import staticDataSaga from "./static-data.saga";
 import clientSaga from "./client.saga";
 import serviceSaga from "./service.saga";
-import chartNoteSaga from "./chart-note.saga";
+import userSaga from "./user.saga";
+import chartNotesSaga from "./chart-notes.saga";
 
 // Redux Saga: Root Saga
 export default function* rootSaga() {
@@ -14,6 +15,7 @@ export default function* rootSaga() {
         fork(staticDataSaga),
         fork(clientSaga),
         fork(serviceSaga),
-        fork(chartNoteSaga)
+        fork(userSaga),
+        fork(chartNotesSaga),
     ]);
 }

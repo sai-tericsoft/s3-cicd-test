@@ -1,8 +1,11 @@
 import {
+    GET_BODY_PART_LIST,
+    GET_CASE_STATUS_LIST,
     GET_COMMUNICATION_MODE_TYPE_LIST,
     GET_CONSULTATION_DURATION_LIST,
     GET_EMPLOYMENT_STATUS_LIST,
     GET_GENDER_LIST,
+    GET_INJURY_TYPE_LIST,
     GET_LANGUAGE_LIST,
     GET_MEDICAL_HISTORY_OPTIONS_LIST,
     GET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
@@ -11,10 +14,13 @@ import {
     GET_RELATIONSHIP_LIST,
     GET_SOCIAL_MEDIA_PLATFORM_LIST,
     GET_SURGICAL_HISTORY_OPTIONS_LIST,
+    SET_BODY_PART_LIST,
+    SET_CASE_STATUS_LIST,
     SET_COMMUNICATION_MODE_TYPE_LIST,
     SET_CONSULTATION_DURATION_LIST,
     SET_EMPLOYMENT_STATUS_LIST,
     SET_GENDER_LIST,
+    SET_INJURY_TYPE_LIST,
     SET_LANGUAGE_LIST,
     SET_MEDICAL_HISTORY_OPTIONS_LIST,
     SET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
@@ -29,12 +35,16 @@ import {ICommonType} from "../../shared/models/static-data.model";
 
 export interface IStaticDataReducerState {
     statusList: ICommonType[],
+    medicalStatusList: ICommonType[],
     isConsultationDurationListLoading: boolean,
     isConsultationDurationListLoaded: boolean,
     consultationDurationList: any[],
     isGenderListLoading: boolean,
     isGenderListLoaded: boolean,
     genderList: any[],
+    isCaseStatusLoading: boolean,
+    isCaseStatusLoaded: boolean,
+    caseStatusList: any[],
     isEmploymentStatusListLoading: boolean,
     isEmploymentStatusListLoaded: boolean,
     employmentStatusList: any[],
@@ -65,6 +75,12 @@ export interface IStaticDataReducerState {
     isCommunicationModeTypeListLoading: boolean,
     isCommunicationModeTypeListLoaded: boolean,
     communicationModeTypeList: any[],
+    isBodyPartListLoading: boolean,
+    isBodyPartListLoaded: boolean,
+    bodyPartList: any[],
+    isInjuryTypeListLoading: boolean,
+    isInjuryTypeListLoaded: boolean,
+    injuryTypeList: any[],
 }
 
 
@@ -75,6 +91,9 @@ const initialData: IStaticDataReducerState = {
     isGenderListLoading: false,
     isGenderListLoaded: false,
     genderList: [],
+    isCaseStatusLoading: false,
+    isCaseStatusLoaded: false,
+    caseStatusList: [],
     isEmploymentStatusListLoading: false,
     isEmploymentStatusListLoaded: false,
     employmentStatusList: [],
@@ -105,6 +124,12 @@ const initialData: IStaticDataReducerState = {
     isCommunicationModeTypeListLoading: false,
     isCommunicationModeTypeListLoaded: false,
     communicationModeTypeList: [],
+    isBodyPartListLoading: false,
+    isBodyPartListLoaded: false,
+    bodyPartList: [],
+    isInjuryTypeListLoading: false,
+    isInjuryTypeListLoaded: false,
+    injuryTypeList: [],
     statusList: [
         {
             code: true,
@@ -114,7 +139,17 @@ const initialData: IStaticDataReducerState = {
             code: false,
             title: "Inactive"
         }
-    ]
+    ],
+    medicalStatusList: [
+        {
+            code: 'open',
+            title: "Open/Active"
+        },
+        {
+            code: 'closed',
+            title: "Closed/Inactive"
+        }
+    ],
 };
 
 const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDataReducerState => {
@@ -299,6 +334,53 @@ const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDa
                 communicationModeTypeList: action.payload.communicationModeTypeList
             };
             return state;
+        case GET_BODY_PART_LIST:
+            state = {
+                ...state,
+                isBodyPartListLoading: true,
+                isBodyPartListLoaded: false,
+            };
+            return state;
+        case SET_BODY_PART_LIST:
+            state = {
+                ...state,
+                isBodyPartListLoading: false,
+                isBodyPartListLoaded: true,
+                bodyPartList: action.payload.bodyPartList
+            };
+            return state;
+        case GET_INJURY_TYPE_LIST:
+            state = {
+                ...state,
+                isInjuryTypeListLoading: true,
+                isInjuryTypeListLoaded: false,
+            };
+            return state;
+        case SET_INJURY_TYPE_LIST:
+            state = {
+                ...state,
+                isInjuryTypeListLoading: false,
+                isInjuryTypeListLoaded: true,
+                injuryTypeList: action.payload.injuryTypeList
+            };
+            return state;
+        case GET_CASE_STATUS_LIST:
+            state = {
+                ...state,
+                isGenderListLoading: true,
+                isCaseStatusLoaded: false
+            }
+            return state;
+        case SET_CASE_STATUS_LIST:
+            state = {
+                ...state,
+                isGenderListLoading: false,
+                isCaseStatusLoaded: true,
+                caseStatusList: action.payload.caseStatusList
+            }
+            return state;
+
+
         default:
             return state;
     }

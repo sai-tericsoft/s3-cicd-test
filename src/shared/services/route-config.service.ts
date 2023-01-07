@@ -83,7 +83,43 @@ const ClientEdit = (clientId: string) => {
 }
 
 const ClientSearch = ()=>{
-    return CLIENT_SEARCH
+    return CLIENT_SEARCH;
+}
+
+const AddMedicalRecord = (clientId: string)=>{
+    return "/chart-notes/" + clientId + '/add-medical-record';
+}
+
+const AddMedicalIntervention = (medicalRecordId: string, medicalInterventionId: string, )=>{
+    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/add-medical-intervention';
+}
+
+const ChartNotesDetails = ()=>{
+    return "/chart-notes";
+}
+
+const MedicalRecordList = (clientId: string)=>{
+    return "/chart-notes/" + clientId + '/medical-record-list';
+}
+
+const MedicalInterventionROMConfig = (medicalRecordId: string, medicalInterventionId: string)=>{
+    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/rom-config';
+}
+
+const MedicalInterventionSpecialTests = (medicalRecordId: string, medicalInterventionId: string)=>{
+    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/special-tests';
+}
+
+const MedicalInterventionExerciseLogUpdate = (medicalRecordId: string, medicalInterventionId: string)=>{
+    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/exercise-log-update';
+}
+
+const MedicalInterventionExerciseLogView = (medicalRecordId: string, medicalInterventionId: string)=>{
+    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/exercise-log-view';
+}
+
+const ClientMedicalRecordDetails = (medicalRecordId: string)=>{
+    return '/chart-notes/' + medicalRecordId + '/medical-record-details';
 }
 
 const RouteConfigService = {
@@ -105,7 +141,16 @@ const RouteConfigService = {
     ClientAdd,
     ClientDetails,
     ClientEdit,
-    ClientSearch
+    ClientSearch,
+    ClientMedicalRecordDetails,
+    AddMedicalRecord,
+    AddMedicalIntervention,
+    ChartNotesDetails,
+    MedicalInterventionROMConfig,
+    MedicalInterventionSpecialTests,
+    MedicalInterventionExerciseLogUpdate,
+    MedicalRecordList,
+    MedicalInterventionExerciseLogView
 }
 
 export default RouteConfigService;

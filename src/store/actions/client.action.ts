@@ -1,15 +1,17 @@
 import {
     IClientAccountDetails,
     IClientBasicDetails,
-    IClientMedicalDetails
+    IClientMedicalDetails, IClientMedicalRecord
 } from "../../shared/models/client.model";
 
 export const GET_CLIENT_BASIC_DETAILS = 'GET_CLIENT_BASIC_DETAILS';
 export const GET_CLIENT_MEDICAL_DETAILS = 'GET_CLIENT_MEDICAL_DETAILS';
 export const GET_CLIENT_ACCOUNT_DETAILS = 'GET_CLIENT_ACCOUNT_DETAILS';
+export const GET_CLIENT_MEDICAL_RECORD = 'GET_CLIENT_MEDICAL_RECORD';
 export const SET_CLIENT_BASIC_DETAILS = 'SET_CLIENT_BASIC_DETAILS';
 export const SET_CLIENT_MEDICAL_DETAILS = 'SET_CLIENT_MEDICAL_DETAILS';
 export const SET_CLIENT_ACCOUNT_DETAILS = 'SET_CLIENT_ACCOUNT_DETAILS';
+export const SET_CLIENT_MEDICAL_RECORD = 'SET_CLIENT_MEDICAL_RECORD';
 
 export const getClientBasicDetails = (clientId: string) => {
     return {
@@ -59,3 +61,18 @@ export const setClientAccountDetails = (clientAccountDetails: IClientAccountDeta
     };
 };
 
+export const getClientMedicalRecord = (clientId: string) => {
+    return {
+        type: GET_CLIENT_MEDICAL_RECORD, payload: {
+            clientId
+        }
+    };
+};
+
+export const setClientMedicalRecord = (clientMedicalRecord: IClientMedicalRecord | undefined) => {
+    return {
+        type: SET_CLIENT_MEDICAL_RECORD, payload: {
+            clientMedicalRecord
+        }
+    };
+};

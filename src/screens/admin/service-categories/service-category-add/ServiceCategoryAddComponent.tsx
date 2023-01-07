@@ -25,7 +25,7 @@ const serviceCategoryAddFormValidationSchema = Yup.object({
     name: Yup.string()
         .required("Name is required"),
     description: Yup.string()
-        .nullable(),
+        .required("Description is required"),
     image: Yup.mixed()
         .required("Image is required")
 });
@@ -52,7 +52,7 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
                 onAdd(response.data);
             })
             .catch((error: any) => {
-                CommonService.handleErrors(setErrors, error);
+                CommonService.handleErrors(setErrors, error, true);
                 setIsServiceCategoryAddInProgress(false);
             })
     }, [onAdd]);
@@ -61,8 +61,7 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
         <div className="service-category-add-component">
             <div className="service-category-add-form-container">
                 <FormControlLabelComponent label={"Add New Service Category"}
-                                           size={"lg"}
-                                           required={true}/>
+                                           size={"lg"}/>
                 <Formik
                     validationSchema={serviceCategoryAddFormValidationSchema}
                     initialValues={serviceCategoryAddFormInitialValues}
@@ -105,6 +104,7 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
                                                     formikField={field}
                                                     fullWidth={true}
                                                     id={"sc_desc_input"}
+                                                    required={true}
                                                 />
                                             )
                                         }
@@ -137,12 +137,12 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
                                         <>
                                             {
                                                 (values.image) && <>
-                                                    <FilePreviewThumbnailComponent removable={true}
-                                                                                   file={values.image}
-                                                                                   removeButtonId={"sc_delete_img"}
-                                                                                   onRemove={() => {
-                                                                                       setFieldValue('image', undefined);
-                                                                                   }}
+                                                    <FilePreviewThumbnailComponent
+                                                        file={values.image}
+                                                        removeButtonId={"sc_delete_img"}
+                                                        onRemove={() => {
+                                                            setFieldValue('image', undefined);
+                                                        }}
                                                     />
                                                 </>
                                             }

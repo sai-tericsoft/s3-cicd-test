@@ -24,6 +24,7 @@ interface ClientMusculoskeletalFormComponentProps {
     clientId: string;
     mode: "add" | "edit";
     onCancel: () => void;
+    onNext?: () => void;
     onSave: (clientMusculoskeletalHistory: any) => void;
 }
 
@@ -37,7 +38,7 @@ const ClientMusculoskeletalHistoryFormInitialValues: IClientMusculoskeletalHisto
 
 const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalFormComponentProps) => {
 
-    const {mode, onCancel, clientId, onSave} = props;
+    const {mode, onCancel, onNext, clientId, onSave} = props;
     const [clientMusculoskeletalHistoryFormInitialValues, setClientMusculoskeletalHistoryFormInitialValues] = useState<IClientMusculoskeletalHistoryForm>(_.cloneDeep(ClientMusculoskeletalHistoryFormInitialValues));
     const [isClientMusculoskeletalHistorySavingInProgress, setIsClientMusculoskeletalHistorySavingInProgress] = useState(false);
     const {musculoskeletalHistoryOptionsList} = useSelector((state: IRootReducerState) => state.staticData);
@@ -57,6 +58,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
             .then((response: IAPIResponseType<IClientMusculoskeletalHistoryForm>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsClientMusculoskeletalHistorySavingInProgress(false);
+                setClientMusculoskeletalHistoryFormInitialValues(_.cloneDeep(values));
                 onSave(response);
             })
             .catch((error: any) => {
@@ -69,7 +71,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
         if (mode === "edit") {
             if (clientMedicalDetails) {
                 setClientMusculoskeletalHistoryFormInitialValues({
-                    musculoskeletal_history: clientMedicalDetails.musculoskeletal_history
+                    musculoskeletal_history: clientMedicalDetails?.musculoskeletal_history
                 });
             } else {
                 if (clientId) {
@@ -117,7 +119,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                 return (
                                     <Form noValidate={true} className={"t-form"}>
                                         {
-                                            musculoskeletalHistoryOptionsList.map((question: IMusculoskeletalHistoryOption) => {
+                                            musculoskeletalHistoryOptionsList?.map((question: IMusculoskeletalHistoryOption) => {
                                                 const {_id, title} = question;
                                                 return <div className="ts-row ts-align-items-center mrg-bottom-10"
                                                             key={_id}>
@@ -130,13 +132,13 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                                 (field: FieldProps) => (
                                                                     <FormikRadioButtonGroupComponent
                                                                         options={CommonService._staticData.yesNoOptions}
-                                                                        displayWith={(option) => option}
-                                                                        valueExtractor={(option) => option}
+                                                                        displayWith={(option) => option.title}
+                                                                        valueExtractor={(option) => option.title}
                                                                         required={true}
                                                                         formikField={field}
-                                                                        onChange={(value)=>{
+                                                                        onChange={(value) => {
                                                                             console.log(value);
-                                                                            if (value === "No"){
+                                                                            if (value === "No") {
                                                                                 setFieldValue(`musculoskeletal_history.${_id}.text`, undefined);
                                                                             }
                                                                         }}
@@ -145,7 +147,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                             }
                                                         </Field>
                                                     </div>
-                                                    <div className="ts-col-md-6">
+                                                    <div className={"ts-col-md-6"}>
                                                         {
                                                             values.musculoskeletal_history[_id]?.value === "Yes" &&
                                                             <Field name={`musculoskeletal_history.${_id}.text`}>
@@ -177,11 +179,21 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
                                                 isLoading={isClientMusculoskeletalHistorySavingInProgress}
-                                                disabled={isClientMusculoskeletalHistorySavingInProgress || !isValid}
+                                                disabled={isClientMusculoskeletalHistorySavingInProgress || !isValid || CommonService.isEqual(values, clientMusculoskeletalHistoryFormInitialValues)}
                                                 type={"submit"}
                                             >
                                                 {isClientMusculoskeletalHistorySavingInProgress ? "Saving" : <>{mode === "add" ? <>{mode === "add" ? "Save & Next" : "Save"}</> : "Save"}</>}
                                             </ButtonComponent>
+                                            {
+                                                mode === "edit" && <>
+                                                    &nbsp;&nbsp;<ButtonComponent
+                                                    disabled={isClientMusculoskeletalHistorySavingInProgress || !CommonService.isEqual(values, clientMusculoskeletalHistoryFormInitialValues)}
+                                                    onClick={onNext}
+                                                >
+                                                    Next
+                                                </ButtonComponent>
+                                                </>
+                                            }
                                         </div>
                                     </Form>
                                 )

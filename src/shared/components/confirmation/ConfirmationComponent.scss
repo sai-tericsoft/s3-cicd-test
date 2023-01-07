@@ -13,11 +13,11 @@
     .confirmation-dialog-image-container {
       display: flex;
       justify-content: center;
-      margin-bottom: 4px;
+      margin-bottom: 11px;
 
       .confirmation-dialog-image {
         height: 124px;
-        width: 101px;
+        width: auto;
 
         img {
           height: 100%;

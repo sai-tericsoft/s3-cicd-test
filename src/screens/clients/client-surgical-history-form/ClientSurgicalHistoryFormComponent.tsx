@@ -24,6 +24,7 @@ interface ClientSurgicalHistoryFormComponentProps {
     clientId: string;
     mode: "add" | "edit";
     onCancel: () => void;
+    onNext?: () => void;
     onSave: (clientSurgicalHistoryDetails: any) => void;
 }
 
@@ -53,7 +54,7 @@ const ClientSurgicalHistoryInitialValues: IClientSurgicalHistoryForm = {
 
 const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComponentProps) => {
 
-    const {mode, onCancel, clientId, onSave} = props;
+    const {mode, onCancel, onNext, clientId, onSave} = props;
     const {surgicalHistoryOptionsList} = useSelector((state: IRootReducerState) => state.staticData);
     const [clientSurgicalHistoryInitialValues, setClientSurgicalHistoryInitialValues] = useState<IClientSurgicalHistoryForm>(_.cloneDeep(ClientSurgicalHistoryInitialValues));
     const [isClientSurgicalHistorySavingInProgress, setIsClientSurgicalHistorySavingInProgress] = useState(false);
@@ -73,10 +74,11 @@ const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComp
             .then((response: IAPIResponseType<IClientSurgicalHistoryForm>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsClientSurgicalHistorySavingInProgress(false);
+                setClientSurgicalHistoryInitialValues(_.cloneDeep(values));
                 onSave(response);
             })
             .catch((error: any) => {
-                CommonService.handleErrors(setErrors, error);
+                CommonService.handleErrors(setErrors, error, true);
                 setIsClientSurgicalHistorySavingInProgress(false);
             })
     }, [clientId, onSave, mode]);
@@ -84,11 +86,11 @@ const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComp
     useEffect(() => {
         if (mode === "edit") {
             if (clientMedicalDetails) {
-                if (clientMedicalDetails.surgical_history.comments) {
+                if (clientMedicalDetails?.surgical_history?.comments) {
                     clientMedicalDetails.surgical_history.isCustomOption = true;
                 }
                 setClientSurgicalHistoryInitialValues({
-                    surgical_history: clientMedicalDetails.surgical_history
+                    surgical_history: clientMedicalDetails?.surgical_history
                 });
             } else {
                 if (clientId) {
@@ -99,13 +101,14 @@ const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComp
     }, [mode, clientId, dispatch, clientMedicalDetails]);
 
     const handleSurgicalHistoryOptionSelection = useCallback((optionId: string, selectedOptions: string[]) => {
-        const index = selectedOptions?.findIndex((value: string) => value === optionId);
+        const options = _.cloneDeep(selectedOptions);
+        const index = options?.findIndex((value: string) => value === optionId);
         if (index > -1) {
-            selectedOptions.splice(index, 1);
+            options.splice(index, 1);
         } else {
-            selectedOptions.push(optionId);
+            options.push(optionId);
         }
-        return selectedOptions;
+        return options;
     }, []);
 
     return (
@@ -199,8 +202,8 @@ const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComp
                                                             <FormikTextAreaComponent
                                                                 label={"Comments"}
                                                                 placeholder={"Enter your comments here"}
-                                                                disabled={!values.surgical_history.isCustomOption}
-                                                                required={values.surgical_history.isCustomOption}
+                                                                disabled={!values.surgical_history?.isCustomOption}
+                                                                required={values.surgical_history?.isCustomOption}
                                                                 formikField={field}
                                                                 fullWidth={true}
                                                             />
@@ -219,11 +222,21 @@ const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComp
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
                                                 isLoading={isClientSurgicalHistorySavingInProgress}
-                                                disabled={isClientSurgicalHistorySavingInProgress || !isValid}
+                                                disabled={isClientSurgicalHistorySavingInProgress || !isValid || CommonService.isEqual(values, clientSurgicalHistoryInitialValues)}
                                                 type={"submit"}
                                             >
                                                 {isClientSurgicalHistorySavingInProgress ? "Saving" : <>{mode === "add" ? "Save & Next" : "Save"}</>}
                                             </ButtonComponent>
+                                            {
+                                                mode === "edit" && <>
+                                                    &nbsp;&nbsp;<ButtonComponent
+                                                    disabled={isClientSurgicalHistorySavingInProgress || !CommonService.isEqual(values, clientSurgicalHistoryInitialValues)}
+                                                    onClick={onNext}
+                                                >
+                                                    Next
+                                                </ButtonComponent>
+                                                </>
+                                            }
                                         </div>
                                     </Form>
                                 )

@@ -1,8 +1,9 @@
 import {IConsultationDuration} from "../../shared/models/static-data.model";
 import {
+    IBodyPart, ICaseStatus,
     ICommunicationModeType,
     IEmploymentStatus,
-    IGender,
+    IGender, IInjuryType,
     ILanguage,
     IMedicalHistoryOption, IMusculoskeletalHistoryOption,
     IPhoneType, IReferralType,
@@ -44,6 +45,16 @@ export const SET_REFERRAL_TYPE_LIST = 'SET_REFERRAL_TYPE_LIST';
 
 export const GET_SOCIAL_MEDIA_PLATFORM_LIST = 'GET_SOCIAL_MEDIA_PLATFORM_LIST';
 export const SET_SOCIAL_MEDIA_PLATFORM_LIST = 'SET_SOCIAL_MEDIA_PLATFORM_LIST';
+
+export const GET_BODY_PART_LIST = 'GET_BODY_PART_LIST';
+export const SET_BODY_PART_LIST = 'SET_BODY_PART_LIST';
+
+export const GET_INJURY_TYPE_LIST = 'GET_INJURY_TYPE_LIST';
+export const SET_INJURY_TYPE_LIST = 'SET_INJURY_TYPE_LIST';
+
+export const GET_CASE_STATUS_LIST =  'GET_CASE_STATUS_LIST';
+export const SET_CASE_STATUS_LIST =  'SET_CASE_STATUS_LIST';
+
 
 export const getConsultationDurationList = () => {
     return {type: GET_CONSULTATION_DURATION_LIST};
@@ -190,3 +201,39 @@ export const setCommunicationModeTypeList = (communicationModeTypeList: ICommuni
     };
 };
 
+
+export const getBodyPartsList = () => {
+    return {type: GET_BODY_PART_LIST};
+};
+
+export const setBodyPartsList = (bodyPartList: IBodyPart[]) => {
+    return {
+        type: SET_BODY_PART_LIST, payload: {
+            bodyPartList
+        }
+    };
+};
+
+export const getInjuryTypeList = () => {
+    return {type: GET_INJURY_TYPE_LIST};
+};
+
+export const setInjuryTypeList = (injuryTypeList: IInjuryType[]) => {
+    return {
+        type: SET_INJURY_TYPE_LIST, payload: {
+            injuryTypeList
+        }
+    };
+};
+
+export const getCaseStatusList =()=>{
+    return {type : GET_CASE_STATUS_LIST}
+}
+
+export const setCaseStatusList = (caseStatusList : ICaseStatus[])=>{
+    return {
+        type : SET_CASE_STATUS_LIST , payload :{
+            caseStatusList
+        }
+    }
+}

@@ -57,7 +57,7 @@ const ClientListScreen = (props: ClientListScreenProps) => {
             <div className={'list-screen-header'}>
                 <div className={'list-search-filters'}>
                     <div className="ts-row">
-                        <div className="ts-col-lg-3">
+                        <div className="ts-col-md-6 ts-col-lg-3">
                             <SearchComponent
                                 label={"Search for clients"}
                                 value={clientListFilterState.search}
@@ -66,7 +66,7 @@ const ClientListScreen = (props: ClientListScreenProps) => {
                                 }}
                             />
                         </div>
-                        <div className="ts-col-lg-3">
+                        <div className="ts-col-md-6 ts-col-lg-3">
                             <SelectComponent
                                 label={"Status"}
                                 size={"small"}

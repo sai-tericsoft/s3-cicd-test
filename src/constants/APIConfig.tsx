@@ -57,6 +57,14 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + "/communication/type",
         METHOD: "get"
     },
+    BODY_PART_LIST: {
+        URL: ENV.API_URL + "/bodyParts",
+        METHOD: "get"
+    },
+    INJURY_TYPE_LIST: {
+        URL: ENV.API_URL + "/injuryTypes",
+        METHOD: "get"
+    },
     //meta end
 
     // authentication start
@@ -138,10 +146,10 @@ const APIConfig: IAPIConfig = {
         METHOD: "get"
     },
     // facility end
-    
+
     // client start
 
-    CLIENT_MEDICAL_DETAILS:{
+    CLIENT_MEDICAL_DETAILS: {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medicalQuestionnaire',
         METHOD: "get"
     },
@@ -226,7 +234,102 @@ const APIConfig: IAPIConfig = {
         URL:(codeId:string)=> ENV.API_URL + '/favouriteICD/' + codeId,
         METHOD: 'delete'
     }
+
     // client end
+    CLIENT_EIGHT_MINUTES_RULE_CHART: {
+        URL: ENV.API_URL + '/ruleChart',
+        METHOD: 'get'
+    },
+    // user start
+    USER_LIST: {
+        URL: ENV.API_URL + "/user",
+        METHOD: "get"
+    },
+    USER_LIST_LITE: {
+        URL: ENV.API_URL + "/user/lite",
+        METHOD: "get"
+    },
+    // user end
+
+    // chart notes start
+    MEDICAL_RECORD_ADD: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medicalRecord',
+        METHOD: "post"
+    },
+    MEDICAL_RECORD_EDIT: {
+        URL: (medicalId: string) => ENV.API_URL + '/medicalRecord/' + medicalId,
+        METHOD: "put"
+    },
+    MEDICAL_INTERVENTION_BASIC_DETAILS_UPDATE: {
+        URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId,
+        METHOD: "put"
+    },
+    GET_MEDICAL_INTERVENTION_BASIC_DETAILS: {
+        URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId,
+        METHOD: "get"
+    },
+    CLIENT_MEDICAL_INFO: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medicalRecord',
+        METHOD: "get"
+    },
+    CLIENT_MEDICAL_DETAIL: {
+        URL: (medicalId: string) => ENV.API_URL + '/medicalRecord/' + medicalId,
+        METHOD: "get"
+    },
+    SAVE_MEDICAL_INTERVENTION_ROM_CONFIG_FOR_A_BODY_PART: {
+        URL: (medicalInterventionId: string, bodyPartId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/rom/' + bodyPartId,
+        METHOD: "post"
+    },
+    DELETE_BODY_PART_UNDER_MEDICAL_INTERVENTION_ROM_CONFIG: {
+        URL: (medicalInterventionId: string, bodyPartId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/rom/' + bodyPartId,
+        METHOD: "delete"
+    },
+    SAVE_MEDICAL_INTERVENTION_SPECIAL_TEST_FOR_A_BODY_PART: {
+        URL: (medicalInterventionId: string, bodyPartId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/specialTest/' + bodyPartId,
+        METHOD: "post"
+    },
+    DELETE_BODY_PART_UNDER_MEDICAL_INTERVENTION_SPECIAL_TEST: {
+        URL: (medicalInterventionId: string, bodyPartId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/specialTest/' + bodyPartId,
+        METHOD: "delete"
+    },
+    CLIENT_MEDICAL_ATTACHMENT: {
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/attachment',
+        METHOD: 'get'
+    },
+    CLIENT_MEDICAL_RECORD: {
+        URL: (clientId: string) => ENV.API_URL + '/medicalRecord/' + clientId,
+        METHOD: 'get'
+    },
+    CLIENT_MEDICAL_INTERVENTION_LIST: {
+        URL: (medicalRecordId: string) => ENV.API_URL + "/medicalRecord/" + medicalRecordId + "/intervention",
+        METHOD: "get"
+    },
+    SAVE_MEDICAL_INTERVENTION_EXERCISE_LOG: {
+        URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/exerciseLog',
+        METHOD: "put"
+    },
+    GET_MEDICAL_INTERVENTION_EXERCISE_LOG_DETAILS: {
+        URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/exerciseLog',
+        METHOD: "get"
+    },
+    // chart notes end
+    CASE_STATUS_LIST: {
+        URL: ENV.API_URL + "/caseStatus",
+        METHOD: "get"
+    },
+    EXERCISE_LOG_ATTACHMENT_LIST: {
+        URL: (interventionId: string) => ENV.API_URL + '/intervention/' + interventionId + '/exerciseLog',
+        METHOD: 'get'
+    },
+    REMOVE_ATTACHMENT: {
+        URL: (interventionId: string, id: string) => ENV.API_URL + '/intervention/' + interventionId + '/exerciseLog/attachment/' + id,
+        METHOD: 'delete'
+    },
+
+    ADD_EXERCISE_LOG_ATTACHMENT: {
+        URL: (interventionId: string) => ENV.API_URL + '/intervention/' + interventionId + '/exerciseLog/attachment',
+        METHOD: 'post'
+    }
 }
 
 export default APIConfig;

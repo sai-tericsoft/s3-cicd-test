@@ -51,7 +51,8 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
             defaultData,
             size,
             openOnFocus,
-            loadingText
+            loadingText,
+            filterSelectedOptions
         } = props;
         if (!placeholder) placeholder = label;
         if (!method) method = "get";
@@ -60,6 +61,7 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
         if (!dataListKey) dataListKey = "data.docs";
         if (multiple === undefined) multiple = false;
         if (fullWidth === undefined) fullWidth = true;
+        if (filterSelectedOptions === undefined) filterSelectedOptions = true;
         if (!noDataMessage) noDataMessage = "No Data";
         if (!loadingText) loadingText = "Searching...!";
         if (!defaultData) defaultData = [];
@@ -92,7 +94,7 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
                 {/*    label={displayWith(option)}*/}
                 {/*    checked={formControlValue.includes(valueExtractor(option))}*/}
                 {/*/>*/}
-                { option ? displayWith(option) : "" }
+                {option ? displayWith(option) : ""}
             </MenuItem>
         ), [displayWith, valueExtractor, keyExtractor]);
 
@@ -234,9 +236,9 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
                     open={openPopup}
                     onClose={() => setOpenPopup(false)}
                     noOptionsText={noDataMessage}
-                    isOptionEqualToValue={useCallback((option: any, value: any) => {
-                        return JSON.stringify(valueExtractor(option)) === JSON.stringify(value);
-                    }, [valueExtractor])}
+                    // isOptionEqualToValue={useCallback((option: any, value: any) => {
+                    //     return JSON.stringify(valueExtractor(option)) === JSON.stringify(value);
+                    // }, [valueExtractor])}
                     loadingText={loadingText}
                     options={dropDownData || []}
                     getOptionLabel={displayWith}
@@ -282,6 +284,7 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
                         }
                     }}
                     filterOptions={searchMode === "serverSide" ? (x) => x : undefined}
+                    filterSelectedOptions={filterSelectedOptions}
                 />
                 <FormHelperText>
                     {hasError && <> {errorMessage} </>}
@@ -296,7 +299,6 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
 ;
 
 export default AutoCompleteDropdownComponent;
-
 
 
 // ****************************** USAGE ****************************** //

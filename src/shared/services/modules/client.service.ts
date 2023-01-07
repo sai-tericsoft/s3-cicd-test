@@ -13,6 +13,12 @@ const ClientMedicalDetailsApiCall=(clientId: string, payload: any)=>{
     return ApiService[APIConfig.CLIENT_MEDICAL_DETAILS.METHOD](APIConfig.CLIENT_MEDICAL_DETAILS.URL(clientId), payload);
 }
 
+const ClientMedicalRecordApiCall=(clientId: string, payload: any)=>{
+    // @ts-ignore
+    return ApiService[APIConfig.CLIENT_MEDICAL_RECORD.METHOD](APIConfig.CLIENT_MEDICAL_RECORD.URL(clientId), payload);
+}
+
+
 const ClientAccountDetailsApiCall=(clientId: string, payload: any)=>{
     // @ts-ignore
     return ApiService[APIConfig.CLIENT_ACCOUNT_DETAILS.METHOD](APIConfig.CLIENT_ACCOUNT_DETAILS.URL(clientId), payload);
@@ -119,7 +125,8 @@ const ClientService={
     ClientAccountDetailsEditAPICall,
     AddFavouriteCode,
     RemoveFavouriteCode,
-    GetAllFavouriteCodes
+    GetAllFavouriteCodes,
+    ClientMedicalRecordApiCall
 }
 
 export default ClientService;

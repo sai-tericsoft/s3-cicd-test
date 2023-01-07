@@ -89,7 +89,7 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
         },
         {
             title: "Chart Notes",
-            path: ""
+            path: clientId ? CommonService._routeConfig.MedicalRecordList(clientId) : ""
         },
         {
             title: "Documents",
@@ -132,24 +132,11 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
                             }
                             {
                                 (isClientBasicDetailsLoaded && clientBasicDetails) && <>
-                                    <div className="client-details-header">
-                                        <div className={"client-details-title"}>
-                                            Client Profile
-                                        </div>
-                                        <div className={"client-details-actions"}>
-                                            {
-                                                currentTab === "basicDetails" &&
-                                                <LinkComponent
-                                                    route={CommonService._client.NavigateToClientEdit(clientId, "basicDetails")}>
-                                                    <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>
-                                                        Edit Profile
-                                                    </ButtonComponent>
-                                                </LinkComponent>
-                                            }
-                                        </div>
-                                    </div>
                                     <div className={"client-details-layout"}>
-                                        <div className={"client-details-basic-card-sub-menu-wrapper"}>
+                                        <div className={"client-details-left-bar"}>
+                                            <div className={"client-details-title"}>
+                                                Client Profile
+                                            </div>
                                             <div className={"client-details-basic-card-holder"}>
                                                 <ClientBasicDetailsCardComponent
                                                     clientBasicDetails={clientBasicDetails}/>
@@ -158,7 +145,18 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
                                                 <SubMenuListComponent menuItems={CLIENT_MENU_ITEMS}/>
                                             </div>
                                         </div>
-                                        <div className="client-details-tab-wrapper">
+                                        <div className="client-details-content-wrapper">
+                                            <div
+                                                className={`client-details-actions`}>
+                                                <LinkComponent
+                                                    route={CommonService._client.NavigateToClientEdit(clientId, "basicDetails")}>
+                                                    <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                                                     className={`${currentTab === "basicDetails" ? "opacity-1" : "opacity-0"}`}
+                                                    >
+                                                        Edit Profile
+                                                    </ButtonComponent>
+                                                </LinkComponent>
+                                            </div>
                                             <TabsWrapperComponent>
                                                 <TabsComponent
                                                     value={currentTab}

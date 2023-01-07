@@ -3,11 +3,15 @@ import * as navigation from "./navigation.action";
 import * as staticData from "./static-data.action";
 import * as client from "./client.action";
 import * as service from "./service.action";
+import * as user from "./user.action";
+import * as chartNotes from "./chart-notes.action";
 
 export {
     account,
     navigation,
     staticData,
     client,
-    service
+    service,
+    user,
+    chartNotes
 };
