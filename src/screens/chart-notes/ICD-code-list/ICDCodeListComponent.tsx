@@ -12,8 +12,6 @@ import {useSearchParams} from "react-router-dom";
 import FavouriteICDCodesComponent from "../favourite-ICD-codes/FavouriteICDCodesComponent";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {getClientFavouriteCodes} from "../../../store/actions/chart-notes.action";
-import {useDispatch} from "react-redux";
 
 interface ICDCodeListComponentProps {
 
@@ -24,7 +22,6 @@ const ICDCodesSteps: any = ["icdCodes", "favourites"];
 
 const ICDCodeListComponent = (props: ICDCodeListComponentProps) => {
 
-    const dispatch = useDispatch();
     const [currentTab, setCurrentTab] = useState<any>("icdCodes");
     const [searchParams, setSearchParams] = useSearchParams();
     const [refreshToken, setRefreshToken] = useState<string>('');
@@ -62,7 +59,7 @@ const ICDCodeListComponent = (props: ICDCodeListComponentProps) => {
             width: 250,
         },
         {
-            title: 'Mark as Favorite',
+            title: 'Mark as Favourite',
             dataIndex: 'is_fav',
             key: 'favorite',
             fixed: 'right',
@@ -76,13 +73,11 @@ const ICDCodeListComponent = (props: ICDCodeListComponentProps) => {
                             <ImageConfig.StarIcon/>
                         </div>
                     }
-
                     {
                         item?.is_fav &&
                         <div className={'star-icon'} onClick={() => removeFavouriteCode(item?._id)}>
                             <ImageConfig.FilledStarIcon/></div>
                     }
-
                </span>
             }
         }
@@ -108,7 +103,6 @@ const ICDCodeListComponent = (props: ICDCodeListComponentProps) => {
                 CommonService._alert.showToast(error, "error");
             });
     }, []);
-
 
     return (
         <div className={'ICD-code-list-component'}>

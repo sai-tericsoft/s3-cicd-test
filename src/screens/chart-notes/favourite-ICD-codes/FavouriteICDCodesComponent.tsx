@@ -4,15 +4,13 @@ import TableWrapperComponent from "../../../shared/components/table-wrapper/Tabl
 import {APIConfig, ImageConfig, Misc} from "../../../constants";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {useCallback, useEffect, useState} from "react";
-import {useDispatch} from "react-redux";
+import {useCallback, useState} from "react";
 
 interface FavouriteICDCodesComponentProps {
 
 }
 
 const FavouriteICDCodesComponent = (props: FavouriteICDCodesComponentProps) => {
-
 
     const [refreshToken, setRefreshToken] = useState<string>('');
     const favouriteICDCodesColumns: ITableColumn[] = [
