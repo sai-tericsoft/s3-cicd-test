@@ -33,13 +33,13 @@ const FavouriteICDCodesComponent = (props: FavouriteICDCodesComponentProps) => {
             }
         },
         {
-            title: 'Mark as Favorite',
-            dataIndex: 'favorite',
+            title: ' Favourite Code(s)',
+            dataIndex: 'favourite',
             key: 'favorite',
             fixed: 'right',
             width: 120,
             render: (_: any, item: any) => {
-                return <span onClick={() => removeFavouriteCode(item?._id)}>
+                return <span onClick={() => removeFavouriteCode(item?.icd_code_id)}>
                   <ImageConfig.FilledStarIcon className={'star-icon-favourite'}/>
                </span>
             }

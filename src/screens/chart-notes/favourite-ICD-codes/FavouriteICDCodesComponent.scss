@@ -1,4 +1,11 @@
-.star-icon-favourite{
-  cursor: pointer;
-  color: #00534F;
+
+.favourite-ICD-codes-component {
+  .star-icon-favourite {
+    cursor: pointer;
+    color: #00534F;
+  }
+  .t-cell-favorite {
+    text-align: center !important;
+  }
+
 }

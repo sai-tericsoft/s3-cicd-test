@@ -93,8 +93,8 @@ const ICDCodeListComponent = (props: ICDCodeListComponentProps) => {
             })
     }, []);
 
-    const removeFavouriteCode = useCallback((id: any) => {
-        CommonService._client.RemoveFavouriteCode(id, {})
+    const removeFavouriteCode = useCallback((codeId: any) => {
+        CommonService._client.RemoveFavouriteCode(codeId, {})
             .then((response: IAPIResponseType<any>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setRefreshToken(Math.random().toString(36).substring(7));
