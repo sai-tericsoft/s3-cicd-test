@@ -1,16 +1,11 @@
 import './TestScreen.scss';
-import React  from 'react';
-import ICDCodeListComponent from "../chart-notes/ICD-code-list/ICDCodeListComponent";
 
-const TestScreen: React.FC = () => {
 
-        return (
-            <>
-            {/*<ServiceAddScreen/>*/}
-                <ICDCodeListComponent/>
-        </>
-
+const TestScreen = () => {
+    return (
+        <div className="test-screen">
+            <h1>Test Screen</h1>
+        </div>
     );
 };
-
 export default TestScreen;

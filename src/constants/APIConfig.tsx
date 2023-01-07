@@ -304,6 +304,10 @@ const APIConfig: IAPIConfig = {
         URL: (medicalRecordId: string) => ENV.API_URL + "/medicalRecord/" + medicalRecordId + "/intervention",
         METHOD: "get"
     },
+    CLIENT_MEDICAL_INTERVENTION_DETAILS: {
+        URL:(medicalRecordId:string)=> ENV.API_URL + "/intervention/"+ medicalRecordId,
+        METHOD: "get"
+    },
     SAVE_MEDICAL_INTERVENTION_ICD_CODES: {
         URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/icdCodes',
         METHOD: "post"
@@ -316,6 +320,11 @@ const APIConfig: IAPIConfig = {
         URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/exerciseLog',
         METHOD: "get"
     },
+    GET_CLIENT_MEDICAL_INTERVENTION_DETAILS: {
+        URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId,
+        METHOD: "get"
+    },
+
     // chart notes end
     CASE_STATUS_LIST: {
         URL: ENV.API_URL + "/caseStatus",

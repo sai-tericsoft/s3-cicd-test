@@ -102,7 +102,7 @@ const getRequestPromise = (request: Promise<AxiosResponse>) => {
         request
             .then((resp) => {
                 if (ENV.ENABLE_HTTP_LOGS) {
-                    console.log('====>>>>>>', resp.data);
+                    // console.log('====>>>>>>', resp.data);
                 }
                 setTimeout(() => {
                     resolve({...resp.data, status: resp.status});
@@ -110,7 +110,7 @@ const getRequestPromise = (request: Promise<AxiosResponse>) => {
             })
             .catch((err: any) => {
                 if (ENV.ENABLE_HTTP_LOGS) {
-                    console.error('=====>', err, 'API Error');
+                    // console.error('=====>', err, 'API Error');
                 }
                 try {
                     const response: any = (err.response) ? err.response : {data: null};

@@ -2,6 +2,8 @@ import {IActionModel} from "../../shared/models/action.model";
 import {
     GET_INTERVENTION_ATTACHMENT_LIST,
     GET_MEDICAL_INTERVENTION_DETAILS, SET_INTERVENTION_ATTACHMENT_LIST,
+    GET_CLIENT_MEDICAL_INTERVENTION_DETAILS,
+    SET_CLIENT_MEDICAL_INTERVENTION_DETAILS,
     SET_MEDICAL_INTERVENTION_DETAILS
 } from "../actions/chart-notes.action";
 
@@ -13,7 +15,11 @@ export interface IChartNotesReducerState {
     isAttachmentListLoading: boolean,
     isAttachmentListLoaded: boolean,
     isAttachmentListLoadingFailed: boolean,
-    attachmentList?: any
+    attachmentList?: any,
+    isClientMedicalInterventionDetailsLoading: boolean,
+    isClientMedicalInterventionDetailsLoaded: boolean,
+    isClientMedicalInterventionDetailsLoadingFailed: boolean,
+    clientMedicalInterventionDetails?: any,
 
 }
 
@@ -25,7 +31,12 @@ const initialData: IChartNotesReducerState = {
     isAttachmentListLoading: false,
     isAttachmentListLoaded: false,
     isAttachmentListLoadingFailed: false,
-    attachmentList: undefined
+    attachmentList: undefined,
+        isClientMedicalInterventionDetailsLoading: false,
+    isClientMedicalInterventionDetailsLoaded: false,
+    isClientMedicalInterventionDetailsLoadingFailed: false,
+    clientMedicalInterventionDetails: undefined,
+
 };
 
 const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNotesReducerState => {
@@ -64,6 +75,24 @@ const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNot
                 isAttachmentListLoadingFailed: !action.payload.interventionAttachmentList,
                 attachmentList: action.payload.interventionAttachmentList
             }
+            return state;
+
+        case GET_CLIENT_MEDICAL_INTERVENTION_DETAILS:
+            state = {
+                ...state,
+                isClientMedicalInterventionDetailsLoading: true,
+                isClientMedicalInterventionDetailsLoaded: false,
+                isClientMedicalInterventionDetailsLoadingFailed: false,
+            };
+            return state;
+          case SET_CLIENT_MEDICAL_INTERVENTION_DETAILS:
+            state = {
+                ...state,
+                isClientMedicalInterventionDetailsLoading: false,
+                isClientMedicalInterventionDetailsLoaded: !!action.payload.clientMedicalInterventionDetails,
+                isClientMedicalInterventionDetailsLoadingFailed: !action.payload.clientMedicalInterventionDetails,
+                clientMedicalInterventionDetails: action.payload.clientMedicalInterventionDetails
+            };
             return state;
 
         default:

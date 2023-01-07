@@ -16,6 +16,7 @@ export interface ILoggedInUser {
     gender: string;
     role: string;
     is_active: boolean;
+    signature_url:any
 }
 
 export interface ICheckLoginResponse {
