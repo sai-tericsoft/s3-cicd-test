@@ -209,6 +209,22 @@ const APIConfig: IAPIConfig = {
     CLIENT_ACTIVITY_LOG: {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/activityLog',
         METHOD: 'get'
+    },
+    ICD_CODE_LIST: {
+        URL: ENV.API_URL + "/icdCodes",
+        METHOD: 'get'
+    },
+    ICD_CODE_FAVOURITE_LIST: {
+        URL: ENV.API_URL + "/favouriteICD",
+        METHOD: 'get'
+    },
+    ICD_CODE_FAVOURITE_ADD: {
+        URL:(codeId:string)=> ENV.API_URL + '/favouriteICD/' + codeId,
+        METHOD: 'post'
+    },
+    ICD_CODE_FAVOURITE_REMOVE: {
+        URL:(codeId:string)=> ENV.API_URL + '/favouriteICD/' + codeId,
+        METHOD: 'delete'
     }
     // client end
 }

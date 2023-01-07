@@ -17,8 +17,6 @@ import {ReactComponent as RightArrow} from './../assets/icons/right_arrow.svg';
 import {ReactComponent as SearchIcon} from './../assets/icons/search.svg';
 import {ReactComponent as InfoIcon} from './../assets/icons/info.svg';
 import {ReactComponent as CommentIcon} from './../assets/icons/comment.svg';
-import {ReactComponent as StarIcon} from "./../assets/icons/star.svg";
-import {ReactComponent as FilledStarIcon} from "./../assets/icons/filled_star.svg";
 
 //file types
 import PDFIcon from './../assets/icons/file-types/pdf.svg';
@@ -41,6 +39,9 @@ import {ReactComponent as ChartNotes} from '../assets/icons/side-menu/chart_note
 import {ReactComponent as AddIcon} from './../assets/icons/add.svg';
 import {ReactComponent as DeleteIcon} from "./../assets/icons/delete.svg";
 import {ReactComponent as AddCircleIcon} from './../assets/icons/add_circle.svg';
+import {ReactComponent as StarIcon} from './../assets/icons/star.svg';
+import {ReactComponent as FilledStarIcon} from './../assets/icons/filled_star.svg';
+
 
 import PlaceHolderImage from '../assets/images/place_holder_image.png';
 import RemoveImage from '../assets/images/remove.png';
@@ -90,4 +91,5 @@ export {
     CommentIcon,
     StarIcon,
     FilledStarIcon
+
 }

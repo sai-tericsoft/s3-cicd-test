@@ -1,107 +1,140 @@
 import "./ICDCodeListComponent.scss";
-import TableComponent from "../../../shared/components/table/TableComponent";
-import {ImageConfig} from "../../../constants";
-import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
-import {useCallback, useState} from "react";
+import {APIConfig, ImageConfig, Misc} from "../../../constants";
+import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
+import {ITableColumn} from "../../../shared/models/table.model";
+import TabsWrapperComponent, {
+    TabComponent,
+    TabContentComponent,
+    TabsComponent
+} from "../../../shared/components/tabs/TabsComponent";
+import {useCallback, useEffect, useState} from "react";
+import {useSearchParams} from "react-router-dom";
+import FavouriteICDCodesComponent from "../favourite-ICD-codes/FavouriteICDCodesComponent";
 import {CommonService} from "../../../shared/services";
+import {IAPIResponseType} from "../../../shared/models/api.model";
+import {getClientFavouriteCodes} from "../../../store/actions/chart-notes.action";
+import {useDispatch} from "react-redux";
 
 interface ICDCodeListComponentProps {
 
 }
 
+const ICDCodesSteps: any = ["icdCodes", "favourites"];
+
+
 const ICDCodeListComponent = (props: ICDCodeListComponentProps) => {
 
-    const [isStarFilled,setIsStarFilled]=useState<boolean>(false);
+    const dispatch = useDispatch();
+    const [currentTab, setCurrentTab] = useState<any>("icdCodes");
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [refreshToken, setRefreshToken] = useState<string>('');
+    useEffect(() => {
+        let currentTab: any = searchParams.get("currentStep");
+        if (currentTab) {
+            if (!ICDCodesSteps.includes(currentTab)) {
+                currentTab = "icdCodes";
+            }
+        } else {
+            currentTab = "icdCodes";
+        }
+        setCurrentTab(currentTab);
+    }, [searchParams]);
 
-    const handleStarIcon=useCallback(()=>{
-        setIsStarFilled(true);
-        CommonService._client.HandleICDStar()
-            
-    },[])
+    const handleTabChange = useCallback((e: any, value: any) => {
+        searchParams.set("currentStep", value);
+        setSearchParams(searchParams);
+        setCurrentTab(value);
+    }, [searchParams, setSearchParams]);
 
-    const codeList: any = [
-        {
-            code: 'M54,4',
-            description: 'Lumbago with Sciatica',
-            mark_as_favourite:<ImageConfig.StarIcon/>
-        },
-        {
-            code: 'M54,40',
-            description: 'Lumbago with Sciatica, unspecified side',
-            mark_as_favourite:<ImageConfig.StarIcon/>
 
-        },
+    const codeListColumns: ITableColumn[] = [
         {
-            code: 'M54,41',
-            description: 'Lumbago with Sciatica, right side',
-            mark_as_favourite:<ImageConfig.StarIcon/>
-        },
-        {
-            code: 'M54,42',
-            description: 'Lumbago with Sciatica, left side',
-            mark_as_favourite:<ImageConfig.StarIcon/>
-        },
-        {
-            code: 'M54,45',
-            description: 'Low Back Pain',
-            mark_as_favourite:<ImageConfig.StarIcon/>
-        },
-        {
-            code: 'M54,4',
-            description: 'Lumbago with Sciatica',
-            mark_as_favourite:<ImageConfig.StarIcon/>
-        },
-        {
-            code: 'M54,40',
-            description: 'Lumbago with Sciatica, unspecified side',
-            mark_as_favourite:<ImageConfig.StarIcon/>
-        },
-        {
-            code: 'M54,41',
-            description: 'Lumbago with Sciatica, right side',
-            mark_as_favourite:<ImageConfig.StarIcon/>
-        },
-        {
-            code: 'M54,42',
-            description: 'Lumbago with Sciatica, left side',
-            mark_as_favourite:<ImageConfig.StarIcon/>
-        },
-    ];
-
-    const codeListDataColumn:any=[
-        {
-            title:"ICD-10 Codes",
-            key:'code',
-            dataIndex:'code',
-            width:'20%'
+            title: 'ICD-11 Codes',
+            dataIndex: 'icd_code',
+            key: 'icd_code',
+            width: 120,
+            fixed: 'left',
         },
         {
             title: 'Description',
-            key:'description',
             dataIndex: 'description',
-            width:' 60%'
+            key: 'description',
+            width: 250,
         },
         {
-            title: 'Mark as Favourite',
-            key:'mark_as_favourite',
-            dataIndex: 'mark_as_favourite',
-            render:(_:any,item:any)=>{
-                return <IconButtonComponent onClick={handleStarIcon}>
-                    {isStarFilled?<ImageConfig.FilledStarIcon/>:<ImageConfig.StarIcon/>}
-                </IconButtonComponent>
-            }
+            title: 'Mark as Favorite',
+            dataIndex: 'is_fav',
+            key: 'favorite',
+            fixed: 'right',
+            width: 120,
+            render: (_: any, item: any) => {
+                return <span>
 
-        },
-    ]
+                    {
+                        !item?.is_fav &&
+                        <div className={'star-icon'} onClick={() => addFavouriteList(item?._id)}>
+                            <ImageConfig.StarIcon/>
+                        </div>
+                    }
+
+                    {
+                        item?.is_fav &&
+                        <div className={'star-icon'} onClick={() => removeFavouriteCode(item?._id)}>
+                            <ImageConfig.FilledStarIcon/></div>
+                    }
+
+               </span>
+            }
+        }
+    ];
+    const addFavouriteList = useCallback((codeId: string) => {
+        CommonService._client.AddFavouriteCode(codeId, {})
+            .then((response: IAPIResponseType<any>) => {
+                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                setRefreshToken(Math.random().toString(36).substring(7));
+            })
+            .catch((error: any) => {
+                CommonService._alert.showToast(error, "error");
+            })
+    }, []);
+
+    const removeFavouriteCode = useCallback((id: any) => {
+        CommonService._client.RemoveFavouriteCode(id, {})
+            .then((response: IAPIResponseType<any>) => {
+                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                setRefreshToken(Math.random().toString(36).substring(7));
+            })
+            .catch((error: any) => {
+                CommonService._alert.showToast(error, "error");
+            });
+    }, []);
+
 
     return (
         <div className={'ICD-code-list-component'}>
-            <div>
-                <TableComponent data={codeList} columns={codeListDataColumn}/>
-            </div>
+            <TabsWrapperComponent>
+                <TabsComponent
+                    value={currentTab}
+                    allowScrollButtonsMobile={false}
+                    variant={"fullWidth"}
+                    onUpdate={handleTabChange}
+                >
+                    <TabComponent label={'ALL ICD-11 CODES'} value={'icdCodes'}/>
+                    <TabComponent label={'FAVOURITES'} value={'favourites'}/>
+                </TabsComponent>
+                <TabContentComponent value={'icdCodes'} selectedTab={currentTab}>
+                    <TableWrapperComponent refreshToken={refreshToken} url={APIConfig.ICD_CODE_LIST.URL}
+                                           method={APIConfig.ICD_CODE_LIST.METHOD}
+                                           columns={codeListColumns}
+                                           isPaginated={true}
+                    />
+                </TabContentComponent>
+                <TabContentComponent value={'favourites'} selectedTab={currentTab}>
+                    <FavouriteICDCodesComponent/>
+                </TabContentComponent>
+            </TabsWrapperComponent>
         </div>
     );
-
 };
 
 export default ICDCodeListComponent;
