@@ -32,6 +32,10 @@ const MedicalInterventionAddFormInitialValues: any = { // TODO type properly
         education: "",
         treatment_goals: "",
     },
+    assessment: {
+        suspicion_index: '',
+        surgery_procedure: ''
+    },
     objective: {
         observation: "",
         palpation: "",
@@ -118,10 +122,10 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                     (medicalInterventionId && medicalRecordId) && <LinkComponent
                                         route={CommonService._routeConfig.MedicalInterventionExerciseLogUpdate(medicalRecordId, medicalInterventionId)}>
                                         <ButtonComponent
-                                            prefixIcon={medicalInterventionDetails.is_having_exercise_log ? <ImageConfig.EditIcon/> :<ImageConfig.AddIcon/>}
+                                            prefixIcon={medicalInterventionDetails?.is_having_exercise_log ? <ImageConfig.EditIcon/> :<ImageConfig.AddIcon/>}
                                         >
                                             {
-                                                (medicalInterventionDetails.is_having_exercise_log ? "Edit" : "Add") + " Exercise Log"
+                                                (medicalInterventionDetails?.is_having_exercise_log ? "Edit" : "Add") + " Exercise Log"
                                             }
                                         </ButtonComponent>
                                     </LinkComponent>
@@ -256,6 +260,51 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             }
                                         </Field>
 
+                                    </div>
+                                </div>
+                            </CardComponent>
+                            <CardComponent title={'Assessment (A)'}>
+                                <div className="ts-row">
+                                    <div className="ts-col-12">
+                                        <CardComponent title={"Medical Diagnosis / ICD-11 Codes"}
+                                                       actions={<>
+                                                           {
+                                                               (medicalInterventionId && medicalRecordId) &&  <LinkComponent
+                                                                   route={CommonService._routeConfig.MedicalInterventionSpecialTests(medicalRecordId, medicalInterventionId)}>
+                                                                   <ButtonComponent
+                                                                       prefixIcon={<ImageConfig.AddIcon/>}>
+                                                                       Add
+                                                                   </ButtonComponent>
+                                                               </LinkComponent>
+                                                           }
+                                                       </>}
+                                        ></CardComponent>
+                                        <Field name={'assessment.suspicion_index'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikTextAreaComponent
+                                                        label={'Index of Suspicion'}
+                                                        placeholder={'Index of Suspicion'}
+                                                        formikField={field}
+                                                        required={false}
+                                                        fullWidth={true}
+                                                    />
+                                                )
+                                            }
+                                        </Field>
+                                        <Field name={'assessment.surgery_procedure'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikTextAreaComponent
+                                                        label={'Surgery Procedure Complete'}
+                                                        placeholder={'Surgery Procedure Complete'}
+                                                        formikField={field}
+                                                        required={false}
+                                                        fullWidth={true}
+                                                    />
+                                                )
+                                            }
+                                        </Field>
                                     </div>
                                 </div>
                             </CardComponent>

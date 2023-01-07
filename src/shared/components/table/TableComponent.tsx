@@ -29,7 +29,7 @@ const TableComponent = (props: TableComponentProps) => {
         showExpandColumn,
         expandRow
     } = props;
-    
+
     const [tableColumns, setTableColumns] = useState<ColumnsType<any>>(props.columns);
     const size = props.size || "large";
     const scroll = props.scroll || "unset";
@@ -75,10 +75,11 @@ const TableComponent = (props: TableComponentProps) => {
             <Table
                 id={id}
                 expandable={expandRow && {
-                    expandedRowKeys: rowKey ? data.map(rowKey) : [],
+                    // expandedRowKeys: rowKey ? data.map(rowKey) : [], // todo: make it unique if required
                     showExpandColumn: showExpandColumn,
                     defaultExpandAllRows: defaultExpandAllRows,
                     expandedRowRender: expandRow,
+                    expandRowByClick: !!expandRow
                 }}
                 columns={tableColumns}
                 className={`${loading ? "loading" : ""}`}

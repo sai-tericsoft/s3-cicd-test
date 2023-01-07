@@ -29,6 +29,7 @@ const CLIENT_CHART_NOTES_DETAILS = "/chart-notes";
 const ADD_MEDICAL_RECORD = '/chart-notes/:clientId/add-medical-record';
 const CLIENT_CHART_NOTES = '/chart-notes/:clientId/medical-record-list';
 const ADD_MEDICAL_INTERVENTION = '/chart-notes/:medicalRecordId/:medicalInterventionId/add-medical-intervention';
+const MEDICAL_INTERVENTION_VIEW = '/chart-notes/:medicalRecordId/:medicalInterventionId/view';
 const MEDICAL_INTERVENTION_ROM_CONFIG = '/chart-notes/:medicalRecordId/:medicalInterventionId/rom-config';
 const MEDICAL_INTERVENTION_SPECIAL_TESTS = '/chart-notes/:medicalRecordId/:medicalInterventionId/special-tests';
 const MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE = '/chart-notes/:medicalRecordId/:medicalInterventionId/exercise-log-update';
@@ -65,6 +66,7 @@ export {
     CLIENT_MEDICAL_RECORD_DETAILS,
     ADD_MEDICAL_RECORD,
     ADD_MEDICAL_INTERVENTION,
+    MEDICAL_INTERVENTION_VIEW,
     CLIENT_CHART_NOTES,
     CLIENT_CHART_NOTES_DETAILS,
     MEDICAL_INTERVENTION_ROM_CONFIG,
