@@ -50,6 +50,7 @@ import {ReactComponent as FilledStarIcon} from './../assets/icons/filled_star.sv
 
 import {ReactComponent as FlagIcon} from "./../assets/icons/flag.svg";
 import {ReactComponent as AlertIcon} from './../assets/icons/alert_icon.svg';
+import {ReactComponent as CommentIcon} from './../assets/icons/comment.svg';
 
 import PlaceHolderImage from '../assets/images/place_holder_image.png';
 import RemoveImage from '../assets/images/remove.png';
@@ -102,6 +103,7 @@ export {
     FilledStarIcon,
 
     FlagIcon,
+    CommentIcon,
     CommentAddIcon,
     ChatIcon,
     AlertIcon,

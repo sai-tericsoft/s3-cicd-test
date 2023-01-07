@@ -67,6 +67,14 @@ const FetchMedicalInterventionExerciseLogAPICall = (medicalInterventionId: strin
     // @ts-ignore
     return ApiService[APIConfig.GET_MEDICAL_INTERVENTION_EXERCISE_LOG_DETAILS.METHOD](APIConfig.GET_MEDICAL_INTERVENTION_EXERCISE_LOG_DETAILS.URL(medicalInterventionId), payload);
 }
+
+const FetchClientMedicalInterventionEAPICall = (medicalInterventionId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.GET_CLIENT_MEDICAL_INTERVENTION_DETAILS.METHOD](APIConfig.GET_CLIENT_MEDICAL_INTERVENTION_DETAILS.URL(medicalInterventionId), payload);
+}
+
+
+
 const ChartNotesService = {
     MedicalRecordAddAPICall,
     MedicalRecordEditAPICall,
@@ -81,7 +89,10 @@ const ChartNotesService = {
     RemoveExerciseLogAttachmentAPICall,
     SaveMedicalInterventionExerciseLogAPICall,
     AddExerciseLogAttachment,
-    FetchMedicalInterventionExerciseLogAPICall
+    FetchMedicalInterventionExerciseLogAPICall,
+    FetchClientMedicalInterventionEAPICall,
+
+
 }
 
 export default ChartNotesService;

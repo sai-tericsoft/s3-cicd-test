@@ -5,6 +5,8 @@ import {
     GET_INTERVENTION_ATTACHMENT_LIST,
     GET_MEDICAL_INTERVENTION_DETAILS,
     setInterventionAttachmentList,
+    GET_CLIENT_MEDICAL_INTERVENTION_DETAILS,
+    setClientMedicalInterventionDetails,
     setMedicalInterventionDetails
 } from "../actions/chart-notes.action";
 
@@ -16,7 +18,18 @@ function* getMedicalInterventionDetails(action: any) {
     } catch (error) {
         yield put(setMedicalInterventionDetails(undefined));
     }
+};
+
+function* getClientMedicalInterventionDetails(action:any){
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._chartNotes.FetchClientMedicalInterventionEAPICall, action.payload.medicalInterventionId);
+        yield put(setClientMedicalInterventionDetails(resp.data));
+    } catch (error) {
+        yield put(setClientMedicalInterventionDetails(undefined));
+    }
 }
+
 
 function* getInterventionAttachmentList(action: any) {
     try {
@@ -28,7 +41,11 @@ function* getInterventionAttachmentList(action: any) {
     }
 }
 
+
+
+
 export default function* chartNotesSaga() {
     yield takeEvery(GET_MEDICAL_INTERVENTION_DETAILS, getMedicalInterventionDetails);
+    yield takeEvery(GET_CLIENT_MEDICAL_INTERVENTION_DETAILS, getClientMedicalInterventionDetails);
     yield takeEvery(GET_INTERVENTION_ATTACHMENT_LIST, getInterventionAttachmentList);
 }

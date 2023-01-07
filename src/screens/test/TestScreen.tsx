@@ -7,7 +7,7 @@ import ClientMedicalInterventionDetailsComponent
 
 
 const TestScreen: React.FC = () => {
-    
+
         return (
             <>
                 <ClientMedicalInterventionDetailsComponent/>

@@ -41,6 +41,7 @@ import {
     FACILITY_DETAILS,
     FACILITY_LIST, INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST,
     LOGIN_ROUTE,
+   MEDICAL_INTERVENTION_DETAILS,
     MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE, MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW,
     MEDICAL_INTERVENTION_ROM_CONFIG,
     MEDICAL_INTERVENTION_SPECIAL_TESTS,
@@ -69,6 +70,8 @@ import ExerciseLogAttachmentListComponent
 import MedicalInterventionExerciseLogViewScreen
     from "../screens/chart-notes/medical-intervention-exercise-log-view/MedicalInterventionExerciseLogViewScreen";
 import MedicalRecordListScreen from "../screens/chart-notes/medical-record-list/MedicalRecordListScreen";
+import ClientMedicalInterventionDetailsComponent
+    from "../screens/chart-notes/client-medical-intervention-details/ClientMedicalInterventionDetailsComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -297,6 +300,11 @@ const Navigator = (props: NavigatorProps) => {
                            <ExerciseLogAttachmentListComponent/>
                        </ProtectedRoute>
                        }/>
+
+                <Route path={MEDICAL_INTERVENTION_DETAILS} element={<ProtectedRoute>
+                    <ClientMedicalInterventionDetailsComponent/>
+                    </ProtectedRoute>}/>
+
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
             </Route>
             <Route element={<AuthLayout/>}>

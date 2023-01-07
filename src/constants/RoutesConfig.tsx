@@ -39,6 +39,9 @@ const INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST ='/chart-notes/:interventionId/e
 const ADD_EXERCISE_LOG_ATTACHMENT='/chart-notes/:interventionId/exerciseLog/attachment'
 const MEDICAL_INTERVENTION_EXERCISE_LOG = '/chart-notes/:medicalRecordId/:medicalInterventionId/exercise-log';
 
+const MEDICAL_INTERVENTION_DETAILS = '/chart-notes/intervention-details/:medicalInterventionId';
+
+
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
 export {
@@ -76,5 +79,7 @@ export {
     ADD_EXERCISE_LOG_ATTACHMENT,
     INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST,
     MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE,
-    MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW
+    MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW,
+    MEDICAL_INTERVENTION_DETAILS
+
 };
