@@ -218,7 +218,7 @@ const ClientMedicalInterventionDetailsComponent = (props: ClientMedicalIntervent
             key: 'test_name',
             width: 150,
             render: (_: any, item: any) => {
-                return <div>{item.special_tests.map((test: any) => {
+                return <div>{(item.special_tests || []).map((test: any) => {
                     return <div className={'test-name'}>{test?.name}</div>
                 })}</div>
             }
@@ -229,7 +229,7 @@ const ClientMedicalInterventionDetailsComponent = (props: ClientMedicalIntervent
             key: 'result',
             width: 150,
             render: (_: any, item: any) => {
-                return <div>{item.special_tests.map((test: any) => {
+                return <div>{(item.special_tests || []).map((test: any) => {
                     return <div className={'test-name'}>{test?.result}</div>
                 })}
                 </div>
@@ -240,7 +240,7 @@ const ClientMedicalInterventionDetailsComponent = (props: ClientMedicalIntervent
             dataIndex: 'comments',
             key: 'comments',
             render: (_: any, item: any) => {
-                return <div>{item.special_tests.map((test: any) => {
+                return <div>{(item.special_tests || []).map((test: any) => {
                     return <div className={'test-name'}>{test?.comments}</div>
                 })}
                 </div>
