@@ -7,11 +7,12 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import {useCallback, useState} from "react";
 
 interface FavouriteICDCodesComponentProps {
-
+    rowSelection?: any;
 }
 
 const FavouriteICDCodesComponent = (props: FavouriteICDCodesComponentProps) => {
 
+    const {rowSelection} = props;
     const [refreshToken, setRefreshToken] = useState<string>('');
     const favouriteICDCodesColumns: ITableColumn[] = [
         {
@@ -60,7 +61,7 @@ const FavouriteICDCodesComponent = (props: FavouriteICDCodesComponentProps) => {
 
     return (
         <div className={'favourite-ICD-codes-component'}>
-            <TableWrapperComponent refreshToken={refreshToken} url={APIConfig.ICD_CODE_FAVOURITE_LIST.URL}
+            <TableWrapperComponent rowKey={(row, index) => row.icd_code_id} rowSelection={rowSelection} refreshToken={refreshToken} url={APIConfig.ICD_CODE_FAVOURITE_LIST.URL}
                                    method={APIConfig.ICD_CODE_FAVOURITE_LIST.METHOD}
                                    columns={favouriteICDCodesColumns} isPaginated={true}/>
         </div>

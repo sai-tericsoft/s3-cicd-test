@@ -109,6 +109,9 @@ const MedicalInterventionROMConfig = (medicalRecordId: string, medicalInterventi
 const MedicalInterventionSpecialTests = (medicalRecordId: string, medicalInterventionId: string)=>{
     return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/special-tests';
 }
+const MedicalInterventionICDCodes = (medicalRecordId: string, medicalInterventionId: string)=>{
+    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/icd-codes'; // todo: why is this not referred from constants
+}
 
 const MedicalInterventionExerciseLogUpdate = (medicalRecordId: string, medicalInterventionId: string)=>{
     return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/exercise-log-update';
@@ -150,7 +153,9 @@ const RouteConfigService = {
     MedicalInterventionSpecialTests,
     MedicalInterventionExerciseLogUpdate,
     MedicalRecordList,
-    MedicalInterventionExerciseLogView
+    MedicalInterventionExerciseLogView,
+    MedicalInterventionICDCodes
+
 }
 
 export default RouteConfigService;
