@@ -41,7 +41,6 @@ import {ReactComponent as ChartNotes} from '../assets/icons/side-menu/chart_note
 
 // general
 import {ReactComponent as AddIcon} from './../assets/icons/add.svg';
-import {ReactComponent as CommentIcon} from './../assets/icons/comment.svg';
 import {ReactComponent as DeleteIcon} from "./../assets/icons/delete.svg";
 import {ReactComponent as AddCircleIcon} from './../assets/icons/add_circle.svg';
 
@@ -98,7 +97,6 @@ export {
     InfoIcon,
     ToastCloseIcon,
     ChartNotes,
-    CommentIcon,
     StarIcon,
     FilledStarIcon,
 

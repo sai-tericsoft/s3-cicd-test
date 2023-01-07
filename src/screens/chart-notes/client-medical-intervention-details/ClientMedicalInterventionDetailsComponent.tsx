@@ -5,12 +5,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import {useCallback, useEffect} from "react";
+import { useEffect} from "react";
 import {getClientMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
 
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {CommonService} from "../../../shared/services";
 import {ImageConfig} from "../../../constants";
+import {useParams} from "react-router-dom";
 
 interface ClientMedicalInterventionDetailsComponentProps {
 
