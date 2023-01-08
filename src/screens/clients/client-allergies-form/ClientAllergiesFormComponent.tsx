@@ -131,7 +131,7 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
                                                 disabled={isClientAllergiesSavingInProgress}
                                                 onClick={onCancel}
                                             >
-                                                Cancel
+                                                Home
                                             </ButtonComponent>&nbsp;&nbsp;
                                             <ButtonComponent
                                                 isLoading={isClientAllergiesSavingInProgress}

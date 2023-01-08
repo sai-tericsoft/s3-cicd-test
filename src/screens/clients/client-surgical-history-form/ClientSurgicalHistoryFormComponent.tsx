@@ -194,7 +194,7 @@ const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComp
                                                 </Field>
                                             </div>
                                         </div>
-                                        <div className="ts-row">
+                                        {values.surgical_history?.isCustomOption && <div className="ts-row">
                                             <div className="ts-col-12">
                                                 <Field name={`surgical_history.comments`}>
                                                     {
@@ -211,14 +211,14 @@ const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComp
                                                     }
                                                 </Field>
                                             </div>
-                                        </div>
+                                        </div>}
                                         <div className="t-form-actions">
                                             <ButtonComponent
                                                 variant={"outlined"}
                                                 onClick={onCancel}
                                                 disabled={isClientSurgicalHistorySavingInProgress}
                                             >
-                                                Cancel
+                                                Home
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
                                                 isLoading={isClientSurgicalHistorySavingInProgress}

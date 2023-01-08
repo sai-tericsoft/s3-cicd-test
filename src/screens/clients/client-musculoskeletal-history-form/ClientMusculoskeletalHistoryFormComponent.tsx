@@ -175,7 +175,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                 onClick={onCancel}
                                                 disabled={isClientMusculoskeletalHistorySavingInProgress}
                                             >
-                                                Cancel
+                                                Home
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
                                                 isLoading={isClientMusculoskeletalHistorySavingInProgress}

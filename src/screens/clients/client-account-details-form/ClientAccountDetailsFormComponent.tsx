@@ -309,7 +309,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                                 onClick={onCancel}
                                                 disabled={isClientAccountDetailsFormSavingInProgress}
                                             >
-                                                Cancel
+                                                Home
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
                                                 isLoading={isClientAccountDetailsFormSavingInProgress}

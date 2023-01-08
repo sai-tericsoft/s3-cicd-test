@@ -178,12 +178,12 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             </LinkComponent>
                             }>
                                 <div className={'ts-row'}>
-                                    <div className={'ts-col-lg-4'}>
+                                    <div className={'ts-col-12'}>
                                         <DataLabelValueComponent label={'Pregnant or Attempting to be pregnant?'}>
                                             {clientMedicalDetails?.females_only_questions?.["Pregnant or trying to get pregnant?"] || "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
-                                    <div className={'ts-col-lg-4'}>
+                                    <div className={'ts-col-12'}>
                                         <DataLabelValueComponent label={'Nursing?'}>
                                             {clientMedicalDetails?.females_only_questions?.["Nursing?"] || "N/A"}
                                         </DataLabelValueComponent>

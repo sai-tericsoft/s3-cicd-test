@@ -159,7 +159,7 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
                                                 onClick={onCancel}
                                                 disabled={isClientMedicalSupplementsSavingInProgress}
                                             >
-                                                Cancel
+                                                Home
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
                                                 isLoading={isClientMedicalSupplementsSavingInProgress}

@@ -75,7 +75,8 @@ const ClientListScreen = (props: ClientListScreenProps) => {
                                 value={clientListFilterState.is_active}
                                 keyExtractor={(item) => item.code}
                                 onUpdate={(value) => {
-                                    setClientListFilterState({...clientListFilterState, is_active: value})
+                                    delete clientListFilterState.is_active;
+                                    setClientListFilterState({...clientListFilterState, ...(value !== '' ? {is_active: value}: {})})
                                 }}
                             />
                         </div>

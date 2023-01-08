@@ -240,7 +240,7 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                                                 onClick={onCancel}
                                                 disabled={isClientPersonalHabitsSavingInProgress}
                                             >
-                                                Cancel
+                                                Home
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
                                                 isLoading={isClientPersonalHabitsSavingInProgress}

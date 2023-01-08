@@ -8,7 +8,7 @@ interface QuestionComponentProps {
 
 const QuestionComponent = (props: QuestionComponentProps) => {
 
-    const {title, description,className} = props;
+    const {title, description} = props;
 
     return (
         <div className={'question-component'}>

@@ -180,7 +180,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                                 onClick={onCancel}
                                                 disabled={isClientMedicalProviderInformationSavingInProgress}
                                             >
-                                                Cancel
+                                                Home
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
                                                 isLoading={isClientMedicalProviderInformationSavingInProgress}
