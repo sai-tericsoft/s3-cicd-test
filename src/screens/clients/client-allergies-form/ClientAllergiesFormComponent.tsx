@@ -96,7 +96,7 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
             </>
             {
                 ((mode === "edit" && isClientMedicalDetailsLoaded && clientMedicalDetails) || mode === "add") && <>
-                    <FormControlLabelComponent label={CommonService.capitalizeFirstLetter(mode) + " Allergies"}/>
+                    <FormControlLabelComponent className={'add-allergies-heading'} label={CommonService.capitalizeFirstLetter(mode) + " Allergies"}/>
                     <CardComponent title={'Allergies'}
                                    description={"Please list all allergies for the client (ie. Medications, Food, Environmental, Insects, Adhesives, Etc.):"}>
                         <Formik initialValues={clientAllergiesFormInitialValues}
@@ -131,7 +131,7 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
                                                 disabled={isClientAllergiesSavingInProgress}
                                                 onClick={onCancel}
                                             >
-                                                Cancel
+                                                Home
                                             </ButtonComponent>&nbsp;&nbsp;
                                             <ButtonComponent
                                                 isLoading={isClientAllergiesSavingInProgress}

@@ -164,7 +164,7 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
         </>
             {
                 ((mode === "edit" && isClientMedicalDetailsLoaded && clientMedicalDetails) || mode === "add") && <>
-                    <FormControlLabelComponent label={CommonService.capitalizeFirstLetter(mode) + " Personal Habits"}/>
+                    <FormControlLabelComponent className={'add-personal-habits-heading'} label={CommonService.capitalizeFirstLetter(mode) + " Personal Habits"}/>
                     <CardComponent title={"Personal Habits"} description={"Has the client ever or do they currently:"}>
                         <Formik
                             validationSchema={ClientPersonalHabitsFormValidationSchema}
@@ -186,7 +186,7 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                                                 const {key, title, placeholder} = question;
                                                 return <>
                                                     <div className="ts-row ts-align-items-center form-question" key={key}>
-                                                        <div className="ts-col-md-4">
+                                                        <div className="ts-col-md-4 ">
                                                             {title}
                                                         </div>
                                                         <div className="ts-col-md-3">
@@ -240,7 +240,7 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                                                 onClick={onCancel}
                                                 disabled={isClientPersonalHabitsSavingInProgress}
                                             >
-                                                Cancel
+                                                Home
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
                                                 isLoading={isClientPersonalHabitsSavingInProgress}

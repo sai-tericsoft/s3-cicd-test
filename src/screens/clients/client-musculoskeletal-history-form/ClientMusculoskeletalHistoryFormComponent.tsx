@@ -100,7 +100,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
             </>
             {
                 ((mode === "edit" && isClientMedicalDetailsLoaded && clientMedicalDetails) || mode === "add") && <>
-                    <FormControlLabelComponent
+                    <FormControlLabelComponent className={'add-musculoskeletal-history-heading'}
                         label={CommonService.capitalizeFirstLetter(mode) + " Musculoskeletal History"}/>
                     <CardComponent title={"Musculoskeletal History"} description={"Has the client ever:"}>
                         <Formik
@@ -175,7 +175,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                 onClick={onCancel}
                                                 disabled={isClientMusculoskeletalHistorySavingInProgress}
                                             >
-                                                Cancel
+                                                Home
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
                                                 isLoading={isClientMusculoskeletalHistorySavingInProgress}

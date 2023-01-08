@@ -132,7 +132,7 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
             </>
             {
                 ((mode === "edit" && isClientMedicalDetailsLoaded && clientMedicalDetails) || mode === "add") && <>
-                    <FormControlLabelComponent label={CommonService.capitalizeFirstLetter(mode) + " Medical History"}/>
+                    <FormControlLabelComponent className={'add-medical-history-heading'} label={CommonService.capitalizeFirstLetter(mode) + " Medical History"}/>
                     <CardComponent title={"Medical History"}
                                    description={"Has the client ever had or do they currently have: (Check all that apply)"}>
                         <Formik
@@ -195,7 +195,7 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                                                 </Field>
                                             </div>
                                         </div>
-                                        <div className="ts-row">
+                                        {values.medical_history?.isCustomOption && <div className="ts-row">
                                             <div className="ts-col-12">
                                                 <Field name={`medical_history.comments`}>
                                                     {
@@ -212,14 +212,14 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                                                     }
                                                 </Field>
                                             </div>
-                                        </div>
+                                        </div>}
                                         <div className="t-form-actions">
                                             <ButtonComponent
                                                 variant={"outlined"}
                                                 onClick={onCancel}
                                                 disabled={isClientMedicalHistorySavingInProgress}
                                             >
-                                                Cancel
+                                                Home
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
                                                 isLoading={isClientMedicalHistorySavingInProgress}

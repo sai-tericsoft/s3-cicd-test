@@ -155,7 +155,10 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
     } = useSelector((state: IRootReducerState) => state.staticData);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        const payload = {...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['language_details', 'phone_type_details', 'relationship_details', 'gender_details', 'employment_status_details' ]), mode};
+        const payload = {
+            ...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['language_details', 'phone_type_details', 'relationship_details', 'gender_details', 'employment_status_details']),
+            mode
+        };
         payload['dob'] = CommonService.convertDateFormat(payload['dob']);
         setIsClientBasicDetailsSavingInProgress(true);
         let apiCall;
@@ -257,6 +260,12 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                         </div>
                                     </div>
                                 }
+                                {
+                                    mode === 'add' &&
+                                    <div className={'add-client-heading'}>Add Client</div>
+
+                                }
+
                                 <CardComponent title={"Personal Details"} size={"md"}>
                                     <div className="ts-row">
                                         <div className="ts-col-md-5">
@@ -961,7 +970,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                 </CardComponent>
                                 <CardComponent title={"Work Information"} size={"md"}>
                                     <div className="ts-row">
-                                        <div className="ts-col-md-4">
+                                        <div className="ts-col-md-5">
                                             <Field name={'work_info.occupation'}>
                                                 {
                                                     (field: FieldProps) => (

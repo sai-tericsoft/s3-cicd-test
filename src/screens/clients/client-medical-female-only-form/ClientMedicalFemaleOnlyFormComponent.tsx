@@ -114,7 +114,7 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
             </>
             {
                 ((mode === "edit" && isClientMedicalDetailsLoaded && clientMedicalDetails) || mode === "add") && <>
-                    <FormControlLabelComponent label={CommonService.capitalizeFirstLetter(mode) + " Females Only"}/>
+                    <FormControlLabelComponent className={'add-females-only-heading'} label={CommonService.capitalizeFirstLetter(mode) + " Females Only"}/>
                     <CardComponent title={"Females Only"} description={"Is the client currently:"}>
                         <Formik
                             validationSchema={ClientMedicalFemaleOnlyValidationSchema}
@@ -135,10 +135,10 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
                                             FormQuestions.map((question: any) => {
                                                 const {key, title} = question;
                                                 return <div className="ts-row ts-align-items-center" key={key}>
-                                                    <div className="ts-col-md-8 ts-col-xl-10">
+                                                    <div className="ts-col-md-4">
                                                         {title}
                                                     </div>
-                                                    <div className="ts-col-md-4 ts-col-xl-2">
+                                                    <div className="ts-col-md-4">
                                                         <Field name={`females_only_questions.${key}`}>
                                                             {
                                                                 (field: FieldProps) => (
@@ -162,7 +162,7 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
                                                 onClick={onCancel}
                                                 disabled={isClientMedicalFemaleOnlyFormSavingInProgress}
                                             >
-                                                Cancel
+                                                Home
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
                                                 isLoading={isClientMedicalFemaleOnlyFormSavingInProgress}

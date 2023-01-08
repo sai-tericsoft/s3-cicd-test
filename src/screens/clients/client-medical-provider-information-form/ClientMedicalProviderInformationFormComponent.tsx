@@ -105,7 +105,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
             </>
             {
                 ((mode === "edit" && isClientMedicalDetailsLoaded && clientMedicalDetails) || mode === "add") && <>
-                    <FormControlLabelComponent label={CommonService.capitalizeFirstLetter(mode) + " Medical Provider Information"}/>
+                    <FormControlLabelComponent className={'add-medical-provider-information-heading'} label={CommonService.capitalizeFirstLetter(mode) + " Medical Provider Information"}/>
                     <CardComponent title={"Medical Provider Information"}>
                         <Formik
                             validationSchema={ClientMedicalProviderInformationValidationSchema}
@@ -180,7 +180,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                                 onClick={onCancel}
                                                 disabled={isClientMedicalProviderInformationSavingInProgress}
                                             >
-                                                Cancel
+                                                Home
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
                                                 isLoading={isClientMedicalProviderInformationSavingInProgress}

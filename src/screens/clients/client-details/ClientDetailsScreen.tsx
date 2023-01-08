@@ -164,11 +164,11 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
                                                     variant={"fullWidth"}
                                                     onUpdate={handleTabChange}
                                                 >
-                                                    <TabComponent label="Client Details" value={"basicDetails"}/>
-                                                    <TabComponent label="Medical History Questionnaire"
+                                                    <TabComponent className={'client-details-tab'} label="Client Details" value={"basicDetails"}/>
+                                                    <TabComponent className={'client-details-tab'} label="Medical History Questionnaire"
                                                                   value={"medicalHistoryQuestionnaire"}/>
-                                                    <TabComponent label="Account Details" value={"accountDetails"}/>
-                                                    <TabComponent label="Activity Log" value={"activityLog"}/>
+                                                    <TabComponent className={'client-details-tab'} label="Account Details" value={"accountDetails"}/>
+                                                    <TabComponent className={'client-details-tab'} label="Activity Log" value={"activityLog"}/>
                                                 </TabsComponent>
                                                 <TabContentComponent value={"basicDetails"} selectedTab={currentTab}>
                                                     <ClientBasicDetailsComponent clientId={clientId}/>

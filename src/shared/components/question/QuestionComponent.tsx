@@ -3,6 +3,7 @@ import "./QuestionComponent.scss";
 interface QuestionComponentProps {
     title?: string;
     description?: string;
+    className?: any;
 }
 
 const QuestionComponent = (props: QuestionComponentProps) => {

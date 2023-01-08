@@ -132,6 +132,10 @@ const initialData: IStaticDataReducerState = {
     injuryTypeList: [],
     statusList: [
         {
+            code: '',
+            title: "All"
+        },
+        {
             code: true,
             title: "Active"
         },

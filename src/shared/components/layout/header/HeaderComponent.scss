@@ -11,15 +11,15 @@
     display: flex;
     align-items: center;
     flex: 1;
-
     .header-title {
-      font-weight: $font-weight-bolder;
+      font-weight: 900;
       font-size: 1.2857rem;
       letter-spacing: 0.5px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       width: 400px;
+      text-transform: uppercase;
     }
   }
 

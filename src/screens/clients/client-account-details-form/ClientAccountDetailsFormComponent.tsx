@@ -95,7 +95,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
 
     return (
         <div className={'client-medical-provider-information-form-component'}>
-            <FormControlLabelComponent
+            <FormControlLabelComponent className={'add-communication-referral-heading'}
                 label={CommonService.capitalizeFirstLetter(mode) + " Communication and Referral Details"}/>
             <>
                 {
@@ -309,7 +309,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                                 onClick={onCancel}
                                                 disabled={isClientAccountDetailsFormSavingInProgress}
                                             >
-                                                Cancel
+                                                Home
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
                                                 isLoading={isClientAccountDetailsFormSavingInProgress}

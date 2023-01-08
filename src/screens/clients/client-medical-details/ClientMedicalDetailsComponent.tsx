@@ -53,10 +53,10 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                 Smoke/Chew Tobacco?
                             </div>
                             <div className={'ts-col-lg-3'}>
-                                {clientMedicalDetails?.personal_habits?.["Smoke/Chew Tobacco?"]?.value || "NA"}
+                                {clientMedicalDetails?.personal_habits?.["Smoke/Chew Tobacco?"]?.value || "N/A"}
                             </div>
                             <div className={'ts-col-lg-3'}>
-                                {clientMedicalDetails?.personal_habits?.["Smoke/Chew Tobacco?"]?.text ? clientMedicalDetails?.personal_habits?.["Smoke/Chew Tobacco?"]?.text + " Cigarettes/day" : "NA"}
+                                {clientMedicalDetails?.personal_habits?.["Smoke/Chew Tobacco?"]?.text ? clientMedicalDetails?.personal_habits?.["Smoke/Chew Tobacco?"]?.text + " Cigarettes/day" : "N/A"}
                             </div>
                         </div>
                         <div className={'ts-row mrg-bottom-20'}>
@@ -64,10 +64,10 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                 Drink Alcohol?
                             </div>
                             <div className={'ts-col-lg-3'}>
-                                {clientMedicalDetails?.personal_habits?.["Drink Alcohol?"]?.value || "NA"}
+                                {clientMedicalDetails?.personal_habits?.["Drink Alcohol?"]?.value || "N/A"}
                             </div>
                             <div className={'ts-col-lg-3'}>
-                                {clientMedicalDetails?.personal_habits?.["Drink Alcohol?"]?.text ? clientMedicalDetails?.personal_habits?.["Drink Alcohol?"]?.text + " Drinks/day" : "NA"}
+                                {clientMedicalDetails?.personal_habits?.["Drink Alcohol?"]?.text ? clientMedicalDetails?.personal_habits?.["Drink Alcohol?"]?.text + " Drinks/day" : "N/A"}
                             </div>
                         </div>
                         <div className={'ts-row mrg-bottom-20'}>
@@ -75,10 +75,10 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                 Drink Coffee?
                             </div>
                             <div className={'ts-col-lg-3'}>
-                                {clientMedicalDetails?.personal_habits?.["Drink Coffee?"]?.value || "NA"}
+                                {clientMedicalDetails?.personal_habits?.["Drink Coffee?"]?.value || "N/A"}
                             </div>
                             <div className={'ts-col-lg-3'}>
-                                {clientMedicalDetails?.personal_habits?.["Drink Coffee?"]?.text ? clientMedicalDetails?.personal_habits?.["Drink Coffee?"]?.text + " Cups/day" : "NA"}
+                                {clientMedicalDetails?.personal_habits?.["Drink Coffee?"]?.text ? clientMedicalDetails?.personal_habits?.["Drink Coffee?"]?.text + " Cups/day" : "N/A"}
                             </div>
                         </div>
                         <div className={'ts-row mrg-bottom-20'}>
@@ -86,10 +86,10 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                 Drink Soda/Pop?
                             </div>
                             <div className={'ts-col-lg-3'}>
-                                {clientMedicalDetails?.personal_habits?.["Drink Soda/Pop?"]?.value || "NA"}
+                                {clientMedicalDetails?.personal_habits?.["Drink Soda/Pop?"]?.value || "N/A"}
                             </div>
                             <div className={'ts-col-lg-3'}>
-                                {clientMedicalDetails?.personal_habits?.["Drink Soda/Pop?"]?.text ? clientMedicalDetails?.personal_habits?.["Drink Soda/Pop?"]?.text + " Cups/day" : "NA"}
+                                {clientMedicalDetails?.personal_habits?.["Drink Soda/Pop?"]?.text ? clientMedicalDetails?.personal_habits?.["Drink Soda/Pop?"]?.text + " Cups/day" : "N/A"}
                             </div>
                         </div>
                     </CardComponent>
@@ -101,7 +101,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                        </ButtonComponent>
                                    </LinkComponent>
                                    }>
-                        {clientMedicalDetails?.allergies || "NA"}
+                        {clientMedicalDetails?.allergies || "N/A"}
                     </CardComponent>
                     <CardComponent title={'Medication/Supplements'} actions={<LinkComponent
                         route={CommonService._client.NavigateToClientEdit(clientId, "medicalSupplements")}>
@@ -111,10 +111,10 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                     </LinkComponent>
                     }>
                         <DataLabelValueComponent label={'Prescription Medications'}>
-                            {clientMedicalDetails?.medications?.prescription_medication || "NA"}
+                            {clientMedicalDetails?.medications?.prescription_medication || "N/A"}
                         </DataLabelValueComponent>
                         <DataLabelValueComponent label={'Non-Prescription Medications / Supplements'}>
-                            {clientMedicalDetails?.medications?.non_prescription_medication || "NA"}
+                            {clientMedicalDetails?.medications?.non_prescription_medication || "N/A"}
                         </DataLabelValueComponent>
                     </CardComponent>
                     <CardComponent title={'Medical Provider Information'} actions={<LinkComponent
@@ -127,17 +127,17 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                         <div className={'ts-row'}>
                             <div className={'ts-col-lg-3'}>
                                 <DataLabelValueComponent label={'Family Doctor Name'}>
-                                    {clientMedicalDetails?.medical_provider_info?.name || "NA"}
+                                    {clientMedicalDetails?.medical_provider_info?.name || "N/A"}
                                 </DataLabelValueComponent>
                             </div>
                             <div className={'ts-col-lg-3'}>
                                 <DataLabelValueComponent label={'Primary Phone'}>
-                                    {clientMedicalDetails?.medical_provider_info?.primary_phone || "NA"}
+                                    {clientMedicalDetails?.medical_provider_info?.primary_phone || "N/A"}
                                 </DataLabelValueComponent>
                             </div>
                             <div className={'ts-col-lg-6'}>
                                 <DataLabelValueComponent label={'Last Date of Physical Examination'}>
-                                    {clientMedicalDetails?.medical_provider_info?.last_examination_date ? CommonService.getSystemFormatTimeStamp(clientMedicalDetails?.medical_provider_info?.last_examination_date) : "NA"}
+                                    {clientMedicalDetails?.medical_provider_info?.last_examination_date ? CommonService.getSystemFormatTimeStamp(clientMedicalDetails?.medical_provider_info?.last_examination_date) : "N/A"}
                                 </DataLabelValueComponent>
                             </div>
                         </div>
@@ -165,7 +165,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             </div>
                         }
                         <DataLabelValueComponent label={"Comments"}>
-                            {clientMedicalDetails?.medical_history?.comments || "NA"}
+                            {clientMedicalDetails?.medical_history?.comments || "N/A"}
                         </DataLabelValueComponent>
                     </CardComponent>
                     {
@@ -178,14 +178,14 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             </LinkComponent>
                             }>
                                 <div className={'ts-row'}>
-                                    <div className={'ts-col-lg-4'}>
+                                    <div className={'ts-col-12'}>
                                         <DataLabelValueComponent label={'Pregnant or Attempting to be pregnant?'}>
-                                            {clientMedicalDetails?.females_only_questions?.["Pregnant or trying to get pregnant?"] || "NA"}
+                                            {clientMedicalDetails?.females_only_questions?.["Pregnant or trying to get pregnant?"] || "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
-                                    <div className={'ts-col-lg-4'}>
+                                    <div className={'ts-col-12'}>
                                         <DataLabelValueComponent label={'Nursing?'}>
-                                            {clientMedicalDetails?.females_only_questions?.["Nursing?"] || "NA"}
+                                            {clientMedicalDetails?.females_only_questions?.["Nursing?"] || "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
                                 </div>
@@ -219,7 +219,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             <span>, </span>
                         }
                         <DataLabelValueComponent label={"Comments"}>
-                            {clientMedicalDetails?.surgical_history?.comments || "NA"}
+                            {clientMedicalDetails?.surgical_history?.comments || "N/A"}
                         </DataLabelValueComponent>
                     </CardComponent>
                     <CardComponent title={'Musculoskeletal History'} actions={<LinkComponent

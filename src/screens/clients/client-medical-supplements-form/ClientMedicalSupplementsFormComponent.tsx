@@ -105,7 +105,7 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
             </>
             {
                 ((mode === "edit" && isClientMedicalDetailsLoaded && clientMedicalDetails) || mode === "add") && <>
-                    <FormControlLabelComponent label={CommonService.capitalizeFirstLetter(mode) + " Medications/Supplements"}/>
+                    <FormControlLabelComponent className={'add-medication-heading'} label={CommonService.capitalizeFirstLetter(mode) + " Medications/Supplements"}/>
                     <CardComponent title={"Medications/Supplements"}
                                    description={"Please list all prescription and non-prescription medications for the client:"}>
                         <Formik
@@ -159,7 +159,7 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
                                                 onClick={onCancel}
                                                 disabled={isClientMedicalSupplementsSavingInProgress}
                                             >
-                                                Cancel
+                                                Home
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
                                                 isLoading={isClientMedicalSupplementsSavingInProgress}

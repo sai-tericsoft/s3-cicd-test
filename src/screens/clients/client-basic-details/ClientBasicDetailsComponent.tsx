@@ -11,6 +11,7 @@ import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import React from "react";
 import MaskTextComponent from "../../../shared/components/mask-text/MaskTextComponent";
+import {CommonService} from "../../../shared/services";
 
 interface ClientBasicDetailsComponentProps {
     clientId: string;
@@ -41,12 +42,12 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                     <CardComponent title={'Personal Details'}>
                         <div className="ts-row">
                             <div className="ts-col-md-6 ts-col-lg-3">
-                                <DataLabelValueComponent label={'Last Name'}>
+                                <DataLabelValueComponent className={'patient-name'} label={'Last Name'}>
                                     {clientBasicDetails?.last_name}
                                 </DataLabelValueComponent>
                             </div>
                             <div className="ts-col-md-6 ts-col-lg-3">
-                                <DataLabelValueComponent label={'First Name'}>
+                                <DataLabelValueComponent className={'patient-name'} label={'First Name'}>
                                     {clientBasicDetails?.first_name}
                                 </DataLabelValueComponent>
                             </div>
@@ -62,7 +63,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                             </div>
                             <div className="ts-col-md-6 ts-col-lg-3">
                                 <DataLabelValueComponent label={'Nickname/Preferred Name'}>
-                                    {clientBasicDetails?.nick_name || "NA"}
+                                    {clientBasicDetails?.nick_name || "N/A"}
                                 </DataLabelValueComponent>
                             </div>
                             <div className="ts-col-md-6 ts-col-lg-3">
@@ -72,70 +73,91 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                             </div>
                         </div>
                     </CardComponent>
-                    <CardComponent title={'Contact Information'}>
-                        <FormControlLabelComponent label={'Phone 1:'}/>
-                        <div className={'ts-row'}>
-                            <div className={'ts-col-lg-3'}>
-                                <DataLabelValueComponent label={'Phone Type (Primary)'}>
-                                    {clientBasicDetails?.primary_contact_info?.phone_type_details?.title || "-"}
-                                </DataLabelValueComponent>
+                    <CardComponent title={'Contact Information'} className={'contact-info-wrapper'}>
+                        <div className="ts-row">
+                            <div className="ts-col-8">
+                                <FormControlLabelComponent label={'Primary Phone:'}/>
+                                <div className={'ts-row'}>
+                                    <div className={'ts-col-5'}>
+                                        <DataLabelValueComponent label={'Phone Type'}>
+                                            {clientBasicDetails?.primary_contact_info?.phone_type_details?.title || "-"}
+                                        </DataLabelValueComponent>
+                                    </div>
+                                    <div className={'ts-col-7'}>
+                                        <DataLabelValueComponent label={'Phone Number'}>
+                                            {CommonService.formatPhoneNumber(clientBasicDetails?.primary_contact_info?.phone || '-')}
+                                        </DataLabelValueComponent>
+                                    </div>
+                                </div>
                             </div>
-                            <div className={'ts-col-lg-3'}>
-                                <DataLabelValueComponent label={'Phone Number (Primary)'}>
-                                    {clientBasicDetails?.primary_contact_info?.phone || "-"}
-                                </DataLabelValueComponent>
+                            <div className="ts-col-4">
+                                <FormControlLabelComponent label={'Primary Email:'}/>
+                                <div className={'ts-row'}>
+                                    <div className={'ts-col-12'}>
+                                        <DataLabelValueComponent label={'Email'}>
+                                            {clientBasicDetails?.primary_email}
+                                        </DataLabelValueComponent>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
-                        {
-                            clientBasicDetails?.secondary_contact_info?.map((phone_number, index: number) => {
-                                return <>
-                                    {
-                                        phone_number?.phone_type_details?.title && phone_number?.phone && <>
-                                            <FormControlLabelComponent label={'Phone ' + (index + 2) + ":"}/>
-                                            <div className={'ts-row'}>
-                                                <div className={'ts-col-lg-3'}>
-                                                    <DataLabelValueComponent label={'Phone Type (Secondary)'}>
-                                                        {phone_number?.phone_type_details?.title || "-"}
-                                                    </DataLabelValueComponent>
-                                                </div>
-                                                <div className={'ts-col-lg-3'}>
-                                                    <DataLabelValueComponent label={'Phone Type (Secondary)'}>
-                                                        {phone_number?.phone || "-"}
-                                                    </DataLabelValueComponent>
-                                                </div>
-                                            </div>
-                                        </>
-                                    }
-                                </>
-                            })
+                        <HorizontalLineComponent/>
 
-                        }
-                        <div className={'ts-row'}>
-                            <div className={'ts-col-lg-3'}>
-                                <DataLabelValueComponent label={'Email (Primary)'}>
-                                    {clientBasicDetails?.primary_email}
-                                </DataLabelValueComponent>
+                        <div className="ts-row">
+                            <div className="ts-col-8">
+                                <FormControlLabelComponent label={'Alternate Phone:'}/>
+                                {
+
+                                    clientBasicDetails?.secondary_contact_info?.map((phone_number, index: number) => {
+                                        return <>
+                                            {
+
+                                                phone_number?.phone_type_details?.title && phone_number?.phone && <>
+                                                    <div className={'ts-row'}>
+                                                        <div className={'ts-col-5'}>
+                                                            <DataLabelValueComponent label={'Phone Type'}>
+                                                                {phone_number?.phone_type_details?.title || "-"}
+                                                            </DataLabelValueComponent>
+                                                        </div>
+                                                        <div className={'ts-col-7'}>
+                                                            <DataLabelValueComponent label={'Phone Number'}>
+                                                                {CommonService.formatPhoneNumber(phone_number?.phone || '-')}
+                                                            </DataLabelValueComponent>
+                                                        </div>
+                                                    </div>
+                                                </>
+                                            }
+                                        </>
+                                    })
+
+                                }
                             </div>
-                            {
-                                clientBasicDetails?.secondary_emails?.map((email, index: number) => {
-                                    return <>
-                                        {
-                                            email?.email && <div className={'ts-col-lg-3'}>
-                                                <DataLabelValueComponent label={'Email (Secondary) ' + (index + 2)}>
-                                                    {email?.email}
-                                                </DataLabelValueComponent>
-                                            </div>
-                                        }
-                                    </>
-                                })
-                            }
+                            <div className="ts-col-4">
+                                <FormControlLabelComponent label={'Alternate Email:'}/>
+                                <div className={'ts-row'}>
+                                    {
+                                        clientBasicDetails?.secondary_emails?.map((email, index: number) => {
+                                            return <>
+                                                {
+                                                    email?.email && <div className={'ts-col-12'}>
+                                                        <DataLabelValueComponent label={'Email'}>
+                                                            {email?.email}
+                                                        </DataLabelValueComponent>
+                                                    </div>
+                                                }
+                                            </>
+                                        })
+                                    }
+                                </div>
+                            </div>
                         </div>
 
                     </CardComponent>
                     <CardComponent title={'Address Information'}>
                         <DataLabelValueComponent label={'Address'}>
-                            {clientBasicDetails?.address?.address_line}, {clientBasicDetails?.address?.city},{clientBasicDetails?.address?.zip_code}, <br/>
-                            {clientBasicDetails?.address?.state},{clientBasicDetails?.address?.country}
+                            {clientBasicDetails?.address?.address_line}, {clientBasicDetails?.address?.city}, {clientBasicDetails?.address?.zip_code}, <br/>
+                            {clientBasicDetails?.address?.state}, {clientBasicDetails?.address?.country}
                         </DataLabelValueComponent>
                     </CardComponent>
                     <CardComponent title={'Emergency Contact Information'}>
@@ -158,36 +180,108 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                 </DataLabelValueComponent>
                             </div>
                         </div>
-                        <div>
-                            <FormControlLabelComponent label={'Phone 1:'}/>
-                            <div className={'ts-row'}>
-                                <div className={'ts-col-lg-3'}>
-                                    <DataLabelValueComponent label={'Phone Type (Primary)'}>
-                                        {clientBasicDetails?.emergency_contact_info?.primary_emergency?.primary_contact_info?.phone_type_details?.title}
-                                    </DataLabelValueComponent>
+                        <div className={'ts-row'}>
+                            <div className="ts-col-6">
+                                <FormControlLabelComponent label={'Primary:'}/>
+                                <div className={'ts-row'}>
+                                    <div className={'ts-col-6'}>
+                                        <DataLabelValueComponent label={'Phone Type'}>
+                                            {clientBasicDetails?.emergency_contact_info?.primary_emergency?.primary_contact_info?.phone_type_details?.title}
+                                        </DataLabelValueComponent>
+                                    </div>
+                                    <div className={'ts-col-6'}>
+                                        <DataLabelValueComponent label={'Phone Number'}>
+                                            {CommonService.formatPhoneNumber(clientBasicDetails?.emergency_contact_info?.primary_emergency?.primary_contact_info?.phone || "-")}
+                                        </DataLabelValueComponent>
+                                    </div>
                                 </div>
-                                <div className={'ts-col-lg-3'}>
-                                    <DataLabelValueComponent label={'Phone Number (Primary)'}>
-                                        {clientBasicDetails?.emergency_contact_info?.primary_emergency?.primary_contact_info?.phone}
-                                    </DataLabelValueComponent>
+
+
+                                <div className="ts-row">
+                                    <div className="ts-col">
+                                        <FormControlLabelComponent label={'Alternate:'}/>
+                                        {
+                                            clientBasicDetails?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.map((phone_number: any, index: number) => {
+                                                return <>
+
+                                                    {
+                                                        phone_number?.phone_type_details?.title && phone_number?.phone && <>
+                                                            <div className={'ts-row'}>
+                                                                <div className={'ts-col-6'}>
+                                                                    <DataLabelValueComponent label={'Phone Type'}>
+                                                                        {phone_number?.phone_type_details?.title || "-"}
+                                                                    </DataLabelValueComponent>
+                                                                </div>
+                                                                <div className={'ts-col-6'}>
+                                                                    <DataLabelValueComponent label={'Phone Number'}>
+                                                                        {CommonService.formatPhoneNumber(phone_number?.phone || "-")}
+                                                                    </DataLabelValueComponent>
+                                                                </div>
+                                                            </div>
+                                                        </>
+                                                    }
+                                                </>
+                                            })
+                                        }
+                                    </div>
+
                                 </div>
+                            </div>
+
+                        </div>
+
+                        <HorizontalLineComponent/>
+                        <FormControlLabelComponent label={'Secondary Emergency Contact'}/>
+                        <div className={'ts-row'}>
+                            <div className={'ts-col-lg-3'}>
+                                <DataLabelValueComponent label={'Full Name'}>
+                                    {clientBasicDetails?.emergency_contact_info?.secondary_emergency?.name || "-"}
+                                </DataLabelValueComponent>
+                            </div>
+                            <div className={'ts-col-lg-3'}>
+                                <DataLabelValueComponent label={'Relationship'}>
+                                    {clientBasicDetails?.emergency_contact_info?.secondary_emergency?.relationship_details?.title || "-"}
+                                </DataLabelValueComponent>
+                            </div>
+                            <div className={'ts-col-lg-3'}>
+                                <DataLabelValueComponent label={'Language'}>
+                                    {clientBasicDetails?.emergency_contact_info?.secondary_emergency?.language_details?.title || "-"}
+                                </DataLabelValueComponent>
                             </div>
                         </div>
                         {
-                            clientBasicDetails?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.map((phone_number: any, index: number) => {
+                            clientBasicDetails?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone_type_details?.title && clientBasicDetails?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone &&
+                            <>
+                                <FormControlLabelComponent label={'Primary:'}/>
+                                <div className={'ts-row'}>
+                                    <div className={'ts-col-lg-3'}>
+                                        <DataLabelValueComponent label={'Phone Type'}>
+                                            {clientBasicDetails?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone_type_details?.title || "-"}
+                                        </DataLabelValueComponent>
+                                    </div>
+                                    <div className={'ts-col-lg-3'}>
+                                        <DataLabelValueComponent label={'Phone Number'}>
+                                            {CommonService.formatPhoneNumber(clientBasicDetails?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone || "-")}
+                                        </DataLabelValueComponent>
+                                    </div>
+                                </div>
+                            </>
+                        }
+                        <FormControlLabelComponent label={'Alternate:'}/>
+                        {
+                            clientBasicDetails?.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.map((phone_number, index: number) => {
                                 return <>
                                     {
                                         phone_number?.phone_type_details?.title && phone_number?.phone && <>
-                                            <FormControlLabelComponent label={'Phone ' + (index + 2) + ":"}/>
                                             <div className={'ts-row'}>
                                                 <div className={'ts-col-lg-3'}>
-                                                    <DataLabelValueComponent label={'Phone Type (Secondary)'}>
+                                                    <DataLabelValueComponent label={'Phone Type'}>
                                                         {phone_number?.phone_type_details?.title || "-"}
                                                     </DataLabelValueComponent>
                                                 </div>
                                                 <div className={'ts-col-lg-3'}>
-                                                    <DataLabelValueComponent label={'Phone Type (Secondary)'}>
-                                                        {phone_number?.phone || "-"}
+                                                    <DataLabelValueComponent label={'Phone Number'}>
+                                                        {CommonService.formatPhoneNumber(phone_number?.phone || "-")}
                                                     </DataLabelValueComponent>
                                                 </div>
                                             </div>
@@ -196,68 +290,6 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                 </>
                             })
                         }
-                        <HorizontalLineComponent/>
-                        <div>
-                            <FormControlLabelComponent label={'Secondary Emergency Contact'}/>
-                            <div className={'ts-row'}>
-                                <div className={'ts-col-lg-3'}>
-                                    <DataLabelValueComponent label={'Full Name'}>
-                                        {clientBasicDetails?.emergency_contact_info?.secondary_emergency?.name || "-"}
-                                    </DataLabelValueComponent>
-                                </div>
-                                <div className={'ts-col-lg-3'}>
-                                    <DataLabelValueComponent label={'Relationship'}>
-                                        {clientBasicDetails?.emergency_contact_info?.secondary_emergency?.relationship_details?.title || "-"}
-                                    </DataLabelValueComponent>
-                                </div>
-                                <div className={'ts-col-lg-3'}>
-                                    <DataLabelValueComponent label={'Language'}>
-                                        {clientBasicDetails?.emergency_contact_info?.secondary_emergency?.language_details?.title || "-"}
-                                    </DataLabelValueComponent>
-                                </div>
-                            </div>
-                            {
-                                clientBasicDetails?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone_type_details?.title && clientBasicDetails?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone &&
-                            <div>
-                                <FormControlLabelComponent label={'Phone 1:'}/>
-                                <div className={'ts-row'}>
-                                    <div className={'ts-col-lg-3'}>
-                                        <DataLabelValueComponent label={'Phone Type (Primary)'}>
-                                            {clientBasicDetails?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone_type_details?.title || "-"}
-                                        </DataLabelValueComponent>
-                                    </div>
-                                    <div className={'ts-col-lg-3'}>
-                                        <DataLabelValueComponent label={'Phone Number (Primary)'}>
-                                            {clientBasicDetails?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone || "-"}
-                                        </DataLabelValueComponent>
-                                    </div>
-                                </div>
-                            </div>
-                            }
-                            {
-                                clientBasicDetails?.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.map((phone_number, index: number) => {
-                                    return <>
-                                        {
-                                            phone_number?.phone_type_details?.title && phone_number?.phone && <>
-                                                <FormControlLabelComponent label={'Phone ' + (index + 2) + ":"}/>
-                                                <div className={'ts-row'}>
-                                                    <div className={'ts-col-lg-3'}>
-                                                        <DataLabelValueComponent label={'Phone Type (Secondary)'}>
-                                                            {phone_number?.phone_type_details?.title || "-"}
-                                                        </DataLabelValueComponent>
-                                                    </div>
-                                                    <div className={'ts-col-lg-3'}>
-                                                        <DataLabelValueComponent label={'Phone Number (Secondary)'}>
-                                                            {phone_number?.phone || "-"}
-                                                        </DataLabelValueComponent>
-                                                    </div>
-                                                </div>
-                                            </>
-                                        }
-                                    </>
-                                })
-                            }
-                        </div>
                     </CardComponent>
                     <CardComponent title={'Work Information'}>
                         <div className={'ts-row'}>
