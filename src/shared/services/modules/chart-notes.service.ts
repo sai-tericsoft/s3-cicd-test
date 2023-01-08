@@ -59,6 +59,30 @@ const SaveMedicalInterventionExerciseLogAPICall = (medicalInterventionId: string
 }
 
 
+const AddSurgeryRecordAPICall = (medicalRecordId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.ADD_SURGERY_RECORD.METHOD](APIConfig.ADD_SURGERY_RECORD.URL(medicalRecordId), payload, {'Content-Type': 'multipart/form-data'});
+}
+const UpdateSurgeryRecordAPICall = (surgeryRecordId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.UPDATE_SURGERY_RECORD.METHOD](APIConfig.UPDATE_SURGERY_RECORD.URL(surgeryRecordId), payload);
+}
+
+const AddSurgeryRecordAttachmentAPICall = (surgeryRecordId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.ADD_SURGERY_RECORD_ATTACHMENT.METHOD](APIConfig.ADD_SURGERY_RECORD_ATTACHMENT.URL(surgeryRecordId), payload, {'Content-Type': 'multipart/form-data'})
+}
+const RemoveSurgeryRecordAttachmentAPICall = (surgeryRecordId: string, attachmentId: string) => {
+    // @ts-ignore
+    return ApiService[APIConfig.REMOVE_SURGERY_RECORD_ATTACHMENT.METHOD](APIConfig.REMOVE_SURGERY_RECORD_ATTACHMENT.URL(surgeryRecordId, attachmentId))
+}
+
+const FetchSurgeryRecordAPICall = (surgeryRecordId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.GET_SURGERY_RECORD.METHOD](APIConfig.GET_SURGERY_RECORD.URL(surgeryRecordId), payload);
+}
+
+
 const AddExerciseLogAttachment = (interventionId: string | undefined, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.ADD_EXERCISE_LOG_ATTACHMENT.METHOD](APIConfig.ADD_EXERCISE_LOG_ATTACHMENT.URL(interventionId), payload, {'Content-Type': 'multipart/form-data'});
@@ -95,7 +119,10 @@ const ChartNotesService = {
     FetchMedicalInterventionExerciseLogAPICall,
     FetchClientMedicalInterventionEAPICall,
     AddMedicalInterventionICDCodesAPICall,
-
+    AddSurgeryRecordAPICall,
+    FetchSurgeryRecordAPICall,
+    AddSurgeryRecordAttachmentAPICall,
+    RemoveSurgeryRecordAttachmentAPICall
 }
 
 export default ChartNotesService;

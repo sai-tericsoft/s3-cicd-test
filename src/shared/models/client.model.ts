@@ -126,6 +126,7 @@ export interface IClientMedicalRecord {
     status: string;
     onset_date: string;
     date_of_surgery: string;
+    surgery_date: string;
     case_physician: any;
     next_md_appointment: string;
     total_direct_minutes: number;

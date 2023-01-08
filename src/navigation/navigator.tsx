@@ -48,7 +48,7 @@ import {
     MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW,
     MEDICAL_INTERVENTION_ICD_CODES,
     MEDICAL_INTERVENTION_ROM_CONFIG,
-    MEDICAL_INTERVENTION_SPECIAL_TESTS,
+    MEDICAL_INTERVENTION_SPECIAL_TESTS, MEDICAL_INTERVENTION_SURGERY_RECORD_DETAILS,
     MEDICAL_RECORD_LIST,
     NOT_FOUND_ROUTE,
     SERVICE_ADD,
@@ -78,6 +78,7 @@ import ClientMedicalInterventionDetailsComponent
     from "../screens/chart-notes/client-medical-intervention-details/ClientMedicalInterventionDetailsComponent";
 import MedicalInterventionICDCodesScreen
     from "../screens/chart-notes/medical-intervention-icd-codes/MedicalInterventionICDCodesScreen";
+import SurgeryRecordViewScreen from "../screens/chart-notes/surgery-record-view/SurgeryRecordViewScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -291,6 +292,12 @@ const Navigator = (props: NavigatorProps) => {
                 <Route path={MEDICAL_INTERVENTION_ICD_CODES}
                        element={<ProtectedRoute>
                            <MedicalInterventionICDCodesScreen/>
+                       </ProtectedRoute>
+                       }
+                />
+                <Route path={MEDICAL_INTERVENTION_SURGERY_RECORD_DETAILS}
+                       element={<ProtectedRoute>
+                           <SurgeryRecordViewScreen/>
                        </ProtectedRoute>
                        }
                 />

@@ -305,7 +305,7 @@ const APIConfig: IAPIConfig = {
         METHOD: "get"
     },
     CLIENT_MEDICAL_INTERVENTION_DETAILS: {
-        URL:(medicalRecordId:string)=> ENV.API_URL + "/intervention/"+ medicalRecordId,
+        URL: (medicalRecordId: string) => ENV.API_URL + "/intervention/" + medicalRecordId,
         METHOD: "get"
     },
     SAVE_MEDICAL_INTERVENTION_ICD_CODES: {
@@ -324,6 +324,29 @@ const APIConfig: IAPIConfig = {
         URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId,
         METHOD: "get"
     },
+
+    ADD_SURGERY_RECORD: {
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/surgeryRecord',
+        METHOD: 'post'
+    },
+    GET_SURGERY_RECORD: {
+        URL: (surgeryRecordId: string) => ENV.API_URL + '/surgeryRecord/' + surgeryRecordId,
+        METHOD: 'get'
+    },
+    UPDATE_SURGERY_RECORD: {
+        URL: (surgeryRecordId: string) => ENV.API_URL + '/surgeryRecord/' + surgeryRecordId,
+        METHOD: 'put'
+    },
+
+    ADD_SURGERY_RECORD_ATTACHMENT: {
+        URL: (surgeryRecordId: string) => ENV.API_URL + '/surgeryRecord/' + surgeryRecordId + '/attachment/',
+        METHOD: 'post'
+    },
+    REMOVE_SURGERY_RECORD_ATTACHMENT: {
+        URL: (surgeryRecordId: string, attachmentId: string) => ENV.API_URL + '/surgeryRecord/' + surgeryRecordId + '/attachment/' + attachmentId,
+        METHOD: 'delete'
+    },
+
 
     // chart notes end
     CASE_STATUS_LIST: {

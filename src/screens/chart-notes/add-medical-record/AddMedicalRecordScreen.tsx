@@ -75,6 +75,8 @@ const InjuryDetailsValidationSchema = Yup.object().shape({
 const MedicalRecordAddFormValidationSchema = Yup.object({
     onset_date: Yup.string().required("Date Of Onset is required"),
     treated_by: Yup.mixed().required("Treated By is required"),
+    injury_description: Yup.string().required("Injury/Condition description is required"),
+    limitations: Yup.string().required("Restrictions/Limitations is required"),
     surgery_details: SurgeryRecordValidationSchema,
     injury_details: Yup.array().of(InjuryDetailsValidationSchema),
 });
@@ -236,6 +238,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                         label={'Date Of Onset'}
                                                         placeholder={'Date Of Onset'}
                                                         formikField={field}
+                                                        maxDate={moment()}
                                                         required={true}
                                                         fullWidth={true}
                                                     />
@@ -450,6 +453,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                     <FormikTextAreaComponent
                                                         label={'Injury/Condition Description'}
                                                         formikField={field}
+                                                        required={true}
                                                         fullWidth={true}
                                                     />
                                                 )
@@ -465,6 +469,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                     <FormikTextAreaComponent
                                                         label={'Restrictions/Limitations'}
                                                         formikField={field}
+                                                        required={true}
                                                         fullWidth={true}
                                                     />
                                                 )
@@ -505,6 +510,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                     placeholder={'Date of Surgery'}
                                                     formikField={field}
                                                     required={true}
+                                                    maxDate={moment()}
                                                     fullWidth={true}
                                                 />
                                             )

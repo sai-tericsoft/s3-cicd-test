@@ -57,8 +57,15 @@ const ClientMedicalAttachmentsComponent = (props: ClientMedicalAttachmentsCompon
             key: 'actions',
             width: 99,
             fixed: 'right',
-            render: () => {
-                return <LinkComponent route={''}>View Details</LinkComponent>
+            render: (_: any, item: any) => {
+                console.log(item);
+                if (item.note_type.toLowerCase() === 'surgery record') {
+                    return <LinkComponent
+                        route={CommonService._routeConfig.MedicalRecordSurgeryRecordDetails(item.medical_record_id, item._id)}>View
+                        Details</LinkComponent>
+                } else {
+                    return <LinkComponent route={''}>View Details</LinkComponent>
+                }
             }
         }
     ];

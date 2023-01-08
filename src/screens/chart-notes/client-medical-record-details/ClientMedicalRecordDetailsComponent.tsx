@@ -11,7 +11,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
 
     return (
         <div className={'client-medical-record-details-component'}>
-            <ClientMedicalDetailsCardComponent />
+            <ClientMedicalDetailsCardComponent showAction={true} />
             <MedicalInterventionListComponent/>
             <ClientMedicalAttachmentsComponent/>
         </div>

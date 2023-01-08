@@ -49,8 +49,11 @@
     }
 
     .client-details-tab-wrapper {
-      flex: 1;
-      overflow: auto;
+      .ant-table-container {
+        min-height: 300px;
+        height: calc(100vh - 220px);
+        overflow: auto;
+      }
     }
   }
 

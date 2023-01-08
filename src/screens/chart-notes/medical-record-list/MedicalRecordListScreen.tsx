@@ -50,7 +50,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
         },
         {
             title: "Body Part",
-            key: "body part",
+            key: "body_part",
             dataIndex: "body_part",
             width: 160,
             render: (_: any, item: any) => {
@@ -193,8 +193,9 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                                             url={APIConfig.CLIENT_MEDICAL_INFO.URL(clientId)}
                                             method={APIConfig.CLIENT_MEDICAL_INFO.METHOD}
                                             columns={MedicalRecordListTableColumns}
-                                            scroll={"scroll"}
                                             extraPayload={caseStatusFilterState}
+                                            id={"client_medical_records_list"}
+                                            scroll={"scroll"}
                                         />
                                     </div>
                                 </div>

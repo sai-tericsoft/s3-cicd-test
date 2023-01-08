@@ -78,7 +78,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                     }
                     else if (item?.note_type?.toLowerCase() === "soap note") {
                         console.log(item, 'item')
-                        return <LinkComponent route={CommonService._routeConfig.MedicalInterventionDetails(item._id)}>View Details</LinkComponent>
+                        return <LinkComponent route={CommonService._routeConfig.MedicalInterventionDetails(medicalRecordId, item._id)}>View Details</LinkComponent>
                     } else {
                         return <LinkComponent route={''}>View Details</LinkComponent>
                     }

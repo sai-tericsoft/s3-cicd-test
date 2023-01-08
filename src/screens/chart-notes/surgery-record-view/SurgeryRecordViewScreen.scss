@@ -1,0 +1,85 @@
+@import "src/assets/styles/common";
+
+.medical-intervention-surgery-record-screen {
+  .client-name-button-wrapper {
+    display: flex;
+    justify-content: space-between;
+
+    .client-name-wrapper {
+      font-size: 1.4286rem;
+      font-weight: 700;
+
+      .client-name {
+        padding-right: 10px;
+      }
+    }
+  }
+
+  .intervention-injury-details-wrapper {
+    .data-value {
+      display: flex;
+    }
+  }
+
+  .client-intervention {
+    font-size: 1rem;
+    line-height: 16px;
+    text-align: match-parent;
+    font-weight: 400;
+    margin-right: 10px;
+    margin-left: 8px;
+    max-width: 400px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .view-all-body-parts {
+    font-size: 1rem;
+    color: #00534F;
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: $font-weight-bolder;
+  }
+
+
+  .view-all-body-parts-header {
+    color: #00534F;
+  }
+
+  .close-modal-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+  }
+  .attachment-item {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center;
+    align-items: center;
+  }
+  .attachment-bg {
+    background: $primary-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #FFFFFF;
+    width: 56px;
+    height: 58px;
+    border-radius: 5px;
+    margin-right: 15px;
+  }
+  .attachment-text {
+    flex: 1;
+    font-weight: 500;
+  }
+  .attachment-actions{
+    text-align: right;
+    display: flex;
+    flex-direction: row;
+    button {
+      margin-left: 10px;
+    }
+  }
+}
