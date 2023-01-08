@@ -114,7 +114,7 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
             </>
             {
                 ((mode === "edit" && isClientMedicalDetailsLoaded && clientMedicalDetails) || mode === "add") && <>
-                    <FormControlLabelComponent label={CommonService.capitalizeFirstLetter(mode) + " Females Only"}/>
+                    <FormControlLabelComponent className={'add-females-only-heading'} label={CommonService.capitalizeFirstLetter(mode) + " Females Only"}/>
                     <CardComponent title={"Females Only"} description={"Is the client currently:"}>
                         <Formik
                             validationSchema={ClientMedicalFemaleOnlyValidationSchema}

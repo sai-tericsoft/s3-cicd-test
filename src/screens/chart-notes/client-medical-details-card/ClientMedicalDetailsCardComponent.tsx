@@ -148,7 +148,7 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                     </div>
                                     <div className={'ts-col-md-3'}>
                                         <DataLabelValueComponent label={'Date of Surgery'}>
-                                            {clientMedicalRecord?.date_of_surgery || "-"}
+                                            {CommonService.transformTimeStamp(clientMedicalRecord?.date_of_surgery) || "-"}
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-3'}>

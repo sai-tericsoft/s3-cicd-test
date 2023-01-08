@@ -130,7 +130,7 @@ const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComp
             </>
             {
                 ((mode === "edit" && isClientMedicalDetailsLoaded && clientMedicalDetails) || mode === "add") && <>
-                    <FormControlLabelComponent label={CommonService.capitalizeFirstLetter(mode) + " Surgical History"}/>
+                    <FormControlLabelComponent className={'add-surgical-history-heading'} label={CommonService.capitalizeFirstLetter(mode) + " Surgical History"}/>
                     <CardComponent title={"Surgical History"}
                                    description={"Has the client ever had:"}>
                         <Formik

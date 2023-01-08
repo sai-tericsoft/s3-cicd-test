@@ -3,11 +3,12 @@ import "./QuestionComponent.scss";
 interface QuestionComponentProps {
     title?: string;
     description?: string;
+    className?: any;
 }
 
 const QuestionComponent = (props: QuestionComponentProps) => {
 
-    const {title, description} = props;
+    const {title, description,className} = props;
 
     return (
         <div className={'question-component'}>
