@@ -1,0 +1,38 @@
+@import "src/assets/styles/common";
+
+.add-medical-intervention-screen {
+  .readonly-wrapper {
+    margin-bottom: 15px;
+
+    .readonly-text {
+      margin-bottom: 10px;
+    }
+
+    .form-control-label-component {
+      margin-bottom: 5px;
+    }
+  }
+
+  .icd-codes-wrapper {
+    margin-bottom: 20px;
+
+    .icd-codes-heading {
+      background: $primary-color;
+      display: flex;
+      padding-bottom: 5px;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+      .form-control-label-component {
+        margin-bottom: 0px !important;
+      }
+    }
+  }
+
+  .card-styling {
+    .card-component {
+      margin-bottom: 0px !important;
+    }
+  }
+}

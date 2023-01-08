@@ -18,12 +18,18 @@ import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {ImageConfig} from "../../../constants";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import EditMedicalRecordComponent from "../edit-medical-record/EditMedicalRecordComponent";
+import {ListItem} from "@mui/material";
+import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
+import AddSurgeryRecordComponent from "../add-surgery-record/AddSurgeryRecordComponent";
 
 interface ClientMedicalDetailsCardComponentProps {
+    showAction?: boolean
 }
+
 
 const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardComponentProps) => {
 
+    const {showAction} = props;
     const bodyPartsColumns: any = [
         {
             title: "Body Part",
@@ -50,6 +56,7 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [isBodyPartsModalOpen, setIsBodyPartsModalOpen] = React.useState<boolean>(false);
+    const [isSurgeryAddOpen, setIsSurgeryAddOpen] = React.useState<boolean>(false);
     const [isEditMedicalRecordDrawerOpen, setIsEditMedicalRecordDrawerOpen] = useState<boolean>(false);
 
     const {
@@ -91,16 +98,53 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
 
     const handleMedicalRecordEdit = useCallback(() => {
         closeEditMedicalRecordDrawer();
-        if (medicalRecordId){
+        if (medicalRecordId) {
             dispatch(getClientMedicalRecord(medicalRecordId));
         }
-    },[dispatch, medicalRecordId, closeEditMedicalRecordDrawer]);
+    }, [dispatch, medicalRecordId, closeEditMedicalRecordDrawer]);
+
+    const openAddSurgeryRecord = useCallback(
+        () => {
+            setIsSurgeryAddOpen(true)
+        },
+        [],
+    );
+
+    const addProgressRecord = useCallback(
+        () => {
+        },
+        [],
+    );
+
+    const comingSoon = useCallback(
+        () => {
+            CommonService._alert.showToast('Coming Soon!', 'info')
+        },
+        [],
+    );
 
     return (
         <div className={'client-medical-details-card-component'}>
+
+            {medicalRecordId && clientMedicalRecord &&
+                <DrawerComponent isOpen={isSurgeryAddOpen}
+                                 showClose={true}
+                                 onClose={setIsSurgeryAddOpen.bind(null, false)}
+                                 className={"t-surgery-record-drawer"}
+                >
+                    <AddSurgeryRecordComponent medicalRecordId={medicalRecordId}
+                                               medicalRecordDetails={clientMedicalRecord}
+                                               onSave={() => {
+                                                   dispatch(getClientMedicalRecord(medicalRecordId));
+                                                   setIsSurgeryAddOpen(false);
+                                               }}/>
+                </DrawerComponent>
+            }
+
             <>
                 {
-                    !medicalRecordId && <StatusCardComponent title={"Medical Record ID missing. Cannot fetch Medical Record  details"}/>
+                    !medicalRecordId &&
+                    <StatusCardComponent title={"Medical Record ID missing. Cannot fetch Medical Record  details"}/>
                 }
             </>
             {
@@ -127,18 +171,40 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                                        size={'small'}
                                                        label={clientMedicalRecord?.status || "-"}/>
                                     </span>
-                                    <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
-                                                     onClick={openEditMedicalRecordDrawer}>
-                                        Edit Details
-                                    </ButtonComponent>
+                                    <div className="ts-row width-auto">
+                                        <div className="">
+                                            <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                                             onClick={openEditMedicalRecordDrawer}>
+                                                Edit Details
+                                            </ButtonComponent>
+                                        </div>
+                                        {showAction && <div className="ts-col">
+                                            <MenuDropdownComponent menuBase={
+                                                <ButtonComponent size={'large'} variant={'outlined'} fullWidth={true}>
+                                                    Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
+                                                </ButtonComponent>
+                                            } menuOptions={
+                                                [
+                                                    <ListItem onClick={openAddSurgeryRecord}>Add Surgery
+                                                        Record </ListItem>,
+                                                    <ListItem onClick={addProgressRecord}>Add Progress
+                                                        Report </ListItem>,
+                                                    <ListItem onClick={comingSoon}>Add Document </ListItem>,
+                                                    <ListItem onClick={comingSoon}>View Exercise Record </ListItem>
+                                                ]
+                                            }/>
+                                        </div>}
+                                    </div>
                                 </div>
-                                <DataLabelValueComponent label={'Intervention Linked to:'} direction={"row"} className={'intervention-injury-details-wrapper'}>
+                                <DataLabelValueComponent label={'Intervention Linked to:'} direction={"row"}
+                                                         className={'intervention-injury-details-wrapper'}>
                                     <div className={'client-intervention'}>{clientMedicalRecord?.intervention_linked_to}
-                                    {clientMedicalRecord?.created_at && CommonService.transformTimeStamp(clientMedicalRecord?.created_at)}{" "}
-                                    {"-"} {clientMedicalRecord?.injury_details.map((injury: any, index: number) => {
-                                    return <>{injury.body_part_details.name}({injury.body_side}) {index !== clientMedicalRecord?.injury_details.length - 1 ? <> | </> : ""}</>
-                                    })}</div>
-                                    <span className={'view-all-body-parts'} onClick={openBodyPartsModal}> View All Body Parts </span>
+                                        {clientMedicalRecord?.created_at && CommonService.transformTimeStamp(clientMedicalRecord?.created_at)}{" "}
+                                        {"-"} {clientMedicalRecord?.injury_details.map((injury: any, index: number) => {
+                                            return <>{injury.body_part_details.name}({injury.body_side}) {index !== clientMedicalRecord?.injury_details.length - 1 ? <> | </> : ""}</>
+                                        })}</div>
+                                    <span className={'view-all-body-parts'}
+                                          onClick={openBodyPartsModal}> View All Body Parts </span>
                                 </DataLabelValueComponent>
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-md-3'}>
@@ -148,7 +214,7 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                     </div>
                                     <div className={'ts-col-md-3'}>
                                         <DataLabelValueComponent label={'Date of Surgery'}>
-                                            {CommonService.transformTimeStamp(clientMedicalRecord?.date_of_surgery) || "-"}
+                                            {CommonService.transformTimeStamp(clientMedicalRecord?.surgery_date) || "-"}
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-3'}>
@@ -168,12 +234,12 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                             {clientMedicalRecord?.total_direct_minutes || "-"}
                                         </DataLabelValueComponent>
                                     </div>
-                                    <div className={'ts-col-lg-4'}>
+                                    <div className={'ts-col-lg-3'}>
                                         <DataLabelValueComponent label={'Injury/Condition Description'}>
                                             {clientMedicalRecord?.injury_description || "-"}
                                         </DataLabelValueComponent>
                                     </div>
-                                    <div className={'ts-col-lg-4'}>
+                                    <div className={'ts-col-lg-3'}>
                                         <DataLabelValueComponent label={'Restrictions and Limitations'}>
                                             {clientMedicalRecord?.limitations || "-"}
                                         </DataLabelValueComponent>
@@ -192,7 +258,9 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                     <DrawerComponent isOpen={isEditMedicalRecordDrawerOpen}
                                      showClose={true}
                                      onClose={closeEditMedicalRecordDrawer}>
-                        <EditMedicalRecordComponent medicalRecordId={medicalRecordId} medicalRecordDetails={clientMedicalRecord} onSave={handleMedicalRecordEdit}/>
+                        <EditMedicalRecordComponent medicalRecordId={medicalRecordId}
+                                                    medicalRecordDetails={clientMedicalRecord}
+                                                    onSave={handleMedicalRecordEdit}/>
                     </DrawerComponent>
                 </>
             }

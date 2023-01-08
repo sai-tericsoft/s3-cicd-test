@@ -1,0 +1,18 @@
+.edit-medical-record-container {
+  .t-form {
+    .remove-btn {
+      display: flex;
+      justify-content: end;
+      align-items: end;
+      margin-bottom: 20px;
+    }
+
+    .add-body-part-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: auto;
+    }
+  }
+}
+

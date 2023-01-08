@@ -134,9 +134,14 @@ const ClientMedicalRecordDetails = (medicalRecordId: string) => {
     return '/chart-notes/' + medicalRecordId + '/medical-record-details';
 }
 
-const MedicalInterventionDetails = (medicalInterventionId: string) => {
-    return '/chart-notes/intervention-details/' + medicalInterventionId
+const MedicalInterventionDetails = (medicalRecordId: string, medicalInterventionId: string) => {
+    // return '/chart-notes/intervention-details/' + medicalInterventionId
+    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/add-medical-intervention';
 }
+const MedicalRecordSurgeryRecordDetails = (medicalRecordId: string, surgeryRecordId: string) => {
+    return '/chart-notes/' + medicalRecordId + '/surgery-record/' + surgeryRecordId;
+}
+
 
 const RouteConfigService = {
     DefaultRoute,
@@ -168,7 +173,8 @@ const RouteConfigService = {
     MedicalRecordList,
     MedicalInterventionExerciseLogView,
     MedicalInterventionICDCodes,
-    MedicalInterventionDetails
+    MedicalInterventionDetails,
+    MedicalRecordSurgeryRecordDetails
 
 }
 

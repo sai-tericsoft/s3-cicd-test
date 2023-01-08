@@ -31,7 +31,14 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             key: "client_id",
             dataIndex: "client_id",
             width: 120,
-            fixed: "left"
+            fixed: "left",
+            render: (_: any, item: IClientBasicDetails) => {
+                if (item?._id) {
+                    return <LinkComponent route={CommonService._routeConfig.MedicalRecordList(item?._id)}>
+                        {item?.client_id}
+                    </LinkComponent>
+                }
+            }
         },
         {
             title: "Client Name",
