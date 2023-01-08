@@ -1,5 +1,5 @@
 import "./SurgeryRecordViewScreen.scss";
-import {useNavigate, useParams, useSearchParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import React, {useCallback, useEffect, useState} from "react";
 import {CommonService} from "../../../shared/services";
 import {ImageConfig, Misc} from "../../../constants";
@@ -48,17 +48,15 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {medicalInterventionDetails} = useSelector((state: IRootReducerState) => state.chartNotes);
+    // const {medicalInterventionDetails} = useSelector((state: IRootReducerState) => state.chartNotes);
     const {medicalRecordId, surgeryRecordId} = useParams();
     const [isBodyPartsModalOpen, setIsBodyPartsModalOpen] = React.useState<boolean>(false);
-    const [isSurgeryAddOpen, setIsSurgeryAddOpen] = React.useState<boolean>(false);
-    const [isEditMedicalRecordDrawerOpen, setIsEditMedicalRecordDrawerOpen] = useState<boolean>(false);
+    // const [isSurgeryAddOpen, setIsSurgeryAddOpen] = React.useState<boolean>(false);
+    // const [isEditMedicalRecordDrawerOpen, setIsEditMedicalRecordDrawerOpen] = useState<boolean>(false);
 
     const {
         clientMedicalRecord,
-        isClientMedicalRecordLoading,
         isClientMedicalRecordLoaded,
-        isClientMedicalRecordLoadingFailed
     } = useSelector((state: IRootReducerState) => state.client);
 
     useEffect(() => {
@@ -84,19 +82,19 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
     }, []);
 
     const openEditMedicalRecordDrawer = useCallback(() => {
-        setIsEditMedicalRecordDrawerOpen(true);
+        // setIsEditMedicalRecordDrawerOpen(true);
     }, []);
 
-    const closeEditMedicalRecordDrawer = useCallback(() => {
-        setIsEditMedicalRecordDrawerOpen(false);
-    }, []);
+    // const closeEditMedicalRecordDrawer = useCallback(() => {
+    //     // setIsEditMedicalRecordDrawerOpen(false);
+    // }, []);
 
-    const handleMedicalRecordEdit = useCallback(() => {
-        closeEditMedicalRecordDrawer();
-        if (medicalRecordId) {
-            dispatch(getClientMedicalRecord(medicalRecordId));
-        }
-    }, [dispatch, medicalRecordId, closeEditMedicalRecordDrawer]);
+    // const handleMedicalRecordEdit = useCallback(() => {
+    //     closeEditMedicalRecordDrawer();
+    //     if (medicalRecordId) {
+    //         dispatch(getClientMedicalRecord(medicalRecordId));
+    //     }
+    // }, [dispatch, medicalRecordId, closeEditMedicalRecordDrawer]);
 
     useEffect(() => {
         if (medicalRecordId) {
@@ -105,7 +103,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
             }));
         }
     }, [navigate, dispatch, medicalRecordId]);
-    const [searchParams, setSearchParams] = useSearchParams();
+    // const [searchParams, setSearchParams] = useSearchParams();
 
     const [surgeryRecordDetails, setSurgeryRecordDetails] = useState<any | null>(null)
     const getSurgeryRecord = useCallback(
@@ -148,7 +146,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                     getSurgeryRecord(surgeryRecordId);
                 });
         },
-        [],
+        [getSurgeryRecord],
     );
 
 
@@ -233,7 +231,8 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
 
             <ModalComponent size={'xl'} fullWidth={true} fullScreen={true} isOpen={!!showAttachment}
                             onClose={closeShowAttachment}>
-                {!!showAttachment && <iframe title={'show attachment pdf'} style={{height: '85vh'}} width={'100%'} src={showAttachment}/>}
+                {!!showAttachment && <iframe title={'show attachment pdf'} style={{height: '85vh'}} width={'100%'}
+                                             src={showAttachment}/>}
                 <div className={'close-modal-btn'}>
                     <ButtonComponent variant={'contained'} onClick={closeShowAttachment}>Close</ButtonComponent>
                 </div>

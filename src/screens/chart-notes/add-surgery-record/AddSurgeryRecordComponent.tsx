@@ -43,8 +43,7 @@ const addSurgeryRecordValidationSchema = Yup.object().shape({
 
 const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
 
-    const {medicalRecordId, medicalRecordDetails, onSave} = props;
-    const {injuryTypeList, bodyPartList} = useSelector((state: IRootReducerState) => state.staticData);
+    const {medicalRecordDetails, onSave} = props;
     const {allProvidersList} = useSelector((state: IRootReducerState) => state.user);
     const [isSurgeryRecordAddInProgress, setIsSurgeryRecordAddInProgress] = useState<boolean>(false);
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {

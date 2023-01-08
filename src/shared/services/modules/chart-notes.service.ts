@@ -122,6 +122,7 @@ const ChartNotesService = {
     AddSurgeryRecordAPICall,
     FetchSurgeryRecordAPICall,
     AddSurgeryRecordAttachmentAPICall,
+    UpdateSurgeryRecordAPICall,
     RemoveSurgeryRecordAttachmentAPICall
 }
 
