@@ -22,6 +22,7 @@ interface SpecialTestComponentProps {
     bodyPart: IBodyPart;
     onDelete?: (body_part_id: string) => void;
     onSave?: (specialTest: string) => void;
+
 }
 
 interface ISpecialTest extends IBodyPart {
@@ -36,32 +37,33 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
     const [selectedSpecialTestComments, setSelectedSpecialTestComments] = useState<any>(undefined);
     const [isBodyPartBeingDeleted, setIsBodyPartBeingDeleted] = useState<boolean>(false);
 
+    console.log(medicalInterventionDetails, 'medicalInterventionDetails')
     const generateSpecialTestColumns = useCallback((bodyPart: IBodyPart) => {
         const columns: any = [
-            {
-                title: '',
-                key: 'select',
-                width: 40,
-                render: (_: any, record: any) => {
-                    return <Field name={`${bodyPart._id}.${record?.name}.is_tested`}>
-                        {
-                            (field: FieldProps) => (
-                                <FormikCheckBoxComponent
-                                    formikField={field}
-                                    label={""}
-                                    onChange={(isChecked) => {
-                                        if (!isChecked) {
-                                            field.form.setFieldValue(`${bodyPart._id}.${record?.name}.result`, undefined);
-                                            field.form.setFieldValue(`${bodyPart._id}.${record?.name}.comment`, undefined);
-                                            field.form.setFieldValue(`${bodyPart._id}.${record?.name}.commentTemp`, undefined);
-                                        }
-                                    }}
-                                />
-                            )
-                        }
-                    </Field>
-                }
-            },
+            // {
+            //     title: '',
+            //     key: 'select',
+            //     width: 40,
+            //     render: (_: any, record: any) => {
+            //         return <Field name={`${bodyPart._id}.${record?.name}.is_tested`}>
+            //             {
+            //                 (field: FieldProps) => (
+            //                     <FormikCheckBoxComponent
+            //                         formikField={field}
+            //                         label={""}
+            //                         onChange={(isChecked) => {
+            //                             if (!isChecked) {
+            //                                 field.form.setFieldValue(`${bodyPart._id}.${record?.name}.result`, undefined);
+            //                                 field.form.setFieldValue(`${bodyPart._id}.${record?.name}.comment`, undefined);
+            //                                 field.form.setFieldValue(`${bodyPart._id}.${record?.name}.commentTemp`, undefined);
+            //                             }
+            //                         }}
+            //                     />
+            //                 )
+            //             }
+            //         </Field>
+            //     }
+            // },
             {
                 title: 'Test Name',
                 key: 'test',
@@ -117,6 +119,7 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
         return columns;
     }, []);
 
+
     const generateSpecialTestForAnInjury = useCallback((bodyPart: IBodyPart) => {
         const bodyPartConfig: any = _.cloneDeep(bodyPart);
         bodyPartConfig.special_tests = bodyPart?.special_tests?.map((special_test: any, index: number) => {
@@ -137,7 +140,7 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
     useEffect(() => {
         if (bodyPart) {
             setSpecialTestValues({
-                ...generateSpecialTestForAnInjury(bodyPart)
+                ...generateSpecialTestForAnInjury(bodyPart),
             });
         }
     }, [bodyPart, generateSpecialTestForAnInjury]);
@@ -169,18 +172,20 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
         }
     }, [onDelete, bodyPart._id, medicalInterventionDetails, medicalInterventionId]);
 
-    const handleSpecialTestSubmit = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
-        console.log(values);
+    const handleSpecialTestSubmit = useCallback((selectedSpecialTests:any[], values: any, {setSubmitting}: FormikHelpers<any>) => {
+        console.log(values, selectedSpecialTests);
         const config = values[values._id];
         const payload: any = {
             special_tests: [],
-            mode: "add"
+            mode:'add'
         };
-        Object.keys(config).forEach((special_test: string) => {
-            payload.special_tests.push({
-                name: special_test,
-                ...config[special_test]
-            })
+        Object.keys(config).forEach((special_test: string, index) => {
+            if(selectedSpecialTests.includes(index)) {
+                payload.special_tests.push({
+                    name: special_test,
+                    ...config[special_test]
+                })
+            }
         });
         setSubmitting(true);
         CommonService._chartNotes.SaveMedicalInterventionSpecialTestForABodyPartAPICall(medicalInterventionId, values._id, payload)
@@ -194,11 +199,13 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
             });
     }, [medicalInterventionId]);
 
+    const [selectedSpecialTests, setSelectedSpecialTests] = useState<any>(null);
+
     return (
         <div className={'special-test-component'}>
             <Formik initialValues={specialTestValues}
                     enableReinitialize={true}
-                    onSubmit={handleSpecialTestSubmit}>
+                    onSubmit={handleSpecialTestSubmit.bind(null, selectedSpecialTests)}>
                 {({values, validateForm, setFieldValue, isSubmitting}) => {
                     // eslint-disable-next-line react-hooks/rules-of-hooks
                     useEffect(() => {
@@ -223,6 +230,21 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                                     <TableComponent
                                         data={specialTestValues.special_tests || []}
                                         bordered={true}
+                                        // rowKey={(row, index) => index +'_'+ row.name}
+                                        rowSelection={{
+                                            type: 'checkbox',
+                                            selectedRowKeys: selectedSpecialTests,
+                                            onChange: (selectedRowKeys: any, selectedRows) => {
+                                                console.log(selectedRowKeys, 'selectedRows');
+                                                setSelectedSpecialTests(selectedRowKeys);
+                                            },
+                                            onSelect: (record, selected, selectedRows) => {
+                                                setFieldValue(`${bodyPart._id}.${record?.name}.is_tested`, selected);
+                                                setFieldValue(`${bodyPart._id}.${record?.name}.result`, undefined);
+                                                setFieldValue(`${bodyPart._id}.${record?.name}.comment`, undefined);
+                                                setFieldValue(`${bodyPart._id}.${record?.name}.commentTemp`, undefined);
+                                            }
+                                        }}
                                         columns={specialTestValues.tableConfig}/>
                                 </div>
                                 <div className="t-form-actions">
