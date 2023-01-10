@@ -383,6 +383,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                             options={phoneTypeList}
                                                             label={'Phone Type (Primary)'}
                                                             required={true}
+                                                            id={'primary_phone_type'}
                                                             formikField={field}
                                                             fullWidth={true}
                                                         />
@@ -400,6 +401,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                             type={"text"}
                                                             required={true}
                                                             formikField={field}
+                                                            id={'primary_phone_number'}
                                                             fullWidth={true}
                                                         />
                                                     )

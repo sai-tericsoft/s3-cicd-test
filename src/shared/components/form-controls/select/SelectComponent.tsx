@@ -52,8 +52,8 @@ const SelectComponent = (props: SelectComponentProps) => {
         }
     }, [props.value]);
 
-    const defaultDisplayWith = useCallback((item: any) => item?.title !==  undefined  ? item?.title : '', []);
-    const defaultValueExtractor = useCallback((item: any) => item?.code !==  undefined  ? item?.code : '', []);
+    const defaultDisplayWith = useCallback((item: any) => item?.title !== undefined ? item?.title : '', []);
+    const defaultValueExtractor = useCallback((item: any) => item?.code !== undefined ? item?.code : '', []);
     const defaultKeyExtractor = useCallback((item: any, index?: number) => item?.code || index, []);
     const displayWith = props.displayWith || defaultDisplayWith;
     const valueExtractor = props.valueExtractor || defaultValueExtractor;
@@ -80,8 +80,10 @@ const SelectComponent = (props: SelectComponentProps) => {
             >
                 {
                     (options?.length > 0) && options?.map((item, index) => {
-                        return <MenuItem key={keyExtractor ? keyExtractor(item) : `drop-down-option-${index}`}
-                                         value={valueExtractor(item, index)}> {displayWith(item)} </MenuItem>;
+                        return <MenuItem
+                            id={otherProps.id + '_' + (keyExtractor ? keyExtractor(item) : `drop-down-option-${index}`)}
+                            key={keyExtractor ? keyExtractor(item) : `drop-down-option-${index}`}
+                            value={valueExtractor(item, index)}> {displayWith(item)} </MenuItem>;
                     })
                 }
             </Select>

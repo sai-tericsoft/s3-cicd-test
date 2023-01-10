@@ -21,7 +21,7 @@ const FormikSelectComponent = (props: FormikSelectComponentProps) => {
     const {field, form} = formikField;
     const {name, value} = field;
     const {setFieldTouched, touched, errors, setFieldValue} = form;
-
+    other.id = other.id || name;
     const hasError = _.get(touched, name) && !!(_.get(errors, name));
 
     const handleUpdate = useCallback((value: any) => {
