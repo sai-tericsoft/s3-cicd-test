@@ -24,7 +24,6 @@ const InputComponent = (props: InputComponentProps) => {
         className,
         inputProps,
         disabled,
-        id,
         name,
         required,
         value,
@@ -37,6 +36,7 @@ const InputComponent = (props: InputComponentProps) => {
     const fullWidth = props.fullWidth || false;
     const placeholder = props.placeholder || label;
 
+    const id = props.id || name;
     const handleOnChange = useCallback((event: any) => {
         let nextValue = event.target.value;
         if (titleCase) {
