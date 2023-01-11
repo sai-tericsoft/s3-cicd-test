@@ -38,9 +38,6 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
     const [selectedSpecialTestComments, setSelectedSpecialTestComments] = useState<any>(undefined);
     const [isBodyPartBeingDeleted, setIsBodyPartBeingDeleted] = useState<boolean>(false);
 
-    console.log(bodyPart);
-
-    console.log(medicalInterventionDetails, 'medicalInterventionDetails')
     const generateSpecialTestColumns = useCallback((bodyPart: IBodyPart) => {
         const columns: any = [
             {
@@ -121,14 +118,10 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
         return columns;
     }, []);
 
-
     const generateSpecialTestForAnInjury = useCallback((bodyPart: IBodyPart) => {
         const bodyPartConfig: any = _.cloneDeep(bodyPart);
-        console.log("special_tests", bodyPart.special_tests);
-        console.log("selected_tests", selected_tests);
         bodyPartConfig.special_tests = bodyPart?.special_tests?.map((special_test: any, index: number) => {
             const special_test_data = selected_tests.find((selected_test: any) => selected_test.name === special_test);
-            console.log(special_test_data, 'special_test_data');
             return {
                 name: special_test,
                 comment: special_test_data?.comment,
@@ -139,7 +132,6 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
         });
         bodyPartConfig.tableConfig = generateSpecialTestColumns(bodyPartConfig);
         bodyPartConfig[bodyPart._id] = {};
-        console.log("special_tests", bodyPartConfig.special_tests);
         bodyPartConfig.special_tests?.forEach((special_test: any) => {
             bodyPartConfig[bodyPart._id][special_test.name] = {
                 is_tested: special_test.is_tested,
@@ -189,8 +181,7 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
     const handleSpecialTestSubmit = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
         const config = values[values._id];
         const payload: any = {
-            special_tests: [],
-            mode: 'add'
+            special_tests: []
         };
         Object.keys(config).forEach((special_test: string, index) => {
             if (config[special_test].is_tested) {
@@ -211,7 +202,6 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                 setSubmitting(false);
             });
     }, [medicalInterventionId]);
-
 
     return (
         <div className={'special-test-component'}>

@@ -77,7 +77,7 @@ const MedicalInterventionSpecialTestsScreen = (props: MedicalInterventionSpecial
                 });
             }
         });
-        if (medicalInterventionDetails?.medical_record_details?.injury_details?.length > 0) {
+        if ((!medicalInterventionDetails?.special_tests  || medicalInterventionDetails?.special_tests?.length === 0) && medicalInterventionDetails?.medical_record_details?.injury_details?.length > 0) {
             medicalInterventionDetails?.medical_record_details?.injury_details?.forEach((body_part: any) => { // RESUME FROM HERE
                 if (!specialTestConfig.find((item: any) => item?.body_part?._id === body_part?.body_part_id)) {
                     specialTestConfig.push({body_part: body_part.body_part_details, selected_tests: []});
@@ -101,7 +101,7 @@ const MedicalInterventionSpecialTestsScreen = (props: MedicalInterventionSpecial
                         {
                             globalSpecialTestConfig?.length === 0 && <>
                                 <StatusCardComponent
-                                    title={"There are no body parts listed under the Range of Motion and Strength. Please add a body part."}>
+                                    title={"There are no body parts listed under the Special Test. Please add a body part."}>
                                     <ButtonComponent
                                         prefixIcon={<ImageConfig.AddIcon/>}
                                         onClick={handleAddNewBodyPartOpenModal}
