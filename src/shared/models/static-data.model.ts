@@ -28,3 +28,8 @@ export interface IBodyPartROMConfig {
     sides: string[],
 }
 
+export interface IBodyPartSpecialTestConfig {
+    body_part: IBodyPart;
+    selected_tests: any[];
+}
+

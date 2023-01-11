@@ -33,7 +33,8 @@ const Client8MinutesRuleChartComponent = (props: Client8MinutesRuleChartComponen
         },
     ];
 
-    const [isEightMinuteRuleChartDrawerOpen, setEightMinuteRuleChartDrawerOpen] = useState<boolean>(false)
+    const [isEightMinuteRuleChartDrawerOpen, setEightMinuteRuleChartDrawerOpen] = useState<boolean>(false);
+
     return (
         <div className={'client-8-minutes-rule-chart-component'}>
             <ButtonComponent onClick={() => setEightMinuteRuleChartDrawerOpen(true)}>View 8-Minute Rule
