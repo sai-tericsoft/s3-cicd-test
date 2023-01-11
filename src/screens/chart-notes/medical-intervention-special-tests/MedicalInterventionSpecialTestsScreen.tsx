@@ -20,9 +20,6 @@ interface MedicalInterventionSpecialTestsScreenProps {
 
 }
 
-// injury details, [ { body_part_id, body_part_details, body_side  }, ..... ]
-// special_tests  [ { body_part_id, body_part_details, body_side  }, ..... ]
-
 const MedicalInterventionSpecialTestsScreen = (props: MedicalInterventionSpecialTestsScreenProps) => {
 
     const [globalSpecialTestConfig, setGlobalSpecialTestConfig] = useState<IBodyPartSpecialTestConfig[]>([]);
@@ -74,19 +71,19 @@ const MedicalInterventionSpecialTestsScreen = (props: MedicalInterventionSpecial
         const specialTestConfig: any = [];
         medicalInterventionDetails?.special_tests?.forEach((body_part: any) => {
             if (!specialTestConfig.find((item: any) => item?.body_part?._id === body_part?.body_part_id)) {
-                specialTestConfig.push({body_part: body_part.body_part_details, selected_tests: body_part.special_tests});
+                specialTestConfig.push({
+                    body_part: body_part.body_part_details,
+                    selected_tests: body_part.special_tests
+                });
             }
         });
         if (medicalInterventionDetails?.medical_record_details?.injury_details?.length > 0) {
             medicalInterventionDetails?.medical_record_details?.injury_details?.forEach((body_part: any) => { // RESUME FROM HERE
-                console.log("body_part", body_part);
-                console.log("specialTestConfig", specialTestConfig);
-                if (specialTestConfig.find((item: any) => item?.body_part?.body_part_details?._id !== body_part?.body_part_id)) {
+                if (!specialTestConfig.find((item: any) => item?.body_part?._id === body_part?.body_part_id)) {
                     specialTestConfig.push({body_part: body_part.body_part_details, selected_tests: []});
                 }
             });
         }
-        console.log("specialTestConfig", specialTestConfig);
         setGlobalSpecialTestConfig(specialTestConfig);
     }, [medicalInterventionDetails]);
 
@@ -125,7 +122,6 @@ const MedicalInterventionSpecialTestsScreen = (props: MedicalInterventionSpecial
                                                 bodyPart={bodyPart.body_part}
                                                 selected_tests={bodyPart.selected_tests}
                                                 onDelete={handleDeleteBodyPart}
-                                                mode={'edit'}
                                                 medicalInterventionId={medicalInterventionId}
                                             />
                                         })

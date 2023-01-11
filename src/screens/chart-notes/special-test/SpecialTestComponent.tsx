@@ -24,7 +24,6 @@ interface SpecialTestComponentProps {
     selected_tests: any[];
     onDelete?: (body_part_id: string) => void;
     onSave?: (specialTest: string) => void;
-    mode?: "edit";
 }
 
 interface ISpecialTest extends IBodyPart {
@@ -80,7 +79,6 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                 title: 'Results',
                 key: 'results',
                 width: 200,
-                fixed: 'left',
                 render: (_: any, record: any) => {
                     return <Field name={`${bodyPart._id}.${record?.name}.result`}>
                         {
@@ -192,7 +190,7 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
         const config = values[values._id];
         const payload: any = {
             special_tests: [],
-            mode: 'edit'
+            mode: 'add'
         };
         Object.keys(config).forEach((special_test: string, index) => {
             if (config[special_test].is_tested) {
