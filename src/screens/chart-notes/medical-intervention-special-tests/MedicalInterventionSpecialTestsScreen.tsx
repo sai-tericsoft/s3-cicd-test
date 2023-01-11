@@ -6,7 +6,7 @@ import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {CommonService} from "../../../shared/services";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import {IRootReducerState} from "../../../store/reducers";
-import {IBodyPartROMConfig} from "../../../shared/models/static-data.model";
+import {IBodyPartROMConfig, IBodyPartSpecialTestConfig} from "../../../shared/models/static-data.model";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
 import {RadioButtonComponent} from "../../../shared/components/form-controls/radio-button/RadioButtonComponent";
@@ -20,9 +20,12 @@ interface MedicalInterventionSpecialTestsScreenProps {
 
 }
 
+// injury details, [ { body_part_id, body_part_details, body_side  }, ..... ]
+// special_tests  [ { body_part_id, body_part_details, body_side  }, ..... ]
+
 const MedicalInterventionSpecialTestsScreen = (props: MedicalInterventionSpecialTestsScreenProps) => {
 
-    const [globalRomConfig, setGlobalRomConfig] = useState<IBodyPartROMConfig[]>([]);
+    const [globalSpecialTestConfig, setGlobalSpecialTestConfig] = useState<IBodyPartSpecialTestConfig[]>([]);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {medicalRecordId, medicalInterventionId} = useParams();
@@ -36,7 +39,7 @@ const MedicalInterventionSpecialTestsScreen = (props: MedicalInterventionSpecial
     } = useSelector((state: IRootReducerState) => state.chartNotes);
 
     useEffect(() => {
-        if (medicalRecordId && medicalInterventionId){
+        if (medicalRecordId && medicalInterventionId) {
             dispatch(setCurrentNavParams("SOAP Note", null, () => {
                 medicalInterventionId && navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, medicalInterventionId));
             }));
@@ -56,29 +59,35 @@ const MedicalInterventionSpecialTestsScreen = (props: MedicalInterventionSpecial
 
     const handleAddNewBodyPart = useCallback(() => {
         setShowAddBodyPartModal(false);
-        setGlobalRomConfig([...globalRomConfig, {
+        setGlobalSpecialTestConfig([...globalSpecialTestConfig, {
             body_part: selectedBodyPartToBeAdded,
-            sides: [selectedBodyPartToBeAdded.default_body_side]
+            selected_tests: []
         }]);
         setSelectedBodyPartToBeAdded(undefined);
-    }, [globalRomConfig, selectedBodyPartToBeAdded]);
+    }, [globalSpecialTestConfig, selectedBodyPartToBeAdded]);
 
     const handleDeleteBodyPart = useCallback((body_part_id: string) => {
-        setGlobalRomConfig((prev) => prev.filter((item) => item.body_part._id !== body_part_id));
+        setGlobalSpecialTestConfig((prev) => prev.filter((item) => item.body_part._id !== body_part_id));
     }, []);
 
     useEffect(() => {
-        const romConfig: any = [];
-        if (medicalInterventionDetails?.medical_record_details?.injury_details) {
-            const injuryDetails = medicalInterventionDetails?.medical_record_details?.injury_details;
-            injuryDetails.forEach((injury: any) => {
-                romConfig.push({
-                    sides: [injury.body_side],
-                    body_part: injury.body_part_details
-                });
+        const specialTestConfig: any = [];
+        medicalInterventionDetails?.special_tests?.forEach((body_part: any) => {
+            if (!specialTestConfig.find((item: any) => item?.body_part?._id === body_part?.body_part_id)) {
+                specialTestConfig.push({body_part: body_part.body_part_details, selected_tests: body_part.special_tests});
+            }
+        });
+        if (medicalInterventionDetails?.medical_record_details?.injury_details?.length > 0) {
+            medicalInterventionDetails?.medical_record_details?.injury_details?.forEach((body_part: any) => { // RESUME FROM HERE
+                console.log("body_part", body_part);
+                console.log("specialTestConfig", specialTestConfig);
+                if (specialTestConfig.find((item: any) => item?.body_part?.body_part_details?._id !== body_part?.body_part_id)) {
+                    specialTestConfig.push({body_part: body_part.body_part_details, selected_tests: []});
+                }
             });
-            setGlobalRomConfig(romConfig);
         }
+        console.log("specialTestConfig", specialTestConfig);
+        setGlobalSpecialTestConfig(specialTestConfig);
     }, [medicalInterventionDetails]);
 
     return (
@@ -93,7 +102,7 @@ const MedicalInterventionSpecialTestsScreen = (props: MedicalInterventionSpecial
                 {
                     isMedicalInterventionDetailsLoaded && <>
                         {
-                            globalRomConfig.length === 0 && <>
+                            globalSpecialTestConfig?.length === 0 && <>
                                 <StatusCardComponent
                                     title={"There are no body parts listed under the Range of Motion and Strength. Please add a body part."}>
                                     <ButtonComponent
@@ -106,15 +115,17 @@ const MedicalInterventionSpecialTestsScreen = (props: MedicalInterventionSpecial
                             </>
                         }
                         {
-                            globalRomConfig.length > 0 && <>
+                            globalSpecialTestConfig.length > 0 && <>
                                 {medicalInterventionId && <>
                                     {
-                                        globalRomConfig.map((bodyPart, index) => {
+                                        globalSpecialTestConfig.map((bodyPart, index) => {
                                             return <SpecialTestComponent
                                                 medicalInterventionDetails={medicalInterventionDetails}
                                                 key={bodyPart.body_part._id}
                                                 bodyPart={bodyPart.body_part}
+                                                selected_tests={bodyPart.selected_tests}
                                                 onDelete={handleDeleteBodyPart}
+                                                mode={'edit'}
                                                 medicalInterventionId={medicalInterventionId}
                                             />
                                         })
@@ -161,7 +172,7 @@ const MedicalInterventionSpecialTestsScreen = (props: MedicalInterventionSpecial
                                     key={index + item?.name}
                                     label={item?.name}
                                     checked={selectedBodyPartToBeAdded?._id === item?._id}
-                                    disabled={globalRomConfig.findIndex((bodyPart) => bodyPart.body_part._id === item._id) !== -1}
+                                    disabled={globalSpecialTestConfig.findIndex((bodyPart) => bodyPart.body_part._id === item._id) !== -1}
                                     onChange={() => {
                                         setSelectedBodyPartToBeAdded(item);
                                     }}/>
