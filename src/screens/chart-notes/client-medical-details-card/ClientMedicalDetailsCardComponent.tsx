@@ -21,6 +21,7 @@ import EditMedicalRecordComponent from "../edit-medical-record/EditMedicalRecord
 import {ListItem} from "@mui/material";
 import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
 import AddSurgeryRecordComponent from "../add-surgery-record/AddSurgeryRecordComponent";
+import AddBasicProgressReportComponent from "../add-basic-progress-report/AddBasicProgressReportComponent";
 
 interface ClientMedicalDetailsCardComponentProps {
     showAction?: boolean
@@ -58,6 +59,7 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
     const [isBodyPartsModalOpen, setIsBodyPartsModalOpen] = React.useState<boolean>(false);
     const [isSurgeryAddOpen, setIsSurgeryAddOpen] = React.useState<boolean>(false);
     const [isEditMedicalRecordDrawerOpen, setIsEditMedicalRecordDrawerOpen] = useState<boolean>(false);
+    const [isProgressReportDrawerOpen, setIsProgressReportDrawerOpen] = useState<boolean>(false);
 
     const {
         clientMedicalRecord,
@@ -110,8 +112,8 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
         [],
     );
 
-    const addProgressRecord = useCallback(
-        () => {
+    const addProgressRecord = useCallback(() => {
+            setIsProgressReportDrawerOpen(true);
         },
         [],
     );
@@ -262,7 +264,15 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                                     medicalRecordDetails={clientMedicalRecord}
                                                     onSave={handleMedicalRecordEdit}/>
                     </DrawerComponent>
+                    <DrawerComponent isOpen={isProgressReportDrawerOpen}
+                                     showClose={true}
+                                     closeOnEsc={false}
+                                     closeOnBackDropClick={false}
+                                     onClose={()=>setIsProgressReportDrawerOpen(false)}>
+                        <AddBasicProgressReportComponent isProgressReportDrawerOpen={()=>setIsProgressReportDrawerOpen(false)} />
+                    </DrawerComponent>
                 </>
+
             }
         </div>
     );

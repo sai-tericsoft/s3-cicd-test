@@ -105,6 +105,10 @@ const GetAllFavouriteCodes=()=>{
     return ApiService[APIConfig.ICD_CODE_FAVOURITE_LIST.METHOD](APIConfig.ICD_CODE_FAVOURITE_LIST.URL);
 }
 
+const AddBasicProgressReport=(medicalRecordId:string,payload:any)=>{
+    return ApiService[APIConfig.CLIENT_BASIC_PROGRESS_REPORT_ADD.METHOD](APIConfig.CLIENT_BASIC_PROGRESS_REPORT_ADD.URL(medicalRecordId), payload);
+}
+
 const ClientService={
     ClientBasicDetailsAddAPICall,
     ClientBasicDetailsAPICall,
@@ -126,7 +130,8 @@ const ClientService={
     AddFavouriteCode,
     RemoveFavouriteCode,
     GetAllFavouriteCodes,
-    ClientMedicalRecordApiCall
+    ClientMedicalRecordApiCall,
+    AddBasicProgressReport
 }
 
 export default ClientService;

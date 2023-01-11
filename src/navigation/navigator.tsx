@@ -28,7 +28,7 @@ import AddMedicalRecordScreen from "../screens/chart-notes/add-medical-record/Ad
 import AddMedicalInterventionScreen from "../screens/chart-notes/add-medical-intervention/AddMedicalInterventionScreen";
 import {
     ADD_MEDICAL_INTERVENTION,
-    ADD_MEDICAL_RECORD,
+    ADD_MEDICAL_RECORD, ADD_PROGRESS_BASIC_REPORT,
     ADMIN,
     CLIENT_ADD,
     CLIENT_CHART_NOTES_DETAILS,
@@ -79,6 +79,8 @@ import ClientMedicalInterventionDetailsComponent
 import MedicalInterventionICDCodesScreen
     from "../screens/chart-notes/medical-intervention-icd-codes/MedicalInterventionICDCodesScreen";
 import SurgeryRecordViewScreen from "../screens/chart-notes/surgery-record-view/SurgeryRecordViewScreen";
+import AddBasicProgressReportComponent
+    from "../screens/chart-notes/add-basic-progress-report/AddBasicProgressReportComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -319,7 +321,6 @@ const Navigator = (props: NavigatorProps) => {
                            <ExerciseLogAttachmentListComponent/>
                        </ProtectedRoute>
                        }/>
-
                 <Route path={MEDICAL_INTERVENTION_DETAILS} element={<ProtectedRoute>
                     <ClientMedicalInterventionDetailsComponent/>
                 </ProtectedRoute>}/>
