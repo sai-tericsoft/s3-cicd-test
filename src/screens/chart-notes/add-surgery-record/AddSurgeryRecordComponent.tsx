@@ -86,7 +86,6 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
-                            {JSON.stringify(errors)}
                             <FormControlLabelComponent label={"Add Surgery Record"}/>
                             <div className={"t-surgery-record-drawer-form-controls"}>
                                 <Field name={'surgery_date'}>
@@ -183,9 +182,7 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                 }
             </Formik>
         </div>
-    )
-        ;
-
+    );
 };
 
 export default AddSurgeryRecordComponent;
