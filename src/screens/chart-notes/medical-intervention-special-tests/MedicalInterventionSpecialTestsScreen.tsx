@@ -6,7 +6,7 @@ import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {CommonService} from "../../../shared/services";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import {IRootReducerState} from "../../../store/reducers";
-import {IBodyPartROMConfig, IBodyPartSpecialTestConfig} from "../../../shared/models/static-data.model";
+import {IBodyPartSpecialTestConfig} from "../../../shared/models/static-data.model";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
 import {RadioButtonComponent} from "../../../shared/components/form-controls/radio-button/RadioButtonComponent";
@@ -77,7 +77,7 @@ const MedicalInterventionSpecialTestsScreen = (props: MedicalInterventionSpecial
                 });
             }
         });
-        if ((!medicalInterventionDetails?.special_tests  || medicalInterventionDetails?.special_tests?.length === 0) && medicalInterventionDetails?.medical_record_details?.injury_details?.length > 0) {
+        if ((!medicalInterventionDetails?.special_tests || medicalInterventionDetails?.special_tests?.length === 0) && medicalInterventionDetails?.medical_record_details?.injury_details?.length > 0) {
             medicalInterventionDetails?.medical_record_details?.injury_details?.forEach((body_part: any) => { // RESUME FROM HERE
                 if (!specialTestConfig.find((item: any) => item?.body_part?._id === body_part?.body_part_id)) {
                     specialTestConfig.push({body_part: body_part.body_part_details, selected_tests: []});
