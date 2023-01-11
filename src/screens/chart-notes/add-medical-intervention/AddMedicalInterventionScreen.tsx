@@ -26,6 +26,170 @@ interface AddMedicalInterventionScreenProps {
 
 }
 
+const ClientMedicalInterventionDetailsColumn: any = [
+    {
+        title: 'Movement',
+        dataIndex: 'movement_name',
+        key: 'name',
+        width: 147,
+        fixed: 'left',
+        align: "center",
+        render: (_: any, item: any) => {
+            return <div className={'movement-name'}>{item.movement_name}</div>
+        }
+    },
+    {
+        title: 'Left Side',
+        className: 'left_side',
+        children: [
+            {
+                title: 'AROM',
+                dataIndex: 'arom',
+                key: 'arom',
+                width: 87,
+                align: "center",
+                render: (_: any, item: any) => {
+                    return <div className={'movement-name'}>{item?.config?.Left?.arom || '-'}</div>
+                }
+            },
+            {
+                title: 'PROM',
+                dataIndex: 'prom',
+                key: 'prom',
+                width: 87,
+                align: "center",
+                render: (_: any, item: any) => {
+                    return <div className={'movement-name'}>{item?.config?.Left?.prom || "-"}</div>
+                }
+            },
+            {
+                title: 'Strength',
+                dataIndex: 'strength',
+                key: 'strength',
+                width: 107,
+                align: "center",
+                render: (_: any, item: any) => {
+                    return <div className={'movement-name'}>{item?.config?.Left?.strength || "-"}</div>
+                }
+            }
+        ]
+
+    },
+    {
+        title: 'Right Side',
+        children: [
+
+            {
+                title: 'AROM',
+                dataIndex: 'arom',
+                key: 'arom',
+                width: 87,
+                align: "center",
+                render: (_: any, item: any) => {
+                    return <div className={'movement-name'}>{item?.config?.Right?.arom || "-"}</div>
+                }
+            },
+            {
+                title: 'PROM',
+                dataIndex: 'prom',
+                key: 'prom',
+                width: 87,
+                align: "center",
+                render: (_: any, item: any) => {
+                    return <div className={'movement-name'}>{item?.config?.Right?.prom || "-"}</div>
+                }
+
+            },
+            {
+                title: 'Strength',
+                dataIndex: 'strength',
+                key: 'strength',
+                width: 107,
+                align: "center",
+                render: (_: any, item: any) => {
+                    return <div className={'movement-name'}>{item?.config?.Right?.strength || "-"}</div>
+                }
+
+            }
+        ]
+
+    },
+    {
+        title: 'Central',
+        children: [
+            {
+                title: 'AROM',
+                dataIndex: 'arom',
+                key: 'arom',
+                width: 87,
+                align: "center",
+                render: (_: any, item: any) => {
+                    return <div className={'movement-name'}>
+                        {item?.config?.Central?.arom || "-"}
+                    </div>
+                }
+
+            },
+            {
+                title: 'PROM',
+                dataIndex: 'prom',
+                key: 'prom',
+                width: 87,
+                align: "center",
+                render: (_: any, item: any) => {
+                    return <div className={'movement-name'}>{item?.config?.Central?.prom || "-"}</div>
+                }
+            },
+            {
+                title: 'Strength',
+                dataIndex: 'strength',
+                key: 'strength',
+                width: 107,
+                align: "center",
+                render: (_: any, item: any) => {
+                    return <div className={'movement-name'}>{item?.config?.Central?.strength || "-"}</div>
+                }
+            }
+        ]
+
+    },
+    {
+        title: 'Bilateral',
+        children: [
+            {
+                title: 'AROM',
+                dataIndex: 'arom',
+                key: 'arom',
+                width: 87,
+                align: "center",
+                render: (_: any, item: any) => {
+                    return <div className={'movement-name'}>{item?.config?.Bilateral?.arom || "-"}</div>
+                }
+            },
+            {
+                title: 'PROM',
+                dataIndex: 'prom',
+                key: 'prom',
+                width: 87,
+                align: "center",
+                render: (_: any, item: any) => {
+                    return <div className={'movement-name'}>{item?.config?.Bilateral?.prom || "-"}</div>
+                }
+            },
+            {
+                title: 'Strength',
+                dataIndex: 'strength',
+                key: 'strength',
+                width: 107,
+                align: "center",
+                render: (_: any, item: any) => {
+                    return <div className={'movement-name'}>{item?.config?.Bilateral?.strength || "-"}</div>
+                }
+            }
+        ]
+
+    },
+];
 const MedicalInterventionAddFormInitialValues: any = { // TODO type properly
     subjective: "",
     plan: {
@@ -283,44 +447,68 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </div>
                                         }
                                         />
+                                        <div className="card-styling padding-card-5 mrg-bottom-20">
 
-                                        <CardComponent title={"Range of Motion and Strength"}
-                                                       actions={<>
-                                                           {
-                                                               (medicalInterventionId && medicalRecordId) &&
-                                                               <LinkComponent
-                                                                   route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId)}>
-                                                                   <ButtonComponent
-                                                                       prefixIcon={<ImageConfig.AddIcon/>}>
-                                                                       Add
-                                                                   </ButtonComponent>
-                                                               </LinkComponent>
-                                                           }
-                                                       </>}
-                                        ></CardComponent>
+                                            <CardComponent className={'white-card-header'}
+                                                title={"Range of Motion and Strength"}
+                                                actions={
+                                                    <DraftReadonlySwitcherComponent
+                                                        condition={medicalInterventionDetails?.status === 'draft'}
+                                                        draft={<>
+                                                            {
+                                                                (medicalInterventionId && medicalRecordId) &&
+                                                                <LinkComponent
+                                                                    route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId)}>
+                                                                    <ButtonComponent
+                                                                        prefixIcon={(medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0) ?
+                                                                            <ImageConfig.EditIcon/> :
+                                                                            <ImageConfig.AddIcon/>}>
+                                                                        {medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0 ? 'Edit' : 'Add'}
+                                                                    </ButtonComponent>
+                                                                </LinkComponent>
+                                                            }
+                                                        </>} readonly={<></>}
+                                                    />
+                                                }
+                                            >
 
-                                        {/*<CardComponent*/}
-                                        {/*    title={medicalInterventionDetails?.rom_config?.map((body_details: any) => {*/}
-                                        {/*        return <div>Body Part : {body_details?.body_part_details?.name || "-"}</div>*/}
-                                        {/*    })}>*/}
-                                        {/*    <TableComponent data={medicalInterventionDetails.rom_config}*/}
-                                        {/*                    bordered={true}*/}
-                                        {/*                    showExpandColumn={false}*/}
-                                        {/*                    defaultExpandAllRows={false}*/}
-                                        {/*                    expandRow={(row: any) => {*/}
-                                        {/*                        return <>{row.rom_config.map((config: any) => {*/}
-                                        {/*                            return <div key={config?._id} className={'comment-row'}>*/}
-                                        {/*                                <div className={'comment-icon'}><ImageConfig.CommentIcon/></div>*/}
-                                        {/*                                <div>{config?.config?.comments || "-"}</div>*/}
-                                        {/*                            </div>*/}
-                                        {/*                        })}</>*/}
-                                        {/*                    }*/}
-                                        {/*                    }*/}
-                                        {/*                    columns={ClientMedicalInterventionDetailsColumn}/>*/}
-                                        {/*</CardComponent>*/}
-
-                                        <div className="card-styling mrg-bottom-20">
-                                            <CardComponent size={'sm'} title={"Special Test"}
+                                                {
+                                                    medicalInterventionDetails?.rom_config?.map((body_part: any) => {
+                                                        return (
+                                                            <>
+                                                                <CardComponent size={'sm'}
+                                                                               title={
+                                                                                   body_part?.body_part_details?.name || "-"
+                                                                               }
+                                                                >
+                                                                </CardComponent>
+                                                                <TableComponent
+                                                                    data={body_part?.rom_config}
+                                                                    bordered={true}
+                                                                    showExpandColumn={false}
+                                                                    defaultExpandAllRows={false}
+                                                                    expandRow={
+                                                                        (row: any) => {
+                                                                            return (
+                                                                                <div key={row?.config?._id}
+                                                                                     className={'comment-row'}>
+                                                                                    <div className={'comment-icon'}>
+                                                                                        <ImageConfig.CommentIcon/></div>
+                                                                                    <div>{row?.config?.comment || row?.config?.comments || "-"}</div>
+                                                                                </div>
+                                                                            )
+                                                                        }
+                                                                    }
+                                                                    columns={ClientMedicalInterventionDetailsColumn}/>
+                                                            </>
+                                                        )
+                                                    })
+                                                }
+                                            </CardComponent>
+                                        </div>
+                                        <div className={"card-styling padding-card-5 mrg-bottom-20 " + ((medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0) ?
+                                            ' white-card-header ' : '')}>
+                                            <CardComponent title={"Special Test"}
                                                            actions={
                                                                <DraftReadonlySwitcherComponent
                                                                    condition={medicalInterventionDetails?.status === 'draft'}
@@ -337,20 +525,23 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                                                </ButtonComponent>
                                                                            </LinkComponent>
                                                                        }
-                                                                   </>} readonly={<></>}/>}
-                                            ></CardComponent>
-                                            {medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.map((body_part: any) => {
-                                                return (<>
-                                                    <CardComponent
-                                                        title={body_part?.body_part_details?.name || "-"
-                                                        }>
-                                                    </CardComponent>
-                                                    <TableComponent
-                                                        data={body_part.special_tests}
-                                                        columns={specialDetailsColumns}
-                                                        bordered={true}/>
-                                                </>)
-                                            })}
+                                                                   </>} readonly={<></>}/>
+                                                           }
+                                            >
+
+                                                {medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.map((body_part: any) => {
+                                                    return (<div className={'mrg-bottom-5'}>
+                                                        <CardComponent size={'sm'}
+                                                                       title={body_part?.body_part_details?.name || "-"
+                                                                       }>
+                                                        </CardComponent>
+                                                        <TableComponent
+                                                            data={body_part.special_tests}
+                                                            columns={specialDetailsColumns}
+                                                            bordered={true}/>
+                                                    </div>)
+                                                })}
+                                            </CardComponent>
                                         </div>
 
                                         <DraftReadonlySwitcherComponent

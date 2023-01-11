@@ -31,8 +31,41 @@
   }
 
   .card-styling {
+    .comment-row {
+      display: flex;
+      align-content: center;
+
+      .comment-icon {
+        margin-right: 5px;
+      }
+    }
+
     .card-component {
       margin-bottom: 0px !important;
+    }
+
+    &.white-card-header {
+      &>.card-header {
+        background: #FFFFFF;
+      }
+    }
+
+    &.padding-card-10 {
+      .card-body {
+        padding: 10px;
+      }
+    }
+
+    &.padding-card-5 {
+      .card-body {
+        padding: 5px;
+      }
+    }
+
+    &.no-padding-card {
+      .card-body {
+        padding: 0;
+      }
     }
   }
 }
