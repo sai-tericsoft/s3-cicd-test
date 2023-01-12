@@ -143,6 +143,7 @@ const MedicalRecordSurgeryRecordDetails = (medicalRecordId: string, surgeryRecor
 }
 
 
+
 const RouteConfigService = {
     DefaultRoute,
     LoginRoute,
@@ -174,7 +175,7 @@ const RouteConfigService = {
     MedicalInterventionExerciseLogView,
     MedicalInterventionICDCodes,
     MedicalInterventionDetails,
-    MedicalRecordSurgeryRecordDetails
+    MedicalRecordSurgeryRecordDetails,
 
 }
 

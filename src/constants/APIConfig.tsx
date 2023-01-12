@@ -365,6 +365,10 @@ const APIConfig: IAPIConfig = {
     ADD_EXERCISE_LOG_ATTACHMENT: {
         URL: (interventionId: string) => ENV.API_URL + '/intervention/' + interventionId + '/exerciseLog/attachment',
         METHOD: 'post'
+    },
+    PROGRESS_REPORT_VIEW_DETAILS:{
+        URL:(interventionId:string)=>ENV.API_URL+'/progressReport/'+ interventionId,
+        METHOD:'get'
     }
 }
 
