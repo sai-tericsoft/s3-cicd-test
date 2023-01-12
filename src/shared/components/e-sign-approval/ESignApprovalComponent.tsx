@@ -22,7 +22,7 @@ const ESignApprovalComponent = (props: ESignApprovalComponentProps) => {
         if (onSign) {
             onSign();
         }
-    }, []);
+    }, [onSign]);
 
     return (
         <div className={'e-sign-approval-component'}>

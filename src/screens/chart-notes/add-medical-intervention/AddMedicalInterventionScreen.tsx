@@ -179,7 +179,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                     }
                 })
         }
-    }, [navigate, medicalInterventionDetails, medicalInterventionId]);
+    },  [navigate, dispatch, medicalInterventionId]);
 
     useEffect(() => {
         if (medicalInterventionId) {
