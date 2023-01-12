@@ -179,7 +179,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                     }
                 })
         }
-    },  [navigate, dispatch, medicalInterventionId]);
+    }, [navigate, dispatch, medicalInterventionId]);
 
     useEffect(() => {
         if (medicalInterventionId) {
@@ -763,7 +763,9 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                 <ButtonComponent
                                     onClick={(event) => {
                                         if (medicalInterventionDetails?.is_signed) {
-                                            navigate(CommonService._routeConfig.ComingSoonRoute());
+                                            if (medicalRecordId && medicalInterventionId) {
+                                                navigate(CommonService._routeConfig.MedicalInterventionFinalizeTreatment(medicalRecordId, medicalInterventionId));
+                                            }
                                             event.preventDefault();
                                         }
                                     }}

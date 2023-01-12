@@ -138,10 +138,14 @@ const MedicalInterventionDetails = (medicalRecordId: string, medicalIntervention
     // return '/chart-notes/intervention-details/' + medicalInterventionId
     return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/add-medical-intervention';
 }
+
 const MedicalRecordSurgeryRecordDetails = (medicalRecordId: string, surgeryRecordId: string) => {
     return '/chart-notes/' + medicalRecordId + '/surgery-record/' + surgeryRecordId;
 }
 
+const MedicalInterventionFinalizeTreatment = (medicalRecordId: string, medicalInterventionId: string) => {
+    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/finalize-treatment';
+}
 
 const RouteConfigService = {
     DefaultRoute,
@@ -174,8 +178,8 @@ const RouteConfigService = {
     MedicalInterventionExerciseLogView,
     MedicalInterventionICDCodes,
     MedicalInterventionDetails,
-    MedicalRecordSurgeryRecordDetails
-
+    MedicalRecordSurgeryRecordDetails,
+    MedicalInterventionFinalizeTreatment
 }
 
 export default RouteConfigService;
