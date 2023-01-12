@@ -21,167 +21,12 @@ import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import ClientMedicalDetailsCardComponent from "../client-medical-details-card/ClientMedicalDetailsCardComponent";
 import DraftReadonlySwitcherComponent from "../draft-readonly-switcher/DraftReadonlySwitcherComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
+import {ITableColumn} from "../../../shared/models/table.model";
 
 interface AddMedicalInterventionScreenProps {
 
 }
 
-const ROMColumns: any = [
-    {
-        title: 'Movement',
-        dataIndex: 'movement_name',
-        key: 'name',
-        width: 147,
-        fixed: 'left',
-        align: "center",
-        render: (_: any, item: any) => {
-            return <div className={'movement-name'}>{item.movement_name}</div>
-        }
-    },
-    {
-        title: 'Left Side',
-        className: 'left_side',
-        children: [
-            {
-                title: 'AROM',
-                dataIndex: 'arom',
-                key: 'arom',
-                width: 87,
-                align: "center",
-                render: (_: any, item: any) => {
-                    return <div className={'movement-name'}>{item?.config?.Left?.arom || '-'}</div>
-                }
-            },
-            {
-                title: 'PROM',
-                dataIndex: 'prom',
-                key: 'prom',
-                width: 87,
-                align: "center",
-                render: (_: any, item: any) => {
-                    return <div className={'movement-name'}>{item?.config?.Left?.prom || "-"}</div>
-                }
-            },
-            {
-                title: 'Strength',
-                dataIndex: 'strength',
-                key: 'strength',
-                width: 107,
-                align: "center",
-                render: (_: any, item: any) => {
-                    return <div className={'movement-name'}>{item?.config?.Left?.strength || "-"}</div>
-                }
-            }
-        ]
-    },
-    {
-        title: 'Right Side',
-        children: [
-            {
-                title: 'AROM',
-                dataIndex: 'arom',
-                key: 'arom',
-                width: 87,
-                align: "center",
-                render: (_: any, item: any) => {
-                    return <div className={'movement-name'}>{item?.config?.Right?.arom || "-"}</div>
-                }
-            },
-            {
-                title: 'PROM',
-                dataIndex: 'prom',
-                key: 'prom',
-                width: 87,
-                align: "center",
-                render: (_: any, item: any) => {
-                    return <div className={'movement-name'}>{item?.config?.Right?.prom || "-"}</div>
-                }
-            },
-            {
-                title: 'Strength',
-                dataIndex: 'strength',
-                key: 'strength',
-                width: 107,
-                align: "center",
-                render: (_: any, item: any) => {
-                    return <div className={'movement-name'}>{item?.config?.Right?.strength || "-"}</div>
-                }
-            }
-        ]
-    },
-    {
-        title: 'Central',
-        children: [
-            {
-                title: 'AROM',
-                dataIndex: 'arom',
-                key: 'arom',
-                width: 87,
-                align: "center",
-                render: (_: any, item: any) => {
-                    return <div className={'movement-name'}>
-                        {item?.config?.Central?.arom || "-"}
-                    </div>
-                }
-            },
-            {
-                title: 'PROM',
-                dataIndex: 'prom',
-                key: 'prom',
-                width: 87,
-                align: "center",
-                render: (_: any, item: any) => {
-                    return <div className={'movement-name'}>{item?.config?.Central?.prom || "-"}</div>
-                }
-            },
-            {
-                title: 'Strength',
-                dataIndex: 'strength',
-                key: 'strength',
-                width: 107,
-                align: "center",
-                render: (_: any, item: any) => {
-                    return <div className={'movement-name'}>{item?.config?.Central?.strength || "-"}</div>
-                }
-            }
-        ]
-    },
-    {
-        title: 'Bilateral',
-        children: [
-            {
-                title: 'AROM',
-                dataIndex: 'arom',
-                key: 'arom',
-                width: 87,
-                align: "center",
-                render: (_: any, item: any) => {
-                    return <div className={'movement-name'}>{item?.config?.Bilateral?.arom || "-"}</div>
-                }
-            },
-            {
-                title: 'PROM',
-                dataIndex: 'prom',
-                key: 'prom',
-                width: 87,
-                align: "center",
-                render: (_: any, item: any) => {
-                    return <div className={'movement-name'}>{item?.config?.Bilateral?.prom || "-"}</div>
-                }
-            },
-            {
-                title: 'Strength',
-                dataIndex: 'strength',
-                key: 'strength',
-                width: 107,
-                align: "center",
-                render: (_: any, item: any) => {
-                    return <div className={'movement-name'}>{item?.config?.Bilateral?.strength || "-"}</div>
-                }
-            }
-        ]
-    },
-];
 const MedicalInterventionAddFormInitialValues: any = { // TODO type properly
     subjective: "",
     plan: {
@@ -253,9 +98,59 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {medicalInterventionDetails} = useSelector((state: IRootReducerState) => state.chartNotes);
-    console.log(medicalInterventionDetails, 'medicalInterventionDetails')
     const {medicalRecordId, medicalInterventionId} = useParams();
     const [addMedicalInterventionFormInitialValues, setAddMedicalInterventionFormInitialValues] = useState<any>(_.cloneDeep(MedicalInterventionAddFormInitialValues));  // TODO type properly
+
+    const getMedicalInterventionROMConfigColumns = useCallback((body_part: any): ITableColumn[] => {
+        const ROMColumns: ITableColumn[] = [
+            {
+                title: 'Movement',
+                dataIndex: 'movement_name',
+                key: 'name',
+                width: 147,
+                fixed: 'left',
+                render: (_: any, item: any) => {
+                    return <div className={'movement-name'}>{item.movement_name}</div>
+                }
+            }
+        ];
+        body_part.selected_sides.forEach((side: any) => {
+            ROMColumns.push({
+                title: side,
+                className: side,
+                children: [
+                    {
+                        title: 'AROM',
+                        dataIndex: 'arom',
+                        key: 'arom',
+                        width: 87,
+                        render: (_: any, item: any) => {
+                            return <div className={'movement-name'}>{item?.config[side]?.arom || '-'}</div>
+                        }
+                    },
+                    {
+                        title: 'PROM',
+                        dataIndex: 'prom',
+                        key: 'prom',
+                        width: 87,
+                        render: (_: any, item: any) => {
+                            return <div className={'movement-name'}>{item?.config[side]?.prom || "-"}</div>
+                        }
+                    },
+                    {
+                        title: 'Strength',
+                        dataIndex: 'strength',
+                        key: 'strength',
+                        width: 107,
+                        render: (_: any, item: any) => {
+                            return <div className={'movement-name'}>{item?.config[side]?.strength || "-"}</div>
+                        }
+                    }
+                ]
+            });
+        });
+        return ROMColumns;
+    }, []);
 
     const onSubmit = useCallback((values: any, {setSubmitting, setErrors}: FormikHelpers<any>, announce = false) => {
         if (medicalInterventionId) {
@@ -439,7 +334,6 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                         }
                                         />
                                         <div className="card-styling padding-card-5 mrg-bottom-20">
-
                                             <CardComponent className={'white-card-header'}
                                                 title={"Range of Motion and Strength"}
                                                 actions={
@@ -490,7 +384,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                                             )
                                                                         }
                                                                     }
-                                                                    columns={ROMColumns}/>
+                                                                    columns={getMedicalInterventionROMConfigColumns(body_part)}/>
                                                             </>
                                                         )
                                                     })
