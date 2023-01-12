@@ -158,6 +158,7 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                                                             name={"medical_history.questions"}>
                                                             {(field: FieldProps) => (
                                                                 <CheckBoxComponent
+                                                                    id={'cb_' + option?.title}
                                                                     label={option?.title}
                                                                     required={true}
                                                                     checked={field.field?.value?.indexOf(option._id) > -1}
@@ -215,6 +216,7 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                                         </div>}
                                         <div className="t-form-actions">
                                             <ButtonComponent
+                                                id={"home_btn"}
                                                 variant={"outlined"}
                                                 onClick={onCancel}
                                                 disabled={isClientMedicalHistorySavingInProgress}
@@ -222,6 +224,7 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                                                 Home
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
+                                                id={"save_next_btn"}
                                                 isLoading={isClientMedicalHistorySavingInProgress}
                                                 disabled={isClientMedicalHistorySavingInProgress || !isValid || CommonService.isEqual(values, clientMedicalHistoryInitialValues)}
                                                 type={"submit"}
@@ -231,6 +234,7 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                                             {
                                                 mode === "edit" && <>
                                                     &nbsp;&nbsp;<ButtonComponent
+                                                    id={"next_btn"}
                                                     disabled={isClientMedicalHistorySavingInProgress || !CommonService.isEqual(values, clientMedicalHistoryInitialValues)}
                                                     onClick={onNext}
                                                 >

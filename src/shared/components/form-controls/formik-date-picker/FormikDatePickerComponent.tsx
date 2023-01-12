@@ -21,6 +21,7 @@ const FormikDatePickerComponent = (props: FormikDatePickerComponentProps) => {
         const {name, value} = field;
         const {setFieldTouched, touched, errors, setFieldValue} = form;
         const hasError = _.get(touched, name) && !!(_.get(errors, name));
+        otherProps.id = otherProps.id || name;
 
         const dateChangeHandler = useCallback((value: Date | null) => {
             setFieldValue(name, value);

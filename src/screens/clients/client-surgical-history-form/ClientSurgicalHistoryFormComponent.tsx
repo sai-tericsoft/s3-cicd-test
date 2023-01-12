@@ -157,6 +157,7 @@ const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComp
                                                             name={"surgical_history.questions"}>
                                                             {(field: FieldProps) => (
                                                                 <CheckBoxComponent
+                                                                    id={'cb_' + option?.title}
                                                                     label={option?.title}
                                                                     required={true}
                                                                     checked={field.field?.value?.indexOf(option._id) > -1}
@@ -178,6 +179,7 @@ const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComp
                                                     name={"surgical_history.isCustomOption"}>
                                                     {(field: FieldProps) => (
                                                         <FormikCheckBoxComponent
+                                                            id={"other_cb"}
                                                             formikField={field}
                                                             label={"Other Surgery not Listed?"}
                                                             onChange={(isChecked) => {
@@ -200,6 +202,7 @@ const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComp
                                                     {
                                                         (field: FieldProps) => (
                                                             <FormikTextAreaComponent
+                                                                id={"comments"}
                                                                 label={"Comments"}
                                                                 placeholder={"Enter your comments here"}
                                                                 disabled={!values.surgical_history?.isCustomOption}
@@ -214,6 +217,7 @@ const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComp
                                         </div>}
                                         <div className="t-form-actions">
                                             <ButtonComponent
+                                                id={"home_btn"}
                                                 variant={"outlined"}
                                                 onClick={onCancel}
                                                 disabled={isClientSurgicalHistorySavingInProgress}
@@ -221,6 +225,7 @@ const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComp
                                                 Home
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
+                                                id={"save_next_btn"}
                                                 isLoading={isClientSurgicalHistorySavingInProgress}
                                                 disabled={isClientSurgicalHistorySavingInProgress || !isValid || CommonService.isEqual(values, clientSurgicalHistoryInitialValues)}
                                                 type={"submit"}
@@ -230,6 +235,7 @@ const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComp
                                             {
                                                 mode === "edit" && <>
                                                     &nbsp;&nbsp;<ButtonComponent
+                                                    id={"next_btn"}
                                                     disabled={isClientSurgicalHistorySavingInProgress || !CommonService.isEqual(values, clientSurgicalHistoryInitialValues)}
                                                     onClick={onNext}
                                                 >
