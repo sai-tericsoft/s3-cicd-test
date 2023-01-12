@@ -158,11 +158,13 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                 commentTemp: config?.commentTemp || config?.comment,
             };
             bodySides?.forEach((side: any) => {
-                const configSideData = movement?.config[side];
-                bodyPartConfig[bodyPart._id][movement.name][side] = {
-                    arom: configSideData?.arom,
-                    prom: configSideData?.prom,
-                    strength: configSideData?.strength,
+                if (movement.config && Object.keys(movement.config).includes(side)) {
+                    const configSideData = movement?.config[side];
+                    bodyPartConfig[bodyPart._id][movement.name][side] = {
+                        arom: configSideData?.arom,
+                        prom: configSideData?.prom,
+                        strength: configSideData?.strength,
+                    }
                 }
             });
         });
