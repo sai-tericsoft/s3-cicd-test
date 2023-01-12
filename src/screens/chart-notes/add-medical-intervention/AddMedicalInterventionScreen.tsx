@@ -733,14 +733,6 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                             </CardComponent>
                             <div className="t-form-actions">
                                 <ButtonComponent
-                                    variant={"outlined"}
-                                    disabled={formik.isSubmitting}
-                                    id={"medical_intervention_add_cancel_btn"}
-                                >
-                                    Cancel
-                                </ButtonComponent>
-                                &nbsp;
-                                <ButtonComponent
                                     isLoading={formik.isSubmitting}
                                     type={"submit"}
                                     id={"medical_intervention_add_save_btn"}
