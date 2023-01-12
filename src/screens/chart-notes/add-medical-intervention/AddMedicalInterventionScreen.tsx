@@ -26,7 +26,7 @@ interface AddMedicalInterventionScreenProps {
 
 }
 
-const ClientMedicalInterventionDetailsColumn: any = [
+const ROMColumns: any = [
     {
         title: 'Movement',
         dataIndex: 'movement_name',
@@ -73,12 +73,10 @@ const ClientMedicalInterventionDetailsColumn: any = [
                 }
             }
         ]
-
     },
     {
         title: 'Right Side',
         children: [
-
             {
                 title: 'AROM',
                 dataIndex: 'arom',
@@ -98,7 +96,6 @@ const ClientMedicalInterventionDetailsColumn: any = [
                 render: (_: any, item: any) => {
                     return <div className={'movement-name'}>{item?.config?.Right?.prom || "-"}</div>
                 }
-
             },
             {
                 title: 'Strength',
@@ -109,10 +106,8 @@ const ClientMedicalInterventionDetailsColumn: any = [
                 render: (_: any, item: any) => {
                     return <div className={'movement-name'}>{item?.config?.Right?.strength || "-"}</div>
                 }
-
             }
         ]
-
     },
     {
         title: 'Central',
@@ -128,7 +123,6 @@ const ClientMedicalInterventionDetailsColumn: any = [
                         {item?.config?.Central?.arom || "-"}
                     </div>
                 }
-
             },
             {
                 title: 'PROM',
@@ -151,7 +145,6 @@ const ClientMedicalInterventionDetailsColumn: any = [
                 }
             }
         ]
-
     },
     {
         title: 'Bilateral',
@@ -187,7 +180,6 @@ const ClientMedicalInterventionDetailsColumn: any = [
                 }
             }
         ]
-
     },
 ];
 const MedicalInterventionAddFormInitialValues: any = { // TODO type properly
@@ -212,8 +204,7 @@ const MedicalInterventionAddFormInitialValues: any = { // TODO type properly
     is_flagged: false
 };
 
-
-const specialDetailsColumns: any = [
+const SpecialTestsColumns: any = [
     {
         title: 'Test Name',
         dataIndex: 'name',
@@ -240,6 +231,7 @@ const specialDetailsColumns: any = [
         }
     }
 ];
+
 const ICDTableColumns: any = [
     {
         title: 'ICD Code',
@@ -419,7 +411,6 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </div>
                                         }
                                         />
-
                                         <DraftReadonlySwitcherComponent
                                             condition={medicalInterventionDetails?.status === 'draft'} draft={
                                             <Field name={'objective.palpation'}>
@@ -499,7 +490,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                                             )
                                                                         }
                                                                     }
-                                                                    columns={ClientMedicalInterventionDetailsColumn}/>
+                                                                    columns={ROMColumns}/>
                                                             </>
                                                         )
                                                     })
@@ -537,7 +528,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                         </CardComponent>
                                                         <TableComponent
                                                             data={body_part.special_tests}
-                                                            columns={specialDetailsColumns}
+                                                            columns={SpecialTestsColumns}
                                                             bordered={true}/>
                                                     </div>)
                                                 })}

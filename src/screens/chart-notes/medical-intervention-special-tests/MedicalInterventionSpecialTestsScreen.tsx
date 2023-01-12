@@ -69,7 +69,10 @@ const MedicalInterventionSpecialTestsScreen = (props: MedicalInterventionSpecial
 
     useEffect(() => {
         const specialTestConfig: any = [];
-        medicalInterventionDetails?.special_tests?.forEach((body_part: any) => {
+        const special_tests = medicalInterventionDetails?.special_tests;
+        const injury_details = medicalInterventionDetails?.medical_record_details?.injury_details;
+        if (special_tests?.length) {
+            special_tests?.forEach((body_part: any) => {
             if (!specialTestConfig.find((item: any) => item?.body_part?._id === body_part?.body_part_id)) {
                 specialTestConfig.push({
                     body_part: body_part.body_part_details,
@@ -77,12 +80,15 @@ const MedicalInterventionSpecialTestsScreen = (props: MedicalInterventionSpecial
                 });
             }
         });
-        if ((!medicalInterventionDetails?.special_tests || medicalInterventionDetails?.special_tests?.length === 0) && medicalInterventionDetails?.medical_record_details?.injury_details?.length > 0) {
-            medicalInterventionDetails?.medical_record_details?.injury_details?.forEach((body_part: any) => { // RESUME FROM HERE
-                if (!specialTestConfig.find((item: any) => item?.body_part?._id === body_part?.body_part_id)) {
-                    specialTestConfig.push({body_part: body_part.body_part_details, selected_tests: []});
-                }
             });
+        } else {
+            if (injury_details?.length > 0) {
+                injury_details?.forEach((body_part: any) => {
+                    if (!specialTestConfig.find((item: any) => item?.body_part?._id === body_part?.body_part_id)) {
+                        specialTestConfig.push({body_part: body_part.body_part_details, selected_tests: []});
+                    }
+                });
+            }
         }
         setGlobalSpecialTestConfig(specialTestConfig);
     }, [medicalInterventionDetails]);
