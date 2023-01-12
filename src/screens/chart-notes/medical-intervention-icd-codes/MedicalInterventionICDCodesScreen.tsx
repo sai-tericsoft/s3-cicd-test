@@ -15,14 +15,10 @@ import TabsWrapperComponent, {
     TabsComponent
 } from "../../../shared/components/tabs/TabsComponent";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
-import FavouriteICDCodesComponent from "../favourite-ICD-codes/FavouriteICDCodesComponent";
 import {ITableColumn} from "../../../shared/models/table.model";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import InputComponent from "../../../shared/components/form-controls/input/InputComponent";
 import {ClearSharp} from "@mui/icons-material";
-import {SearchIcon} from "../../../constants/ImageConfig";
-import {IClientListFilterState} from "../../../shared/models/client.model";
 import SearchComponent from "../../../shared/components/search/SearchComponent";
 
 interface MedicalInterventionICDCodesScreenProps {
@@ -142,6 +138,38 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             }
         }
     ];
+    const favouriteICDCodesColumns: ITableColumn[] = [
+        {
+            title: 'ICD-11 Codes',
+            dataIndex: 'icd_code',
+            key: 'icd_code',
+            width: 120,
+            render: (_: any, item: any) => {
+                return <>{item?.icd_code_details?.icd_code}</>
+            }
+        },
+        {
+            title: 'Description',
+            dataIndex: 'description',
+            key: 'description',
+            width: 250,
+            render: (_: any, item: any) => {
+                return <>{item?.icd_code_details?.description}</>
+            }
+        },
+        {
+            title: ' Favourite Code(s)',
+            dataIndex: 'favourite',
+            key: 'favorite',
+            fixed: 'right',
+            width: 120,
+            render: (_: any, item: any) => {
+                return <span onClick={() => removeFavouriteCode(item?.icd_code_id)}>
+                  <ImageConfig.FilledStarIcon className={'star-icon-favourite'}/>
+               </span>
+            }
+        }
+    ];
     const addFavouriteList = useCallback((codeId: string) => {
         CommonService._client.AddFavouriteCode(codeId, {})
             .then((response: IAPIResponseType<any>) => {
@@ -214,7 +242,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                             type: 'checkbox',
                             selectedRowKeys: selectedICDCodes,
                             onSelect: (record, selected, selectedRows) => {
-                                setSelectedICDCodes(selectedRows.map(v => v._id));
+                                setSelectedICDCodes(selectedRows.map(v => v?._id));
                             }
                         }}
                         extraPayload={searchICDCodes}
@@ -226,14 +254,21 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                     />
                 </TabContentComponent>
                 <TabContentComponent value={'favourites'} selectedTab={currentTab}>
-                    <FavouriteICDCodesComponent rowSelection={{
-                        type: 'checkbox',
-                        selectedRowKeys: selectedICDCodes,
-                        onSelect: (record: any, selected: any, selectedRows: any[]) => {
-                            setSelectedICDCodes(selectedRows.map((v: any) => v.icd_code_id));
-                            // console.log(selectedRowKeys, selectedRows.map(v => v._id));
-                        }
-                    }}/>
+                    <TableWrapperComponent
+                        rowSelection={{
+                            type: 'checkbox',
+                            selectedRowKeys: selectedICDCodes,
+                            onSelect: (record, selected, selectedRows) => {
+                                setSelectedICDCodes(selectedRows.map(v => v?._id));
+                            }
+                        }}
+                        extraPayload={searchICDCodes}
+                        refreshToken={refreshToken}
+                        url={APIConfig.ICD_CODE_FAVOURITE_LIST.URL}
+                        method={APIConfig.ICD_CODE_FAVOURITE_LIST.METHOD}
+                        columns={favouriteICDCodesColumns}
+                        isPaginated={true}
+                    />
                 </TabContentComponent>
                 <div className="text-center">
                     {(medicalRecordId && medicalInterventionId) && <LinkComponent
