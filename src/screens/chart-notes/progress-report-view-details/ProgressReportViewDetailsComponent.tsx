@@ -25,8 +25,8 @@ const ProgressReportViewDetailsComponent = (props: ProgressReportViewDetailsComp
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
-            render:(_:any,item:any)=>{
-                return<>{item?.progress_stats_details?.name}</>
+            render: (_: any, item: any) => {
+                return <>{item?.progress_stats_details?.name}</>
             }
         },
         {
@@ -58,61 +58,64 @@ const ProgressReportViewDetailsComponent = (props: ProgressReportViewDetailsComp
                 <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>Edit Progress Report</ButtonComponent>
 
             </div>
-        <div className={'progress-report-view-details-component'}>
-            <>
-                {
-                    !interventionId && (
-                        <StatusCardComponent title={'Intervention Id is missing cannot fetch details'}/>)
-                }
-            </>
-            <>
-                {
-                    interventionId && <>
-                        {
-                            isProgressReportDetailsLoading && <LoaderComponent/>
-                        }
-                        {
-                            isProgressReportDetailsLoadingFailed &&
-                            <StatusCardComponent title={'Failed to fetch progress report details'}/>
-                        }
-                        {
-                            (isProgressReportDetailsLoaded && progressReportDetails)&& <>
-                                <div className={'progress-report-view-details-component__header'}>
-                                    <CardComponent title={'Synopsis'}>
-                                        {progressReportDetails?.synopsis || "N/A"}
-                                    </CardComponent>
-                                    <CardComponent title={'Impression'}>
-                                        {progressReportDetails?.impression || "N/A"}
-                                    </CardComponent>
-                                    <CardComponent title={'Plan'}>
-                                        {progressReportDetails?.plan || "N/A"}
-                                    </CardComponent>
-                                    <CardComponent title={'Progress Stats:'}>
+            <div className={'progress-report-view-details-component'}>
+                <>
+                    {
+                        !interventionId && (
+                            <StatusCardComponent title={'Intervention Id is missing cannot fetch details'}/>)
+                    }
+                </>
+                <>
+                    {
+                        interventionId && <>
+                            {
+                                isProgressReportDetailsLoading && <LoaderComponent/>
+                            }
+                            {
+                                isProgressReportDetailsLoadingFailed &&
+                                <StatusCardComponent title={'Failed to fetch progress report details'}/>
+                            }
+                            {
+                                (isProgressReportDetailsLoaded && progressReportDetails) && <>
+                                    <div className={'progress-report-view-details-component__header'}>
+                                        <CardComponent title={'Synopsis'}>
+                                            {progressReportDetails?.synopsis || "N/A"}
+                                        </CardComponent>
+                                        <CardComponent title={'Impression'}>
+                                            {progressReportDetails?.impression || "N/A"}
+                                        </CardComponent>
+                                        <CardComponent title={'Plan'}>
+                                            {progressReportDetails?.plan || "N/A"}
+                                        </CardComponent>
+                                        <CardComponent title={'Progress Stats:'}>
+                                            <TableComponent data={progressReportDetails?.progress_stats}
+                                                            columns={progressStatsColumn}
+                                                            showExpandColumn={false}
+                                                            expandRow={(row: any) => {
+                                                                return <div className={'comment-row'}>
+                                                                    <div className={'comment-icon'}><ImageConfig.CommentIcon/>
+                                                                    </div>
+                                                                    <div>{row?.comments || "N/A"}</div>
+                                                                </div>
+                                                            }
+                                                            }
+                                            />
+                                        </CardComponent>
+                                        <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>
+                                            <ESignApprovalComponent isSigned={progressReportDetails?.is_signed}
+                                                                    onSign={() => ''}
+                                                                    signedAt={CommonService.convertDateFormat(progressReportDetails?.created_at)}/>
+                                        </div>
                                         <TableComponent data={progressReportDetails?.progress_stats}
-                                                        columns={progressStatsColumn}
-                                                        showExpandColumn={false}
-                                                        expandRow={(row: any) => {
-                                                            return <div className={'comment-row'}>
-                                                            <div className={'comment-icon'}><ImageConfig.CommentIcon/></div>
-                                                                <div>{row?.comments || "N/A"}</div>
-                                                            </div>
-                                                        }
-                                                    }
-                                        />
-                                    </CardComponent>
-                                    <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>
-                                    <ESignApprovalComponent isSigned={progressReportDetails?.is_signed} onSign={() => ''}
-                                                            signedAt={CommonService.convertDateFormat(progressReportDetails?.created_at)}/>
+                                                        columns={progressStatsColumn}/>
                                     </div>
-                                        <TableComponent data={progressReportDetails?.progress_stats} columns={progressStatsColumn}/>
-                                </div>
-                            </>
-                        }
-                    </>
-                }
-            </>
+                                </>
+                            }
+                        </>
+                    }
+                </>
 
-        </div>
+            </div>
         </div>
     );
 
