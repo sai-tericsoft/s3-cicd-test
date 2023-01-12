@@ -27,23 +27,15 @@ const AddProgressRecordAdvancedDetailsComponent = (props: AddProgressRecordAdvan
             title: "Results",
             dataIndex: "results",
             key: "results",
-            render: (_: any, item: any) => {
-                return (<>
-                        {item?.results?.forEach((result: any,index:number) => {
-                            console.log('result',result);
-                                return <Field name={'results'}>
-                                    {
-                                        (field: FieldProps) => (
-                                            <FormikRadioButtonGroupComponent
-                                                formikField={field}
-                                                options={result}/>
-                                        )}
-                                </Field>
-                        }
-                        )}
-                    </>
-                )
-            }
+            render: (_: any, item: any) => <Field name={'results'}>
+                {
+                    (field: FieldProps) => (
+                        <FormikRadioButtonGroupComponent
+                            formikField={field}
+                            displayWith={(item: any) => item}
+                            options={item.results}/>
+                    )}
+            </Field>
         },
         {
             title: 'Comments',
@@ -54,7 +46,6 @@ const AddProgressRecordAdvancedDetailsComponent = (props: AddProgressRecordAdvan
                     <><ImageConfig.CommentAddIcon/></>
                 )
             }
-
         }
     ];
 
