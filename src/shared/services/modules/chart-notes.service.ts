@@ -111,6 +111,11 @@ const AddNewMedicalInterventionAPICall = (medicalRecordId: string, payload: any)
 }
 
 
+const ProgressReportViewDetailsAPICall = (interventionId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.PROGRESS_REPORT_VIEW_DETAILS.METHOD](APIConfig.PROGRESS_REPORT_VIEW_DETAILS.URL(interventionId), payload);
+}
+
 const ChartNotesService = {
     MedicalRecordAddAPICall,
     MedicalRecordEditAPICall,
@@ -134,7 +139,8 @@ const ChartNotesService = {
     UpdateSurgeryRecordAPICall,
     RemoveSurgeryRecordAttachmentAPICall,
     RepeatLastInterventionAPICall,
-    AddNewMedicalInterventionAPICall
+    AddNewMedicalInterventionAPICall,
+    ProgressReportViewDetailsAPICall
 }
 
 export default ChartNotesService;

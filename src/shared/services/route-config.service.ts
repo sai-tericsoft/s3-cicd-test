@@ -147,6 +147,7 @@ const MedicalInterventionFinalizeTreatment = (medicalRecordId: string, medicalIn
     return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/finalize-treatment';
 }
 
+
 const RouteConfigService = {
     DefaultRoute,
     LoginRoute,
@@ -180,6 +181,7 @@ const RouteConfigService = {
     MedicalInterventionDetails,
     MedicalRecordSurgeryRecordDetails,
     MedicalInterventionFinalizeTreatment
+
 }
 
 export default RouteConfigService;

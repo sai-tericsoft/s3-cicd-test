@@ -4,7 +4,7 @@ import {
     GET_MEDICAL_INTERVENTION_DETAILS, SET_INTERVENTION_ATTACHMENT_LIST,
     GET_CLIENT_MEDICAL_INTERVENTION_DETAILS,
     SET_CLIENT_MEDICAL_INTERVENTION_DETAILS,
-    SET_MEDICAL_INTERVENTION_DETAILS
+    SET_MEDICAL_INTERVENTION_DETAILS, GET_PROGRESS_REPORT_VIEW_DETAILS, SET_PROGRESS_REPORT_VIEW_DETAILS
 } from "../actions/chart-notes.action";
 
 export interface IChartNotesReducerState {
@@ -20,6 +20,11 @@ export interface IChartNotesReducerState {
     isClientMedicalInterventionDetailsLoaded: boolean,
     isClientMedicalInterventionDetailsLoadingFailed: boolean,
     clientMedicalInterventionDetails?: any,
+    isProgressReportDetailsLoading: boolean,
+    isProgressReportDetailsLoaded: boolean,
+    isProgressReportDetailsLoadingFailed: boolean,
+    progressReportDetails?: any,
+
 
 }
 
@@ -32,10 +37,14 @@ const initialData: IChartNotesReducerState = {
     isAttachmentListLoaded: false,
     isAttachmentListLoadingFailed: false,
     attachmentList: undefined,
-        isClientMedicalInterventionDetailsLoading: false,
+    isClientMedicalInterventionDetailsLoading: false,
     isClientMedicalInterventionDetailsLoaded: false,
     isClientMedicalInterventionDetailsLoadingFailed: false,
     clientMedicalInterventionDetails: undefined,
+    isProgressReportDetailsLoading: false,
+    isProgressReportDetailsLoaded: false,
+    isProgressReportDetailsLoadingFailed: false,
+    progressReportDetails: undefined,
 
 };
 
@@ -94,6 +103,25 @@ const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNot
                 clientMedicalInterventionDetails: action.payload.clientMedicalInterventionDetails
             };
             return state;
+
+            case GET_PROGRESS_REPORT_VIEW_DETAILS:
+                state = {
+                    ...state,
+                    isProgressReportDetailsLoading: true,
+                    isProgressReportDetailsLoaded: false,
+                    isProgressReportDetailsLoadingFailed: false,
+                }
+                return state;
+
+            case SET_PROGRESS_REPORT_VIEW_DETAILS:
+                state = {
+                    ...state,
+                    isProgressReportDetailsLoading: false,
+                    isProgressReportDetailsLoaded: !!action.payload.progressReportDetails,
+                    isProgressReportDetailsLoadingFailed: !action.payload.progressReportDetails,
+                    progressReportDetails: action.payload.progressReportDetails
+                }
+                return state;
 
         default:
             return state;
