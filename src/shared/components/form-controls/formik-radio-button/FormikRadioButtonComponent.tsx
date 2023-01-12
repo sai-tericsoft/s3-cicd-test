@@ -20,6 +20,7 @@ const FormikRadioButtonGroupComponent = (props: FormikRadioButtonComponentProps)
     const {name, value} = field;
     const {setFieldTouched, touched, errors, setFieldValue} = form;
     const hasError = _.get(touched, name) && !!(_.get(errors, name));
+    otherProps.id = otherProps.id || name;
 
     const onValueChange = useCallback((value: any) => {
         setFieldTouched(name);

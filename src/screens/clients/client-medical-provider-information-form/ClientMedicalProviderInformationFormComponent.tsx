@@ -176,6 +176,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                         </div>
                                         <div className="t-form-actions">
                                             <ButtonComponent
+                                                id={"home_btn"}
                                                 variant={"outlined"}
                                                 onClick={onCancel}
                                                 disabled={isClientMedicalProviderInformationSavingInProgress}
@@ -183,6 +184,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                                 Home
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
+                                                id={"save_next_btn"}
                                                 isLoading={isClientMedicalProviderInformationSavingInProgress}
                                                 disabled={isClientMedicalProviderInformationSavingInProgress || !isValid}
                                                 type={"submit"}

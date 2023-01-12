@@ -1008,6 +1008,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                 </CardComponent>
                                 <div className="t-form-actions">
                                     <ButtonComponent
+                                        id={"cancel_btn"}
                                         variant={"outlined"}
                                         disabled={isClientBasicDetailsSavingInProgress}
                                         onClick={onCancel}
@@ -1016,6 +1017,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                     </ButtonComponent>
                                     &nbsp;
                                     <ButtonComponent
+                                        id={"save_btn"}
                                         isLoading={isClientBasicDetailsSavingInProgress}
                                         disabled={isClientBasicDetailsSavingInProgress}
                                         type={"submit"}

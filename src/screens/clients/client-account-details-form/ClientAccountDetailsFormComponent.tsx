@@ -305,6 +305,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                         }
                                         <div className="t-form-actions">
                                             <ButtonComponent
+                                                id={"home_btn"}
                                                 variant={"outlined"}
                                                 onClick={onCancel}
                                                 disabled={isClientAccountDetailsFormSavingInProgress}
@@ -312,6 +313,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                                 Home
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
+                                                id={"save_next_btn"}
                                                 isLoading={isClientAccountDetailsFormSavingInProgress}
                                                 disabled={isClientAccountDetailsFormSavingInProgress || !isValid}
                                                 type={"submit"}

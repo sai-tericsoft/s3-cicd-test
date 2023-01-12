@@ -83,22 +83,26 @@ const FormQuestions = [
     {
         key: "Smoke/Chew Tobacco?",
         title: "Smoke/Chew Tobacco?",
-        placeholder: "Cigarettes/day"
+        placeholder: "Cigarettes/day",
+        id: "smoke"
     },
     {
         key: "Drink Alcohol?",
         title: "Drink Alcohol?",
-        placeholder: "Drinks/day"
+        placeholder: "Drinks/day",
+        id: "alcohol"
     },
     {
         key: "Drink Coffee?",
         title: "Drink Coffee?",
-        placeholder: "Cups/day"
+        placeholder: "Cups/day", 
+        id: "coffee"
     },
     {
         key: "Drink Soda/Pop?",
         title: "Drink Soda/Pop?",
-        placeholder: "Cups/day"
+        placeholder: "Cups/day",
+        id: "soda"
     }
 ]
 
@@ -199,6 +203,7 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                                                                             valueExtractor={(option) => option.title}
                                                                             required={true}
                                                                             formikField={field}
+                                                                            id={`radio`}
                                                                             onChange={(value) => {
                                                                                 if (value === "No") {
                                                                                     setFieldValue(`personal_habits.${key}.text`, undefined);
@@ -224,6 +229,7 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                                                                                 formikField={field}
                                                                                 size={"small"}
                                                                                 fullWidth={true}
+                                                                                
                                                                             />
                                                                         )
                                                                     }
@@ -236,6 +242,7 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                                         }
                                         <div className="t-form-actions">
                                             <ButtonComponent
+                                                id={"home_btn"}
                                                 variant={"outlined"}
                                                 onClick={onCancel}
                                                 disabled={isClientPersonalHabitsSavingInProgress}
@@ -243,6 +250,7 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                                                 Home
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
+                                                id={"save_next_btn"}
                                                 isLoading={isClientPersonalHabitsSavingInProgress}
                                                 disabled={isClientPersonalHabitsSavingInProgress || !isValid || CommonService.isEqual(values, clientPersonalHabitsFormInitialValues)}
                                                 type={"submit"}
@@ -252,6 +260,7 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                                             {
                                                 mode === "edit" && <>
                                                     &nbsp;&nbsp;<ButtonComponent
+                                                    id={"next_btn"}
                                                     disabled={isClientPersonalHabitsSavingInProgress || !CommonService.isEqual(values, clientPersonalHabitsFormInitialValues)}
                                                     onClick={onNext}
                                                 >
