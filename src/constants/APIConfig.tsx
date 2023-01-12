@@ -366,10 +366,15 @@ const APIConfig: IAPIConfig = {
         URL: (interventionId: string) => ENV.API_URL + '/intervention/' + interventionId + '/exerciseLog/attachment',
         METHOD: 'post'
     },
+
     CLIENT_BASIC_PROGRESS_REPORT_ADD: {
         URL:(medicalRecordId:string)=> ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/progressReport',
         METHOD: 'post'
-    }
+    },
+    PROGRESS_STATS_GET_TABLE :{
+        URL:ENV.API_URL + '/progressStats',
+        METHOD: 'get'
+        }
 }
 
 export default APIConfig;
