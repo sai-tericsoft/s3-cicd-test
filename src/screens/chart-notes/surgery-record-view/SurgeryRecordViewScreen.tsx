@@ -30,6 +30,8 @@ import FilePreviewThumbnailComponent
     from "../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import FilePickerComponent from "../../../shared/components/file-picker/FilePickerComponent";
 import * as Yup from "yup";
+import printJS from "print-js";
+import {Document, Page} from "react-pdf/dist/esm/entry.webpack";
 
 interface SurgeryRecordViewScreenProps {
 
@@ -444,22 +446,20 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                 </ButtonComponent>
             </div>
 
-            <ModalComponent size={'xl'} fullWidth={true} fullScreen={true} isOpen={!!showAttachment}
+            <ModalComponent size={'xl'} fullWidth={true} fullScreen={true} showClose={true} isOpen={!!showAttachment}
                             onClose={closeShowAttachment}>
-                {!!showAttachment && <object data={showAttachment + '#toolbar=0'}
-                                             type='application/pdf' style={{height: '85vh', width: '100%'}}>
-                    Failed to load PDF
-                </object>}
-                {/*{!!showAttachment && <iframe title={'show attachment pdf'} aria-readonly={true} style={{height: '85vh', width: '100%'}}*/}
-                {/*                             src={showAttachment}/>}*/}
-                {/*<PDFViewer*/}
-                {/*    document={{*/}
-                {/*        url: showAttachment,*/}
-                {/*    }}*/}
-                {/*/>*/}
-                <div className={'close-modal-btn'}>
-                    <ButtonComponent variant={'contained'} onClick={closeShowAttachment}>Close</ButtonComponent>
-                </div>
+                {/*{!!showAttachment && <object data={showAttachment + '#toolbar=0'}*/}
+                {/*                             type='application/pdf' style={{height: '85vh', width: '100%'}}>*/}
+                {/*    Failed to load PDF*/}
+                {/*</object>}*/}
+                {/*/!*{!!showAttachment && <iframe title={'show attachment pdf'} aria-readonly={true} style={{height: '85vh', width: '100%'}}*!/*/}
+                {/*/!*                             src={showAttachment}/>}*!/*/}
+                {!!showAttachment && <Document renderMode={'canvas'} file={showAttachment}>
+                    <Page pageNumber={1}/>
+                </Document>}
+                {/*<div className={'close-modal-btn'}>*/}
+                {/*    <ButtonComponent variant={'contained'} onClick={closeShowAttachment}>Close</ButtonComponent>*/}
+                {/*</div>*/}
             </ModalComponent>
             <div className="ts-row">
                 <div className="ts-col">
@@ -495,16 +495,19 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                                                     </ButtonComponent>
                                                     <ButtonComponent variant={'contained'} color={'primary'}
                                                                      onClick={() => {
-                                                                         const windowPdf = window.open(attachment.url, '_blank');
-
-                                                                         if (windowPdf) {
-                                                                             windowPdf.onload = (ev) => {
-                                                                                 setTimeout(() => {
-                                                                                     windowPdf.window.print();
-                                                                                 }, 200)
-                                                                             }
-                                                                         }
-                                                                         // printJS(attachment.url, 'pdf')
+                                                                         // const windowPdf = window.open(attachment.url, '_blank');
+                                                                         //
+                                                                         // if (windowPdf) {
+                                                                         //     windowPdf.onload = (ev) => {
+                                                                         //         setTimeout(() => {
+                                                                         //             windowPdf.window.print();
+                                                                         //         }, 1000)
+                                                                         //     }
+                                                                         // }
+                                                                         printJS({
+                                                                             printable: attachment.url,
+                                                                             type: 'pdf'
+                                                                         })
                                                                      }}>
                                                         <PrintRounded/> Print
                                                     </ButtonComponent>
