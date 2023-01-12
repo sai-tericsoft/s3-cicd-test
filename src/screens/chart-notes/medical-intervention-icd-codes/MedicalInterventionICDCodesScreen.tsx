@@ -22,6 +22,8 @@ import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import InputComponent from "../../../shared/components/form-controls/input/InputComponent";
 import {ClearSharp} from "@mui/icons-material";
 import {SearchIcon} from "../../../constants/ImageConfig";
+import {IClientListFilterState} from "../../../shared/models/client.model";
+import SearchComponent from "../../../shared/components/search/SearchComponent";
 
 interface MedicalInterventionICDCodesScreenProps {
 
@@ -51,7 +53,10 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
     }, [navigate, dispatch, medicalRecordId]);
 
     const [selectedICDCodes, setSelectedICDCodes] = useState<any[]>([]);
-    const [searchICDCodes, setSearchICDCodes] = useState<string>('');
+    const [searchICDCodes, setSearchICDCodes] = useState<any>({
+        search: "",
+    });
+
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
     const linkICDCodesToIntervention = useCallback((codes: string[], mode: 'add' | 'edit' = 'add') => {
@@ -171,14 +176,12 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             <ClientMedicalDetailsCardComponent/>
             <div className="ts-row">
                 <div className="ts-col ts-col-6">
-                    <InputComponent
-                        suffix={<SearchIcon/>}
-                        size={"small"}
-                        label={'Search ICD-11 Code'}
-                        placeholder={'Search ICD-11 Code'}
-                        className={'full-width'}
-                        value={searchICDCodes}
-                        onChange={setSearchICDCodes}
+                    <SearchComponent label={'Search ICD-11 Code'}
+                                     placeholder={'Search ICD-11 Code'}
+                                     value={searchICDCodes.search}
+                                     onSearchChange={(value) => {
+                                         setSearchICDCodes({...searchICDCodes, search: value})
+                                     }}
                     />
                 </div>
                 <div className="ts-col-6 text-right">
@@ -214,7 +217,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                                 setSelectedICDCodes(selectedRows.map(v => v._id));
                             }
                         }}
-                        extraPayload={{search: searchICDCodes}}
+                        extraPayload={searchICDCodes}
                         refreshToken={refreshToken}
                         url={APIConfig.ICD_CODE_LIST.URL}
                         method={APIConfig.ICD_CODE_LIST.METHOD}
