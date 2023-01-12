@@ -1,6 +1,6 @@
 import "./AddMedicalInterventionScreen.scss";
 import * as Yup from "yup";
-import {useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import React, {useCallback, useEffect, useState} from "react";
 import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
@@ -102,6 +102,8 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
     const navigate = useNavigate();
     const {medicalInterventionDetails} = useSelector((state: IRootReducerState) => state.chartNotes);
     const {medicalRecordId, medicalInterventionId} = useParams();
+    const location = useLocation();
+    const search = CommonService.parseQueryString(location.search);
     const [addMedicalInterventionFormInitialValues, setAddMedicalInterventionFormInitialValues] = useState<any>(_.cloneDeep(MedicalInterventionAddFormInitialValues));  // TODO type properly
     const [isSigningInProgress, setIsSigningInProgress] = useState<boolean>(false);
     const [isSavingInProgress, setIsSavingProgress] = useState<boolean>(false);
@@ -266,7 +268,17 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                     </LinkComponent>
                                 }
                             </div>
-                            <CardComponent title={'Subjective (S)'}>
+                            <CardComponent title={'Subjective (S)'}
+                                           actions={
+                                               search.showClear && <DraftReadonlySwitcherComponent
+                                                   condition={medicalInterventionDetails?.status === 'draft'}
+                                                   draft={<div className={'intervention-clear-button'} onClick={event => {
+                                                       formik.setFieldValue('subjective', '');
+                                                   }
+                                                   }>Clear</div>}
+                                                   readonly={<></>}/>
+                                           }
+                            >
                                 <div className="ts-row">
                                     <div className="ts-col-12">
                                         <DraftReadonlySwitcherComponent
@@ -301,6 +313,20 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                             </CardComponent>
                             <CardComponent title={'Objective (O)'}
                                            actions={<>
+                                               {search.showClear && <DraftReadonlySwitcherComponent
+                                                   condition={medicalInterventionDetails?.status === 'draft'}
+                                                   draft={<div className={'intervention-clear-button'}
+                                                               onClick={event => {
+                                                                   formik.setFieldValue('objective', {
+                                                                       observation: "",
+                                                                       palpation: "",
+                                                                       functional_tests: "",
+                                                                       treatment: "",
+                                                                       treatment_response: ""
+                                                                   });
+                                                               }
+                                                               }>Clear</div>}
+                                                   readonly={<></>}/>}&nbsp;&nbsp;
                                                <Field name={'is_flagged'}>
                                                    {
                                                        (field: FieldProps) => (
@@ -557,7 +583,18 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                     </div>
                                 </div>
                             </CardComponent>
-                            <CardComponent title={'Assessment (A)'}>
+                            <CardComponent title={'Assessment (A)'} actions={
+                                search.showClear && <DraftReadonlySwitcherComponent
+                                    condition={medicalInterventionDetails?.status === 'draft'}
+                                    draft={<div className={'intervention-clear-button'} onClick={event => {
+                                        formik.setFieldValue('assessment', {
+                                            suspicion_index: '',
+                                            surgery_procedure: ''
+                                        });
+                                    }
+                                    }>Clear</div>}
+                                    readonly={<></>}/>
+                            }>
                                 <div className="ts-row">
                                     <div className="ts-col-12">
 
@@ -650,7 +687,20 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                     </div>
                                 </div>
                             </CardComponent>
-                            <CardComponent title={'Plan (P)'}>
+                            <CardComponent title={'Plan (P)'} actions={
+                                search.showClear && <DraftReadonlySwitcherComponent
+                                    condition={medicalInterventionDetails?.status === 'draft'}
+                                    draft={<div className={'intervention-clear-button'} onClick={event => {
+                                        formik.setFieldValue('plan', {
+                                            plan: "",
+                                            md_recommendations: "",
+                                            education: "",
+                                            treatment_goals: "",
+                                        });
+                                    }
+                                    }>Clear</div>}
+                                    readonly={<></>}/>
+                            }>
                                 <div className="ts-row">
                                     <div className="ts-col-12">
                                         <DraftReadonlySwitcherComponent
