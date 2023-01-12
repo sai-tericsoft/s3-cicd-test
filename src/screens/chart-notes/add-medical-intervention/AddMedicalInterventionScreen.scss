@@ -45,7 +45,7 @@
     }
 
     &.white-card-header {
-      &>.card-header {
+      &> .card-header {
         background: #FFFFFF;
       }
     }
@@ -65,6 +65,49 @@
     &.no-padding-card {
       .card-body {
         padding: 0;
+      }
+    }
+  }
+
+  .last-updated-status {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 5px;
+
+    .last-updated-status-text {
+      font-size: 14px;
+    }
+
+    .last-updated-status-bold {
+      font-size: 14px;
+      font-weight: bold;
+      text-transform: capitalize;
+    }
+
+    .last-updated-status-status {
+      margin-left: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .spin-item {
+      animation-name: spin;
+      animation-duration: 1600ms;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+      /* transform: rotate(3deg); */
+      /* transform: rotate(0.3rad);/ */
+      /* transform: rotate(3grad); */
+      /* transform: rotate(.03turn);  */
+    }
+
+    @keyframes spin {
+      from {
+        transform:rotate(360deg);
+      }
+      to {
+        transform:rotate(0deg);
       }
     }
   }

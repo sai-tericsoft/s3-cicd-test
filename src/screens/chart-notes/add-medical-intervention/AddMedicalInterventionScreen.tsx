@@ -23,6 +23,8 @@ import DraftReadonlySwitcherComponent from "../draft-readonly-switcher/DraftRead
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {ITableColumn} from "../../../shared/models/table.model";
 import ESignApprovalComponent from "../../../shared/components/e-sign-approval/ESignApprovalComponent";
+// import moment from "moment";
+import moment from "moment-timezone";
 
 interface AddMedicalInterventionScreenProps {
 
@@ -102,6 +104,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
     const {medicalRecordId, medicalInterventionId} = useParams();
     const [addMedicalInterventionFormInitialValues, setAddMedicalInterventionFormInitialValues] = useState<any>(_.cloneDeep(MedicalInterventionAddFormInitialValues));  // TODO type properly
     const [isSigningInProgress, setIsSigningInProgress] = useState<boolean>(false);
+    const [isSavingInProgress, setIsSavingProgress] = useState<boolean>(false);
 
     const getMedicalInterventionROMConfigColumns = useCallback((body_part: any): ITableColumn[] => {
         const ROMColumns: ITableColumn[] = [
@@ -160,12 +163,14 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
     }: FormikHelpers<any>, announce = false, cb: any = null) => {
         if (medicalInterventionId) {
             setSubmitting(true);
+            setIsSavingProgress(true);
             CommonService._chartNotes.MedicalInterventionBasicDetailsUpdateAPICall(medicalInterventionId, values)
                 .then((response: IAPIResponseType<any>) => {
                     dispatch(setMedicalInterventionDetails(response.data));
                     if (announce) {
                         CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     }
+                    setIsSavingProgress(false);
                     setSubmitting(false);
                     if (cb) {
                         cb();
@@ -174,6 +179,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                 .catch((error: any) => {
                     CommonService.handleErrors(setErrors, error, true);
                     setSubmitting(false);
+                    setIsSavingProgress(false);
                     if (cb) {
                         cb();
                     }
@@ -211,6 +217,18 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
 
     return (
         <div className={'add-medical-intervention-screen'}>
+            {medicalInterventionDetails && <div className="last-updated-status">
+                <div className="last-updated-status-text">Last Updated On:&nbsp;</div>
+                <div
+                    className="last-updated-status-bold">
+                    {(medicalInterventionDetails.updated_at ? moment(medicalInterventionDetails.updated_at).tz(moment.tz.guess()).format('DD-MM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
+                    {medicalInterventionDetails?.last_updated_by_details?.first_name ? medicalInterventionDetails?.last_updated_by_details?.first_name + ' ' + medicalInterventionDetails?.last_updated_by_details?.last_name : ' NA'}
+                </div>
+                {isSavingInProgress && <div className="last-updated-status-status">
+                    <ImageConfig.SYNC className={'spin-item'}
+                                      width={16}/>
+                    &nbsp;Saving...</div>}
+            </div>}
             <ClientMedicalDetailsCardComponent/>
             <Formik
                 validationSchema={MedicalInterventionAddFormValidationSchema}

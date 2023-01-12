@@ -21,6 +21,7 @@ import {ReactComponent as ChatIcon} from '../assets/icons/chat.svg';
 import {ReactComponent as MoreVerticalIcon} from './../assets/icons/more_vertical.svg';
 import {ReactComponent as PDF_ICON} from './../assets/icons/pdf_icon.svg';
 import {ReactComponent as REPEAT_LAST_INTERVENTION} from './../assets/icons/repeat_last_intervention.svg';
+import {ReactComponent as SYNC} from './../assets/icons/sync.svg';
 
 
 //file types
@@ -110,4 +111,5 @@ export {
     RemoveBodyPartConfirmationIcon,
     PDF_ICON,
     REPEAT_LAST_INTERVENTION,
+    SYNC
 }
