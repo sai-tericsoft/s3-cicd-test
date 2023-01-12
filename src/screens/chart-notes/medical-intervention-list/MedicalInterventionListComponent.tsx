@@ -107,7 +107,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                     CommonService._alert.showToast(error, "error");
                 });
         },
-        [],
+        [navigate],
     );
     const confirmRepeatLastTreatment = useCallback(
         () => {
@@ -165,7 +165,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                     CommonService._alert.showToast(error, "error");
                 });
         },
-        [medicalRecordId],
+        [medicalRecordId, navigate],
     );
 
 
