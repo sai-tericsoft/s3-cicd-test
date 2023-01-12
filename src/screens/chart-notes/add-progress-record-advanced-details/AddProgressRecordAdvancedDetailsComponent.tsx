@@ -1,15 +1,16 @@
 import "./AddProgressRecordAdvancedDetailsComponent.scss";
 import CardComponent from "../../../shared/components/card/CardComponent";
-import {Formik, Form, Field, FieldProps} from "formik";
+import {Formik, Form, Field, FieldProps, FormikHelpers} from "formik";
 import React, {useCallback, useEffect, useState} from "react";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
-import {APIConfig, ImageConfig} from "../../../constants";
+import {APIConfig, ImageConfig, Misc} from "../../../constants";
 import {ITableColumn} from "../../../shared/models/table.model";
 import FormikRadioButtonGroupComponent
     from "../../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
-import {CommonService} from "../../../shared/services";
+import {useSelector} from "react-redux";
+import {IRootReducerState} from "../../../store/reducers";
 
 interface AddProgressRecordAdvancedDetailsComponentProps {
 
@@ -36,6 +37,7 @@ const AddProgressRecordAdvancedDetailsComponent = (props: AddProgressRecordAdvan
                             options={item.results}/>
                     )}
             </Field>
+            
         },
         {
             title: 'Comments',
@@ -54,10 +56,24 @@ const AddProgressRecordAdvancedDetailsComponent = (props: AddProgressRecordAdvan
         impression: "",
         plan: "",
     });
+    const {
+        clientMedicalRecord,
+    } = useSelector((state: IRootReducerState) => state.client);
 
-    const onSubmit = useCallback((values: any) => {
+
+
+    const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         console.log(values);
-    }, []);
+        const payload = {...values};
+        // if (clientMedicalRecord) {
+        //     CommonService._client.AddBasicProgressReport(clientMedicalRecord?._id, payload)
+        //         .then((response) => {
+        //             CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+        //         }).catch((error) => {
+        //         CommonService.handleErrors(setErrors, error, true);
+        //     });
+        // }
+    }, [])
 
     return (
         <div className={'add-progress-record-advanced-details-component'}>
@@ -84,7 +100,6 @@ const AddProgressRecordAdvancedDetailsComponent = (props: AddProgressRecordAdvan
                                                                      placeholder={'Please enter your note here...'}
                                                                      required={false}
                                                                      fullWidth={true}/>
-
                                         )
                                     }
                                 </Field>
