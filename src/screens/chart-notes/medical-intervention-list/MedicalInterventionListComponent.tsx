@@ -8,6 +8,7 @@ import {CommonService} from "../../../shared/services";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {useCallback} from "react";
 import {IAPIResponseType} from "../../../shared/models/api.model";
+import moment from "moment";
 
 interface ClientMedicalRecordsComponentProps {
 
@@ -94,7 +95,6 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
 
     const repeatLastTreatment = useCallback(
         (medicalRecordId: string) => {
-            console.log(medicalRecordId, 'medicalRecordId')
             CommonService._chartNotes.RepeatLastInterventionAPICall(medicalRecordId, {
                     "repeat_previous": true //todo: Why Swetha ????
                 }
@@ -131,26 +131,39 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
     );
     const addNewTreatment = useCallback(
         () => {
-            // if (!medicalInterventionId || !medicalRecordId) {
-            //     CommonService._alert.showToast('InterventionId not found!', "error");
-            //     return;
-            // }
-            // setIsSubmitting(true);
-            // CommonService._chartNotes.AddMedicalInterventionICDCodesAPICall(medicalInterventionId, {
-            //     "icd_codes": codes,
-            //     "mode": mode
-            // })
-            //     .then((response: IAPIResponseType<any>) => {
-            //         CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-            //         navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, medicalInterventionId));
-            //
-            //     })
-            //     .catch((error: any) => {
-            //         CommonService._alert.showToast(error, "error");
-            //     })
-            //     .finally(() => {
-            //         setIsSubmitting(false);
-            //     })
+            if (!medicalRecordId) {
+                CommonService._alert.showToast('Medical Record ID not found!', "error");
+                return;
+            }
+            CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, {
+                    "intervention_date": moment().format('YYYY-MM-DD'),
+                    "subjective": "",
+                    "objective": {
+                        "observation": "",
+                        "palpation": "",
+                        "functional_tests": "",
+                        "treatment": "",
+                        "treatment_response": ""
+                    },
+                    "assessment": {
+                        "suspicion_index": "",
+                        "surgery_procedure": ""
+                    },
+                    "plan": {
+                        "plan": "",
+                        "md_recommendations": "",
+                        "education": "",
+                        "treatment_goals": ""
+                    }
+                }
+            )
+                .then((response: IAPIResponseType<any>) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, response?.data._id));
+                })
+                .catch((error: any) => {
+                    CommonService._alert.showToast(error, "error");
+                });
         },
         [medicalRecordId],
     );
