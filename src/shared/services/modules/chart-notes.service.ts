@@ -101,6 +101,15 @@ const AddMedicalInterventionICDCodesAPICall = (medicalInterventionId: string, pa
     // @ts-ignore
     return ApiService[APIConfig.SAVE_MEDICAL_INTERVENTION_ICD_CODES.METHOD](APIConfig.SAVE_MEDICAL_INTERVENTION_ICD_CODES.URL(medicalInterventionId), payload);
 }
+const RepeatLastInterventionAPICall = (medicalRecordId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.REPEAT_LAST_INTERVENTION.METHOD](APIConfig.REPEAT_LAST_INTERVENTION.URL(medicalRecordId), payload);
+}
+const AddNewMedicalInterventionAPICall = (medicalRecordId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.ADD_NEW_MEDICAL_INTERVENTION.METHOD](APIConfig.ADD_NEW_MEDICAL_INTERVENTION.URL(medicalRecordId), payload);
+}
+
 
 const ChartNotesService = {
     MedicalRecordAddAPICall,
@@ -123,7 +132,9 @@ const ChartNotesService = {
     FetchSurgeryRecordAPICall,
     AddSurgeryRecordAttachmentAPICall,
     UpdateSurgeryRecordAPICall,
-    RemoveSurgeryRecordAttachmentAPICall
+    RemoveSurgeryRecordAttachmentAPICall,
+    RepeatLastInterventionAPICall,
+    AddNewMedicalInterventionAPICall
 }
 
 export default ChartNotesService;

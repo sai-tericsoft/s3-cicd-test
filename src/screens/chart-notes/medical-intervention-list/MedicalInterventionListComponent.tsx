@@ -1,10 +1,13 @@
 import "./MedicalInterventionListComponent.scss";
-import {APIConfig, ImageConfig} from "../../../constants";
+import {APIConfig, ImageConfig, Misc} from "../../../constants";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {CommonService} from "../../../shared/services";
+import ButtonComponent from "../../../shared/components/button/ButtonComponent";
+import {useCallback} from "react";
+import {IAPIResponseType} from "../../../shared/models/api.model";
 
 interface ClientMedicalRecordsComponentProps {
 
@@ -12,6 +15,7 @@ interface ClientMedicalRecordsComponentProps {
 
 const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentProps) => {
 
+    const navigate = useNavigate();
     const {medicalRecordId} = useParams();
 
     const medicalRecord: any = [
@@ -75,10 +79,11 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                             route={CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, item.intervention_id)}>
                             View Details
                         </LinkComponent>
-                    }
-                    else if (item?.note_type?.toLowerCase() === "soap note") {
+                    } else if (item?.note_type?.toLowerCase() === "soap note") {
                         console.log(item, 'item')
-                        return <LinkComponent route={CommonService._routeConfig.MedicalInterventionDetails(medicalRecordId, item._id)}>View Details</LinkComponent>
+                        return <LinkComponent
+                            route={CommonService._routeConfig.MedicalInterventionDetails(medicalRecordId, item._id)}>View
+                            Details</LinkComponent>
                     } else {
                         return <LinkComponent route={''}>View Details</LinkComponent>
                     }
@@ -87,15 +92,81 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
         }
     ];
 
+    const repeatLastTreatment = useCallback(
+        (medicalRecordId: string) => {
+            console.log(medicalRecordId, 'medicalRecordId')
+            CommonService._chartNotes.RepeatLastInterventionAPICall(medicalRecordId, {
+                    "repeat_previous": true //todo: Why Swetha ????
+                }
+            )
+                .then((response: IAPIResponseType<any>) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, response?.data._id)+'?showClear=true');
+                })
+                .catch((error: any) => {
+                    CommonService._alert.showToast(error, "error");
+                });
+        },
+        [],
+    );
+    const confirmRepeatLastTreatment = useCallback(
+        () => {
+            if (!medicalRecordId) {
+                CommonService._alert.showToast('Medical Record ID not found!', "error");
+                return;
+            }
+            CommonService.onConfirm({
+                confirmationTitle: "REPEAT LAST TREATMENT",
+                image: ImageConfig.REPEAT_LAST_INTERVENTION,
+                confirmationSubTitle: "Do you want to repeat the last treatment\nfrom the same Medical Record?"
+            })
+                .then((value) => {
+                    repeatLastTreatment(medicalRecordId)
+                })
+                .catch(reason => {
+
+                })
+        },
+        [medicalRecordId, repeatLastTreatment],
+    );
+    const addNewTreatment = useCallback(
+        () => {
+            // if (!medicalInterventionId || !medicalRecordId) {
+            //     CommonService._alert.showToast('InterventionId not found!', "error");
+            //     return;
+            // }
+            // setIsSubmitting(true);
+            // CommonService._chartNotes.AddMedicalInterventionICDCodesAPICall(medicalInterventionId, {
+            //     "icd_codes": codes,
+            //     "mode": mode
+            // })
+            //     .then((response: IAPIResponseType<any>) => {
+            //         CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+            //         navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, medicalInterventionId));
+            //
+            //     })
+            //     .catch((error: any) => {
+            //         CommonService._alert.showToast(error, "error");
+            //     })
+            //     .finally(() => {
+            //         setIsSubmitting(false);
+            //     })
+        },
+        [medicalRecordId],
+    );
+
+
     return (
         <div className={'client-medical-records-component'}>
             <div className={'client-medical-records-header-button-wrapper'}>
                 <div className={'client-medical-records-header'}>Medical Records</div>
-                {/*<div>*/}
-                {/*    <ButtonComponent className={'outlined-button'} variant={"outlined"}>Repeat Last*/}
-                {/*        Treatment</ButtonComponent>*/}
-                {/*    <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}>Add New Treatment</ButtonComponent>*/}
-                {/*</div>*/}
+                <div>
+                    <ButtonComponent onClick={confirmRepeatLastTreatment} className={'outlined-button'} variant={"outlined"}>Repeat
+                        Last
+                        Treatment</ButtonComponent>
+                    <ButtonComponent onClick={addNewTreatment} prefixIcon={<ImageConfig.AddIcon/>}>Add New
+                        Treatment</ButtonComponent>
+                </div>
             </div>
             <TableWrapperComponent url={APIConfig.CLIENT_MEDICAL_INTERVENTION_LIST.URL(medicalRecordId)}
                                    method={APIConfig.CLIENT_MEDICAL_INTERVENTION_LIST.METHOD} columns={medicalRecord}

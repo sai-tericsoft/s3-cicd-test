@@ -365,6 +365,14 @@ const APIConfig: IAPIConfig = {
     ADD_EXERCISE_LOG_ATTACHMENT: {
         URL: (interventionId: string) => ENV.API_URL + '/intervention/' + interventionId + '/exerciseLog/attachment',
         METHOD: 'post'
+    },
+    REPEAT_LAST_INTERVENTION: {
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/repeatTreatment',
+        METHOD: 'post'
+    },
+    ADD_NEW_MEDICAL_INTERVENTION: {
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/intervention',
+        METHOD: 'post'
     }
 }
 
