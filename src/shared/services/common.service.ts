@@ -19,6 +19,7 @@ import ServiceService from "./modules/service.service";
 import FacilityService from "./modules/facility.service";
 import ClientService from "./modules/client.service";
 import ChartNotesService from "./modules/chart-notes.service";
+import React from "react";
 
 yup.addMethod(yup.mixed, 'atLeastOne', (args) => {
     const {message} = args;
@@ -120,6 +121,12 @@ const convertDateFormat = (date: Date, format: string = 'YYYY-MM-DD') => {
 
 const convertDateFormat2 = (date: Date, format: string = 'DD-MMM-YYYY') => {
     return moment(date).format(format);
+}
+
+const interventionLinkedToService = (intervention:any) => {
+ return ` ${intervention?.injury_details?.map((bodyPart:any,index: number)=>{
+     return( bodyPart?.body_part_details?.name + (index === intervention?.injury_details?.length - 1 ? '' : '/'))
+ })} - ${CommonService.convertDateFormat2(intervention?.created_at)}`
 }
 
 const getTheDifferenceBetweenDates = (fromDate: string) => {
@@ -474,6 +481,7 @@ const CommonService = {
     isEqual,
     convertDateFormat2,
     formatPhoneNumber,
+    interventionLinkedToService,
 
     // createValidationsObject,
     // createYupSchema,

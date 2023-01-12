@@ -2,7 +2,7 @@ import "./AddBasicProgressReportComponent.scss";
 import React, {useCallback, useEffect, useState} from "react";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
-import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers} from "formik";
+import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import FormikDatePickerComponent
     from "../../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
@@ -10,12 +10,20 @@ import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {CommonService} from "../../../shared/services";
 import {Misc} from "../../../constants";
+import * as Yup from "yup";
+import {IAPIResponseType} from "../../../shared/models/api.model";
+
 
 interface AddBasicProgressReportComponentProps {
     isProgressReportDrawerOpen?: () => void;
 }
 
 const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentProps) => {
+
+    const BasicProgressReportValidationSchema = Yup.object({
+        provider_name:Yup.string().required('Provider Name is required'),
+        therapist_name:Yup.string().required('Therapist Name is required'),
+    });
 
     const {isProgressReportDrawerOpen} = props;
     const [addProgressReportBasicInitialValues, setAddProgressReportBasicInitialValues] = useState<any>({
@@ -29,28 +37,26 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
         clientMedicalRecord,
     } = useSelector((state: IRootReducerState) => state.client);
 
-
     useEffect(() => {
-        console.log("clientMedicalRecord", clientMedicalRecord);
         setAddProgressReportBasicInitialValues({
-            intervention_linked_to: clientMedicalRecord?.intervention_linked_to,
+            intervention_linked_to: CommonService.interventionLinkedToService(clientMedicalRecord),
             onset_date: clientMedicalRecord?.onset_date,
             surgery_date: clientMedicalRecord?.surgery_date,
         })
     }, []);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        console.log(values);
         const payload = {...values};
         if (clientMedicalRecord) {
             CommonService._client.AddBasicProgressReport(clientMedicalRecord?._id, payload)
-                .then((response) => {
+                .then((response:IAPIResponseType<any>) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                }).catch((error) => {
+                }).catch((error:any) => {
+                    console.log(error);
                 CommonService.handleErrors(setErrors, error, true);
             });
         }
-    }, [])
+    }, [clientMedicalRecord])
 
     return (
         <div className={'add-basic-progress-report-component'}>
@@ -59,6 +65,7 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
             <div className={'add-progress-report-container'}>
                 <Formik initialValues={addProgressReportBasicInitialValues}
                         onSubmit={onSubmit}
+                        validationSchema={BasicProgressReportValidationSchema}
                         validateOnChange={false}
                         validateOnBlur={true}
                         enableReinitialize={true}
@@ -69,7 +76,7 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
                             validateForm();
                         }, [values, validateForm]);
                         return (<>
-                                <Form className={'t-form'} noValidate={true}>
+                                <Form noValidate={true} className={'t-form'}>
                                     <div>
                                         <Field name={'intervention_linked_to'}>
                                             {
@@ -162,9 +169,7 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
                                     </div>
                                 </Form>
                             </>
-
                         )
-
                     }}
                 </Formik>
             </div>
