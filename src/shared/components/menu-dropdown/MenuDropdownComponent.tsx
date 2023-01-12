@@ -59,7 +59,7 @@ const MenuDropdownComponent = (props: MenuDropdownComponentProps) => {
                 className={"menu-dropdown-component-menu"}
             >
                 {menuOptions && menuOptions.map((option, index) => (
-                    <MenuItem key={index}
+                    <MenuItem key={index} onClick={handleClose}
                               disableRipple={true}
                               className={"menu-dropdown-option"}>
                         {option}
