@@ -136,6 +136,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                                         valueExtractor={(option) => option.title}
                                                                         required={true}
                                                                         formikField={field}
+                                                                        id={"musculos"}
                                                                         onChange={(value) => {
                                                                             console.log(value);
                                                                             if (value === "No") {
@@ -154,6 +155,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                                 {
                                                                     (field: FieldProps) => (
                                                                         <FormikTextAreaComponent
+                                                                            id={"musculos_input"}
                                                                             label={"Please provide pertinent information here (date of injury, date of surgery, side of body, injury type, etc)."}
                                                                             placeholder={"Please provide pertinent information here (date of injury, date of surgery, side of body, injury type, etc)."}
                                                                             formikField={field}
@@ -171,6 +173,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                         }
                                         <div className="t-form-actions">
                                             <ButtonComponent
+                                                id={"home_btn"}
                                                 variant={"outlined"}
                                                 onClick={onCancel}
                                                 disabled={isClientMusculoskeletalHistorySavingInProgress}
@@ -178,6 +181,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                 Home
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
+                                                id={"save_next_btn"}
                                                 isLoading={isClientMusculoskeletalHistorySavingInProgress}
                                                 disabled={isClientMusculoskeletalHistorySavingInProgress || !isValid || CommonService.isEqual(values, clientMusculoskeletalHistoryFormInitialValues)}
                                                 type={"submit"}
@@ -187,6 +191,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                             {
                                                 mode === "edit" && <>
                                                     &nbsp;&nbsp;<ButtonComponent
+                                                    id={"next_btn"}
                                                     disabled={isClientMusculoskeletalHistorySavingInProgress || !CommonService.isEqual(values, clientMusculoskeletalHistoryFormInitialValues)}
                                                     onClick={onNext}
                                                 >

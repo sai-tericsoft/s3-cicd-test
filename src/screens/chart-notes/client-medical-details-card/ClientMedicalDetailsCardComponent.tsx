@@ -209,12 +209,12 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-md-3'}>
                                         <DataLabelValueComponent label={'Date of Onset'}>
-                                            {CommonService.transformTimeStamp(clientMedicalRecord?.onset_date) || "-"}
+                                            {CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.onset_date) || "-"}
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-3'}>
                                         <DataLabelValueComponent label={'Date of Surgery'}>
-                                            {CommonService.transformTimeStamp(clientMedicalRecord?.surgery_date) || "-"}
+                                            {CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.surgery_date) || "-"}
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-3'}>
