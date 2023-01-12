@@ -81,6 +81,7 @@ import ClientMedicalInterventionDetailsComponent
 import MedicalInterventionICDCodesScreen
     from "../screens/chart-notes/medical-intervention-icd-codes/MedicalInterventionICDCodesScreen";
 import SurgeryRecordViewScreen from "../screens/chart-notes/surgery-record-view/SurgeryRecordViewScreen";
+
 import MedicalInterventionFinalizeTreatmentScreen
     from "../screens/chart-notes/medical-intervention-finalize-treatment/MedicalInterventionFinalizeTreatmentScreen";
 import ProgressReportViewDetailsComponent

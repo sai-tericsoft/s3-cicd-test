@@ -148,6 +148,7 @@ const MedicalInterventionFinalizeTreatment = (medicalRecordId: string, medicalIn
 }
 
 
+
 const RouteConfigService = {
     DefaultRoute,
     LoginRoute,

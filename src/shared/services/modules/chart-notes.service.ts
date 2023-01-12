@@ -110,7 +110,6 @@ const AddNewMedicalInterventionAPICall = (medicalRecordId: string, payload: any)
     return ApiService[APIConfig.ADD_NEW_MEDICAL_INTERVENTION.METHOD](APIConfig.ADD_NEW_MEDICAL_INTERVENTION.URL(medicalRecordId), payload);
 }
 
-
 const ProgressReportViewDetailsAPICall = (interventionId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.PROGRESS_REPORT_VIEW_DETAILS.METHOD](APIConfig.PROGRESS_REPORT_VIEW_DETAILS.URL(interventionId), payload);

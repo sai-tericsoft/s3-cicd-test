@@ -366,7 +366,6 @@ const APIConfig: IAPIConfig = {
         URL: (interventionId: string) => ENV.API_URL + '/intervention/' + interventionId + '/exerciseLog/attachment',
         METHOD: 'post'
     },
-
     REPEAT_LAST_INTERVENTION: {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/repeatTreatment',
         METHOD: 'post'

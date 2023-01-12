@@ -58,6 +58,7 @@ const ProgressReportViewDetailsComponent = (props: ProgressReportViewDetailsComp
                 <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>Edit Progress Report</ButtonComponent>
 
             </div>
+        <div className={'progress-report-view-details-component'}>
             <>
                 {
                     !interventionId && (
@@ -75,8 +76,8 @@ const ProgressReportViewDetailsComponent = (props: ProgressReportViewDetailsComp
                             <StatusCardComponent title={'Failed to fetch progress report details'}/>
                         }
                         {
-                            (isProgressReportDetailsLoaded && progressReportDetails) && <>
-                                <div className={'progress-report-view-details-component-header'}>
+                            (isProgressReportDetailsLoaded && progressReportDetails)&& <>
+                                <div className={'progress-report-view-details-component__header'}>
                                     <CardComponent title={'Synopsis'}>
                                         {progressReportDetails?.synopsis || "N/A"}
                                     </CardComponent>
@@ -91,7 +92,6 @@ const ProgressReportViewDetailsComponent = (props: ProgressReportViewDetailsComp
                                                         columns={progressStatsColumn}
                                                         showExpandColumn={false}
                                                         expandRow={(row: any) => {
-                                                            console.log('row',row);
                                                             return <div className={'comment-row'}>
                                                             <div className={'comment-icon'}><ImageConfig.CommentIcon/></div>
                                                                 <div>{row?.comments || "N/A"}</div>
@@ -104,6 +104,7 @@ const ProgressReportViewDetailsComponent = (props: ProgressReportViewDetailsComp
                                     <ESignApprovalComponent isSigned={progressReportDetails?.is_signed} onSign={() => ''}
                                                             signedAt={CommonService.convertDateFormat(progressReportDetails?.created_at)}/>
                                     </div>
+                                        <TableComponent data={progressReportDetails?.progress_stats} columns={progressStatsColumn}/>
                                 </div>
                             </>
                         }
@@ -111,6 +112,7 @@ const ProgressReportViewDetailsComponent = (props: ProgressReportViewDetailsComp
                 }
             </>
 
+        </div>
         </div>
     );
 
