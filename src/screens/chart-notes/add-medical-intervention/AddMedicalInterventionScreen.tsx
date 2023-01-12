@@ -15,13 +15,14 @@ import FormikTextAreaComponent from "../../../shared/components/form-controls/fo
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
-import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
+import {getMedicalInterventionDetails, setMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import ClientMedicalDetailsCardComponent from "../client-medical-details-card/ClientMedicalDetailsCardComponent";
 import DraftReadonlySwitcherComponent from "../draft-readonly-switcher/DraftReadonlySwitcherComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {ITableColumn} from "../../../shared/models/table.model";
+import ESignApprovalComponent from "../../../shared/components/e-sign-approval/ESignApprovalComponent";
 
 interface AddMedicalInterventionScreenProps {
 
@@ -100,6 +101,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
     const {medicalInterventionDetails} = useSelector((state: IRootReducerState) => state.chartNotes);
     const {medicalRecordId, medicalInterventionId} = useParams();
     const [addMedicalInterventionFormInitialValues, setAddMedicalInterventionFormInitialValues] = useState<any>(_.cloneDeep(MedicalInterventionAddFormInitialValues));  // TODO type properly
+    const [isSigningInProgress, setIsSigningInProgress] = useState<boolean>(false);
 
     const getMedicalInterventionROMConfigColumns = useCallback((body_part: any): ITableColumn[] => {
         const ROMColumns: ITableColumn[] = [
@@ -152,22 +154,32 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
         return ROMColumns;
     }, []);
 
-    const onSubmit = useCallback((values: any, {setSubmitting, setErrors}: FormikHelpers<any>, announce = false) => {
+    const onSubmit = useCallback((values: any, {
+        setSubmitting,
+        setErrors
+    }: FormikHelpers<any>, announce = false, cb: any = null) => {
         if (medicalInterventionId) {
             setSubmitting(true);
             CommonService._chartNotes.MedicalInterventionBasicDetailsUpdateAPICall(medicalInterventionId, values)
                 .then((response: IAPIResponseType<any>) => {
+                    dispatch(setMedicalInterventionDetails(response.data));
                     if (announce) {
                         CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     }
                     setSubmitting(false);
+                    if (cb) {
+                        cb();
+                    }
                 })
                 .catch((error: any) => {
                     CommonService.handleErrors(setErrors, error, true);
                     setSubmitting(false);
+                    if (cb) {
+                        cb();
+                    }
                 })
         }
-    }, [medicalInterventionId]);
+    }, [navigate, medicalInterventionDetails, medicalInterventionId]);
 
     useEffect(() => {
         if (medicalInterventionId) {
@@ -188,6 +200,14 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
             }));
         }
     }, [navigate, dispatch, medicalRecordId]);
+
+    const handleSign = useCallback((values: any, formik: FormikHelpers<any>) => {
+        setIsSigningInProgress(true);
+        values['is_signed'] = true;
+        onSubmit(values, formik, true, () => {
+            setIsSigningInProgress(false);
+        });
+    }, [onSubmit]);
 
     return (
         <div className={'add-medical-intervention-screen'}>
@@ -335,26 +355,26 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                         />
                                         <div className="card-styling padding-card-5 mrg-bottom-20">
                                             <CardComponent className={'white-card-header'}
-                                                title={"Range of Motion and Strength"}
-                                                actions={
-                                                    <DraftReadonlySwitcherComponent
-                                                        condition={medicalInterventionDetails?.status === 'draft'}
-                                                        draft={<>
-                                                            {
-                                                                (medicalInterventionId && medicalRecordId) &&
-                                                                <LinkComponent
-                                                                    route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId)}>
-                                                                    <ButtonComponent
-                                                                        prefixIcon={(medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0) ?
-                                                                            <ImageConfig.EditIcon/> :
-                                                                            <ImageConfig.AddIcon/>}>
-                                                                        {medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0 ? 'Edit' : 'Add'}
-                                                                    </ButtonComponent>
-                                                                </LinkComponent>
-                                                            }
-                                                        </>} readonly={<></>}
-                                                    />
-                                                }
+                                                           title={"Range of Motion and Strength"}
+                                                           actions={
+                                                               <DraftReadonlySwitcherComponent
+                                                                   condition={medicalInterventionDetails?.status === 'draft'}
+                                                                   draft={<>
+                                                                       {
+                                                                           (medicalInterventionId && medicalRecordId) &&
+                                                                           <LinkComponent
+                                                                               route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId)}>
+                                                                               <ButtonComponent
+                                                                                   prefixIcon={(medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0) ?
+                                                                                       <ImageConfig.EditIcon/> :
+                                                                                       <ImageConfig.AddIcon/>}>
+                                                                                   {medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0 ? 'Edit' : 'Add'}
+                                                                               </ButtonComponent>
+                                                                           </LinkComponent>
+                                                                       }
+                                                                   </>} readonly={<></>}
+                                                               />
+                                                           }
                                             >
 
                                                 {
@@ -391,8 +411,9 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 }
                                             </CardComponent>
                                         </div>
-                                        <div className={"card-styling padding-card-5 mrg-bottom-20 " + ((medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0) ?
-                                            ' white-card-header ' : '')}>
+                                        <div
+                                            className={"card-styling padding-card-5 mrg-bottom-20 " + ((medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0) ?
+                                                ' white-card-header ' : '')}>
                                             <CardComponent title={"Special Test"}
                                                            actions={
                                                                <DraftReadonlySwitcherComponent
@@ -726,18 +747,31 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </div>
                                         }
                                         />
-
-
                                     </div>
+                                </div>
+                                <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>
+                                    <ESignApprovalComponent isSigned={medicalInterventionDetails?.is_signed}
+                                                            isSigning={isSigningInProgress}
+                                                            canSign={medicalInterventionDetails?.can_sign}
+                                                            signedAt={medicalInterventionDetails?.signed_on}
+                                                            onSign={() => {
+                                                                handleSign(formik.values, formik);
+                                                            }}/>
                                 </div>
                             </CardComponent>
                             <div className="t-form-actions">
                                 <ButtonComponent
+                                    onClick={(event) => {
+                                        if (medicalInterventionDetails?.is_signed) {
+                                            navigate(CommonService._routeConfig.ComingSoonRoute());
+                                            event.preventDefault();
+                                        }
+                                    }}
                                     isLoading={formik.isSubmitting}
-                                    type={"submit"}
+                                    type={medicalInterventionDetails?.is_signed ? "button" : "submit"}
                                     id={"medical_intervention_add_save_btn"}
                                 >
-                                    {formik.isSubmitting ? "Saving" : "Save"}
+                                    {medicalInterventionDetails?.is_signed ? "Finalize treatment" : formik.isSubmitting ? "Saving" : "Save"}
                                 </ButtonComponent>
                             </div>
                         </Form>

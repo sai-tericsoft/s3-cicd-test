@@ -1,0 +1,39 @@
+@import "src/assets/styles/common";
+
+.e-sign-approval-component {
+
+  .e-sign-image-action-wrapper {
+    height: 110px;
+    width: 350px;
+    border: 1px solid #ABB6BE;
+    border-radius: 4px;
+    position: relative;
+    @include display-center();
+
+    .e-sign-image-container {
+      height: 100px;
+      width: auto;
+      opacity: 0.2;
+
+      &.signed {
+        opacity: 1;
+      }
+
+      img {
+        height: 100%;
+        width: auto;
+      }
+    }
+
+    .e-sign-action-container {
+      position: absolute;
+    }
+  }
+
+  .e-sign-time-stamp {
+    margin-top: 10px;
+    font-size: 0.85714rem;
+    letter-spacing: 0.5px;
+    opacity: 0.5;
+  }
+}
