@@ -52,16 +52,17 @@ const MedicalRecordAddFormInitialValues: any = { // TODO type properly
     ],
     injury_description: "",
     limitations: "",
-    surgery_details: {
-        surgery_date: "",
-        reported_by: undefined,
-        surgeon_name: "",
-        details: "",
-        documents: []
-    }
 };
+const surgeryDetailsInitValues = {
+    surgery_date: "",
+    reported_by: undefined,
+    surgeon_name: "",
+    details: "",
+    documents: []
+}
 
-const SurgeryRecordValidationSchema = Yup.object().shape({
+
+const surgeryRecordValidationSchema = Yup.object().shape({
     surgery_date: Yup.string().required("Surgery date is required"),
     reported_by: Yup.mixed().required("Reported by is required"),
 });
@@ -77,7 +78,6 @@ const MedicalRecordAddFormValidationSchema = Yup.object({
     treated_by: Yup.mixed().required("Treated By is required"),
     injury_description: Yup.string().required("Injury/Condition description is required"),
     limitations: Yup.string().required("Restrictions/Limitations is required"),
-    surgery_details: SurgeryRecordValidationSchema,
     injury_details: Yup.array().of(InjuryDetailsValidationSchema),
 });
 
@@ -91,6 +91,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
     const [addMedicalRecordFormInitialValues] = useState<any>(_.cloneDeep(MedicalRecordAddFormInitialValues));  // TODO type properly
     const [isMedicalRecordAddInProgress, setIsMedicalRecordAddInProgress] = useState<boolean>(false);
     const [isSurgeryRecordDrawerOpen, setIsSurgeryRecordDrawerOpen] = useState<boolean>(false);
+    const [surgeryRecord, setSurgeryRecord] = useState<any | null>(null);
 
     useEffect(() => {
         dispatch(setCurrentNavParams("Add New Medical Record", null, () => {
@@ -109,7 +110,11 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         if (clientId) {
             setIsMedicalRecordAddInProgress(true);
-            values.surgery_details.reported_by = values?.surgery_details?.reported_by?._id;
+            values.surgery_details = {};
+            if(surgeryRecord) {
+                values.surgery_details = surgeryRecord;
+                values.surgery_details.reported_by = surgeryRecord.reported_by?._id;
+            }
             values.onset_date = CommonService.convertDateFormat(values?.onset_date);
             if (values.case_physician.next_appointment) {
                 values.case_physician.next_appointment = CommonService.convertDateFormat(values?.case_physician?.next_appointment);
@@ -129,10 +134,135 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                     setIsMedicalRecordAddInProgress(false);
                 })
         }
-    }, [navigate, clientId]);
+    }, [navigate, clientId, surgeryRecord]);
+
+    const onSurgeryRecordSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
+        setSurgeryRecord(values);
+        handleSurgeryRecordDrawerClose();
+    }, [handleSurgeryRecordDrawerClose])
 
     return (
         <div className={'add-medical-record-screen'}>
+
+            <DrawerComponent isOpen={isSurgeryRecordDrawerOpen}
+                             showClose={true}
+                             onClose={handleSurgeryRecordDrawerClose}
+                             className={"t-surgery-record-drawer"}
+            >
+                <Formik
+                    validationSchema={surgeryRecordValidationSchema}
+                    initialValues={{...surgeryDetailsInitValues, ...surgeryRecord}}
+                    onSubmit={onSurgeryRecordSubmit}
+                    validateOnChange={false}
+                    validateOnBlur={true}
+                    enableReinitialize={true}
+                    validateOnMount={true}>
+                    {
+                        ({values,errors, isValid,setFieldValue, validateForm}) => {
+                            // eslint-disable-next-line react-hooks/rules-of-hooks
+                            useEffect(() => {
+                                validateForm();
+                            }, [validateForm, values]);
+                            return (
+                                <Form className="t-form" noValidate={true}>
+                                    <FormControlLabelComponent label={"Surgery Record"}/>
+                                    <div className={"t-surgery-record-drawer-form-controls"}>
+                                        <Field name={'surgery_date'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikDatePickerComponent
+                                                        label={'Date of Surgery'}
+                                                        placeholder={'Date of Surgery'}
+                                                        formikField={field}
+                                                        required={true}
+                                                        maxDate={moment()}
+                                                        fullWidth={true}
+                                                    />
+                                                )
+                                            }
+                                        </Field>
+                                        <Field name={'reported_by'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikSelectComponent
+                                                        options={allProvidersList}
+                                                        displayWith={(option: IUser) => (option?.first_name || option?.last_name) ? option?.first_name + " " + option?.last_name : "-"}
+                                                        valueExtractor={(option: IUser) => option}
+                                                        label={'Reported By'}
+                                                        formikField={field}
+                                                        required={true}
+                                                        fullWidth={true}
+                                                    />
+                                                )
+                                            }
+                                        </Field>
+                                        <Field name={'surgeon_name'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikInputComponent
+                                                        titleCase={true}
+                                                        label={'Name of Surgeon'}
+                                                        formikField={field}
+                                                        fullWidth={true}
+                                                    />
+                                                )
+                                            }
+                                        </Field>
+                                        <Field name={'details'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikTextAreaComponent
+                                                        label={'Brief Details'}
+                                                        formikField={field}
+                                                        fullWidth={true}
+                                                    />
+                                                )
+                                            }
+                                        </Field>
+                                        <FieldArray
+                                            name="documents"
+                                            render={arrayHelpers => (
+                                                <>
+                                                    {values.documents && values.documents?.map((item: any, index: any) => {
+                                                        return (
+                                                            <FilePreviewThumbnailComponent file={item}
+                                                                                           variant={"compact"}
+                                                                                           key={item.name + index}
+                                                                                           onRemove={() => {
+                                                                                               arrayHelpers.remove(index);
+                                                                                           }}
+                                                            />
+                                                        )
+                                                    })}
+                                                </>
+                                            )}/>
+                                        <FilePickerComponent
+                                            maxFileCount={1}
+                                            id={"sv_upload_btn"}
+                                            onFilesDrop={(acceptedFiles, rejectedFiles) => {
+                                                if (acceptedFiles && acceptedFiles.length > 0) {
+                                                    const file = acceptedFiles[0];
+                                                    setFieldValue(`documents[${values.documents?.length || 0}]`, file);
+                                                }
+                                            }}
+                                            acceptedFilesText={"PDF files are allowed"}
+                                            acceptedFileTypes={["pdf"]}
+                                        />
+                                    </div>
+                                    <div className="t-form-actions mrg-top-20">
+                                        <ButtonComponent fullWidth={true} type={'submit'}
+                                                         disabled={!isValid}
+                                        >
+                                            Save
+                                        </ButtonComponent>
+                                    </div>
+                                </Form>
+                            )
+                        }
+                    }
+                </Formik>
+            </DrawerComponent>
+
             <Formik
                 validationSchema={MedicalRecordAddFormValidationSchema}
                 initialValues={addMedicalRecordFormInitialValues}
@@ -149,7 +279,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                     return (
                         <Form className="t-form" noValidate={true}>
                             {
-                                (!SurgeryRecordValidationSchema.isValidSync(values?.surgery_details)) && <div
+                                !surgeryRecord && <div
                                     className={"mrg-bottom-20 display-flex flex-direction-row-reverse"}>
                                     <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}
                                                      onClick={handleSurgeryRecordDrawerOpen}
@@ -159,7 +289,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                 </div>
                             }
                             {
-                                (SurgeryRecordValidationSchema.isValidSync(values?.surgery_details)) &&
+                                surgeryRecord &&
                                 <CardComponent color={"primary"}>
                                     <div
                                         className={"display-flex flex-direction-row justify-content-space-between mrg-bottom-20"}>
@@ -169,11 +299,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                              color={"error"}
                                                              prefixIcon={<ImageConfig.DeleteIcon/>}
                                                              onClick={() => {
-                                                                 setFieldValue("surgery_details.surgery_date", "");
-                                                                 setFieldValue("surgery_details.reported_by", "");
-                                                                 setFieldValue("surgery_details.surgeon_name", "");
-                                                                 setFieldValue("surgery_details.details", "");
-                                                                 setFieldValue("surgery_details.documents", []);
+                                                                 setSurgeryRecord(null);
                                                              }}
                                             >
                                                 Delete
@@ -189,22 +315,22 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                         <div className="ts-row">
                                             <div className="ts-col-md-6 ts-col-lg-3">
                                                 <DataLabelValueComponent label={"Surgery Date"}>
-                                                    {values?.surgery_details?.surgery_date ? moment(values?.surgery_details?.surgery_date).format('DD-MMM-YYYY') : "NA"}
+                                                    {surgeryRecord.surgery_date ? moment(surgeryRecord.surgery_date).format('DD-MMM-YYYY') : "NA"}
                                                 </DataLabelValueComponent>
                                             </div>
                                             <div className="ts-col-md-6 ts-col-lg-3">
                                                 <DataLabelValueComponent label={"Reported By"}>
-                                                    {values?.surgery_details?.reported_by?.first_name} {values?.surgery_details?.reported_by?.last_name}
+                                                    {surgeryRecord.reported_by?.first_name} {surgeryRecord.reported_by?.last_name}
                                                 </DataLabelValueComponent>
                                             </div>
                                             <div className="ts-col-md-6 ts-col-lg-3">
                                                 <DataLabelValueComponent label={"Name of the Surgeon"}>
-                                                    {values?.surgery_details?.surgeon_name || "NA"}
+                                                    {surgeryRecord.surgeon_name || "NA"}
                                                 </DataLabelValueComponent>
                                             </div>
                                             <div className="ts-col-md-6 ts-col-lg-3">
                                                 <DataLabelValueComponent label={"Brief Details"}>
-                                                    {values?.surgery_details?.details || "NA"}
+                                                    {surgeryRecord.details || "NA"}
                                                 </DataLabelValueComponent>
                                             </div>
                                         </div>
@@ -212,9 +338,9 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                             <div className="ts-col-12 surgery-record-documents">
                                                 <DataLabelValueComponent label={"Documents"}>
                                                     {
-                                                        values?.surgery_details?.documents?.length === 0 && "NA"
+                                                        surgeryRecord.documents?.length === 0 && "NA"
                                                     }
-                                                    {values?.surgery_details?.documents?.map((item: any, index: any) => {
+                                                    {surgeryRecord.documents?.map((item: any, index: any) => {
                                                         return (
                                                             <FilePreviewThumbnailComponent file={item}
                                                                                            variant={"compact"}
@@ -495,103 +621,6 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                     {isMedicalRecordAddInProgress ? "Saving" : "Add Treatment Intervention"}
                                 </ButtonComponent>
                             </div>
-                            <DrawerComponent isOpen={isSurgeryRecordDrawerOpen}
-                                             showClose={true}
-                                             onClose={handleSurgeryRecordDrawerClose}
-                                             className={"t-surgery-record-drawer"}
-                            >
-                                <FormControlLabelComponent label={"Surgery Record"}/>
-                                <div className={"t-surgery-record-drawer-form-controls"}>
-                                    <Field name={'surgery_details.surgery_date'}>
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikDatePickerComponent
-                                                    label={'Date of Surgery'}
-                                                    placeholder={'Date of Surgery'}
-                                                    formikField={field}
-                                                    required={true}
-                                                    maxDate={moment()}
-                                                    fullWidth={true}
-                                                />
-                                            )
-                                        }
-                                    </Field>
-                                    <Field name={'surgery_details.reported_by'}>
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikSelectComponent
-                                                    options={allProvidersList}
-                                                    displayWith={(option: IUser) => (option?.first_name || option?.last_name) ? option?.first_name + " " + option?.last_name : "-"}
-                                                    valueExtractor={(option: IUser) => option}
-                                                    label={'Reported By'}
-                                                    formikField={field}
-                                                    required={true}
-                                                    fullWidth={true}
-                                                />
-                                            )
-                                        }
-                                    </Field>
-                                    <Field name={'surgery_details.surgeon_name'}>
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikInputComponent
-                                                    titleCase={true}
-                                                    label={'Name of Surgeon'}
-                                                    formikField={field}
-                                                    fullWidth={true}
-                                                />
-                                            )
-                                        }
-                                    </Field>
-                                    <Field name={'surgery_details.details'}>
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikTextAreaComponent
-                                                    label={'Brief Details'}
-                                                    formikField={field}
-                                                    fullWidth={true}
-                                                />
-                                            )
-                                        }
-                                    </Field>
-                                    <FieldArray
-                                        name="surgery_details.documents"
-                                        render={arrayHelpers => (
-                                            <>
-                                                {values?.surgery_details?.documents && values?.surgery_details?.documents?.map((item: any, index: any) => {
-                                                    return (
-                                                        <FilePreviewThumbnailComponent file={item}
-                                                                                       variant={"compact"}
-                                                                                       key={item.name + index}
-                                                                                       onRemove={() => {
-                                                                                           arrayHelpers.remove(index);
-                                                                                       }}
-                                                        />
-                                                    )
-                                                })}
-                                            </>
-                                        )}/>
-                                    <FilePickerComponent
-                                        maxFileCount={1}
-                                        id={"sv_upload_btn"}
-                                        onFilesDrop={(acceptedFiles, rejectedFiles) => {
-                                            if (acceptedFiles && acceptedFiles.length > 0) {
-                                                const file = acceptedFiles[0];
-                                                setFieldValue(`surgery_details.documents[${values?.surgery_details?.documents?.length || 0}]`, file);
-                                            }
-                                        }}
-                                        acceptedFilesText={"PDF files are allowed"}
-                                        acceptedFileTypes={["pdf"]}
-                                    />
-                                </div>
-                                <div className="t-form-actions mrg-top-20">
-                                    <ButtonComponent fullWidth={true}
-                                                     disabled={!SurgeryRecordValidationSchema.isValidSync(values?.surgery_details)}
-                                                     onClick={handleSurgeryRecordDrawerClose}>
-                                        Save
-                                    </ButtonComponent>
-                                </div>
-                            </DrawerComponent>
                         </Form>
                     )
                 }}

@@ -73,12 +73,13 @@ const MedicalInterventionSpecialTestsScreen = (props: MedicalInterventionSpecial
         const injury_details = medicalInterventionDetails?.medical_record_details?.injury_details;
         if (special_tests?.length) {
             special_tests?.forEach((body_part: any) => {
-                if (!specialTestConfig.find((item: any) => item?.body_part?._id === body_part?.body_part_id)) {
-                    specialTestConfig.push({
-                        body_part: body_part.body_part_details,
-                        selected_tests: body_part.special_tests
-                    });
-                }
+            if (!specialTestConfig.find((item: any) => item?.body_part?._id === body_part?.body_part_id)) {
+                specialTestConfig.push({
+                    body_part: body_part.body_part_details,
+                    selected_tests: body_part.special_tests
+                });
+            }
+        });
             });
         } else {
             if (injury_details?.length > 0) {
