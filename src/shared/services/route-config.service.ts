@@ -183,7 +183,7 @@ const RouteConfigService = {
     MedicalInterventionICDCodes,
     MedicalInterventionDetails,
     MedicalRecordSurgeryRecordDetails,
-    MedicalRecordProgressReportAdvancedDetailsUpdate
+    MedicalRecordProgressReportAdvancedDetailsUpdate,
     MedicalInterventionFinalizeTreatment
 }
 

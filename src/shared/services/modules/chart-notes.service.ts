@@ -152,7 +152,7 @@ const ChartNotesService = {
     UpdateSurgeryRecordAPICall,
     RemoveSurgeryRecordAttachmentAPICall,
     AddProgressReportUnderMedicalRecordAPICall,
-    UpdateProgressReportUnderMedicalRecordAPICall
+    UpdateProgressReportUnderMedicalRecordAPICall,
     RepeatLastInterventionAPICall,
     AddNewMedicalInterventionAPICall,
     SaveMedicalInterventionCPTCodesAPICall,

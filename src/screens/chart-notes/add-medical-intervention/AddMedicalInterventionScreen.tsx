@@ -654,8 +654,6 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </div>
                                         }
                                         />
-
-
                                         <DraftReadonlySwitcherComponent
                                             condition={medicalInterventionDetails?.status === 'draft'} draft={
                                             <Field name={'assessment.surgery_procedure'}>
@@ -683,8 +681,6 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </div>
                                         }
                                         />
-
-
                                     </div>
                                 </div>
                             </CardComponent>
@@ -731,7 +727,6 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </div>
                                         }
                                         />
-
                                         <DraftReadonlySwitcherComponent
                                             condition={medicalInterventionDetails?.status === 'draft'} draft={
                                             <Field name={'plan.md_recommendations'}>
@@ -759,7 +754,6 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </div>
                                         }
                                         />
-
                                         <DraftReadonlySwitcherComponent
                                             condition={medicalInterventionDetails?.status === 'draft'} draft={
                                             <Field name={'plan.education'}>
