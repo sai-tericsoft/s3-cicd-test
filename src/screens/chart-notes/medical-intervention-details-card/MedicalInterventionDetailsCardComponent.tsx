@@ -195,7 +195,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                 </DataLabelValueComponent>
                                 <DataLabelValueComponent label={'File Created On:'} direction={"row"}
                                                          className={'intervention-injury-details-wrapper'}>
-                                    {(medicalInterventionDetails.created_at ? moment(medicalInterventionDetails.created_at).tz(moment.tz.guess()).format('DD-MM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
+                                    {(medicalInterventionDetails?.created_at ? moment(medicalInterventionDetails?.created_at).tz(moment.tz.guess()).format('DD-MM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
                                     {medicalInterventionDetails?.created_by_details?.first_name ? medicalInterventionDetails?.created_by_details?.first_name + ' ' + medicalInterventionDetails?.created_by_details?.last_name : ' NA'}
                                 </DataLabelValueComponent>
                                 <div className={'ts-row'}>
