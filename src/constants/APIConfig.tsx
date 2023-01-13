@@ -390,6 +390,10 @@ const APIConfig: IAPIConfig = {
         URL: (progressReportId: string) => ENV.API_URL + '/progressReport/' + progressReportId,
         METHOD: 'put'
     },
+   GET_PROGRESS_REPORT_UNDER_MEDICAL_RECORD: {
+        URL: (progressReportId: string) => ENV.API_URL + '/progressReport/' + progressReportId,
+        METHOD: 'get'
+    },
     REPEAT_LAST_INTERVENTION: {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/repeatTreatment',
         METHOD: 'post'

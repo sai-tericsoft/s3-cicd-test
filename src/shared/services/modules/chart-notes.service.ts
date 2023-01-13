@@ -129,6 +129,11 @@ const UpdateProgressReportUnderMedicalRecordAPICall = (progressReportId: string,
     return ApiService[APIConfig.UPDATE_PROGRESS_REPORT_UNDER_MEDICAL_RECORD.METHOD](APIConfig.UPDATE_PROGRESS_REPORT_UNDER_MEDICAL_RECORD.URL(progressReportId), payload);
 }
 
+const MedicalRecordProgressReportDetailsAPICall = (progressReportId: string, payload: any) => {
+    console.log("progressReportId", "payload", payload);
+    return ApiService[APIConfig.GET_PROGRESS_REPORT_UNDER_MEDICAL_RECORD.METHOD](APIConfig.GET_PROGRESS_REPORT_UNDER_MEDICAL_RECORD.URL(progressReportId), payload);
+}
+
 const ChartNotesService = {
     MedicalRecordAddAPICall,
     MedicalRecordEditAPICall,
@@ -156,7 +161,8 @@ const ChartNotesService = {
     RepeatLastInterventionAPICall,
     AddNewMedicalInterventionAPICall,
     SaveMedicalInterventionCPTCodesAPICall,
-    CheckoutAMedicalInterventionAPICall
+    CheckoutAMedicalInterventionAPICall,
+    MedicalRecordProgressReportDetailsAPICall
 }
 
 export default ChartNotesService;

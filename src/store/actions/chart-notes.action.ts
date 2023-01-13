@@ -8,6 +8,9 @@ export const SET_CLIENT_MEDICAL_INTERVENTION_DETAILS='SET_CLIENT_MEDICAL_INTERVE
 export const GET_INTERVENTION_ATTACHMENT_LIST = 'GET_INTERVENTION_ATTACHMENT_LIST';
 export const SET_INTERVENTION_ATTACHMENT_LIST = 'SET_INTERVENTION_ATTACHMENT_LIST';
 
+export const GET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS = 'GET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS';
+export const SET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS = 'SET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS';
+
 export const getClientFavouriteCodes = () => {
     return {
         type: GET_CLIENT_FAVOURITE_CODES, payload: {}
@@ -66,6 +69,24 @@ export const setClientMedicalInterventionDetails = (clientMedicalInterventionDet
     return {
         type: SET_CLIENT_MEDICAL_INTERVENTION_DETAILS, payload: {
             clientMedicalInterventionDetails
+        }
+    };
+};
+
+
+
+export const getMedicalRecordProgressReportDetails = (progressReportId: string) => {
+    return {
+        type: GET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS, payload: {
+            progressReportId
+        }
+    };
+};
+
+export const setMedicalRecordProgressReportDetails = (clientMedicalRecordProgressReportDetails: any) => { // TODO type properly
+    return {
+        type: SET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS, payload: {
+            clientMedicalRecordProgressReportDetails
         }
     };
 };
