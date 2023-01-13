@@ -52,7 +52,8 @@ import {
     MEDICAL_INTERVENTION_SPECIAL_TESTS,
     MEDICAL_INTERVENTION_SURGERY_RECORD_DETAILS,
     MEDICAL_RECORD_LIST,
-    NOT_FOUND_ROUTE, PROGRESS_REPORT_VIEW_DETAILS,
+    NOT_FOUND_ROUTE,
+    PROGRESS_REPORT_VIEW_DETAILS,
     SERVICE_ADD,
     SERVICE_CATEGORY_DETAILS,
     SERVICE_CATEGORY_LIST,
@@ -84,8 +85,8 @@ import SurgeryRecordViewScreen from "../screens/chart-notes/surgery-record-view/
 
 import MedicalInterventionFinalizeTreatmentScreen
     from "../screens/chart-notes/medical-intervention-finalize-treatment/MedicalInterventionFinalizeTreatmentScreen";
-import ProgressReportViewDetailsComponent
-    from "../screens/chart-notes/progress-report-view-details/ProgressReportViewDetailsComponent";
+import MedicalRecordProgressReportViewDetailsScreen
+    from "../screens/chart-notes/medical-record-progress-report-view-details/MedicalRecordProgressReportViewDetailsScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -326,24 +327,19 @@ const Navigator = (props: NavigatorProps) => {
                        </ProtectedRoute>
                        }
                 />
-
                 <Route path={INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST}
                        element={<ProtectedRoute>
                            <ExerciseLogAttachmentListComponent/>
                        </ProtectedRoute>
                        }/>
-
                 <Route path={PROGRESS_REPORT_VIEW_DETAILS}
                        element={<ProtectedRoute>
-                           <ProgressReportViewDetailsComponent/>
+                           <MedicalRecordProgressReportViewDetailsScreen/>
                        </ProtectedRoute>
                        }/>
-
-
                 <Route path={MEDICAL_INTERVENTION_DETAILS} element={<ProtectedRoute>
                     <ClientMedicalInterventionDetailsComponent/>
                 </ProtectedRoute>}/>
-
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
             </Route>
             <Route element={<AuthLayout/>}>

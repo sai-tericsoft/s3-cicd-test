@@ -1,4 +1,4 @@
-import "./ProgressReportViewDetailsComponent.scss";
+import "./MedicalRecordProgressReportViewDetailsScreen.scss";
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
@@ -18,7 +18,7 @@ interface ProgressReportViewDetailsComponentProps {
 
 }
 
-const ProgressReportViewDetailsComponent = (props: ProgressReportViewDetailsComponentProps) => {
+const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewDetailsComponentProps) => {
 
     const progressStatsColumn: ITableColumn[] = [
         {
@@ -33,8 +33,16 @@ const ProgressReportViewDetailsComponent = (props: ProgressReportViewDetailsComp
             title: 'Results',
             dataIndex: 'result',
             key: 'result',
+        },
+        {
+            title: 'Comments',
+            dataIndex: 'comments',
+            key: 'comments',
+            render: (_: any, item: any) => {
+                return <>{item?.comments || '-'}</>
+            }
         }
-    ]
+    ];
 
     const {interventionId} = useParams();
     const dispatch = useDispatch();
@@ -53,12 +61,11 @@ const ProgressReportViewDetailsComponent = (props: ProgressReportViewDetailsComp
     }, [dispatch, interventionId]);
 
     return (
-        <div className={'progress-report-view-details-component'}>
+        <div className={'progress-report-view-details-screen'}>
             <div className={'progress-report-view-details-header'}>
                 <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>Edit Progress Report</ButtonComponent>
-
             </div>
-            <div className={'progress-report-view-details-component'}>
+            <div className={'progress-report-view-details-container'}>
                 <>
                     {
                         !interventionId && (
@@ -91,23 +98,12 @@ const ProgressReportViewDetailsComponent = (props: ProgressReportViewDetailsComp
                                             <TableComponent data={progressReportDetails?.progress_stats}
                                                             columns={progressStatsColumn}
                                                             showExpandColumn={false}
-                                                            expandRow={(row: any) => {
-                                                                return <div className={'comment-row'}>
-                                                                    <div className={'comment-icon'}><ImageConfig.CommentIcon/>
-                                                                    </div>
-                                                                    <div>{row?.comments || "N/A"}</div>
-                                                                </div>
-                                                            }
-                                                            }
                                             />
                                         </CardComponent>
                                         <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>
                                             <ESignApprovalComponent isSigned={progressReportDetails?.is_signed}
-                                                                    onSign={() => ''}
                                                                     signedAt={CommonService.convertDateFormat(progressReportDetails?.created_at)}/>
                                         </div>
-                                        <TableComponent data={progressReportDetails?.progress_stats}
-                                                        columns={progressStatsColumn}/>
                                     </div>
                                 </>
                             }
@@ -121,4 +117,4 @@ const ProgressReportViewDetailsComponent = (props: ProgressReportViewDetailsComp
 
 };
 
-export default ProgressReportViewDetailsComponent;
+export default MedicalRecordProgressReportViewDetailsScreen;
