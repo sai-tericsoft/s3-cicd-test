@@ -18,13 +18,13 @@ import {IRootReducerState} from "../../../store/reducers";
 import {getMedicalInterventionDetails, setMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
-import ClientMedicalDetailsCardComponent from "../client-medical-details-card/ClientMedicalDetailsCardComponent";
 import DraftReadonlySwitcherComponent from "../draft-readonly-switcher/DraftReadonlySwitcherComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {ITableColumn} from "../../../shared/models/table.model";
 import ESignApprovalComponent from "../../../shared/components/e-sign-approval/ESignApprovalComponent";
-// import moment from "moment";
 import moment from "moment-timezone";
+import MedicalInterventionDetailsCardComponent
+    from "../medical-intervention-details-card/MedicalInterventionDetailsCardComponent";
 
 interface AddMedicalInterventionScreenProps {
 
@@ -121,7 +121,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                 }
             }
         ];
-        body_part.selected_sides.forEach((side: any) => {
+        (body_part?.selected_sides || []).forEach((side: any) => {
             ROMColumns.push({
                 title: side,
                 className: side,
@@ -231,7 +231,8 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                       width={16}/>
                     &nbsp;Saving...</div>}
             </div>}
-            <ClientMedicalDetailsCardComponent/>
+            <MedicalInterventionDetailsCardComponent medicalInterventionDetails={medicalInterventionDetails}
+                                                     showAction={true}/>
             <Formik
                 validationSchema={MedicalInterventionAddFormValidationSchema}
                 initialValues={addMedicalInterventionFormInitialValues}
