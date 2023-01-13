@@ -28,7 +28,7 @@ import AddMedicalRecordScreen from "../screens/chart-notes/add-medical-record/Ad
 import AddMedicalInterventionScreen from "../screens/chart-notes/add-medical-intervention/AddMedicalInterventionScreen";
 import {
     ADD_MEDICAL_INTERVENTION,
-    ADD_MEDICAL_RECORD, ADD_PROGRESS_BASIC_REPORT,
+    ADD_MEDICAL_RECORD, ADD_PROGRESS_ADVANCE_REPORT,
     ADMIN,
     CLIENT_ADD,
     CLIENT_CHART_NOTES_DETAILS,
@@ -79,8 +79,8 @@ import ClientMedicalInterventionDetailsComponent
 import MedicalInterventionICDCodesScreen
     from "../screens/chart-notes/medical-intervention-icd-codes/MedicalInterventionICDCodesScreen";
 import SurgeryRecordViewScreen from "../screens/chart-notes/surgery-record-view/SurgeryRecordViewScreen";
-import AddBasicProgressReportComponent
-    from "../screens/chart-notes/add-basic-progress-report/AddBasicProgressReportComponent";
+import AddProgressRecordAdvancedDetailsComponent
+    from "../screens/chart-notes/add-progress-record-advanced-details/AddProgressRecordAdvancedDetailsComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -323,6 +323,9 @@ const Navigator = (props: NavigatorProps) => {
                        }/>
                 <Route path={MEDICAL_INTERVENTION_DETAILS} element={<ProtectedRoute>
                     <ClientMedicalInterventionDetailsComponent/>
+                </ProtectedRoute>}/>
+                <Route path={ADD_PROGRESS_ADVANCE_REPORT} element={<ProtectedRoute>
+                    <AddProgressRecordAdvancedDetailsComponent/>
                 </ProtectedRoute>}/>
 
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>

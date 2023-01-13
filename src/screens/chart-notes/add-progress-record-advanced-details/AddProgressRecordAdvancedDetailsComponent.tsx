@@ -4,13 +4,10 @@ import {Formik, Form, Field, FieldProps, FormikHelpers} from "formik";
 import React, {useCallback, useEffect, useState} from "react";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
-import {APIConfig, ImageConfig, Misc} from "../../../constants";
-import {ITableColumn} from "../../../shared/models/table.model";
-import FormikRadioButtonGroupComponent
-    from "../../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
+import { Misc} from "../../../constants";
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
+import {CommonService} from "../../../shared/services";
 
 interface AddProgressRecordAdvancedDetailsComponentProps {
 
@@ -18,62 +15,70 @@ interface AddProgressRecordAdvancedDetailsComponentProps {
 
 const AddProgressRecordAdvancedDetailsComponent = (props: AddProgressRecordAdvancedDetailsComponentProps) => {
 
-    const progressStatsColumns: ITableColumn[] = [
-        {
-            title: "Name",
-            dataIndex: "name",
-            key: "name",
-        },
-        {
-            title: "Results",
-            dataIndex: "results",
-            key: "results",
-            render: (_: any, item: any) => <Field name={'results'}>
-                {
-                    (field: FieldProps) => (
-                        <FormikRadioButtonGroupComponent
-                            formikField={field}
-                            displayWith={(item: any) => item}
-                            options={item.results}/>
-                    )}
-            </Field>
-            
-        },
-        {
-            title: 'Comments',
-            dataIndex: 'comments',
-            key: 'comments',
-            render: (_: any, item: any) => {
-                return (
-                    <><ImageConfig.CommentAddIcon/></>
-                )
-            }
-        }
-    ];
+    // const progressStatsColumns: ITableColumn[] = [
+    //     {
+    //         title: "Name",
+    //         dataIndex: "name",
+    //         key: "name",
+    //     },
+    //     {
+    //         title: "Results",
+    //         dataIndex: "results",
+    //         key: "results",
+    //         render: (_: any, item: any) => <Field name={'results'}>
+    //             {
+    //                 (field: FieldProps) => (
+    //                     <FormikRadioButtonGroupComponent
+    //                         formikField={field}
+    //                         displayWith={(item: any) => item}
+    //                         options={item.results}/>
+    //                 )}
+    //         </Field>
+    //
+    //     },
+    //     {
+    //         title: 'Comments',
+    //         dataIndex: 'comments',
+    //         key: 'comments',
+    //         render: (_: any, item: any) => {
+    //             return (
+    //                 <><ImageConfig.CommentAddIcon/></>
+    //             )
+    //         }
+    //     }
+    // ];
 
-    const [addProgressRecordAdvancedInitialValues] = useState({
+    const [addProgressRecordAdvancedInitialValues] = useState<any>({
         synopsis: "",
         impression: "",
         plan: "",
     });
+
     const {
         clientMedicalRecord,
     } = useSelector((state: IRootReducerState) => state.client);
 
-
-
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        console.log(values);
         const payload = {...values};
-        // if (clientMedicalRecord) {
-        //     CommonService._client.AddBasicProgressReport(clientMedicalRecord?._id, payload)
-        //         .then((response) => {
-        //             CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-        //         }).catch((error) => {
-        //         CommonService.handleErrors(setErrors, error, true);
-        //     });
-        // }
-    }, [])
+        if (clientMedicalRecord) {
+            // setSavingDataInProgress(true);
+            CommonService._client.AddAdvanceProgressReport(clientMedicalRecord?._id, payload)
+                .then((response) => {
+                    console.log(response);
+                    // setSavingDataInProgress(false);
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                }).catch((error:any) => {
+                CommonService.handleErrors(setErrors, error, true);
+                // setSavingDataInProgress(false);
+            });
+        }
+    }, [clientMedicalRecord]);
+
+    // const handleCancel=useCallback(()=>{
+    //     if(clientMedicalRecord) {
+    //         navigate(CommonService._routeConfig.ClientMedicalRecordDetails(clientMedicalRecord?._id));
+    //     }
+    // },[])
 
     return (
         <div className={'add-progress-record-advanced-details-component'}>
@@ -91,19 +96,19 @@ const AddProgressRecordAdvancedDetailsComponent = (props: AddProgressRecordAdvan
                     }, [validateForm, values]);
                     return (
                         <Form noValidate={true} className={'t-form'}>
-                            <CardComponent title={'Synopsis'}>
-                                <Field name={'synopsis'}>
-                                    {
-                                        (field: FieldProps) => (
-                                            <FormikTextAreaComponent formikField={field}
-                                                                     label={''}
-                                                                     placeholder={'Please enter your note here...'}
-                                                                     required={false}
-                                                                     fullWidth={true}/>
-                                        )
-                                    }
-                                </Field>
-                            </CardComponent>
+                            {/*<CardComponent title={'Synopsis'}>*/}
+                            {/*    <Field name={'synopsis'}>*/}
+                            {/*        {*/}
+                            {/*            (field: FieldProps) => (*/}
+                            {/*                <FormikTextAreaComponent formikField={field}*/}
+                            {/*                                         label={''}*/}
+                            {/*                                         placeholder={'Please enter your note here...'}*/}
+                            {/*                                         required={false}*/}
+                            {/*                                         fullWidth={true}/>*/}
+                            {/*            )*/}
+                            {/*        }*/}
+                            {/*    </Field>*/}
+                            {/*</CardComponent>*/}
                             <CardComponent title={'Impression'}>
                                 <Field name={'impression'}>
                                     {
@@ -117,25 +122,25 @@ const AddProgressRecordAdvancedDetailsComponent = (props: AddProgressRecordAdvan
                                     }
                                 </Field>
                             </CardComponent>
-                            <CardComponent title={'Plan'}>
-                                <Field name={'plan'}>
-                                    {
-                                        (field: FieldProps) => (
-                                            <FormikTextAreaComponent formikField={field}
-                                                                     label={''}
-                                                                     placeholder={'Please enter your note here...'}
-                                                                     required={false}
-                                                                     fullWidth={true}/>
-                                        )
-                                    }
-                                </Field>
-                            </CardComponent>
-                            <CardComponent title={'Progress Stats:'}>
-                                <TableWrapperComponent url={APIConfig.PROGRESS_STATS_GET_TABLE.URL}
-                                                       method={APIConfig.PROGRESS_STATS_GET_TABLE.METHOD}
-                                                       isPaginated={false}
-                                                       columns={progressStatsColumns}/>
-                            </CardComponent>
+                            {/*<CardComponent title={'Plan'}>*/}
+                            {/*    <Field name={'plan'}>*/}
+                            {/*        {*/}
+                            {/*            (field: FieldProps) => (*/}
+                            {/*                <FormikTextAreaComponent formikField={field}*/}
+                            {/*                                         label={''}*/}
+                            {/*                                         placeholder={'Please enter your note here...'}*/}
+                            {/*                                         required={false}*/}
+                            {/*                                         fullWidth={true}/>*/}
+                            {/*            )*/}
+                            {/*        }*/}
+                            {/*    </Field>*/}
+                            {/*</CardComponent>*/}
+                            {/*<CardComponent title={'Progress Stats:'}>*/}
+                            {/*    <TableWrapperComponent url={APIConfig.PROGRESS_STATS_GET_TABLE.URL}*/}
+                            {/*                           method={APIConfig.PROGRESS_STATS_GET_TABLE.METHOD}*/}
+                            {/*                           isPaginated={false}*/}
+                            {/*                           columns={progressStatsColumns}/>*/}
+                            {/*</CardComponent>*/}
                             <div className="t-form-actions">
                                 <ButtonComponent
                                     variant={"outlined"}

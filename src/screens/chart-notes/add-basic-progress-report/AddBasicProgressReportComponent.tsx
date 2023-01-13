@@ -12,6 +12,7 @@ import {CommonService} from "../../../shared/services";
 import {Misc} from "../../../constants";
 import * as Yup from "yup";
 import {IAPIResponseType} from "../../../shared/models/api.model";
+import {useNavigate} from "react-router-dom";
 
 
 interface AddBasicProgressReportComponentProps {
@@ -34,6 +35,8 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
         provider_name: '',
         therapist_name: '',
     });
+
+    const navigate=useNavigate();
     const {
         clientMedicalRecord,
     } = useSelector((state: IRootReducerState) => state.client);
@@ -44,7 +47,7 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
             onset_date: clientMedicalRecord?.onset_date,
             surgery_date: clientMedicalRecord?.surgery_date,
         })
-    }, []);
+    }, [clientMedicalRecord]);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         const payload = {...values};
@@ -54,13 +57,14 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
                 .then((response:IAPIResponseType<any>) => {
                     setIsProgressReportAddInProgress(false);
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    navigate(CommonService._routeConfig.ProgressReportBasicDetails(clientMedicalRecord?._id));
+
                 }).catch((error:any) => {
-                    console.log(error);
                 CommonService.handleErrors(setErrors, error, true);
                 setIsProgressReportAddInProgress(false);
             });
         }
-    }, [clientMedicalRecord])
+    }, [clientMedicalRecord,navigate])
 
     return (
         <div className={'add-basic-progress-report-component'}>

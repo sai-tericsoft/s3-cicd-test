@@ -374,7 +374,11 @@ const APIConfig: IAPIConfig = {
     PROGRESS_STATS_GET_TABLE :{
         URL:ENV.API_URL + '/progressStats',
         METHOD: 'get'
-        }
+        },
+    ADVANCE_PROGRESS_REPORT_ADD :{
+        URL:(medicalRecordId:string)=> ENV.API_URL + '/progressReport/'+ medicalRecordId,
+        METHOD: 'put'
+    }
 }
 
 export default APIConfig;

@@ -42,7 +42,8 @@ const MEDICAL_INTERVENTION_EXERCISE_LOG = '/chart-notes/:medicalRecordId/:medica
 
 const MEDICAL_INTERVENTION_DETAILS = '/chart-notes/intervention-details/:medicalInterventionId';
 const MEDICAL_INTERVENTION_SURGERY_RECORD_DETAILS = '/chart-notes/:medicalRecordId/surgery-record/:surgeryRecordId';
-const ADD_PROGRESS_BASIC_REPORT = '/chart-notes/:medicalRecordId/add-basic-progress-report';
+const ADD_PROGRESS_BASIC_REPORT = '/chart-notes/:interventionId/add-basic-progress-report';
+const ADD_PROGRESS_ADVANCE_REPORT = '/chart-notes/:interventionId/add-advance-progress-report';
 
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
@@ -85,6 +86,7 @@ export {
     MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW,
     MEDICAL_INTERVENTION_DETAILS,
     MEDICAL_INTERVENTION_SURGERY_RECORD_DETAILS,
-    ADD_PROGRESS_BASIC_REPORT
+    ADD_PROGRESS_BASIC_REPORT,
+    ADD_PROGRESS_ADVANCE_REPORT
 
 };

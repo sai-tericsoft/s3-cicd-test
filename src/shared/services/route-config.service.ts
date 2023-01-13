@@ -16,7 +16,7 @@ import {
     SERVICE_CATEGORY_LIST,
     SERVICE_DETAILS,
     SERVICE_EDIT,
-    TEST_ROUTE
+    TEST_ROUTE,
 } from "../../constants/RoutesConfig";
 
 const DefaultRoute = () => {
@@ -142,6 +142,10 @@ const MedicalRecordSurgeryRecordDetails = (medicalRecordId: string, surgeryRecor
     return '/chart-notes/' + medicalRecordId + '/surgery-record/' + surgeryRecordId;
 }
 
+const ProgressReportBasicDetails =(interventionId:string)=>{
+    return  '/chart-notes/'+ interventionId +'/add-advance-progress-report'
+}
+
 
 const RouteConfigService = {
     DefaultRoute,
@@ -174,7 +178,8 @@ const RouteConfigService = {
     MedicalInterventionExerciseLogView,
     MedicalInterventionICDCodes,
     MedicalInterventionDetails,
-    MedicalRecordSurgeryRecordDetails
+    MedicalRecordSurgeryRecordDetails,
+    ProgressReportBasicDetails
 
 }
 
