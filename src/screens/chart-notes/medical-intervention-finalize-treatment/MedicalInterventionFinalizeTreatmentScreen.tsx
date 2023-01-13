@@ -206,7 +206,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                     setIsInterventionCheckingOut(false);
                 });
         }
-    }, [medicalInterventionId, medicalRecordId]);
+    }, [navigate, medicalInterventionId, medicalRecordId]);
 
     return (
         <div className={'medical-intervention-finalize-treatment-screen'}>
