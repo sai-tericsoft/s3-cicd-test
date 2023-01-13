@@ -4,10 +4,15 @@ import {Formik, Form, Field, FieldProps, FormikHelpers} from "formik";
 import React, {useCallback, useEffect, useState} from "react";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import { Misc} from "../../../constants";
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {CommonService} from "../../../shared/services";
+import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
+import {APIConfig, ImageConfig, Misc} from "../../../constants";
+import {ITableColumn} from "../../../shared/models/table.model";
+import FormikRadioButtonGroupComponent
+    from "../../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
+
 
 interface AddProgressRecordAdvancedDetailsComponentProps {
 
@@ -48,7 +53,9 @@ const AddProgressRecordAdvancedDetailsComponent = (props: AddProgressRecordAdvan
     //     }
     // ];
 
-    const [addProgressRecordAdvancedInitialValues] = useState<any>({
+
+
+    const [addProgressRecordAdvancedInitialValues] = useState({
         synopsis: "",
         impression: "",
         plan: "",
@@ -80,6 +87,7 @@ const AddProgressRecordAdvancedDetailsComponent = (props: AddProgressRecordAdvan
     //     }
     // },[])
 
+
     return (
         <div className={'add-progress-record-advanced-details-component'}>
             <Formik initialValues={addProgressRecordAdvancedInitialValues}
@@ -109,6 +117,19 @@ const AddProgressRecordAdvancedDetailsComponent = (props: AddProgressRecordAdvan
                             {/*        }*/}
                             {/*    </Field>*/}
                             {/*</CardComponent>*/}
+                            <CardComponent title={'Synopsis'}>
+                                <Field name={'synopsis'}>
+                                    {
+                                        (field: FieldProps) => (
+                                            <FormikTextAreaComponent formikField={field}
+                                                                     label={''}
+                                                                     placeholder={'Please enter your note here...'}
+                                                                     required={false}
+                                                                     fullWidth={true}/>
+                                        )
+                                    }
+                                </Field>
+                            </CardComponent>
                             <CardComponent title={'Impression'}>
                                 <Field name={'impression'}>
                                     {
@@ -140,6 +161,25 @@ const AddProgressRecordAdvancedDetailsComponent = (props: AddProgressRecordAdvan
                             {/*                           method={APIConfig.PROGRESS_STATS_GET_TABLE.METHOD}*/}
                             {/*                           isPaginated={false}*/}
                             {/*                           columns={progressStatsColumns}/>*/}
+                            {/*</CardComponent>*/}
+                            <CardComponent title={'Plan'}>
+                                <Field name={'plan'}>
+                                    {
+                                        (field: FieldProps) => (
+                                            <FormikTextAreaComponent formikField={field}
+                                                                     label={''}
+                                                                     placeholder={'Please enter your note here...'}
+                                                                     required={false}
+                                                                     fullWidth={true}/>
+                                        )
+                                    }
+                                </Field>
+                            </CardComponent>
+                            {/*<CardComponent title={'Progress Stats:'}>*/}
+                                {/*<TableWrapperComponent url={APIConfig.PROGRESS_STATS_GET_TABLE.URL}*/}
+                                {/*                       method={APIConfig.PROGRESS_STATS_GET_TABLE.METHOD}*/}
+                                {/*                       isPaginated={false}*/}
+                                {/*                       columns={progressStatsColumns}/>*/}
                             {/*</CardComponent>*/}
                             <div className="t-form-actions">
                                 <ButtonComponent

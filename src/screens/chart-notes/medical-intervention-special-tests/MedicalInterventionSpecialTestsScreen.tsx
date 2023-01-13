@@ -6,7 +6,8 @@ import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {CommonService} from "../../../shared/services";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import {IRootReducerState} from "../../../store/reducers";
-import { IBodyPartSpecialTestConfig} from "../../../shared/models/static-data.model";
+
+import {IBodyPartROMConfig, IBodyPartSpecialTestConfig} from "../../../shared/models/static-data.model";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
 import {RadioButtonComponent} from "../../../shared/components/form-controls/radio-button/RadioButtonComponent";
