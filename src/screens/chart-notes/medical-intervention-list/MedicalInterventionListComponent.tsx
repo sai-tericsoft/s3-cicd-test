@@ -81,12 +81,17 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                             View Details
                         </LinkComponent>
                     } else if (item?.note_type?.toLowerCase() === "soap note") {
-                        console.log(item, 'item')
                         return <LinkComponent
-                            route={CommonService._routeConfig.MedicalInterventionDetails(medicalRecordId, item._id)}>View
-                            Details</LinkComponent>
+                            route={CommonService._routeConfig.MedicalInterventionDetails(medicalRecordId, item._id)}>
+                            View Details
+                        </LinkComponent>
+                    } else if (item?.note_type?.toLowerCase() === "progress report") {
+                        return <LinkComponent
+                            route={CommonService._routeConfig.ComingSoonRoute()}>
+                            View Details
+                        </LinkComponent>
                     } else {
-                        return <LinkComponent route={''}>View Details</LinkComponent>
+                        return <LinkComponent route={CommonService._routeConfig.ComingSoonRoute()}>Coming soon</LinkComponent>
                     }
                 }
             }

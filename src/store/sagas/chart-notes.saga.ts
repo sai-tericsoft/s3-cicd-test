@@ -9,7 +9,6 @@ import {
     setClientMedicalInterventionDetails,
     setMedicalInterventionDetails, GET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS, setMedicalRecordProgressReportDetails
 } from "../actions/chart-notes.action";
-import {setProgressReportStatsList} from "../actions/static-data.action";
 
 function* getMedicalInterventionDetails(action: any) {
     try {

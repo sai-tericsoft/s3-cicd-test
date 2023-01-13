@@ -25,7 +25,6 @@ import {
     setSurgicalHistoryOptionsList
 } from "../actions/static-data.action";
 import {CommonService} from "../../shared/services";
-import {GET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS} from "../actions/chart-notes.action";
 
 function* getConsultationDurationList() {
     try {

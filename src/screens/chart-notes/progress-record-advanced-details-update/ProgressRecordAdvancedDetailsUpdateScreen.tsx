@@ -22,10 +22,7 @@ import _ from "lodash";
 import ESignApprovalComponent from "../../../shared/components/e-sign-approval/ESignApprovalComponent";
 import {getMedicalRecordProgressReportDetails} from "../../../store/actions/chart-notes.action";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
-import ClientMedicalInterventionDetailsComponent
-    from "../client-medical-intervention-details/ClientMedicalInterventionDetailsComponent";
-import MedicalInterventionDetailsCardComponent
-    from "../medical-intervention-details-card/MedicalInterventionDetailsCardComponent";
+import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 
 interface ProgressRecordAdvancedDetailsUpdateScreenProps {
 
@@ -40,6 +37,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
     } = useSelector((state: IRootReducerState) => state.staticData);
     const {
         isClientMedicalRecordProgressReportDetailsLoading,
+        isClientMedicalRecordProgressReportDetailsLoaded,
         clientMedicalRecordProgressReportDetails
     } = useSelector((state: IRootReducerState) => state.chartNotes);
     const [showProgressStatCommentsModal, setShowProgressStatCommentsModal] = useState<boolean>(false);
@@ -167,10 +165,9 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
 
     useEffect(() => {
         if (progressReportId) {
-            console.log("dispach");
             dispatch(getMedicalRecordProgressReportDetails(progressReportId));
         }
-    }, [progressReportId]);
+    }, [dispatch, progressReportId]);
 
     useEffect(() => {
         if (clientMedicalRecordProgressReportDetails) {
@@ -180,155 +177,161 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
 
     return (
         <div className={'progress-record-advanced-details-update-screen'}>
-            <PageHeaderComponent title={"Add Progress Report"}/>
-            <Formik initialValues={updateProgressRecordAdvancedInitialValues}
-                    onSubmit={onSubmit}
-                    validateOnChange={false}
-                    validateOnBlur={true}
-                    enableReinitialize={true}
-                    validateOnMount={true}
-            >
-                {(formik) => {
-                    // eslint-disable-next-line react-hooks/rules-of-hooks
-                    useEffect(() => {
-                        formik.validateForm();
-                    }, [formik.validateForm, formik.values]);
-                    return (
-                        <Form noValidate={true} className={'t-form'}>
-                            <CardComponent title={'Synopsis'}>
-                                <Field name={'synopsis'}>
-                                    {
-                                        (field: FieldProps) => (
-                                            <FormikTextAreaComponent formikField={field}
-                                                                     label={''}
-                                                                     placeholder={'Please enter your note here...'}
-                                                                     required={false}
-                                                                     fullWidth={true}/>
-                                        )
-                                    }
-                                </Field>
-                            </CardComponent>
-                            <CardComponent title={'Impression'}>
-                                <Field name={'impression'}>
-                                    {
-                                        (field: FieldProps) => (
-                                            <FormikTextAreaComponent formikField={field}
-                                                                     label={''}
-                                                                     placeholder={'Please enter your note here...'}
-                                                                     required={false}
-                                                                     fullWidth={true}/>
-                                        )
-                                    }
-                                </Field>
-                            </CardComponent>
-                            <CardComponent title={'Plan'}>
-                                <Field name={'plan'}>
-                                    {
-                                        (field: FieldProps) => (
-                                            <FormikTextAreaComponent formikField={field}
-                                                                     label={''}
-                                                                     placeholder={'Please enter your note here...'}
-                                                                     required={false}
-                                                                     fullWidth={true}/>
-                                        )
-                                    }
-                                </Field>
-                            </CardComponent>
-                            <CardComponent title={'Progress Stats:'}>
-                                <TableComponent data={progressReportStatList}
-                                                loading={isProgressReportStatListLoading}
-                                                columns={ProgressStatsColumns}/>
-                                {
-                                    progressReportStatList?.map((stat: IProgressReportStat, index: number) => {
-                                        if (showProgressStatCommentsModal && stat._id === selectedProgressStatComments?._id) {
-                                            return <ModalComponent
-                                                key={index + stat._id}
-                                                isOpen={showProgressStatCommentsModal}
-                                                title={`${formik.values?.progress_report?.[selectedProgressStatComments._id]?.comments ? "Edit Comments" : "Comments:"}`}
-                                                closeOnBackDropClick={true}
-                                                className={"intervention-comments-modal"}
-                                                modalFooter={<>
-                                                    <ButtonComponent variant={"outlined"}
-                                                                     onClick={() => {
-                                                                         const comment = formik.values?.progress_stats?.[selectedProgressStatComments?._id]?.comments;
-                                                                         setShowProgressStatCommentsModal(false);
-                                                                         formik.setFieldValue(`progress_stats.${selectedProgressStatComments._id}.commentsTemp`, comment);
-                                                                         setSelectedProgressStatComments(undefined);
-                                                                     }}>
-                                                        Cancel
-                                                    </ButtonComponent>&nbsp;
-                                                    <ButtonComponent
-                                                        onClick={() => {
-                                                            const newComment = formik.values?.progress_stats?.[selectedProgressStatComments?._id]?.commentsTemp;
-                                                            setShowProgressStatCommentsModal(false);
-                                                            formik.setFieldValue(`progress_stats.${selectedProgressStatComments?._id}.comments`, newComment);
-                                                            setSelectedProgressStatComments(undefined);
-                                                        }}>
-                                                        {
-                                                            formik.values?.["progress_stats"]?.[selectedProgressStatComments?._id]?.comments ? "Save" : "Add"
-                                                        }
-                                                    </ButtonComponent>
-                                                </>
-                                                }>
-                                                <Field
-                                                    name={`progress_stats.${selectedProgressStatComments?._id}.commentsTemp`}
-                                                    className="t-form-control">
-                                                    {
-                                                        (field: FieldProps) => (
-                                                            <FormikTextAreaComponent
-                                                                label={selectedProgressStatComments?.name + " ( Comments ) "}
-                                                                placeholder={"Enter your comments here..."}
-                                                                formikField={field}
-                                                                size={"small"}
-                                                                autoFocus={true}
-                                                                fullWidth={true}
-                                                            />
-                                                        )
-                                                    }
-                                                </Field>
-                                            </ModalComponent>
-                                        } else {
-                                            return <></>
+            <PageHeaderComponent title={"Update Progress Report"}/>
+            {
+                isClientMedicalRecordProgressReportDetailsLoading && <LoaderComponent/>
+            }
+            {
+                isClientMedicalRecordProgressReportDetailsLoaded &&
+                <Formik initialValues={updateProgressRecordAdvancedInitialValues}
+                        onSubmit={onSubmit}
+                        validateOnChange={false}
+                        validateOnBlur={true}
+                        enableReinitialize={true}
+                        validateOnMount={true}
+                >
+                    {(formik) => {
+                        // eslint-disable-next-line react-hooks/rules-of-hooks
+                        useEffect(() => {
+                            formik.validateForm();
+                        }, [formik.validateForm, formik.values]);
+                        return (
+                            <Form noValidate={true} className={'t-form'}>
+                                <CardComponent title={'Synopsis'}>
+                                    <Field name={'synopsis'}>
+                                        {
+                                            (field: FieldProps) => (
+                                                <FormikTextAreaComponent formikField={field}
+                                                                         label={''}
+                                                                         placeholder={'Please enter your note here...'}
+                                                                         required={false}
+                                                                         fullWidth={true}/>
+                                            )
                                         }
-                                    })
-                                }
-                                <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>
-                                    <ESignApprovalComponent isSigned={formik.values.is_signed}
-                                                            isSigning={isSigningInProgress}
-                                                            canSign={true}
-                                                            signedAt={formik.values.signed_on}
-                                                            onSign={() => {
-                                                                handleSign(formik.values, formik);
-                                                            }}/>
+                                    </Field>
+                                </CardComponent>
+                                <CardComponent title={'Impression'}>
+                                    <Field name={'impression'}>
+                                        {
+                                            (field: FieldProps) => (
+                                                <FormikTextAreaComponent formikField={field}
+                                                                         label={''}
+                                                                         placeholder={'Please enter your note here...'}
+                                                                         required={false}
+                                                                         fullWidth={true}/>
+                                            )
+                                        }
+                                    </Field>
+                                </CardComponent>
+                                <CardComponent title={'Plan'}>
+                                    <Field name={'plan'}>
+                                        {
+                                            (field: FieldProps) => (
+                                                <FormikTextAreaComponent formikField={field}
+                                                                         label={''}
+                                                                         placeholder={'Please enter your note here...'}
+                                                                         required={false}
+                                                                         fullWidth={true}/>
+                                            )
+                                        }
+                                    </Field>
+                                </CardComponent>
+                                <CardComponent title={'Progress Stats:'}>
+                                    <TableComponent data={progressReportStatList}
+                                                    loading={isProgressReportStatListLoading}
+                                                    columns={ProgressStatsColumns}/>
+                                    {
+                                        progressReportStatList?.map((stat: IProgressReportStat, index: number) => {
+                                            if (showProgressStatCommentsModal && stat._id === selectedProgressStatComments?._id) {
+                                                return <ModalComponent
+                                                    key={index + stat._id}
+                                                    isOpen={showProgressStatCommentsModal}
+                                                    title={`${formik.values?.progress_report?.[selectedProgressStatComments._id]?.comments ? "Edit Comments" : "Comments:"}`}
+                                                    closeOnBackDropClick={true}
+                                                    className={"intervention-comments-modal"}
+                                                    modalFooter={<>
+                                                        <ButtonComponent variant={"outlined"}
+                                                                         onClick={() => {
+                                                                             const comment = formik.values?.progress_stats?.[selectedProgressStatComments?._id]?.comments;
+                                                                             setShowProgressStatCommentsModal(false);
+                                                                             formik.setFieldValue(`progress_stats.${selectedProgressStatComments._id}.commentsTemp`, comment);
+                                                                             setSelectedProgressStatComments(undefined);
+                                                                         }}>
+                                                            Cancel
+                                                        </ButtonComponent>&nbsp;
+                                                        <ButtonComponent
+                                                            onClick={() => {
+                                                                const newComment = formik.values?.progress_stats?.[selectedProgressStatComments?._id]?.commentsTemp;
+                                                                setShowProgressStatCommentsModal(false);
+                                                                formik.setFieldValue(`progress_stats.${selectedProgressStatComments?._id}.comments`, newComment);
+                                                                setSelectedProgressStatComments(undefined);
+                                                            }}>
+                                                            {
+                                                                formik.values?.["progress_stats"]?.[selectedProgressStatComments?._id]?.comments ? "Save" : "Add"
+                                                            }
+                                                        </ButtonComponent>
+                                                    </>
+                                                    }>
+                                                    <Field
+                                                        name={`progress_stats.${selectedProgressStatComments?._id}.commentsTemp`}
+                                                        className="t-form-control">
+                                                        {
+                                                            (field: FieldProps) => (
+                                                                <FormikTextAreaComponent
+                                                                    label={selectedProgressStatComments?.name + " ( Comments ) "}
+                                                                    placeholder={"Enter your comments here..."}
+                                                                    formikField={field}
+                                                                    size={"small"}
+                                                                    autoFocus={true}
+                                                                    fullWidth={true}
+                                                                />
+                                                            )
+                                                        }
+                                                    </Field>
+                                                </ModalComponent>
+                                            } else {
+                                                return <></>
+                                            }
+                                        })
+                                    }
+                                    <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>
+                                        <ESignApprovalComponent isSigned={formik.values.is_signed}
+                                                                isSigning={isSigningInProgress}
+                                                                canSign={true}
+                                                                signedAt={formik.values.signed_on}
+                                                                onSign={() => {
+                                                                    handleSign(formik.values, formik);
+                                                                }}/>
+                                    </div>
+                                </CardComponent>
+                                <div className="t-form-actions">
+                                    {
+                                        medicalRecordId && <>
+                                            <LinkComponent
+                                                route={CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId)}>
+                                                <ButtonComponent
+                                                    variant={"outlined"}
+                                                    id={"progress_report_update_cancel_btn"}
+                                                    disabled={formik.isSubmitting}>
+                                                    Cancel
+                                                </ButtonComponent>
+                                            </LinkComponent>
+                                            &nbsp;
+                                        </>
+                                    }
+                                    <ButtonComponent
+                                        type={"submit"}
+                                        id={"progress_report_update_save_btn"}
+                                        disabled={formik.isSubmitting}
+                                        isLoading={formik.isSubmitting}>
+                                        Save
+                                    </ButtonComponent>
                                 </div>
-                            </CardComponent>
-                            <div className="t-form-actions">
-                                {
-                                    medicalRecordId && <>
-                                        <LinkComponent
-                                            route={CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId)}>
-                                            <ButtonComponent
-                                                variant={"outlined"}
-                                                id={"progress_report_update_cancel_btn"}
-                                                disabled={formik.isSubmitting}>
-                                                Cancel
-                                            </ButtonComponent>
-                                        </LinkComponent>
-                                        &nbsp;
-                                    </>
-                                }
-                                <ButtonComponent
-                                    type={"submit"}
-                                    id={"progress_report_update_save_btn"}
-                                    disabled={formik.isSubmitting}
-                                    isLoading={formik.isSubmitting}>
-                                    Save
-                                </ButtonComponent>
-                            </div>
-                        </Form>
-                    )
-                }}
-            </Formik>
+                            </Form>
+                        )
+                    }}
+                </Formik>
+            }
         </div>
     );
 
