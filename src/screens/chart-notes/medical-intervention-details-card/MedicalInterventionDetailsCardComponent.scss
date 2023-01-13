@@ -1,0 +1,57 @@
+@import "src/assets/styles/common";
+
+.client-medical-details-card-component {
+
+  .client-name-button-wrapper {
+    display: flex;
+    justify-content: space-between;
+
+    .client-name-wrapper {
+      font-size: 1.4286rem;
+      font-weight: 700;
+
+      .client-name {
+        padding-right: 10px;
+      }
+    }
+  }
+
+  .intervention-injury-details-wrapper {
+    .data-value {
+      display: flex;
+    }
+  }
+
+  .client-intervention {
+    font-size: 1rem;
+    line-height: 16px;
+    text-align: match-parent;
+    font-weight: 400;
+    margin-right: 10px;
+    margin-left: 8px;
+    max-width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .view-all-body-parts {
+    font-size: 1rem;
+    color: #00534F;
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: $font-weight-bolder;
+  }
+
+}
+
+.view-all-body-parts-header {
+  color: #00534F;
+}
+
+.close-modal-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}

@@ -29,7 +29,6 @@ const ClientMedicalInterventionDetailsComponent = (props: ClientMedicalIntervent
             align: "center",
             render: (_: any, item: any) => {
                 return <div>{item.rom_config?.map((e: any) => {
-
                     return <div className={'movement-name'}>{e.movement_name}</div>
                 })}</div>
             }

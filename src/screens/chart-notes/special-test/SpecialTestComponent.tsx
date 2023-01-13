@@ -14,6 +14,7 @@ import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import FormikRadioButtonGroupComponent
     from "../../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
+
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 
 interface SpecialTestComponentProps {
@@ -284,6 +285,7 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                                                             placeholder={"Enter your comments here..."}
                                                             formikField={field}
                                                             size={"small"}
+                                                            autoFocus={true}
                                                             fullWidth={true}
                                                         />
                                                     )

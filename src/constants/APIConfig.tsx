@@ -33,6 +33,10 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + "/relationship",
         METHOD: "get"
     },
+    CPT_CODES_LIST: {
+        URL: ENV.API_URL + "/cptCodes",
+        METHOD: "get"
+    },
     MEDICAL_HISTORY_OPTIONS_LIST: {
         URL: ENV.API_URL + "/medicalHistory/question",
         METHOD: "get"
@@ -64,6 +68,10 @@ const APIConfig: IAPIConfig = {
     INJURY_TYPE_LIST: {
         URL: ENV.API_URL + "/injuryTypes",
         METHOD: "get"
+    },
+    PROGRESS_REPORT_STATS_LIST: {
+        URL: ENV.API_URL + '/progressStats',
+        METHOD: 'get'
     },
     //meta end
 
@@ -316,6 +324,14 @@ const APIConfig: IAPIConfig = {
         URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/exerciseLog',
         METHOD: "put"
     },
+    SAVE_MEDICAL_INTERVENTION_CPT_CODES: {
+        URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/cptCodes',
+        METHOD: "post"
+    },
+    CHECKOUT_MEDICAL_INTERVENTION: {
+        URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/finaliseTreatment',
+        METHOD: "post"
+    },
     GET_MEDICAL_INTERVENTION_EXERCISE_LOG_DETAILS: {
         URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/exerciseLog',
         METHOD: "get"
@@ -365,6 +381,18 @@ const APIConfig: IAPIConfig = {
     ADD_EXERCISE_LOG_ATTACHMENT: {
         URL: (interventionId: string) => ENV.API_URL + '/intervention/' + interventionId + '/exerciseLog/attachment',
         METHOD: 'post'
+    },
+    ADD_PROGRESS_REPORT_UNDER_MEDICAL_RECORD: {
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/progressReport',
+        METHOD: 'post'
+    },
+    UPDATE_PROGRESS_REPORT_UNDER_MEDICAL_RECORD: {
+        URL: (progressReportId: string) => ENV.API_URL + '/progressReport/' + progressReportId,
+        METHOD: 'put'
+    },
+   GET_PROGRESS_REPORT_UNDER_MEDICAL_RECORD: {
+        URL: (progressReportId: string) => ENV.API_URL + '/progressReport/' + progressReportId,
+        METHOD: 'get'
     },
     REPEAT_LAST_INTERVENTION: {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/repeatTreatment',

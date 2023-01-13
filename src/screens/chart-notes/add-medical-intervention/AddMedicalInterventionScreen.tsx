@@ -1,6 +1,6 @@
 import "./AddMedicalInterventionScreen.scss";
 import * as Yup from "yup";
-import {useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import React, {useCallback, useEffect, useState} from "react";
 import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
@@ -18,11 +18,13 @@ import {IRootReducerState} from "../../../store/reducers";
 import {getMedicalInterventionDetails, setMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
-import ClientMedicalDetailsCardComponent from "../client-medical-details-card/ClientMedicalDetailsCardComponent";
 import DraftReadonlySwitcherComponent from "../draft-readonly-switcher/DraftReadonlySwitcherComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {ITableColumn} from "../../../shared/models/table.model";
 import ESignApprovalComponent from "../../../shared/components/e-sign-approval/ESignApprovalComponent";
+import moment from "moment-timezone";
+import MedicalInterventionDetailsCardComponent
+    from "../medical-intervention-details-card/MedicalInterventionDetailsCardComponent";
 
 interface AddMedicalInterventionScreenProps {
 
@@ -100,8 +102,11 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
     const navigate = useNavigate();
     const {medicalInterventionDetails} = useSelector((state: IRootReducerState) => state.chartNotes);
     const {medicalRecordId, medicalInterventionId} = useParams();
+    const location = useLocation();
+    const search = CommonService.parseQueryString(location.search);
     const [addMedicalInterventionFormInitialValues, setAddMedicalInterventionFormInitialValues] = useState<any>(_.cloneDeep(MedicalInterventionAddFormInitialValues));  // TODO type properly
     const [isSigningInProgress, setIsSigningInProgress] = useState<boolean>(false);
+    const [isSavingInProgress, setIsSavingProgress] = useState<boolean>(false);
 
     const getMedicalInterventionROMConfigColumns = useCallback((body_part: any): ITableColumn[] => {
         const ROMColumns: ITableColumn[] = [
@@ -116,7 +121,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                 }
             }
         ];
-        body_part.selected_sides.forEach((side: any) => {
+        (body_part?.selected_sides || []).forEach((side: any) => {
             ROMColumns.push({
                 title: side,
                 className: side,
@@ -160,12 +165,14 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
     }: FormikHelpers<any>, announce = false, cb: any = null) => {
         if (medicalInterventionId) {
             setSubmitting(true);
+            setIsSavingProgress(true);
             CommonService._chartNotes.MedicalInterventionBasicDetailsUpdateAPICall(medicalInterventionId, values)
                 .then((response: IAPIResponseType<any>) => {
                     dispatch(setMedicalInterventionDetails(response.data));
                     if (announce) {
                         CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     }
+                    setIsSavingProgress(false);
                     setSubmitting(false);
                     if (cb) {
                         cb();
@@ -174,12 +181,13 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                 .catch((error: any) => {
                     CommonService.handleErrors(setErrors, error, true);
                     setSubmitting(false);
+                    setIsSavingProgress(false);
                     if (cb) {
                         cb();
                     }
                 })
         }
-    }, [navigate, dispatch, medicalInterventionId]);
+    }, [dispatch, medicalInterventionId]);
 
     useEffect(() => {
         if (medicalInterventionId) {
@@ -211,7 +219,20 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
 
     return (
         <div className={'add-medical-intervention-screen'}>
-            <ClientMedicalDetailsCardComponent/>
+            {medicalInterventionDetails && <div className="last-updated-status">
+                <div className="last-updated-status-text">Last Updated On:&nbsp;</div>
+                <div
+                    className="last-updated-status-bold">
+                    {(medicalInterventionDetails.updated_at ? moment(medicalInterventionDetails.updated_at).tz(moment.tz.guess()).format('DD-MM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
+                    {medicalInterventionDetails?.last_updated_by_details?.first_name ? medicalInterventionDetails?.last_updated_by_details?.first_name + ' ' + medicalInterventionDetails?.last_updated_by_details?.last_name : ' NA'}
+                </div>
+                {isSavingInProgress && <div className="last-updated-status-status">
+                    <ImageConfig.SYNC className={'spin-item'}
+                                      width={16}/>
+                    &nbsp;Saving...</div>}
+            </div>}
+            <MedicalInterventionDetailsCardComponent medicalInterventionDetails={medicalInterventionDetails}
+                                                     showAction={true}/>
             <Formik
                 validationSchema={MedicalInterventionAddFormValidationSchema}
                 initialValues={addMedicalInterventionFormInitialValues}
@@ -248,7 +269,17 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                     </LinkComponent>
                                 }
                             </div>
-                            <CardComponent title={'Subjective (S)'}>
+                            <CardComponent title={'Subjective (S)'}
+                                           actions={
+                                               search.showClear && <DraftReadonlySwitcherComponent
+                                                   condition={medicalInterventionDetails?.status === 'draft'}
+                                                   draft={<div className={'intervention-clear-button'} onClick={event => {
+                                                       formik.setFieldValue('subjective', '');
+                                                   }
+                                                   }>Clear</div>}
+                                                   readonly={<></>}/>
+                                           }
+                            >
                                 <div className="ts-row">
                                     <div className="ts-col-12">
                                         <DraftReadonlySwitcherComponent
@@ -283,6 +314,20 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                             </CardComponent>
                             <CardComponent title={'Objective (O)'}
                                            actions={<>
+                                               {search.showClear && <DraftReadonlySwitcherComponent
+                                                   condition={medicalInterventionDetails?.status === 'draft'}
+                                                   draft={<div className={'intervention-clear-button'}
+                                                               onClick={event => {
+                                                                   formik.setFieldValue('objective', {
+                                                                       observation: "",
+                                                                       palpation: "",
+                                                                       functional_tests: "",
+                                                                       treatment: "",
+                                                                       treatment_response: ""
+                                                                   });
+                                                               }
+                                                               }>Clear</div>}
+                                                   readonly={<></>}/>}&nbsp;&nbsp;
                                                <Field name={'is_flagged'}>
                                                    {
                                                        (field: FieldProps) => (
@@ -539,7 +584,18 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                     </div>
                                 </div>
                             </CardComponent>
-                            <CardComponent title={'Assessment (A)'}>
+                            <CardComponent title={'Assessment (A)'} actions={
+                                search.showClear && <DraftReadonlySwitcherComponent
+                                    condition={medicalInterventionDetails?.status === 'draft'}
+                                    draft={<div className={'intervention-clear-button'} onClick={event => {
+                                        formik.setFieldValue('assessment', {
+                                            suspicion_index: '',
+                                            surgery_procedure: ''
+                                        });
+                                    }
+                                    }>Clear</div>}
+                                    readonly={<></>}/>
+                            }>
                                 <div className="ts-row">
                                     <div className="ts-col-12">
 
@@ -598,8 +654,6 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </div>
                                         }
                                         />
-
-
                                         <DraftReadonlySwitcherComponent
                                             condition={medicalInterventionDetails?.status === 'draft'} draft={
                                             <Field name={'assessment.surgery_procedure'}>
@@ -627,12 +681,23 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </div>
                                         }
                                         />
-
-
                                     </div>
                                 </div>
                             </CardComponent>
-                            <CardComponent title={'Plan (P)'}>
+                            <CardComponent title={'Plan (P)'} actions={
+                                search.showClear && <DraftReadonlySwitcherComponent
+                                    condition={medicalInterventionDetails?.status === 'draft'}
+                                    draft={<div className={'intervention-clear-button'} onClick={event => {
+                                        formik.setFieldValue('plan', {
+                                            plan: "",
+                                            md_recommendations: "",
+                                            education: "",
+                                            treatment_goals: "",
+                                        });
+                                    }
+                                    }>Clear</div>}
+                                    readonly={<></>}/>
+                            }>
                                 <div className="ts-row">
                                     <div className="ts-col-12">
                                         <DraftReadonlySwitcherComponent
@@ -662,7 +727,6 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </div>
                                         }
                                         />
-
                                         <DraftReadonlySwitcherComponent
                                             condition={medicalInterventionDetails?.status === 'draft'} draft={
                                             <Field name={'plan.md_recommendations'}>
@@ -690,7 +754,6 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </div>
                                         }
                                         />
-
                                         <DraftReadonlySwitcherComponent
                                             condition={medicalInterventionDetails?.status === 'draft'} draft={
                                             <Field name={'plan.education'}>

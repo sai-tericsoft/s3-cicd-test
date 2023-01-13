@@ -1,4 +1,4 @@
-import "./ClientMedicalDetailsCardComponent.scss";
+import "./MedicalInterventionDetailsCardComponent.scss";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
@@ -21,17 +21,17 @@ import EditMedicalRecordComponent from "../edit-medical-record/EditMedicalRecord
 import {ListItem} from "@mui/material";
 import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
 import AddSurgeryRecordComponent from "../add-surgery-record/AddSurgeryRecordComponent";
-import AddBasicProgressReportComponent from "../add-basic-progress-report/AddBasicProgressReportComponent";
-import {refreshSurgeryRecords} from "../../../store/actions/chart-notes.action";
+import moment from "moment-timezone";
 
-interface ClientMedicalDetailsCardComponentProps {
-    showAction?: boolean
+interface MedicalInterventionDetailsCardComponentProps {
+    showAction?: boolean,
+    medicalInterventionDetails: any
 }
 
 
-const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardComponentProps) => {
+const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetailsCardComponentProps) => {
 
-    const {showAction} = props;
+    const {showAction, medicalInterventionDetails} = props;
     const bodyPartsColumns: any = [
         {
             title: "Body Part",
@@ -60,12 +60,11 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
     const [isBodyPartsModalOpen, setIsBodyPartsModalOpen] = React.useState<boolean>(false);
     const [isSurgeryAddOpen, setIsSurgeryAddOpen] = React.useState<boolean>(false);
     const [isEditMedicalRecordDrawerOpen, setIsEditMedicalRecordDrawerOpen] = useState<boolean>(false);
-    const [isProgressReportDrawerOpen, setIsProgressReportDrawerOpen] = useState<boolean>(false);
 
     const {
         clientMedicalRecord,
-        isClientMedicalRecordLoading,
         isClientMedicalRecordLoaded,
+        isClientMedicalRecordLoading,
         isClientMedicalRecordLoadingFailed
     } = useSelector((state: IRootReducerState) => state.client);
 
@@ -106,19 +105,6 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
         }
     }, [dispatch, medicalRecordId, closeEditMedicalRecordDrawer]);
 
-    const openAddSurgeryRecord = useCallback(
-        () => {
-            setIsSurgeryAddOpen(true)
-        },
-        [],
-    );
-
-    const addProgressRecord = useCallback(() => {
-            setIsProgressReportDrawerOpen(true);
-        },
-        [],
-    );
-
     const comingSoon = useCallback(
         () => {
             CommonService._alert.showToast('Coming Soon!', 'info')
@@ -139,7 +125,6 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                                medicalRecordDetails={clientMedicalRecord}
                                                onSave={() => {
                                                    dispatch(getClientMedicalRecord(medicalRecordId));
-                                                   dispatch(refreshSurgeryRecords());
                                                    setIsSurgeryAddOpen(false);
                                                }}/>
                 </DrawerComponent>
@@ -169,9 +154,9 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                 <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
                                         <span className={'client-name'}>
-                                            {clientMedicalRecord?.client_details?.first_name || "-"} {clientMedicalRecord?.client_details?.last_name || "-"}
-                                        </span>
-                                        <ChipComponent className={clientMedicalRecord?.status === "open" ? "active" : "inactive"}
+                                        {clientMedicalRecord?.client_details?.first_name || "-"} {clientMedicalRecord?.client_details?.last_name || "-"}
+                                            </span>
+                                        <ChipComponent className={clientMedicalRecord?.status ? "active" : "inactive"}
                                                        size={'small'}
                                                        label={clientMedicalRecord?.status || "-"}/>
                                     </span>
@@ -189,12 +174,10 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                                 </ButtonComponent>
                                             } menuOptions={
                                                 [
-                                                    <ListItem onClick={openAddSurgeryRecord}>Add Surgery
-                                                        Record </ListItem>,
-                                                    <ListItem onClick={addProgressRecord}>Add Progress
-                                                        Report </ListItem>,
-                                                    <ListItem onClick={comingSoon}>Add Document </ListItem>,
-                                                    <ListItem onClick={comingSoon}>View Exercise Record </ListItem>
+                                                    <ListItem onClick={comingSoon}>Print SOAP</ListItem>,
+                                                    <ListItem onClick={comingSoon}>Transfer SOAP to</ListItem>,
+                                                    <ListItem onClick={comingSoon}>Notify Admin</ListItem>,
+
                                                 ]
                                             }/>
                                         </div>}
@@ -210,40 +193,35 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                     <span className={'view-all-body-parts'}
                                           onClick={openBodyPartsModal}> View All Body Parts </span>
                                 </DataLabelValueComponent>
+                                <DataLabelValueComponent label={'File Created On:'} direction={"row"}
+                                                         className={'intervention-injury-details-wrapper'}>
+                                    {(medicalInterventionDetails?.created_at ? moment(medicalInterventionDetails?.created_at).tz(moment.tz.guess()).format('DD-MM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
+                                    {medicalInterventionDetails?.created_by_details?.first_name ? medicalInterventionDetails?.created_by_details?.first_name + ' ' + medicalInterventionDetails?.created_by_details?.last_name : ' N/A'}
+                                </DataLabelValueComponent>
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-md-3'}>
-                                        <DataLabelValueComponent label={'Date of Onset'}>
-                                            {CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.onset_date) || "-"}
+                                        <DataLabelValueComponent label={'Date of Intervention'}>
+                                            {medicalInterventionDetails?.intervention_date ? CommonService.getSystemFormatTimeStamp(medicalInterventionDetails?.intervention_date) : "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-3'}>
-                                        <DataLabelValueComponent label={'Date of Surgery'}>
-                                            {CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.surgery_date) || "-"}
+                                        <DataLabelValueComponent label={'Treated by'}>
+                                            {medicalInterventionDetails?.treated_by_details?.first_name ? (medicalInterventionDetails?.treated_by_details?.first_name + ' ' + medicalInterventionDetails?.treated_by_details?.last_name) : "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-3'}>
                                         <DataLabelValueComponent label={'Case Physician'}>
-                                            {clientMedicalRecord?.case_physician.name || "-"}
+                                            {medicalInterventionDetails?.medical_record_details?.case_physician.name || "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-3'}>
-                                        <DataLabelValueComponent label={'Next MD Appointment'}>
-                                            {clientMedicalRecord?.case_physician.next_appointment || "-"}
+                                        <DataLabelValueComponent label={'Next Appointment'}>
+                                            {medicalInterventionDetails?.medical_record_details?.case_physician?.next_appointment ? CommonService.getSystemFormatTimeStamp(medicalInterventionDetails?.medical_record_details?.case_physician?.next_appointment) : "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
                                 </div>
                                 <div className={'ts-row'}>
-                                    <div className={'ts-col-md-3'}>
-                                        <DataLabelValueComponent label={'Total Direct Minutes'}>
-                                            {clientMedicalRecord?.total_direct_minutes || "-"}
-                                        </DataLabelValueComponent>
-                                    </div>
-                                    <div className={'ts-col-lg-3'}>
-                                        <DataLabelValueComponent label={'Injury/Condition Description'}>
-                                            {clientMedicalRecord?.injury_description || "-"}
-                                        </DataLabelValueComponent>
-                                    </div>
-                                    <div className={'ts-col-lg-3'}>
+                                    <div className={'ts-col'}>
                                         <DataLabelValueComponent label={'Restrictions and Limitations'}>
                                             {clientMedicalRecord?.limitations || "-"}
                                         </DataLabelValueComponent>
@@ -266,21 +244,11 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                                     medicalRecordDetails={clientMedicalRecord}
                                                     onSave={handleMedicalRecordEdit}/>
                     </DrawerComponent>
-                    <DrawerComponent isOpen={isProgressReportDrawerOpen}
-                                     showClose={true}
-                                     closeOnEsc={false}
-                                     closeOnBackDropClick={false}
-                                     onClose={() => setIsProgressReportDrawerOpen(false)}>
-                        <AddBasicProgressReportComponent
-                            onCancel={() => setIsProgressReportDrawerOpen(false)}
-                        />
-                    </DrawerComponent>
                 </>
-
             }
         </div>
     );
 };
 
 
-export default ClientMedicalDetailsCardComponent;
+export default MedicalInterventionDetailsCardComponent;

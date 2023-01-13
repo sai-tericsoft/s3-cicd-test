@@ -9,6 +9,7 @@ import {ReactComponent as NavigateBack} from '../assets/icons/header/navigate_ba
 import {ReactComponent as EditIcon} from '../assets/icons/edit.svg';
 import {ReactComponent as UploadIcon} from '../assets/icons/upload.svg';
 import {ReactComponent as SelectDropDownIcon} from './../assets/icons/select_dropdown.svg';
+import {ReactComponent as EyeIcon} from './../assets/icons/eye.svg';
 
 import {ReactComponent as CircleCheck} from './../assets/icons/check_circle.svg';
 import {ReactComponent as CircleError} from './../assets/icons/error_circle.svg';
@@ -21,6 +22,7 @@ import {ReactComponent as ChatIcon} from '../assets/icons/chat.svg';
 import {ReactComponent as MoreVerticalIcon} from './../assets/icons/more_vertical.svg';
 import {ReactComponent as PDF_ICON} from './../assets/icons/pdf_icon.svg';
 import {ReactComponent as REPEAT_LAST_INTERVENTION} from './../assets/icons/repeat_last_intervention.svg';
+import {ReactComponent as SYNC} from './../assets/icons/sync.svg';
 
 
 //file types
@@ -66,6 +68,7 @@ export {
     userIcon,
     SelectDropDownIcon,
     ProfileIcon,
+    EyeIcon,
 
     DashboardIcon,
     AdminIcon,
@@ -110,4 +113,5 @@ export {
     RemoveBodyPartConfirmationIcon,
     PDF_ICON,
     REPEAT_LAST_INTERVENTION,
+    SYNC
 }
