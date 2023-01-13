@@ -33,6 +33,10 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + "/relationship",
         METHOD: "get"
     },
+    CPT_CODES_LIST: {
+        URL: ENV.API_URL + "/cptCodes",
+        METHOD: "get"
+    },
     MEDICAL_HISTORY_OPTIONS_LIST: {
         URL: ENV.API_URL + "/medicalHistory/question",
         METHOD: "get"
@@ -315,6 +319,14 @@ const APIConfig: IAPIConfig = {
     SAVE_MEDICAL_INTERVENTION_EXERCISE_LOG: {
         URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/exerciseLog',
         METHOD: "put"
+    },
+    SAVE_MEDICAL_INTERVENTION_CPT_CODES: {
+        URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/cptCodes',
+        METHOD: "post"
+    },
+    CHECKOUT_MEDICAL_INTERVENTION: {
+        URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/finaliseTreatment',
+        METHOD: "post"
     },
     GET_MEDICAL_INTERVENTION_EXERCISE_LOG_DETAILS: {
         URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/exerciseLog',

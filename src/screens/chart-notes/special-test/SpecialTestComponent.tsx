@@ -284,6 +284,7 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                                                             placeholder={"Enter your comments here..."}
                                                             formikField={field}
                                                             size={"small"}
+                                                            autoFocus={true}
                                                             fullWidth={true}
                                                         />
                                                     )

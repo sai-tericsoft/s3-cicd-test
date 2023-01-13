@@ -9,7 +9,22 @@ interface TextAreaComponentProps extends ITextAreaProps {
 
 const TextAreaComponent = (props: TextAreaComponentProps) => {
 
-    const {label, errorMessage, prefix,readOnly, hasError, className, inputProps, disabled, id, name, required, value, onChange} = props;
+    const {
+        label,
+        errorMessage,
+        prefix,
+        readOnly,
+        autoFocus,
+        hasError,
+        className,
+        textAreaProps,
+        disabled,
+        id,
+        name,
+        required,
+        value,
+        onChange
+    } = props;
     const variant = props.variant || "outlined";
     const size = props.size || "medium";
     const fullWidth = props.fullWidth || false;
@@ -24,7 +39,8 @@ const TextAreaComponent = (props: TextAreaComponentProps) => {
     }, [onChange]);
 
     return (
-        <FormControl className={'input-component ' + className + ' ' + (fullWidth ? "full-width" : "")} error={hasError}>
+        <FormControl className={'input-component ' + className + ' ' + (fullWidth ? "full-width" : "")}
+                     error={hasError}>
             <TextField id={id}
                        fullWidth={fullWidth}
                        placeholder={placeholder}
@@ -37,8 +53,9 @@ const TextAreaComponent = (props: TextAreaComponentProps) => {
                        disabled={disabled}
                        multiline={true}
                        rows={rows}
+                       autoFocus={autoFocus}
                        inputProps={{
-                           ...inputProps,
+                           ...textAreaProps,
                            readOnly: readOnly
                        }}
                        onChange={(event) => {

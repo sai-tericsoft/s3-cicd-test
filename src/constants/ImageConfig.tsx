@@ -9,6 +9,7 @@ import {ReactComponent as NavigateBack} from '../assets/icons/header/navigate_ba
 import {ReactComponent as EditIcon} from '../assets/icons/edit.svg';
 import {ReactComponent as UploadIcon} from '../assets/icons/upload.svg';
 import {ReactComponent as SelectDropDownIcon} from './../assets/icons/select_dropdown.svg';
+import {ReactComponent as EyeIcon} from './../assets/icons/eye.svg';
 
 import {ReactComponent as CircleCheck} from './../assets/icons/check_circle.svg';
 import {ReactComponent as CircleError} from './../assets/icons/error_circle.svg';
@@ -67,6 +68,7 @@ export {
     userIcon,
     SelectDropDownIcon,
     ProfileIcon,
+    EyeIcon,
 
     DashboardIcon,
     AdminIcon,
