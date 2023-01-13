@@ -26,12 +26,13 @@ interface MedicalInterventionFinalizeTreatmentScreenProps {
 
 }
 
-const CPTCodesInitialValues = {}
+const CPTCodesInitialValues = {};
 
 const FULL_PAGES = {
     page: 1,
     limit: 1000
 }
+
 const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFinalizeTreatmentScreenProps) => {
 
     const {medicalRecordId, medicalInterventionId} = useParams();
@@ -45,6 +46,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
         isMedicalInterventionDetailsLoading,
         isMedicalInterventionDetailsLoaded,
     } = useSelector((state: IRootReducerState) => state.chartNotes);
+
     const [extraPayload, setExtraPayload] = useState<any>({
         ...FULL_PAGES, search: ''
     });
@@ -204,7 +206,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
             CommonService._chartNotes.CheckoutAMedicalInterventionAPICall(medicalInterventionId)
                 .then((response: any) => {
                     CommonService._alert.showToast(response.message, 'success');
-                    navigate(CommonService._routeConfig.MedicalInterventionDetails(medicalRecordId, medicalInterventionId));
+                    navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
                     setIsInterventionCheckingOut(false);
                 })
                 .catch((error: any) => {
