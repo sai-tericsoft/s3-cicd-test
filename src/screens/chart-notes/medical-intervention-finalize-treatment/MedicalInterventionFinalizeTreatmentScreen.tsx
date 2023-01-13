@@ -46,6 +46,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
         isMedicalInterventionDetailsLoading,
         isMedicalInterventionDetailsLoaded,
     } = useSelector((state: IRootReducerState) => state.chartNotes);
+    const [linkedCPTCodes, setLinkedCPTCodes] = useState<any[]>([]);
 
     const [extraPayload, setExtraPayload] = useState<any>({
         ...FULL_PAGES, search: ''
@@ -160,7 +161,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                 cpt_codes: [],
                 mode: "add"
             };
-            if (medicalInterventionDetails?.linked_cpt_codes?.length) {
+            if (linkedCPTCodes?.length > 0) {
                 payload.mode = "edit"
             }
             Object.keys(values).forEach((key) => {
@@ -176,6 +177,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                 .then((response: any) => {
                     CommonService._alert.showToast(response.message, 'success');
                     setSubmitting(false);
+                    setLinkedCPTCodes(payload.cpt_codes);
                 })
                 .catch((error: any) => {
                     CommonService._alert.showToast(error.error || error.errors || 'Error saving CPT Codes', 'error');
@@ -197,6 +199,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                 };
             })
         }
+        setLinkedCPTCodes(linked_cpt_codes);
         setCptCodesFormInitialValues(linkedCPTCodesConfig);
     }, [medicalInterventionDetails]);
 
@@ -244,7 +247,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                                  placeholder={'Search CPT Code'}
                                                                  value={extraPayload.search}
                                                                  onSearchChange={(value) => {
-                                                                     setExtraPayload((ov:any) => ({...ov, search: value}))
+                                                                     setExtraPayload((ov: any) => ({...ov, search: value}))
                                                                  }}
                                                 />
                                             </div>
@@ -287,7 +290,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                         </ButtonComponent>
                                         <>
                                             {
-                                                (medicalRecordId && medicalInterventionDetails?.linked_cpt_codes?.length > 0) && <>&nbsp;&nbsp;
+                                                (medicalRecordId && linkedCPTCodes?.length > 0) && <>&nbsp;&nbsp;
                                                     <ButtonComponent disabled={isSubmitting || isInterventionCheckingOut}
                                                                      isLoading={isInterventionCheckingOut}
                                                                      onClick={handleInterventionCheckout}>
