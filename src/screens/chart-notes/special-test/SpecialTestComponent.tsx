@@ -15,7 +15,6 @@ import FormikRadioButtonGroupComponent
     from "../../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 
 interface SpecialTestComponentProps {

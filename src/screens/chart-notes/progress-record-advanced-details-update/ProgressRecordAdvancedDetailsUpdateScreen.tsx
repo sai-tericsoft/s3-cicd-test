@@ -36,7 +36,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const [updateProgressRecordAdvancedInitialValues, setUpdateProgressRecordAdvancedInitialValues] = useState<any>({
+    const [updateProgressRecordAdvancedInitialValues] = useState<any>({
         synopsis: "",
         impression: "",
         plan: "",
@@ -116,13 +116,13 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                 setSubmitting(false);
             });
         }
-    }, [medicalRecordId, progressReportId]);
+    }, [navigate, medicalRecordId, progressReportId]);
 
     useEffect(() => {
         dispatch(setCurrentNavParams("Update Progress Report Details", null, () => {
             medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
         }));
-    }, [navigate, dispatch]);
+    }, [medicalRecordId, navigate, dispatch]);
 
     return (
         <div className={'progress-record-advanced-details-update-screen'}>
