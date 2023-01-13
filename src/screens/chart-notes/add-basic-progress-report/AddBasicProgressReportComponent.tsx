@@ -26,6 +26,7 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
     });
 
     const {isProgressReportDrawerOpen} = props;
+    const [isProgressReportAddInProgress, setIsProgressReportAddInProgress] = useState<boolean>(false);
     const [addProgressReportBasicInitialValues, setAddProgressReportBasicInitialValues] = useState<any>({
         intervention_linked_to: '',
         onset_date: '',
@@ -48,12 +49,15 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         const payload = {...values};
         if (clientMedicalRecord) {
+            setIsProgressReportAddInProgress(true);
             CommonService._client.AddBasicProgressReport(clientMedicalRecord?._id, payload)
                 .then((response:IAPIResponseType<any>) => {
+                    setIsProgressReportAddInProgress(false);
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 }).catch((error:any) => {
                     console.log(error);
                 CommonService.handleErrors(setErrors, error, true);
+                setIsProgressReportAddInProgress(false);
             });
         }
     }, [clientMedicalRecord])
@@ -70,7 +74,7 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
                         validateOnBlur={true}
                         enableReinitialize={true}
                         validateOnMount={true}>
-                    {({values, touched, errors, setFieldValue, validateForm}) => {
+                    {({values, isValid,touched, errors, setFieldValue, validateForm}) => {
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
                             validateForm();
@@ -162,6 +166,8 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
                                         &nbsp;
                                         <ButtonComponent
                                             type={"submit"}
+                                            isLoading={isProgressReportAddInProgress}
+                                            disabled={!isValid || isProgressReportAddInProgress}
                                             id={"medical_intervention_add_save_btn"}
                                         >
                                             Save
