@@ -83,7 +83,7 @@ const FetchSurgeryRecordAPICall = (surgeryRecordId: string, payload: any) => {
     return ApiService[APIConfig.GET_SURGERY_RECORD.METHOD](APIConfig.GET_SURGERY_RECORD.URL(surgeryRecordId), payload);
 }
 
-const AddExerciseLogAttachment = (interventionId: string | undefined, payload: any) => {
+const AddExerciseLogAttachment = (interventionId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.ADD_EXERCISE_LOG_ATTACHMENT.METHOD](APIConfig.ADD_EXERCISE_LOG_ATTACHMENT.URL(interventionId), payload, {'Content-Type': 'multipart/form-data'});
 }

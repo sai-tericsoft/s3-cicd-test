@@ -17,6 +17,8 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import {IService} from "../../../shared/models/service.model";
 import * as Yup from "yup";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
+import ClientMedicalDetailsCardComponent from "../client-medical-details-card/ClientMedicalDetailsCardComponent";
+import ExerciseLogAttachmentListComponent from "../exercise-log-attachment-list/ExerciseLogAttachmentListComponent";
 
 interface MedicalInterventionExerciseLogScreenProps {
 
@@ -243,16 +245,19 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
     }, [medicalInterventionId, fetchMedicalInterventionExerciseLogDetails]);
 
     useEffect(() => {
-        if (medicalInterventionExerciseLogDetails && medicalInterventionExerciseLogDetails.exercise_records) {
+        const exercise_records = medicalInterventionExerciseLogDetails?.exercise_records;
+        if (exercise_records && exercise_records?.length > 0) {
             setMedicalInterventionExerciseLogValues({
-                exercise_records: _.cloneDeep(medicalInterventionExerciseLogDetails.exercise_records)
+                exercise_records: _.cloneDeep(exercise_records)
             });
+        } else {
+            setMedicalInterventionExerciseLogValues(_.cloneDeep(MedicalInterventionExerciseLogInitialValues));
         }
     }, [medicalInterventionExerciseLogDetails]);
 
-    const handleExerciseLogClear = useCallback((values: any, setFieldValue: any)=>{
+    const handleExerciseLogClear = useCallback((values: any, setFieldValue: any) => {
         const exercise_records = _.cloneDeep(values.exercise_records);
-        const new_exercise_records = exercise_records.map((record: any)=> ({
+        const new_exercise_records = exercise_records.map((record: any) => ({
             ...record,
             name: "",
             no_of_reps: "",
@@ -265,6 +270,8 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
 
     return (
         <div className={'medical-intervention-exercise-log-screen'}>
+            <ClientMedicalDetailsCardComponent/>
+            <ExerciseLogAttachmentListComponent/>
             <>
                 {
                     isMedicalInterventionExerciseLogDetailsLoading && <LoaderComponent/>
@@ -283,7 +290,8 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                             return (
                                 <Form className="t-form" noValidate={true}>
                                     <div className={'special-test-table-container'}>
-                                        <div className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
+                                        <div
+                                            className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
                                             <FormControlLabelComponent label={'Exercise Log'} className={"mrg-0"}/>
                                             <ButtonComponent
                                                 prefixIcon={<ImageConfig.CloseIcon/>}
@@ -303,7 +311,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                             <ButtonComponent
                                                 size={"large"}
                                                 prefixIcon={<ImageConfig.AddIcon/>}
-                                                disabled={ExerciseLogRecordValidationSchema.isValidSync(values.exercise_records[values.exercise_records.length - 1]) === false}
+                                                disabled={(values.exercise_records.length > 0 && ExerciseLogRecordValidationSchema.isValidSync(values.exercise_records[values.exercise_records.length - 1]) === false)}
                                                 onClick={() => {
                                                     const exercise_records = _.cloneDeep(values.exercise_records);
                                                     exercise_records.push({
