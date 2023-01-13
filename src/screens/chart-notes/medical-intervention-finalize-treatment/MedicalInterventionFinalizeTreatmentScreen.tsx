@@ -28,6 +28,10 @@ interface MedicalInterventionFinalizeTreatmentScreenProps {
 
 const CPTCodesInitialValues = {}
 
+const FULL_PAGES = {
+    page: 1,
+    limit: 1000
+}
 const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFinalizeTreatmentScreenProps) => {
 
     const {medicalRecordId, medicalInterventionId} = useParams();
@@ -41,7 +45,9 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
         isMedicalInterventionDetailsLoading,
         isMedicalInterventionDetailsLoaded,
     } = useSelector((state: IRootReducerState) => state.chartNotes);
-    const [searchKey, setSearchKey] = useState<string>("");
+    const [extraPayload, setExtraPayload] = useState<any>({
+        ...FULL_PAGES, search: ''
+    });
 
     const CPTCodesColumns: ITableColumn[] = [
         {
@@ -234,9 +240,9 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                 <SearchComponent label={'Search CPT Code'}
                                                                  size={"medium"}
                                                                  placeholder={'Search CPT Code'}
-                                                                 value={searchKey}
+                                                                 value={extraPayload.search}
                                                                  onSearchChange={(value) => {
-                                                                     setSearchKey(value)
+                                                                     setExtraPayload((ov:any) => ({...ov, search: value}))
                                                                  }}
                                                 />
                                             </div>
@@ -255,11 +261,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                             <TableWrapperComponent url={APIConfig.CPT_CODES_LIST.URL}
                                                                    method={APIConfig.CPT_CODES_LIST.METHOD}
                                                                    isPaginated={false}
-                                                                   extraPayload={{
-                                                                       page: 1,
-                                                                       limit: 1000,
-                                                                       search: searchKey
-                                                                   }}
+                                                                   extraPayload={extraPayload}
                                                                    columns={CPTCodesColumns}/>
                                         </div>
                                     </CardComponent>
