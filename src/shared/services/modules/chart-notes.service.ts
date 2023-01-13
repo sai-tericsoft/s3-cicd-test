@@ -102,6 +102,14 @@ const AddMedicalInterventionICDCodesAPICall = (medicalInterventionId: string, pa
     return ApiService[APIConfig.SAVE_MEDICAL_INTERVENTION_ICD_CODES.METHOD](APIConfig.SAVE_MEDICAL_INTERVENTION_ICD_CODES.URL(medicalInterventionId), payload);
 }
 
+const AddProgressReportUnderMedicalRecordAPICall = (medicalRecordId: string, payload: any) => {
+    return ApiService[APIConfig.ADD_PROGRESS_REPORT_UNDER_MEDICAL_RECORD.METHOD](APIConfig.ADD_PROGRESS_REPORT_UNDER_MEDICAL_RECORD.URL(medicalRecordId), payload);
+}
+
+const UpdateProgressReportUnderMedicalRecordAPICall = (progressReportId: string, payload: any) => {
+    return ApiService[APIConfig.UPDATE_PROGRESS_REPORT_UNDER_MEDICAL_RECORD.METHOD](APIConfig.UPDATE_PROGRESS_REPORT_UNDER_MEDICAL_RECORD.URL(progressReportId), payload);
+}
+
 const ChartNotesService = {
     MedicalRecordAddAPICall,
     MedicalRecordEditAPICall,
@@ -123,7 +131,9 @@ const ChartNotesService = {
     FetchSurgeryRecordAPICall,
     AddSurgeryRecordAttachmentAPICall,
     UpdateSurgeryRecordAPICall,
-    RemoveSurgeryRecordAttachmentAPICall
+    RemoveSurgeryRecordAttachmentAPICall,
+    AddProgressReportUnderMedicalRecordAPICall,
+    UpdateProgressReportUnderMedicalRecordAPICall
 }
 
 export default ChartNotesService;

@@ -142,10 +142,9 @@ const MedicalRecordSurgeryRecordDetails = (medicalRecordId: string, surgeryRecor
     return '/chart-notes/' + medicalRecordId + '/surgery-record/' + surgeryRecordId;
 }
 
-const ProgressReportBasicDetails =(interventionId:string)=>{
-    return  '/chart-notes/'+ interventionId +'/add-advance-progress-report'
+const MedicalRecordProgressReportAdvancedDetailsUpdate = (medicalRecordId: string, progressReportId:string) =>{
+    return  '/chart-notes/'+ medicalRecordId + '/' + progressReportId +'/progress-report-advance-details-update';
 }
-
 
 const RouteConfigService = {
     DefaultRoute,
@@ -179,7 +178,7 @@ const RouteConfigService = {
     MedicalInterventionICDCodes,
     MedicalInterventionDetails,
     MedicalRecordSurgeryRecordDetails,
-    ProgressReportBasicDetails
+    MedicalRecordProgressReportAdvancedDetailsUpdate
 
 }
 

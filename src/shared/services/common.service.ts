@@ -123,10 +123,10 @@ const convertDateFormat2 = (date: Date, format: string = 'DD-MMM-YYYY') => {
     return moment(date).format(format);
 }
 
-const interventionLinkedToService = (intervention:any) => {
- return ` ${intervention?.injury_details?.map((bodyPart:any,index: number)=>{
-     return( bodyPart?.body_part_details?.name + (index === intervention?.injury_details?.length - 1 ? '' : '/'))
- })} - ${CommonService.convertDateFormat2(intervention?.created_at)}`
+const generateInterventionNameFromMedicalRecord = (medicalRecordDetails:any) => {
+ return `${medicalRecordDetails?.injury_details?.map((bodyPart:any,index: number)=>{
+     return( bodyPart?.body_part_details?.name + (index === medicalRecordDetails?.injury_details?.length - 1 ? '' : '/'))
+ })} - ${CommonService.convertDateFormat2(medicalRecordDetails?.created_at)}`
 }
 
 const getTheDifferenceBetweenDates = (fromDate: string) => {
@@ -481,7 +481,7 @@ const CommonService = {
     isEqual,
     convertDateFormat2,
     formatPhoneNumber,
-    interventionLinkedToService,
+    generateInterventionNameFromMedicalRecord,
 
     // createValidationsObject,
     // createYupSchema,

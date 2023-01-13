@@ -20,7 +20,7 @@ import {
     getLanguageList,
     getMedicalHistoryOptionsList,
     getMusculoskeletalHistoryOptionsList,
-    getPhoneTypeList,
+    getPhoneTypeList, getProgressReportStatsList,
     getReferralTypeList,
     getRelationShipList,
     getSocialMediaPlatformList,
@@ -105,6 +105,7 @@ const App = (props: AppProps) => {
             dispatch(getInjuryTypeList());
             dispatch(getAllProvidersList());
             dispatch(getCaseStatusList());
+            dispatch(getProgressReportStatsList());
         }
     }, [token, dispatch])
 

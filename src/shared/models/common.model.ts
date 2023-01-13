@@ -89,3 +89,9 @@ export interface ICaseStatus {
     title:string,
     code: string
 }
+
+export interface IProgressReportStat {
+    _id : string,
+    name:string,
+    results: string[]
+}

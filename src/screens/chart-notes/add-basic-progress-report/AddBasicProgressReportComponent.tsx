@@ -14,19 +14,18 @@ import * as Yup from "yup";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {useNavigate} from "react-router-dom";
 
+const BasicProgressReportValidationSchema = Yup.object({
+    provider_name: Yup.string().required('Provider Name is required'),
+    therapist_name: Yup.string().required('Therapist Name is required'),
+});
 
 interface AddBasicProgressReportComponentProps {
-    isProgressReportDrawerOpen?: () => void;
+    onCancel?: () => void;
 }
 
 const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentProps) => {
 
-    const BasicProgressReportValidationSchema = Yup.object({
-        provider_name:Yup.string().required('Provider Name is required'),
-        therapist_name:Yup.string().required('Therapist Name is required'),
-    });
-
-    const {isProgressReportDrawerOpen} = props;
+    const {onCancel} = props;
     const [isProgressReportAddInProgress, setIsProgressReportAddInProgress] = useState<boolean>(false);
     const [addProgressReportBasicInitialValues, setAddProgressReportBasicInitialValues] = useState<any>({
         intervention_linked_to: '',
@@ -36,14 +35,14 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
         therapist_name: '',
     });
 
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     const {
         clientMedicalRecord,
     } = useSelector((state: IRootReducerState) => state.client);
 
     useEffect(() => {
         setAddProgressReportBasicInitialValues({
-            intervention_linked_to: CommonService.interventionLinkedToService(clientMedicalRecord),
+            intervention_linked_to: CommonService.generateInterventionNameFromMedicalRecord(clientMedicalRecord),
             onset_date: clientMedicalRecord?.onset_date,
             surgery_date: clientMedicalRecord?.surgery_date,
         })
@@ -53,22 +52,20 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
         const payload = {...values};
         if (clientMedicalRecord) {
             setIsProgressReportAddInProgress(true);
-            CommonService._client.AddBasicProgressReport(clientMedicalRecord?._id, payload)
-                .then((response:IAPIResponseType<any>) => {
+            CommonService._chartNotes.AddProgressReportUnderMedicalRecordAPICall(clientMedicalRecord?._id, payload)
+                .then((response: IAPIResponseType<any>) => {
                     setIsProgressReportAddInProgress(false);
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                    navigate(CommonService._routeConfig.ProgressReportBasicDetails(clientMedicalRecord?._id));
-
-                }).catch((error:any) => {
+                    navigate(CommonService._routeConfig.MedicalRecordProgressReportAdvancedDetailsUpdate(clientMedicalRecord?._id, response.data._id));
+                }).catch((error: any) => {
                 CommonService.handleErrors(setErrors, error, true);
                 setIsProgressReportAddInProgress(false);
             });
         }
-    }, [clientMedicalRecord,navigate])
+    }, [clientMedicalRecord, navigate])
 
     return (
         <div className={'add-basic-progress-report-component'}>
-
             <FormControlLabelComponent size={'lg'} label={'Add Basic Progress Report'}/>
             <div className={'add-progress-report-container'}>
                 <Formik initialValues={addProgressReportBasicInitialValues}
@@ -78,7 +75,7 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
                         validateOnBlur={true}
                         enableReinitialize={true}
                         validateOnMount={true}>
-                    {({values, isValid,touched, errors, setFieldValue, validateForm}) => {
+                    {({values, isValid, touched, errors, setFieldValue, validateForm}) => {
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
                             validateForm();
@@ -163,7 +160,7 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
                                         <ButtonComponent
                                             variant={"outlined"}
                                             id={"medical_intervention_add_cancel_btn"}
-                                            onClick={isProgressReportDrawerOpen}
+                                            onClick={onCancel}
                                         >
                                             Cancel
                                         </ButtonComponent>

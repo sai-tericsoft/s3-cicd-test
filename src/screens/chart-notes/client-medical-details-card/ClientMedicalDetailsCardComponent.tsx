@@ -268,8 +268,10 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                      showClose={true}
                                      closeOnEsc={false}
                                      closeOnBackDropClick={false}
-                                     onClose={()=>setIsProgressReportDrawerOpen(false)}>
-                        <AddBasicProgressReportComponent isProgressReportDrawerOpen={()=>setIsProgressReportDrawerOpen(false)} />
+                                     onClose={() => setIsProgressReportDrawerOpen(false)}>
+                        <AddBasicProgressReportComponent
+                            onCancel={() => setIsProgressReportDrawerOpen(false)}
+                        />
                     </DrawerComponent>
                 </>
 
