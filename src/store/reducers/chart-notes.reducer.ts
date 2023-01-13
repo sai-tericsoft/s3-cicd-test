@@ -7,8 +7,9 @@ import {
     SET_CLIENT_MEDICAL_INTERVENTION_DETAILS,
     SET_MEDICAL_INTERVENTION_DETAILS,
     GET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS,
-    SET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS
+    SET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS, REFRESH_SURGERY_RECORDS
 } from "../actions/chart-notes.action";
+import {CommonService} from "../../shared/services";
 
 export interface IChartNotesReducerState {
     isMedicalInterventionDetailsLoading: boolean,
@@ -27,6 +28,7 @@ export interface IChartNotesReducerState {
     isClientMedicalRecordProgressReportDetailsLoaded: boolean,
     isClientMedicalRecordProgressReportDetailsLoadingFailed: boolean,
     clientMedicalRecordProgressReportDetails?: any,
+    refreshSurgeryRecords?: string
 
 }
 
@@ -47,12 +49,16 @@ const initialData: IChartNotesReducerState = {
     isClientMedicalRecordProgressReportDetailsLoaded: false,
     isClientMedicalRecordProgressReportDetailsLoadingFailed: false,
     clientMedicalRecordProgressReportDetails: undefined,
+    refreshSurgeryRecords: '',
 
 
 };
 
 const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNotesReducerState => {
     switch (action.type) {
+        case REFRESH_SURGERY_RECORDS:
+            state = {...state, refreshSurgeryRecords: CommonService.getRandomID(3)}
+            return state;
         case GET_MEDICAL_INTERVENTION_DETAILS:
             state = {
                 ...state,

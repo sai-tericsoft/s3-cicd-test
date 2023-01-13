@@ -22,6 +22,7 @@ import {ListItem} from "@mui/material";
 import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
 import AddSurgeryRecordComponent from "../add-surgery-record/AddSurgeryRecordComponent";
 import AddBasicProgressReportComponent from "../add-basic-progress-report/AddBasicProgressReportComponent";
+import {refreshSurgeryRecords} from "../../../store/actions/chart-notes.action";
 
 interface ClientMedicalDetailsCardComponentProps {
     showAction?: boolean
@@ -138,6 +139,7 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                                medicalRecordDetails={clientMedicalRecord}
                                                onSave={() => {
                                                    dispatch(getClientMedicalRecord(medicalRecordId));
+                                                   dispatch(refreshSurgeryRecords());
                                                    setIsSurgeryAddOpen(false);
                                                }}/>
                 </DrawerComponent>
