@@ -195,18 +195,18 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                 </DataLabelValueComponent>
                                 <DataLabelValueComponent label={'File Created On:'} direction={"row"}
                                                          className={'intervention-injury-details-wrapper'}>
-                                    {(medicalInterventionDetails.created_at ? moment(medicalInterventionDetails.created_at).tz(moment.tz.guess()).format('DD-MM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
-                                    {medicalInterventionDetails?.created_by_details?.first_name ? medicalInterventionDetails?.created_by_details?.first_name + ' ' + medicalInterventionDetails?.created_by_details?.last_name : ' NA'}
+                                    {(medicalInterventionDetails?.created_at ? moment(medicalInterventionDetails?.created_at).tz(moment.tz.guess()).format('DD-MM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
+                                    {medicalInterventionDetails?.created_by_details?.first_name ? medicalInterventionDetails?.created_by_details?.first_name + ' ' + medicalInterventionDetails?.created_by_details?.last_name : ' N/A'}
                                 </DataLabelValueComponent>
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-md-3'}>
                                         <DataLabelValueComponent label={'Date of Intervention'}>
-                                            {medicalInterventionDetails?.intervention_date ? CommonService.getSystemFormatTimeStamp(medicalInterventionDetails?.intervention_date) : "-"}
+                                            {medicalInterventionDetails?.intervention_date ? CommonService.getSystemFormatTimeStamp(medicalInterventionDetails?.intervention_date) : "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-3'}>
                                         <DataLabelValueComponent label={'Treated by'}>
-                                            {medicalInterventionDetails?.treated_by_details?.first_name ? (medicalInterventionDetails?.treated_by_details?.first_name + ' ' + medicalInterventionDetails?.treated_by_details?.last_name) : "-"}
+                                            {medicalInterventionDetails?.treated_by_details?.first_name ? (medicalInterventionDetails?.treated_by_details?.first_name + ' ' + medicalInterventionDetails?.treated_by_details?.last_name) : "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-3'}>
@@ -216,7 +216,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                     </div>
                                     <div className={'ts-col-md-3'}>
                                         <DataLabelValueComponent label={'Next Appointment'}>
-                                            {medicalInterventionDetails?.medical_record_details?.case_physician?.next_appointment || "N/A"}
+                                            {medicalInterventionDetails?.medical_record_details?.case_physician?.next_appointment ? CommonService.getSystemFormatTimeStamp(medicalInterventionDetails?.medical_record_details?.case_physician?.next_appointment) : "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
                                 </div>

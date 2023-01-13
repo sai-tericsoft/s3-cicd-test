@@ -194,7 +194,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
                             formik.validateForm();
-                        }, [formik.validateForm, formik.values]);
+                        }, [formik]);
                         return (
                             <Form noValidate={true} className={'t-form'}>
                                 <CardComponent title={'Synopsis'}>
