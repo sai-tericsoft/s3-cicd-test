@@ -129,6 +129,7 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
                                                     {
                                                         (field: FieldProps) => (
                                                             <FormikTextAreaComponent
+                                                                id={"prescription_input"}
                                                                 label={"Prescription Medications"}
                                                                 placeholder={"Prescription Medications"}
                                                                 required={true}
@@ -142,6 +143,7 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
                                                     {
                                                         (field: FieldProps) => (
                                                             <FormikTextAreaComponent
+                                                                id={"non_prescription_input"}
                                                                 label={"Non-Prescription Medications / Supplements"}
                                                                 placeholder={"Non-Prescription Medications / Supplements"}
                                                                 required={true}
@@ -155,6 +157,7 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
                                         </div>
                                         <div className="t-form-actions">
                                             <ButtonComponent
+                                                id={"home_btn"}
                                                 variant={"outlined"}
                                                 onClick={onCancel}
                                                 disabled={isClientMedicalSupplementsSavingInProgress}
@@ -162,6 +165,7 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
                                                 Home
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
+                                                id={"save_next_btn"}
                                                 isLoading={isClientMedicalSupplementsSavingInProgress}
                                                 disabled={isClientMedicalSupplementsSavingInProgress || !isValid || CommonService.isEqual(values, clientMedicalSupplementsInitialValues)}
                                                 type={"submit"}
@@ -171,6 +175,7 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
                                             {
                                                 mode === "edit" && <>
                                                     &nbsp;&nbsp;<ButtonComponent
+                                                    id={"next_btn"}
                                                     disabled={isClientMedicalSupplementsSavingInProgress || !CommonService.isEqual(values, clientMedicalSupplementsInitialValues)}
                                                     onClick={onNext}
                                                 >

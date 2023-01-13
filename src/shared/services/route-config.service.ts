@@ -138,12 +138,17 @@ const MedicalInterventionDetails = (medicalRecordId: string, medicalIntervention
     // return '/chart-notes/intervention-details/' + medicalInterventionId
     return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/add-medical-intervention';
 }
+
 const MedicalRecordSurgeryRecordDetails = (medicalRecordId: string, surgeryRecordId: string) => {
     return '/chart-notes/' + medicalRecordId + '/surgery-record/' + surgeryRecordId;
 }
 
 const MedicalRecordProgressReportAdvancedDetailsUpdate = (medicalRecordId: string, progressReportId:string) =>{
     return  '/chart-notes/'+ medicalRecordId + '/' + progressReportId +'/progress-report-advance-details-update';
+}
+
+const MedicalInterventionFinalizeTreatment = (medicalRecordId: string, medicalInterventionId: string) => {
+    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/finalize-treatment';
 }
 
 const RouteConfigService = {
@@ -179,7 +184,7 @@ const RouteConfigService = {
     MedicalInterventionDetails,
     MedicalRecordSurgeryRecordDetails,
     MedicalRecordProgressReportAdvancedDetailsUpdate
-
+    MedicalInterventionFinalizeTreatment
 }
 
 export default RouteConfigService;

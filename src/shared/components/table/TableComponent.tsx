@@ -67,22 +67,19 @@ const TableComponent = (props: TableComponentProps) => {
         }
     }, [onSort]);
 
-    useEffect(() => {
-        console.log('data changes', props.data);
-    }, [props.data]);
-
     return (
         <div className={'table-component'}>
             <Table
                 id={id}
                 rowSelection={rowSelection}
-                expandable={expandRow && {
-                    // expandedRowKeys: rowKey ? data.map(rowKey) : [], // todo: make it unique if required
-                    showExpandColumn: showExpandColumn,
-                    defaultExpandAllRows: defaultExpandAllRows,
-                    expandedRowRender: expandRow,
-                    expandRowByClick: !!expandRow
-                }}
+                expandable={{
+                        // expandedRowKeys: rowKey ? data.map(rowKey) : [], // todo: make it unique if required
+                        showExpandColumn: showExpandColumn,
+                        defaultExpandAllRows: defaultExpandAllRows,
+                        expandedRowRender: expandRow,
+                        expandRowByClick: !!expandRow
+                    }
+                }
                 columns={tableColumns}
                 className={`${loading ? "loading" : ""}`}
                 locale={{
@@ -122,7 +119,7 @@ const TableComponent = (props: TableComponentProps) => {
                 onChange={handleTableChange}
                 pagination={false}
                 tableLayout={tableLayout}
-                scroll={scroll === "scroll" ? {x: "100%", y: "calc(100% - 54px)"} : undefined}
+                scroll={scroll === "scroll" ? {x: "100%", y: "inherit"} : undefined}
             />
         </div>
     );

@@ -20,6 +20,7 @@ interface RomConfigComponentProps {
     medicalInterventionDetails: any;
     medicalInterventionId: string;
     bodyPart: IBodyPart;
+    rom_config?: any[];
     selectedBodySides: string[];
     onDelete?: (body_part_id: string) => void;
     onSave?: (romConfig: string) => void;
@@ -31,7 +32,7 @@ interface IROMConfig extends IBodyPart {
 
 const RomConfigComponent = (props: RomConfigComponentProps) => {
 
-    const {medicalInterventionId, medicalInterventionDetails, selectedBodySides, bodyPart, onDelete} = props;
+    const {medicalInterventionId, medicalInterventionDetails, rom_config, selectedBodySides, bodyPart, onDelete} = props;
     const [bodySides, setBodySides] = useState<string[]>(selectedBodySides);
     const [romConfigValues, setRomConfigValues] = useState<IROMConfig | any | undefined>({});
     const [showROMMovementCommentsModal, setShowROMMovementCommentsModal] = useState<boolean>(false);
@@ -116,6 +117,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
             title: '',
             key: 'comments',
             width: 80,
+            fixed: 'right',
             render: (index: any, record: any) => <Field
                     name={`${bodyPart._id}.${record?.name}.comment`}
                     className="t-form-control">
@@ -125,6 +127,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                 color={field.form.values[bodyPart._id]?.[record?.name].comment ? "primary" : "inherit"}
                                 onClick={() => {
                                     setShowROMMovementCommentsModal(true);
+                                    console.log(record);
                                     setSelectedROMMovementComments(record);
                                 }}>
                                 {
@@ -142,25 +145,31 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
     const generateROMConfigForAnInjury = useCallback((bodyPart: IBodyPart) => {
         const bodyPartConfig: any = _.cloneDeep(bodyPart);
         bodyPartConfig.movements = bodyPart?.movements?.map((movement: any, index: number) => {
-            return {...movement, comment: "", commentTemp: ""};
+            const movement_data = rom_config?.find((rom: any) => rom?.movement_name === movement?.name);
+            return {...movement, ...movement_data, comment: "", commentTemp: ""};
         });
+        bodyPartConfig.selected_sides = _.cloneDeep(bodySides);
         bodyPartConfig.tableConfig = generateROMConfigColumns(bodyPartConfig);
         bodyPartConfig[bodyPart._id] = {};
         bodyPartConfig.movements?.forEach((movement: any) => {
+            const config = movement?.config;
             bodyPartConfig[bodyPart._id][movement.name] = {
-                comment: movement.comment,
-                commentTemp: movement.comment,
+                comment: config?.comment,
+                commentTemp: config?.commentTemp || config?.comment,
             };
             bodySides?.forEach((side: any) => {
-                bodyPartConfig[bodyPart._id][movement.name][side] = {
-                    arom: "",
-                    prom: "",
-                    strength: "",
+                if (movement.config && Object.keys(movement.config).includes(side)) {
+                    const configSideData = movement?.config[side];
+                    bodyPartConfig[bodyPart._id][movement.name][side] = {
+                        arom: configSideData?.arom,
+                        prom: configSideData?.prom,
+                        strength: configSideData?.strength,
+                    }
                 }
             });
         });
         return bodyPartConfig;
-    }, [bodySides, generateROMConfigColumns]);
+    }, [bodySides, rom_config, generateROMConfigColumns]);
 
     useEffect(() => {
         if (bodyPart) {
@@ -213,7 +222,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
         const config = values[values._id];
         const payload: any = {
             rom_config: [],
-            mode: "add"
+            selected_sides: values.selected_sides
         };
         Object.keys(config).forEach((movement: string) => {
             payload.rom_config.push({
@@ -270,7 +279,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                                     return <CheckBoxComponent
                                                         label={side}
                                                         key={index + side}
-                                                        disabled={selectedBodySides.includes(side)}
+                                                        // disabled={selectedBodySides?.includes(side)}
                                                         checked={bodySides?.includes(side)}
                                                         onChange={(isChecked) => {
                                                             handleBodySideSelect(isChecked, side);
@@ -336,6 +345,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                                                 placeholder={"Enter your comments here..."}
                                                                 formikField={field}
                                                                 size={"small"}
+                                                                autoFocus={true}
                                                                 fullWidth={true}
                                                             />
                                                         )

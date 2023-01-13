@@ -33,6 +33,7 @@ const MEDICAL_INTERVENTION_VIEW = '/chart-notes/:medicalRecordId/:medicalInterve
 const MEDICAL_INTERVENTION_ROM_CONFIG = '/chart-notes/:medicalRecordId/:medicalInterventionId/rom-config';
 const MEDICAL_INTERVENTION_SPECIAL_TESTS = '/chart-notes/:medicalRecordId/:medicalInterventionId/special-tests';
 const MEDICAL_INTERVENTION_ICD_CODES = '/chart-notes/:medicalRecordId/:medicalInterventionId/icd-codes';
+const MEDICAL_INTERVENTION_FINALIZE_TREATMENT = '/chart-notes/:medicalRecordId/:medicalInterventionId/finalize-treatment';
 const MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE = '/chart-notes/:medicalRecordId/:medicalInterventionId/exercise-log-update';
 const MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW = '/chart-notes/:medicalRecordId/:medicalInterventionId/exercise-log-view';
 const MEDICAL_RECORD_LIST = '/chart-notes/:clientId/medical-record-list';
@@ -88,5 +89,5 @@ export {
     MEDICAL_INTERVENTION_SURGERY_RECORD_DETAILS,
     ADD_PROGRESS_BASIC_REPORT,
     MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE
-
+    MEDICAL_INTERVENTION_FINALIZE_TREATMENT
 };

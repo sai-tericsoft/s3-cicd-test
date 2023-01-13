@@ -86,7 +86,9 @@ const ConfirmationComponent = (props: ConfirmationComponentProps) => {
                 <div className="confirmation-dialog-sub-title-and-description">
                     {config?.image && <div className="confirmation-dialog-image-container">
                         <div className={"confirmation-dialog-image"}>
-                            <img src={config?.image} alt={config?.confirmationTitle}/>
+                            {(typeof (config.image) === 'string') &&
+                                <img src={config.image} alt={config?.confirmationTitle}/>}
+                            {(typeof (config.image) !== 'string') && <config.image/>}
                         </div>
                     </div>}
                     <div className={"confirmation-dialog-title"}>

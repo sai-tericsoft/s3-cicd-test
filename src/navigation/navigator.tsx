@@ -46,6 +46,7 @@ import {
     MEDICAL_INTERVENTION_DETAILS,
     MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE,
     MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW,
+    MEDICAL_INTERVENTION_FINALIZE_TREATMENT,
     MEDICAL_INTERVENTION_ICD_CODES,
     MEDICAL_INTERVENTION_ROM_CONFIG,
     MEDICAL_INTERVENTION_SPECIAL_TESTS,
@@ -83,6 +84,8 @@ import MedicalInterventionICDCodesScreen
 import SurgeryRecordViewScreen from "../screens/chart-notes/surgery-record-view/SurgeryRecordViewScreen";
 import ProgressRecordAdvancedDetailsUpdateScreen
     from "../screens/chart-notes/progress-record-advanced-details-update/ProgressRecordAdvancedDetailsUpdateScreen";
+import MedicalInterventionFinalizeTreatmentScreen
+    from "../screens/chart-notes/medical-intervention-finalize-treatment/MedicalInterventionFinalizeTreatmentScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -296,6 +299,12 @@ const Navigator = (props: NavigatorProps) => {
                 <Route path={MEDICAL_INTERVENTION_ICD_CODES}
                        element={<ProtectedRoute>
                            <MedicalInterventionICDCodesScreen/>
+                       </ProtectedRoute>
+                       }
+                />
+                <Route path={MEDICAL_INTERVENTION_FINALIZE_TREATMENT}
+                       element={<ProtectedRoute>
+                           <MedicalInterventionFinalizeTreatmentScreen/>
                        </ProtectedRoute>
                        }
                 />

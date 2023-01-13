@@ -18,7 +18,9 @@ interface ExerciseLogAttachmentListComponentProps {
 
 const ExerciseLogAttachmentListComponent = (props: ExerciseLogAttachmentListComponentProps) => {
 
-    const {interventionId} = useParams();
+    const {medicalInterventionId} = useParams();
+    const [isAttachmentBeingUploaded, setIsAttachmentBeingUploaded] = React.useState<boolean>(false);
+    const [isAttachmentBeingDeleted, setIsAttachmentBeingDeleted] = React.useState<boolean>(false);
     const dispatch = useDispatch();
     const {
         attachmentList,
@@ -28,10 +30,10 @@ const ExerciseLogAttachmentListComponent = (props: ExerciseLogAttachmentListComp
     } = useSelector((state: IRootReducerState) => state.chartNotes);
 
     useEffect(() => {
-        if (interventionId) {
-            dispatch(getInterventionAttachmentList(interventionId))
+        if (medicalInterventionId) {
+            dispatch(getInterventionAttachmentList(medicalInterventionId));
         }
-    }, [interventionId, dispatch]);
+    }, [medicalInterventionId, dispatch]);
 
     const hiddenFileInput = React.useRef<any>(null);
 
@@ -39,30 +41,37 @@ const ExerciseLogAttachmentListComponent = (props: ExerciseLogAttachmentListComp
         hiddenFileInput.current.click();
     }, []);
 
+    const handleFileSubmit = useCallback((event: any) => {
+        if (medicalInterventionId) {
+            setIsAttachmentBeingUploaded(true);
+            const formData = CommonService.getFormDataFromJSON({attachment: event.target.files[0]});
+            event.target.value = null;
+            CommonService._chartNotes.AddExerciseLogAttachment(medicalInterventionId, formData)
+                .then((response: any) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    dispatch(getInterventionAttachmentList(medicalInterventionId));
+                    setIsAttachmentBeingUploaded(false);
+                })
+                .catch((error: any) => {
+                    setIsAttachmentBeingUploaded(false);
+                    CommonService._alert.showToast(error[Misc.API_RESPONSE_MESSAGE_KEY], "error");
+                })
+        }
+    }, [dispatch, medicalInterventionId])
 
-    const handleFileSubmit = useCallback((values: any) => {
-        const formData = CommonService.getFormDataFromJSON({attachment: values.target.files[0]});
-        CommonService._chartNotes.AddExerciseLogAttachment(interventionId, formData)
-            .then((response: any) => {
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                dispatch(getInterventionAttachmentList(interventionId));
-            })
-            .catch((error: any) => {
-                CommonService._alert.showToast(error[Misc.API_RESPONSE_MESSAGE_KEY], "error");
-            })
-    }, [dispatch, interventionId])
-
-
-    const removeAttachment = useCallback((item: any, interventionId: string) => {
+    const removeAttachment = useCallback((item: any, medicalInterventionId: string) => {
         CommonService.onConfirm({
             confirmationTitle: 'Do you want to remove this attachment',
             confirmationSubTitle: `Do you want to remove "${item.name}" this attachment"?`
         }).then(() => {
-            CommonService._chartNotes.RemoveExerciseLogAttachmentAPICall(interventionId, item._id, {})
+            setIsAttachmentBeingDeleted(true);
+            CommonService._chartNotes.RemoveExerciseLogAttachmentAPICall(medicalInterventionId, item._id, {})
                 .then((response) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                    dispatch(getInterventionAttachmentList(interventionId));
+                    dispatch(getInterventionAttachmentList(medicalInterventionId));
+                    setIsAttachmentBeingDeleted(false);
                 }).catch((error: any) => {
+                setIsAttachmentBeingDeleted(false);
                 CommonService._alert.showToast(error.error || "Error deleting attachment", "error");
             })
         })
@@ -71,15 +80,17 @@ const ExerciseLogAttachmentListComponent = (props: ExerciseLogAttachmentListComp
     return (
         <div className={'exercise-log-attachment-list-component'}>
             <div className={'exercise-log-attachment-add-component'}>
-                <input type={"file"} ref={hiddenFileInput} onChange={handleFileSubmit} style={{display: 'none'}}/>
+                <input type={"file"} ref={hiddenFileInput} accept={"application/pdf"} onChange={handleFileSubmit}
+                       style={{display: 'none'}}/>
             </div>
             <>
                 {
-                    !interventionId && <StatusCardComponent title={"Intervention ID missing. Cannot fetch details"}/>
+                    !medicalInterventionId &&
+                    <StatusCardComponent title={"Intervention ID missing. Cannot fetch details"}/>
                 }
             </>
             {
-                interventionId && <>
+                medicalInterventionId && <>
                     {
                         isAttachmentListLoading && <div>
                             <LoaderComponent/>
@@ -90,36 +101,37 @@ const ExerciseLogAttachmentListComponent = (props: ExerciseLogAttachmentListComp
                         <StatusCardComponent title={"Failed to fetch attachment list"}/>
                     }
                     {
-                        (isAttachmentListLoaded && attachmentList.attachments.length > 0) && <>
+                        isAttachmentListLoaded && <>
                             <CardComponent title={'Attachments'}
                                            actions={<ButtonComponent
-                                               disabled={isAttachmentListLoading}
+                                               disabled={isAttachmentListLoading || isAttachmentBeingUploaded}
+                                               isLoading={isAttachmentBeingUploaded}
                                                onClick={handleClick}
                                                prefixIcon={<ImageConfig.AddIcon/>}>
-                                               Add
-                                               Exercise Log</ButtonComponent>}>
-                                {attachmentList?.attachments?.map((attachment: any) => {
-                                    return <span className={'chip-wrapper'}>
-                                        <ChipComponent className={'chip chip-items'} label={attachment.name}
+                                               Add Exercise Log</ButtonComponent>}>
+                                <>
+                                    {(attachmentList.attachments.length > 0) &&
+                                        <>
+                                            {attachmentList?.attachments?.map((attachment: any) => {
+                                                return <span className={'chip-wrapper'}>
+                                        <ChipComponent className={'chip chip-items'}
+                                                       disabled={isAttachmentBeingDeleted}
+                                                       label={attachment.name}
                                                        prefixIcon={<ImageConfig.PDF_ICON/>}
-                                                       onDelete={() => removeAttachment(attachment, interventionId)}/>
-                                    </span>
-                                })}
-
+                                                       onDelete={() => removeAttachment(attachment, medicalInterventionId)}/>
+                                                </span>
+                                            })}
+                                        </>
+                                    }
+                                    {(attachmentList?.attachments?.length === 0) &&
+                                        <StatusCardComponent title={'No Attachments'}/>
+                                    }
+                                </>
                             </CardComponent>
-                        </>
-                    }
-                    {
-                        (isAttachmentListLoaded && !attachmentList.attachments.length) &&
-                        <> <CardComponent title={'Attachments'}>
-                            <StatusCardComponent title={'No Attachments'}/>
-                        </CardComponent>
                         </>
                     }
                 </>
             }
-
-
         </div>
     );
 

@@ -330,8 +330,10 @@
 }
 
 .chip {
+  text-transform: capitalize;
+
   &.active {
-    background: #E4F6EA;
+    background: #BDE8CA;
     color: #00534F;
   }
 
@@ -339,12 +341,14 @@
     background: #F4F4F8;
     color: #787879;
   }
-  &.completed{
+
+  &.completed {
     background: #E4F6EA;
     color: #00534F;
   }
-  &.draft{
-    background:#FFEDDD;
+
+  &.draft {
+    background: #FFEDDD;
     color: #EF7300;
   }
 }
@@ -391,7 +395,7 @@
   }
 }
 
-.intervention-rom-config-add-body-part-modal{
+.intervention-rom-config-add-body-part-modal {
   .modal-content-wrapper {
     min-width: 900px;
   }

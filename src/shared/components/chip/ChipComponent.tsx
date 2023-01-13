@@ -39,7 +39,7 @@ const ChipComponent = (props: ChipComponentProps) => {
               id={id}
               color={color}
               size={size}
-             icon={prefixIcon}
+              icon={prefixIcon}
               variant={variant}
               disabled={disabled}
               className={'chip ' + className}

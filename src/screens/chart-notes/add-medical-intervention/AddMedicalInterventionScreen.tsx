@@ -1,6 +1,6 @@
 import "./AddMedicalInterventionScreen.scss";
 import * as Yup from "yup";
-import {useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import React, {useCallback, useEffect, useState} from "react";
 import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
@@ -15,181 +15,21 @@ import FormikTextAreaComponent from "../../../shared/components/form-controls/fo
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
-import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
+import {getMedicalInterventionDetails, setMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
-import ClientMedicalDetailsCardComponent from "../client-medical-details-card/ClientMedicalDetailsCardComponent";
 import DraftReadonlySwitcherComponent from "../draft-readonly-switcher/DraftReadonlySwitcherComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
+import {ITableColumn} from "../../../shared/models/table.model";
+import ESignApprovalComponent from "../../../shared/components/e-sign-approval/ESignApprovalComponent";
+import moment from "moment-timezone";
+import MedicalInterventionDetailsCardComponent
+    from "../medical-intervention-details-card/MedicalInterventionDetailsCardComponent";
 
 interface AddMedicalInterventionScreenProps {
 
 }
 
-const ClientMedicalInterventionDetailsColumn: any = [
-    {
-        title: 'Movement',
-        dataIndex: 'movement_name',
-        key: 'name',
-        width: 147,
-        fixed: 'left',
-        align: "center",
-        render: (_: any, item: any) => {
-            return <div className={'movement-name'}>{item.movement_name}</div>
-        }
-    },
-    {
-        title: 'Left Side',
-        className: 'left_side',
-        children: [
-            {
-                title: 'AROM',
-                dataIndex: 'arom',
-                key: 'arom',
-                width: 87,
-                align: "center",
-                render: (_: any, item: any) => {
-                    return <div className={'movement-name'}>{item?.config?.Left?.arom || '-'}</div>
-                }
-            },
-            {
-                title: 'PROM',
-                dataIndex: 'prom',
-                key: 'prom',
-                width: 87,
-                align: "center",
-                render: (_: any, item: any) => {
-                    return <div className={'movement-name'}>{item?.config?.Left?.prom || "-"}</div>
-                }
-            },
-            {
-                title: 'Strength',
-                dataIndex: 'strength',
-                key: 'strength',
-                width: 107,
-                align: "center",
-                render: (_: any, item: any) => {
-                    return <div className={'movement-name'}>{item?.config?.Left?.strength || "-"}</div>
-                }
-            }
-        ]
-
-    },
-    {
-        title: 'Right Side',
-        children: [
-
-            {
-                title: 'AROM',
-                dataIndex: 'arom',
-                key: 'arom',
-                width: 87,
-                align: "center",
-                render: (_: any, item: any) => {
-                    return <div className={'movement-name'}>{item?.config?.Right?.arom || "-"}</div>
-                }
-            },
-            {
-                title: 'PROM',
-                dataIndex: 'prom',
-                key: 'prom',
-                width: 87,
-                align: "center",
-                render: (_: any, item: any) => {
-                    return <div className={'movement-name'}>{item?.config?.Right?.prom || "-"}</div>
-                }
-
-            },
-            {
-                title: 'Strength',
-                dataIndex: 'strength',
-                key: 'strength',
-                width: 107,
-                align: "center",
-                render: (_: any, item: any) => {
-                    return <div className={'movement-name'}>{item?.config?.Right?.strength || "-"}</div>
-                }
-
-            }
-        ]
-
-    },
-    {
-        title: 'Central',
-        children: [
-            {
-                title: 'AROM',
-                dataIndex: 'arom',
-                key: 'arom',
-                width: 87,
-                align: "center",
-                render: (_: any, item: any) => {
-                    return <div className={'movement-name'}>
-                        {item?.config?.Central?.arom || "-"}
-                    </div>
-                }
-
-            },
-            {
-                title: 'PROM',
-                dataIndex: 'prom',
-                key: 'prom',
-                width: 87,
-                align: "center",
-                render: (_: any, item: any) => {
-                    return <div className={'movement-name'}>{item?.config?.Central?.prom || "-"}</div>
-                }
-            },
-            {
-                title: 'Strength',
-                dataIndex: 'strength',
-                key: 'strength',
-                width: 107,
-                align: "center",
-                render: (_: any, item: any) => {
-                    return <div className={'movement-name'}>{item?.config?.Central?.strength || "-"}</div>
-                }
-            }
-        ]
-
-    },
-    {
-        title: 'Bilateral',
-        children: [
-            {
-                title: 'AROM',
-                dataIndex: 'arom',
-                key: 'arom',
-                width: 87,
-                align: "center",
-                render: (_: any, item: any) => {
-                    return <div className={'movement-name'}>{item?.config?.Bilateral?.arom || "-"}</div>
-                }
-            },
-            {
-                title: 'PROM',
-                dataIndex: 'prom',
-                key: 'prom',
-                width: 87,
-                align: "center",
-                render: (_: any, item: any) => {
-                    return <div className={'movement-name'}>{item?.config?.Bilateral?.prom || "-"}</div>
-                }
-            },
-            {
-                title: 'Strength',
-                dataIndex: 'strength',
-                key: 'strength',
-                width: 107,
-                align: "center",
-                render: (_: any, item: any) => {
-                    return <div className={'movement-name'}>{item?.config?.Bilateral?.strength || "-"}</div>
-                }
-            }
-        ]
-
-    },
-];
 const MedicalInterventionAddFormInitialValues: any = { // TODO type properly
     subjective: "",
     plan: {
@@ -212,8 +52,7 @@ const MedicalInterventionAddFormInitialValues: any = { // TODO type properly
     is_flagged: false
 };
 
-
-const specialDetailsColumns: any = [
+const SpecialTestsColumns: any = [
     {
         title: 'Test Name',
         dataIndex: 'name',
@@ -240,6 +79,7 @@ const specialDetailsColumns: any = [
         }
     }
 ];
+
 const ICDTableColumns: any = [
     {
         title: 'ICD Code',
@@ -261,26 +101,93 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {medicalInterventionDetails} = useSelector((state: IRootReducerState) => state.chartNotes);
-    console.log(medicalInterventionDetails, 'medicalInterventionDetails')
     const {medicalRecordId, medicalInterventionId} = useParams();
+    const location = useLocation();
+    const search = CommonService.parseQueryString(location.search);
     const [addMedicalInterventionFormInitialValues, setAddMedicalInterventionFormInitialValues] = useState<any>(_.cloneDeep(MedicalInterventionAddFormInitialValues));  // TODO type properly
+    const [isSigningInProgress, setIsSigningInProgress] = useState<boolean>(false);
+    const [isSavingInProgress, setIsSavingProgress] = useState<boolean>(false);
 
-    const onSubmit = useCallback((values: any, {setSubmitting, setErrors}: FormikHelpers<any>, announce = false) => {
+    const getMedicalInterventionROMConfigColumns = useCallback((body_part: any): ITableColumn[] => {
+        const ROMColumns: ITableColumn[] = [
+            {
+                title: 'Movement',
+                dataIndex: 'movement_name',
+                key: 'name',
+                width: 147,
+                fixed: 'left',
+                render: (_: any, item: any) => {
+                    return <div className={'movement-name'}>{item.movement_name}</div>
+                }
+            }
+        ];
+        (body_part?.selected_sides || []).forEach((side: any) => {
+            ROMColumns.push({
+                title: side,
+                className: side,
+                children: [
+                    {
+                        title: 'AROM',
+                        dataIndex: 'arom',
+                        key: 'arom',
+                        width: 87,
+                        render: (_: any, item: any) => {
+                            return <div className={'movement-name'}>{item?.config[side]?.arom || '-'}</div>
+                        }
+                    },
+                    {
+                        title: 'PROM',
+                        dataIndex: 'prom',
+                        key: 'prom',
+                        width: 87,
+                        render: (_: any, item: any) => {
+                            return <div className={'movement-name'}>{item?.config[side]?.prom || "-"}</div>
+                        }
+                    },
+                    {
+                        title: 'Strength',
+                        dataIndex: 'strength',
+                        key: 'strength',
+                        width: 107,
+                        render: (_: any, item: any) => {
+                            return <div className={'movement-name'}>{item?.config[side]?.strength || "-"}</div>
+                        }
+                    }
+                ]
+            });
+        });
+        return ROMColumns;
+    }, []);
+
+    const onSubmit = useCallback((values: any, {
+        setSubmitting,
+        setErrors
+    }: FormikHelpers<any>, announce = false, cb: any = null) => {
         if (medicalInterventionId) {
             setSubmitting(true);
+            setIsSavingProgress(true);
             CommonService._chartNotes.MedicalInterventionBasicDetailsUpdateAPICall(medicalInterventionId, values)
                 .then((response: IAPIResponseType<any>) => {
+                    dispatch(setMedicalInterventionDetails(response.data));
                     if (announce) {
                         CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     }
+                    setIsSavingProgress(false);
                     setSubmitting(false);
+                    if (cb) {
+                        cb();
+                    }
                 })
                 .catch((error: any) => {
                     CommonService.handleErrors(setErrors, error, true);
                     setSubmitting(false);
+                    setIsSavingProgress(false);
+                    if (cb) {
+                        cb();
+                    }
                 })
         }
-    }, [medicalInterventionId]);
+    }, [dispatch, medicalInterventionId]);
 
     useEffect(() => {
         if (medicalInterventionId) {
@@ -302,9 +209,30 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
         }
     }, [navigate, dispatch, medicalRecordId]);
 
+    const handleSign = useCallback((values: any, formik: FormikHelpers<any>) => {
+        setIsSigningInProgress(true);
+        values['is_signed'] = true;
+        onSubmit(values, formik, true, () => {
+            setIsSigningInProgress(false);
+        });
+    }, [onSubmit]);
+
     return (
         <div className={'add-medical-intervention-screen'}>
-            <ClientMedicalDetailsCardComponent/>
+            {medicalInterventionDetails && <div className="last-updated-status">
+                <div className="last-updated-status-text">Last Updated On:&nbsp;</div>
+                <div
+                    className="last-updated-status-bold">
+                    {(medicalInterventionDetails.updated_at ? moment(medicalInterventionDetails.updated_at).tz(moment.tz.guess()).format('DD-MM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
+                    {medicalInterventionDetails?.last_updated_by_details?.first_name ? medicalInterventionDetails?.last_updated_by_details?.first_name + ' ' + medicalInterventionDetails?.last_updated_by_details?.last_name : ' NA'}
+                </div>
+                {isSavingInProgress && <div className="last-updated-status-status">
+                    <ImageConfig.SYNC className={'spin-item'}
+                                      width={16}/>
+                    &nbsp;Saving...</div>}
+            </div>}
+            <MedicalInterventionDetailsCardComponent medicalInterventionDetails={medicalInterventionDetails}
+                                                     showAction={true}/>
             <Formik
                 validationSchema={MedicalInterventionAddFormValidationSchema}
                 initialValues={addMedicalInterventionFormInitialValues}
@@ -341,7 +269,17 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                     </LinkComponent>
                                 }
                             </div>
-                            <CardComponent title={'Subjective (S)'}>
+                            <CardComponent title={'Subjective (S)'}
+                                           actions={
+                                               search.showClear && <DraftReadonlySwitcherComponent
+                                                   condition={medicalInterventionDetails?.status === 'draft'}
+                                                   draft={<div className={'intervention-clear-button'} onClick={event => {
+                                                       formik.setFieldValue('subjective', '');
+                                                   }
+                                                   }>Clear</div>}
+                                                   readonly={<></>}/>
+                                           }
+                            >
                                 <div className="ts-row">
                                     <div className="ts-col-12">
                                         <DraftReadonlySwitcherComponent
@@ -376,6 +314,20 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                             </CardComponent>
                             <CardComponent title={'Objective (O)'}
                                            actions={<>
+                                               {search.showClear && <DraftReadonlySwitcherComponent
+                                                   condition={medicalInterventionDetails?.status === 'draft'}
+                                                   draft={<div className={'intervention-clear-button'}
+                                                               onClick={event => {
+                                                                   formik.setFieldValue('objective', {
+                                                                       observation: "",
+                                                                       palpation: "",
+                                                                       functional_tests: "",
+                                                                       treatment: "",
+                                                                       treatment_response: ""
+                                                                   });
+                                                               }
+                                                               }>Clear</div>}
+                                                   readonly={<></>}/>}&nbsp;&nbsp;
                                                <Field name={'is_flagged'}>
                                                    {
                                                        (field: FieldProps) => (
@@ -419,7 +371,6 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </div>
                                         }
                                         />
-
                                         <DraftReadonlySwitcherComponent
                                             condition={medicalInterventionDetails?.status === 'draft'} draft={
                                             <Field name={'objective.palpation'}>
@@ -448,28 +399,27 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                         }
                                         />
                                         <div className="card-styling padding-card-5 mrg-bottom-20">
-
                                             <CardComponent className={'white-card-header'}
-                                                title={"Range of Motion and Strength"}
-                                                actions={
-                                                    <DraftReadonlySwitcherComponent
-                                                        condition={medicalInterventionDetails?.status === 'draft'}
-                                                        draft={<>
-                                                            {
-                                                                (medicalInterventionId && medicalRecordId) &&
-                                                                <LinkComponent
-                                                                    route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId)}>
-                                                                    <ButtonComponent
-                                                                        prefixIcon={(medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0) ?
-                                                                            <ImageConfig.EditIcon/> :
-                                                                            <ImageConfig.AddIcon/>}>
-                                                                        {medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0 ? 'Edit' : 'Add'}
-                                                                    </ButtonComponent>
-                                                                </LinkComponent>
-                                                            }
-                                                        </>} readonly={<></>}
-                                                    />
-                                                }
+                                                           title={"Range of Motion and Strength"}
+                                                           actions={
+                                                               <DraftReadonlySwitcherComponent
+                                                                   condition={medicalInterventionDetails?.status === 'draft'}
+                                                                   draft={<>
+                                                                       {
+                                                                           (medicalInterventionId && medicalRecordId) &&
+                                                                           <LinkComponent
+                                                                               route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId)}>
+                                                                               <ButtonComponent
+                                                                                   prefixIcon={(medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0) ?
+                                                                                       <ImageConfig.EditIcon/> :
+                                                                                       <ImageConfig.AddIcon/>}>
+                                                                                   {medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0 ? 'Edit' : 'Add'}
+                                                                               </ButtonComponent>
+                                                                           </LinkComponent>
+                                                                       }
+                                                                   </>} readonly={<></>}
+                                                               />
+                                                           }
                                             >
 
                                                 {
@@ -499,15 +449,16 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                                             )
                                                                         }
                                                                     }
-                                                                    columns={ClientMedicalInterventionDetailsColumn}/>
+                                                                    columns={getMedicalInterventionROMConfigColumns(body_part)}/>
                                                             </>
                                                         )
                                                     })
                                                 }
                                             </CardComponent>
                                         </div>
-                                        <div className={"card-styling padding-card-5 mrg-bottom-20 " + ((medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0) ?
-                                            ' white-card-header ' : '')}>
+                                        <div
+                                            className={"card-styling padding-card-5 mrg-bottom-20 " + ((medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0) ?
+                                                ' white-card-header ' : '')}>
                                             <CardComponent title={"Special Test"}
                                                            actions={
                                                                <DraftReadonlySwitcherComponent
@@ -537,7 +488,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                         </CardComponent>
                                                         <TableComponent
                                                             data={body_part.special_tests}
-                                                            columns={specialDetailsColumns}
+                                                            columns={SpecialTestsColumns}
                                                             bordered={true}/>
                                                     </div>)
                                                 })}
@@ -633,7 +584,18 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                     </div>
                                 </div>
                             </CardComponent>
-                            <CardComponent title={'Assessment (A)'}>
+                            <CardComponent title={'Assessment (A)'} actions={
+                                search.showClear && <DraftReadonlySwitcherComponent
+                                    condition={medicalInterventionDetails?.status === 'draft'}
+                                    draft={<div className={'intervention-clear-button'} onClick={event => {
+                                        formik.setFieldValue('assessment', {
+                                            suspicion_index: '',
+                                            surgery_procedure: ''
+                                        });
+                                    }
+                                    }>Clear</div>}
+                                    readonly={<></>}/>
+                            }>
                                 <div className="ts-row">
                                     <div className="ts-col-12">
 
@@ -726,7 +688,20 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                     </div>
                                 </div>
                             </CardComponent>
-                            <CardComponent title={'Plan (P)'}>
+                            <CardComponent title={'Plan (P)'} actions={
+                                search.showClear && <DraftReadonlySwitcherComponent
+                                    condition={medicalInterventionDetails?.status === 'draft'}
+                                    draft={<div className={'intervention-clear-button'} onClick={event => {
+                                        formik.setFieldValue('plan', {
+                                            plan: "",
+                                            md_recommendations: "",
+                                            education: "",
+                                            treatment_goals: "",
+                                        });
+                                    }
+                                    }>Clear</div>}
+                                    readonly={<></>}/>
+                            }>
                                 <div className="ts-row">
                                     <div className="ts-col-12">
                                         <DraftReadonlySwitcherComponent
@@ -841,26 +816,33 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </div>
                                         }
                                         />
-
-
                                     </div>
+                                </div>
+                                <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>
+                                    <ESignApprovalComponent isSigned={medicalInterventionDetails?.is_signed}
+                                                            isSigning={isSigningInProgress}
+                                                            canSign={medicalInterventionDetails?.can_sign}
+                                                            signedAt={medicalInterventionDetails?.signed_on}
+                                                            onSign={() => {
+                                                                handleSign(formik.values, formik);
+                                                            }}/>
                                 </div>
                             </CardComponent>
                             <div className="t-form-actions">
                                 <ButtonComponent
-                                    variant={"outlined"}
-                                    disabled={formik.isSubmitting}
-                                    id={"medical_intervention_add_cancel_btn"}
-                                >
-                                    Cancel
-                                </ButtonComponent>
-                                &nbsp;
-                                <ButtonComponent
+                                    onClick={(event) => {
+                                        if (medicalInterventionDetails?.is_signed) {
+                                            if (medicalRecordId && medicalInterventionId) {
+                                                navigate(CommonService._routeConfig.MedicalInterventionFinalizeTreatment(medicalRecordId, medicalInterventionId));
+                                            }
+                                            event.preventDefault();
+                                        }
+                                    }}
                                     isLoading={formik.isSubmitting}
-                                    type={"submit"}
+                                    type={medicalInterventionDetails?.is_signed ? "button" : "submit"}
                                     id={"medical_intervention_add_save_btn"}
                                 >
-                                    {formik.isSubmitting ? "Saving" : "Save"}
+                                    {medicalInterventionDetails?.is_signed ? "Finalize treatment" : formik.isSubmitting ? "Saving" : "Save"}
                                 </ButtonComponent>
                             </div>
                         </Form>

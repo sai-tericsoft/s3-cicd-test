@@ -1,0 +1,15 @@
+@import "src/assets/styles/common";
+
+.page-header-component {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 6px 0 24px;
+
+  .page-header-title {
+    font-weight: $font-weight-bolder;
+    font-size: 1.2857rem;
+    letter-spacing: 0.5px;
+    color: #212B36;
+  }
+}

@@ -117,6 +117,7 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
                                             {
                                                 (field: FieldProps) => (
                                                     <FormikTextAreaComponent
+                                                        id={'allergies_input'}
                                                         formikField={field}
                                                         label={'Allergies'}
                                                         required={true}
@@ -127,6 +128,7 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
                                         </Field>
                                         <div className="t-form-actions">
                                             <ButtonComponent
+                                                id={"home"}
                                                 variant={"outlined"}
                                                 disabled={isClientAllergiesSavingInProgress}
                                                 onClick={onCancel}
@@ -134,6 +136,7 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
                                                 Home
                                             </ButtonComponent>&nbsp;&nbsp;
                                             <ButtonComponent
+                                                id={"save_next_btn"}
                                                 isLoading={isClientAllergiesSavingInProgress}
                                                 disabled={isClientAllergiesSavingInProgress || !isValid || CommonService.isEqual(values, clientAllergiesFormInitialValues)}
                                                 type={"submit"}
@@ -143,6 +146,7 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
                                             {
                                                 mode === "edit" && <>
                                                     &nbsp;&nbsp;<ButtonComponent
+                                                        id={"next_btn"}
                                                         disabled={isClientAllergiesSavingInProgress || !CommonService.isEqual(values, clientAllergiesFormInitialValues)}
                                                         onClick={onNext}
                                                     >

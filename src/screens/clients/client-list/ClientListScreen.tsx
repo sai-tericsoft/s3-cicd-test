@@ -83,7 +83,7 @@ const ClientListScreen = (props: ClientListScreenProps) => {
                     </div>
                 </div>
                 <div className="list-options">
-                    <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>} onClick={handleClientAdd}>
+                    <ButtonComponent id={'add_client_btn'} prefixIcon={<ImageConfig.AddIcon/>} onClick={handleClientAdd}>
                         Add Client
                     </ButtonComponent>
                 </div>
