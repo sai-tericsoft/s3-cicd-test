@@ -7,9 +7,10 @@ import {
     setInterventionAttachmentList,
     GET_CLIENT_MEDICAL_INTERVENTION_DETAILS,
     setClientMedicalInterventionDetails,
-    setMedicalInterventionDetails,setProgressReportViewDetails
-    setMedicalInterventionDetails, GET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS, setMedicalRecordProgressReportDetails
+    setProgressReportViewDetails,
+    setMedicalInterventionDetails, setMedicalRecordProgressReportDetails, GET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS,
 } from "../actions/chart-notes.action";
+
 import {GET_PROGRESS_REPORT_VIEW_DETAILS} from "../actions/chart-notes.action";
 
 function* getMedicalInterventionDetails(action: any) {

@@ -1,5 +1,5 @@
 import "./MedicalRecordProgressReportViewDetailsScreen.scss";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {useEffect} from "react";
@@ -13,6 +13,9 @@ import ESignApprovalComponent from "../../../shared/components/e-sign-approval/E
 import {CommonService} from "../../../shared/services";
 import {ImageConfig} from "../../../constants";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
+import LinkComponent from "../../../shared/components/link/LinkComponent";
+import {setCurrentNavParams} from "../../../store/actions/navigation.action";
+import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 
 interface ProgressReportViewDetailsComponentProps {
 
@@ -44,8 +47,9 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
         }
     ];
 
-    const {interventionId} = useParams();
+    const {progressReportId, medicalRecordId} = useParams();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const {
         isProgressReportDetailsLoaded,
@@ -55,26 +59,37 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
     } = useSelector((state: IRootReducerState) => state.chartNotes);
 
     useEffect(() => {
-        if (interventionId) {
-            dispatch(getProgressReportViewDetails(interventionId));
+        if (progressReportId) {
+            dispatch(getProgressReportViewDetails(progressReportId));
         }
-    }, [dispatch, interventionId]);
+    }, [dispatch, progressReportId]);
+
+    useEffect(() => {
+        dispatch(setCurrentNavParams("Progress Report Details", null, () => {
+            medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+        }));
+    }, [medicalRecordId, navigate, dispatch]);
 
     return (
         <div className={'progress-report-view-details-screen'}>
-            <div className={'progress-report-view-details-header'}>
-                <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>Edit Progress Report</ButtonComponent>
-            </div>
+            <PageHeaderComponent title={"Progress Report Details"} actions={<>
+                {
+                    (medicalRecordId && progressReportId) && <LinkComponent
+                        route={CommonService._routeConfig.MedicalRecordProgressReportAdvancedDetailsUpdate(medicalRecordId, progressReportId)}>
+                        <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>Edit Progress Report</ButtonComponent>
+                    </LinkComponent>
+                }
+            </>}/>
             <div className={'progress-report-view-details-container'}>
                 <>
                     {
-                        !interventionId && (
-                            <StatusCardComponent title={'Intervention Id is missing cannot fetch details'}/>)
+                        !progressReportId && (
+                            <StatusCardComponent title={'Progress Report Id is missing cannot fetch details'}/>)
                     }
                 </>
                 <>
                     {
-                        interventionId && <>
+                        progressReportId && <>
                             {
                                 isProgressReportDetailsLoading && <LoaderComponent/>
                             }
@@ -98,6 +113,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                             <TableComponent data={progressReportDetails?.progress_stats}
                                                             columns={progressStatsColumn}
                                                             showExpandColumn={false}
+                                                            rowKey={(item: any, index)=> item._id}
                                             />
                                         </CardComponent>
                                         <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>

@@ -87,11 +87,13 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                         </LinkComponent>
                     } else if (item?.note_type?.toLowerCase() === "progress report") {
                         return <LinkComponent
-                            route={CommonService._routeConfig.ComingSoonRoute()}>
+                            route={CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId, item._id)}>
                             View Details
                         </LinkComponent>
                     } else {
-                        return <LinkComponent route={CommonService._routeConfig.ComingSoonRoute()}>Coming soon</LinkComponent>
+                        return <LinkComponent route={CommonService._routeConfig.ComingSoonRoute()}>
+                            Coming soon
+                        </LinkComponent>
                     }
                 }
             }
@@ -106,7 +108,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             )
                 .then((response: IAPIResponseType<any>) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                    navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, response?.data._id)+'?showClear=true');
+                    navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, response?.data._id) + '?showClear=true');
                 })
                 .catch((error: any) => {
                     CommonService._alert.showToast(error, "error");
@@ -173,13 +175,13 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
         [medicalRecordId, navigate],
     );
 
-
     return (
         <div className={'client-medical-records-component'}>
             <div className={'client-medical-records-header-button-wrapper'}>
                 <div className={'client-medical-records-header'}>Medical Records</div>
                 <div>
-                    <ButtonComponent onClick={confirmRepeatLastTreatment} className={'outlined-button'} variant={"outlined"}>Repeat
+                    <ButtonComponent onClick={confirmRepeatLastTreatment} className={'outlined-button'}
+                                     variant={"outlined"}>Repeat
                         Last
                         Treatment</ButtonComponent>
                     <ButtonComponent onClick={addNewTreatment} prefixIcon={<ImageConfig.AddIcon/>}>Add New

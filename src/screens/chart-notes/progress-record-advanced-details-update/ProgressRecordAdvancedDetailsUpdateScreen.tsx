@@ -69,6 +69,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                     (field: FieldProps) => (
                         <FormikRadioButtonGroupComponent
                             formikField={field}
+                            keyExtractor={(item: any) => item}
                             displayWith={(item: any) => item}
                             valueExtractor={(item: any) => item}
                             options={item?.results}/>
@@ -104,7 +105,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
     const patchDataToProgressReportForm = useCallback((data: any) => {
         const values = _.cloneDeep(data);
         values.progress_stats = {};
-        data.progress_stats.forEach((stat: any) => {
+        data.progress_stats?.forEach((stat: any) => {
             values.progress_stats[stat?.progress_stat_id] = {
                 result: stat?.result,
                 comments: stat?.comments,
@@ -117,19 +118,19 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
     const onSubmit = useCallback((values: any, {setSubmitting, setErrors}: FormikHelpers<any>, cb: any = undefined) => {
         const payload = _.cloneDeep(values);
         payload.progress_stats = [];
-        Object.keys(values.progress_stats).forEach((stat_id: any) => {
+        Object.keys(values?.progress_stats).forEach((stat_id: any) => {
             payload.progress_stats.push({
                 progress_stat_id: stat_id,
-                result: values.progress_stats[stat_id]?.result,
-                comment: values.progress_stats[stat_id]?.comments,
-                commentTemp: values.progress_stats[stat_id]?.commentsTemp
+                result: values?.progress_stats[stat_id]?.result,
+                comment: values?.progress_stats[stat_id]?.comments,
+                commentTemp: values?.progress_stats[stat_id]?.commentsTemp
             });
         });
         if (progressReportId) {
             setSubmitting(true);
             CommonService._chartNotes.UpdateProgressReportUnderMedicalRecordAPICall(progressReportId, payload)
                 .then((response) => {
-                    patchDataToProgressReportForm(response.data);
+                    patchDataToProgressReportForm(response?.data);
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     setSubmitting(false);
                     if (cb) {
@@ -191,10 +192,6 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                         validateOnMount={true}
                 >
                     {(formik) => {
-                        // eslint-disable-next-line react-hooks/rules-of-hooks
-                        useEffect(() => {
-                            formik.validateForm();
-                        }, [formik]);
                         return (
                             <Form noValidate={true} className={'t-form'}>
                                 <CardComponent title={'Synopsis'}>
@@ -239,12 +236,14 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                 <CardComponent title={'Progress Stats:'}>
                                     <TableComponent data={progressReportStatList}
                                                     loading={isProgressReportStatListLoading}
-                                                    columns={ProgressStatsColumns}/>
+                                                    columns={ProgressStatsColumns}
+                                                    rowKey={(item: any) => item?._id}
+                                    />
                                     {
                                         progressReportStatList?.map((stat: IProgressReportStat, index: number) => {
                                             if (showProgressStatCommentsModal && stat._id === selectedProgressStatComments?._id) {
                                                 return <ModalComponent
-                                                    key={index + stat._id}
+                                                    key={stat?._id}
                                                     isOpen={showProgressStatCommentsModal}
                                                     title={`${formik.values?.progress_report?.[selectedProgressStatComments._id]?.comments ? "Edit Comments" : "Comments:"}`}
                                                     closeOnBackDropClick={true}

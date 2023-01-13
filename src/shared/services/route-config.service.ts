@@ -151,6 +151,11 @@ const MedicalInterventionFinalizeTreatment = (medicalRecordId: string, medicalIn
     return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/finalize-treatment';
 }
 
+const MedicalRecordProgressReportViewDetails = (medicalRecordId: string, progressReportId: string) => {
+    return "/chart-notes/" + medicalRecordId + "/" + progressReportId + '/progress-report-view-details';
+}
+
+
 const RouteConfigService = {
     DefaultRoute,
     LoginRoute,
@@ -184,7 +189,8 @@ const RouteConfigService = {
     MedicalInterventionDetails,
     MedicalRecordSurgeryRecordDetails,
     MedicalRecordProgressReportAdvancedDetailsUpdate,
-    MedicalInterventionFinalizeTreatment
+    MedicalInterventionFinalizeTreatment,
+    MedicalRecordProgressReportViewDetails
 
 }
 
