@@ -165,9 +165,9 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                 <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
                                         <span className={'client-name'}>
-                                        {clientMedicalRecord?.client_details?.first_name || "-"} {clientMedicalRecord?.client_details?.last_name || "-"}
-                                            </span>
-                                        <ChipComponent className={clientMedicalRecord?.status ? "active" : "inactive"}
+                                            {clientMedicalRecord?.client_details?.first_name || "-"} {clientMedicalRecord?.client_details?.last_name || "-"}
+                                        </span>
+                                        <ChipComponent className={clientMedicalRecord?.status === "open" ? "active" : "inactive"}
                                                        size={'small'}
                                                        label={clientMedicalRecord?.status || "-"}/>
                                     </span>
