@@ -1,5 +1,4 @@
 import "./MedicalInterventionExerciseLogViewScreen.scss";
-import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import {useNavigate, useParams} from "react-router-dom";
 import {CommonService} from "../../../shared/services";
 import React, {useCallback, useEffect, useState} from "react";

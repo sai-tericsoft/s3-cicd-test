@@ -184,7 +184,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                     setSubmitting(false);
                 });
         }
-    }, [medicalInterventionDetails, medicalInterventionId]);
+    }, [linkedCPTCodes, medicalInterventionId]);
 
     useEffect(() => {
         const linkedCPTCodesConfig: any = {};
