@@ -256,7 +256,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                 className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
                                 <FormControlLabelComponent label={"Soap Note"} className={"mrg-0"}/>
                                 {
-                                    (medicalInterventionId && medicalRecordId) && <LinkComponent
+                                    (medicalInterventionId && medicalRecordId && medicalInterventionDetails?.status === 'draft') && <LinkComponent
                                         route={CommonService._routeConfig.MedicalInterventionExerciseLogUpdate(medicalRecordId, medicalInterventionId)}>
                                         <ButtonComponent
                                             prefixIcon={medicalInterventionDetails?.is_having_exercise_log ?

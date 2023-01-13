@@ -9,6 +9,7 @@ import {IService} from "../../../shared/models/service.model";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {useDispatch} from "react-redux";
 import ClientMedicalDetailsCardComponent from "../client-medical-details-card/ClientMedicalDetailsCardComponent";
+import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 
 interface MedicalInterventionExerciseLogViewScreenProps {
 
@@ -91,8 +92,8 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
 
     return (
         <div className={'medical-intervention-exercise-log-view-screen'}>
+            <PageHeaderComponent title={"View Exercise Record"}/>
             <ClientMedicalDetailsCardComponent/>
-            <FormControlLabelComponent label={"View Exercise Record"}/>
             <div className={'medical-intervention-exercise-log-view-table-container'}>
                 <TableComponent data={medicalInterventionExerciseLogDetails?.exercise_records}
                                 loading={isMedicalInterventionExerciseLogDetailsLoading}
