@@ -58,11 +58,11 @@ const SaveMedicalInterventionExerciseLogAPICall = (medicalInterventionId: string
     return ApiService[APIConfig.SAVE_MEDICAL_INTERVENTION_EXERCISE_LOG.METHOD](APIConfig.SAVE_MEDICAL_INTERVENTION_EXERCISE_LOG.URL(medicalInterventionId), payload);
 }
 
-
 const AddSurgeryRecordAPICall = (medicalRecordId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.ADD_SURGERY_RECORD.METHOD](APIConfig.ADD_SURGERY_RECORD.URL(medicalRecordId), payload, {'Content-Type': 'multipart/form-data'});
 }
+
 const UpdateSurgeryRecordAPICall = (surgeryRecordId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.UPDATE_SURGERY_RECORD.METHOD](APIConfig.UPDATE_SURGERY_RECORD.URL(surgeryRecordId), payload);
@@ -72,6 +72,7 @@ const AddSurgeryRecordAttachmentAPICall = (surgeryRecordId: string, payload: any
     // @ts-ignore
     return ApiService[APIConfig.ADD_SURGERY_RECORD_ATTACHMENT.METHOD](APIConfig.ADD_SURGERY_RECORD_ATTACHMENT.URL(surgeryRecordId), payload, {'Content-Type': 'multipart/form-data'})
 }
+
 const RemoveSurgeryRecordAttachmentAPICall = (surgeryRecordId: string, attachmentId: string) => {
     // @ts-ignore
     return ApiService[APIConfig.REMOVE_SURGERY_RECORD_ATTACHMENT.METHOD](APIConfig.REMOVE_SURGERY_RECORD_ATTACHMENT.URL(surgeryRecordId, attachmentId))
@@ -81,7 +82,6 @@ const FetchSurgeryRecordAPICall = (surgeryRecordId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.GET_SURGERY_RECORD.METHOD](APIConfig.GET_SURGERY_RECORD.URL(surgeryRecordId), payload);
 }
-
 
 const AddExerciseLogAttachment = (interventionId: string | undefined, payload: any) => {
     // @ts-ignore
@@ -105,11 +105,21 @@ const RepeatLastInterventionAPICall = (medicalRecordId: string, payload: any) =>
     // @ts-ignore
     return ApiService[APIConfig.REPEAT_LAST_INTERVENTION.METHOD](APIConfig.REPEAT_LAST_INTERVENTION.URL(medicalRecordId), payload);
 }
+
 const AddNewMedicalInterventionAPICall = (medicalRecordId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.ADD_NEW_MEDICAL_INTERVENTION.METHOD](APIConfig.ADD_NEW_MEDICAL_INTERVENTION.URL(medicalRecordId), payload);
 }
 
+const SaveMedicalInterventionCPTCodesAPICall = (medicalInterventionId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.SAVE_MEDICAL_INTERVENTION_CPT_CODES.METHOD](APIConfig.SAVE_MEDICAL_INTERVENTION_CPT_CODES.URL(medicalInterventionId), payload);
+}
+
+const CheckoutAMedicalInterventionAPICall = (medicalInterventionId: string) => {
+    // @ts-ignore
+    return ApiService[APIConfig.CHECKOUT_MEDICAL_INTERVENTION.METHOD](APIConfig.CHECKOUT_MEDICAL_INTERVENTION.URL(medicalInterventionId));
+}
 
 const ChartNotesService = {
     MedicalRecordAddAPICall,
@@ -134,7 +144,9 @@ const ChartNotesService = {
     UpdateSurgeryRecordAPICall,
     RemoveSurgeryRecordAttachmentAPICall,
     RepeatLastInterventionAPICall,
-    AddNewMedicalInterventionAPICall
+    AddNewMedicalInterventionAPICall,
+    SaveMedicalInterventionCPTCodesAPICall,
+    CheckoutAMedicalInterventionAPICall
 }
 
 export default ChartNotesService;

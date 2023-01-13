@@ -26,13 +26,13 @@ interface MedicalInterventionICDCodesScreenProps {
 }
 
 const ICDCodesSteps: any = ["icdCodes", "favourites"];
+
 const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScreenProps) => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {medicalInterventionDetails} = useSelector((state: IRootReducerState) => state.chartNotes);
     const {medicalRecordId, medicalInterventionId} = useParams();
-
 
     useEffect(() => {
         if (medicalInterventionId) {
@@ -222,7 +222,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                             }
                         }
                     >
-                        <ClearSharp/> Clear ICD-11 Codes
+                        <ClearSharp/> Clear ICD-11 Codes  //TODO
                     </ButtonComponent>
                 </div>
             </div>

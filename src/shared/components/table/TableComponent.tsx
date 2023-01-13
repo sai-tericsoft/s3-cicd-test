@@ -119,7 +119,7 @@ const TableComponent = (props: TableComponentProps) => {
                 onChange={handleTableChange}
                 pagination={false}
                 tableLayout={tableLayout}
-                scroll={scroll === "scroll" ? {x: "100%", y: "calc(100% - 54px)"} : undefined}
+                scroll={scroll === "scroll" ? {x: "100%", y: "inherit"} : undefined}
             />
         </div>
     );

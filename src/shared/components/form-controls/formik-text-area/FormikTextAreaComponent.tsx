@@ -15,6 +15,7 @@ const FormikTextAreaComponent = (props: FormikTextAreaComponentProps) => {
         className,
         formikField,
         onChange,
+        textAreaProps,
         ...otherProps
     } = props;
 
@@ -41,7 +42,7 @@ const FormikTextAreaComponent = (props: FormikTextAreaComponentProps) => {
             name={name}
             value={value}
             className={className}
-            inputProps={{
+            textAreaProps={{
                 onBlur: onInputBlur,
             }}
             onChange={textChangeHandler}

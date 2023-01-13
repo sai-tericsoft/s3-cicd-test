@@ -54,7 +54,7 @@ export interface ICheckBoxProps {
     hasError?: boolean;
     id?: string;
     indeterminate?: boolean;
-    label: string;
+    label?: string;
     name?: string;
     onChange?: (isChecked: boolean) => void;
     required?: boolean;
@@ -113,13 +113,14 @@ export interface IRadioButtonProps {
 }
 
 export interface ITextAreaProps {
+    autoFocus?: boolean;
     className?: string;
     disabled?: boolean;
     errorMessage?: any;
     fullWidth?: boolean;
     hasError?: boolean;
     id?: string;
-    inputProps?: any;
+    textAreaProps?: any;
     label: string;
     name?: string;
     onChange?: (value: any) => void;
