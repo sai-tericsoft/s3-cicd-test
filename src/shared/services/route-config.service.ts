@@ -185,6 +185,7 @@ const RouteConfigService = {
     MedicalRecordSurgeryRecordDetails,
     MedicalRecordProgressReportAdvancedDetailsUpdate,
     MedicalInterventionFinalizeTreatment
+
 }
 
 export default RouteConfigService;

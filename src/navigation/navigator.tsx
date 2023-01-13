@@ -54,6 +54,7 @@ import {
     MEDICAL_RECORD_LIST,
     MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE,
     NOT_FOUND_ROUTE,
+    PROGRESS_REPORT_VIEW_DETAILS,
     SERVICE_ADD,
     SERVICE_CATEGORY_DETAILS,
     SERVICE_CATEGORY_LIST,
@@ -86,6 +87,8 @@ import ProgressRecordAdvancedDetailsUpdateScreen
     from "../screens/chart-notes/progress-record-advanced-details-update/ProgressRecordAdvancedDetailsUpdateScreen";
 import MedicalInterventionFinalizeTreatmentScreen
     from "../screens/chart-notes/medical-intervention-finalize-treatment/MedicalInterventionFinalizeTreatmentScreen";
+import MedicalRecordProgressReportViewDetailsScreen
+    from "../screens/chart-notes/medical-record-progress-report-view-details/MedicalRecordProgressReportViewDetailsScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -331,6 +334,14 @@ const Navigator = (props: NavigatorProps) => {
                            <ExerciseLogAttachmentListComponent/>
                        </ProtectedRoute>
                        }/>
+                <Route path={PROGRESS_REPORT_VIEW_DETAILS}
+                       element={<ProtectedRoute>
+                           <MedicalRecordProgressReportViewDetailsScreen/>
+                       </ProtectedRoute>
+                       }/>
+                <Route path={MEDICAL_INTERVENTION_DETAILS} element={<ProtectedRoute>
+                    <ClientMedicalInterventionDetailsComponent/>
+                </ProtectedRoute>}/>
                 <Route path={MEDICAL_INTERVENTION_DETAILS} element={<ProtectedRoute>
                     <ClientMedicalInterventionDetailsComponent/>
                 </ProtectedRoute>}/>

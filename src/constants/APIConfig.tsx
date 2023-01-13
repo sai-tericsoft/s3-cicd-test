@@ -401,6 +401,10 @@ const APIConfig: IAPIConfig = {
     ADD_NEW_MEDICAL_INTERVENTION: {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/intervention',
         METHOD: 'post'
+    },
+    PROGRESS_REPORT_VIEW_DETAILS:{
+        URL:(interventionId:string)=>ENV.API_URL+'/progressReport/'+ interventionId,
+        METHOD:'get'
     }
 }
 

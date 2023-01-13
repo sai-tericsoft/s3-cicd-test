@@ -9,7 +9,7 @@ interface ESignApprovalComponentProps {
     canSign?: boolean;
     isSigned: boolean;
     isSigning?: boolean;
-    onSign: () => void;
+    onSign?: () => void;
     signedAt?: string;
 }
 

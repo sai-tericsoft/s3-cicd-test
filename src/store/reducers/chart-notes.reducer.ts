@@ -5,6 +5,7 @@ import {
     SET_INTERVENTION_ATTACHMENT_LIST,
     GET_CLIENT_MEDICAL_INTERVENTION_DETAILS,
     SET_CLIENT_MEDICAL_INTERVENTION_DETAILS,
+    SET_MEDICAL_INTERVENTION_DETAILS, GET_PROGRESS_REPORT_VIEW_DETAILS, SET_PROGRESS_REPORT_VIEW_DETAILS
     SET_MEDICAL_INTERVENTION_DETAILS,
     GET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS,
     SET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS, REFRESH_SURGERY_RECORDS
@@ -24,12 +25,15 @@ export interface IChartNotesReducerState {
     isClientMedicalInterventionDetailsLoaded: boolean,
     isClientMedicalInterventionDetailsLoadingFailed: boolean,
     clientMedicalInterventionDetails?: any,
+    isProgressReportDetailsLoading: boolean,
+    isProgressReportDetailsLoaded: boolean,
+    isProgressReportDetailsLoadingFailed: boolean,
+    progressReportDetails?: any,
     isClientMedicalRecordProgressReportDetailsLoading: boolean,
     isClientMedicalRecordProgressReportDetailsLoaded: boolean,
     isClientMedicalRecordProgressReportDetailsLoadingFailed: boolean,
     clientMedicalRecordProgressReportDetails?: any,
     refreshSurgeryRecords?: string
-
 }
 
 const initialData: IChartNotesReducerState = {
@@ -45,13 +49,15 @@ const initialData: IChartNotesReducerState = {
     isClientMedicalInterventionDetailsLoaded: false,
     isClientMedicalInterventionDetailsLoadingFailed: false,
     clientMedicalInterventionDetails: undefined,
+    isProgressReportDetailsLoading: false,
+    isProgressReportDetailsLoaded: false,
+    isProgressReportDetailsLoadingFailed: false,
+    progressReportDetails: undefined,
     isClientMedicalRecordProgressReportDetailsLoading: false,
     isClientMedicalRecordProgressReportDetailsLoaded: false,
     isClientMedicalRecordProgressReportDetailsLoadingFailed: false,
     clientMedicalRecordProgressReportDetails: undefined,
     refreshSurgeryRecords: '',
-
-
 };
 
 const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNotesReducerState => {
@@ -128,6 +134,25 @@ const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNot
                 clientMedicalRecordProgressReportDetails: action.payload.clientMedicalRecordProgressReportDetails
             };
             return state;
+
+            case GET_PROGRESS_REPORT_VIEW_DETAILS:
+                state = {
+                    ...state,
+                    isProgressReportDetailsLoading: true,
+                    isProgressReportDetailsLoaded: false,
+                    isProgressReportDetailsLoadingFailed: false,
+                }
+                return state;
+
+            case SET_PROGRESS_REPORT_VIEW_DETAILS:
+                state = {
+                    ...state,
+                    isProgressReportDetailsLoading: false,
+                    isProgressReportDetailsLoaded: !!action.payload.progressReportDetails,
+                    isProgressReportDetailsLoadingFailed: !action.payload.progressReportDetails,
+                    progressReportDetails: action.payload.progressReportDetails
+                }
+                return state;
 
         default:
             return state;

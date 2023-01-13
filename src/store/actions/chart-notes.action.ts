@@ -7,6 +7,8 @@ export const SET_CLIENT_MEDICAL_INTERVENTION_DETAILS='SET_CLIENT_MEDICAL_INTERVE
 
 export const GET_INTERVENTION_ATTACHMENT_LIST = 'GET_INTERVENTION_ATTACHMENT_LIST';
 export const SET_INTERVENTION_ATTACHMENT_LIST = 'SET_INTERVENTION_ATTACHMENT_LIST';
+export const GET_PROGRESS_REPORT_VIEW_DETAILS = 'GET_PROGRESS_REPORT_VIEW_DETAILS';
+export const SET_PROGRESS_REPORT_VIEW_DETAILS = 'SET_PROGRESS_REPORT_VIEW_DETAILS';
 
 export const GET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS = 'GET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS';
 export const SET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS = 'SET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS';
@@ -80,7 +82,21 @@ export const setClientMedicalInterventionDetails = (clientMedicalInterventionDet
     };
 };
 
+export const getProgressReportViewDetails = (interventionId: string) => {
+    return {
+        type: GET_PROGRESS_REPORT_VIEW_DETAILS, payload: {
+            interventionId
+        }
+    };
+}
 
+export const setProgressReportViewDetails = (progressReportDetails: any) => {
+    return {
+        type: SET_PROGRESS_REPORT_VIEW_DETAILS, payload: {
+            progressReportDetails
+        }
+    };
+}
 
 export const getMedicalRecordProgressReportDetails = (progressReportId: string) => {
     return {
@@ -97,4 +113,3 @@ export const setMedicalRecordProgressReportDetails = (clientMedicalRecordProgres
         }
     };
 };
-
