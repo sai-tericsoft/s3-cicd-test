@@ -9,7 +9,7 @@ import {
     GET_LANGUAGE_LIST,
     GET_MEDICAL_HISTORY_OPTIONS_LIST,
     GET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
-    GET_PHONE_TYPE_LIST,
+    GET_PHONE_TYPE_LIST, GET_PROGRESS_REPORT_STATS_LIST,
     GET_REFERRAL_TYPE_LIST,
     GET_RELATIONSHIP_LIST,
     GET_SOCIAL_MEDIA_PLATFORM_LIST,
@@ -20,7 +20,7 @@ import {
     setLanguageList,
     setMedicalHistoryOptionsList,
     setMusculoskeletalHistoryOptionsList,
-    setPhoneTypeList, setReferralTypeList,
+    setPhoneTypeList, setProgressReportStatsList, setReferralTypeList,
     setRelationShipList, setSocialMediaPlatformList,
     setSurgicalHistoryOptionsList
 } from "../actions/static-data.action";
@@ -176,6 +176,16 @@ function* getCaseStatusList() {
     }
 }
 
+function* getProgressReportStatList() {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._staticData.getProgressReportStatList);
+        yield put(setProgressReportStatsList(resp?.data));
+    } catch (error: any) {
+        yield put(setProgressReportStatsList([]));
+    }
+}
+
 export default function* staticDataSaga() {
     yield takeEvery(GET_CONSULTATION_DURATION_LIST, getConsultationDurationList);
     yield takeEvery(GET_GENDER_LIST, getGenderList);
@@ -192,4 +202,5 @@ export default function* staticDataSaga() {
     yield takeEvery(GET_BODY_PART_LIST, getBodyPartList);
     yield takeEvery(GET_INJURY_TYPE_LIST, getInjuryTypeList);
     yield takeEvery(GET_CASE_STATUS_LIST, getCaseStatusList);
+    yield takeEvery(GET_PROGRESS_REPORT_STATS_LIST, getProgressReportStatList);
 }

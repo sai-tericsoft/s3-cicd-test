@@ -121,6 +121,14 @@ const CheckoutAMedicalInterventionAPICall = (medicalInterventionId: string) => {
     return ApiService[APIConfig.CHECKOUT_MEDICAL_INTERVENTION.METHOD](APIConfig.CHECKOUT_MEDICAL_INTERVENTION.URL(medicalInterventionId));
 }
 
+const AddProgressReportUnderMedicalRecordAPICall = (medicalRecordId: string, payload: any) => {
+    return ApiService[APIConfig.ADD_PROGRESS_REPORT_UNDER_MEDICAL_RECORD.METHOD](APIConfig.ADD_PROGRESS_REPORT_UNDER_MEDICAL_RECORD.URL(medicalRecordId), payload);
+}
+
+const UpdateProgressReportUnderMedicalRecordAPICall = (progressReportId: string, payload: any) => {
+    return ApiService[APIConfig.UPDATE_PROGRESS_REPORT_UNDER_MEDICAL_RECORD.METHOD](APIConfig.UPDATE_PROGRESS_REPORT_UNDER_MEDICAL_RECORD.URL(progressReportId), payload);
+}
+
 const ChartNotesService = {
     MedicalRecordAddAPICall,
     MedicalRecordEditAPICall,
@@ -143,6 +151,8 @@ const ChartNotesService = {
     AddSurgeryRecordAttachmentAPICall,
     UpdateSurgeryRecordAPICall,
     RemoveSurgeryRecordAttachmentAPICall,
+    AddProgressReportUnderMedicalRecordAPICall,
+    UpdateProgressReportUnderMedicalRecordAPICall
     RepeatLastInterventionAPICall,
     AddNewMedicalInterventionAPICall,
     SaveMedicalInterventionCPTCodesAPICall,

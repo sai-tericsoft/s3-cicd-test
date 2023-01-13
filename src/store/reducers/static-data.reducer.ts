@@ -9,7 +9,7 @@ import {
     GET_LANGUAGE_LIST,
     GET_MEDICAL_HISTORY_OPTIONS_LIST,
     GET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
-    GET_PHONE_TYPE_LIST,
+    GET_PHONE_TYPE_LIST, GET_PROGRESS_REPORT_STATS_LIST,
     GET_REFERRAL_TYPE_LIST,
     GET_RELATIONSHIP_LIST,
     GET_SOCIAL_MEDIA_PLATFORM_LIST,
@@ -24,7 +24,7 @@ import {
     SET_LANGUAGE_LIST,
     SET_MEDICAL_HISTORY_OPTIONS_LIST,
     SET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
-    SET_PHONE_TYPE_LIST,
+    SET_PHONE_TYPE_LIST, SET_PROGRESS_REPORT_STATS_LIST,
     SET_REFERRAL_TYPE_LIST,
     SET_RELATIONSHIP_LIST,
     SET_SOCIAL_MEDIA_PLATFORM_LIST,
@@ -81,6 +81,9 @@ export interface IStaticDataReducerState {
     isInjuryTypeListLoading: boolean,
     isInjuryTypeListLoaded: boolean,
     injuryTypeList: any[],
+    isProgressReportStatListLoading: boolean,
+    isProgressReportStatListLoaded: boolean,
+    progressReportStatList: any[],
 }
 
 
@@ -154,6 +157,9 @@ const initialData: IStaticDataReducerState = {
             title: "Closed/Inactive"
         }
     ],
+    isProgressReportStatListLoading: false,
+    isProgressReportStatListLoaded: false,
+    progressReportStatList: [],
 };
 
 const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDataReducerState => {
@@ -383,8 +389,21 @@ const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDa
                 caseStatusList: action.payload.caseStatusList
             }
             return state;
-
-
+        case GET_PROGRESS_REPORT_STATS_LIST:
+            state = {
+                ...state,
+                isProgressReportStatListLoading: true,
+                isProgressReportStatListLoaded: false
+            }
+            return state;
+        case SET_PROGRESS_REPORT_STATS_LIST:
+            state = {
+                ...state,
+                isProgressReportStatListLoading: false,
+                isProgressReportStatListLoaded: true,
+                progressReportStatList: action.payload.progressReportStatList
+            }
+            return state;
         default:
             return state;
     }

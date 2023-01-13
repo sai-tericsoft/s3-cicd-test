@@ -52,6 +52,7 @@ import {
     MEDICAL_INTERVENTION_SPECIAL_TESTS,
     MEDICAL_INTERVENTION_SURGERY_RECORD_DETAILS,
     MEDICAL_RECORD_LIST,
+    MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE,
     NOT_FOUND_ROUTE,
     SERVICE_ADD,
     SERVICE_CATEGORY_DETAILS,
@@ -81,6 +82,8 @@ import ClientMedicalInterventionDetailsComponent
 import MedicalInterventionICDCodesScreen
     from "../screens/chart-notes/medical-intervention-icd-codes/MedicalInterventionICDCodesScreen";
 import SurgeryRecordViewScreen from "../screens/chart-notes/surgery-record-view/SurgeryRecordViewScreen";
+import ProgressRecordAdvancedDetailsUpdateScreen
+    from "../screens/chart-notes/progress-record-advanced-details-update/ProgressRecordAdvancedDetailsUpdateScreen";
 import MedicalInterventionFinalizeTreatmentScreen
     from "../screens/chart-notes/medical-intervention-finalize-treatment/MedicalInterventionFinalizeTreatmentScreen";
 
@@ -323,17 +326,17 @@ const Navigator = (props: NavigatorProps) => {
                        </ProtectedRoute>
                        }
                 />
-
                 <Route path={INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST}
                        element={<ProtectedRoute>
                            <ExerciseLogAttachmentListComponent/>
                        </ProtectedRoute>
                        }/>
-
                 <Route path={MEDICAL_INTERVENTION_DETAILS} element={<ProtectedRoute>
                     <ClientMedicalInterventionDetailsComponent/>
                 </ProtectedRoute>}/>
-
+                <Route path={MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE} element={<ProtectedRoute>
+                    <ProgressRecordAdvancedDetailsUpdateScreen/>
+                </ProtectedRoute>}/>
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
             </Route>
             <Route element={<AuthLayout/>}>
