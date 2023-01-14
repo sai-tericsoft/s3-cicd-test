@@ -64,12 +64,10 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                         <FormikCheckBoxComponent
                             formikField={field}
                             size={'small'}
-                            onChange={(isChecked) => {
-                                if (!isChecked) {
+                            onChange={() => {
                                     field.form.setFieldValue(`${record?._id}.units_of_care`, "");
                                     field.form.setFieldValue(`${record?._id}.minutes`, "");
                                     field.form.setFieldValue(`${record?._id}.notes`, "");
-                                }
                             }}
                         />
                     )
@@ -168,7 +166,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                 payload.cpt_codes.push({
                     cpt_code_id: key,
                     units_of_care: values[key].units_of_care,
-                    minutes: values[key].minutes,
+                    minutes: isNaN(+values[key].minutes) ? 0 : +values[key].minutes,
                     notes: values[key].notes
                 });
             });

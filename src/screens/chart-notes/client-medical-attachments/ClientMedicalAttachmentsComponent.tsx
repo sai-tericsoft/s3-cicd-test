@@ -25,7 +25,7 @@ const ClientMedicalAttachmentsComponent = (props: ClientMedicalAttachmentsCompon
             fixed: 'left',
             width: 173,
             render: (_: any, item: any) => {
-                return <>{CommonService.transformTimeStamp(item?.updated_at)}</>
+                return <>{CommonService.getSystemFormatTimeStamp(item?.updated_at)}</>
             }
         },
         {

@@ -228,7 +228,7 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                     </div>
                                     <div className={'ts-col-md-3'}>
                                         <DataLabelValueComponent label={'Next MD Appointment'}>
-                                            {clientMedicalRecord?.case_physician.next_appointment || "-"}
+                                            {CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.next_md_appointment) || "-"}
                                         </DataLabelValueComponent>
                                     </div>
                                 </div>
