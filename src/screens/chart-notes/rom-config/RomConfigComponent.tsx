@@ -15,7 +15,6 @@ import CheckBoxComponent from "../../../shared/components/form-controls/check-bo
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 
 interface RomConfigComponentProps {
@@ -69,12 +68,15 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                         key: 'arom',
                         width: 80,
                         render: (_: any, record: any) => {
+                            console.log(record);
                             return <Field
                                 name={`${bodyPart._id}.${record?.name}.${side}.arom`}
                                 className="t-form-control">
                                 {
                                     (field: FieldProps) => (
                                         <FormikInputComponent
+                                            className={(!record.applicable_sides?.includes(side) || !record.applicable_rom?.includes('AROM')) ? "not-allowed" : ""}
+                                            disabled={(!record.applicable_sides?.includes(side) || !record.applicable_rom?.includes('AROM'))}
                                             formikField={field}
                                             size={"small"}/>
                                     )
@@ -93,6 +95,8 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                 {
                                     (field: FieldProps) => (
                                         <FormikInputComponent
+                                            className={(!record.applicable_sides?.includes(side) || !record.applicable_rom?.includes('PROM')) ? "not-allowed" : ""}
+                                            disabled={(!record.applicable_sides?.includes(side) || !record.applicable_rom?.includes('PROM'))}
                                             formikField={field}
                                             size={"small"}
                                         />
@@ -112,6 +116,8 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                 {
                                     (field: FieldProps) => (
                                         <FormikInputComponent
+                                            className={(!record.applicable_sides?.includes(side) || !record.applicable_rom?.includes('Strength')) ? "not-allowed" : ""}
+                                            disabled={(!record.applicable_sides?.includes(side) || !record.applicable_rom?.includes('Strength'))}
                                             formikField={field}
                                             size={"small"}/>
                                     )
@@ -268,7 +274,6 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
-                            <FormDebuggerComponent values={values}/>
                             <CardComponent title={"Body Part: " + romConfigValues?.name}
                                            actions={<>
                                                <ButtonComponent

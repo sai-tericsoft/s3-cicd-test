@@ -67,7 +67,11 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             key: 'name',
             dataIndex: 'name',
             render: (_: any, item: any) => {
-                return <>{item?.posted_by.first_name} {item?.posted_by.last_name}</>
+                if (item?.note_type?.toLowerCase() === "progress report") {
+                    return item.posted_by
+                } else {
+                    return item.posted_by.first_name + " " + item.posted_by.last_name
+                }
             }
         },
         {
@@ -142,28 +146,28 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                 CommonService._alert.showToast('Medical Record ID not found!', "error");
                 return;
             }
-            CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, {
-                    "intervention_date": moment().format('YYYY-MM-DD'),
-                    "subjective": "",
-                    "objective": {
-                        "observation": "",
-                        "palpation": "",
-                        "functional_tests": "",
-                        "treatment": "",
-                        "treatment_response": ""
-                    },
-                    "assessment": {
-                        "suspicion_index": "",
-                        "surgery_procedure": ""
-                    },
-                    "plan": {
-                        "plan": "",
-                        "md_recommendations": "",
-                        "education": "",
-                        "treatment_goals": ""
-                    }
+            const payload = {
+                "intervention_date": moment().format('YYYY-MM-DD'),
+                "subjective": "",
+                "objective": {
+                    "observation": "",
+                    "palpation": "",
+                    "functional_tests": "",
+                    "treatment": "",
+                    "treatment_response": ""
+                },
+                "assessment": {
+                    "suspicion_index": "",
+                    "surgery_procedure": ""
+                },
+                "plan": {
+                    "plan": "",
+                    "md_recommendations": "",
+                    "education": "",
+                    "treatment_goals": ""
                 }
-            )
+            };
+            CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, payload)
                 .then((response: IAPIResponseType<any>) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, response?.data._id));
@@ -181,11 +185,12 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                 <div className={'client-medical-records-header'}>Medical Records</div>
                 <div>
                     <ButtonComponent onClick={confirmRepeatLastTreatment} className={'outlined-button'}
-                                     variant={"outlined"}>Repeat
-                        Last
-                        Treatment</ButtonComponent>
-                    <ButtonComponent onClick={addNewTreatment} prefixIcon={<ImageConfig.AddIcon/>}>Add New
-                        Treatment</ButtonComponent>
+                                     variant={"outlined"}>
+                        Repeat Last Treatment
+                    </ButtonComponent>
+                    <ButtonComponent onClick={addNewTreatment} prefixIcon={<ImageConfig.AddIcon/>}>
+                        Add New Treatment
+                    </ButtonComponent>
                 </div>
             </div>
             <TableWrapperComponent url={APIConfig.CLIENT_MEDICAL_INTERVENTION_LIST.URL(medicalRecordId)}

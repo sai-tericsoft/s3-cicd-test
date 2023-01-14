@@ -1,7 +1,16 @@
 .input-component {
   margin-bottom: 20px !important;
+
   &.full-width {
     width: 100%;
+  }
+
+  &.not-allowed {
+    opacity: 0.2;
+
+    .MuiOutlinedInput-root, input {
+      cursor: not-allowed !important;
+    }
   }
 }
 

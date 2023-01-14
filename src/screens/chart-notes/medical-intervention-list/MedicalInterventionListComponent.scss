@@ -1,34 +1,41 @@
-.client-medical-records-component{
-  .t-cell-date_of_intervention{
-    text-align: center !important;
-  }
-  .t-cell-note_type{
-    text-align: center !important;
-  }
-  .t-cell-last_updated{
-    text-align: center !important;
-  }
-  .t-cell-status{
-    text-align: center !important;
-  }
-  .t-cell-name{
+.client-medical-records-component {
+  .t-cell-date_of_intervention {
     text-align: center !important;
   }
 
-  .client-medical-records-header-button-wrapper{
+  .t-cell-note_type {
+    text-align: center !important;
+  }
+
+  .t-cell-last_updated {
+    text-align: center !important;
+  }
+
+  .t-cell-status {
+    text-align: center !important;
+  }
+
+  .t-cell-name {
+    text-align: center !important;
+  }
+
+  .client-medical-records-header-button-wrapper {
     display: flex;
     justify-content: space-between;
-    .client-medical-records-header{
+
+    .client-medical-records-header {
       color: #6D6D6D;
       font-weight: 700;
       font-size: 1.4286rem;
       margin-bottom: 23px;
     }
   }
-  .outlined-button{
+
+  .outlined-button {
     margin-right: 10px;
   }
 }
-.flag-wrapper{
+
+.flag-wrapper {
   margin-top: 10px;
 }
