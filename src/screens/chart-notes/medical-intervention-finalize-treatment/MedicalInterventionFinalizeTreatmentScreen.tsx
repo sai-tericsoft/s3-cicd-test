@@ -165,7 +165,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
             Object.keys(values).forEach((key) => {
                 payload.cpt_codes.push({
                     cpt_code_id: key,
-                    units_of_care: values[key].units_of_care,
+                    units_of_care: isNaN(+values[key].units_of_care) ? 0 : +values[key].units_of_care,
                     minutes: isNaN(+values[key].minutes) ? 0 : +values[key].minutes,
                     notes: values[key].notes
                 });
