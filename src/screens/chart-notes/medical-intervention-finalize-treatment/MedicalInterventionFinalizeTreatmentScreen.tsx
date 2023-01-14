@@ -290,8 +290,8 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                         </ButtonComponent>
                                         <>
                                             {
-                                                (medicalRecordId && linkedCPTCodes?.length > 0) && <>&nbsp;&nbsp;
-                                                    <ButtonComponent disabled={isSubmitting || isInterventionCheckingOut}
+                                                (medicalRecordId) && <>&nbsp;&nbsp;
+                                                    <ButtonComponent disabled={isSubmitting || isInterventionCheckingOut || linkedCPTCodes?.length === 0}
                                                                      isLoading={isInterventionCheckingOut}
                                                                      onClick={handleInterventionCheckout}>
                                                         Checkout
