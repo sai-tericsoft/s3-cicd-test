@@ -237,7 +237,9 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                 validationSchema={MedicalInterventionAddFormValidationSchema}
                 initialValues={addMedicalInterventionFormInitialValues}
                 onSubmit={(values, formikHelpers) => {
-                    onSubmit(values, formikHelpers, false);
+                    if (medicalInterventionDetails.status === 'draft') {
+                        onSubmit(values, formikHelpers, false);
+                    }
                 }}
                 validateOnChange={false}
                 validateOnBlur={true}
@@ -251,12 +253,14 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                     }, [formik.validateForm, formik.values]);
                     return (
                         <Form className="t-form" noValidate={true}>
-                            <FormAutoSave formikCtx={formik}/>
+
+                            {medicalInterventionDetails?.status === 'draft' && <FormAutoSave formikCtx={formik}/>}
                             <div
                                 className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
                                 <FormControlLabelComponent label={"Soap Note"} className={"mrg-0"}/>
                                 {
-                                    (medicalInterventionId && medicalRecordId && medicalInterventionDetails?.status === 'draft') && <LinkComponent
+                                    (medicalInterventionId && medicalRecordId && medicalInterventionDetails?.status === 'draft') &&
+                                    <LinkComponent
                                         route={CommonService._routeConfig.MedicalInterventionExerciseLogUpdate(medicalRecordId, medicalInterventionId)}>
                                         <ButtonComponent
                                             prefixIcon={medicalInterventionDetails?.is_having_exercise_log ?
@@ -822,7 +826,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                             }}/>
                                 </div>
                             </CardComponent>
-                            <div className="t-form-actions">
+                            {medicalInterventionDetails?.status === 'draft' && <div className="t-form-actions">
                                 <ButtonComponent
                                     onClick={(event) => {
                                         if (medicalInterventionDetails?.is_signed) {
@@ -838,7 +842,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                 >
                                     {medicalInterventionDetails?.is_signed ? "Finalize treatment" : formik.isSubmitting ? "Saving" : "Save"}
                                 </ButtonComponent>
-                            </div>
+                            </div>}
                         </Form>
                     );
                 }}
