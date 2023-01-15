@@ -30,7 +30,7 @@ const FormAutoSave = (props: FormAutoSaveProps) => {
         if (formikCtx.dirty) {
             debouncedSubmit();
         }
-    }, [debouncedSubmit, formikCtx.values]);
+    }, [debouncedSubmit, formikCtx.dirty, formikCtx.values]);
 
     useEffect(() => {
         if (formikCtx.isSubmitting) {
