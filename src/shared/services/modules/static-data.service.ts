@@ -100,6 +100,11 @@ const getProgressReportStatList=(payload:any)=>{
     return ApiService[APIConfig.PROGRESS_REPORT_STATS_LIST.METHOD](APIConfig.PROGRESS_REPORT_STATS_LIST.URL,payload)
 }
 
+const get8MinuteRuleChartData=(payload:any)=>{
+    // @ts-ignore
+    return ApiService[APIConfig.CLIENT_EIGHT_MINUTES_RULE_CHART.METHOD](APIConfig.CLIENT_EIGHT_MINUTES_RULE_CHART.URL,payload)
+}
+
 const StaticDataService = {
     today,
     weekDays,
@@ -120,7 +125,8 @@ const StaticDataService = {
     getBodyPartList,
     getInjuryTypeList,
     getCaseStatusList,
-    getProgressReportStatList
+    getProgressReportStatList,
+    get8MinuteRuleChartData
 }
 
 export default StaticDataService;

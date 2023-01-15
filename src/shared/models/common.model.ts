@@ -95,3 +95,10 @@ export interface IProgressReportStat {
     name:string,
     results: string[]
 }
+
+
+export interface I8MinuteRuleChartItem {
+    _id : string,
+    time:string,
+    units: number
+}
