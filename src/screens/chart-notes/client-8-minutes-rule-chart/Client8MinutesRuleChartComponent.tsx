@@ -16,7 +16,7 @@ const Client8MinutesRuleChartComponent = (props: Client8MinutesRuleChartComponen
         eightMinuteRuleChart,
         isEightMinuteRuleChartLoading
     } = useSelector((state: IRootReducerState) => state.staticData);
-    
+
     const minutesChartColumn: ITableColumn[] = [
         {
             title: 'Time',
