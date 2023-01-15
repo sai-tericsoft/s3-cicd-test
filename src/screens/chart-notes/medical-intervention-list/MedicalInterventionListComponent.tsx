@@ -25,7 +25,6 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
     const {
         medicalInterventionList,
         isMedicalInterventionListLoading,
-        isMedicalInterventionListLoaded
     } = useSelector((state: IRootReducerState) => state.chartNotes);
 
     const MedicalInterventionListColumns: any = [
@@ -192,7 +191,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
         if (medicalRecordId) {
             dispatch(getMedicalInterventionList(medicalRecordId));
         }
-    }, [medicalRecordId]);
+    }, [dispatch, medicalRecordId]);
 
     return (
         <div className={'client-medical-records-component'}>
