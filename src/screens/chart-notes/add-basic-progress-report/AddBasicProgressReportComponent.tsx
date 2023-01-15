@@ -66,7 +66,7 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
 
     return (
         <div className={'add-basic-progress-report-component'}>
-            <FormControlLabelComponent size={'lg'} label={'Add Basic Progress Report'}/>
+            <FormControlLabelComponent size={'lg'} label={'Add Progress Report'}/>
             <div className={'add-progress-report-container'}>
                 <Formik initialValues={addProgressReportBasicInitialValues}
                         onSubmit={onSubmit}
@@ -82,7 +82,7 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
                         }, [values, validateForm]);
                         return (<>
                                 <Form noValidate={true} className={'t-form'}>
-                                    <div>
+                                    <div className={"t-form-controls"}>
                                         <Field name={'intervention_linked_to'}>
                                             {
                                                 (field: FieldProps) => (
@@ -97,8 +97,6 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
                                                 )
                                             }
                                         </Field>
-                                    </div>
-                                    <div>
                                         <Field name={'onset_date'}>
                                             {
                                                 (field: FieldProps) => (
@@ -111,8 +109,6 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
                                                 )
                                             }
                                         </Field>
-                                    </div>
-                                    <div>
                                         <Field name={'surgery_date'}>
                                             {
                                                 (field: FieldProps) => (
@@ -125,8 +121,6 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
                                                 )
                                             }
                                         </Field>
-                                    </div>
-                                    <div>
                                         <Field name={'provider_name'}>
                                             {
                                                 (field: FieldProps) => (
@@ -140,8 +134,6 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
                                                 )
                                             }
                                         </Field>
-                                    </div>
-                                    <div>
                                         <Field name={'therapist_name'}>
                                             {
                                                 (field: FieldProps) => (

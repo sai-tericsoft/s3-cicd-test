@@ -406,3 +406,9 @@
 }
 
 
+.add-progress-report-container {
+  .t-form-controls{
+    min-height: 300px;
+    height: calc(100vh - 215px);
+  }
+}

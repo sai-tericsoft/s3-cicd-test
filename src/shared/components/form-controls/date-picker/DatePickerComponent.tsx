@@ -72,7 +72,7 @@ const DatePickerComponent = (props: DatePickerComponentProps) => {
                         id={id}
                         size={size}
                         name={name}
-                        onClick={(e) => setOpen(true)}
+                        onClick={(e) => !disabled && setOpen(true)}
                         color={color}
                         placeholder={placeholder}
                         {...params}

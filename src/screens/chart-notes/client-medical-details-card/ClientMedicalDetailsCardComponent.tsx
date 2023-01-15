@@ -41,7 +41,6 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
             render: (_: any, item: any) => {
                 return <>{item.body_part_details.name}</>
             }
-
         },
         {
             title: "Body  Side(s)",
@@ -171,9 +170,10 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                         <span className={'client-name'}>
                                                 {clientMedicalRecord?.client_details?.first_name || "-"} {clientMedicalRecord?.client_details?.last_name || "-"}
                                         </span>
-                                        <ChipComponent className={clientMedicalRecord?.status === "open" ? "active" : "inactive"}
-                                                       size={'small'}
-                                                       label={clientMedicalRecord?.status || "-"}/>
+                                        <ChipComponent
+                                            className={clientMedicalRecord?.status === "open" ? "active" : "inactive"}
+                                            size={'small'}
+                                            label={clientMedicalRecord?.status || "-"}/>
                                     </span>
                                     <div className="ts-row width-auto">
                                         <div className="">
@@ -213,22 +213,22 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-md-3'}>
                                         <DataLabelValueComponent label={'Date of Onset'}>
-                                            {CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.onset_date) || "-"}
+                                            { clientMedicalRecord?.onset_date ? CommonService.transformTimeStamp(clientMedicalRecord?.onset_date) : "NA" }
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-3'}>
                                         <DataLabelValueComponent label={'Date of Surgery'}>
-                                            {CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.surgery_date) || "-"}
+                                            { clientMedicalRecord?.surgery_date ? CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.surgery_date) : "NA" }
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-3'}>
                                         <DataLabelValueComponent label={'Case Physician'}>
-                                            {clientMedicalRecord?.case_physician.name || "-"}
+                                            { clientMedicalRecord?.case_physician.name || "-" }
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-3'}>
                                         <DataLabelValueComponent label={'Next MD Appointment'}>
-                                            {CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.next_md_appointment) || "-"}
+                                            { clientMedicalRecord?.next_md_appointment? CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.next_md_appointment) : "NA" }
                                         </DataLabelValueComponent>
                                     </div>
                                 </div>
@@ -252,6 +252,8 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                             </CardComponent>
                         </>
                     }
+
+                    {/*ALL Body parts table modal start*/}
                     <ModalComponent isOpen={isBodyPartsModalOpen} onClose={closeBodyPartsModal}>
                         <FormControlLabelComponent label={'View All Body Parts'} className={'view-all-body-parts-header'}/>
                         <TableComponent data={clientMedicalRecord?.injury_details} columns={bodyPartsColumns}/>
@@ -259,6 +261,9 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                             <ButtonComponent variant={'contained'} onClick={closeBodyPartsModal}>Close</ButtonComponent>
                         </div>
                     </ModalComponent>
+                    {/*ALL Body parts table modal end*/}
+
+                    {/*Edit medical record drawer start*/}
                     <DrawerComponent isOpen={isEditMedicalRecordDrawerOpen}
                                      showClose={true}
                                      onClose={closeEditMedicalRecordDrawer}>
@@ -266,6 +271,9 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                                     medicalRecordDetails={clientMedicalRecord}
                                                     onSave={handleMedicalRecordEdit}/>
                     </DrawerComponent>
+                    {/*Edit medical record drawer end*/}
+
+                    {/*Add progress record drawer start*/}
                     <DrawerComponent isOpen={isProgressReportDrawerOpen}
                                      showClose={true}
                                      closeOnEsc={false}
@@ -275,6 +283,7 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                             onCancel={() => setIsProgressReportDrawerOpen(false)}
                         />
                     </DrawerComponent>
+                    {/*Add progress record drawer end*/}
                 </>
 
             }

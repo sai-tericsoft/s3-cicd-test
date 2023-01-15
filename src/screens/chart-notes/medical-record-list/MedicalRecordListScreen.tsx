@@ -42,10 +42,10 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             title: "Date of Onset",
             key: "date_of_onset",
             dataIndex: "date_of_onset",
-            width: 130,
+            width: 140,
             fixed: "left",
             render: (_: any, item: any) => {
-                return <>{CommonService.convertDateFormat2(item.date_of_onset)}</>
+                return <>{CommonService.convertDateFormat2(item.onset_date)}</>
             }
         },
         {
@@ -65,16 +65,16 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             title: "Body Side",
             key: "body_side",
             dataIndex: "body_side",
-            width: 120,
+            width: 110,
             render: (_: any, item: any) => {
                 return <>{item.injury_details[0].body_side}</>
             }
         },
         {
-            title: "Current Case Status",
+            title: "Current Status",
             dataIndex: "status",
             key: "status",
-            width: 175,
+            width: 155,
             render: (_: any, item: any) => {
                 return <ChipComponent label={item?.status}
                                       className={item?.status === 'Open/Active' ? "active" : "inactive"}></ChipComponent>
@@ -84,7 +84,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             title: "Last Provider",
             key: "last_provider",
             dataIndex: "last_provider",
-            width: 126,
+            width: 140,
         },
         {
             title: "",

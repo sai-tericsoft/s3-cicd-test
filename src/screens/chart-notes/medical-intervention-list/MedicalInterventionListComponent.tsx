@@ -132,7 +132,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                 confirmationSubTitle: "Do you want to repeat the last treatment\nfrom the same Medical Record?"
             })
                 .then((value) => {
-                    repeatLastTreatment(medicalRecordId)
+                    repeatLastTreatment(medicalRecordId);
                 })
                 .catch(reason => {
 
@@ -184,7 +184,8 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             <div className={'client-medical-records-header-button-wrapper'}>
                 <div className={'client-medical-records-header'}>Medical Records</div>
                 <div>
-                    <ButtonComponent onClick={confirmRepeatLastTreatment} className={'outlined-button'}
+                    <ButtonComponent onClick={confirmRepeatLastTreatment}
+                                     className={'outlined-button'}
                                      variant={"outlined"}>
                         Repeat Last Treatment
                     </ButtonComponent>
