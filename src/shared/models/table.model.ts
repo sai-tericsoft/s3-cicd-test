@@ -1,5 +1,4 @@
 import {TableRowSelection} from "antd/lib/table/interface";
-import {bool} from "yup";
 
 export interface ITableColumn {
     dataIndex?: string;
