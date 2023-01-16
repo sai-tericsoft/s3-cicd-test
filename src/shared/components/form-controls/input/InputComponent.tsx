@@ -45,12 +45,7 @@ const InputComponent = (props: InputComponentProps) => {
         if (onChange) {
             if (validationPattern) {
                 const reg = RegExp(validationPattern);
-                console.log(reg.test(nextValue), 1);
-                console.log(reg.test(nextValue), 2);
-                console.log(reg.test(nextValue), 3);
-                console.log(reg.test(nextValue), 4);
                 if (nextValue === "" || reg.test(nextValue)) {
-                    console.log(nextValue, reg, reg.test(nextValue), "regex passed");
                     onChange(nextValue);
                 } else {
                     console.log(nextValue, reg, reg.test(nextValue), "regex failed");
@@ -73,7 +68,7 @@ const InputComponent = (props: InputComponentProps) => {
                        name={name}
                        size={size}
                        label={label}
-                       value={value}
+                       value={value || ""}
                        variant={variant}
                        disabled={disabled}
                        InputProps={{

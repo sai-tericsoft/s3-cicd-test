@@ -1,27 +1,39 @@
 import {call, put, takeEvery} from "redux-saga/effects";
 
 import {
-    GET_BODY_PART_LIST, GET_CASE_STATUS_LIST,
+    GET_8_MINUTE_RULE_CHART,
+    GET_BODY_PART_LIST,
+    GET_CASE_STATUS_LIST,
     GET_COMMUNICATION_MODE_TYPE_LIST,
     GET_CONSULTATION_DURATION_LIST,
     GET_EMPLOYMENT_STATUS_LIST,
-    GET_GENDER_LIST, GET_INJURY_TYPE_LIST,
+    GET_GENDER_LIST,
+    GET_INJURY_TYPE_LIST,
     GET_LANGUAGE_LIST,
     GET_MEDICAL_HISTORY_OPTIONS_LIST,
     GET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
     GET_PHONE_TYPE_LIST,
+    GET_PROGRESS_REPORT_STATS_LIST,
     GET_REFERRAL_TYPE_LIST,
     GET_RELATIONSHIP_LIST,
     GET_SOCIAL_MEDIA_PLATFORM_LIST,
-    GET_SURGICAL_HISTORY_OPTIONS_LIST, setBodyPartsList, setCaseStatusList, setCommunicationModeTypeList,
+    GET_SURGICAL_HISTORY_OPTIONS_LIST,
+    set8MinuteRuleChart,
+    setBodyPartsList,
+    setCaseStatusList,
+    setCommunicationModeTypeList,
     setConsultationDurationList,
     setEmploymentStatusList,
-    setGenderList, setInjuryTypeList,
+    setGenderList,
+    setInjuryTypeList,
     setLanguageList,
     setMedicalHistoryOptionsList,
     setMusculoskeletalHistoryOptionsList,
-    setPhoneTypeList, setReferralTypeList,
-    setRelationShipList, setSocialMediaPlatformList,
+    setPhoneTypeList,
+    setProgressReportStatsList,
+    setReferralTypeList,
+    setRelationShipList,
+    setSocialMediaPlatformList,
     setSurgicalHistoryOptionsList
 } from "../actions/static-data.action";
 import {CommonService} from "../../shared/services";
@@ -176,6 +188,26 @@ function* getCaseStatusList() {
     }
 }
 
+function* getProgressReportStatList() {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._staticData.getProgressReportStatList);
+        yield put(setProgressReportStatsList(resp?.data));
+    } catch (error: any) {
+        yield put(setProgressReportStatsList([]));
+    }
+}
+
+function* get8MinuteRuleChartData() {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._staticData.get8MinuteRuleChartData);
+        yield put(set8MinuteRuleChart(resp?.data));
+    } catch (error: any) {
+        yield put(set8MinuteRuleChart([]));
+    }
+}
+
 export default function* staticDataSaga() {
     yield takeEvery(GET_CONSULTATION_DURATION_LIST, getConsultationDurationList);
     yield takeEvery(GET_GENDER_LIST, getGenderList);
@@ -192,4 +224,6 @@ export default function* staticDataSaga() {
     yield takeEvery(GET_BODY_PART_LIST, getBodyPartList);
     yield takeEvery(GET_INJURY_TYPE_LIST, getInjuryTypeList);
     yield takeEvery(GET_CASE_STATUS_LIST, getCaseStatusList);
+    yield takeEvery(GET_PROGRESS_REPORT_STATS_LIST, getProgressReportStatList);
+    yield takeEvery(GET_8_MINUTE_RULE_CHART, get8MinuteRuleChartData);
 }

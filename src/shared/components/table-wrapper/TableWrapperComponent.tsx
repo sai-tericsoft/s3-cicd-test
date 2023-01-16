@@ -79,10 +79,6 @@ const TableWrapperComponent = (props: TableComponentProps) => {
     }, [getListData]);
 
     useEffect(() => {
-        getListData();
-    }, [url, extraPayload, getListData]);
-
-    useEffect(() => {
         CommonService._communications.FetchPageDataSubject.subscribe(() => {
             if (!fetchPageDataSubscriptionRef.current) return null;
             getListData();

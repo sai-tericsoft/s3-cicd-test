@@ -4,7 +4,6 @@ import {useNavigate, useParams} from "react-router-dom";
 import React, {useCallback, useEffect, useState} from "react";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {CommonService} from "../../../shared/services";
-import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import {IRootReducerState} from "../../../store/reducers";
 import {IBodyPartROMConfig} from "../../../shared/models/static-data.model";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
@@ -15,6 +14,7 @@ import RomConfigComponent from "../rom-config/RomConfigComponent";
 import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
+import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 
 interface MedicalInterventionRomConfigScreenProps {
 
@@ -109,7 +109,7 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
 
     return (
         <div className={'medical-intervention-rom-config-screen'}>
-            <FormControlLabelComponent label={'Range of Motion and Strength'}/>
+            <PageHeaderComponent title={'Range of Motion and Strength'}/>
             <>
                 {
                     isMedicalInterventionDetailsLoading && <>

@@ -89,3 +89,16 @@ export interface ICaseStatus {
     title:string,
     code: string
 }
+
+export interface IProgressReportStat {
+    _id : string,
+    name:string,
+    results: string[]
+}
+
+
+export interface I8MinuteRuleChartItem {
+    _id : string,
+    time:string,
+    units: number
+}

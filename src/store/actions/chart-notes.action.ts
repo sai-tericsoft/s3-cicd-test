@@ -2,11 +2,26 @@ export const GET_CLIENT_FAVOURITE_CODES = 'GET_CLIENT_FAVOURITE_CODES';
 export const SET_CLIENT_FAVOURITE_CODES = 'SET_CLIENT_FAVOURITE_CODES';
 export const GET_MEDICAL_INTERVENTION_DETAILS = 'GET_MEDICAL_INTERVENTION_DETAILS';
 export const SET_MEDICAL_INTERVENTION_DETAILS = 'SET_MEDICAL_INTERVENTION_DETAILS';
-export const GET_CLIENT_MEDICAL_INTERVENTION_DETAILS='GET_CLIENT_MEDICAL_INTERVENTION_DETAILS';
-export const SET_CLIENT_MEDICAL_INTERVENTION_DETAILS='SET_CLIENT_MEDICAL_INTERVENTION_DETAILS';
+export const GET_CLIENT_MEDICAL_INTERVENTION_DETAILS = 'GET_CLIENT_MEDICAL_INTERVENTION_DETAILS';
+export const SET_CLIENT_MEDICAL_INTERVENTION_DETAILS = 'SET_CLIENT_MEDICAL_INTERVENTION_DETAILS';
 
 export const GET_INTERVENTION_ATTACHMENT_LIST = 'GET_INTERVENTION_ATTACHMENT_LIST';
 export const SET_INTERVENTION_ATTACHMENT_LIST = 'SET_INTERVENTION_ATTACHMENT_LIST';
+export const GET_PROGRESS_REPORT_VIEW_DETAILS = 'GET_PROGRESS_REPORT_VIEW_DETAILS';
+export const SET_PROGRESS_REPORT_VIEW_DETAILS = 'SET_PROGRESS_REPORT_VIEW_DETAILS';
+
+export const GET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS = 'GET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS';
+export const SET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS = 'SET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS';
+export const REFRESH_SURGERY_RECORDS = 'REFRESH_SURGERY_RECORDS';
+
+export const GET_MEDICAL_INTERVENTION_LIST = 'GET_MEDICAL_INTERVENTION_LIST';
+export const SET_MEDICAL_INTERVENTION_LIST = 'SET_MEDICAL_INTERVENTION_LIST';
+
+export const refreshSurgeryRecords = () => {
+    return {
+        type: REFRESH_SURGERY_RECORDS
+    };
+};
 
 export const getClientFavouriteCodes = () => {
     return {
@@ -70,3 +85,50 @@ export const setClientMedicalInterventionDetails = (clientMedicalInterventionDet
     };
 };
 
+export const getProgressReportViewDetails = (interventionId: string) => {
+    return {
+        type: GET_PROGRESS_REPORT_VIEW_DETAILS, payload: {
+            interventionId
+        }
+    };
+}
+
+export const setProgressReportViewDetails = (progressReportDetails: any) => {
+    return {
+        type: SET_PROGRESS_REPORT_VIEW_DETAILS, payload: {
+            progressReportDetails
+        }
+    };
+}
+
+export const getMedicalRecordProgressReportDetails = (progressReportId: string) => {
+    return {
+        type: GET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS, payload: {
+            progressReportId
+        }
+    };
+};
+
+export const setMedicalRecordProgressReportDetails = (clientMedicalRecordProgressReportDetails: any) => { // TODO type properly
+    return {
+        type: SET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS, payload: {
+            clientMedicalRecordProgressReportDetails
+        }
+    };
+};
+
+export const getMedicalInterventionList = (medicalRecordId: string) => {
+    return {
+        type: GET_MEDICAL_INTERVENTION_LIST, payload: {
+            medicalRecordId
+        }
+    };
+};
+
+export const setMedicalInterventionList = (medicalInterventionList: any) => { // TODO type properly
+    return {
+        type: SET_MEDICAL_INTERVENTION_LIST, payload: {
+            medicalInterventionList
+        }
+    };
+};

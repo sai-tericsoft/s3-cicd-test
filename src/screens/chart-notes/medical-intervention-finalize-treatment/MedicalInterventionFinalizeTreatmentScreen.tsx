@@ -26,7 +26,12 @@ interface MedicalInterventionFinalizeTreatmentScreenProps {
 
 }
 
-const CPTCodesInitialValues = {}
+const CPTCodesInitialValues = {};
+
+const FULL_PAGES = {
+    page: 1,
+    limit: 1000
+}
 
 const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFinalizeTreatmentScreenProps) => {
 
@@ -41,7 +46,11 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
         isMedicalInterventionDetailsLoading,
         isMedicalInterventionDetailsLoaded,
     } = useSelector((state: IRootReducerState) => state.chartNotes);
-    const [searchKey, setSearchKey] = useState<string>("");
+    const [linkedCPTCodes, setLinkedCPTCodes] = useState<any[]>([]);
+
+    const [extraPayload, setExtraPayload] = useState<any>({
+        ...FULL_PAGES, search: ''
+    });
 
     const CPTCodesColumns: ITableColumn[] = [
         {
@@ -55,12 +64,10 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                         <FormikCheckBoxComponent
                             formikField={field}
                             size={'small'}
-                            onChange={(isChecked) => {
-                                if (!isChecked) {
+                            onChange={() => {
                                     field.form.setFieldValue(`${record?._id}.units_of_care`, "");
                                     field.form.setFieldValue(`${record?._id}.minutes`, "");
                                     field.form.setFieldValue(`${record?._id}.notes`, "");
-                                }
                             }}
                         />
                     )
@@ -152,14 +159,14 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                 cpt_codes: [],
                 mode: "add"
             };
-            if (medicalInterventionDetails?.linked_cpt_codes?.length) {
+            if (linkedCPTCodes?.length > 0) {
                 payload.mode = "edit"
             }
             Object.keys(values).forEach((key) => {
                 payload.cpt_codes.push({
                     cpt_code_id: key,
-                    units_of_care: values[key].units_of_care,
-                    minutes: values[key].minutes,
+                    units_of_care: isNaN(+values[key].units_of_care) ? 0 : +values[key].units_of_care,
+                    minutes: isNaN(+values[key].minutes) ? 0 : +values[key].minutes,
                     notes: values[key].notes
                 });
             });
@@ -168,13 +175,14 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                 .then((response: any) => {
                     CommonService._alert.showToast(response.message, 'success');
                     setSubmitting(false);
+                    setLinkedCPTCodes(payload.cpt_codes);
                 })
                 .catch((error: any) => {
                     CommonService._alert.showToast(error.error || error.errors || 'Error saving CPT Codes', 'error');
                     setSubmitting(false);
                 });
         }
-    }, [medicalInterventionDetails, medicalInterventionId]);
+    }, [linkedCPTCodes, medicalInterventionId]);
 
     useEffect(() => {
         const linkedCPTCodesConfig: any = {};
@@ -189,6 +197,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                 };
             })
         }
+        setLinkedCPTCodes(linked_cpt_codes);
         setCptCodesFormInitialValues(linkedCPTCodesConfig);
     }, [medicalInterventionDetails]);
 
@@ -198,7 +207,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
             CommonService._chartNotes.CheckoutAMedicalInterventionAPICall(medicalInterventionId)
                 .then((response: any) => {
                     CommonService._alert.showToast(response.message, 'success');
-                    navigate(CommonService._routeConfig.MedicalInterventionDetails(medicalRecordId, medicalInterventionId));
+                    navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
                     setIsInterventionCheckingOut(false);
                 })
                 .catch((error: any) => {
@@ -234,9 +243,9 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                 <SearchComponent label={'Search CPT Code'}
                                                                  size={"medium"}
                                                                  placeholder={'Search CPT Code'}
-                                                                 value={searchKey}
+                                                                 value={extraPayload.search}
                                                                  onSearchChange={(value) => {
-                                                                     setSearchKey(value)
+                                                                     setExtraPayload((ov: any) => ({...ov, search: value}))
                                                                  }}
                                                 />
                                             </div>
@@ -255,11 +264,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                             <TableWrapperComponent url={APIConfig.CPT_CODES_LIST.URL}
                                                                    method={APIConfig.CPT_CODES_LIST.METHOD}
                                                                    isPaginated={false}
-                                                                   extraPayload={{
-                                                                       page: 1,
-                                                                       limit: 1000,
-                                                                       search: searchKey
-                                                                   }}
+                                                                   extraPayload={extraPayload}
                                                                    columns={CPTCodesColumns}/>
                                         </div>
                                     </CardComponent>
@@ -283,8 +288,8 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                         </ButtonComponent>
                                         <>
                                             {
-                                                (medicalRecordId && medicalInterventionDetails?.linked_cpt_codes?.length > 0) && <>&nbsp;&nbsp;
-                                                    <ButtonComponent disabled={isSubmitting || isInterventionCheckingOut}
+                                                (medicalRecordId) && <>&nbsp;&nbsp;
+                                                    <ButtonComponent disabled={isSubmitting || isInterventionCheckingOut || linkedCPTCodes?.length === 0}
                                                                      isLoading={isInterventionCheckingOut}
                                                                      onClick={handleInterventionCheckout}>
                                                         Checkout

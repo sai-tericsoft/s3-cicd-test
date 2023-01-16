@@ -27,15 +27,16 @@ const FormAutoSave = (props: FormAutoSaveProps) => {
     }, delay), [formikCtx.submitForm, delay]);
 
     useEffect(() => {
-        debouncedSubmit();
-    }, [debouncedSubmit, formikCtx.values]);
+        if (formikCtx.dirty) {
+            debouncedSubmit();
+        }
+    }, [debouncedSubmit, formikCtx.dirty, formikCtx.values]);
 
     useEffect(() => {
         if (formikCtx.isSubmitting) {
             debouncedSubmit.cancel();
         }
     }, [debouncedSubmit, formikCtx.isSubmitting]);
-
 
     return (
         <div className="form-auto-save-component">

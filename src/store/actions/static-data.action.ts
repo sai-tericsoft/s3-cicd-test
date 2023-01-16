@@ -1,12 +1,13 @@
 import {IConsultationDuration} from "../../shared/models/static-data.model";
 import {
+    I8MinuteRuleChartItem,
     IBodyPart, ICaseStatus,
     ICommunicationModeType,
     IEmploymentStatus,
     IGender, IInjuryType,
     ILanguage,
     IMedicalHistoryOption, IMusculoskeletalHistoryOption,
-    IPhoneType, IReferralType,
+    IPhoneType, IProgressReportStat, IReferralType,
     IRelationship, ISocialMediaPlatform, ISurgicalHistoryOption
 } from "../../shared/models/common.model";
 
@@ -55,6 +56,11 @@ export const SET_INJURY_TYPE_LIST = 'SET_INJURY_TYPE_LIST';
 export const GET_CASE_STATUS_LIST =  'GET_CASE_STATUS_LIST';
 export const SET_CASE_STATUS_LIST =  'SET_CASE_STATUS_LIST';
 
+export const GET_PROGRESS_REPORT_STATS_LIST =  'GET_PROGRESS_REPORT_STATS_LIST';
+export const SET_PROGRESS_REPORT_STATS_LIST =  'SET_PROGRESS_REPORT_STATS_LIST';
+
+export const GET_8_MINUTE_RULE_CHART =  'GET_8_MINUTE_RULE_CHART';
+export const SET_8_MINUTE_RULE_CHART =  'SET_8_MINUTE_RULE_CHART';
 
 export const getConsultationDurationList = () => {
     return {type: GET_CONSULTATION_DURATION_LIST};
@@ -234,6 +240,30 @@ export const setCaseStatusList = (caseStatusList : ICaseStatus[])=>{
     return {
         type : SET_CASE_STATUS_LIST , payload :{
             caseStatusList
+        }
+    }
+}
+
+export const getProgressReportStatsList =()=>{
+    return {type : GET_PROGRESS_REPORT_STATS_LIST}
+}
+
+export const setProgressReportStatsList = (progressReportStatList : IProgressReportStat[])=>{
+    return {
+        type : SET_PROGRESS_REPORT_STATS_LIST , payload :{
+            progressReportStatList
+        }
+    }
+}
+
+export const get8MinuteRuleChart =()=>{
+    return {type : GET_8_MINUTE_RULE_CHART}
+}
+
+export const set8MinuteRuleChart = ( eightMinuteRuleChart : I8MinuteRuleChartItem[])=>{
+    return {
+        type : SET_8_MINUTE_RULE_CHART , payload :{
+             eightMinuteRuleChart
         }
     }
 }

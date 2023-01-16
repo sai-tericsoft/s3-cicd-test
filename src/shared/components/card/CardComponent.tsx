@@ -33,7 +33,7 @@ const CardComponent = (props: React.PropsWithChildren<CardComponentProps>) => {
                 }
             </div>}
             {
-                children && <div className="card-body">
+                (React.Children.count(children)) > 0 && <div className="card-body">
                     {children}
                 </div>
             }

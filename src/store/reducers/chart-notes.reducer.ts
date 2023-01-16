@@ -1,11 +1,18 @@
 import {IActionModel} from "../../shared/models/action.model";
 import {
     GET_INTERVENTION_ATTACHMENT_LIST,
-    GET_MEDICAL_INTERVENTION_DETAILS, SET_INTERVENTION_ATTACHMENT_LIST,
+    GET_MEDICAL_INTERVENTION_DETAILS,
+    SET_INTERVENTION_ATTACHMENT_LIST,
     GET_CLIENT_MEDICAL_INTERVENTION_DETAILS,
     SET_CLIENT_MEDICAL_INTERVENTION_DETAILS,
-    SET_MEDICAL_INTERVENTION_DETAILS
+    GET_PROGRESS_REPORT_VIEW_DETAILS,
+    SET_PROGRESS_REPORT_VIEW_DETAILS,
+    REFRESH_SURGERY_RECORDS,
+    SET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS,
+    SET_MEDICAL_INTERVENTION_DETAILS,
+    GET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS, GET_MEDICAL_INTERVENTION_LIST, SET_MEDICAL_INTERVENTION_LIST,
 } from "../actions/chart-notes.action";
+import {CommonService} from "../../shared/services";
 
 export interface IChartNotesReducerState {
     isMedicalInterventionDetailsLoading: boolean,
@@ -20,7 +27,19 @@ export interface IChartNotesReducerState {
     isClientMedicalInterventionDetailsLoaded: boolean,
     isClientMedicalInterventionDetailsLoadingFailed: boolean,
     clientMedicalInterventionDetails?: any,
-
+    isProgressReportDetailsLoading: boolean,
+    isProgressReportDetailsLoaded: boolean,
+    isProgressReportDetailsLoadingFailed: boolean,
+    progressReportDetails?: any,
+    isClientMedicalRecordProgressReportDetailsLoading: boolean,
+    isClientMedicalRecordProgressReportDetailsLoaded: boolean,
+    isClientMedicalRecordProgressReportDetailsLoadingFailed: boolean,
+    clientMedicalRecordProgressReportDetails?: any,
+    refreshSurgeryRecords?: string,
+    isMedicalInterventionListLoading: boolean,
+    isMedicalInterventionListLoaded: boolean,
+    isMedicalInterventionListLoadingFailed: boolean,
+    medicalInterventionList?: any,
 }
 
 const initialData: IChartNotesReducerState = {
@@ -32,15 +51,30 @@ const initialData: IChartNotesReducerState = {
     isAttachmentListLoaded: false,
     isAttachmentListLoadingFailed: false,
     attachmentList: undefined,
-        isClientMedicalInterventionDetailsLoading: false,
+    isClientMedicalInterventionDetailsLoading: false,
     isClientMedicalInterventionDetailsLoaded: false,
     isClientMedicalInterventionDetailsLoadingFailed: false,
     clientMedicalInterventionDetails: undefined,
-
+    isProgressReportDetailsLoading: false,
+    isProgressReportDetailsLoaded: false,
+    isProgressReportDetailsLoadingFailed: false,
+    progressReportDetails: undefined,
+    isClientMedicalRecordProgressReportDetailsLoading: false,
+    isClientMedicalRecordProgressReportDetailsLoaded: false,
+    isClientMedicalRecordProgressReportDetailsLoadingFailed: false,
+    clientMedicalRecordProgressReportDetails: undefined,
+    refreshSurgeryRecords: '',
+    isMedicalInterventionListLoading: false,
+    isMedicalInterventionListLoaded: false,
+    isMedicalInterventionListLoadingFailed: false,
+    medicalInterventionList: [],
 };
 
 const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNotesReducerState => {
     switch (action.type) {
+        case REFRESH_SURGERY_RECORDS:
+            state = {...state, refreshSurgeryRecords: CommonService.getRandomID(3)}
+            return state;
         case GET_MEDICAL_INTERVENTION_DETAILS:
             state = {
                 ...state,
@@ -76,7 +110,6 @@ const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNot
                 attachmentList: action.payload.interventionAttachmentList
             }
             return state;
-
         case GET_CLIENT_MEDICAL_INTERVENTION_DETAILS:
             state = {
                 ...state,
@@ -94,7 +127,58 @@ const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNot
                 clientMedicalInterventionDetails: action.payload.clientMedicalInterventionDetails
             };
             return state;
+        case GET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS:
+            state = {
+                ...state,
+                isClientMedicalRecordProgressReportDetailsLoading: true,
+                isClientMedicalRecordProgressReportDetailsLoaded: false,
+                isClientMedicalRecordProgressReportDetailsLoadingFailed: false,
+            };
+            return state;
+        case SET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS:
+            state = {
+                ...state,
+                isClientMedicalRecordProgressReportDetailsLoading: false,
+                isClientMedicalRecordProgressReportDetailsLoaded: !!action.payload.clientMedicalRecordProgressReportDetails,
+                isClientMedicalRecordProgressReportDetailsLoadingFailed: !action.payload.clientMedicalRecordProgressReportDetails,
+                clientMedicalRecordProgressReportDetails: action.payload.clientMedicalRecordProgressReportDetails
+            };
+            return state;
+            case GET_PROGRESS_REPORT_VIEW_DETAILS:
+                state = {
+                    ...state,
+                    isProgressReportDetailsLoading: true,
+                    isProgressReportDetailsLoaded: false,
+                    isProgressReportDetailsLoadingFailed: false,
+                }
+                return state;
 
+            case SET_PROGRESS_REPORT_VIEW_DETAILS:
+                state = {
+                    ...state,
+                    isProgressReportDetailsLoading: false,
+                    isProgressReportDetailsLoaded: !!action.payload.progressReportDetails,
+                    isProgressReportDetailsLoadingFailed: !action.payload.progressReportDetails,
+                    progressReportDetails: action.payload.progressReportDetails
+                }
+                return state;
+        case GET_MEDICAL_INTERVENTION_LIST:
+            state = {
+                ...state,
+                isMedicalInterventionListLoading: true,
+                isMedicalInterventionListLoaded: false,
+                isMedicalInterventionListLoadingFailed: false,
+            };
+            return state;
+        case SET_MEDICAL_INTERVENTION_LIST:
+            state = {
+                ...state,
+                isMedicalInterventionListLoading: false,
+                isMedicalInterventionListLoaded: !!action.payload.medicalInterventionList,
+                isMedicalInterventionListLoadingFailed: !action.payload.medicalInterventionList,
+                medicalInterventionList: action.payload.medicalInterventionList
+            };
+            return state;
         default:
             return state;
     }

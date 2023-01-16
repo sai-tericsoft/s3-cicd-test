@@ -147,7 +147,7 @@ const MedicalInterventionSpecialTestsScreen = (props: MedicalInterventionSpecial
             <ModalComponent
                 isOpen={showAddBodyPartModal}
                 title={"Add Body Part: "}
-                className={"intervention-rom-config-add-body-part-modal"}
+                className={"intervention-special-test-config-add-body-part-modal"}
                 modalFooter={<>
                     <ButtonComponent variant={"outlined"}
                                      onClick={() => {

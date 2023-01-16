@@ -126,7 +126,7 @@ const ClientService={
     AddFavouriteCode,
     RemoveFavouriteCode,
     GetAllFavouriteCodes,
-    ClientMedicalRecordApiCall
+    ClientMedicalRecordApiCall,
 }
 
 export default ClientService;

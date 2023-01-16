@@ -391,16 +391,31 @@
 
 .intervention-comments-modal {
   .modal-content-wrapper {
-    min-width: 600px;
+    width: 600px !important;
   }
 }
 
-.intervention-rom-config-add-body-part-modal {
+.intervention-special-test-config-add-body-part-modal, .intervention-rom-config-add-body-part-modal {
   .modal-content-wrapper {
-    min-width: 900px;
+    width: 900px;
+
+    .radio-component {
+      .MuiFormControlLabel-label {
+        font-weight: $font-weight-bold;
+      }
+    }
   }
 }
+
 
 .font-weight-bold {
   font-weight: bold;
+}
+
+
+.add-progress-report-container {
+  .t-form-controls {
+    min-height: 300px;
+    height: calc(100vh - 215px);
+  }
 }

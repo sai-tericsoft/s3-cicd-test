@@ -20,6 +20,7 @@ import FacilityService from "./modules/facility.service";
 import ClientService from "./modules/client.service";
 import ChartNotesService from "./modules/chart-notes.service";
 
+
 yup.addMethod(yup.mixed, 'atLeastOne', (args) => {
     const {message} = args;
     // @ts-ignore
@@ -110,7 +111,7 @@ const getPayloadFilterDates = (mode: 'day' | 'week' | 'month' | 'year'): { start
     return payload;
 }
 
-const transformTimeStamp = (date: Date | string) => {
+const transformTimeStamp = (date: Date | string | undefined) => {
     return moment(date).format('D-MMM-YYYY | hh:mm A');
 }
 
@@ -120,6 +121,12 @@ const convertDateFormat = (date: Date, format: string = 'YYYY-MM-DD') => {
 
 const convertDateFormat2 = (date: Date, format: string = 'DD-MMM-YYYY') => {
     return moment(date).format(format);
+}
+
+const generateInterventionNameFromMedicalRecord = (medicalRecordDetails: any) => {
+    return `${medicalRecordDetails?.injury_details?.map((bodyPart: any, index: number) => {
+        return (bodyPart?.body_part_details?.name + (index === medicalRecordDetails?.injury_details?.length - 1 ? '' : '/'))
+    })} - ${CommonService.convertDateFormat2(medicalRecordDetails?.created_at)}`
 }
 
 const getTheDifferenceBetweenDates = (fromDate: string) => {
@@ -474,6 +481,7 @@ const CommonService = {
     isEqual,
     convertDateFormat2,
     formatPhoneNumber,
+    generateInterventionNameFromMedicalRecord,
 
     // createValidationsObject,
     // createYupSchema,

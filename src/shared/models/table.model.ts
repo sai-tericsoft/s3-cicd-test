@@ -24,6 +24,7 @@ export interface ITableComponentProps {
     scroll?:  "unset" | "scroll";
     size?: 'small' | 'middle' | 'large';
     onSort?: (key: string, order: string) => void;
+    rowExpandable?: (row: any) => boolean
     id?: string;
     defaultExpandAllRows?: boolean;
     showExpandColumn?: boolean;

@@ -201,12 +201,12 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-md-3'}>
                                         <DataLabelValueComponent label={'Date of Intervention'}>
-                                            {medicalInterventionDetails?.intervention_date ? CommonService.getSystemFormatTimeStamp(medicalInterventionDetails?.intervention_date) : "-"}
+                                            {medicalInterventionDetails?.intervention_date ? CommonService.getSystemFormatTimeStamp(medicalInterventionDetails?.intervention_date) : "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-3'}>
                                         <DataLabelValueComponent label={'Treated by'}>
-                                            {medicalInterventionDetails?.treated_by_details?.first_name ? (medicalInterventionDetails?.treated_by_details?.first_name + ' ' + medicalInterventionDetails?.treated_by_details?.last_name) : "-"}
+                                            {medicalInterventionDetails?.treated_by_details?.first_name ? (medicalInterventionDetails?.treated_by_details?.first_name + ' ' + medicalInterventionDetails?.treated_by_details?.last_name) : "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-3'}>
@@ -216,7 +216,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                     </div>
                                     <div className={'ts-col-md-3'}>
                                         <DataLabelValueComponent label={'Next Appointment'}>
-                                            {medicalInterventionDetails?.medical_record_details?.case_physician?.next_appointment || "N/A"}
+                                            {medicalInterventionDetails?.medical_record_details?.case_physician?.next_appointment ? CommonService.getSystemFormatTimeStamp(medicalInterventionDetails?.medical_record_details?.case_physician?.next_appointment) : "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
                                 </div>

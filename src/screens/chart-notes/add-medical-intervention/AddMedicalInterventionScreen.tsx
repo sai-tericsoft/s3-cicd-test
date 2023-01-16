@@ -57,26 +57,13 @@ const SpecialTestsColumns: any = [
         title: 'Test Name',
         dataIndex: 'name',
         key: 'test_name',
-        render: (_: any, item: any) => {
-            return <div className={'test-name'}>{item?.name}</div>
-        }
+        width: 150,
     },
     {
         title: ' Results',
         dataIndex: 'result',
         key: 'result',
         width: 150,
-        render: (_: any, item: any) => {
-            return <div className={'test-name font-weight-bold'}>{item?.result}</div>
-        }
-    },
-    {
-        title: 'Comments',
-        dataIndex: 'comments',
-        key: 'comments',
-        render: (_: any, item: any) => {
-            return <div className={'test-name'}>{item?.comment}</div>
-        }
     }
 ];
 
@@ -237,7 +224,9 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                 validationSchema={MedicalInterventionAddFormValidationSchema}
                 initialValues={addMedicalInterventionFormInitialValues}
                 onSubmit={(values, formikHelpers) => {
-                    onSubmit(values, formikHelpers, false);
+                    if (medicalInterventionDetails.status === 'draft') {
+                        onSubmit(values, formikHelpers, false);
+                    }
                 }}
                 validateOnChange={false}
                 validateOnBlur={true}
@@ -251,12 +240,14 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                     }, [formik.validateForm, formik.values]);
                     return (
                         <Form className="t-form" noValidate={true}>
-                            <FormAutoSave formikCtx={formik}/>
+
+                            {medicalInterventionDetails?.status === 'draft' && <FormAutoSave formikCtx={formik}/>}
                             <div
                                 className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
                                 <FormControlLabelComponent label={"Soap Note"} className={"mrg-0"}/>
                                 {
-                                    (medicalInterventionId && medicalRecordId) && <LinkComponent
+                                    (medicalInterventionId && medicalRecordId && medicalInterventionDetails?.status === 'draft') &&
+                                    <LinkComponent
                                         route={CommonService._routeConfig.MedicalInterventionExerciseLogUpdate(medicalRecordId, medicalInterventionId)}>
                                         <ButtonComponent
                                             prefixIcon={medicalInterventionDetails?.is_having_exercise_log ?
@@ -436,15 +427,17 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                                     data={body_part?.rom_config}
                                                                     bordered={true}
                                                                     showExpandColumn={false}
-                                                                    defaultExpandAllRows={false}
+                                                                    defaultExpandAllRows={true}
+                                                                    rowExpandable={(row: any) => row?.config?.comments?.length > 0}
                                                                     expandRow={
                                                                         (row: any) => {
                                                                             return (
                                                                                 <div key={row?.config?._id}
                                                                                      className={'comment-row'}>
                                                                                     <div className={'comment-icon'}>
-                                                                                        <ImageConfig.CommentIcon/></div>
-                                                                                    <div>{row?.config?.comment || row?.config?.comments || "-"}</div>
+                                                                                        <ImageConfig.CommentIcon/>
+                                                                                    </div>
+                                                                                    <div className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
                                                                                 </div>
                                                                             )
                                                                         }
@@ -489,7 +482,23 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                         <TableComponent
                                                             data={body_part.special_tests}
                                                             columns={SpecialTestsColumns}
-                                                            bordered={true}/>
+                                                            bordered={true}
+                                                            showExpandColumn={false}
+                                                            defaultExpandAllRows={true}
+                                                            rowExpandable={(row: any) => row?.comments?.length > 0}
+                                                            expandRow={
+                                                                (row: any) => {
+                                                                    return (
+                                                                        <div key={row?._id}
+                                                                             className={'comment-row'}>
+                                                                            <div className={'comment-icon'}>
+                                                                                <ImageConfig.CommentIcon/>
+                                                                            </div>
+                                                                            <div className={'comment-text'}>{row?.comments ? CommonService.capitalizeFirstLetter(row?.comments) : "-"}</div>
+                                                                        </div>
+                                                                    )
+                                                                }
+                                                            }/>
                                                     </div>)
                                                 })}
                                             </CardComponent>
@@ -654,8 +663,6 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </div>
                                         }
                                         />
-
-
                                         <DraftReadonlySwitcherComponent
                                             condition={medicalInterventionDetails?.status === 'draft'} draft={
                                             <Field name={'assessment.surgery_procedure'}>
@@ -683,8 +690,6 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </div>
                                         }
                                         />
-
-
                                     </div>
                                 </div>
                             </CardComponent>
@@ -731,7 +736,6 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </div>
                                         }
                                         />
-
                                         <DraftReadonlySwitcherComponent
                                             condition={medicalInterventionDetails?.status === 'draft'} draft={
                                             <Field name={'plan.md_recommendations'}>
@@ -759,7 +763,6 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </div>
                                         }
                                         />
-
                                         <DraftReadonlySwitcherComponent
                                             condition={medicalInterventionDetails?.status === 'draft'} draft={
                                             <Field name={'plan.education'}>
@@ -828,7 +831,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                             }}/>
                                 </div>
                             </CardComponent>
-                            <div className="t-form-actions">
+                            {medicalInterventionDetails?.status === 'draft' && <div className="t-form-actions">
                                 <ButtonComponent
                                     onClick={(event) => {
                                         if (medicalInterventionDetails?.is_signed) {
@@ -844,7 +847,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                 >
                                     {medicalInterventionDetails?.is_signed ? "Finalize treatment" : formik.isSubmitting ? "Saving" : "Save"}
                                 </ButtonComponent>
-                            </div>
+                            </div>}
                         </Form>
                     );
                 }}

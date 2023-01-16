@@ -1,8 +1,9 @@
 import "./Client8MinutesRuleChartComponent.scss";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
-import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
 import {ITableColumn} from "../../../shared/models/table.model";
-import {APIConfig} from "../../../constants";
+import TableComponent from "../../../shared/components/table/TableComponent";
+import {useSelector} from "react-redux";
+import {IRootReducerState} from "../../../store/reducers";
 
 
 interface Client8MinutesRuleChartComponentProps {
@@ -10,6 +11,11 @@ interface Client8MinutesRuleChartComponentProps {
 }
 
 const Client8MinutesRuleChartComponent = (props: Client8MinutesRuleChartComponentProps) => {
+
+    const {
+        eightMinuteRuleChart,
+        isEightMinuteRuleChartLoading
+    } = useSelector((state: IRootReducerState) => state.staticData);
 
     const minutesChartColumn: ITableColumn[] = [
         {
@@ -28,10 +34,10 @@ const Client8MinutesRuleChartComponent = (props: Client8MinutesRuleChartComponen
     return (
         <div className={'client-8-minutes-rule-chart-component'}>
             <FormControlLabelComponent size={'lg'} label={'8-Minute Rule Reference Chart'}/>
-            <TableWrapperComponent url={APIConfig.CLIENT_EIGHT_MINUTES_RULE_CHART.URL}
-                                   method={APIConfig.CLIENT_EIGHT_MINUTES_RULE_CHART.METHOD}
-                                   isPaginated={false}
-                                   columns={minutesChartColumn}/>
+            <TableComponent
+                data={eightMinuteRuleChart}
+                loading={isEightMinuteRuleChartLoading}
+                columns={minutesChartColumn}/>
         </div>
     );
 };

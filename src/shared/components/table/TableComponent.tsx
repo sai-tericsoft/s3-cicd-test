@@ -28,6 +28,7 @@ const TableComponent = (props: TableComponentProps) => {
         rowClassName,
         rowSelection,
         showExpandColumn,
+        rowExpandable,
         expandRow
     } = props;
 
@@ -73,12 +74,13 @@ const TableComponent = (props: TableComponentProps) => {
                 id={id}
                 rowSelection={rowSelection}
                 expandable={{
-                        // expandedRowKeys: rowKey ? data.map(rowKey) : [], // todo: make it unique if required
-                        showExpandColumn: showExpandColumn,
-                        defaultExpandAllRows: defaultExpandAllRows,
-                        expandedRowRender: expandRow,
-                        expandRowByClick: !!expandRow
-                    }
+                    // expandedRowKeys: rowKey ? data.map(rowKey) : [], // todo: make it unique if required
+                    showExpandColumn: showExpandColumn,
+                    defaultExpandAllRows: defaultExpandAllRows,
+                    rowExpandable: rowExpandable,
+                    expandedRowRender: expandRow,
+                    expandRowByClick: !!expandRow
+                }
                 }
                 columns={tableColumns}
                 className={`${loading ? "loading" : ""}`}

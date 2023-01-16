@@ -240,6 +240,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                     <TableWrapperComponent
                         rowSelection={{
                             type: 'checkbox',
+                            hideSelectAll: true,
                             selectedRowKeys: selectedICDCodes,
                             onSelect: (record, selected, selectedRows) => {
                                 setSelectedICDCodes(selectedRows.map(v => v?._id));

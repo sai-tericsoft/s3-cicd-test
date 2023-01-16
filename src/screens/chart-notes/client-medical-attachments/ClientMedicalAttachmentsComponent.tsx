@@ -5,6 +5,8 @@ import {APIConfig} from "../../../constants";
 import {useParams} from "react-router-dom";
 import {CommonService} from "../../../shared/services";
 import {ITableColumn} from "../../../shared/models/table.model";
+import {useSelector} from "react-redux";
+import {IRootReducerState} from "../../../store/reducers";
 
 interface ClientMedicalAttachmentsComponentProps {
 
@@ -13,6 +15,7 @@ interface ClientMedicalAttachmentsComponentProps {
 const ClientMedicalAttachmentsComponent = (props: ClientMedicalAttachmentsComponentProps) => {
 
     const {medicalRecordId} = useParams();
+    const {refreshSurgeryRecords} = useSelector((state:IRootReducerState) => state.chartNotes)
 
     const attachmentRecord: ITableColumn[] = [
         {
@@ -22,7 +25,7 @@ const ClientMedicalAttachmentsComponent = (props: ClientMedicalAttachmentsCompon
             fixed: 'left',
             width: 173,
             render: (_: any, item: any) => {
-                return <>{CommonService.transformTimeStamp(item?.updated_at)}</>
+                return <>{CommonService.getSystemFormatTimeStamp(item?.updated_at)}</>
             }
         },
         {
@@ -76,7 +79,7 @@ const ClientMedicalAttachmentsComponent = (props: ClientMedicalAttachmentsCompon
             <div className={'client-medical-attachments-header'}>
                 Attachment
             </div>
-            <TableWrapperComponent url={APIConfig.CLIENT_MEDICAL_ATTACHMENT.URL(medicalRecordId)}
+            <TableWrapperComponent refreshToken={refreshSurgeryRecords} url={APIConfig.CLIENT_MEDICAL_ATTACHMENT.URL(medicalRecordId)}
                                    method={APIConfig.CLIENT_MEDICAL_ATTACHMENT.METHOD}
                                    isPaginated={false}
                                    columns={attachmentRecord}/>
