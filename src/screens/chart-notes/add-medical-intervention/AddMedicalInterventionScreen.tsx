@@ -57,17 +57,13 @@ const SpecialTestsColumns: any = [
         title: 'Test Name',
         dataIndex: 'name',
         key: 'test_name',
+        width: 150,
     },
     {
         title: ' Results',
         dataIndex: 'result',
         key: 'result',
         width: 150,
-    },
-    {
-        title: 'Comments',
-        dataIndex: 'comments',
-        key: 'comments',
     }
 ];
 
@@ -486,7 +482,23 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                         <TableComponent
                                                             data={body_part.special_tests}
                                                             columns={SpecialTestsColumns}
-                                                            bordered={true}/>
+                                                            bordered={true}
+                                                            showExpandColumn={false}
+                                                            defaultExpandAllRows={true}
+                                                            rowExpandable={(row: any) => row?.comments?.length > 0}
+                                                            expandRow={
+                                                                (row: any) => {
+                                                                    return (
+                                                                        <div key={row?._id}
+                                                                             className={'comment-row'}>
+                                                                            <div className={'comment-icon'}>
+                                                                                <ImageConfig.CommentIcon/>
+                                                                            </div>
+                                                                            <div className={'comment-text'}>{row?.comments ? CommonService.capitalizeFirstLetter(row?.comments) : "-"}</div>
+                                                                        </div>
+                                                                    )
+                                                                }
+                                                            }/>
                                                     </div>)
                                                 })}
                                             </CardComponent>
