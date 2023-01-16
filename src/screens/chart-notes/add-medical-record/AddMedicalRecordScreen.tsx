@@ -305,13 +305,14 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                         <div>
                                             <ButtonComponent variant={"outlined"}
                                                              color={"error"}
+                                                             className={"mrg-right-10"}
                                                              prefixIcon={<ImageConfig.DeleteIcon/>}
                                                              onClick={() => {
                                                                  setSurgeryRecord(null);
                                                              }}
                                             >
                                                 Delete
-                                            </ButtonComponent>&nbsp;
+                                            </ButtonComponent>
                                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
                                                              onClick={handleSurgeryRecordDrawerOpen}
                                             >
