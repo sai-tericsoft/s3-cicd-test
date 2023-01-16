@@ -44,7 +44,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             width: '20%',
             fixed: 'left',
             render: (_: any, item: any) => {
-                return <>{CommonService.getSystemFormatTimeStamp(item.intervention_date)}</>
+                return <>{CommonService.getSystemFormatTimeStamp(item?.intervention_date)}</>
             }
         },
         {
@@ -58,7 +58,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             dataIndex: 'updated_at',
             width: '25%',
             render: (_: any, item: any) => {
-                return <>{CommonService.transformTimeStamp(item.updated_at)}</>
+                return <>{CommonService.transformTimeStamp(item?.updated_at)}</>
             }
         },
         {
@@ -76,9 +76,9 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             dataIndex: 'name',
             render: (_: any, item: any) => {
                 if (item?.note_type?.toLowerCase() === "progress report") {
-                    return item.posted_by
+                    return item?.posted_by
                 } else {
-                    return item.posted_by.first_name + " " + item.posted_by.last_name
+                    return item?.posted_by?.first_name + " " + item?.posted_by?.last_name
                 }
             }
         },
@@ -89,17 +89,17 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                 if (medicalRecordId) {
                     if (item?.note_type?.toLowerCase() === 'exercise log') {
                         return <LinkComponent
-                            route={CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, item.intervention_id)}>
+                            route={CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, item?.intervention_id)}>
                             View Details
                         </LinkComponent>
                     } else if (item?.note_type?.toLowerCase() === "soap note") {
                         return <LinkComponent
-                            route={CommonService._routeConfig.MedicalInterventionDetails(medicalRecordId, item._id)}>
+                            route={CommonService._routeConfig.MedicalInterventionDetails(medicalRecordId, item?._id)}>
                             View Details
                         </LinkComponent>
                     } else if (item?.note_type?.toLowerCase() === "progress report") {
                         return <LinkComponent
-                            route={CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId, item._id)}>
+                            route={CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId, item?._id)}>
                             View Details
                         </LinkComponent>
                     } else {

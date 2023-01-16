@@ -31,9 +31,9 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             fixed: "left",
             width: 50,
             render: (_: any, item: any) => {
-                return <span className={`medical-record-alert ${item.alert_type}`}>
+                return <span className={`medical-record-alert ${item?.alert_type}`}>
                     {
-                        (item.alert_type === "high" || item.alert_type === "medium") && <ImageConfig.AlertIcon/>
+                        (item?.alert_type === "high" || item?.alert_type === "medium") && <ImageConfig.AlertIcon/>
                     }
                 </span>
             }
@@ -45,7 +45,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             width: 140,
             fixed: "left",
             render: (_: any, item: any) => {
-                return <>{CommonService.convertDateFormat2(item.onset_date)}</>
+                return <>{CommonService.convertDateFormat2(item?.onset_date)}</>
             }
         },
         {
@@ -54,10 +54,10 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             dataIndex: "body_part",
             width: 160,
             render: (_: any, item: any) => {
-                if (item.injury_details.length === 1) {
-                    return <>{item.injury_details[0].body_part_details?.name}</>
+                if (item?.injury_details?.length === 1) {
+                    return <>{item?.injury_details[0]?.body_part_details?.name}</>
                 } else {
-                    return <>{item.injury_details[0].body_part_details?.name} ( + {item.injury_details.length} )</>
+                    return <>{item?.injury_details[0]?.body_part_details?.name} ( + {item?.injury_details?.length} )</>
                 }
             }
         },
@@ -67,7 +67,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             dataIndex: "body_side",
             width: 110,
             render: (_: any, item: any) => {
-                return <>{item.injury_details[0].body_side}</>
+                return <>{item?.injury_details[0]?.body_side}</>
             }
         },
         {

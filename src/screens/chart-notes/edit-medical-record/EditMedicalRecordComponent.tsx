@@ -18,6 +18,7 @@ import * as Yup from "yup";
 import HorizontalLineComponent
     from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 import _ from "lodash";
+import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface EditMedicalRecordComponentProps {
     medicalRecordId: string;
@@ -31,6 +32,22 @@ const MEDICAL_RECORD_BODY_PART = {
     injury_type_id: "",
 };
 
+
+const MedicalRecordEditFormInitialValues: any = { // TODO type properly
+    onset_date: "",
+    case_physician: {
+        is_case_physician: false,
+        name: "",
+        next_appointment: "",
+        is_treated_script_received: false,
+    },
+    injury_details: [
+        MEDICAL_RECORD_BODY_PART
+    ],
+    injury_description: "",
+    limitations: "",
+};
+
 const InjuryDetailsRecordValidationSchema = Yup.object().shape({
     body_part_id: Yup.string().required("Body Part is required"),
     body_side: Yup.mixed().required("Body Side is required"),
@@ -38,13 +55,22 @@ const InjuryDetailsRecordValidationSchema = Yup.object().shape({
 });
 
 const MedicalRecordValidationSchema = Yup.object({
-    onset_date: Yup.date().required("Onset date is required"),
+    onset_date: Yup.mixed().required("Onset date is required"),
+    injury_description: Yup.string().required("Injury/Condition description is required"),
+    limitations: Yup.string().required("Restrictions/Limitations is required"),
+    injury_details: Yup.array().of(InjuryDetailsRecordValidationSchema),
     case_physician: Yup.object({
-        name: Yup.string().required("Case physician name is required"),
+        is_case_physician: Yup.boolean(),
+        name: Yup.string().when("is_case_physician", {
+            is: true,
+            then: Yup.string().required("Case Physician is required"),
+        }),
+        is_treated_script_received: Yup.mixed().when("is_case_physician", {
+            is: true,
+            then: Yup.mixed().required("Treated Script Received is required"),
+        })
     }),
-    injury_details: Yup.array().of(InjuryDetailsRecordValidationSchema)
 });
-
 
 const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
 
@@ -52,20 +78,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
     const [isMedicalRecordEditInProgress, setIsMedicalRecordEditInProgress] = useState<boolean>(false);
     const {injuryTypeList, bodyPartList} = useSelector((state: IRootReducerState) => state.staticData);
 
-    const [medicalRecordEditInitialValues, setMedicalRecordEditInitialValues] = useState<any>({
-        onset_date: "",
-        injury_description: "",
-        limitations: "",
-        case_physician: {
-            is_case_physician: false,
-            name: "",
-            next_appointment: "",
-            is_treated_script_received: false,
-        },
-        injury_details: [
-            MEDICAL_RECORD_BODY_PART
-        ],
-    });
+    const [medicalRecordEditInitialValues, setMedicalRecordEditInitialValues] = useState<any>(_.cloneDeep(MedicalRecordEditFormInitialValues));
 
     useEffect(() => {
         if (medicalRecordDetails) {
@@ -103,7 +116,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
 
     return (
         <div className={'edit-medical-record-component'}>
-            <FormControlLabelComponent label={'Edit Details'} size={'lg'}/>
+            <FormControlLabelComponent label={'Edit Medical Record Details'} size={'lg'}/>
             <div className={'edit-medical-record-container'}>
                 <Formik initialValues={medicalRecordEditInitialValues}
                         validationSchema={MedicalRecordValidationSchema}
@@ -119,6 +132,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                         }, [validateForm, values]);
                         return (
                             <Form className="t-form" noValidate={true}>
+                                <FormDebuggerComponent values={ values } errors={errors}/>
                                 <div>
                                     <Field name={'onset_date'}>
                                         {
@@ -134,33 +148,6 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                         }
                                     </Field>
                                 </div>
-                                <div>
-                                    <Field name={'injury_description'}>
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikTextAreaComponent
-                                                    label={'Injury Description'}
-                                                    formikField={field}
-                                                    fullWidth={true}
-                                                />
-                                            )
-                                        }
-                                    </Field>
-                                </div>
-                                <div>
-                                    <Field name={'limitations'}>
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikTextAreaComponent
-                                                    label={'Restrictions/Limitations'}
-                                                    formikField={field}
-                                                    fullWidth={true}
-                                                />
-                                            )
-                                        }
-                                    </Field>
-                                </div>
-
                                 <div>
                                     <Field name={'case_physician.is_case_physician'}>
                                         {
@@ -203,6 +190,23 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                             </Field>
                                         </div>
                                         <div>
+                                            <Field name={'case_physician.is_treated_script_received'}>
+                                                {
+                                                    (field: FieldProps) => (
+                                                        <FormikSelectComponent
+                                                            options={CommonService._staticData.yesNoOptions}
+                                                            displayWith={(option) => option.title}
+                                                            valueExtractor={(option) => option.title}
+                                                            label={'Treated Script Received'}
+                                                            formikField={field}
+                                                            required={true}
+                                                            fullWidth={true}
+                                                        />
+                                                    )
+                                                }
+                                            </Field>
+                                        </div>
+                                        <div>
                                             <Field name={'case_physician.next_appointment'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -217,6 +221,34 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                         </div>
                                     </>
                                 }
+                                <div>
+                                    <Field name={'injury_description'}>
+                                        {
+                                            (field: FieldProps) => (
+                                                <FormikTextAreaComponent
+                                                    label={'Injury Description'}
+                                                    formikField={field}
+                                                    fullWidth={true}
+                                                    required={true}
+                                                />
+                                            )
+                                        }
+                                    </Field>
+                                </div>
+                                <div>
+                                    <Field name={'limitations'}>
+                                        {
+                                            (field: FieldProps) => (
+                                                <FormikTextAreaComponent
+                                                    label={'Restrictions/Limitations'}
+                                                    formikField={field}
+                                                    fullWidth={true}
+                                                    required={true}
+                                                />
+                                            )
+                                        }
+                                    </Field>
+                                </div>
                                 <FormControlLabelComponent label={'Injury Details'} size={'md'}/>
                                 <FieldArray
                                     name="injury_details"

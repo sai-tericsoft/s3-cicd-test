@@ -40,7 +40,6 @@ const MEDICAL_RECORD_BODY_PART = {
 
 const MedicalRecordAddFormInitialValues: any = { // TODO type properly
     onset_date: "",
-    treated_by: "",
     case_physician: {
         is_case_physician: false,
         name: "",
@@ -61,7 +60,6 @@ const surgeryDetailsInitValues = {
     documents: []
 }
 
-
 const surgeryRecordValidationSchema = Yup.object().shape({
     surgery_date: Yup.string().required("Surgery date is required"),
     reported_by: Yup.mixed().required("Reported by is required"),
@@ -75,10 +73,20 @@ const InjuryDetailsValidationSchema = Yup.object().shape({
 
 const MedicalRecordAddFormValidationSchema = Yup.object({
     onset_date: Yup.string().required("Date Of Onset is required"),
-    treated_by: Yup.mixed().required("Treated By is required"),
     injury_description: Yup.string().required("Injury/Condition description is required"),
     limitations: Yup.string().required("Restrictions/Limitations is required"),
     injury_details: Yup.array().of(InjuryDetailsValidationSchema),
+    case_physician: Yup.object({
+        is_case_physician: Yup.boolean(),
+        name: Yup.string().when("is_case_physician", {
+            is: true,
+            then: Yup.string().required("Case Physician is required"),
+        }),
+        is_treated_script_received: Yup.mixed().when("is_case_physician", {
+            is: true,
+            then: Yup.mixed().required("Treated Script Received is required"),
+        })
+    }),
 });
 
 const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
@@ -365,23 +373,6 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                         placeholder={'Date Of Onset'}
                                                         formikField={field}
                                                         maxDate={moment()}
-                                                        required={true}
-                                                        fullWidth={true}
-                                                    />
-                                                )
-                                            }
-                                        </Field>
-                                    </div>
-                                    <div className="ts-col-lg-4">
-                                        <Field name={'treated_by'}>
-                                            {
-                                                (field: FieldProps) => (
-                                                    <FormikSelectComponent
-                                                        options={allProvidersList}
-                                                        displayWith={(option: IUser) => (option?.first_name || option?.last_name) ? option?.first_name + " " + option?.last_name : "-"}
-                                                        valueExtractor={(option: IUser) => option._id}
-                                                        label={'Treated By'}
-                                                        formikField={field}
                                                         required={true}
                                                         fullWidth={true}
                                                     />
