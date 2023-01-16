@@ -10,6 +10,12 @@
 
     .MuiOutlinedInput-root, input {
       cursor: not-allowed !important;
+
+      &:after {
+        content: "N/A";
+        position: absolute;
+        left: 20px;
+      }
     }
   }
 }

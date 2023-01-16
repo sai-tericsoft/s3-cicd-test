@@ -57,26 +57,17 @@ const SpecialTestsColumns: any = [
         title: 'Test Name',
         dataIndex: 'name',
         key: 'test_name',
-        render: (_: any, item: any) => {
-            return <div className={'test-name'}>{item?.name}</div>
-        }
     },
     {
         title: ' Results',
         dataIndex: 'result',
         key: 'result',
         width: 150,
-        render: (_: any, item: any) => {
-            return <div className={'test-name font-weight-bold'}>{item?.result}</div>
-        }
     },
     {
         title: 'Comments',
         dataIndex: 'comments',
         key: 'comments',
-        render: (_: any, item: any) => {
-            return <div className={'test-name'}>{item?.comment}</div>
-        }
     }
 ];
 
@@ -440,15 +431,17 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                                     data={body_part?.rom_config}
                                                                     bordered={true}
                                                                     showExpandColumn={false}
-                                                                    defaultExpandAllRows={false}
+                                                                    defaultExpandAllRows={true}
+                                                                    rowExpandable={(row: any) => row?.config?.comments?.length > 0}
                                                                     expandRow={
                                                                         (row: any) => {
                                                                             return (
                                                                                 <div key={row?.config?._id}
                                                                                      className={'comment-row'}>
                                                                                     <div className={'comment-icon'}>
-                                                                                        <ImageConfig.CommentIcon/></div>
-                                                                                    <div>{row?.config?.comment || row?.config?.comments || "-"}</div>
+                                                                                        <ImageConfig.CommentIcon/>
+                                                                                    </div>
+                                                                                    <div className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
                                                                                 </div>
                                                                             )
                                                                         }

@@ -277,7 +277,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                                         {
                                                             (field: FieldProps) => (
                                                                 <FormikTextAreaComponent
-                                                                    label={selectedProgressStatComments?.name + " ( Comments ) "}
+                                                                    label={selectedProgressStatComments?.name}
                                                                     placeholder={"Enter your comments here..."}
                                                                     formikField={field}
                                                                     size={"small"}

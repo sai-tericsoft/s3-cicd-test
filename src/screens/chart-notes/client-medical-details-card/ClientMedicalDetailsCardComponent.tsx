@@ -184,8 +184,10 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                         </div>
                                         {showAction && <div className="ts-col">
                                             <MenuDropdownComponent menuBase={
-                                                <ButtonComponent size={'large'} variant={'outlined'} fullWidth={true}>
-                                                    Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
+                                                <ButtonComponent variant={'outlined'}
+                                                                 suffixIcon={<ImageConfig.SelectDropDownIcon/>}
+                                                                 fullWidth={true}>
+                                                    Select Action
                                                 </ButtonComponent>
                                             } menuOptions={
                                                 [
@@ -213,22 +215,22 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-md-3'}>
                                         <DataLabelValueComponent label={'Date of Onset'}>
-                                            { clientMedicalRecord?.onset_date ? CommonService.transformTimeStamp(clientMedicalRecord?.onset_date) : "NA" }
+                                            {clientMedicalRecord?.onset_date ? CommonService.transformTimeStamp(clientMedicalRecord?.onset_date) : "NA"}
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-3'}>
                                         <DataLabelValueComponent label={'Date of Surgery'}>
-                                            { clientMedicalRecord?.surgery_date ? CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.surgery_date) : "NA" }
+                                            {clientMedicalRecord?.surgery_date ? CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.surgery_date) : "NA"}
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-3'}>
                                         <DataLabelValueComponent label={'Case Physician'}>
-                                            { clientMedicalRecord?.case_physician.name || "-" }
+                                            {clientMedicalRecord?.case_physician.name || "-"}
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-3'}>
                                         <DataLabelValueComponent label={'Next MD Appointment'}>
-                                            { clientMedicalRecord?.next_md_appointment? CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.next_md_appointment) : "NA" }
+                                            {clientMedicalRecord?.next_md_appointment ? CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.next_md_appointment) : "NA"}
                                         </DataLabelValueComponent>
                                     </div>
                                 </div>

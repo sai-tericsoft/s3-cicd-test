@@ -54,7 +54,7 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                                     onChange={(isChecked) => {
                                         if (!isChecked) {
                                             field.form.setFieldValue(`${bodyPart._id}.${record?.name}.result`, undefined);
-                                            field.form.setFieldValue(`${bodyPart._id}.${record?.name}.comment`, undefined);
+                                            field.form.setFieldValue(`${bodyPart._id}.${record?.name}.comments`, undefined);
                                             field.form.setFieldValue(`${bodyPart._id}.${record?.name}.commentTemp`, undefined);
                                         }
                                     }}
@@ -94,19 +94,19 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                 key: 'comments',
                 width: 80,
                 render: (index: any, record: any) => <Field
-                    name={`${bodyPart._id}.${record?.name}.comment`}
+                    name={`${bodyPart._id}.${record?.name}.comments`}
                     className="t-form-control">
                     {
                         (field: FieldProps) => (
                             <IconButtonComponent
                                 disabled={!field.form.values[bodyPart._id]?.[record?.name]?.is_tested}
-                                color={field.form.values[bodyPart._id]?.[record?.name].comment ? "primary" : "inherit"}
+                                color={field.form.values[bodyPart._id]?.[record?.name].comments ? "primary" : "inherit"}
                                 onClick={() => {
                                     setShowSpecialTestCommentsModal(true);
                                     setSelectedSpecialTestComments(record);
                                 }}>
                                 {
-                                    field.form.values[bodyPart._id]?.[record?.name].comment ? <ImageConfig.ChatIcon/> :
+                                    field.form.values[bodyPart._id]?.[record?.name].comments ? <ImageConfig.ChatIcon/> :
                                         <ImageConfig.CommentAddIcon/>
                                 }
                             </IconButtonComponent>
@@ -124,8 +124,8 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
             const special_test_data = selected_tests.find((selected_test: any) => selected_test.name === special_test);
             return {
                 name: special_test,
-                comment: special_test_data?.comment,
-                commentTemp: special_test_data?.commentTemp || special_test_data?.comment,
+                comments: special_test_data?.comments,
+                commentTemp: special_test_data?.commentTemp || special_test_data?.comments,
                 result: special_test_data?.result,
                 is_tested: special_test_data?.is_tested
             };
@@ -136,7 +136,7 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
             bodyPartConfig[bodyPart._id][special_test.name] = {
                 is_tested: special_test.is_tested,
                 result: special_test.result,
-                comment: special_test.comment,
+                comments: special_test.comments,
                 commentTemp: special_test.commentTemp,
             };
         });
@@ -220,6 +220,8 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                                            actions={<>
                                                <ButtonComponent
                                                    size={"small"}
+                                                   color={"error"}
+                                                   variant={"outlined"}
                                                    prefixIcon={<ImageConfig.DeleteIcon/>}
                                                    onClick={handleBodyPartDelete}
                                                    disabled={isSubmitting || isBodyPartBeingDeleted}
@@ -249,15 +251,15 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                                         return <ModalComponent
                                             key={index + special_test}
                                             isOpen={showSpecialTestCommentsModal}
-                                            title={`${values?.[bodyPart._id]?.[selectedSpecialTestComments?.name]?.comment ? "Edit Comments" : "Comments:"}`}
+                                            title={`${values?.[bodyPart._id]?.[selectedSpecialTestComments?.name]?.comments ? "Edit Comments" : "Comments:"}`}
                                             closeOnBackDropClick={true}
                                             className={"intervention-comments-modal"}
                                             modalFooter={<>
                                                 <ButtonComponent variant={"outlined"}
                                                                  onClick={() => {
-                                                                     const comment = values?.[bodyPart._id]?.[selectedSpecialTestComments?.name]?.comment;
+                                                                     const comments = values?.[bodyPart._id]?.[selectedSpecialTestComments?.name]?.comments;
                                                                      setShowSpecialTestCommentsModal(false);
-                                                                     setFieldValue(`${bodyPart._id}.${selectedSpecialTestComments?.name}.commentTemp`, comment);
+                                                                     setFieldValue(`${bodyPart._id}.${selectedSpecialTestComments?.name}.commentTemp`, comments);
                                                                      setSelectedSpecialTestComments(undefined);
                                                                  }}>
                                                     Cancel
@@ -266,11 +268,11 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                                                     onClick={() => {
                                                         const newComment = values?.[bodyPart._id]?.[selectedSpecialTestComments?.name]?.commentTemp;
                                                         setShowSpecialTestCommentsModal(false);
-                                                        setFieldValue(`${bodyPart._id}.${selectedSpecialTestComments?.name}.comment`, newComment);
+                                                        setFieldValue(`${bodyPart._id}.${selectedSpecialTestComments?.name}.comments`, newComment);
                                                         setSelectedSpecialTestComments(undefined);
                                                     }}>
                                                     {
-                                                        values?.[bodyPart._id]?.[selectedSpecialTestComments?.name]?.comment ? "Save" : "Add"
+                                                        values?.[bodyPart._id]?.[selectedSpecialTestComments?.name]?.comments ? "Save" : "Add"
                                                     }
                                                 </ButtonComponent>
                                             </>
@@ -281,7 +283,7 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                                                 {
                                                     (field: FieldProps) => (
                                                         <FormikTextAreaComponent
-                                                            label={selectedSpecialTestComments?.name + " ( Comments ) "}
+                                                            label={selectedSpecialTestComments?.name}
                                                             placeholder={"Enter your comments here..."}
                                                             formikField={field}
                                                             size={"small"}
