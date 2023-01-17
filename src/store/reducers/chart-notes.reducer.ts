@@ -10,7 +10,10 @@ import {
     REFRESH_SURGERY_RECORDS,
     SET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS,
     SET_MEDICAL_INTERVENTION_DETAILS,
-    GET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS, GET_MEDICAL_INTERVENTION_LIST, SET_MEDICAL_INTERVENTION_LIST,
+    GET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS,
+    GET_MEDICAL_INTERVENTION_LIST,
+    SET_MEDICAL_INTERVENTION_LIST,
+    GET_MEDICAL_RECORD_STATS, SET_MEDICAL_RECORD_STATS,
 } from "../actions/chart-notes.action";
 import {CommonService} from "../../shared/services";
 
@@ -40,6 +43,10 @@ export interface IChartNotesReducerState {
     isMedicalInterventionListLoaded: boolean,
     isMedicalInterventionListLoadingFailed: boolean,
     medicalInterventionList?: any,
+    isMedicalRecordStatsLoading: boolean,
+    isMedicalRecordStatsLoaded: boolean,
+    isMedicalRecordStatsLoadingFailed: boolean,
+    medicalRecordStats: any[],
 }
 
 const initialData: IChartNotesReducerState = {
@@ -68,6 +75,10 @@ const initialData: IChartNotesReducerState = {
     isMedicalInterventionListLoaded: false,
     isMedicalInterventionListLoadingFailed: false,
     medicalInterventionList: [],
+    isMedicalRecordStatsLoading: false,
+    isMedicalRecordStatsLoaded: false,
+    isMedicalRecordStatsLoadingFailed: false,
+    medicalRecordStats: [],
 };
 
 const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNotesReducerState => {
@@ -177,6 +188,23 @@ const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNot
                 isMedicalInterventionListLoaded: !!action.payload.medicalInterventionList,
                 isMedicalInterventionListLoadingFailed: !action.payload.medicalInterventionList,
                 medicalInterventionList: action.payload.medicalInterventionList
+            };
+            return state;
+        case GET_MEDICAL_RECORD_STATS:
+            state = {
+                ...state,
+                isMedicalRecordStatsLoading: true,
+                isMedicalRecordStatsLoaded: false,
+                isMedicalRecordStatsLoadingFailed: false,
+            };
+            return state;
+        case SET_MEDICAL_RECORD_STATS:
+            state = {
+                ...state,
+                isMedicalRecordStatsLoading: false,
+                isMedicalRecordStatsLoaded: !!action.payload.medicalRecordStats,
+                isMedicalRecordStatsLoadingFailed: !action.payload.medicalRecordStats,
+                medicalRecordStats: action.payload.medicalRecordStats,
             };
             return state;
         default:

@@ -142,6 +142,10 @@ const MedicalInterventionListAPICall = (medicalRecordId: string, payload: any) =
     return ApiService[APIConfig.CLIENT_MEDICAL_INTERVENTION_LIST.METHOD](APIConfig.CLIENT_MEDICAL_INTERVENTION_LIST.URL(medicalRecordId), payload);
 }
 
+const MedicalRecordStatsAPICall = (medicalRecordId: string, payload: any) => {
+    return ApiService[APIConfig.MEDICAL_RECORD_STATS.METHOD](APIConfig.MEDICAL_RECORD_STATS.URL(medicalRecordId), payload);
+}
+
 const ChartNotesService = {
     MedicalRecordAddAPICall,
     MedicalRecordEditAPICall,
@@ -172,7 +176,8 @@ const ChartNotesService = {
     SaveMedicalInterventionCPTCodesAPICall,
     CheckoutAMedicalInterventionAPICall,
     MedicalRecordProgressReportDetailsAPICall,
-    MedicalInterventionListAPICall
+    MedicalInterventionListAPICall,
+    MedicalRecordStatsAPICall
 }
 
 export default ChartNotesService;
