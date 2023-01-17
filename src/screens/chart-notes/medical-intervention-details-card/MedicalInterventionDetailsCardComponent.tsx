@@ -22,6 +22,7 @@ import {ListItem} from "@mui/material";
 import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
 import AddSurgeryRecordComponent from "../add-surgery-record/AddSurgeryRecordComponent";
 import moment from "moment-timezone";
+import AddDryNeedlingFileComponent from "../add-dry-needling-file/AddDryNeedlingFileComponent";
 
 interface MedicalInterventionDetailsCardComponentProps {
     showAction?: boolean,
@@ -60,6 +61,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     const [isBodyPartsModalOpen, setIsBodyPartsModalOpen] = React.useState<boolean>(false);
     const [isSurgeryAddOpen, setIsSurgeryAddOpen] = React.useState<boolean>(false);
     const [isEditMedicalRecordDrawerOpen, setIsEditMedicalRecordDrawerOpen] = useState<boolean>(false);
+    const [isAddDryNeedlingFileDrawerOpen, setIsAddDryNeedlingFileDrawerOpen] = useState<boolean>(false);
 
     const {
         clientMedicalRecord,
@@ -98,6 +100,14 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
         setIsEditMedicalRecordDrawerOpen(false);
     }, []);
 
+    const openAddDryNeedlingFileDrawer = useCallback(() => {
+        setIsAddDryNeedlingFileDrawerOpen(true);
+    }, []);
+
+    const closeAddDryNeedlingFileDrawer = useCallback(() => {
+        setIsAddDryNeedlingFileDrawerOpen(false);
+    }, []);
+
     const handleMedicalRecordEdit = useCallback(() => {
         closeEditMedicalRecordDrawer();
         if (medicalRecordId) {
@@ -111,6 +121,10 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
         },
         [],
     );
+
+    const handleDryNeedlingFileAdd = useCallback(() => {
+        closeAddDryNeedlingFileDrawer();
+    }, []);
 
     return (
         <div className={'client-medical-details-card-component'}>
@@ -177,7 +191,8 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                                     <ListItem onClick={comingSoon}>Print SOAP</ListItem>,
                                                     <ListItem onClick={comingSoon}>Transfer SOAP to</ListItem>,
                                                     <ListItem onClick={comingSoon}>Notify Admin</ListItem>,
-
+                                                    <ListItem onClick={openAddDryNeedlingFileDrawer}>Add Dry Needling
+                                                        File</ListItem>,
                                                 ]
                                             }/>
                                         </div>}
@@ -243,6 +258,14 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                         <EditMedicalRecordComponent medicalRecordId={medicalRecordId}
                                                     medicalRecordDetails={clientMedicalRecord}
                                                     onSave={handleMedicalRecordEdit}/>
+                    </DrawerComponent>
+                    <DrawerComponent isOpen={isAddDryNeedlingFileDrawerOpen}
+                                     showClose={true}
+                                     onClose={closeAddDryNeedlingFileDrawer}>
+                        <AddDryNeedlingFileComponent
+                            medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
+                            medicalInterventionId={medicalInterventionDetails?._id}
+                            onAdd={handleDryNeedlingFileAdd}/>
                     </DrawerComponent>
                 </>
             }

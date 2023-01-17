@@ -146,6 +146,12 @@ const MedicalRecordStatsAPICall = (medicalRecordId: string, payload: any) => {
     return ApiService[APIConfig.MEDICAL_RECORD_STATS.METHOD](APIConfig.MEDICAL_RECORD_STATS.URL(medicalRecordId), payload);
 }
 
+const DryNeedlingFileAddAPICall = (medicalInterventionId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.ADD_DRY_NEEDLING_FILE.METHOD](APIConfig.ADD_DRY_NEEDLING_FILE.URL(medicalInterventionId), payload, {'Content-Type': 'multipart/form-data'});
+}
+
+
 const ChartNotesService = {
     MedicalRecordAddAPICall,
     MedicalRecordEditAPICall,
@@ -177,7 +183,8 @@ const ChartNotesService = {
     CheckoutAMedicalInterventionAPICall,
     MedicalRecordProgressReportDetailsAPICall,
     MedicalInterventionListAPICall,
-    MedicalRecordStatsAPICall
+    MedicalRecordStatsAPICall,
+    DryNeedlingFileAddAPICall
 }
 
 export default ChartNotesService;
