@@ -22,7 +22,8 @@ import {ListItem} from "@mui/material";
 import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
 import AddSurgeryRecordComponent from "../add-surgery-record/AddSurgeryRecordComponent";
 import AddBasicProgressReportComponent from "../add-basic-progress-report/AddBasicProgressReportComponent";
-import {refreshSurgeryRecords} from "../../../store/actions/chart-notes.action";
+import {getMedicalRecordStats, refreshSurgeryRecords} from "../../../store/actions/chart-notes.action";
+import MedicalRecordStatsComponent from "../medical-record-stats/MedicalRecordStatsComponent";
 
 interface ClientMedicalDetailsCardComponentProps {
     showAction?: boolean
@@ -60,7 +61,7 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
     const [isSurgeryAddOpen, setIsSurgeryAddOpen] = React.useState<boolean>(false);
     const [isEditMedicalRecordDrawerOpen, setIsEditMedicalRecordDrawerOpen] = useState<boolean>(false);
     const [isProgressReportDrawerOpen, setIsProgressReportDrawerOpen] = useState<boolean>(false);
-
+    const [isMedicalRecordStatsModalOpen, setIsMedicalRecordStatsModalOpen] = useState<boolean>(false);
     const {
         clientMedicalRecord,
         isClientMedicalRecordLoading,
@@ -71,6 +72,7 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
     useEffect(() => {
         if (medicalRecordId) {
             dispatch(getClientMedicalRecord(medicalRecordId));
+            dispatch(getMedicalRecordStats(medicalRecordId));
         }
     }, [medicalRecordId, dispatch]);
 
@@ -105,25 +107,26 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
         }
     }, [dispatch, medicalRecordId, closeEditMedicalRecordDrawer]);
 
-    const openAddSurgeryRecord = useCallback(
-        () => {
-            setIsSurgeryAddOpen(true)
-        },
-        [],
-    );
+    const openAddSurgeryRecord = useCallback(() => {
+        setIsSurgeryAddOpen(true)
+    }, []);
 
     const addProgressRecord = useCallback(() => {
-            setIsProgressReportDrawerOpen(true);
-        },
-        [],
-    );
+        setIsProgressReportDrawerOpen(true);
+    }, []);
 
-    const comingSoon = useCallback(
-        () => {
-            CommonService._alert.showToast('Coming Soon!', 'info')
-        },
-        [],
-    );
+    const comingSoon = useCallback(() => {
+        CommonService._alert.showToast('Coming Soon!', 'info')
+    }, []);
+
+    const openMedicalRecordStatsModal = useCallback(() => {
+        setIsMedicalRecordStatsModalOpen(true);
+    }, []);
+
+    const closeMedicalRecordStatsModal = useCallback(() => {
+        setIsMedicalRecordStatsModalOpen(false);
+    }, []);
+
 
     return (
         <div className={'client-medical-details-card-component'}>
@@ -191,12 +194,21 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                                 </ButtonComponent>
                                             } menuOptions={
                                                 [
-                                                    <ListItem onClick={openAddSurgeryRecord}>Add Surgery
-                                                        Record </ListItem>,
-                                                    <ListItem onClick={addProgressRecord}>Add Progress
-                                                        Report </ListItem>,
-                                                    <ListItem onClick={comingSoon}>Add Document </ListItem>,
-                                                    <ListItem onClick={comingSoon}>View Exercise Record </ListItem>
+                                                    <ListItem onClick={openAddSurgeryRecord}>
+                                                        Add Surgery Record
+                                                    </ListItem>,
+                                                    <ListItem onClick={addProgressRecord}>
+                                                        Add Progress Report
+                                                    </ListItem>,
+                                                    <ListItem onClick={openMedicalRecordStatsModal}>
+                                                        View Case Statistics
+                                                    </ListItem>,
+                                                    <ListItem onClick={comingSoon}>
+                                                        Add Document
+                                                    </ListItem>,
+                                                    <ListItem onClick={comingSoon}>
+                                                        View Exercise Record
+                                                    </ListItem>
                                                 ]
                                             }/>
                                         </div>}
@@ -286,6 +298,19 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                         />
                     </DrawerComponent>
                     {/*Add progress record drawer end*/}
+
+                    {/*Medical record statistics  modal start*/}
+                    <ModalComponent isOpen={isMedicalRecordStatsModalOpen}
+                                    title={"Case Statistics"}
+                                    onClose={closeMedicalRecordStatsModal}
+                                    modalFooter={<>
+                                        <ButtonComponent onClick={closeMedicalRecordStatsModal}>Close</ButtonComponent>
+                                    </>
+                                    }
+                    >
+                        <MedicalRecordStatsComponent/>
+                    </ModalComponent>
+                    {/*Medical record statistics  modal end*/}
                 </>
 
             }

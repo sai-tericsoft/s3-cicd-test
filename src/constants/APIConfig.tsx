@@ -312,6 +312,10 @@ const APIConfig: IAPIConfig = {
         URL: (medicalRecordId: string) => ENV.API_URL + "/medicalRecord/" + medicalRecordId + "/record",
         METHOD: "get"
     },
+    MEDICAL_RECORD_STATS: {
+        URL: (medicalRecordId: string) => ENV.API_URL + "/medicalRecord/" + medicalRecordId + "/statistics",
+        METHOD: "get"
+    },
     CLIENT_MEDICAL_INTERVENTION_DETAILS: {
         URL: (medicalRecordId: string) => ENV.API_URL + "/intervention/" + medicalRecordId,
         METHOD: "get"

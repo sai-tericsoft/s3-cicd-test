@@ -17,6 +17,9 @@ export const REFRESH_SURGERY_RECORDS = 'REFRESH_SURGERY_RECORDS';
 export const GET_MEDICAL_INTERVENTION_LIST = 'GET_MEDICAL_INTERVENTION_LIST';
 export const SET_MEDICAL_INTERVENTION_LIST = 'SET_MEDICAL_INTERVENTION_LIST';
 
+export const GET_MEDICAL_RECORD_STATS = 'GET_MEDICAL_RECORD_STATS';
+export const SET_MEDICAL_RECORD_STATS = 'SET_MEDICAL_RECORD_STATS';
+
 export const refreshSurgeryRecords = () => {
     return {
         type: REFRESH_SURGERY_RECORDS
@@ -132,3 +135,20 @@ export const setMedicalInterventionList = (medicalInterventionList: any) => { //
         }
     };
 };
+
+export const getMedicalRecordStats = (medicalRecordId: string) => {
+    return {
+        type: GET_MEDICAL_RECORD_STATS, payload: {
+            medicalRecordId
+        }
+    };
+};
+
+export const setMedicalRecordStats = (medicalRecordStats: any) => { // TODO type properly
+    return {
+        type: SET_MEDICAL_RECORD_STATS, payload: {
+            medicalRecordStats
+        }
+    };
+};
+
