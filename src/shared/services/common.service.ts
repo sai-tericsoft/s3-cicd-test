@@ -19,6 +19,8 @@ import ServiceService from "./modules/service.service";
 import FacilityService from "./modules/facility.service";
 import ClientService from "./modules/client.service";
 import ChartNotesService from "./modules/chart-notes.service";
+import printJS from "print-js";
+import {IAttachment} from "../models/common.model";
 
 
 yup.addMethod(yup.mixed, 'atLeastOne', (args) => {
@@ -262,8 +264,6 @@ const getHoursAndMinutesFromMinutes = (minutes: number) => {
     return moment().startOf('day').add(minutes, 'minutes').format('h:mm a');
 }
 
-console.log(getHoursAndMinutesFromMinutes(450));
-
 const downloadFile = (url: string, fileName: any, type = 'pdf') => {
     switch (type) {
         case 'image':
@@ -447,6 +447,35 @@ const formatPhoneNumber = (phone: string) => {
     }
     return phone
 }
+
+const extractName = (data: any) => {
+    return (data?.first_name || data?.last_name ? data?.last_name + ' ' + data?.first_name : '-');
+};
+
+const getNormalizedFileType = (fileType: any) => {
+    let type: any = fileType;
+    if (type.includes('image')) {
+        type = "image";
+    } else if (type.includes('pdf')) {
+        type = "pdf";
+    } else if (type.includes('word')) {
+        type = "word";
+    } else if (type.includes('spreadsheet')) {
+        type = "xls";
+    } else {
+        type = "application";
+    }
+    return type;
+}
+
+const printAttachment = (attachment: IAttachment) => {
+    let type: any = getNormalizedFileType(attachment?.type);
+    printJS({
+        printable: attachment.url,
+        type: type
+    });
+}
+
 const CommonService = {
     CurrentDate,
     parseQueryString,
@@ -482,6 +511,9 @@ const CommonService = {
     convertDateFormat2,
     formatPhoneNumber,
     generateInterventionNameFromMedicalRecord,
+    extractName,
+    printAttachment,
+    getNormalizedFileType,
 
     // createValidationsObject,
     // createYupSchema,
@@ -498,6 +530,6 @@ const CommonService = {
     _service: ServiceService,
     _client: ClientService,
     _facility: FacilityService,
-    _chartNotes: ChartNotesService
+    _chartNotes: ChartNotesService,
 }
 export default CommonService;

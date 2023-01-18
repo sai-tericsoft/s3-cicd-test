@@ -48,6 +48,7 @@ const ConfirmationComponent = (props: ConfirmationComponentProps) => {
 
     return (
         <ModalComponent
+            className={"confirmation-modal"}
             isOpen={open}
             onClose={() => {
                 closeConfirmationDialog();

@@ -10,6 +10,7 @@ import {ReactComponent as EditIcon} from '../assets/icons/edit.svg';
 import {ReactComponent as UploadIcon} from '../assets/icons/upload.svg';
 import {ReactComponent as SelectDropDownIcon} from './../assets/icons/select_dropdown.svg';
 import {ReactComponent as EyeIcon} from './../assets/icons/eye.svg';
+import {ReactComponent as PrintIcon} from './../assets/icons/print.svg';
 
 import {ReactComponent as CircleCheck} from './../assets/icons/check_circle.svg';
 import {ReactComponent as CircleError} from './../assets/icons/error_circle.svg';
@@ -57,6 +58,8 @@ import {ReactComponent as CommentIcon} from './../assets/icons/comment.svg';
 import PlaceHolderImage from '../assets/images/place_holder_image.png';
 import RemoveImage from '../assets/images/remove.png';
 import RemoveBodyPartConfirmationIcon from './../assets/confirmation/delete_body_part.svg';
+import DeleteAttachmentConfirmationIcon from './../assets/confirmation/delete_attachment.svg';
+
 import Search from '../assets/images/search.png';
 
 
@@ -113,5 +116,7 @@ export {
     RemoveBodyPartConfirmationIcon,
     PDF_ICON,
     REPEAT_LAST_INTERVENTION,
-    SYNC
+    SYNC,
+    PrintIcon,
+    DeleteAttachmentConfirmationIcon
 }

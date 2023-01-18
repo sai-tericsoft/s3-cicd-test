@@ -5,6 +5,7 @@ import {useCallback, useEffect, useState} from "react";
 import AvatarComponent from "../avatar/AvatarComponent";
 import {IAttachment} from "../../models/common.model";
 import IconButtonComponent from "../icon-button/IconButtonComponent";
+import {CommonService} from "../../services";
 
 interface FilePreviewThumbnailComponentProps {
     variant?: "compact" | "detailed";
@@ -20,25 +21,19 @@ const FilePreviewThumbnailComponent = (props: FilePreviewThumbnailComponentProps
     const [fileName, setFileName] = useState<string>("");
     const variant = props.variant || "detailed";
 
-    const getFileThumbnail = useCallback((type: string, file: File, cb: (thumbnailURL: string) => void) => {
-        if (type.includes('image')) {
-            type = "image";
-        } else if (type.includes('pdf')) {
-            type = "pdf";
-        } else if (type.includes('word')) {
-            type = "word";
-        } else if (type.includes('spreadsheet')) {
-            type = "xls";
-        } else {
-            type = "application";
-        }
+    const getFileThumbnail = useCallback((type: string, file: File | IAttachment, cb: (thumbnailURL: string) => void) => {
+        type = CommonService.getNormalizedFileType(type);
         switch (type) {
             case "image":
-                const fileReader = new FileReader();
-                fileReader.onload = () => {
-                    cb(fileReader.result as string);
-                };
-                fileReader.readAsDataURL(file);
+                if (file instanceof File) {
+                    const fileReader = new FileReader();
+                    fileReader.onload = () => {
+                        cb(fileReader.result as string);
+                    };
+                    fileReader.readAsDataURL(file);
+                } else {
+                    cb(file.url);
+                }
                 break;
             // case "pdf":
             //     cb(ImageConfig.PDFIcon);
@@ -59,14 +54,13 @@ const FilePreviewThumbnailComponent = (props: FilePreviewThumbnailComponentProps
         if (file instanceof File) {
             const name = file.name;
             setFileName(name);
-            const type = file.type;
-            getFileThumbnail(type, file, (thumbnailURL: string) => {
-                setFilePreviewURL(thumbnailURL);
-            });
         } else {
             setFileName(file.name);
-            setFilePreviewURL(file.url);
         }
+        const type = file.type;
+        getFileThumbnail(type, file, (thumbnailURL: string) => {
+            setFilePreviewURL(thumbnailURL);
+        });
     }, [getFileThumbnail, file]);
 
     const handleFileRemove = useCallback(() => {
@@ -101,7 +95,7 @@ const FilePreviewThumbnailComponent = (props: FilePreviewThumbnailComponentProps
                                 prefixIcon={<ImageConfig.CloseIcon/>}
                                 onClick={handleFileRemove}
                             >
-                                Remove Image
+                                Remove
                             </ButtonComponent>
                         }
                         {

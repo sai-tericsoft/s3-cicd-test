@@ -29,6 +29,7 @@ import {
 } from "./store/actions/static-data.action";
 import AppVersionComponent from "./shared/components/app-version/appVersionComponent";
 import {getAllProvidersList} from "./store/actions/user.action";
+import LightBoxComponent from "./shared/components/light-box/LightBoxComponent";
 
 interface AppProps {
     setCurrentUser?: any;
@@ -120,6 +121,7 @@ const App = (props: AppProps) => {
                     <AlertComponent/>
                     <ConfirmationComponent/>
                     <AppVersionComponent/>
+                    <LightBoxComponent/>
                 </ThemeProvider>
             </div>
         </CheckLoginComponent>

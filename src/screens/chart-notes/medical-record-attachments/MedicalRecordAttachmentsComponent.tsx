@@ -1,4 +1,4 @@
-import "./ClientMedicalAttachmentsComponent.scss";
+import "./MedicalRecordAttachmentsComponent.scss";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
 import {APIConfig} from "../../../constants";
@@ -12,10 +12,10 @@ interface ClientMedicalAttachmentsComponentProps {
 
 }
 
-const ClientMedicalAttachmentsComponent = (props: ClientMedicalAttachmentsComponentProps) => {
+const MedicalRecordAttachmentsComponent = (props: ClientMedicalAttachmentsComponentProps) => {
 
     const {medicalRecordId} = useParams();
-    const {refreshSurgeryRecords} = useSelector((state:IRootReducerState) => state.chartNotes)
+    const {refreshSurgeryRecords} = useSelector((state: IRootReducerState) => state.chartNotes)
 
     const attachmentRecord: ITableColumn[] = [
         {
@@ -61,25 +61,29 @@ const ClientMedicalAttachmentsComponent = (props: ClientMedicalAttachmentsCompon
             width: 99,
             fixed: 'right',
             render: (_: any, item: any) => {
-                console.log(item);
+                let route = '';
                 if (item.note_type.toLowerCase() === 'surgery record') {
-                    return <LinkComponent
-                        route={CommonService._routeConfig.MedicalRecordSurgeryRecordDetails(item.medical_record_id, item._id)}>View
-                        Details</LinkComponent>
+                    route = CommonService._routeConfig.MedicalRecordSurgeryRecordDetails(item.medical_record_id, item._id);
+                } else if (item.note_type.toLowerCase() === 'dry needling') {
+                    route = CommonService._routeConfig.MedicalInterventionDryNeedlingFileViewDetails(item.medical_record_id, item._id);
                 } else {
-                    return <LinkComponent route={''}>View Details</LinkComponent>
                 }
+                return <LinkComponent route={route}>
+                    {
+                        route ? "View Details" : "Coming soon"
+                    }
+                </LinkComponent>
             }
         }
     ];
-
 
     return (
         <div className={'client-medical-attachments-component'}>
             <div className={'client-medical-attachments-header'}>
                 Attachment
             </div>
-            <TableWrapperComponent refreshToken={refreshSurgeryRecords} url={APIConfig.CLIENT_MEDICAL_ATTACHMENT.URL(medicalRecordId)}
+            <TableWrapperComponent refreshToken={refreshSurgeryRecords}
+                                   url={APIConfig.CLIENT_MEDICAL_ATTACHMENT.URL(medicalRecordId)}
                                    method={APIConfig.CLIENT_MEDICAL_ATTACHMENT.METHOD}
                                    isPaginated={false}
                                    columns={attachmentRecord}/>
@@ -88,4 +92,4 @@ const ClientMedicalAttachmentsComponent = (props: ClientMedicalAttachmentsCompon
 
 };
 
-export default ClientMedicalAttachmentsComponent;
+export default MedicalRecordAttachmentsComponent;

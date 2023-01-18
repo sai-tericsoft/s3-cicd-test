@@ -1,5 +1,10 @@
-export interface IDryNeedlingForm{
+export interface IDryNeedlingAddForm{
     attachment:any;
+    comments:any;
+    document_date:any;
+}
+
+export interface IDryNeedlingEditForm{
     comments:any;
     document_date:any;
 }

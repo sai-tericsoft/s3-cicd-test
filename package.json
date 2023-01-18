@@ -44,6 +44,7 @@
     "react-draggable": "^4.4.5",
     "react-dropzone": "^14.2.2",
     "react-grid-system": "^8.1.5",
+    "react-image-lightbox": "^5.1.4",
     "react-image-pan-zoom-rotate": "^1.6.0",
     "react-otp-input": "^2.4.0",
     "react-pdf": "^5.7.2",

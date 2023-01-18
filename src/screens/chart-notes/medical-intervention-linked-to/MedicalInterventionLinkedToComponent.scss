@@ -1,0 +1,34 @@
+@import "src/assets/styles/common";
+
+.medical-intervention-linked-to-component {
+
+  .medical-record-injury-details-wrapper {
+
+    .data-label {
+      margin-left: 0;
+    }
+
+    .data-value {
+      display: flex;
+    }
+
+    .medical-record-injury-details {
+      font-size: 1rem;
+      margin-right: 10px;
+      margin-left: 8px;
+      max-width: 400px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .medical-record-injury-details-view-all-body-parts {
+      font-size: 1rem;
+      color: $primary-color;
+      text-decoration: underline;
+      cursor: pointer;
+      font-weight: $font-weight-bolder;
+    }
+  }
+
+}
