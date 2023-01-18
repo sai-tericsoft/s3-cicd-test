@@ -1,0 +1,26 @@
+.attachment-component {
+  display: flex;
+  justify-content: space-between;
+  background: #EAF3F2;
+  border: 1px solid #E2E2E2;
+  border-radius: 4px;
+  padding: 12px 24px;
+  align-items: center;
+
+  .attachment-thumbnail {
+    .file-preview-thumbnail-component {
+      padding: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  .attachment-actions {
+    button {
+      margin-right: 10px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,43 @@
+@import "src/assets/styles/common";
+
+.medical-record-attachment-basic-details-card-component {
+
+  .medical-attachment-last-updated-on-wrapper {
+    .data-value {
+      margin-left: 10px;
+      font-weight: $font-weight-bold;
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+      color: #212B36;
+    }
+  }
+
+  .medical-record-attachment-basic-details-wrapper {
+
+    .medical-record-attachment-basic-details-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .medical-record-attachment-basic-details-name-status-wrapper {
+        display: flex;
+        align-items: center;
+
+        .medical-record-attachment-basic-details-name {
+          font-weight: 700;
+          font-size: 1.4286rem;
+          color: #212B36;
+          margin-right: 10px;
+        }
+
+        .medical-record-attachment-basic-details-status {
+
+        }
+      }
+
+      .medical-record-attachment-basic-details-actions {
+
+      }
+    }
+  }
+}

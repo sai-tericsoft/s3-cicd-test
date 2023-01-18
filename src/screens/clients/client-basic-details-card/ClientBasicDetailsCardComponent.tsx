@@ -3,7 +3,7 @@ import AvatarComponent from "../../../shared/components/avatar/AvatarComponent";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import {IClientBasicDetails} from "../../../shared/models/client.model";
 import {CommonService} from "../../../shared/services";
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 
 interface ClientBasicDetailsCardComponentProps {
     clientBasicDetails: IClientBasicDetails;
@@ -13,8 +13,8 @@ interface ClientBasicDetailsCardComponentProps {
 
 const ClientBasicDetailsCardComponent = (props: ClientBasicDetailsCardComponentProps) => {
 
-
     const {clientBasicDetails, showViewDetailsRedirection} = props;
+    const location = useLocation();
 
     return (
         <div className={'client-basic-detail-card-wrapper'}>
@@ -46,11 +46,7 @@ const ClientBasicDetailsCardComponent = (props: ClientBasicDetailsCardComponentP
                         (showViewDetailsRedirection && clientBasicDetails._id )&& <>
                             <div className={'dashed-border'}/>
                             <div className={'client-details-info-wrapper'}>
-
-                                <Link to={CommonService._routeConfig.ClientDetails(clientBasicDetails._id)} >View Details</Link>
-                                {/*<a className={'client-details-view-redirection-list'} href={CommonService._routeConfig.ClientDetails(clientBasicDetails._id)} target="_blank" rel="noreferrer">*/}
-                                {/*    View Details*/}
-                                {/*</a>*/}
+                                <Link className={'client-details-view-redirection-list'} to={CommonService._routeConfig.ClientDetails(clientBasicDetails._id) + '?referrer=' + location.pathname} >View Details</Link>
                             </div>
                         </>
                     }

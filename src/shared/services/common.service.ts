@@ -262,8 +262,6 @@ const getHoursAndMinutesFromMinutes = (minutes: number) => {
     return moment().startOf('day').add(minutes, 'minutes').format('h:mm a');
 }
 
-console.log(getHoursAndMinutesFromMinutes(450));
-
 const downloadFile = (url: string, fileName: any, type = 'pdf') => {
     switch (type) {
         case 'image':
@@ -447,6 +445,11 @@ const formatPhoneNumber = (phone: string) => {
     }
     return phone
 }
+
+const extractName = (data: any) => {
+    return (data?.first_name || data?.last_name ? data?.last_name + ' ' + data?.first_name : '-');
+};
+
 const CommonService = {
     CurrentDate,
     parseQueryString,
@@ -482,6 +485,7 @@ const CommonService = {
     convertDateFormat2,
     formatPhoneNumber,
     generateInterventionNameFromMedicalRecord,
+    extractName,
 
     // createValidationsObject,
     // createYupSchema,
@@ -498,6 +502,6 @@ const CommonService = {
     _service: ServiceService,
     _client: ClientService,
     _facility: FacilityService,
-    _chartNotes: ChartNotesService
+    _chartNotes: ChartNotesService,
 }
 export default CommonService;

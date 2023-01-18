@@ -24,6 +24,8 @@ import AddSurgeryRecordComponent from "../add-surgery-record/AddSurgeryRecordCom
 import AddBasicProgressReportComponent from "../add-basic-progress-report/AddBasicProgressReportComponent";
 import {getMedicalRecordStats, refreshSurgeryRecords} from "../../../store/actions/chart-notes.action";
 import MedicalRecordStatsComponent from "../medical-record-stats/MedicalRecordStatsComponent";
+import MedicalInterventionLinkedToComponent
+    from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
 
 interface ClientMedicalDetailsCardComponentProps {
     showAction?: boolean
@@ -33,31 +35,10 @@ interface ClientMedicalDetailsCardComponentProps {
 const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardComponentProps) => {
 
     const {showAction} = props;
-    const bodyPartsColumns: any = [
-        {
-            title: "Body Part",
-            dataIndex: "body_part",
-            key: "body_part",
-            width: 91,
-            render: (_: any, item: any) => {
-                return <>{item.body_part_details.name}</>
-            }
-        },
-        {
-            title: "Body  Side(s)",
-            dataIndex: "body_part",
-            key: "body_part",
-            width: 114,
-            render: (_: any, item: any) => {
-                return <>{item?.body_side}</>
-            }
-        }
-    ];
 
     const {medicalRecordId} = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [isBodyPartsModalOpen, setIsBodyPartsModalOpen] = React.useState<boolean>(false);
     const [isSurgeryAddOpen, setIsSurgeryAddOpen] = React.useState<boolean>(false);
     const [isEditMedicalRecordDrawerOpen, setIsEditMedicalRecordDrawerOpen] = useState<boolean>(false);
     const [isProgressReportDrawerOpen, setIsProgressReportDrawerOpen] = useState<boolean>(false);
@@ -83,14 +64,6 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
             }));
         }
     }, [navigate, dispatch, clientMedicalRecord?.client_id]);
-
-    const openBodyPartsModal = useCallback(() => {
-        setIsBodyPartsModalOpen(true);
-    }, []);
-
-    const closeBodyPartsModal = useCallback(() => {
-        setIsBodyPartsModalOpen(false);
-    }, []);
 
     const openEditMedicalRecordDrawer = useCallback(() => {
         setIsEditMedicalRecordDrawerOpen(true);
@@ -214,16 +187,7 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                         </div>}
                                     </div>
                                 </div>
-                                <DataLabelValueComponent label={'Intervention Linked to:'} direction={"row"}
-                                                         className={'intervention-injury-details-wrapper'}>
-                                    <div className={'client-intervention'}>{clientMedicalRecord?.intervention_linked_to}
-                                        {clientMedicalRecord?.created_at && CommonService.transformTimeStamp(clientMedicalRecord?.created_at)}{" "}
-                                        {"-"} {clientMedicalRecord?.injury_details.map((injury: any, index: number) => {
-                                            return <>{injury.body_part_details.name}({injury.body_side}) {index !== clientMedicalRecord?.injury_details.length - 1 ? <> | </> : ""}</>
-                                        })}</div>
-                                    <span className={'view-all-body-parts'}
-                                          onClick={openBodyPartsModal}> View All Body Parts </span>
-                                </DataLabelValueComponent>
+                                <MedicalInterventionLinkedToComponent medicalRecordDetails={clientMedicalRecord}/>
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-md-3'}>
                                         <DataLabelValueComponent label={'Date of Onset'}>
@@ -266,16 +230,6 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                             </CardComponent>
                         </>
                     }
-
-                    {/*ALL Body parts table modal start*/}
-                    <ModalComponent isOpen={isBodyPartsModalOpen} onClose={closeBodyPartsModal}>
-                        <FormControlLabelComponent label={'View All Body Parts'} className={'view-all-body-parts-header'}/>
-                        <TableComponent data={clientMedicalRecord?.injury_details} columns={bodyPartsColumns}/>
-                        <div className={'close-modal-btn'}>
-                            <ButtonComponent variant={'contained'} onClick={closeBodyPartsModal}>Close</ButtonComponent>
-                        </div>
-                    </ModalComponent>
-                    {/*ALL Body parts table modal end*/}
 
                     {/*Edit medical record drawer start*/}
                     <DrawerComponent isOpen={isEditMedicalRecordDrawerOpen}
