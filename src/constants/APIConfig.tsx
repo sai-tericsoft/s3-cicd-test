@@ -324,6 +324,10 @@ const APIConfig: IAPIConfig = {
         URL: (dryNeedlingFileId: string) => ENV.API_URL + "/dryNeedling/" + dryNeedlingFileId,
         METHOD: "put"
     },
+    DRY_NEEDLING_FILE_DETAILS: {
+        URL: (dryNeedlingFileId: string) => ENV.API_URL + "/dryNeedling/" + dryNeedlingFileId,
+        METHOD: "get"
+    },
     CLIENT_MEDICAL_INTERVENTION_DETAILS: {
         URL: (medicalRecordId: string) => ENV.API_URL + "/intervention/" + medicalRecordId,
         METHOD: "get"

@@ -31,13 +31,12 @@ const EditDryNeedlingFormInitialValues: IDryNeedlingEditForm = {
 interface EditDryNeedlingFileComponentProps {
     onEdit: (data: any) => void;
     dryNeedlingFileId: string;
-    medicalRecordDetails: any;
     dryNeedlingFileDetails: any;
 }
 
 const EditDryNeedlingFileComponent = (props: EditDryNeedlingFileComponentProps) => {
 
-    const {onEdit, dryNeedlingFileDetails, dryNeedlingFileId, medicalRecordDetails} = props;
+    const {onEdit, dryNeedlingFileDetails, dryNeedlingFileId} = props;
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const [editDryNeedlingFormInitialValues, setEditDryNeedlingFormInitialValues] = useState<IDryNeedlingEditForm>(_.cloneDeep(EditDryNeedlingFormInitialValues));
 
@@ -92,7 +91,7 @@ const EditDryNeedlingFileComponent = (props: EditDryNeedlingFileComponentProps) 
                                     <InputComponent className="t-form-control"
                                                     label={'Intervention Linked To'}
                                                     placeholder={'Intervention Linked To'}
-                                                    value={CommonService.generateInterventionNameFromMedicalRecord(medicalRecordDetails)}
+                                                    value={CommonService.generateInterventionNameFromMedicalRecord(dryNeedlingFileDetails?.medical_record_details)}
                                                     required={true}
                                                     fullWidth={true}
                                                     disabled={true}

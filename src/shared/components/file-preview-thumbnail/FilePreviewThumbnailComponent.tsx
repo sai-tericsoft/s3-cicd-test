@@ -20,7 +20,7 @@ const FilePreviewThumbnailComponent = (props: FilePreviewThumbnailComponentProps
     const [fileName, setFileName] = useState<string>("");
     const variant = props.variant || "detailed";
 
-    const getFileThumbnail = useCallback((type: string, file: File, cb: (thumbnailURL: string) => void) => {
+    const getFileThumbnail = useCallback((type: string, file: File | IAttachment, cb: (thumbnailURL: string) => void) => {
         if (type.includes('image')) {
             type = "image";
         } else if (type.includes('pdf')) {
@@ -34,11 +34,15 @@ const FilePreviewThumbnailComponent = (props: FilePreviewThumbnailComponentProps
         }
         switch (type) {
             case "image":
-                const fileReader = new FileReader();
-                fileReader.onload = () => {
-                    cb(fileReader.result as string);
-                };
-                fileReader.readAsDataURL(file);
+                if (file instanceof File) {
+                    const fileReader = new FileReader();
+                    fileReader.onload = () => {
+                        cb(fileReader.result as string);
+                    };
+                    fileReader.readAsDataURL(file);
+                } else {
+                    cb(file.url);
+                }
                 break;
             // case "pdf":
             //     cb(ImageConfig.PDFIcon);
@@ -59,14 +63,13 @@ const FilePreviewThumbnailComponent = (props: FilePreviewThumbnailComponentProps
         if (file instanceof File) {
             const name = file.name;
             setFileName(name);
-            const type = file.type;
-            getFileThumbnail(type, file, (thumbnailURL: string) => {
-                setFilePreviewURL(thumbnailURL);
-            });
         } else {
             setFileName(file.name);
-            setFilePreviewURL(file.url);
         }
+        const type = file.type;
+        getFileThumbnail(type, file, (thumbnailURL: string) => {
+            setFilePreviewURL(thumbnailURL);
+        });
     }, [getFileThumbnail, file]);
 
     const handleFileRemove = useCallback(() => {

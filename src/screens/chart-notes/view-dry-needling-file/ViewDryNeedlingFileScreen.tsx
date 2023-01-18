@@ -1,8 +1,16 @@
 import "./ViewDryNeedlingFileScreen.scss";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import MedicalRecordAttachmentBasicDetailsCardComponent
     from "../medical-record-attachment-basic-details-card/MedicalRecordAttachmentBasicDetailsCardComponent";
 import AttachmentComponent from "../../../shared/attachment/AttachmentComponent";
+import {useCallback, useEffect, useState} from "react";
+import {setCurrentNavParams} from "../../../store/actions/navigation.action";
+import {CommonService} from "../../../shared/services";
+import {useDispatch} from "react-redux";
+import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
+import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
+import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
+import EditDryNeedlingFileComponent from "../edit-dry-needling-file/EditDryNeedlingFileComponent";
 
 interface ViewDryNeedlingFileScreenProps {
 
@@ -10,137 +18,96 @@ interface ViewDryNeedlingFileScreenProps {
 
 const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
 
-    const {medicalRecordId, dryNeedlingFileId} = useParams();
-    const dryNeedlingFileDetails = {
-        "_id": "63c65a2a12bb563ad502973d",
-        "medical_record_id": "63bff49a383cd0c23a5ba415",
-        "intervention_id": "63bff49b383cd0c23a5ba418",
-        "document_date": "2022-12-03T00:00:00.000Z",
-        "attached_by": "637b2800d5cc2f7067e6ae33",
-        "comments": "bye",
-        "attachment": {
-            "name": "cat.jpg",
-            "type": "image/jpeg",
-            "key": "Interventions/63bff49b383cd0c23a5ba418/Dry Needling/63c65a2a12bb563ad502973d",
-            "url": "https://kinergy-dev.s3.ap-south-1.amazonaws.com/Interventions/63bff49b383cd0c23a5ba418/Dry%20Needling/63c65a2a12bb563ad502973d?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA6LCW3LSHDADD2WF7%2F20230118%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20230118T095837Z&X-Amz-Expires=900&X-Amz-Signature=9b9479709b08579d08da92f2ff325b19ab3743458c3f02729b80b6246f0bfa7d&X-Amz-SignedHeaders=host"
-        },
-        "created_at": "2023-01-17T08:19:54.963Z",
-        "updated_at": "2023-01-17T08:22:04.721Z",
-        "attached_by_details": {
-            "_id": "637b2800d5cc2f7067e6ae33",
-            "first_name": "terrill",
-            "last_name": "lobo"
-        },
-        "medical_record_details": {
-            "_id": "63bff49a383cd0c23a5ba415",
-            "client_id": "63905e4ba2bba5718d3b4c4a",
-            "category_id": null,
-            "service_id": null,
-            "onset_date": "2022-11-02T00:00:00.000Z",
-            "case_physician": {
-                "is_case_physician": true,
-                "name": "Fzk",
-                "next_appointment": "2023-01-24T00:00:00.000Z"
-            },
-            "injury_description": "descriptions",
-            "limitations": "issuess",
-            "injury_details": [
-                {
-                    "body_part_id": "63aaa520fa2621a3af6ace13",
-                    "body_side": "Left",
-                    "injury_type_id": "637f420dd8a7cf010f1490b6",
-                    "body_part_details": {
-                        "_id": "63aaa520fa2621a3af6ace13",
-                        "name": "Cervical Spine",
-                        "sides": [
-                            "Left",
-                            "Right",
-                            "Central"
-                        ],
-                        "special_tests": [
-                            "Tinel’s Test",
-                            "Valgus Stress Test",
-                            "Varusus Stress Test",
-                            "Lateral Epicondylitis Test"
-                        ],
-                        "default_body_side": "Left",
-                        "movements": [
-                            {
-                                "name": "Lateral Flexion",
-                                "applicable_rom": [
-                                    "AROM",
-                                    "PROM",
-                                    "Strength"
-                                ],
-                                "applicable_sides": [
-                                    "Left",
-                                    "Right"
-                                ]
-                            },
-                            {
-                                "name": "Rotation",
-                                "applicable_rom": [
-                                    "AROM",
-                                    "PROM",
-                                    "Strength"
-                                ],
-                                "applicable_sides": [
-                                    "Left",
-                                    "Right"
-                                ]
-                            },
-                            {
-                                "name": "Flexion",
-                                "applicable_rom": [
-                                    "AROM",
-                                    "PROM",
-                                    "Strength"
-                                ],
-                                "applicable_sides": [
-                                    "Central"
-                                ]
-                            },
-                            {
-                                "name": "Extension",
-                                "applicable_rom": [
-                                    "AROM",
-                                    "PROM",
-                                    "Strength"
-                                ],
-                                "applicable_sides": [
-                                    "Central"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ],
-            "status": "open",
-            "created_at": "2023-01-12T11:52:58.951Z",
-            "updated_at": "2023-01-13T13:11:57.531Z",
-            "client_details": {
-                "_id": "63905e4ba2bba5718d3b4c4a",
-                "first_name": "Client",
-                "last_name": "Kutch"
+        const {medicalRecordId, dryNeedlingFileId} = useParams();
+        const dispatch = useDispatch();
+        const navigate = useNavigate();
+        const [dryNeedlingFileDetails, setDryNeedlingFileDetails] = useState<any>(undefined);
+        const [isDryNeedlingFileDetailsLoaded, setIsDryNeedlingFileDetailsLoaded] = useState<boolean>(false);
+        const [isDryNeedlingFileDetailsLoading, setIsDryNeedlingFileDetailsLoading] = useState<boolean>(false);
+        const [isDryNeedlingFileDetailsLoadingFailed, setIsDryNeedlingFileDetailsLoadingFailed] = useState<boolean>(false);
+        const [isEditDryNeedlingFileDrawerOpened, setIsEditDryNeedlingFileDrawerOpened] = useState<boolean>(false);
+
+        const openEditDryNeedlingFileDrawer = useCallback(() => {
+            setIsEditDryNeedlingFileDrawerOpened(true);
+        }, []);
+
+        const closeEditDryNeedlingFileDrawer = useCallback(() => {
+            setIsEditDryNeedlingFileDrawerOpened(false);
+        }, []);
+
+        const handleEditDryNeedlingFile = useCallback(() => {
+            getDryNeedlingFileDetails();
+            setIsEditDryNeedlingFileDrawerOpened(false);
+        }, []);
+
+        useEffect(() => {
+            dispatch(setCurrentNavParams("View Dry Needling File", null, () => {
+                medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+            }));
+        }, [medicalRecordId, navigate, dispatch]);
+
+        const getDryNeedlingFileDetails = useCallback(() => {
+            if (dryNeedlingFileId) {
+                setIsDryNeedlingFileDetailsLoading(true);
+                setIsDryNeedlingFileDetailsLoadingFailed(false);
+                setIsDryNeedlingFileDetailsLoaded(false);
+                CommonService._chartNotes.DryNeedlingFileDetailsAPICall(dryNeedlingFileId, {})
+                    .then((response: any) => {
+                        setDryNeedlingFileDetails(response.data);
+                        setIsDryNeedlingFileDetailsLoading(false);
+                        setIsDryNeedlingFileDetailsLoadingFailed(false);
+                        setIsDryNeedlingFileDetailsLoaded(true);
+                    }).catch((error: any) => {
+                    setIsDryNeedlingFileDetailsLoading(false);
+                    setIsDryNeedlingFileDetailsLoadingFailed(true);
+                    setIsDryNeedlingFileDetailsLoaded(false);
+                });
             }
-        }
-    };
+        }, []);
 
-    return (
-        <div className={'view-dry-needling-file-screen'}>
-            <MedicalRecordAttachmentBasicDetailsCardComponent
-                pageTitle={"View Dry Needling File"}
-                attachmentDetails={dryNeedlingFileDetails}
-                medicalRecordDetails={dryNeedlingFileDetails.medical_record_details}
-                attachmentType={"dryNeedlingFile"}
+        useEffect(() => {
+            if (dryNeedlingFileId) {
+                getDryNeedlingFileDetails();
+            }
+        }, [dryNeedlingFileId]);
 
-            />
-            <div>
-                <AttachmentComponent attachment={dryNeedlingFileDetails.attachment}/>
+        return (
+            <div className={'view-dry-needling-file-screen'}>
+                {
+                    isDryNeedlingFileDetailsLoading && <LoaderComponent/>
+                }
+                {
+                    isDryNeedlingFileDetailsLoadingFailed &&
+                    <StatusCardComponent title={'Failed to load dry needling file details.'}/>
+                }
+                {
+                    isDryNeedlingFileDetailsLoaded && <>
+                        <MedicalRecordAttachmentBasicDetailsCardComponent
+                            pageTitle={"View Dry Needling File"}
+                            attachmentDetails={dryNeedlingFileDetails}
+                            medicalRecordDetails={dryNeedlingFileDetails?.medical_record_details}
+                            attachmentType={"dryNeedlingFile"}
+                            onEdit={openEditDryNeedlingFileDrawer}
+                        />
+                        <div className={'dry-needling-attachment'}>
+                            <AttachmentComponent attachment={dryNeedlingFileDetails?.attachment}/>
+                        </div>
+                    </>
+                }
+                {
+                    dryNeedlingFileId &&
+                    <DrawerComponent isOpen={isEditDryNeedlingFileDrawerOpened}
+                                     showClose={true}
+                                     onClose={closeEditDryNeedlingFileDrawer}>
+                        <EditDryNeedlingFileComponent onEdit={handleEditDryNeedlingFile}
+                                                      dryNeedlingFileId={dryNeedlingFileId}
+                                                      dryNeedlingFileDetails={dryNeedlingFileDetails}/>
+                    </DrawerComponent>
+                }
             </div>
-        </div>
-    );
+        );
 
-};
+    }
+;
 
 export default ViewDryNeedlingFileScreen;

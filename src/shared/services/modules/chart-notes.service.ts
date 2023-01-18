@@ -156,6 +156,11 @@ const DryNeedlingFileEditAPICall = (dryNeedlingFileId: string, payload: any) => 
     return ApiService[APIConfig.EDIT_DRY_NEEDLING_FILE.METHOD](APIConfig.EDIT_DRY_NEEDLING_FILE.URL(dryNeedlingFileId), payload);
 }
 
+const DryNeedlingFileDetailsAPICall = (dryNeedlingFileId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.DRY_NEEDLING_FILE_DETAILS.METHOD](APIConfig.DRY_NEEDLING_FILE_DETAILS.URL(dryNeedlingFileId), payload);
+}
+
 const ChartNotesService = {
     MedicalRecordAddAPICall,
     MedicalRecordEditAPICall,
@@ -189,7 +194,8 @@ const ChartNotesService = {
     MedicalInterventionListAPICall,
     MedicalRecordStatsAPICall,
     DryNeedlingFileAddAPICall,
-    DryNeedlingFileEditAPICall
+    DryNeedlingFileEditAPICall,
+    DryNeedlingFileDetailsAPICall
 }
 
 export default ChartNotesService;
