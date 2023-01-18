@@ -5,6 +5,7 @@ import {useCallback, useEffect, useState} from "react";
 import AvatarComponent from "../avatar/AvatarComponent";
 import {IAttachment} from "../../models/common.model";
 import IconButtonComponent from "../icon-button/IconButtonComponent";
+import {CommonService} from "../../services";
 
 interface FilePreviewThumbnailComponentProps {
     variant?: "compact" | "detailed";
@@ -21,17 +22,7 @@ const FilePreviewThumbnailComponent = (props: FilePreviewThumbnailComponentProps
     const variant = props.variant || "detailed";
 
     const getFileThumbnail = useCallback((type: string, file: File | IAttachment, cb: (thumbnailURL: string) => void) => {
-        if (type.includes('image')) {
-            type = "image";
-        } else if (type.includes('pdf')) {
-            type = "pdf";
-        } else if (type.includes('word')) {
-            type = "word";
-        } else if (type.includes('spreadsheet')) {
-            type = "xls";
-        } else {
-            type = "application";
-        }
+        type = CommonService.getNormalizedFileType(type);
         switch (type) {
             case "image":
                 if (file instanceof File) {
@@ -104,7 +95,7 @@ const FilePreviewThumbnailComponent = (props: FilePreviewThumbnailComponentProps
                                 prefixIcon={<ImageConfig.CloseIcon/>}
                                 onClick={handleFileRemove}
                             >
-                                Remove Image
+                                Remove
                             </ButtonComponent>
                         }
                         {

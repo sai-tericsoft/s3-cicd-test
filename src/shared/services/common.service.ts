@@ -19,6 +19,8 @@ import ServiceService from "./modules/service.service";
 import FacilityService from "./modules/facility.service";
 import ClientService from "./modules/client.service";
 import ChartNotesService from "./modules/chart-notes.service";
+import printJS from "print-js";
+import {IAttachment} from "../models/common.model";
 
 
 yup.addMethod(yup.mixed, 'atLeastOne', (args) => {
@@ -450,6 +452,30 @@ const extractName = (data: any) => {
     return (data?.first_name || data?.last_name ? data?.last_name + ' ' + data?.first_name : '-');
 };
 
+const getNormalizedFileType = (fileType: any) => {
+    let type: any = fileType;
+    if (type.includes('image')) {
+        type = "image";
+    } else if (type.includes('pdf')) {
+        type = "pdf";
+    } else if (type.includes('word')) {
+        type = "word";
+    } else if (type.includes('spreadsheet')) {
+        type = "xls";
+    } else {
+        type = "application";
+    }
+    return type;
+}
+
+const printAttachment = (attachment: IAttachment) => {
+    let type: any = getNormalizedFileType(attachment?.type);
+    printJS({
+        printable: attachment.url,
+        type: type
+    });
+}
+
 const CommonService = {
     CurrentDate,
     parseQueryString,
@@ -486,6 +512,8 @@ const CommonService = {
     formatPhoneNumber,
     generateInterventionNameFromMedicalRecord,
     extractName,
+    printAttachment,
+    getNormalizedFileType,
 
     // createValidationsObject,
     // createYupSchema,

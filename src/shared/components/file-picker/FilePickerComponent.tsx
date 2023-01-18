@@ -14,11 +14,13 @@ interface FilePickerComponentProps {
     acceptedFileTypes?: IFileType[];
     multiple?: boolean;
     maxFileCount?: number;
+    maxFileSize?: number;
     disabled?: boolean;
 }
 
 const TOO_MANY_FILES_ERROR_CODE = "too-many-files";
 const INVALID_FILE_TYPE_ERROR_CODE = "file-invalid-type";
+const LARGE_FILE_TYPE_ERROR_CODE = "file-too-large";
 
 type IFileType = "png" | "jpg" | "jpeg" | "pdf";
 
@@ -45,10 +47,11 @@ const FilePickerComponent = (props: FilePickerComponentProps) => {
     const {acceptedFilesText, id, disabled, maxFileCount, onFilesDrop, multiple} = props;
     const uploadText = props.uploadText || "Drag and drop or browse to choose a file";
     const showDropZone = props.showDropZone !== undefined ? props.showDropZone : true;
+    const maxFileSize = props.maxFileSize !== undefined ? props.maxFileSize : 100;
 
     const onDrop = useCallback((acceptedFiles: any, rejectedFiles: any) => {
         // console.log("acceptedFiles", acceptedFiles);
-        // console.log("rejectedFiles", rejectedFiles);
+        console.log("rejectedFiles", rejectedFiles);
         acceptedFiles.forEach((file: any) => {
             const reader = new FileReader();
             reader.onabort = () => console.log('file reading was aborted')
@@ -78,6 +81,12 @@ const FilePickerComponent = (props: FilePickerComponentProps) => {
                         invalidFileTypeErrorShown = true;
                     }
                 }
+                if (itemErrorCodes?.includes(LARGE_FILE_TYPE_ERROR_CODE)) {
+                    if (!invalidFileTypeErrorShown) {
+                        CommonService._alert.showToast('Please select file within specified size', 'error');
+                        invalidFileTypeErrorShown = true;
+                    }
+                }
             })
         }
         if (onFilesDrop) {
@@ -95,7 +104,8 @@ const FilePickerComponent = (props: FilePickerComponentProps) => {
         accept: acceptedFileTypes,
         multiple: multiple,
         maxFiles: maxFileCount,
-        disabled: disabled
+        disabled: disabled,
+        maxSize: maxFileSize * 1024 * 1024
     });
 
     return (

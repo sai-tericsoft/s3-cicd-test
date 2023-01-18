@@ -60,7 +60,7 @@ const MedicalInterventionLinkedToComponent = (props: MedicalInterventionLinkedTo
             </DataLabelValueComponent>
 
             {/*Body Parts Modal Start*/}
-            <ModalComponent title={"'View All Body Parts"} isOpen={isBodyPartsModalOpen} onClose={closeBodyPartsModal}>
+            <ModalComponent title={"All Body Parts"} isOpen={isBodyPartsModalOpen} onClose={closeBodyPartsModal}>
                 <TableComponent data={medicalRecordDetails?.injury_details} columns={bodyPartsColumns}/>
                 <div className={'close-modal-btn'}>
                     <ButtonComponent onClick={closeBodyPartsModal}>Close</ButtonComponent>

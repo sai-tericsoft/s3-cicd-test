@@ -47,7 +47,9 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                                 {CommonService.extractName(medicalRecordDetails.client_details)}
                             </div>
                             <div className={"medical-record-attachment-basic-details-status"}>
-                                <ChipComponent label={"Open/Active"} color={"success"} className={"active"}/>
+                                <ChipComponent label={attachmentDetails?.medical_record_details?.status}
+                                               color={"success"}
+                                               className={attachmentDetails?.status === "open" ? "open" : 'closed'}/>
                             </div>
                         </div>
                         <div className={"medical-record-attachment-basic-details-actions"}>

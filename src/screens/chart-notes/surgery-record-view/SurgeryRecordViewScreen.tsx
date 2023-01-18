@@ -154,6 +154,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
         },
         [],
     );
+
     const deleteSurgeryAttachment = useCallback(
         (surgeryRecordId: string, attachmentId: string) => {
             CommonService._chartNotes.RemoveSurgeryRecordAttachmentAPICall(surgeryRecordId, attachmentId)

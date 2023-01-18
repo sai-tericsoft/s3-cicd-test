@@ -4,27 +4,29 @@ import ButtonComponent from "../components/button/ButtonComponent";
 import {ImageConfig} from "../../constants";
 import FilePreviewThumbnailComponent from "../components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import {useCallback} from "react";
+import {CommonService} from "../services";
 
 interface AttachmentComponentProps {
     attachment: IAttachment;
-    onRemove?: (attachment: IAttachment) => void;
+    onDelete?: (attachment: IAttachment) => void;
+    isDeleting?: boolean;
 }
 
 const AttachmentComponent = (props: AttachmentComponentProps) => {
 
-    const {onRemove, attachment} = props;
+    const {onDelete, isDeleting, attachment} = props;
 
-    const handleRemove = useCallback(() => {
-        onRemove && onRemove(attachment);
-    }, [attachment, onRemove]);
+    const handleDelete = useCallback(() => {
+        onDelete && onDelete(attachment);
+    }, [attachment, onDelete]);
 
     const handleView = useCallback(() => {
-
+        CommonService._communications.LightBoxSubject.next([attachment]);
     }, []);
 
     const handlePrint = useCallback(() => {
-
-    }, []);
+        CommonService.printAttachment(attachment);
+    }, [attachment]);
 
     return (
         <div className={'attachment-component'}>
@@ -34,17 +36,21 @@ const AttachmentComponent = (props: AttachmentComponentProps) => {
             <div className={'attachment-actions'}>
                 <ButtonComponent prefixIcon={<ImageConfig.EyeIcon/>}
                                  variant={"outlined"}
-                                 onClick={handleView}>
+                                 onClick={handleView}
+                                 disabled={isDeleting}>
                     View
                 </ButtonComponent>
                 <ButtonComponent color={'error'}
                                  prefixIcon={<ImageConfig.DeleteIcon/>}
                                  variant={"outlined"}
-                                 onClick={handleRemove}>
+                                 onClick={handleDelete}
+                                 isLoading={isDeleting}
+                                 disabled={isDeleting}>
                     Delete
                 </ButtonComponent>
                 <ButtonComponent prefixIcon={<ImageConfig.PrintIcon/>}
-                                 onClick={handlePrint}>
+                                 onClick={handlePrint}
+                                 disabled={isDeleting}>
                     Print
                 </ButtonComponent>
             </div>
