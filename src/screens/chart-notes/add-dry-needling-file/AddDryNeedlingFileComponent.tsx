@@ -63,7 +63,7 @@ const AddDryNeedlingFileComponent = (props: AddDryNeedlingFileComponentProps) =>
                 CommonService.handleErrors(setErrors, error, true);
                 setIsDryNeedlingFileAddInProgress(false);
             })
-    }, [onAdd]);
+    }, [medicalInterventionId, onAdd]);
 
     return (
         <div className="service-category-add-component">

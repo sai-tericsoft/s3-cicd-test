@@ -66,7 +66,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
 
     const handleDryNeedlingFileAdd = useCallback(() => {
         closeAddDryNeedlingFileDrawer();
-    }, []);
+    }, [closeAddDryNeedlingFileDrawer]);
 
     return (
         <div className={'client-medical-details-card-component'}>

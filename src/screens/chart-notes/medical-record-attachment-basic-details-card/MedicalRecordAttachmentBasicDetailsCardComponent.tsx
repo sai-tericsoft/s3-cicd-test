@@ -27,7 +27,7 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
         if (onEdit) {
             onEdit();
         }
-    }, []);
+    }, [onEdit]);
 
     return (
         <div className={"medical-record-attachment-basic-details-card-component"}>

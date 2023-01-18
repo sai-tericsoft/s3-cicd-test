@@ -60,7 +60,7 @@ const PdfViewerComponent = (props: PdfViewerComponentProps) => {
         if (pageNumber > 0) {
             setPageNumber(pageNumber - 1);
         }
-    }, [pageNumber, totalPages]);
+    }, [pageNumber]);
 
     return (
         <div className={'pdf-container'}>

@@ -22,7 +22,7 @@ const AttachmentComponent = (props: AttachmentComponentProps) => {
 
     const handleView = useCallback(() => {
         CommonService._communications.LightBoxSubject.next([attachment]);
-    }, []);
+    }, [attachment]);
 
     const handlePrint = useCallback(() => {
         CommonService.printAttachment(attachment);

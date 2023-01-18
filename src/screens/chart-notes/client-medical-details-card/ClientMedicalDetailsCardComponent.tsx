@@ -12,8 +12,6 @@ import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import {IRootReducerState} from "../../../store/reducers";
 import {CommonService} from "../../../shared/services";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
-import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
-import TableComponent from "../../../shared/components/table/TableComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {ImageConfig} from "../../../constants";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";

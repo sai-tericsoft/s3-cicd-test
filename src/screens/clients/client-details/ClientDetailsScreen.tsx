@@ -79,7 +79,7 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
                 navigate(CommonService._routeConfig.ClientList());
             }
         }));
-    }, [navigate, dispatch]);
+    }, [searchParams, navigate, dispatch]);
 
     const handleTabChange = useCallback((e: any, value: any) => {
         searchParams.set("currentStep", value);

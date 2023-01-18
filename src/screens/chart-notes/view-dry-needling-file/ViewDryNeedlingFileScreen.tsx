@@ -43,17 +43,6 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
             setIsEditDryNeedlingFileDrawerOpened(false);
         }, []);
 
-        const handleEditDryNeedlingFile = useCallback(() => {
-            getDryNeedlingFileDetails();
-            setIsEditDryNeedlingFileDrawerOpened(false);
-        }, []);
-
-        useEffect(() => {
-            dispatch(setCurrentNavParams("View Dry Needling File", null, () => {
-                medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
-            }));
-        }, [medicalRecordId, navigate, dispatch]);
-
         const getDryNeedlingFileDetails = useCallback(() => {
             if (dryNeedlingFileId) {
                 setIsDryNeedlingFileDetailsLoading(true);
@@ -71,7 +60,18 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                     setIsDryNeedlingFileDetailsLoaded(false);
                 });
             }
-        }, []);
+        }, [dryNeedlingFileId]);
+
+        const handleEditDryNeedlingFile = useCallback(() => {
+            getDryNeedlingFileDetails();
+            setIsEditDryNeedlingFileDrawerOpened(false);
+        }, [getDryNeedlingFileDetails]);
+
+        useEffect(() => {
+            dispatch(setCurrentNavParams("View Dry Needling File", null, () => {
+                medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+            }));
+        }, [medicalRecordId, navigate, dispatch]);
 
         const handleDryNeedlingFileDelete = useCallback(() => {
             CommonService.onConfirm({
@@ -100,7 +100,7 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                     CommonService._alert.showToast('Dry Needling File Id is missing', "error");
                 }
             });
-        }, [dryNeedlingFileDetails]);
+        }, [dryNeedlingFileId]);
 
         const handleDryNeedlingFileAttachmentAdd = useCallback(() => {
             if (dryNeedlingFileId) {
@@ -132,7 +132,7 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
             if (dryNeedlingFileId) {
                 getDryNeedlingFileDetails();
             }
-        }, [dryNeedlingFileId]);
+        }, [getDryNeedlingFileDetails, dryNeedlingFileId]);
 
         return (
             <div className={'view-dry-needling-file-screen'}>
