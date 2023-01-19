@@ -20,6 +20,10 @@ export const SET_MEDICAL_INTERVENTION_LIST = 'SET_MEDICAL_INTERVENTION_LIST';
 export const GET_MEDICAL_RECORD_STATS = 'GET_MEDICAL_RECORD_STATS';
 export const SET_MEDICAL_RECORD_STATS = 'SET_MEDICAL_RECORD_STATS';
 
+export const GET_VIEW_PRIOR_NOTE_INTERVENTION_LIST = 'GET_VIEW_PRIOR_NOTE_LIST';
+export const SET_VIEW_PRIOR_NOTE_INTERVENTION_LIST = 'SET_VIEW_PRIOR_NOTE_LIST';
+
+
 export const refreshSurgeryRecords = () => {
     return {
         type: REFRESH_SURGERY_RECORDS
@@ -152,3 +156,20 @@ export const setMedicalRecordStats = (medicalRecordStats: any) => { // TODO type
     };
 };
 
+export const getViewPriorNoteInterventionList = (medicalRecordId: string, interventionId:string) => {
+    console.log("medicalRecordId", medicalRecordId);
+    return {
+        type: GET_VIEW_PRIOR_NOTE_INTERVENTION_LIST, payload: {
+            medicalRecordId,
+            interventionId
+        }
+    };
+};
+
+export const setViewPriorNoteInterventionList = (viewPriorNoteInterventionList: any) => {
+    return {
+        type: SET_VIEW_PRIOR_NOTE_INTERVENTION_LIST, payload: {
+            viewPriorNoteInterventionList
+        }
+    }
+};

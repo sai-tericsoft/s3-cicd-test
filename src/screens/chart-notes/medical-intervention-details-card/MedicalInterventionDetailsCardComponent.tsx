@@ -23,6 +23,7 @@ import MenuDropdownComponent from "../../../shared/components/menu-dropdown/Menu
 import AddSurgeryRecordComponent from "../add-surgery-record/AddSurgeryRecordComponent";
 import moment from "moment-timezone";
 import AddDryNeedlingFileComponent from "../add-dry-needling-file/AddDryNeedlingFileComponent";
+import ViewPriorNoteComponent from "../view-prior-note/ViewPriorNoteComponent";
 
 interface MedicalInterventionDetailsCardComponentProps {
     showAction?: boolean,
@@ -62,6 +63,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     const [isSurgeryAddOpen, setIsSurgeryAddOpen] = React.useState<boolean>(false);
     const [isEditMedicalRecordDrawerOpen, setIsEditMedicalRecordDrawerOpen] = useState<boolean>(false);
     const [isAddDryNeedlingFileDrawerOpen, setIsAddDryNeedlingFileDrawerOpen] = useState<boolean>(false);
+    const [isViewPriorNoteDrawerOpen, setIsViewPriorNoteDrawerOpen] = useState<boolean>(false);
 
     const {
         clientMedicalRecord,
@@ -107,6 +109,14 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     const closeAddDryNeedlingFileDrawer = useCallback(() => {
         setIsAddDryNeedlingFileDrawerOpen(false);
     }, []);
+
+    const openViewPriorNoteDrawer = useCallback(() => {
+        setIsViewPriorNoteDrawerOpen(true);
+    },[]);
+
+    const closeViewPriorNoteDrawer = useCallback(() => {
+        setIsViewPriorNoteDrawerOpen(false);
+    },[]);
 
     const handleMedicalRecordEdit = useCallback(() => {
         closeEditMedicalRecordDrawer();
@@ -191,6 +201,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                                     <ListItem onClick={comingSoon}>Print SOAP</ListItem>,
                                                     <ListItem onClick={comingSoon}>Transfer SOAP to</ListItem>,
                                                     <ListItem onClick={comingSoon}>Notify Admin</ListItem>,
+                                                    <ListItem onClick={openViewPriorNoteDrawer}>View Prior Note</ListItem>,
                                                     <ListItem onClick={openAddDryNeedlingFileDrawer}>Add Dry Needling
                                                         File</ListItem>,
                                                 ]
@@ -267,6 +278,15 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                             medicalInterventionId={medicalInterventionDetails?._id}
                             onAdd={handleDryNeedlingFileAdd}/>
                     </DrawerComponent>
+                    <DrawerComponent isOpen={isViewPriorNoteDrawerOpen}
+                                     showClose={true}
+                                     onClose={closeViewPriorNoteDrawer}>
+                        <ViewPriorNoteComponent
+                            medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
+                            medicalInterventionId={medicalInterventionDetails?._id}
+                        />
+                    </DrawerComponent>
+
                 </>
             }
         </div>

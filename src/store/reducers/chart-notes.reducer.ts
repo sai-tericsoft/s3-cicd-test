@@ -14,6 +14,8 @@ import {
     GET_MEDICAL_INTERVENTION_LIST,
     SET_MEDICAL_INTERVENTION_LIST,
     GET_MEDICAL_RECORD_STATS, SET_MEDICAL_RECORD_STATS,
+    GET_VIEW_PRIOR_NOTE_INTERVENTION_LIST,
+    SET_VIEW_PRIOR_NOTE_INTERVENTION_LIST
 } from "../actions/chart-notes.action";
 import {CommonService} from "../../shared/services";
 
@@ -47,6 +49,10 @@ export interface IChartNotesReducerState {
     isMedicalRecordStatsLoaded: boolean,
     isMedicalRecordStatsLoadingFailed: boolean,
     medicalRecordStats: any[],
+    isViewPriorNoteInterventionListLoading: boolean,
+    isViewPriorNoteInterventionListLoaded: boolean,
+    isViewPriorNoteInterventionListLoadingFailed: boolean,
+    viewPriorNoteInterventionList?: any,
 }
 
 const initialData: IChartNotesReducerState = {
@@ -79,6 +85,10 @@ const initialData: IChartNotesReducerState = {
     isMedicalRecordStatsLoaded: false,
     isMedicalRecordStatsLoadingFailed: false,
     medicalRecordStats: [],
+    isViewPriorNoteInterventionListLoading: false,
+    isViewPriorNoteInterventionListLoaded: false,
+    isViewPriorNoteInterventionListLoadingFailed: false,
+    viewPriorNoteInterventionList: [],
 };
 
 const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNotesReducerState => {
@@ -115,8 +125,8 @@ const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNot
             console.log(action.payload)
             state = {
                 ...state,
-                isAttachmentListLoading:false,
-                isAttachmentListLoaded:!!action.payload.interventionAttachmentList,
+                isAttachmentListLoading: false,
+                isAttachmentListLoaded: !!action.payload.interventionAttachmentList,
                 isAttachmentListLoadingFailed: !action.payload.interventionAttachmentList,
                 attachmentList: action.payload.interventionAttachmentList
             }
@@ -129,7 +139,7 @@ const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNot
                 isClientMedicalInterventionDetailsLoadingFailed: false,
             };
             return state;
-          case SET_CLIENT_MEDICAL_INTERVENTION_DETAILS:
+        case SET_CLIENT_MEDICAL_INTERVENTION_DETAILS:
             state = {
                 ...state,
                 isClientMedicalInterventionDetailsLoading: false,
@@ -155,24 +165,24 @@ const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNot
                 clientMedicalRecordProgressReportDetails: action.payload.clientMedicalRecordProgressReportDetails
             };
             return state;
-            case GET_PROGRESS_REPORT_VIEW_DETAILS:
-                state = {
-                    ...state,
-                    isProgressReportDetailsLoading: true,
-                    isProgressReportDetailsLoaded: false,
-                    isProgressReportDetailsLoadingFailed: false,
-                }
-                return state;
+        case GET_PROGRESS_REPORT_VIEW_DETAILS:
+            state = {
+                ...state,
+                isProgressReportDetailsLoading: true,
+                isProgressReportDetailsLoaded: false,
+                isProgressReportDetailsLoadingFailed: false,
+            }
+            return state;
 
-            case SET_PROGRESS_REPORT_VIEW_DETAILS:
-                state = {
-                    ...state,
-                    isProgressReportDetailsLoading: false,
-                    isProgressReportDetailsLoaded: !!action.payload.progressReportDetails,
-                    isProgressReportDetailsLoadingFailed: !action.payload.progressReportDetails,
-                    progressReportDetails: action.payload.progressReportDetails
-                }
-                return state;
+        case SET_PROGRESS_REPORT_VIEW_DETAILS:
+            state = {
+                ...state,
+                isProgressReportDetailsLoading: false,
+                isProgressReportDetailsLoaded: !!action.payload.progressReportDetails,
+                isProgressReportDetailsLoadingFailed: !action.payload.progressReportDetails,
+                progressReportDetails: action.payload.progressReportDetails
+            }
+            return state;
         case GET_MEDICAL_INTERVENTION_LIST:
             state = {
                 ...state,
@@ -206,6 +216,24 @@ const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNot
                 isMedicalRecordStatsLoadingFailed: !action.payload.medicalRecordStats,
                 medicalRecordStats: action.payload.medicalRecordStats,
             };
+            return state;
+        case GET_VIEW_PRIOR_NOTE_INTERVENTION_LIST:
+            state = {
+                ...state,
+                isViewPriorNoteInterventionListLoading: true,
+                isViewPriorNoteInterventionListLoaded: false,
+                isViewPriorNoteInterventionListLoadingFailed: false,
+            }
+            return state;
+        case SET_VIEW_PRIOR_NOTE_INTERVENTION_LIST:
+            console.log('apv',action.payload);
+            state = {
+                ...state,
+                isViewPriorNoteInterventionListLoading: false,
+                isViewPriorNoteInterventionListLoaded: !!action.payload.viewPriorNoteInterventionList,
+                isViewPriorNoteInterventionListLoadingFailed: !action.payload.viewPriorNoteInterventionList,
+                viewPriorNoteInterventionList: action.payload.viewPriorNoteInterventionList
+            }
             return state;
         default:
             return state;

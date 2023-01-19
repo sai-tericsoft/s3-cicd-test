@@ -6,7 +6,9 @@ import {IRootReducerState} from "../../../store/reducers";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import { useEffect} from "react";
-import {getClientMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
+import {
+    getClientMedicalInterventionDetails, getViewPriorNoteInterventionList,
+} from "../../../store/actions/chart-notes.action";
 
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {CommonService} from "../../../shared/services";
@@ -277,6 +279,12 @@ const ClientMedicalInterventionDetailsComponent = (props: ClientMedicalIntervent
             dispatch(getClientMedicalInterventionDetails(medicalInterventionId));
         }
     }, [dispatch, medicalInterventionId]);
+
+    useEffect(() => {
+        if (medicalInterventionId) {
+            dispatch(getViewPriorNoteInterventionList(medicalInterventionId, clientMedicalInterventionDetails?._id));
+        }
+    }, [dispatch, clientMedicalInterventionDetails, medicalInterventionId]);
 
     return (
         <div className={'client-medical-intervention-details-component'}>

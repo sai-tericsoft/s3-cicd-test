@@ -413,6 +413,10 @@ const APIConfig: IAPIConfig = {
     PROGRESS_REPORT_VIEW_DETAILS:{
         URL:(interventionId:string)=>ENV.API_URL+'/progressReport/'+ interventionId,
         METHOD:'get'
+    },
+    VIEW_PRIOR_NOTE_INTERVENTION_LIST:{
+        URL:(medicalRecordId:string)=>ENV.API_URL+'/medicalRecord/' + medicalRecordId + '/intervention',
+        METHOD:'get'
     }
 }
 
