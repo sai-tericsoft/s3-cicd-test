@@ -26,7 +26,7 @@ function* getMedicalInterventionDetails(action: any) {
     } catch (error) {
         yield put(setMedicalInterventionDetails(undefined));
     }
-};
+}
 
 function* getClientMedicalInterventionDetails(action: any) {
     try {

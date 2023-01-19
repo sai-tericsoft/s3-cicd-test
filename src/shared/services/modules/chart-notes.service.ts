@@ -171,6 +171,31 @@ const DryNeedlingFileAddAttachmentAPICall = (dryNeedlingFileId: string, payload:
     return ApiService[APIConfig.DRY_NEEDLING_FILE_ATTACHMENT_ADD.METHOD](APIConfig.DRY_NEEDLING_FILE_ATTACHMENT_ADD.URL(dryNeedlingFileId), payload,{'Content-Type': 'multipart/form-data'});
 }
 
+const ConcussionFileAddAPICall = (medicalInterventionId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.ADD_CONCUSSION_FILE.METHOD](APIConfig.ADD_CONCUSSION_FILE.URL(medicalInterventionId), payload, {'Content-Type': 'multipart/form-data'});
+}
+
+const ConcussionFileEditAPICall = (concussionFileId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.EDIT_CONCUSSION_FILE.METHOD](APIConfig.EDIT_CONCUSSION_FILE.URL(concussionFileId), payload);
+}
+
+const ConcussionFileDetailsAPICall = (concussionFileId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.CONCUSSION_FILE_DETAILS.METHOD](APIConfig.CONCUSSION_FILE_DETAILS.URL(concussionFileId), payload);
+}
+
+const ConcussionFileDeleteAttachmentAPICall = (concussionFileId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.CONCUSSION_FILE_ATTACHMENT_DELETE.METHOD](APIConfig.CONCUSSION_FILE_ATTACHMENT_DELETE.URL(concussionFileId), payload);
+}
+
+const ConcussionFileAddAttachmentAPICall = (concussionFileId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.CONCUSSION_FILE_ATTACHMENT_ADD.METHOD](APIConfig.CONCUSSION_FILE_ATTACHMENT_ADD.URL(concussionFileId), payload,{'Content-Type': 'multipart/form-data'});
+}
+
 const ChartNotesService = {
     MedicalRecordAddAPICall,
     MedicalRecordEditAPICall,
@@ -207,7 +232,12 @@ const ChartNotesService = {
     DryNeedlingFileEditAPICall,
     DryNeedlingFileDetailsAPICall,
     DryNeedlingFileDeleteAttachmentAPICall,
-    DryNeedlingFileAddAttachmentAPICall
+    DryNeedlingFileAddAttachmentAPICall,
+    ConcussionFileAddAPICall,
+    ConcussionFileEditAPICall,
+    ConcussionFileDetailsAPICall,
+    ConcussionFileDeleteAttachmentAPICall,
+    ConcussionFileAddAttachmentAPICall
 }
 
 export default ChartNotesService;

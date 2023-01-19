@@ -12,7 +12,7 @@ import {useCallback} from "react";
 import moment from "moment-timezone";
 
 interface MedicalRecordAttachmentBasicDetailsCardComponentProps {
-    attachmentType: "dryNeedlingFile";
+    attachmentType: "dryNeedlingFile" | "concussionFile";
     pageTitle: string;
     attachmentDetails: any;
     medicalRecordDetails: any;
@@ -63,7 +63,7 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                     </div>
                     <MedicalInterventionLinkedToComponent medicalRecordDetails={medicalRecordDetails}/>
                     {
-                        attachmentType === "dryNeedlingFile" && <>
+                        (attachmentType === "dryNeedlingFile" || attachmentType === "concussionFile") && <>
                             <div className={"ts-row"}>
                                 <div className="ts-col-md-6 ts-col-lg-4">
                                     <DataLabelValueComponent label={"Date of Document"}>

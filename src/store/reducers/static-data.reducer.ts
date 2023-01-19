@@ -3,6 +3,7 @@ import {
     GET_BODY_PART_LIST,
     GET_CASE_STATUS_LIST,
     GET_COMMUNICATION_MODE_TYPE_LIST,
+    GET_CONCUSSION_FILE_TYPES,
     GET_CONSULTATION_DURATION_LIST,
     GET_EMPLOYMENT_STATUS_LIST,
     GET_GENDER_LIST,
@@ -10,14 +11,17 @@ import {
     GET_LANGUAGE_LIST,
     GET_MEDICAL_HISTORY_OPTIONS_LIST,
     GET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
-    GET_PHONE_TYPE_LIST, GET_PROGRESS_REPORT_STATS_LIST,
+    GET_PHONE_TYPE_LIST,
+    GET_PROGRESS_REPORT_STATS_LIST,
     GET_REFERRAL_TYPE_LIST,
     GET_RELATIONSHIP_LIST,
     GET_SOCIAL_MEDIA_PLATFORM_LIST,
-    GET_SURGICAL_HISTORY_OPTIONS_LIST, SET_8_MINUTE_RULE_CHART,
+    GET_SURGICAL_HISTORY_OPTIONS_LIST,
+    SET_8_MINUTE_RULE_CHART,
     SET_BODY_PART_LIST,
     SET_CASE_STATUS_LIST,
     SET_COMMUNICATION_MODE_TYPE_LIST,
+    SET_CONCUSSION_FILE_TYPES,
     SET_CONSULTATION_DURATION_LIST,
     SET_EMPLOYMENT_STATUS_LIST,
     SET_GENDER_LIST,
@@ -25,7 +29,8 @@ import {
     SET_LANGUAGE_LIST,
     SET_MEDICAL_HISTORY_OPTIONS_LIST,
     SET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
-    SET_PHONE_TYPE_LIST, SET_PROGRESS_REPORT_STATS_LIST,
+    SET_PHONE_TYPE_LIST,
+    SET_PROGRESS_REPORT_STATS_LIST,
     SET_REFERRAL_TYPE_LIST,
     SET_RELATIONSHIP_LIST,
     SET_SOCIAL_MEDIA_PLATFORM_LIST,
@@ -33,6 +38,7 @@ import {
 } from "../actions/static-data.action";
 import {IActionModel} from "../../shared/models/action.model";
 import {ICommonType} from "../../shared/models/static-data.model";
+import {IConcussionFileType} from "../../shared/models/common.model";
 
 export interface IStaticDataReducerState {
     statusList: ICommonType[],
@@ -87,7 +93,10 @@ export interface IStaticDataReducerState {
     progressReportStatList: any[],
     isEightMinuteRuleChartLoading: boolean,
     isEightMinuteRuleChartLoaded: boolean,
-    eightMinuteRuleChart: any[]
+    eightMinuteRuleChart: any[],
+    isConcussionFileTypesLoading: boolean,
+    isConcussionFileTypesLoaded: boolean,
+    concussionFileTypes: IConcussionFileType[]
 }
 
 const initialData: IStaticDataReducerState = {
@@ -166,6 +175,9 @@ const initialData: IStaticDataReducerState = {
     isEightMinuteRuleChartLoading: false,
     isEightMinuteRuleChartLoaded: false,
     eightMinuteRuleChart: [],
+    isConcussionFileTypesLoading: false,
+    isConcussionFileTypesLoaded: false,
+    concussionFileTypes: []
 };
 
 const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDataReducerState => {
@@ -423,6 +435,21 @@ const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDa
                 isEightMinuteRuleChartLoading: false,
                 isEightMinuteRuleChartLoaded: true,
                 eightMinuteRuleChart: action.payload.eightMinuteRuleChart
+            }
+            return state;
+        case GET_CONCUSSION_FILE_TYPES:
+            state = {
+                ...state,
+                isConcussionFileTypesLoading: true,
+                isConcussionFileTypesLoaded: false
+            }
+            return state;
+        case SET_CONCUSSION_FILE_TYPES:
+            state = {
+                ...state,
+                isConcussionFileTypesLoading: false,
+                isConcussionFileTypesLoaded: true,
+                concussionFileTypes: action.payload.concussionFileTypes
             }
             return state;
         default:

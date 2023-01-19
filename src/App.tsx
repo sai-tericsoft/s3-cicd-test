@@ -12,8 +12,10 @@ import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "./store/reducers";
 import {
     get8MinuteRuleChart,
-    getBodyPartsList, getCaseStatusList,
+    getBodyPartsList,
+    getCaseStatusList,
     getCommunicationModeTypeList,
+    getConcussionFileTypes,
     getConsultationDurationList,
     getEmploymentStatusList,
     getGenderList,
@@ -21,7 +23,8 @@ import {
     getLanguageList,
     getMedicalHistoryOptionsList,
     getMusculoskeletalHistoryOptionsList,
-    getPhoneTypeList, getProgressReportStatsList,
+    getPhoneTypeList,
+    getProgressReportStatsList,
     getReferralTypeList,
     getRelationShipList,
     getSocialMediaPlatformList,
@@ -109,6 +112,7 @@ const App = (props: AppProps) => {
             dispatch(getCaseStatusList());
             dispatch(getProgressReportStatsList());
             dispatch(get8MinuteRuleChart());
+            dispatch(getConcussionFileTypes());
         }
     }, [token, dispatch])
 

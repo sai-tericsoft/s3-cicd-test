@@ -66,6 +66,8 @@ const MedicalRecordAttachmentsComponent = (props: ClientMedicalAttachmentsCompon
                     route = CommonService._routeConfig.MedicalRecordSurgeryRecordDetails(item.medical_record_id, item._id);
                 } else if (item.note_type.toLowerCase() === 'dry needling') {
                     route = CommonService._routeConfig.MedicalInterventionDryNeedlingFileViewDetails(item.medical_record_id, item._id);
+                } else if (item.note_type.toLowerCase() === 'concussion') {
+                    route = CommonService._routeConfig.MedicalInterventionConcussionFileViewDetails(item.medical_record_id, item._id);
                 } else {
                 }
                 return <LinkComponent route={route}>

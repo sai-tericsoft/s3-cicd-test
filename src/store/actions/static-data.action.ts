@@ -1,14 +1,21 @@
 import {IConsultationDuration} from "../../shared/models/static-data.model";
 import {
     I8MinuteRuleChartItem,
-    IBodyPart, ICaseStatus,
-    ICommunicationModeType,
+    IBodyPart,
+    ICaseStatus,
+    ICommunicationModeType, IConcussionFileType,
     IEmploymentStatus,
-    IGender, IInjuryType,
+    IGender,
+    IInjuryType,
     ILanguage,
-    IMedicalHistoryOption, IMusculoskeletalHistoryOption,
-    IPhoneType, IProgressReportStat, IReferralType,
-    IRelationship, ISocialMediaPlatform, ISurgicalHistoryOption
+    IMedicalHistoryOption,
+    IMusculoskeletalHistoryOption,
+    IPhoneType,
+    IProgressReportStat,
+    IReferralType,
+    IRelationship,
+    ISocialMediaPlatform,
+    ISurgicalHistoryOption
 } from "../../shared/models/common.model";
 
 export const GET_CONSULTATION_DURATION_LIST = 'GET_CONSULTATION_DURATION_LIST';
@@ -16,6 +23,9 @@ export const SET_CONSULTATION_DURATION_LIST = 'SET_CONSULTATION_DURATION_LIST';
 
 export const GET_GENDER_LIST = 'GET_GENDER_LIST';
 export const SET_GENDER_LIST = 'SET_GENDER_LIST';
+
+export const GET_CONCUSSION_FILE_TYPES = 'GET_CONCUSSION_FILE_TYPES';
+export const SET_CONCUSSION_FILE_TYPES = 'SET_CONCUSSION_FILE_TYPES';
 
 export const GET_EMPLOYMENT_STATUS_LIST = 'GET_EMPLOYMENT_STATUS_LIST';
 export const SET_EMPLOYMENT_STATUS_LIST = 'SET_EMPLOYMENT_STATUS_LIST';
@@ -53,14 +63,14 @@ export const SET_BODY_PART_LIST = 'SET_BODY_PART_LIST';
 export const GET_INJURY_TYPE_LIST = 'GET_INJURY_TYPE_LIST';
 export const SET_INJURY_TYPE_LIST = 'SET_INJURY_TYPE_LIST';
 
-export const GET_CASE_STATUS_LIST =  'GET_CASE_STATUS_LIST';
-export const SET_CASE_STATUS_LIST =  'SET_CASE_STATUS_LIST';
+export const GET_CASE_STATUS_LIST = 'GET_CASE_STATUS_LIST';
+export const SET_CASE_STATUS_LIST = 'SET_CASE_STATUS_LIST';
 
-export const GET_PROGRESS_REPORT_STATS_LIST =  'GET_PROGRESS_REPORT_STATS_LIST';
-export const SET_PROGRESS_REPORT_STATS_LIST =  'SET_PROGRESS_REPORT_STATS_LIST';
+export const GET_PROGRESS_REPORT_STATS_LIST = 'GET_PROGRESS_REPORT_STATS_LIST';
+export const SET_PROGRESS_REPORT_STATS_LIST = 'SET_PROGRESS_REPORT_STATS_LIST';
 
-export const GET_8_MINUTE_RULE_CHART =  'GET_8_MINUTE_RULE_CHART';
-export const SET_8_MINUTE_RULE_CHART =  'SET_8_MINUTE_RULE_CHART';
+export const GET_8_MINUTE_RULE_CHART = 'GET_8_MINUTE_RULE_CHART';
+export const SET_8_MINUTE_RULE_CHART = 'SET_8_MINUTE_RULE_CHART';
 
 export const getConsultationDurationList = () => {
     return {type: GET_CONSULTATION_DURATION_LIST};
@@ -232,38 +242,52 @@ export const setInjuryTypeList = (injuryTypeList: IInjuryType[]) => {
     };
 };
 
-export const getCaseStatusList =()=>{
-    return {type : GET_CASE_STATUS_LIST}
+export const getCaseStatusList = () => {
+    return {type: GET_CASE_STATUS_LIST}
 }
 
-export const setCaseStatusList = (caseStatusList : ICaseStatus[])=>{
+export const setCaseStatusList = (caseStatusList: ICaseStatus[]) => {
     return {
-        type : SET_CASE_STATUS_LIST , payload :{
+        type: SET_CASE_STATUS_LIST, payload: {
             caseStatusList
         }
     }
 }
 
-export const getProgressReportStatsList =()=>{
-    return {type : GET_PROGRESS_REPORT_STATS_LIST}
+export const getProgressReportStatsList = () => {
+    return {type: GET_PROGRESS_REPORT_STATS_LIST}
 }
 
-export const setProgressReportStatsList = (progressReportStatList : IProgressReportStat[])=>{
+export const setProgressReportStatsList = (progressReportStatList: IProgressReportStat[]) => {
     return {
-        type : SET_PROGRESS_REPORT_STATS_LIST , payload :{
+        type: SET_PROGRESS_REPORT_STATS_LIST, payload: {
             progressReportStatList
         }
     }
 }
 
-export const get8MinuteRuleChart =()=>{
-    return {type : GET_8_MINUTE_RULE_CHART}
+export const get8MinuteRuleChart = () => {
+    return {type: GET_8_MINUTE_RULE_CHART}
 }
 
-export const set8MinuteRuleChart = ( eightMinuteRuleChart : I8MinuteRuleChartItem[])=>{
+export const set8MinuteRuleChart = (eightMinuteRuleChart: I8MinuteRuleChartItem[]) => {
     return {
-        type : SET_8_MINUTE_RULE_CHART , payload :{
-             eightMinuteRuleChart
+        type: SET_8_MINUTE_RULE_CHART, payload: {
+            eightMinuteRuleChart
         }
     }
 }
+
+export const getConcussionFileTypes = () => {
+    return {type: GET_CONCUSSION_FILE_TYPES}
+}
+
+export const setConcussionFileTypes = (concussionFileTypes: IConcussionFileType[]) => {
+    return {
+        type: SET_CONCUSSION_FILE_TYPES, payload: {
+            concussionFileTypes
+        }
+    }
+}
+
+

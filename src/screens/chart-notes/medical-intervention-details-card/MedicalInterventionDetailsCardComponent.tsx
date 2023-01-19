@@ -19,6 +19,7 @@ import moment from "moment-timezone";
 import AddDryNeedlingFileComponent from "../add-dry-needling-file/AddDryNeedlingFileComponent";
 import MedicalInterventionLinkedToComponent
     from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
+import AddConcussionFileComponent from "../add-concussion-file/AddConcussionFileComponent";
 
 interface MedicalInterventionDetailsCardComponentProps {
     showAction?: boolean,
@@ -34,7 +35,8 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     const dispatch = useDispatch();
     const [isSurgeryAddOpen, setIsSurgeryAddOpen] = React.useState<boolean>(false);
     const [isEditMedicalRecordDrawerOpen, setIsEditMedicalRecordDrawerOpen] = useState<boolean>(false);
-    const [isAddDryNeedlingFileDrawerOpen, setIsAddDryNeedlingFileDrawerOpen] = useState<boolean>(false)
+    const [isAddDryNeedlingFileDrawerOpen, setIsAddDryNeedlingFileDrawerOpen] = useState<boolean>(false);
+    const [isAddConcussionFileDrawerOpen, setIsAddConcussionFileDrawerOpen] = useState<boolean>(false);
 
     const openEditMedicalRecordDrawer = useCallback(() => {
         setIsEditMedicalRecordDrawerOpen(true);
@@ -52,6 +54,14 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
         setIsAddDryNeedlingFileDrawerOpen(false);
     }, []);
 
+    const openAddConcussionFileDrawer = useCallback(() => {
+        setIsAddConcussionFileDrawerOpen(true);
+    }, []);
+
+    const closeAddConcussionFileDrawer = useCallback(() => {
+        setIsAddConcussionFileDrawerOpen(false);
+    }, []);
+
     const handleMedicalRecordEdit = useCallback(() => {
         closeEditMedicalRecordDrawer();
         if (medicalRecordId) {
@@ -67,6 +77,12 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     const handleDryNeedlingFileAdd = useCallback(() => {
         closeAddDryNeedlingFileDrawer();
     }, [closeAddDryNeedlingFileDrawer]);
+
+
+    const handleConcussionFileAdd = useCallback(() => {
+        closeAddConcussionFileDrawer();
+    }, [closeAddConcussionFileDrawer]);
+
 
     return (
         <div className={'client-medical-details-card-component'}>
@@ -118,7 +134,10 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                             <ListItem onClick={comingSoon}>Print SOAP</ListItem>,
                                             <ListItem onClick={comingSoon}>Transfer SOAP to</ListItem>,
                                             <ListItem onClick={comingSoon}>Notify Admin</ListItem>,
-                                            <ListItem onClick={openAddDryNeedlingFileDrawer}>Add Dry Needling
+                                            <ListItem onClick={openAddDryNeedlingFileDrawer}>
+                                                Add Dry Needling File
+                                            </ListItem>,
+                                            <ListItem onClick={openAddConcussionFileDrawer}>Add Concussion
                                                 File</ListItem>,
                                         ]
                                     }/>
@@ -182,6 +201,18 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                     medicalInterventionId={medicalInterventionDetails?._id}
                     onAdd={handleDryNeedlingFileAdd}/>
             </DrawerComponent>
+
+            {/*Add Concussion File Drawer Start*/}
+            <DrawerComponent isOpen={isAddConcussionFileDrawerOpen}
+                             showClose={true}
+                             onClose={closeAddConcussionFileDrawer}>
+                <AddConcussionFileComponent
+                    medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
+                    medicalInterventionId={medicalInterventionDetails?._id}
+                    onAdd={handleConcussionFileAdd}/>
+            </DrawerComponent>
+            {/*Add Concussion File Drawer End*/}
+
         </div>
     );
 }
