@@ -1,5 +1,6 @@
 import { BehaviorSubject, Subject } from "rxjs";
 import {IConfirmationConfig} from "../models/confirmation.model";
+import {IAttachment} from "../models/common.model";
 
 const logoutSubject: Subject<void> = new Subject();
 const updateLoginUserTokenSubject: Subject<string | undefined> = new Subject<string | undefined>()
@@ -7,6 +8,7 @@ const updateActiveUserIdSubject: Subject<string> = new Subject<string>();
 const NetworkChangeSubject: Subject<boolean> = new Subject<boolean>();
 const ReloadStateSubject: Subject<void> = new Subject<void>();
 const PageLoadingStateSubject: Subject<boolean> = new Subject<boolean>();
+const LightBoxSubject: Subject<IAttachment[]> = new Subject<IAttachment[]>();
 
 const FetchPageDataSubject: Subject<any> = new Subject<any>();
 
@@ -29,7 +31,8 @@ const Communications = {
     pageTitleSubject,
     ConfirmStateSubject,
     DialogStateSubject,
-    FetchPageDataSubject
+    FetchPageDataSubject,
+    LightBoxSubject
 };
 
 export default Communications;

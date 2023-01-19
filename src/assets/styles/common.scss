@@ -395,6 +395,12 @@
   }
 }
 
+.confirmation-modal {
+  .modal-content-wrapper {
+    width: 444px !important;
+  }
+}
+
 .intervention-special-test-config-add-body-part-modal, .intervention-rom-config-add-body-part-modal {
   .modal-content-wrapper {
     width: 900px;

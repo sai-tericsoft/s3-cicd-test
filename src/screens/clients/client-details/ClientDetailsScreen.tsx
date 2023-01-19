@@ -71,10 +71,15 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
     }, [clientId, dispatch]);
 
     useEffect(() => {
+        const referrer: any = searchParams.get("referrer");
         dispatch(setCurrentNavParams("Client Details", null, () => {
-            navigate(CommonService._routeConfig.ClientList());
+            if (referrer){
+                navigate(referrer);
+            } else {
+                navigate(CommonService._routeConfig.ClientList());
+            }
         }));
-    }, [navigate, dispatch]);
+    }, [searchParams, navigate, dispatch]);
 
     const handleTabChange = useCallback((e: any, value: any) => {
         searchParams.set("currentStep", value);
@@ -164,11 +169,15 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
                                                     variant={"fullWidth"}
                                                     onUpdate={handleTabChange}
                                                 >
-                                                    <TabComponent className={'client-details-tab'} label="Client Details" value={"basicDetails"}/>
-                                                    <TabComponent className={'client-details-tab'} label="Medical History Questionnaire"
+                                                    <TabComponent className={'client-details-tab'} label="Client Details"
+                                                                  value={"basicDetails"}/>
+                                                    <TabComponent className={'client-details-tab'}
+                                                                  label="Medical History Questionnaire"
                                                                   value={"medicalHistoryQuestionnaire"}/>
-                                                    <TabComponent className={'client-details-tab'} label="Account Details" value={"accountDetails"}/>
-                                                    <TabComponent className={'client-details-tab'} label="Activity Log" value={"activityLog"}/>
+                                                    <TabComponent className={'client-details-tab'} label="Account Details"
+                                                                  value={"accountDetails"}/>
+                                                    <TabComponent className={'client-details-tab'} label="Activity Log"
+                                                                  value={"activityLog"}/>
                                                 </TabsComponent>
                                                 <TabContentComponent value={"basicDetails"} selectedTab={currentTab}>
                                                     <ClientBasicDetailsComponent clientId={clientId}/>
