@@ -1,0 +1,25 @@
+.view-exercise-log-component {
+  .client-name-button-wrapper {
+    display: flex;
+    justify-content: space-between;
+
+    .client-name-wrapper {
+      font-size: 1.4286rem;
+      font-weight: 700;
+
+      .client-name {
+        padding-right: 10px;
+      }
+    }
+
+  }
+  .horizontal-line{
+    border-bottom: 2px solid #CECECE;
+    margin-top: 30px;
+  }
+  .ts-row{
+    .print-button-wrapper{
+      margin-left: 280px;
+    }
+  }
+}

@@ -159,6 +159,10 @@ const MedicalInterventionDryNeedlingFileViewDetails = (medicalRecordId: string, 
     return "/chart-notes/" + medicalRecordId + "/" + dryNeedlingFileId + '/dry-needling-file-view-details';
 }
 
+const MedicalRecordViewExerciseRecord= (medicalRecordId: string) => {
+    return "/chart-notes/" + medicalRecordId + "/exercise-record";
+}
+
 const RouteConfigService = {
     DefaultRoute,
     LoginRoute,
@@ -194,7 +198,8 @@ const RouteConfigService = {
     MedicalRecordProgressReportAdvancedDetailsUpdate,
     MedicalInterventionFinalizeTreatment,
     MedicalRecordProgressReportViewDetails,
-    MedicalInterventionDryNeedlingFileViewDetails
+    MedicalInterventionDryNeedlingFileViewDetails,
+    MedicalRecordViewExerciseRecord
 }
 
 export default RouteConfigService;

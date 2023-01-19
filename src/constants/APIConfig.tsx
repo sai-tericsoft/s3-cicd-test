@@ -429,6 +429,10 @@ const APIConfig: IAPIConfig = {
     PROGRESS_REPORT_VIEW_DETAILS:{
         URL:(interventionId:string)=>ENV.API_URL+'/progressReport/'+ interventionId,
         METHOD:'get'
+    },
+    MEDICAL_RECORD_VIEW_EXERCISE_LOG:{
+        URL:(medicalRecordId:string)=>ENV.API_URL+'/medicalRecord/'+ medicalRecordId +'/exerciseLog',
+        METHOD:'get'
     }
 }
 

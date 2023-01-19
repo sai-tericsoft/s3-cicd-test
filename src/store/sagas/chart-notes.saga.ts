@@ -7,14 +7,14 @@ import {
     GET_MEDICAL_INTERVENTION_DETAILS,
     GET_MEDICAL_INTERVENTION_LIST,
     GET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS,
-    GET_MEDICAL_RECORD_STATS,
+    GET_MEDICAL_RECORD_STATS, GET_MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
     GET_PROGRESS_REPORT_VIEW_DETAILS,
     setClientMedicalInterventionDetails,
     setInterventionAttachmentList,
     setMedicalInterventionDetails,
     setMedicalInterventionList,
     setMedicalRecordProgressReportDetails,
-    setMedicalRecordStats,
+    setMedicalRecordStats, setMedicalRecordViewExerciseRecord,
     setProgressReportViewDetails,
 } from "../actions/chart-notes.action";
 
@@ -89,6 +89,16 @@ function* getMedicalRecordStats(action: any) {
     }
 }
 
+function* getMedicalRecordViewExerciseRecord(action: any) {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._chartNotes.MedicalRecordViewExerciseRecordPICall, action.payload.medicalRecordId);
+        yield put(setMedicalRecordViewExerciseRecord(resp?.data || []));
+    } catch (error: any) {
+        yield put(setMedicalRecordViewExerciseRecord([]));
+    }
+}
+
 export default function* chartNotesSaga() {
     yield takeEvery(GET_MEDICAL_INTERVENTION_DETAILS, getMedicalInterventionDetails);
     yield takeEvery(GET_CLIENT_MEDICAL_INTERVENTION_DETAILS, getClientMedicalInterventionDetails);
@@ -97,4 +107,5 @@ export default function* chartNotesSaga() {
     yield takeEvery(GET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS, getMedicalRecordProgressReportDetails);
     yield takeEvery(GET_MEDICAL_INTERVENTION_LIST, getMedicalInterventionList);
     yield takeEvery(GET_MEDICAL_RECORD_STATS, getMedicalRecordStats);
+    yield takeEvery(GET_MEDICAL_RECORD_VIEW_EXERCISE_RECORD, getMedicalRecordViewExerciseRecord);
 }
