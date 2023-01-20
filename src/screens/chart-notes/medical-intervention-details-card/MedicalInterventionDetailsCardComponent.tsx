@@ -49,8 +49,6 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     const {
         clientMedicalRecord,
         isClientMedicalRecordLoaded,
-        isClientMedicalRecordLoading,
-        isClientMedicalRecordLoadingFailed
     } = useSelector((state: IRootReducerState) => state.client);
 
     useEffect(() => {
@@ -60,7 +58,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                 dispatch(getMedicalRecordSoapNoteList({medicalRecordId, medicalInterventionId}));
             }
         }
-    }, [medicalRecordId, medicalInterventionDetails, dispatch]);
+    }, [medicalRecordId, medicalInterventionId, dispatch]);
 
     useEffect(() => {
         if (clientMedicalRecord?.client_id) {
