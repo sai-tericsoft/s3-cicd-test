@@ -481,6 +481,10 @@ const APIConfig: IAPIConfig = {
     MEDICAL_RECORD_VIEW_EXERCISE_LOG:{
         URL:(medicalRecordId:string)=>ENV.API_URL+'/medicalRecord/'+ medicalRecordId +'/exerciseLog',
         METHOD:'get'
+    },
+    GET_MEDICAL_RECORD_SOAP_NOTE_LIST:{
+        URL:(medicalRecordId:string)=>ENV.API_URL+'/medicalRecord/' + medicalRecordId + '/intervention',
+        METHOD:'get'
     }
 }
 

@@ -23,6 +23,10 @@ export const SET_MEDICAL_RECORD_STATS = 'SET_MEDICAL_RECORD_STATS';
 export const GET_MEDICAL_RECORD_VIEW_EXERCISE_RECORD = 'GET_MEDICAL_RECORD_VIEW_EXERCISE_RECORD';
 export const SET_MEDICAL_RECORD_VIEW_EXERCISE_RECORD = 'SET_MEDICAL_RECORD_VIEW_EXERCISE_RECORD';
 
+export const GET_MEDICAL_RECORD_SOAP_NOTE_LIST = 'GET_MEDICAL_RECORD_SOAP_NOTE_LIST';
+export const SET_MEDICAL_RECORD_SOAP_NOTE_LIST = 'SET_MEDICAL_RECORD_SOAP_NOTE_LIST';
+
+
 export const refreshMedicalRecordAttachmentList = () => {
     return {
         type: REFRESH_MEDICAL_RECORD_ATTACHMENT_LIST
@@ -155,7 +159,7 @@ export const setMedicalRecordStats = (medicalRecordStats: any) => { // TODO type
     };
 };
 
-export const getMedicalRecordViewExerciseRecord= (medicalRecordId: string) => {
+export const getMedicalRecordViewExerciseRecord = (medicalRecordId: string) => {
     return {
         type: GET_MEDICAL_RECORD_VIEW_EXERCISE_RECORD, payload: {
             medicalRecordId
@@ -167,6 +171,20 @@ export const setMedicalRecordViewExerciseRecord = (medicalRecordViewExerciseReco
     return {
         type: SET_MEDICAL_RECORD_VIEW_EXERCISE_RECORD, payload: {
             medicalRecordViewExerciseRecord
+        }
+    };
+}
+
+export const getMedicalRecordSoapNoteList = (payload: any) => {
+    return {
+        type: GET_MEDICAL_RECORD_SOAP_NOTE_LIST, payload
+    };
+};
+
+export const setMedicalRecordSoapNoteList = (medicalRecordSoapNoteList: any) => {
+    return {
+        type: SET_MEDICAL_RECORD_SOAP_NOTE_LIST, payload: {
+            medicalRecordSoapNoteList
         }
     }
 };

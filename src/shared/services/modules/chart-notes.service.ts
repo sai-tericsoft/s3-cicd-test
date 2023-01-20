@@ -151,6 +151,11 @@ const DryNeedlingFileAddAPICall = (medicalInterventionId: string, payload: any) 
     return ApiService[APIConfig.ADD_DRY_NEEDLING_FILE.METHOD](APIConfig.ADD_DRY_NEEDLING_FILE.URL(medicalInterventionId), payload, {'Content-Type': 'multipart/form-data'});
 }
 
+const MedicalRecordSoapNoteListAPICall = (medicalRecordId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.GET_MEDICAL_RECORD_SOAP_NOTE_LIST.METHOD](APIConfig.GET_MEDICAL_RECORD_SOAP_NOTE_LIST.URL(medicalRecordId), payload);
+}
+
 const DryNeedlingFileEditAPICall = (dryNeedlingFileId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.EDIT_DRY_NEEDLING_FILE.METHOD](APIConfig.EDIT_DRY_NEEDLING_FILE.URL(dryNeedlingFileId), payload);
@@ -260,6 +265,7 @@ const ChartNotesService = {
     MedicalInterventionListAPICall,
     MedicalRecordStatsAPICall,
     DryNeedlingFileAddAPICall,
+    MedicalRecordSoapNoteListAPICall,
     DryNeedlingFileEditAPICall,
     DryNeedlingFileDetailsAPICall,
     DryNeedlingFileDeleteAttachmentAPICall,

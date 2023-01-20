@@ -6,7 +6,9 @@ import {IRootReducerState} from "../../../store/reducers";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import { useEffect} from "react";
-import {getClientMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
+import {
+    getClientMedicalInterventionDetails,
+} from "../../../store/actions/chart-notes.action";
 
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {CommonService} from "../../../shared/services";

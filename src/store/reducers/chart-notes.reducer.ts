@@ -17,6 +17,8 @@ import {
     SET_MEDICAL_RECORD_STATS,
     GET_MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
     SET_MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
+    GET_MEDICAL_RECORD_SOAP_NOTE_LIST,
+    SET_MEDICAL_RECORD_SOAP_NOTE_LIST
 } from "../actions/chart-notes.action";
 import {CommonService} from "../../shared/services";
 
@@ -54,6 +56,10 @@ export interface IChartNotesReducerState {
     isMedicalRecordViewExerciseRecordLoaded: boolean,
     isMedicalRecordViewExerciseRecordLoadingFailed: boolean,
     medicalRecordViewExerciseRecord: any,
+    isMedicalRecordSoapNoteListLoading: boolean,
+    isMedicalRecordSoapNoteListLoaded: boolean,
+    isMedicalRecordSoapNoteListLoadingFailed: boolean,
+    medicalRecordSoapNoteList?: any,
 }
 
 const initialData: IChartNotesReducerState = {
@@ -90,6 +96,10 @@ const initialData: IChartNotesReducerState = {
     isMedicalRecordViewExerciseRecordLoaded: false,
     isMedicalRecordViewExerciseRecordLoadingFailed: false,
     medicalRecordViewExerciseRecord: undefined,
+    isMedicalRecordSoapNoteListLoading: false,
+    isMedicalRecordSoapNoteListLoaded: false,
+    isMedicalRecordSoapNoteListLoadingFailed: false,
+    medicalRecordSoapNoteList: [],
 };
 
 const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNotesReducerState => {
@@ -218,7 +228,6 @@ const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNot
                 medicalRecordStats: action.payload.medicalRecordStats,
             };
             return state;
-
         case GET_MEDICAL_RECORD_VIEW_EXERCISE_RECORD:
             state = {
                 ...state,
@@ -234,6 +243,23 @@ const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNot
                 isMedicalRecordViewExerciseRecordLoaded: !!action.payload.medicalRecordViewExerciseRecord,
                 isMedicalRecordViewExerciseRecordLoadingFailed: !action.payload.medicalRecordViewExerciseRecord,
                 medicalRecordViewExerciseRecord: action.payload.medicalRecordViewExerciseRecord
+            }
+            return state;
+        case GET_MEDICAL_RECORD_SOAP_NOTE_LIST:
+            state = {
+                ...state,
+                isMedicalRecordSoapNoteListLoading: true,
+                isMedicalRecordSoapNoteListLoaded: false,
+                isMedicalRecordSoapNoteListLoadingFailed: false,
+            }
+            return state;
+        case SET_MEDICAL_RECORD_SOAP_NOTE_LIST:
+            state = {
+                ...state,
+                isMedicalRecordSoapNoteListLoading: false,
+                isMedicalRecordSoapNoteListLoaded: !!action.payload.medicalRecordSoapNoteList,
+                isMedicalRecordSoapNoteListLoadingFailed: !action.payload.medicalRecordSoapNoteList,
+                medicalRecordSoapNoteList: action.payload.medicalRecordSoapNoteList
             }
             return state;
         default:
