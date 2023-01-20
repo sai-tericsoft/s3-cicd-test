@@ -22,14 +22,14 @@ export interface IConcussionFileEditForm {
 }
 
 export interface IMedicalRecordDocumentAddForm {
-    document: any;
+    attachment: any;
     comments: string;
     document_date: any;
-    document_id: any;
+    document_type_id: any;
 }
 
 export interface IMedicalRecordDocumentEditForm {
-    document: any;
+    comments: string;
     document_date: any;
-    document_id: string;
+    document_type_id: string;
 }

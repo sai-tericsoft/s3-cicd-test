@@ -24,6 +24,8 @@ import FormikSelectComponent from "../../../shared/components/form-controls/form
 const AddMedicalRecordDocumentFormValidationSchema = Yup.object({
     document_date: Yup.string()
         .required("Date of Document is required"),
+    document_type_id: Yup.string()
+        .required("Document Type is required"),
     document: Yup.string()
         .required("Attachment is required"),
     comments: Yup.string().nullable()
@@ -31,8 +33,8 @@ const AddMedicalRecordDocumentFormValidationSchema = Yup.object({
 
 const AddMedicalRecordDocumentFormInitialValues: IMedicalRecordDocumentAddForm = {
     document_date: new Date(),
-    document: "",
-    document_id: "",
+    attachment: "",
+    document_type_id: "",
     comments: ""
 };
 
@@ -150,32 +152,32 @@ const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentCompon
                                                                    required={true}/>
                                         <>
                                             {
-                                                (!values.document) && <>
+                                                (!values.attachment) && <>
                                                     <FilePickerComponent maxFileCount={1}
                                                                          onFilesDrop={(acceptedFiles, rejectedFiles) => {
                                                                              if (acceptedFiles && acceptedFiles.length > 0) {
                                                                                  const file = acceptedFiles[0];
-                                                                                 setFieldValue('document', file);
+                                                                                 setFieldValue('attachment', file);
                                                                              }
                                                                          }}
                                                                          acceptedFileTypes={["mp4", "pdf", "png", "jpg", "jpeg", "avi"]}
                                                                          acceptedFilesText={"PNG, JPG, JPEG, PDF, MP4 and AVI files are allowed upto 100MB"}
                                                     />
                                                     {
-                                                        (_.get(touched, "document") && !!(_.get(errors, "document"))) &&
+                                                        (_.get(touched, "attachment") && !!(_.get(errors, "attachment"))) &&
                                                         <ErrorComponent
-                                                            errorText={(_.get(errors, "document"))}/>
+                                                            errorText={(_.get(errors, "attachment"))}/>
                                                     }
                                                 </>
                                             }
                                         </>
                                         <>
                                             {
-                                                (values.document) && <>
+                                                (values.attachment) && <>
                                                     <FilePreviewThumbnailComponent
-                                                        file={values.document}
+                                                        file={values.attachment}
                                                         onRemove={() => {
-                                                            setFieldValue('document', undefined);
+                                                            setFieldValue('attachment', undefined);
                                                         }}
                                                     />
                                                 </>

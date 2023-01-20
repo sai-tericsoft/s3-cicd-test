@@ -10,190 +10,190 @@ import {useDispatch} from "react-redux";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
-import EditDryNeedlingFileComponent from "../edit-dry-needling-file/EditDryNeedlingFileComponent";
 import {ImageConfig, Misc} from "../../../constants";
 import FilePickerComponent from "../../../shared/components/file-picker/FilePickerComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import FilePreviewThumbnailComponent
     from "../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
+import EditMedicalRecordDocumentComponent from "../edit-medical-record-document/EditMedicalRecordDocumentComponent";
 
-interface ViewDryNeedlingFileScreenProps {
+interface ViewMedicalRecordDocumentScreenProps {
 
 }
 
-const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
+const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenProps) => {
 
-        const {medicalRecordId, dryNeedlingFileId} = useParams();
+        const {medicalRecordId, medicalRecordDocumentId} = useParams();
         const dispatch = useDispatch();
         const navigate = useNavigate();
-        const [dryNeedlingFileDetails, setDryNeedlingFileDetails] = useState<any>(undefined);
-        const [isDryNeedlingFileDetailsLoaded, setIsDryNeedlingFileDetailsLoaded] = useState<boolean>(false);
-        const [isDryNeedlingFileDetailsLoading, setIsDryNeedlingFileDetailsLoading] = useState<boolean>(false);
-        const [isDryNeedlingFileDetailsLoadingFailed, setIsDryNeedlingFileDetailsLoadingFailed] = useState<boolean>(false);
-        const [isEditDryNeedlingFileDrawerOpened, setIsEditDryNeedlingFileDrawerOpened] = useState<boolean>(false);
-        const [isDryNeedlingAttachmentDeleting, setIsDryNeedlingAttachmentDeleting] = useState<boolean>(false);
-        const [isDryNeedlingAttachmentAdding, setIsDryNeedlingAttachmentAdding] = useState<boolean>(false);
-        const [dryNeedlingFileAttachmentFile, setDryNeedlingFileAttachmentFile] = useState<any>(undefined);
+        const [medicalRecordDocumentDetails, setMedicalRecordDocumentDetails] = useState<any>(undefined);
+        const [isMedicalRecordDocumentDetailsLoaded, setIsMedicalRecordDocumentDetailsLoaded] = useState<boolean>(false);
+        const [isMedicalRecordDocumentDetailsLoading, setIsMedicalRecordDocumentDetailsLoading] = useState<boolean>(false);
+        const [isMedicalRecordDocumentDetailsLoadingFailed, setIsMedicalRecordDocumentDetailsLoadingFailed] = useState<boolean>(false);
+        const [isEditMedicalRecordDocumentDrawerOpened, setIsEditMedicalRecordDocumentDrawerOpened] = useState<boolean>(false);
+        const [isMedicalRecordAttachmentDeleting, setIsMedicalRecordAttachmentDeleting] = useState<boolean>(false);
+        const [isMedicalRecordAttachmentAdding, setIsMedicalRecordAttachmentAdding] = useState<boolean>(false);
+        const [medicalRecordDocumentAttachmentFile, setMedicalRecordDocumentAttachmentFile] = useState<any>(undefined);
 
-        const openEditDryNeedlingFileDrawer = useCallback(() => {
-            setIsEditDryNeedlingFileDrawerOpened(true);
+        const openEditMedicalRecordDocumentDrawer = useCallback(() => {
+            setIsEditMedicalRecordDocumentDrawerOpened(true);
         }, []);
 
-        const closeEditDryNeedlingFileDrawer = useCallback(() => {
-            setIsEditDryNeedlingFileDrawerOpened(false);
+        const closeEditMedicalRecordDocumentDrawer = useCallback(() => {
+            setIsEditMedicalRecordDocumentDrawerOpened(false);
         }, []);
 
-        const getDryNeedlingFileDetails = useCallback(() => {
-            if (dryNeedlingFileId) {
-                setIsDryNeedlingFileDetailsLoading(true);
-                setIsDryNeedlingFileDetailsLoadingFailed(false);
-                setIsDryNeedlingFileDetailsLoaded(false);
-                CommonService._chartNotes.DryNeedlingFileDetailsAPICall(dryNeedlingFileId, {})
+        const getMedicalRecordDocumentDetails = useCallback(() => {
+            if (medicalRecordDocumentId) {
+                setIsMedicalRecordDocumentDetailsLoading(true);
+                setIsMedicalRecordDocumentDetailsLoadingFailed(false);
+                setIsMedicalRecordDocumentDetailsLoaded(false);
+                CommonService._chartNotes.MedicalRecordDocumentDetailsAPICall(medicalRecordDocumentId, {})
                     .then((response: any) => {
-                        setDryNeedlingFileDetails(response.data);
-                        setIsDryNeedlingFileDetailsLoading(false);
-                        setIsDryNeedlingFileDetailsLoadingFailed(false);
-                        setIsDryNeedlingFileDetailsLoaded(true);
+                        setMedicalRecordDocumentDetails(response?.data);
+                        setIsMedicalRecordDocumentDetailsLoading(false);
+                        setIsMedicalRecordDocumentDetailsLoadingFailed(false);
+                        setIsMedicalRecordDocumentDetailsLoaded(true);
                     }).catch((error: any) => {
-                    setIsDryNeedlingFileDetailsLoading(false);
-                    setIsDryNeedlingFileDetailsLoadingFailed(true);
-                    setIsDryNeedlingFileDetailsLoaded(false);
+                    setIsMedicalRecordDocumentDetailsLoading(false);
+                    setIsMedicalRecordDocumentDetailsLoadingFailed(true);
+                    setIsMedicalRecordDocumentDetailsLoaded(false);
                 });
             }
-        }, [dryNeedlingFileId]);
+        }, [medicalRecordDocumentId]);
 
-        const handleEditDryNeedlingFile = useCallback(() => {
-            getDryNeedlingFileDetails();
-            setIsEditDryNeedlingFileDrawerOpened(false);
-        }, [getDryNeedlingFileDetails]);
+        const handleEditMedicalRecordDocument = useCallback(() => {
+            getMedicalRecordDocumentDetails();
+            setIsEditMedicalRecordDocumentDrawerOpened(false);
+        }, [getMedicalRecordDocumentDetails]);
 
         useEffect(() => {
-            dispatch(setCurrentNavParams("View Dry Needling File", null, () => {
+            dispatch(setCurrentNavParams("View Document", null, () => {
                 medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
             }));
         }, [medicalRecordId, navigate, dispatch]);
 
-        const handleDryNeedlingFileDelete = useCallback(() => {
+        const handleMedicalRecordDocumentDelete = useCallback(() => {
             CommonService.onConfirm({
                 image: ImageConfig.DeleteAttachmentConfirmationIcon,
                 confirmationTitle: "DELETE ATTACHMENT",
                 confirmationSubTitle: "Are you sure you want to delete this attachment\n" +
                     "from this file?"
             }).then(() => {
-                setIsDryNeedlingAttachmentDeleting(true);
-                if (dryNeedlingFileId) {
-                    CommonService._chartNotes.DryNeedlingFileDeleteAttachmentAPICall(dryNeedlingFileId, {})
+                setIsMedicalRecordAttachmentDeleting(true);
+                if (medicalRecordDocumentId) {
+                    CommonService._chartNotes.MedicalRecordDocumentDeleteAttachmentAPICall(medicalRecordDocumentId, {})
                         .then((response: any) => {
-                            setDryNeedlingFileDetails((prevState: any) => {
+                            setMedicalRecordDocumentDetails((prevState: any) => {
                                 return {
                                     ...prevState,
                                     attachment: null
                                 }
                             });
-                            setIsDryNeedlingAttachmentDeleting(false);
+                            setIsMedicalRecordAttachmentDeleting(false);
                             CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully deleted attachment", "success");
                         }).catch((error: any) => {
-                        setIsDryNeedlingAttachmentDeleting(false);
+                        setIsMedicalRecordAttachmentDeleting(false);
                         CommonService._alert.showToast(error?.error || "Error deleting an attachment", "success");
                     });
                 } else {
-                    CommonService._alert.showToast('Dry Needling File Id is missing', "error");
+                    CommonService._alert.showToast('Medical Record Document Id is missing', "error");
                 }
             });
-        }, [dryNeedlingFileId]);
+        }, [medicalRecordDocumentId]);
 
-        const handleDryNeedlingFileAttachmentAdd = useCallback(() => {
-            if (dryNeedlingFileId) {
+        const handleMedicalRecordDocumentAttachmentAdd = useCallback(() => {
+            if (medicalRecordDocumentId) {
                 const payload = {
-                    attachment: dryNeedlingFileAttachmentFile
+                    attachment: medicalRecordDocumentAttachmentFile
                 };
                 const formData = CommonService.getFormDataFromJSON(payload);
-                setIsDryNeedlingAttachmentAdding(true);
-                CommonService._chartNotes.DryNeedlingFileAddAttachmentAPICall(dryNeedlingFileId, formData)
+                setIsMedicalRecordAttachmentAdding(true);
+                CommonService._chartNotes.MedicalRecordDocumentAddAttachmentAPICall(medicalRecordDocumentId, formData)
                     .then((response: any) => {
-                        setDryNeedlingFileDetails((prevState: any) => {
+                        setMedicalRecordDocumentDetails((prevState: any) => {
                             return {
                                 ...prevState,
                                 attachment: response.data
                             }
                         });
-                        setIsDryNeedlingAttachmentAdding(false);
+                        setIsMedicalRecordAttachmentAdding(false);
                         CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully added attachment", "success");
                     }).catch((error: any) => {
-                    setIsDryNeedlingAttachmentAdding(false);
+                    setIsMedicalRecordAttachmentAdding(false);
                     CommonService._alert.showToast(error?.error || "Error adding an attachment", "success");
                 });
             } else {
-                CommonService._alert.showToast('Dry Needling File Id is missing', "error");
+                CommonService._alert.showToast('Medical Record Document Id is missing', "error");
             }
-        }, [dryNeedlingFileAttachmentFile, dryNeedlingFileId]);
+        }, [medicalRecordDocumentAttachmentFile, medicalRecordDocumentId]);
 
         useEffect(() => {
-            if (dryNeedlingFileId) {
-                getDryNeedlingFileDetails();
+            if (medicalRecordDocumentId) {
+                getMedicalRecordDocumentDetails();
             }
-        }, [getDryNeedlingFileDetails, dryNeedlingFileId]);
+        }, [getMedicalRecordDocumentDetails, medicalRecordDocumentId]);
 
         return (
-            <div className={'view-dry-needling-file-screen'}>
+            <div className={'view-medical-record-details-screen'}>
                 {
-                    isDryNeedlingFileDetailsLoading && <LoaderComponent/>
+                    isMedicalRecordDocumentDetailsLoading && <LoaderComponent/>
                 }
                 {
-                    isDryNeedlingFileDetailsLoadingFailed &&
-                    <StatusCardComponent title={'Failed to load dry needling file details.'}/>
+                    isMedicalRecordDocumentDetailsLoadingFailed &&
+                    <StatusCardComponent title={'Failed to load medical record details.'}/>
                 }
                 {
-                    isDryNeedlingFileDetailsLoaded && <>
+                    isMedicalRecordDocumentDetailsLoaded && <>
                         <MedicalRecordAttachmentBasicDetailsCardComponent
-                            pageTitle={"View Dry Needling File"}
-                            attachmentDetails={dryNeedlingFileDetails}
-                            medicalRecordDetails={dryNeedlingFileDetails?.medical_record_details}
-                            attachmentType={"dryNeedlingFile"}
-                            onEdit={openEditDryNeedlingFileDrawer}
+                            pageTitle={"View Document"}
+                            attachmentDetails={medicalRecordDocumentDetails}
+                            medicalRecordDetails={medicalRecordDocumentDetails?.medical_record_details}
+                            attachmentType={"medicalRecordDocument"}
+                            onEdit={openEditMedicalRecordDocumentDrawer}
                         />
-                        <div className={'dry-needling-attachment'}>
+                        <div className={'medical-record-document-attachment'}>
                             {
-                                dryNeedlingFileDetails?.attachment &&
+                                medicalRecordDocumentDetails?.attachment &&
                                 <AttachmentComponent
-                                    attachment={dryNeedlingFileDetails?.attachment}
-                                    onDelete={handleDryNeedlingFileDelete}
-                                    isDeleting={isDryNeedlingAttachmentDeleting}
+                                    attachment={medicalRecordDocumentDetails?.attachment}
+                                    onDelete={handleMedicalRecordDocumentDelete}
+                                    isDeleting={isMedicalRecordAttachmentDeleting}
                                 />
                             }
                             {
-                                !dryNeedlingFileDetails?.attachment &&
+                                !medicalRecordDocumentDetails?.attachment &&
                                 <div className={'t-form'}>
                                     <div className="t-form-controls">
                                         {
-                                            dryNeedlingFileAttachmentFile &&
-                                            <FilePreviewThumbnailComponent file={dryNeedlingFileAttachmentFile}
-                                                                           onRemove={() => setDryNeedlingFileAttachmentFile(undefined)}
+                                            medicalRecordDocumentAttachmentFile &&
+                                            <FilePreviewThumbnailComponent file={medicalRecordDocumentAttachmentFile}
+                                                                           onRemove={() => setMedicalRecordDocumentAttachmentFile(undefined)}
                                             />
                                         }
                                         {
-                                            !dryNeedlingFileAttachmentFile &&
+                                            !medicalRecordDocumentAttachmentFile &&
                                             <FilePickerComponent maxFileCount={1}
                                                                  onFilesDrop={(files: any) => {
-                                                                     setDryNeedlingFileAttachmentFile(files[0]);
+                                                                     setMedicalRecordDocumentAttachmentFile(files[0]);
                                                                  }}
-                                                                 acceptedFileTypes={["pdf", "png", "jpg", "jpeg"]}
-                                                                 acceptedFilesText={"PNG, JPG, JPEG and PDF files are allowed upto 100MB"}
+                                                                 acceptedFileTypes={["mp4", "pdf", "png", "jpg", "jpeg", "avi"]}
+                                                                 acceptedFilesText={"PNG, JPG, JPEG, PDF, MP4 and AVI files are allowed upto 100MB"}
                                             />
                                         }
                                     </div>
                                     <div className="t-form-actions">
                                         <ButtonComponent
                                             variant={"outlined"}
-                                            onClick={() => setDryNeedlingFileAttachmentFile(undefined)}
-                                            disabled={isDryNeedlingAttachmentAdding}
+                                            onClick={() => setMedicalRecordDocumentAttachmentFile(undefined)}
+                                            disabled={isMedicalRecordAttachmentAdding}
                                         >
                                             Cancel
                                         </ButtonComponent>&nbsp;&nbsp;
                                         <ButtonComponent
-                                            onClick={handleDryNeedlingFileAttachmentAdd}
-                                            disabled={!dryNeedlingFileAttachmentFile || isDryNeedlingAttachmentAdding}
-                                            isLoading={isDryNeedlingAttachmentAdding}
+                                            onClick={handleMedicalRecordDocumentAttachmentAdd}
+                                            disabled={!medicalRecordDocumentAttachmentFile || isMedicalRecordAttachmentAdding}
+                                            isLoading={isMedicalRecordAttachmentAdding}
                                         >
                                             Save
                                         </ButtonComponent>
@@ -204,13 +204,13 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                     </>
                 }
                 {
-                    dryNeedlingFileId &&
-                    <DrawerComponent isOpen={isEditDryNeedlingFileDrawerOpened}
+                    medicalRecordDocumentId &&
+                    <DrawerComponent isOpen={isEditMedicalRecordDocumentDrawerOpened}
                                      showClose={true}
-                                     onClose={closeEditDryNeedlingFileDrawer}>
-                        <EditDryNeedlingFileComponent onEdit={handleEditDryNeedlingFile}
-                                                      dryNeedlingFileId={dryNeedlingFileId}
-                                                      dryNeedlingFileDetails={dryNeedlingFileDetails}/>
+                                     onClose={closeEditMedicalRecordDocumentDrawer}>
+                        <EditMedicalRecordDocumentComponent onEdit={handleEditMedicalRecordDocument}
+                                                      medicalRecordDocumentId={medicalRecordDocumentId}
+                                                      medicalRecordDocumentDetails={medicalRecordDocumentDetails}/>
                     </DrawerComponent>
                 }
             </div>
@@ -219,4 +219,4 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
     }
 ;
 
-export default ViewDryNeedlingFileScreen;
+export default ViewMedicalRecordDocumentScreen;
