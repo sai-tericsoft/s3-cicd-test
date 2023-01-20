@@ -50,7 +50,7 @@ const AttachmentComponent = (props: AttachmentComponentProps) => {
                 </ButtonComponent>
                 <ButtonComponent prefixIcon={<ImageConfig.PrintIcon/>}
                                  onClick={handlePrint}
-                                 disabled={isDeleting}>
+                                 disabled={isDeleting || !['image', 'pdf'].includes(CommonService.getNormalizedFileType(attachment?.type))}>
                     Print
                 </ButtonComponent>
             </div>

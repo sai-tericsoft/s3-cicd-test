@@ -10,7 +10,7 @@ import {
     GET_GENDER_LIST,
     GET_INJURY_TYPE_LIST,
     GET_LANGUAGE_LIST,
-    GET_MEDICAL_HISTORY_OPTIONS_LIST,
+    GET_MEDICAL_HISTORY_OPTIONS_LIST, GET_MEDICAL_RECORD_DOCUMENT_TYPES,
     GET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
     GET_PHONE_TYPE_LIST,
     GET_PROGRESS_REPORT_STATS_LIST,
@@ -27,7 +27,7 @@ import {
     setGenderList,
     setInjuryTypeList,
     setLanguageList,
-    setMedicalHistoryOptionsList,
+    setMedicalHistoryOptionsList, setMedicalRecordDocumentTypes,
     setMusculoskeletalHistoryOptionsList,
     setPhoneTypeList,
     setProgressReportStatsList,
@@ -218,6 +218,16 @@ function* getConcussionFileTypes() {
     }
 }
 
+function* getMedicalRecordDocumentTypes() {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._staticData.getMedicalRecordDocumentTypes);
+        yield put(setMedicalRecordDocumentTypes(resp?.data));
+    } catch (error: any) {
+        yield put(setMedicalRecordDocumentTypes([]));
+    }
+}
+
 export default function* staticDataSaga() {
     yield takeEvery(GET_CONSULTATION_DURATION_LIST, getConsultationDurationList);
     yield takeEvery(GET_GENDER_LIST, getGenderList);
@@ -237,4 +247,5 @@ export default function* staticDataSaga() {
     yield takeEvery(GET_PROGRESS_REPORT_STATS_LIST, getProgressReportStatList);
     yield takeEvery(GET_8_MINUTE_RULE_CHART, get8MinuteRuleChartData);
     yield takeEvery(GET_CONCUSSION_FILE_TYPES, getConcussionFileTypes);
+    yield takeEvery(GET_MEDICAL_RECORD_DOCUMENT_TYPES, getMedicalRecordDocumentTypes);
 }

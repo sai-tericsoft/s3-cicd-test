@@ -462,6 +462,8 @@ const getNormalizedFileType = (fileType: any) => {
         type = "word";
     } else if (type.includes('spreadsheet')) {
         type = "xls";
+    } else if (type.includes('video')) {
+        type = "video";
     } else {
         type = "application";
     }

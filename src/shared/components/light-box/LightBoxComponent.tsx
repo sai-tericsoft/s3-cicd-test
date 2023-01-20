@@ -6,6 +6,7 @@ import Lightbox from 'react-image-lightbox';
 import {CommonService} from "../../services";
 import {Subscription} from "rxjs";
 import PdfViewerComponent from "../pdf-viewer/PdfViewerComponent";
+import ModalComponent from "../modal/ModalComponent";
 
 interface LightBoxComponentProps {
 }
@@ -60,7 +61,14 @@ const LightBoxComponent = (props: LightBoxComponentProps) => {
                 }
                 {
                     activeAttachmentType === "pdf" &&
-                    <PdfViewerComponent file={activeAttachment.url} title={activeAttachment?.name} onClose={closeLightBox}/>
+                    <PdfViewerComponent file={activeAttachment.url} title={activeAttachment?.name}
+                                        onClose={closeLightBox}/>
+                }
+                {
+                    activeAttachmentType === "video" &&
+                    <ModalComponent isOpen={true} onClose={closeLightBox} showClose={true}>
+                        Unable to preview video
+                    </ModalComponent>
                 }
             </>
             }
