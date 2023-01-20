@@ -430,7 +430,7 @@ const APIConfig: IAPIConfig = {
         URL:(interventionId:string)=>ENV.API_URL+'/progressReport/'+ interventionId,
         METHOD:'get'
     },
-    VIEW_PRIOR_NOTE_INTERVENTION_LIST:{
+    GET_MEDICAL_RECORD_SOAP_NOTE_LIST:{
         URL:(medicalRecordId:string)=>ENV.API_URL+'/medicalRecord/' + medicalRecordId + '/intervention',
         METHOD:'get'
     }

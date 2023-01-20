@@ -13,9 +13,10 @@ import {
     GET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS,
     GET_MEDICAL_INTERVENTION_LIST,
     SET_MEDICAL_INTERVENTION_LIST,
-    GET_MEDICAL_RECORD_STATS, SET_MEDICAL_RECORD_STATS,
-    GET_VIEW_PRIOR_NOTE_INTERVENTION_LIST,
-    SET_VIEW_PRIOR_NOTE_INTERVENTION_LIST
+    GET_MEDICAL_RECORD_STATS,
+    SET_MEDICAL_RECORD_STATS,
+    GET_MEDICAL_RECORD_SOAP_NOTE_LIST,
+    SET_MEDICAL_RECORD_SOAP_NOTE_LIST,
 } from "../actions/chart-notes.action";
 import {CommonService} from "../../shared/services";
 
@@ -49,10 +50,10 @@ export interface IChartNotesReducerState {
     isMedicalRecordStatsLoaded: boolean,
     isMedicalRecordStatsLoadingFailed: boolean,
     medicalRecordStats: any[],
-    isViewPriorNoteInterventionListLoading: boolean,
-    isViewPriorNoteInterventionListLoaded: boolean,
-    isViewPriorNoteInterventionListLoadingFailed: boolean,
-    viewPriorNoteInterventionList?: any,
+    isMedicalRecordSoapNoteListLoading: boolean,
+    isMedicalRecordSoapNoteListLoaded: boolean,
+    isMedicalRecordSoapNoteListLoadingFailed: boolean,
+    medicalRecordSoapNoteList?: any,
 }
 
 const initialData: IChartNotesReducerState = {
@@ -85,10 +86,10 @@ const initialData: IChartNotesReducerState = {
     isMedicalRecordStatsLoaded: false,
     isMedicalRecordStatsLoadingFailed: false,
     medicalRecordStats: [],
-    isViewPriorNoteInterventionListLoading: false,
-    isViewPriorNoteInterventionListLoaded: false,
-    isViewPriorNoteInterventionListLoadingFailed: false,
-    viewPriorNoteInterventionList: [],
+    isMedicalRecordSoapNoteListLoading: false,
+    isMedicalRecordSoapNoteListLoaded: false,
+    isMedicalRecordSoapNoteListLoadingFailed: false,
+    medicalRecordSoapNoteList: [],
 };
 
 const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNotesReducerState => {
@@ -217,22 +218,21 @@ const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNot
                 medicalRecordStats: action.payload.medicalRecordStats,
             };
             return state;
-        case GET_VIEW_PRIOR_NOTE_INTERVENTION_LIST:
+        case GET_MEDICAL_RECORD_SOAP_NOTE_LIST:
             state = {
                 ...state,
-                isViewPriorNoteInterventionListLoading: true,
-                isViewPriorNoteInterventionListLoaded: false,
-                isViewPriorNoteInterventionListLoadingFailed: false,
+                isMedicalRecordSoapNoteListLoading: true,
+                isMedicalRecordSoapNoteListLoaded: false,
+                isMedicalRecordSoapNoteListLoadingFailed: false,
             }
             return state;
-        case SET_VIEW_PRIOR_NOTE_INTERVENTION_LIST:
-            console.log('apv',action.payload);
+        case SET_MEDICAL_RECORD_SOAP_NOTE_LIST:
             state = {
                 ...state,
-                isViewPriorNoteInterventionListLoading: false,
-                isViewPriorNoteInterventionListLoaded: !!action.payload.viewPriorNoteInterventionList,
-                isViewPriorNoteInterventionListLoadingFailed: !action.payload.viewPriorNoteInterventionList,
-                viewPriorNoteInterventionList: action.payload.viewPriorNoteInterventionList
+                isMedicalRecordSoapNoteListLoading: false,
+                isMedicalRecordSoapNoteListLoaded: !!action.payload.medicalRecordSoapNoteList,
+                isMedicalRecordSoapNoteListLoadingFailed: !action.payload.medicalRecordSoapNoteList,
+                medicalRecordSoapNoteList: action.payload.medicalRecordSoapNoteList
             }
             return state;
         default:

@@ -20,8 +20,8 @@ export const SET_MEDICAL_INTERVENTION_LIST = 'SET_MEDICAL_INTERVENTION_LIST';
 export const GET_MEDICAL_RECORD_STATS = 'GET_MEDICAL_RECORD_STATS';
 export const SET_MEDICAL_RECORD_STATS = 'SET_MEDICAL_RECORD_STATS';
 
-export const GET_VIEW_PRIOR_NOTE_INTERVENTION_LIST = 'GET_VIEW_PRIOR_NOTE_LIST';
-export const SET_VIEW_PRIOR_NOTE_INTERVENTION_LIST = 'SET_VIEW_PRIOR_NOTE_LIST';
+export const GET_MEDICAL_RECORD_SOAP_NOTE_LIST = 'GET_MEDICAL_RECORD_SOAP_NOTE_LIST';
+export const SET_MEDICAL_RECORD_SOAP_NOTE_LIST = 'SET_MEDICAL_RECORD_SOAP_NOTE_LIST';
 
 
 export const refreshSurgeryRecords = () => {
@@ -156,20 +156,16 @@ export const setMedicalRecordStats = (medicalRecordStats: any) => { // TODO type
     };
 };
 
-export const getViewPriorNoteInterventionList = (medicalRecordId: string, interventionId:string) => {
-    console.log("medicalRecordId", medicalRecordId);
+export const getMedicalRecordSoapNoteList = (payload: any) => {
     return {
-        type: GET_VIEW_PRIOR_NOTE_INTERVENTION_LIST, payload: {
-            medicalRecordId,
-            interventionId
-        }
+        type: GET_MEDICAL_RECORD_SOAP_NOTE_LIST, payload
     };
 };
 
-export const setViewPriorNoteInterventionList = (viewPriorNoteInterventionList: any) => {
+export const setMedicalRecordSoapNoteList = (medicalRecordSoapNoteList: any) => {
     return {
-        type: SET_VIEW_PRIOR_NOTE_INTERVENTION_LIST, payload: {
-            viewPriorNoteInterventionList
+        type: SET_MEDICAL_RECORD_SOAP_NOTE_LIST, payload: {
+            medicalRecordSoapNoteList
         }
     }
 };
