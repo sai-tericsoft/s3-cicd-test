@@ -44,7 +44,6 @@ interface AddConcussionFileComponentProps {
 
 const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
 
-
     const {onAdd, medicalInterventionId, medicalRecordDetails} = props;
     const [currentStep, setCurrentStep] = useState<"selectType" | "form">("selectType");
     const {concussionFileTypes} = useSelector((state: IRootReducerState) => state.staticData);
