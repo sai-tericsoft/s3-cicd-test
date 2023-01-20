@@ -11,6 +11,8 @@ import ModalComponent from "../modal/ModalComponent";
 interface LightBoxComponentProps {
 }
 
+const CURRENTLY_SUPPORTED_FILE_FORMATS: any = ['image', 'pdf'];
+
 const LightBoxComponent = (props: LightBoxComponentProps) => {
 
     const [attachments, setAttachments] = useState<IAttachment[]>([]);
@@ -52,23 +54,29 @@ const LightBoxComponent = (props: LightBoxComponentProps) => {
 
     return (
         <div className={'light-box-component'}>
-            {isOpen && <>
+            {(isOpen && activeAttachment) && <>
                 {
-                    activeAttachmentType === "image" && <Lightbox
-                        mainSrc={activeAttachment?.url}
-                        onCloseRequest={() => setIsOpen(false)}
-                    />
+                    CURRENTLY_SUPPORTED_FILE_FORMATS.includes(activeAttachmentType) && <>
+                        {
+                            activeAttachmentType === "image" && <Lightbox
+                                mainSrc={activeAttachment?.url}
+                                onCloseRequest={() => setIsOpen(false)}
+                            />
+                        }
+                        {
+                            activeAttachmentType === "pdf" &&
+                            <PdfViewerComponent file={activeAttachment.url} title={activeAttachment?.name}
+                                                onClose={closeLightBox}/>
+                        }
+                    </>
                 }
                 {
-                    activeAttachmentType === "pdf" &&
-                    <PdfViewerComponent file={activeAttachment.url} title={activeAttachment?.name}
-                                        onClose={closeLightBox}/>
-                }
-                {
-                    activeAttachmentType === "video" &&
-                    <ModalComponent isOpen={true} onClose={closeLightBox} showClose={true}>
-                        Unable to preview video
+                    !CURRENTLY_SUPPORTED_FILE_FORMATS.includes(activeAttachmentType) && <>   <ModalComponent isOpen={true}
+                                                                                                   onClose={closeLightBox}
+                                                                                                   showClose={true}>
+                        Coming soon
                     </ModalComponent>
+                    </>
                 }
             </>
             }

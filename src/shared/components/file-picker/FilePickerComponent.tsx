@@ -33,7 +33,10 @@ const fileTypeMappings: any = {
         type: "video/mp4",
         extensions: ['.mp4', '.MP4']
     },
-    "avi": "video/avi",
+    "avi": {
+        type: "video/avi",
+        extensions: ['.avi', '.AVI']
+    }
 }
 
 const FilePickerComponent = (props: FilePickerComponentProps) => {

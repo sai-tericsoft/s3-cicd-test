@@ -26,8 +26,8 @@ const AddMedicalRecordDocumentFormValidationSchema = Yup.object({
         .required("Date of Document is required"),
     document_type_id: Yup.string()
         .required("Document Type is required"),
-    document: Yup.string()
-        .required("Attachment is required"),
+    attachment: Yup.mixed()
+        .required("Document is required"),
     comments: Yup.string().nullable()
 });
 

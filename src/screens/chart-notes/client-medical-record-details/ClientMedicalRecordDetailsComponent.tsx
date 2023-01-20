@@ -1,7 +1,7 @@
 import "./ClientMedicalRecordDetailsComponent.scss";
 import MedicalRecordBasicDetailsCardComponent from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 import MedicalInterventionListComponent from "../medical-intervention-list/MedicalInterventionListComponent";
-import MedicalRecordAttachmentsComponent from "../medical-record-attachments/MedicalRecordAttachmentsComponent";
+import MedicalRecordAttachmentListComponent from "../medical-record-attachment-list/MedicalRecordAttachmentListComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 
 interface ClientMedicalDetailsComponentProps {
@@ -15,7 +15,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
             <PageHeaderComponent title={"Medical Record Main Page"}/>
             <MedicalRecordBasicDetailsCardComponent showAction={true}/>
             <MedicalInterventionListComponent/>
-            <MedicalRecordAttachmentsComponent/>
+            <MedicalRecordAttachmentListComponent/>
         </div>
     );
 

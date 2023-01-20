@@ -164,9 +164,8 @@ const MedicalInterventionConcussionFileViewDetails = (medicalRecordId: string, c
 }
 
 const MedicalRecordDocumentViewDetails = (medicalRecordId: string, medicalRecordDocumentId: string) => {
-    return "/chart-notes/" + medicalRecordId + "/" + medicalRecordDocumentId + '/medical-record-view-details';
+    return "/chart-notes/" + medicalRecordId + "/" + medicalRecordDocumentId + '/medical-record-document-view-details';
 }
-
 
 const RouteConfigService = {
     DefaultRoute,

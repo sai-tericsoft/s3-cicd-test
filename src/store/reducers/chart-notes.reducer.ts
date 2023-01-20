@@ -1,19 +1,20 @@
 import {IActionModel} from "../../shared/models/action.model";
 import {
+    GET_CLIENT_MEDICAL_INTERVENTION_DETAILS,
     GET_INTERVENTION_ATTACHMENT_LIST,
     GET_MEDICAL_INTERVENTION_DETAILS,
-    SET_INTERVENTION_ATTACHMENT_LIST,
-    GET_CLIENT_MEDICAL_INTERVENTION_DETAILS,
-    SET_CLIENT_MEDICAL_INTERVENTION_DETAILS,
-    GET_PROGRESS_REPORT_VIEW_DETAILS,
-    SET_PROGRESS_REPORT_VIEW_DETAILS,
-    REFRESH_SURGERY_RECORDS,
-    SET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS,
-    SET_MEDICAL_INTERVENTION_DETAILS,
-    GET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS,
     GET_MEDICAL_INTERVENTION_LIST,
+    GET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS,
+    GET_MEDICAL_RECORD_STATS,
+    GET_PROGRESS_REPORT_VIEW_DETAILS,
+    REFRESH_MEDICAL_RECORD_ATTACHMENT_LIST,
+    SET_CLIENT_MEDICAL_INTERVENTION_DETAILS,
+    SET_INTERVENTION_ATTACHMENT_LIST,
+    SET_MEDICAL_INTERVENTION_DETAILS,
     SET_MEDICAL_INTERVENTION_LIST,
-    GET_MEDICAL_RECORD_STATS, SET_MEDICAL_RECORD_STATS,
+    SET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS,
+    SET_MEDICAL_RECORD_STATS,
+    SET_PROGRESS_REPORT_VIEW_DETAILS,
 } from "../actions/chart-notes.action";
 import {CommonService} from "../../shared/services";
 
@@ -38,7 +39,6 @@ export interface IChartNotesReducerState {
     isClientMedicalRecordProgressReportDetailsLoaded: boolean,
     isClientMedicalRecordProgressReportDetailsLoadingFailed: boolean,
     clientMedicalRecordProgressReportDetails?: any,
-    refreshSurgeryRecords?: string,
     isMedicalInterventionListLoading: boolean,
     isMedicalInterventionListLoaded: boolean,
     isMedicalInterventionListLoadingFailed: boolean,
@@ -47,6 +47,7 @@ export interface IChartNotesReducerState {
     isMedicalRecordStatsLoaded: boolean,
     isMedicalRecordStatsLoadingFailed: boolean,
     medicalRecordStats: any[],
+    refreshTokenForMedicalRecordAttachments: string,
 }
 
 const initialData: IChartNotesReducerState = {
@@ -70,7 +71,6 @@ const initialData: IChartNotesReducerState = {
     isClientMedicalRecordProgressReportDetailsLoaded: false,
     isClientMedicalRecordProgressReportDetailsLoadingFailed: false,
     clientMedicalRecordProgressReportDetails: undefined,
-    refreshSurgeryRecords: '',
     isMedicalInterventionListLoading: false,
     isMedicalInterventionListLoaded: false,
     isMedicalInterventionListLoadingFailed: false,
@@ -79,12 +79,13 @@ const initialData: IChartNotesReducerState = {
     isMedicalRecordStatsLoaded: false,
     isMedicalRecordStatsLoadingFailed: false,
     medicalRecordStats: [],
+    refreshTokenForMedicalRecordAttachments: CommonService.getRandomID(3),
 };
 
 const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNotesReducerState => {
     switch (action.type) {
-        case REFRESH_SURGERY_RECORDS:
-            state = {...state, refreshSurgeryRecords: CommonService.getRandomID(3)}
+        case REFRESH_MEDICAL_RECORD_ATTACHMENT_LIST:
+            state = {...state, refreshTokenForMedicalRecordAttachments: CommonService.getRandomID(3)}
             return state;
         case GET_MEDICAL_INTERVENTION_DETAILS:
             state = {
@@ -115,8 +116,8 @@ const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNot
             console.log(action.payload)
             state = {
                 ...state,
-                isAttachmentListLoading:false,
-                isAttachmentListLoaded:!!action.payload.interventionAttachmentList,
+                isAttachmentListLoading: false,
+                isAttachmentListLoaded: !!action.payload.interventionAttachmentList,
                 isAttachmentListLoadingFailed: !action.payload.interventionAttachmentList,
                 attachmentList: action.payload.interventionAttachmentList
             }
@@ -129,7 +130,7 @@ const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNot
                 isClientMedicalInterventionDetailsLoadingFailed: false,
             };
             return state;
-          case SET_CLIENT_MEDICAL_INTERVENTION_DETAILS:
+        case SET_CLIENT_MEDICAL_INTERVENTION_DETAILS:
             state = {
                 ...state,
                 isClientMedicalInterventionDetailsLoading: false,
@@ -155,24 +156,24 @@ const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNot
                 clientMedicalRecordProgressReportDetails: action.payload.clientMedicalRecordProgressReportDetails
             };
             return state;
-            case GET_PROGRESS_REPORT_VIEW_DETAILS:
-                state = {
-                    ...state,
-                    isProgressReportDetailsLoading: true,
-                    isProgressReportDetailsLoaded: false,
-                    isProgressReportDetailsLoadingFailed: false,
-                }
-                return state;
+        case GET_PROGRESS_REPORT_VIEW_DETAILS:
+            state = {
+                ...state,
+                isProgressReportDetailsLoading: true,
+                isProgressReportDetailsLoaded: false,
+                isProgressReportDetailsLoadingFailed: false,
+            }
+            return state;
 
-            case SET_PROGRESS_REPORT_VIEW_DETAILS:
-                state = {
-                    ...state,
-                    isProgressReportDetailsLoading: false,
-                    isProgressReportDetailsLoaded: !!action.payload.progressReportDetails,
-                    isProgressReportDetailsLoadingFailed: !action.payload.progressReportDetails,
-                    progressReportDetails: action.payload.progressReportDetails
-                }
-                return state;
+        case SET_PROGRESS_REPORT_VIEW_DETAILS:
+            state = {
+                ...state,
+                isProgressReportDetailsLoading: false,
+                isProgressReportDetailsLoaded: !!action.payload.progressReportDetails,
+                isProgressReportDetailsLoadingFailed: !action.payload.progressReportDetails,
+                progressReportDetails: action.payload.progressReportDetails
+            }
+            return state;
         case GET_MEDICAL_INTERVENTION_LIST:
             state = {
                 ...state,

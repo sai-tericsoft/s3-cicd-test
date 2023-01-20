@@ -20,7 +20,7 @@ import {ListItem} from "@mui/material";
 import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
 import AddSurgeryRecordComponent from "../add-surgery-record/AddSurgeryRecordComponent";
 import AddBasicProgressReportComponent from "../add-basic-progress-report/AddBasicProgressReportComponent";
-import {getMedicalRecordStats, refreshSurgeryRecords} from "../../../store/actions/chart-notes.action";
+import {getMedicalRecordStats, refreshMedicalRecordAttachmentList} from "../../../store/actions/chart-notes.action";
 import MedicalRecordStatsComponent from "../medical-record-stats/MedicalRecordStatsComponent";
 import MedicalInterventionLinkedToComponent
     from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
@@ -40,7 +40,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
     const [isSurgeryAddOpen, setIsSurgeryAddOpen] = React.useState<boolean>(false);
     const [isEditMedicalRecordDrawerOpen, setIsEditMedicalRecordDrawerOpen] = useState<boolean>(false);
     const [isProgressReportDrawerOpen, setIsProgressReportDrawerOpen] = useState<boolean>(false);
-    const [isMedicalRecordDocumentAddDrawerOpen, setIsMedicalRecordDocumentAddDrawerOpen] = useState<boolean>(true);
+    const [isMedicalRecordDocumentAddDrawerOpen, setIsMedicalRecordDocumentAddDrawerOpen] = useState<boolean>(false);
     const [isMedicalRecordStatsModalOpen, setIsMedicalRecordStatsModalOpen] = useState<boolean>(false);
     const {
         clientMedicalRecord,
@@ -108,28 +108,17 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
     }, []);
 
     const handleMedicalRecordDocumentAdd = useCallback(() => {
+        dispatch(refreshMedicalRecordAttachmentList());
         closeMedicalRecordDocumentAddDrawer();
-    }, []);
+    }, [dispatch, closeMedicalRecordDocumentAddDrawer]);
+
+    const handleSurgeryRecordAdd = useCallback(() => {
+        dispatch(refreshMedicalRecordAttachmentList());
+        setIsSurgeryAddOpen(false);
+    }, [dispatch]);
 
     return (
         <div className={'client-medical-details-card-component'}>
-
-            {medicalRecordId && clientMedicalRecord &&
-                <DrawerComponent isOpen={isSurgeryAddOpen}
-                                 showClose={true}
-                                 onClose={setIsSurgeryAddOpen.bind(null, false)}
-                                 className={"t-surgery-record-drawer"}
-                >
-                    <AddSurgeryRecordComponent medicalRecordId={medicalRecordId}
-                                               medicalRecordDetails={clientMedicalRecord}
-                                               onSave={() => {
-                                                   dispatch(getClientMedicalRecord(medicalRecordId));
-                                                   dispatch(refreshSurgeryRecords());
-                                                   setIsSurgeryAddOpen(false);
-                                               }}/>
-                </DrawerComponent>
-            }
-
             <>
                 {
                     !medicalRecordId &&
@@ -240,6 +229,18 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                             </CardComponent>
                         </>
                     }
+
+                    {/*Add Surgery Record drawer start*/}
+                    <DrawerComponent isOpen={isSurgeryAddOpen}
+                                     showClose={true}
+                                     onClose={setIsSurgeryAddOpen.bind(null, false)}
+                                     className={"t-surgery-record-drawer"}
+                    >
+                        <AddSurgeryRecordComponent medicalRecordId={medicalRecordId}
+                                                   medicalRecordDetails={clientMedicalRecord}
+                                                   onSave={handleSurgeryRecordAdd}/>
+                    </DrawerComponent>
+                    {/*Add Surgery Record end*/}
 
                     {/*Edit medical record drawer start*/}
                     <DrawerComponent isOpen={isEditMedicalRecordDrawerOpen}
