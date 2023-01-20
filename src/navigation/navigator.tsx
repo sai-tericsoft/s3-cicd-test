@@ -55,7 +55,7 @@ import {
     MEDICAL_INTERVENTION_SURGERY_RECORD_DETAILS,
     MEDICAL_RECORD_DOCUMENT_VIEW_DETAILS,
     MEDICAL_RECORD_LIST,
-    MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE,
+    MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE, MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
     NOT_FOUND_ROUTE,
     PROGRESS_REPORT_VIEW_DETAILS,
     SERVICE_ADD,
@@ -96,6 +96,7 @@ import ViewDryNeedlingFileScreen from "../screens/chart-notes/view-dry-needling-
 import ViewConcussionFileScreen from "../screens/chart-notes/view-concussion-file/ViewConcussionFileScreen";
 import ViewMedicalRecordDocumentScreen
     from "../screens/chart-notes/view-medical-record-document/ViewMedicalRecordDocumentScreen";
+import ViewExerciseRecordScreen from "../screens/chart-notes/view-exercise-record/ViewExerciseRecordScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -369,6 +370,10 @@ const Navigator = (props: NavigatorProps) => {
                 </ProtectedRoute>}/>
                 <Route path={MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE} element={<ProtectedRoute>
                     <ProgressRecordAdvancedDetailsUpdateScreen/>
+                </ProtectedRoute>}/>
+
+                <Route path={MEDICAL_RECORD_VIEW_EXERCISE_RECORD} element={<ProtectedRoute>
+                    <ViewExerciseRecordScreen/>
                 </ProtectedRoute>}/>
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
             </Route>

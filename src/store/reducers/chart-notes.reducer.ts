@@ -13,8 +13,10 @@ import {
     SET_MEDICAL_INTERVENTION_DETAILS,
     SET_MEDICAL_INTERVENTION_LIST,
     SET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS,
-    SET_MEDICAL_RECORD_STATS,
     SET_PROGRESS_REPORT_VIEW_DETAILS,
+    SET_MEDICAL_RECORD_STATS,
+    GET_MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
+    SET_MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
 } from "../actions/chart-notes.action";
 import {CommonService} from "../../shared/services";
 
@@ -48,6 +50,10 @@ export interface IChartNotesReducerState {
     isMedicalRecordStatsLoadingFailed: boolean,
     medicalRecordStats: any[],
     refreshTokenForMedicalRecordAttachments: string,
+    isMedicalRecordViewExerciseRecordLoading: boolean,
+    isMedicalRecordViewExerciseRecordLoaded: boolean,
+    isMedicalRecordViewExerciseRecordLoadingFailed: boolean,
+    medicalRecordViewExerciseRecord: any,
 }
 
 const initialData: IChartNotesReducerState = {
@@ -80,6 +86,10 @@ const initialData: IChartNotesReducerState = {
     isMedicalRecordStatsLoadingFailed: false,
     medicalRecordStats: [],
     refreshTokenForMedicalRecordAttachments: CommonService.getRandomID(3),
+    isMedicalRecordViewExerciseRecordLoading: false,
+    isMedicalRecordViewExerciseRecordLoaded: false,
+    isMedicalRecordViewExerciseRecordLoadingFailed: false,
+    medicalRecordViewExerciseRecord: undefined,
 };
 
 const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNotesReducerState => {
@@ -207,6 +217,24 @@ const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNot
                 isMedicalRecordStatsLoadingFailed: !action.payload.medicalRecordStats,
                 medicalRecordStats: action.payload.medicalRecordStats,
             };
+            return state;
+
+        case GET_MEDICAL_RECORD_VIEW_EXERCISE_RECORD:
+            state = {
+                ...state,
+                isMedicalRecordViewExerciseRecordLoading: true,
+                isMedicalRecordViewExerciseRecordLoaded: false,
+                isMedicalRecordViewExerciseRecordLoadingFailed: false,
+            }
+            return state;
+        case SET_MEDICAL_RECORD_VIEW_EXERCISE_RECORD:
+            state = {
+                ...state,
+                isMedicalRecordViewExerciseRecordLoading: false,
+                isMedicalRecordViewExerciseRecordLoaded: !!action.payload.medicalRecordViewExerciseRecord,
+                isMedicalRecordViewExerciseRecordLoadingFailed: !action.payload.medicalRecordViewExerciseRecord,
+                medicalRecordViewExerciseRecord: action.payload.medicalRecordViewExerciseRecord
+            }
             return state;
         default:
             return state;

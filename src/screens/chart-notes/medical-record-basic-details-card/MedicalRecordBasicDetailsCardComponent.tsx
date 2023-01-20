@@ -7,7 +7,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
-import {useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import {IRootReducerState} from "../../../store/reducers";
 import {CommonService} from "../../../shared/services";
@@ -25,6 +25,7 @@ import MedicalRecordStatsComponent from "../medical-record-stats/MedicalRecordSt
 import MedicalInterventionLinkedToComponent
     from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
 import AddMedicalRecordDocumentComponent from "../add-medical-record-document/AddMedicalRecordDocumentComponent";
+import LinkComponent from "../../../shared/components/link/LinkComponent";
 
 interface ClientMedicalDetailsCardComponentProps {
     showAction?: boolean
@@ -178,9 +179,11 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                                     <ListItem onClick={openMedicalRecordDocumentAddDrawer}>
                                                         Add Document
                                                     </ListItem>,
-                                                    <ListItem onClick={comingSoon}>
+                                                  <Link to={CommonService._routeConfig.MedicalRecordViewExerciseRecord(medicalRecordId)}>
+                                                      <ListItem>
                                                         View Exercise Record
-                                                    </ListItem>
+                                                    </ListItem></Link>,
+
                                                 ]
                                             }/>
                                         </div>}

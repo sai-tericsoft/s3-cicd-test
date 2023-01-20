@@ -221,6 +221,11 @@ const MedicalRecordDocumentAddAttachmentAPICall = (medicalRecordDocumentId: stri
     return ApiService[APIConfig.MEDICAL_RECORD_DOCUMENT_ATTACHMENT_ADD.METHOD](APIConfig.MEDICAL_RECORD_DOCUMENT_ATTACHMENT_ADD.URL(medicalRecordDocumentId), payload, {'Content-Type': 'multipart/form-data'});
 }
 
+const MedicalRecordViewExerciseRecordPICall = (medicalRecordId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.MEDICAL_RECORD_VIEW_EXERCISE_LOG.METHOD](APIConfig.MEDICAL_RECORD_VIEW_EXERCISE_LOG.URL(medicalRecordId), payload,{'Content-Type': 'multipart/form-data'});
+}
+
 
 const ChartNotesService = {
     MedicalRecordAddAPICall,
@@ -268,7 +273,8 @@ const ChartNotesService = {
     MedicalRecordDocumentEditAPICall,
     MedicalRecordDocumentDetailsAPICall,
     MedicalRecordDocumentDeleteAttachmentAPICall,
-    MedicalRecordDocumentAddAttachmentAPICall
+    MedicalRecordDocumentAddAttachmentAPICall,
+    MedicalRecordViewExerciseRecordPICall
 }
 
 export default ChartNotesService;

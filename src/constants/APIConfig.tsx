@@ -478,6 +478,10 @@ const APIConfig: IAPIConfig = {
         URL: (medicalRecordDocumentId: string) => ENV.API_URL + "/document/" + medicalRecordDocumentId + "/attachment",
         METHOD: "post"
     },
+    MEDICAL_RECORD_VIEW_EXERCISE_LOG:{
+        URL:(medicalRecordId:string)=>ENV.API_URL+'/medicalRecord/'+ medicalRecordId +'/exerciseLog',
+        METHOD:'get'
+    }
 }
 
 export default APIConfig;
