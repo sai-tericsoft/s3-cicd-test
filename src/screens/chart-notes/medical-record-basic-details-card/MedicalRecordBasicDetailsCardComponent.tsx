@@ -25,7 +25,6 @@ import MedicalRecordStatsComponent from "../medical-record-stats/MedicalRecordSt
 import MedicalInterventionLinkedToComponent
     from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
 import AddMedicalRecordDocumentComponent from "../add-medical-record-document/AddMedicalRecordDocumentComponent";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 
 interface ClientMedicalDetailsCardComponentProps {
     showAction?: boolean
@@ -86,10 +85,6 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
 
     const addProgressRecord = useCallback(() => {
         setIsProgressReportDrawerOpen(true);
-    }, []);
-
-    const comingSoon = useCallback(() => {
-        CommonService._alert.showToast('Coming Soon!', 'info')
     }, []);
 
     const openMedicalRecordStatsModal = useCallback(() => {
