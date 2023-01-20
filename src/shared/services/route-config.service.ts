@@ -143,8 +143,8 @@ const MedicalRecordSurgeryRecordDetails = (medicalRecordId: string, surgeryRecor
     return '/chart-notes/' + medicalRecordId + '/surgery-record/' + surgeryRecordId;
 }
 
-const MedicalRecordProgressReportAdvancedDetailsUpdate = (medicalRecordId: string, progressReportId:string) =>{
-    return  '/chart-notes/'+ medicalRecordId + '/' + progressReportId +'/progress-report-advance-details-update';
+const MedicalRecordProgressReportAdvancedDetailsUpdate = (medicalRecordId: string, progressReportId: string) => {
+    return '/chart-notes/' + medicalRecordId + '/' + progressReportId + '/progress-report-advance-details-update';
 }
 
 const MedicalInterventionFinalizeTreatment = (medicalRecordId: string, medicalInterventionId: string) => {
@@ -159,8 +159,8 @@ const MedicalInterventionDryNeedlingFileViewDetails = (medicalRecordId: string, 
     return "/chart-notes/" + medicalRecordId + "/" + dryNeedlingFileId + '/dry-needling-file-view-details';
 }
 
-const MedicalRecordViewExerciseRecord= (medicalRecordId: string) => {
-    return "/chart-notes/" + medicalRecordId + "/exercise-record";
+const MedicalRecordViewExerciseRecord = (medicalRecordId: string) => {
+    return "/chart-notes/" + medicalRecordId + "/consolidated-exercise-record";
 }
 
 const RouteConfigService = {

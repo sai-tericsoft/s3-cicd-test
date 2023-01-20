@@ -104,8 +104,8 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                     {
                         (isMedicalRecordViewExerciseRecordLoaded && medicalRecordViewExerciseRecord && medicalRecordId) && <>
 
-                                <CardComponent color={'primary'}>
-                                    <div className={'client-name-button-wrapper'}>
+                            <CardComponent color={'primary'}>
+                                <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
                                         <span className={'client-name'}>
                                          {medicalRecordViewExerciseRecord?.medical_record_details?.client_details?.first_name} {medicalRecordViewExerciseRecord?.medical_record_details?.client_details?.last_name}
@@ -116,18 +116,24 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                             size={'small'}
                                             label={medicalRecordViewExerciseRecord?.medical_record_details?.status || "-"}/>
                                     </span>
-                                        <div className="ts-row width-auto">
-                                            <div className="">
-                                                <ButtonComponent prefixIcon={<ImageConfig.PrintIcon/>}>
-                                                  Print All Logs
-                                                </ButtonComponent>
-                                            </div>
+                                    <div className="ts-row width-auto">
+                                        <div className="">
+                                            <ButtonComponent prefixIcon={<ImageConfig.PrintIcon/>}
+                                                             onClick={() => {
+                                                                 CommonService._alert.showToast('Coming Soon', 'info');
+                                                             }}
+                                            >
+                                                Print All Logs
+                                            </ButtonComponent>
                                         </div>
                                     </div>
-                                    <MedicalInterventionLinkedToComponent
-                                        medicalRecordDetails={medicalRecordViewExerciseRecord?.medical_record_details}/>
-                                </CardComponent>
+                                </div>
+                                <MedicalInterventionLinkedToComponent
+                                    medicalRecordDetails={medicalRecordViewExerciseRecord?.medical_record_details}/>
+                            </CardComponent>
+
                             <PageHeaderComponent title={'View Exercise Record'}/>
+
                             {medicalRecordViewExerciseRecord?.exercise_logs?.map((item: any) => {
                                 console.log('item', item);
                                 return <>  <CardComponent color={'primary'}>
@@ -143,7 +149,10 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                             </DataLabelValueComponent>
                                         </div>
                                         <div className={'print-button-wrapper'}>
-                                            <ButtonComponent className={''} prefixIcon={<ImageConfig.PrintIcon/>}>Print</ButtonComponent>
+                                            <ButtonComponent prefixIcon={<ImageConfig.PrintIcon/>}
+                                                             onClick={() => {
+                                                                 CommonService._alert.showToast('Coming Soon', 'info');
+                                                             }}>Print</ButtonComponent>
                                         </div>
                                     </div>
                                 </CardComponent>
@@ -160,14 +169,12 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                     </CardComponent>
                                     <TableComponent data={item?.exercise_records} columns={viewExerciseRecordColumn}/>
                                     <div className={'horizontal-line'}></div>
-
                                 </>
                             })}
                         </>
                     }
                 </>
             }
-
         </div>
     );
 
