@@ -42,6 +42,7 @@ import {ReactComponent as SettingsIcon} from './../assets/icons/side-menu/settin
 import {ReactComponent as InventoryIcon} from './../assets/icons/side-menu/inventory.svg';
 import {ReactComponent as SchedulingIcon} from './../assets/icons/side-menu/scheduling.svg';
 import {ReactComponent as ChartNotes} from '../assets/icons/side-menu/chart_notes.svg';
+import {ReactComponent as EventIcon} from '../assets/icons/side-menu/event_black.svg';
 
 // general
 import {ReactComponent as AddIcon} from './../assets/icons/add.svg';
@@ -53,6 +54,8 @@ import {ReactComponent as FilledStarIcon} from './../assets/icons/filled_star.sv
 
 import {ReactComponent as FlagIcon} from "./../assets/icons/flag.svg";
 import {ReactComponent as AlertIcon} from './../assets/icons/alert_icon.svg';
+import {ReactComponent as BlockIcon} from './../assets/icons/block_black.svg';
+import {ReactComponent as ListIcon} from './../assets/icons/list_black.svg';
 import {ReactComponent as CommentIcon} from './../assets/icons/comment.svg';
 
 import PlaceHolderImage from '../assets/images/place_holder_image.png';
@@ -104,8 +107,11 @@ export {
     InfoIcon,
     ToastCloseIcon,
     ChartNotes,
+    EventIcon,
     StarIcon,
     FilledStarIcon,
+    BlockIcon,
+    ListIcon,
 
     FlagIcon,
     CommentIcon,

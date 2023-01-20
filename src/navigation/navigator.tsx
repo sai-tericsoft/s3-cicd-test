@@ -56,6 +56,7 @@ import {
     MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE,
     NOT_FOUND_ROUTE,
     PROGRESS_REPORT_VIEW_DETAILS,
+    SCHEDULING_VIEW,
     SERVICE_ADD,
     SERVICE_CATEGORY_DETAILS,
     SERVICE_CATEGORY_LIST,
@@ -91,6 +92,7 @@ import MedicalInterventionFinalizeTreatmentScreen
 import MedicalRecordProgressReportViewDetailsScreen
     from "../screens/chart-notes/medical-record-progress-report-view-details/MedicalRecordProgressReportViewDetailsScreen";
 import ViewDryNeedlingFileScreen from "../screens/chart-notes/view-dry-needling-file/ViewDryNeedlingFileScreen";
+import SchedulingScreen from "../screens/scheduling/SchedulingScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -257,6 +259,12 @@ const Navigator = (props: NavigatorProps) => {
                 <Route path={CLIENT_SEARCH}
                        element={<ProtectedRoute>
                            <ClientSearchScreen/>
+                       </ProtectedRoute>
+                       }
+                />
+                <Route path={SCHEDULING_VIEW}
+                       element={<ProtectedRoute>
+                           <SchedulingScreen/>
                        </ProtectedRoute>
                        }
                 />

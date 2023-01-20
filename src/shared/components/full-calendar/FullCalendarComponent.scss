@@ -1,0 +1,120 @@
+@import "src/assets/styles/common";
+.ts-calendar-wrapper {
+  $header-color: #DFDFDF;
+  $background-color: #FFFFFF;
+  $line-color: #CCC;
+  $dark-mode: true;
+
+  .ts-calendar-controls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .current-month-year-title {
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 40px;
+  }
+
+  .ts-calendar-weeks {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    //border-bottom: 1px solid $line-color;
+  }
+
+  .ts-week-name-item {
+    flex: 1;
+    font-size: 1rem;
+    text-transform: uppercase;
+    color: $primary-color;
+    padding: 5px;
+    text-align: center;
+    font-weight: bold;
+    background-color: $header-color;
+    border-right: 1px solid $line-color;
+    border-bottom: 1px solid $line-color;
+    border-top: 1px solid $line-color;
+
+    &:first-child {
+      border-left: 1px solid $line-color;
+    }
+
+    &.ts-week-day-0 {
+      //background-color: colorLightness($header-color, 10);
+    }
+  }
+
+  .ts-calendar-dates {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+  }
+
+  .ts-day-item-wrapper {
+    border-right: 1px solid $line-color;
+    border-bottom: 1px solid $line-color;
+    flex: 1;
+    display: flex;
+
+    &:first-child {
+      //border-top: 1px solid #AAAAAA;
+      border-left: 1px solid $line-color;
+    }
+
+    .ts-day-item {
+      flex: 1;
+      color: getTextColorForBackground($header-color);
+      height: 60px;
+      padding: 5px;
+      font-weight: bold;
+      background-color: $background-color;
+
+      &.is_selected {
+        background-color: $primary-color !important;
+        color: getTextColorForBackground($primary-color);
+      }
+
+      &.is_disabled {
+        background-color: colorDarkness($background-color, 5) !important;
+        color: colorDarkness($background-color, 15)
+      }
+
+
+      .ts-day-text {
+        float: right;
+        text-align: right;
+        font-size: 1rem;
+        padding: 5px;
+      }
+
+      &.is_today {
+        .ts-day-text {
+          border-radius: 50%;
+          background-color: $primary-color;
+          color: getTextColorForBackground($primary-color);
+        }
+      }
+    }
+
+    &:hover {
+      .ts-day-item {
+        background-color: colorLightness($background-color, 5);
+        @if $dark-mode {
+          background-color: colorLightness($header-color, 5);
+        }
+      }
+    }
+
+    &.ts-date-not-available {
+      background-color: colorDarkness($background-color, 20);
+    }
+
+    &.ts-week-day-0 {
+      .ts-day-item {
+        //background-color: colorLightness($header-color, 10);
+      }
+    }
+  }
+}

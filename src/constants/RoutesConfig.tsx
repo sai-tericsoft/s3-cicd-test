@@ -24,6 +24,7 @@ const CLIENT_DETAILS = "/client-details";
 const CLIENT_EDIT = "/client-edit";
 
 const CLIENT_SEARCH='/client-search';
+const SCHEDULING_VIEW='/scheduling';
 const CLIENT_MEDICAL_RECORD_DETAILS = '/chart-notes/:medicalRecordId/medical-record-details';
 const CLIENT_CHART_NOTES_DETAILS = "/chart-notes";
 const ADD_MEDICAL_RECORD = '/chart-notes/:clientId/add-medical-record';
@@ -70,6 +71,7 @@ export {
     CLIENT_DETAILS,
     CLIENT_EDIT,
     CLIENT_SEARCH,
+    SCHEDULING_VIEW,
     CLIENT_MEDICAL_RECORD_DETAILS,
     ADD_MEDICAL_RECORD,
     ADD_MEDICAL_INTERVENTION,
