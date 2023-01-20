@@ -4,7 +4,7 @@ import {
     GET_8_MINUTE_RULE_CHART,
     GET_BODY_PART_LIST,
     GET_CASE_STATUS_LIST,
-    GET_COMMUNICATION_MODE_TYPE_LIST,
+    GET_COMMUNICATION_MODE_TYPE_LIST, GET_CONCUSSION_FILE_TYPES,
     GET_CONSULTATION_DURATION_LIST,
     GET_EMPLOYMENT_STATUS_LIST,
     GET_GENDER_LIST,
@@ -21,7 +21,7 @@ import {
     set8MinuteRuleChart,
     setBodyPartsList,
     setCaseStatusList,
-    setCommunicationModeTypeList,
+    setCommunicationModeTypeList, setConcussionFileTypes,
     setConsultationDurationList,
     setEmploymentStatusList,
     setGenderList,
@@ -208,6 +208,16 @@ function* get8MinuteRuleChartData() {
     }
 }
 
+function* getConcussionFileTypes() {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._staticData.getConcussionFileTypes);
+        yield put(setConcussionFileTypes(resp?.data));
+    } catch (error: any) {
+        yield put(setConcussionFileTypes([]));
+    }
+}
+
 export default function* staticDataSaga() {
     yield takeEvery(GET_CONSULTATION_DURATION_LIST, getConsultationDurationList);
     yield takeEvery(GET_GENDER_LIST, getGenderList);
@@ -226,4 +236,5 @@ export default function* staticDataSaga() {
     yield takeEvery(GET_CASE_STATUS_LIST, getCaseStatusList);
     yield takeEvery(GET_PROGRESS_REPORT_STATS_LIST, getProgressReportStatList);
     yield takeEvery(GET_8_MINUTE_RULE_CHART, get8MinuteRuleChartData);
+    yield takeEvery(GET_CONCUSSION_FILE_TYPES, getConcussionFileTypes);
 }

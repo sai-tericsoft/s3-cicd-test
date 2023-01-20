@@ -37,7 +37,7 @@ import {
     CLIENT_LIST,
     CLIENT_MEDICAL_RECORD_DETAILS,
     CLIENT_SEARCH,
-    COMING_SOON_ROUTE,
+    COMING_SOON_ROUTE, CONCUSSION_FILE_VIEW_DETAILS,
     DESIGN_SYSTEM_ROUTE,
     DRY_NEEDLING_FILE_VIEW_DETAILS,
     FACILITY_DETAILS,
@@ -91,6 +91,7 @@ import MedicalInterventionFinalizeTreatmentScreen
 import MedicalRecordProgressReportViewDetailsScreen
     from "../screens/chart-notes/medical-record-progress-report-view-details/MedicalRecordProgressReportViewDetailsScreen";
 import ViewDryNeedlingFileScreen from "../screens/chart-notes/view-dry-needling-file/ViewDryNeedlingFileScreen";
+import ViewConcussionFileScreen from "../screens/chart-notes/view-concussion-file/ViewConcussionFileScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -344,6 +345,11 @@ const Navigator = (props: NavigatorProps) => {
                 <Route path={DRY_NEEDLING_FILE_VIEW_DETAILS}
                        element={<ProtectedRoute>
                            <ViewDryNeedlingFileScreen/>
+                       </ProtectedRoute>
+                       }/>
+                <Route path={CONCUSSION_FILE_VIEW_DETAILS}
+                       element={<ProtectedRoute>
+                           <ViewConcussionFileScreen/>
                        </ProtectedRoute>
                        }/>
                 <Route path={MEDICAL_INTERVENTION_DETAILS} element={<ProtectedRoute>

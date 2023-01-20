@@ -73,6 +73,10 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + '/progressStats',
         METHOD: 'get'
     },
+    CONCUSSION_FILE_TYPES: {
+        URL: ENV.API_URL + '/concussionTypes',
+        METHOD: 'get'
+    },
     //meta end
 
     // authentication start
@@ -334,6 +338,26 @@ const APIConfig: IAPIConfig = {
     },
     DRY_NEEDLING_FILE_ATTACHMENT_ADD: {
         URL: (dryNeedlingFileId: string) => ENV.API_URL + "/dryNeedling/" + dryNeedlingFileId + "/attachment",
+        METHOD: "post"
+    },
+    ADD_CONCUSSION_FILE: {
+        URL: (medicalInterventionId: string) => ENV.API_URL + "/intervention/" + medicalInterventionId + "/concussion",
+        METHOD: "post"
+    },
+    EDIT_CONCUSSION_FILE: {
+        URL: (concussionFileId: string) => ENV.API_URL + "/concussion/" + concussionFileId,
+        METHOD: "put"
+    },
+    CONCUSSION_FILE_DETAILS: {
+        URL: (concussionFileId: string) => ENV.API_URL + "/concussion/" + concussionFileId,
+        METHOD: "get"
+    },
+    CONCUSSION_FILE_ATTACHMENT_DELETE: {
+        URL: (concussionFileId: string) => ENV.API_URL + "/concussion/" + concussionFileId + "/attachment",
+        METHOD: "delete"
+    },
+    CONCUSSION_FILE_ATTACHMENT_ADD: {
+        URL: (concussionFileId: string) => ENV.API_URL + "/concussion/" + concussionFileId + "/attachment",
         METHOD: "post"
     },
     CLIENT_MEDICAL_INTERVENTION_DETAILS: {

@@ -102,3 +102,8 @@ export interface I8MinuteRuleChartItem {
     time:string,
     units: number
 }
+
+export interface IConcussionFileType {
+    _id: string;
+    type: string;
+}

@@ -12,7 +12,6 @@ interface LightBoxComponentProps {
 
 const LightBoxComponent = (props: LightBoxComponentProps) => {
 
-
     const [attachments, setAttachments] = useState<IAttachment[]>([]);
     const [isOpen, setIsOpen] = useState(false);
     const [activeAttachment, setActiveAttachment] = useState<IAttachment>(attachments[0]);
@@ -28,7 +27,6 @@ const LightBoxComponent = (props: LightBoxComponentProps) => {
     }, []);
 
     useEffect(() => {
-        console.log(attachments);
         if (attachments) {
             setActiveAttachment(attachments[0]);
             openLightBox();

@@ -1,0 +1,20 @@
+.add-concussion-file-component {
+  .concussion-file-type-list {
+    display: flex;
+    flex-direction: column;
+
+    .concussion-file-type-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid #ABB6BE;
+      border-radius: 5px;
+      margin-bottom: 14px;
+      padding: 18px 30px;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}

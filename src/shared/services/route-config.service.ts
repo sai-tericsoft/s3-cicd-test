@@ -159,6 +159,10 @@ const MedicalInterventionDryNeedlingFileViewDetails = (medicalRecordId: string, 
     return "/chart-notes/" + medicalRecordId + "/" + dryNeedlingFileId + '/dry-needling-file-view-details';
 }
 
+const MedicalInterventionConcussionFileViewDetails = (medicalRecordId: string, concussionFileId: string) => {
+    return "/chart-notes/" + medicalRecordId + "/" + concussionFileId + '/concussion-file-view-details';
+}
+
 const RouteConfigService = {
     DefaultRoute,
     LoginRoute,
@@ -194,7 +198,8 @@ const RouteConfigService = {
     MedicalRecordProgressReportAdvancedDetailsUpdate,
     MedicalInterventionFinalizeTreatment,
     MedicalRecordProgressReportViewDetails,
-    MedicalInterventionDryNeedlingFileViewDetails
+    MedicalInterventionDryNeedlingFileViewDetails,
+    MedicalInterventionConcussionFileViewDetails
 }
 
 export default RouteConfigService;
