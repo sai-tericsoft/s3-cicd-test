@@ -21,7 +21,7 @@ import {
     getGenderList,
     getInjuryTypeList,
     getLanguageList,
-    getMedicalHistoryOptionsList,
+    getMedicalHistoryOptionsList, getMedicalRecordDocumentTypes,
     getMusculoskeletalHistoryOptionsList,
     getPhoneTypeList,
     getProgressReportStatsList,
@@ -113,6 +113,7 @@ const App = (props: AppProps) => {
             dispatch(getProgressReportStatsList());
             dispatch(get8MinuteRuleChart());
             dispatch(getConcussionFileTypes());
+            dispatch(getMedicalRecordDocumentTypes());
         }
     }, [token, dispatch])
 

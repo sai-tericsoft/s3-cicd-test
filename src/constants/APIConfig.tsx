@@ -77,6 +77,10 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + '/concussionTypes',
         METHOD: 'get'
     },
+    MEDICAL_RECORD_DOCUMENT_TYPES: {
+        URL: ENV.API_URL + '/documentTypes',
+        METHOD: 'get'
+    },
     //meta end
 
     // authentication start
@@ -453,7 +457,27 @@ const APIConfig: IAPIConfig = {
     PROGRESS_REPORT_VIEW_DETAILS:{
         URL:(interventionId:string)=>ENV.API_URL+'/progressReport/'+ interventionId,
         METHOD:'get'
-    }
+    },
+    ADD_MEDICAL_RECORD_DOCUMENT: {
+        URL: (medicalRecordId: string) => ENV.API_URL + "/medicalRecord/" + medicalRecordId + "/document",
+        METHOD: "post"
+    },
+    EDIT_MEDICAL_RECORD_DOCUMENT: {
+        URL: (medicalRecordDocumentId: string) => ENV.API_URL + "/document/" + medicalRecordDocumentId,
+        METHOD: "put"
+    },
+    MEDICAL_RECORD_DOCUMENT_DETAILS: {
+        URL: (medicalRecordDocumentId: string) => ENV.API_URL + "/document/" + medicalRecordDocumentId,
+        METHOD: "get"
+    },
+    MEDICAL_RECORD_DOCUMENT_ATTACHMENT_DELETE: {
+        URL: (medicalRecordDocumentId: string) => ENV.API_URL + "/document/" + medicalRecordDocumentId + "/attachment",
+        METHOD: "delete"
+    },
+    MEDICAL_RECORD_DOCUMENT_ATTACHMENT_ADD: {
+        URL: (medicalRecordDocumentId: string) => ENV.API_URL + "/document/" + medicalRecordDocumentId + "/attachment",
+        METHOD: "post"
+    },
 }
 
 export default APIConfig;

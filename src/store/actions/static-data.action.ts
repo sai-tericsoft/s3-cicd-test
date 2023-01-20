@@ -8,7 +8,7 @@ import {
     IGender,
     IInjuryType,
     ILanguage,
-    IMedicalHistoryOption,
+    IMedicalHistoryOption, IMedicalRecordDocumentType,
     IMusculoskeletalHistoryOption,
     IPhoneType,
     IProgressReportStat,
@@ -71,6 +71,10 @@ export const SET_PROGRESS_REPORT_STATS_LIST = 'SET_PROGRESS_REPORT_STATS_LIST';
 
 export const GET_8_MINUTE_RULE_CHART = 'GET_8_MINUTE_RULE_CHART';
 export const SET_8_MINUTE_RULE_CHART = 'SET_8_MINUTE_RULE_CHART';
+
+export const GET_MEDICAL_RECORD_DOCUMENT_TYPES = 'GET_MEDICAL_RECORD_DOCUMENT_TYPES';
+export const SET_MEDICAL_RECORD_DOCUMENT_TYPES = 'SET_MEDICAL_RECORD_DOCUMENT_TYPES';
+
 
 export const getConsultationDurationList = () => {
     return {type: GET_CONSULTATION_DURATION_LIST};
@@ -286,6 +290,18 @@ export const setConcussionFileTypes = (concussionFileTypes: IConcussionFileType[
     return {
         type: SET_CONCUSSION_FILE_TYPES, payload: {
             concussionFileTypes
+        }
+    }
+}
+
+export const getMedicalRecordDocumentTypes = () => {
+    return {type: GET_MEDICAL_RECORD_DOCUMENT_TYPES}
+}
+
+export const setMedicalRecordDocumentTypes = (medicalRecordDocumentTypes: IMedicalRecordDocumentType[]) => {
+    return {
+        type: SET_MEDICAL_RECORD_DOCUMENT_TYPES, payload: {
+            medicalRecordDocumentTypes
         }
     }
 }

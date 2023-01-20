@@ -1,4 +1,4 @@
-import "./AddDryNeedlingFileComponent.scss";
+import "./AddMedicalRecordDocumentComponent.scss";
 import * as Yup from "yup";
 import React, {useCallback, useEffect, useState} from "react";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
@@ -13,65 +13,68 @@ import ErrorComponent from "../../../shared/components/error/ErrorComponent";
 import FilePreviewThumbnailComponent
     from "../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import {IDryNeedlingAddForm} from "../../../shared/models/chart-notes.model";
+import {IMedicalRecordDocumentAddForm} from "../../../shared/models/chart-notes.model";
 import FormikDatePickerComponent
     from "../../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
 import InputComponent from "../../../shared/components/form-controls/input/InputComponent";
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
+import FormikSelectComponent from "../../../shared/components/form-controls/formik-select/FormikSelectComponent";
 
-const AddDryNeedlingFormValidationSchema = Yup.object({
+const AddMedicalRecordDocumentFormValidationSchema = Yup.object({
     document_date: Yup.string()
         .required("Date of Document is required"),
-    attachment: Yup.string()
+    document: Yup.string()
         .required("Attachment is required"),
     comments: Yup.string().nullable()
 });
 
-const AddDryNeedlingFormInitialValues: IDryNeedlingAddForm = {
+const AddMedicalRecordDocumentFormInitialValues: IMedicalRecordDocumentAddForm = {
     document_date: new Date(),
-    attachment: "",
+    document: "",
+    document_id: "",
     comments: ""
 };
 
-interface AddDryNeedlingFileComponentProps {
+interface AddMedicalRecordDocumentComponentProps {
     onAdd: (data: any) => void;
-    medicalInterventionId: string;
+    medicalRecordId: string;
     medicalRecordDetails: any;
 }
 
-const AddDryNeedlingFileComponent = (props: AddDryNeedlingFileComponentProps) => {
+const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentComponentProps) => {
 
-    const {onAdd, medicalInterventionId, medicalRecordDetails} = props;
+    const {onAdd, medicalRecordId, medicalRecordDetails} = props;
+    const {medicalRecordDocumentTypes} = useSelector((state: IRootReducerState) => state.staticData);
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
-    const [addDryNeedlingFormInitialValues] = useState<IDryNeedlingAddForm>(_.cloneDeep(AddDryNeedlingFormInitialValues));
+    const [addMedicalRecordDocumentFormInitialValues] = useState<IMedicalRecordDocumentAddForm>(_.cloneDeep(AddMedicalRecordDocumentFormInitialValues));
 
-    const [isDryNeedlingFileAddInProgress, setIsDryNeedlingFileAddInProgress] = useState(false);
+    const [isMedicalRecordDocumentFileAddInProgress, setIsMedicalRecordDocumentFileAddInProgress] = useState(false);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        setIsDryNeedlingFileAddInProgress(true);
+        setIsMedicalRecordDocumentFileAddInProgress(true);
         values.document_date = CommonService.convertDateFormat(values.document_date);
         const formData = CommonService.getFormDataFromJSON(values);
-        CommonService._chartNotes.DryNeedlingFileAddAPICall(medicalInterventionId, formData)
+        CommonService._chartNotes.MedicalRecordDocumentAddAPICall(medicalRecordId, formData)
             .then((response: IAPIResponseType<any>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                setIsDryNeedlingFileAddInProgress(false);
+                setIsMedicalRecordDocumentFileAddInProgress(false);
                 onAdd(response.data);
             })
             .catch((error: any) => {
                 CommonService.handleErrors(setErrors, error, true);
-                setIsDryNeedlingFileAddInProgress(false);
+                setIsMedicalRecordDocumentFileAddInProgress(false);
             })
-    }, [medicalInterventionId, onAdd]);
+    }, [medicalRecordId, onAdd]);
 
     return (
-        <div className="service-category-add-component">
-            <div className="service-category-add-form-container">
-                <FormControlLabelComponent label={"Add Dry Needling File"}
+        <div className="add-medical-record-document-component">
+            <div className="add-medical-record-document-form-container">
+                <FormControlLabelComponent label={"Add Document"}
                                            size={"lg"}/>
                 <Formik
-                    validationSchema={AddDryNeedlingFormValidationSchema}
-                    initialValues={addDryNeedlingFormInitialValues}
+                    validationSchema={AddMedicalRecordDocumentFormValidationSchema}
+                    initialValues={addMedicalRecordDocumentFormInitialValues}
                     validateOnChange={false}
                     validateOnBlur={true}
                     enableReinitialize={true}
@@ -115,6 +118,21 @@ const AddDryNeedlingFileComponent = (props: AddDryNeedlingFileComponentProps) =>
                                             )
                                         }
                                     </Field>
+                                    <Field name={'document_type_id'} className="t-form-control">
+                                        {
+                                            (field: FieldProps) => (
+                                                <FormikSelectComponent
+                                                    label={'Document Type'}
+                                                    options={medicalRecordDocumentTypes}
+                                                    displayWith={(option: any) => option?.type}
+                                                    valueExtractor={(option: any) => option?._id}
+                                                    required={true}
+                                                    formikField={field}
+                                                    fullWidth={true}
+                                                />
+                                            )
+                                        }
+                                    </Field>
                                     <Field name={'comments'} className="t-form-control">
                                         {
                                             (field: FieldProps) => (
@@ -128,36 +146,36 @@ const AddDryNeedlingFileComponent = (props: AddDryNeedlingFileComponentProps) =>
                                         }
                                     </Field>
                                     <div className="mrg-bottom-20">
-                                        <FormControlLabelComponent label={"Upload Dry Needling File"}
+                                        <FormControlLabelComponent label={"Upload Document"}
                                                                    required={true}/>
                                         <>
                                             {
-                                                (!values.attachment) && <>
+                                                (!values.document) && <>
                                                     <FilePickerComponent maxFileCount={1}
                                                                          onFilesDrop={(acceptedFiles, rejectedFiles) => {
                                                                              if (acceptedFiles && acceptedFiles.length > 0) {
                                                                                  const file = acceptedFiles[0];
-                                                                                 setFieldValue('attachment', file);
+                                                                                 setFieldValue('document', file);
                                                                              }
                                                                          }}
-                                                                         acceptedFileTypes={["pdf", "png", "jpg", "jpeg"]}
-                                                                         acceptedFilesText={"PNG, JPG, JPEG and PDF files are allowed upto 100MB"}
+                                                                         acceptedFileTypes={["mp4", "pdf", "png", "jpg", "jpeg", "avi"]}
+                                                                         acceptedFilesText={"PNG, JPG, JPEG, PDF, MP4 and AVI files are allowed upto 100MB"}
                                                     />
                                                     {
-                                                        (_.get(touched, "attachment") && !!(_.get(errors, "attachment"))) &&
+                                                        (_.get(touched, "document") && !!(_.get(errors, "document"))) &&
                                                         <ErrorComponent
-                                                            errorText={(_.get(errors, "attachment"))}/>
+                                                            errorText={(_.get(errors, "document"))}/>
                                                     }
                                                 </>
                                             }
                                         </>
                                         <>
                                             {
-                                                (values.attachment) && <>
+                                                (values.document) && <>
                                                     <FilePreviewThumbnailComponent
-                                                        file={values.attachment}
+                                                        file={values.document}
                                                         onRemove={() => {
-                                                            setFieldValue('attachment', undefined);
+                                                            setFieldValue('document', undefined);
                                                         }}
                                                     />
                                                 </>
@@ -167,11 +185,11 @@ const AddDryNeedlingFileComponent = (props: AddDryNeedlingFileComponentProps) =>
                                 </div>
                                 <div className="t-form-actions">
                                     <ButtonComponent
-                                        isLoading={isDryNeedlingFileAddInProgress}
+                                        isLoading={isMedicalRecordDocumentFileAddInProgress}
                                         type={"submit"}
                                         fullWidth={true}
                                     >
-                                        {isDryNeedlingFileAddInProgress ? "Saving" : "Save"}
+                                        {isMedicalRecordDocumentFileAddInProgress ? "Saving" : "Save"}
                                     </ButtonComponent>
                                 </div>
                             </Form>
@@ -184,4 +202,4 @@ const AddDryNeedlingFileComponent = (props: AddDryNeedlingFileComponentProps) =>
 
 };
 
-export default AddDryNeedlingFileComponent;
+export default AddMedicalRecordDocumentComponent;

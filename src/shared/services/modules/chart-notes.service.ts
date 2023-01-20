@@ -168,7 +168,7 @@ const DryNeedlingFileDeleteAttachmentAPICall = (dryNeedlingFileId: string, paylo
 
 const DryNeedlingFileAddAttachmentAPICall = (dryNeedlingFileId: string, payload: any) => {
     // @ts-ignore
-    return ApiService[APIConfig.DRY_NEEDLING_FILE_ATTACHMENT_ADD.METHOD](APIConfig.DRY_NEEDLING_FILE_ATTACHMENT_ADD.URL(dryNeedlingFileId), payload,{'Content-Type': 'multipart/form-data'});
+    return ApiService[APIConfig.DRY_NEEDLING_FILE_ATTACHMENT_ADD.METHOD](APIConfig.DRY_NEEDLING_FILE_ATTACHMENT_ADD.URL(dryNeedlingFileId), payload, {'Content-Type': 'multipart/form-data'});
 }
 
 const ConcussionFileAddAPICall = (medicalInterventionId: string, payload: any) => {
@@ -193,8 +193,34 @@ const ConcussionFileDeleteAttachmentAPICall = (concussionFileId: string, payload
 
 const ConcussionFileAddAttachmentAPICall = (concussionFileId: string, payload: any) => {
     // @ts-ignore
-    return ApiService[APIConfig.CONCUSSION_FILE_ATTACHMENT_ADD.METHOD](APIConfig.CONCUSSION_FILE_ATTACHMENT_ADD.URL(concussionFileId), payload,{'Content-Type': 'multipart/form-data'});
+    return ApiService[APIConfig.CONCUSSION_FILE_ATTACHMENT_ADD.METHOD](APIConfig.CONCUSSION_FILE_ATTACHMENT_ADD.URL(concussionFileId), payload, {'Content-Type': 'multipart/form-data'});
 }
+
+const MedicalRecordDocumentAddAPICall = (medicalRecordId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.ADD_MEDICAL_RECORD_DOCUMENT.METHOD](APIConfig.ADD_MEDICAL_RECORD_DOCUMENT.URL(medicalRecordId), payload, {'Content-Type': 'multipart/form-data'});
+}
+
+const MedicalRecordDocumentEditAPICall = (medicalRecordDocumentId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.EDIT_MEDICAL_RECORD_DOCUMENT.METHOD](APIConfig.EDIT_MEDICAL_RECORD_DOCUMENT.URL(medicalRecordDocumentId), payload);
+}
+
+const MedicalRecordDocumentDetailsAPICall = (medicalRecordDocumentId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.MEDICAL_RECORD_DOCUMENT_DETAILS.METHOD](APIConfig.MEDICAL_RECORD_DOCUMENT_DETAILS.URL(medicalRecordDocumentId), payload);
+}
+
+const MedicalRecordDocumentDeleteAttachmentAPICall = (medicalRecordDocumentId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.MEDICAL_RECORD_DOCUMENT_ATTACHMENT_DELETE.METHOD](APIConfig.MEDICAL_RECORD_DOCUMENT_ATTACHMENT_DELETE.URL(medicalRecordDocumentId), payload);
+}
+
+const MedicalRecordDocumentAddAttachmentAPICall = (medicalRecordDocumentId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.MEDICAL_RECORD_DOCUMENT_ATTACHMENT_ADD.METHOD](APIConfig.MEDICAL_RECORD_DOCUMENT_ATTACHMENT_ADD.URL(medicalRecordDocumentId), payload, {'Content-Type': 'multipart/form-data'});
+}
+
 
 const ChartNotesService = {
     MedicalRecordAddAPICall,
@@ -237,7 +263,12 @@ const ChartNotesService = {
     ConcussionFileEditAPICall,
     ConcussionFileDetailsAPICall,
     ConcussionFileDeleteAttachmentAPICall,
-    ConcussionFileAddAttachmentAPICall
+    ConcussionFileAddAttachmentAPICall,
+    MedicalRecordDocumentAddAPICall,
+    MedicalRecordDocumentEditAPICall,
+    MedicalRecordDocumentDetailsAPICall,
+    MedicalRecordDocumentDeleteAttachmentAPICall,
+    MedicalRecordDocumentAddAttachmentAPICall
 }
 
 export default ChartNotesService;

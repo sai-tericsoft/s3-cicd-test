@@ -11,7 +11,6 @@ import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {IServiceCategory} from "../../../shared/models/service-category.model";
 import InputComponent from "../../../shared/components/form-controls/input/InputComponent";
 import FormikDatePickerComponent
     from "../../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
@@ -33,6 +32,7 @@ const AddConcussionFileAddFormValidationSchema = Yup.object({
 const AddConcussionFileAddFormInitialValues: IConcussionFileAddForm = {
     document_date: new Date(),
     attachment: "",
+    concussion_type_id: "",
     comments: ""
 };
 
@@ -59,7 +59,7 @@ const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
         values.concussion_type_id = selectedConcussionFileType?._id;
         const formData = CommonService.getFormDataFromJSON(values);
         CommonService._chartNotes.ConcussionFileAddAPICall(medicalInterventionId, formData)
-            .then((response: IAPIResponseType<IServiceCategory>) => {
+            .then((response: IAPIResponseType<any>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsConcussionFileAddFileAddInProgress(false);
                 onAdd(response.data);

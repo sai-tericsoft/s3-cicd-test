@@ -107,3 +107,8 @@ export interface IConcussionFileType {
     _id: string;
     type: string;
 }
+
+export interface IMedicalRecordDocumentType {
+    _id: string;
+    type: string;
+}

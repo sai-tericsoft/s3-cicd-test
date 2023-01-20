@@ -1,4 +1,4 @@
-import "./ClientMedicalDetailsCardComponent.scss";
+import "./MedicalRecordBasicDetailsCardComponent.scss";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
@@ -24,13 +24,13 @@ import {getMedicalRecordStats, refreshSurgeryRecords} from "../../../store/actio
 import MedicalRecordStatsComponent from "../medical-record-stats/MedicalRecordStatsComponent";
 import MedicalInterventionLinkedToComponent
     from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
+import AddMedicalRecordDocumentComponent from "../add-medical-record-document/AddMedicalRecordDocumentComponent";
 
 interface ClientMedicalDetailsCardComponentProps {
     showAction?: boolean
 }
 
-
-const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardComponentProps) => {
+const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardComponentProps) => {
 
     const {showAction} = props;
 
@@ -40,6 +40,7 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
     const [isSurgeryAddOpen, setIsSurgeryAddOpen] = React.useState<boolean>(false);
     const [isEditMedicalRecordDrawerOpen, setIsEditMedicalRecordDrawerOpen] = useState<boolean>(false);
     const [isProgressReportDrawerOpen, setIsProgressReportDrawerOpen] = useState<boolean>(false);
+    const [isMedicalRecordDocumentAddDrawerOpen, setIsMedicalRecordDocumentAddDrawerOpen] = useState<boolean>(true);
     const [isMedicalRecordStatsModalOpen, setIsMedicalRecordStatsModalOpen] = useState<boolean>(false);
     const {
         clientMedicalRecord,
@@ -98,6 +99,17 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
         setIsMedicalRecordStatsModalOpen(false);
     }, []);
 
+    const openMedicalRecordDocumentAddDrawer = useCallback(() => {
+        setIsMedicalRecordDocumentAddDrawerOpen(true);
+    }, []);
+
+    const closeMedicalRecordDocumentAddDrawer = useCallback(() => {
+        setIsMedicalRecordDocumentAddDrawerOpen(false);
+    }, []);
+
+    const handleMedicalRecordDocumentAdd = useCallback(() => {
+        closeMedicalRecordDocumentAddDrawer();
+    }, []);
 
     return (
         <div className={'client-medical-details-card-component'}>
@@ -174,7 +186,7 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                                                     <ListItem onClick={openMedicalRecordStatsModal}>
                                                         View Case Statistics
                                                     </ListItem>,
-                                                    <ListItem onClick={comingSoon}>
+                                                    <ListItem onClick={openMedicalRecordDocumentAddDrawer}>
                                                         Add Document
                                                     </ListItem>,
                                                     <ListItem onClick={comingSoon}>
@@ -263,6 +275,18 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
                         <MedicalRecordStatsComponent/>
                     </ModalComponent>
                     {/*Medical record statistics  modal end*/}
+
+                    {/*Add medical record document drawer start*/}
+                    <DrawerComponent isOpen={isMedicalRecordDocumentAddDrawerOpen}
+                                     showClose={true}
+                                     onClose={() => closeMedicalRecordDocumentAddDrawer()}>
+                        <AddMedicalRecordDocumentComponent
+                            onAdd={handleMedicalRecordDocumentAdd}
+                            medicalRecordId={medicalRecordId}
+                            medicalRecordDetails={clientMedicalRecord}
+                        />
+                    </DrawerComponent>
+                    {/*Add medical record document drawer end*/}
                 </>
 
             }
@@ -271,4 +295,4 @@ const ClientMedicalDetailsCardComponent = (props: ClientMedicalDetailsCardCompon
 };
 
 
-export default ClientMedicalDetailsCardComponent;
+export default MedicalRecordBasicDetailsCardComponent;

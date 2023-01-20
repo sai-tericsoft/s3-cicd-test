@@ -22,13 +22,18 @@ const TOO_MANY_FILES_ERROR_CODE = "too-many-files";
 const INVALID_FILE_TYPE_ERROR_CODE = "file-invalid-type";
 const LARGE_FILE_TYPE_ERROR_CODE = "file-too-large";
 
-type IFileType = "png" | "jpg" | "jpeg" | "pdf";
+type IFileType = "png" | "jpg" | "jpeg" | "pdf" | "mp4" | "avi";
 
 const fileTypeMappings: any = {
     "png": 'image/png',
     "jpg": 'image/jpg',
     "jpeg": 'image/jpeg',
-    "pdf": "application/pdf"
+    "pdf": "application/pdf",
+    "mp4": {
+        type: "video/mp4",
+        extensions: ['.mp4', '.MP4']
+    },
+    "avi": "video/avi",
 }
 
 const FilePickerComponent = (props: FilePickerComponentProps) => {
@@ -37,8 +42,9 @@ const FilePickerComponent = (props: FilePickerComponentProps) => {
         const mappings: any = {};
         acceptedFileTypes?.forEach((fileType) => {
             const mapping = fileTypeMappings[fileType];
-            mappings[mapping] = [];
+            mappings[mapping?.type || mapping] = mapping?.extensions || [];
         });
+        console.log(mappings);
         return mappings;
     }, []);
 

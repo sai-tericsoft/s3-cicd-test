@@ -110,6 +110,10 @@ const getConcussionFileTypes=(payload:any)=>{
     return ApiService[APIConfig.CONCUSSION_FILE_TYPES.METHOD](APIConfig.CONCUSSION_FILE_TYPES.URL,payload)
 }
 
+const getMedicalRecordDocumentTypes=(payload:any)=>{
+    // @ts-ignore
+    return ApiService[APIConfig.MEDICAL_RECORD_DOCUMENT_TYPES.METHOD](APIConfig.MEDICAL_RECORD_DOCUMENT_TYPES.URL,payload)
+}
 
 const StaticDataService = {
     today,
@@ -133,7 +137,8 @@ const StaticDataService = {
     getCaseStatusList,
     getProgressReportStatList,
     get8MinuteRuleChartData,
-    getConcussionFileTypes
+    getConcussionFileTypes,
+    getMedicalRecordDocumentTypes
 }
 
 export default StaticDataService;

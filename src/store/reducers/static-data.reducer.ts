@@ -9,7 +9,7 @@ import {
     GET_GENDER_LIST,
     GET_INJURY_TYPE_LIST,
     GET_LANGUAGE_LIST,
-    GET_MEDICAL_HISTORY_OPTIONS_LIST,
+    GET_MEDICAL_HISTORY_OPTIONS_LIST, GET_MEDICAL_RECORD_DOCUMENT_TYPES,
     GET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
     GET_PHONE_TYPE_LIST,
     GET_PROGRESS_REPORT_STATS_LIST,
@@ -27,7 +27,7 @@ import {
     SET_GENDER_LIST,
     SET_INJURY_TYPE_LIST,
     SET_LANGUAGE_LIST,
-    SET_MEDICAL_HISTORY_OPTIONS_LIST,
+    SET_MEDICAL_HISTORY_OPTIONS_LIST, SET_MEDICAL_RECORD_DOCUMENT_TYPES,
     SET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
     SET_PHONE_TYPE_LIST,
     SET_PROGRESS_REPORT_STATS_LIST,
@@ -38,7 +38,7 @@ import {
 } from "../actions/static-data.action";
 import {IActionModel} from "../../shared/models/action.model";
 import {ICommonType} from "../../shared/models/static-data.model";
-import {IConcussionFileType} from "../../shared/models/common.model";
+import {IConcussionFileType, IMedicalRecordDocumentType} from "../../shared/models/common.model";
 
 export interface IStaticDataReducerState {
     statusList: ICommonType[],
@@ -96,7 +96,10 @@ export interface IStaticDataReducerState {
     eightMinuteRuleChart: any[],
     isConcussionFileTypesLoading: boolean,
     isConcussionFileTypesLoaded: boolean,
-    concussionFileTypes: IConcussionFileType[]
+    concussionFileTypes: IConcussionFileType[],
+    isMedicalRecordDocumentTypesLoading: boolean,
+    isMedicalRecordDocumentTypesLoaded: boolean,
+    medicalRecordDocumentTypes: IMedicalRecordDocumentType[]
 }
 
 const initialData: IStaticDataReducerState = {
@@ -177,7 +180,10 @@ const initialData: IStaticDataReducerState = {
     eightMinuteRuleChart: [],
     isConcussionFileTypesLoading: false,
     isConcussionFileTypesLoaded: false,
-    concussionFileTypes: []
+    concussionFileTypes: [],
+    isMedicalRecordDocumentTypesLoading: false,
+    isMedicalRecordDocumentTypesLoaded: false,
+    medicalRecordDocumentTypes: []
 };
 
 const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDataReducerState => {
@@ -450,6 +456,21 @@ const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDa
                 isConcussionFileTypesLoading: false,
                 isConcussionFileTypesLoaded: true,
                 concussionFileTypes: action.payload.concussionFileTypes
+            }
+            return state;
+        case GET_MEDICAL_RECORD_DOCUMENT_TYPES:
+            state = {
+                ...state,
+                isMedicalRecordDocumentTypesLoading: true,
+                isMedicalRecordDocumentTypesLoaded: false
+            }
+            return state;
+        case SET_MEDICAL_RECORD_DOCUMENT_TYPES:
+            state = {
+                ...state,
+                isMedicalRecordDocumentTypesLoading: false,
+                isMedicalRecordDocumentTypesLoaded: true,
+                medicalRecordDocumentTypes: action.payload.medicalRecordDocumentTypes
             }
             return state;
         default:
