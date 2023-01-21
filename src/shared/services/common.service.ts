@@ -478,6 +478,10 @@ const printAttachment = (attachment: IAttachment) => {
     });
 }
 
+const openLinkInNewTab = (url: string) => {
+    window.open(url, '_blank');
+}
+
 const CommonService = {
     CurrentDate,
     parseQueryString,
@@ -516,6 +520,7 @@ const CommonService = {
     extractName,
     printAttachment,
     getNormalizedFileType,
+    openLinkInNewTab,
 
     // createValidationsObject,
     // createYupSchema,
