@@ -485,6 +485,14 @@ const APIConfig: IAPIConfig = {
     GET_MEDICAL_RECORD_SOAP_NOTE_LIST:{
         URL:(medicalRecordId:string)=>ENV.API_URL+'/medicalRecord/' + medicalRecordId + '/intervention',
         METHOD:'get'
+    },
+    GET_MEDICAL_RECORD_INTERVENTION_LIST: {
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/intervention',
+        METHOD: 'get'
+    },
+    IMPORT_SOAP_NOTE_API_CALL:{
+       URL:(selectedInterventionId:string,medicalInterventionId:string,)=>ENV.API_URL+'/intervention/'+ selectedInterventionId+'/import/'+medicalInterventionId,
+         METHOD:'post'
     }
 }
 

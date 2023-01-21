@@ -231,6 +231,16 @@ const MedicalRecordViewExerciseRecordPICall = (medicalRecordId: string, payload:
     return ApiService[APIConfig.MEDICAL_RECORD_VIEW_EXERCISE_LOG.METHOD](APIConfig.MEDICAL_RECORD_VIEW_EXERCISE_LOG.URL(medicalRecordId), payload,{'Content-Type': 'multipart/form-data'});
 }
 
+const MedicalRecordInterventionListAPICall = (medicalRecordId: string, payload: any) => {
+    console.log('medicalRecordId', medicalRecordId);
+    console.log('payload', payload);
+    // @ts-ignore
+    return ApiService[APIConfig.GET_MEDICAL_RECORD_INTERVENTION_LIST.METHOD](APIConfig.GET_MEDICAL_RECORD_INTERVENTION_LIST.URL(medicalRecordId), payload);
+}
+const ImportSoapNoteAPICall =(selectedInterventionId:string,medicalInterventionId:string,payload:any)=>{
+    // @ts-ignore
+    return ApiService[APIConfig.IMPORT_SOAP_NOTE_API_CALL.METHOD](APIConfig.IMPORT_SOAP_NOTE_API_CALL.URL(selectedInterventionId,medicalInterventionId), payload);
+}
 
 const ChartNotesService = {
     MedicalRecordAddAPICall,
@@ -280,7 +290,9 @@ const ChartNotesService = {
     MedicalRecordDocumentDetailsAPICall,
     MedicalRecordDocumentDeleteAttachmentAPICall,
     MedicalRecordDocumentAddAttachmentAPICall,
-    MedicalRecordViewExerciseRecordPICall
+    MedicalRecordViewExerciseRecordPICall,
+    MedicalRecordInterventionListAPICall,
+    ImportSoapNoteAPICall
 }
 
 export default ChartNotesService;
