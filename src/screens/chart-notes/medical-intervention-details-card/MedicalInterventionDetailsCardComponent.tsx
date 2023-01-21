@@ -19,6 +19,7 @@ import moment from "moment-timezone";
 import AddDryNeedlingFileComponent from "../add-dry-needling-file/AddDryNeedlingFileComponent";
 import MedicalInterventionLinkedToComponent
     from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
+import TransferSoapNoteComponent from "../transfer-soap-note/TransferSoapNoteComponent";
 
 interface MedicalInterventionDetailsCardComponentProps {
     showAction?: boolean,
@@ -35,6 +36,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     const [isSurgeryAddOpen, setIsSurgeryAddOpen] = React.useState<boolean>(false);
     const [isEditMedicalRecordDrawerOpen, setIsEditMedicalRecordDrawerOpen] = useState<boolean>(false);
     const [isAddDryNeedlingFileDrawerOpen, setIsAddDryNeedlingFileDrawerOpen] = useState<boolean>(false)
+    const [isTransferSoapNoteDrawerOpen, setIsTransferSoapNoteDrawerOpen] = useState<boolean>(true);
 
     const openEditMedicalRecordDrawer = useCallback(() => {
         setIsEditMedicalRecordDrawerOpen(true);
@@ -51,6 +53,14 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     const closeAddDryNeedlingFileDrawer = useCallback(() => {
         setIsAddDryNeedlingFileDrawerOpen(false);
     }, []);
+
+    const openTransferSoapNoteDrawer = useCallback(() => {
+        setIsTransferSoapNoteDrawerOpen(true);
+    },[]);
+
+    const closeTransferSoapNoteDrawer = useCallback(() => {
+        setIsTransferSoapNoteDrawerOpen(false);
+    },[]);
 
     const handleMedicalRecordEdit = useCallback(() => {
         closeEditMedicalRecordDrawer();
@@ -116,7 +126,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                     } menuOptions={
                                         [
                                             <ListItem onClick={comingSoon}>Print SOAP</ListItem>,
-                                            <ListItem onClick={comingSoon}>Transfer SOAP to</ListItem>,
+                                            <ListItem onClick={openTransferSoapNoteDrawer}>Transfer SOAP to</ListItem>,
                                             <ListItem onClick={comingSoon}>Notify Admin</ListItem>,
                                             <ListItem onClick={openAddDryNeedlingFileDrawer}>Add Dry Needling
                                                 File</ListItem>,
@@ -181,6 +191,11 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                     medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
                     medicalInterventionId={medicalInterventionDetails?._id}
                     onAdd={handleDryNeedlingFileAdd}/>
+            </DrawerComponent>
+            <DrawerComponent isOpen={isTransferSoapNoteDrawerOpen}
+                             showClose={true}
+                                onClose={closeTransferSoapNoteDrawer}>
+                <TransferSoapNoteComponent/>
             </DrawerComponent>
         </div>
     );

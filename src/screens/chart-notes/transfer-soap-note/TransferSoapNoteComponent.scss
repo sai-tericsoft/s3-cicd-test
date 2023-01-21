@@ -1,0 +1,61 @@
+.transfer-soap-note-component{
+  .client-list-heading{
+    font-size: 1.1429rem;
+    font-weight: 700;
+    color: #6D6D6D;
+    margin-bottom: 12px;
+  }
+  .list-content-wrapper{
+    .client-list-name-wrapper{
+      border: 1px solid #F3F3F3;
+      padding: 14px;
+    }
+  }
+  .card-content-wrapper {
+    display: flex;
+    align-items: center;
+    .client-image-wrapper {
+      .avatar-component {
+        background-color: #FEE4D5;
+        color: #DF6D04;
+        font-size: 1.5714rem;
+      }
+    }
+    .client-name{
+        font-size: 1.1429rem;
+        font-weight: 700;
+        margin-left: 12px;
+    }
+  }
+  .card-table {
+    .card-component{
+      margin-bottom: 0px;
+    }
+    .card-table-header {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .card-case-heading {
+      font-size: 1.1429rem;
+      font-weight: 700;
+    }
+
+    .client-list-record-wrapper {
+      border: 1px solid #F3F3F3;
+      border-top: none;
+      padding: 14px;
+
+      .medical-record-details {
+        margin-right: 130px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+      }
+    }
+    .transfer-button{
+      margin-top: 20px;
+    }
+  }
+}
