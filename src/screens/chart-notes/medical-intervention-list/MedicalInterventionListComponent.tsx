@@ -5,7 +5,7 @@ import ChipComponent from "../../../shared/components/chip/ChipComponent";
 import {useNavigate, useParams} from "react-router-dom";
 import {CommonService} from "../../../shared/services";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import {useCallback, useEffect} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import moment from "moment";
 import {useDispatch, useSelector} from "react-redux";
@@ -26,6 +26,8 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
         medicalInterventionList,
         isMedicalInterventionListLoading,
     } = useSelector((state: IRootReducerState) => state.chartNotes);
+    const [isMedicalInterventionBeingAdded, setIsMedicalInterventionBeingAdded] = useState<boolean>(false);
+    const [isMedicalInterventionBeingRepeated, setIsMedicalInterventionBeingRepeated] = useState<boolean>(false);
 
     const MedicalInterventionListColumns: any = [
         {
@@ -114,17 +116,18 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
 
     const repeatLastTreatment = useCallback(
         (medicalRecordId: string) => {
+            setIsMedicalInterventionBeingRepeated(true);
             CommonService._chartNotes.RepeatLastInterventionAPICall(medicalRecordId, {
                     "repeat_previous": true //todo: Why Swetha ????
                 }
-            )
-                .then((response: IAPIResponseType<any>) => {
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                    navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, response?.data._id) + '?showClear=true');
-                })
-                .catch((error: any) => {
-                    CommonService._alert.showToast(error, "error");
-                });
+            ).then((response: IAPIResponseType<any>) => {
+                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, response?.data._id) + '?showClear=true');
+                setIsMedicalInterventionBeingRepeated(false);
+            }).catch((error: any) => {
+                CommonService._alert.showToast(error?.error || "Error repeating last medical intervention", "error");
+                setIsMedicalInterventionBeingRepeated(false);
+            });
         },
         [navigate],
     );
@@ -173,15 +176,19 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                     "md_recommendations": "",
                     "education": "",
                     "treatment_goals": ""
-                }
+                },
+                is_discharge: false,
             };
+            setIsMedicalInterventionBeingAdded(true);
             CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, payload)
                 .then((response: IAPIResponseType<any>) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, response?.data._id));
+                    setIsMedicalInterventionBeingAdded(false);
                 })
                 .catch((error: any) => {
-                    CommonService._alert.showToast(error, "error");
+                    CommonService._alert.showToast(error?.error || "Error creating a medical intervention", "error");
+                    setIsMedicalInterventionBeingAdded(false);
                 });
         },
         [medicalRecordId, navigate],
@@ -199,12 +206,15 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                 <div className={'client-medical-records-header'}>Medical Records</div>
                 <div>
                     <ButtonComponent onClick={confirmRepeatLastTreatment}
-                                     disabled={(isMedicalInterventionListLoading || medicalInterventionList.filter((item: any) => (item?.status === 'completed' && item?.note_type?.toLowerCase() === "soap note")).length === 0)}
+                                     disabled={(isMedicalInterventionBeingRepeated || isMedicalInterventionListLoading || medicalInterventionList.filter((item: any) => (item?.status === 'completed' && item?.note_type?.toLowerCase() === "soap note")).length === 0)}
                                      className={'outlined-button'}
                                      variant={"outlined"}>
                         Repeat Last Treatment
                     </ButtonComponent>
-                    <ButtonComponent onClick={addNewTreatment} prefixIcon={<ImageConfig.AddIcon/>}>
+                    <ButtonComponent onClick={addNewTreatment}
+                                     disabled={isMedicalInterventionBeingAdded}
+                                     isLoading={isMedicalInterventionBeingAdded}
+                                     prefixIcon={<ImageConfig.AddIcon/>}>
                         Add New Treatment
                     </ButtonComponent>
                 </div>
