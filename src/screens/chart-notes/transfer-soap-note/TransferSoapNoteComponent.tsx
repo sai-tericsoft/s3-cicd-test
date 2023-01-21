@@ -23,6 +23,7 @@ interface TransferSoapNoteComponentProps {
 
 }
 
+
 const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
 
     const [clientListSearch, setClientListSearch] = useState<string>("");
@@ -37,13 +38,58 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
     const [medicalRecordList, setMedicalRecordList] = useState<any>([]);
     const [clientSelectedMedicalRecordName, setClientSelectedMedicalRecordName] = useState<any>("");
     const [clientSelectedMedicalRecordValue, setClientSelectedMedicalRecordValue] = useState<any>("");
-    const [isMedicalRecordListLoading,setIsMedicalRecordListLoading]=useState<any>(false);
-    const [isMedicalRecordListLoaded,setIsMedicalRecordListLoaded]=useState<any>(false);
-    const [isMedicalRecordListLoadingFailed,setIsMedicalRecordListLoadingFailed]=useState<any>(false);
+    const [isMedicalRecordListLoading, setIsMedicalRecordListLoading] = useState<any>(false);
+    const [isMedicalRecordListLoaded, setIsMedicalRecordListLoaded] = useState<any>(false);
+    const [isMedicalRecordListLoadingFailed, setIsMedicalRecordListLoadingFailed] = useState<any>(false);
 
-    const {medicalRecordId,medicalInterventionId}= useParams();
-    console.log("medicalRecordId",medicalRecordId);
-    console.log("interventionId",medicalInterventionId);
+    const {medicalRecordId, medicalInterventionId} = useParams();
+    console.log("medicalRecordId", medicalRecordId);
+    console.log("interventionId", medicalInterventionId);
+
+    const medicalRecordColumns: ITableColumn[] = [
+        {
+            title: '',
+            key: 'action',
+            dataIndex: 'action',
+            width: 50,
+            render: (_: any, item: any) => {
+                return <RadioButtonComponent name={clientSelectedMedicalRecordName}
+                                             value={item}
+                                             checked={clientSelectedMedicalRecordName === item}
+                                             onChange={(value: any) => {
+                                                 setClientSelectedMedicalRecordName(value);
+                                                 console.log('ClientSelectedMedicalRecordName', clientSelectedMedicalRecordName);
+                                                 setClientSelectedMedicalRecordValue(true);
+                                             }}/>
+            }
+        },
+        {
+            title: 'Case',
+            key: 'case',
+            width:294,
+            dataIndex: 'intervention_linked_to',
+            render: (_: any, item: any) => {
+                return <span className={'medical-record-details'}>{item?.intervention_linked_to}
+                    {item?.created_at && CommonService.transformTimeStamp(item?.created_at)}{" "}
+                    {"-"} {item?.injury_details.map((injury: any, index: number) => {
+                        return <>{injury.body_part_details.name}({injury.body_side}) {index !== item?.injury_details.length - 1 ? <> | </> : ""}</>
+                    })}
+                                         </span>
+            }
+        },
+        {
+            title:'Date',
+            key:'date',
+            width:100,
+            dataIndex:'created_at',
+            render:(_:any,item:any)=>{
+                return <span>{CommonService.getSystemFormatTimeStamp(item?.created_at)}</span>
+
+            }
+
+        }
+    ];
+
 
     useEffect(() => {
         getClientList();
@@ -93,7 +139,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
         })
     }, [clientSelectedName]);
 
-    const handleTransferSoapNote = useCallback((item1: any, item2: any,medicalInterventionId:string) => {
+    const handleTransferSoapNote = useCallback((item1: any, item2: any, medicalInterventionId: string) => {
         console.log('record', item1);
         console.log('client', item2);
         CommonService.onConfirm({
@@ -101,7 +147,10 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
             confirmationTitle: "TRANSFER SOAP TO",
             confirmationSubTitle: `Are you sure you want to transfer this SOAP to: ${item2.first_name} ${item2.last_name}`,
         }).then(() => {
-            CommonService._chartNotes.TransferSoapNoteAPICall(medicalInterventionId, {item1, medical_record_id: item1._id})
+            CommonService._chartNotes.TransferSoapNoteAPICall(medicalInterventionId, {
+                item1,
+                medical_record_id: item1._id
+            })
                 .then((response: any) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 }).catch((error: any) => {
@@ -163,7 +212,8 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                             isMedicalRecordListLoading && <div><LoaderComponent/></div>
                         }
                         {
-                            isMedicalRecordListLoadingFailed && <StatusCardComponent title={'Failed to load Medical Record list'}/>
+                            isMedicalRecordListLoadingFailed &&
+                            <StatusCardComponent title={'Failed to load Medical Record list'}/>
 
                         }
                         <PageHeaderComponent title={'Transfer SOAP to'}/>
@@ -181,43 +231,11 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                                 </div>
                             </CardComponent>
                             <div className={'card-table'}>
-                                <CardComponent color={'primary'}>
-                                    <div className={'card-table-header'}>
-                                        <div className={'card-case-heading'}>
-                                            Case
-                                        </div>
-                                        <div className={'card-case-heading'}>
-                                            Date
-                                        </div>
-                                    </div>
-                                </CardComponent>
-                                <div>
-                                    {medicalRecordList?.map((item: any) => {
-                                        return <>
-                                            <div className={'client-list-record-wrapper'}>
-                                          <span><RadioButtonComponent name={clientSelectedMedicalRecordName}
-                                                                      value={item}
-                                                                      checked={clientSelectedMedicalRecordName === item}
-                                                                      onChange={(value: any) => {
-                                                                          setClientSelectedMedicalRecordName(value);
-                                                                          console.log('ClientSelectedMedicalRecordName', clientSelectedMedicalRecordName);
-                                                                          setClientSelectedMedicalRecordValue(true);
-                                                                      }}/></span>
-                                                <span className={'medical-record-details'}>{item?.intervention_linked_to}
-                                                    {item?.created_at && CommonService.transformTimeStamp(item?.created_at)}{" "}
-                                                    {"-"} {item?.injury_details.map((injury: any, index: number) => {
-                                                        return <>{injury.body_part_details.name}({injury.body_side}) {index !== item?.injury_details.length - 1 ? <> | </> : ""}</>
-                                                    })}
-                                         </span>
-                                                <span>{CommonService.getSystemFormatTimeStamp(item?.onset_date)}</span>
+                                <TableComponent data={medicalRecordList} columns={medicalRecordColumns}/>
 
-                                            </div>
-                                        </>
-                                    })}
-                                </div>
                                 {
                                     <ButtonComponent fullWidth={true} className={'transfer-button'}
-                                                     onClick={() => handleTransferSoapNote(clientSelectedMedicalRecordName, clientSelectedName,medicalInterventionId)}
+                                                     onClick={() => handleTransferSoapNote(clientSelectedMedicalRecordName, clientSelectedName, medicalInterventionId)}
                                                      disabled={!clientSelectedMedicalRecordValue}>
                                         Transfer
                                     </ButtonComponent>
