@@ -18,6 +18,8 @@ import {IRootReducerState} from "../../store/reducers";
 import {IUser} from "../../shared/models/user.model";
 import IconButtonComponent from "../../shared/components/icon-button/IconButtonComponent";
 import FullCalendarComponent from "../../shared/components/full-calendar/FullCalendarComponent";
+import DrawerComponent from "../../shared/components/drawer/DrawerComponent";
+import BookAppointmentComponent from "../../shared/components/book-appointment/BookAppointmentComponent";
 
 interface SchedulingScreenProps {
 
@@ -144,9 +146,14 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
         [],
     );
 
+    const [isBookAppointmentOpen, setIsBookAppointmentOpen] = useState(false);
 
     return (
         <div className={'scheduling-list-component'}>
+            <DrawerComponent isOpen={isBookAppointmentOpen} onClose={setIsBookAppointmentOpen.bind(null, false)}
+                             showClose={true} title={'Book Appointment'} className={'book-appointment-component-drawer'}>
+                <BookAppointmentComponent onClose={setIsBookAppointmentOpen.bind(null, false)}/>
+            </DrawerComponent>
             <div className="scheduling-header-wrapper">
                 <div className="scheduling-header-search-wrapper">
                     <SearchComponent size={'small'}
@@ -177,7 +184,8 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                             Calender</ButtonComponent>
                     </div>
                     <div className="scheduling-header-action-item">
-                        <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}>Book Appointment</ButtonComponent>
+                        <ButtonComponent onClick={setIsBookAppointmentOpen.bind(null, true)}
+                                         prefixIcon={<ImageConfig.AddIcon/>}>Book Appointment</ButtonComponent>
                     </div>
                 </div>
             </div>

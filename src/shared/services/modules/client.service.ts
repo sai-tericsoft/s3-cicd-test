@@ -8,18 +8,18 @@ const ClientBasicDetailsAPICall = (clientId: string, payload: any) => {
     return ApiService[APIConfig.CLIENT_BASIC_DETAILS.METHOD](APIConfig.CLIENT_BASIC_DETAILS.URL(clientId), payload);
 }
 
-const ClientMedicalDetailsApiCall=(clientId: string, payload: any)=>{
+const ClientMedicalDetailsApiCall = (clientId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.CLIENT_MEDICAL_DETAILS.METHOD](APIConfig.CLIENT_MEDICAL_DETAILS.URL(clientId), payload);
 }
 
-const ClientMedicalRecordApiCall=(clientId: string, payload: any)=>{
+const ClientMedicalRecordApiCall = (clientId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.CLIENT_MEDICAL_RECORD.METHOD](APIConfig.CLIENT_MEDICAL_RECORD.URL(clientId), payload);
 }
 
 
-const ClientAccountDetailsApiCall=(clientId: string, payload: any)=>{
+const ClientAccountDetailsApiCall = (clientId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.CLIENT_ACCOUNT_DETAILS.METHOD](APIConfig.CLIENT_ACCOUNT_DETAILS.URL(clientId), payload);
 }
@@ -93,19 +93,23 @@ const NavigateToClientEdit = (clientId: string, step: IClientFormSteps) => {
     return RouteConfigService.ClientEdit(clientId) + "?currentStep=" + step;
 }
 
-const AddFavouriteCode=(codeId:string,payload:any)=>{
+const AddFavouriteCode = (codeId: string, payload: any) => {
     return ApiService[APIConfig.ICD_CODE_FAVOURITE_ADD.METHOD](APIConfig.ICD_CODE_FAVOURITE_ADD.URL(codeId), payload);
 
 }
-const RemoveFavouriteCode=(codeId:string,payload:any)=>{
+const RemoveFavouriteCode = (codeId: string, payload: any) => {
     return ApiService[APIConfig.ICD_CODE_FAVOURITE_REMOVE.METHOD](APIConfig.ICD_CODE_FAVOURITE_REMOVE.URL(codeId), payload);
 
 }
-const GetAllFavouriteCodes=()=>{
+const GetAllFavouriteCodes = () => {
     return ApiService[APIConfig.ICD_CODE_FAVOURITE_LIST.METHOD](APIConfig.ICD_CODE_FAVOURITE_LIST.URL);
 }
 
-const ClientService={
+const GetClientList = (payload: any) => {
+    return ApiService[APIConfig.CLIENT_LIST.METHOD](APIConfig.CLIENT_LIST.URL, payload);
+}
+
+const ClientService = {
     ClientBasicDetailsAddAPICall,
     ClientBasicDetailsAPICall,
     ClientPersonalHabitsAddAPICall,
@@ -127,6 +131,7 @@ const ClientService={
     RemoveFavouriteCode,
     GetAllFavouriteCodes,
     ClientMedicalRecordApiCall,
+    GetClientList
 }
 
 export default ClientService;

@@ -1,0 +1,120 @@
+@import "src/assets/styles/common";
+
+.book-appointment-component-drawer {
+  .drawer-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    .drawer-body {
+      display: flex;
+      flex: 1;
+    }
+  }
+}
+
+.book-appointment-component {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+
+  .client-search-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    .client-search-input {
+      flex: 0;
+    }
+
+    .client-search-body {
+      flex: 1;
+
+      .client-search-body-heading {
+        font-weight: 700;
+        font-size: 16px;
+        margin-bottom: 5px;
+        color: #6D6D6D;
+      }
+
+      .client-search-list-wrapper {
+        border: 1px solid #F3F3F3;
+        border-radius: 4px;
+        overflow: auto;
+        max-height: 60vh;
+      }
+
+      .client-search-list-item {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        border-bottom: 1px solid #F3F3F3;
+        background: #FFFFFF;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        &:hover {
+          background: #FAFAFA;
+          cursor: pointer;
+        }
+
+        .item-radio {
+          margin-left: 15px;
+        }
+
+        .item-client-name {
+          font-weight: 400;
+          font-size: 14px;
+          display: flex;
+          align-items: center;
+          letter-spacing: 0.002em;
+          color: #212B36;
+        }
+      }
+    }
+
+    .client-search-btn {
+      flex: 0;
+    }
+  }
+
+  .booking-confirmation-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    .booking-confirmation-status {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .booking-confirmation-status-icon {
+        background-position: center center;
+        background-size: 100%;
+        background-repeat: no-repeat;
+        width: 100px;
+        height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 20px;
+      }
+      .booking-confirmation-status-text {
+        font-weight: 400;
+        font-size: 32px;
+        line-height: 38px;
+        margin-top: 40px;
+        color: #000000;
+      }
+    }
+
+    .booking-confirmation-action {
+      flex: 0;
+    }
+  }
+}

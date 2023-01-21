@@ -12,6 +12,8 @@ import {ReactComponent as SelectDropDownIcon} from './../assets/icons/select_dro
 import {ReactComponent as EyeIcon} from './../assets/icons/eye.svg';
 import {ReactComponent as PrintIcon} from './../assets/icons/print.svg';
 
+import {ReactComponent as VerifiedCheck} from './../assets/icons/verified_black.svg';
+
 import {ReactComponent as CircleCheck} from './../assets/icons/check_circle.svg';
 import {ReactComponent as CircleError} from './../assets/icons/error_circle.svg';
 import {ReactComponent as LeftArrow} from './../assets/icons/left_arrow.svg';
@@ -64,6 +66,7 @@ import RemoveBodyPartConfirmationIcon from './../assets/confirmation/delete_body
 import DeleteAttachmentConfirmationIcon from './../assets/confirmation/delete_attachment.svg';
 
 import Search from '../assets/images/search.png';
+import AppointmentConfirm from '../assets/images/appintment-confirm.png';
 
 
 export {
@@ -112,6 +115,7 @@ export {
     FilledStarIcon,
     BlockIcon,
     ListIcon,
+    VerifiedCheck,
 
     FlagIcon,
     CommentIcon,
@@ -124,5 +128,6 @@ export {
     REPEAT_LAST_INTERVENTION,
     SYNC,
     PrintIcon,
-    DeleteAttachmentConfirmationIcon
+    DeleteAttachmentConfirmationIcon,
+    AppointmentConfirm,
 }
