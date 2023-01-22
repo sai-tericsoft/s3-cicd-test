@@ -1,13 +1,11 @@
 import './TestScreen.scss';
-import ProgressRecordAdvancedDetailsUpdateScreen
-    from "../chart-notes/progress-record-advanced-details-update/ProgressRecordAdvancedDetailsUpdateScreen";
+import TableV2Component from "../../shared/components/table-v2/TableV2Component";
 
 
 const TestScreen = () => {
     return (
         <div className="test-screen">
-            {/*<h1>Test Screen</h1>*/}
-            <ProgressRecordAdvancedDetailsUpdateScreen/>
+           <TableV2Component/>
         </div>
     );
 };
