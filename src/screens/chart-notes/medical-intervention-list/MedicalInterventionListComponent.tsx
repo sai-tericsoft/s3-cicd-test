@@ -88,27 +88,21 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             title: '',
             key: 'actions',
             render: (_: any, item: any) => {
+                let route = '';
                 if (medicalRecordId) {
                     if (item?.note_type?.toLowerCase() === 'exercise log') {
-                        return <LinkComponent
-                            route={CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, item?.intervention_id)}>
-                            View Details
-                        </LinkComponent>
+                        route = CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, item?.intervention_id);
                     } else if (item?.note_type?.toLowerCase() === "soap note") {
-                        return <LinkComponent
-                            route={CommonService._routeConfig.MedicalInterventionDetails(medicalRecordId, item?._id)}>
-                            View Details
-                        </LinkComponent>
+                        route = CommonService._routeConfig.MedicalInterventionDetails(medicalRecordId, item?._id);
                     } else if (item?.note_type?.toLowerCase() === "progress report") {
-                        return <LinkComponent
-                            route={CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId, item?._id)}>
-                            View Details
-                        </LinkComponent>
+                        route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId, item?._id);
                     } else {
-                        return <LinkComponent route={CommonService._routeConfig.ComingSoonRoute()}>
-                            Coming soon
-                        </LinkComponent>
                     }
+                    return <LinkComponent route={route}>
+                        {
+                            route ? "View Details" : "Coming soon"
+                        }
+                    </LinkComponent>
                 }
             }
         }

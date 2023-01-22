@@ -1,7 +1,49 @@
+@import "src/assets/styles/common";
+
 .transfer-medical-record-component {
+
+  .t-cell-date {
+    text-align: center !important;
+  }
+
   .select-client-wrapper {
     .ant-table-container {
       height: calc(100vh - 260px);
+    }
+  }
+
+  .select-interventions-wrapper {
+
+    .select-intervention-choice-wrapper {
+      display: flex;
+      align-items: center;
+
+      .select-intervention-choice-label {
+        margin-bottom: 0 !important;
+        margin-right: 20px;
+      }
+    }
+
+    .ant-table-container {
+      height: calc(100vh - 360px);
+    }
+  }
+
+  .select-interventions-wrapper, .select-medical-record-wrapper {
+    .client-mini-card {
+      display: flex;
+      align-items: center;
+
+      .client-name {
+        margin-left: 20px;
+        font-weight: $font-weight-bold;
+      }
+    }
+  }
+
+  .select-medical-record-wrapper {
+    .ant-table-container {
+      height: calc(100vh - 320px);
     }
   }
 

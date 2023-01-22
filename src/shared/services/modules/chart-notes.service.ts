@@ -92,7 +92,7 @@ const FetchMedicalInterventionExerciseLogAPICall = (medicalInterventionId: strin
     return ApiService[APIConfig.GET_MEDICAL_INTERVENTION_EXERCISE_LOG_DETAILS.METHOD](APIConfig.GET_MEDICAL_INTERVENTION_EXERCISE_LOG_DETAILS.URL(medicalInterventionId), payload);
 }
 
-const FetchClientMedicalInterventionEAPICall = (medicalInterventionId: string, payload: any) => {
+const FetchClientMedicalInterventionAPICall = (medicalInterventionId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.GET_CLIENT_MEDICAL_INTERVENTION_DETAILS.METHOD](APIConfig.GET_CLIENT_MEDICAL_INTERVENTION_DETAILS.URL(medicalInterventionId), payload);
 }
@@ -231,6 +231,20 @@ const MedicalRecordViewExerciseRecordPICall = (medicalRecordId: string, payload:
     return ApiService[APIConfig.MEDICAL_RECORD_VIEW_EXERCISE_LOG.METHOD](APIConfig.MEDICAL_RECORD_VIEW_EXERCISE_LOG.URL(medicalRecordId), payload,{'Content-Type': 'multipart/form-data'});
 }
 
+const MedicalRecordConsolidatedInterventionAndAttachmentsListAPICall = (medicalRecordId: string) => {
+    // @ts-ignore
+    return ApiService[APIConfig.MEDICAL_RECORD_CONSOLIDATED_INTERVENTIONS_AND_ATTACHMENTS.METHOD](APIConfig.MEDICAL_RECORD_CONSOLIDATED_INTERVENTIONS_AND_ATTACHMENTS.URL(medicalRecordId));
+}
+
+const MedicalRecordListLiteAPICall = (clientId: string) => {
+    // @ts-ignore
+    return ApiService[APIConfig.MEDICAL_RECORD_LIST_LITE.METHOD](APIConfig.MEDICAL_RECORD_LIST_LITE.URL(clientId));
+}
+
+const TransferMedicalRecordAPICall = (clientId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.TRANSFER_MEDICAL_RECORD.METHOD](APIConfig.TRANSFER_MEDICAL_RECORD.URL(clientId), payload);
+}
 
 const ChartNotesService = {
     MedicalRecordAddAPICall,
@@ -247,7 +261,7 @@ const ChartNotesService = {
     SaveMedicalInterventionExerciseLogAPICall,
     AddExerciseLogAttachment,
     FetchMedicalInterventionExerciseLogAPICall,
-    FetchClientMedicalInterventionEAPICall,
+    FetchClientMedicalInterventionAPICall,
     AddMedicalInterventionICDCodesAPICall,
     AddSurgeryRecordAPICall,
     FetchSurgeryRecordAPICall,
@@ -280,7 +294,10 @@ const ChartNotesService = {
     MedicalRecordDocumentDetailsAPICall,
     MedicalRecordDocumentDeleteAttachmentAPICall,
     MedicalRecordDocumentAddAttachmentAPICall,
-    MedicalRecordViewExerciseRecordPICall
+    MedicalRecordViewExerciseRecordPICall,
+    MedicalRecordConsolidatedInterventionAndAttachmentsListAPICall,
+    MedicalRecordListLiteAPICall,
+    TransferMedicalRecordAPICall
 }
 
 export default ChartNotesService;

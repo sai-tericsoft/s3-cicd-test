@@ -406,6 +406,9 @@ const getObjectKeyValue = (object: any, key: string) => {
 }
 
 const getSystemFormatTimeStamp = (date: Date | string, showTime: boolean = false) => {
+    if (!date) {
+        return "N/A"
+    }
     if (showTime) {
         return moment(date).format('DD-MMM-YYYY hh:mm A');
     } else {

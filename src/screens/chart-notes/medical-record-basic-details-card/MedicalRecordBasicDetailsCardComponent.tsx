@@ -126,7 +126,10 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
 
     const handleMedicalRecordTransfer = useCallback(() => {
         closeTransferMedicalRecordDrawer();
-    }, [closeTransferMedicalRecordDrawer]);
+        if (medicalRecordId) {
+            dispatch(getClientMedicalRecord(medicalRecordId));
+        }
+    }, [closeTransferMedicalRecordDrawer, medicalRecordId, dispatch]);
 
     return (
         <div className={'client-medical-details-card-component'}>
@@ -311,7 +314,8 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                     <DrawerComponent isOpen={isTransferMedicalRecordDrawerOpen}
                                      showClose={true}
                                      onClose={() => closeTransferMedicalRecordDrawer()}>
-                        <TransferMedicalRecordComponent onMedicalRecordTransfer={handleMedicalRecordTransfer}/>
+                        <TransferMedicalRecordComponent medicalRecordId={medicalRecordId}
+                                                        onMedicalRecordTransfer={handleMedicalRecordTransfer}/>
                     </DrawerComponent>
                     {/*Transfer medical record drawer end*/}
 
