@@ -1,0 +1,11 @@
+.transfer-medical-record-component {
+  .select-client-wrapper {
+    .ant-table-container {
+      height: calc(100vh - 260px);
+    }
+  }
+
+  .t-form-actions {
+    margin-top: 20px;
+  }
+}
