@@ -72,7 +72,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
             setSelectedMedicalInterventions(selectedMedicalInterventions.filter((item: any) => item?._id !== intervention?._id));
         }
     }, [selectedMedicalInterventions]);
-    
+
     const MedicalInterventionListColumns: ITableColumn[] = useMemo(() => [
             {
                 title: <CheckBoxComponent

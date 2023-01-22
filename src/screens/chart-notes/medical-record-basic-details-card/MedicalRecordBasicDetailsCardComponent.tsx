@@ -43,7 +43,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
     const [isProgressReportDrawerOpen, setIsProgressReportDrawerOpen] = useState<boolean>(false);
     const [isMedicalRecordDocumentAddDrawerOpen, setIsMedicalRecordDocumentAddDrawerOpen] = useState<boolean>(false);
     const [isMedicalRecordStatsModalOpen, setIsMedicalRecordStatsModalOpen] = useState<boolean>(false);
-    const [isTransferMedicalRecordDrawerOpen, setIsTransferMedicalRecordDrawerOpen] = useState<boolean>(true);
+    const [isTransferMedicalRecordDrawerOpen, setIsTransferMedicalRecordDrawerOpen] = useState<boolean>(false);
 
     const {
         clientMedicalRecord,
