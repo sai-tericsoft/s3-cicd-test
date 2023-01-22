@@ -57,7 +57,23 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
             }
         ], [selectedClient]);
 
-        const MedicalInterventionListColumns: ITableColumn[] = useMemo(() => [
+    const handleSelectAllMedicalInterventions = useCallback((value: boolean) => {
+        if (value) {
+            setSelectedMedicalInterventions(medicalInterventionList?.map((item: any) => item?._id));
+        } else {
+            setSelectedMedicalInterventions([]);
+        }
+    }, [medicalInterventionList]);
+
+    const handleSelectMedicalIntervention = useCallback((isChecked: boolean, intervention: any) => {
+        if (isChecked) {
+            setSelectedMedicalInterventions([...selectedMedicalInterventions, intervention]);
+        } else {
+            setSelectedMedicalInterventions(selectedMedicalInterventions.filter((item: any) => item?._id !== intervention?._id));
+        }
+    }, [selectedMedicalInterventions]);
+    
+    const MedicalInterventionListColumns: ITableColumn[] = useMemo(() => [
             {
                 title: <CheckBoxComponent
                     indeterminate={selectedMedicalInterventions.length > 0 && selectedMedicalInterventions.length < medicalInterventionList?.length}
@@ -127,7 +143,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                     }
                 }
             }
-        ], [selectedOptionToTransferMedicalRecord, selectedMedicalInterventions]);
+        ], [selectedOptionToTransferMedicalRecord, selectedMedicalInterventions, medicalInterventionList, medicalRecordId, handleSelectAllMedicalInterventions, handleSelectMedicalIntervention]);
 
         const MedicalRecordListColumns: ITableColumn[] = useMemo(() => [
             {
@@ -208,7 +224,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 setMedicalInterventionList([]);
                 setIsMedicalInterventionListLoading(false);
             });
-        }, []);
+        }, [medicalRecordId]);
 
         const getSelectedClientMedicalRecordList = useCallback(() => {
             setIsMedicalRecordListLoading(true);
@@ -237,25 +253,10 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
             }
         }, [currentStep, handleTransferMedicalRecord, getSelectedClientMedicalRecordList, getClientMedicalInterventionList]);
 
-        const handleSelectAllMedicalInterventions = useCallback((value: boolean) => {
-            if (value) {
-                setSelectedMedicalInterventions(medicalInterventionList?.map((item: any) => item?._id));
-            } else {
-                setSelectedMedicalInterventions([]);
-            }
-        }, [medicalInterventionList]);
-
-        const handleSelectMedicalIntervention = useCallback((isChecked: boolean, intervention: any) => {
-            if (isChecked) {
-                setSelectedMedicalInterventions([...selectedMedicalInterventions, intervention]);
-            } else {
-                setSelectedMedicalInterventions(selectedMedicalInterventions.filter((item: any) => item?._id !== intervention?._id));
-            }
-        }, [selectedMedicalInterventions]);
 
         useEffect(() => {
             getClientList();
-        }, []);
+        }, [getClientList]);
 
         return (
             <div className={'transfer-medical-record-component'}>
