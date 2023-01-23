@@ -17,7 +17,7 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import {IService} from "../../../shared/models/service.model";
 import * as Yup from "yup";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import ClientMedicalDetailsCardComponent from "../client-medical-details-card/ClientMedicalDetailsCardComponent";
+import MedicalRecordBasicDetailsCardComponent from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 import ExerciseLogAttachmentListComponent from "../exercise-log-attachment-list/ExerciseLogAttachmentListComponent";
 
 interface MedicalInterventionExerciseLogScreenProps {
@@ -270,7 +270,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
 
     return (
         <div className={'medical-intervention-exercise-log-screen'}>
-            <ClientMedicalDetailsCardComponent/>
+            <MedicalRecordBasicDetailsCardComponent/>
             <ExerciseLogAttachmentListComponent/>
             <>
                 {

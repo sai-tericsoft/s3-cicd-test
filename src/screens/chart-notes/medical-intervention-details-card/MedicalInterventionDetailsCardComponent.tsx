@@ -3,10 +3,10 @@ import CardComponent from "../../../shared/components/card/CardComponent";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import React, {useCallback, useState} from "react";
-import {useDispatch} from "react-redux";
+import React, {useCallback, useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import {CommonService} from "../../../shared/services";
 import {ImageConfig} from "../../../constants";
@@ -17,8 +17,14 @@ import MenuDropdownComponent from "../../../shared/components/menu-dropdown/Menu
 import AddSurgeryRecordComponent from "../add-surgery-record/AddSurgeryRecordComponent";
 import moment from "moment-timezone";
 import AddDryNeedlingFileComponent from "../add-dry-needling-file/AddDryNeedlingFileComponent";
+
+import ViewPriorNoteComponent from "../view-prior-note/ViewPriorNoteComponent";
 import MedicalInterventionLinkedToComponent
     from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
+import AddConcussionFileComponent from "../add-concussion-file/AddConcussionFileComponent";
+import {IRootReducerState} from "../../../store/reducers";
+import {setCurrentNavParams} from "../../../store/actions/navigation.action";
+import {getMedicalRecordSoapNoteList} from "../../../store/actions/chart-notes.action";
 
 interface MedicalInterventionDetailsCardComponentProps {
     showAction?: boolean,
@@ -30,11 +36,37 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
 
     const {showAction, medicalInterventionDetails} = props;
 
-    const {medicalRecordId} = useParams();
+    const {medicalRecordId, medicalInterventionId} = useParams();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const [isSurgeryAddOpen, setIsSurgeryAddOpen] = React.useState<boolean>(false);
     const [isEditMedicalRecordDrawerOpen, setIsEditMedicalRecordDrawerOpen] = useState<boolean>(false);
-    const [isAddDryNeedlingFileDrawerOpen, setIsAddDryNeedlingFileDrawerOpen] = useState<boolean>(false)
+    const [isAddDryNeedlingFileDrawerOpen, setIsAddDryNeedlingFileDrawerOpen] = useState<boolean>(false);
+    const [isAddConcussionFileDrawerOpen, setIsAddConcussionFileDrawerOpen] = useState<boolean>(false);
+    const [isViewPriorNoteDrawerOpen, setIsViewPriorNoteDrawerOpen] = useState<boolean>(false);
+
+    const {
+        clientMedicalRecord,
+        isClientMedicalRecordLoaded,
+    } = useSelector((state: IRootReducerState) => state.client);
+
+    useEffect(() => {
+        if (medicalRecordId) {
+            dispatch(getClientMedicalRecord(medicalRecordId));
+            if (medicalInterventionId) {
+                dispatch(getMedicalRecordSoapNoteList({medicalRecordId, medicalInterventionId}));
+            }
+        }
+    }, [medicalRecordId, medicalInterventionId, dispatch]);
+
+    useEffect(() => {
+        if (clientMedicalRecord?.client_id) {
+            dispatch(setCurrentNavParams("Medical Record details", null, () => {
+                navigate(CommonService._routeConfig.MedicalRecordList(clientMedicalRecord?.client_id));
+            }));
+        }
+    }, [navigate, dispatch, clientMedicalRecord?.client_id]);
 
     const openEditMedicalRecordDrawer = useCallback(() => {
         setIsEditMedicalRecordDrawerOpen(true);
@@ -52,6 +84,22 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
         setIsAddDryNeedlingFileDrawerOpen(false);
     }, []);
 
+    const openAddConcussionFileDrawer = useCallback(() => {
+        setIsAddConcussionFileDrawerOpen(true);
+    }, []);
+
+    const closeAddConcussionFileDrawer = useCallback(() => {
+        setIsAddConcussionFileDrawerOpen(false);
+    }, []);
+
+    const openViewPriorNoteDrawer = useCallback(() => {
+        setIsViewPriorNoteDrawerOpen(true);
+    }, []);
+
+    const closeViewPriorNoteDrawer = useCallback(() => {
+        setIsViewPriorNoteDrawerOpen(false);
+    }, []);
+
     const handleMedicalRecordEdit = useCallback(() => {
         closeEditMedicalRecordDrawer();
         if (medicalRecordId) {
@@ -67,6 +115,10 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     const handleDryNeedlingFileAdd = useCallback(() => {
         closeAddDryNeedlingFileDrawer();
     }, [closeAddDryNeedlingFileDrawer]);
+
+    const handleConcussionFileAdd = useCallback(() => {
+        closeAddConcussionFileDrawer();
+    }, [closeAddConcussionFileDrawer]);
 
     return (
         <div className={'client-medical-details-card-component'}>
@@ -89,18 +141,20 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                 </DrawerComponent>
             }
             {
+                (isClientMedicalRecordLoaded && clientMedicalRecord && medicalRecordId) &&
                 <>
                     <CardComponent color={'primary'}>
                         <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
                                         <span className={'client-name'}>
-                                         {CommonService.extractName(medicalInterventionDetails?.medical_record_details?.client_details)}
+                                               {clientMedicalRecord?.client_details?.first_name || "-"} {clientMedicalRecord?.client_details?.last_name || "-"}
                                         </span>
                                         <ChipComponent
                                             className={medicalInterventionDetails?.status ? "active" : "inactive"}
                                             size={'small'}
                                             label={medicalInterventionDetails?.status || "-"}/>
                                     </span>
+
                             <div className="ts-row width-auto">
                                 <div className="">
                                     <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
@@ -118,10 +172,14 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                             <ListItem onClick={comingSoon}>Print SOAP</ListItem>,
                                             <ListItem onClick={comingSoon}>Transfer SOAP to</ListItem>,
                                             <ListItem onClick={comingSoon}>Notify Admin</ListItem>,
-                                            <ListItem onClick={openAddDryNeedlingFileDrawer}>Add Dry Needling
-                                                File</ListItem>,
+                                            <ListItem onClick={openAddDryNeedlingFileDrawer}>
+                                                Add Dry Needling File
+                                            </ListItem>,
+                                            <ListItem onClick={openAddConcussionFileDrawer}>Add Concussion</ListItem>,
+                                            <ListItem onClick={openViewPriorNoteDrawer}>View Prior Note</ListItem>
                                         ]
-                                    }/>
+                                                }
+                                    />
                                 </div>}
                             </div>
                         </div>
@@ -161,6 +219,31 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                 </DataLabelValueComponent>
                             </div>
                         </div>
+                        <DrawerComponent isOpen={isEditMedicalRecordDrawerOpen}
+                                         showClose={true}
+                                         onClose={closeEditMedicalRecordDrawer}>
+                            <EditMedicalRecordComponent medicalRecordId={medicalRecordId}
+                                                        medicalRecordDetails={clientMedicalRecord}
+                                                        onSave={handleMedicalRecordEdit}/>
+                        </DrawerComponent>
+                        <DrawerComponent isOpen={isAddDryNeedlingFileDrawerOpen}
+                                         showClose={true}
+                                         onClose={closeAddDryNeedlingFileDrawer}>
+                            <AddDryNeedlingFileComponent
+                                medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
+                                medicalInterventionId={medicalInterventionDetails?._id}
+                                onAdd={handleDryNeedlingFileAdd}/>
+                        </DrawerComponent>
+                        <DrawerComponent isOpen={isViewPriorNoteDrawerOpen}
+                                         showClose={true}
+                                         onClose={closeViewPriorNoteDrawer}>
+                            <ViewPriorNoteComponent
+                                medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
+                                medicalInterventionId={medicalInterventionDetails?._id}
+                                onMedicalInterventionSelection={closeViewPriorNoteDrawer}
+                            />
+                        </DrawerComponent>
+
                     </CardComponent>
                 </>
             }
@@ -182,6 +265,18 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                     medicalInterventionId={medicalInterventionDetails?._id}
                     onAdd={handleDryNeedlingFileAdd}/>
             </DrawerComponent>
+
+            {/*Add Concussion File Drawer Start*/}
+            <DrawerComponent isOpen={isAddConcussionFileDrawerOpen}
+                             showClose={true}
+                             onClose={closeAddConcussionFileDrawer}>
+                <AddConcussionFileComponent
+                    medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
+                    medicalInterventionId={medicalInterventionDetails?._id}
+                    onAdd={handleConcussionFileAdd}/>
+            </DrawerComponent>
+            {/*Add Concussion File Drawer End*/}
+
         </div>
     );
 }

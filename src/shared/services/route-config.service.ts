@@ -147,8 +147,8 @@ const MedicalRecordSurgeryRecordDetails = (medicalRecordId: string, surgeryRecor
     return '/chart-notes/' + medicalRecordId + '/surgery-record/' + surgeryRecordId;
 }
 
-const MedicalRecordProgressReportAdvancedDetailsUpdate = (medicalRecordId: string, progressReportId:string) =>{
-    return  '/chart-notes/'+ medicalRecordId + '/' + progressReportId +'/progress-report-advance-details-update';
+const MedicalRecordProgressReportAdvancedDetailsUpdate = (medicalRecordId: string, progressReportId: string) => {
+    return '/chart-notes/' + medicalRecordId + '/' + progressReportId + '/progress-report-advance-details-update';
 }
 
 const MedicalInterventionFinalizeTreatment = (medicalRecordId: string, medicalInterventionId: string) => {
@@ -161,6 +161,19 @@ const MedicalRecordProgressReportViewDetails = (medicalRecordId: string, progres
 
 const MedicalInterventionDryNeedlingFileViewDetails = (medicalRecordId: string, dryNeedlingFileId: string) => {
     return "/chart-notes/" + medicalRecordId + "/" + dryNeedlingFileId + '/dry-needling-file-view-details';
+}
+
+const MedicalInterventionConcussionFileViewDetails = (medicalRecordId: string, concussionFileId: string) => {
+    return "/chart-notes/" + medicalRecordId + "/" + concussionFileId + '/concussion-file-view-details';
+}
+
+const MedicalRecordDocumentViewDetails = (medicalRecordId: string, medicalRecordDocumentId: string) => {
+    return "/chart-notes/" + medicalRecordId + "/" + medicalRecordDocumentId + '/medical-record-document-view-details';
+
+}
+
+const MedicalRecordViewExerciseRecord = (medicalRecordId: string) => {
+    return "/chart-notes/" + medicalRecordId + "/consolidated-exercise-record";
 }
 
 const RouteConfigService = {
@@ -199,7 +212,10 @@ const RouteConfigService = {
     MedicalRecordProgressReportAdvancedDetailsUpdate,
     MedicalInterventionFinalizeTreatment,
     MedicalRecordProgressReportViewDetails,
-    MedicalInterventionDryNeedlingFileViewDetails
+    MedicalInterventionDryNeedlingFileViewDetails,
+    MedicalInterventionConcussionFileViewDetails,
+    MedicalRecordDocumentViewDetails,
+    MedicalRecordViewExerciseRecord
 }
 
 export default RouteConfigService;

@@ -105,6 +105,16 @@ const get8MinuteRuleChartData=(payload:any)=>{
     return ApiService[APIConfig.CLIENT_EIGHT_MINUTES_RULE_CHART.METHOD](APIConfig.CLIENT_EIGHT_MINUTES_RULE_CHART.URL,payload)
 }
 
+const getConcussionFileTypes=(payload:any)=>{
+    // @ts-ignore
+    return ApiService[APIConfig.CONCUSSION_FILE_TYPES.METHOD](APIConfig.CONCUSSION_FILE_TYPES.URL,payload)
+}
+
+const getMedicalRecordDocumentTypes=(payload:any)=>{
+    // @ts-ignore
+    return ApiService[APIConfig.MEDICAL_RECORD_DOCUMENT_TYPES.METHOD](APIConfig.MEDICAL_RECORD_DOCUMENT_TYPES.URL,payload)
+}
+
 const StaticDataService = {
     today,
     weekDays,
@@ -126,7 +136,9 @@ const StaticDataService = {
     getInjuryTypeList,
     getCaseStatusList,
     getProgressReportStatList,
-    get8MinuteRuleChartData
+    get8MinuteRuleChartData,
+    getConcussionFileTypes,
+    getMedicalRecordDocumentTypes
 }
 
 export default StaticDataService;

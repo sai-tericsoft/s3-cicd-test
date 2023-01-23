@@ -7,7 +7,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import {AddIcon, PDF_ICON} from "../../../constants/ImageConfig";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
@@ -16,7 +15,6 @@ import FormControlLabelComponent from "../../../shared/components/form-control-l
 import TableComponent from "../../../shared/components/table/TableComponent";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {DeleteOutlined, PrintRounded, Visibility} from "@mui/icons-material";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import FormikDatePickerComponent
@@ -30,8 +28,7 @@ import FilePreviewThumbnailComponent
     from "../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import FilePickerComponent from "../../../shared/components/file-picker/FilePickerComponent";
 import * as Yup from "yup";
-import printJS from "print-js";
-import {Document, Page} from "react-pdf/dist/esm/entry.webpack";
+import AttachmentComponent from "../../../shared/attachment/AttachmentComponent";
 
 interface SurgeryRecordViewScreenProps {
 
@@ -46,7 +43,6 @@ const bodyPartsColumns: any = [
         render: (_: any, item: any) => {
             return <>{item.body_part_details.name}</>
         }
-
     },
     {
         title: "Body  Side(s)",
@@ -121,7 +117,6 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
             }));
         }
     }, [navigate, dispatch, medicalRecordId]);
-    // const [searchParams, setSearchParams] = useSearchParams();
 
     const [surgeryRecordDetails, setSurgeryRecordDetails] = useState<any | null>(null)
     const getSurgeryRecord = useCallback(
@@ -144,16 +139,8 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
         }
     }, [getSurgeryRecord, surgeryRecordId]);
 
-    const [showAttachment, setShowAttachment] = useState<any | null>(null);
     const [showAddAttachment, setShowAddAttachment] = useState<boolean>(false);
     const [isAttachAddInProgress, setIsAttachAddInProgress] = useState<boolean>(false);
-
-    const closeShowAttachment = useCallback(
-        () => {
-            setShowAttachment(null);
-        },
-        [],
-    );
 
     const deleteSurgeryAttachment = useCallback(
         (surgeryRecordId: string, attachmentId: string) => {
@@ -437,87 +424,20 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
             }
             <div className="ts-col-12 text-right">
                 <ButtonComponent
-                    className={'white-space-nowrap'}
-                    type={"button"}
+                    prefixIcon={<ImageConfig.AddIcon/>}
                     onClick={
                         setShowAddAttachment.bind(null, true)
                     }
                 >
-                    <AddIcon/>&nbsp;Add Attachment
+                    Add Attachment
                 </ButtonComponent>
             </div>
-
-            <ModalComponent size={'xl'} fullWidth={true} fullScreen={true} showClose={true} isOpen={!!showAttachment}
-                            onClose={closeShowAttachment}>
-                {/*{!!showAttachment && <object data={showAttachment + '#toolbar=0'}*/}
-                {/*                             type='application/pdf' style={{height: '85vh', width: '100%'}}>*/}
-                {/*    Failed to load PDF*/}
-                {/*</object>}*/}
-                {/*/!*{!!showAttachment && <iframe title={'show attachment pdf'} aria-readonly={true} style={{height: '85vh', width: '100%'}}*!/*/}
-                {/*/!*                             src={showAttachment}/>}*!/*/}
-                {!!showAttachment && <Document renderMode={'canvas'} file={showAttachment}>
-                    <Page pageNumber={1}/>
-                </Document>}
-                {/*<div className={'close-modal-btn'}>*/}
-                {/*    <ButtonComponent variant={'contained'} onClick={closeShowAttachment}>Close</ButtonComponent>*/}
-                {/*</div>*/}
-            </ModalComponent>
-            <div className="ts-row">
+            <div className="ts-row mrg-top-20">
                 <div className="ts-col">
-                    {surgeryRecordDetails && surgeryRecordId && surgeryRecordDetails.attachments.map((attachment: any) => {
+                    {surgeryRecordDetails && surgeryRecordId && surgeryRecordDetails.attachments.map((attachment: any, index: number) => {
                         return (
-                            <div className="ts-row mrg-top-10">
-                                <div className="ts-col-12">
-                                    <CardComponent color={'primary'} size={'sm'} className={'mrg-bottom-0'}>
-                                        <div className="attachment-item">
-                                            <div className="attachment-bg">
-                                                <PDF_ICON/>
-                                            </div>
-                                            <div className="attachment-text ">{attachment.name}</div>
-                                            <div className="attachment-actions">
-                                                <div className="">
-                                                    <ButtonComponent variant={'outlined'} color={'primary'}
-                                                                     onClick={event => {
-                                                                         // window.open(attachment.url);
-                                                                         setShowAttachment(attachment.url);
-                                                                     }}>
-                                                        <Visibility/> View
-                                                    </ButtonComponent>
-                                                    <ButtonComponent variant={'outlined'} color={'error'}
-                                                                     onClick={event => {
-                                                                         CommonService.onConfirm({
-                                                                             confirmationTitle: 'Confirmation',
-                                                                             confirmationSubTitle: `Do you want to remove "${attachment.name}""?`
-                                                                         }).then(() => {
-                                                                             deleteSurgeryAttachment(surgeryRecordId, attachment._id);
-                                                                         })
-                                                                     }}>
-                                                        <DeleteOutlined/> Delete
-                                                    </ButtonComponent>
-                                                    <ButtonComponent variant={'contained'} color={'primary'}
-                                                                     onClick={() => {
-                                                                         // const windowPdf = window.open(attachment.url, '_blank');
-                                                                         //
-                                                                         // if (windowPdf) {
-                                                                         //     windowPdf.onload = (ev) => {
-                                                                         //         setTimeout(() => {
-                                                                         //             windowPdf.window.print();
-                                                                         //         }, 1000)
-                                                                         //     }
-                                                                         // }
-                                                                         printJS({
-                                                                             printable: attachment.url,
-                                                                             type: 'pdf'
-                                                                         })
-                                                                     }}>
-                                                        <PrintRounded/> Print
-                                                    </ButtonComponent>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </CardComponent>
-                                </div>
-                            </div>
+                            <AttachmentComponent attachment={attachment} key={attachment?._id + index}
+                                                 onDelete={() => deleteSurgeryAttachment(surgeryRecordId, attachment._id)}/>
                         )
                     })}
                 </div>

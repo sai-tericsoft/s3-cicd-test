@@ -1,7 +1,6 @@
 import "./AddDryNeedlingFileComponent.scss";
 import * as Yup from "yup";
 import React, {useCallback, useEffect, useState} from "react";
-import {IServiceCategory} from "../../../shared/models/service-category.model";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
@@ -54,7 +53,7 @@ const AddDryNeedlingFileComponent = (props: AddDryNeedlingFileComponentProps) =>
         values.document_date = CommonService.convertDateFormat(values.document_date);
         const formData = CommonService.getFormDataFromJSON(values);
         CommonService._chartNotes.DryNeedlingFileAddAPICall(medicalInterventionId, formData)
-            .then((response: IAPIResponseType<IServiceCategory>) => {
+            .then((response: IAPIResponseType<any>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsDryNeedlingFileAddInProgress(false);
                 onAdd(response.data);

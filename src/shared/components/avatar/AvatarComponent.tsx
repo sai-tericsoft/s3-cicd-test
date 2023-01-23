@@ -24,7 +24,7 @@ const AvatarComponent = (props: AvatarComponentProps) => {
             let label = '';
             if (titleBits.length > 1) {
                 titleBits.forEach((bit, index) => {
-                    if (index <= AVATAR_MAX_CHAR_LIMIT && bit.trim().length > 0){
+                    if (index < AVATAR_MAX_CHAR_LIMIT && bit.trim().length > 0){
                         label += bit[0];
                     }
                 });

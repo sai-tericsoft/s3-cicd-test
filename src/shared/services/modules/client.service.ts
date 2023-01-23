@@ -99,7 +99,6 @@ const AddFavouriteCode = (codeId: string, payload: any) => {
 }
 const RemoveFavouriteCode = (codeId: string, payload: any) => {
     return ApiService[APIConfig.ICD_CODE_FAVOURITE_REMOVE.METHOD](APIConfig.ICD_CODE_FAVOURITE_REMOVE.URL(codeId), payload);
-
 }
 const GetAllFavouriteCodes = () => {
     return ApiService[APIConfig.ICD_CODE_FAVOURITE_LIST.METHOD](APIConfig.ICD_CODE_FAVOURITE_LIST.URL);
@@ -107,6 +106,9 @@ const GetAllFavouriteCodes = () => {
 
 const GetClientList = (payload: any) => {
     return ApiService[APIConfig.CLIENT_LIST.METHOD](APIConfig.CLIENT_LIST.URL, payload);
+}
+const ClientListLiteAPICall = (payload: any) => {
+    return ApiService[APIConfig.CLIENT_LIST_LITE.METHOD](APIConfig.CLIENT_LIST_LITE.URL, payload);
 }
 
 const ClientService = {
@@ -131,7 +133,8 @@ const ClientService = {
     RemoveFavouriteCode,
     GetAllFavouriteCodes,
     ClientMedicalRecordApiCall,
-    GetClientList
+    GetClientList,
+    ClientListLiteAPICall
 }
 
 export default ClientService;

@@ -1,10 +1,10 @@
 import "./HorizontalLineComponent.scss";
 
-interface HoriontalLineComponentProps {
+interface HorizontalLineComponentProps {
 
 }
 
-const HorizontalLineComponent = (props: HoriontalLineComponentProps) => {
+const HorizontalLineComponent = (props: HorizontalLineComponentProps) => {
 
     return (
         <div className={'horizontal-line-wrapper'}>
