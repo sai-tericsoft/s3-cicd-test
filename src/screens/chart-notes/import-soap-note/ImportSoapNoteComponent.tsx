@@ -81,9 +81,7 @@ const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
             getMedicalInterventionList();
         }
     }, [medicalRecordId]);
-
-    console.log('interventionList', interventionList);
-
+    
     const getMedicalInterventionList = useCallback(() => {
         if (medicalRecordId) {
             setIsInterventionListLoading(true);
@@ -105,7 +103,6 @@ const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
     }, [medicalRecordId]);
 
     const handleImportSoapNote = useCallback((selectedIntervention: any) => {
-        console.log('selectedIntervention', selectedIntervention);
         CommonService.onConfirm({
             image: ImageConfig.DeleteAttachmentConfirmationIcon,
             confirmationTitle: 'Import SOAP Note',
@@ -115,7 +112,6 @@ const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
                 CommonService._chartNotes.ImportSoapNoteAPICall( medicalInterventionId, selectedIntervention._id, {})
                     .then((response: any) => {
                         CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                        console.log('response._id', response.data._id);
                         handleSoapNoteDrawer(response.data._id);
                     }).catch((error: any) => {
                     CommonService._alert.showToast(error[Misc.API_RESPONSE_MESSAGE_KEY], "error");
@@ -129,8 +125,10 @@ const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
             <PageHeaderComponent title={'Import SOAP Note'}/>
             <InputComponent value={CommonService.generateInterventionNameFromMedicalRecord(medicalRecordDetails)}
                             disabled={true} label={'Intervention Linked To'} fullWidth={true}/>
+            <div className={'import-soap-note-table-wrapper'}>
             <TableComponent data={interventionList} columns={medicalInterventionListColumns}
                             loading={isInterventionListLoading}/>
+            </div>
             <ButtonComponent fullWidth={true} className={'mrg-top-20'}
                              disabled={!isSoapNoteSelected}
                              onClick={() => handleImportSoapNote(selectedSoapNote)}>Import</ButtonComponent>
