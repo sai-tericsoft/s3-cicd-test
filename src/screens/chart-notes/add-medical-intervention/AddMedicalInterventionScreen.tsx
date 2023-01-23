@@ -207,33 +207,21 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
 
     return (
         <div className={'add-medical-intervention-screen'}>
-            {
-             medicalInterventionDetails?.is_discharge? <PageHeaderComponent title={'Add Discharge Summary'} actions={
-                 <div className="last-updated-status">
-                     <div className="last-updated-status-text">Last Updated On:&nbsp;</div>
-                     <div
-                         className="last-updated-status-bold">
-                         {(medicalInterventionDetails.updated_at ? moment(medicalInterventionDetails.updated_at).tz(moment.tz.guess()).format('DD-MM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
-                         {medicalInterventionDetails?.last_updated_by_details?.first_name ? medicalInterventionDetails?.last_updated_by_details?.first_name + ' ' + medicalInterventionDetails?.last_updated_by_details?.last_name : ' NA'}
-                     </div>
-                     {isSavingInProgress && <div className="last-updated-status-status">
-                         <ImageConfig.SYNC className={'spin-item'}
-                                           width={16}/>
-                         &nbsp;Saving...</div>}
-                 </div>}/>:
-                 <PageHeaderComponent title={'Add Medical Intervention'} actions={<div className="last-updated-status">
-                 <div className="last-updated-status-text">Last Updated On:&nbsp;</div>
-                 <div
-                     className="last-updated-status-bold">
-                     {(medicalInterventionDetails?.updated_at ? moment(medicalInterventionDetails.updated_at).tz(moment.tz.guess()).format('DD-MM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
-                     {medicalInterventionDetails?.last_updated_by_details?.first_name ? medicalInterventionDetails?.last_updated_by_details?.first_name + ' ' + medicalInterventionDetails?.last_updated_by_details?.last_name : ' NA'}
-                 </div>
-                 {isSavingInProgress && <div className="last-updated-status-status">
-                     <ImageConfig.SYNC className={'spin-item'}
-                                       width={16}/>
-                     &nbsp;Saving...</div>}
-             </div>}/>
-            }
+
+            <PageHeaderComponent title={medicalInterventionDetails?.is_discharge ? "Add Discharge Summary" : "Add Medical Intervention"}
+                actions={
+                    <div className="last-updated-status">
+                        <div className="last-updated-status-text">Last Updated On:&nbsp;</div>
+                        <div
+                            className="last-updated-status-bold">
+                            {(medicalInterventionDetails?.updated_at ? moment(medicalInterventionDetails.updated_at).tz(moment.tz.guess()).format('DD-MM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
+                            {medicalInterventionDetails?.last_updated_by_details?.first_name ? medicalInterventionDetails?.last_updated_by_details?.first_name + ' ' + medicalInterventionDetails?.last_updated_by_details?.last_name : ' NA'}
+                        </div>
+                        {isSavingInProgress && <div className="last-updated-status-status">
+                            <ImageConfig.SYNC className={'spin-item'}
+                                              width={16}/>
+                            &nbsp;Saving...</div>}
+                    </div>}/>
             <MedicalInterventionDetailsCardComponent medicalInterventionDetails={medicalInterventionDetails}
                                                      showAction={true}/>
             <Formik
