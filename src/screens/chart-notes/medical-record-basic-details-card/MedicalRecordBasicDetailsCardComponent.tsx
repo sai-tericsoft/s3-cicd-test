@@ -26,6 +26,29 @@ import MedicalInterventionLinkedToComponent
     from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
 import AddMedicalRecordDocumentComponent from "../add-medical-record-document/AddMedicalRecordDocumentComponent";
 
+const MedicalInterventionFormInitialValues: any = {
+    intervention_date: new Date(),
+    subjective: "",
+    plan: {
+        plan: "",
+        md_recommendations: "",
+        education: "",
+        treatment_goals: "",
+    },
+    assessment: {
+        suspicion_index: '',
+        surgery_procedure: ''
+    },
+    objective: {
+        observation: "",
+        palpation: "",
+        functional_tests: "",
+        treatment: "",
+        treatment_response: ""
+    },
+    is_discharge: true,
+};
+
 interface ClientMedicalDetailsCardComponentProps {
     showAction?: boolean
 }
@@ -33,29 +56,6 @@ interface ClientMedicalDetailsCardComponentProps {
 const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardComponentProps) => {
 
     const {showAction} = props;
-    const MedicalInterventionFormInitialValues: any = {
-        intervention_date: new Date(),
-        subjective: "",
-        plan: {
-            plan: "",
-            md_recommendations: "",
-            education: "",
-            treatment_goals: "",
-        },
-        assessment: {
-            suspicion_index: '',
-            surgery_procedure: ''
-        },
-        objective: {
-            observation: "",
-            palpation: "",
-            functional_tests: "",
-            treatment: "",
-            treatment_response: ""
-        },
-        is_discharge: true,
-    };
-
     const {medicalRecordId} = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -147,7 +147,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                     CommonService._alert.showToast(error?.error || "Error discharging the case", "error");
             });
         }
-    },[medicalRecordId]);
+    },[medicalRecordId, navigate]);
 
     return (
         <div className={'client-medical-details-card-component'}>
