@@ -513,6 +513,10 @@ const APIConfig: IAPIConfig = {
     GET_INVENTORY_LIST: {
         URL: ENV.API_URL + '/product/list',
         METHOD: 'post'
+    },
+    ADD_INVENTORY_PRODUCT: {
+        URL: ENV.API_URL + '/product',
+        METHOD: 'post'
     }
 // GET_MEDICAL_RECORD_SOAP_NOTE_LIST: {
 //     URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/intervention',

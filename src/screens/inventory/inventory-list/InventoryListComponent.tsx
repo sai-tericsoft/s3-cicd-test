@@ -8,6 +8,7 @@ import SearchComponent from "../../../shared/components/search/SearchComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {useDispatch} from "react-redux";
+import {CommonService} from "../../../shared/services";
 
 interface InventoryListComponentProps {
 
@@ -24,7 +25,7 @@ const inventoryListColumns = [
         title: 'Product Code',
         dataIndex: 'code',
         key: 'code',
-        width:118
+        width: 118
     },
     {
         title: 'Quantity Available',
@@ -49,7 +50,7 @@ const inventoryListColumns = [
         title: '',
         dataIndex: 'action',
         key: 'action',
-        width:98,
+        width: 98,
         render: (_: any, item: any) => {
             return <LinkComponent route={''}>View Details</LinkComponent>
         }
@@ -78,19 +79,21 @@ const InventoryListComponent = (props: InventoryListComponentProps) => {
     return (
         <div className={'inventory-list-component'}>
             <div className={'list-screen-header'}>
-            <div className="ts-col-md-6 ts-col-lg-3">
-                <SearchComponent label={'Search Product'}
-                                 value={inventoryListFilterState.search}
-                                 onSearchChange={(value) => {
-                                     setInventoryListFilterState({...inventoryListFilterState, search: value})
-                                 }}
+                <div className="ts-col-md-6 ts-col-lg-3">
+                    <SearchComponent label={'Search Product'}
+                                     value={inventoryListFilterState.search}
+                                     onSearchChange={(value) => {
+                                         setInventoryListFilterState({...inventoryListFilterState, search: value})
+                                     }}
 
-                />
-            </div>
+                    />
+                </div>
                 <div>
-                    <ButtonComponent id={'add_product_btn'} prefixIcon={<ImageConfig.AddIcon/>} >
+                    <LinkComponent route={CommonService._routeConfig.AddInventoryProduct()}> <ButtonComponent
+                        id={'add_product_btn'} prefixIcon={<ImageConfig.AddIcon/>}>
                         Add Product
                     </ButtonComponent>
+                    </LinkComponent>
                 </div>
             </div>
             <TableWrapperComponent url={APIConfig.GET_INVENTORY_LIST.URL} method={APIConfig.GET_INVENTORY_LIST.METHOD}

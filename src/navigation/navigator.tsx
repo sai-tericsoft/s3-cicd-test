@@ -27,6 +27,7 @@ import ClientSearchScreen from "../screens/chart-notes/client-search/ClientSearc
 import AddMedicalRecordScreen from "../screens/chart-notes/add-medical-record/AddMedicalRecordScreen";
 import AddMedicalInterventionScreen from "../screens/chart-notes/add-medical-intervention/AddMedicalInterventionScreen";
 import {
+    ADD_INVENTORY_PRODUCT,
     ADD_MEDICAL_INTERVENTION,
     ADD_MEDICAL_RECORD,
     ADMIN,
@@ -100,6 +101,7 @@ import ViewExerciseRecordScreen from "../screens/chart-notes/view-exercise-recor
 import InventoryDetailsMainLayoutComponent
     from "../screens/inventory/inventory-details-main-layout/InventoryDetailsMainLayoutComponent";
 import InventoryListComponent from "../screens/inventory/inventory-list/InventoryListComponent";
+import AddInventoryProductComponent from "../screens/inventory/add-inventory-product/AddInventoryProductComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -389,6 +391,12 @@ const Navigator = (props: NavigatorProps) => {
                     <Route path={INVENTORY_LIST_DETAILS}
                            element={<ProtectedRoute>
                                <InventoryListComponent/>
+                           </ProtectedRoute>
+                           }
+                    />
+                    <Route path={ADD_INVENTORY_PRODUCT}
+                           element={<ProtectedRoute>
+                               <AddInventoryProductComponent/>
                            </ProtectedRoute>
                            }
                     />
