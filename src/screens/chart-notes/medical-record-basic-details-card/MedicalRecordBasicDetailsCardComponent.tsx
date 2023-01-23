@@ -13,7 +13,7 @@ import {IRootReducerState} from "../../../store/reducers";
 import {CommonService} from "../../../shared/services";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
-import {ImageConfig} from "../../../constants";
+import {ImageConfig, Misc} from "../../../constants";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import EditMedicalRecordComponent from "../edit-medical-record/EditMedicalRecordComponent";
 import {ListItem} from "@mui/material";
@@ -27,6 +27,29 @@ import MedicalInterventionLinkedToComponent
 import AddMedicalRecordDocumentComponent from "../add-medical-record-document/AddMedicalRecordDocumentComponent";
 import TransferMedicalRecordComponent from "../transfer-medical-record/TransferMedicalRecordComponent";
 
+const MedicalInterventionFormInitialValues: any = {
+    intervention_date: new Date(),
+    subjective: "",
+    plan: {
+        plan: "",
+        md_recommendations: "",
+        education: "",
+        treatment_goals: "",
+    },
+    assessment: {
+        suspicion_index: '',
+        surgery_procedure: ''
+    },
+    objective: {
+        observation: "",
+        palpation: "",
+        functional_tests: "",
+        treatment: "",
+        treatment_response: ""
+    },
+    is_discharge: true,
+};
+
 interface ClientMedicalDetailsCardComponentProps {
     showAction?: boolean
 }
@@ -34,7 +57,6 @@ interface ClientMedicalDetailsCardComponentProps {
 const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardComponentProps) => {
 
     const {showAction} = props;
-
     const {medicalRecordId} = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -124,7 +146,19 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
         setIsSurgeryAddOpen(false);
     }, [dispatch]);
 
-    const handleMedicalRecordTransfer = useCallback(() => {
+    const handleDischargeCase= useCallback(() => {
+        if(medicalRecordId ) {
+            CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, MedicalInterventionFormInitialValues)
+                .then((response) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully created discharging intervention", "success");
+                        navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId,response.data._id));
+                }).catch((error) => {
+                    CommonService._alert.showToast(error?.error || "Error discharging the case", "error");
+            });
+        }
+    },[medicalRecordId, navigate]);
+
+const handleMedicalRecordTransfer = useCallback(() => {
         closeTransferMedicalRecordDrawer();
         if (medicalRecordId) {
             dispatch(getClientMedicalRecord(medicalRecordId));
@@ -195,13 +229,14 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                                     <ListItem onClick={openMedicalRecordDocumentAddDrawer}>
                                                         Add Document
                                                     </ListItem>,
-                                                    <Link
-                                                        to={CommonService._routeConfig.MedicalRecordViewExerciseRecord(medicalRecordId)}>
-                                                        <ListItem>
-                                                            View Exercise Record
-                                                        </ListItem>
+                                                  <Link to={CommonService._routeConfig.MedicalRecordViewExerciseRecord(medicalRecordId)}>
+                                                      <ListItem>
+                                                        View Exercise Record
+                                                    </ListItem>
                                                     </Link>,
-
+                                                    <ListItem onClick={handleDischargeCase} >
+                                                        Discharge Case
+                                                    </ListItem>
                                                 ]
                                             }/>
                                         </div>}
