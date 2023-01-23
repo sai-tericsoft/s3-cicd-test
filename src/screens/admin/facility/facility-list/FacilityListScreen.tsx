@@ -41,7 +41,7 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
             dataIndex: "phone_number",
             key: "phone_number",
             width: "20%",
-            render: (_: any, item: IFacility) => {
+            render: ( item: IFacility) => {
                 return <span>{item.primary_contact_info.phone}</span>
             }
         },
@@ -50,7 +50,7 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
             dataIndex: "status",
             key: "status",
             width: "10%",
-            render: (_: any, item: IFacility) => {
+            render: ( item: IFacility) => {
                 return <ChipComponent label={item.is_active ? "Active" : "Inactive"}
                                       className={item?.is_active ? "active" : "inactive"}
                 />
@@ -62,7 +62,7 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
             key: "actions",
             width: "15%",
             fixed: "right",
-            render: (_: any, item: IFacility) => {
+            render: ( item: IFacility) => {
                 return <LinkComponent route={CommonService._routeConfig.FacilityDetails(item._id)}>
                     View Details
                 </LinkComponent>

@@ -44,7 +44,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 title: 'Name',
                 key: 'name',
                 dataIndex: 'name',
-                render: (_: any, item: any) => {
+                render: ( item: any) => {
                     return <RadioButtonComponent
                         label={CommonService.extractName(item)}
                         name={'client'} value={item?._id}
@@ -86,7 +86,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 />,
                 key: 'note_type',
                 dataIndex: 'note_type',
-                render: (_: any, item: any) => {
+                render: ( item: any) => {
                     return <CheckBoxComponent
                         value={item?._id}
                         disabled={selectedOptionToTransferMedicalRecord}
@@ -108,7 +108,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 title: 'Date',
                 key: 'date',
                 dataIndex: 'date',
-                render: (_: any, item: any) => {
+                render: ( item: any) => {
                     return CommonService.getSystemFormatTimeStamp(item?.created_at);
                 },
                 width: 150,
@@ -116,7 +116,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
             {
                 title: '',
                 key: 'view_details',
-                render: (_: any, item: any) => {
+                render: ( item: any) => {
                     let route = '';
                     if (medicalRecordId) {
                         if (item?.note_type_category?.toLowerCase() === 'surgery record') {
@@ -150,7 +150,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 title: '',
                 key: 'select',
                 dataIndex: 'select',
-                render: (_: any, item: any) => {
+                render: ( item: any) => {
                     return <RadioButtonComponent
                         name={'medical-intervention'}
                         value={item?._id}
@@ -165,7 +165,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 title: 'Case',
                 key: 'case',
                 dataIndex: 'case',
-                render: (_: any, item: any) => {
+                render: ( item: any) => {
                     return CommonService.generateInterventionNameFromMedicalRecord(item);
                 }
             },
@@ -173,7 +173,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 title: 'Date',
                 key: 'date',
                 dataIndex: 'date',
-                render: (_: any, item: any) => {
+                render: ( item: any) => {
                     return CommonService.getSystemFormatTimeStamp(item?.onset_date);
                 }
             }

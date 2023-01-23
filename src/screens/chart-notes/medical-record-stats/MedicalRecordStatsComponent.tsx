@@ -23,7 +23,7 @@ const MedicalRecordStatsComponent = (props: MedicalRecordStatsComponentProps) =>
             title: 'Value',
             dataIndex: 'value',
             key: 'value',
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return item.value || 'N/A';
             }
         }

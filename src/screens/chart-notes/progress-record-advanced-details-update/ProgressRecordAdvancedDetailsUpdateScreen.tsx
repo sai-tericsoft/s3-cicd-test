@@ -64,7 +64,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
             title: "Results",
             dataIndex: "results",
             key: "results",
-            render: (_: any, item: any) => <Field name={`progress_stats.${item?._id}.result`}>
+            render: ( item: any) => <Field name={`progress_stats.${item?._id}.result`}>
                 {
                     (field: FieldProps) => (
                         <FormikRadioButtonGroupComponent
@@ -80,7 +80,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
             title: 'Comments',
             dataIndex: 'comments',
             key: 'comments',
-            render: (_: any, item: any) => <Field
+            render: ( item: any) => <Field
                 name={`progress_stats.${item?._id}.comments`}
                 className="t-form-control">
                 {

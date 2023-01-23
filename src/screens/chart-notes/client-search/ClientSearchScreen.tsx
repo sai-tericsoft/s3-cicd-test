@@ -32,7 +32,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             dataIndex: "client_id",
             width: 120,
             fixed: "left",
-            render: (_: any, item: IClientBasicDetails) => {
+            render: (item: IClientBasicDetails) => {
                 if (item?._id) {
                     return <LinkComponent route={CommonService._routeConfig.MedicalRecordList(item?._id)}>
                         {item?.client_id}
@@ -46,7 +46,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             dataIndex: "first_name",
             sortable: true,
             width: 150,
-            render: (_: any, item: IClientBasicDetails) => {
+            render: (item: IClientBasicDetails) => {
                 return <span>{item?.last_name} {item?.first_name}</span>
             }
         },
@@ -55,7 +55,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             key: "primary_contact_info",
             dataIndex: "primary_contact_info",
             width: 150,
-            render: (_: any, item: IClientBasicDetails) => {
+            render: (item: IClientBasicDetails) => {
                 return <span>{item?.primary_contact_info?.phone}</span>
             }
         },
@@ -64,7 +64,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             key: "last_appointment_date",
             dataIndex: "lastAppointmentDate",
             width: 150,
-            render: (_: any, item: IClientBasicDetails) => {
+            render: (item: IClientBasicDetails) => {
                 return <span>
                     {item?.last_appointment_date ? CommonService.getSystemFormatTimeStamp(item?.last_appointment_date) : "-"}
                 </span>
@@ -75,7 +75,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             key: "last_provider",
             dataIndex: "last_provider",
             width: 140,
-            render: (_: any, item: IClientBasicDetails) => {
+            render: (item: IClientBasicDetails) => {
                 return <span>
                     {item?.last_provider}
                 </span>
@@ -86,7 +86,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             dataIndex: "status",
             key: "status",
             width: 90,
-            render: (_: any, item: IClientBasicDetails) => {
+            render: (item: IClientBasicDetails) => {
                 return <ChipComponent label={item?.is_active ? "Active" : "Inactive"}
                                       className={item?.is_active ? "active" : "inactive"}
                 />
@@ -98,7 +98,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             key: "actions",
             width: 120,
             fixed: "right",
-            render: (_: any, item: IClientBasicDetails) => {
+            render: (item: IClientBasicDetails) => {
                 if (item?._id) {
                     return <LinkComponent route={CommonService._routeConfig.MedicalRecordList(item?._id)}>
                         View Details

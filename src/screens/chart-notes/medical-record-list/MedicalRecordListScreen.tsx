@@ -30,7 +30,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: 'alert_icon',
             fixed: "left",
             width: 50,
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <span className={`medical-record-alert ${item?.alert_type}`}>
                     {
                         (item?.alert_type === "high" || item?.alert_type === "medium") && <ImageConfig.AlertIcon/>
@@ -44,7 +44,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             dataIndex: "date_of_onset",
             width: 140,
             fixed: "left",
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <>{CommonService.convertDateFormat2(item?.onset_date)}</>
             }
         },
@@ -53,7 +53,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: "body_part",
             dataIndex: "body_part",
             width: 160,
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 if (item?.injury_details?.length === 1) {
                     return <>{item?.injury_details[0]?.body_part_details?.name}</>
                 } else {
@@ -66,7 +66,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: "body_side",
             dataIndex: "body_side",
             width: 110,
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <>{item?.injury_details[0]?.body_side}</>
             }
         },
@@ -75,7 +75,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             dataIndex: "status",
             key: "status",
             width: 155,
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <ChipComponent label={item?.status}
                                       className={item?.status === 'Open/Active' ? "active" : "inactive"}></ChipComponent>
             }
@@ -92,7 +92,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: "actions",
             width: 120,
             fixed: "right",
-            render: (_: any, item: IClientBasicDetails) => {
+            render: ( item: IClientBasicDetails) => {
                 if (item?._id) {
                     return <LinkComponent route={CommonService._routeConfig.ClientMedicalRecordDetails(item?._id)}>
                         View Details

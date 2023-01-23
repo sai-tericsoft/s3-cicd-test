@@ -1,147 +1,117 @@
 import "./TableV2Component.scss";
-
-import {ColumnDef, createColumnHelper, flexRender, getCoreRowModel, useReactTable,} from '@tanstack/react-table'
-import {useEffect, useState} from "react";
-
-type Person = {
-    firstName: string
-    lastName: string
-    age: number
-    visits: number
-    status: string
-    progress: number
-}
-
-const columnHelper = createColumnHelper<Person>()
-
-const columns: ColumnDef<Person, any>[] = [
-    columnHelper.accessor('firstName', {
-        cell: info => info.getValue(),
-        header: "First Name",
-        size: 10,
-        minSize: 10,
-        maxSize: 50,
-    }),
-    columnHelper.accessor(row => row.lastName, {
-        id: 'lastName',
-        cell: info => <i>{info.getValue()}</i>,
-        header: () => <span>Last Name</span>,
-        size: 300,
-        minSize: 100,
-        maxSize: 500,
-    }),
-    columnHelper.accessor('age', {
-        header: () => 'Age',
-        cell: info => info.renderValue(),
-        size: 300,
-        minSize: 100,
-        maxSize: 500,
-    }),
-    columnHelper.accessor('visits', {
-        header: () => <span>Visits</span>,
-        size: 300,
-        minSize: 100,
-        maxSize: 500,
-    }),
-    columnHelper.accessor('status', {
-        header: 'Status',
-    }),
-    columnHelper.accessor('progress', {
-        header: 'Profile Progress',
-        minSize: 1000,
-    }),
-    columnHelper.accessor('progress', {
-        header: 'Profile Progress',
-    }),
-    columnHelper.accessor('progress', {
-        header: 'Profile Progress',
-    }),
-    columnHelper.accessor('progress', {
-        header: 'Profile Progress',
-    }),
-    columnHelper.accessor('progress', {
-        header: 'Profile Progress',
-    }),
-]
+import {useBlockLayout, useTable} from 'react-table';
+import {useSticky} from "react-table-sticky";
+import {useCallback, useMemo} from "react";
+import {TableStyles} from "./TableStyles";
+import {ITableColumn} from "../../models/table.model";
+import _ from "lodash";
+import LoaderComponent from "../loader/LoaderComponent";
+import StatusCardComponent from "../status-card/StatusCardComponent";
 
 interface TableV2ComponentProps {
-
+    loading: boolean;
+    errored: boolean;
+    id?: string;
+    columns: ITableColumn[];
+    data: any[];
 }
 
 const TableV2Component = (props: TableV2ComponentProps) => {
 
-    const [data, setData] = useState<Person[]>([]);
+    const {loading, columns, data} = props;
 
-    useEffect(() => {
-        for (let i = 0; i < 10; i++) {
-            data.push({
-                firstName: 'tanner',
-                lastName: 'linsley',
-                age: 24,
-                visits: 100,
-                status: 'In Relationship',
-                progress: 50,
-            });
-        }
-        setData([...data]);
-    }, [data]);
+    const parseRender = (col: ITableColumn, item: any) => {
+        const data = item.row.original;
+        const index = item.row.index;
+        return (col?.render ? col.render(data, index) : data.value)
+    }
 
-    const table = useReactTable({
-        data,
-        columns,
-        getCoreRowModel: getCoreRowModel(),
-    })
+    const parseColumns = useCallback((columns: ITableColumn[]) => {
+        const transformedCols: any = columns.map((column: ITableColumn) => {
+            const col = _.cloneDeep(column);
+            const colObject: any = {
+                Header: col.title,
+                key: col.key,
+                accessor: col.dataIndex || col.key,
+                sticky: col.fixed,
+            }
+            if (col.dataIndex) {
+                colObject['accessor'] = col.dataIndex;
+            }
+            if (col.render) {
+                colObject['Cell'] = (data: any) => parseRender(col, data);
+            }
+            if (col.width) {
+                colObject['width'] = col.width;
+            }
+            return colObject;
+        });
+        return transformedCols;
+    }, []);
+
+    const columnsMemoized = useMemo<any>(() => parseColumns(columns), [columns]);
+    const dataMemoized = useMemo<any>(() => data, [data]);
+
+    const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        rows,
+        prepareRow
+    } = useTable(
+        {
+            columns: columnsMemoized,
+            data: dataMemoized
+        },
+        useBlockLayout,
+        useSticky
+    )
 
     return (
         <div className={'table-v2-component'}>
-            <table>
-                <thead>
-                {table.getHeaderGroups().map(headerGroup => (
-                    <tr key={headerGroup.id} >
-                        {headerGroup.headers.map(header => (
-                            <th key={header.id}>
-                                {header.isPlaceholder
-                                    ? null
-                                    : flexRender(
-                                        header.column.columnDef.header,
-                                        header.getContext()
-                                    )}
-                            </th>
+            <TableStyles>
+                <div {...getTableProps()} className="t-table table sticky">
+                    <div className="header">
+                        {headerGroups.map((headerGroup) => (
+                            <div {...headerGroup.getHeaderGroupProps()} className="tr">
+                                {headerGroup.headers.map((column: any) => <div {...column.getHeaderProps()}
+                                                                               className={`th t-cell t-cell-${column.key?.split(' ').join('-')}`}>
+                                        {column.render('Header')}
+                                    </div>
+                                )}
+                            </div>
                         ))}
-                    </tr>
-                ))}
-                </thead>
-                <tbody>
-                {table.getRowModel().rows.map(row => (
-                    <tr key={row.id}>
-                        {row.getVisibleCells().map(cell => (
-                            <td key={cell.id}>
-                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                            </td>
-                        ))}
-                    </tr>
-                ))}
-                </tbody>
-                <tfoot>
-                {table.getFooterGroups().map(footerGroup => (
-                    <tr key={footerGroup.id}>
-                        {footerGroup.headers.map(header => (
-                            <th key={header.id}>
-                                {header.isPlaceholder
-                                    ? null
-                                    : flexRender(
-                                        header.column.columnDef.footer,
-                                        header.getContext()
-                                    )}
-                            </th>
-                        ))}
-                    </tr>
-                ))}
-                </tfoot>
-            </table>
+                    </div>
+                    <div {...getTableBodyProps()} className="body">
+                        {
+                            rows.length > 0 && rows.map((row: any) => {
+                                prepareRow(row);
+                                return (
+                                    <div {...row.getRowProps()} className="tr">
+                                        {row.cells.map((cell: any) => <div {...cell.getCellProps()}
+                                                                           className={`td t-cell t-cell-${cell.column.key?.split(' ').join('-')}`}>
+                                                {cell.render('Cell')}
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })
+                        }
+                        {
+                            rows.length === 0 && <StatusCardComponent title={"No data found"} className={'table-data-not-found-card'}/>
+                        }
+                    </div>
+                    {
+                        loading && <div className={'data-loading-wrapper'}>
+                            <div className="loader">
+                                <LoaderComponent type={"spinner"}/>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </TableStyles>
         </div>
     );
-
 };
 
 export default TableV2Component;

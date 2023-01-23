@@ -69,7 +69,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             dataIndex: 'exercise',
             key: 'exercise',
             width: 130,
-            render: (_: any, record: any, index: any) => {
+            render: ( record: any, index: any) => {
                 return index === 0 ? "Warm Up" : "Ex " + index;
             }
         },
@@ -77,7 +77,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             title: 'Exercise Name',
             key: 'name',
             width: 280,
-            render: (_: any, record: any, index: any) => {
+            render: ( record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.name`}
                     className="t-form-control">
@@ -96,7 +96,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             title: 'SET',
             key: 'set',
             width: 150,
-            render: (_: any, record: any, index: any) => {
+            render: ( record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.no_of_sets`}
                     className="t-form-control">
@@ -115,7 +115,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             title: 'REP',
             key: 'rep',
             width: 150,
-            render: (_: any, record: any, index: any) => {
+            render: ( record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.no_of_reps`}
                     className="t-form-control">
@@ -134,7 +134,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             title: 'TIME',
             key: 'time',
             width: 150,
-            render: (_: any, record: any, index: any) => {
+            render: ( record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.time`}
                     className="t-form-control">
@@ -153,7 +153,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             title: 'RESISTANCE',
             key: 'resistance',
             width: 150,
-            render: (_: any, record: any, index: any) => {
+            render: ( record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.resistance`}
                     className="t-form-control">
@@ -171,7 +171,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
         {
             title: '',
             key: 'actions',
-            render: (_: any, record: any, index: any) => {
+            render: ( record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.actions`}
                     className="t-form-control">

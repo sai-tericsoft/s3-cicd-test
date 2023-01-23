@@ -35,7 +35,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             key: "flag",
             dataIndex: 'is_flagged',
             width: '3%',
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <div className={'flag-wrapper'}>{item?.is_flagged && <ImageConfig.FlagIcon/>}</div>
             }
         },
@@ -45,7 +45,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             dataIndex: 'intervention_date',
             width: '20%',
             fixed: 'left',
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <>{CommonService.getSystemFormatTimeStamp(item?.intervention_date)}</>
             }
         },
@@ -59,7 +59,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             key: 'last_updated',
             dataIndex: 'updated_at',
             width: '25%',
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <>{CommonService.transformTimeStamp(item?.updated_at)}</>
             }
         },
@@ -67,7 +67,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             title: 'Status',
             key: 'status',
             dataIndex: 'status',
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <ChipComponent label={item?.status}
                                       className={item?.status === 'completed' ? "completed" : "draft"}/>
             }
@@ -76,7 +76,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             title: 'Posted By',
             key: 'name',
             dataIndex: 'name',
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 if (item?.note_type?.toLowerCase() === "progress report") {
                     return item?.posted_by
                 } else {
@@ -87,7 +87,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
         {
             title: '',
             key: 'actions',
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 let route = '';
                 if (medicalRecordId) {
                     if (item?.note_type?.toLowerCase() === 'exercise log') {

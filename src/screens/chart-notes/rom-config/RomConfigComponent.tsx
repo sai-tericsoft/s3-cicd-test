@@ -54,7 +54,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                 key: 'movement',
                 width: 200,
                 fixed: 'left',
-                render: (_: any, record: any) => {
+                render: ( record: any) => {
                     return record.name
                 }
             }
@@ -67,7 +67,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                         title: 'AROM',
                         key: 'arom',
                         width: 80,
-                        render: (_: any, record: any) => {
+                        render: ( record: any) => {
                             console.log(record);
                             return <Field
                                 name={`${bodyPart._id}.${record?.name}.${side}.arom`}
@@ -88,7 +88,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                         title: 'PROM',
                         key: 'prom',
                         width: 80,
-                        render: (_: any, record: any) => {
+                        render: ( record: any) => {
                             return <Field
                                 name={`${bodyPart._id}.${record?.name}.${side}.prom`}
                                 className="t-form-control">
@@ -109,7 +109,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                         title: 'Strength',
                         key: 'strength',
                         width: 100,
-                        render: (_: any, record: any) => {
+                        render: ( record: any) => {
                             return <Field
                                 name={`${bodyPart._id}.${record?.name}.${side}.strength`}
                                 className="t-form-control">

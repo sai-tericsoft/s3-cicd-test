@@ -28,7 +28,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <>{item?.progress_stats_details?.name}</>
             }
         },
@@ -41,7 +41,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             title: 'Comments',
             dataIndex: 'comments',
             key: 'comments',
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <>{item?.comments || '-'}</>
             }
         }

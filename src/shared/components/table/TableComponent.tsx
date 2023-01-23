@@ -157,7 +157,7 @@ export default TableComponent;
 //         key: 'actions',
 //         width: 140,
 //         fixed: "right",
-//         render: (_: any, item: any) => {
+//         render: ( item: any) => {
 //             return <ButtonComponent
 //                 size={"small"}
 //                 prefixIcon={<ImageConfig.EditIcon/>}

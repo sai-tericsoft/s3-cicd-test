@@ -107,13 +107,14 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                 key: 'name',
                 width: 147,
                 fixed: 'left',
-                render: (_: any, item: any) => {
+                render: ( item: any) => {
                     return <div className={'movement-name'}>{item.movement_name}</div>
                 }
             }
         ];
         (body_part?.selected_sides || []).forEach((side: any) => {
             ROMColumns.push({
+                key: side,
                 title: side,
                 className: side,
                 children: [
@@ -122,7 +123,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                         dataIndex: 'arom',
                         key: 'arom',
                         width: 87,
-                        render: (_: any, item: any) => {
+                        render: ( item: any) => {
                             return <div className={'movement-name'}>{item?.config[side]?.arom || '-'}</div>
                         }
                     },
@@ -131,7 +132,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                         dataIndex: 'prom',
                         key: 'prom',
                         width: 87,
-                        render: (_: any, item: any) => {
+                        render: ( item: any) => {
                             return <div className={'movement-name'}>{item?.config[side]?.prom || "-"}</div>
                         }
                     },
@@ -140,7 +141,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                         dataIndex: 'strength',
                         key: 'strength',
                         width: 107,
-                        render: (_: any, item: any) => {
+                        render: ( item: any) => {
                             return <div className={'movement-name'}>{item?.config[side]?.strength || "-"}</div>
                         }
                     }

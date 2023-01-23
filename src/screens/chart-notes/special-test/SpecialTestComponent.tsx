@@ -44,7 +44,7 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                 title: '',
                 key: 'select',
                 width: 40,
-                render: (_: any, record: any) => {
+                render: ( record: any) => {
                     return <Field name={`${bodyPart._id}.${record?.name}.is_tested`}>
                         {
                             (field: FieldProps) => (
@@ -68,7 +68,7 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                 title: 'Test Name',
                 key: 'test',
                 width: 200,
-                render: (_: any, record: any) => {
+                render: ( record: any) => {
                     return record.name;
                 }
             },
@@ -76,7 +76,7 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                 title: 'Results',
                 key: 'results',
                 width: 200,
-                render: (_: any, record: any) => {
+                render: ( record: any) => {
                     return <Field name={`${bodyPart._id}.${record?.name}.result`}>
                         {
                             (field: FieldProps) => (

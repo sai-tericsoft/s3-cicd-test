@@ -2,7 +2,7 @@ import {TableRowSelection} from "antd/lib/table/interface";
 
 export interface ITableColumn {
     dataIndex?: string;
-    key?: string;
+    key: string;
     title?: any;
     render?: any;
     sortable?: any;

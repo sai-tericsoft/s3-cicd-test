@@ -34,7 +34,7 @@ const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
             key: 'select',
             dataIndex: 'select',
             width: 50,
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <RadioButtonComponent name={"selected-medical-intervention"}
                                              value={item}
                                              checked={selectedSoapNote === item}
@@ -47,7 +47,7 @@ const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
             title: 'Date',
             key: 'date',
             dataIndex: 'created_at',
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <>
                     {CommonService.getSystemFormatTimeStamp(item?.created_at)}
                     {item?.is_flagged && <ImageConfig.FlagIcon/>}
@@ -58,7 +58,7 @@ const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
             title: 'Provider',
             key: 'provider',
             dataIndex: 'first_name',
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <span>{item?.treated_by_details?.first_name} {item?.treated_by_details?.last_name}</span>
             }
         },
@@ -67,7 +67,7 @@ const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
             dataIndex: 'actions',
             key: 'actions',
             fixed: 'right',
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <LinkComponent
                     route={CommonService._routeConfig.MedicalInterventionDetails(item?.medical_record_id, item?._id)}
                     behaviour={"redirect"}

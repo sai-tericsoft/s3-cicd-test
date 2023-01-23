@@ -120,7 +120,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             key: 'favorite',
             fixed: 'right',
             width: 120,
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <span>
 
                     {
@@ -144,7 +144,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             dataIndex: 'icd_code',
             key: 'icd_code',
             width: 120,
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <>{item?.icd_code_details?.icd_code}</>
             }
         },
@@ -153,7 +153,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             dataIndex: 'description',
             key: 'description',
             width: 250,
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <>{item?.icd_code_details?.description}</>
             }
         },
@@ -163,7 +163,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             key: 'favorite',
             fixed: 'right',
             width: 120,
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <span onClick={() => removeFavouriteCode(item?.icd_code_id)}>
                   <ImageConfig.FilledStarIcon className={'star-icon-favourite'}/>
                </span>

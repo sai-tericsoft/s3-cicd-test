@@ -29,7 +29,7 @@ const ClientMedicalInterventionDetailsComponent = (props: ClientMedicalIntervent
             width: 147,
             fixed: 'left',
             align: "center",
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <div>{item.rom_config?.map((e: any) => {
                     return <div className={'movement-name'}>{e.movement_name}</div>
                 })}</div>
@@ -45,7 +45,7 @@ const ClientMedicalInterventionDetailsComponent = (props: ClientMedicalIntervent
                     key: 'arom',
                     width: 87,
                     align: "center",
-                    render: (_: any, item: any) => {
+                    render: ( item: any) => {
                         return <div>{item.rom_config?.map((e: any) => {
                             return <div className={'movement-name'}>{e?.config?.Left?.arom || '-'}</div>
                         })}</div>
@@ -57,7 +57,7 @@ const ClientMedicalInterventionDetailsComponent = (props: ClientMedicalIntervent
                     key: 'prom',
                     width: 87,
                     align: "center",
-                    render: (_: any, item: any) => {
+                    render: ( item: any) => {
                         return <div>{item.rom_config?.map((e: any) => {
                             return <div className={'movement-name'}>{e?.config?.Left?.prom || "-"}</div>
                         })}</div>
@@ -69,7 +69,7 @@ const ClientMedicalInterventionDetailsComponent = (props: ClientMedicalIntervent
                     key: 'strength',
                     width: 107,
                     align: "center",
-                    render: (_: any, item: any) => {
+                    render: ( item: any) => {
                         return <div>{item.rom_config?.map((e: any) => {
                             return <div className={'movement-name'}>{e?.config?.Left?.strength || "-"}</div>
                         })}</div>
@@ -88,7 +88,7 @@ const ClientMedicalInterventionDetailsComponent = (props: ClientMedicalIntervent
                     key: 'arom',
                     width: 87,
                     align: "center",
-                    render: (_: any, item: any) => {
+                    render: ( item: any) => {
                         return <div>{item.rom_config?.map((e: any) => {
                             return <div className={'movement-name'}>{e?.config?.Right?.arom || "-"}</div>
                         })}</div>
@@ -100,7 +100,7 @@ const ClientMedicalInterventionDetailsComponent = (props: ClientMedicalIntervent
                     key: 'prom',
                     width: 87,
                     align: "center",
-                    render: (_: any, item: any) => {
+                    render: ( item: any) => {
                         return <div>{item.rom_config?.map((e: any) => {
                             return <div className={'movement-name'}>{e?.config?.Right?.prom || "-"}</div>
                         })}</div>
@@ -113,7 +113,7 @@ const ClientMedicalInterventionDetailsComponent = (props: ClientMedicalIntervent
                     key: 'strength',
                     width: 107,
                     align: "center",
-                    render: (_: any, item: any) => {
+                    render: ( item: any) => {
                         return <div>{item.rom_config?.map((e: any) => {
                             return <div className={'movement-name'}>{e?.config?.Right?.strength || "-"}</div>
                         })}</div>
@@ -132,7 +132,7 @@ const ClientMedicalInterventionDetailsComponent = (props: ClientMedicalIntervent
                     key: 'arom',
                     width: 87,
                     align: "center",
-                    render: (_: any, item: any) => {
+                    render: ( item: any) => {
                         return <div>{item.rom_config?.map((e: any) => {
                             return <div className={'movement-name'}>
                                 {e?.config?.Central?.arom || "-"}
@@ -147,7 +147,7 @@ const ClientMedicalInterventionDetailsComponent = (props: ClientMedicalIntervent
                     key: 'prom',
                     width: 87,
                     align: "center",
-                    render: (_: any, item: any) => {
+                    render: ( item: any) => {
                         return <div>{item.rom_config?.map((e: any) => {
                             return <div className={'movement-name'}>{e?.config?.Central?.prom || "-"}</div>
                         })}</div>
@@ -159,7 +159,7 @@ const ClientMedicalInterventionDetailsComponent = (props: ClientMedicalIntervent
                     key: 'strength',
                     width: 107,
                     align: "center",
-                    render: (_: any, item: any) => {
+                    render: ( item: any) => {
                         return <div>{item.rom_config?.map((e: any) => {
                             return <div className={'movement-name'}>{e?.config?.Central?.strength || "-"}</div>
                         })}</div>
@@ -177,7 +177,7 @@ const ClientMedicalInterventionDetailsComponent = (props: ClientMedicalIntervent
                     key: 'arom',
                     width: 87,
                     align: "center",
-                    render: (_: any, item: any) => {
+                    render: ( item: any) => {
                         return <div>{item.rom_config?.map((e: any) => {
                             return <div className={'movement-name'}>{e?.config?.Bilateral?.arom || "-"}</div>
                         })}</div>
@@ -189,7 +189,7 @@ const ClientMedicalInterventionDetailsComponent = (props: ClientMedicalIntervent
                     key: 'prom',
                     width: 87,
                     align: "center",
-                    render: (_: any, item: any) => {
+                    render: ( item: any) => {
                         return <div>{item.rom_config?.map((e: any) => {
                             return <div className={'movement-name'}>{e?.config?.Bilateral?.prom || "-"}</div>
                         })}</div>
@@ -201,7 +201,7 @@ const ClientMedicalInterventionDetailsComponent = (props: ClientMedicalIntervent
                     key: 'strength',
                     width: 107,
                     align: "center",
-                    render: (_: any, item: any) => {
+                    render: ( item: any) => {
                         return <div>{item.rom_config?.map((e: any) => {
                             return <div className={'movement-name'}>{e?.config?.Bilateral?.strength || "-"}</div>
                         })}</div>
@@ -218,7 +218,7 @@ const ClientMedicalInterventionDetailsComponent = (props: ClientMedicalIntervent
             dataIndex: 'name',
             key: 'test_name',
             width: 150,
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <div>{(item.special_tests || []).map((test: any) => {
                     return <div className={'test-name'}>{test?.name}</div>
                 })}</div>
@@ -229,7 +229,7 @@ const ClientMedicalInterventionDetailsComponent = (props: ClientMedicalIntervent
             dataIndex: 'result',
             key: 'result',
             width: 150,
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <div>{(item.special_tests || []).map((test: any) => {
                     return <div className={'test-name'}>{test?.result}</div>
                 })}
@@ -240,7 +240,7 @@ const ClientMedicalInterventionDetailsComponent = (props: ClientMedicalIntervent
             title: 'Comments',
             dataIndex: 'comments',
             key: 'comments',
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <div>{(item.special_tests || []).map((test: any) => {
                     return <div className={'test-name'}>{test?.comments}</div>
                 })}

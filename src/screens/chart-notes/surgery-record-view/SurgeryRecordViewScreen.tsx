@@ -40,7 +40,7 @@ const bodyPartsColumns: any = [
         dataIndex: "body_part",
         key: "body_part",
         width: 91,
-        render: (_: any, item: any) => {
+        render: ( item: any) => {
             return <>{item.body_part_details.name}</>
         }
     },
@@ -49,7 +49,7 @@ const bodyPartsColumns: any = [
         dataIndex: "body_part",
         key: "body_part",
         width: 114,
-        render: (_: any, item: any) => {
+        render: ( item: any) => {
             return <>{item?.body_side}</>
         }
     }
