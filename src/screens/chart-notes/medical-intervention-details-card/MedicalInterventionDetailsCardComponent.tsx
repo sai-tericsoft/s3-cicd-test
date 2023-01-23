@@ -104,11 +104,11 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
 
     const openImportSoapNoteDrawer = useCallback(() => {
         setIsImportSoapNoteDrawerOpen(true);
-    },[]);
+    }, []);
 
     const closeImportSoapNoteDrawer = useCallback(() => {
         setIsImportSoapNoteDrawerOpen(false);
-    },[]);
+    }, []);
 
     const handleMedicalRecordEdit = useCallback(() => {
         closeEditMedicalRecordDrawer();
@@ -131,12 +131,12 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     }, [closeAddConcussionFileDrawer]);
 
 
-    const handleSoapNoteDrawer = useCallback((id:string) => {
+    const handleSoapNoteDrawer = useCallback((medicalInterventionId: string) => {
         closeImportSoapNoteDrawer();
-        if(medicalRecordId){
-        navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, id));
+        if (medicalRecordId) {
+            navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, medicalInterventionId));
         }
-    },[]);
+    }, [medicalRecordId, closeImportSoapNoteDrawer, navigate]);
 
     return (
         <div className={'client-medical-details-card-component'}>
@@ -197,7 +197,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                             <ListItem onClick={openViewPriorNoteDrawer}>View Prior Note</ListItem>,
                                             <ListItem onClick={openImportSoapNoteDrawer}>Import SOAP Note</ListItem>
                                         ]
-                                                }
+                                    }
                                     />
                                 </div>}
                             </div>
@@ -298,7 +298,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
             {/*Import Soap Note Drawer Start*/}
             <DrawerComponent isOpen={isImportSoapNoteDrawerOpen} showClose={true} onClose={closeImportSoapNoteDrawer}>
                 <ImportSoapNoteComponent medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
-                  handleSoapNoteDrawer={(id:string)=>handleSoapNoteDrawer(id)}
+                                         handleSoapNoteImport={handleSoapNoteDrawer}
                 />
             </DrawerComponent>
         </div>

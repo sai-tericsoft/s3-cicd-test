@@ -13,21 +13,20 @@ import {ImageConfig, Misc} from "../../../constants";
 
 interface ImportSoapNoteComponentProps {
     medicalRecordDetails: any;
-    handleSoapNoteDrawer:(id:string)=> void;
-
+    handleSoapNoteImport: (medicalInterventionId: string) => void;
 }
 
 
 const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
 
-    const {medicalRecordDetails,handleSoapNoteDrawer} = props;
+    const {medicalRecordDetails, handleSoapNoteImport} = props;
     const {medicalRecordId, medicalInterventionId} = useParams();
     const [interventionList, setInterventionList] = useState([]);
     const [isInterventionListLoading, setIsInterventionListLoading] = useState(false);
     const [isInterventionListLoadingFailed, setIsInterventionListLoadingFailed] = useState(false);
     const [isInterventionListLoaded, setIsInterventionListLoaded] = useState(false);
-    const [selectedSoapNote, setSelectedSoapNote] = useState<any>('');
-    const [isSoapNoteSelected, setIsSoapNoteSelected] = useState(false);
+    const [selectedSoapNote, setSelectedSoapNote] = useState<any>(undefined);
+    const [isSoapNoteImportBeingImported, setIsSoapNoteImportBeingImported] = useState(false);
 
     const medicalInterventionListColumns: ITableColumn[] = [
         {
@@ -36,16 +35,12 @@ const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
             dataIndex: 'select',
             width: 50,
             render: (_: any, item: any) => {
-
-                return <RadioButtonComponent name={selectedSoapNote}
+                return <RadioButtonComponent name={"selected-medical-intervention"}
                                              value={item}
                                              checked={selectedSoapNote === item}
                                              onChange={(value: any) => {
                                                  setSelectedSoapNote(value);
-                                                 console.log('item', item);
-                                                 setIsSoapNoteSelected(true)
                                              }}/>
-
             }
         },
         {
@@ -53,7 +48,10 @@ const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
             key: 'date',
             dataIndex: 'created_at',
             render: (_: any, item: any) => {
-                return <>{CommonService.getSystemFormatTimeStamp(item?.created_at)}</>
+                return <>
+                    {CommonService.getSystemFormatTimeStamp(item?.created_at)}
+                    {item?.is_flagged && <ImageConfig.FlagIcon/>}
+                </>
             }
         },
         {
@@ -70,8 +68,10 @@ const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
             key: 'actions',
             fixed: 'right',
             render: (_: any, item: any) => {
-                return <LinkComponent route={CommonService._routeConfig.MedicalInterventionDetails(item?.medical_record_id, item?._id)}>
-                    View Details</LinkComponent>
+                return <LinkComponent
+                    route={CommonService._routeConfig.MedicalInterventionDetails(item?.medical_record_id, item?._id)}>
+                    View Details
+                </LinkComponent>
             }
         }
     ];
@@ -81,19 +81,21 @@ const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
             getMedicalInterventionList();
         }
     }, [medicalRecordId]);
-    
+
     const getMedicalInterventionList = useCallback(() => {
         if (medicalRecordId) {
             setIsInterventionListLoading(true);
             setIsInterventionListLoadingFailed(false);
             setIsInterventionListLoaded(false);
-            CommonService._chartNotes.MedicalRecordInterventionListAPICall(medicalRecordId, {current_intervention_id: medicalInterventionId, status: "completed"})
+            CommonService._chartNotes.MedicalRecordInterventionListAPICall(medicalRecordId, {
+                current_intervention_id: medicalInterventionId,
+                status: "completed"
+            })
                 .then((response: any) => {
                     setIsInterventionListLoading(false);
                     setIsInterventionListLoadingFailed(false);
                     setIsInterventionListLoaded(true);
                     setInterventionList(response.data);
-                    console.log('response', response.data);
                 }).catch((error: any) => {
                 setIsInterventionListLoading(false);
                 setIsInterventionListLoadingFailed(true);
@@ -109,16 +111,19 @@ const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
             confirmationSubTitle: 'Are you sure you want to import this SOAP Note?',
         }).then(() => {
             if (medicalInterventionId) {
-                CommonService._chartNotes.ImportSoapNoteAPICall( medicalInterventionId, selectedIntervention._id, {})
+                setIsSoapNoteImportBeingImported(true);
+                CommonService._chartNotes.ImportSoapNoteAPICall(medicalInterventionId, selectedIntervention._id, {})
                     .then((response: any) => {
                         CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                        handleSoapNoteDrawer(response.data._id);
+                        handleSoapNoteImport(response.data._id);
+                        setIsSoapNoteImportBeingImported(false);
                     }).catch((error: any) => {
-                    CommonService._alert.showToast(error[Misc.API_RESPONSE_MESSAGE_KEY], "error");
+                    CommonService._alert.showToast(error?.error, "error");
+                    setIsSoapNoteImportBeingImported(false);
                 })
             }
         })
-    }, [])
+    }, [handleSoapNoteImport, medicalInterventionId]);
 
     return (
         <div className={'import-soap-note-component'}>
@@ -126,11 +131,12 @@ const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
             <InputComponent value={CommonService.generateInterventionNameFromMedicalRecord(medicalRecordDetails)}
                             disabled={true} label={'Intervention Linked To'} fullWidth={true}/>
             <div className={'import-soap-note-table-wrapper'}>
-            <TableComponent data={interventionList} columns={medicalInterventionListColumns}
-                            loading={isInterventionListLoading}/>
+                <TableComponent data={interventionList} columns={medicalInterventionListColumns}
+                                loading={isInterventionListLoading}/>
             </div>
             <ButtonComponent fullWidth={true} className={'mrg-top-20'}
-                             disabled={!isSoapNoteSelected}
+                             disabled={!selectedSoapNote || isSoapNoteImportBeingImported}
+                             isLoading={isSoapNoteImportBeingImported}
                              onClick={() => handleImportSoapNote(selectedSoapNote)}>Import</ButtonComponent>
         </div>
     );
