@@ -174,6 +174,10 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + "/client/list",
         METHOD: "post"
     },
+    CLIENT_LIST_LITE: {
+        URL: ENV.API_URL + "/client/lite",
+        METHOD: "get"
+    },
     CLIENT_BASIC_DETAILS_ADD: {
         URL: ENV.API_URL + "/client",
         METHOD: "post"
@@ -275,6 +279,10 @@ const APIConfig: IAPIConfig = {
     MEDICAL_RECORD_EDIT: {
         URL: (medicalId: string) => ENV.API_URL + '/medicalRecord/' + medicalId,
         METHOD: "put"
+    },
+    MEDICAL_RECORD_LIST_LITE: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medicalRecordLite',
+        METHOD: "get"
     },
     MEDICAL_INTERVENTION_BASIC_DETAILS_UPDATE: {
         URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId,
@@ -442,7 +450,7 @@ const APIConfig: IAPIConfig = {
         URL: (progressReportId: string) => ENV.API_URL + '/progressReport/' + progressReportId,
         METHOD: 'put'
     },
-   GET_PROGRESS_REPORT_UNDER_MEDICAL_RECORD: {
+    GET_PROGRESS_REPORT_UNDER_MEDICAL_RECORD: {
         URL: (progressReportId: string) => ENV.API_URL + '/progressReport/' + progressReportId,
         METHOD: 'get'
     },
@@ -454,9 +462,9 @@ const APIConfig: IAPIConfig = {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/intervention',
         METHOD: 'post'
     },
-    PROGRESS_REPORT_VIEW_DETAILS:{
-        URL:(interventionId:string)=>ENV.API_URL+'/progressReport/'+ interventionId,
-        METHOD:'get'
+    PROGRESS_REPORT_VIEW_DETAILS: {
+        URL: (interventionId: string) => ENV.API_URL + '/progressReport/' + interventionId,
+        METHOD: 'get'
     },
     ADD_MEDICAL_RECORD_DOCUMENT: {
         URL: (medicalRecordId: string) => ENV.API_URL + "/medicalRecord/" + medicalRecordId + "/document",
@@ -478,13 +486,21 @@ const APIConfig: IAPIConfig = {
         URL: (medicalRecordDocumentId: string) => ENV.API_URL + "/document/" + medicalRecordDocumentId + "/attachment",
         METHOD: "post"
     },
-    MEDICAL_RECORD_VIEW_EXERCISE_LOG:{
-        URL:(medicalRecordId:string)=>ENV.API_URL+'/medicalRecord/'+ medicalRecordId +'/exerciseLog',
-        METHOD:'get'
+    MEDICAL_RECORD_VIEW_EXERCISE_LOG: {
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/exerciseLog',
+        METHOD: 'get'
     },
-    GET_MEDICAL_RECORD_SOAP_NOTE_LIST:{
-        URL:(medicalRecordId:string)=>ENV.API_URL+'/medicalRecord/' + medicalRecordId + '/intervention',
-        METHOD:'get'
+    TRANSFER_MEDICAL_RECORD: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/transfer',
+        METHOD: 'post'
+    },
+    MEDICAL_RECORD_CONSOLIDATED_INTERVENTIONS_AND_ATTACHMENTS: {
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/record',
+        METHOD: 'get'
+    },
+    GET_MEDICAL_RECORD_SOAP_NOTE_LIST: {
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/intervention',
+        METHOD: 'get'
     }
 }
 
