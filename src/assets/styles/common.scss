@@ -346,6 +346,10 @@
     background: #E4F6EA;
     color: #00534F;
   }
+  &.out_of_stock {
+    background: #FFE2E9;
+    color: #DE1C4E;
+  }
 
   &.draft {
     background: #FFEDDD;

@@ -43,7 +43,7 @@ import {
     DRY_NEEDLING_FILE_VIEW_DETAILS,
     FACILITY_DETAILS,
     FACILITY_LIST,
-    INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST,
+    INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST, INVENTORY_LIST, INVENTORY_LIST_DETAILS,
     LOGIN_ROUTE,
     MEDICAL_INTERVENTION_DETAILS,
     MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE,
@@ -97,6 +97,9 @@ import ViewConcussionFileScreen from "../screens/chart-notes/view-concussion-fil
 import ViewMedicalRecordDocumentScreen
     from "../screens/chart-notes/view-medical-record-document/ViewMedicalRecordDocumentScreen";
 import ViewExerciseRecordScreen from "../screens/chart-notes/view-exercise-record/ViewExerciseRecordScreen";
+import InventoryDetailsMainLayoutComponent
+    from "../screens/inventory/inventory-details-main-layout/InventoryDetailsMainLayoutComponent";
+import InventoryListComponent from "../screens/inventory/inventory-list/InventoryListComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -375,6 +378,22 @@ const Navigator = (props: NavigatorProps) => {
                 <Route path={MEDICAL_RECORD_VIEW_EXERCISE_RECORD} element={<ProtectedRoute>
                     <ViewExerciseRecordScreen/>
                 </ProtectedRoute>}/>
+
+                <Route path={INVENTORY_LIST} element={<InventoryDetailsMainLayoutComponent/>} {...props}>
+                    <Route
+                        index
+                        element={
+                            <Navigate to={INVENTORY_LIST_DETAILS}/>
+                        }
+                    />
+                    <Route path={INVENTORY_LIST_DETAILS}
+                           element={<ProtectedRoute>
+                               <InventoryListComponent/>
+                           </ProtectedRoute>
+                           }
+                    />
+                </Route>
+
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
             </Route>
             <Route element={<AuthLayout/>}>

@@ -1,4 +1,5 @@
-import {
+import
+{
     ADMIN,
     CLIENT_ADD,
     CLIENT_DETAILS,
@@ -17,6 +18,7 @@ import {
     SERVICE_DETAILS,
     SERVICE_EDIT,
     TEST_ROUTE,
+    INVENTORY_LIST
 } from "../../constants/RoutesConfig";
 
 const DefaultRoute = () => {
@@ -172,6 +174,10 @@ const MedicalRecordViewExerciseRecord = (medicalRecordId: string) => {
     return "/chart-notes/" + medicalRecordId + "/consolidated-exercise-record";
 }
 
+const InventoryList = () => {
+    return INVENTORY_LIST;
+}
+
 const RouteConfigService = {
     DefaultRoute,
     LoginRoute,
@@ -210,7 +216,8 @@ const RouteConfigService = {
     MedicalInterventionDryNeedlingFileViewDetails,
     MedicalInterventionConcussionFileViewDetails,
     MedicalRecordDocumentViewDetails,
-    MedicalRecordViewExerciseRecord
+    MedicalRecordViewExerciseRecord,
+    InventoryList
 }
 
 export default RouteConfigService;

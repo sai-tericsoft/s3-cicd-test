@@ -1,0 +1,20 @@
+.inventory-list-component {
+
+  .t-cell-code {
+    text-align: center !important;
+  }
+
+  .t-cell-quantity {
+    text-align: center !important;
+  }
+
+  .t-cell-price {
+    text-align: center !important;
+  }
+  .list-screen-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+}
