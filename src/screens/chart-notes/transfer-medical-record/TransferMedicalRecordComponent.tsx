@@ -1,5 +1,5 @@
 import "./TransferMedicalRecordComponent.scss";
-import {useCallback, useEffect, useMemo, useState} from "react";
+import {useCallback, useMemo, useState} from "react";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import SearchComponent from "../../../shared/components/search/SearchComponent";
@@ -57,27 +57,27 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
             }
         ], [selectedClient]);
 
-    const handleSelectAllMedicalInterventions = useCallback((value: boolean) => {
-        if (value) {
-            setSelectedMedicalInterventions(medicalInterventionList?.map((item: any) => item?._id));
-        } else {
-            setSelectedMedicalInterventions([]);
-        }
-    }, [medicalInterventionList]);
+        const handleSelectAllMedicalInterventions = useCallback((value: boolean) => {
+            if (value) {
+                setSelectedMedicalInterventions(medicalInterventionList?.map((item: any) => item?._id));
+            } else {
+                setSelectedMedicalInterventions([]);
+            }
+        }, [medicalInterventionList]);
 
-    const handleSelectMedicalIntervention = useCallback((isChecked: boolean, intervention: any) => {
-        if (isChecked) {
-            setSelectedMedicalInterventions([...selectedMedicalInterventions, intervention]);
-        } else {
-            setSelectedMedicalInterventions(selectedMedicalInterventions.filter((item: any) => item?._id !== intervention?._id));
-        }
-    }, [selectedMedicalInterventions]);
+        const handleSelectMedicalIntervention = useCallback((isChecked: boolean, intervention: any) => {
+            if (isChecked) {
+                setSelectedMedicalInterventions([...selectedMedicalInterventions, intervention]);
+            } else {
+                setSelectedMedicalInterventions(selectedMedicalInterventions.filter((item: any) => item?._id !== intervention?._id));
+            }
+        }, [selectedMedicalInterventions]);
 
-    const MedicalInterventionListColumns: ITableColumn[] = useMemo(() => [
+        const MedicalInterventionListColumns: ITableColumn[] = useMemo(() => [
             {
                 title: <CheckBoxComponent
                     indeterminate={selectedMedicalInterventions.length > 0 && selectedMedicalInterventions.length < medicalInterventionList?.length}
-                    disabled={selectedOptionToTransferMedicalRecord}
+                    disabled={selectedOptionToTransferMedicalRecord || medicalInterventionList?.length === 0}
                     checked={(medicalInterventionList?.length > 0 && (selectedMedicalInterventions?.length === medicalInterventionList?.length))}
                     onChange={(isChecked) => {
                         handleSelectAllMedicalInterventions(isChecked);
@@ -253,10 +253,10 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
             }
         }, [currentStep, handleTransferMedicalRecord, getSelectedClientMedicalRecordList, getClientMedicalInterventionList]);
 
-
-        useEffect(() => {
-            getClientList();
-        }, [getClientList]);
+        //
+        // useEffect(() => {
+        //     getClientList();
+        // }, [getClientList]);
 
         return (
             <div className={'transfer-medical-record-component'}>
@@ -267,11 +267,13 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                                          onSearchChange={(value) => {
                                              getClientList(value);
                                          }}/>
-                        <TableComponent data={clientList}
-                                        columns={ClientListColumns}
-                                        loading={isClientListLoading}
-                                        showHeader={false}
-                        />
+                        {
+                            clientSearchKey.length > 0 && <TableComponent data={clientList}
+                                                                          columns={ClientListColumns}
+                                                                          loading={isClientListLoading}
+                                                                          showHeader={false}
+                            />
+                        }
                     </div>
                 }
                 {
@@ -323,7 +325,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                         />
                     </div>
                 }
-                <div className="t-form-actions">
+                {clientSearchKey?.length > 0 && <div className="t-form-actions">
                     <ButtonComponent
                         fullWidth={true}
                         disabled={
@@ -334,9 +336,17 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                         }
                         isLoading={isMedicalRecordTransferUnderProgress}
                         onClick={handleConfirmation}>
-                        Confirm
+                        {
+                            currentStep === "selectClient" && "Next"
+                        }
+                        {
+                            currentStep === "selectInterventions" && "Confirm"
+                        }
+                        {
+                            currentStep === "selectTargetMedicalRecord" && "Transfer"
+                        }
                     </ButtonComponent>
-                </div>
+                </div>}
             </div>
         );
 
