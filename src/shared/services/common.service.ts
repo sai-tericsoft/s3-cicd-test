@@ -406,6 +406,9 @@ const getObjectKeyValue = (object: any, key: string) => {
 }
 
 const getSystemFormatTimeStamp = (date: Date | string, showTime: boolean = false) => {
+    if (!date) {
+        return "N/A"
+    }
     if (showTime) {
         return moment(date).format('DD-MMM-YYYY hh:mm A');
     } else {
@@ -478,6 +481,10 @@ const printAttachment = (attachment: IAttachment) => {
     });
 }
 
+const openLinkInNewTab = (url: string) => {
+    window.open(url, '_blank');
+}
+
 const CommonService = {
     CurrentDate,
     parseQueryString,
@@ -516,6 +523,7 @@ const CommonService = {
     extractName,
     printAttachment,
     getNormalizedFileType,
+    openLinkInNewTab,
 
     // createValidationsObject,
     // createYupSchema,

@@ -13,7 +13,7 @@ import {IRootReducerState} from "../../../store/reducers";
 import {CommonService} from "../../../shared/services";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
-import {ImageConfig} from "../../../constants";
+import {ImageConfig, Misc} from "../../../constants";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import EditMedicalRecordComponent from "../edit-medical-record/EditMedicalRecordComponent";
 import {ListItem} from "@mui/material";
@@ -25,6 +25,30 @@ import MedicalRecordStatsComponent from "../medical-record-stats/MedicalRecordSt
 import MedicalInterventionLinkedToComponent
     from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
 import AddMedicalRecordDocumentComponent from "../add-medical-record-document/AddMedicalRecordDocumentComponent";
+import TransferMedicalRecordComponent from "../transfer-medical-record/TransferMedicalRecordComponent";
+
+const MedicalInterventionFormInitialValues: any = {
+    intervention_date: new Date(),
+    subjective: "",
+    plan: {
+        plan: "",
+        md_recommendations: "",
+        education: "",
+        treatment_goals: "",
+    },
+    assessment: {
+        suspicion_index: '',
+        surgery_procedure: ''
+    },
+    objective: {
+        observation: "",
+        palpation: "",
+        functional_tests: "",
+        treatment: "",
+        treatment_response: ""
+    },
+    is_discharge: true,
+};
 
 interface ClientMedicalDetailsCardComponentProps {
     showAction?: boolean
@@ -33,7 +57,6 @@ interface ClientMedicalDetailsCardComponentProps {
 const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardComponentProps) => {
 
     const {showAction} = props;
-
     const {medicalRecordId} = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -42,6 +65,8 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
     const [isProgressReportDrawerOpen, setIsProgressReportDrawerOpen] = useState<boolean>(false);
     const [isMedicalRecordDocumentAddDrawerOpen, setIsMedicalRecordDocumentAddDrawerOpen] = useState<boolean>(false);
     const [isMedicalRecordStatsModalOpen, setIsMedicalRecordStatsModalOpen] = useState<boolean>(false);
+    const [isTransferMedicalRecordDrawerOpen, setIsTransferMedicalRecordDrawerOpen] = useState<boolean>(false);
+
     const {
         clientMedicalRecord,
         isClientMedicalRecordLoading,
@@ -70,6 +95,14 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
 
     const closeEditMedicalRecordDrawer = useCallback(() => {
         setIsEditMedicalRecordDrawerOpen(false);
+    }, []);
+
+    const openTransferMedicalRecordDrawer = useCallback(() => {
+        setIsTransferMedicalRecordDrawerOpen(true);
+    }, []);
+
+    const closeTransferMedicalRecordDrawer = useCallback(() => {
+        setIsTransferMedicalRecordDrawerOpen(false);
     }, []);
 
     const handleMedicalRecordEdit = useCallback(() => {
@@ -112,6 +145,25 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
         dispatch(refreshMedicalRecordAttachmentList());
         setIsSurgeryAddOpen(false);
     }, [dispatch]);
+
+    const handleDischargeCase= useCallback(() => {
+        if(medicalRecordId ) {
+            CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, MedicalInterventionFormInitialValues)
+                .then((response) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully created discharging intervention", "success");
+                        navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId,response.data._id));
+                }).catch((error) => {
+                    CommonService._alert.showToast(error?.error || "Error discharging the case", "error");
+            });
+        }
+    },[medicalRecordId, navigate]);
+
+const handleMedicalRecordTransfer = useCallback(() => {
+        closeTransferMedicalRecordDrawer();
+        if (medicalRecordId) {
+            dispatch(getClientMedicalRecord(medicalRecordId));
+        }
+    }, [closeTransferMedicalRecordDrawer, medicalRecordId, dispatch]);
 
     return (
         <div className={'client-medical-details-card-component'}>
@@ -168,6 +220,9 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                                     <ListItem onClick={addProgressRecord}>
                                                         Add Progress Report
                                                     </ListItem>,
+                                                    <ListItem onClick={openTransferMedicalRecordDrawer}>
+                                                        Transfer File
+                                                    </ListItem>,
                                                     <ListItem onClick={openMedicalRecordStatsModal}>
                                                         View Case Statistics
                                                     </ListItem>,
@@ -177,8 +232,11 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                                   <Link to={CommonService._routeConfig.MedicalRecordViewExerciseRecord(medicalRecordId)}>
                                                       <ListItem>
                                                         View Exercise Record
-                                                    </ListItem></Link>,
-
+                                                    </ListItem>
+                                                    </Link>,
+                                                    <ListItem onClick={handleDischargeCase} >
+                                                        Discharge Case
+                                                    </ListItem>
                                                 ]
                                             }/>
                                         </div>}
@@ -286,6 +344,16 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                         />
                     </DrawerComponent>
                     {/*Add medical record document drawer end*/}
+
+                    {/*Transfer medical record drawer start*/}
+                    <DrawerComponent isOpen={isTransferMedicalRecordDrawerOpen}
+                                     showClose={true}
+                                     onClose={() => closeTransferMedicalRecordDrawer()}>
+                        <TransferMedicalRecordComponent medicalRecordId={medicalRecordId}
+                                                        onMedicalRecordTransfer={handleMedicalRecordTransfer}/>
+                    </DrawerComponent>
+                    {/*Transfer medical record drawer end*/}
+
                 </>
 
             }

@@ -7,11 +7,13 @@ import {CommonService} from "../../services";
 import {Subscription} from "rxjs";
 import PdfViewerComponent from "../pdf-viewer/PdfViewerComponent";
 import ModalComponent from "../modal/ModalComponent";
+import StatusCardComponent from "../status-card/StatusCardComponent";
+import VideoPlayerComponent from "../video-player/VideoPlayerComponent";
 
 interface LightBoxComponentProps {
 }
 
-const CURRENTLY_SUPPORTED_FILE_FORMATS: any = ['image', 'pdf'];
+const CURRENTLY_SUPPORTED_FILE_FORMATS: any = ['image', 'pdf', 'video'];
 
 const LightBoxComponent = (props: LightBoxComponentProps) => {
 
@@ -53,34 +55,42 @@ const LightBoxComponent = (props: LightBoxComponentProps) => {
     }, [closeLightBox]);
 
     return (
-        <div className={'light-box-component'}>
+        <>
             {(isOpen && activeAttachment) && <>
-                {
-                    CURRENTLY_SUPPORTED_FILE_FORMATS.includes(activeAttachmentType) && <>
-                        {
-                            activeAttachmentType === "image" && <Lightbox
-                                mainSrc={activeAttachment?.url}
-                                onCloseRequest={() => setIsOpen(false)}
-                            />
-                        }
-                        {
-                            activeAttachmentType === "pdf" &&
-                            <PdfViewerComponent file={activeAttachment.url} title={activeAttachment?.name}
-                                                onClose={closeLightBox}/>
-                        }
-                    </>
-                }
-                {
-                    !CURRENTLY_SUPPORTED_FILE_FORMATS.includes(activeAttachmentType) && <>   <ModalComponent isOpen={true}
-                                                                                                   onClose={closeLightBox}
-                                                                                                   showClose={true}>
-                        Coming soon
-                    </ModalComponent>
-                    </>
-                }
-            </>
-            }
-        </div>
+                <div className={'light-box-component'}>
+                    {
+                        CURRENTLY_SUPPORTED_FILE_FORMATS.includes(activeAttachmentType) && <>
+                            {
+                                activeAttachmentType === "image" && <Lightbox
+                                    mainSrc={activeAttachment?.url}
+                                    onCloseRequest={() => setIsOpen(false)}
+                                />
+                            }
+                            {
+                                activeAttachmentType === "pdf" &&
+                                <PdfViewerComponent file={activeAttachment.url} title={activeAttachment?.name}
+                                                    onClose={closeLightBox}/>
+                            }
+                            {
+                                activeAttachmentType === "video" &&
+                                <VideoPlayerComponent url={activeAttachment.url} onClose={closeLightBox}/>
+                            }
+                        </>
+                    }
+                    {
+                        !CURRENTLY_SUPPORTED_FILE_FORMATS.includes(activeAttachmentType) && <>  <ModalComponent
+                            size={"sm"}
+                            isOpen={true}
+                            onClose={closeLightBox}
+                            showClose={true}>
+                            <StatusCardComponent title={`File format not supported to preview right now, Coming soon`}>
+                            </StatusCardComponent>
+                        </ModalComponent>
+                        </>
+                    }
+                </div>
+            </>}
+        </>
     );
 
 };

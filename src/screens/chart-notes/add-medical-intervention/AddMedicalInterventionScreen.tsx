@@ -28,6 +28,7 @@ import ESignApprovalComponent from "../../../shared/components/e-sign-approval/E
 import moment from "moment-timezone";
 import MedicalInterventionDetailsCardComponent
     from "../medical-intervention-details-card/MedicalInterventionDetailsCardComponent";
+import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 
 interface AddMedicalInterventionScreenProps {
 
@@ -149,10 +150,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
         return ROMColumns;
     }, []);
 
-    const onSubmit = useCallback((values: any, {
-        setSubmitting,
-        setErrors
-    }: FormikHelpers<any>, announce = false, cb: any = null) => {
+    const onSubmit = useCallback((values: any, {setSubmitting, setErrors}: FormikHelpers<any>, announce = false, cb: any = null) => {
         if (medicalInterventionId) {
             setSubmitting(true);
             setIsSavingProgress(true);
@@ -209,18 +207,21 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
 
     return (
         <div className={'add-medical-intervention-screen'}>
-            {medicalInterventionDetails && <div className="last-updated-status">
-                <div className="last-updated-status-text">Last Updated On:&nbsp;</div>
-                <div
-                    className="last-updated-status-bold">
-                    {(medicalInterventionDetails.updated_at ? moment(medicalInterventionDetails.updated_at).tz(moment.tz.guess()).format('DD-MM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
-                    {medicalInterventionDetails?.last_updated_by_details?.first_name ? medicalInterventionDetails?.last_updated_by_details?.first_name + ' ' + medicalInterventionDetails?.last_updated_by_details?.last_name : ' NA'}
-                </div>
-                {isSavingInProgress && <div className="last-updated-status-status">
-                    <ImageConfig.SYNC className={'spin-item'}
-                                      width={16}/>
-                    &nbsp;Saving...</div>}
-            </div>}
+
+            <PageHeaderComponent title={medicalInterventionDetails?.is_discharge ? "Add Discharge Summary" : "Add Medical Intervention"}
+                actions={
+                    <div className="last-updated-status">
+                        <div className="last-updated-status-text">Last Updated On:&nbsp;</div>
+                        <div
+                            className="last-updated-status-bold">
+                            {(medicalInterventionDetails?.updated_at ? moment(medicalInterventionDetails.updated_at).tz(moment.tz.guess()).format('DD-MM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
+                            {medicalInterventionDetails?.last_updated_by_details?.first_name ? medicalInterventionDetails?.last_updated_by_details?.first_name + ' ' + medicalInterventionDetails?.last_updated_by_details?.last_name : ' NA'}
+                        </div>
+                        {isSavingInProgress && <div className="last-updated-status-status">
+                            <ImageConfig.SYNC className={'spin-item'}
+                                              width={16}/>
+                            &nbsp;Saving...</div>}
+                    </div>}/>
             <MedicalInterventionDetailsCardComponent medicalInterventionDetails={medicalInterventionDetails}
                                                      showAction={true}/>
             <Formik
