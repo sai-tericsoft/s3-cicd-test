@@ -1,41 +1,22 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useState} from "react";
 import "./BookAppointmentComponent.scss";
 import ButtonComponent from "../button/ButtonComponent";
-import {APIConfig, ImageConfig} from "../../../constants";
+import {ImageConfig} from "../../../constants";
 import {CommonService} from "../../services";
 import {IAPIResponseType} from "../../models/api.model";
 import LoaderComponent from "../loader/LoaderComponent";
 import {RadioButtonComponent} from "../form-controls/radio-button/RadioButtonComponent";
 import ErrorComponent from "../error/ErrorComponent";
 import InputComponent from "../form-controls/input/InputComponent";
-import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
-import * as Yup from "yup";
-import FormikAutoCompleteComponent from "../form-controls/formik-auto-complete/FormikAutoCompleteComponent";
-import {IUser} from "../../models/user.model";
-import FormikSelectComponent from "../form-controls/formik-select/FormikSelectComponent";
-import {useSelector} from "react-redux";
-import {IRootReducerState} from "../../../store/reducers";
+import BookAppointmentFormComponent from "./book-appointment-form/BookAppointmentFormComponent";
 
 interface BookAppointmentComponentProps {
     onClose?: () => void
 }
 
-const addAppointmentFormInitialValues: any = {
-    client: "",
-};
-
-const APPOINTMENT_TYPES = [{label: 'Initial Consult', key: 'initial'}, {label: 'Follow Up', key: 'follow'}];
-const DURATION_TYPES = [{label: '30 min', key: 30}, {label: '60 min', key: 60}];
-
-const addAppointmentValidationSchema = Yup.object().shape({
-    client: Yup.mixed().required("Client is required"),
-});
-
 const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
     const {onClose} = props;
-    const {allProvidersList} = useSelector((state: IRootReducerState) => state.user);
-    const {caseStatusList} = useSelector((state: IRootReducerState) => state.staticData);
-    const [step, setStep] = useState<'client' | 'form' | 'overview' | 'payment' | 'confirmation'>('confirmation');
+    const [step, setStep] = useState<'client' | 'form' | 'overview' | 'payment' | 'confirmation'>('client');
     const [selectedClient, setSelectedClient] = useState<any | null>(null);
     const [clientSearch, setClientSearch] = useState<string>('');
     const [clientList, setClientList] = useState<any[]>([]);
@@ -62,16 +43,9 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
         },
         [],
     );
-
-    // useEffect(() => {
-    //     return () => {
-    //         setSelectedClient(null)
-    //         getClientList(clientSearch);
-    //     };
-    // }, [clientSearch, getClientList]);
-
-    const onSubmitAppointment = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-
+    const onFormComplete = useCallback(
+        () => {
+            setStep('overview');
         },
         [],
     );
@@ -133,186 +107,11 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
                 </div>
             }
             {
-                step === 'form' && <div className={'appointment-form-wrapper'}>
-                    <Formik
-                        validationSchema={addAppointmentValidationSchema}
-                        initialValues={{...addAppointmentFormInitialValues, client: selectedClient}}
-                        onSubmit={onSubmitAppointment}
-                        validateOnChange={false}
-                        validateOnBlur={true}
-                        enableReinitialize={true}
-                        validateOnMount={true}>
-                        {
-                            ({values, isValid, errors, setFieldValue, validateForm}) => {
-                                // eslint-disable-next-line react-hooks/rules-of-hooks
-                                useEffect(() => {
-                                    validateForm();
-                                }, [validateForm, values]);
-                                return (
-                                    <Form className="t-form" noValidate={true}>
-                                        <div className={"t-appointment-drawer-form-controls"}>
-                                            <Field name={'client'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikAutoCompleteComponent
-                                                            label={'Search Client (Name or Phone Number)'}
-                                                            placeholder={'Search Client (Name or Phone Number)'}
-                                                            formikField={field}
-                                                            displayWith={item => item ? item?.first_name + ' ' + item?.last_name : ''}
-                                                            keyExtractor={item => item?._id}
-                                                            valueExtractor={item => item}
-                                                            searchMode={'serverSide'}
-                                                            required={true}
-                                                            url={APIConfig.CLIENT_LIST.URL}
-                                                            method={APIConfig.CLIENT_LIST.METHOD}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-
-                                            <Field name={'serviceCategory'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikSelectComponent
-                                                            formikField={field}
-                                                            required={true}
-                                                            options={allProvidersList}
-                                                            displayWith={(option: IUser) => (option?.first_name || option?.last_name) ? option?.first_name + " " + option?.last_name : "-"}
-                                                            valueExtractor={(option: IUser) => option}
-                                                            label={'Service Category'}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-
-                                            <Field name={'service'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikSelectComponent
-                                                            required={true}
-                                                            formikField={field}
-                                                            options={allProvidersList}
-                                                            displayWith={(option: IUser) => (option?.first_name || option?.last_name) ? option?.first_name + " " + option?.last_name : "-"}
-                                                            valueExtractor={(option: IUser) => option}
-                                                            label={'Service'}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-                                            <Field name={'appointment_type'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikSelectComponent
-                                                            formikField={field}
-                                                            options={APPOINTMENT_TYPES}
-                                                            required={true}
-                                                            displayWith={(option: any) => (option.label)}
-                                                            valueExtractor={(option: any) => option.key}
-                                                            label={'Appointment Type'}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-                                            <Field name={'duration'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikSelectComponent
-                                                            formikField={field}
-                                                            required={true}
-                                                            options={DURATION_TYPES}
-                                                            displayWith={(option: any) => (option.label)}
-                                                            valueExtractor={(option: any) => option.key}
-                                                            label={'Duration'}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-
-                                            <Field name={'case'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikSelectComponent
-                                                            formikField={field}
-                                                            required={true}
-                                                            options={allProvidersList}
-                                                            displayWith={(option: IUser) => (option?.first_name || option?.last_name) ? option?.first_name + " " + option?.last_name : "-"}
-                                                            valueExtractor={(option: IUser) => option}
-                                                            label={'Case'}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-
-                                            <Field name={'provider'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikSelectComponent
-                                                            formikField={field}
-                                                            required={true}
-                                                            options={allProvidersList}
-                                                            displayWith={(option: IUser) => (option?.first_name || option?.last_name) ? option?.first_name + " " + option?.last_name : "-"}
-                                                            valueExtractor={(option: IUser) => option}
-                                                            label={'Provider'}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-
-                                            <div className="ts-row">
-
-                                                <div className="ts-col">
-                                                    <Field name={'date'}>
-                                                        {
-                                                            (field: FieldProps) => (
-                                                                <FormikSelectComponent
-                                                                    formikField={field}
-                                                                    required={true}
-                                                                    options={allProvidersList}
-                                                                    displayWith={(option: IUser) => (option?.first_name || option?.last_name) ? option?.first_name + " " + option?.last_name : "-"}
-                                                                    valueExtractor={(option: IUser) => option}
-                                                                    label={'Date'}
-                                                                    fullWidth={true}
-                                                                />
-                                                            )
-                                                        }
-                                                    </Field>
-                                                </div>
-                                                <div className="ts-col">
-                                                    <Field name={'time'}>
-                                                        {
-                                                            (field: FieldProps) => (
-                                                                <FormikSelectComponent
-                                                                    formikField={field}
-                                                                    required={true}
-                                                                    options={allProvidersList}
-                                                                    displayWith={(option: any) => (option?.first_name || option?.last_name) ? option?.first_name + " " + option?.last_name : "-"}
-                                                                    valueExtractor={(option: any) => option}
-                                                                    label={'Time'}
-                                                                    fullWidth={true}
-                                                                />
-                                                            )
-                                                        }
-                                                    </Field>
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-                                    </Form>)
-                            }
-                        }
-                    </Formik>
-                </div>
+                step === 'form' &&
+                <BookAppointmentFormComponent client={selectedClient} onComplete={onFormComplete} onClose={onClose}/>
             }
             {
-                step === 'overview' && <div>
+                step === 'overview' && <div className={'book-appointment-overview'}>
 
                 </div>
             }
