@@ -23,8 +23,8 @@ const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
     const {medicalRecordId, medicalInterventionId} = useParams();
     const [interventionList, setInterventionList] = useState([]);
     const [isInterventionListLoading, setIsInterventionListLoading] = useState(false);
-    const [isInterventionListLoadingFailed, setIsInterventionListLoadingFailed] = useState(false);
-    const [isInterventionListLoaded, setIsInterventionListLoaded] = useState(false);
+    // const [isInterventionListLoadingFailed, setIsInterventionListLoadingFailed] = useState(false);
+    // const [isInterventionListLoaded, setIsInterventionListLoaded] = useState(false);
     const [selectedSoapNote, setSelectedSoapNote] = useState<any>(undefined);
     const [isSoapNoteImportBeingImported, setIsSoapNoteImportBeingImported] = useState(false);
 
@@ -69,40 +69,43 @@ const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
             fixed: 'right',
             render: (_: any, item: any) => {
                 return <LinkComponent
-                    route={CommonService._routeConfig.MedicalInterventionDetails(item?.medical_record_id, item?._id)}>
+                    route={CommonService._routeConfig.MedicalInterventionDetails(item?.medical_record_id, item?._id)}
+                    behaviour={"redirect"}
+                >
                     View Details
                 </LinkComponent>
             }
         }
     ];
 
-    useEffect(() => {
-        if (medicalRecordId) {
-            getMedicalInterventionList();
-        }
-    }, [medicalRecordId]);
 
     const getMedicalInterventionList = useCallback(() => {
         if (medicalRecordId) {
             setIsInterventionListLoading(true);
-            setIsInterventionListLoadingFailed(false);
-            setIsInterventionListLoaded(false);
+            // setIsInterventionListLoadingFailed(false);
+            // setIsInterventionListLoaded(false);
             CommonService._chartNotes.MedicalRecordInterventionListAPICall(medicalRecordId, {
                 current_intervention_id: medicalInterventionId,
                 status: "completed"
             })
                 .then((response: any) => {
                     setIsInterventionListLoading(false);
-                    setIsInterventionListLoadingFailed(false);
-                    setIsInterventionListLoaded(true);
+                    // setIsInterventionListLoadingFailed(false);
+                    // setIsInterventionListLoaded(true);
                     setInterventionList(response.data);
                 }).catch((error: any) => {
                 setIsInterventionListLoading(false);
-                setIsInterventionListLoadingFailed(true);
-                setIsInterventionListLoaded(false);
+                // setIsInterventionListLoadingFailed(true);
+                // setIsInterventionListLoaded(false);
             })
         }
-    }, [medicalRecordId]);
+    }, [medicalInterventionId, medicalRecordId]);
+
+    useEffect(() => {
+        if (medicalRecordId) {
+            getMedicalInterventionList();
+        }
+    }, [medicalRecordId, getMedicalInterventionList]);
 
     const handleImportSoapNote = useCallback((selectedIntervention: any) => {
         CommonService.onConfirm({
