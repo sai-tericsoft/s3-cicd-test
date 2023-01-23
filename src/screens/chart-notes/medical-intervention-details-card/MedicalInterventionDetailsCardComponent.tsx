@@ -20,6 +20,7 @@ import AddDryNeedlingFileComponent from "../add-dry-needling-file/AddDryNeedling
 import MedicalInterventionLinkedToComponent
     from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
 import TransferSoapNoteComponent from "../transfer-soap-note/TransferSoapNoteComponent";
+import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
 
 interface MedicalInterventionDetailsCardComponentProps {
     showAction?: boolean,
@@ -56,11 +57,11 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
 
     const openTransferSoapNoteDrawer = useCallback(() => {
         setIsTransferSoapNoteDrawerOpen(true);
-    },[]);
+    }, []);
 
     const closeTransferSoapNoteDrawer = useCallback(() => {
         setIsTransferSoapNoteDrawerOpen(false);
-    },[]);
+    }, []);
 
     const handleMedicalRecordEdit = useCallback(() => {
         closeEditMedicalRecordDrawer();
@@ -77,6 +78,13 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     const handleDryNeedlingFileAdd = useCallback(() => {
         closeAddDryNeedlingFileDrawer();
     }, [closeAddDryNeedlingFileDrawer]);
+
+    const handleTransferSoapNote = useCallback(() => {
+        if (medicalInterventionDetails?._id) {
+            dispatch(getMedicalInterventionDetails(medicalInterventionDetails?._id));
+        }
+        closeTransferSoapNoteDrawer();
+    }, [medicalInterventionDetails]);
 
     return (
         <div className={'client-medical-details-card-component'}>
@@ -194,8 +202,13 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
             </DrawerComponent>
             <DrawerComponent isOpen={isTransferSoapNoteDrawerOpen}
                              showClose={true}
-                                onClose={closeTransferSoapNoteDrawer}>
-                <TransferSoapNoteComponent closeTransferSoapNoteDrawer={closeTransferSoapNoteDrawer} />
+                             onClose={closeTransferSoapNoteDrawer}>
+                {
+                    medicalRecordId && <TransferSoapNoteComponent
+                        medicalRecordId={medicalRecordId}
+                        medicalInterventionId={medicalInterventionDetails?._id}
+                        onTransferSoapNote={handleTransferSoapNote}/>
+                }
             </DrawerComponent>
         </div>
     );

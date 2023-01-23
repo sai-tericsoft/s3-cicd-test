@@ -110,7 +110,7 @@ const GetClientList=(payload:any)=>{
 }
 const GetClientMedicalRecordList=(clientId:string,payload:any)=>{
     // @ts-ignore
-    return ApiService[APIConfig.GET_MEDICAL_LIST_LITE.METHOD](APIConfig.GET_MEDICAL_LIST_LITE.URL(clientId), payload);
+    return ApiService[APIConfig.GET_MEDICAL_RECORD_LIST_LITE.METHOD](APIConfig.GET_MEDICAL_RECORD_LIST_LITE.URL(clientId), payload);
 }
 
 const ClientService={

@@ -434,7 +434,7 @@ const APIConfig: IAPIConfig = {
         URL:ENV.API_URL+'/client/lite',
         METHOD:'get'
     },
-    GET_MEDICAL_LIST_LITE:{
+    GET_MEDICAL_RECORD_LIST_LITE:{
         URL:(clientId:string)=>ENV.API_URL+'/client/'+ clientId +'/medicalRecordLite',
         METHOD:'get'
     },
