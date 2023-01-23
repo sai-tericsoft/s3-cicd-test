@@ -36,7 +36,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     const [isSurgeryAddOpen, setIsSurgeryAddOpen] = React.useState<boolean>(false);
     const [isEditMedicalRecordDrawerOpen, setIsEditMedicalRecordDrawerOpen] = useState<boolean>(false);
     const [isAddDryNeedlingFileDrawerOpen, setIsAddDryNeedlingFileDrawerOpen] = useState<boolean>(false)
-    const [isTransferSoapNoteDrawerOpen, setIsTransferSoapNoteDrawerOpen] = useState<boolean>(true);
+    const [isTransferSoapNoteDrawerOpen, setIsTransferSoapNoteDrawerOpen] = useState<boolean>(false);
 
     const openEditMedicalRecordDrawer = useCallback(() => {
         setIsEditMedicalRecordDrawerOpen(true);
@@ -195,7 +195,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
             <DrawerComponent isOpen={isTransferSoapNoteDrawerOpen}
                              showClose={true}
                                 onClose={closeTransferSoapNoteDrawer}>
-                <TransferSoapNoteComponent/>
+                <TransferSoapNoteComponent closeTransferSoapNoteDrawer={closeTransferSoapNoteDrawer} />
             </DrawerComponent>
         </div>
     );

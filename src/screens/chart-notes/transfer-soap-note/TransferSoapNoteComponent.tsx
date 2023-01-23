@@ -12,20 +12,17 @@ import StatusCardComponent from "../../../shared/components/status-card/StatusCa
 import CardComponent from "../../../shared/components/card/CardComponent";
 import AvatarComponent from "../../../shared/components/avatar/AvatarComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
-import MedicalInterventionDetailsCardComponent
-    from "../medical-intervention-details-card/MedicalInterventionDetailsCardComponent";
-import MedicalInterventionLinkedToComponent
-    from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
 import {ImageConfig, Misc} from "../../../constants";
 import {useParams} from "react-router-dom";
 
 interface TransferSoapNoteComponentProps {
-
+    closeTransferSoapNoteDrawer: () => void;
 }
 
 
 const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
 
+    const {closeTransferSoapNoteDrawer} = props;
     const [clientListSearch, setClientListSearch] = useState<string>("");
     const [clientList, setClientList] = useState<any>([]);
     const [isClientListLoading, setIsClientListLoading] = useState<any>(false);
@@ -45,6 +42,22 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
     const {medicalRecordId, medicalInterventionId} = useParams();
     console.log("medicalRecordId", medicalRecordId);
     console.log("interventionId", medicalInterventionId);
+
+    const clientListColumns: ITableColumn[] = [
+        {
+            key: "name",
+            dataIndex: "name",
+            render: (_: string, item: any) => {
+                return  <RadioButtonComponent name={clientSelectedName} value={item}
+                                              label={CommonService.extractName(item)}
+                                              checked={clientSelectedName === item}
+                                              onChange={(value: any) => {
+                                                  setClientSelectedName(value);
+                                                  setClientNameSelectedValue(true);
+                                              }}/>
+            }
+        }
+    ]
 
     const medicalRecordColumns: ITableColumn[] = [
         {
@@ -66,7 +79,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
         {
             title: 'Case',
             key: 'case',
-            width:294,
+            width: 294,
             dataIndex: 'intervention_linked_to',
             render: (_: any, item: any) => {
                 return <span className={'medical-record-details'}>{item?.intervention_linked_to}
@@ -78,11 +91,11 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
             }
         },
         {
-            title:'Date',
-            key:'date',
-            width:100,
-            dataIndex:'created_at',
-            render:(_:any,item:any)=>{
+            title: 'Date',
+            key: 'date',
+            width: 100,
+            dataIndex: 'created_at',
+            render: (_: any, item: any) => {
                 return <span>{CommonService.getSystemFormatTimeStamp(item?.created_at)}</span>
 
             }
@@ -147,12 +160,10 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
             confirmationTitle: "TRANSFER SOAP TO",
             confirmationSubTitle: `Are you sure you want to transfer this SOAP to: ${item2.first_name} ${item2.last_name}`,
         }).then(() => {
-            CommonService._chartNotes.TransferSoapNoteAPICall(medicalInterventionId, {
-                item1,
-                medical_record_id: item1._id
-            })
+            CommonService._chartNotes.TransferSoapNoteAPICall(medicalInterventionId, {medical_record_id: item1._id})
                 .then((response: any) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    closeTransferSoapNoteDrawer();
                 }).catch((error: any) => {
                 CommonService._alert.showToast(error.error, "error");
             })
@@ -173,28 +184,11 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                                      }}
                     />
                     {
-                        isClientListLoading && <div><LoaderComponent/></div>
-                    }
-                    {
-                        isClientListLoadingFailed && <StatusCardComponent title={'Failed to load client list'}/>
-                    }
-                    {
                         clientListSearch &&
                         <>
                             <div className={'client-list-heading'}>Client List</div>
-                            <div className="list-content-wrapper">
-                                {clientList?.map((item: any) => {
-                                    return <div className={'client-list-name-wrapper'}>
-                                 <span><RadioButtonComponent name={clientSelectedName} value={item}
-                                                             checked={clientSelectedName === item}
-                                                             onChange={(value: any) => {
-                                                                 setClientSelectedName(value);
-                                                                 setClientNameSelectedValue(true);
-                                                             }}/></span>
-                                        <span>{item?.first_name} {item?.last_name}</span>
-                                    </div>
-                                })}
-                            </div>
+                            <TableComponent data={clientList} columns={clientListColumns} loading={isClientListLoading}
+                                            showHeader={false}/>
                         </>}
 
                     {
