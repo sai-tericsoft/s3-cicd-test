@@ -1,13 +1,14 @@
 import "./InventoryListComponent.scss";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
-import {APIConfig, ImageConfig} from "../../../constants";
+import {APIConfig, ImageConfig, Misc} from "../../../constants";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import SearchComponent from "../../../shared/components/search/SearchComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {useDispatch} from "react-redux";
+import {CommonService} from "../../../shared/services";
 
 interface InventoryListComponentProps {
 
@@ -40,7 +41,7 @@ const inventoryListColumns = [
         width: 156,
         render: (_: any, item: any) => {
             return <div>
-                <> {item?.price > 0 && item?.price}</>
+                <> <span> {Misc.CURRENCY_SYMBOL}</span>{item?.price > 0 && item?.price}</>
                 <>{item?.price === 0 && <ChipComponent className={'out_of_stock'} label={'out of stock'}/>}</>
             </div>
         }
@@ -51,7 +52,7 @@ const inventoryListColumns = [
         key: 'action',
         width:98,
         render: (_: any, item: any) => {
-            return <LinkComponent route={''}>View Details</LinkComponent>
+            return <LinkComponent route={CommonService._routeConfig.InventoryProductViewDetails(item?._id)}>View Details</LinkComponent>
         }
     }
 ]
@@ -84,7 +85,6 @@ const InventoryListComponent = (props: InventoryListComponentProps) => {
                                  onSearchChange={(value) => {
                                      setInventoryListFilterState({...inventoryListFilterState, search: value})
                                  }}
-
                 />
             </div>
                 <div>

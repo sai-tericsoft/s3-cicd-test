@@ -43,7 +43,7 @@ import {
     DRY_NEEDLING_FILE_VIEW_DETAILS,
     FACILITY_DETAILS,
     FACILITY_LIST,
-    INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST, INVENTORY_LIST, INVENTORY_LIST_DETAILS,
+    INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST, INVENTORY_LIST, INVENTORY_LIST_DETAILS, INVENTORY_PRODUCT_VIEW_DETAILS,
     LOGIN_ROUTE,
     MEDICAL_INTERVENTION_DETAILS,
     MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE,
@@ -100,6 +100,8 @@ import ViewExerciseRecordScreen from "../screens/chart-notes/view-exercise-recor
 import InventoryDetailsMainLayoutComponent
     from "../screens/inventory/inventory-details-main-layout/InventoryDetailsMainLayoutComponent";
 import InventoryListComponent from "../screens/inventory/inventory-list/InventoryListComponent";
+import InventoryProductViewDetailsComponent
+    from "../screens/inventory/inventory-product-view-details/InventoryProductViewDetailsComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -392,6 +394,13 @@ const Navigator = (props: NavigatorProps) => {
                            </ProtectedRoute>
                            }
                     />
+                    <Route path={INVENTORY_PRODUCT_VIEW_DETAILS}
+                           element={<ProtectedRoute>
+                               <InventoryProductViewDetailsComponent/>
+                           </ProtectedRoute>
+                           }
+                    />
+
                 </Route>
 
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
