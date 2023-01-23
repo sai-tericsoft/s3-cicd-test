@@ -57,7 +57,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                                               }}/>
             }
         }
-    ]
+    ];
 
     const medicalRecordColumns: ITableColumn[] = [
         {
@@ -173,7 +173,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
     return (
         <div className={'transfer-soap-note-component'}>
             <div>
-                {currentStep === "selectType" && <>
+                {currentStep === "selectType" && <div className={'client-search-table-wrapper'}>
                     <PageHeaderComponent title={'Transfer SOAP to'}/>
                     <SearchComponent label={'Search for Clients'}
                                      value={clientListSearch}
@@ -198,7 +198,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                             Next
                         </ButtonComponent>
                     }
-                </>
+                </div>
                 }
                 {
                     medicalInterventionId && currentStep === "medicalRecordList" && <>
@@ -212,7 +212,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                         }
                         <PageHeaderComponent title={'Transfer SOAP to'}/>
                         <div>
-                            <CardComponent color={'primary'}>
+                            <CardComponent color={'primary'} size={"sm"}>
                                 <div className={'card-content-wrapper'}>
                                     <div className={'client-image-wrapper'}>
                                         <AvatarComponent
@@ -224,8 +224,10 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                                     </div>
                                 </div>
                             </CardComponent>
-                            <div className={'card-table'}>
-                                <TableComponent data={medicalRecordList} columns={medicalRecordColumns}/>
+                            <div className={'card-table-button-wrapper'}>
+                                <div className={'card-table'}>
+                                    <TableComponent data={medicalRecordList} columns={medicalRecordColumns}/>
+                                </div>
 
                                 {
                                     <ButtonComponent fullWidth={true} className={'transfer-button'}

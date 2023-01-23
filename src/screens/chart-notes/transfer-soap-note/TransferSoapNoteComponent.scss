@@ -11,6 +11,11 @@
       padding: 14px;
     }
   }
+  .client-search-table-wrapper{
+    .ant-table-container {
+      height: calc(100vh - 290px);
+    }
+  }
   .card-content-wrapper {
     display: flex;
     align-items: center;
@@ -27,7 +32,12 @@
         margin-left: 12px;
     }
   }
-  .card-table {
+  .card-table-button-wrapper {
+    .card-table {
+      .ant-table-container {
+        height: calc(100vh - 330px);
+      }
+    }
     .card-component{
       margin-bottom: 0px;
     }
@@ -35,6 +45,7 @@
       display: flex;
       justify-content: space-between;
     }
+
 
     .card-case-heading {
       font-size: 1.1429rem;
