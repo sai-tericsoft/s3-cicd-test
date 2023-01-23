@@ -92,7 +92,7 @@ const FetchMedicalInterventionExerciseLogAPICall = (medicalInterventionId: strin
     return ApiService[APIConfig.GET_MEDICAL_INTERVENTION_EXERCISE_LOG_DETAILS.METHOD](APIConfig.GET_MEDICAL_INTERVENTION_EXERCISE_LOG_DETAILS.URL(medicalInterventionId), payload);
 }
 
-const FetchClientMedicalInterventionEAPICall = (medicalInterventionId: string, payload: any) => {
+const FetchClientMedicalInterventionAPICall = (medicalInterventionId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.GET_CLIENT_MEDICAL_INTERVENTION_DETAILS.METHOD](APIConfig.GET_CLIENT_MEDICAL_INTERVENTION_DETAILS.URL(medicalInterventionId), payload);
 }
@@ -151,6 +151,11 @@ const DryNeedlingFileAddAPICall = (medicalInterventionId: string, payload: any) 
     return ApiService[APIConfig.ADD_DRY_NEEDLING_FILE.METHOD](APIConfig.ADD_DRY_NEEDLING_FILE.URL(medicalInterventionId), payload, {'Content-Type': 'multipart/form-data'});
 }
 
+const MedicalRecordSoapNoteListAPICall = (medicalRecordId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.GET_MEDICAL_RECORD_SOAP_NOTE_LIST.METHOD](APIConfig.GET_MEDICAL_RECORD_SOAP_NOTE_LIST.URL(medicalRecordId), payload);
+}
+
 const DryNeedlingFileEditAPICall = (dryNeedlingFileId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.EDIT_DRY_NEEDLING_FILE.METHOD](APIConfig.EDIT_DRY_NEEDLING_FILE.URL(dryNeedlingFileId), payload);
@@ -168,7 +173,88 @@ const DryNeedlingFileDeleteAttachmentAPICall = (dryNeedlingFileId: string, paylo
 
 const DryNeedlingFileAddAttachmentAPICall = (dryNeedlingFileId: string, payload: any) => {
     // @ts-ignore
-    return ApiService[APIConfig.DRY_NEEDLING_FILE_ATTACHMENT_ADD.METHOD](APIConfig.DRY_NEEDLING_FILE_ATTACHMENT_ADD.URL(dryNeedlingFileId), payload,{'Content-Type': 'multipart/form-data'});
+    return ApiService[APIConfig.DRY_NEEDLING_FILE_ATTACHMENT_ADD.METHOD](APIConfig.DRY_NEEDLING_FILE_ATTACHMENT_ADD.URL(dryNeedlingFileId), payload, {'Content-Type': 'multipart/form-data'});
+}
+
+const ConcussionFileAddAPICall = (medicalInterventionId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.ADD_CONCUSSION_FILE.METHOD](APIConfig.ADD_CONCUSSION_FILE.URL(medicalInterventionId), payload, {'Content-Type': 'multipart/form-data'});
+}
+
+const ConcussionFileEditAPICall = (concussionFileId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.EDIT_CONCUSSION_FILE.METHOD](APIConfig.EDIT_CONCUSSION_FILE.URL(concussionFileId), payload);
+}
+
+const ConcussionFileDetailsAPICall = (concussionFileId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.CONCUSSION_FILE_DETAILS.METHOD](APIConfig.CONCUSSION_FILE_DETAILS.URL(concussionFileId), payload);
+}
+
+const ConcussionFileDeleteAttachmentAPICall = (concussionFileId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.CONCUSSION_FILE_ATTACHMENT_DELETE.METHOD](APIConfig.CONCUSSION_FILE_ATTACHMENT_DELETE.URL(concussionFileId), payload);
+}
+
+const ConcussionFileAddAttachmentAPICall = (concussionFileId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.CONCUSSION_FILE_ATTACHMENT_ADD.METHOD](APIConfig.CONCUSSION_FILE_ATTACHMENT_ADD.URL(concussionFileId), payload, {'Content-Type': 'multipart/form-data'});
+}
+
+const MedicalRecordDocumentAddAPICall = (medicalRecordId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.ADD_MEDICAL_RECORD_DOCUMENT.METHOD](APIConfig.ADD_MEDICAL_RECORD_DOCUMENT.URL(medicalRecordId), payload, {'Content-Type': 'multipart/form-data'});
+}
+
+const MedicalRecordDocumentEditAPICall = (medicalRecordDocumentId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.EDIT_MEDICAL_RECORD_DOCUMENT.METHOD](APIConfig.EDIT_MEDICAL_RECORD_DOCUMENT.URL(medicalRecordDocumentId), payload);
+}
+
+const MedicalRecordDocumentDetailsAPICall = (medicalRecordDocumentId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.MEDICAL_RECORD_DOCUMENT_DETAILS.METHOD](APIConfig.MEDICAL_RECORD_DOCUMENT_DETAILS.URL(medicalRecordDocumentId), payload);
+}
+
+const MedicalRecordDocumentDeleteAttachmentAPICall = (medicalRecordDocumentId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.MEDICAL_RECORD_DOCUMENT_ATTACHMENT_DELETE.METHOD](APIConfig.MEDICAL_RECORD_DOCUMENT_ATTACHMENT_DELETE.URL(medicalRecordDocumentId), payload);
+}
+
+const MedicalRecordDocumentAddAttachmentAPICall = (medicalRecordDocumentId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.MEDICAL_RECORD_DOCUMENT_ATTACHMENT_ADD.METHOD](APIConfig.MEDICAL_RECORD_DOCUMENT_ATTACHMENT_ADD.URL(medicalRecordDocumentId), payload, {'Content-Type': 'multipart/form-data'});
+}
+
+const MedicalRecordViewExerciseRecordPICall = (medicalRecordId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.MEDICAL_RECORD_VIEW_EXERCISE_LOG.METHOD](APIConfig.MEDICAL_RECORD_VIEW_EXERCISE_LOG.URL(medicalRecordId), payload,{'Content-Type': 'multipart/form-data'});
+}
+
+const MedicalRecordInterventionListAPICall = (medicalRecordId: string, payload: any) => {
+    console.log('medicalRecordId', medicalRecordId);
+    console.log('payload', payload);
+    // @ts-ignore
+    return ApiService[APIConfig.GET_MEDICAL_RECORD_INTERVENTION_LIST.METHOD](APIConfig.GET_MEDICAL_RECORD_INTERVENTION_LIST.URL(medicalRecordId), payload);
+}
+const ImportSoapNoteAPICall =(selectedInterventionId:string,medicalInterventionId:string,payload:any)=>{
+    // @ts-ignore
+    return ApiService[APIConfig.IMPORT_SOAP_NOTE_API_CALL.METHOD](APIConfig.IMPORT_SOAP_NOTE_API_CALL.URL(selectedInterventionId,medicalInterventionId), payload);
+}
+
+const MedicalRecordConsolidatedInterventionAndAttachmentsListAPICall = (medicalRecordId: string) => {
+    // @ts-ignore
+    return ApiService[APIConfig.MEDICAL_RECORD_CONSOLIDATED_INTERVENTIONS_AND_ATTACHMENTS.METHOD](APIConfig.MEDICAL_RECORD_CONSOLIDATED_INTERVENTIONS_AND_ATTACHMENTS.URL(medicalRecordId));
+}
+
+const MedicalRecordListLiteAPICall = (clientId: string) => {
+    // @ts-ignore
+    return ApiService[APIConfig.MEDICAL_RECORD_LIST_LITE.METHOD](APIConfig.MEDICAL_RECORD_LIST_LITE.URL(clientId));
+}
+
+const TransferMedicalRecordAPICall = (clientId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.TRANSFER_MEDICAL_RECORD.METHOD](APIConfig.TRANSFER_MEDICAL_RECORD.URL(clientId), payload);
 }
 
 const TransferSoapNoteAPICall = (clientId: string, payload: any) => {
@@ -193,7 +279,7 @@ const ChartNotesService = {
     SaveMedicalInterventionExerciseLogAPICall,
     AddExerciseLogAttachment,
     FetchMedicalInterventionExerciseLogAPICall,
-    FetchClientMedicalInterventionEAPICall,
+    FetchClientMedicalInterventionAPICall,
     AddMedicalInterventionICDCodesAPICall,
     AddSurgeryRecordAPICall,
     FetchSurgeryRecordAPICall,
@@ -211,11 +297,28 @@ const ChartNotesService = {
     MedicalInterventionListAPICall,
     MedicalRecordStatsAPICall,
     DryNeedlingFileAddAPICall,
+    MedicalRecordSoapNoteListAPICall,
     DryNeedlingFileEditAPICall,
     DryNeedlingFileDetailsAPICall,
     DryNeedlingFileDeleteAttachmentAPICall,
     DryNeedlingFileAddAttachmentAPICall,
-    TransferSoapNoteAPICall
+    TransferSoapNoteAPICall,
+    ConcussionFileAddAPICall,
+    ConcussionFileEditAPICall,
+    ConcussionFileDetailsAPICall,
+    ConcussionFileDeleteAttachmentAPICall,
+    ConcussionFileAddAttachmentAPICall,
+    MedicalRecordDocumentAddAPICall,
+    MedicalRecordDocumentEditAPICall,
+    MedicalRecordDocumentDetailsAPICall,
+    MedicalRecordDocumentDeleteAttachmentAPICall,
+    MedicalRecordDocumentAddAttachmentAPICall,
+    MedicalRecordViewExerciseRecordPICall,
+    MedicalRecordInterventionListAPICall,
+    ImportSoapNoteAPICall,
+    MedicalRecordConsolidatedInterventionAndAttachmentsListAPICall,
+    MedicalRecordListLiteAPICall,
+    TransferMedicalRecordAPICall
 }
 
 export default ChartNotesService;

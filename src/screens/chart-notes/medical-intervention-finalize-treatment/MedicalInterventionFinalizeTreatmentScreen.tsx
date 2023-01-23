@@ -20,7 +20,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import ClientMedicalDetailsCardComponent from "../client-medical-details-card/ClientMedicalDetailsCardComponent";
+import MedicalRecordBasicDetailsCardComponent from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 
 interface MedicalInterventionFinalizeTreatmentScreenProps {
 
@@ -219,7 +219,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
 
     return (
         <div className={'medical-intervention-finalize-treatment-screen'}>
-            <ClientMedicalDetailsCardComponent/>
+            <MedicalRecordBasicDetailsCardComponent/>
             {
                 isMedicalInterventionDetailsLoading && <>
                     <LoaderComponent/>

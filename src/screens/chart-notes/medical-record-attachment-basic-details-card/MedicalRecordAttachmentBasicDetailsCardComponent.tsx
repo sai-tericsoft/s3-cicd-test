@@ -12,7 +12,7 @@ import {useCallback} from "react";
 import moment from "moment-timezone";
 
 interface MedicalRecordAttachmentBasicDetailsCardComponentProps {
-    attachmentType: "dryNeedlingFile";
+    attachmentType: "dryNeedlingFile" | "concussionFile" | "medicalRecordDocument";
     pageTitle: string;
     attachmentDetails: any;
     medicalRecordDetails: any;
@@ -62,29 +62,34 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                         </div>
                     </div>
                     <MedicalInterventionLinkedToComponent medicalRecordDetails={medicalRecordDetails}/>
-                    {
-                        attachmentType === "dryNeedlingFile" && <>
-                            <div className={"ts-row"}>
-                                <div className="ts-col-md-6 ts-col-lg-4">
-                                    <DataLabelValueComponent label={"Date of Document"}>
-                                        {attachmentDetails.document_date ? CommonService.getSystemFormatTimeStamp(attachmentDetails.document_date) : "-"}
+                    <div className={"ts-row"}>
+                        <div className="ts-col-md-6 ts-col-lg-3">
+                            <DataLabelValueComponent label={"Date of Document"}>
+                                {attachmentDetails.document_date ? CommonService.getSystemFormatTimeStamp(attachmentDetails.document_date) : "-"}
+                            </DataLabelValueComponent>
+                        </div>
+                        <>
+                            {
+                                attachmentType === "medicalRecordDocument" && <div className="ts-col-md-6 ts-col-lg-3">
+                                    <DataLabelValueComponent label={"Document Type"}>
+                                        {attachmentDetails?.document_type_details?.type}
                                     </DataLabelValueComponent>
                                 </div>
-                                <div className="ts-col-md-6 ts-col-lg-4">
-                                    <DataLabelValueComponent label={"Attached By"}>
-                                        {CommonService.extractName(attachmentDetails?.attached_by_details)}
-                                    </DataLabelValueComponent>
-                                </div>
-                            </div>
-                            <div className={"ts-row"}>
-                                <div className="ts-col-12">
-                                    <DataLabelValueComponent label={"Comments"}>
-                                        {attachmentDetails.comments ? attachmentDetails.comments : "-"}
-                                    </DataLabelValueComponent>
-                                </div>
-                            </div>
+                            }
                         </>
-                    }
+                        <div className="ts-col-md-6 ts-col-lg-3">
+                            <DataLabelValueComponent label={"Attached By"}>
+                                {CommonService.extractName(attachmentDetails?.attached_by_details)}
+                            </DataLabelValueComponent>
+                        </div>
+                    </div>
+                    <div className={"ts-row"}>
+                        <div className="ts-col-12">
+                            <DataLabelValueComponent label={"Comments"}>
+                                {attachmentDetails.comments ? attachmentDetails.comments : "-"}
+                            </DataLabelValueComponent>
+                        </div>
+                    </div>
                 </CardComponent>
             </div>
         </div>

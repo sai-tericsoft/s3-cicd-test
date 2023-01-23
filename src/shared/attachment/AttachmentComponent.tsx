@@ -6,6 +6,8 @@ import FilePreviewThumbnailComponent from "../components/file-preview-thumbnail/
 import {useCallback} from "react";
 import {CommonService} from "../services";
 
+const SUPPORTED_PRINTABLE_FORMATS = ['image', 'pdf'];
+
 interface AttachmentComponentProps {
     attachment: IAttachment;
     onDelete?: (attachment: IAttachment) => void;
@@ -50,7 +52,7 @@ const AttachmentComponent = (props: AttachmentComponentProps) => {
                 </ButtonComponent>
                 <ButtonComponent prefixIcon={<ImageConfig.PrintIcon/>}
                                  onClick={handlePrint}
-                                 disabled={isDeleting}>
+                                 disabled={isDeleting || !SUPPORTED_PRINTABLE_FORMATS.includes(CommonService.getNormalizedFileType(attachment?.type))}>
                     Print
                 </ButtonComponent>
             </div>

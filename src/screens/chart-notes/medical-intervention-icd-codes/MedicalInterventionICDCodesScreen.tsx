@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
-import ClientMedicalDetailsCardComponent from "../client-medical-details-card/ClientMedicalDetailsCardComponent";
+import MedicalRecordBasicDetailsCardComponent from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 import TabsWrapperComponent, {
     TabComponent,
     TabContentComponent,
@@ -201,7 +201,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
 
     return (
         <div className={'medical-intervention-icd-codes-screen'}>
-            <ClientMedicalDetailsCardComponent/>
+            <MedicalRecordBasicDetailsCardComponent/>
             <div className="ts-row">
                 <div className="ts-col ts-col-6">
                     <SearchComponent label={'Search ICD-11 Code'}

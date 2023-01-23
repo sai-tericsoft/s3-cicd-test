@@ -80,6 +80,7 @@ export interface ISwitchProps {
 export interface IRadioButtonGroupProps {
     checked?: boolean;
     disabled?: boolean;
+    isValueBoolean?: boolean;
     id?: any;
     label?: string;
     name?: string;

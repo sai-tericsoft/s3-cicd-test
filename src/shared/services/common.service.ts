@@ -406,6 +406,9 @@ const getObjectKeyValue = (object: any, key: string) => {
 }
 
 const getSystemFormatTimeStamp = (date: Date | string, showTime: boolean = false) => {
+    if (!date) {
+        return "N/A"
+    }
     if (showTime) {
         return moment(date).format('DD-MMM-YYYY hh:mm A');
     } else {
@@ -462,6 +465,8 @@ const getNormalizedFileType = (fileType: any) => {
         type = "word";
     } else if (type.includes('spreadsheet')) {
         type = "xls";
+    } else if (type.includes('video')) {
+        type = "video";
     } else {
         type = "application";
     }
@@ -474,6 +479,10 @@ const printAttachment = (attachment: IAttachment) => {
         printable: attachment.url,
         type: type
     });
+}
+
+const openLinkInNewTab = (url: string) => {
+    window.open(url, '_blank');
 }
 
 const CommonService = {
@@ -514,6 +523,7 @@ const CommonService = {
     extractName,
     printAttachment,
     getNormalizedFileType,
+    openLinkInNewTab,
 
     // createValidationsObject,
     // createYupSchema,

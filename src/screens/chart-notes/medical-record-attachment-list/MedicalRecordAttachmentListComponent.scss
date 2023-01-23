@@ -6,16 +6,7 @@
     margin-top: 23px;
     margin-bottom: 23px;
   }
-  .t-cell-date_of_attachment{
-    text-align: center !important;
-  }
-  .t-cell-file{
-    text-align: center !important;
-  }
-  .t-cell-posted_by{
-    text-align: center !important;
-  }
-  .t-cell-last_updated{
+  .t-cell-date_of_attachment, .t-cell-posted_by{
     text-align: center !important;
   }
 }

@@ -73,6 +73,14 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + '/progressStats',
         METHOD: 'get'
     },
+    CONCUSSION_FILE_TYPES: {
+        URL: ENV.API_URL + '/concussionTypes',
+        METHOD: 'get'
+    },
+    MEDICAL_RECORD_DOCUMENT_TYPES: {
+        URL: ENV.API_URL + '/documentTypes',
+        METHOD: 'get'
+    },
     //meta end
 
     // authentication start
@@ -165,6 +173,10 @@ const APIConfig: IAPIConfig = {
     CLIENT_LIST: {
         URL: ENV.API_URL + "/client/list",
         METHOD: "post"
+    },
+    CLIENT_LIST_LITE: {
+        URL: ENV.API_URL + "/client/lite",
+        METHOD: "get"
     },
     CLIENT_BASIC_DETAILS_ADD: {
         URL: ENV.API_URL + "/client",
@@ -268,6 +280,10 @@ const APIConfig: IAPIConfig = {
         URL: (medicalId: string) => ENV.API_URL + '/medicalRecord/' + medicalId,
         METHOD: "put"
     },
+    MEDICAL_RECORD_LIST_LITE: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medicalRecordLite',
+        METHOD: "get"
+    },
     MEDICAL_INTERVENTION_BASIC_DETAILS_UPDATE: {
         URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId,
         METHOD: "put"
@@ -334,6 +350,26 @@ const APIConfig: IAPIConfig = {
     },
     DRY_NEEDLING_FILE_ATTACHMENT_ADD: {
         URL: (dryNeedlingFileId: string) => ENV.API_URL + "/dryNeedling/" + dryNeedlingFileId + "/attachment",
+        METHOD: "post"
+    },
+    ADD_CONCUSSION_FILE: {
+        URL: (medicalInterventionId: string) => ENV.API_URL + "/intervention/" + medicalInterventionId + "/concussion",
+        METHOD: "post"
+    },
+    EDIT_CONCUSSION_FILE: {
+        URL: (concussionFileId: string) => ENV.API_URL + "/concussion/" + concussionFileId,
+        METHOD: "put"
+    },
+    CONCUSSION_FILE_DETAILS: {
+        URL: (concussionFileId: string) => ENV.API_URL + "/concussion/" + concussionFileId,
+        METHOD: "get"
+    },
+    CONCUSSION_FILE_ATTACHMENT_DELETE: {
+        URL: (concussionFileId: string) => ENV.API_URL + "/concussion/" + concussionFileId + "/attachment",
+        METHOD: "delete"
+    },
+    CONCUSSION_FILE_ATTACHMENT_ADD: {
+        URL: (concussionFileId: string) => ENV.API_URL + "/concussion/" + concussionFileId + "/attachment",
         METHOD: "post"
     },
     CLIENT_MEDICAL_INTERVENTION_DETAILS: {
@@ -414,7 +450,7 @@ const APIConfig: IAPIConfig = {
         URL: (progressReportId: string) => ENV.API_URL + '/progressReport/' + progressReportId,
         METHOD: 'put'
     },
-   GET_PROGRESS_REPORT_UNDER_MEDICAL_RECORD: {
+    GET_PROGRESS_REPORT_UNDER_MEDICAL_RECORD: {
         URL: (progressReportId: string) => ENV.API_URL + '/progressReport/' + progressReportId,
         METHOD: 'get'
     },
@@ -426,11 +462,47 @@ const APIConfig: IAPIConfig = {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/intervention',
         METHOD: 'post'
     },
-    PROGRESS_REPORT_VIEW_DETAILS:{
-        URL:(interventionId:string)=>ENV.API_URL+'/progressReport/'+ interventionId,
+    PROGRESS_REPORT_VIEW_DETAILS: {
+        URL: (interventionId: string) => ENV.API_URL + '/progressReport/' + interventionId,
+        METHOD: 'get'
+    },
+    ADD_MEDICAL_RECORD_DOCUMENT: {
+        URL: (medicalRecordId: string) => ENV.API_URL + "/medicalRecord/" + medicalRecordId + "/document",
+        METHOD: "post"
+    },
+    EDIT_MEDICAL_RECORD_DOCUMENT: {
+        URL: (medicalRecordDocumentId: string) => ENV.API_URL + "/document/" + medicalRecordDocumentId,
+        METHOD: "put"
+    },
+    MEDICAL_RECORD_DOCUMENT_DETAILS: {
+        URL: (medicalRecordDocumentId: string) => ENV.API_URL + "/document/" + medicalRecordDocumentId,
+        METHOD: "get"
+    },
+    MEDICAL_RECORD_DOCUMENT_ATTACHMENT_DELETE: {
+        URL: (medicalRecordDocumentId: string) => ENV.API_URL + "/document/" + medicalRecordDocumentId + "/attachment",
+        METHOD: "delete"
+    },
+    MEDICAL_RECORD_DOCUMENT_ATTACHMENT_ADD: {
+        URL: (medicalRecordDocumentId: string) => ENV.API_URL + "/document/" + medicalRecordDocumentId + "/attachment",
+        METHOD: "post"
+    },
+    MEDICAL_RECORD_VIEW_EXERCISE_LOG: {
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/exerciseLog',
+        METHOD: 'get'
+    },
+    TRANSFER_MEDICAL_RECORD: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/transfer',
+        METHOD: 'post'
+    },
+    MEDICAL_RECORD_CONSOLIDATED_INTERVENTIONS_AND_ATTACHMENTS: {
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/record',
+        METHOD: 'get'
+    },
+    GET_MEDICAL_RECORD_SOAP_NOTE_LIST:{
+        URL:(medicalRecordId:string)=>ENV.API_URL+'/medicalRecord/' + medicalRecordId + '/intervention',
         METHOD:'get'
     },
-    GET_CLIENT_LIST_LITE:{
+  GET_CLIENT_LIST_LITE:{
         URL:ENV.API_URL+'/client/lite',
         METHOD:'get'
     },
@@ -441,6 +513,18 @@ const APIConfig: IAPIConfig = {
     TRANSFER_SOAP_NOTE:{
         URL:(medicalInterventionId:string)=>ENV.API_URL+'/intervention/'+ medicalInterventionId +'/transfer',
         METHOD:'post'
+    },
+    GET_MEDICAL_RECORD_INTERVENTION_LIST: {
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/intervention',
+        METHOD: 'get'
+    },
+    IMPORT_SOAP_NOTE_API_CALL:{
+       URL:(selectedInterventionId:string,medicalInterventionId:string,)=>ENV.API_URL+'/intervention/'+ selectedInterventionId+'/import/'+medicalInterventionId,
+         METHOD:'post'
+     },
+    GET_MEDICAL_RECORD_SOAP_NOTE_LIST: {
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/intervention',
+        METHOD: 'get'
     }
 }
 
