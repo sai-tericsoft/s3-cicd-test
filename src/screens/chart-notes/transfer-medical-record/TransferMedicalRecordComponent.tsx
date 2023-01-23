@@ -59,7 +59,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
 
         const handleSelectAllMedicalInterventions = useCallback((value: boolean) => {
             if (value) {
-                setSelectedMedicalInterventions(medicalInterventionList?.map((item: any) => item?._id));
+                setSelectedMedicalInterventions(medicalInterventionList);
             } else {
                 setSelectedMedicalInterventions([]);
             }
@@ -135,7 +135,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                             route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId, item?._id);
                         } else {
                         }
-                        return <LinkComponent route={route}>
+                        return <LinkComponent route={route} behaviour={"redirect"}>
                             {
                                 route ? "View Details" : "Coming soon"
                             }
@@ -265,14 +265,18 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                     currentStep === "selectClient" && <div className={"select-client-wrapper"}>
                         <SearchComponent label={"Search for Client"} value={clientSearchKey}
                                          onSearchChange={(value) => {
+                                             setSelectedClient(undefined);
                                              getClientList(value);
                                          }}/>
                         {
-                            clientSearchKey.length > 0 && <TableComponent data={clientList}
-                                                                          columns={ClientListColumns}
-                                                                          loading={isClientListLoading}
-                                                                          showHeader={false}
-                            />
+                            clientSearchKey.length > 0 && <>
+                                <FormControlLabelComponent label={"Client List"}/>
+                                <TableComponent data={clientList}
+                                                columns={ClientListColumns}
+                                                loading={isClientListLoading}
+                                                showHeader={false}
+                                />
+                            </>
                         }
                     </div>
                 }
