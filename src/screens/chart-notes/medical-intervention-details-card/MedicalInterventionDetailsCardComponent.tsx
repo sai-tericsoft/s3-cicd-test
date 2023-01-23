@@ -21,6 +21,8 @@ import AddDryNeedlingFileComponent from "../add-dry-needling-file/AddDryNeedling
 import ViewPriorNoteComponent from "../view-prior-note/ViewPriorNoteComponent";
 import MedicalInterventionLinkedToComponent
     from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
+import TransferSoapNoteComponent from "../transfer-soap-note/TransferSoapNoteComponent";
+import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
 import AddConcussionFileComponent from "../add-concussion-file/AddConcussionFileComponent";
 import {IRootReducerState} from "../../../store/reducers";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
@@ -43,6 +45,8 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
 
     const [isSurgeryAddOpen, setIsSurgeryAddOpen] = React.useState<boolean>(false);
     const [isEditMedicalRecordDrawerOpen, setIsEditMedicalRecordDrawerOpen] = useState<boolean>(false);
+    const [isAddDryNeedlingFileDrawerOpen, setIsAddDryNeedlingFileDrawerOpen] = useState<boolean>(false)
+    const [isTransferSoapNoteDrawerOpen, setIsTransferSoapNoteDrawerOpen] = useState<boolean>(false);
     const [isAddDryNeedlingFileDrawerOpen, setIsAddDryNeedlingFileDrawerOpen] = useState<boolean>(false);
     const [isAddConcussionFileDrawerOpen, setIsAddConcussionFileDrawerOpen] = useState<boolean>(false);
     const [isViewPriorNoteDrawerOpen, setIsViewPriorNoteDrawerOpen] = useState<boolean>(false);
@@ -86,6 +90,14 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
         setIsAddDryNeedlingFileDrawerOpen(false);
     }, []);
 
+    const openTransferSoapNoteDrawer = useCallback(() => {
+        setIsTransferSoapNoteDrawerOpen(true);
+    }, []);
+
+    const closeTransferSoapNoteDrawer = useCallback(() => {
+        setIsTransferSoapNoteDrawerOpen(false);
+    }, []);
+    
     const openAddConcussionFileDrawer = useCallback(() => {
         setIsAddConcussionFileDrawerOpen(true);
     }, []);
@@ -126,7 +138,14 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
         closeAddDryNeedlingFileDrawer();
     }, [closeAddDryNeedlingFileDrawer]);
 
-    const handleConcussionFileAdd = useCallback(() => {
+    const handleTransferSoapNote = useCallback(() => {
+        if (medicalInterventionDetails?._id) {
+            dispatch(getMedicalInterventionDetails(medicalInterventionDetails?._id));
+        }
+        closeTransferSoapNoteDrawer();
+    }, [medicalInterventionDetails]);
+
+const handleConcussionFileAdd = useCallback(() => {
         closeAddConcussionFileDrawer();
     }, [closeAddConcussionFileDrawer]);
 
@@ -188,7 +207,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                     } menuOptions={
                                         [
                                             <ListItem onClick={comingSoon}>Print SOAP</ListItem>,
-                                            <ListItem onClick={comingSoon}>Transfer SOAP to</ListItem>,
+                                            <ListItem onClick={openTransferSoapNoteDrawer}>Transfer SOAP to</ListItem>,
                                             <ListItem onClick={comingSoon}>Notify Admin</ListItem>,
                                             <ListItem onClick={openAddDryNeedlingFileDrawer}>
                                                 Add Dry Needling File
@@ -284,7 +303,18 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                     medicalInterventionId={medicalInterventionDetails?._id}
                     onAdd={handleDryNeedlingFileAdd}/>
             </DrawerComponent>
-
+            
+            <DrawerComponent isOpen={isTransferSoapNoteDrawerOpen}
+                             showClose={true}
+                             onClose={closeTransferSoapNoteDrawer}>
+                {
+                    medicalRecordId && <TransferSoapNoteComponent
+                        medicalRecordId={medicalRecordId}
+                        medicalInterventionId={medicalInterventionDetails?._id}
+                        onTransferSoapNote={handleTransferSoapNote}/>
+                }
+            </DrawerComponent>
+                
             <DrawerComponent isOpen={isAddConcussionFileDrawerOpen}
                              showClose={true}
                              onClose={closeAddConcussionFileDrawer}>

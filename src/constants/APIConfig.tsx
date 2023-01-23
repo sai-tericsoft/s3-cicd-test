@@ -502,6 +502,18 @@ const APIConfig: IAPIConfig = {
         URL:(medicalRecordId:string)=>ENV.API_URL+'/medicalRecord/' + medicalRecordId + '/intervention',
         METHOD:'get'
     },
+  GET_CLIENT_LIST_LITE:{
+        URL:ENV.API_URL+'/client/lite',
+        METHOD:'get'
+    },
+    GET_MEDICAL_RECORD_LIST_LITE:{
+        URL:(clientId:string)=>ENV.API_URL+'/client/'+ clientId +'/medicalRecordLite',
+        METHOD:'get'
+    },
+    TRANSFER_SOAP_NOTE:{
+        URL:(medicalInterventionId:string)=>ENV.API_URL+'/intervention/'+ medicalInterventionId +'/transfer',
+        METHOD:'post'
+    },
     GET_MEDICAL_RECORD_INTERVENTION_LIST: {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/intervention',
         METHOD: 'get'
