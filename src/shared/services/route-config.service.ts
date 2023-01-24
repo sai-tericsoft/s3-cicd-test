@@ -18,7 +18,6 @@ import
     SERVICE_DETAILS,
     SERVICE_EDIT,
     TEST_ROUTE,
-    INVENTORY_LIST
 } from "../../constants/RoutesConfig";
 
 const DefaultRoute = () => {
@@ -175,7 +174,7 @@ const MedicalRecordViewExerciseRecord = (medicalRecordId: string) => {
 }
 
 const InventoryList = () => {
-    return INVENTORY_LIST;
+    return '/inventory-list';
 }
 
 const RouteConfigService = {

@@ -48,8 +48,7 @@ const DRY_NEEDLING_FILE_VIEW_DETAILS = '/chart-notes/:medicalRecordId/:dryNeedli
 const CONCUSSION_FILE_VIEW_DETAILS = '/chart-notes/:medicalRecordId/:concussionFileId/concussion-file-view-details';
 const MEDICAL_RECORD_DOCUMENT_VIEW_DETAILS = '/chart-notes/:medicalRecordId/:medicalRecordDocumentId/medical-record-document-view-details';
 const MEDICAL_RECORD_VIEW_EXERCISE_RECORD = '/chart-notes/:medicalRecordId/consolidated-exercise-record';
-const INVENTORY_LIST = "/inventory";
-const INVENTORY_LIST_DETAILS = "/inventory/inventory-list";
+const INVENTORY_LIST = "/inventory-list";
 
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
@@ -98,5 +97,4 @@ export {
     MEDICAL_RECORD_DOCUMENT_VIEW_DETAILS,
     MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
     INVENTORY_LIST,
-    INVENTORY_LIST_DETAILS
 };

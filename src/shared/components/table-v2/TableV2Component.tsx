@@ -84,7 +84,7 @@ const TableV2Component = (props: TableV2ComponentProps) => {
             });
         }
         setData([...data]);
-    }, []);
+    }, [data]);
 
     const table = useReactTable({
         data,

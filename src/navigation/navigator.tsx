@@ -43,7 +43,8 @@ import {
     DRY_NEEDLING_FILE_VIEW_DETAILS,
     FACILITY_DETAILS,
     FACILITY_LIST,
-    INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST, INVENTORY_LIST, INVENTORY_LIST_DETAILS,
+    INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST,
+    INVENTORY_LIST,
     LOGIN_ROUTE,
     MEDICAL_INTERVENTION_DETAILS,
     MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE,
@@ -55,7 +56,8 @@ import {
     MEDICAL_INTERVENTION_SURGERY_RECORD_DETAILS,
     MEDICAL_RECORD_DOCUMENT_VIEW_DETAILS,
     MEDICAL_RECORD_LIST,
-    MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE, MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
+    MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE,
+    MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
     NOT_FOUND_ROUTE,
     PROGRESS_REPORT_VIEW_DETAILS,
     SERVICE_ADD,
@@ -97,8 +99,6 @@ import ViewConcussionFileScreen from "../screens/chart-notes/view-concussion-fil
 import ViewMedicalRecordDocumentScreen
     from "../screens/chart-notes/view-medical-record-document/ViewMedicalRecordDocumentScreen";
 import ViewExerciseRecordScreen from "../screens/chart-notes/view-exercise-record/ViewExerciseRecordScreen";
-import InventoryDetailsMainLayoutComponent
-    from "../screens/inventory/inventory-details-main-layout/InventoryDetailsMainLayoutComponent";
 import InventoryListScreen from "../screens/inventory/inventory-list/InventoryListScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
@@ -379,20 +379,12 @@ const Navigator = (props: NavigatorProps) => {
                     <ViewExerciseRecordScreen/>
                 </ProtectedRoute>}/>
 
-                <Route path={INVENTORY_LIST} element={<InventoryDetailsMainLayoutComponent/>} {...props}>
-                    <Route
-                        index
-                        element={
-                            <Navigate to={INVENTORY_LIST_DETAILS}/>
-                        }
-                    />
-                    <Route path={INVENTORY_LIST_DETAILS}
-                           element={<ProtectedRoute>
-                               <InventoryListScreen/>
-                           </ProtectedRoute>
-                           }
-                    />
-                </Route>
+                <Route path={INVENTORY_LIST}
+                       element={<ProtectedRoute>
+                           <InventoryListScreen/>
+                       </ProtectedRoute>
+                       }
+                />
 
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
             </Route>
