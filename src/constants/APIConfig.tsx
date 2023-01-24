@@ -502,7 +502,21 @@ const APIConfig: IAPIConfig = {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/intervention',
         METHOD: 'get'
     },
-    GET_MEDICAL_RECORD_INTERVENTION_LIST: {
+
+GET_CLIENT_LIST_LITE: {
+        URL: ENV.API_URL + '/client/lite',
+        METHOD: 'get'
+    },
+    GET_MEDICAL_RECORD_LIST_LITE: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medicalRecordLite',
+        METHOD: 'get'
+    },
+    TRANSFER_SOAP_NOTE: {
+        URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/transfer',
+        METHOD: 'post'
+    },
+
+GET_MEDICAL_RECORD_INTERVENTION_LIST: {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/intervention',
         METHOD: 'get'
     },
@@ -514,11 +528,6 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + '/product/list',
         METHOD: 'post'
     }
-// GET_MEDICAL_RECORD_SOAP_NOTE_LIST: {
-//     URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/intervention',
-//     METHOD: 'get'
-// },
-
 
 }
 
