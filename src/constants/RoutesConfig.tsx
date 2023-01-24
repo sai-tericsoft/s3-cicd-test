@@ -51,6 +51,8 @@ const MEDICAL_RECORD_VIEW_EXERCISE_RECORD = '/chart-notes/:medicalRecordId/conso
 const INVENTORY_LIST = "/inventory";
 const INVENTORY_LIST_DETAILS = "/inventory/inventory-list";
 const INVENTORY_PRODUCT_VIEW_DETAILS = "/inventory/product-details/:productId";
+const INVENTORY_PRODUCT_EDIT_DETAILS = "/inventory/edit-product-details/:productId";
+
 
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
@@ -100,5 +102,6 @@ export {
     MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
     INVENTORY_LIST,
     INVENTORY_LIST_DETAILS,
-    INVENTORY_PRODUCT_VIEW_DETAILS
+    INVENTORY_PRODUCT_VIEW_DETAILS,
+    INVENTORY_PRODUCT_EDIT_DETAILS
 };

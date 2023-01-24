@@ -43,7 +43,11 @@ import {
     DRY_NEEDLING_FILE_VIEW_DETAILS,
     FACILITY_DETAILS,
     FACILITY_LIST,
-    INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST, INVENTORY_LIST, INVENTORY_LIST_DETAILS, INVENTORY_PRODUCT_VIEW_DETAILS,
+    INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST,
+    INVENTORY_LIST,
+    INVENTORY_LIST_DETAILS,
+    INVENTORY_PRODUCT_EDIT_DETAILS,
+    INVENTORY_PRODUCT_VIEW_DETAILS,
     LOGIN_ROUTE,
     MEDICAL_INTERVENTION_DETAILS,
     MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE,
@@ -55,7 +59,8 @@ import {
     MEDICAL_INTERVENTION_SURGERY_RECORD_DETAILS,
     MEDICAL_RECORD_DOCUMENT_VIEW_DETAILS,
     MEDICAL_RECORD_LIST,
-    MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE, MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
+    MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE,
+    MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
     NOT_FOUND_ROUTE,
     PROGRESS_REPORT_VIEW_DETAILS,
     SERVICE_ADD,
@@ -102,6 +107,8 @@ import InventoryDetailsMainLayoutComponent
 import InventoryListComponent from "../screens/inventory/inventory-list/InventoryListComponent";
 import InventoryProductViewDetailsComponent
     from "../screens/inventory/inventory-product-view-details/InventoryProductViewDetailsComponent";
+import EditInventoryProductDetailsComponent
+    from "../screens/inventory/edit-inventory-product-details/EditInventoryProductDetailsComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -397,6 +404,12 @@ const Navigator = (props: NavigatorProps) => {
                     <Route path={INVENTORY_PRODUCT_VIEW_DETAILS}
                            element={<ProtectedRoute>
                                <InventoryProductViewDetailsComponent/>
+                           </ProtectedRoute>
+                           }
+                    />
+                    <Route path={INVENTORY_PRODUCT_EDIT_DETAILS}
+                           element={<ProtectedRoute>
+                               <EditInventoryProductDetailsComponent/>
                            </ProtectedRoute>
                            }
                     />

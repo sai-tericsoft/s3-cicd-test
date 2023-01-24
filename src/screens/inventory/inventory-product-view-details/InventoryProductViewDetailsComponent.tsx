@@ -15,6 +15,7 @@ import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {CommonService} from "../../../shared/services";
+import LinkComponent from "../../../shared/components/link/LinkComponent";
 
 interface InventoryProductViewDetailsComponentProps {
 
@@ -23,7 +24,7 @@ interface InventoryProductViewDetailsComponentProps {
 const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetailsComponentProps) => {
 
     const {productId} = useParams();
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const {
         isInventoryProductDetailsLoading,
@@ -36,12 +37,12 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
         if (productId) {
             dispatch(getInventoryProductDetails(productId));
         }
-    }, [productId,dispatch]);
+    }, [productId, dispatch]);
 
     useEffect(() => {
-            dispatch(setCurrentNavParams("Product Details", null, () => {
-                navigate(CommonService._routeConfig.InventoryList());
-            }));
+        dispatch(setCurrentNavParams("Product Details", null, () => {
+            navigate(CommonService._routeConfig.InventoryList());
+        }));
     }, [navigate, dispatch]);
 
     return (
@@ -62,8 +63,8 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                                 <AvatarComponent url={inventoryProductDetails?.image?.url} size={'xl'}/>
                             </div>
                             <div className={'product-details-wrapper'}>
-                                <DataLabelValueComponent label={'Quantity Available: '} direction={'row'}  >
-                                   {inventoryProductDetails?.quantity}
+                                <DataLabelValueComponent label={'Quantity Available: '} direction={'row'}>
+                                    {inventoryProductDetails?.quantity}
                                 </DataLabelValueComponent>
                                 <FormControlLabelComponent size={'xl'} label={inventoryProductDetails?.name}/>
                                 <div className={'description'}>
@@ -72,7 +73,10 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                             </div>
                         </div>
                         <div className={'button-wrapper'}>
-                            <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>Edit Details</ButtonComponent>
+                            <LinkComponent
+                                route={CommonService._routeConfig.InventoryProductEditDetails(inventoryProductDetails?._id)}>
+                                <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>Edit Details</ButtonComponent>
+                            </LinkComponent>
                         </div>
                     </div>
 
@@ -86,7 +90,7 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                         </div>
                         <div className={'ts-col-4'}>
                             <DataLabelValueComponent label={'Price*'}>
-                                <span> {Misc.CURRENCY_SYMBOL}</span>  {inventoryProductDetails?.price}
+                                <span> {Misc.CURRENCY_SYMBOL}</span> {inventoryProductDetails?.price}
                             </DataLabelValueComponent>
                         </div>
                         <div className={'ts-col-4'}>
@@ -97,10 +101,10 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                     </div>
                 </CardComponent>
             </>
-            }
-        </div>
-    );
+                }
+                </div>
+                );
 
-};
+            };
 
-export default InventoryProductViewDetailsComponent;
+            export default InventoryProductViewDetailsComponent;

@@ -182,6 +182,10 @@ const InventoryProductViewDetails = (productId: string) => {
     return "/inventory/product-details/" + productId;
 }
 
+const InventoryProductEditDetails = (productId: string) => {
+    return "/inventory/edit-product-details/" + productId;
+}
+
 const RouteConfigService = {
     DefaultRoute,
     LoginRoute,
@@ -222,7 +226,8 @@ const RouteConfigService = {
     MedicalRecordDocumentViewDetails,
     MedicalRecordViewExerciseRecord,
     InventoryList,
-    InventoryProductViewDetails
+    InventoryProductViewDetails,
+    InventoryProductEditDetails
 }
 
 export default RouteConfigService;
