@@ -35,8 +35,8 @@ const inventoryProductInitialValues = {
 }
 
 const inventoryProductValidationSchema = Yup.object({
-    name: Yup.string().required('Name is required'),
-    code: Yup.string().required('Code is required'),
+    name: Yup.string().required('Product Name is required'),
+    code: Yup.string().required('Product Code is required'),
     quantity: Yup.number().required('Quantity is required'),
     price: Yup.number().required('Price is required'),
     image: Yup.mixed().required('Image field is required'),
