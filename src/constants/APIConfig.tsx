@@ -502,7 +502,8 @@ const APIConfig: IAPIConfig = {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/intervention',
         METHOD: 'get'
     },
-    GET_CLIENT_LIST_LITE: {
+
+GET_CLIENT_LIST_LITE: {
         URL: ENV.API_URL + '/client/lite',
         METHOD: 'get'
     },
@@ -514,7 +515,8 @@ const APIConfig: IAPIConfig = {
         URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/transfer',
         METHOD: 'post'
     },
-    GET_MEDICAL_RECORD_INTERVENTION_LIST: {
+
+GET_MEDICAL_RECORD_INTERVENTION_LIST: {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/intervention',
         METHOD: 'get'
     },
@@ -522,6 +524,11 @@ const APIConfig: IAPIConfig = {
         URL: (selectedInterventionId: string, medicalInterventionId: string,) => ENV.API_URL + '/intervention/' + selectedInterventionId + '/import/' + medicalInterventionId,
         METHOD: 'post'
     },
+    GET_INVENTORY_LIST: {
+        URL: ENV.API_URL + '/product/list',
+        METHOD: 'post'
+    }
+
 }
 
 export default APIConfig;
