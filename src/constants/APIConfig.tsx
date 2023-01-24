@@ -503,7 +503,7 @@ const APIConfig: IAPIConfig = {
         METHOD: 'get'
     },
 
-GET_CLIENT_LIST_LITE: {
+    GET_CLIENT_LIST_LITE: {
         URL: ENV.API_URL + '/client/lite',
         METHOD: 'get'
     },
@@ -516,7 +516,7 @@ GET_CLIENT_LIST_LITE: {
         METHOD: 'post'
     },
 
-GET_MEDICAL_RECORD_INTERVENTION_LIST: {
+    GET_MEDICAL_RECORD_INTERVENTION_LIST: {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/intervention',
         METHOD: 'get'
     },
@@ -531,8 +531,15 @@ GET_MEDICAL_RECORD_INTERVENTION_LIST: {
     ADD_INVENTORY_PRODUCT: {
         URL: ENV.API_URL + '/product',
         METHOD: 'post'
+    },
+    GET_INVENTORY_PRODUCT_VIEW_DETAILS: {
+        URL: (productId: string) => ENV.API_URL + '/product/' + productId,
+        METHOD: 'get'
+    },
+    EDIT_INVENTORY_PRODUCT: {
+        URL: (productId: string) => ENV.API_URL + '/product/' + productId,
+        METHOD: 'put'
     }
-
 }
 
 export default APIConfig;

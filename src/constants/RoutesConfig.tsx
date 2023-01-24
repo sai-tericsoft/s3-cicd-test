@@ -23,7 +23,7 @@ const CLIENT_ADD = "/client-add";
 const CLIENT_DETAILS = "/client-details";
 const CLIENT_EDIT = "/client-edit";
 
-const CLIENT_SEARCH='/client-search';
+const CLIENT_SEARCH = '/client-search';
 const CLIENT_MEDICAL_RECORD_DETAILS = '/chart-notes/:medicalRecordId/medical-record-details';
 const CLIENT_CHART_NOTES_DETAILS = "/chart-notes";
 const ADD_MEDICAL_RECORD = '/chart-notes/:clientId/add-medical-record';
@@ -37,7 +37,7 @@ const MEDICAL_INTERVENTION_FINALIZE_TREATMENT = '/chart-notes/:medicalRecordId/:
 const MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE = '/chart-notes/:medicalRecordId/:medicalInterventionId/exercise-log-update';
 const MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW = '/chart-notes/:medicalRecordId/:medicalInterventionId/exercise-log-view';
 const MEDICAL_RECORD_LIST = '/chart-notes/:clientId/medical-record-list';
-const INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST ='/chart-notes/:interventionId/exercise-log';
+const INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST = '/chart-notes/:interventionId/exercise-log';
 
 const MEDICAL_INTERVENTION_DETAILS = '/chart-notes/intervention-details/:medicalInterventionId';
 const MEDICAL_INTERVENTION_SURGERY_RECORD_DETAILS = '/chart-notes/:medicalRecordId/surgery-record/:surgeryRecordId';
@@ -51,6 +51,8 @@ const MEDICAL_RECORD_VIEW_EXERCISE_RECORD = '/chart-notes/:medicalRecordId/conso
 
 const INVENTORY_LIST = "/inventory-list";
 const ADD_INVENTORY_PRODUCT = "/inventory/add-product";
+const INVENTORY_PRODUCT_VIEW_DETAILS = "/inventory/product-details/:productId";
+const EDIT_INVENTORY_PRODUCT = "/inventory/edit-product/:productId";
 
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
@@ -99,5 +101,7 @@ export {
     MEDICAL_RECORD_DOCUMENT_VIEW_DETAILS,
     MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
     INVENTORY_LIST,
-    ADD_INVENTORY_PRODUCT
+    ADD_INVENTORY_PRODUCT,
+    INVENTORY_PRODUCT_VIEW_DETAILS,
+    EDIT_INVENTORY_PRODUCT
 };

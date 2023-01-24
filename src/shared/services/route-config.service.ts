@@ -1,5 +1,4 @@
-import
-{
+import {
     ADMIN,
     CLIENT_ADD,
     CLIENT_DETAILS,
@@ -181,6 +180,14 @@ const AddInventoryProduct = () => {
     return "/inventory/add-product";
 }
 
+const InventoryProductViewDetails = (productId: string) => {
+    return "/inventory/product-details/" + productId;
+}
+
+const InventoryProductEditDetails = (productId: string) => {
+    return "/inventory/edit-product-details/" + productId;
+}
+
 const RouteConfigService = {
     DefaultRoute,
     LoginRoute,
@@ -221,7 +228,9 @@ const RouteConfigService = {
     MedicalRecordDocumentViewDetails,
     MedicalRecordViewExerciseRecord,
     InventoryList,
-    AddInventoryProduct
+    AddInventoryProduct,
+    InventoryProductViewDetails,
+    InventoryProductEditDetails
 }
 
 export default RouteConfigService;

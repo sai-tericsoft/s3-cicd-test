@@ -1,0 +1,21 @@
+.inventory-product-view-details-component{
+  .image-button-wrapper{
+    display: flex;
+    .button-wrapper{
+      margin-top: 30px;
+    }
+    justify-content: space-between;
+    .image-details-wrapper{
+      display: flex;
+      .image-wrapper{
+        margin-top: 10px;
+      }
+      .product-details-wrapper{
+        margin-left: 20px;
+        .description{
+          color: #858F94;
+        }
+      }
+    }
+  }
+}
