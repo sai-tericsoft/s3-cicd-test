@@ -1,4 +1,4 @@
- import "./ClientListTableComponent.scss";
+import "./ClientListTableComponent.scss";
 import {ITableColumn} from "../../../shared/models/table.model";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
