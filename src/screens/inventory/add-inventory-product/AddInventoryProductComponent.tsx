@@ -50,19 +50,19 @@ const AddInventoryProductComponent = (props: AddInventoryProductComponentProps) 
     const [isInventoryProductAddInProgress,setIsInventoryProductAddInProgress]=useState<boolean>(false)
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        console.log(values);
         const payload = {...values};
         setIsInventoryProductAddInProgress(true);
         CommonService._inventory.AddInventoryProductAPICall(payload)
             .then((response: IAPIResponseType<any>) => {
                 setIsInventoryProductAddInProgress(false);
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                navigate(CommonService._routeConfig.InventoryList());
             }).catch((error: any) => {
             CommonService.handleErrors(setErrors, error, true);
             setIsInventoryProductAddInProgress(false);
         });
 
-    }, []);
+    }, [navigate]);
 
 
     useEffect(() => {
