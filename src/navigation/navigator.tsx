@@ -99,7 +99,7 @@ import ViewMedicalRecordDocumentScreen
 import ViewExerciseRecordScreen from "../screens/chart-notes/view-exercise-record/ViewExerciseRecordScreen";
 import InventoryDetailsMainLayoutComponent
     from "../screens/inventory/inventory-details-main-layout/InventoryDetailsMainLayoutComponent";
-import InventoryListComponent from "../screens/inventory/inventory-list/InventoryListComponent";
+import InventoryListScreen from "../screens/inventory/inventory-list/InventoryListScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -388,7 +388,7 @@ const Navigator = (props: NavigatorProps) => {
                     />
                     <Route path={INVENTORY_LIST_DETAILS}
                            element={<ProtectedRoute>
-                               <InventoryListComponent/>
+                               <InventoryListScreen/>
                            </ProtectedRoute>
                            }
                     />
