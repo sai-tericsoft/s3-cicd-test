@@ -527,6 +527,10 @@ GET_MEDICAL_RECORD_INTERVENTION_LIST: {
     GET_INVENTORY_LIST: {
         URL: ENV.API_URL + '/product/list',
         METHOD: 'post'
+    },
+    ADD_INVENTORY_PRODUCT: {
+        URL: ENV.API_URL + '/product',
+        METHOD: 'post'
     }
 
 }

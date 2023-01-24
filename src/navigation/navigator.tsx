@@ -27,6 +27,7 @@ import ClientSearchScreen from "../screens/chart-notes/client-search/ClientSearc
 import AddMedicalRecordScreen from "../screens/chart-notes/add-medical-record/AddMedicalRecordScreen";
 import AddMedicalInterventionScreen from "../screens/chart-notes/add-medical-intervention/AddMedicalInterventionScreen";
 import {
+    ADD_INVENTORY_PRODUCT,
     ADD_MEDICAL_INTERVENTION,
     ADD_MEDICAL_RECORD,
     ADMIN,
@@ -99,6 +100,7 @@ import ViewConcussionFileScreen from "../screens/chart-notes/view-concussion-fil
 import ViewMedicalRecordDocumentScreen
     from "../screens/chart-notes/view-medical-record-document/ViewMedicalRecordDocumentScreen";
 import ViewExerciseRecordScreen from "../screens/chart-notes/view-exercise-record/ViewExerciseRecordScreen";
+import AddInventoryProductComponent from "../screens/inventory/add-inventory-product/AddInventoryProductComponent";
 import InventoryListScreen from "../screens/inventory/inventory-list/InventoryListScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
@@ -378,14 +380,18 @@ const Navigator = (props: NavigatorProps) => {
                 <Route path={MEDICAL_RECORD_VIEW_EXERCISE_RECORD} element={<ProtectedRoute>
                     <ViewExerciseRecordScreen/>
                 </ProtectedRoute>}/>
-
                 <Route path={INVENTORY_LIST}
                        element={<ProtectedRoute>
                            <InventoryListScreen/>
                        </ProtectedRoute>
                        }
                 />
-
+                <Route path={ADD_INVENTORY_PRODUCT}
+                       element={<ProtectedRoute>
+                           <AddInventoryProductComponent/>
+                       </ProtectedRoute>
+                       }
+                />
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
             </Route>
             <Route element={<AuthLayout/>}>
