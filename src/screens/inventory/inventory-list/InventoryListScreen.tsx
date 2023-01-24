@@ -8,6 +8,7 @@ import SearchComponent from "../../../shared/components/search/SearchComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {useDispatch} from "react-redux";
+import {CommonService} from "../../../shared/services";
 
 interface InventoryListScreenProps {
 
@@ -52,7 +53,7 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
             key: 'price',
             width: 156,
             render: (_: any, item: any) => {
-                return <> {Misc.CURRENCY_SYMBOL}{ item?.price } </>
+                return <> {Misc.CURRENCY_SYMBOL}{item?.price} </>
             }
         },
         {
@@ -61,7 +62,8 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
             key: 'action',
             width: 98,
             render: (_: any, item: any) => {
-                return <LinkComponent route={''}>View Details</LinkComponent>
+                return <LinkComponent route={CommonService._routeConfig.InventoryProductViewDetails(item?._id)}>
+                    View Details</LinkComponent>
             }
         }
     ], []);
@@ -87,7 +89,10 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
                             <SearchComponent label={'Search Product'}
                                              value={inventoryListFilterState.search}
                                              onSearchChange={(value) => {
-                                                 setInventoryListFilterState({...inventoryListFilterState, search: value})
+                                                 setInventoryListFilterState({
+                                                     ...inventoryListFilterState,
+                                                     search: value
+                                                 })
                                              }}
 
                             />
@@ -95,13 +100,16 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
                     </div>
                 </div>
                 <div className="list-options">
-                    <ButtonComponent id={'add_product_btn'} prefixIcon={<ImageConfig.AddIcon/>}>
-                        Add Product
-                    </ButtonComponent>
+                    <LinkComponent route={CommonService._routeConfig.AddInventoryProduct()}>
+                        <ButtonComponent id={'add_product_btn'} prefixIcon={<ImageConfig.AddIcon/>}>
+                            Add Product
+                        </ButtonComponent>
+                    </LinkComponent>
                 </div>
             </div>
             <div className="list-content-wrapper">
-                <TableWrapperComponent url={APIConfig.GET_INVENTORY_LIST.URL} method={APIConfig.GET_INVENTORY_LIST.METHOD}
+                <TableWrapperComponent url={APIConfig.GET_INVENTORY_LIST.URL}
+                                       method={APIConfig.GET_INVENTORY_LIST.METHOD}
                                        columns={InventoryListTableColumns}
                                        extraPayload={inventoryListFilterState}
                                        onSort={handleInventorySort}

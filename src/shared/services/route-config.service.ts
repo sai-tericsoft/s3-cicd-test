@@ -184,8 +184,8 @@ const InventoryProductViewDetails = (productId: string) => {
     return "/inventory/product-details/" + productId;
 }
 
-const InventoryProductEditDetails = (productId: string) => {
-    return "/inventory/edit-product-details/" + productId;
+const EditInventoryProduct = (productId: string) => {
+    return "/inventory/edit-product/" + productId;
 }
 
 const RouteConfigService = {
@@ -230,7 +230,7 @@ const RouteConfigService = {
     InventoryList,
     AddInventoryProduct,
     InventoryProductViewDetails,
-    InventoryProductEditDetails
+    EditInventoryProduct
 }
 
 export default RouteConfigService;

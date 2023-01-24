@@ -17,7 +17,7 @@ import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate, useParams} from "react-router-dom";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {Misc} from "../../../constants";
+import {Misc, Patterns} from "../../../constants";
 import * as Yup from "yup";
 import {IRootReducerState} from "../../../store/reducers";
 
@@ -56,24 +56,28 @@ const EditInventoryProductDetailsComponent = (props: EditInventoryProductDetails
 
 
     useEffect(() => {
-        if(productId){
+        if (productId) {
             setEditInventoryProductInitialValues({
-                name:inventoryProductDetails?.name,
-                code:inventoryProductDetails?.code,
-                quantity:inventoryProductDetails?.quantity,
-                price:inventoryProductDetails?.price,
-                description:inventoryProductDetails?.description,
-                image:inventoryProductDetails?.image,
+                name: inventoryProductDetails?.name,
+                code: inventoryProductDetails?.code,
+                quantity: inventoryProductDetails?.quantity,
+                price: inventoryProductDetails?.price,
+                description: inventoryProductDetails?.description,
+                image: inventoryProductDetails?.image,
             })
         }
 
-    }, [productId,inventoryProductDetails]);
+    }, [productId, inventoryProductDetails]);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        if(productId) {
-            const payload = {...values};
+        if (productId) {
+            const payload = _.cloneDeep(values);
+            if (!(payload.image instanceof File)) {
+                delete payload.image;
+            }
+            const formData = CommonService.getFormDataFromJSON(payload);
             setIsInventoryProductEditInProgress(true);
-            CommonService._inventory.InventoryProductEditDetailsAPICall( productId,payload)
+            CommonService._inventory.InventoryProductEditAPICall(productId, formData)
                 .then((response: IAPIResponseType<any>) => {
                     setIsInventoryProductEditInProgress(false);
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
@@ -83,9 +87,7 @@ const EditInventoryProductDetailsComponent = (props: EditInventoryProductDetails
                 setIsInventoryProductEditInProgress(false);
             });
         }
-        //
-    }, [navigate,productId]);
-
+    }, [navigate, productId]);
 
     useEffect(() => {
         if (productId) {
@@ -93,7 +95,7 @@ const EditInventoryProductDetailsComponent = (props: EditInventoryProductDetails
                 navigate(CommonService._routeConfig.InventoryProductViewDetails(productId));
             }));
         }
-    }, [navigate, dispatch,productId]);
+    }, [navigate, dispatch, productId]);
 
     return (
         <div className={'edit-inventory-product-component'}>
@@ -163,6 +165,7 @@ const EditInventoryProductDetailsComponent = (props: EditInventoryProductDetails
                                                         formikField={field}
                                                         fullWidth={true}
                                                         required={true}
+                                                        validationPattern={Patterns.POSITIVE_WHOLE_NUMBERS}
                                                     />
                                                 )
                                             }
@@ -178,6 +181,7 @@ const EditInventoryProductDetailsComponent = (props: EditInventoryProductDetails
                                                         formikField={field}
                                                         fullWidth={true}
                                                         required={true}
+                                                        validationPattern={Patterns.POSITIVE_INTEGERS_PARTIAL}
                                                     />
                                                 )
                                             }
@@ -212,7 +216,6 @@ const EditInventoryProductDetailsComponent = (props: EditInventoryProductDetails
                                 <>
                                     {
                                         (values.image) && <>
-
                                             <FilePreviewThumbnailComponent
                                                 file={values.image}
                                                 removeButtonId={"sc_delete_img"}
@@ -225,7 +228,8 @@ const EditInventoryProductDetailsComponent = (props: EditInventoryProductDetails
                                 </>
                             </CardComponent>
                             <div className="t-form-actions">
-                                <LinkComponent route={CommonService._routeConfig.InventoryProductViewDetails(inventoryProductDetails?._id)}>
+                                <LinkComponent
+                                    route={CommonService._routeConfig.InventoryProductViewDetails(inventoryProductDetails?._id)}>
                                     <ButtonComponent
                                         variant={"outlined"}
                                         id={"inventory_product_edit_cancel_btn"}

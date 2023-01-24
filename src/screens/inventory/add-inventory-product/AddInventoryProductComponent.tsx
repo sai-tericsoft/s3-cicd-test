@@ -17,7 +17,7 @@ import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {Misc} from "../../../constants";
+import {Misc, Patterns} from "../../../constants";
 import * as Yup from "yup";
 
 interface AddInventoryProductComponentProps {
@@ -34,20 +34,19 @@ const inventoryProductInitialValues = {
 }
 
 const inventoryProductValidationSchema = Yup.object({
-    name: Yup.string().required('Name is required'),
-    code: Yup.string().required('Code is required'),
+    name: Yup.string().required('Product Name is required'),
+    code: Yup.string().required('Product Code is required'),
     quantity: Yup.number().required('Quantity is required'),
     price: Yup.number().required('Price is required'),
     image: Yup.mixed().required('Image field is required'),
 });
-
 
 const AddInventoryProductComponent = (props: AddInventoryProductComponentProps) => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [addInventoryProductInitialValues] = useState<any>(inventoryProductInitialValues);
-    const [isInventoryProductAddInProgress,setIsInventoryProductAddInProgress]=useState<boolean>(false)
+    const [isInventoryProductAddInProgress, setIsInventoryProductAddInProgress] = useState<boolean>(false)
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         const payload = {...values};
@@ -81,7 +80,7 @@ const AddInventoryProductComponent = (props: AddInventoryProductComponentProps) 
                     validateOnBlur={true}
                     enableReinitialize={true}
                     validateOnMount={true}>
-                {({values,isValid, touched, errors, setFieldValue, validateForm}) => {
+                {({values, isValid, touched, errors, setFieldValue, validateForm}) => {
                     // eslint-disable-next-line react-hooks/rules-of-hooks
                     useEffect(() => {
                         validateForm();
@@ -139,6 +138,7 @@ const AddInventoryProductComponent = (props: AddInventoryProductComponentProps) 
                                                         formikField={field}
                                                         fullWidth={true}
                                                         required={true}
+                                                        validationPattern={Patterns.POSITIVE_WHOLE_NUMBERS}
                                                     />
                                                 )
                                             }
@@ -154,6 +154,7 @@ const AddInventoryProductComponent = (props: AddInventoryProductComponentProps) 
                                                         formikField={field}
                                                         fullWidth={true}
                                                         required={true}
+                                                        validationPattern={Patterns.POSITIVE_INTEGERS_PARTIAL}
                                                     />
                                                 )
                                             }

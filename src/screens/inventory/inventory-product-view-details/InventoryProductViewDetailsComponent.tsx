@@ -74,7 +74,7 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                         </div>
                         <div className={'button-wrapper'}>
                             <LinkComponent
-                                route={CommonService._routeConfig.InventoryProductEditDetails(inventoryProductDetails?._id)}>
+                                route={CommonService._routeConfig.EditInventoryProduct(inventoryProductDetails?._id)}>
                                 <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>Edit Details</ButtonComponent>
                             </LinkComponent>
                         </div>
