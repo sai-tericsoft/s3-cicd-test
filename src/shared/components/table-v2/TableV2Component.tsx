@@ -80,7 +80,7 @@ const TableV2Component = (props: TableV2ComponentProps) => {
 
     const getTHClasses = useCallback((column: ITableColumn) => {
         let classes = 'th t-th t-cell t-cell-' + column.key?.split(' ').join('-') + " " + column.className + '';
-        if (column.sortable) {
+        if (column?.sortable) {
             classes += " sortable";
             if (sort && sort.key === column.key) {
                 if (sort.order === "asc") {
@@ -151,7 +151,6 @@ const TableV2Component = (props: TableV2ComponentProps) => {
                                         return (
                                             <div {...row.getRowProps()} className="tr" onClick={() => handleRowClick(row)}>
                                                 {row.cells.map((cell: any) => <div {...cell.getCellProps()}
-                                                                                   onClick={() => applySort(cell.column)}
                                                                                    className={getTDClasses(cell.column)}>
                                                         {cell.render('Cell')}
                                                     </div>

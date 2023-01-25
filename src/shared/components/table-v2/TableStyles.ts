@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const TableStyles = styled.div`
 .table {
-  border: 1px solid #ddd;
+  // border: 1px solid #ddd;
   .tr {
     :last-child {
       .td {
