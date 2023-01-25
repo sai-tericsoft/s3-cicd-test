@@ -1,28 +1,9 @@
 
-.client-list-table-component{
+.client-list-table-component {
 
-  .t-cell-client_id {
+  .t-cell-client_id, .t-cell-primary_contact_info, .t-cell-last_appointment_date, .t-cell-last_provider, .t-cell-status, .t-cell-actions {
     text-align: center !important;
   }
 
-  .t-cell-name {
-    text-align: center !important;
-  }
-
-  .t-cell-primary_contact_info {
-    text-align: center !important;
-  }
-
-  .t-cell-last_appointment_date {
-    text-align: center !important;
-  }
-
-  .t-cell-last_provider {
-    text-align: center !important;
-  }
-
-  .t-cell-status {
-    text-align: center !important;
-  }
 
 }

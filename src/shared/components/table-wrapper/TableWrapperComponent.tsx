@@ -4,10 +4,10 @@ import * as React from 'react';
 import {useCallback, useEffect, useRef, useState} from 'react';
 import {IAPIResponseType} from "../../models/api.model";
 import {ITableComponentProps} from "../../models/table.model";
-import TableComponent from "../table/TableComponent";
 import {CommonService} from "../../services";
 import PaginationComponent from "../pagination/PaginationComponent";
 import TableV2Component from "../table-v2/TableV2Component";
+import _ from "lodash";
 
 export interface TableComponentProps extends ITableComponentProps {
     url: string,
@@ -32,7 +32,14 @@ const TableWrapperComponent = (props: TableComponentProps) => {
     const isPaginated = props.isPaginated !== undefined ? props.isPaginated : true;
 
     const getListData = useCallback(() => {
-        const payload = {page: pageNumRef.current + 1, limit: pageSizeRef.current, ...extraPayload};
+        const payload = _.cloneDeep({page: pageNumRef.current + 1, limit: pageSizeRef.current, ...extraPayload});
+        if (payload?.sort && payload?.sort?.key) { // TODO to make sort more consistent
+            delete payload.sort.key;
+            delete payload.sort.order;
+            payload.sort[payload.sort.key] = payload?.sort?.order;
+        } else {
+            delete payload.sort;
+        }
         let apiCall;
         if (method === "post") {
             apiCall = CommonService._api.post(url, payload);
@@ -96,7 +103,9 @@ const TableWrapperComponent = (props: TableComponentProps) => {
                 errored={isDataLoadingFailed}
                 data={data}
                 id={id}
+                sort={extraPayload?.sort}
                 {...otherProps}
+
             />
             {
                 (isDataLoaded && (data && data?.length) > 0 && isPaginated) && <PaginationComponent

@@ -9,8 +9,8 @@ import LoaderComponent from "../loader/LoaderComponent";
 import StatusCardComponent from "../status-card/StatusCardComponent";
 
 interface TableV2ComponentProps extends ITableComponentProps {
-    loading: boolean;
-    errored: boolean;
+    loading?: boolean;
+    errored?: boolean;
     id?: string;
     columns: ITableColumn[];
     data: any[];
@@ -18,13 +18,17 @@ interface TableV2ComponentProps extends ITableComponentProps {
 
 const TableV2Component = (props: TableV2ComponentProps) => {
 
-    const {loading, errored, columns, onRowClick, data} = props;
+    const {loading, errored, columns, onRowClick, data, sort, onSort} = props;
     const size = props.size || "medium";
+
+    console.log(sort);
 
     const parseRender = useCallback((col: ITableColumn, item: any) => {
         const data = item.row.original;
         const index = item.row.index;
-        return col.render(data, index);
+        if (col.render) {
+            return col.render(data, index);
+        }
     }, []);
 
     const parseColumns = useCallback((columns: ITableColumn[]) => {
@@ -35,8 +39,9 @@ const TableV2Component = (props: TableV2ComponentProps) => {
                 key: col.key,
                 accessor: col.dataIndex || col.key,
                 sticky: col.fixed,
-                verticalAlign: "middle"
-            }
+                sortable: col.sortable,
+                verticalAlign: "middle",
+            };
             if (col.dataIndex) {
                 colObject['accessor'] = col.dataIndex;
             }
@@ -51,8 +56,12 @@ const TableV2Component = (props: TableV2ComponentProps) => {
         return transformedCols;
     }, []);
 
-    const columnsMemoized = useMemo<any>(() => parseColumns(columns), [columns]);
-    const dataMemoized = useMemo<any>(() => data, [data]);
+    const columnsMemoized = useMemo<any>(() =>
+            parseColumns(columns)
+        , [columns]);
+    const dataMemoized = useMemo<any>(() =>
+            data
+        , [data]);
 
     const {
         getTableProps,
@@ -69,6 +78,25 @@ const TableV2Component = (props: TableV2ComponentProps) => {
         useSticky
     );
 
+    const getTHClasses = useCallback((column: ITableColumn) => {
+        let classes = 'th t-th t-cell t-cell-' + column.key?.split(' ').join('-') + " " + column.className + '';
+        if (column.sortable) {
+            classes += " sortable";
+            if (sort && sort.key === column.key) {
+                if (sort.order === "asc") {
+                    classes += " sort-asc";
+                } else {
+                    classes += " sort-desc";
+                }
+            }
+        }
+        return classes;
+    }, [sort]);
+
+    const getTDClasses = useCallback((column: ITableColumn) => {
+        return 'td t-td t-cell t-cell-' + column.key?.split(' ').join('-') + " " + column.className + '';
+    }, []);
+
     const handleRowClick = useCallback((row: any) => {
         if (onRowClick) {
             const data = row.values;
@@ -76,6 +104,27 @@ const TableV2Component = (props: TableV2ComponentProps) => {
             onRowClick(data, index);
         }
     }, [onRowClick]);
+
+    const applySort = useCallback((column: ITableColumn) => {
+        console.log(column);
+        if (!column.sortable || !sort) return;
+        const sortObj = _.cloneDeep(sort);
+        if (sortObj.key === column.key) {
+            sortObj.key = column.key;
+            if (sortObj.order === "asc") {
+                sortObj.order = "desc";
+            } else {
+                sortObj.order = "";
+                sortObj.key = "";
+            }
+        } else {
+            sortObj.key = column.key;
+            sortObj.order = "asc";
+        }
+        if (onSort) {
+            onSort(sortObj.key, sortObj.order);
+        }
+    }, [sort]);
 
     return (
         <div className={'table-v2-component'}>
@@ -86,7 +135,8 @@ const TableV2Component = (props: TableV2ComponentProps) => {
                             {headerGroups.map((headerGroup) => (
                                 <div {...headerGroup.getHeaderGroupProps()} className="tr">
                                     {headerGroup.headers.map((column: any) => <div {...column.getHeaderProps()}
-                                                                                   className={`th t-cell t-cell-${column.key?.split(' ').join('-')}`}>
+                                                                                   onClick={() => applySort(column)}
+                                                                                   className={getTHClasses(column)}>
                                             {column.render('Header')}
                                         </div>
                                     )}
@@ -94,14 +144,15 @@ const TableV2Component = (props: TableV2ComponentProps) => {
                             ))}
                         </div>
                         {
-                            !errored && <div {...getTableBodyProps()} className="body">
+                            !errored && <div {...getTableBodyProps()} className="t-body body">
                                 {
                                     rows.length > 0 && rows.map((row: any) => {
                                         prepareRow(row);
                                         return (
                                             <div {...row.getRowProps()} className="tr" onClick={() => handleRowClick(row)}>
                                                 {row.cells.map((cell: any) => <div {...cell.getCellProps()}
-                                                                                   className={`td t-cell t-cell-${cell.column.key?.split(' ').join('-')}`}>
+                                                                                   onClick={() => applySort(cell.column)}
+                                                                                   className={getTDClasses(cell.column)}>
                                                         {cell.render('Cell')}
                                                     </div>
                                                 )}

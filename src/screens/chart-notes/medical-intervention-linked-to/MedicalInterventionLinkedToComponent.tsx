@@ -30,7 +30,7 @@ const MedicalInterventionLinkedToComponent = (props: MedicalInterventionLinkedTo
             key: "body_part",
             width: 91,
             render: ( item: any) => {
-                return <>{item.body_part_details.name}</>
+                return <>{item?.body_part_details?.name}</>
             }
 
         },

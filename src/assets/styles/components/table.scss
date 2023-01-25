@@ -1,5 +1,46 @@
 @import "src/assets/styles/variables";
 
+//.table-component {
+//  height: 100%;
+//  overflow-y: auto;
+//
+//  &.empty-table {
+//    height: auto;
+//  }
+
+.t-table {
+
+  .t-th {
+
+    &.sortable {
+      position: relative;
+      cursor: pointer;
+
+      &::after {
+        content:  url("./../../../assets/icons/table/sort.svg");
+        color: $body-color;
+        opacity: 0.2;
+        margin-left: 8px;
+        width: 20px;
+        position: relative;
+        top: -2px;
+      }
+
+      &.sort-asc::after {
+        opacity: 1;
+        content: url("./../../../assets/icons/table/sort_asc.svg");
+      }
+
+      &.sort-desc::after {
+        opacity: 1;
+        content: url("./../../../assets/icons/table/sort_desc.svg");
+      }
+    }
+  }
+
+}
+
+
 .ant-table-container {
   position: relative;
 }

@@ -13,6 +13,7 @@ const MedicalRecordStatsComponent = (props: MedicalRecordStatsComponentProps) =>
         medicalRecordStats,
         isMedicalRecordStatsLoading
     } = useSelector((state: IRootReducerState) => state.chartNotes);
+
     const MedicalRecordStatsTableColumns = [
         {
             title: 'Name',
@@ -24,7 +25,7 @@ const MedicalRecordStatsComponent = (props: MedicalRecordStatsComponentProps) =>
             dataIndex: 'value',
             key: 'value',
             render: ( item: any) => {
-                return item.value || 'N/A';
+                return item?.value || 'N/A';
             }
         }
     ];

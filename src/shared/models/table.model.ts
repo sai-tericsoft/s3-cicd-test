@@ -4,7 +4,7 @@ export interface ITableColumn {
     dataIndex?: string;
     key: string;
     title?: any;
-    render?: any;
+    render?: (row: any, index: any) => void;
     sortable?: any;
     className?: string;
     width?: number | string;
@@ -21,7 +21,7 @@ export interface ITableComponentProps {
     rowKey?: (row: any, index: number) => string;
     showHeader?: boolean;
     tableLayout?: 'auto' | 'fixed' | undefined;
-    scroll?:  "unset" | "scroll";
+    scroll?: "unset" | "scroll";
     size?: 'small' | 'middle' | 'large';
     onSort?: (key: string, order: string) => void;
     rowExpandable?: (row: any) => boolean
@@ -30,6 +30,10 @@ export interface ITableComponentProps {
     showExpandColumn?: boolean;
     expandRow?: (row: any) => React.ReactNode;
     rowSelection?: TableRowSelection<any>;
+    sort? : {
+        key: string;
+        order: string;
+    }
 }
 
 
