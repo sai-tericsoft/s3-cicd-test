@@ -14,7 +14,7 @@ export const TableStyles = styled.div`
   .td {
     height: 56px;
     border-bottom: 1px solid #ddd;
-    // border-right: 1px solid #ddd;
+    border-right: 1px solid #ddd;
     background-color: #fff;
     overflow: hidden;
     padding: 18px 16px;

@@ -31,30 +31,37 @@ const TableV2Component = (props: TableV2ComponentProps) => {
         }
     }, []);
 
+    const TransformColumn = useCallback((column: ITableColumn) => {
+        const col = _.cloneDeep(column);
+        const colObject: any = {
+            Header: col.title,
+            key: col.key,
+            accessor: col.dataIndex || col.key,
+            sticky: col.fixed,
+            sortable: col.sortable,
+            verticalAlign: "middle",
+        };
+        if (col.dataIndex) {
+            colObject['accessor'] = col.dataIndex;
+        }
+        if (col.render) {
+            colObject['Cell'] = (data: any) => parseRender(col, data);
+        }
+        if (col.width) {
+            colObject['width'] = col.width;
+        }
+        if (col.children) {
+            colObject['columns'] = col.children.map((child: ITableColumn) => TransformColumn(child));
+        }
+        return colObject;
+    }, []);
+
     const parseColumns = useCallback((columns: ITableColumn[]) => {
         const transformedCols: any = columns.map((column: ITableColumn) => {
-            const col = _.cloneDeep(column);
-            const colObject: any = {
-                Header: col.title,
-                key: col.key,
-                accessor: col.dataIndex || col.key,
-                sticky: col.fixed,
-                sortable: col.sortable,
-                verticalAlign: "middle",
-            };
-            if (col.dataIndex) {
-                colObject['accessor'] = col.dataIndex;
-            }
-            if (col.render) {
-                colObject['Cell'] = (data: any) => parseRender(col, data);
-            }
-            if (col.width) {
-                colObject['width'] = col.width;
-            }
-            return colObject;
+            return TransformColumn(column);
         });
         return transformedCols;
-    }, []);
+    }, [TransformColumn]);
 
     const columnsMemoized = useMemo<any>(() =>
             parseColumns(columns)
@@ -108,7 +115,7 @@ const TableV2Component = (props: TableV2ComponentProps) => {
     const applySort = useCallback((column: ITableColumn) => {
         console.log(column);
         if (!column.sortable || !sort) return;
-        const sortObj = _.cloneDeep(sort);
+        const sortObj: any = _.cloneDeep(sort);
         if (sortObj.key === column.key) {
             sortObj.key = column.key;
             if (sortObj.order === "asc") {

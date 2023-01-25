@@ -37,20 +37,9 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             dataIndex: "first_name",
             sortable: true,
             width: 250,
-            children: [
-                {
-                    title: "First Name",
-                    key: "first_name",
-                    dataIndex: "first_name",
-                    width: 125,
-                },
-                {
-                    title: "Last Name",
-                    key: "last_name",
-                    dataIndex: "last_name",
-                    width: 125,
-                }
-            ]
+            render: (item: IClientBasicDetails) => {
+                return <span>{item?.last_name} {item?.first_name}</span>
+            }
         },
         {
             title: "Phone",

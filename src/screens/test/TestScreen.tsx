@@ -16,10 +16,20 @@ const cols: ITableColumn[] = [
         key: 'name',
         title: 'Name',
         dataIndex: 'name',
-        render: (data: any) => {
-            return <> {data?.first_name} {data?.last_name} </>
-        },
-        width: 200,
+        children: [
+            {
+                key: 'first_name',
+                title: 'First Name',
+                dataIndex: 'first_name',
+                width: 100,
+            },
+            {
+                key: 'last_name',
+                title: 'Last Name',
+                dataIndex: 'last_name',
+                width: 100,
+            }
+        ]
     },
     {
         title: 'Country',
@@ -71,7 +81,7 @@ const TestScreen = () => {
                 key,
                 order
             }
-        })
+        });
     }, [filter]);
 
     return (
