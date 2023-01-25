@@ -12,7 +12,7 @@ export const TableStyles = styled.div`
   } 
   .th,
   .td {
-    height: 56px;
+    // height: 56px;
     border-bottom: 1px solid #ddd;
     border-right: 1px solid #ddd;
     background-color: #fff;

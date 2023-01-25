@@ -1,71 +1,103 @@
 import './TestScreen.scss';
 import TableV2Component from "../../shared/components/table-v2/TableV2Component";
 import {ITableColumn} from "../../shared/models/table.model";
-import {useCallback, useState} from "react";
+import {useCallback, useMemo, useState} from "react";
 import {MOCK_USER_DATA} from "../../assets/data/user.data";
-
-const cols: ITableColumn[] = [
-    {
-        key: 'id',
-        title: 'Id',
-        dataIndex: 'id',
-        width: 100,
-        fixed: 'left'
-    },
-    {
-        key: 'name',
-        title: 'Name',
-        dataIndex: 'name',
-        children: [
-            {
-                key: 'first_name',
-                title: 'First Name',
-                dataIndex: 'first_name',
-                width: 100,
-            },
-            {
-                key: 'last_name',
-                title: 'Last Name',
-                dataIndex: 'last_name',
-                width: 100,
-            }
-        ]
-    },
-    {
-        title: 'Country',
-        dataIndex: 'country',
-        key: 'country',
-        width: 200,
-    },
-    {
-        title: 'Date of birth',
-        dataIndex: 'date_of_birth',
-        key: 'date_of_birth',
-        width: 200,
-    },
-    {
-        title: 'Phone',
-        dataIndex: 'phone',
-        key: 'phone',
-        width: 400,
-    },
-    {
-        title: 'Email',
-        dataIndex: 'email',
-        key: 'email',
-        width: 400,
-        sortable: true
-    },
-    {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
-        fixed: "right",
-        sortable: true
-    },
-]
+import CheckBoxComponent from "../../shared/components/form-controls/check-box/CheckBoxComponent";
+import InputComponent from "../../shared/components/form-controls/input/InputComponent";
 
 const TestScreen = () => {
+
+    const [selectedRows, setSelectedRows] = useState<any[]>([]);
+
+    const UserTableColumns: ITableColumn[] = useMemo<any>(() => [
+        {
+            key: 'select',
+            title: <CheckBoxComponent
+                onChange={(isChecked) => {
+                    if (isChecked) {
+                        setSelectedRows(MOCK_USER_DATA);
+                    } else {
+                        setSelectedRows([]);
+                    }
+                }}
+                indeterminate={selectedRows.length > 0 && selectedRows.length < MOCK_USER_DATA.length}
+                checked={selectedRows.length === MOCK_USER_DATA.length}
+            />,
+            dataIndex: 'select',
+            width: 80,
+            fixed: 'left',
+            render: (item: any, index: any) => {
+                return <CheckBoxComponent
+                    checked={selectedRows.includes(item)}
+                    onChange={(isChecked) => {
+                        if (isChecked) {
+                            setSelectedRows([...selectedRows, item]);
+                        } else {
+                            setSelectedRows(selectedRows.filter((row) => row !== item));
+                        }
+                    }}
+                />
+            }
+        },
+        {
+            key: 'id',
+            title: 'Id',
+            dataIndex: 'id',
+            width: 100,
+            fixed: 'left'
+        },
+        {
+            key: 'name',
+            title: 'Name',
+            dataIndex: 'name',
+            width: 200,
+            render: (item: any) => {
+                return <span>{item?.first_name} {item?.last_name}</span>
+            }
+        },
+        {
+            title: 'Country',
+            dataIndex: 'country',
+            key: 'country',
+            width: 200,
+        },
+        {
+            title: 'Date of birth',
+            dataIndex: 'date_of_birth',
+            key: 'date_of_birth',
+            width: 200,
+        },
+        {
+            title: 'Phone',
+            dataIndex: 'phone',
+            key: 'phone',
+            width: 400,
+        },
+        {
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
+            width: 400,
+            sortable: true
+        },
+        {
+            title: 'Notes',
+            dataIndex: 'notes',
+            key: 'notes',
+            width: 200,
+            render: (item: any) => {
+                return <InputComponent value={item.first_name + ' ' + item.last_name}/>
+            }
+        },
+        {
+            title: 'Age',
+            dataIndex: 'age',
+            key: 'age',
+            fixed: "right",
+            sortable: true
+        },
+    ], [selectedRows]);
 
     const [filter, setFilter] = useState<any>({
         sort: {
@@ -86,8 +118,8 @@ const TestScreen = () => {
 
     return (
         <div className="test-screen">
-            <TableV2Component data={MOCK_USER_DATA}
-                              columns={cols}
+            <TableV2Component data={MOCK_USER_DATA.slice(0, 20)}
+                              columns={UserTableColumns}
                               loading={false}
                               errored={false}
                               sort={filter.sort}

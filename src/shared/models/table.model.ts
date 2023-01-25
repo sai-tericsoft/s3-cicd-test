@@ -4,7 +4,7 @@ export interface ITableColumn {
     dataIndex?: string;
     key: string;
     title?: any;
-    render?: (row: any, index: any) => void;
+    render?: (row: any, index: number) => void;
     sortable?: any;
     className?: string;
     width?: number | string;

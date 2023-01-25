@@ -21,8 +21,6 @@ const TableV2Component = (props: TableV2ComponentProps) => {
     const {loading, errored, columns, onRowClick, data, sort, onSort} = props;
     const size = props.size || "medium";
 
-    console.log(sort);
-
     const parseRender = useCallback((col: ITableColumn, item: any) => {
         const data = item.row.original;
         const index = item.row.index;
@@ -32,26 +30,24 @@ const TableV2Component = (props: TableV2ComponentProps) => {
     }, []);
 
     const TransformColumn = useCallback((column: ITableColumn) => {
-        const col = _.cloneDeep(column);
         const colObject: any = {
-            Header: col.title,
-            key: col.key,
-            accessor: col.dataIndex || col.key,
-            sticky: col.fixed,
-            sortable: col.sortable,
-            verticalAlign: "middle",
+            Header: column.title,
+            key: column.key,
+            accessor: column.dataIndex || column.key,
+            sticky: column.fixed,
+            sortable: column.sortable,
         };
-        if (col.dataIndex) {
-            colObject['accessor'] = col.dataIndex;
+        if (column.dataIndex) {
+            colObject['accessor'] = column.dataIndex;
         }
-        if (col.render) {
-            colObject['Cell'] = (data: any) => parseRender(col, data);
+        if (column.render) {
+            colObject['Cell'] = (data: any) => parseRender(column, data);
         }
-        if (col.width) {
-            colObject['width'] = col.width;
+        if (column.width) {
+            colObject['width'] = column.width;
         }
-        if (col.children) {
-            colObject['columns'] = col.children.map((child: ITableColumn) => TransformColumn(child));
+        if (column.children) {
+            colObject['columns'] = column.children.map((child: ITableColumn) => TransformColumn(child));
         }
         return colObject;
     }, []);
@@ -113,7 +109,6 @@ const TableV2Component = (props: TableV2ComponentProps) => {
     }, [onRowClick]);
 
     const applySort = useCallback((column: ITableColumn) => {
-        console.log(column);
         if (!column.sortable || !sort) return;
         const sortObj: any = _.cloneDeep(sort);
         if (sortObj.key === column.key) {
