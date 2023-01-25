@@ -111,7 +111,10 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
     const handleClientSort = useCallback((key: string, order: string) => {
         setClientListFilterState((oldState) => {
             const newState = {...oldState};
-            newState["sort"][key] = order;
+            newState["sort"] = {
+                key,
+                order
+            }
             return newState;
         });
     }, []);
