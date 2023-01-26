@@ -39,10 +39,10 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
         },
         {
             title: 'Comments',
-            dataIndex: 'comments',
-            key: 'comments',
+            dataIndex: 'comment',
+            key: 'comment',
             render: (_: any, item: any) => {
-                return <>{item?.comments || '-'}</>
+                return <>{item?.comment || '-'}</>
             }
         }
     ];

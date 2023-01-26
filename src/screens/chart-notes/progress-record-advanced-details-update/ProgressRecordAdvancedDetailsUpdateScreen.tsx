@@ -78,21 +78,21 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
         },
         {
             title: 'Comments',
-            dataIndex: 'comments',
-            key: 'comments',
+            dataIndex: 'comment',
+            key: 'comment',
             render: (_: any, item: any) => <Field
-                name={`progress_stats.${item?._id}.comments`}
+                name={`progress_stats.${item?._id}.comment`}
                 className="t-form-control">
                 {
                     (field: FieldProps) => (
                         <IconButtonComponent
-                            color={field.form.values.progress_stats?.[item?._id]?.comments ? "primary" : "inherit"}
+                            color={field.form.values.progress_stats?.[item?._id]?.comment ? "primary" : "inherit"}
                             onClick={() => {
                                 setShowProgressStatCommentsModal(true);
                                 setSelectedProgressStatComments(item);
                             }}>
                             {
-                                field.form.values.progress_stats?.[item?._id]?.comments ? <ImageConfig.ChatIcon/> :
+                                field.form.values.progress_stats?.[item?._id]?.comment ? <ImageConfig.ChatIcon/> :
                                     <ImageConfig.CommentAddIcon/>
                             }
                         </IconButtonComponent>
@@ -108,8 +108,8 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
         data.progress_stats?.forEach((stat: any) => {
             values.progress_stats[stat?.progress_stat_id] = {
                 result: stat?.result,
-                comments: stat?.comments,
-                commentsTemp: stat?.comments || stat?.commentsTemp
+                comment: stat?.comment,
+                commentTemp: stat?.comment || stat?.commentTemp
             }
         });
         setUpdateProgressRecordAdvancedInitialValues(values);
@@ -122,8 +122,8 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
             payload.progress_stats.push({
                 progress_stat_id: stat_id,
                 result: values?.progress_stats[stat_id]?.result,
-                comment: values?.progress_stats[stat_id]?.comments,
-                commentTemp: values?.progress_stats[stat_id]?.commentsTemp
+                comment: values?.progress_stats[stat_id]?.comment,
+                commentTemp: values?.progress_stats[stat_id]?.commentTemp
             });
         });
         if (progressReportId) {
@@ -245,34 +245,34 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                                 return <ModalComponent
                                                     key={stat?._id}
                                                     isOpen={showProgressStatCommentsModal}
-                                                    title={`${formik.values?.progress_report?.[selectedProgressStatComments._id]?.comments ? "Edit Comments" : "Comments:"}`}
+                                                    title={`${formik.values?.progress_report?.[selectedProgressStatComments._id]?.comment ? "Edit Comments" : "Comments:"}`}
                                                     closeOnBackDropClick={true}
                                                     className={"intervention-comments-modal"}
                                                     modalFooter={<>
                                                         <ButtonComponent variant={"outlined"}
                                                                          onClick={() => {
-                                                                             const comment = formik.values?.progress_stats?.[selectedProgressStatComments?._id]?.comments;
+                                                                             const comment = formik.values?.progress_stats?.[selectedProgressStatComments?._id]?.comment;
                                                                              setShowProgressStatCommentsModal(false);
-                                                                             formik.setFieldValue(`progress_stats.${selectedProgressStatComments._id}.commentsTemp`, comment);
+                                                                             formik.setFieldValue(`progress_stats.${selectedProgressStatComments._id}.commentTemp`, comment);
                                                                              setSelectedProgressStatComments(undefined);
                                                                          }}>
                                                             Cancel
                                                         </ButtonComponent>&nbsp;
                                                         <ButtonComponent
                                                             onClick={() => {
-                                                                const newComment = formik.values?.progress_stats?.[selectedProgressStatComments?._id]?.commentsTemp;
+                                                                const newComment = formik.values?.progress_stats?.[selectedProgressStatComments?._id]?.commentTemp;
                                                                 setShowProgressStatCommentsModal(false);
-                                                                formik.setFieldValue(`progress_stats.${selectedProgressStatComments?._id}.comments`, newComment);
+                                                                formik.setFieldValue(`progress_stats.${selectedProgressStatComments?._id}.comment`, newComment);
                                                                 setSelectedProgressStatComments(undefined);
                                                             }}>
                                                             {
-                                                                formik.values?.["progress_stats"]?.[selectedProgressStatComments?._id]?.comments ? "Save" : "Add"
+                                                                formik.values?.["progress_stats"]?.[selectedProgressStatComments?._id]?.comment ? "Save" : "Add"
                                                             }
                                                         </ButtonComponent>
                                                     </>
                                                     }>
                                                     <Field
-                                                        name={`progress_stats.${selectedProgressStatComments?._id}.commentsTemp`}
+                                                        name={`progress_stats.${selectedProgressStatComments?._id}.commentTemp`}
                                                         className="t-form-control">
                                                         {
                                                             (field: FieldProps) => (
