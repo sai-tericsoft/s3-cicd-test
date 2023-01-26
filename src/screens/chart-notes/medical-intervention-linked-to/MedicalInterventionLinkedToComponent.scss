@@ -16,10 +16,18 @@
       font-size: 1rem;
       margin-right: 10px;
       margin-left: 8px;
-      max-width: 400px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      max-width: 200px;
+
+      @include md(){
+        max-width: 300px;
+      }
+
+      @include lg(){
+        max-width: 400px;
+      }
     }
 
     .medical-record-injury-details-view-all-body-parts {

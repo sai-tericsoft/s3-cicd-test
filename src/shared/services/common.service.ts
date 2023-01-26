@@ -486,6 +486,10 @@ const openLinkInNewTab = (url: string) => {
     window.open(url, '_blank');
 }
 
+const isTextEllipsisActive = (e: HTMLDivElement) => {
+    return (e.offsetWidth < e.scrollWidth);
+}
+
 const CommonService = {
     CurrentDate,
     parseQueryString,
@@ -525,6 +529,7 @@ const CommonService = {
     printAttachment,
     getNormalizedFileType,
     openLinkInNewTab,
+    isTextEllipsisActive,
 
     // createValidationsObject,
     // createYupSchema,
