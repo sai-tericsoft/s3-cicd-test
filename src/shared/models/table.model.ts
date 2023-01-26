@@ -19,16 +19,16 @@ export interface ITableComponentProps {
     onRowClick?: (row: any, index: any) => void;
     rowClassName?: (row: any, index: number) => string;
     rowKey?: (row: any, index: number) => string;
-    showHeader?: boolean;
+    hideHeader?: boolean;
     tableLayout?: 'auto' | 'fixed' | undefined;
     scroll?: "unset" | "scroll";
     size?: 'small' | 'middle' | 'large';
     onSort?: (key: string, order: string) => void;
-    rowExpandable?: (row: any) => boolean
+    caxExpandRow?: (row: any) => boolean;
     id?: string;
     defaultExpandAllRows?: boolean;
     showExpandColumn?: boolean;
-    expandRow?: (row: any) => React.ReactNode;
+    expandRowRenderer?: (row: any, index: number) => React.ReactNode;
     rowSelection?: TableRowSelection<any>;
     sort? : {
         key: string;

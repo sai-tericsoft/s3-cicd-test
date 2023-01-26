@@ -9,7 +9,6 @@ import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {useDispatch} from "react-redux";
 import {CommonService} from "../../../shared/services";
-import {ITableColumn} from "../../../shared/models/table.model";
 
 interface InventoryListScreenProps {
 

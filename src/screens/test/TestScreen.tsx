@@ -5,6 +5,7 @@ import {useCallback, useMemo, useState} from "react";
 import {MOCK_USER_DATA} from "../../assets/data/user.data";
 import CheckBoxComponent from "../../shared/components/form-controls/check-box/CheckBoxComponent";
 import InputComponent from "../../shared/components/form-controls/input/InputComponent";
+import ButtonComponent from "../../shared/components/button/ButtonComponent";
 
 const TestScreen = () => {
 
@@ -41,17 +42,11 @@ const TestScreen = () => {
             }
         },
         {
-            key: 'id',
-            title: 'Id',
-            dataIndex: 'id',
-            width: 100,
-            fixed: 'left'
-        },
-        {
             key: 'name',
             title: 'Name',
             dataIndex: 'name',
             width: 200,
+            fixed: 'left',
             render: (item: any) => {
                 return <span>{item?.first_name} {item?.last_name}</span>
             }
@@ -94,8 +89,17 @@ const TestScreen = () => {
             title: 'Age',
             dataIndex: 'age',
             key: 'age',
-            fixed: "right",
-            sortable: true
+        },
+        {
+            title: 'Actions',
+            dataIndex: 'actions',
+            key: 'actions',
+            fixed: 'right',
+            render: (item: any) => {
+                return <ButtonComponent>
+                    View Details
+                </ButtonComponent>
+            }
         },
     ], [selectedRows]);
 
@@ -118,12 +122,18 @@ const TestScreen = () => {
 
     return (
         <div className="test-screen">
-            <TableV2Component data={MOCK_USER_DATA.slice(0, 20)}
+            <TableV2Component data={MOCK_USER_DATA.slice(0, 2)}
                               columns={UserTableColumns}
-                              loading={false}
-                              errored={false}
                               sort={filter.sort}
                               onSort={handleSort}
+                              defaultExpandAllRows={true}
+                              // showExpandColumn={true}
+                              caxExpandRow={(item: any) => item.id === 1}
+                              expandRowRenderer={(item: any) => {
+                                  return <div className="expand-row">
+                                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, molestias?
+                                  </div>
+                              }}
             />
         </div>
     );

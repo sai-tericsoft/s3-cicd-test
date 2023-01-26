@@ -171,7 +171,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                             <div className={'client-list-heading'}>Client List</div>
                             <TableComponent data={clientList} columns={clientListColumns}
                                             loading={isClientListLoading}
-                                            showHeader={false}/>
+                                            hideHeader={true}/>
                             <ButtonComponent fullWidth={true}
                                              onClick={() => handleClientSelectionConfirmation()}
                                              disabled={!selectedClient}>

@@ -321,7 +321,7 @@ const ClientMedicalInterventionDetailsComponent = (props: ClientMedicalIntervent
                                                                 bordered={true}
                                                                 showExpandColumn={false}
                                                                 defaultExpandAllRows={false}
-                                                                expandRow={(row: any) => {
+                                                                expandRowRenderer={(row: any) => {
                                                                     return <>{row.rom_config.map((config: any) => {
                                                                         return <div key={config?._id} className={'comment-row'}>
                                                                             <div className={'comment-icon'}><ImageConfig.CommentIcon/></div>

@@ -274,7 +274,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                                 <TableComponent data={clientList}
                                                 columns={ClientListColumns}
                                                 loading={isClientListLoading}
-                                                showHeader={false}
+                                                hideHeader={true}
                                 />
                             </>
                         }
@@ -325,7 +325,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                         <TableComponent data={medicalRecordList}
                                         columns={MedicalRecordListColumns}
                                         loading={isMedicalRecordListLoading}
-                                        showHeader={false}
+                                        hideHeader={true}
                         />
                     </div>
                 }

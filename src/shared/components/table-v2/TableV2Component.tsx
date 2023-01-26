@@ -1,12 +1,13 @@
 import "./TableV2Component.scss";
-import {useBlockLayout, useTable} from 'react-table';
+import {useBlockLayout, useExpanded, useTable} from 'react-table';
 import {useSticky} from "react-table-sticky";
-import {useCallback, useMemo} from "react";
+import React, {useCallback, useMemo} from "react";
 import {TableStyles} from "./TableStyles";
 import {ITableColumn, ITableComponentProps} from "../../models/table.model";
 import _ from "lodash";
 import LoaderComponent from "../loader/LoaderComponent";
 import StatusCardComponent from "../status-card/StatusCardComponent";
+import {ImageConfig, Misc} from "../../../constants";
 
 interface TableV2ComponentProps extends ITableComponentProps {
     loading?: boolean;
@@ -18,7 +19,20 @@ interface TableV2ComponentProps extends ITableComponentProps {
 
 const TableV2Component = (props: TableV2ComponentProps) => {
 
-    const {loading, errored, columns, onRowClick, data, sort, onSort} = props;
+    const {
+        loading,
+        errored,
+        hideHeader,
+        columns,
+        defaultExpandAllRows,
+        showExpandColumn,
+        expandRowRenderer,
+        caxExpandRow,
+        onRowClick,
+        data,
+        sort,
+        onSort
+    } = props;
     const size = props.size || "medium";
 
     const parseRender = useCallback((col: ITableColumn, item: any) => {
@@ -56,28 +70,41 @@ const TableV2Component = (props: TableV2ComponentProps) => {
         const transformedCols: any = columns.map((column: ITableColumn) => {
             return TransformColumn(column);
         });
+        if (showExpandColumn) {
+            transformedCols.unshift({
+                Header: () => null,
+                id: 'expander',
+                Cell: ({row}: any) => {
+                    return <span {...row.getToggleRowExpandedProps()}>
+                        {row.isExpanded ? <ImageConfig.TableRowCollapseIcon/> : <ImageConfig.TableRowExpandIcon/>}
+                    </span>
+                },
+                width: 35,
+            });
+        }
         return transformedCols;
-    }, [TransformColumn]);
+    }, [showExpandColumn, TransformColumn]);
 
     const columnsMemoized = useMemo<any>(() =>
-            parseColumns(columns)
-        , [columns]);
+            parseColumns(columns), [columns]);
+
     const dataMemoized = useMemo<any>(() =>
-            data
-        , [data]);
+            data, [data]);
 
     const {
         getTableProps,
         getTableBodyProps,
         headerGroups,
         rows,
-        prepareRow
+        prepareRow,
+        visibleColumns,
     } = useTable(
         {
             columns: columnsMemoized,
-            data: dataMemoized
+            data: dataMemoized,
         },
         useBlockLayout,
+        useExpanded,
         useSticky
     );
 
@@ -102,7 +129,7 @@ const TableV2Component = (props: TableV2ComponentProps) => {
 
     const handleRowClick = useCallback((row: any) => {
         if (onRowClick) {
-            const data = row.values;
+            const data = row.original;
             const index = row.index;
             onRowClick(data, index);
         }
@@ -132,40 +159,54 @@ const TableV2Component = (props: TableV2ComponentProps) => {
         <div className={'table-v2-component'}>
             <TableStyles>
                 <div className={`t-table-wrapper`}>
-                    <div {...getTableProps()} className={`t-table table sticky ${size}`}>
-                        <div className="header">
-                            {headerGroups.map((headerGroup) => (
-                                <div {...headerGroup.getHeaderGroupProps()} className="tr">
-                                    {headerGroup.headers.map((column: any) => <div {...column.getHeaderProps()}
-                                                                                   onClick={() => applySort(column)}
-                                                                                   className={getTHClasses(column)}>
-                                            {column.render('Header')}
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
+                    <table {...getTableProps()} className={`t-table table sticky ${size}`}>
                         {
-                            !errored && <div {...getTableBodyProps()} className="t-body body">
-                                {
-                                    rows.length > 0 && rows.map((row: any) => {
-                                        prepareRow(row);
-                                        return (
-                                            <div {...row.getRowProps()} className="tr" onClick={() => handleRowClick(row)}>
-                                                {row.cells.map((cell: any) => <div {...cell.getCellProps()}
-                                                                                   className={getTDClasses(cell.column)}>
-                                                        {cell.render('Cell')}
-                                                    </div>
-                                                )}
-                                            </div>
-                                        );
-                                    })
-                                }
-                                {
-                                    rows.length === 0 &&
-                                    <StatusCardComponent title={"No data found"} className={'table-data-not-found-card'}/>
-                                }
-                            </div>
+                            !hideHeader && <thead className="header t-thead">
+                            {headerGroups.map((headerGroup) => (
+                                <tr {...headerGroup.getHeaderGroupProps()} className="t-tr">
+                                    {headerGroup.headers.map((column: any) => <th {...column.getHeaderProps()}
+                                                                                  onClick={() => applySort(column)}
+                                                                                  className={getTHClasses(column)}>
+                                            {column.render('Header')}
+                                        </th>
+                                    )}
+                                </tr>
+                            ))}
+                            </thead>
+                        }
+                        {
+                            !errored && <tbody {...getTableBodyProps()} className="body t-body">
+                            {
+                                rows.length > 0 && rows.map((row: any) => {
+                                    console.log(row);
+                                    prepareRow(row);
+                                    return (
+                                        <>
+                                            <tr className="t-tr" onClick={() => handleRowClick(row)} {...row.getRowProps()}>
+                                                {row.cells.map((cell: any) => {
+                                                    return (
+                                                        <td {...cell.getCellProps()} className={getTDClasses(cell.column)}>
+                                                            {cell.render('Cell')}
+                                                        </td>
+                                                    )
+                                                })}
+                                            </tr>
+                                            {(row.isExpanded || defaultExpandAllRows && (caxExpandRow && caxExpandRow(row.original))) && expandRowRenderer &&
+                                                <tr>
+                                                    <td colSpan={visibleColumns.length}>
+                                                        {expandRowRenderer(row.original, row.index)}
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </>
+                                    );
+                                })
+                            }
+                            {
+                                rows.length === 0 &&
+                                <StatusCardComponent title={"No data found"} className={'table-data-not-found-card'}/>
+                            }
+                            </tbody>
                         }
                         {
                             loading && <div className={'data-loading-wrapper'}>
@@ -178,7 +219,7 @@ const TableV2Component = (props: TableV2ComponentProps) => {
                             (errored && !loading) &&
                             <StatusCardComponent title={"Error loading data"} className={'table-loading-error-card'}/>
                         }
-                    </div>
+                    </table>
                 </div>
             </TableStyles>
         </div>

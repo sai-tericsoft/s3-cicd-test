@@ -28,15 +28,15 @@ const TableComponent = (props: TableComponentProps) => {
         rowClassName,
         rowSelection,
         showExpandColumn,
-        rowExpandable,
-        expandRow
+        caxExpandRow,
+        expandRowRenderer,
+        hideHeader
     } = props;
 
     const [tableColumns, setTableColumns] = useState<any>(props.columns);
     const size = props.size || "large";
     const scroll = props.scroll || "unset";
     const tableLayout = props.tableLayout || "fixed";
-    const showHeader = props.showHeader !== undefined ? props.showHeader : true;
 
     const defaultRowKey = useCallback((item: any, index?: number) => item?._id || index, []);
 
@@ -77,9 +77,9 @@ const TableComponent = (props: TableComponentProps) => {
                     // expandedRowKeys: rowKey ? data.map(rowKey) : [], // todo: make it unique if required
                     showExpandColumn: showExpandColumn,
                     defaultExpandAllRows: defaultExpandAllRows,
-                    rowExpandable: rowExpandable,
-                    expandedRowRender: expandRow,
-                    expandRowByClick: !!expandRow
+                    rowExpandable: caxExpandRow,
+                    expandedRowRender: expandRowRenderer,
+                    expandRowByClick: !!expandRowRenderer
                 }
                 }
                 columns={tableColumns}
@@ -108,7 +108,7 @@ const TableComponent = (props: TableComponentProps) => {
                     }
                 }}
                 rowKey={rowKey as string | GetRowKey<any>}
-                showHeader={showHeader}
+                showHeader={!hideHeader}
                 rowClassName={rowClassName}
                 loading={loading ? {
                     indicator: <LoaderComponent type={"spinner"} size={"md"}/>,

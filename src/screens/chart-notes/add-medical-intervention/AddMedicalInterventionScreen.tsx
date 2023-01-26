@@ -433,8 +433,8 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                                     bordered={true}
                                                                     showExpandColumn={false}
                                                                     defaultExpandAllRows={true}
-                                                                    rowExpandable={(row: any) => row?.config?.comments?.length > 0}
-                                                                    expandRow={
+                                                                    caxExpandRow={(row: any) => row?.config?.comments?.length > 0}
+                                                                    expandRowRenderer={
                                                                         (row: any) => {
                                                                             return (
                                                                                 <div key={row?.config?._id}
@@ -491,8 +491,8 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                             bordered={true}
                                                             showExpandColumn={false}
                                                             defaultExpandAllRows={true}
-                                                            rowExpandable={(row: any) => row?.comments?.length > 0}
-                                                            expandRow={
+                                                            caxExpandRow={(row: any) => row?.comments?.length > 0}
+                                                            expandRowRenderer={
                                                                 (row: any) => {
                                                                     return (
                                                                         <div key={row?._id}
