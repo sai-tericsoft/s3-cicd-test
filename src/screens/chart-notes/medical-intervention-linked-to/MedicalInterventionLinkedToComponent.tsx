@@ -40,7 +40,7 @@ const MedicalInterventionLinkedToComponent = (props: MedicalInterventionLinkedTo
             key: "body_part",
             width: 114,
             render: (_: any, item: any) => {
-                return <>{item?.body_side}</>
+                return <>{item?.body_side || "N/A"}</>
             }
         }
     ];
@@ -52,7 +52,7 @@ const MedicalInterventionLinkedToComponent = (props: MedicalInterventionLinkedTo
                 <div className={'medical-record-injury-details'}>{medicalRecordDetails?.intervention_linked_to}
                     {medicalRecordDetails?.created_at && CommonService.transformTimeStamp(medicalRecordDetails?.created_at)}{" "}
                     {"-"} {medicalRecordDetails?.injury_details.map((injury: any, index: number) => {
-                        return <>{injury.body_part_details.name}({injury.body_side}) {index !== medicalRecordDetails?.injury_details.length - 1 ? <> | </> : ""}</>
+                        return <>{injury.body_part_details.name} {injury.body_side  ? `( ${injury.body_side} )` : '' } {index !== medicalRecordDetails?.injury_details.length - 1 ? <> | </> : ""}</>
                     })}
                 </div>
                 <span className={'medical-record-injury-details-view-all-body-parts'}

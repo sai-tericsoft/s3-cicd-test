@@ -27,6 +27,7 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import moment from "moment";
 import {useNavigate, useParams} from "react-router-dom";
+import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface AddMedicalRecordScreenProps {
 
@@ -34,6 +35,7 @@ interface AddMedicalRecordScreenProps {
 
 const MEDICAL_RECORD_BODY_PART = {
     body_part_id: "",
+    body_part_details: "",
     body_side: "",
     injury_type_id: "",
 };
@@ -66,8 +68,13 @@ const surgeryRecordValidationSchema = Yup.object().shape({
 });
 
 const InjuryDetailsValidationSchema = Yup.object().shape({
-    body_part_id: Yup.string().required("Body Part is required"),
-    body_side: Yup.mixed().required("Body Side is required"),
+    body_part_id: Yup.mixed().required("Body Part is required"),
+    body_part_details: Yup.mixed().nullable(),
+    body_side: Yup.mixed().nullable().when("body_part_details", {
+        is: (value: IBodyPart) => value && value?.sides?.length > 0,
+        then: Yup.string().required('Body Part is required'),
+        otherwise: Yup.string().nullable()
+    }),
     injury_type_id: Yup.string().required("Injury Type is required"),
 });
 
@@ -117,20 +124,21 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         if (clientId) {
+            const payload = _.cloneDeep({...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['body_part_details'])});
             setIsMedicalRecordAddInProgress(true);
-            values.surgery_details = {};
-            if(surgeryRecord) {
-                values.surgery_details = surgeryRecord;
-                values.surgery_details.reported_by = surgeryRecord.reported_by?._id;
+            payload.surgery_details = {};
+            if (surgeryRecord) {
+                payload.surgery_details = surgeryRecord;
+                payload.surgery_details.reported_by = surgeryRecord.reported_by?._id;
             }
-            values.onset_date = CommonService.convertDateFormat(values?.onset_date);
-            if (values.case_physician.next_appointment) {
-                values.case_physician.next_appointment = CommonService.convertDateFormat(values?.case_physician?.next_appointment);
+            payload.onset_date = CommonService.convertDateFormat(payload?.onset_date);
+            if (payload.case_physician.next_appointment) {
+                payload.case_physician.next_appointment = CommonService.convertDateFormat(payload?.case_physician?.next_appointment);
             }
-            if (values.surgery_details.surgery_date) {
-                values.surgery_details.surgery_date = CommonService.convertDateFormat(values?.surgery_details?.surgery_date);
+            if (payload.surgery_details.surgery_date) {
+                payload.surgery_details.surgery_date = CommonService.convertDateFormat(payload?.surgery_details?.surgery_date);
             }
-            const formData = CommonService.getFormDataFromJSON(values);
+            const formData = CommonService.getFormDataFromJSON(payload);
             CommonService._chartNotes.MedicalRecordAddAPICall(clientId, formData)
                 .then((response: IAPIResponseType<any>) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
@@ -166,7 +174,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                     enableReinitialize={true}
                     validateOnMount={true}>
                     {
-                        ({values,errors, isValid,setFieldValue, validateForm}) => {
+                        ({values, errors, isValid, setFieldValue, validateForm}) => {
                             // eslint-disable-next-line react-hooks/rules-of-hooks
                             useEffect(() => {
                                 validateForm();
@@ -286,6 +294,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
+                            <FormDebuggerComponent values={values} errors={errors} canShow={false}/>
                             {
                                 !surgeryRecord && <div
                                     className={"mrg-bottom-20 display-flex flex-direction-row-reverse"}>
@@ -484,7 +493,8 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                                                         formikField={field}
                                                                                         required={true}
                                                                                         fullWidth={true}
-                                                                                        onUpdate={() => {
+                                                                                        onUpdate={(value) => {
+                                                                                            setFieldValue(`injury_details[${index}].body_part_details`, bodyPartList.find((item: any) => item?._id === value));
                                                                                             setFieldValue(`injury_details[${index}].injury_type_id`, '');
                                                                                             setFieldValue(`injury_details[${index}].body_side`, '');
                                                                                         }}
@@ -499,13 +509,13 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                                             {
                                                                                 (field: FieldProps) => (
                                                                                     <FormikSelectComponent
-                                                                                        disabled={values?.injury_details[index]?.body_part_id === ""}
-                                                                                        options={bodyPartList?.find((item: IBodyPart) => item?._id === values?.injury_details[index]?.body_part_id)?.sides}
+                                                                                        disabled={(values?.injury_details[index]?.body_part_details === "" || !values?.injury_details[index]?.body_part_details?.sides || values?.injury_details[index]?.body_part_details?.sides?.length === 0)}
+                                                                                        options={values?.injury_details[index]?.body_part_details?.sides}
                                                                                         label={'Body Side'}
                                                                                         displayWith={(item: any) => item}
                                                                                         valueExtractor={(item: any) => item}
                                                                                         formikField={field}
-                                                                                        required={true}
+                                                                                        required={values?.injury_details[index]?.body_part_details?.sides?.length > 0}
                                                                                         fullWidth={true}
                                                                                         onUpdate={() => {
                                                                                             setFieldValue(`injury_details[${index}].injury_type_id`, '');
