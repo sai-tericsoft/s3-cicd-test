@@ -244,43 +244,46 @@ const handleMedicalRecordTransfer = useCallback(() => {
                                 </div>
                                 <MedicalInterventionLinkedToComponent medicalRecordDetails={clientMedicalRecord}/>
                                 <div className={'ts-row'}>
-                                    <div className={'ts-col-md-3'}>
+                                    <div className={'ts-col-md-4 ts-col-lg'}>
                                         <DataLabelValueComponent label={'Date of Onset'}>
                                             {clientMedicalRecord?.onset_date ? CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.onset_date) : "NA"}
                                         </DataLabelValueComponent>
                                     </div>
-                                    <div className={'ts-col-md-3'}>
+                                    <div className={'ts-col-md-4 ts-col-lg'}>
                                         <DataLabelValueComponent label={'Date of Surgery'}>
                                             {clientMedicalRecord?.surgery_date ? CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.surgery_date) : "NA"}
                                         </DataLabelValueComponent>
                                     </div>
-                                    <div className={'ts-col-md-3'}>
+                                    <div className={'ts-col-md-4 ts-col-lg'}>
                                         <DataLabelValueComponent label={'Case Physician'}>
                                             {clientMedicalRecord?.case_physician.name || "-"}
                                         </DataLabelValueComponent>
                                     </div>
-                                    <div className={'ts-col-md-3'}>
+                                    <div className={'ts-col-md-4 ts-col-lg'}>
                                         <DataLabelValueComponent label={'Next MD Appointment'}>
                                             {clientMedicalRecord?.next_md_appointment ? CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.next_md_appointment) : "NA"}
                                         </DataLabelValueComponent>
                                     </div>
-                                </div>
-                                <div className={'ts-row'}>
-                                    <div className={'ts-col-md-3'}>
+                                    <div className={'ts-col-md-4 ts-col-lg'}>
                                         <DataLabelValueComponent label={'Total Direct Minutes'}>
                                             {clientMedicalRecord?.total_direct_minutes || "-"}
                                         </DataLabelValueComponent>
                                     </div>
-                                    <div className={'ts-col-lg-3'}>
+                                </div>
+                                <div className={'ts-row'}>
+                                    <div className={'ts-col-md-4 ts-col-lg'}>
                                         <DataLabelValueComponent label={'Injury/Condition Description'}>
                                             {clientMedicalRecord?.injury_description || "-"}
                                         </DataLabelValueComponent>
                                     </div>
-                                    <div className={'ts-col-lg-3'}>
+                                    <div className={'ts-col-md-4 ts-col-lg'}/>
+                                    <div className={'ts-col-md-4 ts-col-lg'}>
                                         <DataLabelValueComponent label={'Restrictions and Limitations'}>
                                             {clientMedicalRecord?.limitations || "-"}
                                         </DataLabelValueComponent>
                                     </div>
+                                    <div className={'ts-col-md-4 ts-col-lg'}/>
+                                    <div className={'ts-col-md-4 ts-col-lg'}/>
                                 </div>
                             </CardComponent>
                         </>
