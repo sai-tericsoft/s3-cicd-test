@@ -180,15 +180,17 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             </LinkComponent>
                             }>
                                 <div className={'ts-row'}>
+                                    <div className={'females-only-block'}>
                                     <div className={'ts-col-12'}>
-                                        <DataLabelValueComponent label={'Pregnant or Attempting to be pregnant?'}>
+                                        <DataLabelValueComponent label={'Pregnant or Attempting to be pregnant?'}  direction={'row'}>
                                             {clientMedicalDetails?.females_only_questions?.["Pregnant or trying to get pregnant?"] || "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-12'}>
-                                        <DataLabelValueComponent label={'Nursing?'}>
+                                        <DataLabelValueComponent label={'Nursing?'} direction={'row'}>
                                             {clientMedicalDetails?.females_only_questions?.["Nursing?"] || "N/A"}
                                         </DataLabelValueComponent>
+                                    </div>
                                     </div>
                                 </div>
                             </CardComponent>
