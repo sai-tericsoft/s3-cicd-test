@@ -25,7 +25,6 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
         isClientBasicDetailsLoaded,
         isClientBasicDetailsLoadingFailed
     } = useSelector((state: IRootReducerState) => state.client);
-
     return (
         <div className={'client-basic-details-component'}>
             {
@@ -102,17 +101,21 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                 </div>
                             </div>
                         </div>
-                        <HorizontalLineComponent/>
-
                         <div className="ts-row">
+                            {clientBasicDetails?.secondary_contact_info?.length > 0 && (clientBasicDetails?.secondary_contact_info[0]?.phone !== "" || clientBasicDetails?.secondary_emails[0]?.email !== "")
+                            &&  <HorizontalLineComponent className={'alternate-heading-horizontal-line'}/>}
                             <div className="ts-col-8">
-                                <FormControlLabelComponent label={'Alternate Phone:'}/>
                                 {
-
+                                    clientBasicDetails?.secondary_contact_info?.length > 0 &&
+                                    clientBasicDetails?.secondary_contact_info[0]?.phone !== "" &&
+                                    <>
+                                        <FormControlLabelComponent label={'Alternate Phone:'}/>
+                                    </>
+                                }
+                                {
                                     clientBasicDetails?.secondary_contact_info?.map((phone_number, index: number) => {
                                         return <>
                                             {
-
                                                 phone_number?.phone_type_details?.title && phone_number?.phone && <>
                                                     <div className={'ts-row'}>
                                                         <div className={'ts-col-5'}>
@@ -134,7 +137,12 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                 }
                             </div>
                             <div className="ts-col-4">
-                                <FormControlLabelComponent label={'Alternate Email:'}/>
+                                {clientBasicDetails?.secondary_emails?.length > 0 &&
+                                    clientBasicDetails?.secondary_emails[0]?.email !== "" &&
+                                    <>
+                                        <FormControlLabelComponent label={'Alternate Email:'}/>
+                                    </>
+                                }
                                 <div className={'ts-row'}>
                                     {
                                         clientBasicDetails?.secondary_emails?.map((email, index: number) => {
@@ -198,10 +206,17 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                 </div>
                             </div>
                         </div>
-                        <HorizontalLineComponent className={'alternate-heading-horizontal-line'}/>
+                        {
+                            clientBasicDetails?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.length > 0 &&
+                            clientBasicDetails?.emergency_contact_info?.primary_emergency?.secondary_contact_info[0]?.phone !== "" &&
+                            <HorizontalLineComponent className={'alternate-heading-horizontal-line'}/>
+                        }
                         <div className="ts-row">
                             <div className="ts-col-6">
-                                <FormControlLabelComponent label={'Alternate:'}/>
+                                {clientBasicDetails?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.length > 0 &&
+                                    clientBasicDetails?.emergency_contact_info?.primary_emergency?.secondary_contact_info[0]?.phone !== "" &&
+                                    <FormControlLabelComponent label={'Alternate:'}/>
+                                }
                                 {
                                     clientBasicDetails?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.map((phone_number: any, index: number) => {
                                         return <>
@@ -265,8 +280,13 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                 </div>
                             </>
                         }
-                        <HorizontalLineComponent className={'alternate-heading-horizontal-line'}/>
-                        <FormControlLabelComponent label={'Alternate:'}/>
+                        {clientBasicDetails?.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.length > 0 &&
+                            clientBasicDetails?.emergency_contact_info?.secondary_emergency?.secondary_contact_info[0]?.phone !== "" &&
+                            <>
+                                < HorizontalLineComponent className={'alternate-heading-horizontal-line'}/>
+                                <FormControlLabelComponent label={'Alternate:'}/>
+                            </>
+                        }
                         {
                             clientBasicDetails?.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.map((phone_number, index: number) => {
                                 return <>
