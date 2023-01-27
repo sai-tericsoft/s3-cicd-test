@@ -91,7 +91,7 @@ const TableComponent = (props: TableComponentProps) => {
         parseColumns(columns), [columns, parseColumns]);
 
     const dataMemoized = useMemo<any>(() =>
-        data, [data]);
+        data || [], [data]);
 
     const {
         getTableProps,
@@ -110,7 +110,7 @@ const TableComponent = (props: TableComponentProps) => {
     );
 
     const getTHClasses = useCallback((column: ITableColumn) => {
-        let classes = 'th t-th t-cell t-cell-' + column.key?.split(' ').join('-') + " " + column.className + ' t-cell-align-' + column.align ;
+        let classes = 'th t-th t-cell t-cell-' + column.key?.split(' ').join('-') + " " + column.className + ' t-cell-align-' + column.align;
         if (column?.sortable) {
             classes += " sortable";
             if (sort && sort.key === column.key) {
@@ -125,7 +125,7 @@ const TableComponent = (props: TableComponentProps) => {
     }, [sort]);
 
     const getTDClasses = useCallback((column: ITableColumn) => {
-        return 'td t-td t-cell t-cell-' + column.key?.split(' ').join('-') + " " + column.className + ' t-cell-align-' + column.align ;
+        return 'td t-td t-cell t-cell-' + column.key?.split(' ').join('-') + " " + column.className + ' t-cell-align-' + column.align;
     }, []);
 
     const handleRowClick = useCallback((row: any) => {
@@ -167,7 +167,8 @@ const TableComponent = (props: TableComponentProps) => {
                                     <div {...headerGroup.getHeaderGroupProps()} className="t-tr">
                                         {headerGroup.headers.map((column: any) => <div {...column.getHeaderProps()}
                                                                                        onClick={() => applySort(column)}
-                                                                                       className={getTHClasses(column)}>
+                                                                                       className={getTHClasses(column)}
+                                            >
                                                 {column.render('Header')}
                                             </div>
                                         )}

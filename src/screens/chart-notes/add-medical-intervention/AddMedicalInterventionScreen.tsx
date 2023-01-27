@@ -29,6 +29,7 @@ import moment from "moment-timezone";
 import MedicalInterventionDetailsCardComponent
     from "../medical-intervention-details-card/MedicalInterventionDetailsCardComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
+import TableV2Component from "../../../shared/components/table-v2/TableV2Component";
 
 interface AddMedicalInterventionScreenProps {
 
@@ -107,7 +108,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                 key: 'name',
                 width: 147,
                 fixed: 'left',
-                render: ( item: any) => {
+                render: (_: any, item: any) => {
                     return <div className={'movement-name'}>{item.movement_name}</div>
                 }
             }
@@ -123,7 +124,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                         dataIndex: 'arom',
                         key: 'arom',
                         width: 87,
-                        render: ( item: any) => {
+                        render: (_: any, item: any) => {
                             return <div className={'movement-name'}>{item?.config[side]?.arom || '-'}</div>
                         }
                     },
@@ -132,7 +133,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                         dataIndex: 'prom',
                         key: 'prom',
                         width: 87,
-                        render: ( item: any) => {
+                        render: (_: any, item: any) => {
                             return <div className={'movement-name'}>{item?.config[side]?.prom || "-"}</div>
                         }
                     },
@@ -141,7 +142,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                         dataIndex: 'strength',
                         key: 'strength',
                         width: 107,
-                        render: ( item: any) => {
+                        render: (_: any, item: any) => {
                             return <div className={'movement-name'}>{item?.config[side]?.strength || "-"}</div>
                         }
                     }
@@ -428,7 +429,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                                                }
                                                                 >
                                                                 </CardComponent>
-                                                                <TableComponent
+                                                                <TableV2Component
                                                                     data={body_part?.rom_config}
                                                                     bordered={true}
                                                                     showExpandColumn={false}
@@ -485,7 +486,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                                        title={body_part?.body_part_details?.name || "-"
                                                                        }>
                                                         </CardComponent>
-                                                        <TableComponent
+                                                        <TableV2Component
                                                             data={body_part.special_tests}
                                                             columns={SpecialTestsColumns}
                                                             bordered={true}
@@ -639,7 +640,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 </CardComponent>
                                             </div>
                                             {medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0 &&
-                                                <TableComponent data={medicalInterventionDetails?.linked_icd_codes}
+                                                <TableV2Component data={medicalInterventionDetails?.linked_icd_codes}
                                                                 bordered={true} columns={ICDTableColumns}/>}
                                         </div>
 

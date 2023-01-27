@@ -252,6 +252,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                         method={APIConfig.ICD_CODE_LIST.METHOD}
                         columns={codeListColumns}
                         isPaginated={true}
+                        type={"ant"}
                     />
                 </TabContentComponent>
                 <TabContentComponent value={'favourites'} selectedTab={currentTab}>
@@ -269,6 +270,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                         method={APIConfig.ICD_CODE_FAVOURITE_LIST.METHOD}
                         columns={favouriteICDCodesColumns}
                         isPaginated={true}
+                        type={"ant"}
                     />
                 </TabContentComponent>
                 <div className="text-center">

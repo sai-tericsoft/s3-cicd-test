@@ -8,8 +8,10 @@ import {CommonService} from "../../services";
 import PaginationComponent from "../pagination/PaginationComponent";
 import _ from "lodash";
 import TableComponent from "../table/TableComponent";
+import TableV2Component from "../table-v2/TableV2Component";
 
 export interface TableComponentProps extends ITableComponentProps {
+    type?: "ant" | "custom",
     url: string,
     method: "get" | "post" | string,
     isPaginated?: boolean,
@@ -30,6 +32,7 @@ const TableWrapperComponent = (props: TableComponentProps) => {
     const pageSizeRef = useRef<number>(10);
     const fetchPageDataSubscriptionRef = useRef<boolean>(true);
     const isPaginated = props.isPaginated !== undefined ? props.isPaginated : true;
+    const type = props.type || "custom";
 
     const getListData = useCallback(() => {
         const payload = _.cloneDeep({page: pageNumRef.current + 1, limit: pageSizeRef.current, ...extraPayload});
@@ -98,15 +101,26 @@ const TableWrapperComponent = (props: TableComponentProps) => {
 
     return (
         <>
-            <TableComponent
-                loading={isDataLoading}
-                errored={isDataLoadingFailed}
-                data={data}
-                id={id}
-                sort={extraPayload?.sort}
-                {...otherProps}
-
-            />
+            {
+                type === "custom" && <TableComponent
+                    loading={isDataLoading}
+                    errored={isDataLoadingFailed}
+                    data={data}
+                    id={id}
+                    sort={extraPayload?.sort}
+                    {...otherProps}
+                />
+            }
+            {
+                type === "ant" && <TableV2Component
+                    loading={isDataLoading}
+                    errored={isDataLoadingFailed}
+                    data={data}
+                    id={id}
+                    sort={extraPayload?.sort}
+                    {...otherProps}
+                />
+            }
             {
                 (isDataLoaded && (data && data?.length) > 0 && isPaginated) && <PaginationComponent
                     paginationOptions={[10, 25, 100]}

@@ -16,6 +16,7 @@ import FormikTextAreaComponent from "../../../shared/components/form-controls/fo
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
+import TableV2Component from "../../../shared/components/table-v2/TableV2Component";
 
 interface RomConfigComponentProps {
     medicalInterventionDetails: any;
@@ -62,13 +63,13 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
         bodySides?.forEach((side: any) => {
             columns.push({
                 title: side,
+                align: 'center',
                 children: [
                     {
                         title: 'AROM',
                         key: 'arom',
                         width: 80,
                         render: ( record: any) => {
-                            console.log(record);
                             return <Field
                                 name={`${bodyPart._id}.${record?.name}.${side}.arom`}
                                 className="t-form-control">
@@ -131,22 +132,22 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
         columns.push({
             title: '',
             key: 'comments',
-            width: 80,
             fixed: 'right',
-            render: (index: any, record: any) => <Field
+            width: 80,
+            render: (record: any, index: any) => <Field
                 name={`${bodyPart._id}.${record?.name}.comments`}
                 className="t-form-control">
                 {
                     (field: FieldProps) => (
                         <IconButtonComponent
-                            color={field.form.values[bodyPart._id]?.[record?.name].comments ? "primary" : "inherit"}
+                            color={field.form?.values[bodyPart._id]?.[record?.name]?.comments ? "primary" : "inherit"}
                             onClick={() => {
                                 setShowROMMovementCommentsModal(true);
                                 console.log(record);
                                 setSelectedROMMovementComments(record);
                             }}>
                             {
-                                field.form.values[bodyPart._id]?.[record?.name].comments ? <ImageConfig.ChatIcon/> :
+                                field.form?.values[bodyPart._id]?.[record?.name]?.comments ? <ImageConfig.ChatIcon/> :
                                     <ImageConfig.CommentAddIcon/>
                             }
                         </IconButtonComponent>
@@ -315,7 +316,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                                         }
                                                     />
                                                 </div>
-                                                <TableComponent
+                                                <TableV2Component
                                                     data={romConfigValues.movements || []}
                                                     bordered={true}
                                                     columns={romConfigValues.tableConfig}/>

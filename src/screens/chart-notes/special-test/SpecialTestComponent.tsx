@@ -16,6 +16,7 @@ import FormikRadioButtonGroupComponent
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
+import TableV2Component from "../../../shared/components/table-v2/TableV2Component";
 
 interface SpecialTestComponentProps {
     medicalInterventionDetails: any;
@@ -93,7 +94,7 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                 title: '',
                 key: 'comments',
                 width: 80,
-                render: (index: any, record: any) => <Field
+                render: (record: any, index: any) => <Field
                     name={`${bodyPart._id}.${record?.name}.comments`}
                     className="t-form-control">
                     {
@@ -231,11 +232,12 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                                            </>}
                             >
                                 <div className={'special-test-table-container'}>
-                                    <TableComponent
+                                    <TableV2Component
                                         data={specialTestFormValues.special_tests || []}
                                         bordered={true}
-                                        rowKey={(row, index) => index + '_' + row.name}
-                                        columns={specialTestFormValues.tableConfig}/>
+                                        rowKey={(row: any, index: any) => index + '_' + row.name}
+                                        columns={specialTestFormValues.tableConfig}
+                                    />
                                 </div>
                                 <div className="t-form-actions">
                                     <ButtonComponent type={"submit"}
