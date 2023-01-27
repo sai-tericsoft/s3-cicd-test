@@ -1,11 +1,6 @@
 import "./ToolTipComponent.scss";
 import React, {ReactFragment, useCallback} from "react";
-import {Tooltip, tooltipClasses} from "@mui/material";
-import {
-    MuiThemeProvider,
-    withStyles,
-    styled
-} from "@material-ui/core/styles";
+import {Tooltip} from "@mui/material";
 
 interface ToolTipComponentProps {
     tooltip: string | ReactFragment;
