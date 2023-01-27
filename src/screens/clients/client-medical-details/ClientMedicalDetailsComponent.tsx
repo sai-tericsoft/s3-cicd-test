@@ -164,9 +164,11 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                 }
                             </div>
                         }
-                        <DataLabelValueComponent label={"Comments"}>
-                            {clientMedicalDetails?.medical_history?.comments || "N/A"}
-                        </DataLabelValueComponent>
+                        { clientMedicalDetails?.medical_history?.comments &&
+                            <DataLabelValueComponent label={"Comments"}>
+                                {clientMedicalDetails?.medical_history?.comments}
+                            </DataLabelValueComponent>
+                        }
                     </CardComponent>
                     {
                         clientBasicDetails?.gender === "female" && <>
@@ -218,9 +220,9 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             clientMedicalDetails?.surgical_history?.questions && clientMedicalDetails?.surgical_history?.questions?.length > 0 &&
                             <span>, </span>
                         }
-                        <DataLabelValueComponent label={"Comments"}>
-                            {clientMedicalDetails?.surgical_history?.comments || "N/A"}
-                        </DataLabelValueComponent>
+                        { clientMedicalDetails?.surgical_history?.comments && <DataLabelValueComponent label={"Comments"}>
+                            {clientMedicalDetails?.surgical_history?.comments}
+                        </DataLabelValueComponent>}
                     </CardComponent>
                     <CardComponent title={'Musculoskeletal History'} actions={<LinkComponent
                         route={CommonService._client.NavigateToClientEdit(clientId, "musculoskeletalHistory")}>
