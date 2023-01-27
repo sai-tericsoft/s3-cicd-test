@@ -137,8 +137,11 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
         }, []);
 
     const handleDryNeedlingFileAdd = useCallback(() => {
+        if (medicalInterventionDetails?._id) {
+            dispatch(getMedicalInterventionDetails(medicalInterventionDetails?._id));
+        }
         closeAddDryNeedlingFileDrawer();
-    }, [closeAddDryNeedlingFileDrawer]);
+    }, [closeAddDryNeedlingFileDrawer, dispatch, medicalInterventionDetails]);
 
     const handleTransferSoapNote = useCallback(() => {
         if (medicalInterventionDetails?._id) {
