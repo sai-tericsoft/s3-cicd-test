@@ -25,7 +25,6 @@ import CardComponent from "../../../shared/components/card/CardComponent";
 import DraftReadonlySwitcherComponent from "../draft-readonly-switcher/DraftReadonlySwitcherComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
-import TableComponent from "../../../shared/components/table/TableComponent";
 import ESignApprovalComponent from "../../../shared/components/e-sign-approval/ESignApprovalComponent";
 import TableV2Component from "../../../shared/components/table-v2/TableV2Component";
 

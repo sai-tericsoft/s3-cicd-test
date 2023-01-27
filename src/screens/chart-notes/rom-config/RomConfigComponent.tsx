@@ -1,7 +1,6 @@
 import "./RomConfigComponent.scss";
 import {IBodyPart} from "../../../shared/models/static-data.model";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
-import TableComponent from "../../../shared/components/table/TableComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {useCallback, useEffect, useState} from "react";
