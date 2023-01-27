@@ -67,7 +67,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             dataIndex: "body_side",
             width: 110,
             render: (_: any, item: any) => {
-                return <>{item?.injury_details[0]?.body_side}</>
+                return <>{item?.injury_details[0]?.body_side || "NA"}</>
             }
         },
         {
