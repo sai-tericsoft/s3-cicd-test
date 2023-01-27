@@ -1,5 +1,17 @@
-.contact-info-wrapper {
-  .form-control-label-component {
-    font-size: 16px;
+.client-basic-details-component {
+  .contact-info-wrapper {
+    .form-control-label-component {
+      font-size: 1.1429rem;
+    }
+  }
+  .primary-emergency-contact,.secondary-emergency-contact{
+    font-size: 1.1429rem;
+  }
+  .alternate-heading-horizontal-line{
+    border-bottom: 2px solid #CECECE;
+  }
+
+  .secondary-horizontal-line{
+    border-bottom: 4px solid #CECECE;
   }
 }
