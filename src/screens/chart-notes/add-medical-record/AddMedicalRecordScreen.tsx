@@ -80,8 +80,6 @@ const InjuryDetailsValidationSchema = Yup.object().shape({
 
 const MedicalRecordAddFormValidationSchema = Yup.object({
     onset_date: Yup.string().required("Date Of Onset is required"),
-    injury_description: Yup.string().required("Injury/Condition description is required"),
-    limitations: Yup.string().required("Restrictions/Limitations is required"),
     injury_details: Yup.array().of(InjuryDetailsValidationSchema),
     case_physician: Yup.object({
         is_case_physician: Yup.boolean(),
@@ -581,7 +579,6 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                     <FormikTextAreaComponent
                                                         label={'Injury/Condition Description'}
                                                         formikField={field}
-                                                        required={true}
                                                         fullWidth={true}
                                                     />
                                                 )
@@ -597,7 +594,6 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                     <FormikTextAreaComponent
                                                         label={'Restrictions/Limitations'}
                                                         formikField={field}
-                                                        required={true}
                                                         fullWidth={true}
                                                     />
                                                 )

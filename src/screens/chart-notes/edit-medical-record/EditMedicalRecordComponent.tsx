@@ -62,8 +62,6 @@ const InjuryDetailsRecordValidationSchema = Yup.object().shape({
 
 const MedicalRecordValidationSchema = Yup.object({
     onset_date: Yup.mixed().required("Onset date is required"),
-    injury_description: Yup.string().required("Injury/Condition description is required"),
-    limitations: Yup.string().required("Restrictions/Limitations is required"),
     injury_details: Yup.array().of(InjuryDetailsRecordValidationSchema),
     case_physician: Yup.object({
         is_case_physician: Yup.boolean(),
@@ -236,7 +234,6 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                     label={'Injury Description'}
                                                     formikField={field}
                                                     fullWidth={true}
-                                                    required={true}
                                                 />
                                             )
                                         }
@@ -250,7 +247,6 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                     label={'Restrictions/Limitations'}
                                                     formikField={field}
                                                     fullWidth={true}
-                                                    required={true}
                                                 />
                                             )
                                         }
