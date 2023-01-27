@@ -8,6 +8,7 @@ export interface ITableColumn {
     sortable?: any;
     className?: string;
     width?: number | string;
+    align?: 'left' | 'right' | 'center';
     fixed?: "left" | "right" | undefined;
     children?: ITableColumn[];
 }
@@ -20,8 +21,6 @@ export interface ITableComponentProps {
     rowClassName?: (row: any, index: number) => string;
     rowKey?: (row: any, index: number) => string;
     hideHeader?: boolean;
-    tableLayout?: 'auto' | 'fixed' | undefined;
-    scroll?: "unset" | "scroll";
     size?: 'small' | 'middle' | 'large';
     onSort?: (key: string, order: string) => void;
     canExpandRow?: (row: any) => boolean;
@@ -30,7 +29,7 @@ export interface ITableComponentProps {
     showExpandColumn?: boolean;
     expandRowRenderer?: (row: any, index: number) => React.ReactNode;
     rowSelection?: TableRowSelection<any>;
-    sort? : {
+    sort?: {
         key: string;
         order: string;
     }

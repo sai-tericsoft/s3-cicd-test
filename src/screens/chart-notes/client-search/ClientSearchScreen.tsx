@@ -147,7 +147,6 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
                 <div className="list-content-wrapper">
                     <TableWrapperComponent
                         id={"client_search"}
-                        scroll={"scroll"}
                         url={APIConfig.CLIENT_LIST.URL}
                         method={APIConfig.CLIENT_LIST.METHOD}
                         columns={ClientListTableColumns}

@@ -22,6 +22,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             key: "client_id",
             dataIndex: "client_id",
             width: 150,
+            align: "center",
             fixed: "left",
             render: (item: IClientBasicDetails) => {
                 if (item?._id) {
@@ -46,6 +47,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             key: "primary_contact_info",
             dataIndex: "primary_contact_info",
             width: 150,
+            align: "center",
             render: (item: IClientBasicDetails) => {
                 return <span>{item?.primary_contact_info?.phone}</span>
             }
@@ -55,6 +57,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             key: "last_appointment_date",
             dataIndex: "lastAppointmentDate",
             width: 200,
+            align: "center",
             render: (item: IClientBasicDetails) => {
                 return <span>
                     {item?.last_appointment_date ? CommonService.getSystemFormatTimeStamp(item?.last_appointment_date) : "-"}
@@ -65,6 +68,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             title: "Last Provider",
             key: "last_provider",
             dataIndex: "last_provider",
+            align: "center",
             width: 200,
             render: (item: IClientBasicDetails) => {
                 return <span>
@@ -76,6 +80,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             title: "Status",
             dataIndex: "status",
             key: "status",
+            align: "center",
             width: 130,
             render: (item: IClientBasicDetails) => {
                 return <ChipComponent label={item?.is_active ? "Active" : "Inactive"}
@@ -89,6 +94,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             key: "actions",
             width: 120,
             fixed: "right",
+            align: "center",
             render: (item: IClientBasicDetails) => {
                 if (item?._id) {
                     return <LinkComponent route={CommonService._routeConfig.ClientDetails(item?._id)}>
@@ -103,7 +109,6 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
         <div className={'client-list-table-component'}>
             <TableWrapperComponent
                 id={"client_list"}
-                scroll={"scroll"}
                 url={APIConfig.CLIENT_LIST.URL}
                 method={APIConfig.CLIENT_LIST.METHOD}
                 columns={ClientListTableColumns}

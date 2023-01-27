@@ -195,7 +195,6 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                                             columns={MedicalRecordListTableColumns}
                                             extraPayload={caseStatusFilterState}
                                             id={"client_medical_records_list"}
-                                            scroll={"scroll"}
                                         />
                                     </div>
                                 </div>

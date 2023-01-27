@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const TableStyles = styled.div`
 
 .table {
-  // border: 1px solid #ddd;
+
   .t-tr {
     :last-child {
       .td {
@@ -11,13 +11,9 @@ export const TableStyles = styled.div`
       }
     }
   } 
+  
   .t-th,
   .t-td {
-    // height: 56px;
-    border: 1px solid #ddd;
-    background-color: #fff;
-    overflow: hidden;
-    padding: 18px 16px;
 
     :last-child {
       border-right: 0;
@@ -26,34 +22,6 @@ export const TableStyles = styled.div`
      :not([data-sticky-td]) {
         // flex-grow: 1;
       }
-
-  }
-  .t-td {
-    // display: flex !important;
-    // align-items: center;
-  }
-  &.small {
-    .t-th,
-    .t-td {
-      padding: 6px 4px;
-    }
-  }
-  &.medium {
-    .t-th,
-    .t-td {
-      padding: 18px 8px;
-    }
-  }
-  &.large {
-    .t-th,
-    .t-td {
-      padding: 20px 10px;
-    }
-  }
-  .t-th {
-    background-color: #e1ebea;
-    color: #212b36;
-    font-weight: 700;
   }
 
   .t-tr {

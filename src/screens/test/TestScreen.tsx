@@ -1,14 +1,13 @@
 import './TestScreen.scss';
-import TableV2Component from "../../shared/components/table-v2/TableV2Component";
 import {ITableColumn} from "../../shared/models/table.model";
 import {useCallback, useMemo, useState} from "react";
 import {MOCK_USER_DATA} from "../../assets/data/user.data";
 import InputComponent from "../../shared/components/form-controls/input/InputComponent";
 import ButtonComponent from "../../shared/components/button/ButtonComponent";
+import TableComponent from "../../shared/components/table/TableComponent";
 
 const TestScreen = () => {
 
-    const [selectedRows, setSelectedRows] = useState<any[]>([]);
 
     const UserTableColumns: ITableColumn[] = useMemo<any>(() => [
         // {
@@ -110,7 +109,7 @@ const TestScreen = () => {
                 </ButtonComponent>
             }
         },
-    ], [selectedRows]);
+    ], []);
 
     const [filter, setFilter] = useState<any>({
         sort: {
@@ -131,7 +130,7 @@ const TestScreen = () => {
 
     return (
         <div className="test-screen">
-            <TableV2Component data={MOCK_USER_DATA.slice(0, 19)}
+            <TableComponent data={MOCK_USER_DATA.slice(0, 19)}
                               columns={UserTableColumns}
                               sort={filter.sort}
                               onSort={handleSort}

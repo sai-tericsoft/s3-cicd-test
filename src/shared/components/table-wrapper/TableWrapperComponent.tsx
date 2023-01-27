@@ -6,8 +6,8 @@ import {IAPIResponseType} from "../../models/api.model";
 import {ITableComponentProps} from "../../models/table.model";
 import {CommonService} from "../../services";
 import PaginationComponent from "../pagination/PaginationComponent";
-import TableV2Component from "../table-v2/TableV2Component";
 import _ from "lodash";
+import TableComponent from "../table/TableComponent";
 
 export interface TableComponentProps extends ITableComponentProps {
     url: string,
@@ -98,7 +98,7 @@ const TableWrapperComponent = (props: TableComponentProps) => {
 
     return (
         <>
-            <TableV2Component
+            <TableComponent
                 loading={isDataLoading}
                 errored={isDataLoadingFailed}
                 data={data}
