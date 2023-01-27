@@ -46,7 +46,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             width: 160,
             fixed: 'left',
             render: ( item: any) => {
-                return <>{CommonService.getSystemFormatTimeStamp(item?.intervention_date)}</>
+                return <>{item?.created_at ? CommonService.getSystemFormatTimeStamp(item?.created_at) : "N/A"}</>
             }
         },
         {

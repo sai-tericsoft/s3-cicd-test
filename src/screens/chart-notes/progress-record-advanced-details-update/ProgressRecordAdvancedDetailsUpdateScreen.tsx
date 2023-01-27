@@ -64,7 +64,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
             title: "Results",
             dataIndex: "results",
             key: "results",
-            render: (item: any) => <Field name={`progress_stats.${item?._id}.result`}>
+            render: (_: any, item: any) => <Field name={`progress_stats.${item?._id}.result`}>
                 {
                     (field: FieldProps) => (
                         <FormikRadioButtonGroupComponent
