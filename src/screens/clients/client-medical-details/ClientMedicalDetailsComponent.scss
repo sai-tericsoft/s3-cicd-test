@@ -1,24 +1,41 @@
 @import "src/assets/styles/common";
 
-.musculoskeletal-history-block {
-  margin-bottom: 20px;
+.client-medical-details-component {
+  .musculoskeletal-history-block {
+    margin-bottom: 20px;
 
-  .data-label-value {
-    margin-bottom: 6px;
-    justify-content: space-between;
+    .data-label-value {
+      margin-bottom: 6px;
+      justify-content: space-between;
 
-    .data-label {
-      font-weight: $font-weight-bolder;
-      letter-spacing: 0.5px;
-      color: #212B36;
+      .data-label {
+        font-weight: $font-weight-bolder;
+        letter-spacing: 0.5px;
+        color: #212B36;
+      }
+
+      .data-value {
+      }
     }
 
-    .data-value {
+    .question-component {
+      margin-bottom: 0;
+      color: #6D6D6D;
     }
   }
+    .females-only-block {
+      .data-label-value {
+        margin-bottom: 6px;
+        justify-content: space-between;
 
-  .question-component {
-    margin-bottom: 0;
-    color: #6D6D6D;
+        .data-label {
+          margin-right: 100px;
+        }
+
+        .data-value {
+          font-weight: $font-weight-bolder;
+          color: #00534F;
+        }
+    }
   }
 }
