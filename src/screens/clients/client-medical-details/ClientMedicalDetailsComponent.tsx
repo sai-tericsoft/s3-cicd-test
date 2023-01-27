@@ -156,17 +156,19 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                     clientMedicalDetails?.medical_history?.questions_details?.map((question, index) => {
                                         return <span key={question?._id + index}>
                                                     <span>{question.title}</span>
-                                                    {(clientMedicalDetails?.medical_history?.questions_details && clientMedicalDetails?.medical_history?.questions_details?.length - 1 !== index) &&
-                                                        <span>, </span>
-                                                    }
+                                            {(clientMedicalDetails?.medical_history?.questions_details && clientMedicalDetails?.medical_history?.questions_details?.length - 1 !== index) &&
+                                                <span>, </span>
+                                            }
                                                 </span>
                                     })
                                 }
                             </div>
                         }
-                        <DataLabelValueComponent label={"Comments"}>
-                            {clientMedicalDetails?.medical_history?.comments || "N/A"}
-                        </DataLabelValueComponent>
+                        {clientMedicalDetails?.medical_history?.comments &&
+                            <DataLabelValueComponent label={"Comments"}>
+                                {clientMedicalDetails?.medical_history?.comments}
+                            </DataLabelValueComponent>
+                        }
                     </CardComponent>
                     {
                         clientBasicDetails?.gender === "female" && <>
@@ -207,20 +209,18 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                         return <span key={question?._id + index}>
                                                     <span>{question.title}</span>
                                             {(clientMedicalDetails?.surgical_history?.questions_details && clientMedicalDetails?.surgical_history?.questions_details?.length - 1 !== index) &&
-                                                <span>, </span>
+                                                <span> , </span>
                                             }
                                                 </span>
                                     })
                                 }
                             </div>
                         }
-                        {
-                            clientMedicalDetails?.surgical_history?.questions && clientMedicalDetails?.surgical_history?.questions?.length > 0 &&
-                            <span>, </span>
+                        {clientMedicalDetails?.surgical_history?.comments
+                            && <DataLabelValueComponent label={"Comments"}>
+                                {clientMedicalDetails?.surgical_history?.comments}
+                            </DataLabelValueComponent>
                         }
-                        <DataLabelValueComponent label={"Comments"}>
-                            {clientMedicalDetails?.surgical_history?.comments || "N/A"}
-                        </DataLabelValueComponent>
                     </CardComponent>
                     <CardComponent title={'Musculoskeletal History'} actions={<LinkComponent
                         route={CommonService._client.NavigateToClientEdit(clientId, "musculoskeletalHistory")}>
