@@ -150,7 +150,7 @@ const initialData: IStaticDataReducerState = {
     injuryTypeList: [],
     statusList: [
         {
-            code: '',
+            code: 'all',
             title: "All"
         },
         {
@@ -162,16 +162,7 @@ const initialData: IStaticDataReducerState = {
             title: "Inactive"
         }
     ],
-    medicalStatusList: [
-        {
-            code: 'open',
-            title: "Open/Active"
-        },
-        {
-            code: 'closed',
-            title: "Closed/Inactive"
-        }
-    ],
+    medicalStatusList: [],
     isProgressReportStatListLoading: false,
     isProgressReportStatListLoaded: false,
     progressReportStatList: [],

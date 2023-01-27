@@ -1,10 +1,15 @@
 import "./ToolTipComponent.scss";
 import React, {ReactFragment, useCallback} from "react";
-import {Tooltip} from "@mui/material";
+import {Tooltip, tooltipClasses} from "@mui/material";
+import {
+    MuiThemeProvider,
+    withStyles,
+    styled
+} from "@material-ui/core/styles";
 
 interface ToolTipComponentProps {
     tooltip: string | ReactFragment;
-    arrow?: boolean;
+    showArrow?: boolean;
     position?: 'bottom-end' | 'bottom-start' | 'bottom' | 'left-end' | 'left-start' | 'left' | 'right-end' | 'right-start' | 'right' | 'top-end' | 'top-start' | 'top';
     onOpen?: () => void;
     onClose?: () => void;
@@ -14,7 +19,7 @@ interface ToolTipComponentProps {
 
 const ToolTipComponent = (props: React.PropsWithChildren<ToolTipComponentProps>) => {
 
-    const {tooltip, arrow, showAfter, hideAfter, onOpen, onClose, children} = props;
+    const {tooltip, showArrow, showAfter, hideAfter, onOpen, onClose, children} = props;
 
     const position = props.position || "top";
 
@@ -36,12 +41,26 @@ const ToolTipComponent = (props: React.PropsWithChildren<ToolTipComponentProps>)
                 {tooltip}
             </React.Fragment>
         }
-                 arrow={arrow}
+                 arrow={showArrow}
                  placement={position}
                  onOpen={handleOpen}
                  onClose={handleClose}
                  enterDelay={showAfter}
                  leaveDelay={hideAfter}
+                 componentsProps={{
+                     tooltip: {
+                         sx: {
+                             fontSize: '12px',
+                             fontFamily: "Roboto",
+                             padding: '10px',
+                             bgcolor: '#DEFFE8',
+                             color: '#282828',
+                             '& .MuiTooltip-arrow': {
+                                 color: '#DEFFE8',
+                             },
+                         },
+                     },
+                 }}
         >
             {children}
         </Tooltip>
