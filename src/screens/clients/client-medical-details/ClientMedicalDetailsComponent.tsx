@@ -10,7 +10,6 @@ import React from "react";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
-import QuestionComponent from "../../../shared/components/question/QuestionComponent";
 
 interface ClientMedicalDetailsComponentProps {
     clientId: string;
