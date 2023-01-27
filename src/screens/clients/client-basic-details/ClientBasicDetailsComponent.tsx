@@ -77,7 +77,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                     </CardComponent>
                     <CardComponent title={'Contact Information'} className={'contact-info-wrapper'}>
                         <div className="ts-row">
-                            <div className="ts-col-6">
+                            <div className="ts-col-8">
                                 <FormControlLabelComponent label={'Primary Phone:'}/>
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-5'}>
@@ -104,10 +104,9 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                 </div>
                             </div>
                         </div>
-                        <HorizontalLineComponent/>
                         <div className="ts-row">
                             {clientBasicDetails?.secondary_contact_info?.length > 0 && (clientBasicDetails?.secondary_contact_info[0]?.phone !== "" || clientBasicDetails?.secondary_emails[0]?.email !== "")
-                            &&  <HorizontalLineComponent className={'alternate-heading-horizontal-line'}/>}
+                                &&  <HorizontalLineComponent className={'alternate-heading-horizontal-line'}/>}
                             <div className="ts-col-8">
                                 {
                                     clientBasicDetails?.secondary_contact_info?.length > 0 &&
@@ -121,7 +120,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                         return <>
                                             {
                                                 phone_number?.phone_type_details?.title && phone_number?.phone && <>
-                                                    <div className={'ts-row'} key={phone_number?.phone + index}>
+                                                    <div className={'ts-row'}>
                                                         <div className={'ts-col-5'}>
                                                             <DataLabelValueComponent label={'Phone Type'}>
                                                                 {phone_number?.phone_type_details?.title || "-"}
@@ -152,7 +151,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                         clientBasicDetails?.secondary_emails?.map((email, index: number) => {
                                             return <>
                                                 {
-                                                    email?.email && <div className={'ts-col-12'} key={email.email + index}>
+                                                    email?.email && <div className={'ts-col-12'}>
                                                         <DataLabelValueComponent label={'Email'}>
                                                             {email?.email}
                                                         </DataLabelValueComponent>
@@ -206,34 +205,6 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                         <DataLabelValueComponent label={'Phone Number'}>
                                             {CommonService.formatPhoneNumber(clientBasicDetails?.emergency_contact_info?.primary_emergency?.primary_contact_info?.phone || "-")}
                                         </DataLabelValueComponent>
-                                    </div>
-                                </div>
-                                <div className="ts-row">
-                                    <div className="ts-col">
-                                        <FormControlLabelComponent label={'Alternate:'}/>
-                                        {
-                                            clientBasicDetails?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.map((phone_number: any, index: number) => {
-                                                return <>
-
-                                                    {
-                                                        phone_number?.phone_type_details?.title && phone_number?.phone && <>
-                                                            <div className={'ts-row'} key={phone_number?.phone + index}>
-                                                                <div className={'ts-col-6'}>
-                                                                    <DataLabelValueComponent label={'Phone Type'}>
-                                                                        {phone_number?.phone_type_details?.title || "-"}
-                                                                    </DataLabelValueComponent>
-                                                                </div>
-                                                                <div className={'ts-col-6'}>
-                                                                    <DataLabelValueComponent label={'Phone Number'}>
-                                                                        {CommonService.formatPhoneNumber(phone_number?.phone || "-")}
-                                                                    </DataLabelValueComponent>
-                                                                </div>
-                                                            </div>
-                                                        </>
-                                                    }
-                                                </>
-                                            })
-                                        }
                                     </div>
                                 </div>
                             </div>
@@ -324,7 +295,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                 return <>
                                     {
                                         phone_number?.phone_type_details?.title && phone_number?.phone && <>
-                                            <div className={'ts-row'} key={phone_number?.phone + index}>
+                                            <div className={'ts-row'}>
                                                 <div className={'ts-col-lg-3'}>
                                                     <DataLabelValueComponent label={'Phone Type'}>
                                                         {phone_number?.phone_type_details?.title || "-"}
