@@ -25,6 +25,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
         isClientBasicDetailsLoaded,
         isClientBasicDetailsLoadingFailed
     } = useSelector((state: IRootReducerState) => state.client);
+    const [isSSNMasked, setIsSSNMasked] = React.useState<boolean>(true);
 
     return (
         <div className={'client-basic-details-component'}>
@@ -67,8 +68,8 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                 </DataLabelValueComponent>
                             </div>
                             <div className="ts-col-md-6 ts-col-lg-3">
-                                <DataLabelValueComponent label={'SSN'}>
-                                    <MaskTextComponent value={clientBasicDetails?.ssn}/>
+                                <DataLabelValueComponent label={`SSN ${isSSNMasked ? '(Click to view)' : ''}`}>
+                                    <MaskTextComponent value={clientBasicDetails?.ssn} onToggle={setIsSSNMasked}/>
                                 </DataLabelValueComponent>
                             </div>
                         </div>
@@ -103,7 +104,6 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                             </div>
                         </div>
                         <HorizontalLineComponent/>
-
                         <div className="ts-row">
                             <div className="ts-col-8">
                                 <FormControlLabelComponent label={'Alternate Phone:'}/>
