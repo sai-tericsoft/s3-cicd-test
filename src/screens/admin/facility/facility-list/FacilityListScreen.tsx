@@ -26,22 +26,24 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
         {
             title: "Facility",
             dataIndex: "name",
-            width: "30%",
+            width: 220,
             key: "name",
             fixed: "left",
         },
         {
             title: "Facility Location",
             dataIndex: "location",
-            width: "20%",
+            width: 130,
+            align: "center",
             key: "location"
         },
         {
             title: "Phone Number",
             dataIndex: "phone_number",
             key: "phone_number",
-            width: "20%",
-            render: ( item: IFacility) => {
+            width: 130,
+            align: "center",
+            render: (item: IFacility) => {
                 return <span>{item.primary_contact_info.phone}</span>
             }
         },
@@ -49,8 +51,9 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
             title: "Status",
             dataIndex: "status",
             key: "status",
-            width: "10%",
-            render: ( item: IFacility) => {
+            width: 60,
+            align: "center",
+            render: (item: IFacility) => {
                 return <ChipComponent label={item.is_active ? "Active" : "Inactive"}
                                       className={item?.is_active ? "active" : "inactive"}
                 />
@@ -60,9 +63,9 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
             title: "",
             dataIndex: "actions",
             key: "actions",
-            width: "15%",
+            width: 130,
             fixed: "right",
-            render: ( item: IFacility) => {
+            render: (item: IFacility) => {
                 return <LinkComponent route={CommonService._routeConfig.FacilityDetails(item._id)}>
                     View Details
                 </LinkComponent>

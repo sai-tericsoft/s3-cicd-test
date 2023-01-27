@@ -2,7 +2,6 @@ import './TestScreen.scss';
 import {ITableColumn} from "../../shared/models/table.model";
 import {useCallback, useMemo, useState} from "react";
 import {MOCK_USER_DATA} from "../../assets/data/user.data";
-import InputComponent from "../../shared/components/form-controls/input/InputComponent";
 import ButtonComponent from "../../shared/components/button/ButtonComponent";
 import TableComponent from "../../shared/components/table/TableComponent";
 
@@ -42,22 +41,11 @@ const TestScreen = () => {
         {
             key: 'name',
             title: 'Name',
-            dataIndex: 'name',
+            dataIndex: 'first_name',
             fixed: 'left',
-            children: [
-                {
-                    key: 'first_name',
-                    title: 'First Name',
-                    dataIndex: 'first_name',
-                    width: 200,
-                },
-                {
-                    key: 'last_name',
-                    title: 'Last Name',
-                    dataIndex: 'last_name',
-                    width: 200,
-                }
-            ]
+            render: (item: any, index: any) => {
+                return <>{item.first_name} {item.last_name}</>
+            }
         },
         {
             title: 'Country',
@@ -65,39 +53,39 @@ const TestScreen = () => {
             key: 'country',
             width: 200,
         },
-        {
-            title: 'Date of birth',
-            dataIndex: 'date_of_birth',
-            key: 'date_of_birth',
-            width: 200,
-        },
-        {
-            title: 'Phone',
-            dataIndex: 'phone',
-            key: 'phone',
-            width: 400,
-        },
-        {
-            title: 'Email',
-            dataIndex: 'email',
-            key: 'email',
-            width: 400,
-            sortable: true
-        },
-        {
-            title: 'Notes',
-            dataIndex: 'notes',
-            key: 'notes',
-            width: 200,
-            render: (item: any) => {
-                return <InputComponent size={'small'} value={item.first_name + ' ' + item.last_name}/>
-            }
-        },
-        {
-            title: 'Age',
-            dataIndex: 'age',
-            key: 'age',
-        },
+        // {
+        //     title: 'Date of birth',
+        //     dataIndex: 'date_of_birth',
+        //     key: 'date_of_birth',
+        //     width: 200,
+        // },
+        // {
+        //     title: 'Phone',
+        //     dataIndex: 'phone',
+        //     key: 'phone',
+        //     width: 400,
+        // },
+        // {
+        //     title: 'Email',
+        //     dataIndex: 'email',
+        //     key: 'email',
+        //     width: 400,
+        //     sortable: true
+        // },
+        // {
+        //     title: 'Notes',
+        //     dataIndex: 'notes',
+        //     key: 'notes',
+        //     width: 200,
+        //     render: (item: any) => {
+        //         return <InputComponent size={'small'} value={item.first_name + ' ' + item.last_name}/>
+        //     }
+        // },
+        // {
+        //     title: 'Age',
+        //     dataIndex: 'age',
+        //     key: 'age',
+        // },
         {
             title: 'Actions',
             dataIndex: 'actions',
@@ -131,17 +119,17 @@ const TestScreen = () => {
     return (
         <div className="test-screen">
             <TableComponent data={MOCK_USER_DATA.slice(0, 19)}
-                              columns={UserTableColumns}
-                              sort={filter.sort}
-                              onSort={handleSort}
-                              defaultExpandAllRows={true}
-                // showExpandColumn={true}
-                canExpandRow={(item: any) => item.id === 1}
-                expandRowRenderer={(item: any) => {
-                    return <div className="expand-row">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, molestias?
-                    </div>
-                }}
+                            columns={UserTableColumns}
+                            sort={filter.sort}
+                            onSort={handleSort}
+                            // defaultExpandAllRows={true}
+                            // showExpandColumn={true}
+                            // canExpandRow={(item: any) => item.id === 1}
+                            // expandRowRenderer={(item: any) => {
+                            //     return <div className="expand-row">
+                            //         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, molestias?
+                            //     </div>
+                            // }}
             />
         </div>
     );

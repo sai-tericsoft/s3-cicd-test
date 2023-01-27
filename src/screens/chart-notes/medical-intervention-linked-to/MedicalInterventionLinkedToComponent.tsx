@@ -29,17 +29,16 @@ const MedicalInterventionLinkedToComponent = (props: MedicalInterventionLinkedTo
             dataIndex: "body_part",
             key: "body_part",
             width: 91,
-            render: ( item: any) => {
+            render: ( item: any ) => {
                 return <>{item?.body_part_details?.name}</>
             }
-
         },
         {
-            title: "Body  Side(s)",
-            dataIndex: "body_part",
-            key: "body_part",
+            title: "Body  Side",
+            dataIndex: "body_side",
+            key: "body_side",
             width: 114,
-            render: ( item: any) => {
+            render: ( item: any ) => {
                 return <>{item?.body_side}</>
             }
         }

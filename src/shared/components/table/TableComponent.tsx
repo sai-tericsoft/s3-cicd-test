@@ -45,23 +45,24 @@ const TableComponent = (props: TableComponentProps) => {
 
     const TransformColumn = useCallback((column: ITableColumn) => {
         const colObject: any = {
-            Header: column.title || "-",
-            key: column.key,
-            align: column.align || "left",
-            accessor: column.dataIndex || column.key,
-            sticky: column.fixed,
-            sortable: column.sortable,
+            Header: column?.title || "  ",
+            key: column?.key,
+            align: column?.align || "left",
+            accessor: column?.dataIndex || column?.key,
+            sticky: column?.fixed,
+            sortable: column?.sortable,
+            width: 150,
         };
-        if (column.dataIndex) {
+        if (column?.dataIndex) {
             colObject['accessor'] = column.dataIndex;
         }
-        if (column.render) {
+        if (column?.render) {
             colObject['Cell'] = (data: any) => parseRender(column, data);
         }
-        if (column.width) {
-            colObject['width'] = column.width;
+        if (column?.width) {
+            colObject['width'] = column?.width;
         }
-        if (column.children) {
+        if (column?.children) {
             colObject['columns'] = column.children.map((child: ITableColumn) => TransformColumn(child));
         }
         return colObject;
@@ -192,7 +193,7 @@ const TableComponent = (props: TableComponentProps) => {
                                                     })}
                                                 </div>
                                                 {(defaultExpandAllRows && (canExpandRow && canExpandRow(row.original))) && expandRowRenderer &&
-                                                    <div className={'t-tr'}>
+                                                    <div className={'t-tr t-tr-expand'}>
                                                         <div className="t-td">
                                                             {expandRowRenderer(row.original, row.index)}
                                                         </div>

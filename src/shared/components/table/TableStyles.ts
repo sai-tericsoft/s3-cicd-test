@@ -20,12 +20,12 @@ export const TableStyles = styled.div`
     }
 
      :not([data-sticky-td]) {
-        // flex-grow: 1;
+        flex-grow: 1;
       }
   }
 
   .t-tr {
-     // min-width: 100%;
+       min-width: 100%;
       :last-child {
         .td {
           border-bottom: 0;

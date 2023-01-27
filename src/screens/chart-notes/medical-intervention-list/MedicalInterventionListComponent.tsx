@@ -34,7 +34,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             title: '',
             key: "flag",
             dataIndex: 'is_flagged',
-            width: '3%',
+            width: 10,
             render: ( item: any) => {
                 return <div className={'flag-wrapper'}>{item?.is_flagged && <ImageConfig.FlagIcon/>}</div>
             }
@@ -43,7 +43,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             title: 'Date of Intervention',
             key: 'date_of_intervention',
             dataIndex: 'intervention_date',
-            width: '20%',
+            width: 160,
             fixed: 'left',
             render: ( item: any) => {
                 return <>{CommonService.getSystemFormatTimeStamp(item?.intervention_date)}</>
@@ -52,13 +52,14 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
         {
             title: 'Note Type',
             key: 'note_type',
+            width: 150,
             dataIndex: 'note_type',
         },
         {
             title: 'Last Updated',
             key: 'last_updated',
             dataIndex: 'updated_at',
-            width: '25%',
+            width: 170,
             render: ( item: any) => {
                 return <>{CommonService.transformTimeStamp(item?.updated_at)}</>
             }
@@ -67,6 +68,8 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             title: 'Status',
             key: 'status',
             dataIndex: 'status',
+            align: 'center',
+            width: 110,
             render: ( item: any) => {
                 return <ChipComponent label={item?.status}
                                       className={item?.status === 'completed' ? "completed" : "draft"}/>
@@ -76,17 +79,17 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             title: 'Posted By',
             key: 'name',
             dataIndex: 'name',
+            align: 'center',
+            width: 125,
             render: ( item: any) => {
-                if (item?.note_type?.toLowerCase() === "progress report") {
-                    return item?.posted_by
-                } else {
-                    return item?.posted_by?.first_name + " " + item?.posted_by?.last_name
-                }
+                    return (item?.posted_by?.first_name + " " + item?.posted_by?.last_name)
             }
         },
         {
             title: '',
             key: 'actions',
+            width: 130,
+            fixed: 'right',
             render: ( item: any) => {
                 let route = '';
                 if (medicalRecordId) {
