@@ -211,14 +211,14 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                     } menuOptions={
                                         [
                                             <ListItem onClick={comingSoon}>Print SOAP</ListItem>,
-                                            <ListItem onClick={openTransferSoapNoteDrawer}>Transfer SOAP to</ListItem>,
+                                            <ListItem onClick={comingSoon}>Transfer SOAP to</ListItem>,
                                             <ListItem onClick={comingSoon}>Notify Admin</ListItem>,
-                                            <ListItem onClick={openAddDryNeedlingFileDrawer}>
+                                            <ListItem onClick={comingSoon}>
                                                 Add Dry Needling File
                                             </ListItem>,
-                                            <ListItem onClick={openAddConcussionFileDrawer}>Add Concussion</ListItem>,
-                                            <ListItem onClick={openViewPriorNoteDrawer}>View Prior Note</ListItem>,
-                                            <ListItem onClick={openImportSoapNoteDrawer}>Import SOAP Note</ListItem>
+                                            <ListItem onClick={comingSoon}>Add Concussion</ListItem>,
+                                            <ListItem onClick={comingSoon}>View Prior Note</ListItem>,
+                                            <ListItem onClick={comingSoon}>Import SOAP Note</ListItem>
                                         ]
                                     }
                                     />

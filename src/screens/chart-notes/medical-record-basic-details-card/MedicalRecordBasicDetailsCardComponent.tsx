@@ -165,6 +165,11 @@ const handleMedicalRecordTransfer = useCallback(() => {
         }
     }, [closeTransferMedicalRecordDrawer, medicalRecordId, dispatch]);
 
+    const comingSoon = useCallback(
+        () => {
+            CommonService._alert.showToast('Coming Soon!', 'info')
+        }, []);
+
     return (
         <div className={'client-medical-details-card-component'}>
             <>
@@ -214,19 +219,19 @@ const handleMedicalRecordTransfer = useCallback(() => {
                                                 </ButtonComponent>
                                             } menuOptions={
                                                 [
-                                                    <ListItem onClick={openAddSurgeryRecord}>
+                                                    <ListItem onClick={comingSoon}>
                                                         Add Surgery Record
                                                     </ListItem>,
-                                                    <ListItem onClick={addProgressRecord}>
+                                                    <ListItem onClick={comingSoon}>
                                                         Add Progress Report
                                                     </ListItem>,
-                                                    <ListItem onClick={openTransferMedicalRecordDrawer}>
+                                                    <ListItem onClick={comingSoon}>
                                                         Transfer File
                                                     </ListItem>,
-                                                    <ListItem onClick={openMedicalRecordStatsModal}>
+                                                    <ListItem onClick={comingSoon}>
                                                         View Case Statistics
                                                     </ListItem>,
-                                                    <ListItem onClick={openMedicalRecordDocumentAddDrawer}>
+                                                    <ListItem onClick={comingSoon}>
                                                         Add Document
                                                     </ListItem>,
                                                   <Link to={CommonService._routeConfig.MedicalRecordViewExerciseRecord(medicalRecordId)}>
@@ -234,7 +239,7 @@ const handleMedicalRecordTransfer = useCallback(() => {
                                                         View Exercise Record
                                                     </ListItem>
                                                     </Link>,
-                                                    <ListItem onClick={handleDischargeCase} >
+                                                    <ListItem onClick={comingSoon} >
                                                         Discharge Case
                                                     </ListItem>
                                                 ]
