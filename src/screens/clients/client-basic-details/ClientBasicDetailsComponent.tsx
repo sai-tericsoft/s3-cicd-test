@@ -75,7 +75,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                     </CardComponent>
                     <CardComponent title={'Contact Information'} className={'contact-info-wrapper'}>
                         <div className="ts-row">
-                            <div className="ts-col-8">
+                            <div className="ts-col-6">
                                 <FormControlLabelComponent label={'Primary Phone:'}/>
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-5'}>
@@ -105,7 +105,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                         <HorizontalLineComponent/>
 
                         <div className="ts-row">
-                            <div className="ts-col-8">
+                            <div className="ts-col-6">
                                 <FormControlLabelComponent label={'Alternate Phone:'}/>
                                 {
 
