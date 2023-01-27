@@ -40,7 +40,7 @@ const MedicalRecordEditFormInitialValues: any = { // TODO type properly
         is_case_physician: false,
         name: "",
         next_appointment: "",
-        is_treated_script_received: undefined,
+        is_treated_script_received: "",
     },
     injury_details: [
         MEDICAL_RECORD_BODY_PART
