@@ -14,7 +14,6 @@ import FormikRadioButtonGroupComponent
     from "../../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
 import {ITableColumn} from "../../../shared/models/table.model";
 import {IRootReducerState} from "../../../store/reducers";
-import TableComponent from "../../../shared/components/table/TableComponent";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import {IProgressReportStat} from "../../../shared/models/common.model";
@@ -23,6 +22,7 @@ import ESignApprovalComponent from "../../../shared/components/e-sign-approval/E
 import {getMedicalRecordProgressReportDetails} from "../../../store/actions/chart-notes.action";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
+import TableV2Component from "../../../shared/components/table-v2/TableV2Component";
 
 interface ProgressRecordAdvancedDetailsUpdateScreenProps {
 
@@ -64,7 +64,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
             title: "Results",
             dataIndex: "results",
             key: "results",
-            render: (_: any, item: any) => <Field name={`progress_stats.${item?._id}.result`}>
+            render: (item: any) => <Field name={`progress_stats.${item?._id}.result`}>
                 {
                     (field: FieldProps) => (
                         <FormikRadioButtonGroupComponent
@@ -235,10 +235,10 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                     </Field>
                                 </CardComponent>
                                 <CardComponent title={'Progress Stats:'}>
-                                    <TableComponent data={progressReportStatList}
-                                                    loading={isProgressReportStatListLoading}
-                                                    columns={ProgressStatsColumns}
-                                                    rowKey={(item: any) => item?._id}
+                                    <TableV2Component data={progressReportStatList}
+                                                      loading={isProgressReportStatListLoading}
+                                                      columns={ProgressStatsColumns}
+                                                      rowKey={(item: any) => item?._id}
                                     />
                                     {
                                         progressReportStatList?.map((stat: IProgressReportStat, index: number) => {

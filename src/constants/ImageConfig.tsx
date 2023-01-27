@@ -25,7 +25,6 @@ import {ReactComponent as PDF_ICON} from './../assets/icons/pdf_icon.svg';
 import {ReactComponent as REPEAT_LAST_INTERVENTION} from './../assets/icons/repeat_last_intervention.svg';
 import {ReactComponent as SYNC} from './../assets/icons/sync.svg';
 
-
 //file types
 import PDFIcon from './../assets/icons/file-types/pdf.svg';
 import WordDocIcon from './../assets/icons/file-types/doc.svg';
@@ -55,13 +54,15 @@ import {ReactComponent as FlagIcon} from "./../assets/icons/flag.svg";
 import {ReactComponent as AlertIcon} from './../assets/icons/alert_icon.svg';
 import {ReactComponent as CommentIcon} from './../assets/icons/comment.svg';
 
+import {ReactComponent as TableRowExpandIcon} from './../assets/icons/table/expand.svg';
+import {ReactComponent as TableRowCollapseIcon} from './../assets/icons/table/collapse.svg';
+
 import PlaceHolderImage from '../assets/images/place_holder_image.png';
 import RemoveImage from '../assets/images/remove.png';
 import RemoveBodyPartConfirmationIcon from './../assets/confirmation/delete_body_part.svg';
 import DeleteAttachmentConfirmationIcon from './../assets/confirmation/delete_attachment.svg';
 
 import Search from '../assets/images/search.png';
-
 
 export {
     Logo,
@@ -106,6 +107,8 @@ export {
     ChartNotes,
     StarIcon,
     FilledStarIcon,
+    TableRowExpandIcon,
+    TableRowCollapseIcon,
 
     FlagIcon,
     CommentIcon,

@@ -27,6 +27,7 @@ import FormikTextAreaComponent from "../../../shared/components/form-controls/fo
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import ESignApprovalComponent from "../../../shared/components/e-sign-approval/ESignApprovalComponent";
+import TableV2Component from "../../../shared/components/table-v2/TableV2Component";
 
 interface AddMedicalInterventionScreenProps {
 
@@ -103,7 +104,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
     const [isFormBeingUpdated, setIsFormBeingUpdated] = useState<boolean>(false);
 
     const getMedicalInterventionROMConfigColumns = useCallback((body_part: any): ITableColumn[] => {
-        const ROMColumns: ITableColumn[] = [
+        const ROMColumns: any[] = [
             {
                 title: 'Movement',
                 dataIndex: 'movement_name',
@@ -439,13 +440,13 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                                                        }
                                                                         >
                                                                         </CardComponent>
-                                                                        <TableComponent
+                                                                        <TableV2Component
                                                                             data={body_part?.rom_config}
                                                                             bordered={true}
                                                                             showExpandColumn={false}
                                                                             defaultExpandAllRows={true}
-                                                                            rowExpandable={(row: any) => row?.config?.comments?.length > 0}
-                                                                            expandRow={
+                                                                            canExpandRow={(row: any) => row?.config?.comments?.length > 0}
+                                                                            expandRowRenderer={
                                                                                 (row: any) => {
                                                                                     return (
                                                                                         <div key={row?.config?._id}
@@ -496,14 +497,14 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                                                title={body_part?.body_part_details?.name || "-"
                                                                                }>
                                                                 </CardComponent>
-                                                                <TableComponent
+                                                                <TableV2Component
                                                                     data={body_part.special_tests}
                                                                     columns={SpecialTestsColumns}
                                                                     bordered={true}
                                                                     showExpandColumn={false}
                                                                     defaultExpandAllRows={true}
-                                                                    rowExpandable={(row: any) => row?.comments?.length > 0}
-                                                                    expandRow={
+                                                                    canExpandRow={(row: any) => row?.comments?.length > 0}
+                                                                    expandRowRenderer={
                                                                         (row: any) => {
                                                                             return (
                                                                                 <div key={row?._id}
@@ -650,7 +651,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                         </CardComponent>
                                                     </div>
                                                     {medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0 &&
-                                                        <TableComponent data={medicalInterventionDetails?.linked_icd_codes}
+                                                        <TableV2Component data={medicalInterventionDetails?.linked_icd_codes}
                                                                         bordered={true} columns={ICDTableColumns}/>}
                                                 </div>
 

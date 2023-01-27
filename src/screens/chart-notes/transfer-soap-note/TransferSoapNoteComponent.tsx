@@ -58,7 +58,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
             key: 'action',
             dataIndex: 'action',
             width: 50,
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <RadioButtonComponent name={'selected-medical-record'}
                                              value={item}
                                              checked={selectedMedicalRecord?._id === item?._id}
@@ -72,7 +72,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
             key: 'case',
             width: 294,
             dataIndex: 'intervention_linked_to',
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <span className={'medical-record-details'}>{item?.intervention_linked_to}
                     {item?.created_at && CommonService.transformTimeStamp(item?.created_at)}{" "}
                     {"-"} {item?.injury_details.map((injury: any, index: number) => {
@@ -86,7 +86,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
             key: 'date',
             width: 100,
             dataIndex: 'created_at',
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <span>{CommonService.getSystemFormatTimeStamp(item?.created_at)}</span>
 
             }
@@ -171,7 +171,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                             <div className={'client-list-heading'}>Client List</div>
                             <TableComponent data={clientList} columns={clientListColumns}
                                             loading={isClientListLoading}
-                                            showHeader={false}/>
+                                            hideHeader={true}/>
                             <ButtonComponent fullWidth={true}
                                              onClick={() => handleClientSelectionConfirmation()}
                                              disabled={!selectedClient}>

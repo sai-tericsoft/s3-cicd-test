@@ -41,9 +41,9 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
             key: 'quantity',
             width: 151,
             sortable: true,
-            render: (_: any, item: any) => {
+            render: (item: any) => {
                 return <>
-                    {item?.price === 0 ? <ChipComponent color={"error"} label={'out of stock'}/> : item.price}
+                    {item?.price === 0 ? <ChipComponent color={"error"} label={'out of stock'}/> : item.quantity}
                 </>
             }
         },
@@ -52,8 +52,8 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
             dataIndex: 'price',
             key: 'price',
             width: 156,
-            render: (_: any, item: any) => {
-                return <> {Misc.CURRENCY_SYMBOL}{item?.price} </>
+            render: (item: any) => {
+                return <> {Misc.CURRENCY_SYMBOL} {item?.price} </>
             }
         },
         {
@@ -71,7 +71,10 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
     const handleInventorySort = useCallback((key: string, order: string) => {
         setInventoryListFilterState((oldState: any) => {
             const newState = {...oldState};
-            newState["sort"][key] = order;
+            newState["sort"] = {
+                key,
+                order
+            }
             return newState;
         });
     }, []);

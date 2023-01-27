@@ -29,7 +29,7 @@ const ViewPriorNoteComponent = (props: ViewPriorNoteComponentProps) => {
             title: "Date",
             key: "date",
             dataIndex: 'intervention_date',
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <>{CommonService.getSystemFormatTimeStamp(item?.intervention_date)}</>
             }
         },
@@ -37,7 +37,7 @@ const ViewPriorNoteComponent = (props: ViewPriorNoteComponentProps) => {
             title: "Provider",
             key: "provider",
             dataIndex: 'first_name',
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <span>{item?.treated_by_details?.first_name} {item?.treated_by_details?.last_name}</span>
             }
         },
@@ -46,7 +46,7 @@ const ViewPriorNoteComponent = (props: ViewPriorNoteComponentProps) => {
             dataIndex: "actions",
             key: "actions",
             fixed: "right",
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <LinkComponent
                     onClick={() => onMedicalInterventionSelection(item?.id)}
                     route={CommonService._routeConfig.MedicalInterventionDetails(item?.medical_record_id, item?._id)}>

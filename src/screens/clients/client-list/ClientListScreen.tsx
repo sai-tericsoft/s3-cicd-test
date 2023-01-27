@@ -21,7 +21,6 @@ interface ClientListScreenProps {
 
 }
 
-
 const ClientListScreen = (props: ClientListScreenProps) => {
 
     const dispatch = useDispatch();
@@ -38,9 +37,13 @@ const ClientListScreen = (props: ClientListScreenProps) => {
     }, [dispatch]);
 
     const handleClientSort = useCallback((key: string, order: string) => {
+        console.log(key, order);
         setClientListFilterState((oldState) => {
             const newState = {...oldState};
-            newState["sort"][key] = order;
+            newState["sort"] = {
+                key,
+                order
+            }
             return newState;
         });
     }, []);

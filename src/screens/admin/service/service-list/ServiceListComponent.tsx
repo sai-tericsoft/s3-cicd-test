@@ -28,7 +28,7 @@ const ServiceListComponent = (props: ServiceListComponentProps) => {
             key: "status",
             width: "20%",
             title: "Status",
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <ChipComponent label={item?.is_active ? "Active" : "Inactive"}
                                       color={item?.is_active ? "success" : "error"}></ChipComponent>
             }
@@ -38,7 +38,7 @@ const ServiceListComponent = (props: ServiceListComponentProps) => {
             key: "viewDetails",
             title: "",
             width: "10%",
-            render: (_: any, item: IService, index: number) => {
+            render: ( item: IService, index: number) => {
                 if (item._id){
                     return <LinkComponent id={"sv_view_details_" + index} route={CommonService._routeConfig.ServiceDetails(item._id)}>
                         View Details

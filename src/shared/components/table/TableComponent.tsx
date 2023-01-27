@@ -1,210 +1,231 @@
 import "./TableComponent.scss";
-import Table from 'antd/lib/table';
-import {ITableComponentProps} from "../../models/table.model";
-import React, {useCallback, useEffect, useState} from "react";
-import StatusCardComponent from "../status-card/StatusCardComponent";
+import {useBlockLayout, useExpanded, useTable} from 'react-table';
+import {useSticky} from "react-table-sticky";
+import React, {useCallback, useMemo} from "react";
+import {TableStyles} from "./TableStyles";
+import {ITableColumn, ITableComponentProps} from "../../models/table.model";
+import _ from "lodash";
 import LoaderComponent from "../loader/LoaderComponent";
-import {TablePaginationConfig} from "antd";
-import {ColumnsType} from "antd/es/table";
-import {GetRowKey} from "rc-table/lib/interface";
+import StatusCardComponent from "../status-card/StatusCardComponent";
+import {ImageConfig} from "../../../constants";
 
 interface TableComponentProps extends ITableComponentProps {
-    data: any[];
     loading?: boolean;
     errored?: boolean;
+    id?: string;
+    columns: ITableColumn[];
+    data: any[];
 }
 
 const TableComponent = (props: TableComponentProps) => {
 
     const {
-        bordered,
-        data,
-        defaultExpandAllRows,
-        errored,
-        id,
         loading,
-        onRowClick,
-        onSort,
-        rowClassName,
-        rowSelection,
+        errored,
+        hideHeader,
+        columns,
+        defaultExpandAllRows,
         showExpandColumn,
-        rowExpandable,
-        expandRow
+        expandRowRenderer,
+        canExpandRow,
+        onRowClick,
+        data,
+        sort,
+        onSort
     } = props;
+    const size = props.size || "medium";
 
-    const [tableColumns, setTableColumns] = useState<ColumnsType<any>>(props.columns);
-    const size = props.size || "large";
-    const scroll = props.scroll || "unset";
-    const tableLayout = props.tableLayout || "fixed";
-    const showHeader = props.showHeader !== undefined ? props.showHeader : true;
+    const parseRender = useCallback((col: ITableColumn, item: any) => {
+        const data = item.row.original;
+        const index = item.row.index;
+        if (col.render) {
+            return col.render(data, index);
+        }
+    }, []);
 
-    const defaultRowKey = useCallback((item: any, index?: number) => item?._id || index, []);
+    const TransformColumn = useCallback((column: ITableColumn) => {
+        const colObject: any = {
+            Header: column?.title || "  ",
+            key: column?.key,
+            align: column?.align || "left",
+            accessor: column?.dataIndex || column?.key,
+            sticky: column?.fixed,
+            sortable: column?.sortable,
+            width: 150,
+        };
+        if (column?.dataIndex) {
+            colObject['accessor'] = column.dataIndex;
+        }
+        if (column?.render) {
+            colObject['Cell'] = (data: any) => parseRender(column, data);
+        }
+        if (column?.width) {
+            colObject['width'] = column?.width;
+        }
+        if (column?.children) {
+            colObject['columns'] = column.children.map((child: ITableColumn) => TransformColumn(child));
+        }
+        return colObject;
+    }, [parseRender]);
 
-    const rowKey = props.rowKey || defaultRowKey;
+    const parseColumns = useCallback((columns: ITableColumn[]) => {
+        const transformedCols: any = columns.map((column: ITableColumn) => {
+            return TransformColumn(column);
+        });
+        if (showExpandColumn) {
+            transformedCols.unshift({
+                Header: () => null,
+                id: 'expander',
+                Cell: ({row}: any) => {
+                    return <span {...row.getToggleRowExpandedProps()}>
+                        {row.isExpanded ? <ImageConfig.TableRowCollapseIcon/> : <ImageConfig.TableRowExpandIcon/>}
+                    </span>
+                },
+                width: 35,
+            });
+        }
+        return transformedCols;
+    }, [showExpandColumn, TransformColumn]);
 
-    const handleRowClick = useCallback((record: any, index: number | undefined) => {
+    const columnsMemoized = useMemo<any>(() =>
+        parseColumns(columns), [columns, parseColumns]);
+
+    const dataMemoized = useMemo<any>(() =>
+        data || [], [data]);
+
+    const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        rows,
+        prepareRow,
+    } = useTable(
+        {
+            columns: columnsMemoized,
+            data: dataMemoized,
+        },
+        useBlockLayout,
+        useExpanded,
+        useSticky
+    );
+
+    const getTHClasses = useCallback((column: ITableColumn) => {
+        let classes = 'th t-th t-cell t-cell-' + column.key?.split(' ').join('-') + " " + column.className + ' t-cell-align-' + column.align;
+        if (column?.sortable) {
+            classes += " sortable";
+            if (sort && sort.key === column.key) {
+                if (sort.order === "asc") {
+                    classes += " sort-asc";
+                } else {
+                    classes += " sort-desc";
+                }
+            }
+        }
+        return classes;
+    }, [sort]);
+
+    const getTDClasses = useCallback((column: ITableColumn) => {
+        return 'td t-td t-cell t-cell-' + column.key?.split(' ').join('-') + " " + column.className + ' t-cell-align-' + column.align;
+    }, []);
+
+    const handleRowClick = useCallback((row: any) => {
         if (onRowClick) {
-            onRowClick(record, index);
+            const data = row.original;
+            const index = row.index;
+            onRowClick(data, index);
         }
     }, [onRowClick]);
 
-    useEffect(() => {
-        if (props.columns) {
-            const tableCols: any = props.columns.map((col) => {
-                const transformedCol: any = col;
-                transformedCol['className'] = 't-cell t-cell-' + col.key?.split(' ').join('-') + " " + col.className;
-                if (col.sortable) {
-                    transformedCol['sorter'] = col.sortable;
-                }
-                return transformedCol;
-            });
-            setTableColumns(tableCols);
+    const applySort = useCallback((column: ITableColumn) => {
+        if (!column.sortable || !sort) return;
+        const sortObj: any = _.cloneDeep(sort);
+        if (sortObj.key === column.key) {
+            sortObj.key = column.key;
+            if (sortObj.order === "asc") {
+                sortObj.order = "desc";
+            } else {
+                sortObj.order = "";
+                sortObj.key = "";
+            }
+        } else {
+            sortObj.key = column.key;
+            sortObj.order = "asc";
         }
-    }, [props.columns]);
-
-    const handleTableChange = useCallback((pagination: TablePaginationConfig, filters: any, sorter: any, extra: any) => {
-        if (Object.entries(sorter).length && onSort) {
-            onSort(sorter.field, sorter.order);
+        if (onSort) {
+            onSort(sortObj.key, sortObj.order);
         }
-    }, [onSort]);
+    }, [sort, onSort]);
 
     return (
         <div className={'table-component'}>
-            <Table
-                id={id}
-                rowSelection={rowSelection}
-                expandable={{
-                    // expandedRowKeys: rowKey ? data.map(rowKey) : [], // todo: make it unique if required
-                    showExpandColumn: showExpandColumn,
-                    defaultExpandAllRows: defaultExpandAllRows,
-                    rowExpandable: rowExpandable,
-                    expandedRowRender: expandRow,
-                    expandRowByClick: !!expandRow
-                }
-                }
-                columns={tableColumns}
-                className={`${loading ? "loading" : ""}`}
-                locale={{
-                    emptyText: (
-                        <>
-                            {
-                                (!loading && data?.length === 0) ? <>
-                                    {
-                                        errored && <StatusCardComponent title={"Error Loading Data"}/>
-                                    }
-                                    {
-                                        !errored && <StatusCardComponent title={"No Data"}/>
-                                    }
-                                </> : <></>
-                            }
-                        </>
-                    )
-                }}
-                onRow={(record, index) => {
-                    return {
-                        onClick: (event: any) => {
-                            handleRowClick(record, index);
+            <TableStyles className={'styled-table'}>
+                <div className={`t-table-wrapper`}>
+                    <div {...getTableProps()} className={`t-table table sticky ${size}`}>
+                        {
+                            !hideHeader && <div className="header t-thead">
+                                {headerGroups.map((headerGroup) => (
+                                    <div {...headerGroup.getHeaderGroupProps()} className="t-tr">
+                                        {headerGroup.headers.map((column: any) => <div {...column.getHeaderProps()}
+                                                                                       onClick={() => applySort(column)}
+                                                                                       className={getTHClasses(column)}
+                                            >
+                                                {column.render('Header')}
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
                         }
-                    }
-                }}
-                rowKey={rowKey as string | GetRowKey<any>}
-                showHeader={showHeader}
-                rowClassName={rowClassName}
-                loading={loading ? {
-                    indicator: <LoaderComponent type={"spinner"} size={"md"}/>,
-                    spinning: loading
-                } : false}
-                dataSource={data}
-                bordered={bordered}
-                size={size}
-                showSorterTooltip={false}
-                onChange={handleTableChange}
-                pagination={false}
-                tableLayout={tableLayout}
-                scroll={scroll === "scroll" ? {x: "100%", y: "inherit"} : undefined}
-            />
+                        {
+                            !errored && <div {...getTableBodyProps()} className="body t-body">
+                                {
+                                    rows.length > 0 && rows.map((row: any) => {
+                                        prepareRow(row);
+                                        return (
+                                            <>
+                                                <div className="t-tr"
+                                                     onClick={() => handleRowClick(row)} {...row.getRowProps()}>
+                                                    {row.cells.map((cell: any) => {
+                                                        return (
+                                                            <div {...cell.getCellProps()} className={getTDClasses(cell.column)}>
+                                                                {cell.render('Cell')}
+                                                            </div>
+                                                        )
+                                                    })}
+                                                </div>
+                                                {(defaultExpandAllRows && (canExpandRow && canExpandRow(row.original))) && expandRowRenderer &&
+                                                    <div className={'t-tr t-tr-expand'}>
+                                                        <div className="t-td">
+                                                            {expandRowRenderer(row.original, row.index)}
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </>
+                                        );
+                                    })
+                                }
+                                {
+                                    rows.length === 0 &&
+                                    <StatusCardComponent title={"No data found"} className={'table-data-not-found-card'}/>
+                                }
+                            </div>
+                        }
+                        {
+                            loading && <div className={'data-loading-wrapper'}>
+                                <div className="loader">
+                                    <LoaderComponent type={"spinner"}/>
+                                </div>
+                            </div>
+                        }
+                        {
+                            (errored && !loading) &&
+                            <StatusCardComponent title={"Error loading data"} className={'table-loading-error-card'}/>
+                        }
+                    </div>
+                </div>
+            </TableStyles>
         </div>
     );
-
 };
 
 export default TableComponent;
-
-// ****************************** USAGE ****************************** //
-
-// const columns: ITableColumn[] = [
-//     {
-//         title: 'Name',
-//         dataIndex: 'name',
-//         key: 'name',
-//         width: 150,
-//         fixed: "left"
-//     },
-//     {
-//         title: 'Age',
-//         dataIndex: 'age',
-//         key: 'age',
-//         width: 100,
-//     },
-//     {
-//         title: 'Address',
-//         dataIndex: 'address',
-//         key: 'address',
-//         width: 200,
-//     },
-//     {
-//         title: '',
-//         key: 'actions',
-//         width: 140,
-//         fixed: "right",
-//         render: (_: any, item: any) => {
-//             return <ButtonComponent
-//                 size={"small"}
-//                 prefixIcon={<ImageConfig.EditIcon/>}
-//             >
-//                 Edit User
-//             </ButtonComponent>
-//         }
-//     },
-// ];
-//
-// const data = [
-//     {
-//         key: '1',
-//         name: 'John Brown',
-//         age: 32,
-//         address: 'New York No. 1 Lake Park',
-//         tags: ['nice', 'developer'],
-//     },
-//     {
-//         key: '2',
-//         name: 'Jim Green',
-//         age: 42,
-//         address: 'London No. 1 Lake Park',
-//         tags: ['loser'],
-//     },
-//     {
-//         key: '3',
-//         name: 'Joe Black',
-//         age: 32,
-//         address: 'Sidney No. 1 Lake Park',
-//         tags: ['cool', 'teacher'],
-//     },
-// ];
-//
-//
-// <TableComponent
-//     onRowClick={(data, index)=>{
-//         console.log(data, index);
-//     }}
-//     rowClassName={(row, index)=>{
-//         if (index % 2 === 0){
-//             return "even-row";
-//         } else {
-//             return "odd-row";
-//         }
-//     }}
-//     columns={columns} data={data}/>
-
-
-// ****************************** USAGE ****************************** //

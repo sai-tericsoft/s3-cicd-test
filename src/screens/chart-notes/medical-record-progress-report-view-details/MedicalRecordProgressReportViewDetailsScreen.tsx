@@ -28,7 +28,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
-            render: (_: any, item: any) => {
+            render: (item: any) => {
                 return <>{item?.progress_stats_details?.name}</>
             }
         },
@@ -41,8 +41,8 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             title: 'Comments',
             dataIndex: 'comment',
             key: 'comment',
-            render: (_: any, item: any) => {
-                return <>{item?.comment || '-'}</>
+            render: (item: any) => {
+                return <>{item?.comments || '-'}</>
             }
         }
     ];
@@ -113,7 +113,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                             <TableComponent data={progressReportDetails?.progress_stats}
                                                             columns={progressStatsColumn}
                                                             showExpandColumn={false}
-                                                            rowKey={(item: any, index)=> item._id}
+                                                            rowKey={(item: any, index) => item._id}
                                             />
                                         </CardComponent>
                                         <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>

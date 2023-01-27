@@ -154,7 +154,7 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
                             size={"small"}
                             columns={LinkedClientListColumns}
                             data={serviceProviderList}
-                            showHeader={false}
+                            hideHeader={true}
                             loading={isServiceProviderListLoading}
                         />
                     </div>

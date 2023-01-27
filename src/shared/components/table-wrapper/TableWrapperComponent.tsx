@@ -4,11 +4,14 @@ import * as React from 'react';
 import {useCallback, useEffect, useRef, useState} from 'react';
 import {IAPIResponseType} from "../../models/api.model";
 import {ITableComponentProps} from "../../models/table.model";
-import TableComponent from "../table/TableComponent";
 import {CommonService} from "../../services";
 import PaginationComponent from "../pagination/PaginationComponent";
+import _ from "lodash";
+import TableComponent from "../table/TableComponent";
+import TableV2Component from "../table-v2/TableV2Component";
 
 export interface TableComponentProps extends ITableComponentProps {
+    type?: "ant" | "custom",
     url: string,
     method: "get" | "post" | string,
     isPaginated?: boolean,
@@ -29,9 +32,17 @@ const TableWrapperComponent = (props: TableComponentProps) => {
     const pageSizeRef = useRef<number>(10);
     const fetchPageDataSubscriptionRef = useRef<boolean>(true);
     const isPaginated = props.isPaginated !== undefined ? props.isPaginated : true;
+    const type = props.type || "custom";
 
     const getListData = useCallback(() => {
-        const payload = {page: pageNumRef.current + 1, limit: pageSizeRef.current, ...extraPayload};
+        const payload = _.cloneDeep({page: pageNumRef.current + 1, limit: pageSizeRef.current, ...extraPayload});
+        if (payload?.sort && payload?.sort?.key) { // TODO to make sort more consistent
+            delete payload.sort.key;
+            delete payload.sort.order;
+            payload.sort[payload.sort.key] = payload?.sort?.order;
+        } else {
+            delete payload.sort;
+        }
         let apiCall;
         if (method === "post") {
             apiCall = CommonService._api.post(url, payload);
@@ -90,13 +101,26 @@ const TableWrapperComponent = (props: TableComponentProps) => {
 
     return (
         <>
-            <TableComponent
-                loading={isDataLoading}
-                errored={isDataLoadingFailed}
-                data={data}
-                id={id}
-                {...otherProps}
-            />
+            {
+                type === "custom" && <TableComponent
+                    loading={isDataLoading}
+                    errored={isDataLoadingFailed}
+                    data={data}
+                    id={id}
+                    sort={extraPayload?.sort}
+                    {...otherProps}
+                />
+            }
+            {
+                type === "ant" && <TableV2Component
+                    loading={isDataLoading}
+                    errored={isDataLoadingFailed}
+                    data={data}
+                    id={id}
+                    sort={extraPayload?.sort}
+                    {...otherProps}
+                />
+            }
             {
                 (isDataLoaded && (data && data?.length) > 0 && isPaginated) && <PaginationComponent
                     paginationOptions={[10, 25, 100]}

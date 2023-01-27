@@ -1,147 +1,205 @@
 import "./TableV2Component.scss";
+import Table from 'antd/lib/table';
+import {ITableComponentProps} from "../../models/table.model";
+import React, {useCallback, useEffect, useState} from "react";
+import StatusCardComponent from "../status-card/StatusCardComponent";
+import LoaderComponent from "../loader/LoaderComponent";
+import {TablePaginationConfig} from "antd";
+import {GetRowKey} from "rc-table/lib/interface";
 
-import {ColumnDef, createColumnHelper, flexRender, getCoreRowModel, useReactTable,} from '@tanstack/react-table'
-import {useEffect, useState} from "react";
-
-type Person = {
-    firstName: string
-    lastName: string
-    age: number
-    visits: number
-    status: string
-    progress: number
-}
-
-const columnHelper = createColumnHelper<Person>()
-
-const columns: ColumnDef<Person, any>[] = [
-    columnHelper.accessor('firstName', {
-        cell: info => info.getValue(),
-        header: "First Name",
-        size: 10,
-        minSize: 10,
-        maxSize: 50,
-    }),
-    columnHelper.accessor(row => row.lastName, {
-        id: 'lastName',
-        cell: info => <i>{info.getValue()}</i>,
-        header: () => <span>Last Name</span>,
-        size: 300,
-        minSize: 100,
-        maxSize: 500,
-    }),
-    columnHelper.accessor('age', {
-        header: () => 'Age',
-        cell: info => info.renderValue(),
-        size: 300,
-        minSize: 100,
-        maxSize: 500,
-    }),
-    columnHelper.accessor('visits', {
-        header: () => <span>Visits</span>,
-        size: 300,
-        minSize: 100,
-        maxSize: 500,
-    }),
-    columnHelper.accessor('status', {
-        header: 'Status',
-    }),
-    columnHelper.accessor('progress', {
-        header: 'Profile Progress',
-        minSize: 1000,
-    }),
-    columnHelper.accessor('progress', {
-        header: 'Profile Progress',
-    }),
-    columnHelper.accessor('progress', {
-        header: 'Profile Progress',
-    }),
-    columnHelper.accessor('progress', {
-        header: 'Profile Progress',
-    }),
-    columnHelper.accessor('progress', {
-        header: 'Profile Progress',
-    }),
-]
-
-interface TableV2ComponentProps {
-
+interface TableV2ComponentProps extends ITableComponentProps {
+    data: any[];
+    loading?: boolean;
+    errored?: boolean;
 }
 
 const TableV2Component = (props: TableV2ComponentProps) => {
 
-    const [data, setData] = useState<Person[]>([]);
+    const {
+        bordered,
+        data,
+        defaultExpandAllRows,
+        errored,
+        id,
+        loading,
+        onRowClick,
+        onSort,
+        rowClassName,
+        rowSelection,
+        showExpandColumn,
+        canExpandRow,
+        expandRowRenderer,
+        hideHeader
+    } = props;
+
+    const [tableColumns, setTableColumns] = useState<any>(props.columns);
+    const size = props.size || "large";
+
+    const defaultRowKey = useCallback((item: any, index?: number) => item?._id || index, []);
+
+    const rowKey = props.rowKey || defaultRowKey;
+
+    const handleRowClick = useCallback((record: any, index: number | undefined) => {
+        if (onRowClick) {
+            onRowClick(record, index);
+        }
+    }, [onRowClick]);
 
     useEffect(() => {
-        for (let i = 0; i < 10; i++) {
-            data.push({
-                firstName: 'tanner',
-                lastName: 'linsley',
-                age: 24,
-                visits: 100,
-                status: 'In Relationship',
-                progress: 50,
+        if (props.columns) {
+            const tableCols: any = props.columns.map((col) => {
+                const transformedCol: any = col;
+                transformedCol['className'] = 't-cell t-cell-' + col.key?.split(' ').join('-') + " " + col.className;
+                if (col.sortable) {
+                    transformedCol['sorter'] = col.sortable;
+                }
+                return transformedCol;
             });
+            setTableColumns(tableCols);
         }
-        setData([...data]);
-    }, [data]);
+    }, [props.columns]);
 
-    const table = useReactTable({
-        data,
-        columns,
-        getCoreRowModel: getCoreRowModel(),
-    })
+    const handleTableChange = useCallback((pagination: TablePaginationConfig, filters: any, sorter: any, extra: any) => {
+        if (Object.entries(sorter).length && onSort) {
+            onSort(sorter.field, sorter.order);
+        }
+    }, [onSort]);
 
     return (
         <div className={'table-v2-component'}>
-            <table>
-                <thead>
-                {table.getHeaderGroups().map(headerGroup => (
-                    <tr key={headerGroup.id} >
-                        {headerGroup.headers.map(header => (
-                            <th key={header.id}>
-                                {header.isPlaceholder
-                                    ? null
-                                    : flexRender(
-                                        header.column.columnDef.header,
-                                        header.getContext()
-                                    )}
-                            </th>
-                        ))}
-                    </tr>
-                ))}
-                </thead>
-                <tbody>
-                {table.getRowModel().rows.map(row => (
-                    <tr key={row.id}>
-                        {row.getVisibleCells().map(cell => (
-                            <td key={cell.id}>
-                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                            </td>
-                        ))}
-                    </tr>
-                ))}
-                </tbody>
-                <tfoot>
-                {table.getFooterGroups().map(footerGroup => (
-                    <tr key={footerGroup.id}>
-                        {footerGroup.headers.map(header => (
-                            <th key={header.id}>
-                                {header.isPlaceholder
-                                    ? null
-                                    : flexRender(
-                                        header.column.columnDef.footer,
-                                        header.getContext()
-                                    )}
-                            </th>
-                        ))}
-                    </tr>
-                ))}
-                </tfoot>
-            </table>
+            <Table
+                id={id}
+                rowSelection={rowSelection}
+                expandable={{
+                    // expandedRowKeys: rowKey ? data.map(rowKey) : [], // todo: make it unique if required
+                    showExpandColumn: showExpandColumn,
+                    defaultExpandAllRows: defaultExpandAllRows,
+                    rowExpandable: canExpandRow,
+                    expandedRowRender: expandRowRenderer,
+                    expandRowByClick: !!expandRowRenderer
+                }
+                }
+                columns={tableColumns}
+                className={`${loading ? "loading" : ""}`}
+                locale={{
+                    emptyText: (
+                        <>
+                            {
+                                (!loading && data?.length === 0) ? <>
+                                    {
+                                        errored && <StatusCardComponent title={"Error Loading Data"}/>
+                                    }
+                                    {
+                                        !errored && <StatusCardComponent title={"No Data"}/>
+                                    }
+                                </> : <></>
+                            }
+                        </>
+                    )
+                }}
+                onRow={(record, index) => {
+                    return {
+                        onClick: (event: any) => {
+                            handleRowClick(record, index);
+                        }
+                    }
+                }}
+                rowKey={rowKey as string | GetRowKey<any>}
+                showHeader={!hideHeader}
+                rowClassName={rowClassName}
+                loading={loading ? {
+                    indicator: <LoaderComponent type={"spinner"} size={"md"}/>,
+                    spinning: loading
+                } : false}
+                dataSource={data}
+                bordered={bordered}
+                size={size}
+                showSorterTooltip={false}
+                onChange={handleTableChange}
+                pagination={false}
+            />
         </div>
     );
 
 };
 
 export default TableV2Component;
+
+// ****************************** USAGE ****************************** //
+
+// const columns: ITableColumn[] = [
+//     {
+//         title: 'Name',
+//         dataIndex: 'name',
+//         key: 'name',
+//         width: 150,
+//         fixed: "left"
+//     },
+//     {
+//         title: 'Age',
+//         dataIndex: 'age',
+//         key: 'age',
+//         width: 100,
+//     },
+//     {
+//         title: 'Address',
+//         dataIndex: 'address',
+//         key: 'address',
+//         width: 200,
+//     },
+//     {
+//         title: '',
+//         key: 'actions',
+//         width: 140,
+//         fixed: "right",
+//         render: ( item: any) => {
+//             return <ButtonComponent
+//                 size={"small"}
+//                 prefixIcon={<ImageConfig.EditIcon/>}
+//             >
+//                 Edit User
+//             </ButtonComponent>
+//         }
+//     },
+// ];
+//
+// const data = [
+//     {
+//         key: '1',
+//         name: 'John Brown',
+//         age: 32,
+//         address: 'New York No. 1 Lake Park',
+//         tags: ['nice', 'developer'],
+//     },
+//     {
+//         key: '2',
+//         name: 'Jim Green',
+//         age: 42,
+//         address: 'London No. 1 Lake Park',
+//         tags: ['loser'],
+//     },
+//     {
+//         key: '3',
+//         name: 'Joe Black',
+//         age: 32,
+//         address: 'Sidney No. 1 Lake Park',
+//         tags: ['cool', 'teacher'],
+//     },
+// ];
+//
+//
+// <TableV2Component
+//     onRowClick={(data, index)=>{
+//         console.log(data, index);
+//     }}
+//     rowClassName={(row, index)=>{
+//         if (index % 2 === 0){
+//             return "even-row";
+//         } else {
+//             return "odd-row";
+//         }
+//     }}
+//     columns={columns} data={data}/>
+
+
+// ****************************** USAGE ****************************** //
