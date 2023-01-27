@@ -137,7 +137,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                         cb();
                     } else {
                         if (medicalRecordId) {
-                            navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+                            // navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
                         }
                     }
                 }).catch((error: any) => {
@@ -148,7 +148,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                 }
             });
         }
-    }, [patchDataToProgressReportForm, navigate, medicalRecordId, progressReportId]);
+    }, [patchDataToProgressReportForm, medicalRecordId, progressReportId]);
 
     useEffect(() => {
         dispatch(setCurrentNavParams("Update Progress Report Details", null, () => {
@@ -297,7 +297,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                     <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>
                                         <ESignApprovalComponent isSigned={formik.values.is_signed}
                                                                 isSigning={isSigningInProgress}
-                                                                canSign={true}
+                                                                canSign={clientMedicalRecordProgressReportDetails?.can_sign}
                                                                 signedAt={formik.values.signed_on}
                                                                 onSign={() => {
                                                                     handleSign(formik.values, formik);

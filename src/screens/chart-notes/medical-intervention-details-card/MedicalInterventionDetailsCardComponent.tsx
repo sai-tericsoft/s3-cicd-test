@@ -72,6 +72,11 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
         }
     }, [navigate, dispatch, clientMedicalRecord?.client_id]);
 
+    const comingSoon = useCallback(
+        () => {
+            CommonService._alert.showToast('Coming Soon!', 'info')
+        }, []);
+
     const openEditMedicalRecordDrawer = useCallback(() => {
         setIsEditMedicalRecordDrawerOpen(true);
     }, []);
@@ -81,44 +86,54 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     }, []);
 
     const openAddDryNeedlingFileDrawer = useCallback(() => {
-        if (!medicalInterventionDetails?.is_dryneedling_added) {
-            setIsAddDryNeedlingFileDrawerOpen(true);
-        } else {
-            CommonService._alert.showToast('Dry Needling file already added to this intervention', 'error');
-        }
-    }, [medicalInterventionDetails]);
+        comingSoon();
+        return;
+        // if (!medicalInterventionDetails?.is_dryneedling_added) {
+        //     setIsAddDryNeedlingFileDrawerOpen(true);
+        // } else {
+        //     CommonService._alert.showToast('Dry Needling file already added to this intervention', 'error');
+        // }
+    }, [comingSoon]);
 
     const closeAddDryNeedlingFileDrawer = useCallback(() => {
         setIsAddDryNeedlingFileDrawerOpen(false);
     }, []);
 
     const openTransferSoapNoteDrawer = useCallback(() => {
-        setIsTransferSoapNoteDrawerOpen(true);
-    }, []);
+        comingSoon();
+        return;
+        // setIsTransferSoapNoteDrawerOpen(true);
+    }, [comingSoon]);
 
     const closeTransferSoapNoteDrawer = useCallback(() => {
         setIsTransferSoapNoteDrawerOpen(false);
     }, []);
 
     const openAddConcussionFileDrawer = useCallback(() => {
-        setIsAddConcussionFileDrawerOpen(true);
-    }, []);
+        comingSoon();
+        return;
+        // setIsAddConcussionFileDrawerOpen(true);
+    }, [comingSoon]);
 
     const closeAddConcussionFileDrawer = useCallback(() => {
         setIsAddConcussionFileDrawerOpen(false);
     }, []);
 
     const openViewPriorNoteDrawer = useCallback(() => {
-        setIsViewPriorNoteDrawerOpen(true);
-    }, []);
+        comingSoon();
+        return;
+        // setIsViewPriorNoteDrawerOpen(true);
+    }, [comingSoon]);
 
     const closeViewPriorNoteDrawer = useCallback(() => {
         setIsViewPriorNoteDrawerOpen(false);
     }, []);
 
     const openImportSoapNoteDrawer = useCallback(() => {
-        setIsImportSoapNoteDrawerOpen(true);
-    }, []);
+        comingSoon();
+        return;
+        // setIsImportSoapNoteDrawerOpen(true);
+    }, [comingSoon]);
 
     const closeImportSoapNoteDrawer = useCallback(() => {
         setIsImportSoapNoteDrawerOpen(false);
@@ -130,11 +145,6 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
             dispatch(getClientMedicalRecord(medicalRecordId));
         }
     }, [dispatch, medicalRecordId, closeEditMedicalRecordDrawer]);
-
-    const comingSoon = useCallback(
-        () => {
-            CommonService._alert.showToast('Coming Soon!', 'info')
-        }, []);
 
     const handleDryNeedlingFileAdd = useCallback(() => {
         if (medicalInterventionDetails?._id) {
@@ -211,14 +221,14 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                     } menuOptions={
                                         [
                                             <ListItem onClick={comingSoon}>Print SOAP</ListItem>,
-                                            <ListItem onClick={comingSoon}>Transfer SOAP to</ListItem>,
+                                            <ListItem onClick={openTransferSoapNoteDrawer}>Transfer SOAP to</ListItem>,
                                             <ListItem onClick={comingSoon}>Notify Admin</ListItem>,
-                                            <ListItem onClick={comingSoon}>
+                                            <ListItem onClick={openAddDryNeedlingFileDrawer}>
                                                 Add Dry Needling File
                                             </ListItem>,
-                                            <ListItem onClick={comingSoon}>Add Concussion</ListItem>,
-                                            <ListItem onClick={comingSoon}>View Prior Note</ListItem>,
-                                            <ListItem onClick={comingSoon}>Import SOAP Note</ListItem>
+                                            <ListItem onClick={openAddConcussionFileDrawer}>Add Concussion</ListItem>,
+                                            <ListItem onClick={openViewPriorNoteDrawer}>View Prior Note</ListItem>,
+                                            <ListItem onClick={openImportSoapNoteDrawer}>Import SOAP Note</ListItem>
                                         ]
                                     }
                                     />
