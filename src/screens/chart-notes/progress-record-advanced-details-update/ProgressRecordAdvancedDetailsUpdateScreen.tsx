@@ -116,7 +116,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
     }, []);
 
     const onSubmit = useCallback((values: any, {setSubmitting, setErrors}: FormikHelpers<any>, cb: any = undefined) => {
-        const payload = _.cloneDeep(values);
+        const payload = CommonService.removeKeysFromJSON(_.cloneDeep(values), ["provider_details", "medical_record_details"]);
         payload.progress_stats = [];
         Object.keys(values?.progress_stats).forEach((stat_id: any) => {
             payload.progress_stats.push({
@@ -157,9 +157,10 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
     }, [medicalRecordId, navigate, dispatch]);
 
     const handleSign = useCallback((values: any, formik: FormikHelpers<any>) => {
+        const payload = _.cloneDeep(values);
         setIsSigningInProgress(true);
-        values['is_signed'] = true;
-        onSubmit(values, formik, () => {
+        payload['is_signed'] = true;
+        onSubmit(payload, formik, () => {
             setIsSigningInProgress(false);
         });
     }, [onSubmit]);

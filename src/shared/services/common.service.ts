@@ -77,12 +77,15 @@ const handleErrors = ((setErrors: (errors: FormikErrors<any>) => void, err: any,
             }
         }
         setErrors(errors);
-    } else if (err.error) {
+    }
+    if (err.error) {
         AlertService.showToast(err.error);
+    } else {
+        if (showGlobalError) {
+            AlertService.showToast('Form contain errors, please check once', 'error');
+        }
     }
-    if (showGlobalError) {
-        AlertService.showToast('Form contain errors, please check once', 'error');
-    }
+
 });
 
 const openDialog = (component: any) => {
