@@ -28,7 +28,7 @@ const TableComponent = (props: TableComponentProps) => {
         rowClassName,
         rowSelection,
         showExpandColumn,
-        caxExpandRow,
+        canExpandRow,
         expandRowRenderer,
         hideHeader
     } = props;
@@ -77,7 +77,7 @@ const TableComponent = (props: TableComponentProps) => {
                     // expandedRowKeys: rowKey ? data.map(rowKey) : [], // todo: make it unique if required
                     showExpandColumn: showExpandColumn,
                     defaultExpandAllRows: defaultExpandAllRows,
-                    rowExpandable: caxExpandRow,
+                    rowExpandable: canExpandRow,
                     expandedRowRender: expandRowRenderer,
                     expandRowByClick: !!expandRowRenderer
                 }

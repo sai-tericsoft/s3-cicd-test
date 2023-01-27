@@ -7,7 +7,7 @@ import {ITableColumn, ITableComponentProps} from "../../models/table.model";
 import _ from "lodash";
 import LoaderComponent from "../loader/LoaderComponent";
 import StatusCardComponent from "../status-card/StatusCardComponent";
-import {ImageConfig, Misc} from "../../../constants";
+import {ImageConfig} from "../../../constants";
 
 interface TableV2ComponentProps extends ITableComponentProps {
     loading?: boolean;
@@ -27,7 +27,7 @@ const TableV2Component = (props: TableV2ComponentProps) => {
         defaultExpandAllRows,
         showExpandColumn,
         expandRowRenderer,
-        caxExpandRow,
+        canExpandRow,
         onRowClick,
         data,
         sort,
@@ -86,10 +86,10 @@ const TableV2Component = (props: TableV2ComponentProps) => {
     }, [showExpandColumn, TransformColumn]);
 
     const columnsMemoized = useMemo<any>(() =>
-            parseColumns(columns), [columns]);
+        parseColumns(columns), [columns]);
 
     const dataMemoized = useMemo<any>(() =>
-            data, [data]);
+        data, [data]);
 
     const {
         getTableProps,
@@ -157,56 +157,57 @@ const TableV2Component = (props: TableV2ComponentProps) => {
 
     return (
         <div className={'table-v2-component'}>
-            <TableStyles>
+            <TableStyles className={'styled-table'}>
                 <div className={`t-table-wrapper`}>
-                    <table {...getTableProps()} className={`t-table table sticky ${size}`}>
+                    <div {...getTableProps()} className={`t-table table sticky ${size}`}>
                         {
-                            !hideHeader && <thead className="header t-thead">
+                            !hideHeader && <div className="header t-thead">
                             {headerGroups.map((headerGroup) => (
-                                <tr {...headerGroup.getHeaderGroupProps()} className="t-tr">
-                                    {headerGroup.headers.map((column: any) => <th {...column.getHeaderProps()}
-                                                                                  onClick={() => applySort(column)}
-                                                                                  className={getTHClasses(column)}>
+                                <div {...headerGroup.getHeaderGroupProps()} className="t-tr">
+                                    {headerGroup.headers.map((column: any) => <div {...column.getHeaderProps()}
+                                                                                   onClick={() => applySort(column)}
+                                                                                   className={getTHClasses(column)}>
                                             {column.render('Header')}
-                                        </th>
+                                        </div>
                                     )}
-                                </tr>
+                                </div>
                             ))}
-                            </thead>
+                            </div>
                         }
                         {
-                            !errored && <tbody {...getTableBodyProps()} className="body t-body">
-                            {
-                                rows.length > 0 && rows.map((row: any) => {
-                                    console.log(row);
-                                    prepareRow(row);
-                                    return (
-                                        <>
-                                            <tr className="t-tr" onClick={() => handleRowClick(row)} {...row.getRowProps()}>
-                                                {row.cells.map((cell: any) => {
-                                                    return (
-                                                        <td {...cell.getCellProps()} className={getTDClasses(cell.column)}>
-                                                            {cell.render('Cell')}
-                                                        </td>
-                                                    )
-                                                })}
-                                            </tr>
-                                            {(row.isExpanded || defaultExpandAllRows && (caxExpandRow && caxExpandRow(row.original))) && expandRowRenderer &&
-                                                <tr>
-                                                    <td colSpan={visibleColumns.length}>
-                                                        {expandRowRenderer(row.original, row.index)}
-                                                    </td>
-                                                </tr>
-                                            }
-                                        </>
-                                    );
-                                })
-                            }
-                            {
-                                rows.length === 0 &&
-                                <StatusCardComponent title={"No data found"} className={'table-data-not-found-card'}/>
-                            }
-                            </tbody>
+                            !errored && <div {...getTableBodyProps()} className="body t-body">
+                                {
+                                    rows.length > 0 && rows.map((row: any) => {
+                                        console.log(row);
+                                        prepareRow(row);
+                                        return (
+                                            <>
+                                                <div className="t-tr"
+                                                     onClick={() => handleRowClick(row)} {...row.getRowProps()}>
+                                                    {row.cells.map((cell: any) => {
+                                                        return (
+                                                            <div {...cell.getCellProps()} className={getTDClasses(cell.column)}>
+                                                                {cell.render('Cell')}
+                                                            </div>
+                                                        )
+                                                    })}
+                                                </div>
+                                                {(row.isExpanded || defaultExpandAllRows && (canExpandRow && canExpandRow(row.original))) && expandRowRenderer &&
+                                                    <div className={'t-tr'}>
+                                                        <div className="t-td">
+                                                            {expandRowRenderer(row.original, row.index)}
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </>
+                                        );
+                                    })
+                                }
+                                {
+                                    rows.length === 0 &&
+                                    <StatusCardComponent title={"No data found"} className={'table-data-not-found-card'}/>
+                                }
+                            </div>
                         }
                         {
                             loading && <div className={'data-loading-wrapper'}>
@@ -219,7 +220,7 @@ const TableV2Component = (props: TableV2ComponentProps) => {
                             (errored && !loading) &&
                             <StatusCardComponent title={"Error loading data"} className={'table-loading-error-card'}/>
                         }
-                    </table>
+                    </div>
                 </div>
             </TableStyles>
         </div>

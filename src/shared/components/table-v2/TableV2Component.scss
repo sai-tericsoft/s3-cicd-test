@@ -4,6 +4,43 @@
   //display: flex;
   //align-items: center;
   //justify-content: center;
+  width: 100%;
+  height: 100%;
+  .styled-table {
+    width: 100%;
+    height: 100%;
+  }
+
+  .t-table-wrapper {
+    width: 100%;
+    height: 100%;
+    //overflow: auto;
+
+    .table.sticky .body {
+      top: -2px !important;
+      .input-component {
+        margin-bottom: 0px !important;
+      }
+    }
+
+    .table.medium .t-th {
+      height: 56px;
+      padding: 8px;
+      flex: 1;
+    }
+    .table.medium .t-th, .table.medium .t-td {
+      display: flex !important;
+      justify-content: center;
+      align-content: center;
+      align-items: center;
+      align-self: center;
+      flex: 1;
+    }
+    .table.medium .t-td {
+      height: 52px;
+      padding: 6px;
+    }
+  }
 
   .table {
     width: 100%;

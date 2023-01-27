@@ -3,7 +3,6 @@ import TableV2Component from "../../shared/components/table-v2/TableV2Component"
 import {ITableColumn} from "../../shared/models/table.model";
 import {useCallback, useMemo, useState} from "react";
 import {MOCK_USER_DATA} from "../../assets/data/user.data";
-import CheckBoxComponent from "../../shared/components/form-controls/check-box/CheckBoxComponent";
 import InputComponent from "../../shared/components/form-controls/input/InputComponent";
 import ButtonComponent from "../../shared/components/button/ButtonComponent";
 
@@ -45,11 +44,21 @@ const TestScreen = () => {
             key: 'name',
             title: 'Name',
             dataIndex: 'name',
-            width: 200,
             fixed: 'left',
-            render: (item: any) => {
-                return <span>{item?.first_name} {item?.last_name}</span>
-            }
+            children: [
+                {
+                    key: 'first_name',
+                    title: 'First Name',
+                    dataIndex: 'first_name',
+                    width: 200,
+                },
+                {
+                    key: 'last_name',
+                    title: 'Last Name',
+                    dataIndex: 'last_name',
+                    width: 200,
+                }
+            ]
         },
         {
             title: 'Country',
@@ -82,7 +91,7 @@ const TestScreen = () => {
             key: 'notes',
             width: 200,
             render: (item: any) => {
-                return <InputComponent value={item.first_name + ' ' + item.last_name}/>
+                return <InputComponent size={'small'} value={item.first_name + ' ' + item.last_name}/>
             }
         },
         {
@@ -127,13 +136,13 @@ const TestScreen = () => {
                               sort={filter.sort}
                               onSort={handleSort}
                               defaultExpandAllRows={true}
-                              // showExpandColumn={true}
-                              // caxExpandRow={(item: any) => item.id === 1}
-                              // expandRowRenderer={(item: any) => {
-                              //     return <div className="expand-row">
-                              //         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, molestias?
-                              //     </div>
-                              // }}
+                // showExpandColumn={true}
+                canExpandRow={(item: any) => item.id === 1}
+                expandRowRenderer={(item: any) => {
+                    return <div className="expand-row">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, molestias?
+                    </div>
+                }}
             />
         </div>
     );

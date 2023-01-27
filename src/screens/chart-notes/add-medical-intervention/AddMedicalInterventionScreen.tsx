@@ -433,7 +433,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                                     bordered={true}
                                                                     showExpandColumn={false}
                                                                     defaultExpandAllRows={true}
-                                                                    caxExpandRow={(row: any) => row?.config?.comments?.length > 0}
+                                                                    canExpandRow={(row: any) => row?.config?.comments?.length > 0}
                                                                     expandRowRenderer={
                                                                         (row: any) => {
                                                                             return (
@@ -491,7 +491,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                             bordered={true}
                                                             showExpandColumn={false}
                                                             defaultExpandAllRows={true}
-                                                            caxExpandRow={(row: any) => row?.comments?.length > 0}
+                                                            canExpandRow={(row: any) => row?.comments?.length > 0}
                                                             expandRowRenderer={
                                                                 (row: any) => {
                                                                     return (
