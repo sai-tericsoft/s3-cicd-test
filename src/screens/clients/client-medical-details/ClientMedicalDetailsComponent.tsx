@@ -239,13 +239,17 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                         {
                             (Object.keys(clientMedicalDetails?.musculoskeletal_history || {})?.map((question, index) => {
                                 return <div key={question + index} className={"musculoskeletal-history-block"}>
-                                    <DataLabelValueComponent
-                                        label={clientMedicalDetails?.musculoskeletal_history[question]?.title}
-                                        direction={"row"}>
-                                        {clientMedicalDetails?.musculoskeletal_history[question]?.value}
-                                    </DataLabelValueComponent>
-                                    <QuestionComponent
-                                        description={clientMedicalDetails?.musculoskeletal_history[question]?.text}/>
+                                    <div className="ts-row">
+                                        <div className="ts-col-lg-6 font-weight-bold">
+                                            {clientMedicalDetails?.musculoskeletal_history[question]?.title}
+                                        </div>
+                                        <div className="ts-col-lg-2 font-weight-bold text-primary">
+                                            {clientMedicalDetails?.musculoskeletal_history[question]?.value}
+                                        </div>
+                                        <div className="ts-col-lg-4">
+                                            {clientMedicalDetails?.musculoskeletal_history[question]?.text || '-'}
+                                        </div>
+                                    </div>
                                 </div>
                             }))
                         }

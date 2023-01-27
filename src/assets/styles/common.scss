@@ -346,6 +346,7 @@
     background: #E4F6EA;
     color: #00534F;
   }
+
   &.out_of_stock {
     background: #FFE2E9;
     color: #DE1C4E;
@@ -428,4 +429,8 @@
     min-height: 300px;
     height: calc(100vh - 215px);
   }
+}
+
+.text-primary {
+  color: $primary-color;
 }

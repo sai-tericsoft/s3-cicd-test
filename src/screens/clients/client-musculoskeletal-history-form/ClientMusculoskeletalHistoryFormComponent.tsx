@@ -19,6 +19,8 @@ import FormikTextAreaComponent from "../../../shared/components/form-controls/fo
 import {getClientMedicalDetails} from "../../../store/actions/client.action";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
+import HorizontalLineComponent
+    from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 
 interface ClientMusculoskeletalFormComponentProps {
     clientId: string;
@@ -121,54 +123,56 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                         {
                                             musculoskeletalHistoryOptionsList?.map((question: IMusculoskeletalHistoryOption) => {
                                                 const {_id, title} = question;
-                                                return <div className="ts-row ts-align-items-center mrg-bottom-10"
-                                                            key={_id}>
-                                                    <div className="ts-col-md-6">
-                                                        <div className={"mrg-bottom-10"}>
-                                                            {title}
-                                                        </div>
-                                                        <Field name={`musculoskeletal_history.${_id}.value`}>
-                                                            {
-                                                                (field: FieldProps) => (
-                                                                    <FormikRadioButtonGroupComponent
-                                                                        options={CommonService._staticData.yesNoOptions}
-                                                                        displayWith={(option) => option.title}
-                                                                        valueExtractor={(option) => option.title}
-                                                                        required={true}
-                                                                        formikField={field}
-                                                                        id={"musculos"}
-                                                                        onChange={(value) => {
-                                                                            console.log(value);
-                                                                            if (value === "No") {
-                                                                                setFieldValue(`musculoskeletal_history.${_id}.text`, undefined);
-                                                                            }
-                                                                        }}
-                                                                    />
-                                                                )
-                                                            }
-                                                        </Field>
-                                                    </div>
-                                                    <div className={"ts-col-md-6"}>
-                                                        {
-                                                            values.musculoskeletal_history[_id]?.value === "Yes" &&
-                                                            <Field name={`musculoskeletal_history.${_id}.text`}>
+                                                return <>
+                                                    <div className="ts-row mrg-top-10 mrg-bottom-10"
+                                                         key={_id}>
+                                                        <div className="ts-col-md-4">
+                                                            <div className={"mrg-bottom-10"}>
+                                                                {title}
+                                                            </div>
+                                                            <Field name={`musculoskeletal_history.${_id}.value`}>
                                                                 {
                                                                     (field: FieldProps) => (
-                                                                        <FormikTextAreaComponent
-                                                                            id={"musculos_input"}
-                                                                            label={"Please provide pertinent information here (date of injury, date of surgery, side of body, injury type, etc)."}
-                                                                            placeholder={"Please provide pertinent information here (date of injury, date of surgery, side of body, injury type, etc)."}
+                                                                        <FormikRadioButtonGroupComponent
+                                                                            options={CommonService._staticData.yesNoOptions}
+                                                                            displayWith={(option) => option.title}
+                                                                            valueExtractor={(option) => option.title}
+                                                                            required={true}
                                                                             formikField={field}
-                                                                            size={"small"}
-                                                                            rows={2}
-                                                                            fullWidth={true}
+                                                                            id={"musculos"}
+                                                                            onChange={(value) => {
+                                                                                console.log(value);
+                                                                                if (value === "No") {
+                                                                                    setFieldValue(`musculoskeletal_history.${_id}.text`, undefined);
+                                                                                }
+                                                                            }}
                                                                         />
                                                                     )
                                                                 }
                                                             </Field>
-                                                        }
+                                                        </div>
+                                                        <div className={"ts-col-md-8"}>
+                                                            {
+                                                                values.musculoskeletal_history[_id]?.value &&
+                                                                <Field name={`musculoskeletal_history.${_id}.text`}>
+                                                                    {
+                                                                        (field: FieldProps) => (
+                                                                            <FormikTextAreaComponent
+                                                                                id={"musculos_input"}
+                                                                                label={"Please provide pertinent information here (date of injury, date of surgery, side of body, injury type, etc)."}
+                                                                                placeholder={"Please provide pertinent information here (date of injury, date of surgery, side of body, injury type, etc)."}
+                                                                                formikField={field}
+                                                                                size={"small"}
+                                                                                rows={2}
+                                                                                fullWidth={true}
+                                                                            />
+                                                                        )
+                                                                    }
+                                                                </Field>
+                                                            }
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                </>
                                             })
                                         }
                                         <div className="t-form-actions">
