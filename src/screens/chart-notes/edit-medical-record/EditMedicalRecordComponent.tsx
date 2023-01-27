@@ -40,7 +40,7 @@ const MedicalRecordEditFormInitialValues: any = { // TODO type properly
         is_case_physician: false,
         name: "",
         next_appointment: "",
-        is_treated_script_received: false,
+        is_treated_script_received: undefined,
     },
     injury_details: [
         MEDICAL_RECORD_BODY_PART
@@ -96,6 +96,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                     is_case_physician: medicalRecordDetails.case_physician.is_case_physician,
                     name: medicalRecordDetails.case_physician.name,
                     next_appointment: medicalRecordDetails.case_physician.next_appointment,
+                    is_treated_script_received: medicalRecordDetails.case_physician.is_treated_script_received,
                 },
                 injury_details: medicalRecordDetails?.injury_details
             });
@@ -202,7 +203,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                         <FormikSelectComponent
                                                             options={CommonService._staticData.yesNoOptions}
                                                             displayWith={(option) => option.title}
-                                                            valueExtractor={(option) => option.title}
+                                                            valueExtractor={(option) => option.code}
                                                             label={'Treated Script Received'}
                                                             formikField={field}
                                                             required={true}

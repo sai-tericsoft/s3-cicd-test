@@ -46,7 +46,7 @@ const MedicalRecordAddFormInitialValues: any = { // TODO type properly
         is_case_physician: false,
         name: "",
         next_appointment: "",
-        is_treated_script_received: false,
+        is_treated_script_received: undefined,
     },
     injury_details: [
         MEDICAL_RECORD_BODY_PART
@@ -442,7 +442,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                             <FormikSelectComponent
                                                                 options={CommonService._staticData.yesNoOptions}
                                                                 displayWith={(option) => option.title}
-                                                                valueExtractor={(option) => option.title}
+                                                                valueExtractor={(option) => option.code}
                                                                 label={'Treated Script Received'}
                                                                 formikField={field}
                                                                 required={true}
