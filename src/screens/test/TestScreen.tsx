@@ -12,35 +12,35 @@ const TestScreen = () => {
     const [selectedRows, setSelectedRows] = useState<any[]>([]);
 
     const UserTableColumns: ITableColumn[] = useMemo<any>(() => [
-        {
-            key: 'select',
-            title: <CheckBoxComponent
-                onChange={(isChecked) => {
-                    if (isChecked) {
-                        setSelectedRows(MOCK_USER_DATA);
-                    } else {
-                        setSelectedRows([]);
-                    }
-                }}
-                indeterminate={selectedRows.length > 0 && selectedRows.length < MOCK_USER_DATA.length}
-                checked={selectedRows.length === MOCK_USER_DATA.length}
-            />,
-            dataIndex: 'select',
-            width: 80,
-            fixed: 'left',
-            render: (item: any, index: any) => {
-                return <CheckBoxComponent
-                    checked={selectedRows.includes(item)}
-                    onChange={(isChecked) => {
-                        if (isChecked) {
-                            setSelectedRows([...selectedRows, item]);
-                        } else {
-                            setSelectedRows(selectedRows.filter((row) => row !== item));
-                        }
-                    }}
-                />
-            }
-        },
+        // {
+        //     key: 'select',
+        //     title: <CheckBoxComponent
+        //         onChange={(isChecked) => {
+        //             if (isChecked) {
+        //                 setSelectedRows(MOCK_USER_DATA);
+        //             } else {
+        //                 setSelectedRows([]);
+        //             }
+        //         }}
+        //         indeterminate={selectedRows.length > 0 && selectedRows.length < MOCK_USER_DATA.length}
+        //         checked={selectedRows.length === MOCK_USER_DATA.length}
+        //     />,
+        //     dataIndex: 'select',
+        //     width: 80,
+        //     fixed: 'left',
+        //     render: (item: any, index: any) => {
+        //         return <CheckBoxComponent
+        //             checked={selectedRows.includes(item)}
+        //             onChange={(isChecked) => {
+        //                 if (isChecked) {
+        //                     setSelectedRows([...selectedRows, item]);
+        //                 } else {
+        //                     setSelectedRows(selectedRows.filter((row) => row !== item));
+        //                 }
+        //             }}
+        //         />
+        //     }
+        // },
         {
             key: 'name',
             title: 'Name',
@@ -122,18 +122,18 @@ const TestScreen = () => {
 
     return (
         <div className="test-screen">
-            <TableV2Component data={MOCK_USER_DATA.slice(0, 2)}
+            <TableV2Component data={MOCK_USER_DATA.slice(0, 19)}
                               columns={UserTableColumns}
                               sort={filter.sort}
                               onSort={handleSort}
                               defaultExpandAllRows={true}
                               // showExpandColumn={true}
-                              caxExpandRow={(item: any) => item.id === 1}
-                              expandRowRenderer={(item: any) => {
-                                  return <div className="expand-row">
-                                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, molestias?
-                                  </div>
-                              }}
+                              // caxExpandRow={(item: any) => item.id === 1}
+                              // expandRowRenderer={(item: any) => {
+                              //     return <div className="expand-row">
+                              //         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, molestias?
+                              //     </div>
+                              // }}
             />
         </div>
     );
