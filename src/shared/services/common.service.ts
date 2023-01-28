@@ -22,6 +22,7 @@ import ChartNotesService from "./modules/chart-notes.service";
 import printJS from "print-js";
 import {IAttachment} from "../models/common.model";
 import AppointmentService from "./modules/appointment.service";
+import InventoryService from "./modules/inventory.service";
 
 
 yup.addMethod(yup.mixed, 'atLeastOne', (args) => {
@@ -77,12 +78,15 @@ const handleErrors = ((setErrors: (errors: FormikErrors<any>) => void, err: any,
             }
         }
         setErrors(errors);
-    } else if (err.error) {
+    }
+    if (err.error) {
         AlertService.showToast(err.error);
+    } else {
+        if (showGlobalError) {
+            AlertService.showToast('Form contain errors, please check once', 'error');
+        }
     }
-    if (showGlobalError) {
-        AlertService.showToast('Form contain errors, please check once', 'error');
-    }
+
 });
 
 const openDialog = (component: any) => {
@@ -486,6 +490,10 @@ const openLinkInNewTab = (url: string) => {
     window.open(url, '_blank');
 }
 
+const isTextEllipsisActive = (e: HTMLDivElement) => {
+    return (e.offsetWidth < e.scrollWidth);
+}
+
 const CommonService = {
     CurrentDate,
     parseQueryString,
@@ -525,6 +533,7 @@ const CommonService = {
     printAttachment,
     getNormalizedFileType,
     openLinkInNewTab,
+    isTextEllipsisActive,
 
     // createValidationsObject,
     // createYupSchema,
@@ -543,5 +552,6 @@ const CommonService = {
     _client: ClientService,
     _facility: FacilityService,
     _chartNotes: ChartNotesService,
+    _inventory: InventoryService,
 }
 export default CommonService;

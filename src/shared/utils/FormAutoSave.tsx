@@ -7,12 +7,13 @@ interface FormAutoSaveProps {
     delay?: number;
     formikCtx: FormikProps<any>;
     announce?: boolean;
+    onUpdating?: (isChanging: boolean) => void;
 }
 
 const FormAutoSave = (props: FormAutoSaveProps) => {
 
-    const {formikCtx, announce} = props;
-    const delay = props.delay || 5000;
+    const {formikCtx, announce, onUpdating} = props;
+    const delay = props.delay || 3000;
 
     const [isSaved, setIsSaved] = useState<boolean | undefined>(undefined);
     const [savedAt, setSavedAt] = useState<Moment | undefined>(undefined);
@@ -23,14 +24,20 @@ const FormAutoSave = (props: FormAutoSaveProps) => {
             .then(() => {
                 setIsSaved(true);
                 setSavedAt(moment());
+                if (onUpdating) {
+                    onUpdating(false);
+                }
             });
-    }, delay), [formikCtx.submitForm, delay]);
+    }, delay), [formikCtx.submitForm, onUpdating, delay]);
 
     useEffect(() => {
         if (formikCtx.dirty) {
+            if (onUpdating) {
+                onUpdating(true);
+            }
             debouncedSubmit();
         }
-    }, [debouncedSubmit, formikCtx.dirty, formikCtx.values]);
+    }, [debouncedSubmit, onUpdating, formikCtx.dirty, formikCtx.values]);
 
     useEffect(() => {
         if (formikCtx.isSubmitting) {

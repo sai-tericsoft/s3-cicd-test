@@ -176,6 +176,22 @@ const MedicalRecordViewExerciseRecord = (medicalRecordId: string) => {
     return "/chart-notes/" + medicalRecordId + "/consolidated-exercise-record";
 }
 
+const InventoryList = () => {
+    return '/inventory-list';
+}
+
+const AddInventoryProduct = () => {
+    return "/inventory/add-product";
+}
+
+const InventoryProductViewDetails = (productId: string) => {
+    return "/inventory/product-details/" + productId;
+}
+
+const EditInventoryProduct = (productId: string) => {
+    return "/inventory/edit-product/" + productId;
+}
+
 const RouteConfigService = {
     DefaultRoute,
     LoginRoute,
@@ -215,7 +231,11 @@ const RouteConfigService = {
     MedicalInterventionDryNeedlingFileViewDetails,
     MedicalInterventionConcussionFileViewDetails,
     MedicalRecordDocumentViewDetails,
-    MedicalRecordViewExerciseRecord
+    MedicalRecordViewExerciseRecord,
+    InventoryList,
+    AddInventoryProduct,
+    InventoryProductViewDetails,
+    EditInventoryProduct
 }
 
 export default RouteConfigService;

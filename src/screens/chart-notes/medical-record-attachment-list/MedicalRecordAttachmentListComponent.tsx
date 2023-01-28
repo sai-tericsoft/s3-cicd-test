@@ -23,8 +23,8 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             key: 'date_of_attachment',
             dataIndex: 'date_of_attachment',
             fixed: 'left',
-            width: 150,
-            render: (_: any, item: any) => {
+            width: 160,
+            render: ( item: any) => {
                 return <>{CommonService.getSystemFormatTimeStamp(item?.updated_at)}</>
             }
         },
@@ -33,7 +33,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             key: 'file',
             dataIndex: 'file',
             width: 230,
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <>{item?.note_type}</>
             }
         },
@@ -42,7 +42,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             key: 'last_updated',
             dataIndex: 'last_updated',
             width: 200,
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <>{CommonService.transformTimeStamp(item?.updated_at)}</>
             }
         },
@@ -50,17 +50,19 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             title: 'Posted By',
             key: 'posted_by',
             dataIndex: 'posted_by',
+            align: "center",
             width: 200,
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <>{item?.posted_by?.first_name} {item?.posted_by?.last_name}</>
             }
         },
         {
             title: '',
             key: 'actions',
-            width: 99,
+            width: 130,
+            align: "center",
             fixed: 'right',
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 let route = '';
                 if (item.note_type_category.toLowerCase() === 'surgery record') {
                     route = CommonService._routeConfig.MedicalRecordSurgeryRecordDetails(item.medical_record_id, item._id);

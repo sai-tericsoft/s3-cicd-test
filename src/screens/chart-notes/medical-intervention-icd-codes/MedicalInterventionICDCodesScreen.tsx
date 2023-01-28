@@ -8,7 +8,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
-import MedicalRecordBasicDetailsCardComponent from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
+import MedicalRecordBasicDetailsCardComponent
+    from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 import TabsWrapperComponent, {
     TabComponent,
     TabContentComponent,
@@ -122,7 +123,6 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             width: 120,
             render: (_: any, item: any) => {
                 return <span>
-
                     {
                         !item?.is_fav &&
                         <div className={'star-icon'} onClick={() => addFavouriteList(item?._id)}>
@@ -144,7 +144,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             dataIndex: 'icd_code',
             key: 'icd_code',
             width: 120,
-            render: (_: any, item: any) => {
+            render: (item: any) => {
                 return <>{item?.icd_code_details?.icd_code}</>
             }
         },
@@ -222,7 +222,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                             }
                         }
                     >
-                        <ClearSharp/> Clear ICD-11 Codes  //TODO
+                        <ClearSharp/> Clear ICD-11 Codes //TODO
                     </ButtonComponent>
                 </div>
             </div>
@@ -252,6 +252,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                         method={APIConfig.ICD_CODE_LIST.METHOD}
                         columns={codeListColumns}
                         isPaginated={true}
+                        type={"ant"}
                     />
                 </TabContentComponent>
                 <TabContentComponent value={'favourites'} selectedTab={currentTab}>
@@ -269,6 +270,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                         method={APIConfig.ICD_CODE_FAVOURITE_LIST.METHOD}
                         columns={favouriteICDCodesColumns}
                         isPaginated={true}
+                        type={"ant"}
                     />
                 </TabContentComponent>
                 <div className="text-center">

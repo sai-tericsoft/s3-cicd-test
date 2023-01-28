@@ -58,7 +58,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
             title: '',
             dataIndex: 'select',
             width: 90,
-            render: (text: string, record: any) => <Field name={`${record._id}.is_selected`}>
+            render: (record: any) => <Field name={`${record._id}.is_selected`}>
                 {
                     (field: FieldProps) => (
                         <FormikCheckBoxComponent
@@ -85,7 +85,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
             title: 'Units of Care',
             dataIndex: 'units_of_care',
             width: 130,
-            render: (text: string, record: any) => <Field name={`${record._id}.units_of_care`}>
+            render: (record: any) => <Field name={`${record._id}.units_of_care`}>
                 {
                     (field: FieldProps) => (
                         <FormikInputComponent
@@ -104,7 +104,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
             title: 'Minutes',
             dataIndex: 'minutes',
             width: 120,
-            render: (text: string, record: any) => <Field name={`${record._id}.minutes`}>
+            render: (record: any) => <Field name={`${record._id}.minutes`}>
                 {
                     (field: FieldProps) => (
                         <FormikInputComponent
@@ -123,7 +123,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
             title: 'Notes',
             dataIndex: 'notes',
             width: 300,
-            render: (text: string, record: any) => <Field name={`${record._id}.notes`}>
+            render: (record: any) => <Field name={`${record._id}.notes`}>
                 {
                     (field: FieldProps) => (
                         <FormikInputComponent

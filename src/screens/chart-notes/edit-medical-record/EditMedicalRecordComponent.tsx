@@ -18,6 +18,7 @@ import * as Yup from "yup";
 import HorizontalLineComponent
     from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 import _ from "lodash";
+import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface EditMedicalRecordComponentProps {
     medicalRecordId: string;
@@ -27,6 +28,7 @@ interface EditMedicalRecordComponentProps {
 
 const MEDICAL_RECORD_BODY_PART = {
     body_part_id: "",
+    body_part_details: "",
     body_side: "",
     injury_type_id: "",
 };
@@ -38,7 +40,7 @@ const MedicalRecordEditFormInitialValues: any = { // TODO type properly
         is_case_physician: false,
         name: "",
         next_appointment: "",
-        is_treated_script_received: false,
+        is_treated_script_received: "",
     },
     injury_details: [
         MEDICAL_RECORD_BODY_PART
@@ -48,15 +50,18 @@ const MedicalRecordEditFormInitialValues: any = { // TODO type properly
 };
 
 const InjuryDetailsRecordValidationSchema = Yup.object().shape({
-    body_part_id: Yup.string().required("Body Part is required"),
-    body_side: Yup.mixed().required("Body Side is required"),
+    body_part_id: Yup.mixed().required("Body Part is required"),
+    body_part_details: Yup.mixed().nullable(),
+    body_side: Yup.mixed().nullable().when("body_part_details", {
+        is: (value: IBodyPart) => value && value?.sides?.length > 0,
+        then: Yup.string().required('Body Part is required'),
+        otherwise: Yup.string().nullable()
+    }),
     injury_type_id: Yup.mixed().required("Injury Type is required"),
 });
 
 const MedicalRecordValidationSchema = Yup.object({
     onset_date: Yup.mixed().required("Onset date is required"),
-    injury_description: Yup.string().required("Injury/Condition description is required"),
-    limitations: Yup.string().required("Restrictions/Limitations is required"),
     injury_details: Yup.array().of(InjuryDetailsRecordValidationSchema),
     case_physician: Yup.object({
         is_case_physician: Yup.boolean(),
@@ -89,8 +94,9 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                     is_case_physician: medicalRecordDetails.case_physician.is_case_physician,
                     name: medicalRecordDetails.case_physician.name,
                     next_appointment: medicalRecordDetails.case_physician.next_appointment,
+                    is_treated_script_received: medicalRecordDetails.case_physician.is_treated_script_received,
                 },
-                injury_details: medicalRecordDetails.injury_details
+                injury_details: medicalRecordDetails?.injury_details
             });
         }
     }, [medicalRecordDetails]);
@@ -131,6 +137,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                         }, [validateForm, values]);
                         return (
                             <Form className="t-form" noValidate={true}>
+                                <FormDebuggerComponent values={values} canShow={false}/>
                                 <div>
                                     <Field name={'onset_date'}>
                                         {
@@ -194,7 +201,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                         <FormikSelectComponent
                                                             options={CommonService._staticData.yesNoOptions}
                                                             displayWith={(option) => option.title}
-                                                            valueExtractor={(option) => option.title}
+                                                            valueExtractor={(option) => option.code}
                                                             label={'Treated Script Received'}
                                                             formikField={field}
                                                             required={true}
@@ -227,7 +234,6 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                     label={'Injury Description'}
                                                     formikField={field}
                                                     fullWidth={true}
-                                                    required={true}
                                                 />
                                             )
                                         }
@@ -241,7 +247,6 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                     label={'Restrictions/Limitations'}
                                                     formikField={field}
                                                     fullWidth={true}
-                                                    required={true}
                                                 />
                                             )
                                         }
@@ -285,7 +290,8 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                                                         formikField={field}
                                                                                         required={true}
                                                                                         fullWidth={true}
-                                                                                        onUpdate={() => {
+                                                                                        onUpdate={(value) => {
+                                                                                            setFieldValue(`injury_details[${index}].body_part_details`, bodyPartList.find((item: any) => item?._id === value));
                                                                                             setFieldValue(`injury_details[${index}].injury_type_id`, '');
                                                                                             setFieldValue(`injury_details[${index}].body_side`, '');
                                                                                         }}
@@ -300,13 +306,13 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                                             {
                                                                                 (field: FieldProps) => (
                                                                                     <FormikSelectComponent
-                                                                                        disabled={values?.injury_details[index]?.body_part_id === ""}
-                                                                                        options={bodyPartList?.find((item: IBodyPart) => item?._id === values?.injury_details[index]?.body_part_id)?.sides}
+                                                                                        disabled={(values?.injury_details[index]?.body_part_details === "" || !values?.injury_details[index]?.body_part_details?.sides || values?.injury_details[index]?.body_part_details?.sides?.length === 0)}
+                                                                                        options={values?.injury_details[index]?.body_part_details?.sides}
                                                                                         label={'Body Side'}
                                                                                         displayWith={(item: any) => item}
                                                                                         valueExtractor={(item: any) => item}
                                                                                         formikField={field}
-                                                                                        required={true}
+                                                                                        required={values?.injury_details[index]?.body_part_details?.sides?.length > 0}
                                                                                         fullWidth={true}
                                                                                         onUpdate={() => {
                                                                                             setFieldValue(`injury_details[${index}].injury_type_id`, '');

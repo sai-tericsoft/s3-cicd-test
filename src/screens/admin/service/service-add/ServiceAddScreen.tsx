@@ -467,7 +467,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                 </div>
                                             </CardComponent>
                                         )}/>
-                                    <CardComponent title={'Upload Image for Service'}>
+                                    <CardComponent title={'Upload Image for Service*'}>
                                             {(!values.image) && <>
                                                 <FilePickerComponent maxFileCount={1}
                                                                      id={"sv_upload_btn"}

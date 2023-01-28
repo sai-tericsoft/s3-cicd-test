@@ -19,7 +19,7 @@ const ServiceConsultationDetailsComponent = (props: ServiceConsultationDetailsCo
             key: "duration",
             dataIndex: "duration",
             width: "80%",
-            render: (_: any, item: IConsultation) => {
+            render: ( item: IConsultation) => {
                 return <span> {item?.duration_details?.title} </span>
             }
         },
@@ -28,7 +28,7 @@ const ServiceConsultationDetailsComponent = (props: ServiceConsultationDetailsCo
             key: "price",
             dataIndex: "price",
             width: "20%",
-            render: (_: any, item: any) => {
+            render: ( item: any) => {
                 return <span> {Misc.CURRENCY_SYMBOL}{item.price} </span>
             }
         }

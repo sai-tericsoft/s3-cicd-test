@@ -13,10 +13,10 @@ import {Misc} from "../../../constants";
 import * as Yup from "yup";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {useNavigate} from "react-router-dom";
+import InputComponent from "../../../shared/components/form-controls/input/InputComponent";
 
 const BasicProgressReportValidationSchema = Yup.object({
-    provider_name: Yup.string().required('Provider Name is required'),
-    therapist_name: Yup.string().required('Therapist Name is required'),
+    physician_name: Yup.string().required('Physician Name is required'),
 });
 
 interface AddBasicProgressReportComponentProps {
@@ -26,13 +26,13 @@ interface AddBasicProgressReportComponentProps {
 const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentProps) => {
 
     const {onCancel} = props;
+    const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const [isProgressReportAddInProgress, setIsProgressReportAddInProgress] = useState<boolean>(false);
     const [addProgressReportBasicInitialValues, setAddProgressReportBasicInitialValues] = useState<any>({
         intervention_linked_to: '',
         onset_date: '',
         surgery_date: '',
-        provider_name: '',
-        therapist_name: '',
+        physician_name: '',
     });
 
     const navigate = useNavigate();
@@ -121,25 +121,20 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
                                                 )
                                             }
                                         </Field>
-                                        <Field name={'provider_name'}>
-                                            {
-                                                (field: FieldProps) => (
-                                                    <FormikInputComponent
-                                                        titleCase={true}
-                                                        label={'Provider Name'}
-                                                        formikField={field}
+                                        <InputComponent className="t-form-control"
+                                                        label={'Therapist Name'}
+                                                        placeholder={'Therapist Name'}
+                                                        value={currentUser?.first_name + " " + currentUser?.last_name}
                                                         required={true}
                                                         fullWidth={true}
-                                                    />
-                                                )
-                                            }
-                                        </Field>
-                                        <Field name={'therapist_name'}>
+                                                        disabled={true}
+                                        />
+                                        <Field name={'physician_name'}>
                                             {
                                                 (field: FieldProps) => (
                                                     <FormikInputComponent
                                                         titleCase={true}
-                                                        label={'Therapist Name'}
+                                                        label={'Physician Name'}
                                                         formikField={field}
                                                         required={true}
                                                         fullWidth={true}

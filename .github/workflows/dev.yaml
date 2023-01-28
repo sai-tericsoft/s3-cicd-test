@@ -1,9 +1,7 @@
 name: ADMIN DEV CI&CD setup
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch
 
 jobs:
   build:
@@ -17,11 +15,11 @@ jobs:
           node-version: '14.x'
       - name: Yarn install cache
         uses: c-hive/gha-yarn-cache@v1
-        with:  
-          node-version: '14.x' 
-          cache: 'yarn'  
-          
-                 
+        with:
+          node-version: '14.x'
+          cache: 'yarn'
+
+
       - name: Install yarn dependencies
         run: yarn install
       - name: Run build task
@@ -36,4 +34,3 @@ jobs:
           SERVER_IP: ${{ secrets.KINERGY_IP }}
           USERNAME: ${{ secrets.USERNAME }}
           SERVER_DESTINATION: ${{ secrets.DESTINATION }}
-          

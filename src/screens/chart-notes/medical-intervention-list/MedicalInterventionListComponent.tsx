@@ -34,8 +34,8 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             title: '',
             key: "flag",
             dataIndex: 'is_flagged',
-            width: '3%',
-            render: (_: any, item: any) => {
+            width: 10,
+            render: ( item: any) => {
                 return <div className={'flag-wrapper'}>{item?.is_flagged && <ImageConfig.FlagIcon/>}</div>
             }
         },
@@ -43,23 +43,24 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             title: 'Date of Intervention',
             key: 'date_of_intervention',
             dataIndex: 'intervention_date',
-            width: '20%',
+            width: 160,
             fixed: 'left',
-            render: (_: any, item: any) => {
-                return <>{CommonService.getSystemFormatTimeStamp(item?.intervention_date)}</>
+            render: ( item: any) => {
+                return <>{item?.created_at ? CommonService.getSystemFormatTimeStamp(item?.created_at) : "N/A"}</>
             }
         },
         {
             title: 'Note Type',
             key: 'note_type',
+            width: 150,
             dataIndex: 'note_type',
         },
         {
             title: 'Last Updated',
             key: 'last_updated',
             dataIndex: 'updated_at',
-            width: '25%',
-            render: (_: any, item: any) => {
+            width: 170,
+            render: ( item: any) => {
                 return <>{CommonService.transformTimeStamp(item?.updated_at)}</>
             }
         },
@@ -67,7 +68,9 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             title: 'Status',
             key: 'status',
             dataIndex: 'status',
-            render: (_: any, item: any) => {
+            align: 'center',
+            width: 110,
+            render: ( item: any) => {
                 return <ChipComponent label={item?.status}
                                       className={item?.status === 'completed' ? "completed" : "draft"}/>
             }
@@ -76,18 +79,18 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             title: 'Posted By',
             key: 'name',
             dataIndex: 'name',
-            render: (_: any, item: any) => {
-                if (item?.note_type?.toLowerCase() === "progress report") {
-                    return item?.posted_by
-                } else {
-                    return item?.posted_by?.first_name + " " + item?.posted_by?.last_name
-                }
+            align: 'center',
+            width: 125,
+            render: ( item: any) => {
+                    return (item?.posted_by?.first_name + " " + item?.posted_by?.last_name)
             }
         },
         {
             title: '',
             key: 'actions',
-            render: (_: any, item: any) => {
+            width: 130,
+            fixed: 'right',
+            render: ( item: any) => {
                 let route = '';
                 if (medicalRecordId) {
                     if (item?.note_type?.toLowerCase() === 'exercise log') {

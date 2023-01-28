@@ -21,6 +21,7 @@ import {getClientBasicDetails, setClientBasicDetails} from "../../../store/actio
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import FormikSwitchComponent from "../../../shared/components/form-controls/formik-switch/FormikSwitchComponent";
+import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
 
 interface ClientBasicDetailsFormComponentProps {
     clientId?: string;
@@ -410,7 +411,12 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                         </div>
                                         <div className="ts-col-md-2">
                                             <IconButtonComponent className={"form-helper-icon"}>
-                                                <ImageConfig.InfoIcon/>
+                                                <ToolTipComponent
+                                                    showArrow={true}
+                                                    position={"left"}
+                                                    tooltip={"This phone number will be used to communicate with you in case of emergency. Ensure that this number is constantly operational."}>
+                                                    <ImageConfig.InfoIcon/>
+                                                </ToolTipComponent>
                                             </IconButtonComponent>
                                         </div>
                                     </div>
@@ -494,7 +500,12 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                         </div>
                                         <div className="ts-col-md-2">
                                             <IconButtonComponent className={"form-helper-icon"}>
-                                                <ImageConfig.InfoIcon/>
+                                                <ToolTipComponent
+                                                    showArrow={true}
+                                                    position={"right"}
+                                                    tooltip={"This email will be used to communicate with you in case of emergency. Ensure that this email is constantly operational."}>
+                                                    <ImageConfig.InfoIcon/>
+                                                </ToolTipComponent>
                                             </IconButtonComponent>
                                         </div>
                                     </div>
@@ -730,7 +741,12 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                         </div>
                                         <div className="ts-col-md-2">
                                             <IconButtonComponent className={"form-helper-icon"}>
-                                                <ImageConfig.InfoIcon/>
+                                                <ToolTipComponent
+                                                    showArrow={true}
+                                                    position={"left"}
+                                                    tooltip={"This phone number will be used to communicate with you in case of emergency. Ensure that this number is constantly operational."}>
+                                                    <ImageConfig.InfoIcon/>
+                                                </ToolTipComponent>
                                             </IconButtonComponent>
                                         </div>
                                     </div>
@@ -898,7 +914,12 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                     </div>
                                                     <div className="ts-col-md-2">
                                                         <IconButtonComponent className={"form-helper-icon"}>
-                                                            <ImageConfig.InfoIcon/>
+                                                            <ToolTipComponent
+                                                                showArrow={true}
+                                                                position={"left"}
+                                                                tooltip={"This phone number will be used to communicate with you in case of emergency. Ensure that this number is constantly operational."}>
+                                                                <ImageConfig.InfoIcon/>
+                                                            </ToolTipComponent>
                                                         </IconButtonComponent>
                                                     </div>
                                                 </div>

@@ -7,7 +7,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import {IRootReducerState} from "../../../store/reducers";
 import {CommonService} from "../../../shared/services";
@@ -27,6 +27,29 @@ import MedicalInterventionLinkedToComponent
 import AddMedicalRecordDocumentComponent from "../add-medical-record-document/AddMedicalRecordDocumentComponent";
 import TransferMedicalRecordComponent from "../transfer-medical-record/TransferMedicalRecordComponent";
 
+// const MedicalInterventionFormInitialValues: any = {
+//     intervention_date: new Date(),
+//     subjective: "",
+//     plan: {
+//         plan: "",
+//         md_recommendations: "",
+//         education: "",
+//         treatment_goals: "",
+//     },
+//     assessment: {
+//         suspicion_index: '',
+//         surgery_procedure: ''
+//     },
+//     objective: {
+//         observation: "",
+//         palpation: "",
+//         functional_tests: "",
+//         treatment: "",
+//         treatment_response: ""
+//     },
+//     is_discharge: true,
+// };
+
 interface ClientMedicalDetailsCardComponentProps {
     showAction?: boolean
 }
@@ -34,7 +57,6 @@ interface ClientMedicalDetailsCardComponentProps {
 const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardComponentProps) => {
 
     const {showAction} = props;
-
     const {medicalRecordId} = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -67,6 +89,11 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
         }
     }, [navigate, dispatch, clientMedicalRecord?.client_id]);
 
+    const comingSoon = useCallback(
+        () => {
+            CommonService._alert.showToast('Coming Soon!', 'info')
+        }, []);
+
     const openEditMedicalRecordDrawer = useCallback(() => {
         setIsEditMedicalRecordDrawerOpen(true);
     }, []);
@@ -76,8 +103,10 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
     }, []);
 
     const openTransferMedicalRecordDrawer = useCallback(() => {
-        setIsTransferMedicalRecordDrawerOpen(true);
-    }, []);
+        comingSoon();
+        return;
+        // setIsTransferMedicalRecordDrawerOpen(true);
+    }, [comingSoon]);
 
     const closeTransferMedicalRecordDrawer = useCallback(() => {
         setIsTransferMedicalRecordDrawerOpen(false);
@@ -99,30 +128,50 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
     }, []);
 
     const openMedicalRecordStatsModal = useCallback(() => {
-        setIsMedicalRecordStatsModalOpen(true);
-    }, []);
+        comingSoon();
+        return;
+        // setIsMedicalRecordStatsModalOpen(true);
+    }, [comingSoon]);
 
     const closeMedicalRecordStatsModal = useCallback(() => {
         setIsMedicalRecordStatsModalOpen(false);
     }, []);
 
     const openMedicalRecordDocumentAddDrawer = useCallback(() => {
-        setIsMedicalRecordDocumentAddDrawerOpen(true);
-    }, []);
+        comingSoon();
+        return;
+        // setIsMedicalRecordDocumentAddDrawerOpen(true);
+    }, [comingSoon]);
 
     const closeMedicalRecordDocumentAddDrawer = useCallback(() => {
         setIsMedicalRecordDocumentAddDrawerOpen(false);
     }, []);
 
     const handleMedicalRecordDocumentAdd = useCallback(() => {
-        dispatch(refreshMedicalRecordAttachmentList());
-        closeMedicalRecordDocumentAddDrawer();
-    }, [dispatch, closeMedicalRecordDocumentAddDrawer]);
+        comingSoon();
+        return;
+        // dispatch(refreshMedicalRecordAttachmentList());
+        // closeMedicalRecordDocumentAddDrawer();
+    }, [comingSoon]);
 
     const handleSurgeryRecordAdd = useCallback(() => {
         dispatch(refreshMedicalRecordAttachmentList());
         setIsSurgeryAddOpen(false);
     }, [dispatch]);
+
+    const handleDischargeCase = useCallback(() => {
+        comingSoon();
+        return;
+        // if (medicalRecordId) {
+        //     CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, MedicalInterventionFormInitialValues)
+        //         .then((response) => {
+        //             CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully created discharging intervention", "success");
+        //             navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, response.data._id));
+        //         }).catch((error) => {
+        //         CommonService._alert.showToast(error?.error || "Error discharging the case", "error");
+        //     });
+        // }
+    }, [comingSoon]);
 
     const handleMedicalRecordTransfer = useCallback(() => {
         closeTransferMedicalRecordDrawer();
@@ -195,13 +244,18 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                                     <ListItem onClick={openMedicalRecordDocumentAddDrawer}>
                                                         Add Document
                                                     </ListItem>,
-                                                    <Link
-                                                        to={CommonService._routeConfig.MedicalRecordViewExerciseRecord(medicalRecordId)}>
-                                                        <ListItem>
-                                                            View Exercise Record
-                                                        </ListItem>
-                                                    </Link>,
-
+                                                    <ListItem onClick={comingSoon}>
+                                                        View Exercise Record
+                                                    </ListItem>,
+                                                    // <Link
+                                                    //     to={CommonService._routeConfig.MedicalRecordViewExerciseRecord(medicalRecordId)}>
+                                                    //     <ListItem>
+                                                    //         View Exercise Record
+                                                    //     </ListItem>
+                                                    // </Link>,
+                                                    <ListItem onClick={handleDischargeCase}>
+                                                        Discharge Case
+                                                    </ListItem>
                                                 ]
                                             }/>
                                         </div>}
@@ -209,43 +263,46 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                 </div>
                                 <MedicalInterventionLinkedToComponent medicalRecordDetails={clientMedicalRecord}/>
                                 <div className={'ts-row'}>
-                                    <div className={'ts-col-md-3'}>
+                                    <div className={'ts-col-md-4 ts-col-lg'}>
                                         <DataLabelValueComponent label={'Date of Onset'}>
                                             {clientMedicalRecord?.onset_date ? CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.onset_date) : "NA"}
                                         </DataLabelValueComponent>
                                     </div>
-                                    <div className={'ts-col-md-3'}>
+                                    <div className={'ts-col-md-4 ts-col-lg'}>
                                         <DataLabelValueComponent label={'Date of Surgery'}>
                                             {clientMedicalRecord?.surgery_date ? CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.surgery_date) : "NA"}
                                         </DataLabelValueComponent>
                                     </div>
-                                    <div className={'ts-col-md-3'}>
+                                    <div className={'ts-col-md-4 ts-col-lg'}>
                                         <DataLabelValueComponent label={'Case Physician'}>
                                             {clientMedicalRecord?.case_physician.name || "-"}
                                         </DataLabelValueComponent>
                                     </div>
-                                    <div className={'ts-col-md-3'}>
+                                    <div className={'ts-col-md-4 ts-col-lg'}>
                                         <DataLabelValueComponent label={'Next MD Appointment'}>
                                             {clientMedicalRecord?.next_md_appointment ? CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.next_md_appointment) : "NA"}
                                         </DataLabelValueComponent>
                                     </div>
-                                </div>
-                                <div className={'ts-row'}>
-                                    <div className={'ts-col-md-3'}>
+                                    <div className={'ts-col-md-4 ts-col-lg'}>
                                         <DataLabelValueComponent label={'Total Direct Minutes'}>
                                             {clientMedicalRecord?.total_direct_minutes || "-"}
                                         </DataLabelValueComponent>
                                     </div>
-                                    <div className={'ts-col-lg-3'}>
+                                </div>
+                                <div className={'ts-row'}>
+                                    <div className={'ts-col-md-4 ts-col-lg'}>
                                         <DataLabelValueComponent label={'Injury/Condition Description'}>
                                             {clientMedicalRecord?.injury_description || "-"}
                                         </DataLabelValueComponent>
                                     </div>
-                                    <div className={'ts-col-lg-3'}>
+                                    <div className={'ts-col-md-4 ts-col-lg'}/>
+                                    <div className={'ts-col-md-4 ts-col-lg'}>
                                         <DataLabelValueComponent label={'Restrictions and Limitations'}>
                                             {clientMedicalRecord?.limitations || "-"}
                                         </DataLabelValueComponent>
                                     </div>
+                                    <div className={'ts-col-md-4 ts-col-lg'}/>
+                                    <div className={'ts-col-md-4 ts-col-lg'}/>
                                 </div>
                             </CardComponent>
                         </>

@@ -1,7 +1,6 @@
 import "./SpecialTestComponent.scss";
 import {IBodyPart} from "../../../shared/models/static-data.model";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
-import TableComponent from "../../../shared/components/table/TableComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {useCallback, useEffect, useState} from "react";
@@ -16,6 +15,7 @@ import FormikRadioButtonGroupComponent
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
+import TableV2Component from "../../../shared/components/table-v2/TableV2Component";
 
 interface SpecialTestComponentProps {
     medicalInterventionDetails: any;
@@ -44,7 +44,7 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                 title: '',
                 key: 'select',
                 width: 40,
-                render: (_: any, record: any) => {
+                render: ( record: any) => {
                     return <Field name={`${bodyPart._id}.${record?.name}.is_tested`}>
                         {
                             (field: FieldProps) => (
@@ -68,7 +68,7 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                 title: 'Test Name',
                 key: 'test',
                 width: 200,
-                render: (_: any, record: any) => {
+                render: ( record: any) => {
                     return record.name;
                 }
             },
@@ -76,7 +76,7 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                 title: 'Results',
                 key: 'results',
                 width: 200,
-                render: (_: any, record: any) => {
+                render: ( record: any) => {
                     return <Field name={`${bodyPart._id}.${record?.name}.result`}>
                         {
                             (field: FieldProps) => (
@@ -93,7 +93,7 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                 title: '',
                 key: 'comments',
                 width: 80,
-                render: (index: any, record: any) => <Field
+                render: (record: any, index: any) => <Field
                     name={`${bodyPart._id}.${record?.name}.comments`}
                     className="t-form-control">
                     {
@@ -231,11 +231,12 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                                            </>}
                             >
                                 <div className={'special-test-table-container'}>
-                                    <TableComponent
+                                    <TableV2Component
                                         data={specialTestFormValues.special_tests || []}
                                         bordered={true}
-                                        rowKey={(row, index) => index + '_' + row.name}
-                                        columns={specialTestFormValues.tableConfig}/>
+                                        rowKey={(row: any, index: any) => index + '_' + row.name}
+                                        columns={specialTestFormValues.tableConfig}
+                                    />
                                 </div>
                                 <div className="t-form-actions">
                                     <ButtonComponent type={"submit"}

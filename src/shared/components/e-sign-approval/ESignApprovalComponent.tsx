@@ -4,8 +4,10 @@ import {useCallback} from "react";
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {CommonService} from "../../services";
+import LoaderComponent from "../loader/LoaderComponent";
 
 interface ESignApprovalComponentProps {
+    isLoading?: boolean;
     canSign?: boolean;
     isSigned: boolean;
     isSigning?: boolean;
@@ -15,8 +17,8 @@ interface ESignApprovalComponentProps {
 
 const ESignApprovalComponent = (props: ESignApprovalComponentProps) => {
 
-    const { currentUser } = useSelector((state: IRootReducerState) => state.account);
-    const {isSigned, onSign, isSigning, canSign, signedAt} = props;
+    const {currentUser} = useSelector((state: IRootReducerState) => state.account);
+    const {isSigned, isLoading, onSign, isSigning, canSign, signedAt} = props;
 
     const handleOnSign = useCallback(() => {
         if (onSign) {
@@ -39,8 +41,13 @@ const ESignApprovalComponent = (props: ESignApprovalComponentProps) => {
                 }
             </div>
             <div className="e-sign-time-stamp">
-                Electronically Signed On : <> { signedAt && CommonService.transformTimeStamp(signedAt) } </>
+                Electronically Signed On : <> {signedAt && CommonService.transformTimeStamp(signedAt)} </>
             </div>
+            {
+                isLoading && <div className={'e-sign-loading'}>
+                    <LoaderComponent size={"sm"} type={"spinner"}/>
+                </div>
+            }
         </div>
     );
 

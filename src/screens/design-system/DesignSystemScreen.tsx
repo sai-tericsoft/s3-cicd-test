@@ -9,6 +9,8 @@ import CardComponent from "../../shared/components/card/CardComponent";
 import FormAutoSave from "../../shared/utils/FormAutoSave";
 import {Login} from "@mui/icons-material";
 import ButtonComponent from "../../shared/components/button/ButtonComponent";
+import FormikSelectComponent from "../../shared/components/form-controls/formik-select/FormikSelectComponent";
+import {CommonService} from "../../shared/services";
 
 interface DesignSystemScreenProps {
 
@@ -27,6 +29,10 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
     const [designSystemFormInitialValues] = useState({
         username: "terrill@gmail.com",
         password: "123455",
+        isAdmin: {
+            title: "Yes",
+            code: true
+        }
     });
 
     const onSubmit = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
@@ -79,6 +85,22 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
                                                     formikField={field}
                                                     fullWidth={true}
                                                     canToggle={true}
+                                                    id={"password_input"}
+                                                />
+                                            )
+                                        }
+                                    </Field>
+                                    <Field name={'isAdmin'} className="t-form-control">
+                                        {
+                                            (field: FieldProps) => (
+                                                <FormikSelectComponent
+                                                    label={'Is Admin'}
+                                                    required={true}
+                                                    formikField={field}
+                                                    fullWidth={true}
+                                                    options={CommonService._staticData.yesNoOptions}
+                                                    displayWith={(option) => option.title}
+                                                    valueExtractor={(option) => option}
                                                     id={"password_input"}
                                                 />
                                             )

@@ -231,6 +231,17 @@ const MedicalRecordViewExerciseRecordPICall = (medicalRecordId: string, payload:
     return ApiService[APIConfig.MEDICAL_RECORD_VIEW_EXERCISE_LOG.METHOD](APIConfig.MEDICAL_RECORD_VIEW_EXERCISE_LOG.URL(medicalRecordId), payload,{'Content-Type': 'multipart/form-data'});
 }
 
+const MedicalRecordInterventionListAPICall = (medicalRecordId: string, payload: any) => {
+    console.log('medicalRecordId', medicalRecordId);
+    console.log('payload', payload);
+    // @ts-ignore
+    return ApiService[APIConfig.GET_MEDICAL_RECORD_INTERVENTION_LIST.METHOD](APIConfig.GET_MEDICAL_RECORD_INTERVENTION_LIST.URL(medicalRecordId), payload);
+}
+const ImportSoapNoteAPICall =(selectedInterventionId:string,medicalInterventionId:string,payload:any)=>{
+    // @ts-ignore
+    return ApiService[APIConfig.IMPORT_SOAP_NOTE_API_CALL.METHOD](APIConfig.IMPORT_SOAP_NOTE_API_CALL.URL(selectedInterventionId,medicalInterventionId), payload);
+}
+
 const MedicalRecordConsolidatedInterventionAndAttachmentsListAPICall = (medicalRecordId: string) => {
     // @ts-ignore
     return ApiService[APIConfig.MEDICAL_RECORD_CONSOLIDATED_INTERVENTIONS_AND_ATTACHMENTS.METHOD](APIConfig.MEDICAL_RECORD_CONSOLIDATED_INTERVENTIONS_AND_ATTACHMENTS.URL(medicalRecordId));
@@ -244,6 +255,13 @@ const MedicalRecordListLiteAPICall = (clientId: string) => {
 const TransferMedicalRecordAPICall = (clientId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.TRANSFER_MEDICAL_RECORD.METHOD](APIConfig.TRANSFER_MEDICAL_RECORD.URL(clientId), payload);
+}
+
+const TransferSoapNoteAPICall = (clientId: string, payload: any) => {
+    console.log("payload", payload);
+    console.log('clientId',clientId);
+    // @ts-ignore
+    return ApiService[APIConfig.TRANSFER_SOAP_NOTE.METHOD](APIConfig.TRANSFER_SOAP_NOTE.URL(clientId), payload);
 }
 
 const ChartNotesService = {
@@ -284,6 +302,7 @@ const ChartNotesService = {
     DryNeedlingFileDetailsAPICall,
     DryNeedlingFileDeleteAttachmentAPICall,
     DryNeedlingFileAddAttachmentAPICall,
+    TransferSoapNoteAPICall,
     ConcussionFileAddAPICall,
     ConcussionFileEditAPICall,
     ConcussionFileDetailsAPICall,
@@ -295,6 +314,8 @@ const ChartNotesService = {
     MedicalRecordDocumentDeleteAttachmentAPICall,
     MedicalRecordDocumentAddAttachmentAPICall,
     MedicalRecordViewExerciseRecordPICall,
+    MedicalRecordInterventionListAPICall,
+    ImportSoapNoteAPICall,
     MedicalRecordConsolidatedInterventionAndAttachmentsListAPICall,
     MedicalRecordListLiteAPICall,
     TransferMedicalRecordAPICall

@@ -1,5 +1,137 @@
 @import "src/assets/styles/variables";
 
+.t-table-wrapper {
+  width: 100%;
+  height: 100%;
+  //overflow: auto;
+
+  .t-table {
+
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    .input-component {
+      margin-bottom: 0 !important;
+    }
+
+    &.sticky {
+      .t-body {
+        top: -2px !important;
+      }
+    }
+
+    .t-tr {
+      &.t-tr-expand {
+        .t-td {
+          position: sticky;
+          justify-content: flex-start;
+        }
+      }
+    }
+
+    .t-thead {
+      .t-th {
+        height: 56px;
+        padding: 8px;
+        background-color: #e1ebea;
+        color: #212b36;
+        font-weight: 700;
+
+        &.sortable {
+          position: relative;
+          cursor: pointer;
+
+          &::after {
+            content: url("./../../../assets/icons/table/sort.svg");
+            color: $body-color;
+            opacity: 0.2;
+            margin-left: 8px;
+            width: 20px;
+            position: relative;
+            top: 2px;
+          }
+
+          &.sort-asc::after {
+            opacity: 1;
+            content: url("./../../../assets/icons/table/sort_asc.svg");
+          }
+
+          &.sort-desc::after {
+            opacity: 1;
+            content: url("./../../../assets/icons/table/sort_desc.svg");
+          }
+        }
+      }
+
+    }
+
+    .t-body {
+      .t-td {
+        height: 52px;
+        padding: 6px;
+      }
+    }
+
+    .t-th, .t-td {
+
+      &:first-child {
+        padding-left: 20px;
+      }
+
+      &:last-child {
+        padding-right: 20px;
+      }
+
+      border-bottom: 1px solid #ddd;
+      background-color: #fff;
+      overflow: hidden;
+
+      display: flex !important;
+      justify-content: center;
+      align-content: flex-start;
+      align-items: center;
+      align-self: center;
+
+      &.t-cell-align-left {
+        justify-content: flex-start;
+      }
+
+      &.t-cell-align-center {
+        justify-content: center;
+      }
+
+      &.t-cell-align-right {
+        justify-content: flex-end;
+      }
+    }
+
+    .table-data-not-found-card {
+      min-height: 500px;
+    }
+
+    .data-loading-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.8);
+      pointer-events: none;
+
+      .loader {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+    }
+  }
+
+}
+
+
 .ant-table-container {
   position: relative;
 }

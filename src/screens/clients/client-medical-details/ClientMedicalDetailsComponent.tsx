@@ -10,7 +10,6 @@ import React from "react";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
-import QuestionComponent from "../../../shared/components/question/QuestionComponent";
 
 interface ClientMedicalDetailsComponentProps {
     clientId: string;
@@ -156,17 +155,19 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                     clientMedicalDetails?.medical_history?.questions_details?.map((question, index) => {
                                         return <span key={question?._id + index}>
                                                     <span>{question.title}</span>
-                                                    {(clientMedicalDetails?.medical_history?.questions_details && clientMedicalDetails?.medical_history?.questions_details?.length - 1 !== index) &&
-                                                        <span>, </span>
-                                                    }
+                                            {(clientMedicalDetails?.medical_history?.questions_details && clientMedicalDetails?.medical_history?.questions_details?.length - 1 !== index) &&
+                                                <span>, </span>
+                                            }
                                                 </span>
                                     })
                                 }
                             </div>
                         }
-                        <DataLabelValueComponent label={"Comments"}>
-                            {clientMedicalDetails?.medical_history?.comments || "N/A"}
-                        </DataLabelValueComponent>
+                        {clientMedicalDetails?.medical_history?.comments &&
+                            <DataLabelValueComponent label={"Comments"}>
+                                {clientMedicalDetails?.medical_history?.comments}
+                            </DataLabelValueComponent>
+                        }
                     </CardComponent>
                     {
                         clientBasicDetails?.gender === "female" && <>
@@ -178,15 +179,17 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             </LinkComponent>
                             }>
                                 <div className={'ts-row'}>
+                                    <div className={'females-only-block'}>
                                     <div className={'ts-col-12'}>
-                                        <DataLabelValueComponent label={'Pregnant or Attempting to be pregnant?'}>
+                                        <DataLabelValueComponent label={'Pregnant or Attempting to be pregnant?'}  direction={'row'}>
                                             {clientMedicalDetails?.females_only_questions?.["Pregnant or trying to get pregnant?"] || "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-12'}>
-                                        <DataLabelValueComponent label={'Nursing?'}>
+                                        <DataLabelValueComponent label={'Nursing?'} direction={'row'}>
                                             {clientMedicalDetails?.females_only_questions?.["Nursing?"] || "N/A"}
                                         </DataLabelValueComponent>
+                                    </div>
                                     </div>
                                 </div>
                             </CardComponent>
@@ -207,20 +210,18 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                         return <span key={question?._id + index}>
                                                     <span>{question.title}</span>
                                             {(clientMedicalDetails?.surgical_history?.questions_details && clientMedicalDetails?.surgical_history?.questions_details?.length - 1 !== index) &&
-                                                <span>, </span>
+                                                <span> , </span>
                                             }
                                                 </span>
                                     })
                                 }
                             </div>
                         }
-                        {
-                            clientMedicalDetails?.surgical_history?.questions && clientMedicalDetails?.surgical_history?.questions?.length > 0 &&
-                            <span>, </span>
+                        {clientMedicalDetails?.surgical_history?.comments
+                            && <DataLabelValueComponent label={"Comments"}>
+                                {clientMedicalDetails?.surgical_history?.comments}
+                            </DataLabelValueComponent>
                         }
-                        <DataLabelValueComponent label={"Comments"}>
-                            {clientMedicalDetails?.surgical_history?.comments || "N/A"}
-                        </DataLabelValueComponent>
                     </CardComponent>
                     <CardComponent title={'Musculoskeletal History'} actions={<LinkComponent
                         route={CommonService._client.NavigateToClientEdit(clientId, "musculoskeletalHistory")}>
@@ -237,13 +238,17 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                         {
                             (Object.keys(clientMedicalDetails?.musculoskeletal_history || {})?.map((question, index) => {
                                 return <div key={question + index} className={"musculoskeletal-history-block"}>
-                                    <DataLabelValueComponent
-                                        label={clientMedicalDetails?.musculoskeletal_history[question]?.title}
-                                        direction={"row"}>
-                                        {clientMedicalDetails?.musculoskeletal_history[question]?.value}
-                                    </DataLabelValueComponent>
-                                    <QuestionComponent
-                                        description={clientMedicalDetails?.musculoskeletal_history[question]?.text}/>
+                                    <div className="ts-row">
+                                        <div className="ts-col-lg-6 font-weight-bold">
+                                            {clientMedicalDetails?.musculoskeletal_history[question]?.title}
+                                        </div>
+                                        <div className="ts-col-lg-2 font-weight-bold text-primary">
+                                            {clientMedicalDetails?.musculoskeletal_history[question]?.value}
+                                        </div>
+                                        <div className="ts-col-lg-4">
+                                            {clientMedicalDetails?.musculoskeletal_history[question]?.text || '-'}
+                                        </div>
+                                    </div>
                                 </div>
                             }))
                         }

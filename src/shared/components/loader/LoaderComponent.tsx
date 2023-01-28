@@ -3,17 +3,16 @@ import "./LoaderComponent.scss";
 import React from 'react';
 import LinearProgress from '@mui/material/LinearProgress';
 import CircularProgress from '@mui/material/CircularProgress';
-// import {Box} from "@mui/material";
 
 interface LoaderComponentProps {
-    size?: "xs" | "s" | "md" | "lg" | "xl";
+    size?: "xs" | "sm" | "md" | "lg" | "xl";
     type?: "progress" | "spinner";
     color?: "error" | "primary" | "secondary" | "info" | "success" | "warning" | undefined;
 }
 
 const sizeMap = {
     "xs": 20,
-    "s": 30,
+    "sm": 30,
     "md": 40,
     "lg": 50,
     "xl": 60,

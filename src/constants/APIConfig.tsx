@@ -560,6 +560,44 @@ const APIConfig: IAPIConfig = {
     GET_MEDICAL_RECORD_SOAP_NOTE_LIST: {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/intervention',
         METHOD: 'get'
+    },
+
+    GET_CLIENT_LIST_LITE: {
+        URL: ENV.API_URL + '/client/lite',
+        METHOD: 'get'
+    },
+    GET_MEDICAL_RECORD_LIST_LITE: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medicalRecordLite',
+        METHOD: 'get'
+    },
+    TRANSFER_SOAP_NOTE: {
+        URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/transfer',
+        METHOD: 'post'
+    },
+
+    GET_MEDICAL_RECORD_INTERVENTION_LIST: {
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/intervention',
+        METHOD: 'get'
+    },
+    IMPORT_SOAP_NOTE_API_CALL: {
+        URL: (selectedInterventionId: string, medicalInterventionId: string,) => ENV.API_URL + '/intervention/' + selectedInterventionId + '/import/' + medicalInterventionId,
+        METHOD: 'post'
+    },
+    GET_INVENTORY_LIST: {
+        URL: ENV.API_URL + '/product/list',
+        METHOD: 'post'
+    },
+    ADD_INVENTORY_PRODUCT: {
+        URL: ENV.API_URL + '/product',
+        METHOD: 'post'
+    },
+    GET_INVENTORY_PRODUCT_VIEW_DETAILS: {
+        URL: (productId: string) => ENV.API_URL + '/product/' + productId,
+        METHOD: 'get'
+    },
+    EDIT_INVENTORY_PRODUCT: {
+        URL: (productId: string) => ENV.API_URL + '/product/' + productId,
+        METHOD: 'put'
     }
 }
 

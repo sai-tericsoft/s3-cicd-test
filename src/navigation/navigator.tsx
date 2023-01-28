@@ -27,6 +27,7 @@ import ClientSearchScreen from "../screens/chart-notes/client-search/ClientSearc
 import AddMedicalRecordScreen from "../screens/chart-notes/add-medical-record/AddMedicalRecordScreen";
 import AddMedicalInterventionScreen from "../screens/chart-notes/add-medical-intervention/AddMedicalInterventionScreen";
 import {
+    ADD_INVENTORY_PRODUCT,
     ADD_MEDICAL_INTERVENTION,
     ADD_MEDICAL_RECORD,
     ADMIN,
@@ -44,6 +45,9 @@ import {
     FACILITY_DETAILS,
     FACILITY_LIST,
     INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST,
+    INVENTORY_LIST,
+    EDIT_INVENTORY_PRODUCT,
+    INVENTORY_PRODUCT_VIEW_DETAILS,
     LOGIN_ROUTE,
     MEDICAL_INTERVENTION_DETAILS,
     MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE,
@@ -100,6 +104,12 @@ import ViewConcussionFileScreen from "../screens/chart-notes/view-concussion-fil
 import ViewMedicalRecordDocumentScreen
     from "../screens/chart-notes/view-medical-record-document/ViewMedicalRecordDocumentScreen";
 import ViewExerciseRecordScreen from "../screens/chart-notes/view-exercise-record/ViewExerciseRecordScreen";
+import AddInventoryProductComponent from "../screens/inventory/add-inventory-product/AddInventoryProductComponent";
+import InventoryProductViewDetailsComponent
+    from "../screens/inventory/inventory-product-view-details/InventoryProductViewDetailsComponent";
+import EditInventoryProductDetailsComponent
+    from "../screens/inventory/edit-inventory-product-details/EditInventoryProductDetailsComponent";
+import InventoryListScreen from "../screens/inventory/inventory-list/InventoryListScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -371,20 +381,47 @@ const Navigator = (props: NavigatorProps) => {
                            <ViewMedicalRecordDocumentScreen/>
                        </ProtectedRoute>
                        }/>
-                <Route path={MEDICAL_INTERVENTION_DETAILS} element={<ProtectedRoute>
+                <Route path={MEDICAL_INTERVENTION_DETAILS}
+                       element={<ProtectedRoute>
                     <ClientMedicalInterventionDetailsComponent/>
                 </ProtectedRoute>}/>
-                <Route path={MEDICAL_INTERVENTION_DETAILS} element={<ProtectedRoute>
+                <Route path={MEDICAL_INTERVENTION_DETAILS}
+                       element={<ProtectedRoute>
                     <ClientMedicalInterventionDetailsComponent/>
                 </ProtectedRoute>}/>
-                <Route path={MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE} element={<ProtectedRoute>
+                <Route path={MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE}
+                       element={<ProtectedRoute>
                     <ProgressRecordAdvancedDetailsUpdateScreen/>
                 </ProtectedRoute>}/>
-
-                <Route path={MEDICAL_RECORD_VIEW_EXERCISE_RECORD} element={<ProtectedRoute>
+                <Route path={MEDICAL_RECORD_VIEW_EXERCISE_RECORD}
+                       element={<ProtectedRoute>
                     <ViewExerciseRecordScreen/>
                 </ProtectedRoute>}/>
-                <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
+                <Route path={INVENTORY_LIST}
+                       element={<ProtectedRoute>
+                           <InventoryListScreen/>
+                       </ProtectedRoute>
+                       }
+                />
+                <Route path={ADD_INVENTORY_PRODUCT}
+                       element={<ProtectedRoute>
+                           <AddInventoryProductComponent/>
+                       </ProtectedRoute>
+                       }
+                />
+                <Route path={INVENTORY_PRODUCT_VIEW_DETAILS}
+                       element={<ProtectedRoute>
+                           <InventoryProductViewDetailsComponent/>
+                       </ProtectedRoute>
+                       }
+                />
+                <Route path={EDIT_INVENTORY_PRODUCT}
+                       element={<ProtectedRoute>
+                           <EditInventoryProductDetailsComponent/>
+                       </ProtectedRoute>
+                       }
+                />
+             <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
             </Route>
             <Route element={<AuthLayout/>}>
                 <Route index

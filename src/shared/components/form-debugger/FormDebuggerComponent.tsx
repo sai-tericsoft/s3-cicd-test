@@ -11,6 +11,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {ENV} from "../../../constants";
 
 interface FormDebuggerComponentProps {
+    canShow?: boolean;
     form?: FormikProps<any>;
     values?: any;
     errors?: any;
@@ -20,7 +21,7 @@ interface FormDebuggerComponentProps {
 
 const FormDebuggerComponent = (props: FormDebuggerComponentProps) => {
 
-    const {form, isValid, values, errors} = props;
+    const {form, canShow, isValid, values, errors} = props;
     const [showDebugger, setShowDebugger] = React.useState(props.showDebugger !== undefined ? props.showDebugger : true);
 
     const handleShowDebugger = useCallback(() => {
@@ -30,7 +31,7 @@ const FormDebuggerComponent = (props: FormDebuggerComponentProps) => {
     return (
         <>
             {
-                ENV.ENV_MODE === "dev" && <Draggable handle={".card-header"}>
+                (  ENV.ENV_MODE === "dev" && canShow )&& <Draggable handle={".card-header"}>
                     <div className={`form-debugger`}>
                         <CardComponent title={"Form Debugger"}
                                        actions={<> <IconButtonComponent onClick={handleShowDebugger}>
