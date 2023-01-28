@@ -50,7 +50,7 @@ const addAppointmentValidationSchema = Yup.object().shape({
 
 const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) => {
     const {onClose, onComplete, client} = props;
-    const {allProvidersList} = useSelector((state: IRootReducerState) => state.user);
+
     const {appointmentTypes} = useSelector((state: IRootReducerState) => state.staticData);
     const [clientCasesList, setClientCasesList] = useState<any[] | null>(null);
     const [serviceCategoryList, setServiceCategoryList] = useState<any[] | null>(null);
@@ -62,7 +62,6 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
     const [isClientCasesListLoading, setIsClientCasesListLoading] = useState<boolean>(false);
     const [isDatesListLoading, setIsDatesListLoading] = useState<boolean>(false);
     const [isTimesListLoading, setIsTimesListLoading] = useState<boolean>(false);
-    const [isClientCasesListLoaded, setIsClientCasesListLoaded] = useState<boolean>(false);
     const [isProviderListLoading, setIsProviderListLoading] = useState<boolean>(false);
     const [isServiceListLoading, setIsServiceListLoading] = useState<boolean>(false);
 
@@ -80,7 +79,6 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                 })
                 .finally(() => {
                     setIsClientCasesListLoading(false);
-                    setIsClientCasesListLoaded(true);
                 })
         },
         [],
@@ -285,7 +283,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                         placeholder={'Search Client (Name or Phone Number)'}
                                                         formikField={field}
                                                         dataListKey={'data'}
-                                                        displayWith={item => item ? item?.first_name + ' ' + item?.last_name + ' (ID: '+item.client_id +')' : ''}
+                                                        displayWith={item => item ? item?.first_name + ' ' + item?.last_name + ' (ID: ' + item.client_id + ')' : ''}
                                                         keyExtractor={item => item?._id}
                                                         valueExtractor={item => item}
                                                         searchMode={'serverSide'}
@@ -440,6 +438,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                             <FormikSelectComponent
                                                                 formikField={field}
                                                                 required={true}
+                                                                disabled={isDatesListLoading}
                                                                 options={availableDates || []}
                                                                 displayWith={(option: any) => CommonService.convertDateFormat(option)}
                                                                 valueExtractor={(option: any) => option}
@@ -462,6 +461,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                             <FormikSelectComponent
                                                                 formikField={field}
                                                                 required={true}
+                                                                disabled={isTimesListLoading}
                                                                 options={availableTimeSlots || []}
                                                                 displayWith={(option: any) => option.start + ' - ' + option.end}
                                                                 valueExtractor={(option: any) => option}

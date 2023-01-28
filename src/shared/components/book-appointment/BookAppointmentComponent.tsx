@@ -11,7 +11,6 @@ import InputComponent from "../form-controls/input/InputComponent";
 import BookAppointmentFormComponent from "./book-appointment-form/BookAppointmentFormComponent";
 import BookAppointmentOverviewComponent from "./book-appointment-overview/BookAppointmentOverviewComponent";
 import BookAppointmentPaymentComponent from "./book-appointment-payment/BookAppointmentPaymentComponent";
-import FormControlLabelComponent from "../form-control-label/FormControlLabelComponent";
 
 interface BookAppointmentComponentProps {
     onClose?: () => void
@@ -92,7 +91,7 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
                         {isClientListLoading && <LoaderComponent/>}
                         {!isClientListLoading && !isClientListLoaded && clientList && clientList.length === 0 &&
                             <div className={'text-center'}>
-                                <img src={ImageConfig.Search} alt={'search'} />
+                                <img src={ImageConfig.Search} alt={'search'}/>
                             </div>}
                         {!isClientListLoading && isClientListLoaded && clientList && clientList.length === 0 &&
                             <ErrorComponent errorText={'Client not found'}/>}

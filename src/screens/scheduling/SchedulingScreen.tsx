@@ -2,7 +2,6 @@ import "./SchedulingScreen.scss";
 import {useDispatch, useSelector} from "react-redux";
 import React, {useCallback, useEffect, useState} from "react";
 import {setCurrentNavParams} from "../../store/actions/navigation.action";
-import {useLocation} from "react-router-dom";
 import {ITableColumn} from "../../shared/models/table.model";
 import LinkComponent from "../../shared/components/link/LinkComponent";
 import {CommonService} from "../../shared/services";
@@ -110,9 +109,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
 
     const dispatch = useDispatch();
 
-    const {state} = useLocation();
-    const {allProvidersList} = useSelector((state: IRootReducerState) => state.user);
-    const {caseStatusList, appointmentStatus} = useSelector((state: IRootReducerState) => state.staticData);
+    const {appointmentStatus} = useSelector((state: IRootReducerState) => state.staticData);
     const [schedulingListFilterState, setSchedulingListFilterState] = useState<any>({
         search: "",
         start_date: moment().format('YYYY-MM-DD'),
@@ -328,7 +325,6 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                     {viewMode === 'calendar' && <FullCalendarComponent/>}
                     {viewMode === 'list' && <TableWrapperComponent
                         id={"appointment_search"}
-                        scroll={"scroll"}
                         url={APIConfig.APPOINTMENT_LIST.URL}
                         method={APIConfig.APPOINTMENT_LIST.METHOD}
                         columns={SchedulingListColumns}

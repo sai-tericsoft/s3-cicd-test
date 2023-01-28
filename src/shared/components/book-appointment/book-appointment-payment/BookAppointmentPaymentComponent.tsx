@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef} from "react";
 import "./BookAppointmentPaymentComponent.scss";
 import {ImageConfig} from "../../../../constants";
 import ButtonComponent from "../../button/ButtonComponent";
@@ -31,7 +31,6 @@ const addAppointmentPaymentInitialValues: any = {
     comments: ''
 };
 
-const DURATION_TYPES = [{label: '30 min', key: 30}, {label: '60 min', key: 60}];
 
 const addAppointmentPaymentValidationSchema = Yup.object().shape({
     type: Yup.string().required('Type is required'),
@@ -47,10 +46,7 @@ const addAppointmentPaymentValidationSchema = Yup.object().shape({
 });
 
 const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentProps) => {
-    const {onClose, onBack, onComplete, booking} = props;
-    const [isServiceLoading, setIsServiceLoading] = useState<boolean>(false);
-    const [serviceDetails, setServiceDetails] = useState<any | null>(null);
-    const [paymentType, setPaymentType] = useState<'paynow' | 'paylater' | null>(null);
+    const {onClose, onComplete, booking} = props;
     const {paymentModes} = useSelector((state: IRootReducerState) => state.staticData);
 
 

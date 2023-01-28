@@ -19,9 +19,8 @@ interface BookAppointmentOverviewComponentProps {
 }
 
 const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponentProps) => {
-    const {onClose, onBack, onComplete, bookingDraft} = props;
+    const {onBack, onComplete, bookingDraft} = props;
     const {appointmentTypes} = useSelector((state: IRootReducerState) => state.staticData);
-    const [isServiceLoading, setIsServiceLoading] = useState<boolean>(false);
     const [isBookingLoading, setIsBookingLoading] = useState<boolean>(false);
     const [serviceDetails, setServiceDetails] = useState<any | null>(null);
     const [bookType, setBookType] = useState<any | null>(null);
@@ -29,7 +28,6 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
 
     const getServiceView = useCallback(
         (serviceId: string) => {
-            setIsServiceLoading(true);
             setServiceDetails([]);
             CommonService._service.ServiceDetailsAPICall(serviceId)
                 .then((response: IAPIResponseType<any>) => {
@@ -37,10 +35,7 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                 })
                 .catch((error: any) => {
                     setServiceDetails(null);
-                })
-                .finally(() => {
-                    setIsServiceLoading(false);
-                })
+                });
         },
         [],
     );
@@ -86,7 +81,7 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                     setIsBookingLoading(true)
                 })
         },
-        [],
+        [onComplete],
     );
 
     return (

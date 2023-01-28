@@ -103,11 +103,11 @@ const RemoveFavouriteCode = (codeId: string, payload: any) => {
 const GetAllFavouriteCodes = () => {
     return ApiService[APIConfig.ICD_CODE_FAVOURITE_LIST.METHOD](APIConfig.ICD_CODE_FAVOURITE_LIST.URL);
 }
-const GetClientList=(payload:any)=>{
+const GetClientListLite = (payload: any) => {
     // @ts-ignore
-    return ApiService[APIConfig.GET_CLIENT_LIST_LITE.METHOD](APIConfig.GET_CLIENT_LIST_LITE.URL,payload);
+    return ApiService[APIConfig.GET_CLIENT_LIST_LITE.METHOD](APIConfig.GET_CLIENT_LIST_LITE.URL, payload);
 }
-const GetClientMedicalRecordList=(clientId:string,payload:any)=>{
+const GetClientMedicalRecordList = (clientId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.GET_MEDICAL_RECORD_LIST_LITE.METHOD](APIConfig.GET_MEDICAL_RECORD_LIST_LITE.URL(clientId), payload);
 }
@@ -141,6 +141,7 @@ const ClientService = {
     RemoveFavouriteCode,
     GetAllFavouriteCodes,
     ClientMedicalRecordApiCall,
+    GetClientListLite,
     GetClientList,
     GetClientMedicalRecordList,
     ClientListLiteAPICall
