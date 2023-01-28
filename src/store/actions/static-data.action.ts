@@ -3,12 +3,14 @@ import {
     I8MinuteRuleChartItem,
     IBodyPart,
     ICaseStatus,
-    ICommunicationModeType, IConcussionFileType,
+    ICommunicationModeType,
+    IConcussionFileType,
     IEmploymentStatus,
     IGender,
     IInjuryType,
     ILanguage,
-    IMedicalHistoryOption, IMedicalRecordDocumentType,
+    IMedicalHistoryOption,
+    IMedicalRecordDocumentType,
     IMusculoskeletalHistoryOption,
     IPhoneType,
     IProgressReportStat,
@@ -74,6 +76,16 @@ export const SET_8_MINUTE_RULE_CHART = 'SET_8_MINUTE_RULE_CHART';
 
 export const GET_MEDICAL_RECORD_DOCUMENT_TYPES = 'GET_MEDICAL_RECORD_DOCUMENT_TYPES';
 export const SET_MEDICAL_RECORD_DOCUMENT_TYPES = 'SET_MEDICAL_RECORD_DOCUMENT_TYPES';
+
+
+export const GET_APPOINTMENT_TYPES = 'GET_APPOINTMENT_TYPES';
+export const SET_APPOINTMENT_TYPES = 'SET_APPOINTMENT_TYPES';
+
+export const GET_APPOINTMENT_STATUS = 'GET_APPOINTMENT_STATUS';
+export const SET_APPOINTMENT_STATUS = 'SET_APPOINTMENT_STATUS';
+
+export const GET_PAYMENT_MODES = 'GET_PAYMENT_MODES';
+export const SET_PAYMENT_MODES = 'SET_PAYMENT_MODES';
 
 
 export const getConsultationDurationList = () => {
@@ -307,3 +319,36 @@ export const setMedicalRecordDocumentTypes = (medicalRecordDocumentTypes: IMedic
 }
 
 
+export const getAppointmentTypes = () => {
+    return {type: GET_APPOINTMENT_TYPES};
+};
+
+export const setAppointmentTypes = (appointmentTypes: any[]) => {
+    return {
+        type: SET_APPOINTMENT_TYPES, payload: {
+            appointmentTypes
+        }
+    };
+};
+export const getAppointmentStatus = () => {
+    return {type: GET_APPOINTMENT_STATUS};
+};
+
+export const setAppointmentStatus = (appointmentStatus: any[]) => {
+    return {
+        type: SET_APPOINTMENT_STATUS, payload: {
+            appointmentStatus
+        }
+    };
+};
+export const getPaymentModes = () => {
+    return {type: GET_PAYMENT_MODES};
+};
+
+export const setPaymentModes = (paymentModes: any[]) => {
+    return {
+        type: SET_PAYMENT_MODES, payload: {
+            paymentModes
+        }
+    };
+};

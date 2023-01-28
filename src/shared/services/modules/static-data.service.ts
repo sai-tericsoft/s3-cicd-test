@@ -90,29 +90,45 @@ const getInjuryTypeList = (payload: any) => {
     return ApiService[APIConfig.INJURY_TYPE_LIST.METHOD](APIConfig.INJURY_TYPE_LIST.URL, payload);
 }
 
-const getCaseStatusList=(payload:any)=>{
+const getCaseStatusList = (payload: any) => {
     // @ts-ignore
-    return ApiService[APIConfig.CASE_STATUS_LIST.METHOD](APIConfig.CASE_STATUS_LIST.URL,payload)
+    return ApiService[APIConfig.CASE_STATUS_LIST.METHOD](APIConfig.CASE_STATUS_LIST.URL, payload)
 }
 
-const getProgressReportStatList=(payload:any)=>{
+const getProgressReportStatList = (payload: any) => {
     // @ts-ignore
-    return ApiService[APIConfig.PROGRESS_REPORT_STATS_LIST.METHOD](APIConfig.PROGRESS_REPORT_STATS_LIST.URL,payload)
+    return ApiService[APIConfig.PROGRESS_REPORT_STATS_LIST.METHOD](APIConfig.PROGRESS_REPORT_STATS_LIST.URL, payload)
 }
 
-const get8MinuteRuleChartData=(payload:any)=>{
+const get8MinuteRuleChartData = (payload: any) => {
     // @ts-ignore
-    return ApiService[APIConfig.CLIENT_EIGHT_MINUTES_RULE_CHART.METHOD](APIConfig.CLIENT_EIGHT_MINUTES_RULE_CHART.URL,payload)
+    return ApiService[APIConfig.CLIENT_EIGHT_MINUTES_RULE_CHART.METHOD](APIConfig.CLIENT_EIGHT_MINUTES_RULE_CHART.URL, payload)
 }
 
-const getConcussionFileTypes=(payload:any)=>{
+const getConcussionFileTypes = (payload: any) => {
     // @ts-ignore
-    return ApiService[APIConfig.CONCUSSION_FILE_TYPES.METHOD](APIConfig.CONCUSSION_FILE_TYPES.URL,payload)
+    return ApiService[APIConfig.CONCUSSION_FILE_TYPES.METHOD](APIConfig.CONCUSSION_FILE_TYPES.URL, payload)
 }
 
-const getMedicalRecordDocumentTypes=(payload:any)=>{
+const getMedicalRecordDocumentTypes = (payload: any) => {
     // @ts-ignore
-    return ApiService[APIConfig.MEDICAL_RECORD_DOCUMENT_TYPES.METHOD](APIConfig.MEDICAL_RECORD_DOCUMENT_TYPES.URL,payload)
+    return ApiService[APIConfig.MEDICAL_RECORD_DOCUMENT_TYPES.METHOD](APIConfig.MEDICAL_RECORD_DOCUMENT_TYPES.URL, payload)
+}
+
+
+const getAppointmentTypes = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.APPOINTMENT_TYPES.METHOD](APIConfig.APPOINTMENT_TYPES.URL, payload)
+}
+
+const getAppointmentStatus = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.APPOINTMENT_STATUS.METHOD](APIConfig.APPOINTMENT_STATUS.URL, payload)
+}
+
+const getPaymentModes = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.PAYMENT_MODES.METHOD](APIConfig.PAYMENT_MODES.URL, payload)
 }
 
 const StaticDataService = {
@@ -138,7 +154,11 @@ const StaticDataService = {
     getProgressReportStatList,
     get8MinuteRuleChartData,
     getConcussionFileTypes,
-    getMedicalRecordDocumentTypes
+    getMedicalRecordDocumentTypes,
+
+    getPaymentModes,
+    getAppointmentStatus,
+    getAppointmentTypes
 }
 
 export default StaticDataService;

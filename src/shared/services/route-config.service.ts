@@ -10,7 +10,7 @@ import {
     FACILITY_DETAILS,
     FACILITY_LIST,
     LOGIN_ROUTE,
-    NOT_FOUND_ROUTE,
+    NOT_FOUND_ROUTE, SCHEDULING_VIEW,
     SERVICE_ADD,
     SERVICE_CATEGORY_DETAILS,
     SERVICE_CATEGORY_LIST,
@@ -93,6 +93,10 @@ const ClientEdit = (clientId: string) => {
 
 const ClientSearch = () => {
     return CLIENT_SEARCH;
+}
+
+const SchedulingView = () => {
+    return SCHEDULING_VIEW;
 }
 
 const AddMedicalRecord = (clientId: string) => {
@@ -208,6 +212,7 @@ const RouteConfigService = {
     ClientDetails,
     ClientEdit,
     ClientSearch,
+    SchedulingView,
     ClientMedicalRecordDetails,
     AddMedicalRecord,
     AddMedicalIntervention,

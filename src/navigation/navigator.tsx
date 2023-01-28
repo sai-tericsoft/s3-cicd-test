@@ -63,6 +63,7 @@ import {
     MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
     NOT_FOUND_ROUTE,
     PROGRESS_REPORT_VIEW_DETAILS,
+    SCHEDULING_VIEW,
     SERVICE_ADD,
     SERVICE_CATEGORY_DETAILS,
     SERVICE_CATEGORY_LIST,
@@ -98,6 +99,7 @@ import MedicalInterventionFinalizeTreatmentScreen
 import MedicalRecordProgressReportViewDetailsScreen
     from "../screens/chart-notes/medical-record-progress-report-view-details/MedicalRecordProgressReportViewDetailsScreen";
 import ViewDryNeedlingFileScreen from "../screens/chart-notes/view-dry-needling-file/ViewDryNeedlingFileScreen";
+import SchedulingScreen from "../screens/scheduling/SchedulingScreen";
 import ViewConcussionFileScreen from "../screens/chart-notes/view-concussion-file/ViewConcussionFileScreen";
 import ViewMedicalRecordDocumentScreen
     from "../screens/chart-notes/view-medical-record-document/ViewMedicalRecordDocumentScreen";
@@ -274,6 +276,12 @@ const Navigator = (props: NavigatorProps) => {
                 <Route path={CLIENT_SEARCH}
                        element={<ProtectedRoute>
                            <ClientSearchScreen/>
+                       </ProtectedRoute>
+                       }
+                />
+                <Route path={SCHEDULING_VIEW}
+                       element={<ProtectedRoute>
+                           <SchedulingScreen/>
                        </ProtectedRoute>
                        }
                 />

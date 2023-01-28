@@ -26,12 +26,18 @@ const ServiceDetailsAPICall = (serviceId: string, payload: any) => {
     return ApiService[APIConfig.SERVICE_DETAILS.METHOD](APIConfig.SERVICE_DETAILS.URL(serviceId), payload);
 }
 
+const ServiceCategoryListLiteAPICall = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.SERVICE_CATEGORY_LIST_LITE.METHOD](APIConfig.SERVICE_CATEGORY_LIST_LITE.URL, payload);
+}
+
 const ServiceCategoryService = {
     ServiceCategoryListAPICall,
     ServiceCategoryAddAPICall,
     ServiceCategoryDetailsAPICall,
     ServiceCategoryEditAPICall,
     ServiceDetailsAPICall,
+    ServiceCategoryListLiteAPICall,
 }
 
 export default ServiceCategoryService;

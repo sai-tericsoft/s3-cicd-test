@@ -2,16 +2,21 @@ import {call, put, takeEvery} from "redux-saga/effects";
 
 import {
     GET_8_MINUTE_RULE_CHART,
+    GET_APPOINTMENT_STATUS,
+    GET_APPOINTMENT_TYPES,
     GET_BODY_PART_LIST,
     GET_CASE_STATUS_LIST,
-    GET_COMMUNICATION_MODE_TYPE_LIST, GET_CONCUSSION_FILE_TYPES,
+    GET_COMMUNICATION_MODE_TYPE_LIST,
+    GET_CONCUSSION_FILE_TYPES,
     GET_CONSULTATION_DURATION_LIST,
     GET_EMPLOYMENT_STATUS_LIST,
     GET_GENDER_LIST,
     GET_INJURY_TYPE_LIST,
     GET_LANGUAGE_LIST,
-    GET_MEDICAL_HISTORY_OPTIONS_LIST, GET_MEDICAL_RECORD_DOCUMENT_TYPES,
+    GET_MEDICAL_HISTORY_OPTIONS_LIST,
+    GET_MEDICAL_RECORD_DOCUMENT_TYPES,
     GET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
+    GET_PAYMENT_MODES,
     GET_PHONE_TYPE_LIST,
     GET_PROGRESS_REPORT_STATS_LIST,
     GET_REFERRAL_TYPE_LIST,
@@ -19,16 +24,20 @@ import {
     GET_SOCIAL_MEDIA_PLATFORM_LIST,
     GET_SURGICAL_HISTORY_OPTIONS_LIST,
     set8MinuteRuleChart,
+    setAppointmentStatus,
+    setAppointmentTypes,
     setBodyPartsList,
     setCaseStatusList,
-    setCommunicationModeTypeList, setConcussionFileTypes,
+    setCommunicationModeTypeList,
+    setConcussionFileTypes,
     setConsultationDurationList,
     setEmploymentStatusList,
     setGenderList,
     setInjuryTypeList,
     setLanguageList,
-    setMedicalHistoryOptionsList, setMedicalRecordDocumentTypes,
-    setMusculoskeletalHistoryOptionsList,
+    setMedicalHistoryOptionsList,
+    setMedicalRecordDocumentTypes,
+    setMusculoskeletalHistoryOptionsList, setPaymentModes,
     setPhoneTypeList,
     setProgressReportStatsList,
     setReferralTypeList,
@@ -228,6 +237,39 @@ function* getMedicalRecordDocumentTypes() {
     }
 }
 
+
+function* getAppointmentTypes() {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._staticData.getAppointmentTypes);
+        yield put(setAppointmentTypes(resp?.data));
+    } catch (error: any) {
+        yield put(setAppointmentTypes([]));
+    }
+}
+
+
+function* getAppointmentStatus() {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._staticData.getAppointmentStatus);
+        yield put(setAppointmentStatus(resp?.data));
+    } catch (error: any) {
+        yield put(setAppointmentStatus([]));
+    }
+}
+
+
+function* getPaymentModes() {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._staticData.getPaymentModes);
+        yield put(setPaymentModes(resp?.data));
+    } catch (error: any) {
+        yield put(setPaymentModes([]));
+    }
+}
+
 export default function* staticDataSaga() {
     yield takeEvery(GET_CONSULTATION_DURATION_LIST, getConsultationDurationList);
     yield takeEvery(GET_GENDER_LIST, getGenderList);
@@ -248,4 +290,9 @@ export default function* staticDataSaga() {
     yield takeEvery(GET_8_MINUTE_RULE_CHART, get8MinuteRuleChartData);
     yield takeEvery(GET_CONCUSSION_FILE_TYPES, getConcussionFileTypes);
     yield takeEvery(GET_MEDICAL_RECORD_DOCUMENT_TYPES, getMedicalRecordDocumentTypes);
+
+
+    yield takeEvery(GET_APPOINTMENT_TYPES, getAppointmentTypes);
+    yield takeEvery(GET_APPOINTMENT_STATUS, getAppointmentStatus);
+    yield takeEvery(GET_PAYMENT_MODES, getPaymentModes);
 }
