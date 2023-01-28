@@ -10,7 +10,6 @@ import SearchComponent from "../../shared/components/search/SearchComponent";
 import {APIConfig, ImageConfig} from "../../constants";
 import TableWrapperComponent from "../../shared/components/table-wrapper/TableWrapperComponent";
 import ButtonComponent from "../../shared/components/button/ButtonComponent";
-import {ToggleButton, ToggleButtonGroup} from "@mui/material";
 import moment from "moment/moment";
 import SelectComponent from "../../shared/components/form-controls/select/SelectComponent";
 import {IRootReducerState} from "../../store/reducers";
@@ -30,7 +29,7 @@ const SchedulingListColumns: ITableColumn[] = [
         key: "time",
         dataIndex: "time",
         width: 120,
-        render: (_: any, item: any) => {
+        render: (item: any) => {
             const hours = Math.floor(item?.start_time / 60);
             const minutes = item?.start_time % 60;
             return moment(hours + ':' + minutes, 'hh:mm').format('hh:mm A')
@@ -42,7 +41,7 @@ const SchedulingListColumns: ITableColumn[] = [
         dataIndex: "client_name",
         sortable: true,
         width: 150,
-        render: (_: any, item: any) => {
+        render: (item: any) => {
             return <span>{item?.client_details?.last_name} {item?.client_details?.first_name}</span>
         }
     },
@@ -51,8 +50,8 @@ const SchedulingListColumns: ITableColumn[] = [
         key: "primary_contact_info",
         dataIndex: "primary_contact_info",
         width: 150,
-        render: (_: any, item: any) => {
-            return <span>{CommonService.formatPhoneNumber(item?.client_details?.primary_contact_info?.phone)}</span>
+        render: (item: any) => {
+            return <span>{item?.client_details?.primary_contact_info?.phone ? CommonService.formatPhoneNumber(item?.client_details?.primary_contact_info?.phone) : ''}</span>
         }
     },
     {
@@ -60,9 +59,9 @@ const SchedulingListColumns: ITableColumn[] = [
         key: "service",
         dataIndex: "service",
         width: 150,
-        render: (_: any, item: any) => {
+        render: (item: any) => {
             return <span>
-                    {item?.service_details.name}
+                    {item?.service_details?.name}
                 </span>
         }
     },
@@ -71,7 +70,7 @@ const SchedulingListColumns: ITableColumn[] = [
         key: "provider",
         dataIndex: "provider",
         width: 140,
-        render: (_: any, item: any) => {
+        render: (item: any) => {
             return <span>
                     {item?.provider_details?.first_name + ' ' + item?.provider_details?.last_name}
                 </span>
@@ -82,7 +81,7 @@ const SchedulingListColumns: ITableColumn[] = [
         dataIndex: "status",
         key: "status",
         width: 90,
-        render: (_: any, item: any) => {
+        render: (item: any) => {
             return <ChipComponent label={item?.status}
                                   className={item?.status}
             />
@@ -94,7 +93,7 @@ const SchedulingListColumns: ITableColumn[] = [
         key: "actions",
         width: 120,
         fixed: "right",
-        render: (_: any, item: any) => {
+        render: (item: any) => {
             if (item?._id) {
                 //todo: change to new link
                 return <LinkComponent route={CommonService._routeConfig.MedicalRecordList(item?._id)}>
@@ -116,7 +115,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
         end_date: moment().format('YYYY-MM-DD'),
         sort: {}
     });
-    const [viewMode, setViewMode] = useState<'list' | 'calendar'>('list');
+    const [viewMode] = useState<'list' | 'calendar'>('list');
 
     const handleSchedulingSort = useCallback((key: string, order: string) => {
         setSchedulingListFilterState((oldState: any) => {
@@ -165,24 +164,24 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                      }}/>
                 </div>
                 <div className="scheduling-header-actions-wrapper">
-                    <div className="scheduling-header-action-item">
-                        <ToggleButtonGroup value={viewMode} color={"primary"} size={'small'}>
-                            <ToggleButton value="calendar" onClick={setViewMode.bind(null, 'calendar')}
-                                          color={viewMode === 'calendar' ? 'primary' : 'standard'} type={'button'}
-                                          aria-label="calender view">
-                                <ImageConfig.SchedulingIcon/>
-                            </ToggleButton>
-                            <ToggleButton value="list" type={'button'} onClick={setViewMode.bind(null, 'list')}
-                                          color={viewMode === 'list' ? 'primary' : 'standard'}
-                                          aria-label="list view">
-                                <ImageConfig.ListIcon/>
-                            </ToggleButton>
-                        </ToggleButtonGroup>
-                    </div>
-                    <div className="scheduling-header-action-item">
-                        <ButtonComponent variant={'outlined'} prefixIcon={<ImageConfig.BlockIcon/>}>Block
-                            Calender</ButtonComponent>
-                    </div>
+                    {/*<div className="scheduling-header-action-item">*/}
+                    {/*    <ToggleButtonGroup value={viewMode} color={"primary"} size={'small'}>*/}
+                    {/*        <ToggleButton value="calendar" onClick={setViewMode.bind(null, 'calendar')}*/}
+                    {/*                      color={viewMode === 'calendar' ? 'primary' : 'standard'} type={'button'}*/}
+                    {/*                      aria-label="calender view">*/}
+                    {/*            <ImageConfig.SchedulingIcon/>*/}
+                    {/*        </ToggleButton>*/}
+                    {/*        <ToggleButton value="list" type={'button'} onClick={setViewMode.bind(null, 'list')}*/}
+                    {/*                      color={viewMode === 'list' ? 'primary' : 'standard'}*/}
+                    {/*                      aria-label="list view">*/}
+                    {/*            <ImageConfig.ListIcon/>*/}
+                    {/*        </ToggleButton>*/}
+                    {/*    </ToggleButtonGroup>*/}
+                    {/*</div>*/}
+                    {/*<div className="scheduling-header-action-item">*/}
+                    {/*    <ButtonComponent variant={'outlined'} prefixIcon={<ImageConfig.BlockIcon/>}>Block*/}
+                    {/*        Calender</ButtonComponent>*/}
+                    {/*</div>*/}
                     <div className="scheduling-header-action-item">
                         <ButtonComponent onClick={setIsBookAppointmentOpen.bind(null, true)}
                                          prefixIcon={<ImageConfig.AddIcon/>}>Book Appointment</ButtonComponent>
