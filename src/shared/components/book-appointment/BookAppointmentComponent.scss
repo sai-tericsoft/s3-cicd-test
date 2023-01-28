@@ -17,6 +17,13 @@
   display: flex;
   flex: 1;
   flex-direction: column;
+  .modal-title {
+    font-weight: 700;
+    font-size: 20px;
+    color: #212B36;
+    margin-bottom: 15px;
+  }
+
 
   .client-search-wrapper {
     display: flex;
@@ -116,8 +123,5 @@
     .booking-confirmation-action {
       flex: 0;
     }
-  }
-  .book-appointment-overview {
-
   }
 }

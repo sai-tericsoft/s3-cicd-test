@@ -11,7 +11,7 @@ import {logout} from "./store/actions/account.action";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "./store/reducers";
 import {
-    get8MinuteRuleChart,
+    get8MinuteRuleChart, getAppointmentStatus, getAppointmentTypes,
     getBodyPartsList,
     getCaseStatusList,
     getCommunicationModeTypeList,
@@ -22,7 +22,7 @@ import {
     getInjuryTypeList,
     getLanguageList,
     getMedicalHistoryOptionsList, getMedicalRecordDocumentTypes,
-    getMusculoskeletalHistoryOptionsList,
+    getMusculoskeletalHistoryOptionsList, getPaymentModes,
     getPhoneTypeList,
     getProgressReportStatsList,
     getReferralTypeList,
@@ -114,6 +114,9 @@ const App = (props: AppProps) => {
             dispatch(get8MinuteRuleChart());
             dispatch(getConcussionFileTypes());
             dispatch(getMedicalRecordDocumentTypes());
+            dispatch(getAppointmentTypes());
+            dispatch(getAppointmentStatus());
+            dispatch(getPaymentModes());
         }
     }, [token, dispatch])
 

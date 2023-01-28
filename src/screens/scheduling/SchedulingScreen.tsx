@@ -15,11 +15,11 @@ import {ToggleButton, ToggleButtonGroup} from "@mui/material";
 import moment from "moment/moment";
 import SelectComponent from "../../shared/components/form-controls/select/SelectComponent";
 import {IRootReducerState} from "../../store/reducers";
-import {IUser} from "../../shared/models/user.model";
 import IconButtonComponent from "../../shared/components/icon-button/IconButtonComponent";
 import FullCalendarComponent from "../../shared/components/full-calendar/FullCalendarComponent";
 import DrawerComponent from "../../shared/components/drawer/DrawerComponent";
 import BookAppointmentComponent from "../../shared/components/book-appointment/BookAppointmentComponent";
+import AutoCompleteComponent from "../../shared/components/form-controls/auto-complete/AutoCompleteComponent";
 
 interface SchedulingScreenProps {
 
@@ -32,7 +32,9 @@ const SchedulingListColumns: ITableColumn[] = [
         dataIndex: "time",
         width: 120,
         render: (_: any, item: any) => {
-            return item?.time
+            const hours = Math.floor(item?.start_time / 60);
+            const minutes = item?.start_time % 60;
+            return moment(hours + ':' + minutes, 'hh:mm').format('hh:mm A')
         }
     },
     {
@@ -42,7 +44,7 @@ const SchedulingListColumns: ITableColumn[] = [
         sortable: true,
         width: 150,
         render: (_: any, item: any) => {
-            return <span>{item?.last_name} {item?.first_name}</span>
+            return <span>{item?.client_details?.last_name} {item?.client_details?.first_name}</span>
         }
     },
     {
@@ -51,7 +53,7 @@ const SchedulingListColumns: ITableColumn[] = [
         dataIndex: "primary_contact_info",
         width: 150,
         render: (_: any, item: any) => {
-            return <span>{item?.primary_contact_info?.phone}</span>
+            return <span>{CommonService.formatPhoneNumber(item?.client_details?.primary_contact_info?.phone)}</span>
         }
     },
     {
@@ -61,7 +63,7 @@ const SchedulingListColumns: ITableColumn[] = [
         width: 150,
         render: (_: any, item: any) => {
             return <span>
-                    {item?.service}
+                    {item?.service_details.name}
                 </span>
         }
     },
@@ -72,7 +74,7 @@ const SchedulingListColumns: ITableColumn[] = [
         width: 140,
         render: (_: any, item: any) => {
             return <span>
-                    {item?.provider}
+                    {item?.provider_details?.first_name + ' ' + item?.provider_details?.last_name}
                 </span>
         }
     },
@@ -110,11 +112,11 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
 
     const {state} = useLocation();
     const {allProvidersList} = useSelector((state: IRootReducerState) => state.user);
-    const {caseStatusList} = useSelector((state: IRootReducerState) => state.staticData);
+    const {caseStatusList, appointmentStatus} = useSelector((state: IRootReducerState) => state.staticData);
     const [schedulingListFilterState, setSchedulingListFilterState] = useState<any>({
         search: "",
-        filter: {},
-        date: moment().format('YYYY-MM-DD'),
+        start_date: moment().format('YYYY-MM-DD'),
+        end_date: moment().format('YYYY-MM-DD'),
         sort: {}
     });
     const [viewMode, setViewMode] = useState<'list' | 'calendar'>('list');
@@ -134,13 +136,14 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
     const dateSwitcher = useCallback(
         (mode: 'increasing' | 'decreasing') => {
             setSchedulingListFilterState((old: any) => {
-                const newDate = moment(old.date);
+                const newDate = moment(old.start_date);
                 if (mode === 'increasing') {
                     newDate.add(1, 'day');
                 } else {
                     newDate.subtract(1, 'day');
                 }
-                return {...old, date: newDate.format('YYYY-MM-DD')}
+                const start_date = newDate.format('YYYY-MM-DD');
+                return {...old, start_date: start_date, end_date: start_date}
             })
         },
         [],
@@ -151,14 +154,14 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
     return (
         <div className={'scheduling-list-component'}>
             <DrawerComponent isOpen={isBookAppointmentOpen} onClose={setIsBookAppointmentOpen.bind(null, false)}
-                             showClose={true} title={'Book Appointment'} className={'book-appointment-component-drawer'}>
+                             className={'book-appointment-component-drawer'}>
                 <BookAppointmentComponent onClose={setIsBookAppointmentOpen.bind(null, false)}/>
             </DrawerComponent>
             <div className="scheduling-header-wrapper">
                 <div className="scheduling-header-search-wrapper">
                     <SearchComponent size={'small'}
                                      className={'scheduling-list-input mrg-top-20'}
-                                     label={'Search for Appointment'}
+                                     label={'Search for Client'}
                                      value={schedulingListFilterState.search}
                                      onSearchChange={(value) => {
                                          setSchedulingListFilterState({...schedulingListFilterState, search: value})
@@ -194,7 +197,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                     <div className='scheduling-filter-header-wrapper'>
                         <div className="scheduling-filter-header-date-wrapper">
                             <div
-                                className="filter-header-date-text">{CommonService.convertDateFormat(schedulingListFilterState.date, 'DD MMMM, YYYY')}</div>
+                                className="filter-header-date-text">{CommonService.convertDateFormat(schedulingListFilterState.start_date, 'DD MMMM, YYYY')}</div>
                             <div className="filter-header-date-controls">
                                 <div className="filter-header-date-control-item">
                                     <IconButtonComponent onClick={dateSwitcher.bind(null, 'decreasing')}>
@@ -210,79 +213,95 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                         </div>
                         <div className="scheduling-filter-header-actions-wrapper">
                             <div className="scheduling-filter-header-action-item">
-                                <SelectComponent size={'small'}
-                                                 options={allProvidersList}
-                                                 displayWith={(option: IUser) => (option?.first_name || option?.last_name) ? option?.first_name + " " + option?.last_name : "-"}
-                                                 valueExtractor={(option: IUser) => option}
-                                                 label={'Service Category'}
-                                                 onUpdate={
-                                                     (value) => {
-                                                         setSchedulingListFilterState({
-                                                             ...schedulingListFilterState,
-                                                             filter: {
-                                                                 ...schedulingListFilterState.filter,
-                                                                 serviceCategory: value._id
-                                                             }
-                                                         })
-                                                     }
-                                                 }
-                                                 fullWidth={true}
+                                <AutoCompleteComponent size={'small'}
+                                                       label={'Service Category'}
+                                                       dataListKey={'data'}
+                                                       displayWith={item => item ? item?.name : ''}
+                                                       keyExtractor={item => item?._id}
+                                                       valueExtractor={item => item}
+                                                       searchMode={'serverSide'}
+                                                       url={APIConfig.SERVICE_CATEGORY_LIST_LITE.URL}
+                                                       method={APIConfig.SERVICE_CATEGORY_LIST_LITE.METHOD}
+                                                       fullWidth={true}
+                                                       onUpdate={
+                                                           (value) => {
+                                                               setSchedulingListFilterState({
+                                                                   ...schedulingListFilterState,
+                                                                   category_id: value._id
+                                                               })
+                                                           }
+                                                       }
                                 />
                             </div>
                             <div className="scheduling-filter-header-action-item">
-                                <SelectComponent size={'small'}
-                                                 options={allProvidersList}
-                                                 displayWith={(option: IUser) => (option?.first_name || option?.last_name) ? option?.first_name + " " + option?.last_name : "-"}
-                                                 valueExtractor={(option: IUser) => option}
-                                                 label={'Service'}
-                                                 onUpdate={
-                                                     (value) => {
-                                                         setSchedulingListFilterState({
-                                                             ...schedulingListFilterState,
-                                                             filter: {
-                                                                 ...schedulingListFilterState.filter,
-                                                                 service: value._id
-                                                             }
-                                                         })
-                                                     }
-                                                 }
-                                                 fullWidth={true}
+                                <AutoCompleteComponent size={'small'}
+                                                       label={'Service'}
+                                                       disabled={!schedulingListFilterState?.category_id}
+                                                       dataListKey={'data'}
+                                                       displayWith={item => item ? item?.name : ''}
+                                                       keyExtractor={item => item?._id}
+                                                       valueExtractor={item => item}
+                                                       searchMode={'serverSide'}
+                                                       url={APIConfig.SERVICE_LIST_LITE.URL(schedulingListFilterState?.category_id)}
+                                                       method={APIConfig.SERVICE_LIST_LITE.METHOD}
+                                                       fullWidth={true}
+                                                       onUpdate={
+                                                           (value) => {
+                                                               setSchedulingListFilterState({
+                                                                   ...schedulingListFilterState,
+                                                                   service_id: value._id
+                                                               })
+                                                           }
+                                                       }
                                 />
                             </div>
                             <div className="scheduling-filter-header-action-item">
-                                <SelectComponent size={'small'}
-                                                 options={allProvidersList}
-                                                 displayWith={(option: IUser) => (option?.first_name || option?.last_name) ? option?.first_name + " " + option?.last_name : "-"}
-                                                 valueExtractor={(option: IUser) => option}
-                                                 label={'Provider'}
-                                                 onUpdate={
-                                                     (value) => {
-                                                         setSchedulingListFilterState({
-                                                             ...schedulingListFilterState,
-                                                             filter: {
-                                                                 ...schedulingListFilterState.filter,
-                                                                 provider: value._id
-                                                             }
-                                                         })
-                                                     }
-                                                 }
-                                                 fullWidth={true}
+                                <AutoCompleteComponent size={'small'}
+                                                       label={'Provider'}
+                                                       dataListKey={'data'}
+                                                       displayWith={item => item ? item?.first_name + ' ' + item?.last_name : ''}
+                                                       keyExtractor={item => item?._id}
+                                                       valueExtractor={item => item}
+                                                       searchMode={'serverSide'}
+                                                       url={APIConfig.USER_LIST_LITE.URL}
+                                                       method={APIConfig.USER_LIST_LITE.METHOD}
+                                                       fullWidth={true}
+                                                       onUpdate={
+                                                           (value) => {
+                                                               setSchedulingListFilterState({
+                                                                   ...schedulingListFilterState,
+                                                                   provider_id: value._id
+                                                               })
+                                                           }
+                                                       }
                                 />
+                                {/*<SelectComponent size={'small'}*/}
+                                {/*                 options={allProvidersList}*/}
+                                {/*                 displayWith={(option: IUser) => (option?.first_name || option?.last_name) ? option?.first_name + " " + option?.last_name : "-"}*/}
+                                {/*                 valueExtractor={(option: IUser) => option}*/}
+                                {/*                 label={'Provider'}*/}
+                                {/*                 onUpdate={*/}
+                                {/*                     (value) => {*/}
+                                {/*                         setSchedulingListFilterState({*/}
+                                {/*                             ...schedulingListFilterState,*/}
+                                {/*                             provider: value._id*/}
+                                {/*                         })*/}
+                                {/*                     }*/}
+                                {/*                 }*/}
+                                {/*                 fullWidth={true}*/}
+                                {/*/>*/}
                             </div>
                             <div className="scheduling-filter-header-action-item">
                                 <SelectComponent size={'small'}
-                                                 options={allProvidersList}
-                                                 displayWith={(option: IUser) => (option?.first_name || option?.last_name) ? option?.first_name + " " + option?.last_name : "-"}
-                                                 valueExtractor={(option: IUser) => option}
+                                                 options={appointmentStatus || []}
+                                                 displayWith={(option: any) => (option?.title || '')}
+                                                 valueExtractor={(option: any) => option?.code}
                                                  label={'Status'}
                                                  onUpdate={
                                                      (value) => {
                                                          setSchedulingListFilterState({
                                                              ...schedulingListFilterState,
-                                                             filter: {
-                                                                 ...schedulingListFilterState.filter,
-                                                                 status: value._id
-                                                             }
+                                                             status: value
                                                          })
                                                      }
                                                  }
@@ -297,10 +316,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                      (value) => {
                                                          setSchedulingListFilterState({
                                                              ...schedulingListFilterState,
-                                                             filter: {
-                                                                 ...schedulingListFilterState.filter,
-                                                                 duration: value
-                                                             }
+                                                             duration: value
                                                          })
                                                      }
                                                  }
@@ -313,8 +329,8 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                     {viewMode === 'list' && <TableWrapperComponent
                         id={"appointment_search"}
                         scroll={"scroll"}
-                        url={APIConfig.CLIENT_LIST.URL}
-                        method={APIConfig.CLIENT_LIST.METHOD}
+                        url={APIConfig.APPOINTMENT_LIST.URL}
+                        method={APIConfig.APPOINTMENT_LIST.METHOD}
                         columns={SchedulingListColumns}
                         extraPayload={schedulingListFilterState}
                         onSort={handleSchedulingSort}

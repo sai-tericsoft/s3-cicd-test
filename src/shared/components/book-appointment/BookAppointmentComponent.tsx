@@ -9,6 +9,9 @@ import {RadioButtonComponent} from "../form-controls/radio-button/RadioButtonCom
 import ErrorComponent from "../error/ErrorComponent";
 import InputComponent from "../form-controls/input/InputComponent";
 import BookAppointmentFormComponent from "./book-appointment-form/BookAppointmentFormComponent";
+import BookAppointmentOverviewComponent from "./book-appointment-overview/BookAppointmentOverviewComponent";
+import BookAppointmentPaymentComponent from "./book-appointment-payment/BookAppointmentPaymentComponent";
+import FormControlLabelComponent from "../form-control-label/FormControlLabelComponent";
 
 interface BookAppointmentComponentProps {
     onClose?: () => void
@@ -22,6 +25,9 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
     const [clientList, setClientList] = useState<any[]>([]);
     const [isClientListLoading, setIsClientListLoading] = useState<boolean>(false);
     const [isClientListLoaded, setIsClientListLoaded] = useState<boolean>(false);
+    const [booking, setBooking] = useState<any | null>(null)
+    const [bookingDraft, setBookingDraft] = useState<any | null>(null);
+
     const getClientList = useCallback(
         (search: string) => {
             // if (search === '') {
@@ -44,8 +50,22 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
         [],
     );
     const onFormComplete = useCallback(
-        () => {
+        (values: any) => {
+            setBookingDraft(values);
             setStep('overview');
+        },
+        [],
+    );
+    const onOverviewComplete = useCallback(
+        (values: any) => {
+            setBooking(values);
+            setStep('payment');
+        },
+        [],
+    );
+    const onPaymentComplete = useCallback(
+        (values: any) => {
+            setStep('confirmation');
         },
         [],
     );
@@ -70,6 +90,10 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
                     <div className="client-search-body">
                         <div className="client-search-body-heading">Client List</div>
                         {isClientListLoading && <LoaderComponent/>}
+                        {!isClientListLoading && !isClientListLoaded && clientList && clientList.length === 0 &&
+                            <div className={'text-center'}>
+                                <img src={ImageConfig.Search} alt={'search'} />
+                            </div>}
                         {!isClientListLoading && isClientListLoaded && clientList && clientList.length === 0 &&
                             <ErrorComponent errorText={'Client not found'}/>}
                         {!isClientListLoading && isClientListLoaded && clientList && clientList.length > 0 && <>
@@ -91,7 +115,7 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
                                                     }}/>
                                                 </div>
                                                 <div className="item-client-name">
-                                                    {value.first_name + ' ' + value.last_name}
+                                                    {value.first_name + ' ' + value.last_name} (ID: {value.client_id || ''})
                                                 </div>
                                             </div>
                                         )
@@ -111,14 +135,20 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
                 <BookAppointmentFormComponent client={selectedClient} onComplete={onFormComplete} onClose={onClose}/>
             }
             {
-                step === 'overview' && <div className={'book-appointment-overview'}>
-
-                </div>
+                step === 'overview' && <>
+                    <BookAppointmentOverviewComponent onBack={() => {
+                        setStep('form');
+                    }
+                    } bookingDraft={bookingDraft} onClose={onClose}
+                                                      onComplete={onOverviewComplete}/>
+                </>
             }
             {
-                step === 'payment' && <div>
-
-                </div>
+                step === 'payment' && <BookAppointmentPaymentComponent onBack={
+                    () => {
+                        setStep('form');
+                    }
+                } booking={booking} onComplete={onPaymentComplete}/>
             }
             {
                 step === 'confirmation' && <div className={'booking-confirmation-wrapper'}>

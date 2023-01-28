@@ -425,3 +425,28 @@
     height: calc(100vh - 215px);
   }
 }
+
+
+.chip {
+  font-weight: 500;
+  &.scheduled {
+    background: #FAFAFA;
+    color: #333;
+  }
+  &.upcoming {
+    background: #FFF7EA;
+    color: #DE561C;
+  }
+  &.engaged {
+    background: #BDE8CA;
+    color: #00534F;
+  }
+  &.completed {
+    background: #F5F7F8;
+    color: #7583A6;
+  }
+  &.cancelled {
+    background: #FFE2E9;
+    color: #DE1C4E;
+  }
+}

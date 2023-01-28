@@ -13,6 +13,8 @@ import {ReactComponent as EyeIcon} from './../assets/icons/eye.svg';
 import {ReactComponent as PrintIcon} from './../assets/icons/print.svg';
 
 import {ReactComponent as VerifiedCheck} from './../assets/icons/verified_black.svg';
+import {ReactComponent as CalendarIcon} from './../assets/icons/calander.svg';
+import {ReactComponent as TimerIcon} from './../assets/icons/timer.svg';
 
 import {ReactComponent as CircleCheck} from './../assets/icons/check_circle.svg';
 import {ReactComponent as CircleError} from './../assets/icons/error_circle.svg';
@@ -130,4 +132,6 @@ export {
     PrintIcon,
     DeleteAttachmentConfirmationIcon,
     AppointmentConfirm,
+    CalendarIcon,
+    TimerIcon
 }

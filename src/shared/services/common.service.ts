@@ -21,6 +21,7 @@ import ClientService from "./modules/client.service";
 import ChartNotesService from "./modules/chart-notes.service";
 import printJS from "print-js";
 import {IAttachment} from "../models/common.model";
+import AppointmentService from "./modules/appointment.service";
 
 
 yup.addMethod(yup.mixed, 'atLeastOne', (args) => {
@@ -535,6 +536,7 @@ const CommonService = {
     _localStorage: LocalStorageService,
     _account: AccountService,
     _user: UserService,
+    _appointment: AppointmentService,
     _staticData: StaticDataService,
     _serviceCategory: ServiceCategoryService,
     _service: ServiceService,

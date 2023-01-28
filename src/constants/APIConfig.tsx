@@ -81,6 +81,21 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + '/documentTypes',
         METHOD: 'get'
     },
+
+    APPOINTMENT_TYPES: {
+        URL: ENV.API_URL + '/appointmentTypes',
+        METHOD: 'get'
+    },
+
+    APPOINTMENT_STATUS: {
+        URL: ENV.API_URL + '/appointmentStatus',
+        METHOD: 'get'
+    },
+
+    PAYMENT_MODES: {
+        URL: ENV.API_URL + '/paymentModes',
+        METHOD: 'get'
+    },
     //meta end
 
     // authentication start
@@ -103,6 +118,10 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + "/category",
         METHOD: "get"
     },
+    SERVICE_CATEGORY_LIST_LITE: {
+        URL: ENV.API_URL + "/category/lite",
+        METHOD: "get"
+    },
     SERVICE_CATEGORY_ADD: {
         URL: ENV.API_URL + "/category",
         METHOD: "post"
@@ -120,6 +139,10 @@ const APIConfig: IAPIConfig = {
     // service start
     SERVICE_LIST: {
         URL: (serviceCategoryId: string) => ENV.API_URL + "/category/" + serviceCategoryId + "/service",
+        METHOD: "get"
+    },
+    SERVICE_LIST_LITE: {
+        URL: (serviceCategoryId: string) => ENV.API_URL + "/category/" + serviceCategoryId + "/service/lite",
         METHOD: "get"
     },
     SERVICE_DETAILS: {
@@ -260,6 +283,7 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + '/ruleChart',
         METHOD: 'get'
     },
+
     // user start
     USER_LIST: {
         URL: ENV.API_URL + "/user",
@@ -268,6 +292,41 @@ const APIConfig: IAPIConfig = {
     USER_LIST_LITE: {
         URL: ENV.API_URL + "/user/lite",
         METHOD: "get"
+    },
+    USER_AVAILABLE_DATES_LIST: {
+        URL: (userId: string) => ENV.API_URL + "/user/" + userId + "/availableDates",
+        METHOD: "get"
+    },
+    USER_AVAILABLE_TIMES_LIST: {
+        URL: (userId: string, date: string) => ENV.API_URL + "/user/" + userId + "/availableTimings?available_on=" + date,
+        METHOD: "get"
+    },
+    // user end
+
+    // user start
+    APPOINTMENT_LIST: {
+        URL: ENV.API_URL + '/appointment',
+        METHOD: "get"
+    },
+    APPOINTMENT_ADD: {
+        URL: ENV.API_URL + "/appointment",
+        METHOD: "post"
+    },
+    APPOINTMENT_VIEW: {
+        URL: (appointmentId: string) => ENV.API_URL + "/appointment/" + appointmentId,
+        METHOD: "get"
+    },
+    APPOINTMENT_PAYMENT: {
+        URL: (appointmentId: string) => ENV.API_URL + "/appointment/" + appointmentId + "/payment",
+        METHOD: "post"
+    },
+    APPOINTMENT_RESCHEDULE: {
+        URL: (appointmentId: string) => ENV.API_URL + "/appointment/" + appointmentId + "/reschedule",
+        METHOD: "post"
+    },
+    APPOINTMENT_CANCEL: {
+        URL: (appointmentId: string) => ENV.API_URL + "/appointment/" + appointmentId + "/cancel",
+        METHOD: "post"
     },
     // user end
 
