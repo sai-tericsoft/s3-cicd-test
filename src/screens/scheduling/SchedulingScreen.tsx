@@ -23,90 +23,92 @@ interface SchedulingScreenProps {
 
 }
 
-const SchedulingListColumns: ITableColumn[] = [
-    {
-        title: "Time",
-        key: "time",
-        dataIndex: "time",
-        width: 120,
-        render: (item: any) => {
-            const hours = Math.floor(item?.start_time / 60);
-            const minutes = item?.start_time % 60;
-            return moment(hours + ':' + minutes, 'hh:mm').format('hh:mm A')
-        }
-    },
-    {
-        title: "Client Name",
-        key: "name",
-        dataIndex: "client_name",
-        sortable: true,
-        width: 150,
-        render: (item: any) => {
-            return <span>{item?.client_details?.last_name} {item?.client_details?.first_name}</span>
-        }
-    },
-    {
-        title: "Phone",
-        key: "primary_contact_info",
-        dataIndex: "primary_contact_info",
-        width: 150,
-        render: (item: any) => {
-            return <span>{item?.client_details?.primary_contact_info?.phone ? CommonService.formatPhoneNumber(item?.client_details?.primary_contact_info?.phone) : ''}</span>
-        }
-    },
-    {
-        title: "Service",
-        key: "service",
-        dataIndex: "service",
-        width: 150,
-        render: (item: any) => {
-            return <span>
-                    {item?.service_details?.name}
-                </span>
-        }
-    },
-    {
-        title: "Provider",
-        key: "provider",
-        dataIndex: "provider",
-        width: 140,
-        render: (item: any) => {
-            return <span>
-                    {item?.provider_details?.first_name + ' ' + item?.provider_details?.last_name}
-                </span>
-        }
-    },
-    {
-        title: "Status",
-        dataIndex: "status",
-        key: "status",
-        width: 90,
-        render: (item: any) => {
-            return <ChipComponent label={item?.status}
-                                  className={item?.status}
-            />
-        }
-    },
-    {
-        title: "",
-        dataIndex: "actions",
-        key: "actions",
-        width: 120,
-        fixed: "right",
-        render: (item: any) => {
-            if (item?._id) {
-                //todo: change to new link
-                return <LinkComponent route={CommonService._routeConfig.MedicalRecordList(item?._id)}>
-                    View Details
-                </LinkComponent>
-            }
-        }
-    }
-];
+
 
 const SchedulingScreen = (props: SchedulingScreenProps) => {
 
     const dispatch = useDispatch();
+
+    const SchedulingListColumns: ITableColumn[] = [
+        {
+            title: "Time",
+            key: "time",
+            dataIndex: "time",
+            width: 120,
+            render: (item: any) => {
+                const hours = Math.floor(item?.start_time / 60);
+                const minutes = item?.start_time % 60;
+                return moment(hours + ':' + minutes, 'hh:mm').format('hh:mm A')
+            }
+        },
+        {
+            title: "Client Name",
+            key: "name",
+            dataIndex: "client_name",
+            sortable: true,
+            width: 150,
+            render: (item: any) => {
+                return <span>{item?.client_details?.last_name} {item?.client_details?.first_name}</span>
+            }
+        },
+        {
+            title: "Phone",
+            key: "primary_contact_info",
+            dataIndex: "primary_contact_info",
+            width: 150,
+            render: (item: any) => {
+                return <span>{item?.client_details?.primary_contact_info?.phone ? CommonService.formatPhoneNumber(item?.client_details?.primary_contact_info?.phone) : ''}</span>
+            }
+        },
+        {
+            title: "Service",
+            key: "service",
+            dataIndex: "service",
+            width: 150,
+            render: (item: any) => {
+                return <span>
+                    {item?.service_details?.name}
+                </span>
+            }
+        },
+        {
+            title: "Provider",
+            key: "provider",
+            dataIndex: "provider",
+            width: 140,
+            render: (item: any) => {
+                return <span>
+                    {item?.provider_details?.first_name + ' ' + item?.provider_details?.last_name}
+                </span>
+            }
+        },
+        {
+            title: "Status",
+            dataIndex: "status",
+            key: "status",
+            width: 90,
+            render: (item: any) => {
+                return <ChipComponent label={item?.status}
+                                      className={item?.status}
+                />
+            }
+        },
+        {
+            title: "",
+            dataIndex: "actions",
+            key: "actions",
+            width: 120,
+            fixed: "right",
+            render: (item: any) => {
+                if (item?._id) {
+                    //todo: change to new link
+                    return <div onClick={setOpenedAppointmentDetails.bind(null, item)}>
+                        View Details
+                    </div>
+                }
+            }
+        }
+    ];
 
     const {appointmentStatus} = useSelector((state: IRootReducerState) => state.staticData);
     const [schedulingListFilterState, setSchedulingListFilterState] = useState<any>({
@@ -146,12 +148,24 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
     );
 
     const [isBookAppointmentOpen, setIsBookAppointmentOpen] = useState(false);
+    const [openedAppointmentDetails, setOpenedAppointmentDetails] = useState<any | null>(null);
+    const [refreshToken, setRefreshToken] = useState('');
 
     return (
         <div className={'scheduling-list-component'}>
+            <DrawerComponent isOpen={!!openedAppointmentDetails} onClose={setOpenedAppointmentDetails.bind(null, null)}
+                             className={'book-appointment-component-drawer'}>
+                
+            </DrawerComponent>
+
             <DrawerComponent isOpen={isBookAppointmentOpen} onClose={setIsBookAppointmentOpen.bind(null, false)}
                              className={'book-appointment-component-drawer'}>
-                <BookAppointmentComponent onClose={setIsBookAppointmentOpen.bind(null, false)}/>
+                <BookAppointmentComponent onComplete={() => {
+                    setRefreshToken(Math.random().toString());
+                    setIsBookAppointmentOpen(false);
+                }} onClose={
+                    setIsBookAppointmentOpen.bind(null, false)}
+                />
             </DrawerComponent>
             <div className="scheduling-header-wrapper">
                 <div className="scheduling-header-search-wrapper">
@@ -327,6 +341,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                         url={APIConfig.APPOINTMENT_LIST.URL}
                         method={APIConfig.APPOINTMENT_LIST.METHOD}
                         columns={SchedulingListColumns}
+                        refreshToken={refreshToken}
                         extraPayload={schedulingListFilterState}
                         onSort={handleSchedulingSort}
                     />}
