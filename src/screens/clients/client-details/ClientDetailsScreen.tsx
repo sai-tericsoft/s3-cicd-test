@@ -73,7 +73,7 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
     useEffect(() => {
         const referrer: any = searchParams.get("referrer");
         dispatch(setCurrentNavParams("Client Details", null, () => {
-            if (referrer){
+            if (referrer) {
                 navigate(referrer);
             } else {
                 navigate(CommonService._routeConfig.ClientList());
@@ -153,14 +153,26 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
                                         <div className="client-details-content-wrapper">
                                             <div
                                                 className={`client-details-actions`}>
-                                                <LinkComponent
-                                                    route={CommonService._client.NavigateToClientEdit(clientId, "basicDetails")}>
-                                                    <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
-                                                                     className={`${currentTab === "basicDetails" ? "opacity-1" : "opacity-0"}`}
-                                                    >
-                                                        Edit Profile
-                                                    </ButtonComponent>
-                                                </LinkComponent>
+
+                                                {
+                                                    currentTab === "basicDetails" && <>
+                                                        <LinkComponent
+                                                            route={CommonService._client.NavigateToClientEdit(clientId, "basicDetails")}>
+                                                            <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                                                             className={`${currentTab === "basicDetails" ? "opacity-1" : "opacity-0"}`}
+                                                            >
+                                                                Edit Profile
+                                                            </ButtonComponent>
+                                                        </LinkComponent>
+                                                    </>
+                                                }
+                                                <>
+                                                    <ButtonComponent variant={'outlined'}
+                                                                     className={`${currentTab === "basicDetails" && 'mrg-right-10'}`}
+                                                                     prefixIcon={<ImageConfig.SendIcon/>}
+                                                    >Resend Link</ButtonComponent>
+                                                </>
+
                                             </div>
                                             <TabsWrapperComponent>
                                                 <TabsComponent

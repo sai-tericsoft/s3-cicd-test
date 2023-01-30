@@ -186,7 +186,7 @@ const Navigator = (props: NavigatorProps) => {
                     }
                 />
                 <Route
-                    path={CLIENT_ADD}
+                    path={CLIENT_ADD + '/:clientId'}
                     element={
                         <ProtectedRoute>
                             <ClientAddScreen/>
