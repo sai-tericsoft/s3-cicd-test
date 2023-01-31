@@ -9,17 +9,19 @@ interface PaginationComponentProps {
     limit: number;
     onPageChange: any;
     onRowsPerPageChange: any;
+    className?: string;
 }
 
 const PaginationComponent = (props: PaginationComponentProps) => {
 
-    const {paginationOptions, page, limit, totalResults, onPageChange, onRowsPerPageChange} = props;
+    const {paginationOptions, page, limit, totalResults, onPageChange,className, onRowsPerPageChange} = props;
     const id = props.id || "table-pagination";
 
     return (
         <TablePagination
             id={id}
             rowsPerPageOptions={paginationOptions}
+            className={'pagination-component'}
             component="div"
             labelDisplayedRows={( paginationInfo)=> {
                 return <>
