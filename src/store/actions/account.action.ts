@@ -1,7 +1,9 @@
-import { ILoggedInUser } from "../../shared/models/account.model";
+import {ILoggedInUser} from "../../shared/models/account.model";
 
 export const SET_LOGGED_USER_DATA = "SET_LOGGED_USER_DATA";
+export const UPDATE_LAST_ACTIVITY_TIME = "UPDATE_LAST_ACTIVITY_TIME";
 export const SET_LOGGED_IN_USER_TOKEN = "SET_LOGGED_IN_USER_TOKEN";
+export const SET_SYSTEM_LOCKED = "SET_SYSTEM_LOCKED";
 export const LOGOUT = "LOGOUT";
 
 export const setLoggedInUserData = (userData: ILoggedInUser) => {
@@ -17,6 +19,20 @@ export const setLoggedInUserToken = (token: string) => {
         payload: token
     }
 };
+
+export const setSystemLocked = (isLocked: boolean) => {
+    return {
+        type: SET_SYSTEM_LOCKED,
+        payload: isLocked
+    }
+};
+
+export const updateLastActivityTime = () => {
+    return {
+        type: UPDATE_LAST_ACTIVITY_TIME
+    }
+};
+
 
 export const logout = () => {
     return {

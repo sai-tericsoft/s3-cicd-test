@@ -7,7 +7,7 @@ import CheckLoginComponent from "./shared/components/check-login/checkLoginCompo
 import ConfirmationComponent from "./shared/components/confirmation/ConfirmationComponent";
 import {createTheme, ThemeOptions, ThemeProvider} from '@mui/material/styles';
 import {CommonService} from "./shared/services";
-import {logout} from "./store/actions/account.action";
+import {logout, updateLastActivityTime} from "./store/actions/account.action";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "./store/reducers";
 import {
@@ -21,7 +21,8 @@ import {
     getGenderList,
     getInjuryTypeList,
     getLanguageList,
-    getMedicalHistoryOptionsList, getMedicalRecordDocumentTypes,
+    getMedicalHistoryOptionsList,
+    getMedicalRecordDocumentTypes,
     getMusculoskeletalHistoryOptionsList,
     getPhoneTypeList,
     getProgressReportStatsList,
@@ -33,6 +34,8 @@ import {
 import AppVersionComponent from "./shared/components/app-version/appVersionComponent";
 import {getAllProvidersList} from "./store/actions/user.action";
 import LightBoxComponent from "./shared/components/light-box/LightBoxComponent";
+import {debounceTime, fromEvent, Subscription} from "rxjs";
+import SystemAutoLockComponent from "./shared/components/system-auto-lock/SystemAutoLockComponent";
 
 interface AppProps {
     setCurrentUser?: any;
@@ -81,6 +84,7 @@ const App = (props: AppProps) => {
     const dispatch = useDispatch();
     const {token} = useSelector((state: IRootReducerState) => state.account);
     const logoutSubscriptionRef = useRef(true);
+    const mouseMoveEventSubscriptionRef = useRef(Subscription);
 
     useEffect(() => {
         CommonService._communications.logoutSubject.subscribe(() => {
@@ -91,6 +95,20 @@ const App = (props: AppProps) => {
             logoutSubscriptionRef.current = false;
         }
     }, [dispatch]);
+
+    useEffect(() => {
+        fromEvent(window, 'mousemove')
+            .pipe((debounceTime(500)))
+            .subscribe((event: any) => {
+                if (token) {
+                    console.log('mousemove', event);
+                    dispatch(updateLastActivityTime())
+                }
+            });
+        return () => {
+            // mouseMoveEventSubscriptionRef?.current?.unsubscribe();
+        }
+    }, [token]);
 
     useEffect(() => {
         if (token) {
@@ -127,6 +145,7 @@ const App = (props: AppProps) => {
                     <ConfirmationComponent/>
                     <AppVersionComponent/>
                     <LightBoxComponent/>
+                    <SystemAutoLockComponent/>
                 </ThemeProvider>
             </div>
         </CheckLoginComponent>

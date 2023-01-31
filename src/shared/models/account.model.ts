@@ -17,6 +17,7 @@ export interface ILoggedInUser {
     role: string;
     is_active: boolean;
     signature_url: string;
+    auto_lock_duration: number;
 }
 
 export interface ICheckLoginResponse {
