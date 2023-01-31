@@ -21,7 +21,7 @@ const PaginationComponent = (props: PaginationComponentProps) => {
         <TablePagination
             id={id}
             rowsPerPageOptions={paginationOptions}
-            className={'pagination-component'}
+            className={`pagination-component ${className}`}
             component="div"
             labelDisplayedRows={( paginationInfo)=> {
                 return <>
