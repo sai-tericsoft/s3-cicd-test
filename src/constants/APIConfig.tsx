@@ -251,7 +251,7 @@ const APIConfig: IAPIConfig = {
     },
     CLIENT_ACCOUNT_PREFERENCES_ADD: {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/account',
-        METHOD: "post"
+        METHOD: "put"
     },
     CLIENT_ACCOUNT_PREFERENCES_EDIT: {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/account',
