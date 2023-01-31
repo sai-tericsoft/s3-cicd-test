@@ -3,7 +3,6 @@ import {useDispatch, useSelector} from "react-redux";
 import React, {useCallback, useEffect, useState} from "react";
 import {setCurrentNavParams} from "../../store/actions/navigation.action";
 import {ITableColumn} from "../../shared/models/table.model";
-import LinkComponent from "../../shared/components/link/LinkComponent";
 import {CommonService} from "../../shared/services";
 import ChipComponent from "../../shared/components/chip/ChipComponent";
 import SearchComponent from "../../shared/components/search/SearchComponent";
@@ -16,13 +15,13 @@ import {IRootReducerState} from "../../store/reducers";
 import IconButtonComponent from "../../shared/components/icon-button/IconButtonComponent";
 import FullCalendarComponent from "../../shared/components/full-calendar/FullCalendarComponent";
 import DrawerComponent from "../../shared/components/drawer/DrawerComponent";
-import BookAppointmentComponent from "../../shared/components/book-appointment/BookAppointmentComponent";
 import AutoCompleteComponent from "../../shared/components/form-controls/auto-complete/AutoCompleteComponent";
+import AppointmentDetailsComponent from "../../shared/components/appointment-details/AppointmentDetailsComponent";
+import BookAppointmentComponent from "../../shared/components/book-appointment/BookAppointmentComponent";
 
 interface SchedulingScreenProps {
 
 }
-
 
 
 const SchedulingScreen = (props: SchedulingScreenProps) => {
@@ -101,8 +100,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             fixed: "right",
             render: (item: any) => {
                 if (item?._id) {
-                    //todo: change to new link
-                    return <div onClick={setOpenedAppointmentDetails.bind(null, item)}>
+                    return <div className={'link-component'} onClick={setOpenedAppointmentDetails.bind(null, item)}>
                         View Details
                     </div>
                 }
@@ -155,7 +153,17 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
         <div className={'scheduling-list-component'}>
             <DrawerComponent isOpen={!!openedAppointmentDetails} onClose={setOpenedAppointmentDetails.bind(null, null)}
                              className={'book-appointment-component-drawer'}>
-                
+
+                <AppointmentDetailsComponent appointment_id={openedAppointmentDetails?._id} onComplete={
+                    () => {
+                        setRefreshToken(Math.random().toString());
+                        setIsBookAppointmentOpen(false);
+                    }
+                }
+                                             onClose={
+                                                 setIsBookAppointmentOpen.bind(null, false)
+                                             }
+                />
             </DrawerComponent>
 
             <DrawerComponent isOpen={isBookAppointmentOpen} onClose={setIsBookAppointmentOpen.bind(null, false)}
