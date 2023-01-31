@@ -295,7 +295,8 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                             {clientMedicalRecord?.injury_description || "-"}
                                         </DataLabelValueComponent>
                                     </div>
-                                    <div className={'ts-col-md-4 ts-col-lg'}/>
+                                </div>
+                                <div className={'ts-row'}>
                                     <div className={'ts-col-md-4 ts-col-lg'}>
                                         <DataLabelValueComponent label={'Restrictions and Limitations'}>
                                             {clientMedicalRecord?.limitations || "-"}

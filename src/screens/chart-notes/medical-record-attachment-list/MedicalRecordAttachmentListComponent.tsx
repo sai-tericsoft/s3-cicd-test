@@ -24,6 +24,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             dataIndex: 'date_of_attachment',
             fixed: 'left',
             width: 160,
+            align:'center',
             render: ( item: any) => {
                 return <>{CommonService.getSystemFormatTimeStamp(item?.updated_at)}</>
             }
@@ -33,6 +34,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             key: 'file',
             dataIndex: 'file',
             width: 230,
+            align:'center',
             render: ( item: any) => {
                 return <>{item?.note_type}</>
             }
