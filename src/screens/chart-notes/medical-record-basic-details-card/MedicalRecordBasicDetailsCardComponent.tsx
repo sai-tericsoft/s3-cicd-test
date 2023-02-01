@@ -138,10 +138,10 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
     }, []);
 
     const openMedicalRecordDocumentAddDrawer = useCallback(() => {
-        comingSoon();
-        return;
-        // setIsMedicalRecordDocumentAddDrawerOpen(true);
-    }, [comingSoon]);
+        // comingSoon();
+        // return;
+        setIsMedicalRecordDocumentAddDrawerOpen(true);
+    }, []);
 
     const closeMedicalRecordDocumentAddDrawer = useCallback(() => {
         setIsMedicalRecordDocumentAddDrawerOpen(false);
@@ -364,6 +364,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                             onAdd={handleMedicalRecordDocumentAdd}
                             medicalRecordId={medicalRecordId}
                             medicalRecordDetails={clientMedicalRecord}
+                            onCancel={() => closeMedicalRecordDocumentAddDrawer()}
                         />
                     </DrawerComponent>
                     {/*Add medical record document drawer end*/}
