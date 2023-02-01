@@ -2,7 +2,7 @@ import "./MedicalRecordProgressReportViewDetailsScreen.scss";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 import {getProgressReportViewDetails} from "../../../store/actions/chart-notes.action";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
@@ -16,6 +16,12 @@ import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
+import ChipComponent from "../../../shared/components/chip/ChipComponent";
+import MedicalInterventionLinkedToComponent
+    from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
+import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
+import {getClientMedicalRecord} from "../../../store/actions/client.action";
+import moment from "moment-timezone";
 
 interface ProgressReportViewDetailsComponentProps {
 
@@ -42,7 +48,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             dataIndex: 'comment',
             key: 'comment',
             render: (item: any) => {
-                return <>{item?.comment || '-'}</>
+                return <>{item?.comment || 'N/A'}</>
             }
         }
     ];
@@ -50,6 +56,10 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
     const {progressReportId, medicalRecordId} = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const {currentUser} = useSelector((state: IRootReducerState) => state.account);
+    const {
+        clientMedicalRecord,
+    } = useSelector((state: IRootReducerState) => state.client);
 
     const {
         isProgressReportDetailsLoaded,
@@ -65,6 +75,12 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
     }, [dispatch, progressReportId]);
 
     useEffect(() => {
+        if (medicalRecordId) {
+            dispatch(getClientMedicalRecord(medicalRecordId));
+        }
+    }, [medicalRecordId, dispatch]);
+
+    useEffect(() => {
         dispatch(setCurrentNavParams("Progress Report Details", null, () => {
             medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
         }));
@@ -72,14 +88,62 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
 
     return (
         <div className={'progress-report-view-details-screen'}>
-            <PageHeaderComponent title={"Progress Report Details"} actions={<>
-                {
-                    (medicalRecordId && progressReportId) && <LinkComponent
-                        route={CommonService._routeConfig.MedicalRecordProgressReportAdvancedDetailsUpdate(medicalRecordId, progressReportId)}>
+            <PageHeaderComponent title={"View Progress Report"} actions={
+                <div className="last-updated-status">
+                    <div className="last-updated-status-text">Last Updated On:&nbsp;</div>
+                    <div
+                        className="last-updated-status-bold">
+                        {(progressReportDetails?.updated_at ? moment(progressReportDetails.updated_at).tz(moment.tz.guess()).format('DD-MM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
+                        {progressReportDetails?.last_updated_by_details?.first_name ? progressReportDetails?.last_updated_by_details?.first_name + ' ' + progressReportDetails?.last_updated_by_details?.last_name : ' NA'}
+                    </div>
+                </div>}/>
+            {
+                <CardComponent color={'primary'}>
+                    <div className={'client-name-button-wrapper'}>
+                                    <span className={'client-name-wrapper'}>
+                                        <span className={'client-name'}>
+                                                {progressReportDetails?.medical_record_details?.client_details?.first_name || "-"} {progressReportDetails?.medical_record_details?.client_details?.last_name || "-"}
+                                        </span>
+                                        <ChipComponent
+                                            className={progressReportDetails?.status ? "active" : "inactive"}
+                                            size={'small'}
+                                            label={progressReportDetails?.status || "-"}/>
+                                    </span>
+                    </div>
+                    <MedicalInterventionLinkedToComponent medicalRecordDetails={clientMedicalRecord}/>
+                    <div className={'ts-row'}>
+                        <div className={'ts-col-md-4 ts-col-lg'}>
+                            <DataLabelValueComponent label={'Date of Onset'}>
+                                {progressReportDetails?.medical_record_details?.onset_date ? CommonService.getSystemFormatTimeStamp(progressReportDetails?.medical_record_details?.onset_date) : "N/A"}
+                            </DataLabelValueComponent>
+                        </div>
+                        <div className={'ts-col-md-4 ts-col-lg'}>
+                            <DataLabelValueComponent label={'Date of Surgery'}>
+                                {progressReportDetails?.medical_record_details?.surgery_date ? CommonService.getSystemFormatTimeStamp(progressReportDetails?.medical_record_details?.surgery_date) : "N/A"}
+                            </DataLabelValueComponent>
+                        </div>
+                        <div className={'ts-col-md-4 ts-col-lg'}>
+                            <DataLabelValueComponent label={'Therapist Name'}>
+                                {currentUser?.first_name + " " + currentUser?.last_name}
+                            </DataLabelValueComponent>
+                        </div>
+                        <div className={'ts-col-md-4 ts-col-lg'}>
+                            <DataLabelValueComponent label={'Physician Name'}>
+                                {progressReportDetails?.physician_name || "N/A"}
+                            </DataLabelValueComponent>
+                        </div>
+                    </div>
+                </CardComponent>
+            }
+            {
+                (medicalRecordId && progressReportId) && <LinkComponent
+                    route={CommonService._routeConfig.MedicalRecordProgressReportAdvancedDetailsUpdate(medicalRecordId, progressReportId)}>
+                    <div className={'display-flex flex-direction-row-reverse mrg-bottom-20'}>
                         <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>Edit Progress Report</ButtonComponent>
-                    </LinkComponent>
-                }
-            </>}/>
+                    </div>
+                </LinkComponent>
+
+            }
             <div className={'progress-report-view-details-container'}>
                 <>
                     {
