@@ -258,8 +258,6 @@ const TransferMedicalRecordAPICall = (clientId: string, payload: any) => {
 }
 
 const TransferSoapNoteAPICall = (clientId: string, payload: any) => {
-    console.log("payload", payload);
-    console.log('clientId',clientId);
     // @ts-ignore
     return ApiService[APIConfig.TRANSFER_SOAP_NOTE.METHOD](APIConfig.TRANSFER_SOAP_NOTE.URL(clientId), payload);
 }
