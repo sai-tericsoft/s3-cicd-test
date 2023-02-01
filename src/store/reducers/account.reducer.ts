@@ -13,14 +13,14 @@ import {ILoggedInUser} from "../../shared/models/account.model";
 import moment from "moment";
 
 export interface IAccountReducerState {
-    isSystemLocked: boolean;
+    isSystemLocked?: boolean;
     lastActivityTime?: number;
     currentUser?: ILoggedInUser;
     token?: string | null;
 }
 
 const INITIAL_STATE: IAccountReducerState = {
-    isSystemLocked: false,
+    isSystemLocked: CommonService._localStorage.getItem(Misc.IS_SYSTEM_LOCKED) === 'true',
     currentUser: undefined,
     token: CommonService._localStorage.getItem(Misc.LOCAL_STORAGE_JWT_TOKEN)
 };
@@ -29,7 +29,6 @@ const accountReducer = (state: IAccountReducerState = INITIAL_STATE, action: IAc
     switch (action.type) {
         case SET_LOGGED_USER_DATA:
             const loggedInUser = action.payload;
-            loggedInUser.auto_lock_duration = 10;
             CommonService._localStorage.setItem(Misc.LOCAL_STORAGE_LOGGED_IN_USER_DATA, loggedInUser);
             return {
                 ...state,
@@ -58,9 +57,11 @@ const accountReducer = (state: IAccountReducerState = INITIAL_STATE, action: IAc
                 currentUser: undefined
             };
         case SET_SYSTEM_LOCKED:
+            const isUserLoggedIn = action.payload;
+            CommonService._localStorage.setItem(Misc.IS_SYSTEM_LOCKED, isUserLoggedIn);
             return {
                 ...state,
-                isSystemLocked: action.payload.isLocked
+                isSystemLocked: isUserLoggedIn
             };
         default:
             return state;

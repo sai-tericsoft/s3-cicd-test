@@ -434,3 +434,72 @@
 .text-primary {
   color: $primary-color;
 }
+
+.system-auto-lock-wrapper {
+
+  .modal-content-wrapper {
+    width: 416px !important;
+  }
+
+  .t-form {
+    @include display-center();
+    flex-direction: column;
+
+    .system-auto-lock-back-navigation {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      display: flex;
+      align-items: center;
+      text-transform: uppercase;
+      cursor: pointer;
+
+      svg {
+        height: 16px;
+        width: 16px;
+      }
+    }
+
+    .system-auto-lock-icon {
+      background: #F2F6F6;
+      height: 84px;
+      width: 84px;
+      border-radius: 50%;
+      @include display-center();
+      margin-top: 15px;
+      text-transform: uppercase;
+
+      svg {
+        width: 32px;
+        height: 40px;
+        color: $primary-color;
+      }
+    }
+
+    .system-auto-lock-title {
+      font-weight: $font-weight-bolder;
+      font-size: 1.1429rem;
+      line-height: 22px;
+      color: #212B36;
+      margin: 20px 0 10px;
+
+    }
+
+    .system-auto-lock-sub-title {
+      font-weight: $font-weight-bold;
+      font-size: 1rem;
+      line-height: 22px;
+      color: #6D6D6D;
+      margin-bottom: 30px;
+    }
+
+    .system-auto-lock-password-field {
+      height: 95px;
+      width: 100%;
+    }
+
+    .t-form-actions {
+
+    }
+  }
+}

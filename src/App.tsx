@@ -34,7 +34,7 @@ import {
 import AppVersionComponent from "./shared/components/app-version/appVersionComponent";
 import {getAllProvidersList} from "./store/actions/user.action";
 import LightBoxComponent from "./shared/components/light-box/LightBoxComponent";
-import {debounceTime, fromEvent, Subscription} from "rxjs";
+import {debounceTime, fromEvent} from "rxjs";
 import SystemAutoLockComponent from "./shared/components/system-auto-lock/SystemAutoLockComponent";
 
 interface AppProps {
@@ -84,7 +84,6 @@ const App = (props: AppProps) => {
     const dispatch = useDispatch();
     const {token} = useSelector((state: IRootReducerState) => state.account);
     const logoutSubscriptionRef = useRef(true);
-    const mouseMoveEventSubscriptionRef = useRef(Subscription);
 
     useEffect(() => {
         CommonService._communications.logoutSubject.subscribe(() => {
@@ -97,21 +96,23 @@ const App = (props: AppProps) => {
     }, [dispatch]);
 
     useEffect(() => {
-        fromEvent(window, 'mousemove')
+        const subscription = fromEvent(window, 'mousemove')
             .pipe((debounceTime(500)))
             .subscribe((event: any) => {
                 if (token) {
-                    console.log('mousemove', event);
                     dispatch(updateLastActivityTime())
+                } else {
+                    subscription.unsubscribe();
                 }
             });
         return () => {
-            // mouseMoveEventSubscriptionRef?.current?.unsubscribe();
+            subscription.unsubscribe();
         }
-    }, [token]);
+    }, [dispatch, token]);
 
     useEffect(() => {
         if (token) {
+            dispatch(updateLastActivityTime());
             dispatch(getConsultationDurationList());
             dispatch(getGenderList());
             dispatch(getLanguageList());

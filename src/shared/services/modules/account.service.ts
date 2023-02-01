@@ -6,6 +6,11 @@ const LoginAPICall = (payload: any)  => {
     return ApiService[APIConfig.LOGIN.METHOD](APIConfig.LOGIN.URL, payload);
 }
 
+const ResumeSessionAPICall = (payload: any)  => {
+    // @ts-ignore
+    return ApiService[APIConfig.VERIFY_PASSWORD.METHOD](APIConfig.VERIFY_PASSWORD.URL, payload);
+}
+
 const CheckLoginAPICall = (token: string) => {
     // @ts-ignore
     return ApiService[APIConfig.CHECK_LOGIN.METHOD](APIConfig.CHECK_LOGIN.URL, {}, {Authorization: "Bearer " + token});
@@ -19,7 +24,8 @@ const LogoutAPICall = () => {
 const AccountService = {
     LoginAPICall,
     CheckLoginAPICall,
-    LogoutAPICall
+    LogoutAPICall,
+    ResumeSessionAPICall
 }
 
 export default AccountService;
