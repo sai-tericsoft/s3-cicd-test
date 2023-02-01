@@ -157,11 +157,11 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                 <AppointmentDetailsComponent appointment_id={openedAppointmentDetails?._id} onComplete={
                     () => {
                         setRefreshToken(Math.random().toString());
-                        setIsBookAppointmentOpen(false);
+                        setOpenedAppointmentDetails(null);
                     }
                 }
                                              onClose={
-                                                 setIsBookAppointmentOpen.bind(null, false)
+                                                 setOpenedAppointmentDetails.bind(null, null)
                                              }
                 />
             </DrawerComponent>

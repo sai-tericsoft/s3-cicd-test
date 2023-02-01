@@ -26,6 +26,22 @@ const appointmentCancel = (appointmentId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.APPOINTMENT_CANCEL.METHOD](APIConfig.APPOINTMENT_CANCEL.URL(appointmentId), payload);
 }
+const appointmentCheckin = (appointmentId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.APPOINTMENT_CHECKIN.METHOD](APIConfig.APPOINTMENT_CHECKIN.URL(appointmentId), payload);
+}
+const appointmentNoShow = (appointmentId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.APPOINTMENT_NOSHOW.METHOD](APIConfig.APPOINTMENT_NOSHOW.URL(appointmentId), payload);
+}
+const appointmentStart = (appointmentId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.APPOINTMENT_START.METHOD](APIConfig.APPOINTMENT_START.URL(appointmentId), payload);
+}
+const appointmentStop = (appointmentId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.APPOINTMENT_STOP.METHOD](APIConfig.APPOINTMENT_STOP.URL(appointmentId), payload);
+}
 
 const AppointmentService = {
     addAppointment,
@@ -33,7 +49,11 @@ const AppointmentService = {
     appointmentCancel,
     appointmentReschedule,
     getAppointmentList,
-    getAppointment
+    getAppointment,
+    appointmentCheckin,
+    appointmentStart,
+    appointmentStop,
+    appointmentNoShow
 }
 
 export default AppointmentService;

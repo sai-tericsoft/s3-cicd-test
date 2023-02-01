@@ -13,6 +13,9 @@ import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import LoaderComponent from "../loader/LoaderComponent";
 import ErrorComponent from "../error/ErrorComponent";
+import AppointmentNoShowComponent from "./appointment-noshow/AppointmentNoShowComponent";
+import AppointmentCancelComponent from "./appointment-cancel/AppointmentCancelComponent";
+import AppointmentRescheduleComponent from "./appointment-reschedule/AppointmentRescheduleComponent";
 // import BookAppointmentFormComponent from "./appointment-details-form/BookAppointmentFormComponent";
 // import BookAppointmentOverviewComponent from "./appointment-details-overview/BookAppointmentOverviewComponent";
 // import BookAppointmentPaymentComponent from "./-payment/BookAppointmentPaymentComponent";
@@ -28,7 +31,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
     const {appointmentTypes} = useSelector((state: IRootReducerState) => state.staticData);
     const [bookType, setBookType] = useState<any | null>(null);
 
-    const [step, setStep] = useState<'details' | 'payment' | 'checkout' | 'checkin' | 'reschedule' | 'cancel'>('details');
+    const [step, setStep] = useState<'details' | 'payment' | 'noshow' | 'checkin' | 'reschedule' | 'cancel'>('details');
     const [details, setDetails] = useState<any | null>(null);
     const [isDetailsLoading, setIsDetailsLoading] = useState<boolean>(false);
     const [isDetailsLoaded, setIsDetailsLoaded] = useState<boolean>(false);
@@ -71,22 +74,35 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
 
     const onReschedule = useCallback(
         () => {
-
+            setStep('reschedule');
         },
         [],
     );
     const onCancelAppointment = useCallback(
         () => {
-
+            setStep('cancel');
         },
         [],
     );
     const onNoShow = useCallback(
         () => {
-
+            setStep('noshow');
         },
         [],
     );
+    const onCheckIn = useCallback(
+        () => {
+            CommonService._appointment.appointmentCheckin(appointment_id, {})
+                .then((response: IAPIResponseType<any>) => {
+                })
+                .catch((error: any) => {
+                })
+                .finally(() => {
+                })
+        },
+        [appointment_id],
+    );
+
 
     return (
         <div className={`appointment-details-component`}>
@@ -154,12 +170,14 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                         </div>
                                         <div className="details-body-item">
                                             <div className="item-heading"><ImageConfig.EmailIcon/>&nbsp;Email</div>
-                                            <div className="item-value">{details?.client_details?.primary_email || 'N/A'}</div>
+                                            <div
+                                                className="item-value">{details?.client_details?.primary_email || 'N/A'}</div>
                                         </div>
                                     </div>
                                     <div className="details-body-block">
                                         <div className="details-body-item">
-                                            <div className="item-heading"><ImageConfig.AssignmentIcon/>&nbsp;Provider Name</div>
+                                            <div className="item-heading"><ImageConfig.AssignmentIcon/>&nbsp;Provider Name
+                                            </div>
                                             <div
                                                 className="item-value">
                                                 <div className="mrg-bottom-10">
@@ -174,7 +192,8 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                     </div>
                                     <div className="details-body-block">
                                         <div className="details-body-item">
-                                            <div className="item-heading"><ImageConfig.MedicalServicesIcon/>&nbsp;Service</div>
+                                            <div className="item-heading"><ImageConfig.MedicalServicesIcon/>&nbsp;Service
+                                            </div>
                                             <div
                                                 className="item-value">{details?.category_details?.name || 'N/A'} / {details?.service_details?.name || 'N/A'}</div>
                                         </div>
@@ -183,7 +202,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                         <div className="details-body-item">
                                             <div className="item-heading"><ImageConfig.AttachMoneyIcon/>&nbsp;Payment Status
                                             </div>
-                                            <div className={"item-value "}>
+                                            <div className={"item-value"}>
                                                 <ChipComponent size={'small'}
                                                                prefixIcon={details?.payment_status === 'completed' ?
                                                                    <ImageConfig.CircleCheck/> : <ImageConfig.CancelIcon/>}
@@ -218,20 +237,31 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                         </div>
 
                         <div className="client-search-btn">
-                            <ButtonComponent fullWidth={true}
-                                // isLoading={isBookingLoading}
-                                // onClick={event => {
-                                //     createBooking(bookingDraft);
-                                // }}
-                            >Checkin</ButtonComponent>
+                            {details && details.status === 'scheduled' && <ButtonComponent fullWidth={true}
+                                                                                           onClick={event => {
+                                                                                               onCheckIn();
+                                                                                           }}
+                            >Checkin</ButtonComponent>}
                         </div>
 
                     </div>
                 }
-                {/*{*/}
-                {/*    step === 'form' &&*/}
-                {/*    <BookAppointmentFormComponent client={selectedClient} onComplete={onFormComplete} onClose={onClose}/>*/}
-                {/*}*/}
+                {
+                    step === 'noshow' &&
+                    <AppointmentNoShowComponent onComplete={onComplete} details={details} onClose={onClose}
+                    />
+                }
+                {
+                    step === 'cancel' &&
+                    <AppointmentCancelComponent onComplete={onComplete} details={details} onClose={onClose}
+                    />
+                }
+                {
+                    step === 'reschedule' &&
+                    <AppointmentRescheduleComponent onComplete={onComplete} details={details} onClose={onClose}
+                    />
+                }
+
                 {/*{*/}
                 {/*    step === 'overview' && <>*/}
                 {/*        <BookAppointmentOverviewComponent onBack={() => {*/}

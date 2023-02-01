@@ -1,0 +1,28 @@
+@import "src/assets/styles/common";
+
+.book-appointment-form-component {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+
+  .drawer-header {
+    justify-content: space-between !important;
+  }
+
+  .appointment-form-wrapper {
+    flex: 1;
+    display: flex;
+
+    .t-form {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+
+      .t-appointment-drawer-form-controls {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+}
