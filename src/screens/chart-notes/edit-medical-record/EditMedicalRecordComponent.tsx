@@ -19,6 +19,7 @@ import HorizontalLineComponent
     from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 import _ from "lodash";
 import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
+import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 
 interface EditMedicalRecordComponentProps {
     medicalRecordId: string;
@@ -121,7 +122,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
 
     return (
         <div className={'edit-medical-record-component'}>
-            <FormControlLabelComponent label={'Edit Medical Record Details'} size={'lg'}/>
+            <FormControlLabelComponent label={'Edit Details'} size={'lg'}/>
             <div className={'edit-medical-record-container'}>
                 <Formik initialValues={medicalRecordEditInitialValues}
                         validationSchema={MedicalRecordValidationSchema}
@@ -147,6 +148,33 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                     placeholder={'Date Of Onset'}
                                                     formikField={field}
                                                     required={true}
+                                                    disabled={true}
+                                                    fullWidth={true}
+                                                />
+                                            )
+                                        }
+                                    </Field>
+                                </div>
+                                <div>
+                                    <Field name={'injury_description'}>
+                                        {
+                                            (field: FieldProps) => (
+                                                <FormikTextAreaComponent
+                                                    label={'Injury Description'}
+                                                    formikField={field}
+                                                    fullWidth={true}
+                                                />
+                                            )
+                                        }
+                                    </Field>
+                                </div>
+                                <div>
+                                    <Field name={'limitations'}>
+                                        {
+                                            (field: FieldProps) => (
+                                                <FormikTextAreaComponent
+                                                    label={'Restrictions/Limitations'}
+                                                    formikField={field}
                                                     fullWidth={true}
                                                 />
                                             )
@@ -180,6 +208,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                 {
                                     values?.case_physician?.is_case_physician && <>
                                         <div>
+                                            <PageHeaderComponent title={'MD Appointment Details'}/>
                                             <Field name={'case_physician.name'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -226,38 +255,14 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                         </div>
                                     </>
                                 }
-                                <div>
-                                    <Field name={'injury_description'}>
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikTextAreaComponent
-                                                    label={'Injury Description'}
-                                                    formikField={field}
-                                                    fullWidth={true}
-                                                />
-                                            )
-                                        }
-                                    </Field>
-                                </div>
-                                <div>
-                                    <Field name={'limitations'}>
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikTextAreaComponent
-                                                    label={'Restrictions/Limitations'}
-                                                    formikField={field}
-                                                    fullWidth={true}
-                                                />
-                                            )
-                                        }
-                                    </Field>
-                                </div>
+
                                 <FormControlLabelComponent label={'Injury Details'} size={'md'}/>
                                 <FieldArray
                                     name="injury_details"
                                     render={arrayHelpers => (
                                         <>
                                             {values?.injury_details && values?.injury_details?.map((item: any, index: any) => {
+                                                console.log('item',item)
                                                 return (
                                                     <>
                                                         {
@@ -306,7 +311,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                                             {
                                                                                 (field: FieldProps) => (
                                                                                     <FormikSelectComponent
-                                                                                        disabled={(values?.injury_details[index]?.body_part_details === "" || !values?.injury_details[index]?.body_part_details?.sides || values?.injury_details[index]?.body_part_details?.sides?.length === 0)}
+                                                                                        // disabled={(values?.injury_details[index]?.body_part_details === "" || !values?.injury_details[index]?.body_part_details?.sides || values?.injury_details[index]?.body_part_details?.sides?.length === 0)}
                                                                                         options={values?.injury_details[index]?.body_part_details?.sides}
                                                                                         label={'Body Side'}
                                                                                         displayWith={(item: any) => item}
