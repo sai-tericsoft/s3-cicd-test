@@ -9,7 +9,8 @@ import {
     GET_GENDER_LIST,
     GET_INJURY_TYPE_LIST,
     GET_LANGUAGE_LIST,
-    GET_MEDICAL_HISTORY_OPTIONS_LIST, GET_MEDICAL_RECORD_DOCUMENT_TYPES,
+    GET_MEDICAL_HISTORY_OPTIONS_LIST,
+    GET_MEDICAL_RECORD_DOCUMENT_TYPES,
     GET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
     GET_PHONE_TYPE_LIST,
     GET_PROGRESS_REPORT_STATS_LIST,
@@ -17,7 +18,7 @@ import {
     GET_RELATIONSHIP_LIST,
     GET_SOCIAL_MEDIA_PLATFORM_LIST,
     GET_SURGICAL_HISTORY_OPTIONS_LIST,
-    SET_8_MINUTE_RULE_CHART,
+    SET_8_MINUTE_RULE_CHART, SET_APPOINTMENT_STATUS, SET_APPOINTMENT_TYPES,
     SET_BODY_PART_LIST,
     SET_CASE_STATUS_LIST,
     SET_COMMUNICATION_MODE_TYPE_LIST,
@@ -27,8 +28,9 @@ import {
     SET_GENDER_LIST,
     SET_INJURY_TYPE_LIST,
     SET_LANGUAGE_LIST,
-    SET_MEDICAL_HISTORY_OPTIONS_LIST, SET_MEDICAL_RECORD_DOCUMENT_TYPES,
-    SET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
+    SET_MEDICAL_HISTORY_OPTIONS_LIST,
+    SET_MEDICAL_RECORD_DOCUMENT_TYPES,
+    SET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST, SET_PAYMENT_MODES,
     SET_PHONE_TYPE_LIST,
     SET_PROGRESS_REPORT_STATS_LIST,
     SET_REFERRAL_TYPE_LIST,
@@ -99,7 +101,11 @@ export interface IStaticDataReducerState {
     concussionFileTypes: IConcussionFileType[],
     isMedicalRecordDocumentTypesLoading: boolean,
     isMedicalRecordDocumentTypesLoaded: boolean,
-    medicalRecordDocumentTypes: IMedicalRecordDocumentType[]
+    medicalRecordDocumentTypes: IMedicalRecordDocumentType[],
+    appointmentTypes?: any[],
+    appointmentStatus?: any[],
+    paymentModes?: any[],
+
 }
 
 const initialData: IStaticDataReducerState = {
@@ -174,7 +180,10 @@ const initialData: IStaticDataReducerState = {
     concussionFileTypes: [],
     isMedicalRecordDocumentTypesLoading: false,
     isMedicalRecordDocumentTypesLoaded: false,
-    medicalRecordDocumentTypes: []
+    medicalRecordDocumentTypes: [],
+    appointmentTypes: [],
+    appointmentStatus: [],
+    paymentModes: [],
 };
 
 const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDataReducerState => {
@@ -463,6 +472,24 @@ const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDa
                 isMedicalRecordDocumentTypesLoaded: true,
                 medicalRecordDocumentTypes: action.payload.medicalRecordDocumentTypes
             }
+            return state;
+        case SET_APPOINTMENT_TYPES:
+            state = {
+                ...state,
+                appointmentTypes: action.payload.appointmentTypes
+            };
+            return state;
+        case SET_APPOINTMENT_STATUS:
+            state = {
+                ...state,
+                appointmentStatus: action.payload.appointmentStatus
+            };
+            return state;
+        case SET_PAYMENT_MODES:
+            state = {
+                ...state,
+                paymentModes: action.payload.paymentModes
+            };
             return state;
         default:
             return state;

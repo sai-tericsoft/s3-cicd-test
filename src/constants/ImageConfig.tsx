@@ -12,6 +12,10 @@ import {ReactComponent as SelectDropDownIcon} from './../assets/icons/select_dro
 import {ReactComponent as EyeIcon} from './../assets/icons/eye.svg';
 import {ReactComponent as PrintIcon} from './../assets/icons/print.svg';
 
+import {ReactComponent as VerifiedCheck} from './../assets/icons/verified_black.svg';
+import {ReactComponent as CalendarIcon} from './../assets/icons/calander.svg';
+import {ReactComponent as TimerIcon} from './../assets/icons/timer.svg';
+
 import {ReactComponent as CircleCheck} from './../assets/icons/check_circle.svg';
 import {ReactComponent as CircleError} from './../assets/icons/error_circle.svg';
 import {ReactComponent as LeftArrow} from './../assets/icons/left_arrow.svg';
@@ -41,6 +45,7 @@ import {ReactComponent as SettingsIcon} from './../assets/icons/side-menu/settin
 import {ReactComponent as InventoryIcon} from './../assets/icons/side-menu/inventory.svg';
 import {ReactComponent as SchedulingIcon} from './../assets/icons/side-menu/scheduling.svg';
 import {ReactComponent as ChartNotes} from '../assets/icons/side-menu/chart_notes.svg';
+import {ReactComponent as EventIcon} from '../assets/icons/side-menu/event_black.svg';
 
 // general
 import {ReactComponent as AddIcon} from './../assets/icons/add.svg';
@@ -52,6 +57,8 @@ import {ReactComponent as FilledStarIcon} from './../assets/icons/filled_star.sv
 
 import {ReactComponent as FlagIcon} from "./../assets/icons/flag.svg";
 import {ReactComponent as AlertIcon} from './../assets/icons/alert_icon.svg';
+import {ReactComponent as BlockIcon} from './../assets/icons/block_black.svg';
+import {ReactComponent as ListIcon} from './../assets/icons/list_black.svg';
 import {ReactComponent as CommentIcon} from './../assets/icons/comment.svg';
 
 import {ReactComponent as TableRowExpandIcon} from './../assets/icons/table/expand.svg';
@@ -63,6 +70,7 @@ import RemoveBodyPartConfirmationIcon from './../assets/confirmation/delete_body
 import DeleteAttachmentConfirmationIcon from './../assets/confirmation/delete_attachment.svg';
 
 import Search from '../assets/images/search.png';
+import AppointmentConfirm from '../assets/images/appintment-confirm.png';
 
 export {
     Logo,
@@ -105,8 +113,12 @@ export {
     InfoIcon,
     ToastCloseIcon,
     ChartNotes,
+    EventIcon,
     StarIcon,
     FilledStarIcon,
+    BlockIcon,
+    ListIcon,
+    VerifiedCheck,
     TableRowExpandIcon,
     TableRowCollapseIcon,
 
@@ -121,5 +133,8 @@ export {
     REPEAT_LAST_INTERVENTION,
     SYNC,
     PrintIcon,
-    DeleteAttachmentConfirmationIcon
+    DeleteAttachmentConfirmationIcon,
+    AppointmentConfirm,
+    CalendarIcon,
+    TimerIcon
 }
