@@ -1,18 +1,26 @@
 import {IActionModel} from "../../shared/models/action.model";
 import {
-    LOGOUT, SET_LOGGED_IN_USER_TOKEN, SET_LOGGED_USER_DATA
+    LOGOUT,
+    SET_LOGGED_IN_USER_TOKEN,
+    SET_LOGGED_USER_DATA,
+    SET_SYSTEM_LOCKED,
+    UPDATE_LAST_ACTIVITY_TIME
 } from "../actions/account.action";
 import {CommonService} from "../../shared/services";
 import {Misc} from "../../constants";
 import Communications from "../../shared/services/communications.service";
 import {ILoggedInUser} from "../../shared/models/account.model";
+import moment from "moment";
 
 export interface IAccountReducerState {
+    isSystemLocked?: boolean;
+    lastActivityTime?: number;
     currentUser?: ILoggedInUser;
     token?: string | null;
 }
 
 const INITIAL_STATE: IAccountReducerState = {
+    isSystemLocked: CommonService._localStorage.getItem(Misc.IS_SYSTEM_LOCKED) === 'true',
     currentUser: undefined,
     token: CommonService._localStorage.getItem(Misc.LOCAL_STORAGE_JWT_TOKEN)
 };
@@ -25,6 +33,11 @@ const accountReducer = (state: IAccountReducerState = INITIAL_STATE, action: IAc
             return {
                 ...state,
                 currentUser: loggedInUser,
+            };
+        case UPDATE_LAST_ACTIVITY_TIME:
+            return {
+                ...state,
+                lastActivityTime: moment().unix(),
             };
         case SET_LOGGED_IN_USER_TOKEN:
             const token = action.payload;
@@ -42,6 +55,13 @@ const accountReducer = (state: IAccountReducerState = INITIAL_STATE, action: IAc
                 ...state,
                 token: undefined,
                 currentUser: undefined
+            };
+        case SET_SYSTEM_LOCKED:
+            const isUserLoggedIn = action.payload;
+            CommonService._localStorage.setItem(Misc.IS_SYSTEM_LOCKED, isUserLoggedIn);
+            return {
+                ...state,
+                isSystemLocked: isUserLoggedIn
             };
         default:
             return state;

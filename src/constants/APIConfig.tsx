@@ -111,6 +111,10 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + "/login",
         METHOD: "delete"
     },
+    VERIFY_PASSWORD: {
+        URL: ENV.API_URL + "/verifyPassword",
+        METHOD: "post"
+    },
     // authentication end
 
     // service category start
