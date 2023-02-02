@@ -16,6 +16,7 @@ import ErrorComponent from "../error/ErrorComponent";
 import AppointmentNoShowComponent from "./appointment-noshow/AppointmentNoShowComponent";
 import AppointmentCancelComponent from "./appointment-cancel/AppointmentCancelComponent";
 import AppointmentRescheduleComponent from "./appointment-reschedule/AppointmentRescheduleComponent";
+import AppointmentPaymentComponent from "./appointment-payment/AppointmentPaymentComponent";
 // import BookAppointmentFormComponent from "./appointment-details-form/BookAppointmentFormComponent";
 // import BookAppointmentOverviewComponent from "./appointment-details-overview/BookAppointmentOverviewComponent";
 // import BookAppointmentPaymentComponent from "./-payment/BookAppointmentPaymentComponent";
@@ -113,9 +114,10 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
     );
 
     const onCheckIn = useCallback(
-        () => {
-            CommonService._appointment.appointmentCheckin(appointment_id, {})
+        (payload: any = {}) => {
+            CommonService._appointment.appointmentCheckin(appointment_id, payload)
                 .then((response: IAPIResponseType<any>) => {
+                    setStep('checkin');
                 })
                 .catch((error: any) => {
                 })
@@ -140,9 +142,9 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                 <div className="drawer-close"
                                      id={'book-appointment-close-btn'}
                                      onClick={(event) => {
-                                         // if (onClose) {
-                                         //     onClose();
-                                         // }
+                                         if (onClose) {
+                                             onClose();
+                                         }
                                      }
                                      }><ImageConfig.CloseIcon/></div>
                             </ToolTipComponent>
@@ -256,14 +258,62 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                         </div>
 
                         <div className="client-search-btn">
-                            {details && details.status === 'scheduled' && <ButtonComponent fullWidth={true}
-                                                                                           onClick={event => {
-                                                                                               onCheckIn();
-                                                                                           }}
-                            >Checkin</ButtonComponent>}
+                            {details && details.status === 'schedauled' && <ButtonComponent fullWidth={true}
+                                                                                            onClick={event => {
+                                                                                                if (details.payment_status === 'unpaid') {
+                                                                                                    setStep('payment');
+                                                                                                } else {
+                                                                                                    onCheckIn();
+                                                                                                }
+                                                                                            }
+                                                                                            }
+                            >Checkin</ButtonComponent>
+                            }
+                            {details && details.status === 'schedauled' && <ButtonComponent fullWidth={true}
+                                                                                            onClick={event => {
+                                                                                                if (details.payment_status === 'unpaid') {
+                                                                                                    setStep('payment');
+                                                                                                } else {
+                                                                                                    onCheckIn();
+                                                                                                }
+                                                                                            }
+                                                                                            }
+                            >Checkin</ButtonComponent>
+                            }
                         </div>
 
                     </div>
+                }
+                {
+                    step === 'checkin' &&
+                    <>
+                        <div className="flex-1 checkin-confirmation-status">
+                            <div className="checkin-confirmation-status-icon"
+                            >
+                                <ImageConfig.VerifiedCheck width={120}/>
+
+                            </div>
+                            <div className="checkin-confirmation-status-text">
+                                Check In Successful!
+                            </div>
+                        </div>
+                        <div className="action-buttons">
+                            <ButtonComponent fullWidth={true}
+                                             onClick={event => {
+                                                 if (onComplete) {
+                                                     onComplete();
+                                                 }
+                                             }}>Close</ButtonComponent>
+                        </div>
+                    </>
+                }
+                {
+                    step === 'payment' &&
+                    <AppointmentPaymentComponent onComplete={values => {
+                        onCheckIn()
+                    }} details={details} onBack={onBack}
+                                                 onClose={onClose}
+                    />
                 }
                 {
                     step === 'noshow' &&
