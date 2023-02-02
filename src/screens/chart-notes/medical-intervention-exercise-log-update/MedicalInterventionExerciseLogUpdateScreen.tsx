@@ -10,7 +10,7 @@ import FormikInputComponent from "../../../shared/components/form-controls/formi
 import {ImageConfig} from "../../../constants";
 import {CommonService} from "../../../shared/services";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useNavigate, useParams} from "react-router-dom";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {IAPIResponseType} from "../../../shared/models/api.model";
@@ -19,6 +19,18 @@ import * as Yup from "yup";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import MedicalRecordBasicDetailsCardComponent from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 import ExerciseLogAttachmentListComponent from "../exercise-log-attachment-list/ExerciseLogAttachmentListComponent";
+import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
+import CardComponent from "../../../shared/components/card/CardComponent";
+import ChipComponent from "../../../shared/components/chip/ChipComponent";
+import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
+import {ListItem} from "@mui/material";
+import MedicalInterventionLinkedToComponent
+    from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
+import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
+import {IRootReducerState} from "../../../store/reducers";
+import {getClientMedicalRecord} from "../../../store/actions/client.action";
+import {getMedicalInterventionDetails, getMedicalRecordStats} from "../../../store/actions/chart-notes.action";
+import moment from "moment-timezone";
 
 interface MedicalInterventionExerciseLogScreenProps {
 
@@ -62,6 +74,11 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
     const {medicalRecordId, medicalInterventionId} = useParams();
     const [medicalInterventionExerciseLogDetails, setMedicalInterventionExerciseLogDetails] = useState<any>(undefined);
     const [isMedicalInterventionExerciseLogDetailsLoading, setIsMedicalInterventionExerciseLogDetailsLoading] = useState<boolean>(false);
+
+    const {
+        clientMedicalRecord,
+        isClientMedicalRecordLoaded,
+    } = useSelector((state: IRootReducerState) => state.client);
 
     const medicalInterventionExerciseLogColumns = [
         {
@@ -218,6 +235,10 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
         }
     }, [medicalInterventionId]);
 
+    const {
+        medicalInterventionDetails,
+    } = useSelector((state: IRootReducerState) => state.chartNotes);
+
     useEffect(() => {
         if (medicalRecordId && medicalInterventionId) {
             dispatch(setCurrentNavParams("SOAP Note", null, () => {
@@ -225,6 +246,12 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             }));
         }
     }, [dispatch, navigate, medicalRecordId, medicalInterventionId]);
+
+    useEffect(() => {
+        if (medicalRecordId) {
+            dispatch(getClientMedicalRecord(medicalRecordId));
+        }
+    }, [medicalRecordId, dispatch]);
 
     const fetchMedicalInterventionExerciseLogDetails = useCallback((medicalInterventionId: string) => {
         setIsMedicalInterventionExerciseLogDetailsLoading(true);
@@ -237,6 +264,12 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             setIsMedicalInterventionExerciseLogDetailsLoading(false);
         })
     }, []);
+
+    useEffect(() => {
+        if (medicalInterventionId) {
+            dispatch(getMedicalInterventionDetails(medicalInterventionId));
+        }
+    }, [medicalInterventionId, dispatch]);
 
     useEffect(() => {
         if (medicalInterventionId) {
@@ -268,9 +301,46 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
         setFieldValue("exercise_records", new_exercise_records);
     }, []);
 
+    console.log('clientMedicalRecord', clientMedicalRecord);
+    console.log('medicalInterventionDetails', medicalInterventionDetails);
+
     return (
-        <div className={'medical-intervention-exercise-log-screen'}>
-            <MedicalRecordBasicDetailsCardComponent/>
+        <div className={'medical-intervention-exercise-log-screen'} >
+
+            <PageHeaderComponent title={'Add Exercise Log'}    actions={
+                <div className="last-updated-status">
+                    <div className="last-updated-status-text">Last Updated On:&nbsp;</div>
+                    <div
+                        className="last-updated-status-bold">
+                        {(medicalInterventionDetails?.updated_at ? moment(medicalInterventionDetails.updated_at).tz(moment.tz.guess()).format('DD-MM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
+                        {medicalInterventionDetails?.last_updated_by_details?.first_name ? medicalInterventionDetails?.last_updated_by_details?.first_name + ' ' + medicalInterventionDetails?.last_updated_by_details?.last_name : ' NA'}
+                    </div>
+                </div>} />
+            {
+                (isClientMedicalRecordLoaded && clientMedicalRecord) && <>
+                    <CardComponent color={'primary'}>
+                        <div className={'client-name-button-wrapper'}>
+                                    <span className={'client-name-wrapper'}>
+                                        <span className={'client-name'}>
+                                                {clientMedicalRecord?.client_details?.first_name || "-"} {clientMedicalRecord?.client_details?.last_name || "-"}
+                                        </span>
+                                        <ChipComponent
+                                            className={clientMedicalRecord?.status === "open" ? "active" : "inactive"}
+                                            size={'small'}
+                                            label={clientMedicalRecord?.status || "-"}/>
+                                    </span>
+                        </div>
+                        <MedicalInterventionLinkedToComponent medicalRecordDetails={clientMedicalRecord}/>
+                   <div className={'ts-row'}>
+                       <div className={'ts-col-6'}>
+                           <DataLabelValueComponent label={'Date of Intervention'}>
+                                 {CommonService.transformTimeStamp(clientMedicalRecord?.created_at || "N/A")}
+                           </DataLabelValueComponent>
+                       </div>
+                   </div>
+                    </CardComponent>
+                </>
+            }
             <ExerciseLogAttachmentListComponent/>
             <>
                 {
@@ -291,10 +361,11 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                 <Form className="t-form" noValidate={true}>
                                     <div className={'special-test-table-container'}>
                                         <div
-                                            className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
-                                            <FormControlLabelComponent label={'Exercise Log'} className={"mrg-0"}/>
+                                            className={"display-flex align-items-center flex-direction-row-reverse mrg-bottom-20"}>
                                             <ButtonComponent
                                                 prefixIcon={<ImageConfig.CloseIcon/>}
+                                                disabled={(values.exercise_records.length > 0 && ExerciseLogRecordValidationSchema.isValidSync(values.exercise_records[values.exercise_records.length - 1]) === false)}
+
                                                 onClick={() => {
                                                     handleExerciseLogClear(values, setFieldValue);
                                                 }}
