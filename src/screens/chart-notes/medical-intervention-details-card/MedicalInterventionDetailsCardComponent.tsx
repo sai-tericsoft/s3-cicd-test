@@ -100,10 +100,10 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     }, []);
 
     const openTransferSoapNoteDrawer = useCallback(() => {
-        comingSoon();
-        return;
-        // setIsTransferSoapNoteDrawerOpen(true);
-    }, [comingSoon]);
+        // comingSoon();
+        // return;
+        setIsTransferSoapNoteDrawerOpen(true);
+    }, []);
 
     const closeTransferSoapNoteDrawer = useCallback(() => {
         setIsTransferSoapNoteDrawerOpen(false);
@@ -130,10 +130,10 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     }, []);
 
     const openImportSoapNoteDrawer = useCallback(() => {
-        comingSoon();
-        return;
-        // setIsImportSoapNoteDrawerOpen(true);
-    }, [comingSoon]);
+        // comingSoon();
+        // return;
+        setIsImportSoapNoteDrawerOpen(true);
+    }, []);
 
     const closeImportSoapNoteDrawer = useCallback(() => {
         setIsImportSoapNoteDrawerOpen(false);
