@@ -5,7 +5,7 @@ import {
     ICaseStatus,
     ICommunicationModeType,
     IConcussionFileType,
-    IEmploymentStatus,
+    IEmploymentStatus, IFilesUneditableAfterOption,
     IGender,
     IInjuryType,
     ILanguage,
@@ -17,7 +17,7 @@ import {
     IReferralType,
     IRelationship,
     ISocialMediaPlatform,
-    ISurgicalHistoryOption
+    ISurgicalHistoryOption, ISystemAutoLockDurationOption
 } from "../../shared/models/common.model";
 
 export const GET_CONSULTATION_DURATION_LIST = 'GET_CONSULTATION_DURATION_LIST';
@@ -87,6 +87,11 @@ export const SET_APPOINTMENT_STATUS = 'SET_APPOINTMENT_STATUS';
 export const GET_PAYMENT_MODES = 'GET_PAYMENT_MODES';
 export const SET_PAYMENT_MODES = 'SET_PAYMENT_MODES';
 
+export const GET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST = 'GET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST';
+export const SET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST = 'SET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST';
+
+export const GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST = 'GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST';
+export const SET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST = 'SET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST';
 
 export const getConsultationDurationList = () => {
     return {type: GET_CONSULTATION_DURATION_LIST};
@@ -341,6 +346,31 @@ export const setAppointmentStatus = (appointmentStatus: any[]) => {
         }
     };
 };
+
+export const getSystemAutoLockDurationOptionsList = () => {
+    return {type: GET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST};
+};
+
+export const setSystemAutoLockDurationOptionsList = (systemAutoLockDurationOptionList: ISystemAutoLockDurationOption[]) => {
+    return {
+        type: SET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST, payload: {
+            systemAutoLockDurationOptionList
+        }
+    };
+};
+
+export const getFilesUneditableAfterOptionsList = () => {
+    return {type: GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST};
+};
+
+export const setFilesUneditableAfterOptionsList = (filesUneditableAfterOptionList: IFilesUneditableAfterOption[]) => {
+    return {
+        type: SET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST, payload: {
+            filesUneditableAfterOptionList
+        }
+    };
+};
+
 export const getPaymentModes = () => {
     return {type: GET_PAYMENT_MODES};
 };
@@ -352,3 +382,6 @@ export const setPaymentModes = (paymentModes: any[]) => {
         }
     };
 };
+
+
+

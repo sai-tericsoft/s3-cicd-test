@@ -30,13 +30,14 @@ import {
     getReferralTypeList,
     getRelationShipList,
     getSocialMediaPlatformList,
-    getSurgicalHistoryOptionsList
+    getSurgicalHistoryOptionsList, getFilesUneditableAfterOptionsList, getSystemAutoLockDurationOptionsList
 } from "./store/actions/static-data.action";
 import AppVersionComponent from "./shared/components/app-version/appVersionComponent";
 import {getAllProvidersList} from "./store/actions/user.action";
 import LightBoxComponent from "./shared/components/light-box/LightBoxComponent";
 import {debounceTime, fromEvent} from "rxjs";
 import SystemAutoLockComponent from "./shared/components/system-auto-lock/SystemAutoLockComponent";
+import {getSystemSettings} from "./store/actions/settings.action";
 
 interface AppProps {
     setCurrentUser?: any;
@@ -137,6 +138,9 @@ const App = (props: AppProps) => {
             dispatch(getAppointmentTypes());
             dispatch(getAppointmentStatus());
             dispatch(getPaymentModes());
+            dispatch(getSystemAutoLockDurationOptionsList());
+            dispatch(getFilesUneditableAfterOptionsList());
+            dispatch(getSystemSettings());
         }
     }, [token, dispatch])
 

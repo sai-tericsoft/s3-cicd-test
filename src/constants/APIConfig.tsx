@@ -1,4 +1,8 @@
 import ENV from "./ENV";
+import {
+    GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST,
+    GET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST
+} from "../store/actions/static-data.action";
 
 interface IAPIConfig {
     [k: string]: {
@@ -81,19 +85,24 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + '/documentTypes',
         METHOD: 'get'
     },
-
     APPOINTMENT_TYPES: {
         URL: ENV.API_URL + '/appointmentTypes',
         METHOD: 'get'
     },
-
     APPOINTMENT_STATUS: {
         URL: ENV.API_URL + '/appointmentStatus',
         METHOD: 'get'
     },
-
     PAYMENT_MODES: {
         URL: ENV.API_URL + '/paymentModes',
+        METHOD: 'get'
+    },
+    GET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST: {
+        URL: ENV.API_URL + '/autoLockTime',
+        METHOD: 'get'
+    },
+    GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST: {
+        URL: ENV.API_URL + '/unEditableTime',
         METHOD: 'get'
     },
     //meta end
@@ -602,7 +611,15 @@ const APIConfig: IAPIConfig = {
     EDIT_INVENTORY_PRODUCT: {
         URL: (productId: string) => ENV.API_URL + '/product/' + productId,
         METHOD: 'put'
-    }
+    },
+    SAVE_SYSTEM_SETTINGS: {
+        URL: ENV.API_URL + "/systemSetting",
+        METHOD: "post"
+    },
+    GET_SYSTEM_SETTINGS: {
+        URL: ENV.API_URL + "/systemSetting",
+        METHOD: "get"
+    },
 }
 
 export default APIConfig;

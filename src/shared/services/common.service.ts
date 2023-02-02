@@ -23,6 +23,7 @@ import printJS from "print-js";
 import {IAttachment} from "../models/common.model";
 import AppointmentService from "./modules/appointment.service";
 import InventoryService from "./modules/inventory.service";
+import SystemSettingsService from "./modules/settings.service";
 
 
 yup.addMethod(yup.mixed, 'atLeastOne', (args) => {
@@ -553,5 +554,6 @@ const CommonService = {
     _facility: FacilityService,
     _chartNotes: ChartNotesService,
     _inventory: InventoryService,
+    _systemSettings: SystemSettingsService,
 }
 export default CommonService;
