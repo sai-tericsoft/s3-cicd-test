@@ -1,10 +1,6 @@
 import {ApiService} from "../index";
 import {APIConfig} from "../../../constants";
 import moment from "moment";
-import {
-    GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST,
-    GET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST
-} from "../../../store/actions/static-data.action";
 
 const today = moment();
 const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
