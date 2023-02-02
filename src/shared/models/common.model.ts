@@ -112,3 +112,15 @@ export interface IMedicalRecordDocumentType {
     _id: string;
     type: string;
 }
+
+export interface ISystemAutoLockDurationOption {
+    _id: string;
+    title: string;
+    code: number;
+}
+
+export interface IFilesUneditableAfterOption {
+    _id: string;
+    title: string;
+    code: number;
+}

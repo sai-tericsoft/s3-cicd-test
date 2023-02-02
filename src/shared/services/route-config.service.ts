@@ -47,6 +47,10 @@ const ServiceCategoryList = () => {
     return SERVICE_CATEGORY_LIST;
 }
 
+const SystemSettings = () => {
+    return "/admin/system-settings";
+}
+
 const ServiceCategoryDetails = (serviceCategoryId: string) => {
     return SERVICE_CATEGORY_DETAILS + '/' + serviceCategoryId;
 }
@@ -235,7 +239,8 @@ const RouteConfigService = {
     InventoryList,
     AddInventoryProduct,
     InventoryProductViewDetails,
-    EditInventoryProduct
+    EditInventoryProduct,
+    SystemSettings
 }
 
 export default RouteConfigService;

@@ -131,6 +131,16 @@ const getPaymentModes = (payload: any) => {
     return ApiService[APIConfig.PAYMENT_MODES.METHOD](APIConfig.PAYMENT_MODES.URL, payload)
 }
 
+const getSystemAutoLockDurationOptionsList = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.GET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST.METHOD](APIConfig.GET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST.URL, payload)
+}
+
+const getFilesUneditableAfterOptionsList = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST.METHOD](APIConfig.GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST.URL, payload)
+}
+
 const StaticDataService = {
     today,
     weekDays,
@@ -158,7 +168,9 @@ const StaticDataService = {
 
     getPaymentModes,
     getAppointmentStatus,
-    getAppointmentTypes
+    getAppointmentTypes,
+    getSystemAutoLockDurationOptionsList,
+    getFilesUneditableAfterOptionsList
 }
 
 export default StaticDataService;
