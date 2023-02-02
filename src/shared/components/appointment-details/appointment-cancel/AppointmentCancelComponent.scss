@@ -1,0 +1,154 @@
+@import "src/assets/styles/common";
+
+.appointment-details-cancel-component {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  .drawer-header {
+    justify-content: flex-start !important;
+
+    .back-btn {
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+
+    .drawer-title {
+      //font-weight: 700;
+      font-size: 20px;
+      line-height: 24px
+    }
+  }
+
+  .overview-block {
+    padding: 10px;
+    margin: 10px 0;
+    background: #F9F9FB;
+    border-radius: 5px;
+
+    &.green-card {
+      background: #BDE8CA;
+    }
+
+    &.overview-block-time {
+      .block-content {
+        justify-content: center;
+        align-content: center;
+        flex-direction: row;
+
+        .content-title {
+          margin-left: 10px;
+          line-height: 24px;
+          font-weight: 400;
+          font-size: 16px;
+          color: #212B36;
+        }
+      }
+    }
+
+    .block-heading {
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 19px;
+      color: #212B36;
+    }
+
+    .block-body {
+      display: flex;
+      flex-direction: row;
+      padding: 10px;
+
+      .avatar-wrapper {
+        padding: 0 10px;
+
+        .blue-avatar {
+          background: #B7E3FF;
+        }
+
+        .green-avatar {
+          background: #ACFCEA;
+        }
+      }
+    }
+
+    .block-content {
+      margin-left: 20px;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+
+      .content-title {
+        font-weight: 500;
+        font-size: 18px;
+        color: #212B36;
+        margin-bottom: 5px;
+      }
+
+      .content-sub-title {
+        font-weight: 400;
+        font-size: 14px;
+        color: #212B36;
+      }
+
+      .service-category-name {
+        font-weight: 400;
+        font-size: 14px;
+        color: #008080;
+        text-transform: capitalize;
+      }
+
+      .service-name {
+        font-weight: 500;
+        font-size: 20px;
+        color: #212B36;
+        text-transform: capitalize;
+      }
+    }
+  }
+
+  .booking-confirmation-status {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .booking-confirmation-status-icon {
+      background-position: center center;
+      background-size: 100%;
+      background-repeat: no-repeat;
+      width: 100px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 20px;
+    }
+
+    .booking-confirmation-status-text {
+      font-weight: 400;
+      font-size: 20px;
+      text-align: center;
+      line-height: 38px;
+      margin-top: 40px;
+      color: #000000;
+
+    }
+
+    .check-box-component  {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  }
+  .action-buttons {
+    display: flex;
+    flex-direction: row;
+    .MuiButton-root {margin-left: 15px; &:first-child {
+      margin-left: 0;
+    }}
+  }
+}
+

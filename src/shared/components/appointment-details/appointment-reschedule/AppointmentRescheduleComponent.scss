@@ -1,0 +1,69 @@
+@import "src/assets/styles/common";
+
+.book-appointment-reschedule-component {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+
+  .drawer-header {
+    justify-content: space-between !important;
+  }
+
+  .appointment-form-wrapper {
+    flex: 1;
+    display: flex;
+
+    .t-form {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+
+      .t-appointment-drawer-form-controls {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+  .booking-confirmation-status {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .booking-confirmation-status-icon {
+      background-position: center center;
+      background-size: 100%;
+      background-repeat: no-repeat;
+      width: 100px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 20px;
+    }
+
+    .booking-confirmation-status-text {
+      font-weight: 400;
+      font-size: 20px;
+      text-align: center;
+      line-height: 38px;
+      margin-top: 40px;
+      color: #000000;
+
+    }
+
+    .check-box-component  {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  }
+  .action-buttons {
+    display: flex;
+    flex-direction: row;
+    .MuiButton-root {margin-left: 15px; &:first-child {
+      margin-left: 0;
+    }}
+  }
+}

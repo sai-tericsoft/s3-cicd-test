@@ -332,6 +332,26 @@ const APIConfig: IAPIConfig = {
         URL: (appointmentId: string) => ENV.API_URL + "/appointment/" + appointmentId + "/cancel",
         METHOD: "post"
     },
+    APPOINTMENT_NOSHOW: {
+        URL: (appointmentId: string) => ENV.API_URL + "/appointment/" + appointmentId + "/noShow",
+        METHOD: "post"
+    },
+    APPOINTMENT_CHECKIN: {
+        URL: (appointmentId: string) => ENV.API_URL + "/appointment/" + appointmentId + "/checkIn",
+        METHOD: "post"
+    },
+    APPOINTMENT_START: {
+        URL: (appointmentId: string) => ENV.API_URL + "/appointment/" + appointmentId + "/start",
+        METHOD: "post"
+    },
+    APPOINTMENT_STOP: {
+        URL: (appointmentId: string) => ENV.API_URL + "/appointment/" + appointmentId + "/stop",
+        METHOD: "post"
+    },
+    APPOINTMENT_FORM_STATUS: {
+        URL: (appointmentId: string) => ENV.API_URL + "/appointment/" + appointmentId + '/formStatus',
+        METHOD: "get"
+    },
     // user end
 
     // chart notes start
