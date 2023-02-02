@@ -33,8 +33,11 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
 
     const [step, setStep] = useState<'details' | 'payment' | 'noshow' | 'checkin' | 'reschedule' | 'cancel'>('details');
     const [details, setDetails] = useState<any | null>(null);
+    const [formStatus, setFormStatus] = useState<any[] | null>(null);
     const [isDetailsLoading, setIsDetailsLoading] = useState<boolean>(false);
+    const [isFormStatusLoading, setIsFormStatusLoading] = useState<boolean>(false);
     const [isDetailsLoaded, setIsDetailsLoaded] = useState<boolean>(false);
+    const [isFormStatusLoaded, setIsFormStatusLoaded] = useState<boolean>(false);
 
     useEffect(() => {
         if (details) {
@@ -43,16 +46,33 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
         }
     }, [appointmentTypes, details]);
 
+    const getAppointmentFormStatus = useCallback(
+        (appointment_id: string) => {
+            setIsFormStatusLoading(true);
+            CommonService._appointment.getAppointmentFormStatus(appointment_id)
+                .then((response: IAPIResponseType<any>) => {
+                    setFormStatus(response.data || []);
+                })
+                .catch((error: any) => {
+                    setFormStatus([]);
+                })
+                .finally(() => {
+                    setIsFormStatusLoading(false);
+                    setIsFormStatusLoaded(true);
+                })
+        },
+        [],
+    );
+
+
     const getAppointmentDetails = useCallback(
         (appointment_id: string) => {
-            // if (search === '') {
-            //     setClientList([]);
-            //     return;
-            // }
             setIsDetailsLoading(true);
             CommonService._appointment.getAppointment(appointment_id)
                 .then((response: IAPIResponseType<any>) => {
                     setDetails(response.data);
+                    getAppointmentFormStatus(appointment_id); //todo: change to appointment id
+
                 })
                 .catch((error: any) => {
                     setDetails(null);
@@ -62,7 +82,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                     setIsDetailsLoaded(true);
                 })
         },
-        [],
+        [getAppointmentFormStatus],
     );
 
 
@@ -90,6 +110,13 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
         },
         [],
     );
+    const onBack = useCallback(
+        () => {
+            setStep('details');
+        },
+        [],
+    );
+
     const onCheckIn = useCallback(
         () => {
             CommonService._appointment.appointmentCheckin(appointment_id, {})
@@ -204,10 +231,11 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                             </div>
                                             <div className={"item-value"}>
                                                 <ChipComponent size={'small'}
-                                                               prefixIcon={details?.payment_status === 'completed' ?
+                                                               prefixIcon={details?.payment_status === 'paid' ?
                                                                    <ImageConfig.CircleCheck/> : <ImageConfig.CancelIcon/>}
-                                                               label={details?.payment_status === 'completed' ? 'Paid' : 'Unpaid'}
-                                                               color={(details?.payment_status === 'completed' ? 'success' : 'error')}/>
+                                                               label={details?.payment_status === 'paid' ? 'Paid' : 'Unpaid'}
+                                                               color={(details?.payment_status === 'paid' ? 'success' : 'error')}
+                                                />
                                             </div>
                                         </div>
                                     </div>
@@ -219,18 +247,14 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                 <div className="details-header">Forms</div>
                                 <div className="details-body">
                                     <div className="details-body-block">
-                                        <div className="details-body-item">
-                                            <div className="item-heading">Client Details</div>
-                                            <div
-                                                className="item-value green">completed
-                                            </div>
-                                        </div>
-                                        <div className="details-body-item">
-                                            <div className="item-heading">Communication Preferences</div>
-                                            <div
-                                                className="item-value red">pending
-                                            </div>
-                                        </div>
+                                        {formStatus && formStatus.map((value, index) => {
+                                            return (<div key={'item-' + index} className="details-body-item">
+                                                <div className="item-heading">{value.name}</div>
+                                                <div
+                                                    className={"item-value " + ((value.status === 'Completed' || value.status === 'completed') ? 'green' : 'red')}>{value.status}
+                                                </div>
+                                            </div>)
+                                        })}
                                     </div>
                                 </div>
                             </div>
@@ -248,53 +272,22 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                 }
                 {
                     step === 'noshow' &&
-                    <AppointmentNoShowComponent onComplete={onComplete} details={details} onClose={onClose}
+                    <AppointmentNoShowComponent onComplete={onComplete} details={details} onBack={onBack}
+                                                onClose={onClose}
                     />
                 }
                 {
                     step === 'cancel' &&
-                    <AppointmentCancelComponent onComplete={onComplete} details={details} onClose={onClose}
+                    <AppointmentCancelComponent onComplete={onComplete} onBack={onBack} details={details}
+                                                onClose={onClose}
                     />
                 }
                 {
                     step === 'reschedule' &&
-                    <AppointmentRescheduleComponent onComplete={onComplete} details={details} onClose={onClose}
+                    <AppointmentRescheduleComponent onComplete={onComplete} onBack={onBack} details={details}
+                                                    onClose={onClose}
                     />
                 }
-
-                {/*{*/}
-                {/*    step === 'overview' && <>*/}
-                {/*        <BookAppointmentOverviewComponent onBack={() => {*/}
-                {/*            setStep('form');*/}
-                {/*        }*/}
-                {/*        } bookingDraft={bookingDraft} onClose={onClose}*/}
-                {/*                                          onComplete={onOverviewComplete}/>*/}
-                {/*    </>*/}
-                {/*}*/}
-                {/*{*/}
-                {/*    step === 'payment' && <BookAppointmentPaymentComponent onBack={*/}
-                {/*        () => {*/}
-                {/*            setStep('form');*/}
-                {/*        }*/}
-                {/*    } booking={booking} onComplete={onPaymentComplete}/>*/}
-                {/*}*/}
-                {/*{*/}
-                {/*    step === 'confirmation' && <div className={'booking-confirmation-wrapper'}>*/}
-                {/*        <div className="booking-confirmation-status">*/}
-                {/*            <div className="booking-confirmation-status-icon"*/}
-                {/*                 style={{backgroundImage: 'url(' + ImageConfig.AppointmentConfirm + ')'}}>*/}
-                {/*                <ImageConfig.VerifiedCheck width={24}/>*/}
-                {/*            </div>*/}
-                {/*            <div className="booking-confirmation-status-text">Booking Confirmed</div>*/}
-                {/*        </div>*/}
-                {/*        <div className="booking-confirmation-action">*/}
-                {/*            <ButtonComponent fullWidth={true}*/}
-                {/*                             onClick={*/}
-                {/*                                 onComplete*/}
-                {/*                             }>Close</ButtonComponent>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*}*/}
             </>}
         </div>
     );

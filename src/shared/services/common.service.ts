@@ -122,8 +122,16 @@ const transformTimeStamp = (date: Date | string | undefined) => {
     return moment(date).format('D-MMM-YYYY | hh:mm A');
 }
 
+
+
 const convertDateFormat = (date: Date, format: string = 'YYYY-MM-DD') => {
     return moment(date).format(format);
+}
+
+const convertMinutesToTime = (minutes: number, format: string = 'hh:mm A') => {
+    const hours = Math.floor(minutes / 60);
+    minutes = minutes % 60;
+    return moment(hours + ':' + minutes, 'hh:mm').format('hh:mm A')
 }
 
 const convertDateFormat2 = (date: Date, format: string = 'DD-MMM-YYYY') => {

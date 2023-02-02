@@ -42,6 +42,10 @@ const appointmentStop = (appointmentId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.APPOINTMENT_STOP.METHOD](APIConfig.APPOINTMENT_STOP.URL(appointmentId), payload);
 }
+const getAppointmentFormStatus = (appointmentId: string) => {
+    // @ts-ignore
+    return ApiService[APIConfig.APPOINTMENT_FORM_STATUS.METHOD](APIConfig.APPOINTMENT_FORM_STATUS.URL(appointmentId));
+}
 
 const AppointmentService = {
     addAppointment,
@@ -53,7 +57,8 @@ const AppointmentService = {
     appointmentCheckin,
     appointmentStart,
     appointmentStop,
-    appointmentNoShow
+    appointmentNoShow,
+    getAppointmentFormStatus
 }
 
 export default AppointmentService;

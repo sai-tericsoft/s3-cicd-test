@@ -344,6 +344,10 @@ const APIConfig: IAPIConfig = {
         URL: (appointmentId: string) => ENV.API_URL + "/appointment/" + appointmentId + "/stop",
         METHOD: "post"
     },
+    APPOINTMENT_FORM_STATUS: {
+        URL: (appointmentId: string) => ENV.API_URL + "/appointment/" + appointmentId + '/formStatus',
+        METHOD: "get"
+    },
     // user end
 
     // chart notes start

@@ -35,9 +35,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             dataIndex: "time",
             width: 120,
             render: (item: any) => {
-                const hours = Math.floor(item?.start_time / 60);
-                const minutes = item?.start_time % 60;
-                return moment(hours + ':' + minutes, 'hh:mm').format('hh:mm A')
+                return CommonService.getHoursAndMinutesFromMinutes(item.start_time)
             }
         },
         {

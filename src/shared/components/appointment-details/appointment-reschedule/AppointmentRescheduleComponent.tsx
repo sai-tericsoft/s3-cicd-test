@@ -15,6 +15,7 @@ import InputComponent from "../../form-controls/input/InputComponent";
 
 interface AppointmentRescheduleComponentProps {
     onClose?: () => void,
+    onBack?: () => void,
     onComplete?: (values: any) => void,
     details?: any,
 }
@@ -34,11 +35,10 @@ const addAppointmentRescheduleValidationSchema = Yup.object().shape({
 });
 
 const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentProps) => {
-    const {onClose, onComplete, details} = props;
+    const {onClose, onBack, onComplete, details} = props;
 
     const {appointmentTypes} = useSelector((state: IRootReducerState) => state.staticData);
-    const [serviceCategoryList, setServiceCategoryList] = useState<any[] | null>(null);
-    const [servicesList, setServicesList] = useState<any[] | null>(null);
+    const [bookType, setBookType] = useState<any | null>(null);
     const [availableDates, setAvailableDates] = useState<any[] | null>(null);
     const [availableRawTimes, setAvailableRawTimes] = useState<any[] | null>(null);
     const [availableTimeSlots, setAvailableTimeSlots] = useState<any[] | null>(null);
@@ -46,8 +46,17 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
     const [isDatesListLoading, setIsDatesListLoading] = useState<boolean>(false);
     const [isTimesListLoading, setIsTimesListLoading] = useState<boolean>(false);
     const [isProviderListLoading, setIsProviderListLoading] = useState<boolean>(false);
-    const [isServiceListLoading, setIsServiceListLoading] = useState<boolean>(false);
+    const [isAPICallRunning, setIsAPICallRunning] = useState<boolean>(false);
+    const [step, setStep] = useState<'form' | 'overview' | 'confirm'>('form')
+    const [reschedule, setReschedule] = useState<any | null>(null)
 
+
+    useEffect(() => {
+        if (details) {
+            const type = appointmentTypes?.find(v => v.code === details.appointment_type);
+            setBookType(type);
+        }
+    }, [appointmentTypes, details]);
     const getAvailableDatesList = useCallback(
         (providerId: string) => {
             setIsDatesListLoading(true);
@@ -94,7 +103,6 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
     );
     const generateTimeSlots = useCallback(
         (times: any[], duration = undefined) => {
-            duration = duration || formRef.current?.values.duration;
             if (duration) {
                 const slots: any[] = [];
                 times.forEach(value => {
@@ -126,55 +134,29 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
         [],
     );
     useEffect(() => {
-        if (availableRawTimes) {
-            generateTimeSlots(availableRawTimes);
+        if (availableRawTimes && details) {
+            generateTimeSlots(availableRawTimes, details.duration);
         } else {
 
         }
-    }, [generateTimeSlots, availableRawTimes]);
+    }, [generateTimeSlots, details, availableRawTimes]);
 
 
-    const getServiceCategoriesList = useCallback(
-        () => {
-            setServiceCategoryList([]);
-            CommonService._serviceCategory.ServiceCategoryListLiteAPICall({is_active: true})
-                .then((response: IAPIResponseType<any>) => {
-                    setServiceCategoryList(response.data || []);
-                })
-                .catch((error: any) => {
-                    setServiceCategoryList([]);
-                })
-        },
-        [],
-    );
-
-    useEffect(() => {
-        getServiceCategoriesList()
-    }, [getServiceCategoriesList]);
-
-    const getServicesList = useCallback(
-        (categoryId: string) => {
-            setServicesList([]);
-            setIsServiceListLoading(true);
-            CommonService._service.ServiceListLiteAPICall(categoryId)
-                .then((response: IAPIResponseType<any>) => {
-                    setServicesList(response.data || []);
-                })
-                .catch((error: any) => {
-                    setServicesList([]);
-                }).finally(() => {
-                setIsServiceListLoading(false);
-            })
-        },
-        [],
-    );
     const getServiceProviderList = useCallback(
-        (serviceId: string) => {
+        (serviceId: string, details: any) => {
             setIsProviderListLoading(true);
             setServiceProvidersList([]);
             CommonService._service.ServiceProviderListAPICall(serviceId, {})
                 .then((response: IAPIResponseType<any>) => {
-                    setServiceProvidersList(response.data || []);
+                    const data = response.data || [];
+                    setServiceProvidersList(data);
+                    const provider = data.find((v: any) => v.provider_id === details.provider_id)
+                    if (provider) {
+                        console.log(provider, data);
+                        formRef.current?.setFieldValue('provider', provider);
+                        setAvailableRawTimes([]);
+                        getAvailableDatesList(provider.provider_id);
+                    }
                 })
                 .catch((error: any) => {
                     setServiceProvidersList([]);
@@ -187,224 +169,240 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
     );
 
     const onSubmitAppointment = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-            if (onComplete) {
-                console.log(values);
-                onComplete(values);
-            }
+            console.log(values, 'setReschedule')
+            setReschedule(values);
+            setStep('overview');
         },
         [onComplete],
     );
 
     const formRef = useRef<FormikProps<any>>(null)
 
+    useEffect(() => {
+        if (details) {
+            getServiceProviderList(details?.service_id, details);
+        }
+        setAvailableRawTimes([]);
+        setAvailableDates([]);
+    }, [details, getServiceProviderList]);
+
+    const onReschedule = useCallback((rawPayload: any) => {
+        setIsAPICallRunning(true)
+        const payload = {
+            "appointment_date": CommonService.convertDateFormat(rawPayload.date),
+            "start_time": rawPayload.time.start_min,
+            "end_time": rawPayload.time.end_min,
+            "provider_id": rawPayload.provider.provider_id
+        }
+        console.log(payload, rawPayload);
+        //medical_record_id
+        CommonService._appointment.appointmentReschedule(details._id, payload)
+            .then((response: IAPIResponseType<any>) => {
+                setStep('confirm');
+                CommonService._alert.showToast(response.message || 'Marked appointment as No Show')
+            })
+            .catch((error: any) => {
+                // CommonService.handleErrors(errors);
+            })
+            .finally(() => {
+                setIsAPICallRunning(false)
+            })
+    }, [details])
+
     return (
-        <div className={`book-appointment-form-component`}>
-            <div className="drawer-header">
-                {/*<div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>*/}
-                <div className="drawer-title">Book Appointment</div>
-                <ToolTipComponent tooltip={"Close"} position={"left"}>
-                    <div className="drawer-close"
-                         id={'book-appointment-close-btn'}
-                         onClick={(event) => {
-                             if (onClose) {
-                                 onClose();
+        <div className={`book-appointment-reschedule-component`}>
+            {step === 'form' && <>
+                <div className="drawer-header">
+                    <div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>
+                    <div className="drawer-title">Reschedule Appointment</div>
+                    <ToolTipComponent tooltip={"Close"} position={"left"}>
+                        <div className="drawer-close"
+                             id={'book-appointment-close-btn'}
+                             onClick={(event) => {
+                                 if (onClose) {
+                                     onClose();
+                                 }
                              }
-                         }
-                         }><ImageConfig.CloseIcon/></div>
-                </ToolTipComponent>
-            </div>
-            <div className={'appointment-form-wrapper'}>
-                <Formik
-                    innerRef={formRef}
-                    validationSchema={addAppointmentRescheduleValidationSchema}
-                    initialValues={{...addAppointmentRescheduleInitialValues}}
-                    onSubmit={onSubmitAppointment}
-                    validateOnChange={false}
-                    validateOnBlur={true}
-                    enableReinitialize={true}
-                    validateOnMount={true}>
-                    {
-                        ({values, isValid, errors, setFieldValue, validateForm}) => {
-                            // eslint-disable-next-line react-hooks/rules-of-hooks
-                            useEffect(() => {
-                                validateForm();
-                            }, [validateForm, values]);
-                            return (
-                                <Form className="t-form" noValidate={true}>
-                                    <div className={"t-appointment-drawer-form-controls"}>
-                                        <Field name={'client'}>
-                                            {
-                                                (field: FieldProps) => (
-                                                    <InputComponent
-                                                        value={details?.client_details?.first_name + ' ' + details?.client_details?.last_name}/>
-                                                )
-                                            }
-                                        </Field>
+                             }><ImageConfig.CloseIcon/></div>
+                    </ToolTipComponent>
+                </div>
+                <div className={'appointment-form-wrapper'}>
+                    <Formik
+                        innerRef={formRef}
+                        validationSchema={addAppointmentRescheduleValidationSchema}
+                        initialValues={{...addAppointmentRescheduleInitialValues, provider: details?.provider_details}}
+                        onSubmit={onSubmitAppointment}
+                        validateOnChange={false}
+                        validateOnBlur={true}
+                        enableReinitialize={true}
+                        validateOnMount={true}>
+                        {
+                            ({values, isValid, errors, setFieldValue, validateForm}) => {
+                                // eslint-disable-next-line react-hooks/rules-of-hooks
+                                useEffect(() => {
+                                    validateForm();
+                                }, [validateForm, values]);
+                                return (
+                                    <Form className="t-form" noValidate={true}>
+                                        <div className={"t-appointment-drawer-form-controls"}>
+                                            <InputComponent label={'Client'} disabled={true}
+                                                            value={details?.client_details?.first_name + ' ' + details?.client_details?.last_name}/>
 
-                                        <Field name={'service_category'}>
-                                            {
-                                                (field: FieldProps) => (
-                                                    <FormikSelectComponent
-                                                        formikField={field}
-                                                        required={true}
-                                                        options={serviceCategoryList || []}
-                                                        displayWith={(option: any) => (option?.name || '')}
-                                                        valueExtractor={(option: any) => option || ''}
-                                                        keyExtractor={item => item?._id || ''}
-                                                        label={'Service Category'}
-                                                        fullWidth={true}
-                                                        onUpdate={value => {
-                                                            if (value) {
-                                                                getServicesList(value?._id);
-                                                                setFieldValue('service', undefined);
-                                                            }
-                                                        }}
 
-                                                    />
-                                                )
-                                            }
-                                        </Field>
+                                            <InputComponent label={'Service Category'} disabled={true}
+                                                            value={details?.category_details?.name}/>
+                                            <InputComponent label={'Service'} disabled={true}
+                                                            value={details?.service_details?.name}/>
 
-                                        <Field name={'service'}>
-                                            {
-                                                (field: FieldProps) => (
+                                            <InputComponent label={'Appointment Type'} disabled={true}
+                                                            value={bookType?.title}/>
 
-                                                    <FormikSelectComponent
-                                                        formikField={field}
-                                                        required={true}
-                                                        disabled={isServiceListLoading}
-                                                        options={servicesList || []}
-                                                        displayWith={(option: any) => (option?.name || '')}
-                                                        valueExtractor={(option: any) => option}
-                                                        keyExtractor={item => item._id}
-                                                        label={'Service'}
-                                                        fullWidth={true}
-                                                        onUpdate={value => {
-                                                            if (value) {
-                                                                getServiceProviderList(value?._id);
-                                                                setAvailableRawTimes([]);
-                                                                setAvailableDates([]);
-                                                            }
-                                                        }}
 
-                                                    />
-                                                )
-                                            }
-                                        </Field>
-                                        <Field name={'appointment_type'}>
-                                            {
-                                                (field: FieldProps) => (
-                                                    <FormikSelectComponent
-                                                        formikField={field}
-                                                        options={appointmentTypes || []}
-                                                        required={true}
-                                                        displayWith={(option: any) => (option.title)}
-                                                        valueExtractor={(option: any) => option.code}
-                                                        label={'Appointment Type'}
-                                                        fullWidth={true}
-                                                    />
-                                                )
-                                            }
-                                        </Field>
-                                        <Field name={'duration'}>
-                                            {
-                                                (field: FieldProps) => (
-                                                    <FormikSelectComponent
-                                                        formikField={field}
-                                                        required={true}
-                                                        options={DURATION_TYPES}
-                                                        displayWith={(option: any) => (option.label)}
-                                                        valueExtractor={(option: any) => option.key}
-                                                        label={'Duration'}
-                                                        fullWidth={true}
-                                                        onUpdate={value => {
-                                                            if (value && availableRawTimes) {
-                                                                generateTimeSlots(availableRawTimes, value);
-                                                            }
-                                                        }}
-                                                    />
-                                                )
-                                            }
-                                        </Field>
+                                            <InputComponent label={'Duration'} disabled={true}
+                                                            value={details?.duration}/>
 
-                                        <Field name={'provider'}>
-                                            {
-                                                (field: FieldProps) => (
-                                                    <FormikSelectComponent
-                                                        formikField={field}
-                                                        required={true}
-                                                        disabled={isProviderListLoading}
-                                                        options={serviceProvidersList || []}
-                                                        displayWith={(option: any) => option?.provider_name || 'No Name'}
-                                                        valueExtractor={(option: any) => option}
-                                                        onUpdate={value => {
-                                                            if (value) {
-                                                                setAvailableRawTimes([]);
-                                                                getAvailableDatesList(value.provider_id);
-                                                            }
-                                                        }}
-                                                        label={'Provider'}
-                                                        fullWidth={true}
-                                                    />
-                                                )
-                                            }
-                                        </Field>
 
-                                        <div className="ts-row">
+                                            <Field name={'provider'}>
+                                                {
+                                                    (field: FieldProps) => (
+                                                        <FormikSelectComponent
+                                                            formikField={field}
+                                                            required={true}
+                                                            disabled={isProviderListLoading}
+                                                            options={serviceProvidersList || []}
+                                                            displayWith={(option: any) => option?.provider_name || 'No Name'}
+                                                            valueExtractor={(option: any) => option}
+                                                            onUpdate={value => {
+                                                                if (value) {
+                                                                    setAvailableRawTimes([]);
+                                                                    getAvailableDatesList(value.provider_id);
+                                                                }
+                                                            }}
+                                                            label={'Provider'}
+                                                            fullWidth={true}
+                                                        />
+                                                    )
+                                                }
+                                            </Field>
 
-                                            <div className="ts-col">
-                                                <Field name={'date'}>
-                                                    {
-                                                        (field: FieldProps) => (
-                                                            <FormikSelectComponent
-                                                                formikField={field}
-                                                                required={true}
-                                                                disabled={isDatesListLoading}
-                                                                options={availableDates || []}
-                                                                displayWith={(option: any) => CommonService.convertDateFormat(option)}
-                                                                valueExtractor={(option: any) => option}
-                                                                label={'Date'}
-                                                                onUpdate={value => {
-                                                                    if (value) {
-                                                                        getAvailableTimesList(values.provider?.provider_id, value);
-                                                                    }
-                                                                }}
-                                                                fullWidth={true}
-                                                            />
-                                                        )
-                                                    }
-                                                </Field>
+                                            <div className="ts-row">
+
+                                                <div className="ts-col">
+                                                    <Field name={'date'}>
+                                                        {
+                                                            (field: FieldProps) => (
+                                                                <FormikSelectComponent
+                                                                    formikField={field}
+                                                                    required={true}
+                                                                    disabled={isDatesListLoading}
+                                                                    options={availableDates || []}
+                                                                    displayWith={(option: any) => CommonService.convertDateFormat(option)}
+                                                                    valueExtractor={(option: any) => option}
+                                                                    label={'Date'}
+                                                                    onUpdate={value => {
+                                                                        if (value) {
+                                                                            getAvailableTimesList(values.provider?.provider_id, value);
+                                                                        }
+                                                                    }}
+                                                                    fullWidth={true}
+                                                                />
+                                                            )
+                                                        }
+                                                    </Field>
+                                                </div>
+                                                <div className="ts-col">
+                                                    <Field name={'time'}>
+                                                        {
+                                                            (field: FieldProps) => (
+                                                                <FormikSelectComponent
+                                                                    formikField={field}
+                                                                    required={true}
+                                                                    disabled={isTimesListLoading}
+                                                                    options={availableTimeSlots || []}
+                                                                    displayWith={(option: any) => option.start + ' - ' + option.end}
+                                                                    valueExtractor={(option: any) => option}
+                                                                    label={'Time'}
+                                                                    fullWidth={true}
+                                                                />
+                                                            )
+                                                        }
+                                                    </Field>
+                                                </div>
                                             </div>
-                                            <div className="ts-col">
-                                                <Field name={'time'}>
-                                                    {
-                                                        (field: FieldProps) => (
-                                                            <FormikSelectComponent
-                                                                formikField={field}
-                                                                required={true}
-                                                                disabled={isTimesListLoading}
-                                                                options={availableTimeSlots || []}
-                                                                displayWith={(option: any) => option.start + ' - ' + option.end}
-                                                                valueExtractor={(option: any) => option}
-                                                                label={'Time'}
-                                                                fullWidth={true}
-                                                            />
-                                                        )
-                                                    }
-                                                </Field>
-                                            </div>
+
                                         </div>
-
-                                    </div>
-                                    <div className="booking-form-action">
-                                        <ButtonComponent fullWidth={true} type={'submit'}>Next</ButtonComponent>
-                                    </div>
-                                </Form>
-                            )
+                                        <div className="booking-form-action">
+                                            <ButtonComponent fullWidth={true} type={'submit'}>Next</ButtonComponent>
+                                        </div>
+                                    </Form>
+                                )
+                            }
                         }
-                    }
-                </Formik>
-            </div>
+                    </Formik>
+                </div>
+            </>}
+
+            {step === 'overview' && <>
+                <div className="drawer-header">
+                    {/*<div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>*/}
+                    <div className="drawer-title">Reschedule Appointment</div>
+                    {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
+                    {/*    <div className="drawer-close"*/}
+                    {/*         id={'appintment-details-close-btn'}*/}
+                    {/*         onClick={(event) => {*/}
+                    {/*             if (onClose) {*/}
+                    {/*                 onClose();*/}
+                    {/*             }*/}
+                    {/*         }*/}
+                    {/*         }><ImageConfig.CloseIcon/></div>*/}
+                    {/*</ToolTipComponent>*/}
+                </div>
+                <div className="flex-1 booking-confirmation-status">
+                    <div className="booking-confirmation-status-icon"
+                         style={{backgroundImage: 'url(' + ImageConfig.AppointmentConfirm + ')'}}>
+                        <ImageConfig.VerifiedCheck width={24}/>
+                    </div>
+                    <div className="booking-confirmation-status-text">
+                        Do you want to Reschedule the appointment
+                        with <b>{reschedule.provider?.provider_name}</b> on <b>{CommonService.convertDateFormat(reschedule.date)}</b> at&nbsp;
+                        <b>{CommonService.getHoursAndMinutesFromMinutes(reschedule.time.start_min)}</b>?
+                    </div>
+                </div>
+                <div className="action-buttons">
+                    <ButtonComponent fullWidth={true} variant={'outlined'}
+                                     disabled={isAPICallRunning}
+                                     onClick={event => {
+                                         if (onClose) {
+                                             onClose()
+                                         }
+                                     }}>No</ButtonComponent>
+                    <ButtonComponent fullWidth={true}
+                                     isLoading={isAPICallRunning}
+                                     onClick={event => {
+                                         onReschedule(reschedule)
+                                     }}>Yes</ButtonComponent>
+                </div>
+            </>}
+            {step === 'confirm' && <>
+                <div className="flex-1 booking-confirmation-status">
+                    <div className="booking-confirmation-status-icon"
+                         style={{backgroundImage: 'url(' + ImageConfig.AppointmentConfirm + ')'}}>
+                        <ImageConfig.VerifiedCheck width={24}/>
+                    </div>
+                    <div className="booking-confirmation-status-text">
+                        Booking Rescheduled!
+                    </div>
+                </div>
+                <div className="action-buttons">
+                    <ButtonComponent fullWidth={true}
+                                     onClick={event => {
+                                         if (onComplete) {
+                                             onComplete({});
+                                         }
+                                     }}>Close</ButtonComponent>
+                </div>
+            </>}
+
         </div>
     );
 };
