@@ -185,6 +185,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                 >
                     <AddSurgeryRecordComponent medicalRecordId={medicalRecordId}
                                                medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
+                                               onCancel={()=>setIsSurgeryAddOpen(false)}
                                                onSave={() => {
                                                    dispatch(getClientMedicalRecord(medicalRecordId));
                                                    setIsSurgeryAddOpen(false);

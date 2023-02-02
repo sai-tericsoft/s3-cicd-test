@@ -9,7 +9,6 @@ import FormikSelectComponent from "../../../shared/components/form-controls/form
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import * as Yup from "yup";
-import moment from "moment/moment";
 import {IUser} from "../../../shared/models/user.model";
 import FilePreviewThumbnailComponent
     from "../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
@@ -24,6 +23,7 @@ interface AddSurgeryRecordComponentProps {
     medicalRecordId: string;
     medicalRecordDetails: any;
     onSave: () => void;
+    onCancel?:()=>void
 }
 
 const addSurgeryRecordFormInitialValues: any = {
@@ -43,7 +43,7 @@ const addSurgeryRecordValidationSchema = Yup.object().shape({
 
 const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
 
-    const {medicalRecordDetails, onSave} = props;
+    const {medicalRecordDetails, onSave,onCancel} = props;
     const {allProvidersList} = useSelector((state: IRootReducerState) => state.user);
     const [isSurgeryRecordAddInProgress, setIsSurgeryRecordAddInProgress] = useState<boolean>(false);
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
@@ -86,7 +86,7 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
-                            <FormControlLabelComponent label={"Add Surgery Record"}/>
+                            <FormControlLabelComponent label={"Add Surgery Record"} size={'lg'}/>
                             <div className={"t-surgery-record-drawer-form-controls"}>
                                 <Field name={'surgery_date'}>
                                     {
@@ -96,7 +96,6 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                                                 placeholder={'Date of Surgery'}
                                                 formikField={field}
                                                 required={true}
-                                                maxDate={moment()}
                                                 fullWidth={true}
                                             />
                                         )
@@ -170,8 +169,16 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                                     acceptedFileTypes={["pdf"]}
                                 />
                             </div>
-                            <div className="t-form-actions mrg-top-20">
-                                <ButtonComponent fullWidth={true} type={'submit'}
+                            <div className="t-form-actions mrg-top-20 mrg-bottom-30">
+                                <ButtonComponent
+                                    className={'mrg-right-10'}
+                                    variant={"outlined"}
+                                    id={"medical_intervention_add_cancel_btn"}
+                                    onClick={onCancel}
+                                >
+                                    Cancel
+                                </ButtonComponent>
+                                <ButtonComponent  type={'submit'}
                                                  isLoading={isSurgeryRecordAddInProgress}
                                                  disabled={!isValid || isSurgeryRecordAddInProgress}>
                                     Save

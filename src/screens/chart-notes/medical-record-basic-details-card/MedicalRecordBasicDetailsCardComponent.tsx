@@ -159,6 +159,10 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
         setIsSurgeryAddOpen(false);
     }, [dispatch]);
 
+    const closeSurgeryRecordDrawer=useCallback(()=>{
+        setIsSurgeryAddOpen(false);
+    },[])
+
     const handleDischargeCase = useCallback(() => {
         comingSoon();
         return;
@@ -317,7 +321,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                     >
                         <AddSurgeryRecordComponent medicalRecordId={medicalRecordId}
                                                    medicalRecordDetails={clientMedicalRecord}
-                                                   onSave={handleSurgeryRecordAdd}/>
+                                                   onSave={handleSurgeryRecordAdd} onCancel={()=>setIsSurgeryAddOpen(false)}/>
                     </DrawerComponent>
                     {/*Add Surgery Record end*/}
 
