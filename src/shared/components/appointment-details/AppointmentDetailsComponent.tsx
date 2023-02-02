@@ -35,9 +35,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
     const [details, setDetails] = useState<any | null>(null);
     const [formStatus, setFormStatus] = useState<any[] | null>(null);
     const [isDetailsLoading, setIsDetailsLoading] = useState<boolean>(false);
-    const [isFormStatusLoading, setIsFormStatusLoading] = useState<boolean>(false);
     const [isDetailsLoaded, setIsDetailsLoaded] = useState<boolean>(false);
-    const [isFormStatusLoaded, setIsFormStatusLoaded] = useState<boolean>(false);
 
     useEffect(() => {
         if (details) {
@@ -48,7 +46,6 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
 
     const getAppointmentFormStatus = useCallback(
         (appointment_id: string) => {
-            setIsFormStatusLoading(true);
             CommonService._appointment.getAppointmentFormStatus(appointment_id)
                 .then((response: IAPIResponseType<any>) => {
                     setFormStatus(response.data || []);
@@ -57,8 +54,6 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                     setFormStatus([]);
                 })
                 .finally(() => {
-                    setIsFormStatusLoading(false);
-                    setIsFormStatusLoaded(true);
                 })
         },
         [],

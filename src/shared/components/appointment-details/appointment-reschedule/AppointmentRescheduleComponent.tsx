@@ -26,7 +26,6 @@ const addAppointmentRescheduleInitialValues: any = {
     time: '',
 };
 
-const DURATION_TYPES = [{label: '30 min', key: 30}, {label: '60 min', key: 60}];
 
 const addAppointmentRescheduleValidationSchema = Yup.object().shape({
     provider: Yup.mixed().required("Provider is required"),
@@ -165,7 +164,7 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                     setIsProviderListLoading(false);
                 })
         },
-        [],
+        [getAvailableDatesList],
     );
 
     const onSubmitAppointment = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
@@ -173,7 +172,7 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
             setReschedule(values);
             setStep('overview');
         },
-        [onComplete],
+        [],
     );
 
     const formRef = useRef<FormikProps<any>>(null)
