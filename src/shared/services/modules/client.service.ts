@@ -123,8 +123,8 @@ const ClientListLiteAPICall = (payload: any) => {
     return ApiService[APIConfig.CLIENT_LIST_LITE.METHOD](APIConfig.CLIENT_LIST_LITE.URL, payload);
 }
 
-const sendInviteToClient=(clientId:string,payload:any)=>{
-    return ApiService[APIConfig.SEND_INVITE_TO_CLIENT.METHOD](APIConfig.SEND_INVITE_TO_CLIENT.URL(clientId),payload);
+const ResendInviteToClient=(clientId:string,payload:any)=>{
+    return ApiService[APIConfig.RESEND_INVITE_LINK_TO_CLIENT.METHOD](APIConfig.RESEND_INVITE_LINK_TO_CLIENT.URL(clientId),payload);
 }
 
 const ClientService = {
@@ -153,7 +153,7 @@ const ClientService = {
     GetClientList,
     GetClientMedicalRecordList,
     ClientListLiteAPICall,
-    sendInviteToClient
+    ResendInviteToClient
 }
 
 export default ClientService;
