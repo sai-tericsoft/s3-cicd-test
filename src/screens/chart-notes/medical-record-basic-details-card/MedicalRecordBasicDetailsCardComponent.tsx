@@ -13,7 +13,7 @@ import {IRootReducerState} from "../../../store/reducers";
 import {CommonService} from "../../../shared/services";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
-import {ImageConfig} from "../../../constants";
+import {ImageConfig, Misc} from "../../../constants";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import EditMedicalRecordComponent from "../edit-medical-record/EditMedicalRecordComponent";
 import {ListItem} from "@mui/material";
@@ -27,28 +27,28 @@ import MedicalInterventionLinkedToComponent
 import AddMedicalRecordDocumentComponent from "../add-medical-record-document/AddMedicalRecordDocumentComponent";
 import TransferMedicalRecordComponent from "../transfer-medical-record/TransferMedicalRecordComponent";
 
-// const MedicalInterventionFormInitialValues: any = {
-//     intervention_date: new Date(),
-//     subjective: "",
-//     plan: {
-//         plan: "",
-//         md_recommendations: "",
-//         education: "",
-//         treatment_goals: "",
-//     },
-//     assessment: {
-//         suspicion_index: '',
-//         surgery_procedure: ''
-//     },
-//     objective: {
-//         observation: "",
-//         palpation: "",
-//         functional_tests: "",
-//         treatment: "",
-//         treatment_response: ""
-//     },
-//     is_discharge: true,
-// };
+const MedicalInterventionFormInitialValues: any = {
+    intervention_date: new Date(),
+    subjective: "",
+    plan: {
+        plan: "",
+        md_recommendations: "",
+        education: "",
+        treatment_goals: "",
+    },
+    assessment: {
+        suspicion_index: '',
+        surgery_procedure: ''
+    },
+    objective: {
+        observation: "",
+        palpation: "",
+        functional_tests: "",
+        treatment: "",
+        treatment_response: ""
+    },
+    is_discharge: true,
+};
 
 interface ClientMedicalDetailsCardComponentProps {
     showAction?: boolean
@@ -103,10 +103,8 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
     }, []);
 
     const openTransferMedicalRecordDrawer = useCallback(() => {
-        comingSoon();
-        return;
-        // setIsTransferMedicalRecordDrawerOpen(true);
-    }, [comingSoon]);
+        setIsTransferMedicalRecordDrawerOpen(true);
+    }, []);
 
     const closeTransferMedicalRecordDrawer = useCallback(() => {
         setIsTransferMedicalRecordDrawerOpen(false);
@@ -128,31 +126,25 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
     }, []);
 
     const openMedicalRecordStatsModal = useCallback(() => {
-        comingSoon();
-        return;
-        // setIsMedicalRecordStatsModalOpen(true);
-    }, [comingSoon]);
+        setIsMedicalRecordStatsModalOpen(true);
+    }, []);
 
     const closeMedicalRecordStatsModal = useCallback(() => {
         setIsMedicalRecordStatsModalOpen(false);
     }, []);
 
     const openMedicalRecordDocumentAddDrawer = useCallback(() => {
-        comingSoon();
-        return;
-        // setIsMedicalRecordDocumentAddDrawerOpen(true);
-    }, [comingSoon]);
+        setIsMedicalRecordDocumentAddDrawerOpen(true);
+    }, []);
 
     const closeMedicalRecordDocumentAddDrawer = useCallback(() => {
         setIsMedicalRecordDocumentAddDrawerOpen(false);
     }, []);
 
     const handleMedicalRecordDocumentAdd = useCallback(() => {
-        comingSoon();
-        return;
-        // dispatch(refreshMedicalRecordAttachmentList());
-        // closeMedicalRecordDocumentAddDrawer();
-    }, [comingSoon]);
+        dispatch(refreshMedicalRecordAttachmentList());
+        closeMedicalRecordDocumentAddDrawer();
+    }, [dispatch, closeMedicalRecordDocumentAddDrawer]);
 
     const handleSurgeryRecordAdd = useCallback(() => {
         dispatch(refreshMedicalRecordAttachmentList());
@@ -160,18 +152,16 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
     }, [dispatch]);
 
     const handleDischargeCase = useCallback(() => {
-        comingSoon();
-        return;
-        // if (medicalRecordId) {
-        //     CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, MedicalInterventionFormInitialValues)
-        //         .then((response) => {
-        //             CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully created discharging intervention", "success");
-        //             navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, response.data._id));
-        //         }).catch((error) => {
-        //         CommonService._alert.showToast(error?.error || "Error discharging the case", "error");
-        //     });
-        // }
-    }, [comingSoon]);
+        if (medicalRecordId) {
+            CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, MedicalInterventionFormInitialValues)
+                .then((response) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully created discharging intervention", "success");
+                    navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, response.data._id));
+                }).catch((error) => {
+                CommonService._alert.showToast(error?.error || "Error discharging the case", "error");
+            });
+        }
+    }, [medicalRecordId, navigate]);
 
     const handleMedicalRecordTransfer = useCallback(() => {
         closeTransferMedicalRecordDrawer();

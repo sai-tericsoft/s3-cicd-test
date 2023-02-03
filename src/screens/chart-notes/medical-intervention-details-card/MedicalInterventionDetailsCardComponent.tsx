@@ -86,54 +86,44 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     }, []);
 
     const openAddDryNeedlingFileDrawer = useCallback(() => {
-        comingSoon();
-        return;
-        // if (!medicalInterventionDetails?.is_dryneedling_added) {
-        //     setIsAddDryNeedlingFileDrawerOpen(true);
-        // } else {
-        //     CommonService._alert.showToast('Dry Needling file already added to this intervention', 'error');
-        // }
-    }, [comingSoon]);
+        if (!medicalInterventionDetails?.is_dryneedling_added) {
+            setIsAddDryNeedlingFileDrawerOpen(true);
+        } else {
+            CommonService._alert.showToast('Dry Needling file already added to this intervention', 'error');
+        }
+    }, [medicalInterventionDetails]);
 
     const closeAddDryNeedlingFileDrawer = useCallback(() => {
         setIsAddDryNeedlingFileDrawerOpen(false);
     }, []);
 
     const openTransferSoapNoteDrawer = useCallback(() => {
-        comingSoon();
-        return;
-        // setIsTransferSoapNoteDrawerOpen(true);
-    }, [comingSoon]);
+        setIsTransferSoapNoteDrawerOpen(true);
+    }, []);
 
     const closeTransferSoapNoteDrawer = useCallback(() => {
         setIsTransferSoapNoteDrawerOpen(false);
     }, []);
 
     const openAddConcussionFileDrawer = useCallback(() => {
-        comingSoon();
-        return;
-        // setIsAddConcussionFileDrawerOpen(true);
-    }, [comingSoon]);
+        setIsAddConcussionFileDrawerOpen(true);
+    }, []);
 
     const closeAddConcussionFileDrawer = useCallback(() => {
         setIsAddConcussionFileDrawerOpen(false);
     }, []);
 
     const openViewPriorNoteDrawer = useCallback(() => {
-        comingSoon();
-        return;
-        // setIsViewPriorNoteDrawerOpen(true);
-    }, [comingSoon]);
+        setIsViewPriorNoteDrawerOpen(true);
+    }, []);
 
     const closeViewPriorNoteDrawer = useCallback(() => {
         setIsViewPriorNoteDrawerOpen(false);
     }, []);
 
     const openImportSoapNoteDrawer = useCallback(() => {
-        comingSoon();
-        return;
-        // setIsImportSoapNoteDrawerOpen(true);
-    }, [comingSoon]);
+        setIsImportSoapNoteDrawerOpen(true);
+    }, []);
 
     const closeImportSoapNoteDrawer = useCallback(() => {
         setIsImportSoapNoteDrawerOpen(false);
