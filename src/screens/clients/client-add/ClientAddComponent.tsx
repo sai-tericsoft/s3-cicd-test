@@ -8,11 +8,10 @@ import {CommonService} from "../../../shared/services";
 import {ImageConfig, Misc} from "../../../constants";
 import {useNavigate} from "react-router-dom";
 import * as Yup from "yup";
-import {IAPIResponseType} from "../../../shared/models/api.model";
-import {IClientBasicDetails} from "../../../shared/models/client.model";
+
 
 interface ClientAddComponentProps {
-
+   onAdd:()=> void;
 }
 
 const clientAddInitialValues: any = {
@@ -22,6 +21,7 @@ const clientAddInitialValues: any = {
     primary_contact_info:{
         phone:''
     },
+    send_invite:true
 }
 
 const clientAddsValidationSchema = Yup.object({
@@ -35,6 +35,7 @@ const clientAddsValidationSchema = Yup.object({
 
 const ClientAddComponent = (props: ClientAddComponentProps) => {
 
+    const {onAdd} = props;
     const navigate=useNavigate();
     const [addClientInitialValues] = useState<any>(clientAddInitialValues);
     const [isClientAddInProgress, setIsClientAddInProgress] = useState<boolean>(false);
@@ -56,11 +57,24 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
 
     }, []);
 
-    const handleInviteLink = useCallback(() => {
+    const handleInviteLink = useCallback((values:any) => {
+        console.log('values',values.first_name);
         CommonService.onConfirm({
             image: ImageConfig.DeleteAttachmentConfirmationIcon,
             confirmationTitle: 'SEND INVITE LINK',
-            confirmationSubTitle: `Are you sure you want to send invite link to ${addClientInitialValues.first_name}?`,
+            confirmationSubTitle: `Are you sure you want to send invite link to 
+            ${values.first_name} ${values.last_name} having email ${values.primary_email}?`
+,
+        }).then(() => {
+            CommonService._client.ClientBasicDetailsAddAPICall(values)
+                .then((response: any) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    onAdd();
+                }).catch((error: any) => {
+                setIsClientAddInProgress(false);
+                CommonService._alert.showToast(error.error || "Error in sending link", "error");
+
+            });
         })
     }, []);
 
@@ -74,7 +88,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                     enableReinitialize={true}
                     validateOnMount={true}
                     onSubmit={onSubmit}>
-                {({values, touched, errors, setFieldValue, validateForm}) => {
+                {({values,isValid, touched, errors, setFieldValue, validateForm}) => {
                     // eslint-disable-next-line react-hooks/rules-of-hooks
                     useEffect(() => {
                         validateForm();
@@ -140,8 +154,9 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                 </div>
                             </div>
                             <div className={'t-form-actions'}>
-                                <ButtonComponent onClick={handleInviteLink}
+                                <ButtonComponent onClick={()=>handleInviteLink(values)}
                                                  variant={"outlined"}
+                                                 disabled={!isValid}
                                 >
                                     Send Invite Link
                                 </ButtonComponent>
@@ -149,7 +164,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                 <ButtonComponent
                                     type={"submit"}
                                     isLoading={isClientAddInProgress}
-                                    disabled={isClientAddInProgress}
+                                    disabled={!isValid || isClientAddInProgress}
                                     >
                                     Proceed with Adding Client
                                 </ButtonComponent>

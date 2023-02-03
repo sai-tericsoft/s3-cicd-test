@@ -25,6 +25,7 @@ const ClientAccountDetailsApiCall = (clientId: string, payload: any) => {
 }
 
 const ClientBasicDetailsAddAPICall = (payload: any) => {
+    console.log('payload', payload);
     // @ts-ignore
     return ApiService[APIConfig.CLIENT_BASIC_DETAILS_ADD.METHOD](APIConfig.CLIENT_BASIC_DETAILS_ADD.URL, payload);
 }
@@ -122,6 +123,10 @@ const ClientListLiteAPICall = (payload: any) => {
     return ApiService[APIConfig.CLIENT_LIST_LITE.METHOD](APIConfig.CLIENT_LIST_LITE.URL, payload);
 }
 
+const sendInviteToClient=(clientId:string,payload:any)=>{
+    return ApiService[APIConfig.SEND_INVITE_TO_CLIENT.METHOD](APIConfig.SEND_INVITE_TO_CLIENT.URL(clientId),payload);
+}
+
 const ClientService = {
     ClientBasicDetailsAddAPICall,
     ClientBasicDetailsAPICall,
@@ -147,7 +152,8 @@ const ClientService = {
     GetClientListLite,
     GetClientList,
     GetClientMedicalRecordList,
-    ClientListLiteAPICall
+    ClientListLiteAPICall,
+    sendInviteToClient
 }
 
 export default ClientService;

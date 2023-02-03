@@ -111,7 +111,7 @@ const ClientListScreen = (props: ClientListScreenProps) => {
             <DrawerComponent isOpen={isClientAddDrawerOpen}
                              showClose={true}
                              onClose={closeClientAddDrawer}>
-                <ClientAddComponent/>
+                <ClientAddComponent onAdd={()=>closeClientAddDrawer()}/>
             </DrawerComponent>
         </div>
     );

@@ -130,7 +130,8 @@ const ClientBasicDetailsFormInitialValues: IClientBasicDetails = {
         country: "",
         zip_code: "",
         state: ""
-    }
+    },
+    send_invite:false
 };
 
 

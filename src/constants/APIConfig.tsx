@@ -598,6 +598,10 @@ const APIConfig: IAPIConfig = {
     EDIT_INVENTORY_PRODUCT: {
         URL: (productId: string) => ENV.API_URL + '/product/' + productId,
         METHOD: 'put'
+    },
+    SEND_INVITE_TO_CLIENT: {
+        URL:(clientId:string)=> ENV.API_URL + '/client/'+clientId + 'sendInvite',
+        METHOD:'post'
     }
 }
 
