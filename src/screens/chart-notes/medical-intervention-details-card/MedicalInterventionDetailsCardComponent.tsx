@@ -120,10 +120,9 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     }, []);
 
     const openViewPriorNoteDrawer = useCallback(() => {
-        comingSoon();
-        return;
-        // setIsViewPriorNoteDrawerOpen(true);
-    }, [comingSoon]);
+
+         setIsViewPriorNoteDrawerOpen(true);
+    }, []);
 
     const closeViewPriorNoteDrawer = useCallback(() => {
         setIsViewPriorNoteDrawerOpen(false);
