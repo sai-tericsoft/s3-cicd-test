@@ -20,10 +20,10 @@ export const setLoggedInUserToken = (token: string) => {
     }
 };
 
-export const setSystemLocked = (isLocked: boolean) => {
+export const setSystemLocked = (isLocked: boolean,type:'auto' | 'manual' ) => {
     return {
         type: SET_SYSTEM_LOCKED,
-        payload: isLocked
+        payload: {isLocked, type}
     }
 };
 

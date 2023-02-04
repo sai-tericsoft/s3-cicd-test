@@ -42,7 +42,7 @@ const SystemAutoLockComponent = (props: SystemAutoLockComponentProps) => {
             const interval = setInterval(() => {
                 if (account?.currentUser && account?.lastActivityTime) {
                     if (moment().unix().toString() === (account?.lastActivityTime + (account?.currentUser?.auto_lock_minutes || 0) * 60).toString()) {
-                        dispatch(setSystemLocked(true));
+                        dispatch(setSystemLocked(true,'auto'));
                         clearInterval(interval);
                     }
                 }
@@ -56,7 +56,7 @@ const SystemAutoLockComponent = (props: SystemAutoLockComponentProps) => {
     const handleSessionExit = useCallback(() => {
         CommonService._alert.showToast("Logged out", "success");
         navigate(CommonService._routeConfig.LoginRoute());
-        dispatch(setSystemLocked(false));
+        dispatch(setSystemLocked(false,'auto'));
         dispatch(logout());
     }, [dispatch, navigate]);
 
@@ -65,7 +65,7 @@ const SystemAutoLockComponent = (props: SystemAutoLockComponentProps) => {
         CommonService._account.ResumeSessionAPICall(values)
             .then((response: IAPIResponseType<ILoginResponse>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                dispatch(setSystemLocked(false));
+                dispatch(setSystemLocked(false,'auto'));
                 setIsLoggingIn(false);
             })
             .catch((error: any) => {
@@ -81,7 +81,7 @@ const SystemAutoLockComponent = (props: SystemAutoLockComponentProps) => {
                             closeOnBackDropClick={false}
                             closeOnEsc={false}>
                 {
-                    currentStep === "prompt" && <div className={"t-form"}>
+                    currentStep === "prompt"   && account.systemLockReason==='auto' && <div className={"t-form"}>
                         <div className={"system-auto-lock-icon"}>
                             <ImageConfig.LockIcon/>
                         </div>
@@ -113,6 +113,38 @@ const SystemAutoLockComponent = (props: SystemAutoLockComponentProps) => {
                     </div>
                 }
                 {
+                    currentStep === "prompt"   && account.systemLockReason==='manual' && <div className={"t-form"}>
+                        <div className={"system-auto-lock-icon"}>
+                            <ImageConfig.LockIcon/>
+                        </div>
+                        <div className={"system-auto-lock-title"}>
+                            SYSTEM LOCKED!
+                        </div>
+                        <div className={"system-auto-lock-sub-title"}>
+                            To continue using the application, <br/>
+                            Please enter your password again.
+                        </div>
+                        <div className="t-form-actions">
+                            <ButtonComponent
+                                variant={"outlined"}
+                                className={"pdd-left-30 pdd-right-30"}
+                                onClick={handleSessionExit}
+                            >
+                                Exit Session
+                            </ButtonComponent>&nbsp;&nbsp;
+                            <ButtonComponent
+                                className={"pdd-left-30 pdd-right-30"}
+                                onClick={() => {
+                                    setCurrentStep("login");
+                                }
+                                }
+                            >
+                                Proceed
+                            </ButtonComponent>
+                        </div>
+                    </div>
+                }
+                {
                     currentStep === "login" && <Formik
                         validationSchema={resumeSessionFormValidationSchema}
                         initialValues={{password: ""}}
@@ -137,7 +169,7 @@ const SystemAutoLockComponent = (props: SystemAutoLockComponentProps) => {
                                         <ImageConfig.NavigateBack/>&nbsp;Back
                                     </div>
                                     <div className={"system-auto-lock-title"}>
-                                        Welcome back!
+                                        WELCOME BACK!
                                     </div>
                                     <div className={"system-auto-lock-sub-title"}>
                                         Enter your password to access the system again.
