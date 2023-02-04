@@ -103,7 +103,7 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                                 <InputComponent className="t-form-control"
                                                 label={'Reported By'}
                                                 placeholder={'Reported By'}
-                                                value={currentUser?.first_name + " " + currentUser?.last_name}
+                                                value={CommonService.extractName(currentUser)}
                                                 fullWidth={true}
                                                 disabled={true}
                                 />
