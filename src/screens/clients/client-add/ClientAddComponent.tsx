@@ -153,7 +153,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                     The invite link will be sent to the entered email address of the client.
                                 </div>
                             </div>
-                            <div className={'t-form-actions'}>
+                            <div className={'t-form-actions mrg-bottom-30'}>
                                 <ButtonComponent onClick={()=>handleInviteLink(values)}
                                                  variant={"outlined"}
                                                  disabled={!isValid}
