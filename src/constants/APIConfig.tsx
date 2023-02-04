@@ -636,6 +636,10 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + "/systemSetting",
         METHOD: "get"
     },
+    MEDICAL_RECORD_NOTIFY_ADMIN:{
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/notifyAdmin',
+        METHOD: 'post'
+    }
 }
 
 export default APIConfig;
