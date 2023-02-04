@@ -55,7 +55,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
             CommonService.handleErrors(setErrors, error, true);
         });
 
-    }, []);
+    }, [navigate]);
 
     const handleInviteLink = useCallback((values:any) => {
         console.log('values',values.first_name);
@@ -76,7 +76,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
 
             });
         })
-    }, []);
+    }, [onAdd]);
 
     return (
         <div className={'client-add-component'}>

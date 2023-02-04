@@ -7,13 +7,6 @@ import SearchComponent from "../../../shared/components/search/SearchComponent";
 import {IClientListFilterState} from "../../../shared/models/client.model";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
-import {CommonService} from "../../../shared/services";
-import {
-    setClientAccountDetails,
-    setClientBasicDetails,
-    setClientMedicalDetails
-} from "../../../store/actions/client.action";
-import {useNavigate} from "react-router-dom";
 import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
 import {IRootReducerState} from "../../../store/reducers";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
@@ -26,7 +19,6 @@ interface ClientListScreenProps {
 const ClientListScreen = (props: ClientListScreenProps) => {
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const {statusList} = useSelector((store: IRootReducerState) => store.staticData);
     const [clientListFilterState, setClientListFilterState] = useState<IClientListFilterState>({
         search: "",

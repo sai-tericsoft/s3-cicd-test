@@ -1,24 +1,15 @@
-import {ImageConfig, Misc} from "../../../../constants";
+import {ImageConfig} from "../../../../constants";
 import "./HeaderComponent.scss";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../../store/reducers";
 import {logout, setSystemLocked} from "../../../../store/actions/account.action";
 import {CommonService} from "../../../services";
 import {useNavigate} from "react-router-dom";
-import {useCallback, useEffect, useState} from "react";
+import {useCallback} from "react";
 import IconButtonComponent from "../../icon-button/IconButtonComponent";
 import {ListItemIcon, ListItemText} from "@mui/material";
 import {Logout} from "@mui/icons-material";
 import MenuDropdownComponent from "../../menu-dropdown/MenuDropdownComponent";
-import ButtonComponent from "../../button/ButtonComponent";
-import {Field, FieldProps, Form, Formik} from "formik";
-import FormikPasswordInputComponent from "../../form-controls/formik-password-input/FormikPasswordInputComponent";
-import ModalComponent from "../../modal/ModalComponent";
-import moment from "moment/moment";
-import {IAPIResponseType} from "../../../models/api.model";
-import {ILoginResponse} from "../../../models/account.model";
-import * as Yup from "yup";
-
 
 interface HeaderComponentProps {
 

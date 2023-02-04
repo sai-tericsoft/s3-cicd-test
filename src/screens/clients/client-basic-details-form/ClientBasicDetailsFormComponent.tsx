@@ -22,7 +22,7 @@ import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import FormikSwitchComponent from "../../../shared/components/form-controls/formik-switch/FormikSwitchComponent";
 import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
-import {useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface ClientBasicDetailsFormComponentProps {
@@ -139,7 +139,6 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
 
     const {onCancel, mode, onSave} = props;
     const {clientId} = useParams();
-    const navigate=useNavigate();
     const [clientBasicDetailsFormInitialValues, setClientBasicDetailsFormInitialValues] = useState<IClientBasicDetails>(_.cloneDeep(ClientBasicDetailsFormInitialValues));
     const [isClientBasicDetailsSavingInProgress, setIsClientBasicDetailsSavingInProgress] = useState(false);
     const dispatch = useDispatch();
@@ -196,9 +195,9 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
         //     CommonService.handleErrors(setErrors, error, true);
         //     setIsClientBasicDetailsSavingInProgress(false);
         // })
-    }, [clientId, dispatch, onSave]);
+    }, [onSave, clientId, dispatch, mode]);
 
-    const clientBasicFormDetails = useCallback(() => {
+    const patchClientBasicDetails = useCallback(() => {
         if (clientBasicDetails) {
             if (!clientBasicDetails.emergency_contact_info.primary_emergency.secondary_contact_info ||
                 (clientBasicDetails.emergency_contact_info.primary_emergency.secondary_contact_info && clientBasicDetails.emergency_contact_info.primary_emergency.secondary_contact_info?.length === 0)) {
@@ -219,11 +218,11 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
             }
             setClientBasicDetailsFormInitialValues(clientBasicDetails);
         }
-    }, [clientId, clientBasicDetails, dispatch])
+    }, [clientBasicDetails])
 
     useEffect(() => {
-        clientBasicFormDetails();
-    }, [clientBasicDetails]);
+        patchClientBasicDetails();
+    }, [clientBasicDetails, patchClientBasicDetails]);
 
     useEffect(() => {
         if (clientId) {
