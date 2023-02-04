@@ -32,16 +32,14 @@ const addAppointmentPaymentInitialValues: any = {
 
 
 const addAppointmentPaymentValidationSchema = Yup.object().shape({
-    payment_type: Yup.string().required('Type is required'),
-    payment_mode: Yup.mixed().when("type", {
+    payment_type: Yup.string().required('Payment type is required'),
+    mode: Yup.mixed().when("payment_type", {
         is: 'current',
         then: Yup.mixed().required('Payment mode is required')
     }),
     promotion_code: Yup.string(),
     amount: Yup.number(),
     comments: Yup.string(),
-
-
 });
 
 const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) => {
@@ -112,13 +110,15 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                 enableReinitialize={true}
                 validateOnMount={true}>
                 {
-                    ({values, isValid, errors, setFieldValue, validateForm}) => {
+                    ({values, isSubmitting, isValid, errors, setFieldValue, validateForm}) => {
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
                             validateForm();
                         }, [validateForm, values]);
                         return (
                             <Form className="t-form" noValidate={true}>
+                                {JSON
+                                    .stringify(errors)}
                                 <>
                                     <div className={"t-appointment-drawer-form-controls height-100"}>
                                         <div className={'payment-block payment-block-time green-card pdd-15'}>
@@ -142,9 +142,9 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                                             </label>
                                             <label className="ts-col option-item-block">
                                                 <div className="option-item">
-                                                    <RadioButtonComponent checked={values.payment_type === 'later'}
+                                                    <RadioButtonComponent checked={values.payment_type === 'reserved'}
                                                                           onChange={value => {
-                                                                              setFieldValue('payment_type', 'later')
+                                                                              setFieldValue('payment_type', 'reserved')
                                                                           }}
                                                                           name={'payment-type'}/>
                                                 </div>
@@ -172,19 +172,19 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                                             <div className="price-holder">
                                                 <div className="price-item">
                                                     <div className="price-item-text">Amount (Inc. tax)</div>
-                                                    <div className="price-item-amount">$100.00</div>
+                                                    <div className="price-item-amount">${details.amount}.00</div>
                                                 </div>
                                                 <div className="price-item">
                                                     <div className="price-item-text">Discount</div>
-                                                    <div className="price-item-amount red">-$10</div>
+                                                    <div className="price-item-amount red">$0</div>
                                                 </div>
                                                 <div className="price-item price-item-total">
                                                     <div className="price-item-text">Total Amount</div>
-                                                    <div className="price-item-amount green">$110.00</div>
+                                                    <div className="price-item-amount green">${details.amount}.00</div>
                                                 </div>
                                             </div>
 
-                                            <Field name={'payment_mode'}>
+                                            <Field name={'mode'}>
                                                 {
                                                     (field: FieldProps) => (
                                                         <FormikSelectComponent
@@ -215,8 +215,9 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
 
                                     </div>
                                     <div className="client-search-btn">
-                                        <ButtonComponent disabled={!isValid} type={'submit'} fullWidth={true}
-                                                         onClick={onComplete}>Submit</ButtonComponent>
+                                        <ButtonComponent disabled={!isValid || isSubmitting} type={'submit'}
+                                                         fullWidth={true}
+                                        >Submit</ButtonComponent>
                                     </div>
                                 </>
                             </Form>

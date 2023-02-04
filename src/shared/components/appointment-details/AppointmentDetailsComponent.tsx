@@ -258,26 +258,17 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                         </div>
 
                         <div className="client-search-btn">
-                            {details && details.status === 'schedauled' && <ButtonComponent fullWidth={true}
-                                                                                            onClick={event => {
-                                                                                                if (details.payment_status === 'unpaid') {
-                                                                                                    setStep('payment');
-                                                                                                } else {
-                                                                                                    onCheckIn();
-                                                                                                }
-                                                                                            }
-                                                                                            }
-                            >Checkin</ButtonComponent>
-                            }
-                            {details && details.status === 'schedauled' && <ButtonComponent fullWidth={true}
-                                                                                            onClick={event => {
-                                                                                                if (details.payment_status === 'unpaid') {
-                                                                                                    setStep('payment');
-                                                                                                } else {
-                                                                                                    onCheckIn();
-                                                                                                }
-                                                                                            }
-                                                                                            }
+                            {details && details.status === 'scheduled' && <ButtonComponent
+                                fullWidth={true}
+                                onClick={
+                                    () => {
+                                        if (details.payment_status === 'unpaid') {
+                                            setStep('payment');
+                                        } else {
+                                            onCheckIn();
+                                        }
+                                    }
+                                }
                             >Checkin</ButtonComponent>
                             }
                         </div>

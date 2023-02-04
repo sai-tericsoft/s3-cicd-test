@@ -163,6 +163,18 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
         }
     }, [medicalRecordId, navigate]);
 
+    const handleNotifyAdmin = useCallback(() => {
+        if (medicalRecordId) {
+            CommonService._chartNotes.MedicalRecordNotifyAdminAPICall(medicalRecordId, {})
+                .then((response) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully Notify the admin", "success");
+                }).catch((error) => {
+                CommonService._alert.showToast(error?.error || "Error Notifying the admin", "error");
+            });
+        }
+    }, [medicalRecordId]);
+
+
     const handleMedicalRecordTransfer = useCallback(() => {
         closeTransferMedicalRecordDrawer();
         if (medicalRecordId) {
@@ -227,6 +239,9 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                                     </ListItem>,
                                                     <ListItem onClick={openTransferMedicalRecordDrawer}>
                                                         Transfer File
+                                                    </ListItem>,
+                                                    <ListItem onClick={handleNotifyAdmin} >
+                                                       Notify Admin
                                                     </ListItem>,
                                                     <ListItem onClick={openMedicalRecordStatsModal}>
                                                         View Case Statistics

@@ -639,6 +639,10 @@ const APIConfig: IAPIConfig = {
     MEDICAL_INTERVENTION_NOTIFY_ADMIN: {
         URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/notifyAdmin',
         METHOD: 'post'
+    },
+    MEDICAL_RECORD_NOTIFY_ADMIN:{
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/notifyAdmin',
+        METHOD: 'post'
     }
 }
 
