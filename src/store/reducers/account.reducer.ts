@@ -13,6 +13,7 @@ import {ILoggedInUser} from "../../shared/models/account.model";
 import moment from "moment";
 
 export interface IAccountReducerState {
+    systemLockReason?: 'auto' | 'manual';
     isSystemLocked?: boolean;
     lastActivityTime?: number;
     currentUser?: ILoggedInUser;
@@ -57,11 +58,12 @@ const accountReducer = (state: IAccountReducerState = INITIAL_STATE, action: IAc
                 currentUser: undefined
             };
         case SET_SYSTEM_LOCKED:
-            const isUserLoggedIn = action.payload;
-            CommonService._localStorage.setItem(Misc.IS_SYSTEM_LOCKED, isUserLoggedIn);
+            const systemLockedType = action.payload;
+            CommonService._localStorage.setItem(Misc.IS_SYSTEM_LOCKED, systemLockedType);
             return {
                 ...state,
-                isSystemLocked: isUserLoggedIn
+                systemLockReason:systemLockedType.type,
+                isSystemLocked: systemLockedType.isLocked,
             };
         default:
             return state;

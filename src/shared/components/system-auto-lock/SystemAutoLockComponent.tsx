@@ -42,7 +42,7 @@ const SystemAutoLockComponent = (props: SystemAutoLockComponentProps) => {
             const interval = setInterval(() => {
                 if (account?.currentUser && account?.lastActivityTime) {
                     if (moment().unix().toString() === (account?.lastActivityTime + (account?.currentUser?.auto_lock_minutes || 0) * 60).toString()) {
-                        dispatch(setSystemLocked(true));
+                        dispatch(setSystemLocked(true, 'auto'));
                         clearInterval(interval);
                     }
                 }
@@ -56,7 +56,7 @@ const SystemAutoLockComponent = (props: SystemAutoLockComponentProps) => {
     const handleSessionExit = useCallback(() => {
         CommonService._alert.showToast("Logged out", "success");
         navigate(CommonService._routeConfig.LoginRoute());
-        dispatch(setSystemLocked(false));
+        dispatch(setSystemLocked(false, 'auto'));
         dispatch(logout());
     }, [dispatch, navigate]);
 
@@ -65,7 +65,7 @@ const SystemAutoLockComponent = (props: SystemAutoLockComponentProps) => {
         CommonService._account.ResumeSessionAPICall(values)
             .then((response: IAPIResponseType<ILoginResponse>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                dispatch(setSystemLocked(false));
+                dispatch(setSystemLocked(false, 'auto'));
                 setIsLoggingIn(false);
             })
             .catch((error: any) => {
@@ -73,6 +73,13 @@ const SystemAutoLockComponent = (props: SystemAutoLockComponentProps) => {
                 setIsLoggingIn(false);
             })
     }, [dispatch]);
+
+
+    useEffect(() => {
+        if (!account.isSystemLocked) {
+            setCurrentStep('prompt');
+        }
+    }, [account.isSystemLocked]);
 
     return (
         <div className={'system-auto-lock-component'}>
@@ -86,11 +93,12 @@ const SystemAutoLockComponent = (props: SystemAutoLockComponentProps) => {
                             <ImageConfig.LockIcon/>
                         </div>
                         <div className={"system-auto-lock-title"}>
-                            You still there?
+                            {account.systemLockReason === 'auto' ? "You still there?" : "System Locked!"}
                         </div>
                         <div className={"system-auto-lock-sub-title"}>
-                            To return to the application, <br/>
-                            select the "Yes, I'm back" button.
+                            {account.systemLockReason === 'auto' ?
+                                <span>To return to the application, <br/>  select the "Yes, I'm back" button.</span> :
+                                <span> To continue using the application, <br/> Please enter your password again.</span>}
                         </div>
                         <div className="t-form-actions">
                             <ButtonComponent
@@ -107,7 +115,7 @@ const SystemAutoLockComponent = (props: SystemAutoLockComponentProps) => {
                                 }
                                 }
                             >
-                                Yes, I’m back
+                                {account.systemLockReason === 'auto' ? "Yes, I’m back" : "Proceed"}
                             </ButtonComponent>
                         </div>
                     </div>
@@ -137,7 +145,7 @@ const SystemAutoLockComponent = (props: SystemAutoLockComponentProps) => {
                                         <ImageConfig.NavigateBack/>&nbsp;Back
                                     </div>
                                     <div className={"system-auto-lock-title"}>
-                                        Welcome back!
+                                        WELCOME BACK!
                                     </div>
                                     <div className={"system-auto-lock-sub-title"}>
                                         Enter your password to access the system again.
