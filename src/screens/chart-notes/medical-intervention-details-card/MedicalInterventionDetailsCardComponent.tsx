@@ -63,15 +63,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
             }
         }
     }, [medicalRecordId, medicalInterventionId, dispatch]);
-
-    useEffect(() => {
-        if (clientMedicalRecord?.client_id) {
-            dispatch(setCurrentNavParams("Medical Record details", null, () => {
-                navigate(CommonService._routeConfig.MedicalRecordList(clientMedicalRecord?.client_id));
-            }));
-        }
-    }, [navigate, dispatch, clientMedicalRecord?.client_id]);
-
+    
     const comingSoon = useCallback(
         () => {
             CommonService._alert.showToast('Coming Soon!', 'info')
