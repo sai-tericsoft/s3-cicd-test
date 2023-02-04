@@ -35,7 +35,6 @@ const addSurgeryRecordFormInitialValues: any = {
 
 const addSurgeryRecordValidationSchema = Yup.object().shape({
     surgery_date: Yup.string().required("Surgery date is required"),
-    reported_by: Yup.mixed().nullable(),
 });
 
 
