@@ -264,6 +264,11 @@ const TransferSoapNoteAPICall = (clientId: string, payload: any) => {
     return ApiService[APIConfig.TRANSFER_SOAP_NOTE.METHOD](APIConfig.TRANSFER_SOAP_NOTE.URL(clientId), payload);
 }
 
+const MedicalInterventionNotifyAdminAPICall = (medicalInterventionId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.MEDICAL_INTERVENTION_NOTIFY_ADMIN.METHOD](APIConfig.MEDICAL_INTERVENTION_NOTIFY_ADMIN.URL(medicalInterventionId), payload);
+}
+
 const ChartNotesService = {
     MedicalRecordAddAPICall,
     MedicalRecordEditAPICall,
@@ -318,7 +323,8 @@ const ChartNotesService = {
     ImportSoapNoteAPICall,
     MedicalRecordConsolidatedInterventionAndAttachmentsListAPICall,
     MedicalRecordListLiteAPICall,
-    TransferMedicalRecordAPICall
+    TransferMedicalRecordAPICall,
+    MedicalInterventionNotifyAdminAPICall
 }
 
 export default ChartNotesService;

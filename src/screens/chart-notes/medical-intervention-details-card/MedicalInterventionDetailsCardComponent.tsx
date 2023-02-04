@@ -9,7 +9,7 @@ import StatusCardComponent from "../../../shared/components/status-card/StatusCa
 import {useNavigate, useParams} from "react-router-dom";
 import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import {CommonService} from "../../../shared/services";
-import {ImageConfig} from "../../../constants";
+import {ImageConfig, Misc} from "../../../constants";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import EditMedicalRecordComponent from "../edit-medical-record/EditMedicalRecordComponent";
 import {ListItem} from "@mui/material";
@@ -161,6 +161,17 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
         }
     }, [medicalRecordId, closeImportSoapNoteDrawer, navigate]);
 
+    const handleNotifyAdmin = useCallback(() => {
+        if (medicalInterventionId) {
+            CommonService._chartNotes.MedicalInterventionNotifyAdminAPICall(medicalInterventionId, {})
+                .then((response) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully Notify the admin", "success");
+                }).catch((error) => {
+                CommonService._alert.showToast(error?.error || "Error in Notifying the admin", "error");
+            });
+        }
+    },[medicalInterventionId]);
+
     return (
         <div className={'client-medical-details-card-component'}>
             {
@@ -212,7 +223,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                         [
                                             <ListItem onClick={comingSoon}>Print SOAP</ListItem>,
                                             <ListItem onClick={openTransferSoapNoteDrawer}>Transfer SOAP to</ListItem>,
-                                            <ListItem onClick={comingSoon}>Notify Admin</ListItem>,
+                                            <ListItem onClick={handleNotifyAdmin}>Notify Admin</ListItem>,
                                             <ListItem onClick={openAddDryNeedlingFileDrawer}>
                                                 Add Dry Needling File
                                             </ListItem>,
