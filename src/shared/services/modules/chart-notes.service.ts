@@ -247,9 +247,9 @@ const MedicalRecordConsolidatedInterventionAndAttachmentsListAPICall = (medicalR
     return ApiService[APIConfig.MEDICAL_RECORD_CONSOLIDATED_INTERVENTIONS_AND_ATTACHMENTS.METHOD](APIConfig.MEDICAL_RECORD_CONSOLIDATED_INTERVENTIONS_AND_ATTACHMENTS.URL(medicalRecordId));
 }
 
-const MedicalRecordListLiteAPICall = (clientId: string) => {
+const MedicalRecordListLiteAPICall = (clientId: string, payload: any = {}) => {
     // @ts-ignore
-    return ApiService[APIConfig.MEDICAL_RECORD_LIST_LITE.METHOD](APIConfig.MEDICAL_RECORD_LIST_LITE.URL(clientId));
+    return ApiService[APIConfig.MEDICAL_RECORD_LIST_LITE.METHOD](APIConfig.MEDICAL_RECORD_LIST_LITE.URL(clientId), payload);
 }
 
 const TransferMedicalRecordAPICall = (clientId: string, payload: any) => {

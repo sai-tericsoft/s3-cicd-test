@@ -149,7 +149,53 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                      }><ImageConfig.CloseIcon/></div>
                             </ToolTipComponent>
                         </div>
+
+                        <div className={"status-block " + details?.status}>
+                            <div className="status-info">
+                                {details?.status === 'scheduled' && <>
+                                    <div className="info-text">
+                                        Appointment Fees : $ {details?.amount}
+                                    </div>
+                                </>}
+                                {details?.status === 'upcoming' && <>
+                                    <div className="info-text">
+                                        Check-In Time : {CommonService.getHoursAndMinutesFromMinutes(details?.start_time)}
+                                    </div>
+                                </>}
+                                {details?.status === 'engaged' && <>
+                                    <div className="info-text">
+                                        Session Start Time
+                                        : {CommonService.getHoursAndMinutesFromMinutes(details?.actual_start_time)}
+                                    </div>
+                                </>}
+                                {details?.status === 'cancelled' && <>
+                                    <div className="info-text">
+                                        Cancellation Fees
+                                        : {(details?.waive_cancellation_fee) ? 'Waived Off' : '$' + (details?.cancellation_charge?.amount || 0)}
+                                    </div>
+                                </>}
+                                {details?.status === 'no_show' && <>
+                                    <div className="info-text">
+                                        No Show Fees :
+                                        {(details?.waive_no_show_fee) ? 'Waived Off' : '$' + (details?.no_show_charge?.amount || 0)}
+                                    </div>
+                                </>}
+                                {details?.status === 'completed' && <>
+                                    <div className="info-text">
+                                        Session Start Time
+                                        : {details?.actual_start_time && CommonService.getHoursAndMinutesFromMinutes(details?.actual_start_time)}
+                                        <br/>
+                                        Session End Time
+                                        : {details?.actual_end_time && CommonService.getHoursAndMinutesFromMinutes(details?.actual_end_time)}
+                                    </div>
+                                </>}
+                            </div>
+                            <div className="status-text">
+                                {details?.status}
+                            </div>
+                        </div>
                         <div className="details-header">
+
                             <div className="block-body pdd-top-20">
                                 <div className="block-content">
                                     <ImageConfig.CalendarIcon/>
@@ -162,7 +208,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                         className="content-title">{moment(Math.floor(details.start_time / 60) + ':' + details.start_time % 60, 'hh:mm').format('hh:mm A')}</div>
                                 </div>
                                 <div className="block-content">
-                                    <MenuDropdownComponent menuBase={
+                                    {details?.status === 'scheduled' && <MenuDropdownComponent menuBase={
                                         <ButtonComponent size={'large'} variant={'outlined'} fullWidth={true}>
                                             Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
                                         </ButtonComponent>
@@ -173,7 +219,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                             <ListItem onClick={onCancelAppointment}>Cancel Appointment</ListItem>
                                         ]
                                     }
-                                    />
+                                    />}
                                 </div>
                             </div>
                         </div>
@@ -236,6 +282,17 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                             </div>
                                         </div>
                                     </div>
+                                    {/*<div className="details-body-block">*/}
+                                    {/*    <div className="details-body-item">*/}
+                                    {/*        <div className="item-heading"><ImageConfig.CalendarIcon/>&nbsp;Appointment Status*/}
+                                    {/*        </div>*/}
+                                    {/*        <div className={"item-value"}>*/}
+                                    {/*            <ChipComponent label={details?.status}*/}
+                                    {/*                           className={details?.status}*/}
+                                    {/*            />*/}
+                                    {/*        </div>*/}
+                                    {/*    </div>*/}
+                                    {/*</div>*/}
                                 </div>
                             </div>
 

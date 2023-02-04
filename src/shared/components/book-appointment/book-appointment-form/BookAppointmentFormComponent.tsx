@@ -70,7 +70,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
         (clientId: string) => {
             setIsClientCasesListLoading(true);
             setClientCasesList([]);
-            CommonService._chartNotes.MedicalRecordListLiteAPICall(clientId)
+            CommonService._chartNotes.MedicalRecordListLiteAPICall(clientId, {status: 'open'})
                 .then((response: IAPIResponseType<any>) => {
                     setClientCasesList(response.data || []);
                 })
@@ -192,7 +192,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
         (categoryId: string) => {
             setServicesList([]);
             setIsServiceListLoading(true);
-            CommonService._service.ServiceListLiteAPICall(categoryId)
+            CommonService._service.ServiceListLiteAPICall(categoryId, {is_active: true})
                 .then((response: IAPIResponseType<any>) => {
                     setServicesList(response.data || []);
                 })
@@ -457,7 +457,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                     <FormikSelectComponent
                                                         formikField={field}
                                                         required={true}
-                                                        disabled={isProviderListLoading}
+                                                        disabled={isProviderListLoading || !values.service}
                                                         options={serviceProvidersList || []}
                                                         displayWith={(option: any) => option?.provider_name || 'No Name'}
                                                         valueExtractor={(option: any) => option}
@@ -521,7 +521,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
 
                                     </div>
                                     <div className="booking-form-action">
-                                        <ButtonComponent  fullWidth={true} type={'submit'}>Next</ButtonComponent>
+                                        <ButtonComponent fullWidth={true} type={'submit'}>Next</ButtonComponent>
                                     </div>
                                 </Form>
                             )

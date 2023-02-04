@@ -25,7 +25,6 @@ import TransferSoapNoteComponent from "../transfer-soap-note/TransferSoapNoteCom
 import {getMedicalInterventionDetails, getMedicalRecordSoapNoteList} from "../../../store/actions/chart-notes.action";
 import AddConcussionFileComponent from "../add-concussion-file/AddConcussionFileComponent";
 import {IRootReducerState} from "../../../store/reducers";
-import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import ImportSoapNoteComponent from "../import-soap-note/ImportSoapNoteComponent";
 
 interface MedicalInterventionDetailsCardComponentProps {
@@ -63,7 +62,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
             }
         }
     }, [medicalRecordId, medicalInterventionId, dispatch]);
-    
+
     const comingSoon = useCallback(
         () => {
             CommonService._alert.showToast('Coming Soon!', 'info')
@@ -162,7 +161,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                 CommonService._alert.showToast(error?.error || "Error in Notifying the admin", "error");
             });
         }
-    },[medicalInterventionId]);
+    }, [medicalInterventionId]);
 
     return (
         <div className={'client-medical-details-card-component'}>

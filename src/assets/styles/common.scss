@@ -434,9 +434,13 @@
 
 .chip {
   font-weight: 500;
+  &.no_show {
+    background: #EFEFEF;
+    color: #717171;
+  }
   &.scheduled {
-    background: #FAFAFA;
-    color: #333;
+    background: #E8F2FF;
+    color: #1C5EDE;
   }
   &.upcoming {
     background: #FFF7EA;
