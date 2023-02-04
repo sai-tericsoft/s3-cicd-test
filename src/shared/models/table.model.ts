@@ -29,6 +29,7 @@ export interface ITableComponentProps {
     showExpandColumn?: boolean;
     expandRowRenderer?: (row: any, index: number) => React.ReactNode;
     rowSelection?: TableRowSelection<any>;
+    noDataText?:string;
     sort?: {
         key: string;
         order: string;

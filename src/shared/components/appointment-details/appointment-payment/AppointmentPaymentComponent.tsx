@@ -117,8 +117,6 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                         }, [validateForm, values]);
                         return (
                             <Form className="t-form" noValidate={true}>
-                                {JSON
-                                    .stringify(errors)}
                                 <>
                                     <div className={"t-appointment-drawer-form-controls height-100"}>
                                         <div className={'payment-block payment-block-time green-card pdd-15'}>
