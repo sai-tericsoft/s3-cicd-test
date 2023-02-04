@@ -5,12 +5,10 @@ import React, {useCallback, useEffect, useState} from "react";
 import FormikDatePickerComponent
     from "../../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
-import FormikSelectComponent from "../../../shared/components/form-controls/formik-select/FormikSelectComponent";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import * as Yup from "yup";
 import moment from "moment/moment";
-import {IUser} from "../../../shared/models/user.model";
 import FilePreviewThumbnailComponent
     from "../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import FilePickerComponent from "../../../shared/components/file-picker/FilePickerComponent";
@@ -19,6 +17,7 @@ import {IRootReducerState} from "../../../store/reducers";
 import {CommonService} from "../../../shared/services";
 import {Misc} from "../../../constants";
 import {IAPIResponseType} from "../../../shared/models/api.model";
+import InputComponent from "../../../shared/components/form-controls/input/InputComponent";
 
 interface AddSurgeryRecordComponentProps {
     medicalRecordId: string;
@@ -28,7 +27,6 @@ interface AddSurgeryRecordComponentProps {
 
 const addSurgeryRecordFormInitialValues: any = {
     surgery_date: "",
-    reported_by: undefined,
     surgeon_name: "",
     details: "",
     documents: []
@@ -37,14 +35,14 @@ const addSurgeryRecordFormInitialValues: any = {
 
 const addSurgeryRecordValidationSchema = Yup.object().shape({
     surgery_date: Yup.string().required("Surgery date is required"),
-    reported_by: Yup.mixed().required("Reported by is required"),
+    reported_by: Yup.mixed().nullable(),
 });
 
 
 const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
 
     const {medicalRecordDetails, onSave} = props;
-    const {allProvidersList} = useSelector((state: IRootReducerState) => state.user);
+    const {currentUser}=useSelector((state:IRootReducerState)=>state.account);
     const [isSurgeryRecordAddInProgress, setIsSurgeryRecordAddInProgress] = useState<boolean>(false);
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         if (medicalRecordDetails) {
@@ -102,21 +100,13 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                                         )
                                     }
                                 </Field>
-                                <Field name={'reported_by'}>
-                                    {
-                                        (field: FieldProps) => (
-                                            <FormikSelectComponent
-                                                options={allProvidersList}
-                                                displayWith={(option: IUser) => (option?.first_name || option?.last_name) ? option?.first_name + " " + option?.last_name : "-"}
-                                                valueExtractor={(option: IUser) => option}
+                                <InputComponent className="t-form-control"
                                                 label={'Reported By'}
-                                                formikField={field}
-                                                required={true}
+                                                placeholder={'Reported By'}
+                                                value={currentUser?.first_name + " " + currentUser?.last_name}
                                                 fullWidth={true}
-                                            />
-                                        )
-                                    }
-                                </Field>
+                                                disabled={true}
+                                />
                                 <Field name={'surgeon_name'}>
                                     {
                                         (field: FieldProps) => (
