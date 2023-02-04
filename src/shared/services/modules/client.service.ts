@@ -25,6 +25,7 @@ const ClientAccountDetailsApiCall = (clientId: string, payload: any) => {
 }
 
 const ClientBasicDetailsAddAPICall = (payload: any) => {
+    console.log('payload', payload);
     // @ts-ignore
     return ApiService[APIConfig.CLIENT_BASIC_DETAILS_ADD.METHOD](APIConfig.CLIENT_BASIC_DETAILS_ADD.URL, payload);
 }
@@ -84,7 +85,10 @@ const ClientBasicDetailsEditAPICall = (clientId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.CLIENT_BASIC_DETAILS_EDIT.METHOD](APIConfig.CLIENT_BASIC_DETAILS_EDIT.URL(clientId), payload);
 }
-
+// const ClientBasicDetailsAddAPICall = (clientId: string, payload: any) => {
+//     // @ts-ignore
+//     return ApiService[APIConfig.CLIENT_BASIC_DETAILS_EDIT.METHOD](APIConfig.CLIENT_BASIC_DETAILS_EDIT.URL(clientId), payload);
+// }
 const NavigateToClientDetails = (clientId: string, step: IClientDetailsSteps) => {
     return RouteConfigService.ClientDetails(clientId) + "?currentStep=" + step;
 }
@@ -119,6 +123,10 @@ const ClientListLiteAPICall = (payload: any) => {
     return ApiService[APIConfig.CLIENT_LIST_LITE.METHOD](APIConfig.CLIENT_LIST_LITE.URL, payload);
 }
 
+const ResendInviteToClient=(clientId:string,payload:any)=>{
+    return ApiService[APIConfig.RESEND_INVITE_LINK_TO_CLIENT.METHOD](APIConfig.RESEND_INVITE_LINK_TO_CLIENT.URL(clientId),payload);
+}
+
 const ClientService = {
     ClientBasicDetailsAddAPICall,
     ClientBasicDetailsAPICall,
@@ -144,7 +152,8 @@ const ClientService = {
     GetClientListLite,
     GetClientList,
     GetClientMedicalRecordList,
-    ClientListLiteAPICall
+    ClientListLiteAPICall,
+    ResendInviteToClient
 }
 
 export default ClientService;

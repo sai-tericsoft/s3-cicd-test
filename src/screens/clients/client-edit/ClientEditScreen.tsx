@@ -179,7 +179,6 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                 currentStep === "basicDetails" &&
                 <ClientBasicDetailsFormComponent
                     mode={mode}
-                    clientId={clientId}
                     onSave={handleClientDetailsSave}
                     onCancel={handleClientDetailsCancel}
                 />

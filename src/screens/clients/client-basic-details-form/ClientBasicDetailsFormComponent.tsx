@@ -22,9 +22,10 @@ import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import FormikSwitchComponent from "../../../shared/components/form-controls/formik-switch/FormikSwitchComponent";
 import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
+import {useNavigate, useParams} from "react-router-dom";
+import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface ClientBasicDetailsFormComponentProps {
-    clientId?: string;
     mode: "add" | "edit";
     onCancel: () => void;
     onSave: (clientBasicDetails: any) => void;
@@ -129,13 +130,16 @@ const ClientBasicDetailsFormInitialValues: IClientBasicDetails = {
         country: "",
         zip_code: "",
         state: ""
-    }
+    },
+    send_invite:false
 };
 
 
 const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentProps) => {
 
-    const {clientId, onCancel, mode, onSave} = props;
+    const {onCancel, mode, onSave} = props;
+    const {clientId} = useParams();
+    const navigate=useNavigate();
     const [clientBasicDetailsFormInitialValues, setClientBasicDetailsFormInitialValues] = useState<IClientBasicDetails>(_.cloneDeep(ClientBasicDetailsFormInitialValues));
     const [isClientBasicDetailsSavingInProgress, setIsClientBasicDetailsSavingInProgress] = useState(false);
     const dispatch = useDispatch();
@@ -162,57 +166,78 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
         };
         payload['dob'] = CommonService.convertDateFormat(payload['dob']);
         setIsClientBasicDetailsSavingInProgress(true);
-        let apiCall;
-        if (mode === "edit" && clientId) {
-            apiCall = CommonService._client.ClientBasicDetailsEditAPICall(clientId, payload);
-        } else {
-            apiCall = CommonService._client.ClientBasicDetailsAddAPICall(payload);
+        if (clientId) {
+            if(mode==='add' || mode==='edit') {
+                CommonService._client.ClientBasicDetailsEditAPICall(clientId, payload)
+                    .then((response: IAPIResponseType<IClientBasicDetails>) => {
+                        CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                        setIsClientBasicDetailsSavingInProgress(false);
+                        dispatch(setClientBasicDetails(response.data));
+                        onSave(response.data);
+                    }).catch((error: any) => {
+                    CommonService.handleErrors(setErrors, error, true);
+                    console.log('errors', error);
+                    setIsClientBasicDetailsSavingInProgress(false);
+                })
+            }
         }
-        apiCall.then((response: IAPIResponseType<IClientBasicDetails>) => {
-            CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-            setIsClientBasicDetailsSavingInProgress(false);
-            dispatch(setClientBasicDetails(response.data));
-            onSave(response.data);
-        }).catch((error: any) => {
-            CommonService.handleErrors(setErrors, error, true);
-            setIsClientBasicDetailsSavingInProgress(false);
-        })
-    }, [clientId, dispatch, mode, onSave]);
+        // let apiCall;
+        // if (mode === "edit" && clientId) {
+        //     apiCall = CommonService._client.ClientBasicDetailsEditAPICall(clientId, payload);
+        // } else {
+        //     apiCall = CommonService._client.ClientBasicDetailsAddAPICall(payload);
+        // }
+        // apiCall.then((response: IAPIResponseType<IClientBasicDetails>) => {
+        //     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+        //     setIsClientBasicDetailsSavingInProgress(false);
+        //     dispatch(setClientBasicDetails(response.data));
+        //     onSave(response.data);
+        // }).catch((error: any) => {
+        //     CommonService.handleErrors(setErrors, error, true);
+        //     setIsClientBasicDetailsSavingInProgress(false);
+        // })
+    }, [clientId, dispatch, onSave]);
 
-    useEffect(() => {
-        if (mode === "edit") {
-            if (clientBasicDetails) {
-                if (!clientBasicDetails.emergency_contact_info.primary_emergency.secondary_contact_info ||
-                    (clientBasicDetails.emergency_contact_info.primary_emergency.secondary_contact_info && clientBasicDetails.emergency_contact_info.primary_emergency.secondary_contact_info?.length === 0)) {
-                    clientBasicDetails.emergency_contact_info.primary_emergency.secondary_contact_info = [{
+    const clientBasicFormDetails = useCallback(() => {
+        if (clientBasicDetails) {
+            if (!clientBasicDetails.emergency_contact_info.primary_emergency.secondary_contact_info ||
+                (clientBasicDetails.emergency_contact_info.primary_emergency.secondary_contact_info && clientBasicDetails.emergency_contact_info.primary_emergency.secondary_contact_info?.length === 0)) {
+                clientBasicDetails.emergency_contact_info.primary_emergency.secondary_contact_info = [{
+                    phone: "",
+                    phone_type: ""
+                }]
+            }
+            if (clientBasicDetails.emergency_contact_info.secondary_emergency) {
+                clientBasicDetails.show_secondary_emergency_form = true;
+                if (!clientBasicDetails.emergency_contact_info.secondary_emergency.secondary_contact_info ||
+                    (clientBasicDetails.emergency_contact_info.secondary_emergency.secondary_contact_info && clientBasicDetails.emergency_contact_info.secondary_emergency.secondary_contact_info?.length === 0)) {
+                    clientBasicDetails.emergency_contact_info.secondary_emergency.secondary_contact_info = [{
                         phone: "",
                         phone_type: ""
                     }]
                 }
-                if (clientBasicDetails.emergency_contact_info.secondary_emergency) {
-                    clientBasicDetails.show_secondary_emergency_form = true;
-                    if (!clientBasicDetails.emergency_contact_info.secondary_emergency.secondary_contact_info ||
-                        (clientBasicDetails.emergency_contact_info.secondary_emergency.secondary_contact_info && clientBasicDetails.emergency_contact_info.secondary_emergency.secondary_contact_info?.length === 0)) {
-                        clientBasicDetails.emergency_contact_info.secondary_emergency.secondary_contact_info = [{
-                            phone: "",
-                            phone_type: ""
-                        }]
-                    }
-                }
-                setClientBasicDetailsFormInitialValues(clientBasicDetails);
-            } else {
-                if (clientId) {
-                    dispatch(getClientBasicDetails(clientId));
-                }
             }
+            setClientBasicDetailsFormInitialValues(clientBasicDetails);
         }
-    }, [mode, clientId, dispatch, clientBasicDetails]);
+    }, [clientId, clientBasicDetails, dispatch])
+
+    useEffect(() => {
+        clientBasicFormDetails();
+    }, [clientBasicDetails]);
+
+    useEffect(() => {
+        if (clientId) {
+            dispatch(getClientBasicDetails(clientId));
+        }
+    }, [clientId, dispatch]);
+
+    console.log('clientBasicDetails', clientBasicDetails);
 
     return (
         <div className={'client-basic-details-form-component'}>
             <>
                 {
-                    mode === "edit" && <>
+                    <>
                         {
                             isClientBasicDetailsLoading && <div>
                                 <LoaderComponent/>
@@ -241,8 +266,10 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                         }, [validateForm, values]);
                         return (
                             <Form noValidate={true} className={"t-form"}>
+                                <FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>
                                 {
-                                    mode === "edit" && <div
+                                    mode === "edit" &&
+                                    <div
                                         className={"mrg-bottom-20 display-flex flex-direction-row-reverse"}>
                                         <div className={"display-flex align-items-center"}>
                                             <div>Status:</div>

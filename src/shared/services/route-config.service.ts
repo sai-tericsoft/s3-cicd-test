@@ -83,8 +83,8 @@ const ClientList = () => {
     return CLIENT_LIST;
 }
 
-const ClientAdd = () => {
-    return CLIENT_ADD;
+const ClientAdd = (clientId:string) => {
+    return CLIENT_ADD + '/' + clientId;
 }
 
 const ClientDetails = (clientId: string) => {

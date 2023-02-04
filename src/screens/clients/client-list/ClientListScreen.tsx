@@ -16,6 +16,8 @@ import {
 import {useNavigate} from "react-router-dom";
 import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
 import {IRootReducerState} from "../../../store/reducers";
+import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
+import ClientAddComponent from "../client-add/ClientAddComponent";
 
 interface ClientListScreenProps {
 
@@ -31,6 +33,7 @@ const ClientListScreen = (props: ClientListScreenProps) => {
         is_active: undefined,
         sort: {}
     });
+    const [isClientAddDrawerOpen, setIsClientAddDrawerOpen] = useState<boolean>(false);
 
     useEffect(() => {
         dispatch(setCurrentNavParams('Clients'));
@@ -48,12 +51,19 @@ const ClientListScreen = (props: ClientListScreenProps) => {
         });
     }, []);
 
-    const handleClientAdd = useCallback(() => {
-        dispatch(setClientBasicDetails(undefined));
-        dispatch(setClientMedicalDetails(undefined));
-        dispatch(setClientAccountDetails(undefined));
-        navigate(CommonService._routeConfig.ClientAdd());
-    }, [navigate, dispatch]);
+    // const handleClientAdd = useCallback(() => {
+    //     dispatch(setClientBasicDetails(undefined));
+    //     dispatch(setClientMedicalDetails(undefined));
+    //     dispatch(setClientAccountDetails(undefined));
+    //     navigate(CommonService._routeConfig.ClientAdd());
+    // }, [navigate, dispatch]);
+    const openClientAddDrawer = useCallback(() => {
+        setIsClientAddDrawerOpen(true);
+    }, []);
+
+    const closeClientAddDrawer = useCallback(() => {
+        setIsClientAddDrawerOpen(false);
+    }, []);
 
     return (
         <div className={'client-list-screen list-screen'}>
@@ -79,14 +89,15 @@ const ClientListScreen = (props: ClientListScreenProps) => {
                                 keyExtractor={(item) => item.code}
                                 onUpdate={(value) => {
                                     delete clientListFilterState.is_active;
-                                    setClientListFilterState({...clientListFilterState, ...(value !== '' ? {is_active: value}: {})})
+                                    setClientListFilterState({...clientListFilterState, ...(value !== '' ? {is_active: value} : {})})
                                 }}
                             />
                         </div>
                     </div>
                 </div>
                 <div className="list-options">
-                    <ButtonComponent id={'add_client_btn'} prefixIcon={<ImageConfig.AddIcon/>} onClick={handleClientAdd}>
+                    <ButtonComponent id={'add_client_btn'} prefixIcon={<ImageConfig.AddIcon/>}
+                                     onClick={openClientAddDrawer}>
                         Add Client
                     </ButtonComponent>
                 </div>
@@ -97,6 +108,11 @@ const ClientListScreen = (props: ClientListScreenProps) => {
                     onSort={handleClientSort}
                 />
             </div>
+            <DrawerComponent isOpen={isClientAddDrawerOpen}
+                             showClose={true}
+                             onClose={closeClientAddDrawer}>
+                <ClientAddComponent onAdd={()=>closeClientAddDrawer()}/>
+            </DrawerComponent>
         </div>
     );
 
