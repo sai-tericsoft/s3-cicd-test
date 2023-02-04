@@ -264,9 +264,12 @@ const TransferSoapNoteAPICall = (clientId: string, payload: any) => {
     return ApiService[APIConfig.TRANSFER_SOAP_NOTE.METHOD](APIConfig.TRANSFER_SOAP_NOTE.URL(clientId), payload);
 }
 
+const MedicalInterventionNotifyAdminAPICall = (medicalInterventionId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.MEDICAL_INTERVENTION_NOTIFY_ADMIN.METHOD](APIConfig.MEDICAL_INTERVENTION_NOTIFY_ADMIN.URL(medicalInterventionId), payload);
+}
+
 const MedicalRecordNotifyAdminAPICall = (medicalRecordId: string, payload: any) => {
-    console.log("payload", payload);
-    console.log('medicalRecordId',medicalRecordId);
     // @ts-ignore
     return ApiService[APIConfig.MEDICAL_RECORD_NOTIFY_ADMIN.METHOD](APIConfig.MEDICAL_RECORD_NOTIFY_ADMIN.URL(medicalRecordId), payload);
 }
@@ -326,6 +329,7 @@ const ChartNotesService = {
     MedicalRecordConsolidatedInterventionAndAttachmentsListAPICall,
     MedicalRecordListLiteAPICall,
     TransferMedicalRecordAPICall,
+    MedicalInterventionNotifyAdminAPICall,
     MedicalRecordNotifyAdminAPICall
 }
 
