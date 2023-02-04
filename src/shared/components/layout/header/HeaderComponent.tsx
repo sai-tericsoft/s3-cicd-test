@@ -1,15 +1,24 @@
-import {ImageConfig} from "../../../../constants";
+import {ImageConfig, Misc} from "../../../../constants";
 import "./HeaderComponent.scss";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../../store/reducers";
-import {logout} from "../../../../store/actions/account.action";
+import {logout, setSystemLocked} from "../../../../store/actions/account.action";
 import {CommonService} from "../../../services";
 import {useNavigate} from "react-router-dom";
-import {useCallback} from "react";
+import {useCallback, useEffect, useState} from "react";
 import IconButtonComponent from "../../icon-button/IconButtonComponent";
 import {ListItemIcon, ListItemText} from "@mui/material";
 import {Logout} from "@mui/icons-material";
 import MenuDropdownComponent from "../../menu-dropdown/MenuDropdownComponent";
+import ButtonComponent from "../../button/ButtonComponent";
+import {Field, FieldProps, Form, Formik} from "formik";
+import FormikPasswordInputComponent from "../../form-controls/formik-password-input/FormikPasswordInputComponent";
+import ModalComponent from "../../modal/ModalComponent";
+import moment from "moment/moment";
+import {IAPIResponseType} from "../../../models/api.model";
+import {ILoginResponse} from "../../../models/account.model";
+import * as Yup from "yup";
+
 
 interface HeaderComponentProps {
 
@@ -30,6 +39,10 @@ const HeaderComponent = (props: HeaderComponentProps) => {
         }
     }, [onNavigateBack]);
 
+    const handleSystemLock = useCallback(() => {
+        dispatch(setSystemLocked(true,'manual'));
+    },[dispatch]);
+
     return (
         <div className="header-component">
             <div className="header-title-nav-back">
@@ -49,7 +62,7 @@ const HeaderComponent = (props: HeaderComponentProps) => {
             <div className="header-options">
                 <div className="header-option lock">
                     <IconButtonComponent>
-                        <ImageConfig.LockIcon/>
+                        <ImageConfig.LockIcon onClick={handleSystemLock}/>
                     </IconButtonComponent>
                 </div>
                 <MenuDropdownComponent menuBase={<>

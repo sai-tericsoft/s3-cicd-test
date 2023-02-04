@@ -16,6 +16,14 @@ import {ReactComponent as VerifiedCheck} from './../assets/icons/verified_black.
 import {ReactComponent as CalendarIcon} from './../assets/icons/calander.svg';
 import {ReactComponent as TimerIcon} from './../assets/icons/timer.svg';
 
+import {ReactComponent as CallIcon} from './../assets/icons/call_black.svg';
+import {ReactComponent as PersonIcon} from './../assets/icons/person_black.svg';
+import {ReactComponent as EmailIcon} from './../assets/icons/email_black.svg';
+import {ReactComponent as AssignmentIcon} from './../assets/icons/assignment_ind.svg';
+import {ReactComponent as MedicalServicesIcon} from './../assets/icons/medical_services.svg';
+import {ReactComponent as AttachMoneyIcon} from './../assets/icons/attach_money.svg';
+import {ReactComponent as CancelIcon} from './../assets/icons/cancel.svg';
+
 import {ReactComponent as CircleCheck} from './../assets/icons/check_circle.svg';
 import {ReactComponent as CircleError} from './../assets/icons/error_circle.svg';
 import {ReactComponent as LeftArrow} from './../assets/icons/left_arrow.svg';
@@ -138,5 +146,12 @@ export {
     AppointmentConfirm,
     CalendarIcon,
     TimerIcon,
-    SendIcon
+    SendIcon,
+    EmailIcon,
+    PersonIcon,
+    CallIcon,
+    MedicalServicesIcon,
+    AttachMoneyIcon,
+    AssignmentIcon,
+    CancelIcon
 }

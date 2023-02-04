@@ -7,7 +7,7 @@ import CheckLoginComponent from "./shared/components/check-login/checkLoginCompo
 import ConfirmationComponent from "./shared/components/confirmation/ConfirmationComponent";
 import {createTheme, ThemeOptions, ThemeProvider} from '@mui/material/styles';
 import {CommonService} from "./shared/services";
-import {logout} from "./store/actions/account.action";
+import {logout, updateLastActivityTime} from "./store/actions/account.action";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "./store/reducers";
 import {
@@ -21,18 +21,23 @@ import {
     getGenderList,
     getInjuryTypeList,
     getLanguageList,
-    getMedicalHistoryOptionsList, getMedicalRecordDocumentTypes,
-    getMusculoskeletalHistoryOptionsList, getPaymentModes,
+    getMedicalHistoryOptionsList,
+    getMusculoskeletalHistoryOptionsList,
+    getMedicalRecordDocumentTypes,
+    getPaymentModes,
     getPhoneTypeList,
     getProgressReportStatsList,
     getReferralTypeList,
     getRelationShipList,
     getSocialMediaPlatformList,
-    getSurgicalHistoryOptionsList
+    getSurgicalHistoryOptionsList, getFilesUneditableAfterOptionsList, getSystemAutoLockDurationOptionsList
 } from "./store/actions/static-data.action";
 import AppVersionComponent from "./shared/components/app-version/appVersionComponent";
 import {getAllProvidersList} from "./store/actions/user.action";
 import LightBoxComponent from "./shared/components/light-box/LightBoxComponent";
+import {debounceTime, fromEvent} from "rxjs";
+import SystemAutoLockComponent from "./shared/components/system-auto-lock/SystemAutoLockComponent";
+import {getSystemSettings} from "./store/actions/settings.action";
 
 interface AppProps {
     setCurrentUser?: any;
@@ -93,7 +98,23 @@ const App = (props: AppProps) => {
     }, [dispatch]);
 
     useEffect(() => {
+        const subscription = fromEvent(window, 'mousemove')
+            .pipe((debounceTime(500)))
+            .subscribe((event: any) => {
+                if (token) {
+                    dispatch(updateLastActivityTime())
+                } else {
+                    subscription.unsubscribe();
+                }
+            });
+        return () => {
+            subscription.unsubscribe();
+        }
+    }, [dispatch, token]);
+
+    useEffect(() => {
         if (token) {
+            dispatch(updateLastActivityTime());
             dispatch(getConsultationDurationList());
             dispatch(getGenderList());
             dispatch(getLanguageList());
@@ -117,6 +138,9 @@ const App = (props: AppProps) => {
             dispatch(getAppointmentTypes());
             dispatch(getAppointmentStatus());
             dispatch(getPaymentModes());
+            dispatch(getSystemAutoLockDurationOptionsList());
+            dispatch(getFilesUneditableAfterOptionsList());
+            dispatch(getSystemSettings());
         }
     }, [token, dispatch])
 
@@ -130,6 +154,7 @@ const App = (props: AppProps) => {
                     <ConfirmationComponent/>
                     <AppVersionComponent/>
                     <LightBoxComponent/>
+                    <SystemAutoLockComponent/>
                 </ThemeProvider>
             </div>
         </CheckLoginComponent>

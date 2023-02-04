@@ -17,10 +17,19 @@ export interface ILoggedInUser {
     role: string;
     is_active: boolean;
     signature_url: string;
+    auto_lock_minutes: number;
 }
 
 export interface ICheckLoginResponse {
     user: ILoggedInUser;
+}
+
+
+export interface ISystemSettingsConfig {
+    other_settings: {
+        auto_lock_minutes?: number,
+        uneditable_after_days?: number
+    }
 }
 
 

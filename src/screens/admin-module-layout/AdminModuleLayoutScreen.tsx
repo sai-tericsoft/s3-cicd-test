@@ -18,7 +18,7 @@ const ADMIN_MENU_ITEMS = [
     },
     {
         title: "System Settings",
-        path: ""
+        path: CommonService._routeConfig.SystemSettings()
     },
     {
         title: "Forms",

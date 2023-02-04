@@ -42,11 +42,11 @@ import {
     CONCUSSION_FILE_VIEW_DETAILS,
     DESIGN_SYSTEM_ROUTE,
     DRY_NEEDLING_FILE_VIEW_DETAILS,
+    EDIT_INVENTORY_PRODUCT,
     FACILITY_DETAILS,
     FACILITY_LIST,
     INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST,
     INVENTORY_LIST,
-    EDIT_INVENTORY_PRODUCT,
     INVENTORY_PRODUCT_VIEW_DETAILS,
     LOGIN_ROUTE,
     MEDICAL_INTERVENTION_DETAILS,
@@ -69,6 +69,7 @@ import {
     SERVICE_CATEGORY_LIST,
     SERVICE_DETAILS,
     SERVICE_EDIT,
+    SYSTEM_SETTINGS,
     TEST_ROUTE
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
@@ -110,6 +111,7 @@ import InventoryProductViewDetailsComponent
 import EditInventoryProductDetailsComponent
     from "../screens/inventory/edit-inventory-product-details/EditInventoryProductDetailsComponent";
 import InventoryListScreen from "../screens/inventory/inventory-list/InventoryListScreen";
+import SystemSettingsScreen from "../screens/admin/system-settings/SystemSettingsScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -221,6 +223,14 @@ const Navigator = (props: NavigatorProps) => {
                         element={
                             <ProtectedRoute>
                                 <FacilityListScreen/>
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path={SYSTEM_SETTINGS}
+                        element={
+                            <ProtectedRoute>
+                                <SystemSettingsScreen/>
                             </ProtectedRoute>
                         }
                     />
@@ -383,20 +393,20 @@ const Navigator = (props: NavigatorProps) => {
                        }/>
                 <Route path={MEDICAL_INTERVENTION_DETAILS}
                        element={<ProtectedRoute>
-                    <ClientMedicalInterventionDetailsComponent/>
-                </ProtectedRoute>}/>
+                           <ClientMedicalInterventionDetailsComponent/>
+                       </ProtectedRoute>}/>
                 <Route path={MEDICAL_INTERVENTION_DETAILS}
                        element={<ProtectedRoute>
-                    <ClientMedicalInterventionDetailsComponent/>
-                </ProtectedRoute>}/>
+                           <ClientMedicalInterventionDetailsComponent/>
+                       </ProtectedRoute>}/>
                 <Route path={MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE}
                        element={<ProtectedRoute>
-                    <ProgressRecordAdvancedDetailsUpdateScreen/>
-                </ProtectedRoute>}/>
+                           <ProgressRecordAdvancedDetailsUpdateScreen/>
+                       </ProtectedRoute>}/>
                 <Route path={MEDICAL_RECORD_VIEW_EXERCISE_RECORD}
                        element={<ProtectedRoute>
-                    <ViewExerciseRecordScreen/>
-                </ProtectedRoute>}/>
+                           <ViewExerciseRecordScreen/>
+                       </ProtectedRoute>}/>
                 <Route path={INVENTORY_LIST}
                        element={<ProtectedRoute>
                            <InventoryListScreen/>
@@ -421,7 +431,7 @@ const Navigator = (props: NavigatorProps) => {
                        </ProtectedRoute>
                        }
                 />
-             <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
+                <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
             </Route>
             <Route element={<AuthLayout/>}>
                 <Route index

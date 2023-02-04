@@ -8,6 +8,7 @@ import ServiceReducer, {IServiceReducerState} from "./service.reducer";
 import UserReducer, {IUserReducerState} from "./user.reducer";
 import ChartNotesReducer, {IChartNotesReducerState} from "./chart-notes.reducer";
 import {IInventoryReducerState, InventoryReducer} from "./inventory.reducer";
+import SettingsReducer, {ISettingsReducerState} from "./settings.reducer";
 
 
 export interface IRootReducerState {
@@ -18,7 +19,8 @@ export interface IRootReducerState {
     service: IServiceReducerState,
     user: IUserReducerState,
     chartNotes: IChartNotesReducerState,
-    inventory:IInventoryReducerState
+    inventory: IInventoryReducerState,
+    settings: ISettingsReducerState
 }
 
 const rootReducer = combineReducers({
@@ -29,7 +31,8 @@ const rootReducer = combineReducers({
     service: ServiceReducer,
     user: UserReducer,
     chartNotes: ChartNotesReducer,
-    inventory:InventoryReducer
+    inventory: InventoryReducer,
+    settings: SettingsReducer
 });
 
 export default rootReducer;

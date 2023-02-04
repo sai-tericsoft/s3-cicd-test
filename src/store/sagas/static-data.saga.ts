@@ -10,6 +10,7 @@ import {
     GET_CONCUSSION_FILE_TYPES,
     GET_CONSULTATION_DURATION_LIST,
     GET_EMPLOYMENT_STATUS_LIST,
+    GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST,
     GET_GENDER_LIST,
     GET_INJURY_TYPE_LIST,
     GET_LANGUAGE_LIST,
@@ -23,6 +24,7 @@ import {
     GET_RELATIONSHIP_LIST,
     GET_SOCIAL_MEDIA_PLATFORM_LIST,
     GET_SURGICAL_HISTORY_OPTIONS_LIST,
+    GET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST,
     set8MinuteRuleChart,
     setAppointmentStatus,
     setAppointmentTypes,
@@ -32,18 +34,21 @@ import {
     setConcussionFileTypes,
     setConsultationDurationList,
     setEmploymentStatusList,
+    setFilesUneditableAfterOptionsList,
     setGenderList,
     setInjuryTypeList,
     setLanguageList,
     setMedicalHistoryOptionsList,
     setMedicalRecordDocumentTypes,
-    setMusculoskeletalHistoryOptionsList, setPaymentModes,
+    setMusculoskeletalHistoryOptionsList,
+    setPaymentModes,
     setPhoneTypeList,
     setProgressReportStatsList,
     setReferralTypeList,
     setRelationShipList,
     setSocialMediaPlatformList,
-    setSurgicalHistoryOptionsList
+    setSurgicalHistoryOptionsList,
+    setSystemAutoLockDurationOptionsList
 } from "../actions/static-data.action";
 import {CommonService} from "../../shared/services";
 
@@ -259,7 +264,6 @@ function* getAppointmentStatus() {
     }
 }
 
-
 function* getPaymentModes() {
     try {
         // @ts-ignore
@@ -267,6 +271,26 @@ function* getPaymentModes() {
         yield put(setPaymentModes(resp?.data));
     } catch (error: any) {
         yield put(setPaymentModes([]));
+    }
+}
+
+function* getSystemAutoLockDurationOptionsList() {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._staticData.getSystemAutoLockDurationOptionsList);
+        yield put(setSystemAutoLockDurationOptionsList(resp?.data));
+    } catch (error: any) {
+        yield put(setSystemAutoLockDurationOptionsList([]));
+    }
+}
+
+function* getFilesUneditableAfterOptionsList() {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._staticData.getFilesUneditableAfterOptionsList);
+        yield put(setFilesUneditableAfterOptionsList(resp?.data));
+    } catch (error: any) {
+        yield put(setFilesUneditableAfterOptionsList([]));
     }
 }
 
@@ -290,9 +314,9 @@ export default function* staticDataSaga() {
     yield takeEvery(GET_8_MINUTE_RULE_CHART, get8MinuteRuleChartData);
     yield takeEvery(GET_CONCUSSION_FILE_TYPES, getConcussionFileTypes);
     yield takeEvery(GET_MEDICAL_RECORD_DOCUMENT_TYPES, getMedicalRecordDocumentTypes);
-
-
     yield takeEvery(GET_APPOINTMENT_TYPES, getAppointmentTypes);
     yield takeEvery(GET_APPOINTMENT_STATUS, getAppointmentStatus);
     yield takeEvery(GET_PAYMENT_MODES, getPaymentModes);
+    yield takeEvery(GET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST, getSystemAutoLockDurationOptionsList);
+    yield takeEvery(GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST, getFilesUneditableAfterOptionsList);
 }

@@ -9,7 +9,7 @@ import StatusCardComponent from "../../../shared/components/status-card/StatusCa
 import {useNavigate, useParams} from "react-router-dom";
 import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import {CommonService} from "../../../shared/services";
-import {ImageConfig} from "../../../constants";
+import {ImageConfig, Misc} from "../../../constants";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import EditMedicalRecordComponent from "../edit-medical-record/EditMedicalRecordComponent";
 import {ListItem} from "@mui/material";
@@ -25,7 +25,6 @@ import TransferSoapNoteComponent from "../transfer-soap-note/TransferSoapNoteCom
 import {getMedicalInterventionDetails, getMedicalRecordSoapNoteList} from "../../../store/actions/chart-notes.action";
 import AddConcussionFileComponent from "../add-concussion-file/AddConcussionFileComponent";
 import {IRootReducerState} from "../../../store/reducers";
-import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import ImportSoapNoteComponent from "../import-soap-note/ImportSoapNoteComponent";
 
 interface MedicalInterventionDetailsCardComponentProps {
@@ -64,14 +63,6 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
         }
     }, [medicalRecordId, medicalInterventionId, dispatch]);
 
-    useEffect(() => {
-        if (clientMedicalRecord?.client_id) {
-            dispatch(setCurrentNavParams("Medical Record details", null, () => {
-                navigate(CommonService._routeConfig.MedicalRecordList(clientMedicalRecord?.client_id));
-            }));
-        }
-    }, [navigate, dispatch, clientMedicalRecord?.client_id]);
-
     const comingSoon = useCallback(
         () => {
             CommonService._alert.showToast('Coming Soon!', 'info')
@@ -86,54 +77,44 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     }, []);
 
     const openAddDryNeedlingFileDrawer = useCallback(() => {
-        comingSoon();
-        return;
-        // if (!medicalInterventionDetails?.is_dryneedling_added) {
-        //     setIsAddDryNeedlingFileDrawerOpen(true);
-        // } else {
-        //     CommonService._alert.showToast('Dry Needling file already added to this intervention', 'error');
-        // }
-    }, [comingSoon]);
+        if (!medicalInterventionDetails?.is_dryneedling_added) {
+            setIsAddDryNeedlingFileDrawerOpen(true);
+        } else {
+            CommonService._alert.showToast('Dry Needling file already added to this intervention', 'error');
+        }
+    }, [medicalInterventionDetails]);
 
     const closeAddDryNeedlingFileDrawer = useCallback(() => {
         setIsAddDryNeedlingFileDrawerOpen(false);
     }, []);
 
     const openTransferSoapNoteDrawer = useCallback(() => {
-        comingSoon();
-        return;
-        // setIsTransferSoapNoteDrawerOpen(true);
-    }, [comingSoon]);
+        setIsTransferSoapNoteDrawerOpen(true);
+    }, []);
 
     const closeTransferSoapNoteDrawer = useCallback(() => {
         setIsTransferSoapNoteDrawerOpen(false);
     }, []);
 
     const openAddConcussionFileDrawer = useCallback(() => {
-        comingSoon();
-        return;
-        // setIsAddConcussionFileDrawerOpen(true);
-    }, [comingSoon]);
+        setIsAddConcussionFileDrawerOpen(true);
+    }, []);
 
     const closeAddConcussionFileDrawer = useCallback(() => {
         setIsAddConcussionFileDrawerOpen(false);
     }, []);
 
     const openViewPriorNoteDrawer = useCallback(() => {
-        comingSoon();
-        return;
-        // setIsViewPriorNoteDrawerOpen(true);
-    }, [comingSoon]);
+        setIsViewPriorNoteDrawerOpen(true);
+    }, []);
 
     const closeViewPriorNoteDrawer = useCallback(() => {
         setIsViewPriorNoteDrawerOpen(false);
     }, []);
 
     const openImportSoapNoteDrawer = useCallback(() => {
-        comingSoon();
-        return;
-        // setIsImportSoapNoteDrawerOpen(true);
-    }, [comingSoon]);
+        setIsImportSoapNoteDrawerOpen(true);
+    }, []);
 
     const closeImportSoapNoteDrawer = useCallback(() => {
         setIsImportSoapNoteDrawerOpen(false);
@@ -170,6 +151,17 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
             navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, medicalInterventionId));
         }
     }, [medicalRecordId, closeImportSoapNoteDrawer, navigate]);
+
+    const handleNotifyAdmin = useCallback(() => {
+        if (medicalInterventionId) {
+            CommonService._chartNotes.MedicalInterventionNotifyAdminAPICall(medicalInterventionId, {})
+                .then((response) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully Notify the admin", "success");
+                }).catch((error) => {
+                CommonService._alert.showToast(error?.error || "Error in Notifying the admin", "error");
+            });
+        }
+    }, [medicalInterventionId]);
 
     return (
         <div className={'client-medical-details-card-component'}>
@@ -222,7 +214,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                         [
                                             <ListItem onClick={comingSoon}>Print SOAP</ListItem>,
                                             <ListItem onClick={openTransferSoapNoteDrawer}>Transfer SOAP to</ListItem>,
-                                            <ListItem onClick={comingSoon}>Notify Admin</ListItem>,
+                                            <ListItem onClick={handleNotifyAdmin}>Notify Admin</ListItem>,
                                             <ListItem onClick={openAddDryNeedlingFileDrawer}>
                                                 Add Dry Needling File
                                             </ListItem>,

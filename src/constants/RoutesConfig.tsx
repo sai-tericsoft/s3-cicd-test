@@ -10,6 +10,7 @@ const COMING_SOON_ROUTE = "/coming-soon";
 const DASHBOARD = "/dashboard";
 const ADMIN = "/admin";
 const SERVICE_CATEGORY_LIST = "/admin/service-category-list";
+const SYSTEM_SETTINGS = "/admin/system-settings";
 const SERVICE_DETAILS = "/admin/service-details";
 const SERVICE_ADD = "/admin/service/add";
 const SERVICE_EDIT = "/admin/service/edit";
@@ -67,6 +68,7 @@ export {
     DESIGN_SYSTEM_ROUTE,
     DASHBOARD,
     ADMIN,
+    SYSTEM_SETTINGS,
     RESTRICTED_ROUTE,
     SERVICE_CATEGORY_LIST,
     SERVICE_CATEGORY_DETAILS,
