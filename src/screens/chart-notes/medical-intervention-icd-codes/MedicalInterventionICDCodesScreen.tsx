@@ -82,6 +82,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
     const [currentTab, setCurrentTab] = useState<any>("icdCodes");
     const [searchParams, setSearchParams] = useSearchParams();
     const [refreshToken, setRefreshToken] = useState<string>('');
+
     useEffect(() => {
         let currentTab: any = searchParams.get("currentStep");
         if (currentTab) {
@@ -144,7 +145,8 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             dataIndex: 'icd_code',
             key: 'icd_code',
             width: 120,
-            render: (item: any) => {
+            fixed: 'left',
+            render: (_: any, item: any) => {
                 return <>{item?.icd_code_details?.icd_code}</>
             }
         },
@@ -170,6 +172,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             }
         }
     ];
+
     const addFavouriteList = useCallback((codeId: string) => {
         CommonService._client.AddFavouriteCode(codeId, {})
             .then((response: IAPIResponseType<any>) => {
@@ -194,10 +197,9 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
 
     useEffect(() => {
         if (medicalInterventionDetails) {
-            setSelectedICDCodes((medicalInterventionDetails.linked_icd_codes || []).map((v: any) => v._id));
+            setSelectedICDCodes((medicalInterventionDetails?.linked_icd_codes || []).map((v: any) => v?._id));
         }
     }, [medicalInterventionDetails]);
-
 
     return (
         <div className={'medical-intervention-icd-codes-screen'}>
