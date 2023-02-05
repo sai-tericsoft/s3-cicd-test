@@ -89,10 +89,10 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
         }
     }, [navigate, dispatch, clientMedicalRecord?.client_id]);
 
-    const comingSoon = useCallback(
-        () => {
-            CommonService._alert.showToast('Coming Soon!', 'info')
-        }, []);
+    // const comingSoon = useCallback(
+    //     () => {
+    //         CommonService._alert.showToast('Coming Soon!', 'info')
+    //     }, []);
 
     const openEditMedicalRecordDrawer = useCallback(() => {
         setIsEditMedicalRecordDrawerOpen(true);

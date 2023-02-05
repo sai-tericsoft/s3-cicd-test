@@ -192,7 +192,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                     <ListItem onClick={openImportSoapNoteDrawer}>Import SOAP Note</ListItem>]
             });
         }
-    }, [medicalInterventionDetails]);
+    }, [comingSoon, openAddConcussionFileDrawer, openAddDryNeedlingFileDrawer, openImportSoapNoteDrawer, openViewPriorNoteDrawer, medicalInterventionDetails]);
 
     return (
         <div className={'client-medical-details-card-component'}>
