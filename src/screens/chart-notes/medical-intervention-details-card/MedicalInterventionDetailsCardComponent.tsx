@@ -142,8 +142,11 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     }, [medicalInterventionDetails, closeTransferSoapNoteDrawer, dispatch]);
 
     const handleConcussionFileAdd = useCallback(() => {
+        if (medicalInterventionDetails?._id) {
+            dispatch(getMedicalInterventionDetails(medicalInterventionDetails?._id));
+        }
         closeAddConcussionFileDrawer();
-    }, [closeAddConcussionFileDrawer]);
+    }, [medicalInterventionDetails, closeAddConcussionFileDrawer]);
 
     const handleSoapNoteDrawer = useCallback((medicalInterventionId: string) => {
         closeImportSoapNoteDrawer();
@@ -326,6 +329,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                              onClose={closeAddConcussionFileDrawer}>
                 <AddConcussionFileComponent
                     medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
+                    medicalInterventionDetails={medicalInterventionDetails}
                     medicalInterventionId={medicalInterventionDetails?._id}
                     onAdd={handleConcussionFileAdd}/>
             </DrawerComponent>
