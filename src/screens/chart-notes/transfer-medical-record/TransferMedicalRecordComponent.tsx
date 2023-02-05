@@ -269,7 +269,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                     handleTransferMedicalRecord();
                     break;
             }
-        }, [currentStep, confirmTransferMedicalRecord, handleTransferMedicalRecord, getSelectedClientMedicalRecordList, getClientMedicalInterventionList]);
+        }, [selectedOptionToTransferMedicalRecord, currentStep, confirmTransferMedicalRecord, handleTransferMedicalRecord, getSelectedClientMedicalRecordList, getClientMedicalInterventionList]);
 
         //
         // useEffect(() => {

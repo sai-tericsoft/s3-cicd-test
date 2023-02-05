@@ -146,7 +146,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
             dispatch(getMedicalInterventionDetails(medicalInterventionDetails?._id));
         }
         closeAddConcussionFileDrawer();
-    }, [medicalInterventionDetails, closeAddConcussionFileDrawer]);
+    }, [dispatch, medicalInterventionDetails, closeAddConcussionFileDrawer]);
 
     const handleSoapNoteDrawer = useCallback((medicalInterventionId: string) => {
         closeImportSoapNoteDrawer();
