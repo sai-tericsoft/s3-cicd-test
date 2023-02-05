@@ -117,6 +117,7 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                                 attachment: response.data
                             }
                         });
+                        setConcussionFileFileAttachmentFile(undefined);
                         setIsConcussionFileAttachmentAdding(false);
                         CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully added attachment", "success");
                     }).catch((error: any) => {
