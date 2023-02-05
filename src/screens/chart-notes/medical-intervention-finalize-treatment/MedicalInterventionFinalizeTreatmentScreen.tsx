@@ -20,7 +20,10 @@ import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import MedicalRecordBasicDetailsCardComponent from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
+import MedicalRecordBasicDetailsCardComponent
+    from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
+import * as Yup from "yup";
+import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface MedicalInterventionFinalizeTreatmentScreenProps {
 
@@ -38,6 +41,23 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
     const {medicalRecordId, medicalInterventionId} = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [CPTCodesFormValidationSchema, setCPTCodesFormValidationSchema] = useState<any>(Yup.object({
+        "63b2accc60783e04b50f9023": Yup.object({
+            "is_selected": Yup.string().required(),
+            "units_of_care": Yup.string().when("is_selected", {
+                is: true,
+                then: Yup.string().required('Smoke/Chew Tobacco is required')
+            }),
+            "minutes": Yup.string().when("is_selected", {
+                is: true,
+                then: Yup.string().required('Smoke/Chew Tobacco is required')
+            }),
+            // "notes": Yup.string().when("is_selected", {
+            //     is: true,
+            //     then: Yup.string().required('Smoke/Chew Tobacco is required')
+            // }),
+        })
+    }));
     const [cptCodesFormInitialValues, setCptCodesFormInitialValues] = useState<any>(_.cloneDeep(CPTCodesInitialValues));
     const [isInterventionCheckingOut, setIsInterventionCheckingOut] = useState<boolean>(false);
     const [isEightMinuteRuleChartDrawerOpen, setEightMinuteRuleChartDrawerOpen] = useState<boolean>(false);
@@ -65,9 +85,9 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                             formikField={field}
                             size={'small'}
                             onChange={() => {
-                                    field.form.setFieldValue(`${record?._id}.units_of_care`, "");
-                                    field.form.setFieldValue(`${record?._id}.minutes`, "");
-                                    field.form.setFieldValue(`${record?._id}.notes`, "");
+                                field.form.setFieldValue(`${record?._id}.units_of_care`, "");
+                                field.form.setFieldValue(`${record?._id}.minutes`, "");
+                                field.form.setFieldValue(`${record?._id}.notes`, "");
                             }}
                         />
                     )
@@ -217,6 +237,18 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
         }
     }, [navigate, medicalInterventionId, medicalRecordId]);
 
+    const updateFormValidationsSchema = useCallback((values: any) => {
+        const validationObject: any = Yup.object({});
+        Object.keys(values).forEach((key) => {
+            validationObject[key] = Yup.object({
+                units_of_care: Yup.string().required(),
+                minutes: Yup.string().required(),
+            });
+        });
+        console.log(validationObject);
+        setCPTCodesFormValidationSchema(validationObject);
+    }, []);
+
     return (
         <div className={'medical-intervention-finalize-treatment-screen'}>
             <MedicalRecordBasicDetailsCardComponent/>
@@ -229,14 +261,17 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                 isMedicalInterventionDetailsLoaded && <>
                     <Formik initialValues={cptCodesFormInitialValues}
                             enableReinitialize={true}
+                            validationSchema={CPTCodesFormValidationSchema}
                             onSubmit={handleCPTCodesSubmit}>
-                        {({values, validateForm, isSubmitting}) => {
+                        {({values, validateForm, isSubmitting, isValid, errors}) => {
                             // eslint-disable-next-line react-hooks/rules-of-hooks
                             useEffect(() => {
                                 validateForm();
+                                // updateFormValidationsSchema(values);
                             }, [validateForm, values]);
                             return (
                                 <Form className="t-form" noValidate={true}>
+                                    <FormDebuggerComponent values={values} errors={errors} canShow={true}/>
                                     <CardComponent>
                                         <div className="ts-row align-items-center">
                                             <div className="ts-col ts-col-6">
@@ -283,15 +318,16 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                             }
                                         </>
                                         <ButtonComponent type={"submit"} isLoading={isSubmitting}
-                                                         disabled={isSubmitting || isInterventionCheckingOut}>
+                                                         disabled={isSubmitting || isInterventionCheckingOut || !isValid}>
                                             Save
                                         </ButtonComponent>
                                         <>
                                             {
                                                 (medicalRecordId) && <>&nbsp;&nbsp;
-                                                    <ButtonComponent disabled={isSubmitting || isInterventionCheckingOut || linkedCPTCodes?.length === 0}
-                                                                     isLoading={isInterventionCheckingOut}
-                                                                     onClick={handleInterventionCheckout}>
+                                                    <ButtonComponent
+                                                        disabled={isSubmitting || isInterventionCheckingOut || linkedCPTCodes?.length === 0}
+                                                        isLoading={isInterventionCheckingOut}
+                                                        onClick={handleInterventionCheckout}>
                                                         Checkout
                                                     </ButtonComponent>
                                                 </>
