@@ -40,7 +40,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
         {
             key: "name",
             dataIndex: "name",
-            render: (_: string, item: any) => {
+            render: (item: any) => {
                 return <RadioButtonComponent name={'selected-client'}
                                              value={item}
                                              label={CommonService.extractName(item)}
@@ -58,7 +58,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
             key: 'action',
             dataIndex: 'action',
             width: 50,
-            render: ( item: any) => {
+            render: (item: any) => {
                 return <RadioButtonComponent name={'selected-medical-record'}
                                              value={item}
                                              checked={selectedMedicalRecord?._id === item?._id}
@@ -72,7 +72,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
             key: 'case',
             width: 294,
             dataIndex: 'intervention_linked_to',
-            render: ( item: any) => {
+            render: (item: any) => {
                 return <span className={'medical-record-details'}>{item?.intervention_linked_to}
                     {item?.created_at && CommonService.transformTimeStamp(item?.created_at)}{" "}
                     {"-"} {item?.injury_details.map((injury: any, index: number) => {
@@ -86,7 +86,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
             key: 'date',
             width: 100,
             dataIndex: 'created_at',
-            render: ( item: any) => {
+            render: (item: any) => {
                 return <span>{CommonService.getSystemFormatTimeStamp(item?.created_at)}</span>
 
             }
@@ -98,7 +98,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
         setIsClientListLoading(true);
         // setIsClientListLoaded(false);
         // setIsClientListLoadingFailed(false);
-        CommonService._client.GetClientList({search: clientListSearch})
+        CommonService._client.ClientListLiteAPICall({search: clientListSearch})
             .then((response: any) => {
                 setClientList(response.data);
                 setIsClientListLoading(false);
