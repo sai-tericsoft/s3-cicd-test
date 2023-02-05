@@ -14,7 +14,7 @@ import RadioButtonGroupComponent, {
 import CardComponent from "../../../shared/components/card/CardComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
-import {Misc} from "../../../constants";
+import {ImageConfig, Misc} from "../../../constants";
 
 interface TransferMedicalRecordComponentProps {
     onMedicalRecordTransfer: (data: any) => void;
@@ -44,7 +44,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 title: 'Name',
                 key: 'name',
                 dataIndex: 'name',
-                render: ( item: any) => {
+                render: (item: any) => {
                     return <RadioButtonComponent
                         label={CommonService.extractName(item)}
                         name={'client'} value={item?._id}
@@ -84,9 +84,9 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                     }
                     }
                 />,
-                key: 'note_type',
-                dataIndex: 'note_type',
-                render: ( item: any) => {
+                key: 'select',
+                dataIndex: 'select',
+                render: (item: any) => {
                     return <CheckBoxComponent
                         value={item?._id}
                         disabled={selectedOptionToTransferMedicalRecord}
@@ -108,7 +108,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 title: 'Date',
                 key: 'date',
                 dataIndex: 'date',
-                render: ( item: any) => {
+                render: (item: any) => {
                     return CommonService.getSystemFormatTimeStamp(item?.created_at);
                 },
                 width: 150,
@@ -116,7 +116,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
             {
                 title: '',
                 key: 'view_details',
-                render: ( item: any) => {
+                render: (item: any) => {
                     let route = '';
                     if (medicalRecordId) {
                         if (item?.note_type_category?.toLowerCase() === 'surgery record') {
@@ -150,7 +150,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 title: '',
                 key: 'select',
                 dataIndex: 'select',
-                render: ( item: any) => {
+                render: (item: any) => {
                     return <RadioButtonComponent
                         name={'medical-intervention'}
                         value={item?._id}
@@ -165,7 +165,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 title: 'Case',
                 key: 'case',
                 dataIndex: 'case',
-                render: ( item: any) => {
+                render: (item: any) => {
                     return CommonService.generateInterventionNameFromMedicalRecord(item);
                 }
             },
@@ -173,7 +173,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 title: 'Date',
                 key: 'date',
                 dataIndex: 'date',
-                render: ( item: any) => {
+                render: (item: any) => {
                     return CommonService.getSystemFormatTimeStamp(item?.onset_date);
                 }
             }
@@ -201,6 +201,20 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 setIsMedicalRecordTransferUnderProgress(false);
             });
         }, [onMedicalRecordTransfer, selectedClient, medicalRecordId, selectedOptionToTransferMedicalRecord, selectedMedicalInterventions]);
+
+        const confirmTransferMedicalRecord = useCallback(() => {
+            CommonService.onConfirm({
+                image: ImageConfig.DeleteAttachmentConfirmationIcon,
+                confirmationTitle: "TRANSFER COMPLETE RECORD",
+                confirmationSubTitle: "Are you sure you want to transfer the \n" +
+                    "complete medical record?"
+            })
+                .then(() => {
+                    handleTransferMedicalRecord();
+                }).catch(() => {
+
+            });
+        }, [handleTransferMedicalRecord]);
 
         const getClientList = useCallback((searchKey: string = '') => {
             setClientSearchKey(searchKey);
@@ -245,13 +259,17 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                     setCurrentStep("selectInterventions");
                     break;
                 case "selectInterventions":
-                    setCurrentStep("selectTargetMedicalRecord");
+                    if (selectedOptionToTransferMedicalRecord) {
+                        confirmTransferMedicalRecord();
+                    } else {
+                        setCurrentStep("selectTargetMedicalRecord");
+                    }
                     break;
                 case "selectTargetMedicalRecord":
                     handleTransferMedicalRecord();
                     break;
             }
-        }, [currentStep, handleTransferMedicalRecord, getSelectedClientMedicalRecordList, getClientMedicalInterventionList]);
+        }, [currentStep, confirmTransferMedicalRecord, handleTransferMedicalRecord, getSelectedClientMedicalRecordList, getClientMedicalInterventionList]);
 
         //
         // useEffect(() => {
