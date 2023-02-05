@@ -148,8 +148,11 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
 
     const handleSurgeryRecordAdd = useCallback(() => {
         dispatch(refreshMedicalRecordAttachmentList());
+        if (medicalRecordId) {
+            dispatch(getClientMedicalRecord(medicalRecordId));
+        }
         setIsSurgeryAddOpen(false);
-    }, [dispatch]);
+    }, [dispatch, medicalRecordId, getClientMedicalRecord]);
 
     const handleDischargeCase = useCallback(() => {
         if (medicalRecordId) {
