@@ -48,6 +48,11 @@ const ExerciseLogAttachmentListAPICall = (interventionId: string, payload: any) 
     return ApiService[APIConfig.EXERCISE_LOG_ATTACHMENT_LIST.METHOD](APIConfig.EXERCISE_LOG_ATTACHMENT_LIST.URL(interventionId), payload)
 }
 
+const MedicalRecordFilesListAPICall = (medicalRecordId: string) => {
+    // @ts-ignore
+    return ApiService[APIConfig.GET_MEDICAL_RECORD_FILES_LIST.METHOD](APIConfig.GET_MEDICAL_RECORD_FILES_LIST.URL(medicalRecordId))
+}
+
 const RemoveExerciseLogAttachmentAPICall = (attachmentId: string, id: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.REMOVE_ATTACHMENT.METHOD](APIConfig.REMOVE_ATTACHMENT.URL(attachmentId, id), payload)
@@ -330,7 +335,8 @@ const ChartNotesService = {
     MedicalRecordListLiteAPICall,
     TransferMedicalRecordAPICall,
     MedicalInterventionNotifyAdminAPICall,
-    MedicalRecordNotifyAdminAPICall
+    MedicalRecordNotifyAdminAPICall,
+    MedicalRecordFilesListAPICall
 }
 
 export default ChartNotesService;

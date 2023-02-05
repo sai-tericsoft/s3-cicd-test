@@ -26,6 +26,8 @@ import {getMedicalInterventionDetails, getMedicalRecordSoapNoteList} from "../..
 import AddConcussionFileComponent from "../add-concussion-file/AddConcussionFileComponent";
 import {IRootReducerState} from "../../../store/reducers";
 import ImportSoapNoteComponent from "../import-soap-note/ImportSoapNoteComponent";
+import FilesUneditableMiddlewareComponent
+    from "../../../shared/components/files-uneditable-middleware/FilesUneditableMiddlewareComponent";
 
 interface MedicalInterventionDetailsCardComponentProps {
     showAction?: boolean,
@@ -166,6 +168,32 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
         }
     }, [medicalInterventionId]);
 
+    const [medicalInterventionDropDownOptions, setMedicalInterventionDropDownOptions] = useState([<ListItem
+        onClick={comingSoon}>Print SOAP</ListItem>,
+        <ListItem onClick={openTransferSoapNoteDrawer}>Transfer SOAP to</ListItem>,
+        <ListItem onClick={handleNotifyAdmin}>Notify Admin</ListItem>]
+    );
+
+    useEffect(() => {
+        if (medicalInterventionDetails?.status === 'completed') {
+            setMedicalInterventionDropDownOptions((oldState) => {
+                return [<FilesUneditableMiddlewareComponent
+                    timeStamp={medicalInterventionDetails?.completed_date}>
+                    <ListItem onClick={comingSoon}>Edit SOAP</ListItem>
+                </FilesUneditableMiddlewareComponent>, ...oldState]
+            });
+        } else {
+            setMedicalInterventionDropDownOptions((oldState) => {
+                return [...oldState, <ListItem onClick={openAddDryNeedlingFileDrawer}>
+                    Add Dry Needling File
+                </ListItem>,
+                    <ListItem onClick={openAddConcussionFileDrawer}>Add Concussion</ListItem>,
+                    <ListItem onClick={openViewPriorNoteDrawer}>View Prior Note</ListItem>,
+                    <ListItem onClick={openImportSoapNoteDrawer}>Import SOAP Note</ListItem>]
+            });
+        }
+    }, [medicalInterventionDetails]);
+
     return (
         <div className={'client-medical-details-card-component'}>
             {
@@ -213,19 +241,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                         <ButtonComponent size={'large'} variant={'outlined'} fullWidth={true}>
                                             Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
                                         </ButtonComponent>
-                                    } menuOptions={
-                                        [
-                                            <ListItem onClick={comingSoon}>Print SOAP</ListItem>,
-                                            <ListItem onClick={openTransferSoapNoteDrawer}>Transfer SOAP to</ListItem>,
-                                            <ListItem onClick={handleNotifyAdmin}>Notify Admin</ListItem>,
-                                            <ListItem onClick={openAddDryNeedlingFileDrawer}>
-                                                Add Dry Needling File
-                                            </ListItem>,
-                                            <ListItem onClick={openAddConcussionFileDrawer}>Add Concussion</ListItem>,
-                                            <ListItem onClick={openViewPriorNoteDrawer}>View Prior Note</ListItem>,
-                                            <ListItem onClick={openImportSoapNoteDrawer}>Import SOAP Note</ListItem>
-                                        ]
-                                    }
+                                    } menuOptions={medicalInterventionDropDownOptions}
                                     />
                                 </div>}
                             </div>

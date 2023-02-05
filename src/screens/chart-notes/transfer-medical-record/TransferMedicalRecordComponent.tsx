@@ -230,7 +230,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
 
         const getClientMedicalInterventionList = useCallback(() => {
             setIsMedicalInterventionListLoading(true);
-            CommonService._chartNotes.MedicalRecordConsolidatedInterventionAndAttachmentsListAPICall(medicalRecordId)
+            CommonService._chartNotes.MedicalRecordFilesListAPICall(medicalRecordId)
                 .then((response: IAPIResponseType<any>) => {
                     setMedicalInterventionList(response.data);
                     setIsMedicalInterventionListLoading(false);

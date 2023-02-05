@@ -7,7 +7,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
-import {useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import {IRootReducerState} from "../../../store/reducers";
 import {CommonService} from "../../../shared/services";
@@ -252,15 +252,15 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                                     <ListItem onClick={openMedicalRecordDocumentAddDrawer}>
                                                         Add Document
                                                     </ListItem>,
-                                                    <ListItem onClick={comingSoon}>
-                                                        View Exercise Record
-                                                    </ListItem>,
-                                                    // <Link
-                                                    //     to={CommonService._routeConfig.MedicalRecordViewExerciseRecord(medicalRecordId)}>
-                                                    //     <ListItem>
-                                                    //         View Exercise Record
-                                                    //     </ListItem>
-                                                    // </Link>,
+                                                    // <ListItem onClick={comingSoon}>
+                                                    //     View Exercise Record
+                                                    // </ListItem>,
+                                                    <Link
+                                                        to={CommonService._routeConfig.MedicalRecordViewExerciseRecord(medicalRecordId)}>
+                                                        <ListItem>
+                                                            View Exercise Record
+                                                        </ListItem>
+                                                    </Link>,
                                                     <ListItem onClick={handleDischargeCase}>
                                                         Discharge Case
                                                     </ListItem>

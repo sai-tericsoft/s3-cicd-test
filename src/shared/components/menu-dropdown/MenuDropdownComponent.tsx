@@ -58,13 +58,18 @@ const MenuDropdownComponent = (props: MenuDropdownComponentProps) => {
                 onClose={handleClose}
                 className={"menu-dropdown-component-menu"}
             >
-                {menuOptions && menuOptions.map((option, index) => (
-                    <MenuItem key={index} onClick={handleClose}
-                              disableRipple={true}
-                              className={"menu-dropdown-option"}>
-                        {option}
-                    </MenuItem>
-                ))}
+                {menuOptions && menuOptions.map((option, index) => {
+                        if (option) {
+                            return <MenuItem key={index} onClick={handleClose}
+                                             disableRipple={true}
+                                             className={"menu-dropdown-option"}>
+                                {option}
+                            </MenuItem>
+                        } else {
+                            return <></>
+                        }
+                    }
+                )}
             </Menu>}
         </div>
     );
