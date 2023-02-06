@@ -259,7 +259,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                         <FormAutoSave formikCtx={formik} onUpdating={setIsFormBeingUpdated}/>}
                                     <div
                                         className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
-                                        <FormControlLabelComponent label={"Soap Note"} className={"mrg-0"}/>
+                                        <FormControlLabelComponent label={"Soap Note"} size={'lg'} className={"mrg-0"}/>
                                         {
                                             (medicalInterventionId && medicalRecordId && medicalInterventionDetails?.status === 'draft') &&
                                             <LinkComponent
@@ -307,7 +307,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 } readonly={
                                                     <div className={'readonly-wrapper'}>
                                                         <FormControlLabelComponent
-                                                            label={'Subjective'}/>
+                                                            label={'Subjective :'}/>
                                                         <div className={'readonly-text'}>
                                                             {
                                                                 medicalInterventionDetails?.subjective || 'N/A'
@@ -369,7 +369,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 } readonly={
                                                     <div className={'readonly-wrapper'}>
                                                         <FormControlLabelComponent
-                                                            label={'Observation'}/>
+                                                            label={'Observation :'}/>
                                                         <div className={'readonly-text'}>
                                                             {
                                                                 medicalInterventionDetails?.objective.observation || 'N/A'
@@ -396,7 +396,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 } readonly={
                                                     <div className={'readonly-wrapper'}>
                                                         <FormControlLabelComponent
-                                                            label={'Palpation'}/>
+                                                            label={'Palpation :'}/>
                                                         <div className={'readonly-text'}>
                                                             {
                                                                 medicalInterventionDetails?.objective.palpation || 'N/A'
@@ -568,7 +568,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 } readonly={
                                                     <div className={'readonly-wrapper'}>
                                                         <FormControlLabelComponent
-                                                            label={'Treatment'}/>
+                                                            label={'Treatment :'}/>
                                                         <div className={'readonly-text'}>
                                                             {
                                                                 medicalInterventionDetails?.objective.treatment || 'N/A'
@@ -597,7 +597,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 } readonly={
                                                     <div className={'readonly-wrapper'}>
                                                         <FormControlLabelComponent
-                                                            label={'Response to Treatment'}/>
+                                                            label={'Response to Treatment :'}/>
                                                         <div className={'readonly-text'}>
                                                             {
                                                                 medicalInterventionDetails?.objective.treatment_response || 'N/A'
@@ -672,7 +672,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 } readonly={
                                                     <div className={'readonly-wrapper'}>
                                                         <FormControlLabelComponent
-                                                            label={'Index of Suspicion'}/>
+                                                            label={'Index of Suspicion :'}/>
                                                         <div className={'readonly-text'}>
                                                             {
                                                                 medicalInterventionDetails?.assessment.suspicion_index || 'N/A'
@@ -699,7 +699,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 } readonly={
                                                     <div className={'readonly-wrapper'}>
                                                         <FormControlLabelComponent
-                                                            label={'Surgery Procedure Complete'}/>
+                                                            label={'Surgery Procedure Complete :'}/>
                                                         <div className={'readonly-text'}>
                                                             {
                                                                 medicalInterventionDetails?.assessment.surgery_procedure || 'N/A'
@@ -745,7 +745,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 } readonly={
                                                     <div className={'readonly-wrapper'}>
                                                         <FormControlLabelComponent
-                                                            label={'Plan'}/>
+                                                            label={'Plan :'}/>
                                                         <div className={'readonly-text'}>
                                                             {
                                                                 medicalInterventionDetails?.plan.plan || 'N/A'
@@ -772,7 +772,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 } readonly={
                                                     <div className={'readonly-wrapper'}>
                                                         <FormControlLabelComponent
-                                                            label={'MD Recommendations'}/>
+                                                            label={'MD Recommendations :'}/>
                                                         <div className={'readonly-text'}>
                                                             {
                                                                 medicalInterventionDetails?.plan.md_recommendations || 'N/A'
@@ -799,7 +799,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 } readonly={
                                                     <div className={'readonly-wrapper'}>
                                                         <FormControlLabelComponent
-                                                            label={'Education'}/>
+                                                            label={'Education :'}/>
                                                         <div className={'readonly-text'}>
                                                             {
                                                                 medicalInterventionDetails?.plan.education || 'N/A'
@@ -828,7 +828,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 } readonly={
                                                     <div className={'readonly-wrapper'}>
                                                         <FormControlLabelComponent
-                                                            label={'Treatment Goals'}/>
+                                                            label={'Treatment Goals :'}/>
                                                         <div className={'readonly-text'}>
                                                             {
                                                                 medicalInterventionDetails?.plan.treatment_goals || 'N/A'
