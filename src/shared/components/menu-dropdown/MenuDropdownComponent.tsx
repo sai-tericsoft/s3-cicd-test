@@ -57,6 +57,19 @@ const MenuDropdownComponent = (props: MenuDropdownComponentProps) => {
                 open={open}
                 onClose={handleClose}
                 className={"menu-dropdown-component-menu"}
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                }}
+                PaperProps={{
+                    elevation: 0,
+                    sx: {
+                        overflow: 'visible',
+                        boxShadow: '0px 4px 10px 2px rgba(0, 0, 0, 0.15)',
+                        mt: 0.5,
+                        ml: -5,
+                    },
+                }}
             >
                 {menuOptions && menuOptions.map((option, index) => {
                         if (option) {
