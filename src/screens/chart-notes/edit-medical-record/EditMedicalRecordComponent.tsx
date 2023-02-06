@@ -269,6 +269,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                             <div className="remove-btn">
                                                                 <ButtonComponent
                                                                     size={"small"}
+                                                                    disabled={values?.injury_details?.length === 1}
                                                                     color={"error"}
                                                                     variant={"outlined"}
                                                                     prefixIcon={<ImageConfig.DeleteIcon/>}
