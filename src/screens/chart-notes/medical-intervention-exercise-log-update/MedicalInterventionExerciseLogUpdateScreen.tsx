@@ -27,6 +27,7 @@ import {IRootReducerState} from "../../../store/reducers";
 import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import {getMedicalInterventionDetails, getMedicalRecordStats} from "../../../store/actions/chart-notes.action";
 import moment from "moment-timezone";
+import InputComponent from "../../../shared/components/form-controls/input/InputComponent";
 
 interface MedicalInterventionExerciseLogScreenProps {
 
@@ -70,6 +71,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
     const {medicalRecordId, medicalInterventionId} = useParams();
     const [medicalInterventionExerciseLogDetails, setMedicalInterventionExerciseLogDetails] = useState<any>(undefined);
     const [isMedicalInterventionExerciseLogDetailsLoading, setIsMedicalInterventionExerciseLogDetailsLoading] = useState<boolean>(false);
+    const {currentUser}= useSelector((state: IRootReducerState) => state.account);
 
     const {
         clientMedicalRecord,
@@ -345,6 +347,9 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     </CardComponent>
                 </>
             }
+          <div className={'provider-name'}>
+              <InputComponent placeholder={'Provider'} fullWidth={true} label={'Provider'} value={CommonService.extractName(currentUser)} disabled={true}/>
+          </div>
             <ExerciseLogAttachmentListComponent/>
             <>
                 {
