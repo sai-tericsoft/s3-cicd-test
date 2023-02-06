@@ -34,22 +34,16 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
+            width:150,
             render: (item: any) => {
                 return <>{item?.progress_stats_details?.name}</>
             }
         },
         {
             title: 'Results',
+            width: 150,
             dataIndex: 'result',
             key: 'result',
-        },
-        {
-            title: 'Comments',
-            dataIndex: 'comment',
-            key: 'comment',
-            render: (item: any) => {
-                return <>{item?.comment || 'N/A'}</>
-            }
         }
     ];
 
@@ -85,6 +79,8 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
         }));
     }, [medicalRecordId, navigate, dispatch]);
+
+    console.log('progressReportDetails', progressReportDetails);
 
     return (
         <div className={'progress-report-view-details-screen'}>
@@ -177,7 +173,20 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                             <TableComponent data={progressReportDetails?.progress_stats}
                                                             columns={progressStatsColumn}
                                                             showExpandColumn={false}
-                                                            rowKey={(item: any, index) => item._id}
+                                                            defaultExpandAllRows={true}
+                                                            canExpandRow={(row: any) => row?.comment?.length > 0}
+                                                            expandRowRenderer={(row: any) => {
+                                                                return (
+                                                                    <div key={row?._id} className={'display-flex'}>
+                                                                        <div className={'comment-icon mrg-right-10'}>
+                                                                            <ImageConfig.CommentIcon/>
+                                                                        </div>
+                                                                        <div
+                                                                            className={'progress-stats-comment'}>{row?.comment}</div>
+                                                                    </div>
+                                                                )
+                                                            }
+                                                            }
                                             />
                                         </CardComponent>
                                         <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>
@@ -198,3 +207,4 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
 };
 
 export default MedicalRecordProgressReportViewDetailsScreen;
+
