@@ -1,7 +1,6 @@
 import "./MedicalInterventionExerciseLogUpdateScreen.scss";
 import React, {useCallback, useEffect, useState} from "react";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
-import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import _ from "lodash";
@@ -17,13 +16,10 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import {IService} from "../../../shared/models/service.model";
 import * as Yup from "yup";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import MedicalRecordBasicDetailsCardComponent from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 import ExerciseLogAttachmentListComponent from "../exercise-log-attachment-list/ExerciseLogAttachmentListComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
-import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
-import {ListItem} from "@mui/material";
 import MedicalInterventionLinkedToComponent
     from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
@@ -86,7 +82,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             dataIndex: 'exercise',
             key: 'exercise',
             width: 130,
-            render: ( record: any, index: any) => {
+            render: (record: any, index: any) => {
                 return index === 0 ? "Warm Up" : "Ex " + index;
             }
         },
@@ -94,7 +90,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             title: 'Exercise Name',
             key: 'name',
             width: 280,
-            render: ( record: any, index: any) => {
+            render: (record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.name`}
                     className="t-form-control">
@@ -113,7 +109,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             title: 'SET',
             key: 'set',
             width: 150,
-            render: ( record: any, index: any) => {
+            render: (record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.no_of_sets`}
                     className="t-form-control">
@@ -132,7 +128,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             title: 'REP',
             key: 'rep',
             width: 150,
-            render: ( record: any, index: any) => {
+            render: (record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.no_of_reps`}
                     className="t-form-control">
@@ -151,7 +147,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             title: 'TIME',
             key: 'time',
             width: 150,
-            render: ( record: any, index: any) => {
+            render: (record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.time`}
                     className="t-form-control">
@@ -170,7 +166,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             title: 'RESISTANCE',
             key: 'resistance',
             width: 150,
-            render: ( record: any, index: any) => {
+            render: (record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.resistance`}
                     className="t-form-control">
@@ -188,25 +184,33 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
         {
             title: '',
             key: 'actions',
-            render: ( record: any, index: any) => {
-                return <Field
-                    name={`exercise_records.${index}.actions`}
-                    className="t-form-control">
-                    {
-                        (field: FieldProps) => (
-                            <IconButtonComponent
-                                disabled={index === 0}
-                                onClick={() => {
-                                    const exercise_records = field.form.values.exercise_records;
-                                    exercise_records.splice(index, 1);
-                                    const newLogs = exercise_records.filter((log: any) => record.key !== log.key);
-                                    field.form.setFieldValue("exercise_records", newLogs);
-                                }}>
-                                <ImageConfig.DeleteIcon/>
-                            </IconButtonComponent>
-                        )
-                    }
-                </Field>
+            render: (record: any, index: any) => {
+                return (
+                    <>
+                        {
+                            (index === 1) && (
+                                <Field
+                                    name={`exercise_records.${index}.actions`}
+                                    className="t-form-control">
+                                    {
+                                        (field: FieldProps) => (
+
+                                            <IconButtonComponent
+                                                onClick={() => {
+                                                    const exercise_records = field.form.values.exercise_records;
+                                                    exercise_records.splice(index, 1);
+                                                    const newLogs = exercise_records.filter((log: any) => record.key !== log.key);
+                                                    field.form.setFieldValue("exercise_records", newLogs);
+                                                }}>
+                                                <ImageConfig.DeleteIcon/>
+                                            </IconButtonComponent>
+                                        )
+                                    }
+                                </Field>
+                            )
+                        }
+                    </>
+                )
             }
         }
     ];
@@ -305,9 +309,9 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
     console.log('medicalInterventionDetails', medicalInterventionDetails);
 
     return (
-        <div className={'medical-intervention-exercise-log-screen'} >
+        <div className={'medical-intervention-exercise-log-screen'}>
 
-            <PageHeaderComponent title={'Add Exercise Log'}    actions={
+            <PageHeaderComponent title={'Add Exercise Log'} actions={
                 <div className="last-updated-status">
                     <div className="last-updated-status-text">Last Updated On:&nbsp;</div>
                     <div
@@ -315,7 +319,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                         {(medicalInterventionDetails?.updated_at ? moment(medicalInterventionDetails.updated_at).tz(moment.tz.guess()).format('DD-MM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
                         {medicalInterventionDetails?.last_updated_by_details?.first_name ? medicalInterventionDetails?.last_updated_by_details?.first_name + ' ' + medicalInterventionDetails?.last_updated_by_details?.last_name : ' NA'}
                     </div>
-                </div>} />
+                </div>}/>
             {
                 (isClientMedicalRecordLoaded && clientMedicalRecord) && <>
                     <CardComponent color={'primary'}>
@@ -331,13 +335,13 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                     </span>
                         </div>
                         <MedicalInterventionLinkedToComponent medicalRecordDetails={clientMedicalRecord}/>
-                   <div className={'ts-row'}>
-                       <div className={'ts-col-6'}>
-                           <DataLabelValueComponent label={'Date of Intervention'}>
-                                 {CommonService.transformTimeStamp(clientMedicalRecord?.created_at || "N/A")}
-                           </DataLabelValueComponent>
-                       </div>
-                   </div>
+                        <div className={'ts-row'}>
+                            <div className={'ts-col-6'}>
+                                <DataLabelValueComponent label={'Date of Intervention'}>
+                                    {CommonService.transformTimeStamp(clientMedicalRecord?.created_at || "N/A")}
+                                </DataLabelValueComponent>
+                            </div>
+                        </div>
                     </CardComponent>
                 </>
             }
