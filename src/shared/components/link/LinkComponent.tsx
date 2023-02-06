@@ -28,7 +28,7 @@ const LinkComponent = (props: PropsWithChildren<LinkComponentProps>) => {
                     {
                         behaviour === 'redirect' && <a onClick={onClick} className={'link-component'}
                                                        id={id}
-                                                       href={ENV.ENV_MODE !== 'dev' ? ENV.APP_URL + '/' + route : route}
+                                                       href={ENV.ENV_MODE !== 'dev' ? ENV.APP_URL + route : route}
                                                        target={'_blank'} rel={'noreferrer'}>
                             {children}
                         </a>
