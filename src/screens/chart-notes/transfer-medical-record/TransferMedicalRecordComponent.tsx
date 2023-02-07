@@ -135,7 +135,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                     }
                 }
             }
-        ], [shouldTransferEntireMedicalRecord, selectedMedicalInterventions, medicalInterventionList, medicalRecordId, handleSelectAllMedicalInterventions, handleSelectMedicalIntervention]);
+        ], [shouldTransferEntireMedicalRecord, selectedMedicalInterventions, medicalRecordId, handleSelectMedicalIntervention]);
 
         const MedicalRecordListColumns: ITableColumn[] = useMemo(() => [
             {
