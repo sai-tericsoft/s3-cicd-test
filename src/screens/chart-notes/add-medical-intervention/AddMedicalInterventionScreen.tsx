@@ -1,6 +1,6 @@
 import "./AddMedicalInterventionScreen.scss";
 import * as Yup from "yup";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import React, {useCallback, useEffect, useState} from "react";
 import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
@@ -101,6 +101,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
     const [isSigningInProgress, setIsSigningInProgress] = useState<boolean>(false);
     const [isSavingInProgress, setIsSavingProgress] = useState<boolean>(false);
     const [isFormBeingUpdated, setIsFormBeingUpdated] = useState<boolean>(false);
+    const [searchParams]=useSearchParams();
 
     const getMedicalInterventionROMConfigColumns = useCallback((body_part: any): ITableColumn[] => {
         const ROMColumns: any[] = [
@@ -197,11 +198,18 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
 
     useEffect(() => {
         if (medicalRecordId) {
+            const referrer: any = searchParams.get("referrer");
             dispatch(setCurrentNavParams("Medical Record details", null, () => {
-                navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+                if (referrer) {
+                    navigate(referrer);
+                    console.log("referrer", referrer);
+                } else {
+                    navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+                }
             }));
+
         }
-    }, [navigate, dispatch, medicalRecordId]);
+    }, [navigate, dispatch, medicalRecordId, searchParams]);
 
     const handleSign = useCallback((values: any, formik: FormikHelpers<any>) => {
         setIsSigningInProgress(true);
