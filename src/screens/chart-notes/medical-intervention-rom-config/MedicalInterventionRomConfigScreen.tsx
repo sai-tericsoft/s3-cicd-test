@@ -119,7 +119,7 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
                 {
                     isMedicalInterventionDetailsLoaded && <>
                         {
-                            globalRomConfig.length === 0 && <>
+                            globalRomConfig.length === 0 && <div className={'status-button-wrapper'}>
                                 <StatusCardComponent
                                     title={"There are no body parts listed under the Range of Motion and Strength. Please add a body part."}>
                                     <ButtonComponent
@@ -129,7 +129,7 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
                                         Add Body Part
                                     </ButtonComponent>
                                 </StatusCardComponent>
-                            </>
+                            </div>
                         }
                         {
                             globalRomConfig.length > 0 && <>
