@@ -13,18 +13,16 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '14.x'
-      
-
       - name: Install yarn dependencies
         run: yarn install
+      - name: Run build task
+        run: PUBLIC_URL="/dev" yarn build:dev
+
       - name: Yarn install cache
         uses: c-hive/gha-yarn-cache@v1
         with:
           node-version: '14.x'
           cache: 'yarn'
-
-      - name: Run build task
-        run: PUBLIC_URL="/dev" yarn build:dev
       - name: deploy to server
         uses: AEnterprise/rsync-deploy@v1.0
         env:
