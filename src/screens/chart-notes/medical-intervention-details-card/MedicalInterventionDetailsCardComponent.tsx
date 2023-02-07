@@ -169,7 +169,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     }, [medicalInterventionId]);
 
     const [medicalInterventionDropDownOptions, setMedicalInterventionDropDownOptions] = useState<any>([]);
-
+    
     useEffect(() => {
         if (medicalInterventionDetails?.status === 'completed') {
             setMedicalInterventionDropDownOptions([<FilesUneditableMiddlewareComponent
@@ -182,7 +182,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                     <ListItem onClick={handleNotifyAdmin}>Notify Admin</ListItem>]
             );
         } else {
-            setMedicalInterventionDropDownOptions([<ListItem onClick={comingSoon}>Print SOAP</ListItem>,
+            setMedicalInterventionDropDownOptions([
                 <ListItem onClick={openTransferSoapNoteDrawer}>Transfer SOAP to</ListItem>,
                 <ListItem onClick={handleNotifyAdmin}>Notify Admin</ListItem>,
                 <ListItem onClick={openAddDryNeedlingFileDrawer}>
