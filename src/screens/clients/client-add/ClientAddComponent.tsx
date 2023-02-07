@@ -125,7 +125,6 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                 {
                                     (field: FieldProps) => (
                                         <FormikInputComponent
-                                            titleCase={true}
                                             label={'Email Address'}
                                             formikField={field}
                                             required={true}
