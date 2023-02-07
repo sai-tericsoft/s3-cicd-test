@@ -33,6 +33,7 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
             title: 'Product Code',
             dataIndex: 'code',
             key: 'code',
+            align: 'center',
             width: 118
         },
         {
@@ -40,10 +41,11 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
             dataIndex: 'quantity',
             key: 'quantity',
             width: 151,
+            align: 'center',
             sortable: true,
             render: (item: any) => {
                 return <>
-                    {item?.price === 0 ? <ChipComponent color={"error"} label={'out of stock'}/> : item.quantity}
+                    {item?.quantity === 0 ? <ChipComponent color={"error"} label={'out of stock'}/> : item.quantity}
                 </>
             }
         },
@@ -51,6 +53,7 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
             title: 'Amount',
             dataIndex: 'price',
             key: 'price',
+            align: 'center',
             width: 156,
             render: (item: any) => {
                 return <> {Misc.CURRENCY_SYMBOL} {item?.price} </>
@@ -60,6 +63,7 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
             title: '',
             dataIndex: 'action',
             key: 'action',
+            align: 'center',
             width: 98,
             render: (item: any) => {
                 return <LinkComponent route={CommonService._routeConfig.InventoryProductViewDetails(item?._id)}>
