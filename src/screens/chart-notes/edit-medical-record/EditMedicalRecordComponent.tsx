@@ -148,7 +148,6 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                     placeholder={'Date Of Onset'}
                                                     formikField={field}
                                                     required={true}
-                                                    disabled={true}
                                                     fullWidth={true}
                                                 />
                                             )
