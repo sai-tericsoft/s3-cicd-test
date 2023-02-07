@@ -472,7 +472,8 @@
 .system-lock-wrapper {
 
   .MuiBackdrop-root {
-    backdrop-filter: blur(5px) !important;
+    background-color: rgba(0, 0, 0, 0.2) !important;
+    backdrop-filter: blur(3px) !important;
   }
 
   .modal-content-wrapper {
