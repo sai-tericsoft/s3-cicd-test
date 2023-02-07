@@ -13,7 +13,7 @@ import {ILoggedInUser} from "../../shared/models/account.model";
 import moment from "moment";
 
 export interface IAccountReducerState {
-    systemLockReason?: 'auto' | 'manual';
+    systemLockReason?: 'auto' | 'manual' | null | string;
     isSystemLocked?: boolean;
     lastActivityTime?: number;
     currentUser?: ILoggedInUser;
@@ -22,6 +22,7 @@ export interface IAccountReducerState {
 
 const INITIAL_STATE: IAccountReducerState = {
     isSystemLocked: CommonService._localStorage.getItem(Misc.IS_SYSTEM_LOCKED) === 'true',
+    systemLockReason: CommonService._localStorage.getItem(Misc.SYSTEM_LOCK_REASON),
     currentUser: undefined,
     token: CommonService._localStorage.getItem(Misc.LOCAL_STORAGE_JWT_TOKEN)
 };
@@ -58,12 +59,13 @@ const accountReducer = (state: IAccountReducerState = INITIAL_STATE, action: IAc
                 currentUser: undefined
             };
         case SET_SYSTEM_LOCKED:
-            const systemLockedType = action.payload;
-            CommonService._localStorage.setItem(Misc.IS_SYSTEM_LOCKED, systemLockedType);
+            const systemLockedConfig = action.payload;
+            CommonService._localStorage.setItem(Misc.IS_SYSTEM_LOCKED, systemLockedConfig.isLocked);
+            CommonService._localStorage.setItem(Misc.SYSTEM_LOCK_REASON, systemLockedConfig.type);
             return {
                 ...state,
-                systemLockReason:systemLockedType.type,
-                isSystemLocked: systemLockedType.isLocked,
+                systemLockReason: systemLockedConfig.type,
+                isSystemLocked: systemLockedConfig.isLocked,
             };
         default:
             return state;
