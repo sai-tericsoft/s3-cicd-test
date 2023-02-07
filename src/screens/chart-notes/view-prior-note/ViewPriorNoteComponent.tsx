@@ -7,6 +7,7 @@ import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import TableComponent from "../../../shared/components/table/TableComponent";
+import {useLocation} from "react-router-dom";
 
 interface ViewPriorNoteComponentProps {
     medicalRecordDetails: any;
@@ -17,7 +18,7 @@ interface ViewPriorNoteComponentProps {
 const ViewPriorNoteComponent = (props: ViewPriorNoteComponentProps) => {
 
     const {medicalRecordDetails, onMedicalInterventionSelection} = props;
-
+    const location=useLocation();
     const {
         medicalRecordSoapNoteList,
         isMedicalInterventionDetailsLoading,
@@ -49,7 +50,7 @@ const ViewPriorNoteComponent = (props: ViewPriorNoteComponentProps) => {
             render: ( item: any) => {
                 return <LinkComponent
                     onClick={() => onMedicalInterventionSelection(item?.id)}
-                    route={CommonService._routeConfig.MedicalInterventionDetails(item?.medical_record_id, item?._id)}>
+                    route={CommonService._routeConfig.MedicalInterventionDetails(item?.medical_record_id, item?._id) + '?referrer=' + location.pathname}>
                     View Details</LinkComponent>
             }
         }

@@ -6,7 +6,7 @@ import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import {CommonService} from "../../../shared/services";
 import {ImageConfig} from "../../../constants";
@@ -25,12 +25,11 @@ import TransferSoapNoteComponent from "../transfer-soap-note/TransferSoapNoteCom
 import {getMedicalInterventionDetails, getMedicalRecordSoapNoteList} from "../../../store/actions/chart-notes.action";
 import AddConcussionFileComponent from "../add-concussion-file/AddConcussionFileComponent";
 import {IRootReducerState} from "../../../store/reducers";
-import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import ImportSoapNoteComponent from "../import-soap-note/ImportSoapNoteComponent";
 
 interface MedicalInterventionDetailsCardComponentProps {
     showAction?: boolean,
-    medicalInterventionDetails: any
+    medicalInterventionDetails: any,
 }
 
 
@@ -63,7 +62,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
             }
         }
     }, [medicalRecordId, medicalInterventionId, dispatch]);
-    
+
     const comingSoon = useCallback(
         () => {
             CommonService._alert.showToast('Coming Soon!', 'info')
@@ -112,8 +111,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     }, []);
 
     const openViewPriorNoteDrawer = useCallback(() => {
-
-         setIsViewPriorNoteDrawerOpen(true);
+        setIsViewPriorNoteDrawerOpen(true);
     }, []);
 
     const closeViewPriorNoteDrawer = useCallback(() => {
@@ -176,7 +174,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                 >
                     <AddSurgeryRecordComponent medicalRecordId={medicalRecordId}
                                                medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
-                                               onCancel={()=>setIsSurgeryAddOpen(false)}
+                                               onCancel={() => setIsSurgeryAddOpen(false)}
                                                onSave={() => {
                                                    dispatch(getClientMedicalRecord(medicalRecordId));
                                                    setIsSurgeryAddOpen(false);
@@ -276,9 +274,9 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                             <AddDryNeedlingFileComponent
                                 medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
                                 medicalInterventionId={medicalInterventionDetails?._id}
-                                onCancel={()=>closeAddDryNeedlingFileDrawer()}
+                                onCancel={() => closeAddDryNeedlingFileDrawer()}
                                 onAdd={handleDryNeedlingFileAdd}
-                                />
+                            />
                         </DrawerComponent>
                         <DrawerComponent isOpen={isViewPriorNoteDrawerOpen}
                                          showClose={true}

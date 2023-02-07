@@ -1,6 +1,6 @@
 import "./AddMedicalInterventionScreen.scss";
 import * as Yup from "yup";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import React, {useCallback, useEffect, useState} from "react";
 import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
@@ -89,6 +89,8 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
+
     const {
         medicalInterventionDetails,
         isMedicalInterventionDetailsLoading,
@@ -195,13 +197,6 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
         }
     }, [medicalInterventionDetails]);
 
-    useEffect(() => {
-        if (medicalRecordId) {
-            dispatch(setCurrentNavParams("Medical Record details", null, () => {
-                navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
-            }));
-        }
-    }, [navigate, dispatch, medicalRecordId]);
 
     const handleSign = useCallback((values: any, formik: FormikHelpers<any>) => {
         setIsSigningInProgress(true);
@@ -210,6 +205,21 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
             setIsSigningInProgress(false);
         });
     }, [onSubmit]);
+
+    useEffect(() => {
+        if (medicalRecordId) {
+            const referrer: any = searchParams.get("referrer");
+            dispatch(setCurrentNavParams("Medical Record details", null, () => {
+                if (referrer) {
+                    navigate(referrer);
+                    console.log("referrer", referrer);
+                } else {
+                    navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+                }
+            }));
+
+        }
+    }, [navigate, dispatch, medicalRecordId, searchParams]);
 
     return (
         <div className={'add-medical-intervention-screen'}>
@@ -650,8 +660,9 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                         </CardComponent>
                                                     </div>
                                                     {medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0 &&
-                                                        <TableV2Component data={medicalInterventionDetails?.linked_icd_codes}
-                                                                        bordered={true} columns={ICDTableColumns}/>}
+                                                        <TableV2Component
+                                                            data={medicalInterventionDetails?.linked_icd_codes}
+                                                            bordered={true} columns={ICDTableColumns}/>}
                                                 </div>
 
                                                 <DraftReadonlySwitcherComponent
