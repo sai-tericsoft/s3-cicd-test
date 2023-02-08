@@ -117,7 +117,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                             <Form className="t-form" noValidate={true}>
                                 <>
                                     <div className={"t-appointment-drawer-form-controls height-100"}>
-                                        <div className={'payment-block payment-block-time green-card pdd-15'}>
+                                        <div className={'payment-block payment-block-time blue-card pdd-15'}>
                                             <div className="block-heading">
                                                 Total Amount
                                             </div>
