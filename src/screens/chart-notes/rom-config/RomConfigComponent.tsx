@@ -159,7 +159,6 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
 
     const generateROMConfigForAnInjury = useCallback((bodyPart: IBodyPart) => {
         const bodyPartConfig: any = _.cloneDeep(bodyPart);
-        console.log(bodyPartConfig);
         if (bodyPart?.movements && bodyPart?.movements?.length > 0) {
             bodyPartConfig.movements = bodyPart?.movements?.map((movement: any, index: number) => {
                 const movement_data = rom_config?.find((rom: any) => rom?.movement_name === movement?.name);
