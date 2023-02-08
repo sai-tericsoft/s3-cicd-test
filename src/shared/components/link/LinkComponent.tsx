@@ -2,7 +2,6 @@ import "./LinkComponent.scss";
 import {Link} from "react-router-dom";
 import {PropsWithChildren} from "react";
 import {CommonService} from "../../services";
-import {ENV} from "../../../constants";
 
 interface LinkComponentProps {
     id?: string;
@@ -28,7 +27,7 @@ const LinkComponent = (props: PropsWithChildren<LinkComponentProps>) => {
                     {
                         behaviour === 'redirect' && <a onClick={onClick} className={'link-component'}
                                                        id={id}
-                                                       href={ENV.ENV_MODE !== 'dev' ? ENV.APP_URL + route : route}
+                                                       href={route}
                                                        target={'_blank'} rel={'noreferrer'}>
                             {children}
                         </a>
