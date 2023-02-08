@@ -13,8 +13,6 @@ import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import FormikRadioButtonGroupComponent
     from "../../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
-
-import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 import TableV2Component from "../../../shared/components/table-v2/TableV2Component";
 
 interface SpecialTestComponentProps {
@@ -40,30 +38,30 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
 
     const generateSpecialTestColumns = useCallback((bodyPart: IBodyPart) => {
         const columns: any = [
-            {
-                title: '',
-                key: 'select',
-                width: 40,
-                render: ( record: any) => {
-                    return <Field name={`${bodyPart._id}.${record?.name}.is_tested`}>
-                        {
-                            (field: FieldProps) => (
-                                <FormikCheckBoxComponent
-                                    formikField={field}
-                                    label={""}
-                                    onChange={(isChecked) => {
-                                        if (!isChecked) {
-                                            field.form.setFieldValue(`${bodyPart._id}.${record?.name}.result`, undefined);
-                                            field.form.setFieldValue(`${bodyPart._id}.${record?.name}.comments`, undefined);
-                                            field.form.setFieldValue(`${bodyPart._id}.${record?.name}.commentTemp`, undefined);
-                                        }
-                                    }}
-                                />
-                            )
-                        }
-                    </Field>
-                }
-            },
+            // {
+            //     title: '',
+            //     key: 'select',
+            //     width: 40,
+            //     render: ( record: any) => {
+            //         return <Field name={`${bodyPart._id}.${record?.name}.is_tested`}>
+            //             {
+            //                 (field: FieldProps) => (
+            //                     <FormikCheckBoxComponent
+            //                         formikField={field}
+            //                         label={""}
+            //                         onChange={(isChecked) => {
+            //                             if (!isChecked) {
+            //                                 field.form.setFieldValue(`${bodyPart._id}.${record?.name}.result`, undefined);
+            //                                 field.form.setFieldValue(`${bodyPart._id}.${record?.name}.comments`, undefined);
+            //                                 field.form.setFieldValue(`${bodyPart._id}.${record?.name}.commentTemp`, undefined);
+            //                             }
+            //                         }}
+            //                     />
+            //                 )
+            //             }
+            //         </Field>
+            //     }
+            // },
             {
                 title: 'Test Name',
                 key: 'test',
