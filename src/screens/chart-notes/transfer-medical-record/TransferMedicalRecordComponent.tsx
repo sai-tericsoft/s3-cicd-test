@@ -142,6 +142,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 title: '',
                 key: 'select',
                 dataIndex: 'select',
+                width: 5,
                 render: (item: any) => {
                     return <RadioButtonComponent
                         name={'medical-intervention'}
@@ -263,6 +264,17 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
             }
         }, [shouldTransferEntireMedicalRecord, currentStep, confirmTransferMedicalRecord, handleTransferMedicalRecord, getSelectedClientMedicalRecordList, getClientMedicalInterventionList]);
 
+        const handleBack = useCallback(() => {
+            switch (currentStep) {
+                case "selectInterventions":
+                    setCurrentStep("selectClient");
+                    getClientMedicalInterventionList();
+                    break;
+                case  "selectTargetMedicalRecord"  :
+                    setCurrentStep("selectInterventions");
+                    break;
+            }
+        },[currentStep,getClientMedicalInterventionList]);
         //
         // useEffect(() => {
         //     getClientList();
@@ -343,25 +355,46 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                         />
                     </div>
                 }
-                {clientSearchKey?.length > 0 && <div className="t-form-actions">
+                { (currentStep==='selectInterventions' || currentStep==='selectTargetMedicalRecord') &&<div className={'t-form-actions display-flex justify-content-center'}>
                     <ButtonComponent
-                        fullWidth={true}
-                        disabled={
-                            (currentStep === "selectClient" && !selectedClient) ||
-                            (currentStep === "selectInterventions" && (shouldTransferEntireMedicalRecord === false && selectedMedicalInterventions?.length === 0)) ||
-                            (currentStep === "selectTargetMedicalRecord" && !selectedMedicalRecordToTransferUnder) ||
-                            isMedicalRecordTransferUnderProgress
-                        }
-                        isLoading={isMedicalRecordTransferUnderProgress}
-                        onClick={handleConfirmation}>
+                    fullWidth={false}
+                    variant={"outlined"}
+                    isLoading={isMedicalRecordTransferUnderProgress}
+                    onClick={handleBack}>
+                    {
+                        currentStep === "selectInterventions" && "Back"
+                    }
+                    {
+                        currentStep === "selectTargetMedicalRecord" && "Back"
+                    }
+                </ButtonComponent>
+                    &nbsp;
+                    <ButtonComponent
+                    disabled={
+                    (currentStep === "selectInterventions" && (shouldTransferEntireMedicalRecord === false && selectedMedicalInterventions?.length === 0)) ||
+                    (currentStep === "selectTargetMedicalRecord" && !selectedMedicalRecordToTransferUnder) ||
+                    isMedicalRecordTransferUnderProgress
+                }
+                    isLoading={isMedicalRecordTransferUnderProgress}
+                    onClick={handleConfirmation}>
+                {
+                    currentStep === "selectInterventions" && "Confirm"
+                }
+                {
+                    currentStep === "selectTargetMedicalRecord" && "Transfer"
+                }
+                    </ButtonComponent>
+                </div>
+                }
+
+                {
+                    currentStep === "selectClient" && clientSearchKey?.length > 0 && <div className="t-form-actions">
+                    <ButtonComponent fullWidth={true}
+                                     disabled={(currentStep === "selectClient" && !selectedClient)}
+                                     isLoading={isMedicalRecordTransferUnderProgress}
+                                     onClick={handleConfirmation}>
                         {
                             currentStep === "selectClient" && "Next"
-                        }
-                        {
-                            currentStep === "selectInterventions" && "Confirm"
-                        }
-                        {
-                            currentStep === "selectTargetMedicalRecord" && "Transfer"
                         }
                     </ButtonComponent>
                 </div>}
