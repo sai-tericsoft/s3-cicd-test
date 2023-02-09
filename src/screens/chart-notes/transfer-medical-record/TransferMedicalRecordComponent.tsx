@@ -303,7 +303,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                         </CardComponent>
                         <div className={"select-intervention-choice-wrapper"}>
                             <FormControlLabelComponent className={"select-intervention-choice-label"}
-                                                       label={"Want to transfer complete medical record?"}/>
+                                                       label={"Want to transfer complete medical record?"} />
                             <RadioButtonGroupComponent
                                 options={CommonService._staticData.yesNoOptions}
                                 direction={"row"}
