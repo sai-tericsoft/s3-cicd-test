@@ -55,7 +55,7 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                 <StatusCardComponent title={"Failed to fetch product details"}/>
             }
             {isInventoryProductLoaded && <>
-                <PageHeaderComponent title={'Product Details'}/>
+                <PageHeaderComponent title={'Product Details'} className={'product-details-heading'} />
                 <CardComponent color={'primary'}>
                     <div className={'image-button-wrapper'}>
                         <div className={'image-details-wrapper'}>
