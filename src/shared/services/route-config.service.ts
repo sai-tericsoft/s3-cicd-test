@@ -8,7 +8,7 @@ import {
     COMING_SOON_ROUTE,
     DASHBOARD,
     FACILITY_DETAILS,
-    FACILITY_LIST,
+    FACILITY_LIST, INVENTORY,
     LOGIN_ROUTE,
     NOT_FOUND_ROUTE,
     SCHEDULING_VIEW,
@@ -182,7 +182,7 @@ const MedicalRecordViewExerciseRecord = (medicalRecordId: string) => {
 }
 
 const InventoryList = () => {
-    return '/inventory-list';
+    return INVENTORY;
 }
 
 const AddInventoryProduct = () => {

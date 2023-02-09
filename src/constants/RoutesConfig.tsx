@@ -49,7 +49,8 @@ const CONCUSSION_FILE_VIEW_DETAILS = '/chart-notes/:medicalRecordId/:concussionF
 const MEDICAL_RECORD_DOCUMENT_VIEW_DETAILS = '/chart-notes/:medicalRecordId/:medicalRecordDocumentId/medical-record-document-view-details';
 const MEDICAL_RECORD_VIEW_EXERCISE_RECORD = '/chart-notes/:medicalRecordId/consolidated-exercise-record';
 
-const INVENTORY_LIST = "/inventory-list";
+const INVENTORY = "/inventory";
+const INVENTORY_LIST = "/inventory/inventory-list";
 const ADD_INVENTORY_PRODUCT = "/inventory/add-product";
 const INVENTORY_PRODUCT_VIEW_DETAILS = "/inventory/product-details/:productId";
 const EDIT_INVENTORY_PRODUCT = "/inventory/edit-product/:productId";
@@ -100,6 +101,7 @@ export {
     CONCUSSION_FILE_VIEW_DETAILS,
     MEDICAL_RECORD_DOCUMENT_VIEW_DETAILS,
     MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
+    INVENTORY,
     INVENTORY_LIST,
     ADD_INVENTORY_PRODUCT,
     INVENTORY_PRODUCT_VIEW_DETAILS,
