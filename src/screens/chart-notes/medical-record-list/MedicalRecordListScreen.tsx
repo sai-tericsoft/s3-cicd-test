@@ -43,7 +43,6 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: "date_of_onset",
             dataIndex: "date_of_onset",
             width: 140,
-            fixed: "left",
             render: ( item: any) => {
                 return <>{CommonService.convertDateFormat2(item?.onset_date)}</>
             }
@@ -52,7 +51,8 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             title: "Body Part",
             key: "body_part",
             dataIndex: "body_part",
-            width: 160,
+            width: 120,
+            align:'center',
             render: ( item: any) => {
                 if (item?.injury_details?.length === 1) {
                     return <>{item?.injury_details[0]?.body_part_details?.name}</>
@@ -66,6 +66,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: "body_side",
             dataIndex: "body_side",
             width: 110,
+            align:'center',
             render: ( item: any) => {
                 return <>{item?.injury_details[0]?.body_side || "N/A"}</>
             }
@@ -75,6 +76,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             dataIndex: "status",
             key: "status",
             width: 155,
+            align:'center',
             render: ( item: any) => {
                 return <ChipComponent label={item?.status}
                                       className={item?.status === 'Open/Active' ? "active" : "inactive"}></ChipComponent>
@@ -84,6 +86,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             title: "Last Provider",
             key: "last_provider",
             dataIndex: "last_provider",
+            align:'center',
             width: 140,
         },
         {
