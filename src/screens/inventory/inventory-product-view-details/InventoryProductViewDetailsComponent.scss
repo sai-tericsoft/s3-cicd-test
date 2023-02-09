@@ -12,8 +12,12 @@
       }
       .product-details-wrapper{
         margin-left: 20px;
+        .inventory-product-details{
+          margin-left: 5px;
+        }
         .description{
           color: #858F94;
+          margin-left: 6px;
         }
       }
     }

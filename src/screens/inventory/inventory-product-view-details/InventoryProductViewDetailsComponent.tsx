@@ -66,7 +66,7 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                                 <DataLabelValueComponent label={'Quantity Available: '} direction={'row'}>
                                     {inventoryProductDetails?.quantity}
                                 </DataLabelValueComponent>
-                                <FormControlLabelComponent size={'xl'} label={inventoryProductDetails?.name}/>
+                                <FormControlLabelComponent size={'xl'} label={inventoryProductDetails?.name} className={'inventory-product-details'}/>
                                 <div className={'description'}>
                                     {inventoryProductDetails?.description}
                                 </div>
