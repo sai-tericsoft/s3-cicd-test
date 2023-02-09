@@ -79,12 +79,8 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     }, []);
 
     const openAddDryNeedlingFileDrawer = useCallback(() => {
-        if (!medicalInterventionDetails?.is_dryneedling_added) {
             setIsAddDryNeedlingFileDrawerOpen(true);
-        } else {
-            CommonService._alert.showToast('Dry Needling file already added to this intervention', 'error');
-        }
-    }, [medicalInterventionDetails]);
+    }, []);
 
     const closeAddDryNeedlingFileDrawer = useCallback(() => {
         setIsAddDryNeedlingFileDrawerOpen(false);
