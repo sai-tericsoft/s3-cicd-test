@@ -121,7 +121,7 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
             </div>
             <div className="flex-1">
                 <div className="details-box">
-                    <div className="details-header">Details</div>
+                    <div className="details-header">Other Details</div>
                     <div className="details-body">
                         <div className="details-body-block">
                             <div className="details-body-item">
