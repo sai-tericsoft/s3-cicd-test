@@ -333,7 +333,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                         }
                                     }
                                 }
-                            >Checkin</ButtonComponent>
+                            >Check In</ButtonComponent>
                             }
                         </div>
 
