@@ -82,7 +82,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
         <div className={'book-appointment-payment-component'}>
             <div className="drawer-header">
                 {/*<div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>*/}
-                <div className="drawer-title">Secure Checkout</div>
+                <div className="secure-checkout-title">Secure Checkout</div>
                 <ToolTipComponent tooltip={"Close"} position={"left"}>
                     <div className="drawer-close"
                          id={'book-appointment-close-btn'}
