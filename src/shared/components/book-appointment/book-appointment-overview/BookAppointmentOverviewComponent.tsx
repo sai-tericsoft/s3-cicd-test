@@ -87,7 +87,7 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
         <div className={'book-appointment-overview-component'}>
             <div className="drawer-header">
                 <div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>
-                <div className="drawer-title">Book Appointment</div>
+                <div className="appointment-details-title">Appointment Details</div>
                 {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
                 {/*    <div className="drawer-close"*/}
                 {/*         id={'book-appointment-close-btn'}*/}
