@@ -137,7 +137,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                 {
                     step === 'details' && <div className={'appointment-details-wrapper'}>
                         <div className="drawer-header">
-                            <div className="drawer-title">Appointment Details</div>
+                            <div className="appointment-details-heading">Appointment Details</div>
                             <ToolTipComponent tooltip={"Close"} position={"left"}>
                                 <div className="drawer-close"
                                      id={'book-appointment-close-btn'}

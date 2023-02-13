@@ -30,6 +30,12 @@
     display: flex;
     flex-direction: column;
     flex: 1;
+    .drawer-header{
+      .appointment-details-heading{
+        font-size:1.4286rem;
+        font-weight: 500;
+      }
+    }
   }
 
   .status-block {
