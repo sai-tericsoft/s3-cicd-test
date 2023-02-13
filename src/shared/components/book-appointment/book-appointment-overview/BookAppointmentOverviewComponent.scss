@@ -139,6 +139,7 @@
     .details-header {
       background: #F2F6F6;
       padding: 12px;
+      padding-left: 30px;
       font-weight: 500;
     }
     .details-body-block {
@@ -146,6 +147,7 @@
       .details-body-item {
         display: flex;
         flex-direction: row;
+        margin-left: 24px;
         .item-heading {
           flex: 1;
           font-weight: 400;
