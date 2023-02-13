@@ -7,12 +7,31 @@ import React, {useCallback, useEffect, useMemo, useState} from "react";
 import SearchComponent from "../../../shared/components/search/SearchComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {CommonService} from "../../../shared/services";
+import ModalComponent from "../../../shared/components/modal/ModalComponent";
+import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
+import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
+import FormikSelectComponent from "../../../shared/components/form-controls/formik-select/FormikSelectComponent";
+import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
+import * as Yup from "yup";
+import {IRootReducerState} from "../../../store/reducers";
+import {getInventoryProductList} from "../../../store/actions/inventory.action";
 
 interface InventoryListScreenProps {
 
 }
+
+const updateQuantityInitialValues: any = {
+    product: '',
+    quantity: ''
+}
+
+const updateQuantityValidationSchema = Yup.object({
+    product: Yup.mixed().required('Product is required'),
+    quantity: Yup.number().required('Quantity is required'),
+});
+
 
 const InventoryListScreen = (props: InventoryListScreenProps) => {
 
@@ -21,6 +40,11 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
         search: "",
         sort: {}
     });
+    const [isUpdateStockModalOpen, setIsUpdateStockModalOpen] = useState<boolean>(false);
+    const [updateQuantityFormInitialValues] = useState<any>(updateQuantityInitialValues);
+    const {inventoryProductList} = useSelector((state: IRootReducerState) => state.inventory);
+    const [isQuantityUpdateLoading, setIsQuantityUpdateLoading] = useState<boolean>(false);
+    const [refreshToken, setRefreshToken] = useState<string>('');
 
     const InventoryListTableColumns = useMemo<any>(() => [
         {
@@ -84,8 +108,31 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
     }, []);
 
     useEffect(() => {
+        dispatch(getInventoryProductList())
+    }, [dispatch])
+
+    useEffect(() => {
         dispatch(setCurrentNavParams("Inventory"));
     }, [dispatch]);
+
+    const updateQuantity = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
+        console.log('values', values);
+        const payload = {
+            quantity: values.quantity,
+        };
+        setIsQuantityUpdateLoading(true);
+         CommonService._inventory.InventoryQuantityUpdateAPICall(values?.product,payload)
+            .then((response: any) => {
+                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Quantity Update successfully", "success");
+                setIsQuantityUpdateLoading(false);
+                setRefreshToken(Math.random().toString(36).substring(7));
+                setIsUpdateStockModalOpen(false);
+            }).catch((error: any) => {
+            CommonService.handleErrors(setErrors, error, true);
+            setIsQuantityUpdateLoading(false);
+            setIsUpdateStockModalOpen(false)
+        })
+    }, []);
 
     return (
         <div className={'inventory-list-screen list-screen'}>
@@ -101,17 +148,21 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
                                                      search: value
                                                  })
                                              }}
-
                             />
                         </div>
                     </div>
                 </div>
                 <div className="list-options">
+                    <ButtonComponent variant={'outlined'} onClick={() => setIsUpdateStockModalOpen(true)}
+                                     className={'mrg-right-10'}>
+                        Update Stock
+                    </ButtonComponent>
                     <LinkComponent route={CommonService._routeConfig.AddInventoryProduct()}>
                         <ButtonComponent id={'add_product_btn'} prefixIcon={<ImageConfig.AddIcon/>}>
                             Add Product
                         </ButtonComponent>
                     </LinkComponent>
+
                 </div>
             </div>
             <div className="list-content-wrapper">
@@ -119,9 +170,79 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
                                        method={APIConfig.GET_INVENTORY_LIST.METHOD}
                                        columns={InventoryListTableColumns}
                                        extraPayload={inventoryListFilterState}
+                                       refreshToken={refreshToken}
                                        onSort={handleInventorySort}
                 />
             </div>
+            <ModalComponent isOpen={isUpdateStockModalOpen} closeOnBackDropClick={true}
+                            className={'update-stock-modal'}>
+                <FormControlLabelComponent label={'UPDATE PRODUCT QUANTITY'}
+                                           className={'display-flex ts-justify-content-center'}/>
+                <Formik initialValues={updateQuantityFormInitialValues}
+                        onSubmit={updateQuantity}
+                        validationSchema={updateQuantityValidationSchema}
+                        validateOnChange={false}
+                        validateOnBlur={true}
+                        enableReinitialize={true}
+                        validateOnMount={true}>
+                    {({values, isValid, touched, errors, setFieldValue, validateForm}) => {
+                        // eslint-disable-next-line react-hooks/rules-of-hooks
+                        useEffect(() => {
+                            validateForm();
+                        }, [values, validateForm]);
+                        return (
+                            <Form className={'t-form'} noValidate={true}>
+                                <div className={'ts-row ts-justify-content-center'}>
+                                    <div className={'ts-col-lg-12'}>
+                                        <Field name={'product'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikSelectComponent formikField={field}
+                                                                           label={'Select Product'}
+                                                                           required={true}
+                                                                           fullWidth={true}
+                                                                           displayWith={(item: any) => item?.name}
+                                                                           options={inventoryProductList}
+                                                                           valueExtractor={(item: any) => item?._id}
+
+                                                    />
+                                                )}
+                                        </Field>
+                                    </div>
+                                </div>
+                                <div className={'ts-row ts-justify-content-center'}>
+                                    <div className={'ts-col-lg-12'}>
+                                        <Field name={'quantity'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikInputComponent formikField={field}
+                                                                          label={'Quantity'}
+                                                                          type={'number'}
+                                                                          required={true}
+                                                                          fullWidth={true}
+                                                                          placeholder={'Enter Quantity'}/>
+                                                )
+                                            }
+                                        </Field>
+                                    </div>
+                                </div>
+                                <div className={'ts-action display-flex ts-justify-content-center'}>
+                                    <ButtonComponent variant={'outlined'}
+                                                     onClick={() => setIsUpdateStockModalOpen(false)}>
+                                        Cancel
+                                    </ButtonComponent>
+                                    &nbsp;
+                                    <ButtonComponent variant={'contained'} color={'primary'}
+                                                     isLoading={isQuantityUpdateLoading}
+                                                     disabled={!isValid || isQuantityUpdateLoading} type={'submit'}>
+                                        Add Quantity
+                                    </ButtonComponent>
+                                </div>
+                            </Form>
+                        )
+                    }}
+                </Formik>
+            </ModalComponent>
         </div>
     );
 
