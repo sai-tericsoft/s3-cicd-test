@@ -112,13 +112,13 @@
     .block-body {
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
       .block-content {
         flex-direction: row;
         display: flex;
         align-items: center;
         color: #83909D;
         justify-content: center;
+        margin-right: 30px;
         flex: 0;
         white-space: nowrap;
 

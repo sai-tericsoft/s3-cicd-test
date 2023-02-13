@@ -104,12 +104,14 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                     <div className="block-content">
                         <ImageConfig.CalendarIcon/>
                         <div
-                            className="content-title">{CommonService.convertDateFormat(bookingDraft.appointment_date)}</div>
+                            className="content-title">{CommonService.convertDateFormat(bookingDraft.appointment_date)}
+                        </div>
                     </div>
                     <div className="block-content">
                         <ImageConfig.TimerIcon/>
                         <div
-                            className="content-title">{CommonService.getHoursAndMinutesFromMinutes(bookingDraft.time.start_min)}</div>
+                            className="content-title">{CommonService.getHoursAndMinutesFromMinutes(bookingDraft.time.start_min)}
+                        </div>
                     </div>
                     <div className="block-content">
                     </div>
