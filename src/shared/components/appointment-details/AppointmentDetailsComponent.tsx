@@ -298,7 +298,14 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
 
 
                             <div className="details-box">
-                                <div className="details-header">Forms</div>
+                                <div className="details-header">
+                                    <div className={'form-heading'}>
+                                        Forms
+                                    </div>
+                                    <div className={'status-heading'}>
+                                        Status
+                                    </div>
+                                </div>
                                 <div className="details-body">
                                     <div className="details-body-block">
                                         {formStatus && formStatus.map((value, index) => {

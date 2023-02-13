@@ -116,6 +116,10 @@
       background: #F2F6F6;
       padding: 12px;
       font-weight: 500;
+      display: flex;
+      .form-heading{
+        margin-right: 210px;
+      }
     }
 
     .details-body-block {
