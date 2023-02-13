@@ -90,8 +90,9 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                              if (onClose) {
                                  onClose();
                              }
-                         }
-                         }><ImageConfig.CloseIcon/></div>
+                         }}>
+                        <ImageConfig.CloseIcon/>
+                    </div>
                 </ToolTipComponent>
             </div>
             <Formik
@@ -151,7 +152,8 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
 
                                         {values.payment_type === 'current' && <>
                                             <FormControlLabelComponent
-                                                label={"Add a gift card or promotion code or voucher"}/>
+                                                label={"Add a gift card or promotion code or voucher"} className={'add-gift-card-msg'} />
+                                            <div className={'mrg-bottom-10'}>
                                             <Field name={'promotion_code'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -163,6 +165,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                                     )
                                                 }
                                             </Field>
+                                            </div>
                                             <FormControlLabelComponent
                                                 label={"Checkout Summary"}/>
                                             <div className="price-holder">
