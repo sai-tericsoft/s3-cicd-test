@@ -52,15 +52,11 @@ const accountReducer = (state: IAccountReducerState = INITIAL_STATE, action: IAc
         case LOGOUT:
             CommonService._localStorage.removeItem(Misc.LOCAL_STORAGE_LOGGED_IN_USER_DATA);
             CommonService._localStorage.removeItem(Misc.LOCAL_STORAGE_JWT_TOKEN);
-            CommonService._localStorage.setItem(Misc.IS_SYSTEM_LOCKED);
-            CommonService._localStorage.setItem(Misc.SYSTEM_LOCK_REASON);
             Communications.updateLoginUserTokenSubject.next('');
             return {
                 ...state,
                 token: undefined,
-                currentUser: undefined,
-                systemLockReason: undefined,
-                isSystemLocked: undefined,
+                currentUser: undefined
             };
         case SET_SYSTEM_LOCKED:
             const systemLockedConfig = action.payload;
