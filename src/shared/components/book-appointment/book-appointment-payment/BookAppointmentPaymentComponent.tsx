@@ -44,7 +44,7 @@ const addAppointmentPaymentValidationSchema = Yup.object().shape({
 });
 
 const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentProps) => {
-    const {onClose, onComplete, booking} = props;
+    const {onClose, onComplete, booking,onBack} = props;
     const {paymentModes} = useSelector((state: IRootReducerState) => state.staticData);
 
 
@@ -81,8 +81,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
     return (
         <div className={'book-appointment-payment-component'}>
             <div className="drawer-header">
-                {/*<div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>*/}
-                <div className="secure-checkout-title">Secure Checkout</div>
+                <div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>
                 <ToolTipComponent tooltip={"Close"} position={"left"}>
                     <div className="drawer-close"
                          id={'book-appointment-close-btn'}
@@ -95,6 +94,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                     </div>
                 </ToolTipComponent>
             </div>
+            <div className="secure-checkout-title">Secure Checkout</div>
             <Formik
                 innerRef={formRef}
                 validationSchema={addAppointmentPaymentValidationSchema}
