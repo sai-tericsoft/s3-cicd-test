@@ -95,6 +95,7 @@
         color: #83909D;
         justify-content: center;
         flex: 0;
+        margin-right: 30px;
         white-space: nowrap;
 
         .content-title {
@@ -109,7 +110,7 @@
   }
 
   .details-box {
-    margin: 10px 0;
+    margin: 24px 0;
     border: 1px solid #E7E8EA;
 
     .details-header {
@@ -117,6 +118,7 @@
       padding: 12px;
       font-weight: 500;
       display: flex;
+      padding-left: 27px;
       .form-heading{
         margin-right: 210px;
       }
@@ -135,9 +137,9 @@
           font-size: 14px;
           line-height: 16px;
           display: flex;
-          align-items: center;
           color: #83909D;
           padding: 9px;
+          margin-left: 28px;
         }
 
         .item-value {
