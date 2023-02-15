@@ -84,7 +84,6 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
         <div className={'appointment-payment-component'}>
             <div className="drawer-header">
                 <div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>
-                <div className="drawer-title">Secure Checkout</div>
                 {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
                 {/*    <div className="drawer-close"*/}
                 {/*         id={'appointment-close-btn'}*/}
@@ -96,6 +95,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                 {/*         }><ImageConfig.CloseIcon/></div>*/}
                 {/*</ToolTipComponent>*/}
             </div>
+            <div className="secure-checkout-title">Secure Checkout</div>
             <Formik
                 innerRef={formRef}
                 validationSchema={addAppointmentPaymentValidationSchema}
@@ -119,7 +119,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                             <Form className="t-form" noValidate={true}>
                                 <>
                                     <div className={"t-appointment-drawer-form-controls height-100"}>
-                                        <div className={'payment-block payment-block-time green-card pdd-15'}>
+                                        <div className={'payment-block payment-block-time green-card pdd-15 pdd-left-30 mrg-bottom-20'}>
                                             <div className="block-heading">
                                                 Total Amount
                                             </div>

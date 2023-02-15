@@ -5,6 +5,13 @@
   display: flex;
   flex-direction: column;
 
+  .secure-checkout-title{
+    font-weight: 700;
+    font-size: 1.4286rem;
+    margin-top: 25px;
+    margin-bottom:24px ;
+  }
+
   .t-form {
     display: flex;
     flex-direction: column;

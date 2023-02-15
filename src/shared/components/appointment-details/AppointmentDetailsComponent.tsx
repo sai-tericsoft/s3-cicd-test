@@ -277,8 +277,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                                                prefixIcon={details?.payment_status === 'paid' ?
                                                                    <ImageConfig.CircleCheck/> : <ImageConfig.CancelIcon/>}
                                                                label={details?.payment_status === 'paid' ? 'Paid' : 'Unpaid'}
-                                                               color={(details?.payment_status === 'paid' ? 'success' : 'error')}
-                                                />
+                                                               className={details?.payment_status === 'paid' ? 'paid' : 'unpaid'}/>
                                             </div>
                                         </div>
                                     </div>

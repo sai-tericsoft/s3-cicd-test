@@ -31,7 +31,7 @@
     flex-direction: column;
     flex: 1;
 
-    .drawer-header{
+    .drawer-header {
       display: flex;
       justify-content: end;
     }
@@ -165,6 +165,16 @@
           //display: flex;
           //align-items: center;
           color: #212B36;
+
+          .unpaid {
+            color: #DE1C4E;
+            background-color: #FFE2E9;
+          }
+
+          .paid {
+            color: #00534F;
+            background-color: #BDE8CA;
+          }
 
           &.green {
             color: #37A850 !important
