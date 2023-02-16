@@ -278,7 +278,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                         </div>
                         <div className={'ts-row'}>
                             <div className={'ts-col'}>
-                                <DataLabelValueComponent label={'Restrictions and Limitations'}>
+                                <DataLabelValueComponent label={'Restrictions/Limitations'}>
                                     {medicalInterventionDetails?.limitations || "-"}
                                 </DataLabelValueComponent>
                             </div>
