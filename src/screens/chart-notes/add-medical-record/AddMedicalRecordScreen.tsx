@@ -441,7 +441,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                                 options={CommonService._staticData.yesNoOptions}
                                                                 displayWith={(option) => option.title}
                                                                 valueExtractor={(option) => option.code}
-                                                                label={'Treated Script Received'}
+                                                                label={'Treatment Script Received'}
                                                                 formikField={field}
                                                                 required={true}
                                                                 fullWidth={true}
@@ -563,7 +563,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                                 variant={"text"}
                                                                 className={"mrg-bottom-20"}
                                                             >
-                                                                Add New Body Part
+                                                                Add Another Body Part
                                                             </ButtonComponent>
                                                         }
                                                     </>
