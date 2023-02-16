@@ -687,8 +687,8 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                         {
                                                             (field: FieldProps) => (
                                                                 <FormikTextAreaComponent
-                                                                    label={'Surgery Procedure Complete'}
-                                                                    placeholder={'Surgery Procedure Complete'}
+                                                                    label={'Surgery Procedure Completed'}
+                                                                    placeholder={'Surgery Procedure Completed'}
                                                                     formikField={field}
                                                                     required={false}
                                                                     fullWidth={true}
@@ -699,7 +699,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 } readonly={
                                                     <div className={'readonly-wrapper'}>
                                                         <FormControlLabelComponent
-                                                            label={'Surgery Procedure Complete'}/>
+                                                            label={'Surgery Procedure Completed'}/>
                                                         <div className={'readonly-text'}>
                                                             {
                                                                 medicalInterventionDetails?.assessment.surgery_procedure || 'N/A'
