@@ -275,7 +275,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </LinkComponent>
                                         }
                                     </div>
-                                    <CardComponent title={'Subjective (S)'}
+                                    <CardComponent title={'S - Subjective'}
                                                    actions={
                                                        search.showClear && <DraftReadonlySwitcherComponent
                                                            condition={medicalInterventionDetails?.status === 'draft'}
@@ -319,7 +319,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </div>
                                         </div>
                                     </CardComponent>
-                                    <CardComponent title={'Objective (O)'}
+                                    <CardComponent title={'O - Objective'}
                                                    actions={<>
                                                        {search.showClear && <DraftReadonlySwitcherComponent
                                                            condition={medicalInterventionDetails?.status === 'draft'}
@@ -611,7 +611,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </div>
                                         </div>
                                     </CardComponent>
-                                    <CardComponent title={'Assessment (A)'} actions={
+                                    <CardComponent title={'A - Assessment'} actions={
                                         search.showClear && <DraftReadonlySwitcherComponent
                                             condition={medicalInterventionDetails?.status === 'draft'}
                                             draft={<div className={'intervention-clear-button'} onClick={event => {
@@ -711,7 +711,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </div>
                                         </div>
                                     </CardComponent>
-                                    <CardComponent title={'Plan (P)'} actions={
+                                    <CardComponent title={'P - Plan'} actions={
                                         search.showClear && <DraftReadonlySwitcherComponent
                                             condition={medicalInterventionDetails?.status === 'draft'}
                                             draft={<div className={'intervention-clear-button'} onClick={event => {
