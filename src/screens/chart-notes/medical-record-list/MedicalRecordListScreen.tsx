@@ -46,7 +46,11 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             align:'center',
             fixed: "left",
             render: ( item: any) => {
-                return <>{CommonService.convertDateFormat2(item?.onset_date)}</>
+                if (item?._id) {
+                    return <LinkComponent route={CommonService._routeConfig.ClientMedicalRecordDetails(item?._id)}>
+                        {CommonService.convertDateFormat2(item?.onset_date)}
+                    </LinkComponent>
+                }
             }
         },
         {
