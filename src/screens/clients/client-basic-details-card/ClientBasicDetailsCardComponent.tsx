@@ -37,7 +37,7 @@ const ClientBasicDetailsCardComponent = (props: ClientBasicDetailsCardComponentP
                         <DataLabelValueComponent label={'Client ID'}>
                             {clientBasicDetails?.client_id}
                         </DataLabelValueComponent>
-                        <DataLabelValueComponent label={'Age'}>
+                        <DataLabelValueComponent label={'Age'} className={'age-container'}>
                             {CommonService.getTheDifferenceBetweenDates(clientBasicDetails?.dob)}
                         </DataLabelValueComponent>
                     </div>
