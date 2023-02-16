@@ -43,6 +43,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: "date_of_onset",
             dataIndex: "date_of_onset",
             width: 140,
+            align:'center',
             fixed: "left",
             render: ( item: any) => {
                 return <>{CommonService.convertDateFormat2(item?.onset_date)}</>
@@ -51,6 +52,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
         {
             title: "Body Part",
             key: "body_part",
+            align:'center',
             dataIndex: "body_part",
             width: 160,
             render: ( item: any) => {
@@ -64,6 +66,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
         {
             title: "Body Side",
             key: "body_side",
+            align:'center',
             dataIndex: "body_side",
             width: 110,
             render: ( item: any) => {
@@ -74,6 +77,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             title: "Current Status",
             dataIndex: "status",
             key: "status",
+            align:'center',
             width: 155,
             render: ( item: any) => {
                 return <ChipComponent label={item?.status}
@@ -83,6 +87,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
         {
             title: "Last Provider",
             key: "last_provider",
+            align:'center',
             dataIndex: "last_provider",
             width: 140,
         },
