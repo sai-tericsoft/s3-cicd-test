@@ -4,6 +4,7 @@ import DataLabelValueComponent from "../../../shared/components/data-label-value
 import {IClientBasicDetails} from "../../../shared/models/client.model";
 import {CommonService} from "../../../shared/services";
 import {Link, useLocation} from "react-router-dom";
+import ChipComponent from "../../../shared/components/chip/ChipComponent";
 
 interface ClientBasicDetailsCardComponentProps {
     clientBasicDetails: IClientBasicDetails;
@@ -28,9 +29,7 @@ const ClientBasicDetailsCardComponent = (props: ClientBasicDetailsCardComponentP
                     <div className={'client-name'}>
                         {clientBasicDetails?.first_name} {clientBasicDetails?.last_name}
                     </div>
-                    <div className={`client-status ${clientBasicDetails?.is_active ? "success" : "error"}`}>
-                        {clientBasicDetails?.is_active ? 'Active' : 'Inactive'}
-                    </div>
+                    <ChipComponent label={clientBasicDetails?.is_active ? 'Active' : 'Inactive'} className={`client-status ${clientBasicDetails?.is_active ? "active" : "inactive"}`}/>
                     <div className={'dashed-border-wrapper'}>
                         <div className={'dashed-border'}/>
                     </div>
