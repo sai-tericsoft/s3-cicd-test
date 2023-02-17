@@ -140,7 +140,8 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
             confirmationSubTitle: `Are you sure you want to transfer this SOAP to: ${CommonService.extractName(selectedClient)}`,
         }).then(() => {
             setIsSoapNoteTransferUnderProgress(true);
-            CommonService._chartNotes.TransferSoapNoteAPICall(medicalInterventionId, {medical_record_id: medicalRecordId})
+            CommonService._chartNotes.TransferSoapNoteAPICall(medicalInterventionId, {medical_record_id:selectedMedicalRecord?._id
+        })
                 .then((response: any) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     onTransferSoapNote();
@@ -150,7 +151,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                 setIsSoapNoteTransferUnderProgress(false);
             })
         });
-    }, [medicalInterventionId, medicalRecordId, onTransferSoapNote, selectedClient]);
+    }, [medicalInterventionId, selectedMedicalRecord, onTransferSoapNote, selectedClient]);
 
     return (
         <div className={'transfer-soap-note-component'}>

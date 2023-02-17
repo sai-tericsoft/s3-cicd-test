@@ -262,11 +262,9 @@ const TransferMedicalRecordAPICall = (clientId: string, payload: any) => {
     return ApiService[APIConfig.TRANSFER_MEDICAL_RECORD.METHOD](APIConfig.TRANSFER_MEDICAL_RECORD.URL(clientId), payload);
 }
 
-const TransferSoapNoteAPICall = (clientId: string, payload: any) => {
-    console.log("payload", payload);
-    console.log('clientId',clientId);
+const TransferSoapNoteAPICall = (medicalInterventionId: string, payload: any) => {
     // @ts-ignore
-    return ApiService[APIConfig.TRANSFER_SOAP_NOTE.METHOD](APIConfig.TRANSFER_SOAP_NOTE.URL(clientId), payload);
+    return ApiService[APIConfig.TRANSFER_SOAP_NOTE.METHOD](APIConfig.TRANSFER_SOAP_NOTE.URL(medicalInterventionId), payload);
 }
 
 const MedicalInterventionNotifyAdminAPICall = (medicalInterventionId: string, payload: any) => {
