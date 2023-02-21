@@ -84,7 +84,6 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
         <div className={'appointment-payment-component'}>
             <div className="drawer-header">
                 <div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>
-                <div className="drawer-title">Secure Checkout</div>
                 {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
                 {/*    <div className="drawer-close"*/}
                 {/*         id={'appointment-close-btn'}*/}
@@ -96,6 +95,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                 {/*         }><ImageConfig.CloseIcon/></div>*/}
                 {/*</ToolTipComponent>*/}
             </div>
+            <div className="secure-checkout-heading">Secure Checkout</div>
             <Formik
                 innerRef={formRef}
                 validationSchema={addAppointmentPaymentValidationSchema}
