@@ -6,15 +6,17 @@ import {CommonService} from "../../../shared/services";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
 import {APIConfig} from "../../../constants";
 import {IClientBasicDetails, IClientListFilterState} from "../../../shared/models/client.model";
+import {useState} from "react";
 
 interface ClientListTableComponentProps {
     clientListFilterState: IClientListFilterState;
     onSort?: (key: string, order: string) => void;
+    refreshToken?: string;
 }
 
 const ClientListTableComponent = (props: ClientListTableComponentProps) => {
 
-    const {clientListFilterState, onSort} = props;
+    const {clientListFilterState, onSort,refreshToken} = props;
 
     const ClientListTableColumns: ITableColumn[] = [
         {
@@ -112,6 +114,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
                 url={APIConfig.CLIENT_LIST.URL}
                 method={APIConfig.CLIENT_LIST.METHOD}
                 columns={ClientListTableColumns}
+                refreshToken={refreshToken}
                 extraPayload={clientListFilterState}
                 onSort={onSort}
             />

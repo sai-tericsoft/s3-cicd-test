@@ -1,7 +1,7 @@
 import "./MedicalRecordListScreen.scss";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {IRootReducerState} from "../../../store/reducers";
 import {getClientBasicDetails,} from "../../../store/actions/client.action";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
@@ -43,13 +43,21 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: "date_of_onset",
             dataIndex: "date_of_onset",
             width: 140,
+            align:'center',
+            fixed: "left",
+            sortable: true,
             render: ( item: any) => {
-                return <>{CommonService.convertDateFormat2(item?.onset_date)}</>
+                if (item?._id) {
+                    return <LinkComponent route={CommonService._routeConfig.ClientMedicalRecordDetails(item?._id)}>
+                        {CommonService.convertDateFormat2(item?.onset_date)}
+                    </LinkComponent>
+                }
             }
         },
         {
             title: "Body Part",
             key: "body_part",
+            align:'center',
             dataIndex: "body_part",
             width: 120,
             align:'center',
@@ -64,6 +72,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
         {
             title: "Body Side",
             key: "body_side",
+            align:'center',
             dataIndex: "body_side",
             width: 110,
             align:'center',
@@ -75,6 +84,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             title: "Current Status",
             dataIndex: "status",
             key: "status",
+            align:'center',
             width: 155,
             align:'center',
             render: ( item: any) => {
@@ -85,8 +95,10 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
         {
             title: "Last Provider",
             key: "last_provider",
+            align:'center',
             dataIndex: "last_provider",
             align:'center',
+            sortable: true,
             width: 140,
         },
         {
@@ -108,10 +120,10 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {caseStatusList} = useSelector((state: IRootReducerState) => state.staticData);
-    const [caseStatusFilterState, setCaseStatusFilterState] = useState<IClientMedicalStatusFilterState>({
-        status: undefined,
+    const [medicalRecordListStatusDateAndProviderFilterState, setMedicalRecordListStatusDateAndProviderFilterState] = useState<any>({
+        status:undefined,
+        sort:{}
     })
-
     const {
         isClientBasicDetailsLoaded,
         isClientBasicDetailsLoading,
@@ -130,6 +142,17 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             navigate(CommonService._routeConfig.ClientSearch());
         }));
     }, [navigate, dispatch]);
+
+    const handleClientMedicalListSort = useCallback((key: string, order: string) => {
+        setMedicalRecordListStatusDateAndProviderFilterState((oldState:any) => {
+            const newState = {...oldState};
+            newState["sort"] = {
+                key,
+                order
+            }
+            return newState;
+        });
+    }, []);
 
     return (
         <div className={'chart-notes-details-screen'}>
@@ -164,7 +187,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                                                                  fullWidth={true}
                                                                  size={'small'}
                                                                  onUpdate={(value) => {
-                                                                     setCaseStatusFilterState({
+                                                                     setMedicalRecordListStatusDateAndProviderFilterState({
                                                                          ...caseStatusList,
                                                                          status: value
                                                                      })
@@ -196,7 +219,8 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                                             url={APIConfig.CLIENT_MEDICAL_INFO.URL(clientId)}
                                             method={APIConfig.CLIENT_MEDICAL_INFO.METHOD}
                                             columns={MedicalRecordListTableColumns}
-                                            extraPayload={caseStatusFilterState}
+                                            extraPayload={medicalRecordListStatusDateAndProviderFilterState}
+                                            onSort={handleClientMedicalListSort}
                                             id={"client_medical_records_list"}
                                         />
                                     </div>
