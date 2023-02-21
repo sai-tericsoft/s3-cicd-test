@@ -12,6 +12,7 @@ import * as Yup from "yup";
 
 interface ClientAddComponentProps {
    onAdd:()=> void;
+   refreshList:()=> void;
 }
 
 const clientAddInitialValues: any = {
@@ -35,7 +36,7 @@ const clientAddsValidationSchema = Yup.object({
 
 const ClientAddComponent = (props: ClientAddComponentProps) => {
 
-    const {onAdd} = props;
+    const {onAdd,refreshList} = props;
     const navigate=useNavigate();
     const [addClientInitialValues] = useState<any>(clientAddInitialValues);
     const [isClientAddInProgress, setIsClientAddInProgress] = useState<boolean>(false);
@@ -69,6 +70,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
             CommonService._client.ClientBasicDetailsAddAPICall(values)
                 .then((response: any) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    refreshList();
                     onAdd();
                 }).catch((error: any) => {
                 setIsClientAddInProgress(false);
@@ -125,7 +127,6 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                 {
                                     (field: FieldProps) => (
                                         <FormikInputComponent
-                                            titleCase={true}
                                             label={'Email Address'}
                                             formikField={field}
                                             required={true}

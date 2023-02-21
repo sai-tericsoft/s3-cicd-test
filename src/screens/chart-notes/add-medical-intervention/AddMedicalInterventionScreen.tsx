@@ -89,6 +89,8 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
+
     const {
         medicalInterventionDetails,
         isMedicalInterventionDetailsLoading,
@@ -219,6 +221,21 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
         });
     }, [onSubmit]);
 
+    useEffect(() => {
+        if (medicalRecordId) {
+            const referrer: any = searchParams.get("referrer");
+            dispatch(setCurrentNavParams("Medical Record details", null, () => {
+                if (referrer) {
+                    navigate(referrer);
+                    console.log("referrer", referrer);
+                } else {
+                    navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+                }
+            }));
+
+        }
+    }, [navigate, dispatch, medicalRecordId, searchParams]);
+
     return (
         <div className={'add-medical-intervention-screen'}>
             {
@@ -267,7 +284,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                         <FormAutoSave formikCtx={formik} onUpdating={setIsFormBeingUpdated}/>}
                                     <div
                                         className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
-                                        <FormControlLabelComponent label={"Soap Note"} className={"mrg-0"}/>
+                                        <FormControlLabelComponent label={"Soap Note"} size={'lg'} className={"mrg-0"}/>
                                         {
                                             (medicalInterventionId && medicalRecordId && medicalInterventionDetails?.status === 'draft') &&
                                             <LinkComponent
@@ -283,7 +300,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </LinkComponent>
                                         }
                                     </div>
-                                    <CardComponent title={'Subjective (S)'}
+                                    <CardComponent title={'S - Subjective'}
                                                    actions={
                                                        search.showClear && <DraftReadonlySwitcherComponent
                                                            condition={medicalInterventionDetails?.status === 'draft'}
@@ -315,7 +332,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 } readonly={
                                                     <div className={'readonly-wrapper'}>
                                                         <FormControlLabelComponent
-                                                            label={'Subjective'}/>
+                                                            label={'Subjective :'}/>
                                                         <div className={'readonly-text'}>
                                                             {
                                                                 medicalInterventionDetails?.subjective || 'N/A'
@@ -327,7 +344,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </div>
                                         </div>
                                     </CardComponent>
-                                    <CardComponent title={'Objective (O)'}
+                                    <CardComponent title={'O - Objective'}
                                                    actions={<>
                                                        {search.showClear && <DraftReadonlySwitcherComponent
                                                            condition={medicalInterventionDetails?.status === 'draft'}
@@ -377,7 +394,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 } readonly={
                                                     <div className={'readonly-wrapper'}>
                                                         <FormControlLabelComponent
-                                                            label={'Observation'}/>
+                                                            label={'Observation :'}/>
                                                         <div className={'readonly-text'}>
                                                             {
                                                                 medicalInterventionDetails?.objective.observation || 'N/A'
@@ -404,7 +421,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 } readonly={
                                                     <div className={'readonly-wrapper'}>
                                                         <FormControlLabelComponent
-                                                            label={'Palpation'}/>
+                                                            label={'Palpation :'}/>
                                                         <div className={'readonly-text'}>
                                                             {
                                                                 medicalInterventionDetails?.objective.palpation || 'N/A'
@@ -529,7 +546,33 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                         })}
                                                     </CardComponent>
                                                 </div>
-
+                                                <DraftReadonlySwitcherComponent
+                                                    condition={medicalInterventionDetails?.status === 'draft'} draft={
+                                                    <Field name={'objective.palpation'}>
+                                                        {
+                                                            (field: FieldProps) => (
+                                                                <FormikTextAreaComponent
+                                                                    label={'Palpation'}
+                                                                    placeholder={'Palpation'}
+                                                                    formikField={field}
+                                                                    required={false}
+                                                                    fullWidth={true}
+                                                                />
+                                                            )
+                                                        }
+                                                    </Field>
+                                                } readonly={
+                                                    <div className={'readonly-wrapper'}>
+                                                        <FormControlLabelComponent
+                                                            label={'Palpation'}/>
+                                                        <div className={'readonly-text'}>
+                                                            {
+                                                                medicalInterventionDetails?.objective.palpation || 'N/A'
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                }
+                                                />
                                                 <DraftReadonlySwitcherComponent
                                                     condition={medicalInterventionDetails?.status === 'draft'} draft={
                                                     <Field name={'objective.functional_tests'}>
@@ -564,8 +607,8 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                         {
                                                             (field: FieldProps) => (
                                                                 <FormikTextAreaComponent
-                                                                    label={'Treatment'}
-                                                                    placeholder={'Treatment'}
+                                                                    label={'Treatment Performed'}
+                                                                    placeholder={'Treatment Performed'}
                                                                     formikField={field}
                                                                     required={false}
                                                                     fullWidth={true}
@@ -576,7 +619,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 } readonly={
                                                     <div className={'readonly-wrapper'}>
                                                         <FormControlLabelComponent
-                                                            label={'Treatment'}/>
+                                                            label={'Treatment Performed'}/>
                                                         <div className={'readonly-text'}>
                                                             {
                                                                 medicalInterventionDetails?.objective.treatment || 'N/A'
@@ -605,7 +648,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 } readonly={
                                                     <div className={'readonly-wrapper'}>
                                                         <FormControlLabelComponent
-                                                            label={'Response to Treatment'}/>
+                                                            label={'Response to Treatment :'}/>
                                                         <div className={'readonly-text'}>
                                                             {
                                                                 medicalInterventionDetails?.objective.treatment_response || 'N/A'
@@ -619,7 +662,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </div>
                                         </div>
                                     </CardComponent>
-                                    <CardComponent title={'Assessment (A)'} actions={
+                                    <CardComponent title={'A - Assessment'} actions={
                                         search.showClear && <DraftReadonlySwitcherComponent
                                             condition={medicalInterventionDetails?.status === 'draft'}
                                             draft={<div className={'intervention-clear-button'} onClick={event => {
@@ -658,8 +701,9 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                         </CardComponent>
                                                     </div>
                                                     {medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0 &&
-                                                        <TableV2Component data={medicalInterventionDetails?.linked_icd_codes}
-                                                                        bordered={true} columns={ICDTableColumns}/>}
+                                                        <TableV2Component
+                                                            data={medicalInterventionDetails?.linked_icd_codes}
+                                                            bordered={true} columns={ICDTableColumns}/>}
                                                 </div>
 
                                                 <DraftReadonlySwitcherComponent
@@ -680,7 +724,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 } readonly={
                                                     <div className={'readonly-wrapper'}>
                                                         <FormControlLabelComponent
-                                                            label={'Index of Suspicion'}/>
+                                                            label={'Index of Suspicion :'}/>
                                                         <div className={'readonly-text'}>
                                                             {
                                                                 medicalInterventionDetails?.assessment.suspicion_index || 'N/A'
@@ -695,8 +739,8 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                         {
                                                             (field: FieldProps) => (
                                                                 <FormikTextAreaComponent
-                                                                    label={'Surgery Procedure Complete'}
-                                                                    placeholder={'Surgery Procedure Complete'}
+                                                                    label={'Surgery Procedure Completed'}
+                                                                    placeholder={'Surgery Procedure Completed'}
                                                                     formikField={field}
                                                                     required={false}
                                                                     fullWidth={true}
@@ -707,7 +751,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 } readonly={
                                                     <div className={'readonly-wrapper'}>
                                                         <FormControlLabelComponent
-                                                            label={'Surgery Procedure Complete'}/>
+                                                            label={'Surgery Procedure Complete :'}/>
                                                         <div className={'readonly-text'}>
                                                             {
                                                                 medicalInterventionDetails?.assessment.surgery_procedure || 'N/A'
@@ -719,7 +763,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </div>
                                         </div>
                                     </CardComponent>
-                                    <CardComponent title={'Plan (P)'} actions={
+                                    <CardComponent title={'P - Plan'} actions={
                                         search.showClear && <DraftReadonlySwitcherComponent
                                             condition={medicalInterventionDetails?.status === 'draft'}
                                             draft={<div className={'intervention-clear-button'} onClick={event => {
@@ -753,7 +797,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 } readonly={
                                                     <div className={'readonly-wrapper'}>
                                                         <FormControlLabelComponent
-                                                            label={'Plan'}/>
+                                                            label={'Plan :'}/>
                                                         <div className={'readonly-text'}>
                                                             {
                                                                 medicalInterventionDetails?.plan.plan || 'N/A'
@@ -780,7 +824,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 } readonly={
                                                     <div className={'readonly-wrapper'}>
                                                         <FormControlLabelComponent
-                                                            label={'MD Recommendations'}/>
+                                                            label={'MD Recommendations :'}/>
                                                         <div className={'readonly-text'}>
                                                             {
                                                                 medicalInterventionDetails?.plan.md_recommendations || 'N/A'
@@ -807,7 +851,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 } readonly={
                                                     <div className={'readonly-wrapper'}>
                                                         <FormControlLabelComponent
-                                                            label={'Education'}/>
+                                                            label={'Education :'}/>
                                                         <div className={'readonly-text'}>
                                                             {
                                                                 medicalInterventionDetails?.plan.education || 'N/A'
@@ -836,7 +880,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 } readonly={
                                                     <div className={'readonly-wrapper'}>
                                                         <FormControlLabelComponent
-                                                            label={'Treatment Goals'}/>
+                                                            label={'Treatment Goals :'}/>
                                                         <div className={'readonly-text'}>
                                                             {
                                                                 medicalInterventionDetails?.plan.treatment_goals || 'N/A'

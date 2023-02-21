@@ -1,6 +1,7 @@
 const LOCAL_STORAGE_LOGGED_IN_USER_DATA = "currentUser";
 const LOCAL_STORAGE_JWT_TOKEN = "jwtToken";
 const IS_SYSTEM_LOCKED = "isSystemLocked";
+const SYSTEM_LOCK_REASON = "SYSTEM_LOCK_REASON";
 const APP_NAME = "Zoella";
 const API_RESPONSE_MESSAGE_KEY = "message";
 const CURRENCY_SYMBOL = "$";
@@ -11,5 +12,6 @@ export {
     LOCAL_STORAGE_JWT_TOKEN,
     API_RESPONSE_MESSAGE_KEY,
     IS_SYSTEM_LOCKED,
+    SYSTEM_LOCK_REASON,
     CURRENCY_SYMBOL
 }

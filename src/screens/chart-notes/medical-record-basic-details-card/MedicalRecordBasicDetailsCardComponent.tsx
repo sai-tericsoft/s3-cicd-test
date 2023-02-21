@@ -7,7 +7,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
-import {useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import {IRootReducerState} from "../../../store/reducers";
 import {CommonService} from "../../../shared/services";
@@ -89,10 +89,10 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
         }
     }, [navigate, dispatch, clientMedicalRecord?.client_id]);
 
-    const comingSoon = useCallback(
-        () => {
-            CommonService._alert.showToast('Coming Soon!', 'info')
-        }, []);
+    // const comingSoon = useCallback(
+    //     () => {
+    //         CommonService._alert.showToast('Coming Soon!', 'info')
+    //     }, []);
 
     const openEditMedicalRecordDrawer = useCallback(() => {
         setIsEditMedicalRecordDrawerOpen(true);
@@ -148,8 +148,15 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
 
     const handleSurgeryRecordAdd = useCallback(() => {
         dispatch(refreshMedicalRecordAttachmentList());
+        if (medicalRecordId) {
+            dispatch(getClientMedicalRecord(medicalRecordId));
+        }
         setIsSurgeryAddOpen(false);
-    }, [dispatch]);
+    }, [dispatch, medicalRecordId]);
+
+    const closeSurgeryRecordDrawer=useCallback(()=>{
+        setIsSurgeryAddOpen(false);
+    },[])
 
     const handleDischargeCase = useCallback(() => {
         if (medicalRecordId) {
@@ -208,12 +215,12 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                 <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
                                         <span className={'client-name'}>
-                                                {clientMedicalRecord?.client_details?.first_name || "-"} {clientMedicalRecord?.client_details?.last_name || "-"}
+                                                {clientMedicalRecord?.client_details?.first_name || "N/A"} {clientMedicalRecord?.client_details?.last_name || "N/A"}
                                         </span>
                                         <ChipComponent
                                             className={clientMedicalRecord?.status === "open" ? "active" : "inactive"}
                                             size={'small'}
-                                            label={clientMedicalRecord?.status || "-"}/>
+                                            label={clientMedicalRecord?.status || "N/A"}/>
                                     </span>
                                     <div className="ts-row width-auto">
                                         <div className="">
@@ -238,7 +245,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                                         Add Progress Report
                                                     </ListItem>,
                                                     <ListItem onClick={openTransferMedicalRecordDrawer}>
-                                                        Transfer File
+                                                        Transfer File To
                                                     </ListItem>,
                                                     <ListItem onClick={handleNotifyAdmin} >
                                                        Notify Admin
@@ -249,15 +256,15 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                                     <ListItem onClick={openMedicalRecordDocumentAddDrawer}>
                                                         Add Document
                                                     </ListItem>,
-                                                    <ListItem onClick={comingSoon}>
-                                                        View Exercise Record
-                                                    </ListItem>,
-                                                    // <Link
-                                                    //     to={CommonService._routeConfig.MedicalRecordViewExerciseRecord(medicalRecordId)}>
-                                                    //     <ListItem>
-                                                    //         View Exercise Record
-                                                    //     </ListItem>
-                                                    // </Link>,
+                                                    // <ListItem onClick={comingSoon}>
+                                                    //     View Exercise Record
+                                                    // </ListItem>,
+                                                    <Link
+                                                        to={CommonService._routeConfig.MedicalRecordViewExerciseRecord(medicalRecordId)}>
+                                                        <ListItem>
+                                                            View Exercise Record
+                                                        </ListItem>
+                                                    </Link>,
                                                     <ListItem onClick={handleDischargeCase}>
                                                         Discharge Case
                                                     </ListItem>
@@ -270,40 +277,41 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-md-4 ts-col-lg'}>
                                         <DataLabelValueComponent label={'Date of Onset'}>
-                                            {clientMedicalRecord?.onset_date ? CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.onset_date) : "NA"}
+                                            {clientMedicalRecord?.onset_date ? CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.onset_date) : "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-4 ts-col-lg'}>
                                         <DataLabelValueComponent label={'Date of Surgery'}>
-                                            {clientMedicalRecord?.surgery_date ? CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.surgery_date) : "NA"}
+                                            {clientMedicalRecord?.surgery_date ? CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.surgery_date) : "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-4 ts-col-lg'}>
                                         <DataLabelValueComponent label={'Case Physician'}>
-                                            {clientMedicalRecord?.case_physician.name || "-"}
+                                            {clientMedicalRecord?.case_physician.name || "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-4 ts-col-lg'}>
                                         <DataLabelValueComponent label={'Next MD Appointment'}>
-                                            {clientMedicalRecord?.next_md_appointment ? CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.next_md_appointment) : "NA"}
+                                            {clientMedicalRecord?.next_md_appointment ? CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.next_md_appointment) : "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-4 ts-col-lg'}>
                                         <DataLabelValueComponent label={'Total Direct Minutes'}>
-                                            {clientMedicalRecord?.total_direct_minutes || "-"}
+                                            {clientMedicalRecord?.total_direct_minutes || "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
                                 </div>
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-md-4 ts-col-lg'}>
                                         <DataLabelValueComponent label={'Injury/Condition Description'}>
-                                            {clientMedicalRecord?.injury_description || "-"}
+                                            {clientMedicalRecord?.injury_description || "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
-                                    <div className={'ts-col-md-4 ts-col-lg'}/>
+                                </div>
+                                <div className={'ts-row'}>
                                     <div className={'ts-col-md-4 ts-col-lg'}>
                                         <DataLabelValueComponent label={'Restrictions and Limitations'}>
-                                            {clientMedicalRecord?.limitations || "-"}
+                                            {clientMedicalRecord?.limitations || "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-4 ts-col-lg'}/>
@@ -321,7 +329,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                     >
                         <AddSurgeryRecordComponent medicalRecordId={medicalRecordId}
                                                    medicalRecordDetails={clientMedicalRecord}
-                                                   onSave={handleSurgeryRecordAdd}/>
+                                                   onSave={handleSurgeryRecordAdd} onCancel={()=>setIsSurgeryAddOpen(false)}/>
                     </DrawerComponent>
                     {/*Add Surgery Record end*/}
 
@@ -368,6 +376,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                             onAdd={handleMedicalRecordDocumentAdd}
                             medicalRecordId={medicalRecordId}
                             medicalRecordDetails={clientMedicalRecord}
+                            onCancel={() => closeMedicalRecordDocumentAddDrawer()}
                         />
                     </DrawerComponent>
                     {/*Add medical record document drawer end*/}

@@ -118,6 +118,7 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                             }
                         });
                         setIsDryNeedlingAttachmentAdding(false);
+                        setDryNeedlingFileAttachmentFile(undefined);
                         CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully added attachment", "success");
                     }).catch((error: any) => {
                     setIsDryNeedlingAttachmentAdding(false);

@@ -6,6 +6,7 @@ import AvatarComponent from "../avatar/AvatarComponent";
 import {IAttachment} from "../../models/common.model";
 import IconButtonComponent from "../icon-button/IconButtonComponent";
 import {CommonService} from "../../services";
+import ToolTipComponent from "../tool-tip/ToolTipComponent";
 
 interface FilePreviewThumbnailComponentProps {
     variant?: "compact" | "detailed";
@@ -78,9 +79,11 @@ const FilePreviewThumbnailComponent = (props: FilePreviewThumbnailComponentProps
                         <AvatarComponent url={filePreviewURL} title={fileName} type={"square"}></AvatarComponent>
                     }
                 </div>
-                <div className="file-name">
-                    {fileName}
-                </div>
+                <ToolTipComponent tooltip={fileName}>
+                    <div className="file-name">
+                        {fileName}
+                    </div>
+                </ToolTipComponent>
             </div>
             <div className="file-options">
                 {

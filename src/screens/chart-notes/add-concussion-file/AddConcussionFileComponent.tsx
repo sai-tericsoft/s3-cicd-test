@@ -40,11 +40,12 @@ interface AddConcussionFileComponentProps {
     onAdd: (data: any) => void;
     medicalInterventionId: string;
     medicalRecordDetails: any;
+    medicalInterventionDetails: any;
 }
 
 const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
 
-    const {onAdd, medicalInterventionId, medicalRecordDetails} = props;
+    const {onAdd, medicalInterventionId, medicalInterventionDetails, medicalRecordDetails} = props;
     const [currentStep, setCurrentStep] = useState<"selectType" | "form">("selectType");
     const {concussionFileTypes} = useSelector((state: IRootReducerState) => state.staticData);
     const [selectedConcussionFileType, setSelectedConcussionFileType] = useState<IConcussionFileType | undefined>(undefined);
@@ -71,9 +72,13 @@ const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
     }, [medicalInterventionId, selectedConcussionFileType, onAdd]);
 
     const onConcussionFileTypeSelect = useCallback((type: IConcussionFileType) => {
-        setSelectedConcussionFileType(type);
-        setCurrentStep("form");
-    }, []);
+        if (medicalInterventionDetails[type.type]){
+            CommonService._alert.showToast(`Concussion file type ${type.type} already added to this intervention`, 'error');
+        } else {
+            setSelectedConcussionFileType(type);
+            setCurrentStep("form");
+        }
+    }, [medicalInterventionDetails]);
 
     return (
         <div className={'add-concussion-file-component'}>

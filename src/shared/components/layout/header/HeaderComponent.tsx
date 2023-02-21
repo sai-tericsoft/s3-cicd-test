@@ -52,8 +52,8 @@ const HeaderComponent = (props: HeaderComponentProps) => {
             </div>
             <div className="header-options">
                 <div className="header-option lock">
-                    <IconButtonComponent>
-                        <ImageConfig.LockIcon onClick={handleSystemLock}/>
+                    <IconButtonComponent onClick={handleSystemLock}>
+                        <ImageConfig.LockIcon/>
                     </IconButtonComponent>
                 </div>
                 <MenuDropdownComponent menuBase={<>

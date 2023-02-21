@@ -36,7 +36,7 @@ import AppVersionComponent from "./shared/components/app-version/appVersionCompo
 import {getAllProvidersList} from "./store/actions/user.action";
 import LightBoxComponent from "./shared/components/light-box/LightBoxComponent";
 import {debounceTime, fromEvent} from "rxjs";
-import SystemAutoLockComponent from "./shared/components/system-auto-lock/SystemAutoLockComponent";
+import SystemLockComponent from "./shared/components/system-lock/SystemLockComponent";
 import {getSystemSettings} from "./store/actions/settings.action";
 
 interface AppProps {
@@ -154,7 +154,7 @@ const App = (props: AppProps) => {
                     <ConfirmationComponent/>
                     <AppVersionComponent/>
                     <LightBoxComponent/>
-                    <SystemAutoLockComponent/>
+                    <SystemLockComponent/>
                 </ThemeProvider>
             </div>
         </CheckLoginComponent>

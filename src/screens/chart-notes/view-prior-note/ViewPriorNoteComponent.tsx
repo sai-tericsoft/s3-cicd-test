@@ -20,7 +20,7 @@ const ViewPriorNoteComponent = (props: ViewPriorNoteComponentProps) => {
     const {medicalRecordDetails, onMedicalInterventionSelection} = props;
     const location=useLocation();
 
-    const {
+const {
         medicalRecordSoapNoteList,
         isMedicalInterventionDetailsLoading,
     } = useSelector((state: IRootReducerState) => state.chartNotes);

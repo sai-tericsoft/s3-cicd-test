@@ -24,7 +24,6 @@
 @import "components/grid";
 @import "components/drop-down-menu";
 
-
 .app-version {
   font-size: 10px;
   position: fixed;
@@ -196,6 +195,8 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 20px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+
     }
 
     .page-content-holder {
@@ -434,36 +435,48 @@
 
 .chip {
   font-weight: 500;
+
   &.no_show {
     background: #EFEFEF;
     color: #717171;
   }
+
   &.scheduled {
     background: #E8F2FF;
     color: #1C5EDE;
   }
+
   &.upcoming {
     background: #FFF7EA;
     color: #DE561C;
   }
+
   &.engaged {
     background: #BDE8CA;
     color: #00534F;
   }
+
   &.completed {
     background: #F5F7F8;
     color: #7583A6;
   }
+
   &.cancelled {
     background: #FFE2E9;
     color: #DE1C4E;
   }
 }
+
 .text-primary {
   color: $primary-color;
 }
 
-.system-auto-lock-wrapper {
+.system-lock-wrapper {
+
+  .MuiBackdrop-root {
+    background-color: rgba(0, 0, 0, 0.2) !important;
+    backdrop-filter: blur(5px) !important;
+  }
 
   .modal-content-wrapper {
     width: 416px !important;
@@ -473,7 +486,7 @@
     @include display-center();
     flex-direction: column;
 
-    .system-auto-lock-back-navigation {
+    .system-lock-back-navigation {
       position: absolute;
       top: 15px;
       left: 15px;
@@ -488,7 +501,7 @@
       }
     }
 
-    .system-auto-lock-icon {
+    .system-lock-icon {
       background: #F2F6F6;
       height: 84px;
       width: 84px;
@@ -504,7 +517,7 @@
       }
     }
 
-    .system-auto-lock-title {
+    .system-lock-title {
       font-weight: $font-weight-bolder;
       font-size: 1.1429rem;
       line-height: 22px;
@@ -513,7 +526,7 @@
       text-transform: uppercase;
     }
 
-    .system-auto-lock-sub-title {
+    .system-lock-sub-title {
       font-weight: $font-weight-bold;
       font-size: 1rem;
       line-height: 22px;
@@ -521,7 +534,7 @@
       margin-bottom: 30px;
     }
 
-    .system-auto-lock-password-field {
+    .system-lock-password-field {
       height: 95px;
       width: 100%;
     }

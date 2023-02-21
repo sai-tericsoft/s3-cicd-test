@@ -14,7 +14,7 @@ import RadioButtonGroupComponent, {
 import CardComponent from "../../../shared/components/card/CardComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
-import {Misc} from "../../../constants";
+import {ImageConfig, Misc} from "../../../constants";
 
 interface TransferMedicalRecordComponentProps {
     onMedicalRecordTransfer: (data: any) => void;
@@ -36,7 +36,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
         const [selectedMedicalRecordToTransferUnder, setSelectedMedicalRecordToTransferUnder] = useState<any>(undefined);
         const [isMedicalRecordListLoading, setIsMedicalRecordListLoading] = useState<boolean>(false);
         const [medicalRecordList, setMedicalRecordList] = useState<any>([]);
-        const [selectedOptionToTransferMedicalRecord, setSelectedOptionToTransferMedicalRecord] = useState<boolean>(false);
+        const [shouldTransferEntireMedicalRecord, setShouldTransferEntireMedicalRecord] = useState<boolean>(false);
         const [isMedicalRecordTransferUnderProgress, setIsMedicalRecordTransferUnderProgress] = useState<boolean>(false);
 
         const ClientListColumns: ITableColumn[] = useMemo(() => [
@@ -44,9 +44,9 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 title: 'Name',
                 key: 'name',
                 dataIndex: 'name',
-                render: ( item: any) => {
+                render: (item: any) => {
                     return <RadioButtonComponent
-                        label={CommonService.extractName(item)}
+                        label={CommonService.extractName(item)+" "+'(ID:'+(item.client_id)+')'}
                         name={'client'} value={item?._id}
                         checked={selectedClient?._id === item?._id}
                         onChange={() => {
@@ -75,21 +75,13 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
 
         const MedicalInterventionListColumns: ITableColumn[] = useMemo(() => [
             {
-                title: <CheckBoxComponent
-                    indeterminate={selectedMedicalInterventions.length > 0 && selectedMedicalInterventions.length < medicalInterventionList?.length}
-                    disabled={selectedOptionToTransferMedicalRecord || medicalInterventionList?.length === 0}
-                    checked={(medicalInterventionList?.length > 0 && (selectedMedicalInterventions?.length === medicalInterventionList?.length))}
-                    onChange={(isChecked) => {
-                        handleSelectAllMedicalInterventions(isChecked);
-                    }
-                    }
-                />,
-                key: 'note_type',
-                dataIndex: 'note_type',
-                render: ( item: any) => {
+                title: "",
+                key: 'select',
+                dataIndex: 'select',
+                render: (item: any) => {
                     return <CheckBoxComponent
                         value={item?._id}
-                        disabled={selectedOptionToTransferMedicalRecord}
+                        disabled={shouldTransferEntireMedicalRecord}
                         checked={selectedMedicalInterventions?.findIndex((selectedItem: any) => selectedItem?._id === item?._id) > -1}
                         onChange={(isChecked) => {
                             handleSelectMedicalIntervention(isChecked, item);
@@ -108,7 +100,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 title: 'Date',
                 key: 'date',
                 dataIndex: 'date',
-                render: ( item: any) => {
+                render: (item: any) => {
                     return CommonService.getSystemFormatTimeStamp(item?.created_at);
                 },
                 width: 150,
@@ -116,7 +108,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
             {
                 title: '',
                 key: 'view_details',
-                render: ( item: any) => {
+                render: (item: any) => {
                     let route = '';
                     if (medicalRecordId) {
                         if (item?.note_type_category?.toLowerCase() === 'surgery record') {
@@ -143,14 +135,15 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                     }
                 }
             }
-        ], [selectedOptionToTransferMedicalRecord, selectedMedicalInterventions, medicalInterventionList, medicalRecordId, handleSelectAllMedicalInterventions, handleSelectMedicalIntervention]);
+        ], [shouldTransferEntireMedicalRecord, selectedMedicalInterventions, medicalRecordId, handleSelectMedicalIntervention]);
 
         const MedicalRecordListColumns: ITableColumn[] = useMemo(() => [
             {
                 title: '',
                 key: 'select',
                 dataIndex: 'select',
-                render: ( item: any) => {
+                width: 5,
+                render: (item: any) => {
                     return <RadioButtonComponent
                         name={'medical-intervention'}
                         value={item?._id}
@@ -165,7 +158,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 title: 'Case',
                 key: 'case',
                 dataIndex: 'case',
-                render: ( item: any) => {
+                render: (item: any) => {
                     return CommonService.generateInterventionNameFromMedicalRecord(item);
                 }
             },
@@ -173,7 +166,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 title: 'Date',
                 key: 'date',
                 dataIndex: 'date',
-                render: ( item: any) => {
+                render: (item: any) => {
                     return CommonService.getSystemFormatTimeStamp(item?.onset_date);
                 }
             }
@@ -182,7 +175,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
         const handleTransferMedicalRecord = useCallback(() => {
             setIsMedicalRecordTransferUnderProgress(true);
             const payload = {
-                "is_transfer_record": selectedOptionToTransferMedicalRecord,
+                "is_transfer_record": shouldTransferEntireMedicalRecord,
                 "medical_record_id": medicalRecordId,
                 "transfer_records": selectedMedicalInterventions?.map((item: any) => {
                     return {
@@ -200,7 +193,21 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 CommonService._alert.showToast(error?.error || "Error while transferring Medical Record", 'error');
                 setIsMedicalRecordTransferUnderProgress(false);
             });
-        }, [onMedicalRecordTransfer, selectedClient, medicalRecordId, selectedOptionToTransferMedicalRecord, selectedMedicalInterventions]);
+        }, [onMedicalRecordTransfer, selectedClient, medicalRecordId, shouldTransferEntireMedicalRecord, selectedMedicalInterventions]);
+
+        const confirmTransferMedicalRecord = useCallback(() => {
+            CommonService.onConfirm({
+                image: ImageConfig.DeleteAttachmentConfirmationIcon,
+                confirmationTitle: "TRANSFER COMPLETE RECORD",
+                confirmationSubTitle: "Are you sure you want to transfer the \n" +
+                    "complete medical record?"
+            })
+                .then(() => {
+                    handleTransferMedicalRecord();
+                }).catch(() => {
+
+            });
+        }, [handleTransferMedicalRecord]);
 
         const getClientList = useCallback((searchKey: string = '') => {
             setClientSearchKey(searchKey);
@@ -216,7 +223,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
 
         const getClientMedicalInterventionList = useCallback(() => {
             setIsMedicalInterventionListLoading(true);
-            CommonService._chartNotes.MedicalRecordConsolidatedInterventionAndAttachmentsListAPICall(medicalRecordId)
+            CommonService._chartNotes.MedicalRecordFilesListAPICall(medicalRecordId)
                 .then((response: IAPIResponseType<any>) => {
                     setMedicalInterventionList(response.data);
                     setIsMedicalInterventionListLoading(false);
@@ -245,14 +252,29 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                     setCurrentStep("selectInterventions");
                     break;
                 case "selectInterventions":
-                    setCurrentStep("selectTargetMedicalRecord");
+                    if (shouldTransferEntireMedicalRecord) {
+                        confirmTransferMedicalRecord();
+                    } else {
+                        setCurrentStep("selectTargetMedicalRecord");
+                    }
                     break;
                 case "selectTargetMedicalRecord":
                     handleTransferMedicalRecord();
                     break;
             }
-        }, [currentStep, handleTransferMedicalRecord, getSelectedClientMedicalRecordList, getClientMedicalInterventionList]);
+        }, [shouldTransferEntireMedicalRecord, currentStep, confirmTransferMedicalRecord, handleTransferMedicalRecord, getSelectedClientMedicalRecordList, getClientMedicalInterventionList]);
 
+        const handleBack = useCallback(() => {
+            switch (currentStep) {
+                case "selectInterventions":
+                    setCurrentStep("selectClient");
+                    getClientMedicalInterventionList();
+                    break;
+                case  "selectTargetMedicalRecord"  :
+                    setCurrentStep("selectInterventions");
+                    break;
+            }
+        },[currentStep,getClientMedicalInterventionList]);
         //
         // useEffect(() => {
         //     getClientList();
@@ -274,6 +296,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                                 <TableComponent data={clientList}
                                                 columns={ClientListColumns}
                                                 loading={isClientListLoading}
+                                                bordered={true}
                                                 hideHeader={true}
                                 />
                             </>
@@ -292,16 +315,19 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                         </CardComponent>
                         <div className={"select-intervention-choice-wrapper"}>
                             <FormControlLabelComponent className={"select-intervention-choice-label"}
-                                                       label={"Want to transfer complete medical record?"}/>
+                                                       label={"Want to transfer complete medical record?"} />
                             <RadioButtonGroupComponent
                                 options={CommonService._staticData.yesNoOptions}
                                 direction={"row"}
                                 name={'transferMedicalRecord'}
                                 isValueBoolean={true}
-                                value={selectedOptionToTransferMedicalRecord}
+                                value={shouldTransferEntireMedicalRecord}
                                 onChange={(value) => {
                                     setSelectedMedicalInterventions([]);
-                                    setSelectedOptionToTransferMedicalRecord(value);
+                                    setShouldTransferEntireMedicalRecord(value);
+                                    if (value) {
+                                        handleSelectAllMedicalInterventions(true);
+                                    }
                                 }
                                 }
                             />
@@ -329,25 +355,46 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                         />
                     </div>
                 }
-                {clientSearchKey?.length > 0 && <div className="t-form-actions">
+                { (currentStep==='selectInterventions' || currentStep==='selectTargetMedicalRecord') &&<div className={'t-form-actions display-flex justify-content-center'}>
                     <ButtonComponent
-                        fullWidth={true}
-                        disabled={
-                            (currentStep === "selectClient" && !selectedClient) ||
-                            (currentStep === "selectInterventions" && (selectedOptionToTransferMedicalRecord === false && selectedMedicalInterventions?.length === 0)) ||
-                            (currentStep === "selectTargetMedicalRecord" && !selectedMedicalRecordToTransferUnder) ||
-                            isMedicalRecordTransferUnderProgress
-                        }
-                        isLoading={isMedicalRecordTransferUnderProgress}
-                        onClick={handleConfirmation}>
+                    fullWidth={false}
+                    variant={"outlined"}
+                    isLoading={isMedicalRecordTransferUnderProgress}
+                    onClick={handleBack}>
+                    {
+                        currentStep === "selectInterventions" && "Back"
+                    }
+                    {
+                        currentStep === "selectTargetMedicalRecord" && "Back"
+                    }
+                </ButtonComponent>
+                    &nbsp;
+                    <ButtonComponent
+                    disabled={
+                    (currentStep === "selectInterventions" && (shouldTransferEntireMedicalRecord === false && selectedMedicalInterventions?.length === 0)) ||
+                    (currentStep === "selectTargetMedicalRecord" && !selectedMedicalRecordToTransferUnder) ||
+                    isMedicalRecordTransferUnderProgress
+                }
+                    isLoading={isMedicalRecordTransferUnderProgress}
+                    onClick={handleConfirmation}>
+                {
+                    currentStep === "selectInterventions" && "Confirm"
+                }
+                {
+                    currentStep === "selectTargetMedicalRecord" && "Transfer"
+                }
+                    </ButtonComponent>
+                </div>
+                }
+
+                {
+                    currentStep === "selectClient" && clientSearchKey?.length > 0 && <div className="t-form-actions">
+                    <ButtonComponent fullWidth={true}
+                                     disabled={(currentStep === "selectClient" && !selectedClient)}
+                                     isLoading={isMedicalRecordTransferUnderProgress}
+                                     onClick={handleConfirmation}>
                         {
                             currentStep === "selectClient" && "Next"
-                        }
-                        {
-                            currentStep === "selectInterventions" && "Confirm"
-                        }
-                        {
-                            currentStep === "selectTargetMedicalRecord" && "Transfer"
                         }
                     </ButtonComponent>
                 </div>}
