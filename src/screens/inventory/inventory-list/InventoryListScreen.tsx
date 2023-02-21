@@ -1,7 +1,7 @@
 import "./InventoryListScreen.scss";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
-import {APIConfig, ImageConfig, Misc} from "../../../constants";
+import {APIConfig, ImageConfig, Misc, Patterns} from "../../../constants";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import SearchComponent from "../../../shared/components/search/SearchComponent";
@@ -17,21 +17,21 @@ import FormikInputComponent from "../../../shared/components/form-controls/formi
 import * as Yup from "yup";
 import {IRootReducerState} from "../../../store/reducers";
 import {getInventoryProductList} from "../../../store/actions/inventory.action";
+import _ from "lodash";
 
 interface InventoryListScreenProps {
 
 }
 
-const updateQuantityInitialValues: any = {
+const UpdateQuantityInitialValues: any = {
     product: '',
     quantity: ''
 }
 
 const updateQuantityValidationSchema = Yup.object({
     product: Yup.mixed().required('Product is required'),
-    quantity: Yup.number().required('Quantity is required'),
+    quantity: Yup.mixed().required('Quantity is required'),
 });
-
 
 const InventoryListScreen = (props: InventoryListScreenProps) => {
 
@@ -41,7 +41,7 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
         sort: {}
     });
     const [isUpdateStockModalOpen, setIsUpdateStockModalOpen] = useState<boolean>(false);
-    const [updateQuantityFormInitialValues] = useState<any>(updateQuantityInitialValues);
+    const [updateQuantityFormInitialValues, setUpdateQuantityFormInitialValues] = useState<any>(_.cloneDeep(UpdateQuantityInitialValues));
     const {inventoryProductList} = useSelector((state: IRootReducerState) => state.inventory);
     const [isQuantityUpdateLoading, setIsQuantityUpdateLoading] = useState<boolean>(false);
     const [refreshToken, setRefreshToken] = useState<string>('');
@@ -121,17 +121,23 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
             quantity: values.quantity,
         };
         setIsQuantityUpdateLoading(true);
-         CommonService._inventory.InventoryQuantityUpdateAPICall(values?.product,payload)
+        CommonService._inventory.InventoryQuantityUpdateAPICall(values?.product, payload)
             .then((response: any) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Quantity Update successfully", "success");
                 setIsQuantityUpdateLoading(false);
-                setRefreshToken(Math.random().toString(36).substring(7));
+                setRefreshToken(CommonService.getRandomID(10));
                 setIsUpdateStockModalOpen(false);
+                setUpdateQuantityFormInitialValues(_.cloneDeep(UpdateQuantityInitialValues));
             }).catch((error: any) => {
             CommonService.handleErrors(setErrors, error, true);
             setIsQuantityUpdateLoading(false);
             setIsUpdateStockModalOpen(false)
         })
+    }, []);
+
+    const handleUpdateQuantityModalOpen = useCallback(() => {
+        setIsUpdateStockModalOpen(true);
+        setUpdateQuantityFormInitialValues(_.cloneDeep(UpdateQuantityInitialValues));
     }, []);
 
     return (
@@ -153,7 +159,7 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
                     </div>
                 </div>
                 <div className="list-options">
-                    <ButtonComponent variant={'outlined'} onClick={() => setIsUpdateStockModalOpen(true)}
+                    <ButtonComponent variant={'outlined'} onClick={handleUpdateQuantityModalOpen}
                                      className={'mrg-right-10'}>
                         Update Stock
                     </ButtonComponent>
@@ -220,6 +226,7 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
                                                                           type={'number'}
                                                                           required={true}
                                                                           fullWidth={true}
+                                                                          validationPattern={Patterns.NEGATIVE_WHOLE_NUMBERS}
                                                                           placeholder={'Enter Quantity'}/>
                                                 )
                                             }
