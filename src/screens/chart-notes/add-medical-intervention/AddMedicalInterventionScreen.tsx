@@ -531,7 +531,33 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                         })}
                                                     </CardComponent>
                                                 </div>
-
+                                                <DraftReadonlySwitcherComponent
+                                                    condition={medicalInterventionDetails?.status === 'draft'} draft={
+                                                    <Field name={'objective.palpation'}>
+                                                        {
+                                                            (field: FieldProps) => (
+                                                                <FormikTextAreaComponent
+                                                                    label={'Palpation'}
+                                                                    placeholder={'Palpation'}
+                                                                    formikField={field}
+                                                                    required={false}
+                                                                    fullWidth={true}
+                                                                />
+                                                            )
+                                                        }
+                                                    </Field>
+                                                } readonly={
+                                                    <div className={'readonly-wrapper'}>
+                                                        <FormControlLabelComponent
+                                                            label={'Palpation'}/>
+                                                        <div className={'readonly-text'}>
+                                                            {
+                                                                medicalInterventionDetails?.objective.palpation || 'N/A'
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                }
+                                                />
                                                 <DraftReadonlySwitcherComponent
                                                     condition={medicalInterventionDetails?.status === 'draft'} draft={
                                                     <Field name={'objective.functional_tests'}>
