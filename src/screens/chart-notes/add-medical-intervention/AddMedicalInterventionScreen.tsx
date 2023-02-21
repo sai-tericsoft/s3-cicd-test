@@ -103,6 +103,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
     const [isSigningInProgress, setIsSigningInProgress] = useState<boolean>(false);
     const [isSavingInProgress, setIsSavingProgress] = useState<boolean>(false);
     const [isFormBeingUpdated, setIsFormBeingUpdated] = useState<boolean>(false);
+    const [searchParams]=useSearchParams();
 
     const getMedicalInterventionROMConfigColumns = useCallback((body_part: any): ITableColumn[] => {
         const ROMColumns: any[] = [
@@ -197,6 +198,20 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
         }
     }, [medicalInterventionDetails]);
 
+    useEffect(() => {
+        if (medicalRecordId) {
+            const referrer: any = searchParams.get("referrer");
+            dispatch(setCurrentNavParams("Medical Record details", null, () => {
+                if (referrer) {
+                    navigate(referrer);
+                    console.log("referrer", referrer);
+                } else {
+                    navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+                }
+            }));
+
+        }
+    }, [navigate, dispatch, medicalRecordId, searchParams]);
 
     const handleSign = useCallback((values: any, formik: FormikHelpers<any>) => {
         setIsSigningInProgress(true);

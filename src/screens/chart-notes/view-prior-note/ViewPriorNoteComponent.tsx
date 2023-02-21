@@ -19,7 +19,8 @@ const ViewPriorNoteComponent = (props: ViewPriorNoteComponentProps) => {
 
     const {medicalRecordDetails, onMedicalInterventionSelection} = props;
     const location=useLocation();
-    const {
+
+const {
         medicalRecordSoapNoteList,
         isMedicalInterventionDetailsLoading,
     } = useSelector((state: IRootReducerState) => state.chartNotes);
@@ -50,7 +51,7 @@ const ViewPriorNoteComponent = (props: ViewPriorNoteComponentProps) => {
             render: ( item: any) => {
                 return <LinkComponent
                     onClick={() => onMedicalInterventionSelection(item?.id)}
-                    route={CommonService._routeConfig.MedicalInterventionDetails(item?.medical_record_id, item?._id) + '?referrer=' + location.pathname}>
+                    route={CommonService._routeConfig.MedicalInterventionDetails(item?.medical_record_id, item?._id)+ '?referrer=' + location.pathname}>
                     View Details</LinkComponent>
             }
         }
