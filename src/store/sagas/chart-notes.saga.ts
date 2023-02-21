@@ -106,7 +106,7 @@ function* getMedicalRecordViewExerciseRecord(action: any) {
 function* getMedicalRecordSoapNotesList(action: any) {
     try {
         // @ts-ignore
-        const resp = yield call(CommonService._chartNotes.MedicalRecordSoapNoteListAPICall, action.payload.medicalRecordId, {current_intervention_id: action.payload.medicalInterventionId});
+        const resp = yield call(CommonService._chartNotes.MedicalRecordSoapNoteListAPICall, action.payload.medicalRecordId,{status: action.payload.status});
         yield put(setMedicalRecordSoapNoteList(resp?.data || []));
     } catch (error: any) {
         yield put(setMedicalRecordSoapNoteList([]));

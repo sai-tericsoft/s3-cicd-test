@@ -55,7 +55,7 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                 <StatusCardComponent title={"Failed to fetch product details"}/>
             }
             {isInventoryProductLoaded && <>
-                <PageHeaderComponent title={'Product Details'}/>
+                <PageHeaderComponent title={'Product Details'} className={'product-details-heading'} />
                 <CardComponent color={'primary'}>
                     <div className={'image-button-wrapper'}>
                         <div className={'image-details-wrapper'}>
@@ -66,7 +66,7 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                                 <DataLabelValueComponent label={'Quantity Available: '} direction={'row'}>
                                     {inventoryProductDetails?.quantity}
                                 </DataLabelValueComponent>
-                                <FormControlLabelComponent size={'xl'} label={inventoryProductDetails?.name}/>
+                                <FormControlLabelComponent size={'xl'} label={inventoryProductDetails?.name} className={'inventory-product-details'}/>
                                 <div className={'description'}>
                                     {inventoryProductDetails?.description}
                                 </div>

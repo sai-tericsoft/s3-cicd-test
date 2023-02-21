@@ -6,7 +6,7 @@ import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import {CommonService} from "../../../shared/services";
 import {ImageConfig, Misc} from "../../../constants";
@@ -31,7 +31,7 @@ import FilesUneditableMiddlewareComponent
 
 interface MedicalInterventionDetailsCardComponentProps {
     showAction?: boolean,
-    medicalInterventionDetails: any
+    medicalInterventionDetails: any,
 }
 
 
@@ -79,12 +79,8 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     }, []);
 
     const openAddDryNeedlingFileDrawer = useCallback(() => {
-        if (!medicalInterventionDetails?.is_dryneedling_added) {
             setIsAddDryNeedlingFileDrawerOpen(true);
-        } else {
-            CommonService._alert.showToast('Dry Needling file already added to this intervention', 'error');
-        }
-    }, [medicalInterventionDetails]);
+    }, []);
 
     const closeAddDryNeedlingFileDrawer = useCallback(() => {
         setIsAddDryNeedlingFileDrawerOpen(false);
@@ -209,6 +205,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                 >
                     <AddSurgeryRecordComponent medicalRecordId={medicalRecordId}
                                                medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
+                                               onCancel={() => setIsSurgeryAddOpen(false)}
                                                onSave={() => {
                                                    dispatch(getClientMedicalRecord(medicalRecordId));
                                                    setIsSurgeryAddOpen(false);
@@ -278,7 +275,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                         </div>
                         <div className={'ts-row'}>
                             <div className={'ts-col'}>
-                                <DataLabelValueComponent label={'Restrictions and Limitations'}>
+                                <DataLabelValueComponent label={'Restrictions/Limitations'}>
                                     {medicalInterventionDetails?.limitations || "-"}
                                 </DataLabelValueComponent>
                             </div>
@@ -296,7 +293,9 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                             <AddDryNeedlingFileComponent
                                 medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
                                 medicalInterventionId={medicalInterventionDetails?._id}
-                                onAdd={handleDryNeedlingFileAdd}/>
+                                onCancel={() => closeAddDryNeedlingFileDrawer()}
+                                onAdd={handleDryNeedlingFileAdd}
+                            />
                         </DrawerComponent>
                         <DrawerComponent isOpen={isViewPriorNoteDrawerOpen}
                                          showClose={true}
@@ -320,14 +319,6 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                                 medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
                                                 onSave={handleMedicalRecordEdit}/>
                 }
-            </DrawerComponent>
-            <DrawerComponent isOpen={isAddDryNeedlingFileDrawerOpen}
-                             showClose={true}
-                             onClose={closeAddDryNeedlingFileDrawer}>
-                <AddDryNeedlingFileComponent
-                    medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
-                    medicalInterventionId={medicalInterventionDetails?._id}
-                    onAdd={handleDryNeedlingFileAdd}/>
             </DrawerComponent>
 
             <DrawerComponent isOpen={isTransferSoapNoteDrawerOpen}
