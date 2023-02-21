@@ -59,7 +59,7 @@ const AppointmentCancelComponent = (props: AppointmentCancelComponentProps) => {
                 <div className="flex-1 booking-confirmation-status">
                     <div className="booking-confirmation-status-icon"
                          style={{backgroundImage: 'url(' + ImageConfig.AppointmentConfirm + ')'}}>
-                        <ImageConfig.VerifiedCheck width={24}/>
+                        <ImageConfig.VerifiedCross width={24}/>
                     </div>
                     <div className="booking-confirmation-status-text">
                         Do you want to <b>cancel</b> the appointment with&nbsp;

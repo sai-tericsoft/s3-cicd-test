@@ -44,7 +44,7 @@ const addAppointmentPaymentValidationSchema = Yup.object().shape({
 });
 
 const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentProps) => {
-    const {onClose, onComplete, booking} = props;
+    const {onClose, onComplete, booking,onBack} = props;
     const {paymentModes} = useSelector((state: IRootReducerState) => state.staticData);
 
 
@@ -81,8 +81,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
     return (
         <div className={'book-appointment-payment-component'}>
             <div className="drawer-header">
-                {/*<div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>*/}
-                <div className="drawer-title">Secure Checkout</div>
+                <div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>
                 <ToolTipComponent tooltip={"Close"} position={"left"}>
                     <div className="drawer-close"
                          id={'book-appointment-close-btn'}
@@ -90,10 +89,12 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                              if (onClose) {
                                  onClose();
                              }
-                         }
-                         }><ImageConfig.CloseIcon/></div>
+                         }}>
+                        <ImageConfig.CloseIcon/>
+                    </div>
                 </ToolTipComponent>
             </div>
+            <div className="secure-checkout-title">Secure Checkout</div>
             <Formik
                 innerRef={formRef}
                 validationSchema={addAppointmentPaymentValidationSchema}
@@ -151,7 +152,8 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
 
                                         {values.payment_type === 'current' && <>
                                             <FormControlLabelComponent
-                                                label={"Add a gift card or promotion code or voucher"}/>
+                                                label={"Add a gift card or promotion code or voucher"} className={'add-gift-card-msg'} />
+                                            <div className={'mrg-bottom-10'}>
                                             <Field name={'promotion_code'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -163,6 +165,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                                     )
                                                 }
                                             </Field>
+                                            </div>
                                             <FormControlLabelComponent
                                                 label={"Checkout Summary"}/>
                                             <div className="price-holder">

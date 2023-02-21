@@ -13,6 +13,8 @@ import {ReactComponent as EyeIcon} from './../assets/icons/eye.svg';
 import {ReactComponent as PrintIcon} from './../assets/icons/print.svg';
 
 import {ReactComponent as VerifiedCheck} from './../assets/icons/verified_black.svg';
+import {ReactComponent as VerifiedCross} from './../assets/icons/verified_cross.svg';
+
 import {ReactComponent as CalendarIcon} from './../assets/icons/calander.svg';
 import {ReactComponent as TimerIcon} from './../assets/icons/timer.svg';
 
@@ -153,5 +155,6 @@ export {
     MedicalServicesIcon,
     AttachMoneyIcon,
     AssignmentIcon,
-    CancelIcon
+    CancelIcon,
+    VerifiedCross
 }
