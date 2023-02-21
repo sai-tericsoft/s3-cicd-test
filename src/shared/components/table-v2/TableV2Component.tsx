@@ -11,12 +11,15 @@ interface TableV2ComponentProps extends ITableComponentProps {
     data: any[];
     loading?: boolean;
     errored?: boolean;
+    noDataText?:string;
+
 }
 
 const TableV2Component = (props: TableV2ComponentProps) => {
 
     const {
         bordered,
+        noDataText,
         data,
         defaultExpandAllRows,
         errored,
@@ -90,7 +93,7 @@ const TableV2Component = (props: TableV2ComponentProps) => {
                                         errored && <StatusCardComponent title={"Error Loading Data"}/>
                                     }
                                     {
-                                        !errored && <StatusCardComponent title={"No Data"}/>
+                                        !errored && <StatusCardComponent title={noDataText ? noDataText : "No data found"}/>
                                     }
                                 </> : <></>
                             }

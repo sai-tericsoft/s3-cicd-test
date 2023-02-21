@@ -26,7 +26,8 @@ const LinkComponent = (props: PropsWithChildren<LinkComponentProps>) => {
                     }
                     {
                         behaviour === 'redirect' && <a onClick={onClick} className={'link-component'}
-                                                       id={id} href={route}
+                                                       id={id}
+                                                       href={route}
                                                        target={'_blank'} rel={'noreferrer'}>
                             {children}
                         </a>

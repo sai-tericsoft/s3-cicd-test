@@ -15,11 +15,13 @@ interface TableComponentProps extends ITableComponentProps {
     id?: string;
     columns: ITableColumn[];
     data: any[];
+    noDataText?: string
 }
 
 const TableComponent = (props: TableComponentProps) => {
 
     const {
+        noDataText,
         loading,
         errored,
         hideHeader,
@@ -206,7 +208,8 @@ const TableComponent = (props: TableComponentProps) => {
                                 }
                                 {
                                     rows.length === 0 &&
-                                    <StatusCardComponent title={"No data found"} className={'table-data-not-found-card'}/>
+                                    <StatusCardComponent title={noDataText ? noDataText : "No data found"}
+                                                         className={'table-data-not-found-card'}/>
                                 }
                             </div>
                         }

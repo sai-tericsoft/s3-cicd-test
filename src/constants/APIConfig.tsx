@@ -599,6 +599,10 @@ const APIConfig: IAPIConfig = {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medicalRecordLite',
         METHOD: 'get'
     },
+    GET_MEDICAL_RECORD_FILES_LIST: {
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/file',
+        METHOD: 'get'
+    },
     TRANSFER_SOAP_NOTE: {
         URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/transfer',
         METHOD: 'post'
@@ -628,6 +632,10 @@ const APIConfig: IAPIConfig = {
         URL: (productId: string) => ENV.API_URL + '/product/' + productId,
         METHOD: 'put'
     },
+    RESEND_INVITE_LINK_TO_CLIENT: {
+        URL:(clientId:string)=> ENV.API_URL + '/client/'+clientId + '/resendInvite',
+        METHOD:'post'
+    },
     SAVE_SYSTEM_SETTINGS: {
         URL: ENV.API_URL + "/systemSetting",
         METHOD: "post"
@@ -636,6 +644,14 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + "/systemSetting",
         METHOD: "get"
     },
+    MEDICAL_INTERVENTION_NOTIFY_ADMIN: {
+        URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/notifyAdmin',
+        METHOD: 'post'
+    },
+    MEDICAL_RECORD_NOTIFY_ADMIN:{
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/notifyAdmin',
+        METHOD: 'post'
+    }
 }
 
 export default APIConfig;

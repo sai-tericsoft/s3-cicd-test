@@ -48,6 +48,11 @@ const ExerciseLogAttachmentListAPICall = (interventionId: string, payload: any) 
     return ApiService[APIConfig.EXERCISE_LOG_ATTACHMENT_LIST.METHOD](APIConfig.EXERCISE_LOG_ATTACHMENT_LIST.URL(interventionId), payload)
 }
 
+const MedicalRecordFilesListAPICall = (medicalRecordId: string) => {
+    // @ts-ignore
+    return ApiService[APIConfig.GET_MEDICAL_RECORD_FILES_LIST.METHOD](APIConfig.GET_MEDICAL_RECORD_FILES_LIST.URL(medicalRecordId))
+}
+
 const RemoveExerciseLogAttachmentAPICall = (attachmentId: string, id: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.REMOVE_ATTACHMENT.METHOD](APIConfig.REMOVE_ATTACHMENT.URL(attachmentId, id), payload)
@@ -153,7 +158,7 @@ const DryNeedlingFileAddAPICall = (medicalInterventionId: string, payload: any) 
 
 const MedicalRecordSoapNoteListAPICall = (medicalRecordId: string, payload: any) => {
     // @ts-ignore
-    return ApiService[APIConfig.GET_MEDICAL_RECORD_SOAP_NOTE_LIST.METHOD](APIConfig.GET_MEDICAL_RECORD_SOAP_NOTE_LIST.URL(medicalRecordId), payload);
+    return ApiService[APIConfig.GET_MEDICAL_RECORD_SOAP_NOTE_LIST.METHOD](APIConfig.GET_MEDICAL_RECORD_SOAP_NOTE_LIST.URL(medicalRecordId), {status:'completed'});
 }
 
 const DryNeedlingFileEditAPICall = (dryNeedlingFileId: string, payload: any) => {
@@ -247,9 +252,9 @@ const MedicalRecordConsolidatedInterventionAndAttachmentsListAPICall = (medicalR
     return ApiService[APIConfig.MEDICAL_RECORD_CONSOLIDATED_INTERVENTIONS_AND_ATTACHMENTS.METHOD](APIConfig.MEDICAL_RECORD_CONSOLIDATED_INTERVENTIONS_AND_ATTACHMENTS.URL(medicalRecordId));
 }
 
-const MedicalRecordListLiteAPICall = (clientId: string) => {
+const MedicalRecordListLiteAPICall = (clientId: string, payload: any = {}) => {
     // @ts-ignore
-    return ApiService[APIConfig.MEDICAL_RECORD_LIST_LITE.METHOD](APIConfig.MEDICAL_RECORD_LIST_LITE.URL(clientId));
+    return ApiService[APIConfig.MEDICAL_RECORD_LIST_LITE.METHOD](APIConfig.MEDICAL_RECORD_LIST_LITE.URL(clientId), payload);
 }
 
 const TransferMedicalRecordAPICall = (clientId: string, payload: any) => {
@@ -257,11 +262,19 @@ const TransferMedicalRecordAPICall = (clientId: string, payload: any) => {
     return ApiService[APIConfig.TRANSFER_MEDICAL_RECORD.METHOD](APIConfig.TRANSFER_MEDICAL_RECORD.URL(clientId), payload);
 }
 
-const TransferSoapNoteAPICall = (clientId: string, payload: any) => {
-    console.log("payload", payload);
-    console.log('clientId',clientId);
+const TransferSoapNoteAPICall = (medicalInterventionId: string, payload: any) => {
     // @ts-ignore
-    return ApiService[APIConfig.TRANSFER_SOAP_NOTE.METHOD](APIConfig.TRANSFER_SOAP_NOTE.URL(clientId), payload);
+    return ApiService[APIConfig.TRANSFER_SOAP_NOTE.METHOD](APIConfig.TRANSFER_SOAP_NOTE.URL(medicalInterventionId), payload);
+}
+
+const MedicalInterventionNotifyAdminAPICall = (medicalInterventionId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.MEDICAL_INTERVENTION_NOTIFY_ADMIN.METHOD](APIConfig.MEDICAL_INTERVENTION_NOTIFY_ADMIN.URL(medicalInterventionId), payload);
+}
+
+const MedicalRecordNotifyAdminAPICall = (medicalRecordId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.MEDICAL_RECORD_NOTIFY_ADMIN.METHOD](APIConfig.MEDICAL_RECORD_NOTIFY_ADMIN.URL(medicalRecordId), payload);
 }
 
 const ChartNotesService = {
@@ -318,7 +331,10 @@ const ChartNotesService = {
     ImportSoapNoteAPICall,
     MedicalRecordConsolidatedInterventionAndAttachmentsListAPICall,
     MedicalRecordListLiteAPICall,
-    TransferMedicalRecordAPICall
+    TransferMedicalRecordAPICall,
+    MedicalInterventionNotifyAdminAPICall,
+    MedicalRecordNotifyAdminAPICall,
+    MedicalRecordFilesListAPICall
 }
 
 export default ChartNotesService;

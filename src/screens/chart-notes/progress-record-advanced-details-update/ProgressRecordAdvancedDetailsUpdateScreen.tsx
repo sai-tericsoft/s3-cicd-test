@@ -19,10 +19,23 @@ import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import {IProgressReportStat} from "../../../shared/models/common.model";
 import _ from "lodash";
 import ESignApprovalComponent from "../../../shared/components/e-sign-approval/ESignApprovalComponent";
-import {getMedicalRecordProgressReportDetails} from "../../../store/actions/chart-notes.action";
+import {
+    getMedicalRecordProgressReportDetails, getMedicalRecordStats,
+    getProgressReportViewDetails
+} from "../../../store/actions/chart-notes.action";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import TableV2Component from "../../../shared/components/table-v2/TableV2Component";
+import ChipComponent from "../../../shared/components/chip/ChipComponent";
+import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
+import {ListItem} from "@mui/material";
+import MedicalInterventionLinkedToComponent
+    from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
+import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
+import {getClientMedicalRecord} from "../../../store/actions/client.action";
+import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
+import EditProgressReportCardComponent from "../edit-progress-report-card/EditProgressReportCardComponent";
+import moment from "moment-timezone";
 
 interface ProgressRecordAdvancedDetailsUpdateScreenProps {
 
@@ -31,21 +44,30 @@ interface ProgressRecordAdvancedDetailsUpdateScreenProps {
 const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvancedDetailsUpdateScreenProps) => {
 
     const {medicalRecordId, progressReportId} = useParams();
+
+    const {currentUser} = useSelector((state: IRootReducerState) => state.account);
+
     const {
         isProgressReportStatListLoading,
         progressReportStatList
     } = useSelector((state: IRootReducerState) => state.staticData);
+
     const {
         isClientMedicalRecordProgressReportDetailsLoading,
         isClientMedicalRecordProgressReportDetailsLoaded,
-        clientMedicalRecordProgressReportDetails
+        clientMedicalRecordProgressReportDetails,
     } = useSelector((state: IRootReducerState) => state.chartNotes);
+
+    const {
+        clientMedicalRecord,
+    } = useSelector((state: IRootReducerState) => state.client);
     const [showProgressStatCommentsModal, setShowProgressStatCommentsModal] = useState<boolean>(false);
     const [selectedProgressStatComments, setSelectedProgressStatComments] = useState<any>(undefined);
+    const [isEditProgressReportDrawerOpen, setIsEditProgressReportDrawerOpen] = useState<boolean>(false);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [isSigningInProgress, setIsSigningInProgress] = useState<boolean>(false);
-
 
     const [updateProgressRecordAdvancedInitialValues, setUpdateProgressRecordAdvancedInitialValues] = useState<any>({
         synopsis: "",
@@ -64,6 +86,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
             title: "Results",
             dataIndex: "results",
             key: "results",
+
             render: (_: any, item: any) => <Field name={`progress_stats.${item?._id}.result`}>
                 {
                     (field: FieldProps) => (
@@ -80,6 +103,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
             title: 'Comments',
             dataIndex: 'comment',
             key: 'comment',
+
             render: (_: any, item: any) => <Field
                 name={`progress_stats.${item?._id}.comment`}
                 className="t-form-control">
@@ -101,6 +125,14 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
             </Field>
         }
     ];
+
+    const openEditProgressReportDrawer = useCallback(() => {
+        setIsEditProgressReportDrawerOpen(true);
+    }, []);
+
+    const closeEditProgressReportDrawer = useCallback(() => {
+        setIsEditProgressReportDrawerOpen(false);
+    }, []);
 
     const patchDataToProgressReportForm = useCallback((data: any) => {
         const values = _.cloneDeep(data);
@@ -172,6 +204,19 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
     }, [dispatch, progressReportId]);
 
     useEffect(() => {
+        if (medicalRecordId) {
+            dispatch(getClientMedicalRecord(medicalRecordId));
+        }
+    }, [medicalRecordId, dispatch]);
+
+    const handleEditProgressReport = useCallback(() => {
+        closeEditProgressReportDrawer();
+        if(progressReportId){
+            dispatch(getMedicalRecordProgressReportDetails(progressReportId));
+        }
+    },[progressReportId,closeEditProgressReportDrawer,dispatch]);
+
+    useEffect(() => {
         if (clientMedicalRecordProgressReportDetails) {
             patchDataToProgressReportForm(clientMedicalRecordProgressReportDetails);
         }
@@ -179,9 +224,71 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
 
     return (
         <div className={'progress-record-advanced-details-update-screen'}>
-            <PageHeaderComponent title={"Update Progress Report"}/>
+            <PageHeaderComponent title={"Add Progress Report"}
+                                 actions={
+                                     <div className="last-updated-status">
+                                         <div className="last-updated-status-text">Last Updated On:&nbsp;</div>
+                                         <div
+                                             className="last-updated-status-bold">
+                                             {(clientMedicalRecordProgressReportDetails?.updated_at ? moment(clientMedicalRecordProgressReportDetails.updated_at).tz(moment.tz.guess()).format('DD-MM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
+                                             {clientMedicalRecordProgressReportDetails?.last_updated_by_details?.first_name ? clientMedicalRecordProgressReportDetails?.last_updated_by_details?.first_name + ' ' + clientMedicalRecordProgressReportDetails?.last_updated_by_details?.last_name : ' NA'}
+                                         </div>
+                                     </div>}/>
             {
                 isClientMedicalRecordProgressReportDetailsLoading && <LoaderComponent/>
+            }
+            {
+                (isClientMedicalRecordProgressReportDetailsLoaded && clientMedicalRecordProgressReportDetails) && <>
+                    <CardComponent color={'primary'}>
+                        <div className={'client-name-button-wrapper'}>
+                                    <span className={'client-name-wrapper'}>
+                                        <span className={'client-name'}>
+                                                {clientMedicalRecordProgressReportDetails?.medical_record_details?.client_details?.first_name || "-"} {clientMedicalRecordProgressReportDetails?.medical_record_details?.client_details?.last_name || "-"}
+                                        </span>
+                                        <ChipComponent
+                                            className={clientMedicalRecordProgressReportDetails?.status ? "active" : "inactive"}
+                                            size={'small'}
+                                            label={clientMedicalRecordProgressReportDetails?.status || "-"}/>
+                                    </span>
+                            <div className="ts-row width-auto">
+                                <div className="">
+                                    <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                                     onClick={openEditProgressReportDrawer}>
+                                        Edit Details
+                                    </ButtonComponent>
+                                </div>
+                            </div>
+                        </div>
+                        <MedicalInterventionLinkedToComponent medicalRecordDetails={clientMedicalRecord}/>
+                        <div className={'ts-row'}>
+                            <div className={'ts-col-md-4 ts-col-lg'}>
+                                <DataLabelValueComponent label={'Date of Onset'}>
+                                    {clientMedicalRecordProgressReportDetails?.medical_record_details?.onset_date ? CommonService.getSystemFormatTimeStamp(clientMedicalRecordProgressReportDetails?.medical_record_details?.onset_date) : "N/A"}
+                                </DataLabelValueComponent>
+                            </div>
+                            <div className={'ts-col-md-4 ts-col-lg'}>
+                                <DataLabelValueComponent label={'Date of Surgery'}>
+                                    {clientMedicalRecordProgressReportDetails?.medical_record_details?.surgery_date ? CommonService.getSystemFormatTimeStamp(clientMedicalRecordProgressReportDetails?.medical_record_details?.surgery_date) : "N/A"}
+                                </DataLabelValueComponent>
+                            </div>
+                            <div className={'ts-col-md-4 ts-col-lg'}>
+                                <DataLabelValueComponent label={'Therapist Name'}>
+                                    {currentUser?.first_name + " " + currentUser?.last_name}
+                                </DataLabelValueComponent>
+                            </div>
+                            <div className={'ts-col-md-4 ts-col-lg'}>
+                                <DataLabelValueComponent label={'Physician Name'}>
+                                    {clientMedicalRecordProgressReportDetails?.physician_name || "N/A"}
+                                </DataLabelValueComponent>
+                            </div>
+                        </div>
+                    </CardComponent>
+                    <DrawerComponent isOpen={isEditProgressReportDrawerOpen}
+                                     showClose={true}
+                                     onClose={closeEditProgressReportDrawer}>
+                        <EditProgressReportCardComponent onCancel={() => closeEditProgressReportDrawer()} onSave={handleEditProgressReport}/>
+                    </DrawerComponent>
+                </>
             }
             {
                 isClientMedicalRecordProgressReportDetailsLoaded &&
@@ -297,7 +404,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                     <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>
                                         <ESignApprovalComponent isSigned={formik.values.is_signed}
                                                                 isSigning={isSigningInProgress}
-                                                                canSign={clientMedicalRecordProgressReportDetails?.can_sign}
+                                                                canSign={formik.values?.can_sign}
                                                                 signedAt={formik.values.signed_on}
                                                                 onSign={() => {
                                                                     handleSign(formik.values, formik);

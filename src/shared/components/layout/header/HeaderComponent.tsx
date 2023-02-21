@@ -2,7 +2,7 @@ import {ImageConfig} from "../../../../constants";
 import "./HeaderComponent.scss";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../../store/reducers";
-import {logout} from "../../../../store/actions/account.action";
+import {logout, setSystemLocked} from "../../../../store/actions/account.action";
 import {CommonService} from "../../../services";
 import {useNavigate} from "react-router-dom";
 import {useCallback} from "react";
@@ -30,6 +30,10 @@ const HeaderComponent = (props: HeaderComponentProps) => {
         }
     }, [onNavigateBack]);
 
+    const handleSystemLock = useCallback(() => {
+        dispatch(setSystemLocked(true,'manual'));
+    },[dispatch]);
+
     return (
         <div className="header-component">
             <div className="header-title-nav-back">
@@ -48,7 +52,7 @@ const HeaderComponent = (props: HeaderComponentProps) => {
             </div>
             <div className="header-options">
                 <div className="header-option lock">
-                    <IconButtonComponent>
+                    <IconButtonComponent onClick={handleSystemLock}>
                         <ImageConfig.LockIcon/>
                     </IconButtonComponent>
                 </div>

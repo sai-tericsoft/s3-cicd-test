@@ -94,7 +94,7 @@ const MedicalInterventionSpecialTestsScreen = (props: MedicalInterventionSpecial
 
     return (
         <div className={'medical-intervention-special-tests-screen'}>
-            <FormControlLabelComponent label={'Special Test'}/>
+            <FormControlLabelComponent label={'Special Test'} size={'lg'}/>
             <>
                 {
                     isMedicalInterventionDetailsLoading && <>

@@ -45,7 +45,8 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             key: "name",
             dataIndex: "first_name",
             sortable: true,
-            width: 150,
+            align:'center',
+            width: 250,
             render: (item: IClientBasicDetails) => {
                 return <span>{item?.last_name} {item?.first_name}</span>
             }
@@ -54,7 +55,8 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             title: "Phone",
             key: "primary_contact_info",
             dataIndex: "primary_contact_info",
-            width: 150,
+            width: 100,
+            align: "center",
             render: (item: IClientBasicDetails) => {
                 return <span>{item?.primary_contact_info?.phone}</span>
             }
@@ -64,6 +66,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             key: "last_appointment_date",
             dataIndex: "lastAppointmentDate",
             width: 150,
+            align: "center",
             render: (item: IClientBasicDetails) => {
                 return <span>
                     {item?.last_appointment_date ? CommonService.getSystemFormatTimeStamp(item?.last_appointment_date) : "-"}
@@ -75,6 +78,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             key: "last_provider",
             dataIndex: "last_provider",
             width: 140,
+            align: "center",
             render: (item: IClientBasicDetails) => {
                 return <span>
                     {item?.last_provider}
@@ -85,6 +89,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             title: "Status",
             dataIndex: "status",
             key: "status",
+            align: "center",
             width: 90,
             render: (item: IClientBasicDetails) => {
                 return <ChipComponent label={item?.is_active ? "Active" : "Inactive"}

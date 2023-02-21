@@ -5,12 +5,11 @@ import React, {useCallback, useEffect, useState} from "react";
 import FormikDatePickerComponent
     from "../../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
-import FormikSelectComponent from "../../../shared/components/form-controls/formik-select/FormikSelectComponent";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import * as Yup from "yup";
-import moment from "moment/moment";
 import {IUser} from "../../../shared/models/user.model";
+import moment from "moment/moment";
 import FilePreviewThumbnailComponent
     from "../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import FilePickerComponent from "../../../shared/components/file-picker/FilePickerComponent";
@@ -19,16 +18,17 @@ import {IRootReducerState} from "../../../store/reducers";
 import {CommonService} from "../../../shared/services";
 import {Misc} from "../../../constants";
 import {IAPIResponseType} from "../../../shared/models/api.model";
+import InputComponent from "../../../shared/components/form-controls/input/InputComponent";
 
 interface AddSurgeryRecordComponentProps {
     medicalRecordId: string;
     medicalRecordDetails: any;
     onSave: () => void;
+    onCancel?:()=>void
 }
 
 const addSurgeryRecordFormInitialValues: any = {
     surgery_date: "",
-    reported_by: undefined,
     surgeon_name: "",
     details: "",
     documents: []
@@ -37,16 +37,18 @@ const addSurgeryRecordFormInitialValues: any = {
 
 const addSurgeryRecordValidationSchema = Yup.object().shape({
     surgery_date: Yup.string().required("Surgery date is required"),
-    reported_by: Yup.mixed().required("Reported by is required"),
 });
 
 
 const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
 
-    const {medicalRecordDetails, onSave} = props;
+    const {medicalRecordDetails, onSave,onCancel} = props;
     const {allProvidersList} = useSelector((state: IRootReducerState) => state.user);
+    const {medicalRecordDetails, onSave} = props;
+    const {currentUser}=useSelector((state:IRootReducerState)=>state.account);
     const [isSurgeryRecordAddInProgress, setIsSurgeryRecordAddInProgress] = useState<boolean>(false);
-    const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
+
+const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         if (medicalRecordDetails) {
             setIsSurgeryRecordAddInProgress(true);
             values.reported_by = values?.reported_by?._id;
@@ -86,7 +88,7 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
-                            <FormControlLabelComponent label={"Add Surgery Record"}/>
+                            <FormControlLabelComponent label={"Add Surgery Record"} size={'lg'}/>
                             <div className={"t-surgery-record-drawer-form-controls"}>
                                 <Field name={'surgery_date'}>
                                     {
@@ -96,27 +98,18 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                                                 placeholder={'Date of Surgery'}
                                                 formikField={field}
                                                 required={true}
-                                                maxDate={moment()}
                                                 fullWidth={true}
                                             />
                                         )
                                     }
                                 </Field>
-                                <Field name={'reported_by'}>
-                                    {
-                                        (field: FieldProps) => (
-                                            <FormikSelectComponent
-                                                options={allProvidersList}
-                                                displayWith={(option: IUser) => (option?.first_name || option?.last_name) ? option?.first_name + " " + option?.last_name : "-"}
-                                                valueExtractor={(option: IUser) => option}
+                                <InputComponent className="t-form-control"
                                                 label={'Reported By'}
-                                                formikField={field}
-                                                required={true}
+                                                placeholder={'Reported By'}
+                                                value={CommonService.extractName(currentUser)}
                                                 fullWidth={true}
-                                            />
-                                        )
-                                    }
-                                </Field>
+                                                disabled={true}
+                                />
                                 <Field name={'surgeon_name'}>
                                     {
                                         (field: FieldProps) => (
@@ -170,8 +163,16 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                                     acceptedFileTypes={["pdf"]}
                                 />
                             </div>
-                            <div className="t-form-actions mrg-top-20">
-                                <ButtonComponent fullWidth={true} type={'submit'}
+                            <div className="t-form-actions mrg-top-20 mrg-bottom-30">
+                                <ButtonComponent
+                                    className={'mrg-right-10'}
+                                    variant={"outlined"}
+                                    id={"medical_intervention_add_cancel_btn"}
+                                    onClick={onCancel}
+                                >
+                                    Cancel
+                                </ButtonComponent>
+                                <ButtonComponent  type={'submit'}
                                                  isLoading={isSurgeryRecordAddInProgress}
                                                  disabled={!isValid || isSurgeryRecordAddInProgress}>
                                     Save

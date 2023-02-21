@@ -36,6 +36,7 @@ import {ReactComponent as MoreVerticalIcon} from './../assets/icons/more_vertica
 import {ReactComponent as PDF_ICON} from './../assets/icons/pdf_icon.svg';
 import {ReactComponent as REPEAT_LAST_INTERVENTION} from './../assets/icons/repeat_last_intervention.svg';
 import {ReactComponent as SYNC} from './../assets/icons/sync.svg';
+import {ReactComponent as SendIcon} from './../assets/icons/send_icon.svg';
 
 //file types
 import PDFIcon from './../assets/icons/file-types/pdf.svg';
@@ -145,6 +146,7 @@ export {
     AppointmentConfirm,
     CalendarIcon,
     TimerIcon,
+    SendIcon,
     EmailIcon,
     PersonIcon,
     CallIcon,

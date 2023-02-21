@@ -1,4 +1,4 @@
-import "./SystemAutoLockComponent.scss";
+import "./SystemLockComponent.scss";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {useCallback, useEffect, useState} from "react";
@@ -15,7 +15,6 @@ import {Field, FieldProps, Form, Formik} from "formik";
 import FormikPasswordInputComponent from "../form-controls/formik-password-input/FormikPasswordInputComponent";
 import * as Yup from "yup";
 
-
 const resumeSessionFormValidationSchema = Yup.object({
     password: Yup.string()
         .min(8, "Password must be 8 characters")
@@ -23,11 +22,11 @@ const resumeSessionFormValidationSchema = Yup.object({
         .required("Password is required")
 });
 
-interface SystemAutoLockComponentProps {
+interface SystemLockLockComponentProps {
 
 }
 
-const SystemAutoLockComponent = (props: SystemAutoLockComponentProps) => {
+const SystemLockComponent = (props: SystemLockLockComponentProps) => {
 
     const {
         account
@@ -42,7 +41,7 @@ const SystemAutoLockComponent = (props: SystemAutoLockComponentProps) => {
             const interval = setInterval(() => {
                 if (account?.currentUser && account?.lastActivityTime) {
                     if (moment().unix().toString() === (account?.lastActivityTime + (account?.currentUser?.auto_lock_minutes || 0) * 60).toString()) {
-                        dispatch(setSystemLocked(true));
+                        dispatch(setSystemLocked(true, 'auto'));
                         clearInterval(interval);
                     }
                 }
@@ -56,7 +55,7 @@ const SystemAutoLockComponent = (props: SystemAutoLockComponentProps) => {
     const handleSessionExit = useCallback(() => {
         CommonService._alert.showToast("Logged out", "success");
         navigate(CommonService._routeConfig.LoginRoute());
-        dispatch(setSystemLocked(false));
+        dispatch(setSystemLocked(false, 'auto'));
         dispatch(logout());
     }, [dispatch, navigate]);
 
@@ -65,7 +64,7 @@ const SystemAutoLockComponent = (props: SystemAutoLockComponentProps) => {
         CommonService._account.ResumeSessionAPICall(values)
             .then((response: IAPIResponseType<ILoginResponse>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                dispatch(setSystemLocked(false));
+                dispatch(setSystemLocked(false, 'auto'));
                 setIsLoggingIn(false);
             })
             .catch((error: any) => {
@@ -74,23 +73,34 @@ const SystemAutoLockComponent = (props: SystemAutoLockComponentProps) => {
             })
     }, [dispatch]);
 
+
+    useEffect(() => {
+        if (!account.isSystemLocked) {
+            setCurrentStep('prompt');
+            document.getElementById('root')?.classList.remove('system-locked');
+        } else {
+            document.getElementById('root')?.classList.add('system-locked');
+        }
+    }, [account.isSystemLocked]);
+
     return (
-        <div className={'system-auto-lock-component'}>
+        <div className={'system-lock-component'}>
             <ModalComponent isOpen={(account.isSystemLocked === true && !!account.token)}
-                            className={'system-auto-lock-wrapper'}
+                            className={'system-lock-wrapper'}
                             closeOnBackDropClick={false}
                             closeOnEsc={false}>
                 {
                     currentStep === "prompt" && <div className={"t-form"}>
-                        <div className={"system-auto-lock-icon"}>
+                        <div className={"system-lock-icon"}>
                             <ImageConfig.LockIcon/>
                         </div>
-                        <div className={"system-auto-lock-title"}>
-                            You still there?
+                        <div className={"system-lock-title"}>
+                            {account.systemLockReason === 'auto' ? "You still there?" : "System Locked!"}
                         </div>
-                        <div className={"system-auto-lock-sub-title"}>
-                            To return to the application, <br/>
-                            select the "Yes, I'm back" button.
+                        <div className={"system-lock-sub-title"}>
+                            {account.systemLockReason === 'auto' ?
+                                <span>To return to the application, <br/>  select the "Yes, I'm back" button.</span> :
+                                <span> To continue using the application, <br/> Please enter your password again.</span>}
                         </div>
                         <div className="t-form-actions">
                             <ButtonComponent
@@ -107,7 +117,7 @@ const SystemAutoLockComponent = (props: SystemAutoLockComponentProps) => {
                                 }
                                 }
                             >
-                                Yes, I’m back
+                                {account.systemLockReason === 'auto' ? "Yes, I’m back" : "Proceed"}
                             </ButtonComponent>
                         </div>
                     </div>
@@ -129,20 +139,20 @@ const SystemAutoLockComponent = (props: SystemAutoLockComponentProps) => {
                             }, [validateForm, values]);
                             return (
                                 <Form className="t-form" noValidate={true}>
-                                    <div className={"system-auto-lock-back-navigation"}
+                                    <div className={"system-lock-back-navigation"}
                                          onClick={() => {
                                              setCurrentStep('prompt');
                                          }}
                                     >
                                         <ImageConfig.NavigateBack/>&nbsp;Back
                                     </div>
-                                    <div className={"system-auto-lock-title"}>
-                                        Welcome back!
+                                    <div className={"system-lock-title"}>
+                                        WELCOME BACK!
                                     </div>
-                                    <div className={"system-auto-lock-sub-title"}>
+                                    <div className={"system-lock-sub-title"}>
                                         Enter your password to access the system again.
                                     </div>
-                                    <div className={"system-auto-lock-password-field"}>
+                                    <div className={"system-lock-password-field"}>
                                         <Field name={'password'} className="t-form-control">
                                             {
                                                 (field: FieldProps) => (
@@ -151,8 +161,8 @@ const SystemAutoLockComponent = (props: SystemAutoLockComponentProps) => {
                                                         placeholder={'Enter Password'}
                                                         required={true}
                                                         formikField={field}
-                                                        fullWidth={true}
                                                         canToggle={true}
+                                                        fullWidth={true}
                                                         id={"password_input"}
                                                     />
                                                 )
@@ -181,4 +191,4 @@ const SystemAutoLockComponent = (props: SystemAutoLockComponentProps) => {
 
 };
 
-export default SystemAutoLockComponent;
+export default SystemLockComponent;
