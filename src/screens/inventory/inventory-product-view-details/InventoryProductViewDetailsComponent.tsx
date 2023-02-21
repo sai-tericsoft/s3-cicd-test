@@ -63,7 +63,7 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                                 <AvatarComponent url={inventoryProductDetails?.image?.url} size={'xl'}/>
                             </div>
                             <div className={'product-details-wrapper'}>
-                                <DataLabelValueComponent label={'Quantity Available: '} direction={'row'}>
+                                <DataLabelValueComponent label={'Quantity Available: '} className={'quantity-available'} direction={'row'}>
                                     {inventoryProductDetails?.quantity}
                                 </DataLabelValueComponent>
                                 <FormControlLabelComponent size={'xl'} label={inventoryProductDetails?.name} className={'inventory-product-details'}/>
