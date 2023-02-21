@@ -115,6 +115,18 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
         dispatch(setCurrentNavParams("Inventory"));
     }, [dispatch]);
 
+    const handleUpdateQuantityModalOpen = useCallback(() => {
+        setIsUpdateStockModalOpen(true);
+        setUpdateQuantityFormInitialValues(_.cloneDeep({
+            UpdateQuantityInitialValues
+        }));
+    }, []);
+
+    const handleUpdateQuantityModalClose = useCallback(() => {
+        setIsUpdateStockModalOpen(false);
+        setUpdateQuantityFormInitialValues(_.cloneDeep(UpdateQuantityInitialValues));
+    }, []);
+
     const updateQuantity = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         const payload = {
             quantity: values.quantity,
@@ -125,19 +137,13 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Quantity Update successfully", "success");
                 setIsQuantityUpdateLoading(false);
                 setRefreshToken(CommonService.getRandomID(10));
-                setIsUpdateStockModalOpen(false);
-                setUpdateQuantityFormInitialValues(_.cloneDeep(UpdateQuantityInitialValues));
+                handleUpdateQuantityModalClose();
             }).catch((error: any) => {
             CommonService.handleErrors(setErrors, error, true);
             setIsQuantityUpdateLoading(false);
             setIsUpdateStockModalOpen(false)
         })
-    }, []);
-
-    const handleUpdateQuantityModalOpen = useCallback(() => {
-        setIsUpdateStockModalOpen(true);
-        setUpdateQuantityFormInitialValues(_.cloneDeep(UpdateQuantityInitialValues));
-    }, []);
+    }, [handleUpdateQuantityModalClose]);
 
     return (
         <div className={'inventory-list-screen list-screen'}>
@@ -234,7 +240,7 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
                                 </div>
                                 <div className={'ts-action display-flex ts-justify-content-center'}>
                                     <ButtonComponent variant={'outlined'}
-                                                     onClick={() => setIsUpdateStockModalOpen(false)}>
+                                                     onClick={handleUpdateQuantityModalClose}>
                                         Cancel
                                     </ButtonComponent>
                                     &nbsp;
