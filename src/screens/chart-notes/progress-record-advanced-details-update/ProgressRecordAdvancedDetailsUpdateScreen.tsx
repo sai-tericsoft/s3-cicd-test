@@ -20,15 +20,12 @@ import {IProgressReportStat} from "../../../shared/models/common.model";
 import _ from "lodash";
 import ESignApprovalComponent from "../../../shared/components/e-sign-approval/ESignApprovalComponent";
 import {
-    getMedicalRecordProgressReportDetails, getMedicalRecordStats,
-    getProgressReportViewDetails
+    getMedicalRecordProgressReportDetails,
 } from "../../../store/actions/chart-notes.action";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import TableV2Component from "../../../shared/components/table-v2/TableV2Component";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
-import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
-import {ListItem} from "@mui/material";
 import MedicalInterventionLinkedToComponent
     from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";

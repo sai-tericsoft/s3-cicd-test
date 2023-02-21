@@ -9,7 +9,7 @@ import {CommonService} from "../../../shared/services";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import ClientBasicDetailsCardComponent from "../../clients/client-basic-details-card/ClientBasicDetailsCardComponent";
-import {IClientBasicDetails, IClientMedicalStatusFilterState} from "../../../shared/models/client.model";
+import {IClientBasicDetails} from "../../../shared/models/client.model";
 import {ITableColumn} from "../../../shared/models/table.model";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
@@ -60,7 +60,6 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             align:'center',
             dataIndex: "body_part",
             width: 120,
-            align:'center',
             render: ( item: any) => {
                 if (item?.injury_details?.length === 1) {
                     return <>{item?.injury_details[0]?.body_part_details?.name}</>
@@ -75,7 +74,6 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             align:'center',
             dataIndex: "body_side",
             width: 110,
-            align:'center',
             render: ( item: any) => {
                 return <>{item?.injury_details[0]?.body_side || "N/A"}</>
             }
@@ -86,7 +84,6 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: "status",
             align:'center',
             width: 155,
-            align:'center',
             render: ( item: any) => {
                 return <ChipComponent label={item?.status}
                                       className={item?.status === 'Open/Active' ? "active" : "inactive"}></ChipComponent>
@@ -97,7 +94,6 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: "last_provider",
             align:'center',
             dataIndex: "last_provider",
-            align:'center',
             sortable: true,
             width: 140,
         },

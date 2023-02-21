@@ -25,7 +25,7 @@ import MedicalInterventionLinkedToComponent
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import {IRootReducerState} from "../../../store/reducers";
 import {getClientMedicalRecord} from "../../../store/actions/client.action";
-import {getMedicalInterventionDetails, getMedicalRecordStats} from "../../../store/actions/chart-notes.action";
+import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
 import moment from "moment-timezone";
 import InputComponent from "../../../shared/components/form-controls/input/InputComponent";
 

@@ -14,7 +14,6 @@ import CheckBoxComponent from "../../../shared/components/form-controls/check-bo
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
-import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import TableV2Component from "../../../shared/components/table-v2/TableV2Component";
 
 interface RomConfigComponentProps {

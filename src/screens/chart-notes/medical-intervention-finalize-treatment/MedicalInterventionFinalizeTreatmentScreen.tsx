@@ -22,8 +22,6 @@ import LinkComponent from "../../../shared/components/link/LinkComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import MedicalRecordBasicDetailsCardComponent from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
-import MedicalRecordBasicDetailsCardComponent
-    from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface MedicalInterventionFinalizeTreatmentScreenProps {

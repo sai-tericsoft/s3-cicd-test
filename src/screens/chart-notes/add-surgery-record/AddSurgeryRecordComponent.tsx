@@ -8,8 +8,6 @@ import FormikTextAreaComponent from "../../../shared/components/form-controls/fo
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import * as Yup from "yup";
-import {IUser} from "../../../shared/models/user.model";
-import moment from "moment/moment";
 import FilePreviewThumbnailComponent
     from "../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import FilePickerComponent from "../../../shared/components/file-picker/FilePickerComponent";
@@ -24,7 +22,7 @@ interface AddSurgeryRecordComponentProps {
     medicalRecordId: string;
     medicalRecordDetails: any;
     onSave: () => void;
-    onCancel?:()=>void
+    onCancel?: () => void
 }
 
 const addSurgeryRecordFormInitialValues: any = {
@@ -42,13 +40,11 @@ const addSurgeryRecordValidationSchema = Yup.object().shape({
 
 const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
 
-    const {medicalRecordDetails, onSave,onCancel} = props;
-    const {allProvidersList} = useSelector((state: IRootReducerState) => state.user);
-    const {medicalRecordDetails, onSave} = props;
-    const {currentUser}=useSelector((state:IRootReducerState)=>state.account);
+    const {medicalRecordDetails, onSave, onCancel} = props;
+    const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const [isSurgeryRecordAddInProgress, setIsSurgeryRecordAddInProgress] = useState<boolean>(false);
 
-const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
+    const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         if (medicalRecordDetails) {
             setIsSurgeryRecordAddInProgress(true);
             values.reported_by = values?.reported_by?._id;
@@ -172,7 +168,7 @@ const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
                                 >
                                     Cancel
                                 </ButtonComponent>
-                                <ButtonComponent  type={'submit'}
+                                <ButtonComponent type={'submit'}
                                                  isLoading={isSurgeryRecordAddInProgress}
                                                  disabled={!isValid || isSurgeryRecordAddInProgress}>
                                     Save

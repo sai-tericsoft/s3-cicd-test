@@ -2,7 +2,6 @@ import "./EditProgressReportCardComponent.scss";
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import React, {useCallback, useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
 import {CommonService} from "../../../shared/services";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {IAPIResponseType} from "../../../shared/models/api.model";
@@ -35,7 +34,6 @@ const EditProgressReportCardComponent = (props: EditProgressReportCardComponentP
         physician_name: '',
     });
 
-    const navigate = useNavigate();
     const {
         clientMedicalRecord,
     } = useSelector((state: IRootReducerState) => state.client);
@@ -63,7 +61,7 @@ const EditProgressReportCardComponent = (props: EditProgressReportCardComponentP
                 setIsProgressReportEditInProgress(false);
             });
         }
-    }, [clientMedicalRecordProgressReportDetails, navigate])
+    }, [clientMedicalRecordProgressReportDetails, onSave])
 
     return (
         <div className={'edit-progress-report-card-component'}>

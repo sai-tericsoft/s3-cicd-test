@@ -20,8 +20,6 @@ import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers} from "formik
 import FormikDatePickerComponent
     from "../../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
 import moment from "moment";
-import FormikSelectComponent from "../../../shared/components/form-controls/formik-select/FormikSelectComponent";
-import {IUser} from "../../../shared/models/user.model";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import FilePreviewThumbnailComponent

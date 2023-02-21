@@ -33,7 +33,6 @@ const PaginationComponent = (props: PaginationComponentProps) => {
             // showLastButton={true}
             count={totalResults}
             rowsPerPage={limit}
-            className={`pagination-component ${className}`}
             page={page}
             onPageChange={onPageChange}
             onRowsPerPageChange={onRowsPerPageChange}

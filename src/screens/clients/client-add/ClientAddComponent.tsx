@@ -78,7 +78,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
 
             });
         })
-    }, [onAdd]);
+    }, [onAdd, refreshList]);
 
     return (
         <div className={'client-add-component'}>

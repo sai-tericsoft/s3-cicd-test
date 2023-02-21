@@ -89,7 +89,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
 
     const {
         medicalInterventionDetails,
@@ -103,7 +103,6 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
     const [isSigningInProgress, setIsSigningInProgress] = useState<boolean>(false);
     const [isSavingInProgress, setIsSavingProgress] = useState<boolean>(false);
     const [isFormBeingUpdated, setIsFormBeingUpdated] = useState<boolean>(false);
-    const [searchParams]=useSearchParams();
 
     const getMedicalInterventionROMConfigColumns = useCallback((body_part: any): ITableColumn[] => {
         const ROMColumns: any[] = [

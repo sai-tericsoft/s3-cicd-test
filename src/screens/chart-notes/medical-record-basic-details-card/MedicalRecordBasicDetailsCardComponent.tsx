@@ -154,9 +154,9 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
         setIsSurgeryAddOpen(false);
     }, [dispatch, medicalRecordId]);
 
-    const closeSurgeryRecordDrawer=useCallback(()=>{
-        setIsSurgeryAddOpen(false);
-    },[])
+    // const closeSurgeryRecordDrawer=useCallback(()=>{
+    //     setIsSurgeryAddOpen(false);
+    // },[])
 
     const handleDischargeCase = useCallback(() => {
         if (medicalRecordId) {

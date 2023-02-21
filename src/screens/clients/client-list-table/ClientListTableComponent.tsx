@@ -6,7 +6,6 @@ import {CommonService} from "../../../shared/services";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
 import {APIConfig} from "../../../constants";
 import {IClientBasicDetails, IClientListFilterState} from "../../../shared/models/client.model";
-import {useState} from "react";
 
 interface ClientListTableComponentProps {
     clientListFilterState: IClientListFilterState;

@@ -2,7 +2,7 @@ import "./MedicalInterventionListComponent.scss";
 import {ImageConfig, Misc} from "../../../constants";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {CommonService} from "../../../shared/services";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {useCallback, useEffect, useState} from "react";

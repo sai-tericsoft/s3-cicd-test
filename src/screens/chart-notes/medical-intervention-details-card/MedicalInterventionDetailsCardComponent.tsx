@@ -6,7 +6,7 @@ import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
-import {useNavigate, useParams, useSearchParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import {CommonService} from "../../../shared/services";
 import {ImageConfig, Misc} from "../../../constants";
@@ -165,7 +165,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     }, [medicalInterventionId]);
 
     const [medicalInterventionDropDownOptions, setMedicalInterventionDropDownOptions] = useState<any>([]);
-    
+
     useEffect(() => {
         if (medicalInterventionDetails?.status === 'completed') {
             setMedicalInterventionDropDownOptions([<FilesUneditableMiddlewareComponent

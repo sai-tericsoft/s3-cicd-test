@@ -63,7 +63,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
         if(medicalRecordId){
             dispatch(getClientMedicalRecord(medicalRecordId));
         }
-    },[]);
+    },[dispatch, medicalRecordId]);
 
     const [selectedICDCodes, setSelectedICDCodes] = useState<any[]>([]);
     const [searchICDCodes, setSearchICDCodes] = useState<any>({

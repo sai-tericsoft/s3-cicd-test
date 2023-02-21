@@ -37,7 +37,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
     // const [isMedicalRecordListLoaded, setIsMedicalRecordListLoaded] = useState<any>(false);
     const [isMedicalRecordListLoadingFailed, setIsMedicalRecordListLoadingFailed] = useState<any>(false);
     const [isSoapNoteTransferUnderProgress, setIsSoapNoteTransferUnderProgress] = useState<any>(false);
-    
+
     const clientListColumns: ITableColumn[] = [
         {
             key: "name",
@@ -154,7 +154,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                 setIsSoapNoteTransferUnderProgress(false);
             })
         });
-    }, [medicalInterventionId, selectedMedicalRecord, onTransferSoapNote, selectedClient]);
+    }, [navigate, medicalInterventionId, selectedMedicalRecord, onTransferSoapNote, selectedClient]);
 
     return (
         <div className={'transfer-soap-note-component'}>
