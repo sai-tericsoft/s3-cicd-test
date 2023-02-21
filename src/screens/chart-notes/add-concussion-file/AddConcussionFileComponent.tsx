@@ -72,13 +72,9 @@ const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
     }, [medicalInterventionId, selectedConcussionFileType, onAdd]);
 
     const onConcussionFileTypeSelect = useCallback((type: IConcussionFileType) => {
-        if (medicalInterventionDetails[type.type]){
-            CommonService._alert.showToast(`Concussion file type ${type.type} already added to this intervention`, 'error');
-        } else {
-            setSelectedConcussionFileType(type);
-            setCurrentStep("form");
-        }
-    }, [medicalInterventionDetails]);
+        setSelectedConcussionFileType(type);
+        setCurrentStep("form");
+    }, []);
 
     return (
         <div className={'add-concussion-file-component'}>
