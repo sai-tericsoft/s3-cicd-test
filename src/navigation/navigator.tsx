@@ -7,7 +7,7 @@ import DesignSystemScreen from "../screens/design-system/DesignSystemScreen";
 import LoginScreen from "../screens/auth/login/LoginScreen";
 import AppLayout from "../layouts/app-layout/AppLayout";
 import ComingSoonScreen from "../screens/coming-soon/ComingSoonScreen";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../store/reducers";
 import {CommonService} from "../shared/services";
 import AdminModuleLayoutScreen from "../screens/admin-module-layout/AdminModuleLayoutScreen";
@@ -113,6 +113,7 @@ import SystemSettingsScreen from "../screens/admin/system-settings/SystemSetting
 import ChartNotesLayoutComponent from "../screens/chart-notes/chart-notes-layout/ChartNotesLayoutComponent";
 import InventoryDetailsMainLayoutComponent
     from "../screens/inventory/inventory-details-main-layout/InventoryDetailsMainLayoutComponent";
+import {setSystemLocked} from "../store/actions/account.action";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -120,12 +121,14 @@ const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
     const {token} = useSelector((state: IRootReducerState) => state.account);
     const navigate = useNavigate();
     const location = useLocation();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (!token) {
+            dispatch(setSystemLocked(false, undefined));
             navigate('/login?returnUrl=' + encodeURIComponent(location.pathname + location.search));
         }
-    }, [token, navigate, location]);
+    }, [token, navigate, location, dispatch]);
 
     return children;
 }
