@@ -28,6 +28,7 @@ import DataLabelValueComponent from "../../../shared/components/data-label-value
 import moment from "moment";
 import {useNavigate, useParams} from "react-router-dom";
 import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
+import LinkComponent from "../../../shared/components/link/LinkComponent";
 
 interface AddMedicalRecordScreenProps {
 
@@ -441,7 +442,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                                 options={CommonService._staticData.yesNoOptions}
                                                                 displayWith={(option) => option.title}
                                                                 valueExtractor={(option) => option.code}
-                                                                label={'Treated Script Received'}
+                                                                label={'Treatment Script Received'}
                                                                 formikField={field}
                                                                 required={true}
                                                                 fullWidth={true}
@@ -563,7 +564,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                                 variant={"text"}
                                                                 className={"mrg-bottom-20"}
                                                             >
-                                                                Add New Body Part
+                                                                Add Another Body Part
                                                             </ButtonComponent>
                                                         }
                                                     </>
@@ -603,13 +604,16 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                 </div>
                             </CardComponent>
                             <div className="t-form-actions">
-                                <ButtonComponent // TODO: Add CTA to take back to the previous screen
-                                    variant={"outlined"}
-                                    disabled={isMedicalRecordAddInProgress}
-                                    id={"medical_record_add_cancel_btn"}
-                                >
-                                    Cancel
-                                </ButtonComponent>
+                                {clientId && <LinkComponent route={CommonService._routeConfig.MedicalRecordList(clientId)}>
+                                    <ButtonComponent // TODO: Add CTA to take back to the previous screen
+                                        variant={"outlined"}
+                                        disabled={isMedicalRecordAddInProgress}
+                                        id={"medical_record_add_cancel_btn"}
+                                    >
+                                        Cancel
+                                    </ButtonComponent>
+                                </LinkComponent>
+                                }
                                 &nbsp;
                                 <ButtonComponent
                                     isLoading={isMedicalRecordAddInProgress}

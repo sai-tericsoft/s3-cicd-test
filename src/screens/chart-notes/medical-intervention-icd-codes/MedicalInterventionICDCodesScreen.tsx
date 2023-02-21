@@ -121,6 +121,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             dataIndex: 'is_fav',
             key: 'favorite',
             fixed: 'right',
+            align: 'center',
             width: 120,
             render: (_: any, item: any) => {
                 return <span>
@@ -164,6 +165,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             dataIndex: 'favourite',
             key: 'favorite',
             fixed: 'right',
+            align: 'center',
             width: 120,
             render: (_: any, item: any) => {
                 return <span onClick={() => removeFavouriteCode(item?.icd_code_id)}>

@@ -23,7 +23,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             key: 'date_of_attachment',
             dataIndex: 'date_of_attachment',
             fixed: 'left',
-            width: 160,
+            width: 200,
             render: ( item: any) => {
                 return <>{CommonService.getSystemFormatTimeStamp(item?.updated_at)}</>
             }
