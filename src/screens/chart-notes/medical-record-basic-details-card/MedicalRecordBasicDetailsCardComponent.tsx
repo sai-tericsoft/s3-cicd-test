@@ -220,7 +220,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                         <ChipComponent
                                             className={clientMedicalRecord?.status === "open" ? "active" : "inactive"}
                                             size={'small'}
-                                            label={clientMedicalRecord?.status || "N/A"}/>
+                                            label={clientMedicalRecord?.status_details?.title || "N/A"}/>
                                     </span>
                                     <div className="ts-row width-auto">
                                         <div className="">
