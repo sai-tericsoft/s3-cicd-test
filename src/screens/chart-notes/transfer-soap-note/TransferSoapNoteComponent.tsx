@@ -102,7 +102,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
         // setIsClientListLoadingFailed(false);
         CommonService._client.ClientListLiteAPICall({search: clientListSearch})
             .then((response: any) => {
-                setClientList(response.data.docs);
+                setClientList(response.data);
                 setIsClientListLoading(false);
                 // setIsClientListLoaded(true);
                 // setIsClientListLoadingFailed(false);
