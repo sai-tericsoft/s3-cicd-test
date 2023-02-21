@@ -7,4 +7,10 @@
   .t-cell-comments, .t-cell-prom, .t-cell-arom, .t-cell-strength {
     text-align: center !important;
   }
+
+  .status-button-wrapper {
+    position: absolute;
+    margin-left: 233px;
+    top: 50%;
+  }
 }

@@ -17,6 +17,7 @@
     .select-intervention-choice-wrapper {
       display: flex;
       align-items: center;
+      margin-bottom:24px;
 
       .select-intervention-choice-label {
         margin-bottom: 0 !important;
@@ -49,5 +50,6 @@
 
   .t-form-actions {
     margin-top: 20px;
+
   }
 }

@@ -45,7 +45,7 @@ import {
     EDIT_INVENTORY_PRODUCT,
     FACILITY_DETAILS,
     FACILITY_LIST,
-    INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST,
+    INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST, INVENTORY,
     INVENTORY_LIST,
     INVENTORY_PRODUCT_VIEW_DETAILS,
     LOGIN_ROUTE,
@@ -111,6 +111,8 @@ import EditInventoryProductDetailsComponent
 import InventoryListScreen from "../screens/inventory/inventory-list/InventoryListScreen";
 import SystemSettingsScreen from "../screens/admin/system-settings/SystemSettingsScreen";
 import ChartNotesLayoutComponent from "../screens/chart-notes/chart-notes-layout/ChartNotesLayoutComponent";
+import InventoryDetailsMainLayoutComponent
+    from "../screens/inventory/inventory-details-main-layout/InventoryDetailsMainLayoutComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -407,30 +409,36 @@ const Navigator = (props: NavigatorProps) => {
                                <ViewExerciseRecordScreen/>
                            </ProtectedRoute>}/>
                 </Route>
-                <Route path={INVENTORY_LIST}
-                       element={<ProtectedRoute>
-                           <InventoryListScreen/>
-                       </ProtectedRoute>
-                       }
-                />
-                <Route path={ADD_INVENTORY_PRODUCT}
-                       element={<ProtectedRoute>
-                           <AddInventoryProductComponent/>
-                       </ProtectedRoute>
-                       }
-                />
-                <Route path={INVENTORY_PRODUCT_VIEW_DETAILS}
-                       element={<ProtectedRoute>
-                           <InventoryProductViewDetailsComponent/>
-                       </ProtectedRoute>
-                       }
-                />
-                <Route path={EDIT_INVENTORY_PRODUCT}
-                       element={<ProtectedRoute>
-                           <EditInventoryProductDetailsComponent/>
-                       </ProtectedRoute>
-                       }
-                />
+                <Route path={INVENTORY} element={<InventoryDetailsMainLayoutComponent/>}{...props}>
+                    <Route
+                        index
+                        element={
+                            <Navigate to={INVENTORY_LIST}/>
+                        }/>
+                    <Route path={INVENTORY_LIST}
+                           element={<ProtectedRoute>
+                               <InventoryListScreen/>
+                           </ProtectedRoute>
+                           }/>
+                    <Route path={ADD_INVENTORY_PRODUCT}
+                           element={<ProtectedRoute>
+                               <AddInventoryProductComponent/>
+                           </ProtectedRoute>
+                           }
+                    />
+                    <Route path={INVENTORY_PRODUCT_VIEW_DETAILS}
+                           element={<ProtectedRoute>
+                               <InventoryProductViewDetailsComponent/>
+                           </ProtectedRoute>
+                           }
+                    />
+                    <Route path={EDIT_INVENTORY_PRODUCT}
+                           element={<ProtectedRoute>
+                               <EditInventoryProductDetailsComponent/>
+                           </ProtectedRoute>
+                           }
+                    />
+                </Route>
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
             </Route>
             <Route element={<AuthLayout/>}>

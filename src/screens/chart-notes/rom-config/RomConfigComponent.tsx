@@ -3,7 +3,7 @@ import {IBodyPart} from "../../../shared/models/static-data.model";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {ImageConfig} from "../../../constants";
 import {CommonService} from "../../../shared/services";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
@@ -14,7 +14,6 @@ import CheckBoxComponent from "../../../shared/components/form-controls/check-bo
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
-import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import TableV2Component from "../../../shared/components/table-v2/TableV2Component";
 
 interface RomConfigComponentProps {
@@ -25,6 +24,7 @@ interface RomConfigComponentProps {
     selectedBodySides: string[];
     onDelete?: (body_part_id: string) => void;
     onSave?: (romConfig: string) => void;
+    handleAddNewBodyPartOpenModal?: () => void;
 }
 
 interface IROMConfig extends IBodyPart {
@@ -39,6 +39,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
         rom_config,
         selectedBodySides,
         bodyPart,
+        handleAddNewBodyPartOpenModal,
         onDelete
     } = props;
     const [bodySides, setBodySides] = useState<string[]>(selectedBodySides);
@@ -47,6 +48,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
     const [selectedROMMovementComments, setSelectedROMMovementComments] = useState<any>(undefined);
     const [isBodyPartBeingDeleted, setIsBodyPartBeingDeleted] = useState<boolean>(false);
 
+    console.log('romConfigValues',romConfigValues);
     const generateROMConfigColumns = useCallback((bodyPart: IBodyPart) => {
         const columns: any = [
             {
@@ -159,7 +161,6 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
 
     const generateROMConfigForAnInjury = useCallback((bodyPart: IBodyPart) => {
         const bodyPartConfig: any = _.cloneDeep(bodyPart);
-        console.log(bodyPartConfig);
         if (bodyPart?.movements && bodyPart?.movements?.length > 0) {
             bodyPartConfig.movements = bodyPart?.movements?.map((movement: any, index: number) => {
                 const movement_data = rom_config?.find((rom: any) => rom?.movement_name === movement?.name);
@@ -224,7 +225,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                 }
             });
         }
-    }, [onDelete, bodyPart._id, medicalInterventionDetails, medicalInterventionId]);
+    }, [onDelete, bodyPart?._id, medicalInterventionDetails, medicalInterventionId]);
 
     const handleBodySideSelect = useCallback((isSelected: boolean, bodySide: string) => {
         if (isSelected) {
@@ -239,7 +240,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
     }, []);
 
     const handleROMConfigSubmit = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
-        const config = values[values._id];
+        const config = values[values?._id];
         const payload: any = {
             rom_config: [],
             selected_sides: values.selected_sides
@@ -274,74 +275,79 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
-                            <CardComponent title={"Body Part: " + romConfigValues?.name}
-                                           actions={<>
-                                               <ButtonComponent
-                                                   size={"small"}
-                                                   color={"error"}
-                                                   variant={"outlined"}
-                                                   prefixIcon={<ImageConfig.DeleteIcon/>}
-                                                   onClick={handleBodyPartDelete}
-                                                   disabled={isSubmitting || isBodyPartBeingDeleted}
-                                               >
-                                                   Delete
-                                               </ButtonComponent>
-                                           </>}
-                            >
-                                <>
-                                    {
-                                       ( values?.movements?.length > 0 ) && <>
-                                            <div className={'rom-config-table-container'}>
-                                                <div className={'rom-config-table-context'}>
-                                                    <MenuDropdownComponent
-                                                        menuBase={
-                                                            <IconButtonComponent>
-                                                                <ImageConfig.MoreVerticalIcon/>
-                                                            </IconButtonComponent>
-                                                        }
-                                                        menuOptions={
-                                                            bodyPart?.sides?.map((side: any, index: number) => {
-                                                                return <CheckBoxComponent
-                                                                    label={side}
-                                                                    key={index + side}
-                                                                    // disabled={selectedBodySides?.includes(side)}
-                                                                    checked={bodySides?.includes(side)}
-                                                                    onChange={(isChecked) => {
-                                                                        handleBodySideSelect(isChecked, side);
-                                                                    }
-                                                                    }
-                                                                />
-                                                            })
-                                                        }
-                                                    />
+                            {(values?.movements?.length > 0) &&<>
+                                <CardComponent title={"Body Part: " + romConfigValues?.name}
+                                               actions={<>
+                                                   <ButtonComponent
+                                                       size={"small"}
+                                                       color={"error"}
+                                                       variant={"outlined"}
+                                                       prefixIcon={<ImageConfig.DeleteIcon/>}
+                                                       onClick={handleBodyPartDelete}
+                                                       disabled={isSubmitting || isBodyPartBeingDeleted}
+                                                   >
+                                                       Delete
+                                                   </ButtonComponent>
+                                               </>}
+                                >
+                                    <>
+                                        {
+                                            (values?.movements?.length > 0) && <>
+                                                <div className={'rom-config-table-container'}>
+                                                    <div className={'rom-config-table-context'}>
+                                                        <MenuDropdownComponent
+                                                            menuBase={
+                                                                <IconButtonComponent>
+                                                                    <ImageConfig.MoreVerticalIcon/>
+                                                                </IconButtonComponent>
+                                                            }
+                                                            menuOptions={
+                                                                bodyPart?.sides?.map((side: any, index: number) => {
+                                                                    return <CheckBoxComponent
+                                                                        label={side}
+                                                                        key={index + side}
+                                                                        // disabled={selectedBodySides?.includes(side)}
+                                                                        checked={bodySides?.includes(side)}
+                                                                        onChange={(isChecked) => {
+                                                                            handleBodySideSelect(isChecked, side);
+                                                                        }
+                                                                        }
+                                                                    />
+                                                                })
+                                                            }
+                                                        />
+                                                    </div>
+                                                    <TableV2Component
+                                                        data={romConfigValues?.movements || []}
+                                                        bordered={true}
+                                                        columns={romConfigValues?.tableConfig}/>
                                                 </div>
-                                                <TableV2Component
-                                                    data={romConfigValues.movements || []}
-                                                    bordered={true}
-                                                    columns={romConfigValues.tableConfig}/>
-                                            </div>
-                                            <div className="t-form-actions">
-                                                <ButtonComponent type={"submit"}
-                                                                 disabled={isSubmitting}
-                                                                 isLoading={isSubmitting}>
-                                                    Save
-                                                </ButtonComponent>
-                                            </div>
-                                        </>
-                                    }
-                                    {
-                                        ( values?.movements?.length === 0 ) && <>
-                                            <StatusCardComponent title={"The following body part does not have Range of Strength,\n" +
-                                                "please add another body part."}/>
-                                        </>
-                                    }
-                                </>
-                            </CardComponent>
+                                                <div className="t-form-actions">
+                                                    <ButtonComponent type={"submit"}
+                                                                     disabled={isSubmitting}
+                                                                     isLoading={isSubmitting}>
+                                                        Save
+                                                    </ButtonComponent>
+                                                </div>
+                                            </>
+                                        }
+
+                                    </>
+                                </CardComponent>
+                                <ButtonComponent
+                                    prefixIcon={<ImageConfig.AddIcon/>}
+                                    onClick={handleAddNewBodyPartOpenModal}
+                                >
+                                    Add Body Part
+                                </ButtonComponent>
+                            </>
+                            }
+
                             {
-                                bodyPart.movements?.map((movement, index: number) => {
-                                    if (showROMMovementCommentsModal && movement.name === selectedROMMovementComments?.name) {
+                                bodyPart?.movements?.map((movement, index: number) => {
+                                    if (showROMMovementCommentsModal && movement?.name === selectedROMMovementComments?.name) {
                                         return <ModalComponent
-                                            key={index + movement.name}
+                                            key={index + movement?.name}
                                             isOpen={showROMMovementCommentsModal}
                                             title={`${values?.[bodyPart._id]?.[selectedROMMovementComments?.name]?.comments ? "Edit Comments" : "Comments:"}`}
                                             closeOnBackDropClick={true}

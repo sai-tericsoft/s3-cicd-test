@@ -10,11 +10,12 @@ import {IClientBasicDetails, IClientListFilterState} from "../../../shared/model
 interface ClientListTableComponentProps {
     clientListFilterState: IClientListFilterState;
     onSort?: (key: string, order: string) => void;
+    refreshToken?: string;
 }
 
 const ClientListTableComponent = (props: ClientListTableComponentProps) => {
 
-    const {clientListFilterState, onSort} = props;
+    const {clientListFilterState, onSort,refreshToken} = props;
 
     const ClientListTableColumns: ITableColumn[] = [
         {
@@ -112,6 +113,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
                 url={APIConfig.CLIENT_LIST.URL}
                 method={APIConfig.CLIENT_LIST.METHOD}
                 columns={ClientListTableColumns}
+                refreshToken={refreshToken}
                 extraPayload={clientListFilterState}
                 onSort={onSort}
             />

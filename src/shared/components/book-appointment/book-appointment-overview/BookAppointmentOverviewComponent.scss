@@ -16,9 +16,9 @@
       margin-right: 10px;
     }
 
-    .drawer-title {
-      //font-weight: 700;
-      font-size: 20px;
+    .appointment-details-title {
+      font-weight: 500;
+      font-size:1.4286rem;
       line-height: 24px
     }
   }
@@ -112,13 +112,14 @@
     .block-body {
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
+      padding-bottom:24px ;
       .block-content {
         flex-direction: row;
         display: flex;
         align-items: center;
         color: #83909D;
         justify-content: center;
+        margin-right: 30px;
         flex: 0;
         white-space: nowrap;
 
@@ -138,19 +139,21 @@
     .details-header {
       background: #F2F6F6;
       padding: 12px;
+      padding-left: 30px;
+      font-weight: 500;
     }
     .details-body-block {
       border-top: 1px solid #E7E8EA;
       .details-body-item {
         display: flex;
         flex-direction: row;
+        margin-left: 24px;
         .item-heading {
           flex: 1;
           font-weight: 400;
           font-size: 14px;
           line-height: 16px;
           display: flex;
-          align-items: center;
           color: #83909D;
           padding: 9px;
         }
