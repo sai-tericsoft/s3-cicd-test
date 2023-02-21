@@ -12,7 +12,7 @@
     }
   }
   .client-search-table-wrapper{
-    .ant-table-container {
+    .t-table-wrapper {
       height: calc(100vh - 290px);
     }
   }
@@ -34,7 +34,7 @@
   }
   .card-table-button-wrapper {
     .card-table {
-      .ant-table-container {
+      .t-table-wrapper {
         height: calc(100vh - 330px);
       }
     }

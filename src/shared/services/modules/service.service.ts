@@ -7,12 +7,12 @@ const ServiceAddAPICall = (payload: any) => {
     return ApiService[APIConfig.SERVICE_ADD.METHOD](APIConfig.SERVICE_ADD.URL, payload, {'Content-Type': 'multipart/form-data'});
 }
 
-const ServiceListLiteAPICall = (categoryId: any) => {
+const ServiceListLiteAPICall = (categoryId: any, payload: any) => {
     // @ts-ignore
-    return ApiService[APIConfig.SERVICE_LIST_LITE.METHOD](APIConfig.SERVICE_LIST_LITE.URL(categoryId));
+    return ApiService[APIConfig.SERVICE_LIST_LITE.METHOD](APIConfig.SERVICE_LIST_LITE.URL(categoryId), payload);
 }
 
-const ServiceDetailsAPICall = (serviceId:string) => {
+const ServiceDetailsAPICall = (serviceId: string) => {
     // @ts-ignore
     return ApiService[APIConfig.SERVICE_DETAILS.METHOD](APIConfig.SERVICE_DETAILS.URL(serviceId));
 }

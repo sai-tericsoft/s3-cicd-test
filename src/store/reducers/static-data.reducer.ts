@@ -5,7 +5,7 @@ import {
     GET_COMMUNICATION_MODE_TYPE_LIST,
     GET_CONCUSSION_FILE_TYPES,
     GET_CONSULTATION_DURATION_LIST,
-    GET_EMPLOYMENT_STATUS_LIST,
+    GET_EMPLOYMENT_STATUS_LIST, GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST,
     GET_GENDER_LIST,
     GET_INJURY_TYPE_LIST,
     GET_LANGUAGE_LIST,
@@ -18,29 +18,38 @@ import {
     GET_RELATIONSHIP_LIST,
     GET_SOCIAL_MEDIA_PLATFORM_LIST,
     GET_SURGICAL_HISTORY_OPTIONS_LIST,
-    SET_8_MINUTE_RULE_CHART, SET_APPOINTMENT_STATUS, SET_APPOINTMENT_TYPES,
+    GET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST,
+    SET_8_MINUTE_RULE_CHART,
+    SET_APPOINTMENT_STATUS,
+    SET_APPOINTMENT_TYPES,
     SET_BODY_PART_LIST,
     SET_CASE_STATUS_LIST,
     SET_COMMUNICATION_MODE_TYPE_LIST,
     SET_CONCUSSION_FILE_TYPES,
     SET_CONSULTATION_DURATION_LIST,
-    SET_EMPLOYMENT_STATUS_LIST,
+    SET_EMPLOYMENT_STATUS_LIST, SET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST,
     SET_GENDER_LIST,
     SET_INJURY_TYPE_LIST,
     SET_LANGUAGE_LIST,
     SET_MEDICAL_HISTORY_OPTIONS_LIST,
     SET_MEDICAL_RECORD_DOCUMENT_TYPES,
-    SET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST, SET_PAYMENT_MODES,
+    SET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
+    SET_PAYMENT_MODES,
     SET_PHONE_TYPE_LIST,
     SET_PROGRESS_REPORT_STATS_LIST,
     SET_REFERRAL_TYPE_LIST,
     SET_RELATIONSHIP_LIST,
     SET_SOCIAL_MEDIA_PLATFORM_LIST,
-    SET_SURGICAL_HISTORY_OPTIONS_LIST
+    SET_SURGICAL_HISTORY_OPTIONS_LIST,
+    SET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST
 } from "../actions/static-data.action";
 import {IActionModel} from "../../shared/models/action.model";
 import {ICommonType} from "../../shared/models/static-data.model";
-import {IConcussionFileType, IMedicalRecordDocumentType} from "../../shared/models/common.model";
+import {
+    IConcussionFileType,
+    IMedicalRecordDocumentType,
+    ISystemAutoLockDurationOption
+} from "../../shared/models/common.model";
 
 export interface IStaticDataReducerState {
     statusList: ICommonType[],
@@ -105,7 +114,12 @@ export interface IStaticDataReducerState {
     appointmentTypes?: any[],
     appointmentStatus?: any[],
     paymentModes?: any[],
-
+    systemAutoLockDurationOptionList: ISystemAutoLockDurationOption[],
+    isSystemAutoLockDurationOptionListLoading?: boolean,
+    isSystemAutoLockDurationOptionListLoaded?: boolean,
+    filesUneditableAfterOptionList: ISystemAutoLockDurationOption[],
+    isFilesUneditableAfterOptionListLoading?: boolean,
+    isFilesUneditableAfterOptionListLoaded?: boolean,
 }
 
 const initialData: IStaticDataReducerState = {
@@ -184,6 +198,12 @@ const initialData: IStaticDataReducerState = {
     appointmentTypes: [],
     appointmentStatus: [],
     paymentModes: [],
+    systemAutoLockDurationOptionList: [],
+    isSystemAutoLockDurationOptionListLoading: false,
+    isSystemAutoLockDurationOptionListLoaded: false,
+    filesUneditableAfterOptionList: [],
+    isFilesUneditableAfterOptionListLoading: false,
+    isFilesUneditableAfterOptionListLoaded: false,
 };
 
 const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDataReducerState => {
@@ -490,6 +510,36 @@ const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDa
                 ...state,
                 paymentModes: action.payload.paymentModes
             };
+            return state;
+        case GET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST:
+            state = {
+                ...state,
+                isSystemAutoLockDurationOptionListLoading: true,
+                isSystemAutoLockDurationOptionListLoaded: false
+            }
+            return state;
+        case SET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST:
+            state = {
+                ...state,
+                isSystemAutoLockDurationOptionListLoading: false,
+                isSystemAutoLockDurationOptionListLoaded: true,
+                systemAutoLockDurationOptionList: action.payload.systemAutoLockDurationOptionList
+            }
+            return state;
+        case GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST:
+            state = {
+                ...state,
+                isFilesUneditableAfterOptionListLoading: true,
+                isFilesUneditableAfterOptionListLoaded: false
+            }
+            return state;
+        case SET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST:
+            state = {
+                ...state,
+                isFilesUneditableAfterOptionListLoading: false,
+                isFilesUneditableAfterOptionListLoaded: true,
+                filesUneditableAfterOptionList: action.payload.filesUneditableAfterOptionList
+            }
             return state;
         default:
             return state;

@@ -153,6 +153,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             dataIndex: 'is_fav',
             key: 'favorite',
             fixed: 'right',
+            align: 'center',
             width: 120,
             render: (_: any, item: any) => {
                 return <span>
@@ -195,6 +196,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             dataIndex: 'icd_code',
             key: 'icd_code',
             width: 120,
+            fixed: 'left',
             render: (_: any, item: any) => {
                 return <>{item?.icd_code_details?.icd_code}</>
             }
@@ -213,6 +215,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             dataIndex: 'favourite',
             key: 'favorite',
             fixed: 'right',
+            align: 'center',
             width: 120,
             render: (_: any, item: any) => {
                 return <span onClick={() => removeFavouriteCode(item?.icd_code_id)}>
@@ -221,6 +224,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             }
         }
     ];
+
     const addFavouriteList = useCallback((codeId: string) => {
         CommonService._client.AddFavouriteCode(codeId, {})
             .then((response: IAPIResponseType<any>) => {
@@ -245,7 +249,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
 
     useEffect(() => {
         if (medicalInterventionDetails) {
-            setSelectedICDCodes((medicalInterventionDetails.linked_icd_codes || []).map((v: any) => v?._id));
+            setSelectedICDCodes((medicalInterventionDetails?.linked_icd_codes || []).map((v: any) => v?._id));
         }
     }, [medicalInterventionDetails]);
 

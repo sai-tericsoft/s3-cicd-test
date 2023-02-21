@@ -23,6 +23,7 @@ import printJS from "print-js";
 import {IAttachment} from "../models/common.model";
 import AppointmentService from "./modules/appointment.service";
 import InventoryService from "./modules/inventory.service";
+import SystemSettingsService from "./modules/settings.service";
 
 
 yup.addMethod(yup.mixed, 'atLeastOne', (args) => {
@@ -122,9 +123,12 @@ const transformTimeStamp = (date: Date | string | undefined) => {
     return moment(date).format('D-MMM-YYYY | hh:mm A');
 }
 
+
+
 const convertDateFormat = (date: Date, format: string = 'YYYY-MM-DD') => {
     return moment(date).format(format);
 }
+
 
 const convertDateFormat2 = (date: Date, format: string = 'DD-MMM-YYYY') => {
     return moment(date).format(format);
@@ -553,5 +557,6 @@ const CommonService = {
     _facility: FacilityService,
     _chartNotes: ChartNotesService,
     _inventory: InventoryService,
+    _systemSettings: SystemSettingsService,
 }
 export default CommonService;

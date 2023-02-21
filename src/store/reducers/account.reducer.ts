@@ -1,18 +1,28 @@
 import {IActionModel} from "../../shared/models/action.model";
 import {
-    LOGOUT, SET_LOGGED_IN_USER_TOKEN, SET_LOGGED_USER_DATA
+    LOGOUT,
+    SET_LOGGED_IN_USER_TOKEN,
+    SET_LOGGED_USER_DATA,
+    SET_SYSTEM_LOCKED,
+    UPDATE_LAST_ACTIVITY_TIME
 } from "../actions/account.action";
 import {CommonService} from "../../shared/services";
 import {Misc} from "../../constants";
 import Communications from "../../shared/services/communications.service";
 import {ILoggedInUser} from "../../shared/models/account.model";
+import moment from "moment";
 
 export interface IAccountReducerState {
+    systemLockReason?: 'auto' | 'manual' | null | string;
+    isSystemLocked?: boolean;
+    lastActivityTime?: number;
     currentUser?: ILoggedInUser;
     token?: string | null;
 }
 
 const INITIAL_STATE: IAccountReducerState = {
+    isSystemLocked: CommonService._localStorage.getItem(Misc.IS_SYSTEM_LOCKED) === 'true',
+    systemLockReason: CommonService._localStorage.getItem(Misc.SYSTEM_LOCK_REASON),
     currentUser: undefined,
     token: CommonService._localStorage.getItem(Misc.LOCAL_STORAGE_JWT_TOKEN)
 };
@@ -26,6 +36,11 @@ const accountReducer = (state: IAccountReducerState = INITIAL_STATE, action: IAc
                 ...state,
                 currentUser: loggedInUser,
             };
+        case UPDATE_LAST_ACTIVITY_TIME:
+            return {
+                ...state,
+                lastActivityTime: moment().unix(),
+            };
         case SET_LOGGED_IN_USER_TOKEN:
             const token = action.payload;
             CommonService._localStorage.setItem(Misc.LOCAL_STORAGE_JWT_TOKEN, token);
@@ -37,11 +52,24 @@ const accountReducer = (state: IAccountReducerState = INITIAL_STATE, action: IAc
         case LOGOUT:
             CommonService._localStorage.removeItem(Misc.LOCAL_STORAGE_LOGGED_IN_USER_DATA);
             CommonService._localStorage.removeItem(Misc.LOCAL_STORAGE_JWT_TOKEN);
+            CommonService._localStorage.setItem(Misc.IS_SYSTEM_LOCKED);
+            CommonService._localStorage.setItem(Misc.SYSTEM_LOCK_REASON);
             Communications.updateLoginUserTokenSubject.next('');
             return {
                 ...state,
                 token: undefined,
-                currentUser: undefined
+                currentUser: undefined,
+                systemLockReason: undefined,
+                isSystemLocked: undefined,
+            };
+        case SET_SYSTEM_LOCKED:
+            const systemLockedConfig = action.payload;
+            CommonService._localStorage.setItem(Misc.IS_SYSTEM_LOCKED, systemLockedConfig.isLocked);
+            CommonService._localStorage.setItem(Misc.SYSTEM_LOCK_REASON, systemLockedConfig.type);
+            return {
+                ...state,
+                systemLockReason: systemLockedConfig.type,
+                isSystemLocked: systemLockedConfig.isLocked,
             };
         default:
             return state;

@@ -98,7 +98,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                 if (medicalRecordId) {
                     if (item?.note_type?.toLowerCase() === 'exercise log') {
                         route = CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, item?.intervention_id);
-                    } else if (item?.note_type?.toLowerCase() === "soap note") {
+                    } else if (["soap note", "discharge summary"].includes(item?.note_type?.toLowerCase())) {
                         route = CommonService._routeConfig.MedicalInterventionDetails(medicalRecordId, item?._id);
                     } else if (item?.note_type?.toLowerCase() === "progress report") {
                         route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId, item?._id);

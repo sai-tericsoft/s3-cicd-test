@@ -117,6 +117,7 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                                 attachment: response.data
                             }
                         });
+                        setMedicalRecordDocumentAttachmentFile(undefined);
                         setIsMedicalRecordAttachmentAdding(false);
                         CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully added attachment", "success");
                     }).catch((error: any) => {

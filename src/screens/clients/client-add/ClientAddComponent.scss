@@ -1,0 +1,23 @@
+
+.client-add-component {
+
+  .note-wrapper {
+    width: 550px;
+    height: 70px;
+    background-color: #FFF3E9;
+    border-radius: 15px;
+    display: flex;
+    margin-bottom: 200px;
+
+    .note-heading {
+      width: 60px;
+      font-size: 1.1429rem;
+      padding: 18px 0px 0px 13px;
+    }
+    .note-content {
+      padding: 18px 13px;
+      font-size: 1.1429rem;
+
+    }
+  }
+}

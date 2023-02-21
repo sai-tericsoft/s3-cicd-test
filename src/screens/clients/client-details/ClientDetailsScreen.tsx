@@ -11,7 +11,7 @@ import {
 } from "../../../store/actions/client.action";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import {ImageConfig} from "../../../constants";
+import {ImageConfig, Misc} from "../../../constants";
 import SubMenuListComponent from "../../../shared/components/sub-menu-list/SubMenuListComponent";
 import ClientAccountDetailsComponent from "../client-account-details/ClientAccountDetailsComponent";
 import ClientBasicDetailsCardComponent from "../client-basic-details-card/ClientBasicDetailsCardComponent";
@@ -73,7 +73,7 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
     useEffect(() => {
         const referrer: any = searchParams.get("referrer");
         dispatch(setCurrentNavParams("Client Details", null, () => {
-            if (referrer){
+            if (referrer) {
                 navigate(referrer);
             } else {
                 navigate(CommonService._routeConfig.ClientList());
@@ -86,6 +86,24 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
         setSearchParams(searchParams);
         setCurrentTab(value);
     }, [searchParams, setSearchParams]);
+
+    const handleResendLink=useCallback((clientBasicDetails:any)=>{
+        if(clientId) {
+            CommonService.onConfirm({
+                image: ImageConfig.DeleteAttachmentConfirmationIcon,
+                confirmationTitle: 'RESEND INVITE LINK',
+                confirmationSubTitle: `Are you sure you want to resend the invite link ${clientBasicDetails?.first_name} ${clientBasicDetails?.last_name} 
+            having email ${clientBasicDetails.primary_email}?`,
+            }).then(() => {
+                CommonService._client.ResendInviteToClient(clientId,clientBasicDetails)
+                    .then((response: any) => {
+                        CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    }).catch((error: any) => {
+                    CommonService._alert.showToast(error.error || "Error in sending link", "error");
+                });
+            })
+        }
+    },[clientId]);
 
     const CLIENT_MENU_ITEMS = [
         {
@@ -153,14 +171,27 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
                                         <div className="client-details-content-wrapper">
                                             <div
                                                 className={`client-details-actions`}>
-                                                <LinkComponent
-                                                    route={CommonService._client.NavigateToClientEdit(clientId, "basicDetails")}>
-                                                    <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
-                                                                     className={`${currentTab === "basicDetails" ? "opacity-1" : "opacity-0"}`}
-                                                    >
-                                                        Edit Profile
-                                                    </ButtonComponent>
-                                                </LinkComponent>
+
+                                                {
+                                                    currentTab === "basicDetails" && <>
+                                                        <LinkComponent
+                                                            route={CommonService._client.NavigateToClientEdit(clientId, "basicDetails")}>
+                                                            <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                                                             className={`${currentTab === "basicDetails" ? "opacity-1" : "opacity-0"}`}
+                                                            >
+                                                                Edit Profile
+                                                            </ButtonComponent>
+                                                        </LinkComponent>
+                                                    </>
+                                                }
+                                                <>
+                                                    <ButtonComponent variant={'outlined'}
+                                                                     className={`${currentTab === "basicDetails" && 'mrg-right-10'}`}
+                                                                     prefixIcon={<ImageConfig.SendIcon/>}
+                                                                     onClick={()=>handleResendLink(clientBasicDetails)}
+                                                    >Resend Link</ButtonComponent>
+                                                </>
+
                                             </div>
                                             <TabsWrapperComponent>
                                                 <TabsComponent

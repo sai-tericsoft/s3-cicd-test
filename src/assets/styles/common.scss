@@ -24,7 +24,6 @@
 @import "components/grid";
 @import "components/drop-down-menu";
 
-
 .app-version {
   font-size: 10px;
   position: fixed;
@@ -436,27 +435,112 @@
 
 .chip {
   font-weight: 500;
-  &.scheduled {
-    background: #FAFAFA;
-    color: #333;
+
+  &.no_show {
+    background: #EFEFEF;
+    color: #717171;
   }
+
+  &.scheduled {
+    background: #E8F2FF;
+    color: #1C5EDE;
+  }
+
   &.upcoming {
     background: #FFF7EA;
     color: #DE561C;
   }
+
   &.engaged {
     background: #BDE8CA;
     color: #00534F;
   }
+
   &.completed {
     background: #F5F7F8;
     color: #7583A6;
   }
+
   &.cancelled {
     background: #FFE2E9;
     color: #DE1C4E;
   }
 }
+
 .text-primary {
   color: $primary-color;
+}
+
+.system-lock-wrapper {
+
+  .MuiBackdrop-root {
+    background-color: rgba(0, 0, 0, 0.2) !important;
+    backdrop-filter: blur(5px) !important;
+  }
+
+  .modal-content-wrapper {
+    width: 416px !important;
+  }
+
+  .t-form {
+    @include display-center();
+    flex-direction: column;
+
+    .system-lock-back-navigation {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      display: flex;
+      align-items: center;
+      text-transform: uppercase;
+      cursor: pointer;
+
+      svg {
+        height: 16px;
+        width: 16px;
+      }
+    }
+
+    .system-lock-icon {
+      background: #F2F6F6;
+      height: 84px;
+      width: 84px;
+      border-radius: 50%;
+      @include display-center();
+      margin-top: 15px;
+      text-transform: uppercase;
+
+      svg {
+        width: 32px;
+        height: 40px;
+        color: $primary-color;
+      }
+    }
+
+    .system-lock-title {
+      font-weight: $font-weight-bolder;
+      font-size: 1.1429rem;
+      line-height: 22px;
+      color: #212B36;
+      margin: 20px 0 10px;
+      text-transform: uppercase;
+    }
+
+    .system-lock-sub-title {
+      font-weight: $font-weight-bold;
+      font-size: 1rem;
+      line-height: 22px;
+      color: #6D6D6D;
+      margin-bottom: 30px;
+    }
+
+    .system-lock-password-field {
+      height: 95px;
+      width: 100%;
+    }
+
+    .t-form-actions {
+
+    }
+  }
 }

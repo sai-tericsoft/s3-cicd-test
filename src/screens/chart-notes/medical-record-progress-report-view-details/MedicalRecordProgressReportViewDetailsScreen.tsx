@@ -189,6 +189,16 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                                             }
                                             />
                                         </CardComponent>
+                                        {
+                                            progressReportDetails?.progress_stats.length > 0 &&
+                                            <CardComponent title={'Progress Stats:'}>
+                                                <TableComponent data={progressReportDetails?.progress_stats}
+                                                                columns={progressStatsColumn}
+                                                                showExpandColumn={false}
+                                                                rowKey={(item: any, index) => item._id}
+                                                />
+                                            </CardComponent>
+                                        }
                                         <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>
                                             <ESignApprovalComponent isSigned={progressReportDetails?.is_signed}
                                                                     signedAt={CommonService.convertDateFormat(progressReportDetails?.created_at)}/>

@@ -10,6 +10,7 @@ const COMING_SOON_ROUTE = "/coming-soon";
 const DASHBOARD = "/dashboard";
 const ADMIN = "/admin";
 const SERVICE_CATEGORY_LIST = "/admin/service-category-list";
+const SYSTEM_SETTINGS = "/admin/system-settings";
 const SERVICE_DETAILS = "/admin/service-details";
 const SERVICE_ADD = "/admin/service/add";
 const SERVICE_EDIT = "/admin/service/edit";
@@ -23,14 +24,12 @@ const CLIENT_ADD = "/client-add";
 const CLIENT_DETAILS = "/client-details";
 const CLIENT_EDIT = "/client-edit";
 
-const CLIENT_SEARCH='/client-search';
+const CLIENT_SEARCH='/chart-notes/client-list';
 const SCHEDULING_VIEW='/scheduling';
 const CLIENT_MEDICAL_RECORD_DETAILS = '/chart-notes/:medicalRecordId/medical-record-details';
-const CLIENT_CHART_NOTES_DETAILS = "/chart-notes";
+const CHART_NOTES_LIST = "/chart-notes";
 const ADD_MEDICAL_RECORD = '/chart-notes/:clientId/add-medical-record';
-const CLIENT_CHART_NOTES = '/chart-notes/:clientId/medical-record-list';
 const ADD_MEDICAL_INTERVENTION = '/chart-notes/:medicalRecordId/:medicalInterventionId/add-medical-intervention';
-const MEDICAL_INTERVENTION_VIEW = '/chart-notes/:medicalRecordId/:medicalInterventionId/view';
 const MEDICAL_INTERVENTION_ROM_CONFIG = '/chart-notes/:medicalRecordId/:medicalInterventionId/rom-config';
 const MEDICAL_INTERVENTION_SPECIAL_TESTS = '/chart-notes/:medicalRecordId/:medicalInterventionId/special-tests';
 const MEDICAL_INTERVENTION_ICD_CODES = '/chart-notes/:medicalRecordId/:medicalInterventionId/icd-codes';
@@ -66,6 +65,7 @@ export {
     DESIGN_SYSTEM_ROUTE,
     DASHBOARD,
     ADMIN,
+    SYSTEM_SETTINGS,
     RESTRICTED_ROUTE,
     SERVICE_CATEGORY_LIST,
     SERVICE_CATEGORY_DETAILS,
@@ -83,9 +83,7 @@ export {
     CLIENT_MEDICAL_RECORD_DETAILS,
     ADD_MEDICAL_RECORD,
     ADD_MEDICAL_INTERVENTION,
-    MEDICAL_INTERVENTION_VIEW,
-    CLIENT_CHART_NOTES,
-    CLIENT_CHART_NOTES_DETAILS,
+    CHART_NOTES_LIST,
     MEDICAL_INTERVENTION_ROM_CONFIG,
     MEDICAL_INTERVENTION_SPECIAL_TESTS,
     MEDICAL_INTERVENTION_ICD_CODES,
@@ -105,5 +103,5 @@ export {
     INVENTORY_LIST,
     ADD_INVENTORY_PRODUCT,
     INVENTORY_PRODUCT_VIEW_DETAILS,
-    EDIT_INVENTORY_PRODUCT
+    EDIT_INVENTORY_PRODUCT,
 };

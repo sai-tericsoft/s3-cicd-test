@@ -25,7 +25,7 @@ interface BookAppointmentPaymentComponentProps {
 
 const addAppointmentPaymentInitialValues: any = {
     appointmentId: '',
-    type: '',
+    payment_type: '',
     mode: '',
     promotion_code: '',
     comments: ''
@@ -33,16 +33,14 @@ const addAppointmentPaymentInitialValues: any = {
 
 
 const addAppointmentPaymentValidationSchema = Yup.object().shape({
-    type: Yup.string().required('Type is required'),
-    mode: Yup.mixed().when("type", {
+    payment_type: Yup.string().required('Payment type is required'),
+    mode: Yup.mixed().when("payment_type", {
         is: 'current',
         then: Yup.mixed().required('Payment mode is required')
     }),
     promotion_code: Yup.string(),
     amount: Yup.number(),
     comments: Yup.string(),
-
-
 });
 
 const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentProps) => {
@@ -130,9 +128,9 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                         <div className="ts-row option-item-wrapper mrg-bottom-15 mrg-top-15">
                                             <label className="ts-col option-item-block">
                                                 <div className="option-item">
-                                                    <RadioButtonComponent checked={values.type === 'current'}
+                                                    <RadioButtonComponent checked={values.payment_type === 'current'}
                                                                           onChange={value => {
-                                                                              setFieldValue('type', 'current')
+                                                                              setFieldValue('payment_type', 'current')
                                                                           }}
                                                                           name={'payment-type'}/>
                                                 </div>
@@ -140,9 +138,9 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                             </label>
                                             <label className="ts-col option-item-block">
                                                 <div className="option-item">
-                                                    <RadioButtonComponent checked={values.type === 'later'}
+                                                    <RadioButtonComponent checked={values.payment_type === 'reserved'}
                                                                           onChange={value => {
-                                                                              setFieldValue('type', 'later')
+                                                                              setFieldValue('payment_type', 'reserved')
                                                                           }}
                                                                           name={'payment-type'}/>
                                                 </div>
@@ -151,7 +149,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                         </div>
 
 
-                                        {values.type === 'current' && <>
+                                        {values.payment_type === 'current' && <>
                                             <FormControlLabelComponent
                                                 label={"Add a gift card or promotion code or voucher"}/>
                                             <Field name={'promotion_code'}>
@@ -170,15 +168,15 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                             <div className="price-holder">
                                                 <div className="price-item">
                                                     <div className="price-item-text">Amount (Inc. tax)</div>
-                                                    <div className="price-item-amount">$100.00</div>
+                                                    <div className="price-item-amount">${booking.amount}.00</div>
                                                 </div>
                                                 <div className="price-item">
                                                     <div className="price-item-text">Discount</div>
-                                                    <div className="price-item-amount red">-$10</div>
+                                                    <div className="price-item-amount red">$0</div>
                                                 </div>
                                                 <div className="price-item price-item-total">
                                                     <div className="price-item-text">Total Amount</div>
-                                                    <div className="price-item-amount green">$110.00</div>
+                                                    <div className="price-item-amount green">${booking.amount}.00</div>
                                                 </div>
                                             </div>
 
@@ -214,7 +212,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                     </div>
                                     <div className="client-search-btn">
                                         <ButtonComponent disabled={!isValid} type={'submit'} fullWidth={true}
-                                                         onClick={onComplete}>Submit</ButtonComponent>
+                                        >Submit</ButtonComponent>
                                     </div>
                                 </>
                             </Form>

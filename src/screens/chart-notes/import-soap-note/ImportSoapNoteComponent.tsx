@@ -16,7 +16,6 @@ interface ImportSoapNoteComponentProps {
     handleSoapNoteImport: (medicalInterventionId: string) => void;
 }
 
-
 const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
 
     const {medicalRecordDetails, handleSoapNoteImport} = props;

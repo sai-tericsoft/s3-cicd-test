@@ -37,9 +37,9 @@ const TableWrapperComponent = (props: TableComponentProps) => {
     const getListData = useCallback(() => {
         const payload = _.cloneDeep({page: pageNumRef.current + 1, limit: pageSizeRef.current, ...extraPayload});
         if (payload?.sort && payload?.sort?.key) { // TODO to make sort more consistent
+            payload.sort[payload.sort.key] = payload?.sort?.order;
             delete payload.sort.key;
             delete payload.sort.order;
-            payload.sort[payload.sort.key] = payload?.sort?.order;
         } else {
             delete payload.sort;
         }

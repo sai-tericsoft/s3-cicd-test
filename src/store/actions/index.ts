@@ -5,6 +5,7 @@ import * as client from "./client.action";
 import * as service from "./service.action";
 import * as user from "./user.action";
 import * as chartNotes from "./chart-notes.action";
+import * as settings from "./settings.action";
 
 export {
     account,
@@ -13,5 +14,6 @@ export {
     client,
     service,
     user,
-    chartNotes
+    chartNotes,
+    settings
 };

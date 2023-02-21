@@ -16,6 +16,14 @@ import {ReactComponent as VerifiedCheck} from './../assets/icons/verified_black.
 import {ReactComponent as CalendarIcon} from './../assets/icons/calander.svg';
 import {ReactComponent as TimerIcon} from './../assets/icons/timer.svg';
 
+import {ReactComponent as CallIcon} from './../assets/icons/call_black.svg';
+import {ReactComponent as PersonIcon} from './../assets/icons/person_black.svg';
+import {ReactComponent as EmailIcon} from './../assets/icons/email_black.svg';
+import {ReactComponent as AssignmentIcon} from './../assets/icons/assignment_ind.svg';
+import {ReactComponent as MedicalServicesIcon} from './../assets/icons/medical_services.svg';
+import {ReactComponent as AttachMoneyIcon} from './../assets/icons/attach_money.svg';
+import {ReactComponent as CancelIcon} from './../assets/icons/cancel.svg';
+
 import {ReactComponent as CircleCheck} from './../assets/icons/check_circle.svg';
 import {ReactComponent as CircleError} from './../assets/icons/error_circle.svg';
 import {ReactComponent as LeftArrow} from './../assets/icons/left_arrow.svg';
@@ -28,6 +36,7 @@ import {ReactComponent as MoreVerticalIcon} from './../assets/icons/more_vertica
 import {ReactComponent as PDF_ICON} from './../assets/icons/pdf_icon.svg';
 import {ReactComponent as REPEAT_LAST_INTERVENTION} from './../assets/icons/repeat_last_intervention.svg';
 import {ReactComponent as SYNC} from './../assets/icons/sync.svg';
+import {ReactComponent as SendIcon} from './../assets/icons/send_icon.svg';
 
 //file types
 import PDFIcon from './../assets/icons/file-types/pdf.svg';
@@ -136,5 +145,13 @@ export {
     DeleteAttachmentConfirmationIcon,
     AppointmentConfirm,
     CalendarIcon,
-    TimerIcon
+    TimerIcon,
+    SendIcon,
+    EmailIcon,
+    PersonIcon,
+    CallIcon,
+    MedicalServicesIcon,
+    AttachMoneyIcon,
+    AssignmentIcon,
+    CancelIcon
 }

@@ -60,6 +60,7 @@ const ClientReducer = (state = initialData, action: IActionModel): IClientReduce
         case GET_CLIENT_BASIC_DETAILS:
             state = {
                 ...state,
+                clientBasicDetails: undefined,
                 isClientBasicDetailsLoading: true,
                 isClientBasicDetailsLoaded: false,
                 isClientBasicDetailsLoadingFailed: false,

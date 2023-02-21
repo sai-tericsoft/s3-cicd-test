@@ -1,16 +1,17 @@
 import {
     ADMIN,
+    CHART_NOTES_LIST,
     CLIENT_ADD,
     CLIENT_DETAILS,
     CLIENT_EDIT,
     CLIENT_LIST,
-    CLIENT_SEARCH,
     COMING_SOON_ROUTE,
     DASHBOARD,
     FACILITY_DETAILS,
     FACILITY_LIST,
     LOGIN_ROUTE,
-    NOT_FOUND_ROUTE, SCHEDULING_VIEW,
+    NOT_FOUND_ROUTE,
+    SCHEDULING_VIEW,
     SERVICE_ADD,
     SERVICE_CATEGORY_DETAILS,
     SERVICE_CATEGORY_LIST,
@@ -47,6 +48,10 @@ const ServiceCategoryList = () => {
     return SERVICE_CATEGORY_LIST;
 }
 
+const SystemSettings = () => {
+    return "/admin/system-settings";
+}
+
 const ServiceCategoryDetails = (serviceCategoryId: string) => {
     return SERVICE_CATEGORY_DETAILS + '/' + serviceCategoryId;
 }
@@ -79,8 +84,8 @@ const ClientList = () => {
     return CLIENT_LIST;
 }
 
-const ClientAdd = () => {
-    return CLIENT_ADD;
+const ClientAdd = (clientId: string) => {
+    return CLIENT_ADD + '/' + clientId;
 }
 
 const ClientDetails = (clientId: string) => {
@@ -92,7 +97,7 @@ const ClientEdit = (clientId: string) => {
 }
 
 const ClientSearch = () => {
-    return CLIENT_SEARCH;
+    return CHART_NOTES_LIST;
 }
 
 const SchedulingView = () => {
@@ -235,7 +240,8 @@ const RouteConfigService = {
     InventoryList,
     AddInventoryProduct,
     InventoryProductViewDetails,
-    EditInventoryProduct
+    EditInventoryProduct,
+    SystemSettings
 }
 
 export default RouteConfigService;

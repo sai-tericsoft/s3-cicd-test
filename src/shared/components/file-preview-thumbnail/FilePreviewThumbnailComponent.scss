@@ -22,7 +22,7 @@
     }
 
     .file-remove {
-      svg{
+      svg {
         height: 12px !important;
         width: 12px !important;
       }
@@ -51,6 +51,9 @@
 
     .file-name {
       margin: 0 10px;
+      max-width: 355px;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 

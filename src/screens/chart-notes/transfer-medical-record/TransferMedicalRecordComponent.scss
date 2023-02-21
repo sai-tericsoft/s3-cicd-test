@@ -7,7 +7,7 @@
   }
 
   .select-client-wrapper {
-    .ant-table-container {
+    .t-table-wrapper {
       height: calc(100vh - 290px);
     }
   }
@@ -24,7 +24,7 @@
       }
     }
 
-    .ant-table-container {
+    .t-table-wrapper {
       height: calc(100vh - 360px);
     }
   }
@@ -42,7 +42,7 @@
   }
 
   .select-medical-record-wrapper {
-    .ant-table-container {
+    .t-table-wrapper {
       height: calc(100vh - 320px);
     }
   }

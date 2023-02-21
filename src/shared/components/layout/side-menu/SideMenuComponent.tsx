@@ -34,11 +34,11 @@ const menuList: IMenuItem[] = [
         title: 'Scheduling',
         icon: ImageConfig.EventIcon
     },
-    // {
-    //     path: CommonService._routeConfig.InventoryList(),
-    //     title: 'Inventory',
-    //     icon: ImageConfig.InventoryIcon
-    // }
+    {
+        path: CommonService._routeConfig.InventoryList(),
+        title: 'Inventory',
+        icon: ImageConfig.InventoryIcon
+    }
 ]
 
 const SideMenuComponent = (props: SideMenuComponentProps) => {

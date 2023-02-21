@@ -62,6 +62,7 @@ export interface IClientBasicDetails {
     last_appointment_date?: string;
     last_provider?: string;
     created_at?: string;
+    send_invite?: boolean;
 }
 
 export interface IEmergencyContactInfo {

@@ -24,21 +24,20 @@ const addAppointmentFormInitialValues: any = {
     service_category: '',
     service: '',
     appointment_type: '',
-    duration: 30,
+    duration: '',
     case: '',
     provider: '',
     date: '',
     time: '',
 };
 
-const DURATION_TYPES = [{label: '30 min', key: 30}, {label: '60 min', key: 60}];
 
 const addAppointmentValidationSchema = Yup.object().shape({
     client: Yup.mixed().required("Client is required"),
     service_category: Yup.mixed().required("Service Category is required"),
     service: Yup.mixed().required("Service is required"),
     provider: Yup.mixed().required("Provider is required"),
-    duration: Yup.number().required("Duration is required"),
+    duration: Yup.mixed().required("Duration is required"),
     appointment_type: Yup.string().required("Appointment type is required"),
     case: Yup.mixed().when("appointment_type", {
         is: 'follow',
@@ -55,6 +54,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
     const [clientCasesList, setClientCasesList] = useState<any[] | null>(null);
     const [serviceCategoryList, setServiceCategoryList] = useState<any[] | null>(null);
     const [servicesList, setServicesList] = useState<any[] | null>(null);
+    const [durationList, setDurationList] = useState<any | null>(null);
     const [availableDates, setAvailableDates] = useState<any[] | null>(null);
     const [availableRawTimes, setAvailableRawTimes] = useState<any[] | null>(null);
     const [availableTimeSlots, setAvailableTimeSlots] = useState<any[] | null>(null);
@@ -70,7 +70,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
         (clientId: string) => {
             setIsClientCasesListLoading(true);
             setClientCasesList([]);
-            CommonService._chartNotes.MedicalRecordListLiteAPICall(clientId)
+            CommonService._chartNotes.MedicalRecordListLiteAPICall(clientId, {status: 'open'})
                 .then((response: IAPIResponseType<any>) => {
                     setClientCasesList(response.data || []);
                 })
@@ -130,7 +130,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
     );
     const generateTimeSlots = useCallback(
         (times: any[], duration = undefined) => {
-            duration = duration || formRef.current?.values.duration;
+            duration = duration || formRef.current?.values.duration.duration;
             if (duration) {
                 const slots: any[] = [];
                 times.forEach(value => {
@@ -192,7 +192,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
         (categoryId: string) => {
             setServicesList([]);
             setIsServiceListLoading(true);
-            CommonService._service.ServiceListLiteAPICall(categoryId)
+            CommonService._service.ServiceListLiteAPICall(categoryId, {is_active: true})
                 .then((response: IAPIResponseType<any>) => {
                     setServicesList(response.data || []);
                 })
@@ -237,6 +237,48 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
         },
         [onComplete],
     );
+
+
+    const getServicesInfo = useCallback((serviceId: string) => {
+        CommonService._service.ServiceDetailsAPICall(serviceId)
+            .then((response: IAPIResponseType<any>) => {
+                const data: any = response.data;
+
+                const finalData: any = {}
+                appointmentTypes?.forEach(value => {
+                    if (!finalData.hasOwnProperty(value.code)) {
+                        finalData[value.code] = [];
+                    }
+
+                    if (data && data.hasOwnProperty(value.code)) {
+                        (data[value.code] || []).forEach((group: any) => {
+                            if (group && group.hasOwnProperty('consultation_details')) {
+                                (group.consultation_details || []).forEach((duration: any) => {
+                                    finalData[value.code].push(
+                                        {
+                                            consultation_title: group.title,
+                                            duration: duration.duration,
+                                            title: group.title + ' - ' + duration.duration + 'min',
+                                            code: group.title + ':' + duration.duration
+                                        }
+                                    )
+                                })
+                            }
+                        })
+                    }
+
+
+                })
+                console.log(finalData, 'finaldata')
+                setDurationList(finalData);
+            })
+            .catch((error: any) => {
+
+            })
+            .finally(() => {
+
+            })
+    }, [appointmentTypes]);
 
     const formRef = useRef<FormikProps<any>>(null)
 
@@ -293,7 +335,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                         fullWidth={true}
                                                         onUpdate={value => {
                                                             if (value) {
-                                                                getClientCasesList(value);
+                                                                getClientCasesList(value._id);
                                                             }
                                                         }}
                                                     />
@@ -332,7 +374,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                     <FormikSelectComponent
                                                         formikField={field}
                                                         required={true}
-                                                        disabled={isServiceListLoading}
+                                                        disabled={isServiceListLoading || !values?.service_category || (servicesList || []).length === 0}
                                                         options={servicesList || []}
                                                         displayWith={(option: any) => (option?.name || '')}
                                                         valueExtractor={(option: any) => option}
@@ -341,6 +383,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                         fullWidth={true}
                                                         onUpdate={value => {
                                                             if (value) {
+                                                                getServicesInfo(value?._id)
                                                                 getServiceProviderList(value?._id);
                                                                 setAvailableRawTimes([]);
                                                                 setAvailableDates([]);
@@ -356,6 +399,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                 (field: FieldProps) => (
                                                     <FormikSelectComponent
                                                         formikField={field}
+                                                        disabled={!values?.service || (appointmentTypes || []).length === 0}
                                                         options={appointmentTypes || []}
                                                         required={true}
                                                         displayWith={(option: any) => (option.title)}
@@ -372,14 +416,15 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                     <FormikSelectComponent
                                                         formikField={field}
                                                         required={true}
-                                                        options={DURATION_TYPES}
-                                                        displayWith={(option: any) => (option.label)}
-                                                        valueExtractor={(option: any) => option.key}
+                                                        disabled={!values?.appointment_type || ((durationList && durationList[values?.appointment_type]) || []).length === 0}
+                                                        options={(durationList && durationList[values?.appointment_type]) || []}
+                                                        displayWith={(option: any) => (option.title)}
+                                                        valueExtractor={(option: any) => option}
                                                         label={'Duration'}
                                                         fullWidth={true}
                                                         onUpdate={value => {
                                                             if (value && availableRawTimes) {
-                                                                generateTimeSlots(availableRawTimes, value);
+                                                                generateTimeSlots(availableRawTimes, value.duration);
                                                             }
                                                         }}
                                                     />
@@ -412,7 +457,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                     <FormikSelectComponent
                                                         formikField={field}
                                                         required={true}
-                                                        disabled={isProviderListLoading}
+                                                        disabled={isProviderListLoading || !values.service}
                                                         options={serviceProvidersList || []}
                                                         displayWith={(option: any) => option?.provider_name || 'No Name'}
                                                         valueExtractor={(option: any) => option}
@@ -438,7 +483,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                             <FormikSelectComponent
                                                                 formikField={field}
                                                                 required={true}
-                                                                disabled={isDatesListLoading}
+                                                                disabled={isDatesListLoading || !values?.provider}
                                                                 options={availableDates || []}
                                                                 displayWith={(option: any) => CommonService.convertDateFormat(option)}
                                                                 valueExtractor={(option: any) => option}
@@ -461,7 +506,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                             <FormikSelectComponent
                                                                 formikField={field}
                                                                 required={true}
-                                                                disabled={isTimesListLoading}
+                                                                disabled={isTimesListLoading || !values?.date}
                                                                 options={availableTimeSlots || []}
                                                                 displayWith={(option: any) => option.start + ' - ' + option.end}
                                                                 valueExtractor={(option: any) => option}

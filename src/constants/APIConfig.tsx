@@ -81,19 +81,24 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + '/documentTypes',
         METHOD: 'get'
     },
-
     APPOINTMENT_TYPES: {
         URL: ENV.API_URL + '/appointmentTypes',
         METHOD: 'get'
     },
-
     APPOINTMENT_STATUS: {
         URL: ENV.API_URL + '/appointmentStatus',
         METHOD: 'get'
     },
-
     PAYMENT_MODES: {
         URL: ENV.API_URL + '/paymentModes',
+        METHOD: 'get'
+    },
+    GET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST: {
+        URL: ENV.API_URL + '/autoLockTime',
+        METHOD: 'get'
+    },
+    GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST: {
+        URL: ENV.API_URL + '/unEditableTime',
         METHOD: 'get'
     },
     //meta end
@@ -110,6 +115,10 @@ const APIConfig: IAPIConfig = {
     LOGOUT: {
         URL: ENV.API_URL + "/login",
         METHOD: "delete"
+    },
+    VERIFY_PASSWORD: {
+        URL: ENV.API_URL + "/verifyPassword",
+        METHOD: "post"
     },
     // authentication end
 
@@ -251,7 +260,7 @@ const APIConfig: IAPIConfig = {
     },
     CLIENT_ACCOUNT_PREFERENCES_ADD: {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/account',
-        METHOD: "post"
+        METHOD: "put"
     },
     CLIENT_ACCOUNT_PREFERENCES_EDIT: {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/account',
@@ -327,6 +336,26 @@ const APIConfig: IAPIConfig = {
     APPOINTMENT_CANCEL: {
         URL: (appointmentId: string) => ENV.API_URL + "/appointment/" + appointmentId + "/cancel",
         METHOD: "post"
+    },
+    APPOINTMENT_NOSHOW: {
+        URL: (appointmentId: string) => ENV.API_URL + "/appointment/" + appointmentId + "/noShow",
+        METHOD: "post"
+    },
+    APPOINTMENT_CHECKIN: {
+        URL: (appointmentId: string) => ENV.API_URL + "/appointment/" + appointmentId + "/checkIn",
+        METHOD: "post"
+    },
+    APPOINTMENT_START: {
+        URL: (appointmentId: string) => ENV.API_URL + "/appointment/" + appointmentId + "/start",
+        METHOD: "post"
+    },
+    APPOINTMENT_STOP: {
+        URL: (appointmentId: string) => ENV.API_URL + "/appointment/" + appointmentId + "/stop",
+        METHOD: "post"
+    },
+    APPOINTMENT_FORM_STATUS: {
+        URL: (appointmentId: string) => ENV.API_URL + "/appointment/" + appointmentId + '/formStatus',
+        METHOD: "get"
     },
     // user end
 
@@ -570,6 +599,10 @@ const APIConfig: IAPIConfig = {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medicalRecordLite',
         METHOD: 'get'
     },
+    GET_MEDICAL_RECORD_FILES_LIST: {
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/file',
+        METHOD: 'get'
+    },
     TRANSFER_SOAP_NOTE: {
         URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/transfer',
         METHOD: 'post'
@@ -598,6 +631,26 @@ const APIConfig: IAPIConfig = {
     EDIT_INVENTORY_PRODUCT: {
         URL: (productId: string) => ENV.API_URL + '/product/' + productId,
         METHOD: 'put'
+    },
+    RESEND_INVITE_LINK_TO_CLIENT: {
+        URL:(clientId:string)=> ENV.API_URL + '/client/'+clientId + '/resendInvite',
+        METHOD:'post'
+    },
+    SAVE_SYSTEM_SETTINGS: {
+        URL: ENV.API_URL + "/systemSetting",
+        METHOD: "post"
+    },
+    GET_SYSTEM_SETTINGS: {
+        URL: ENV.API_URL + "/systemSetting",
+        METHOD: "get"
+    },
+    MEDICAL_INTERVENTION_NOTIFY_ADMIN: {
+        URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/notifyAdmin',
+        METHOD: 'post'
+    },
+    MEDICAL_RECORD_NOTIFY_ADMIN:{
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/notifyAdmin',
+        METHOD: 'post'
     }
 }
 

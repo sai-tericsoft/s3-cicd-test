@@ -285,7 +285,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </LinkComponent>
                                         }
                                     </div>
-                                    <CardComponent title={'Subjective (S)'}
+                                    <CardComponent title={'S - Subjective'}
                                                    actions={
                                                        search.showClear && <DraftReadonlySwitcherComponent
                                                            condition={medicalInterventionDetails?.status === 'draft'}
@@ -329,7 +329,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </div>
                                         </div>
                                     </CardComponent>
-                                    <CardComponent title={'Objective (O)'}
+                                    <CardComponent title={'O - Objective'}
                                                    actions={<>
                                                        {search.showClear && <DraftReadonlySwitcherComponent
                                                            condition={medicalInterventionDetails?.status === 'draft'}
@@ -566,8 +566,8 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                         {
                                                             (field: FieldProps) => (
                                                                 <FormikTextAreaComponent
-                                                                    label={'Treatment'}
-                                                                    placeholder={'Treatment'}
+                                                                    label={'Treatment Performed'}
+                                                                    placeholder={'Treatment Performed'}
                                                                     formikField={field}
                                                                     required={false}
                                                                     fullWidth={true}
@@ -578,7 +578,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                 } readonly={
                                                     <div className={'readonly-wrapper'}>
                                                         <FormControlLabelComponent
-                                                            label={'Treatment :'}/>
+                                                            label={'Treatment Performed'}/>
                                                         <div className={'readonly-text'}>
                                                             {
                                                                 medicalInterventionDetails?.objective.treatment || 'N/A'
@@ -621,7 +621,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </div>
                                         </div>
                                     </CardComponent>
-                                    <CardComponent title={'Assessment (A)'} actions={
+                                    <CardComponent title={'A - Assessment'} actions={
                                         search.showClear && <DraftReadonlySwitcherComponent
                                             condition={medicalInterventionDetails?.status === 'draft'}
                                             draft={<div className={'intervention-clear-button'} onClick={event => {
@@ -698,8 +698,8 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                         {
                                                             (field: FieldProps) => (
                                                                 <FormikTextAreaComponent
-                                                                    label={'Surgery Procedure Complete'}
-                                                                    placeholder={'Surgery Procedure Complete'}
+                                                                    label={'Surgery Procedure Completed'}
+                                                                    placeholder={'Surgery Procedure Completed'}
                                                                     formikField={field}
                                                                     required={false}
                                                                     fullWidth={true}
@@ -722,7 +722,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             </div>
                                         </div>
                                     </CardComponent>
-                                    <CardComponent title={'Plan (P)'} actions={
+                                    <CardComponent title={'P - Plan'} actions={
                                         search.showClear && <DraftReadonlySwitcherComponent
                                             condition={medicalInterventionDetails?.status === 'draft'}
                                             draft={<div className={'intervention-clear-button'} onClick={event => {

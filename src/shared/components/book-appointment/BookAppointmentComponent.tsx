@@ -14,10 +14,11 @@ import BookAppointmentPaymentComponent from "./book-appointment-payment/BookAppo
 
 interface BookAppointmentComponentProps {
     onClose?: () => void
+    onComplete?: () => void
 }
 
 const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
-    const {onClose} = props;
+    const {onClose, onComplete} = props;
     const [step, setStep] = useState<'client' | 'form' | 'overview' | 'payment' | 'confirmation'>('client');
     const [selectedClient, setSelectedClient] = useState<any | null>(null);
     const [clientSearch, setClientSearch] = useState<string>('');
@@ -160,7 +161,9 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
                     </div>
                     <div className="booking-confirmation-action">
                         <ButtonComponent fullWidth={true}
-                                         onClick={onClose}>Close</ButtonComponent>
+                                         onClick={
+                                             onComplete
+                                         }>Close</ButtonComponent>
                     </div>
                 </div>
             }

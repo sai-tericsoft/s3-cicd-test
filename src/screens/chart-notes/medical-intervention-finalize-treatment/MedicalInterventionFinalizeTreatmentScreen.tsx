@@ -22,6 +22,9 @@ import LinkComponent from "../../../shared/components/link/LinkComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import MedicalRecordBasicDetailsCardComponent from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
+import MedicalRecordBasicDetailsCardComponent
+    from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
+import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface MedicalInterventionFinalizeTreatmentScreenProps {
 
@@ -59,16 +62,16 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
             title: '',
             dataIndex: 'select',
             width: 90,
-            render: (record: any) => <Field name={`${record._id}.is_selected`}>
+            render: (_: any, record: any) => <Field name={`${record._id}.is_selected`}>
                 {
                     (field: FieldProps) => (
                         <FormikCheckBoxComponent
                             formikField={field}
                             size={'small'}
                             onChange={() => {
-                                    field.form.setFieldValue(`${record?._id}.units_of_care`, "");
-                                    field.form.setFieldValue(`${record?._id}.minutes`, "");
-                                    field.form.setFieldValue(`${record?._id}.notes`, "");
+                                field.form.setFieldValue(`${record?._id}.units_of_care`, "");
+                                field.form.setFieldValue(`${record?._id}.minutes`, "");
+                                field.form.setFieldValue(`${record?._id}.notes`, "");
                             }}
                         />
                     )
@@ -86,59 +89,71 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
             title: 'Units of Care',
             dataIndex: 'units_of_care',
             width: 130,
-            render: (record: any) => <Field name={`${record._id}.units_of_care`}>
-                {
-                    (field: FieldProps) => (
-                        <FormikInputComponent
-                            size={'small'}
-                            validationPattern={Patterns.POSITIVE_INTEGERS}
-                            className={!field.form.values[record._id]?.is_selected ? 'display-none' : ''}
-                            disabled={!field.form.values[record._id]?.is_selected}
-                            formikField={field}
-                        />
-                    )
-                }
-            </Field>
+            render: (_: any, record: any) => renderUnitsOfCareInput(record)
         },
         {
             key: 'minutes',
             title: 'Minutes',
             dataIndex: 'minutes',
             width: 120,
-            render: (record: any) => <Field name={`${record._id}.minutes`}>
-                {
-                    (field: FieldProps) => (
-                        <FormikInputComponent
-                            size={'small'}
-                            validationPattern={Patterns.POSITIVE_INTEGERS}
-                            className={!field.form.values[record._id]?.is_selected ? 'display-none' : ''}
-                            disabled={!field.form.values[record._id]?.is_selected}
-                            formikField={field}
-                        />
-                    )
-                }
-            </Field>
+            render: (_: any, record: any) => renderMinutesInput(record)
         },
         {
             key: 'notes',
             title: 'Notes',
             dataIndex: 'notes',
             width: 300,
-            render: (record: any) => <Field name={`${record._id}.notes`}>
-                {
-                    (field: FieldProps) => (
-                        <FormikInputComponent
-                            size={'small'}
-                            fullWidth={true}
-                            className={!field.form.values[record._id]?.is_selected ? 'display-none' : ''}
-                            disabled={!field.form.values[record._id]?.is_selected}
-                            formikField={field}
-                        />
-                    )
-                }
-            </Field>
+            render: (_: any, record: any) => renderNotesInput(record)
         }
     ];
+
+    const renderUnitsOfCareInput = useCallback((record: any) => {
+        return <Field name={`${record._id}.units_of_care`}>
+            {
+                (field: FieldProps) => (
+                    <FormikInputComponent
+                        size={'small'}
+                        validationPattern={Patterns.POSITIVE_INTEGERS}
+                        className={!field.form.values[record._id]?.is_selected ? 'display-none' : ''}
+                        disabled={!field.form.values[record._id]?.is_selected}
+                        formikField={field}
+                    />
+                )
+            }
+        </Field>
+    }, []);
+
+    const renderMinutesInput = useCallback((record: any) => {
+        return <Field name={`${record._id}.minutes`}>
+            {
+                (field: FieldProps) => (
+                    <FormikInputComponent
+                        size={'small'}
+                        validationPattern={Patterns.POSITIVE_INTEGERS}
+                        className={!field.form.values[record._id]?.is_selected ? 'display-none' : ''}
+                        disabled={!field.form.values[record._id]?.is_selected}
+                        formikField={field}
+                    />
+                )
+            }
+        </Field>
+    }, []);
+
+    const renderNotesInput = useCallback((record: any) => {
+        return <Field name={`${record._id}.notes`}>
+            {
+                (field: FieldProps) => (
+                    <FormikInputComponent
+                        size={'small'}
+                        fullWidth={true}
+                        className={!field.form.values[record._id]?.is_selected ? 'display-none' : ''}
+                        disabled={!field.form.values[record._id]?.is_selected}
+                        formikField={field}
+                    />
+                )
+            }
+        </Field>
+    }, []);
 
     useEffect(() => {
         if (medicalRecordId && medicalInterventionId) {
@@ -232,18 +247,18 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                     <Formik initialValues={cptCodesFormInitialValues}
                             enableReinitialize={true}
                             onSubmit={handleCPTCodesSubmit}>
-                        {({values, validateForm, isSubmitting}) => {
+                        {({values, validateForm, isSubmitting, isValid, errors}) => {
                             // eslint-disable-next-line react-hooks/rules-of-hooks
                             useEffect(() => {
                                 validateForm();
                             }, [validateForm, values]);
                             return (
                                 <Form className="t-form" noValidate={true}>
+                                    <FormDebuggerComponent values={values} errors={errors} canShow={true}/>
                                     <CardComponent>
                                         <div className="ts-row align-items-center">
                                             <div className="ts-col ts-col-6">
                                                 <SearchComponent label={'Search CPT Code'}
-                                                                 size={"medium"}
                                                                  placeholder={'Search CPT Code'}
                                                                  value={extraPayload.search}
                                                                  onSearchChange={(value) => {
@@ -267,6 +282,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                                    method={APIConfig.CPT_CODES_LIST.METHOD}
                                                                    isPaginated={false}
                                                                    extraPayload={extraPayload}
+                                                                   type={"ant"}
                                                                    columns={CPTCodesColumns}/>
                                         </div>
                                     </CardComponent>
@@ -285,15 +301,28 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                             }
                                         </>
                                         <ButtonComponent type={"submit"} isLoading={isSubmitting}
-                                                         disabled={isSubmitting || isInterventionCheckingOut}>
+                                                         disabled={
+                                                             isSubmitting || isInterventionCheckingOut || !Object.keys(values).some((cptCodeId) => {
+                                                                 const cptDetails = values[cptCodeId];
+                                                                 return !!(cptDetails?.is_selected && cptDetails?.units_of_care && cptDetails?.minutes);
+                                                             }) || !Object.keys(values).every((cptCodeId) => {
+                                                                 const cptDetails = values[cptCodeId];
+                                                                 if (cptDetails?.is_selected) {
+                                                                     return !!(cptDetails?.units_of_care && cptDetails?.minutes);
+                                                                 } else {
+                                                                     return true;
+                                                                 }
+                                                             })
+                                                         }>
                                             Save
                                         </ButtonComponent>
                                         <>
                                             {
                                                 (medicalRecordId) && <>&nbsp;&nbsp;
-                                                    <ButtonComponent disabled={isSubmitting || isInterventionCheckingOut || linkedCPTCodes?.length === 0}
-                                                                     isLoading={isInterventionCheckingOut}
-                                                                     onClick={handleInterventionCheckout}>
+                                                    <ButtonComponent
+                                                        disabled={isSubmitting || isInterventionCheckingOut || linkedCPTCodes?.length === 0}
+                                                        isLoading={isInterventionCheckingOut}
+                                                        onClick={handleInterventionCheckout}>
                                                         Checkout
                                                     </ButtonComponent>
                                                 </>

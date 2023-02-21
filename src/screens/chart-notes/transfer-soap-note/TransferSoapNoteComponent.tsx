@@ -58,7 +58,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
             key: 'action',
             dataIndex: 'action',
             width: 50,
-            render: ( item: any) => {
+            render: (item: any) => {
                 return <RadioButtonComponent name={'selected-medical-record'}
                                              value={item}
                                              checked={selectedMedicalRecord?._id === item?._id}
@@ -86,7 +86,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
             key: 'date',
             width: 100,
             dataIndex: 'created_at',
-            render: ( item: any) => {
+            render: (item: any) => {
                 return <span>{CommonService.getSystemFormatTimeStamp(item?.created_at)}</span>
 
             }
@@ -98,7 +98,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
         setIsClientListLoading(true);
         // setIsClientListLoaded(false);
         // setIsClientListLoadingFailed(false);
-        CommonService._client.GetClientList({search: clientListSearch})
+        CommonService._client.ClientListLiteAPICall({search: clientListSearch})
             .then((response: any) => {
                 setClientList(response.data.docs);
                 setIsClientListLoading(false);
