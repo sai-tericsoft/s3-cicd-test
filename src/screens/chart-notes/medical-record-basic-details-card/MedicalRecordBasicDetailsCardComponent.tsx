@@ -154,6 +154,10 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
         setIsSurgeryAddOpen(false);
     }, [dispatch, medicalRecordId]);
 
+    const closeSurgeryRecordDrawer=useCallback(()=>{
+        setIsSurgeryAddOpen(false);
+    },[])
+
     const handleDischargeCase = useCallback(() => {
         if (medicalRecordId) {
             CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, MedicalInterventionFormInitialValues)
@@ -303,9 +307,10 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                             {clientMedicalRecord?.injury_description || "-"}
                                         </DataLabelValueComponent>
                                     </div>
-                                    <div className={'ts-col-md-4 ts-col-lg'}/>
+                                </div>
+                                <div className={'ts-row'}>
                                     <div className={'ts-col-md-4 ts-col-lg'}>
-                                        <DataLabelValueComponent label={'Restrictions and Limitations'}>
+                                        <DataLabelValueComponent label={'Restrictions/Limitations'}>
                                             {clientMedicalRecord?.limitations || "-"}
                                         </DataLabelValueComponent>
                                     </div>
@@ -324,7 +329,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                     >
                         <AddSurgeryRecordComponent medicalRecordId={medicalRecordId}
                                                    medicalRecordDetails={clientMedicalRecord}
-                                                   onSave={handleSurgeryRecordAdd}/>
+                                                   onSave={handleSurgeryRecordAdd} onCancel={()=>setIsSurgeryAddOpen(false)}/>
                     </DrawerComponent>
                     {/*Add Surgery Record end*/}
 
@@ -371,6 +376,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                             onAdd={handleMedicalRecordDocumentAdd}
                             medicalRecordId={medicalRecordId}
                             medicalRecordDetails={clientMedicalRecord}
+                            onCancel={() => closeMedicalRecordDocumentAddDrawer()}
                         />
                     </DrawerComponent>
                     {/*Add medical record document drawer end*/}

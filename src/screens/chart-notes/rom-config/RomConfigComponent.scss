@@ -1,17 +1,25 @@
-.rom-config-table-container {
-  position: relative;
 
-  .rom-config-table-context {
-    position: absolute;
-    right: 18px;
-    top: 18px;
-    z-index: 3;
-  }
-
-  .ant-table-cell {
-    &:not(&.t-cell-movement) {
-      text-align: center !important;
+.rom-config-component{
+  .t-form{
+    .card-component .card-header .card-title-description-wrapper .card-title{
+      text-transform: inherit;
     }
+    .rom-config-table-container {
+      position: relative;
 
+      .rom-config-table-context {
+        position: absolute;
+        right: 18px;
+        top: 18px;
+        z-index: 3;
+      }
+      .ant-table-cell {
+        &:not(&.t-cell-movement) {
+          text-align: center !important;
+        }
+
+      }
   }
+}
+
 }

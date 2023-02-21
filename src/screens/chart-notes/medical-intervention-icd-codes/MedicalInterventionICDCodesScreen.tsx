@@ -8,8 +8,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
-import MedicalRecordBasicDetailsCardComponent
-    from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 import TabsWrapperComponent, {
     TabComponent,
     TabContentComponent,
@@ -21,6 +19,14 @@ import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {ClearSharp} from "@mui/icons-material";
 import SearchComponent from "../../../shared/components/search/SearchComponent";
+import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
+import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
+import CardComponent from "../../../shared/components/card/CardComponent";
+import ChipComponent from "../../../shared/components/chip/ChipComponent";
+import MedicalInterventionLinkedToComponent
+    from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
+import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
+import {getClientMedicalRecord} from "../../../store/actions/client.action";
 
 interface MedicalInterventionICDCodesScreenProps {
 
@@ -34,6 +40,10 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
     const navigate = useNavigate();
     const {medicalInterventionDetails} = useSelector((state: IRootReducerState) => state.chartNotes);
     const {medicalRecordId, medicalInterventionId} = useParams();
+
+    const {
+        clientMedicalRecord,
+    } = useSelector((state: IRootReducerState) => state.client);
 
     useEffect(() => {
         if (medicalInterventionId) {
@@ -49,11 +59,17 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
         }
     }, [navigate, dispatch, medicalRecordId]);
 
+    useEffect(() => {
+        if(medicalRecordId){
+            dispatch(getClientMedicalRecord(medicalRecordId));
+        }
+    },[]);
+
     const [selectedICDCodes, setSelectedICDCodes] = useState<any[]>([]);
     const [searchICDCodes, setSearchICDCodes] = useState<any>({
         search: "",
     });
-
+    console.log('selectedICDCodes',selectedICDCodes);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
     const linkICDCodesToIntervention = useCallback((codes: string[], mode: 'add' | 'edit' = 'add') => {
@@ -101,8 +117,24 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
         setCurrentTab(value);
     }, [searchParams, setSearchParams]);
 
-
     const codeListColumns: ITableColumn[] = [
+        {
+            key: 'select',
+            title: '',
+            dataIndex: 'select',
+            width: 90,
+            render: (item: any, record: any) => {
+                return <CheckBoxComponent label={""}  checked={selectedICDCodes.includes(record?._id)}
+                                          onChange={(isChecked) => {
+                                              if (isChecked) {
+                                                  setSelectedICDCodes([...selectedICDCodes, record?._id]);
+                                              } else {
+                                                  setSelectedICDCodes(selectedICDCodes.filter((code) => code !== record?._id));
+                                              }
+                                          }}/>
+
+            }
+        },
         {
             title: 'ICD-11 Codes',
             dataIndex: 'icd_code',
@@ -121,6 +153,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             dataIndex: 'is_fav',
             key: 'favorite',
             fixed: 'right',
+            align: 'center',
             width: 120,
             render: (_: any, item: any) => {
                 return <span>
@@ -140,6 +173,24 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
         }
     ];
     const favouriteICDCodesColumns: ITableColumn[] = [
+        {
+            key: 'select',
+            title: '',
+            dataIndex: 'select',
+            width: 90,
+            render: (item: any, record: any) => {
+                return <CheckBoxComponent label={""} checked={selectedICDCodes.includes(record?.icd_code_id)}
+                                          onChange={(isChecked) => {
+                                              if (isChecked) {
+                                                  setSelectedICDCodes([...selectedICDCodes, record?.icd_code_id]);
+                                              } else {
+                                                  setSelectedICDCodes(selectedICDCodes.filter((code) => code !== record?.icd_code_id));
+                                              }
+                                          }}/>
+
+            }
+
+        },
         {
             title: 'ICD-11 Codes',
             dataIndex: 'icd_code',
@@ -164,6 +215,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             dataIndex: 'favourite',
             key: 'favorite',
             fixed: 'right',
+            align: 'center',
             width: 120,
             render: (_: any, item: any) => {
                 return <span onClick={() => removeFavouriteCode(item?.icd_code_id)}>
@@ -203,7 +255,32 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
 
     return (
         <div className={'medical-intervention-icd-codes-screen'}>
-            <MedicalRecordBasicDetailsCardComponent/>
+            <PageHeaderComponent title={'ICD-11 Code'}/>
+            {
+                (clientMedicalRecord) && <>
+                    <CardComponent color={'primary'}>
+                        <div className={'client-name-button-wrapper'}>
+                                    <span className={'client-name-wrapper'}>
+                                        <span className={'client-name'}>
+                                                {clientMedicalRecord?.client_details?.first_name || "-"} {clientMedicalRecord?.client_details?.last_name || "-"}
+                                        </span>
+                                        <ChipComponent
+                                            className={clientMedicalRecord?.status === "open" ? "active" : "inactive"}
+                                            size={'small'}
+                                            label={clientMedicalRecord?.status || "-"}/>
+                                    </span>
+                        </div>
+                        <MedicalInterventionLinkedToComponent medicalRecordDetails={clientMedicalRecord}/>
+                        <div className={'ts-row'}>
+                            <div className={'ts-col-6'}>
+                                <DataLabelValueComponent label={'Date of Intervention'}>
+                                    {CommonService.transformTimeStamp(clientMedicalRecord?.created_at || "N/A")}
+                                </DataLabelValueComponent>
+                            </div>
+                        </div>
+                    </CardComponent>
+                </>
+            }
             <div className="ts-row">
                 <div className="ts-col ts-col-6">
                     <SearchComponent label={'Search ICD-11 Code'}
@@ -218,13 +295,14 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                     <ButtonComponent
                         className={'white-space-nowrap'}
                         type={"button"}
+                        disabled={selectedICDCodes.length === 0}
                         onClick={
                             () => {
                                 setSelectedICDCodes([]);
                             }
                         }
                     >
-                        <ClearSharp/> Clear ICD-11 Codes //TODO
+                        <ClearSharp/> Clear ICD-11 Codes
                     </ButtonComponent>
                 </div>
             </div>
@@ -240,14 +318,6 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                 </TabsComponent>
                 <TabContentComponent value={'icdCodes'} selectedTab={currentTab}>
                     <TableWrapperComponent
-                        rowSelection={{
-                            type: 'checkbox',
-                            hideSelectAll: true,
-                            selectedRowKeys: selectedICDCodes,
-                            onSelect: (record, selected, selectedRows) => {
-                                setSelectedICDCodes(selectedRows.map(v => v?._id));
-                            }
-                        }}
                         extraPayload={searchICDCodes}
                         refreshToken={refreshToken}
                         url={APIConfig.ICD_CODE_LIST.URL}
@@ -259,13 +329,6 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                 </TabContentComponent>
                 <TabContentComponent value={'favourites'} selectedTab={currentTab}>
                     <TableWrapperComponent
-                        rowSelection={{
-                            type: 'checkbox',
-                            selectedRowKeys: selectedICDCodes,
-                            onSelect: (record, selected, selectedRows) => {
-                                setSelectedICDCodes(selectedRows.map(v => v?._id));
-                            }
-                        }}
                         extraPayload={searchICDCodes}
                         refreshToken={refreshToken}
                         url={APIConfig.ICD_CODE_FAVOURITE_LIST.URL}
