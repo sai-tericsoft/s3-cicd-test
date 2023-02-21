@@ -15,7 +15,8 @@ interface TableComponentProps extends ITableComponentProps {
     id?: string;
     columns: ITableColumn[];
     data: any[];
-    noDataText?: string
+    noDataText?: string;
+    className?:any;
 }
 
 const TableComponent = (props: TableComponentProps) => {
@@ -33,7 +34,8 @@ const TableComponent = (props: TableComponentProps) => {
         onRowClick,
         data,
         sort,
-        onSort
+        onSort,
+        className
     } = props;
     const size = props.size || "medium";
 
@@ -160,7 +162,7 @@ const TableComponent = (props: TableComponentProps) => {
 
     return (
         <div className={'table-component'}>
-            <TableStyles className={'styled-table'}>
+            <TableStyles className={`styled-table + ${className}`}>
                 <div className={`t-table-wrapper`}>
                     <div {...getTableProps()} className={`t-table table sticky ${size}`}>
                         {
