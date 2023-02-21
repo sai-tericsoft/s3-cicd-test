@@ -28,6 +28,7 @@ import DataLabelValueComponent from "../../../shared/components/data-label-value
 import moment from "moment";
 import {useNavigate, useParams} from "react-router-dom";
 import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
+import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 
 interface AddMedicalRecordScreenProps {
@@ -158,7 +159,6 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
 
     return (
         <div className={'add-medical-record-screen'}>
-
             <DrawerComponent isOpen={isSurgeryRecordDrawerOpen}
                              showClose={true}
                              onClose={handleSurgeryRecordDrawerClose}
@@ -296,7 +296,8 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                             <FormDebuggerComponent values={values} errors={errors} canShow={false}/>
                             {
                                 !surgeryRecord && <div
-                                    className={"mrg-bottom-20 display-flex flex-direction-row-reverse"}>
+                                    className={"mrg-bottom-20 display-flex ts-justify-content-sm-between"}>
+                                    <PageHeaderComponent title={'Add Medical Record'} className={'display-flex'}/>
                                     <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}
                                                      onClick={handleSurgeryRecordDrawerOpen}
                                     >
@@ -371,6 +372,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                     </div>
                                 </CardComponent>
                             }
+
                             <CardComponent title={"Medical Record Details"}>
                                 <div className="ts-row">
                                     <div className="ts-col-lg-4">

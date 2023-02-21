@@ -23,7 +23,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             key: 'date_of_attachment',
             dataIndex: 'date_of_attachment',
             fixed: 'left',
-            width: 200,
+            width: 250,
             render: ( item: any) => {
                 return <>{CommonService.getSystemFormatTimeStamp(item?.updated_at)}</>
             }
@@ -32,7 +32,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             title: 'File',
             key: 'file',
             dataIndex: 'file',
-            width: 230,
+            width: 250,
             render: ( item: any) => {
                 return <>{item?.note_type}</>
             }
@@ -41,7 +41,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             title: 'Last Updated',
             key: 'last_updated',
             dataIndex: 'last_updated',
-            width: 200,
+            width: 250,
             render: ( item: any) => {
                 return <>{CommonService.transformTimeStamp(item?.updated_at)}</>
             }
@@ -50,8 +50,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             title: 'Posted By',
             key: 'posted_by',
             dataIndex: 'posted_by',
-            align: "center",
-            width: 200,
+            width:250,
             render: ( item: any) => {
                 return <>{item?.posted_by?.first_name} {item?.posted_by?.last_name}</>
             }
@@ -60,7 +59,6 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             title: '',
             key: 'actions',
             width: 130,
-            align: "center",
             fixed: 'right',
             render: ( item: any) => {
                 let route = '';

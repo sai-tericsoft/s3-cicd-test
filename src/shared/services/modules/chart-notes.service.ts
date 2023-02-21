@@ -158,7 +158,7 @@ const DryNeedlingFileAddAPICall = (medicalInterventionId: string, payload: any) 
 
 const MedicalRecordSoapNoteListAPICall = (medicalRecordId: string, payload: any) => {
     // @ts-ignore
-    return ApiService[APIConfig.GET_MEDICAL_RECORD_SOAP_NOTE_LIST.METHOD](APIConfig.GET_MEDICAL_RECORD_SOAP_NOTE_LIST.URL(medicalRecordId), payload);
+    return ApiService[APIConfig.GET_MEDICAL_RECORD_SOAP_NOTE_LIST.METHOD](APIConfig.GET_MEDICAL_RECORD_SOAP_NOTE_LIST.URL(medicalRecordId), {status:'completed'});
 }
 
 const DryNeedlingFileEditAPICall = (dryNeedlingFileId: string, payload: any) => {
@@ -263,8 +263,6 @@ const TransferMedicalRecordAPICall = (clientId: string, payload: any) => {
 }
 
 const TransferSoapNoteAPICall = (clientId: string, payload: any) => {
-    console.log("payload", payload);
-    console.log('clientId',clientId);
     // @ts-ignore
     return ApiService[APIConfig.TRANSFER_SOAP_NOTE.METHOD](APIConfig.TRANSFER_SOAP_NOTE.URL(clientId), payload);
 }
