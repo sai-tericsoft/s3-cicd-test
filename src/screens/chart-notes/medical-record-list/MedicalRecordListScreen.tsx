@@ -42,7 +42,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             title: "Date of Onset",
             key: "date_of_onset",
             dataIndex: "date_of_onset",
-            width: 160,
+            width: 140,
             align:'center',
             fixed: "left",
             sortable: true,
@@ -59,7 +59,8 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: "body_part",
             align:'center',
             dataIndex: "body_part",
-            width: 160,
+            width: 120,
+            align:'center',
             render: ( item: any) => {
                 if (item?.injury_details?.length === 1) {
                     return <>{item?.injury_details[0]?.body_part_details?.name}</>
@@ -74,6 +75,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             align:'center',
             dataIndex: "body_side",
             width: 110,
+            align:'center',
             render: ( item: any) => {
                 return <>{item?.injury_details[0]?.body_side || "N/A"}</>
             }
@@ -84,6 +86,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: "status",
             align:'center',
             width: 155,
+            align:'center',
             render: ( item: any) => {
                 return <ChipComponent label={item?.status}
                                       className={item?.status === 'Open/Active' ? "active" : "inactive"}></ChipComponent>
@@ -94,6 +97,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: "last_provider",
             align:'center',
             dataIndex: "last_provider",
+            align:'center',
             sortable: true,
             width: 140,
         },
