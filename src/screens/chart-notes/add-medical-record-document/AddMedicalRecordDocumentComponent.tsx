@@ -20,6 +20,7 @@ import InputComponent from "../../../shared/components/form-controls/input/Input
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import FormikSelectComponent from "../../../shared/components/form-controls/formik-select/FormikSelectComponent";
+import moment from "moment";
 
 const AddMedicalRecordDocumentFormValidationSchema = Yup.object({
     document_date: Yup.string()
@@ -116,6 +117,7 @@ const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentCompon
                                                     placeholder={'Enter Date of Document'}
                                                     required={true}
                                                     formikField={field}
+                                                    maxDate={moment()}
                                                     fullWidth={true}
                                                 />
                                             )
