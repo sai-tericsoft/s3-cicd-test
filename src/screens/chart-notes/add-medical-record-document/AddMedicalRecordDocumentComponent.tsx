@@ -42,11 +42,12 @@ interface AddMedicalRecordDocumentComponentProps {
     onAdd: (data: any) => void;
     medicalRecordId: string;
     medicalRecordDetails: any;
+    onCancel: () => void;
 }
 
 const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentComponentProps) => {
 
-    const {onAdd, medicalRecordId, medicalRecordDetails} = props;
+    const {onAdd,onCancel, medicalRecordId, medicalRecordDetails} = props;
     const {medicalRecordDocumentTypes} = useSelector((state: IRootReducerState) => state.staticData);
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const [addMedicalRecordDocumentFormInitialValues] = useState<IMedicalRecordDocumentAddForm>(_.cloneDeep(AddMedicalRecordDocumentFormInitialValues));
@@ -83,7 +84,7 @@ const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentCompon
                     validateOnMount={true}
                     onSubmit={onSubmit}
                 >
-                    {({values, touched, errors, setFieldValue, validateForm}) => {
+                    {({values,isValid, touched, errors, setFieldValue, validateForm}) => {
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
                             validateForm();
@@ -175,6 +176,7 @@ const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentCompon
                                             {
                                                 (values.attachment) && <>
                                                     <FilePreviewThumbnailComponent
+
                                                         file={values.attachment}
                                                         onRemove={() => {
                                                             setFieldValue('attachment', undefined);
@@ -187,9 +189,17 @@ const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentCompon
                                 </div>
                                 <div className="t-form-actions">
                                     <ButtonComponent
+                                        variant={"outlined"}
+                                        id={"medical_intervention_add_cancel_btn"}
+                                        onClick={onCancel}
+                                    >
+                                        Cancel
+                                    </ButtonComponent>
+                                    &nbsp;
+                                    <ButtonComponent
                                         isLoading={isMedicalRecordDocumentFileAddInProgress}
                                         type={"submit"}
-                                        fullWidth={true}
+                                        disabled={!isValid || isMedicalRecordDocumentFileAddInProgress}
                                     >
                                         {isMedicalRecordDocumentFileAddInProgress ? "Saving" : "Save"}
                                     </ButtonComponent>

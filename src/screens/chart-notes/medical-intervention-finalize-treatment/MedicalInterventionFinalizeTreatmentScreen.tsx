@@ -20,6 +20,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
+import MedicalRecordBasicDetailsCardComponent from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
+import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import MedicalRecordBasicDetailsCardComponent
     from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
@@ -233,6 +235,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
 
     return (
         <div className={'medical-intervention-finalize-treatment-screen'}>
+            <PageHeaderComponent title={'Finalize Treatment'}/>
             <MedicalRecordBasicDetailsCardComponent/>
             {
                 isMedicalInterventionDetailsLoading && <>
@@ -270,7 +273,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                     prefixIcon={<ImageConfig.EyeIcon/>}
                                                     onClick={() => setEightMinuteRuleChartDrawerOpen(true)}
                                                 >
-                                                    View 8 Minute Rule
+                                                    View 8-Minute Rule
                                                 </ButtonComponent>
                                             </div>
                                         </div>

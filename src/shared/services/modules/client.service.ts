@@ -117,6 +117,7 @@ const GetClientMedicalRecordList = (clientId: string, payload: any) => {
 }
 
 const GetClientList = (payload: any) => {
+    console.log('payload', payload);
     return ApiService[APIConfig.CLIENT_LIST.METHOD](APIConfig.CLIENT_LIST.URL, payload);
 }
 const ClientListLiteAPICall = (payload: any) => {
