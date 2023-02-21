@@ -651,6 +651,14 @@ const APIConfig: IAPIConfig = {
     MEDICAL_RECORD_NOTIFY_ADMIN:{
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/notifyAdmin',
         METHOD: 'post'
+    },
+    GET_INVENTORY_PRODUCT_LIST: {
+        URL: ENV.API_URL + '/product/lite',
+        METHOD: 'get'
+    },
+    UPDATE_INVENTORY_PRODUCT_QUANTITY:{
+        URL: (productId: string) => ENV.API_URL + '/product/' + productId + '/updateStock',
+        METHOD: 'put'
     }
 }
 

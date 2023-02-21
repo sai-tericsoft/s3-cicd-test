@@ -265,6 +265,17 @@
   }
 
 }
+.update-stock-modal{
+   .modal-content-wrapper{
+     width: 400px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     .modal-body{
+       width: 300px;
+     }
+   }
+ }
 
 
 .t-side-bar-form {
