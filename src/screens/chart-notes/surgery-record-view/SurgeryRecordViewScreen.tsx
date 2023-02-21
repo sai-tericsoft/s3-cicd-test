@@ -29,6 +29,7 @@ import FilePreviewThumbnailComponent
 import FilePickerComponent from "../../../shared/components/file-picker/FilePickerComponent";
 import * as Yup from "yup";
 import AttachmentComponent from "../../../shared/attachment/AttachmentComponent";
+import InputComponent from "../../../shared/components/form-controls/input/InputComponent";
 
 interface SurgeryRecordViewScreenProps {
 
@@ -46,8 +47,8 @@ const bodyPartsColumns: any = [
     },
     {
         title: "Body  Side(s)",
-        dataIndex: "body_part",
-        key: "body_part",
+        dataIndex: "body_side",
+        key: "body_side",
         width: 114,
         render: ( item: any) => {
             return <>{item?.body_side}</>
@@ -79,7 +80,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {allProvidersList} = useSelector((state: IRootReducerState) => state.user);
+    const {currentUser}=useSelector((state:IRootReducerState)=>state.account);
     const {medicalRecordId, surgeryRecordId} = useParams();
     const [isBodyPartsModalOpen, setIsBodyPartsModalOpen] = React.useState<boolean>(false);
 
@@ -307,21 +308,13 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                                                 )
                                             }
                                         </Field>
-                                        <Field name={'reported_by'}>
-                                            {
-                                                (field: FieldProps) => (
-                                                    <FormikSelectComponent
-                                                        options={allProvidersList}
-                                                        displayWith={(option: IUser) => (option?.first_name || option?.last_name) ? option?.first_name + " " + option?.last_name : "-"}
-                                                        valueExtractor={(option: IUser) => option._id}
+                                        <InputComponent className="t-form-control"
                                                         label={'Reported By'}
-                                                        formikField={field}
-                                                        required={true}
+                                                        placeholder={'Reported By'}
+                                                        value={CommonService.extractName(currentUser)}
                                                         fullWidth={true}
-                                                    />
-                                                )
-                                            }
-                                        </Field>
+                                                        disabled={true}
+                                        />
                                         <Field name={'surgeon_name'}>
                                             {
                                                 (field: FieldProps) => (

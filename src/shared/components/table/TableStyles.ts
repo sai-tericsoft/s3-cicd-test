@@ -45,6 +45,7 @@ export const TableStyles = styled.div`
       top: 0;
       // box-shadow: 0px 1px 5px #ccc;
       min-width: 100%;
+      font-size:1.1429rem;
     }
     .footer {
       bottom: 0;

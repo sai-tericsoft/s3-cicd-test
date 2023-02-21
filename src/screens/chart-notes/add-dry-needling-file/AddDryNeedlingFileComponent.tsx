@@ -38,11 +38,12 @@ interface AddDryNeedlingFileComponentProps {
     onAdd: (data: any) => void;
     medicalInterventionId: string;
     medicalRecordDetails: any;
+    onCancel: () => void;
 }
 
 const AddDryNeedlingFileComponent = (props: AddDryNeedlingFileComponentProps) => {
 
-    const {onAdd, medicalInterventionId, medicalRecordDetails} = props;
+    const {onAdd,onCancel, medicalInterventionId, medicalRecordDetails} = props;
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const [addDryNeedlingFormInitialValues] = useState<IDryNeedlingAddForm>(_.cloneDeep(AddDryNeedlingFormInitialValues));
 
@@ -78,7 +79,7 @@ const AddDryNeedlingFileComponent = (props: AddDryNeedlingFileComponentProps) =>
                     validateOnMount={true}
                     onSubmit={onSubmit}
                 >
-                    {({values, touched, errors, setFieldValue, validateForm}) => {
+                    {({values,isValid, touched, errors, setFieldValue, validateForm}) => {
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
                             validateForm();
@@ -167,9 +168,17 @@ const AddDryNeedlingFileComponent = (props: AddDryNeedlingFileComponentProps) =>
                                 </div>
                                 <div className="t-form-actions">
                                     <ButtonComponent
+                                        variant={"outlined"}
+                                        id={"medical_intervention_add_cancel_btn"}
+                                        onClick={onCancel}
+                                    >
+                                        Cancel
+                                    </ButtonComponent>
+                                    &nbsp;
+                                    <ButtonComponent
                                         isLoading={isDryNeedlingFileAddInProgress}
                                         type={"submit"}
-                                        fullWidth={true}
+                                        disabled={!isValid || isDryNeedlingFileAddInProgress}
                                     >
                                         {isDryNeedlingFileAddInProgress ? "Saving" : "Save"}
                                     </ButtonComponent>
