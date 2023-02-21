@@ -17,6 +17,7 @@ import FormikInputComponent from "../../../shared/components/form-controls/formi
 import * as Yup from "yup";
 import {IRootReducerState} from "../../../store/reducers";
 import {getInventoryProductList} from "../../../store/actions/inventory.action";
+import _ from "lodash";
 
 interface InventoryListScreenProps {
 
@@ -41,11 +42,11 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
         sort: {}
     });
     const [isUpdateStockModalOpen, setIsUpdateStockModalOpen] = useState<boolean>(false);
-    const [updateQuantityFormInitialValues] = useState<any>(updateQuantityInitialValues);
+    const [updateQuantityFormInitialValues,setUpdateQuantityFormInitialValues] = useState<any>(updateQuantityInitialValues);
     const {inventoryProductList} = useSelector((state: IRootReducerState) => state.inventory);
     const [isQuantityUpdateLoading, setIsQuantityUpdateLoading] = useState<boolean>(false);
     const [refreshToken, setRefreshToken] = useState<string>('');
-
+    
     const InventoryListTableColumns = useMemo<any>(() => [
         {
             title: 'Product',
@@ -116,7 +117,6 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
     }, [dispatch]);
 
     const updateQuantity = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        console.log('values', values);
         const payload = {
             quantity: values.quantity,
         };
@@ -126,6 +126,9 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Quantity Update successfully", "success");
                 setIsQuantityUpdateLoading(false);
                 setRefreshToken(Math.random().toString(36).substring(7));
+                setUpdateQuantityFormInitialValues({
+                    updateQuantityInitialValues
+                })
                 setIsUpdateStockModalOpen(false);
             }).catch((error: any) => {
             CommonService.handleErrors(setErrors, error, true);
