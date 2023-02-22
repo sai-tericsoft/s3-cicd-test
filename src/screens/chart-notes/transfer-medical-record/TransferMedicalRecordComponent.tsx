@@ -294,6 +294,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                             clientSearchKey.length > 0 && <>
                                 <FormControlLabelComponent label={"Client List"}/>
                                 <TableComponent data={clientList}
+                                                className={'client-list-table'}
                                                 columns={ClientListColumns}
                                                 loading={isClientListLoading}
                                                 bordered={true}
