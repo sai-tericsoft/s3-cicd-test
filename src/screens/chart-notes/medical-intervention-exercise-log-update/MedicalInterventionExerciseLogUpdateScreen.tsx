@@ -1,5 +1,5 @@
 import "./MedicalInterventionExerciseLogUpdateScreen.scss";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
@@ -46,17 +46,17 @@ const MedicalInterventionExerciseLogInitialValues = {
     exercise_records: [
         {
             ...MedicalInterventionExerciseLogRow,
-            key: CommonService.getUUID()
+            key: CommonService.getUUID(),
         }
     ]
 }
 
 const ExerciseLogRecordValidationSchema = Yup.object({
-    no_of_sets: Yup.string().required('Required'),
-    no_of_reps: Yup.string().required('Required'),
-    time: Yup.string().required('Required'),
-    resistance: Yup.string().required('Required'),
-    name: Yup.string().required('Required'),
+    no_of_sets: Yup.string().required(''),
+    no_of_reps: Yup.string().required(''),
+    time: Yup.string().required(''),
+    resistance: Yup.string().required(''),
+    name: Yup.string().required(''),
 })
 
 const MedicalInterventionExerciseLogFormValidationSchema = Yup.object({
@@ -71,14 +71,14 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
     const {medicalRecordId, medicalInterventionId} = useParams();
     const [medicalInterventionExerciseLogDetails, setMedicalInterventionExerciseLogDetails] = useState<any>(undefined);
     const [isMedicalInterventionExerciseLogDetailsLoading, setIsMedicalInterventionExerciseLogDetailsLoading] = useState<boolean>(false);
-    const {currentUser}= useSelector((state: IRootReducerState) => state.account);
+    const {currentUser} = useSelector((state: IRootReducerState) => state.account);
 
     const {
         clientMedicalRecord,
         isClientMedicalRecordLoaded,
     } = useSelector((state: IRootReducerState) => state.client);
 
-    const medicalInterventionExerciseLogColumns = [
+    const medicalInterventionExerciseLogColumns = useMemo<any>(() => [
         {
             title: 'Exercise',
             dataIndex: 'exercise',
@@ -215,7 +215,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                 )
             }
         }
-    ];
+    ], []);
 
     const handleSubmit = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
         if (medicalInterventionId) {
@@ -287,7 +287,12 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
         const exercise_records = medicalInterventionExerciseLogDetails?.exercise_records;
         if (exercise_records && exercise_records?.length > 0) {
             setMedicalInterventionExerciseLogValues({
-                exercise_records: _.cloneDeep(exercise_records)
+                exercise_records: _.cloneDeep(exercise_records.map((item: any) => {
+                    return {
+                        ...item,
+                        key: CommonService.getUUID()
+                    }
+                }))
             });
         } else {
             setMedicalInterventionExerciseLogValues(_.cloneDeep(MedicalInterventionExerciseLogInitialValues));
@@ -347,9 +352,10 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     </CardComponent>
                 </>
             }
-          <div className={'provider-name'}>
-              <InputComponent placeholder={'Provider'} fullWidth={true} label={'Provider'} value={CommonService.extractName(currentUser)} disabled={true}/>
-          </div>
+            <div className={'provider-name'}>
+                <InputComponent placeholder={'Provider'} fullWidth={true} label={'Provider'}
+                                value={CommonService.extractName(currentUser)} disabled={true}/>
+            </div>
             <ExerciseLogAttachmentListComponent/>
             <>
                 {
@@ -384,8 +390,8 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                         </div>
                                         <TableComponent
                                             data={values.exercise_records}
-                                            rowKey={(item: any) => item.key}
                                             bordered={true}
+                                            rowKey={(record: any, index: any) => index}
                                             columns={medicalInterventionExerciseLogColumns}/>
                                         <div className={"h-v-center mrg-top-20"}>
                                             <ButtonComponent

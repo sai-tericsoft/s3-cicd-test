@@ -167,9 +167,10 @@ const TableComponent = (props: TableComponentProps) => {
                             !hideHeader && <div className="header t-thead">
                                 {headerGroups.map((headerGroup) => (
                                     <div {...headerGroup.getHeaderGroupProps()} className="t-tr">
-                                        {headerGroup.headers.map((column: any) => <div {...column.getHeaderProps()}
-                                                                                       onClick={() => applySort(column)}
-                                                                                       className={getTHClasses(column)}
+                                        {headerGroup.headers.map((column: any, index) => <div {...column.getHeaderProps()}
+                                                                                              key={index}
+                                                                                              onClick={() => applySort(column)}
+                                                                                              className={getTHClasses(column)}
                                             >
                                                 {column.render('Header')}
                                             </div>
@@ -181,15 +182,18 @@ const TableComponent = (props: TableComponentProps) => {
                         {
                             !errored && <div {...getTableBodyProps()} className="body t-body">
                                 {
-                                    rows.length > 0 && rows.map((row: any) => {
+                                    rows.length > 0 && rows.map((row: any, index) => {
                                         prepareRow(row);
                                         return (
                                             <>
                                                 <div className="t-tr"
+                                                     key={index}
                                                      onClick={() => handleRowClick(row)} {...row.getRowProps()}>
-                                                    {row.cells.map((cell: any) => {
+                                                    {row.cells.map((cell: any, index: any) => {
                                                         return (
-                                                            <div {...cell.getCellProps()} className={getTDClasses(cell.column)}>
+                                                            <div {...cell.getCellProps()}
+                                                                 key={index}
+                                                                 className={getTDClasses(cell.column)}>
                                                                 {cell.render('Cell')}
                                                             </div>
                                                         )
