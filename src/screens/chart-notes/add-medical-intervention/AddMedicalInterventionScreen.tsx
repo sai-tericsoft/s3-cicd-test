@@ -293,7 +293,7 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                         <ImageConfig.EditIcon/> : <ImageConfig.AddIcon/>}
                                                 >
                                                     {
-                                                        (medicalInterventionDetails?.is_having_exercise_log ? "Edit" : "Add") + " Exercise Log"
+                                                        (medicalInterventionDetails?.is_exercise_log_added ? "Edit" : "Add") + " Exercise Log"
                                                     }
                                                 </ButtonComponent>
                                             </LinkComponent>
