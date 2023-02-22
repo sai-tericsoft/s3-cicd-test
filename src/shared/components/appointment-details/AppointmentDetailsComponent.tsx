@@ -209,7 +209,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                 </div>
                                 <div className="block-content">
                                     {details?.status === 'scheduled' && <MenuDropdownComponent menuBase={
-                                        <ButtonComponent size={'large'} variant={'outlined'} fullWidth={true}>
+                                        <ButtonComponent size={'large'} className={'mrg-left-25'} variant={'outlined'} fullWidth={true}>
                                             Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
                                         </ButtonComponent>
                                     } menuOptions={
