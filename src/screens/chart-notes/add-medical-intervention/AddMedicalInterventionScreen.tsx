@@ -1,6 +1,6 @@
 import "./AddMedicalInterventionScreen.scss";
 import * as Yup from "yup";
-import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
+import {Link, useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import React, {useCallback, useEffect, useState} from "react";
 import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
@@ -685,15 +685,15 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                                                                draft={<>
                                                                                    {
                                                                                        (medicalInterventionId && medicalRecordId) &&
-                                                                                       <LinkComponent
-                                                                                           route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId)}>
+                                                                                       <Link
+                                                                                           to={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId)}>
                                                                                            <ButtonComponent
                                                                                                prefixIcon={(medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0) ?
                                                                                                    <ImageConfig.EditIcon/> :
                                                                                                    <ImageConfig.AddIcon/>}>
                                                                                                {medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0 ? 'Edit' : 'Add'}
                                                                                            </ButtonComponent>
-                                                                                       </LinkComponent>
+                                                                                       </Link>
                                                                                    }
                                                                                </>} readonly={<></>}/>
                                                                        }>
