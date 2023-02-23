@@ -280,13 +280,12 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                             }, [formik.validateForm, formik.values]);
                             return (
                                 <Form className="t-form" noValidate={true}>
-                                    {true &&
-                                        <FormAutoSave formikCtx={formik} onUpdating={setIsFormBeingUpdated}/>}
+                                    <FormAutoSave formikCtx={formik} onUpdating={setIsFormBeingUpdated}/>
                                     <div
                                         className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
                                         <FormControlLabelComponent label={"SOAP Note"} size={'lg'} className={"mrg-0 font-size-20"}/>
                                         {
-                                            (medicalInterventionId && medicalRecordId && true) &&
+                                            (medicalInterventionId && medicalRecordId) &&
                                             <LinkComponent
                                                 route={CommonService._routeConfig.MedicalInterventionExerciseLogUpdate(medicalRecordId, medicalInterventionId)}>
                                                 <ButtonComponent

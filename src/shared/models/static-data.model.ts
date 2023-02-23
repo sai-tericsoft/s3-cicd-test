@@ -26,7 +26,8 @@ export interface IMovementsEntity {
 export interface IBodyPartROMConfig {
     body_part: IBodyPart,
     selected_sides: string[],
-    rom_config?: any[]
+    rom_config?: any[],
+    mode?: 'write' | 'read'
 }
 
 export interface IBodyPartSpecialTestConfig {

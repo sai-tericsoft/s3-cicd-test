@@ -5,7 +5,9 @@ import {
     GET_MEDICAL_INTERVENTION_DETAILS,
     GET_MEDICAL_INTERVENTION_LIST,
     GET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS,
+    GET_MEDICAL_RECORD_SOAP_NOTE_LIST,
     GET_MEDICAL_RECORD_STATS,
+    GET_MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
     GET_PROGRESS_REPORT_VIEW_DETAILS,
     REFRESH_MEDICAL_RECORD_ATTACHMENT_LIST,
     SET_CLIENT_MEDICAL_INTERVENTION_DETAILS,
@@ -13,14 +15,14 @@ import {
     SET_MEDICAL_INTERVENTION_DETAILS,
     SET_MEDICAL_INTERVENTION_LIST,
     SET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS,
-    SET_PROGRESS_REPORT_VIEW_DETAILS,
+    SET_MEDICAL_RECORD_SOAP_NOTE_LIST,
     SET_MEDICAL_RECORD_STATS,
-    GET_MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
     SET_MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
-    GET_MEDICAL_RECORD_SOAP_NOTE_LIST,
-    SET_MEDICAL_RECORD_SOAP_NOTE_LIST
+    SET_PROGRESS_REPORT_VIEW_DETAILS,
+    UPDATE_MEDICAL_INTERVENTION_ROM_CONFIG_FOR_A_BODY_PART
 } from "../actions/chart-notes.action";
 import {CommonService} from "../../shared/services";
+import _ from "lodash";
 
 export interface IChartNotesReducerState {
     isMedicalInterventionDetailsLoading: boolean,
@@ -260,6 +262,25 @@ const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNot
                 isMedicalRecordSoapNoteListLoaded: !!action.payload.medicalRecordSoapNoteList,
                 isMedicalRecordSoapNoteListLoadingFailed: !action.payload.medicalRecordSoapNoteList,
                 medicalRecordSoapNoteList: action.payload.medicalRecordSoapNoteList
+            }
+            return state;
+        case UPDATE_MEDICAL_INTERVENTION_ROM_CONFIG_FOR_A_BODY_PART:
+            const medicalInterventionDetails = _.cloneDeep(state.medicalInterventionDetails);
+            const body_part_id = action?.payload?.body_part_id;
+            const ROMConfig = action?.payload?.ROMConfig;
+            if (medicalInterventionDetails.rom_config.length > 0) {
+                const index = medicalInterventionDetails.rom_config.findIndex((conf: any) => conf.body_part_id === body_part_id);
+                if ( index !== -1) {
+                    medicalInterventionDetails.rom_config[index] = ROMConfig;
+                } else {
+                    medicalInterventionDetails.rom_config.push(ROMConfig);
+                }
+            } else {
+                medicalInterventionDetails.rom_config = [ROMConfig]
+            }
+            state = {
+                ...state,
+                medicalInterventionDetails
             }
             return state;
         default:

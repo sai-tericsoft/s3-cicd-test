@@ -15,15 +15,21 @@ import FormikTextAreaComponent from "../../../shared/components/form-controls/fo
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
+import {useDispatch} from "react-redux";
+import {
+    getMedicalInterventionDetails,
+    updateMedicalInterventionROMConfigForABodyPart
+} from "../../../store/actions/chart-notes.action";
 
 interface RomConfigComponentProps {
+    mode?: 'read' | 'write';
     medicalInterventionDetails: any;
     medicalInterventionId: string;
     bodyPart: IBodyPart;
     rom_config?: any[];
     selectedBodySides: string[];
     onDelete?: (body_part_id: string) => void;
-    onSave?: (romConfig: string) => void;
+    onSave?: (body_part_id: string, romConfig: any) => void;
 }
 
 interface IROMConfig extends IBodyPart {
@@ -38,13 +44,16 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
         rom_config,
         selectedBodySides,
         bodyPart,
-        onDelete
+        onDelete,
+        onSave
     } = props;
+    const dispatch = useDispatch();
     const [bodySides, setBodySides] = useState<string[]>(selectedBodySides);
     const [romConfigValues, setRomConfigValues] = useState<IROMConfig | any | undefined>({});
     const [showROMMovementCommentsModal, setShowROMMovementCommentsModal] = useState<boolean>(false);
     const [selectedROMMovementComments, setSelectedROMMovementComments] = useState<any>(undefined);
     const [isBodyPartBeingDeleted, setIsBodyPartBeingDeleted] = useState<boolean>(false);
+    const [mode, setMode] = useState<'read' | 'write'>(props.mode || 'read');
 
     const generateROMConfigColumns = useCallback((bodyPart: IBodyPart) => {
         const columns: any = [
@@ -83,7 +92,9 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                 className="t-form-control">
                                 {
                                     (field: FieldProps) => (
-                                        <FormikInputComponent
+                                        mode === 'read' ? <>
+                                            <span>{_.get(field.form?.values, field.field.name) || "-"}</span>
+                                        </> : <FormikInputComponent
                                             className={(!record.applicable_sides?.includes(side) || !record.applicable_rom?.includes('AROM')) ? "not-allowed" : ""}
                                             disabled={(!record.applicable_sides?.includes(side) || !record.applicable_rom?.includes('AROM'))}
                                             formikField={field}
@@ -104,12 +115,13 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                 className="t-form-control">
                                 {
                                     (field: FieldProps) => (
-                                        <FormikInputComponent
+                                        mode === 'read' ? <>
+                                            <span>{_.get(field.form?.values, field.field.name) || "-"}</span>
+                                        </> : <FormikInputComponent
                                             className={(!record.applicable_sides?.includes(side) || !record.applicable_rom?.includes('PROM')) ? "not-allowed" : ""}
                                             disabled={(!record.applicable_sides?.includes(side) || !record.applicable_rom?.includes('PROM'))}
                                             formikField={field}
-                                            size={"small"}
-                                        />
+                                            size={"small"}/>
                                     )
                                 }
                             </Field>;
@@ -126,7 +138,9 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                 className="t-form-control">
                                 {
                                     (field: FieldProps) => (
-                                        <FormikInputComponent
+                                        mode === 'read' ? <>
+                                            <span>{_.get(field.form?.values, field.field.name) || "-"}</span>
+                                        </> : <FormikInputComponent
                                             className={(!record.applicable_sides?.includes(side) || !record.applicable_rom?.includes('Strength')) ? "not-allowed" : ""}
                                             disabled={(!record.applicable_sides?.includes(side) || !record.applicable_rom?.includes('Strength'))}
                                             formikField={field}
@@ -139,40 +153,47 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                 ]
             });
         });
-        columns.push({
-            title: '',
-            key: 'comments',
-            width: 80,
-            render: (record: any, index: any) => <Field
-                name={`${bodyPart._id}.${record?.name}.comments`}
-                className="t-form-control">
-                {
-                    (field: FieldProps) => (
-                        <IconButtonComponent
-                            color={field.form?.values[bodyPart._id]?.[record?.name]?.comments ? "primary" : "inherit"}
-                            onClick={() => {
-                                setShowROMMovementCommentsModal(true);
-                                console.log(record);
-                                setSelectedROMMovementComments(record);
-                            }}>
-                            {
-                                field.form?.values[bodyPart._id]?.[record?.name]?.comments ? <ImageConfig.ChatIcon/> :
-                                    <ImageConfig.CommentAddIcon/>
-                            }
-                        </IconButtonComponent>
-                    )
-                }
-            </Field>
-        });
+        if (mode === 'write') {
+            columns.push({
+                title: '',
+                key: 'comments',
+                width: 80,
+                render: (record: any, index: any) => <Field
+                    name={`${bodyPart._id}.${record?.name}.comments`}
+                    className="t-form-control">
+                    {
+                        (field: FieldProps) => (
+                            <IconButtonComponent
+                                color={field.form?.values[bodyPart._id]?.[record?.name]?.comments ? "primary" : "inherit"}
+                                onClick={() => {
+                                    setShowROMMovementCommentsModal(true);
+                                    console.log(record);
+                                    setSelectedROMMovementComments(record);
+                                }}>
+                                {
+                                    field.form?.values[bodyPart._id]?.[record?.name]?.comments ?
+                                        <ImageConfig.ChatIcon/> :
+                                        <ImageConfig.CommentAddIcon/>
+                                }
+                            </IconButtonComponent>
+                        )
+                    }
+                </Field>
+            });
+        } else {
+            columns.push({
+                title: '', // dummy column to fill table
+            });
+        }
         return columns;
-    }, [bodySides]);
+    }, [mode, bodySides]);
 
     const generateROMConfigForAnInjury = useCallback((bodyPart: IBodyPart) => {
         const bodyPartConfig: any = _.cloneDeep(bodyPart);
         if (bodyPart?.movements && bodyPart?.movements?.length > 0) {
             bodyPartConfig.movements = bodyPart?.movements?.map((movement: any, index: number) => {
                 const movement_data = rom_config?.find((rom: any) => rom?.movement_name === movement?.name);
-                return {...movement, ...movement_data, comment: "", commentTemp: ""};
+                return {...movement, ...movement_data, comments: "", commentsTemp: ""};
             });
         } else {
             bodyPartConfig.movements = [];
@@ -206,7 +227,11 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                 ...generateROMConfigForAnInjury(bodyPart)
             });
         }
-    }, [bodyPart, bodySides, generateROMConfigForAnInjury]);
+    }, [bodyPart, mode, bodySides, generateROMConfigForAnInjury]);
+
+    const handleBodyPartEdit = useCallback(() => {
+        setMode('write');
+    }, []);
 
     const handleBodyPartDelete = useCallback(() => {
         if (onDelete) {
@@ -216,21 +241,21 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                 confirmationSubTitle: "Are you sure you want to remove this body part?",
             }).then(() => {
                 const bodyPartId = bodyPart._id;
-                if (medicalInterventionDetails?.medical_record_details?.injury_details?.findIndex((injury: any) => injury?.body_part_id === bodyPartId) === -1) {
-                    onDelete(bodyPartId);
-                } else {
-                    setIsBodyPartBeingDeleted(true);
-                    CommonService._chartNotes.DeleteBodyPartUnderMedicalInterventionROMConfigAPICall(medicalInterventionId, bodyPartId)
-                        .then((response: any) => {
-                            CommonService._alert.showToast(response.message, 'success');
-                            setIsBodyPartBeingDeleted(false);
-                            onDelete(bodyPartId);
-                        })
-                        .catch((error: any) => {
-                            CommonService._alert.showToast(error.error || error.errors || 'Error deleting body part', 'error');
-                            setIsBodyPartBeingDeleted(false);
-                        });
-                }
+                // if (medicalInterventionDetails?.medical_record_details?.injury_details?.findIndex((injury: any) => injury?.body_part_id === bodyPartId) === -1) {
+                //     onDelete(bodyPartId);
+                // } else {
+                setIsBodyPartBeingDeleted(true);
+                CommonService._chartNotes.DeleteBodyPartUnderMedicalInterventionROMConfigAPICall(medicalInterventionId, bodyPartId)
+                    .then((response: any) => {
+                        CommonService._alert.showToast(response.message, 'success');
+                        setIsBodyPartBeingDeleted(false);
+                        onDelete(bodyPartId);
+                    })
+                    .catch((error: any) => {
+                        CommonService._alert.showToast(error.error || error.errors || 'Error deleting body part', 'error');
+                        setIsBodyPartBeingDeleted(false);
+                    });
+                // }
             });
         }
     }, [onDelete, bodyPart?._id, medicalInterventionDetails, medicalInterventionId]);
@@ -264,12 +289,20 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
             .then((response: any) => {
                 CommonService._alert.showToast(response.message, 'success');
                 setSubmitting(false);
+                setMode('read');
+                // dispatch(updateMedicalInterventionROMConfigForABodyPart(values?._id, payload?.rom_config));
+                dispatch(updateMedicalInterventionROMConfigForABodyPart(values?._id, {
+                    selected_sides: values.selected_sides,
+                    rom_config: payload?.rom_config,
+                    body_part_id: bodyPart?._id,
+                    body_part_details: bodyPart
+                }));
             })
             .catch((error: any) => {
                 CommonService._alert.showToast(error.error || error.errors || 'Error saving ROM configuration', 'error');
                 setSubmitting(false);
             });
-    }, [medicalInterventionId]);
+    }, [medicalInterventionId, onSave, dispatch]);
 
     return (
         <div className={'rom-config-component'}>
@@ -286,6 +319,18 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                             {(values?.movements?.length > 0) && <>
                                 <CardComponent title={"Body Part: " + romConfigValues?.name}
                                                actions={<>
+                                                   {
+                                                       mode === 'read' && <>
+                                                           <ButtonComponent
+                                                               size={"small"}
+                                                               prefixIcon={<ImageConfig.EditIcon/>}
+                                                               onClick={handleBodyPartEdit}
+                                                               disabled={isSubmitting || isBodyPartBeingDeleted}
+                                                           >
+                                                               Edit
+                                                           </ButtonComponent>&nbsp;&nbsp;
+                                                       </>
+                                                   }
                                                    <ButtonComponent
                                                        size={"small"}
                                                        color={"error"}
@@ -302,7 +347,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                         {
                                             (values?.movements?.length > 0) && <>
                                                 <div className={'rom-config-table-container'}>
-                                                    <div className={'rom-config-table-context'}>
+                                                    {mode === 'write' && <div className={'rom-config-table-context'}>
                                                         <MenuDropdownComponent
                                                             menuBase={
                                                                 <IconButtonComponent>
@@ -324,19 +369,39 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                                                 })
                                                             }
                                                         />
-                                                    </div>
+                                                    </div>}
                                                     <TableComponent
                                                         data={romConfigValues?.movements || []}
                                                         bordered={true}
-                                                        columns={romConfigValues?.tableConfig}/>
+                                                        columns={romConfigValues?.tableConfig}
+                                                        showExpandColumn={false}
+                                                        defaultExpandAllRows={true}
+                                                        canExpandRow={(row: any) => {
+                                                            return mode === 'read' && row?.config?.comments?.length > 0;
+                                                        }}
+                                                        expandRowRenderer={(row: any) => {
+                                                            return (
+                                                                <div key={row?._id} className={'display-flex'}>
+                                                                    <div className={'comment-icon mrg-right-10'}>
+                                                                        <ImageConfig.CommentIcon/>
+                                                                    </div>
+                                                                    <div
+                                                                        className={'progress-stats-comment'}>{row?.config?.comments}</div>
+                                                                </div>
+                                                            )
+                                                        }
+                                                        }
+                                                    />
                                                 </div>
-                                                <div className="t-form-actions">
-                                                    <ButtonComponent type={"submit"}
-                                                                     disabled={isSubmitting}
-                                                                     isLoading={isSubmitting}>
-                                                        Save
-                                                    </ButtonComponent>
-                                                </div>
+                                                {
+                                                    mode === 'write' && <div className="t-form-actions">
+                                                        <ButtonComponent type={"submit"}
+                                                                         disabled={isSubmitting}
+                                                                         isLoading={isSubmitting}>
+                                                            Save
+                                                        </ButtonComponent>
+                                                    </div>
+                                                }
                                             </>
                                         }
 

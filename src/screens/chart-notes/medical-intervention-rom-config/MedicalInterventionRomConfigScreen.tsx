@@ -64,7 +64,8 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
         setGlobalRomConfig([...globalRomConfig, {
             body_part: selectedBodyPartToBeAdded,
             rom_config: [],
-            selected_sides: [selectedBodyPartToBeAdded.default_body_side]
+            selected_sides: [selectedBodyPartToBeAdded.default_body_side],
+            mode: 'write'
         }]);
         setSelectedBodyPartToBeAdded(undefined);
     }, [globalRomConfig, selectedBodyPartToBeAdded]);
@@ -110,7 +111,11 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
         }
         setGlobalRomConfig(romConfig);
     }, [medicalInterventionDetails]);
-    console.log('globalRomConfig', globalRomConfig);
+
+    useEffect(()=>{
+        console.log('medicalInterventionDetails udpated');
+    }, [medicalInterventionDetails]);
+
     return (
         <div className={'medical-intervention-rom-config-screen'}>
             <PageHeaderComponent title={'Range of Motion and Strength'}/>
@@ -148,6 +153,7 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
                                                 selectedBodySides={bodyPart.selected_sides}
                                                 onDelete={handleDeleteBodyPart}
                                                 medicalInterventionId={medicalInterventionId}
+                                                mode={bodyPart.mode}
                                             />
                                         })
                                     }
