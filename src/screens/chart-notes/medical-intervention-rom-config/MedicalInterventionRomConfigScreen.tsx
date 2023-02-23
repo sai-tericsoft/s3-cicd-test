@@ -112,10 +112,6 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
         setGlobalRomConfig(romConfig);
     }, [medicalInterventionDetails]);
 
-    useEffect(()=>{
-        console.log('medicalInterventionDetails udpated');
-    }, [medicalInterventionDetails]);
-
     return (
         <div className={'medical-intervention-rom-config-screen'}>
             <PageHeaderComponent title={'Range of Motion and Strength'}/>

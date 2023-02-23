@@ -290,7 +290,6 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                 CommonService._alert.showToast(response.message, 'success');
                 setSubmitting(false);
                 setMode('read');
-                // dispatch(updateMedicalInterventionROMConfigForABodyPart(values?._id, payload?.rom_config));
                 dispatch(updateMedicalInterventionROMConfigForABodyPart(values?._id, {
                     selected_sides: values.selected_sides,
                     rom_config: payload?.rom_config,
