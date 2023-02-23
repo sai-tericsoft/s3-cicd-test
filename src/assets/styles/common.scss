@@ -195,6 +195,8 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 20px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+
     }
 
     .page-content-holder {
@@ -263,6 +265,17 @@
   }
 
 }
+.update-stock-modal{
+   .modal-content-wrapper{
+     width: 400px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     .modal-body{
+       width: 300px;
+     }
+   }
+ }
 
 
 .t-side-bar-form {

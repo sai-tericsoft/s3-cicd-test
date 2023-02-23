@@ -138,6 +138,7 @@ export interface IClientMedicalRecord {
     injury_details: any;
     body_side: string;
     created_at: string | undefined;
+    status_details:any;
     client_details: IClientBasicDetails;
 }
 

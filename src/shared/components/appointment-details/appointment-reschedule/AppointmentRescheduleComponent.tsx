@@ -213,7 +213,6 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
             {step === 'form' && <>
                 <div className="drawer-header">
                     <div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>
-                    <div className="drawer-title">Reschedule Appointment</div>
                     <ToolTipComponent tooltip={"Close"} position={"left"}>
                         <div className="drawer-close"
                              id={'book-appointment-close-btn'}
@@ -225,6 +224,7 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                              }><ImageConfig.CloseIcon/></div>
                     </ToolTipComponent>
                 </div>
+                <div className="reschedule-appointment-heading">Reschedule Appointment</div>
                 <div className={'appointment-form-wrapper'}>
                     <Formik
                         innerRef={formRef}

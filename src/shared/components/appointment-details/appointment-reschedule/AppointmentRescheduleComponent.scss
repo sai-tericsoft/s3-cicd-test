@@ -4,11 +4,11 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-
-  .drawer-header {
-    justify-content: space-between !important;
+  .reschedule-appointment-heading{
+    font-size: 1.4286rem;
+    font-weight: 500;
+    margin-bottom: 19px;
   }
-
   .appointment-form-wrapper {
     flex: 1;
     display: flex;

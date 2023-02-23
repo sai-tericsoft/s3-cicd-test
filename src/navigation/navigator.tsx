@@ -7,7 +7,7 @@ import DesignSystemScreen from "../screens/design-system/DesignSystemScreen";
 import LoginScreen from "../screens/auth/login/LoginScreen";
 import AppLayout from "../layouts/app-layout/AppLayout";
 import ComingSoonScreen from "../screens/coming-soon/ComingSoonScreen";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../store/reducers";
 import {CommonService} from "../shared/services";
 import AdminModuleLayoutScreen from "../screens/admin-module-layout/AdminModuleLayoutScreen";
@@ -31,8 +31,8 @@ import {
     ADD_MEDICAL_INTERVENTION,
     ADD_MEDICAL_RECORD,
     ADMIN,
+    CHART_NOTES_LIST,
     CLIENT_ADD,
-    CLIENT_CHART_NOTES_DETAILS,
     CLIENT_DETAILS,
     CLIENT_EDIT,
     CLIENT_LIST,
@@ -45,7 +45,7 @@ import {
     EDIT_INVENTORY_PRODUCT,
     FACILITY_DETAILS,
     FACILITY_LIST,
-    INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST,
+    INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST, INVENTORY,
     INVENTORY_LIST,
     INVENTORY_PRODUCT_VIEW_DETAILS,
     LOGIN_ROUTE,
@@ -78,8 +78,6 @@ import MedicalInterventionSpecialTestsScreen
     from "../screens/chart-notes/medical-intervention-special-tests/MedicalInterventionSpecialTestsScreen";
 import MedicalInterventionExerciseLogUpdateScreen
     from "../screens/chart-notes/medical-intervention-exercise-log-update/MedicalInterventionExerciseLogUpdateScreen";
-import ChartNotesDetailsMainLayoutComponent
-    from "../screens/chart-notes/chart-notes-details-main-layout/ChartNotesDetailsMainLayoutComponent";
 import ClientAddScreen from "../screens/clients/client-add/ClientAddScreen";
 import ClientMedicalRecordDetailsComponent
     from "../screens/chart-notes/client-medical-record-details/ClientMedicalRecordDetailsComponent";
@@ -112,6 +110,10 @@ import EditInventoryProductDetailsComponent
     from "../screens/inventory/edit-inventory-product-details/EditInventoryProductDetailsComponent";
 import InventoryListScreen from "../screens/inventory/inventory-list/InventoryListScreen";
 import SystemSettingsScreen from "../screens/admin/system-settings/SystemSettingsScreen";
+import ChartNotesLayoutComponent from "../screens/chart-notes/chart-notes-layout/ChartNotesLayoutComponent";
+import InventoryDetailsMainLayoutComponent
+    from "../screens/inventory/inventory-details-main-layout/InventoryDetailsMainLayoutComponent";
+import {setSystemLocked} from "../store/actions/account.action";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -119,12 +121,14 @@ const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
     const {token} = useSelector((state: IRootReducerState) => state.account);
     const navigate = useNavigate();
     const location = useLocation();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (!token) {
+            dispatch(setSystemLocked(false, undefined));
             navigate('/login?returnUrl=' + encodeURIComponent(location.pathname + location.search));
         }
-    }, [token, navigate, location]);
+    }, [token, navigate, location, dispatch]);
 
     return children;
 }
@@ -283,24 +287,25 @@ const Navigator = (props: NavigatorProps) => {
                         </ProtectedRoute>
                     }
                 />
-                <Route path={CLIENT_SEARCH}
-                       element={<ProtectedRoute>
-                           <ClientSearchScreen/>
-                       </ProtectedRoute>
-                       }
-                />
                 <Route path={SCHEDULING_VIEW}
                        element={<ProtectedRoute>
                            <SchedulingScreen/>
                        </ProtectedRoute>
                        }
                 />
-                <Route path={CLIENT_CHART_NOTES_DETAILS} element={<ChartNotesDetailsMainLayoutComponent/>} {...props}>
+                <Route path={CHART_NOTES_LIST}
+                       element={<ChartNotesLayoutComponent/>} {...props}>
                     <Route
                         index
                         element={
-                            <Navigate to={MEDICAL_RECORD_LIST}/>
+                            <Navigate to={CLIENT_SEARCH}/>
                         }
+                    />
+                    <Route path={CLIENT_SEARCH}
+                           element={<ProtectedRoute>
+                               <ClientSearchScreen/>
+                           </ProtectedRoute>
+                           }
                     />
                     <Route path={MEDICAL_RECORD_LIST}
                            element={<ProtectedRoute>
@@ -308,129 +313,135 @@ const Navigator = (props: NavigatorProps) => {
                            </ProtectedRoute>
                            }
                     />
+                    <Route path={CLIENT_MEDICAL_RECORD_DETAILS} element={<ProtectedRoute>
+                        <ClientMedicalRecordDetailsComponent/>
+                    </ProtectedRoute>}/>
+                    <Route path={ADD_MEDICAL_RECORD}
+                           element={<ProtectedRoute>
+                               <AddMedicalRecordScreen/>
+                           </ProtectedRoute>
+                           }
+                    />
+                    <Route path={ADD_MEDICAL_INTERVENTION}
+                           element={<ProtectedRoute>
+                               <AddMedicalInterventionScreen/>
+                           </ProtectedRoute>
+                           }
+                    />
+                    <Route path={MEDICAL_INTERVENTION_ROM_CONFIG}
+                           element={<ProtectedRoute>
+                               <MedicalInterventionRomConfigScreen/>
+                           </ProtectedRoute>
+                           }
+                    />
+                    <Route path={MEDICAL_INTERVENTION_SPECIAL_TESTS}
+                           element={<ProtectedRoute>
+                               <MedicalInterventionSpecialTestsScreen/>
+                           </ProtectedRoute>
+                           }
+                    />
+                    <Route path={MEDICAL_INTERVENTION_ICD_CODES}
+                           element={<ProtectedRoute>
+                               <MedicalInterventionICDCodesScreen/>
+                           </ProtectedRoute>
+                           }
+                    />
+                    <Route path={MEDICAL_INTERVENTION_FINALIZE_TREATMENT}
+                           element={<ProtectedRoute>
+                               <MedicalInterventionFinalizeTreatmentScreen/>
+                           </ProtectedRoute>
+                           }
+                    />
+                    <Route path={MEDICAL_INTERVENTION_SURGERY_RECORD_DETAILS}
+                           element={<ProtectedRoute>
+                               <SurgeryRecordViewScreen/>
+                           </ProtectedRoute>
+                           }
+                    />
+                    <Route path={MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE}
+                           element={<ProtectedRoute>
+                               <MedicalInterventionExerciseLogUpdateScreen/>
+                           </ProtectedRoute>
+                           }
+                    />
+                    <Route path={MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW}
+                           element={<ProtectedRoute>
+                               <MedicalInterventionExerciseLogViewScreen/>
+                           </ProtectedRoute>
+                           }
+                    />
+                    <Route path={INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST}
+                           element={<ProtectedRoute>
+                               <ExerciseLogAttachmentListComponent/>
+                           </ProtectedRoute>
+                           }/>
+                    <Route path={PROGRESS_REPORT_VIEW_DETAILS}
+                           element={<ProtectedRoute>
+                               <MedicalRecordProgressReportViewDetailsScreen/>
+                           </ProtectedRoute>
+                           }/>
+                    <Route path={DRY_NEEDLING_FILE_VIEW_DETAILS}
+                           element={<ProtectedRoute>
+                               <ViewDryNeedlingFileScreen/>
+                           </ProtectedRoute>
+                           }/>
+                    <Route path={CONCUSSION_FILE_VIEW_DETAILS}
+                           element={<ProtectedRoute>
+                               <ViewConcussionFileScreen/>
+                           </ProtectedRoute>
+                           }/>
+                    <Route path={MEDICAL_RECORD_DOCUMENT_VIEW_DETAILS}
+                           element={<ProtectedRoute>
+                               <ViewMedicalRecordDocumentScreen/>
+                           </ProtectedRoute>
+                           }/>
+                    <Route path={MEDICAL_INTERVENTION_DETAILS}
+                           element={<ProtectedRoute>
+                               <ClientMedicalInterventionDetailsComponent/>
+                           </ProtectedRoute>}/>
+                    <Route path={MEDICAL_INTERVENTION_DETAILS}
+                           element={<ProtectedRoute>
+                               <ClientMedicalInterventionDetailsComponent/>
+                           </ProtectedRoute>}/>
+                    <Route path={MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE}
+                           element={<ProtectedRoute>
+                               <ProgressRecordAdvancedDetailsUpdateScreen/>
+                           </ProtectedRoute>}/>
+                    <Route path={MEDICAL_RECORD_VIEW_EXERCISE_RECORD}
+                           element={<ProtectedRoute>
+                               <ViewExerciseRecordScreen/>
+                           </ProtectedRoute>}/>
                 </Route>
-                <Route path={CLIENT_MEDICAL_RECORD_DETAILS} element={<ProtectedRoute>
-                    <ClientMedicalRecordDetailsComponent/>
-                </ProtectedRoute>}/>
-                <Route path={ADD_MEDICAL_RECORD}
-                       element={<ProtectedRoute>
-                           <AddMedicalRecordScreen/>
-                       </ProtectedRoute>
-                       }
-                />
-                <Route path={ADD_MEDICAL_INTERVENTION}
-                       element={<ProtectedRoute>
-                           <AddMedicalInterventionScreen/>
-                       </ProtectedRoute>
-                       }
-                />
-                <Route path={MEDICAL_INTERVENTION_ROM_CONFIG}
-                       element={<ProtectedRoute>
-                           <MedicalInterventionRomConfigScreen/>
-                       </ProtectedRoute>
-                       }
-                />
-                <Route path={MEDICAL_INTERVENTION_SPECIAL_TESTS}
-                       element={<ProtectedRoute>
-                           <MedicalInterventionSpecialTestsScreen/>
-                       </ProtectedRoute>
-                       }
-                />
-                <Route path={MEDICAL_INTERVENTION_ICD_CODES}
-                       element={<ProtectedRoute>
-                           <MedicalInterventionICDCodesScreen/>
-                       </ProtectedRoute>
-                       }
-                />
-                <Route path={MEDICAL_INTERVENTION_FINALIZE_TREATMENT}
-                       element={<ProtectedRoute>
-                           <MedicalInterventionFinalizeTreatmentScreen/>
-                       </ProtectedRoute>
-                       }
-                />
-                <Route path={MEDICAL_INTERVENTION_SURGERY_RECORD_DETAILS}
-                       element={<ProtectedRoute>
-                           <SurgeryRecordViewScreen/>
-                       </ProtectedRoute>
-                       }
-                />
-                <Route path={MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE}
-                       element={<ProtectedRoute>
-                           <MedicalInterventionExerciseLogUpdateScreen/>
-                       </ProtectedRoute>
-                       }
-                />
-                <Route path={MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW}
-                       element={<ProtectedRoute>
-                           <MedicalInterventionExerciseLogViewScreen/>
-                       </ProtectedRoute>
-                       }
-                />
-                <Route path={INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST}
-                       element={<ProtectedRoute>
-                           <ExerciseLogAttachmentListComponent/>
-                       </ProtectedRoute>
-                       }/>
-                <Route path={PROGRESS_REPORT_VIEW_DETAILS}
-                       element={<ProtectedRoute>
-                           <MedicalRecordProgressReportViewDetailsScreen/>
-                       </ProtectedRoute>
-                       }/>
-                <Route path={DRY_NEEDLING_FILE_VIEW_DETAILS}
-                       element={<ProtectedRoute>
-                           <ViewDryNeedlingFileScreen/>
-                       </ProtectedRoute>
-                       }/>
-                <Route path={CONCUSSION_FILE_VIEW_DETAILS}
-                       element={<ProtectedRoute>
-                           <ViewConcussionFileScreen/>
-                       </ProtectedRoute>
-                       }/>
-                <Route path={MEDICAL_RECORD_DOCUMENT_VIEW_DETAILS}
-                       element={<ProtectedRoute>
-                           <ViewMedicalRecordDocumentScreen/>
-                       </ProtectedRoute>
-                       }/>
-                <Route path={MEDICAL_INTERVENTION_DETAILS}
-                       element={<ProtectedRoute>
-                           <ClientMedicalInterventionDetailsComponent/>
-                       </ProtectedRoute>}/>
-                <Route path={MEDICAL_INTERVENTION_DETAILS}
-                       element={<ProtectedRoute>
-                           <ClientMedicalInterventionDetailsComponent/>
-                       </ProtectedRoute>}/>
-                <Route path={MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE}
-                       element={<ProtectedRoute>
-                           <ProgressRecordAdvancedDetailsUpdateScreen/>
-                       </ProtectedRoute>}/>
-                <Route path={MEDICAL_RECORD_VIEW_EXERCISE_RECORD}
-                       element={<ProtectedRoute>
-                           <ViewExerciseRecordScreen/>
-                       </ProtectedRoute>}/>
-                <Route path={INVENTORY_LIST}
-                       element={<ProtectedRoute>
-                           <InventoryListScreen/>
-                       </ProtectedRoute>
-                       }
-                />
-                <Route path={ADD_INVENTORY_PRODUCT}
-                       element={<ProtectedRoute>
-                           <AddInventoryProductComponent/>
-                       </ProtectedRoute>
-                       }
-                />
-                <Route path={INVENTORY_PRODUCT_VIEW_DETAILS}
-                       element={<ProtectedRoute>
-                           <InventoryProductViewDetailsComponent/>
-                       </ProtectedRoute>
-                       }
-                />
-                <Route path={EDIT_INVENTORY_PRODUCT}
-                       element={<ProtectedRoute>
-                           <EditInventoryProductDetailsComponent/>
-                       </ProtectedRoute>
-                       }
-                />
+                <Route path={INVENTORY} element={<InventoryDetailsMainLayoutComponent/>}{...props}>
+                    <Route
+                        index
+                        element={
+                            <Navigate to={INVENTORY_LIST}/>
+                        }/>
+                    <Route path={INVENTORY_LIST}
+                           element={<ProtectedRoute>
+                               <InventoryListScreen/>
+                           </ProtectedRoute>
+                           }/>
+                    <Route path={ADD_INVENTORY_PRODUCT}
+                           element={<ProtectedRoute>
+                               <AddInventoryProductComponent/>
+                           </ProtectedRoute>
+                           }
+                    />
+                    <Route path={INVENTORY_PRODUCT_VIEW_DETAILS}
+                           element={<ProtectedRoute>
+                               <InventoryProductViewDetailsComponent/>
+                           </ProtectedRoute>
+                           }
+                    />
+                    <Route path={EDIT_INVENTORY_PRODUCT}
+                           element={<ProtectedRoute>
+                               <EditInventoryProductDetailsComponent/>
+                           </ProtectedRoute>
+                           }
+                    />
+                </Route>
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
             </Route>
             <Route element={<AuthLayout/>}>

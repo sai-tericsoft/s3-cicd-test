@@ -4,9 +4,14 @@
   display: flex;
   flex: 1;
   flex-direction: column;
+  .book-appointment-heading{
+    font-size: 1.4286rem;
+    font-weight: 700;
+    margin-bottom: 19px;
+  }
 
   .drawer-header {
-    justify-content: space-between !important;
+    justify-content: end !important;
   }
 
   .appointment-form-wrapper {

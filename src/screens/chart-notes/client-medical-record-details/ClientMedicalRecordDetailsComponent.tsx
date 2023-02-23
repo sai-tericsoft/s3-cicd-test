@@ -12,7 +12,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
 
     return (
         <div className={'client-medical-record-details-component'}>
-            <PageHeaderComponent title={"Medical Record Main Page"}/>
+            <PageHeaderComponent title={"Medical Record Main Page"} className={'mrg-left-10'}/>
             <MedicalRecordBasicDetailsCardComponent showAction={true}/>
             <MedicalInterventionListComponent/>
             <MedicalRecordAttachmentListComponent/>

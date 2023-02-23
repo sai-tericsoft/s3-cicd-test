@@ -12,6 +12,7 @@ import CardComponent from "../../../shared/components/card/CardComponent";
 import AvatarComponent from "../../../shared/components/avatar/AvatarComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {ImageConfig, Misc} from "../../../constants";
+import {useNavigate} from "react-router-dom";
 
 interface TransferSoapNoteComponentProps {
     medicalRecordId: string;
@@ -21,7 +22,8 @@ interface TransferSoapNoteComponentProps {
 
 const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
 
-    const {medicalRecordId, medicalInterventionId, onTransferSoapNote} = props;
+    const {medicalInterventionId, onTransferSoapNote} = props;
+    const navigate = useNavigate();
     const [clientListSearch, setClientListSearch] = useState<string>("");
     const [clientList, setClientList] = useState<any>([]);
     const [isClientListLoading, setIsClientListLoading] = useState<any>(false);
@@ -100,7 +102,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
         // setIsClientListLoadingFailed(false);
         CommonService._client.ClientListLiteAPICall({search: clientListSearch})
             .then((response: any) => {
-                setClientList(response.data);
+                setClientList(response.data.docs);
                 setIsClientListLoading(false);
                 // setIsClientListLoaded(true);
                 // setIsClientListLoadingFailed(false);
@@ -140,17 +142,19 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
             confirmationSubTitle: `Are you sure you want to transfer this SOAP to: ${CommonService.extractName(selectedClient)}`,
         }).then(() => {
             setIsSoapNoteTransferUnderProgress(true);
-            CommonService._chartNotes.TransferSoapNoteAPICall(medicalInterventionId, {medical_record_id: medicalRecordId})
+            CommonService._chartNotes.TransferSoapNoteAPICall(medicalInterventionId, {medical_record_id:selectedMedicalRecord?._id
+        })
                 .then((response: any) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     onTransferSoapNote();
                     setIsSoapNoteTransferUnderProgress(false);
+                    navigate(CommonService._routeConfig.AddMedicalIntervention(selectedMedicalRecord?._id,medicalInterventionId));
                 }).catch((error: any) => {
                 CommonService._alert.showToast(error.error, "error");
                 setIsSoapNoteTransferUnderProgress(false);
             })
         });
-    }, [medicalInterventionId, medicalRecordId, onTransferSoapNote, selectedClient]);
+    }, [navigate, medicalInterventionId, selectedMedicalRecord, onTransferSoapNote, selectedClient]);
 
     return (
         <div className={'transfer-soap-note-component'}>
@@ -173,6 +177,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                                             loading={isClientListLoading}
                                             hideHeader={true}/>
                             <ButtonComponent fullWidth={true}
+                                             className={'mrg-top-30'}
                                              onClick={() => handleClientSelectionConfirmation()}
                                              disabled={!selectedClient}>
                                 Next
@@ -209,13 +214,24 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                                 <div className={'card-table'}>
                                     <TableComponent data={medicalRecordList} columns={medicalRecordColumns}/>
                                 </div>
-                                <ButtonComponent fullWidth={true} className={'transfer-button'}
+                            </div>
+                                <div className="t-form-actions display-flex ts-justify-content-center mrg-top-50">
+                                    <ButtonComponent
+                                        variant={"outlined"}
+                                        id={"medical_intervention_add_cancel_btn"}
+                                        onClick={() => setCurrentStep("selectClient")}
+                                    >
+                                        Back
+                                    </ButtonComponent>
+                                    &nbsp;
+                                <ButtonComponent
                                                  onClick={handleTransferSoapNote}
                                                  isLoading={isSoapNoteTransferUnderProgress}
                                                  disabled={!selectedMedicalRecord || isSoapNoteTransferUnderProgress}>
                                     Transfer
                                 </ButtonComponent>
-                            </div>
+                                </div>
+
                         </div>
                     </>
                 }

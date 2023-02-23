@@ -24,15 +24,12 @@ const CLIENT_ADD = "/client-add";
 const CLIENT_DETAILS = "/client-details";
 const CLIENT_EDIT = "/client-edit";
 
-
-const CLIENT_SEARCH='/client-search';
+const CLIENT_SEARCH='/chart-notes/client-list';
 const SCHEDULING_VIEW='/scheduling';
 const CLIENT_MEDICAL_RECORD_DETAILS = '/chart-notes/:medicalRecordId/medical-record-details';
-const CLIENT_CHART_NOTES_DETAILS = "/chart-notes";
+const CHART_NOTES_LIST = "/chart-notes";
 const ADD_MEDICAL_RECORD = '/chart-notes/:clientId/add-medical-record';
-const CLIENT_CHART_NOTES = '/chart-notes/:clientId/medical-record-list';
 const ADD_MEDICAL_INTERVENTION = '/chart-notes/:medicalRecordId/:medicalInterventionId/add-medical-intervention';
-const MEDICAL_INTERVENTION_VIEW = '/chart-notes/:medicalRecordId/:medicalInterventionId/view';
 const MEDICAL_INTERVENTION_ROM_CONFIG = '/chart-notes/:medicalRecordId/:medicalInterventionId/rom-config';
 const MEDICAL_INTERVENTION_SPECIAL_TESTS = '/chart-notes/:medicalRecordId/:medicalInterventionId/special-tests';
 const MEDICAL_INTERVENTION_ICD_CODES = '/chart-notes/:medicalRecordId/:medicalInterventionId/icd-codes';
@@ -52,7 +49,8 @@ const CONCUSSION_FILE_VIEW_DETAILS = '/chart-notes/:medicalRecordId/:concussionF
 const MEDICAL_RECORD_DOCUMENT_VIEW_DETAILS = '/chart-notes/:medicalRecordId/:medicalRecordDocumentId/medical-record-document-view-details';
 const MEDICAL_RECORD_VIEW_EXERCISE_RECORD = '/chart-notes/:medicalRecordId/consolidated-exercise-record';
 
-const INVENTORY_LIST = "/inventory-list";
+const INVENTORY = "/inventory";
+const INVENTORY_LIST = "/inventory/inventory-list";
 const ADD_INVENTORY_PRODUCT = "/inventory/add-product";
 const INVENTORY_PRODUCT_VIEW_DETAILS = "/inventory/product-details/:productId";
 const EDIT_INVENTORY_PRODUCT = "/inventory/edit-product/:productId";
@@ -86,9 +84,7 @@ export {
     CLIENT_MEDICAL_RECORD_DETAILS,
     ADD_MEDICAL_RECORD,
     ADD_MEDICAL_INTERVENTION,
-    MEDICAL_INTERVENTION_VIEW,
-    CLIENT_CHART_NOTES,
-    CLIENT_CHART_NOTES_DETAILS,
+    CHART_NOTES_LIST,
     MEDICAL_INTERVENTION_ROM_CONFIG,
     MEDICAL_INTERVENTION_SPECIAL_TESTS,
     MEDICAL_INTERVENTION_ICD_CODES,
@@ -105,8 +101,9 @@ export {
     CONCUSSION_FILE_VIEW_DETAILS,
     MEDICAL_RECORD_DOCUMENT_VIEW_DETAILS,
     MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
+    INVENTORY,
     INVENTORY_LIST,
     ADD_INVENTORY_PRODUCT,
     INVENTORY_PRODUCT_VIEW_DETAILS,
-    EDIT_INVENTORY_PRODUCT
+    EDIT_INVENTORY_PRODUCT,
 };
