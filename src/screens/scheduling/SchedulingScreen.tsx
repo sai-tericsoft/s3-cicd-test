@@ -195,14 +195,15 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
 
     const setViewModeHandler = useCallback((mode: 'list' | 'calendar') => {
         if (mode === 'calendar') {
-            setSchedulingListFilterState({
-                ...schedulingListFilterState,
-                duration: 'month'
+            setSchedulingListFilterState((old: any) => {
+                const newState = {...old};
+                newState["duration"] = 'month';
+                return newState;
             })
             dateSwitcher('reset', 'month');
         }
         setViewMode(mode);
-    }, []);
+    }, [dateSwitcher]);
 
     const handleCalendarData = useCallback((date: any) => {
 
