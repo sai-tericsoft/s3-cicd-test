@@ -87,7 +87,7 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
         <div className={'book-appointment-overview-component'}>
             <div className="drawer-header">
                 <div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>
-                <div className="drawer-title">Book Appointment</div>
+                <div className="appointment-details-title">Appointment Details</div>
                 {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
                 {/*    <div className="drawer-close"*/}
                 {/*         id={'book-appointment-close-btn'}*/}
@@ -104,12 +104,14 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                     <div className="block-content">
                         <ImageConfig.CalendarIcon/>
                         <div
-                            className="content-title">{CommonService.convertDateFormat(bookingDraft.appointment_date)}</div>
+                            className="content-title">{CommonService.convertDateFormat(bookingDraft.appointment_date)}
+                        </div>
                     </div>
                     <div className="block-content">
                         <ImageConfig.TimerIcon/>
                         <div
-                            className="content-title">{CommonService.getHoursAndMinutesFromMinutes(bookingDraft.time.start_min)}</div>
+                            className="content-title">{CommonService.getHoursAndMinutesFromMinutes(bookingDraft.time.start_min)}
+                        </div>
                     </div>
                     <div className="block-content">
                     </div>
@@ -119,7 +121,7 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
             </div>
             <div className="flex-1">
                 <div className="details-box">
-                    <div className="details-header">Details</div>
+                    <div className="details-header">Other Details</div>
                     <div className="details-body">
                         <div className="details-body-block">
                             <div className="details-body-item">

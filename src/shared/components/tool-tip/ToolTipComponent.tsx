@@ -1,9 +1,11 @@
 import "./ToolTipComponent.scss";
-import React, {ReactFragment, useCallback} from "react";
+import React, {ReactElement, ReactFragment, useCallback} from "react";
 import {Tooltip} from "@mui/material";
 
 interface ToolTipComponentProps {
-    tooltip: string | ReactFragment;
+    tooltip: string | ReactFragment | ReactElement;
+    backgroundColor?: string;
+    textColor?: string;
     showArrow?: boolean;
     position?: 'bottom-end' | 'bottom-start' | 'bottom' | 'left-end' | 'left-start' | 'left' | 'right-end' | 'right-start' | 'right' | 'top-end' | 'top-start' | 'top';
     onOpen?: () => void;
@@ -14,7 +16,7 @@ interface ToolTipComponentProps {
 
 const ToolTipComponent = (props: React.PropsWithChildren<ToolTipComponentProps>) => {
 
-    const {tooltip, showArrow, showAfter, hideAfter, onOpen, onClose, children} = props;
+    const {tooltip, showArrow, showAfter, hideAfter, onOpen, onClose, backgroundColor, textColor, children} = props;
 
     const position = props.position || "top";
 
@@ -48,8 +50,8 @@ const ToolTipComponent = (props: React.PropsWithChildren<ToolTipComponentProps>)
                              fontSize: '12px',
                              fontFamily: "Roboto",
                              padding: '10px',
-                             bgcolor: '#DEFFE8',
-                             color: '#282828',
+                             bgcolor: backgroundColor || '#DEFFE8',
+                             color: textColor || '#282828',
                              '& .MuiTooltip-arrow': {
                                  color: '#DEFFE8',
                              },

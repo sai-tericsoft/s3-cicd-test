@@ -286,7 +286,6 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
         <div className={`book-appointment-form-component`}>
             <div className="drawer-header">
                 {/*<div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>*/}
-                <div className="drawer-title">Book Appointment</div>
                 <ToolTipComponent tooltip={"Close"} position={"left"}>
                     <div className="drawer-close"
                          id={'book-appointment-close-btn'}
@@ -298,6 +297,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                          }><ImageConfig.CloseIcon/></div>
                 </ToolTipComponent>
             </div>
+            <div className="book-appointment-heading">Book Appointment</div>
             <div className={'appointment-form-wrapper'}>
                 <Formik
                     innerRef={formRef}

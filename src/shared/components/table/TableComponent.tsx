@@ -15,7 +15,8 @@ interface TableComponentProps extends ITableComponentProps {
     id?: string;
     columns: ITableColumn[];
     data: any[];
-    noDataText?: string
+    noDataText?: string;
+    className?:any;
 }
 
 const TableComponent = (props: TableComponentProps) => {
@@ -33,7 +34,8 @@ const TableComponent = (props: TableComponentProps) => {
         onRowClick,
         data,
         sort,
-        onSort
+        onSort,
+        className
     } = props;
     const size = props.size || "medium";
 
@@ -160,16 +162,17 @@ const TableComponent = (props: TableComponentProps) => {
 
     return (
         <div className={'table-component'}>
-            <TableStyles className={'styled-table'}>
+            <TableStyles className={`styled-table ${className}`}>
                 <div className={`t-table-wrapper`}>
                     <div {...getTableProps()} className={`t-table table sticky ${size}`}>
                         {
                             !hideHeader && <div className="header t-thead">
                                 {headerGroups.map((headerGroup) => (
                                     <div {...headerGroup.getHeaderGroupProps()} className="t-tr">
-                                        {headerGroup.headers.map((column: any) => <div {...column.getHeaderProps()}
-                                                                                       onClick={() => applySort(column)}
-                                                                                       className={getTHClasses(column)}
+                                        {headerGroup.headers.map((column: any, index) => <div {...column.getHeaderProps()}
+                                                                                              key={index}
+                                                                                              onClick={() => applySort(column)}
+                                                                                              className={getTHClasses(column)}
                                             >
                                                 {column.render('Header')}
                                             </div>
@@ -181,15 +184,18 @@ const TableComponent = (props: TableComponentProps) => {
                         {
                             !errored && <div {...getTableBodyProps()} className="body t-body">
                                 {
-                                    rows.length > 0 && rows.map((row: any) => {
+                                    rows.length > 0 && rows.map((row: any, index) => {
                                         prepareRow(row);
                                         return (
                                             <>
                                                 <div className="t-tr"
+                                                     key={index}
                                                      onClick={() => handleRowClick(row)} {...row.getRowProps()}>
-                                                    {row.cells.map((cell: any) => {
+                                                    {row.cells.map((cell: any, index: any) => {
                                                         return (
-                                                            <div {...cell.getCellProps()} className={getTDClasses(cell.column)}>
+                                                            <div {...cell.getCellProps()}
+                                                                 key={index}
+                                                                 className={getTDClasses(cell.column)}>
                                                                 {cell.render('Cell')}
                                                             </div>
                                                         )

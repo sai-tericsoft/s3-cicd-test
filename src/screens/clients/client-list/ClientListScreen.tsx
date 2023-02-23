@@ -26,6 +26,7 @@ const ClientListScreen = (props: ClientListScreenProps) => {
         sort: {}
     });
     const [isClientAddDrawerOpen, setIsClientAddDrawerOpen] = useState<boolean>(false);
+    const [refreshToken, setRefreshToken] = useState<string>('');
 
     useEffect(() => {
         dispatch(setCurrentNavParams('Clients'));
@@ -42,6 +43,10 @@ const ClientListScreen = (props: ClientListScreenProps) => {
             return newState;
         });
     }, []);
+
+    const refreshList = useCallback(() => {
+        setRefreshToken(Math.random().toString(36).substring(7));
+    },[]);
 
     // const handleClientAdd = useCallback(() => {
     //     dispatch(setClientBasicDetails(undefined));
@@ -96,6 +101,7 @@ const ClientListScreen = (props: ClientListScreenProps) => {
             </div>
             <div className="list-content-wrapper">
                 <ClientListTableComponent
+                    refreshToken={refreshToken}
                     clientListFilterState={clientListFilterState}
                     onSort={handleClientSort}
                 />
@@ -103,7 +109,7 @@ const ClientListScreen = (props: ClientListScreenProps) => {
             <DrawerComponent isOpen={isClientAddDrawerOpen}
                              showClose={true}
                              onClose={closeClientAddDrawer}>
-                <ClientAddComponent onAdd={()=>closeClientAddDrawer()}/>
+                <ClientAddComponent onAdd={()=>closeClientAddDrawer()} refreshList={refreshList}/>
             </DrawerComponent>
         </div>
     );

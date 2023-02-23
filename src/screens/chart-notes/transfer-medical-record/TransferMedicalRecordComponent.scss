@@ -7,6 +7,10 @@
   }
 
   .select-client-wrapper {
+    .client-list-table{
+      color:#6D6D6D ;
+      border: 1px solid #F3F3F3;
+    }
     .t-table-wrapper {
       height: calc(100vh - 290px);
     }
@@ -17,6 +21,7 @@
     .select-intervention-choice-wrapper {
       display: flex;
       align-items: center;
+      margin-bottom:24px;
 
       .select-intervention-choice-label {
         margin-bottom: 0 !important;
@@ -49,5 +54,6 @@
 
   .t-form-actions {
     margin-top: 20px;
+
   }
 }

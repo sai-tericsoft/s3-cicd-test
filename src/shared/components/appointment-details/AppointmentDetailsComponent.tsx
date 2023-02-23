@@ -137,7 +137,6 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                 {
                     step === 'details' && <div className={'appointment-details-wrapper'}>
                         <div className="drawer-header">
-                            <div className="drawer-title">Appointment Details</div>
                             <ToolTipComponent tooltip={"Close"} position={"left"}>
                                 <div className="drawer-close"
                                      id={'book-appointment-close-btn'}
@@ -149,6 +148,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                      }><ImageConfig.CloseIcon/></div>
                             </ToolTipComponent>
                         </div>
+                        <div className="appointment-details-heading">Appointment Details</div>
 
                         <div className={"status-block " + details?.status}>
                             <div className="status-info">
@@ -277,8 +277,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                                                prefixIcon={details?.payment_status === 'paid' ?
                                                                    <ImageConfig.CircleCheck/> : <ImageConfig.CancelIcon/>}
                                                                label={details?.payment_status === 'paid' ? 'Paid' : 'Unpaid'}
-                                                               color={(details?.payment_status === 'paid' ? 'success' : 'error')}
-                                                />
+                                                               className={details?.payment_status === 'paid' ? 'paid' : 'unpaid'}/>
                                             </div>
                                         </div>
                                     </div>
@@ -298,7 +297,14 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
 
 
                             <div className="details-box">
-                                <div className="details-header">Forms</div>
+                                <div className="details-header">
+                                    <div className={'form-heading'}>
+                                        Forms
+                                    </div>
+                                    <div className={'status-heading'}>
+                                        Status
+                                    </div>
+                                </div>
                                 <div className="details-body">
                                     <div className="details-body-block">
                                         {formStatus && formStatus.map((value, index) => {
@@ -326,7 +332,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                         }
                                     }
                                 }
-                            >Checkin</ButtonComponent>
+                            >Check In</ButtonComponent>
                             }
                         </div>
 

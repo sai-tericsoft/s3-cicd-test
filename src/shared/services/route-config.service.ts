@@ -1,16 +1,17 @@
 import {
     ADMIN,
+    CHART_NOTES_LIST,
     CLIENT_ADD,
     CLIENT_DETAILS,
     CLIENT_EDIT,
     CLIENT_LIST,
-    CLIENT_SEARCH,
     COMING_SOON_ROUTE,
     DASHBOARD,
     FACILITY_DETAILS,
-    FACILITY_LIST,
+    FACILITY_LIST, INVENTORY,
     LOGIN_ROUTE,
-    NOT_FOUND_ROUTE, SCHEDULING_VIEW,
+    NOT_FOUND_ROUTE,
+    SCHEDULING_VIEW,
     SERVICE_ADD,
     SERVICE_CATEGORY_DETAILS,
     SERVICE_CATEGORY_LIST,
@@ -83,7 +84,7 @@ const ClientList = () => {
     return CLIENT_LIST;
 }
 
-const ClientAdd = (clientId:string) => {
+const ClientAdd = (clientId: string) => {
     return CLIENT_ADD + '/' + clientId;
 }
 
@@ -96,7 +97,7 @@ const ClientEdit = (clientId: string) => {
 }
 
 const ClientSearch = () => {
-    return CLIENT_SEARCH;
+    return CHART_NOTES_LIST;
 }
 
 const SchedulingView = () => {
@@ -181,7 +182,7 @@ const MedicalRecordViewExerciseRecord = (medicalRecordId: string) => {
 }
 
 const InventoryList = () => {
-    return '/inventory-list';
+    return INVENTORY;
 }
 
 const AddInventoryProduct = () => {

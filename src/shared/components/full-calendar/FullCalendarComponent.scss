@@ -1,9 +1,11 @@
 @import "src/assets/styles/common";
+
 .ts-calendar-wrapper {
-  $header-color: #DFDFDF;
+  $header-color: #E1EBEA;
   $background-color: #FFFFFF;
-  $line-color: #CCC;
+  $line-color: #E3E3E3;
   $dark-mode: true;
+  flex: 1;
 
   .ts-calendar-controls {
     display: flex;
@@ -11,6 +13,7 @@
     align-items: center;
     justify-content: space-between;
   }
+
   .current-month-year-title {
     font-size: 2rem;
     font-weight: bold;
@@ -29,16 +32,16 @@
     font-size: 1rem;
     text-transform: uppercase;
     color: $primary-color;
-    padding: 5px;
+    padding: 15px;
     text-align: center;
     font-weight: bold;
     background-color: $header-color;
-    border-right: 1px solid $line-color;
-    border-bottom: 1px solid $line-color;
-    border-top: 1px solid $line-color;
+    border-right: 1px solid $header-color;
+    border-bottom: 1px solid $header-color;
+    border-top: 1px solid $header-color;
 
     &:first-child {
-      border-left: 1px solid $line-color;
+      border-left: 1px solid $header-color;
     }
 
     &.ts-week-day-0 {
@@ -50,6 +53,8 @@
     display: flex;
     flex-direction: row;
     flex: 1;
+    height: calc(100% / 6);
+    min-height: 100px;
   }
 
   .ts-day-item-wrapper {
@@ -57,6 +62,7 @@
     border-bottom: 1px solid $line-color;
     flex: 1;
     display: flex;
+    width: calc(100% / 7);
 
     &:first-child {
       //border-top: 1px solid #AAAAAA;
@@ -66,9 +72,9 @@
     .ts-day-item {
       flex: 1;
       color: getTextColorForBackground($header-color);
-      height: 60px;
       padding: 5px;
       font-weight: bold;
+      overflow: hidden;
       background-color: $background-color;
 
       &.is_selected {
@@ -83,18 +89,28 @@
 
 
       .ts-day-text {
-        float: right;
-        text-align: right;
+        //float: right;
+        //text-align: right;
         font-size: 1rem;
-        padding: 5px;
+        //padding: 5px;
       }
 
       &.is_today {
-        .ts-day-text {
-          border-radius: 50%;
+        position: relative;
+
+        &:before {
+          content: '';
           background-color: $primary-color;
-          color: getTextColorForBackground($primary-color);
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 3px;
+          width: 100%;
+          border-radius: 6px;
         }
+
+        //border-radius: 50%;
+        //color: getTextColorForBackground($primary-color);
       }
     }
 
@@ -108,7 +124,8 @@
     }
 
     &.ts-date-not-available {
-      background-color: colorDarkness($background-color, 20);
+      //border-color: $background-color;
+      //background-color: colorDarkness($background-color, 20);
     }
 
     &.ts-week-day-0 {
