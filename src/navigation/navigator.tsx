@@ -45,7 +45,8 @@ import {
     EDIT_INVENTORY_PRODUCT,
     FACILITY_DETAILS,
     FACILITY_LIST,
-    INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST, INVENTORY,
+    INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST,
+    INVENTORY,
     INVENTORY_LIST,
     INVENTORY_PRODUCT_VIEW_DETAILS,
     LOGIN_ROUTE,
@@ -114,7 +115,6 @@ import ChartNotesLayoutComponent from "../screens/chart-notes/chart-notes-layout
 import InventoryDetailsMainLayoutComponent
     from "../screens/inventory/inventory-details-main-layout/InventoryDetailsMainLayoutComponent";
 import {setSystemLocked} from "../store/actions/account.action";
-import ScollComponent from "../shared/components/scrollToTop/ScollComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -161,14 +161,8 @@ export interface NavigatorProps {
 
 const Navigator = (props: NavigatorProps) => {
 
-    const location = useLocation();
-
-    useLayoutEffect(() => {
-        document.querySelector("body")?.scrollTo(0, 0);
-    }, [location.pathname]);
-
     return (
-        <><ScollComponent/>
+        <>
             <Routes>
                 <Route element={<AppLayout/>}>
                     <Route
@@ -315,9 +309,11 @@ const Navigator = (props: NavigatorProps) => {
                                </ProtectedRoute>
                                }
                         />
-                        <Route path={CLIENT_MEDICAL_RECORD_DETAILS} element={<ProtectedRoute>
-                            <ClientMedicalRecordDetailsComponent/>
-                        </ProtectedRoute>}/>
+                        <Route path={CLIENT_MEDICAL_RECORD_DETAILS}
+                               element={<ProtectedRoute>
+                                   <ClientMedicalRecordDetailsComponent/>
+                               </ProtectedRoute>}
+                        />
                         <Route path={ADD_MEDICAL_RECORD}
                                element={<ProtectedRoute>
                                    <AddMedicalRecordScreen/>

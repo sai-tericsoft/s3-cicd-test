@@ -1,5 +1,5 @@
 import './App.scss';
-import {useEffect, useRef} from "react";
+import React, {useEffect, useRef} from "react";
 import Navigator from "./navigation/navigator";
 import AlertComponent from "./shared/components/alert/alertComponent";
 import {ColorConfig} from "./constants";
