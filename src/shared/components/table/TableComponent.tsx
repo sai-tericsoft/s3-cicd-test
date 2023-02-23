@@ -27,6 +27,7 @@ const TableComponent = (props: TableComponentProps) => {
         errored,
         hideHeader,
         columns,
+        bordered,
         defaultExpandAllRows,
         showExpandColumn,
         expandRowRenderer,
@@ -164,7 +165,7 @@ const TableComponent = (props: TableComponentProps) => {
         <div className={'table-component'}>
             <TableStyles className={`styled-table ${className}`}>
                 <div className={`t-table-wrapper`}>
-                    <div {...getTableProps()} className={`t-table table sticky ${size}`}>
+                    <div {...getTableProps()} className={`t-table table sticky ${size} ${bordered ? 'bordered' : ''}`}>
                         {
                             !hideHeader && <div className="header t-thead">
                                 {headerGroups.map((headerGroup) => (

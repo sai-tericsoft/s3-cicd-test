@@ -76,7 +76,7 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
     useEffect(() => {
         const romConfig: any = [];
         const rom_config = medicalInterventionDetails?.rom_config;
-        const injury_details =medicalInterventionDetails?.medical_record_details?.injury_details;
+        const injury_details = medicalInterventionDetails?.medical_record_details?.injury_details;
         if (rom_config?.length > 0) {
             rom_config.forEach((injury: any) => {
                 console.log(injury);
@@ -123,8 +123,7 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
                 {
                     isMedicalInterventionDetailsLoaded && <>
                         {
-                           (globalRomConfig[0]?.rom_config && globalRomConfig[0]?.rom_config?.length === 0)  &&<>
-                                <div className={'status-button-wrapper'}>
+                            (globalRomConfig[0]?.rom_config && globalRomConfig[0]?.rom_config?.length === 0) && <>
                                 <StatusCardComponent
                                     title={"There are no body parts listed under the Range of Motion and Strength. Please add a body part."}>
                                     <ButtonComponent
@@ -134,9 +133,7 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
                                         Add Body Part
                                     </ButtonComponent>
                                 </StatusCardComponent>
-                            </div>
                             </>
-
                         }
                         {
                             globalRomConfig.length > 0 && <>
@@ -151,7 +148,6 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
                                                 selectedBodySides={bodyPart.selected_sides}
                                                 onDelete={handleDeleteBodyPart}
                                                 medicalInterventionId={medicalInterventionId}
-                                                handleAddNewBodyPartOpenModal={handleAddNewBodyPartOpenModal}
                                             />
                                         })
                                     }
@@ -160,6 +156,12 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
 
                             </>
                         }
+                        <ButtonComponent
+                            prefixIcon={<ImageConfig.AddIcon/>}
+                            onClick={handleAddNewBodyPartOpenModal}
+                        >
+                            Add Body Part
+                        </ButtonComponent>
                     </>
                 }
             </>
@@ -188,19 +190,19 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
                         bodyPartList.map((item: any, index: number) => {
                             return <>{
                                 item?.movements?.length > 0 &&
-                            <div className="ts-col-md-6 ts-col-lg-3"
-                                 key={item._id}>
-                                <RadioButtonComponent
-                                    name={"intervention-rom-config-add-body-part"}
-                                    key={index + item?.name}
-                                    label={item?.name}
-                                    checked={selectedBodyPartToBeAdded?._id === item?._id}
-                                    disabled={globalRomConfig.findIndex((bodyPart) => bodyPart.body_part._id === item._id) !== -1}
-                                    onChange={() => {
-                                        setSelectedBodyPartToBeAdded(item);
-                                    }}/>
-                            </div>
-                        }</>
+                                <div className="ts-col-md-6 ts-col-lg-3"
+                                     key={item._id}>
+                                    <RadioButtonComponent
+                                        name={"intervention-rom-config-add-body-part"}
+                                        key={index + item?.name}
+                                        label={item?.name}
+                                        checked={selectedBodyPartToBeAdded?._id === item?._id}
+                                        disabled={globalRomConfig.findIndex((bodyPart) => bodyPart.body_part._id === item._id) !== -1}
+                                        onChange={() => {
+                                            setSelectedBodyPartToBeAdded(item);
+                                        }}/>
+                                </div>
+                            }</>
                         })
                     }
 

@@ -14,7 +14,7 @@ import CheckBoxComponent from "../../../shared/components/form-controls/check-bo
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
-import TableV2Component from "../../../shared/components/table-v2/TableV2Component";
+import TableComponent from "../../../shared/components/table/TableComponent";
 
 interface RomConfigComponentProps {
     medicalInterventionDetails: any;
@@ -24,7 +24,6 @@ interface RomConfigComponentProps {
     selectedBodySides: string[];
     onDelete?: (body_part_id: string) => void;
     onSave?: (romConfig: string) => void;
-    handleAddNewBodyPartOpenModal?: () => void;
 }
 
 interface IROMConfig extends IBodyPart {
@@ -39,7 +38,6 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
         rom_config,
         selectedBodySides,
         bodyPart,
-        handleAddNewBodyPartOpenModal,
         onDelete
     } = props;
     const [bodySides, setBodySides] = useState<string[]>(selectedBodySides);
@@ -48,29 +46,38 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
     const [selectedROMMovementComments, setSelectedROMMovementComments] = useState<any>(undefined);
     const [isBodyPartBeingDeleted, setIsBodyPartBeingDeleted] = useState<boolean>(false);
 
-    console.log('romConfigValues',romConfigValues);
     const generateROMConfigColumns = useCallback((bodyPart: IBodyPart) => {
         const columns: any = [
             {
-                title: 'Movement',
-                key: 'movement',
-                width: 200,
+                title: '',
                 fixed: 'left',
-                render: ( record: any) => {
-                    return record.name
-                }
+                children: [
+                    {
+                        title: 'Movement',
+                        key: 'movement',
+                        width: 200,
+                        fixed: 'left',
+                        render: (record: any) => {
+                            return <div className="movement-name">
+                                {record.name}
+                            </div>
+                        }
+                    }
+                ]
             }
         ];
         bodySides?.forEach((side: any) => {
             columns.push({
                 title: side,
                 align: 'center',
+                fixed: 'left',
                 children: [
                     {
                         title: 'AROM',
-                        key: 'arom',
+                        key: side + 'arom',
+                        fixed: 'left',
                         width: 80,
-                        render: ( record: any) => {
+                        render: (record: any) => {
                             return <Field
                                 name={`${bodyPart._id}.${record?.name}.${side}.arom`}
                                 className="t-form-control">
@@ -88,9 +95,10 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                     },
                     {
                         title: 'PROM',
-                        key: 'prom',
+                        key: side + 'prom',
+                        fixed: 'left',
                         width: 80,
-                        render: ( record: any) => {
+                        render: (record: any) => {
                             return <Field
                                 name={`${bodyPart._id}.${record?.name}.${side}.prom`}
                                 className="t-form-control">
@@ -109,9 +117,10 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                     },
                     {
                         title: 'Strength',
-                        key: 'strength',
-                        width: 100,
-                        render: ( record: any) => {
+                        key: side + 'strength',
+                        fixed: 'left',
+                        width: 80,
+                        render: (record: any) => {
                             return <Field
                                 name={`${bodyPart._id}.${record?.name}.${side}.strength`}
                                 className="t-form-control">
@@ -133,7 +142,6 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
         columns.push({
             title: '',
             key: 'comments',
-            fixed: 'right',
             width: 80,
             render: (record: any, index: any) => <Field
                 name={`${bodyPart._id}.${record?.name}.comments`}
@@ -275,7 +283,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
-                            {(values?.movements?.length > 0) &&<>
+                            {(values?.movements?.length > 0) && <>
                                 <CardComponent title={"Body Part: " + romConfigValues?.name}
                                                actions={<>
                                                    <ButtonComponent
@@ -317,7 +325,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                                             }
                                                         />
                                                     </div>
-                                                    <TableV2Component
+                                                    <TableComponent
                                                         data={romConfigValues?.movements || []}
                                                         bordered={true}
                                                         columns={romConfigValues?.tableConfig}/>
@@ -334,12 +342,6 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
 
                                     </>
                                 </CardComponent>
-                                <ButtonComponent
-                                    prefixIcon={<ImageConfig.AddIcon/>}
-                                    onClick={handleAddNewBodyPartOpenModal}
-                                >
-                                    Add Body Part
-                                </ButtonComponent>
                             </>
                             }
 
