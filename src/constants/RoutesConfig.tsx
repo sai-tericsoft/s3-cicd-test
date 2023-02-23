@@ -29,7 +29,8 @@ const SCHEDULING_VIEW='/scheduling';
 const CLIENT_MEDICAL_RECORD_DETAILS = '/chart-notes/:medicalRecordId/medical-record-details';
 const CHART_NOTES_LIST = "/chart-notes";
 const ADD_MEDICAL_RECORD = '/chart-notes/:clientId/add-medical-record';
-const ADD_MEDICAL_INTERVENTION = '/chart-notes/:medicalRecordId/:medicalInterventionId/add-medical-intervention';
+const UPDATE_MEDICAL_INTERVENTION = '/chart-notes/:medicalRecordId/:medicalInterventionId/update-medical-intervention';
+const VIEW_MEDICAL_INTERVENTION = '/chart-notes/:medicalRecordId/:medicalInterventionId/view-medical-intervention';
 const MEDICAL_INTERVENTION_ROM_CONFIG = '/chart-notes/:medicalRecordId/:medicalInterventionId/rom-config';
 const MEDICAL_INTERVENTION_SPECIAL_TESTS = '/chart-notes/:medicalRecordId/:medicalInterventionId/special-tests';
 const MEDICAL_INTERVENTION_ICD_CODES = '/chart-notes/:medicalRecordId/:medicalInterventionId/icd-codes';
@@ -83,7 +84,6 @@ export {
     SCHEDULING_VIEW,
     CLIENT_MEDICAL_RECORD_DETAILS,
     ADD_MEDICAL_RECORD,
-    ADD_MEDICAL_INTERVENTION,
     CHART_NOTES_LIST,
     MEDICAL_INTERVENTION_ROM_CONFIG,
     MEDICAL_INTERVENTION_SPECIAL_TESTS,
@@ -106,4 +106,6 @@ export {
     ADD_INVENTORY_PRODUCT,
     INVENTORY_PRODUCT_VIEW_DETAILS,
     EDIT_INVENTORY_PRODUCT,
+    UPDATE_MEDICAL_INTERVENTION,
+    VIEW_MEDICAL_INTERVENTION
 };

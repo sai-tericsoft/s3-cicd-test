@@ -108,8 +108,12 @@ const AddMedicalRecord = (clientId: string) => {
     return "/chart-notes/" + clientId + '/add-medical-record';
 }
 
-const AddMedicalIntervention = (medicalRecordId: string, medicalInterventionId: string,) => {
-    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/add-medical-intervention';
+const UpdateMedicalIntervention = (medicalRecordId: string, medicalInterventionId: string,) => {
+    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/update-medical-intervention';
+}
+
+const ViewMedicalIntervention = (medicalRecordId: string, medicalInterventionId: string,) => {
+    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/view-medical-intervention';
 }
 
 const ChartNotesDetails = () => {
@@ -220,11 +224,12 @@ const RouteConfigService = {
     SchedulingView,
     ClientMedicalRecordDetails,
     AddMedicalRecord,
-    AddMedicalIntervention,
     ChartNotesDetails,
     MedicalInterventionROMConfig,
     MedicalInterventionSpecialTests,
     MedicalInterventionExerciseLogUpdate,
+    UpdateMedicalIntervention,
+    ViewMedicalIntervention,
     MedicalRecordList,
     MedicalInterventionExerciseLogView,
     MedicalInterventionICDCodes,

@@ -163,7 +163,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
             CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, MedicalInterventionFormInitialValues)
                 .then((response) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully created discharging intervention", "success");
-                    navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, response.data._id));
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, response.data._id));
                 }).catch((error) => {
                 CommonService._alert.showToast(error?.error || "Error discharging the case", "error");
             });

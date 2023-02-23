@@ -39,10 +39,14 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
     useEffect(() => {
         if (medicalRecordId && medicalInterventionId) {
             dispatch(setCurrentNavParams("SOAP Note", null, () => {
-                medicalInterventionId && navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, medicalInterventionId));
+                if (medicalInterventionDetails?.status === 'completed') {
+                    navigate(CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId));
+                } else {
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+                }
             }));
         }
-    }, [dispatch, navigate, medicalRecordId, medicalInterventionId]);
+    }, [dispatch, navigate, medicalInterventionDetails, medicalRecordId, medicalInterventionId]);
 
     useEffect(() => {
         if (medicalInterventionId && !medicalInterventionDetails) {
@@ -153,7 +157,7 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
                                     }
                                 </>
                                 }
-                                  
+
                             </>
                         }
                     </>

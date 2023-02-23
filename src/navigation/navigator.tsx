@@ -25,10 +25,8 @@ import ClientDetailsScreen from "../screens/clients/client-details/ClientDetails
 import ClientEditScreen from "../screens/clients/client-edit/ClientEditScreen";
 import ClientSearchScreen from "../screens/chart-notes/client-search/ClientSearchScreen";
 import AddMedicalRecordScreen from "../screens/chart-notes/add-medical-record/AddMedicalRecordScreen";
-import AddMedicalInterventionScreen from "../screens/chart-notes/add-medical-intervention/AddMedicalInterventionScreen";
 import {
     ADD_INVENTORY_PRODUCT,
-    ADD_MEDICAL_INTERVENTION,
     ADD_MEDICAL_RECORD,
     ADMIN,
     CHART_NOTES_LIST,
@@ -45,7 +43,8 @@ import {
     EDIT_INVENTORY_PRODUCT,
     FACILITY_DETAILS,
     FACILITY_LIST,
-    INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST, INVENTORY,
+    INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST,
+    INVENTORY,
     INVENTORY_LIST,
     INVENTORY_PRODUCT_VIEW_DETAILS,
     LOGIN_ROUTE,
@@ -70,7 +69,9 @@ import {
     SERVICE_DETAILS,
     SERVICE_EDIT,
     SYSTEM_SETTINGS,
-    TEST_ROUTE
+    TEST_ROUTE,
+    UPDATE_MEDICAL_INTERVENTION,
+    VIEW_MEDICAL_INTERVENTION
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
@@ -114,6 +115,10 @@ import ChartNotesLayoutComponent from "../screens/chart-notes/chart-notes-layout
 import InventoryDetailsMainLayoutComponent
     from "../screens/inventory/inventory-details-main-layout/InventoryDetailsMainLayoutComponent";
 import {setSystemLocked} from "../store/actions/account.action";
+import UpdateMedicalIntervention
+    from "../screens/chart-notes/update-medical-intervention/UpdateMedicalInterventionScreen";
+import ViewMedicalInterventionScreen
+    from "../screens/chart-notes/view-medical-intervention/ViewMedicalInterventionScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -322,9 +327,15 @@ const Navigator = (props: NavigatorProps) => {
                            </ProtectedRoute>
                            }
                     />
-                    <Route path={ADD_MEDICAL_INTERVENTION}
+                    <Route path={UPDATE_MEDICAL_INTERVENTION}
                            element={<ProtectedRoute>
-                               <AddMedicalInterventionScreen/>
+                               <UpdateMedicalIntervention/>
+                           </ProtectedRoute>
+                           }
+                    />
+                    <Route path={VIEW_MEDICAL_INTERVENTION}
+                           element={<ProtectedRoute>
+                               <ViewMedicalInterventionScreen/>
                            </ProtectedRoute>
                            }
                     />

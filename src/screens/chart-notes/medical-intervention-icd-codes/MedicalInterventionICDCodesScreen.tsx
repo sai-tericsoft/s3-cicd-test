@@ -84,8 +84,11 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
         })
             .then((response: IAPIResponseType<any>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, medicalInterventionId));
-
+                if (medicalInterventionDetails?.status === 'completed') {
+                    navigate(CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId));
+                } else {
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+                }
             })
             .catch((error: any) => {
                 CommonService._alert.showToast(error, "error");
@@ -93,7 +96,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             .finally(() => {
                 setIsSubmitting(false);
             })
-    }, [medicalInterventionId, medicalRecordId, navigate])
+    }, [medicalInterventionId, medicalInterventionDetails, medicalRecordId, navigate])
 
     const [currentTab, setCurrentTab] = useState<any>("icdCodes");
     const [searchParams, setSearchParams] = useSearchParams();
@@ -340,7 +343,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                 </TabContentComponent>
                 <div className="text-center">
                     {(medicalRecordId && medicalInterventionId) && <LinkComponent
-                        route={CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, medicalInterventionId)}>
+                        route={medicalInterventionDetails?.status === 'completed' ? CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId) : CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId)}>
                         <ButtonComponent variant={"outlined"}
                                          disabled={isSubmitting}
                         >

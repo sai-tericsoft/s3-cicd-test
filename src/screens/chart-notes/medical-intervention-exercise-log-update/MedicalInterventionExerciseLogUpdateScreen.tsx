@@ -248,10 +248,15 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
     useEffect(() => {
         if (medicalRecordId && medicalInterventionId) {
             dispatch(setCurrentNavParams("SOAP Note", null, () => {
-                medicalInterventionId && navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, medicalInterventionId));
+                if (medicalInterventionDetails?.status === 'completed') {
+                    navigate(CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId));
+
+                } else {
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+                }
             }));
         }
-    }, [dispatch, navigate, medicalRecordId, medicalInterventionId]);
+    }, [dispatch, navigate, medicalInterventionDetails, medicalRecordId, medicalInterventionId]);
 
     useEffect(() => {
         if (medicalRecordId) {
@@ -413,7 +418,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                     </div>
                                     <div className="t-form-actions">
                                         {(medicalRecordId && medicalInterventionId) && <LinkComponent
-                                            route={CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, medicalInterventionId)}>
+                                            route={CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId)}>
                                             <ButtonComponent variant={"outlined"}
                                                              disabled={isSubmitting}
                                                              isLoading={isSubmitting}>

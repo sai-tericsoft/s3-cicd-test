@@ -148,7 +148,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     onTransferSoapNote();
                     setIsSoapNoteTransferUnderProgress(false);
-                    navigate(CommonService._routeConfig.AddMedicalIntervention(selectedMedicalRecord?._id,medicalInterventionId));
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(selectedMedicalRecord?._id,medicalInterventionId));
                 }).catch((error: any) => {
                 CommonService._alert.showToast(error.error, "error");
                 setIsSoapNoteTransferUnderProgress(false);

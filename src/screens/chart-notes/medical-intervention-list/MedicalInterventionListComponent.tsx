@@ -99,7 +99,11 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                     if (item?.note_type?.toLowerCase() === 'exercise log') {
                         route = CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, item?.intervention_id);
                     } else if (["soap note", "discharge summary"].includes(item?.note_type?.toLowerCase())) {
-                        route = CommonService._routeConfig.MedicalInterventionDetails(medicalRecordId, item?._id);
+                        if (item?.status?.toLowerCase() === 'completed') {
+                            route = CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, item?._id);
+                        } else {
+                            route = CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, item?._id);
+                        }
                     } else if (item?.note_type?.toLowerCase() === "progress report") {
                         route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId, item?._id);
                     } else {
@@ -122,7 +126,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                 }
             ).then((response: IAPIResponseType<any>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, response?.data._id) + '?showClear=true');
+                navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, response?.data._id) + '?showClear=true');
                 setIsMedicalInterventionBeingRepeated(false);
             }).catch((error: any) => {
                 CommonService._alert.showToast(error?.error || "Error repeating last medical intervention", "error");
@@ -183,7 +187,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, payload)
                 .then((response: IAPIResponseType<any>) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                    navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, response?.data._id));
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, response?.data._id));
                     setIsMedicalInterventionBeingAdded(false);
                 })
                 .catch((error: any) => {

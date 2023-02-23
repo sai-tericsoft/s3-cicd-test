@@ -156,10 +156,15 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
     useEffect(() => {
         if (medicalRecordId && medicalInterventionId) {
             dispatch(setCurrentNavParams("Finalize Treatment", null, () => {
-                medicalInterventionId && navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, medicalInterventionId));
+                if (medicalInterventionDetails?.status === 'completed'){
+                    navigate(CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId));
+
+                } else {
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+                }
             }));
         }
-    }, [dispatch, navigate, medicalRecordId, medicalInterventionId]);
+    }, [dispatch, navigate, medicalInterventionDetails, medicalRecordId, medicalInterventionId]);
 
     useEffect(() => {
         if (medicalInterventionId && !medicalInterventionDetails) {
@@ -252,7 +257,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                             }, [validateForm, values]);
                             return (
                                 <Form className="t-form" noValidate={true}>
-                                    <FormDebuggerComponent values={values} errors={errors} canShow={true}/>
+                                    <FormDebuggerComponent values={values} errors={errors} canShow={false}/>
                                     <CardComponent>
                                         <div className="ts-row align-items-center">
                                             <div className="ts-col ts-col-6">
