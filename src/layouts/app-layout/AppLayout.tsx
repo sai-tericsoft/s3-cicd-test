@@ -1,5 +1,5 @@
-import React from "react";
-import {Outlet} from "react-router-dom";
+import React, {useEffect} from "react";
+import {Outlet, useLocation} from "react-router-dom";
 import BrandingComponent from "../../shared/components/layout/branding/BrandingComponent";
 import SideMenuComponent from "../../shared/components/layout/side-menu/SideMenuComponent";
 import HeaderComponent from "../../shared/components/layout/header/HeaderComponent";
@@ -16,6 +16,15 @@ const AppLayout = (props: AppLayoutProps) => {
 
     const {sideMenuView} = useSelector((state: IRootReducerState) => state.navigation);
     const dispatch = useDispatch();
+    const location = useLocation();
+
+
+    useEffect(() => {
+        const ele = document.getElementById('page-content-holder');
+        if (ele) {
+            ele.scrollTo(0, 0);
+        }
+    }, [location]);
 
     return (
         <div className="app-layout">
@@ -41,7 +50,7 @@ const AppLayout = (props: AppLayoutProps) => {
                 <div className="header-holder">
                     <HeaderComponent/>
                 </div>
-                <div className="page-content-holder">
+                <div className="page-content-holder" id={'page-content-holder'}>
                     <Outlet/>
                 </div>
             </div>

@@ -40,7 +40,6 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
     const navigate = useNavigate();
     const {medicalInterventionDetails} = useSelector((state: IRootReducerState) => state.chartNotes);
     const {medicalRecordId, medicalInterventionId} = useParams();
-
     const {
         clientMedicalRecord,
     } = useSelector((state: IRootReducerState) => state.client);
@@ -60,16 +59,15 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
     }, [navigate, dispatch, medicalRecordId]);
 
     useEffect(() => {
-        if(medicalRecordId){
+        if (medicalRecordId) {
             dispatch(getClientMedicalRecord(medicalRecordId));
         }
-    },[dispatch, medicalRecordId]);
+    }, [dispatch, medicalRecordId]);
 
     const [selectedICDCodes, setSelectedICDCodes] = useState<any[]>([]);
     const [searchICDCodes, setSearchICDCodes] = useState<any>({
         search: "",
     });
-    console.log('selectedICDCodes',selectedICDCodes);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
     const linkICDCodesToIntervention = useCallback((codes: string[], mode: 'add' | 'edit' = 'add') => {
@@ -120,6 +118,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
         setCurrentTab(value);
     }, [searchParams, setSearchParams]);
 
+
     const codeListColumns: ITableColumn[] = [
         {
             key: 'select',
@@ -127,7 +126,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             dataIndex: 'select',
             width: 90,
             render: (item: any, record: any) => {
-                return <CheckBoxComponent label={""}  checked={selectedICDCodes.includes(record?._id)}
+                return <CheckBoxComponent label={""} checked={selectedICDCodes.includes(record?._id)}
                                           onChange={(isChecked) => {
                                               if (isChecked) {
                                                   setSelectedICDCodes([...selectedICDCodes, record?._id]);
@@ -255,7 +254,6 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             setSelectedICDCodes((medicalInterventionDetails?.linked_icd_codes || []).map((v: any) => v?._id));
         }
     }, [medicalInterventionDetails]);
-
     return (
         <div className={'medical-intervention-icd-codes-screen'}>
             <PageHeaderComponent title={'ICD-11 Code'}/>
