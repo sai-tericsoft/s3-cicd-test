@@ -17,10 +17,8 @@ import MenuDropdownComponent from "../../../shared/components/menu-dropdown/Menu
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {useDispatch} from "react-redux";
 import {
-    getMedicalInterventionDetails,
     updateMedicalInterventionROMConfigForABodyPart
 } from "../../../store/actions/chart-notes.action";
-import FormAutoSave from "../../../shared/utils/FormAutoSave";
 
 interface RomConfigComponentProps {
     mode?: 'read' | 'write';
@@ -41,12 +39,10 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
 
     const {
         medicalInterventionId,
-        medicalInterventionDetails,
         rom_config,
         selectedBodySides,
         bodyPart,
         onDelete,
-        onSave
     } = props;
     const dispatch = useDispatch();
     const [bodySides, setBodySides] = useState<string[]>(selectedBodySides);
@@ -262,7 +258,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                 // }
             });
         }
-    }, [onDelete, bodyPart?._id, medicalInterventionDetails, medicalInterventionId]);
+    }, [onDelete, bodyPart?._id, medicalInterventionId]);
 
     const handleBodySideSelect = useCallback((isSelected: boolean, bodySide: string) => {
         if (isSelected) {
@@ -305,7 +301,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                 CommonService._alert.showToast(error.error || error.errors || 'Error saving ROM configuration', 'error');
                 setSubmitting(false);
             });
-    }, [medicalInterventionId, onSave, dispatch]);
+    }, [bodyPart, medicalInterventionId, dispatch]);
 
     return (
         <div className={'rom-config-component'}>
