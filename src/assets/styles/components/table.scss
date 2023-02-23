@@ -6,7 +6,8 @@
   //overflow: auto;
 
   .t-table {
-
+    border-radius: 4px;
+    border: 1px solid #F3F3F3;
     width: 100%;
     height: 100%;
     position: relative;
@@ -73,17 +74,14 @@
       }
     }
 
+
     .t-th, .t-td {
 
       &:first-child {
         padding-left: 20px;
       }
 
-      &:last-child {
-        padding-right: 20px;
-      }
-
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid #F3F3F3;
       background-color: #fff;
       overflow: hidden;
 
@@ -124,6 +122,16 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+      }
+
+    }
+
+    .t-tr {
+      &:last-child {
+        .t-td {
+          padding-right: 20px;
+          border-bottom: none !important;
+        }
       }
 
     }

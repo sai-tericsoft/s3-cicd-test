@@ -31,19 +31,20 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
 
     const progressStatsColumn: ITableColumn[] = [
         {
+            key: 'name',
             title: 'Name',
             dataIndex: 'name',
-            key: 'name',
+            fixed: "left",
             width:150,
             render: (item: any) => {
                 return <>{item?.progress_stats_details?.name}</>
             }
         },
         {
-            title: 'Results',
-            width: 150,
-            dataIndex: 'result',
             key: 'result',
+            title: 'Results',
+            dataIndex: 'result',
+            width:150,
         }
     ];
 

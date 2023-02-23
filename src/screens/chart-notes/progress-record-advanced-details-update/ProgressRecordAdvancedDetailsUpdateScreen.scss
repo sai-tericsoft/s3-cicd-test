@@ -2,6 +2,7 @@
   .t-cell-comments, .t-cell-results {
     text-align: center !important;
   }
+
   .last-updated-status {
     display: flex;
     justify-content: flex-end;
@@ -19,6 +20,7 @@
       text-transform: capitalize;
     }
   }
+
   .client-name-button-wrapper {
     display: flex;
     justify-content: space-between;
@@ -30,6 +32,12 @@
       .client-name {
         padding-right: 10px;
       }
+    }
+  }
+
+  .t-cell-results {
+    .radio-component {
+      width: 100px !important;
     }
   }
 }
