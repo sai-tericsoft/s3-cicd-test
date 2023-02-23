@@ -289,11 +289,11 @@ const AddMedicalInterventionScreen = (props: AddMedicalInterventionScreenProps) 
                                             <LinkComponent
                                                 route={CommonService._routeConfig.MedicalInterventionExerciseLogUpdate(medicalRecordId, medicalInterventionId)}>
                                                 <ButtonComponent
-                                                    prefixIcon={medicalInterventionDetails?.is_having_exercise_log ?
+                                                    prefixIcon={medicalInterventionDetails?.is_exercise_log_added ?
                                                         <ImageConfig.EditIcon/> : <ImageConfig.AddIcon/>}
                                                 >
                                                     {
-                                                        (medicalInterventionDetails?.is_having_exercise_log ? "Edit" : "Add") + " Exercise Log"
+                                                        (medicalInterventionDetails?.is_exercise_log_added ? "Edit" : "Add") + " Exercise Log"
                                                     }
                                                 </ButtonComponent>
                                             </LinkComponent>
