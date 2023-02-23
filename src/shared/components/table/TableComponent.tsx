@@ -213,7 +213,7 @@ const TableComponent = (props: TableComponentProps) => {
                                     })
                                 }
                                 {
-                                    rows.length === 0 &&
+                                    (!loading &&  rows.length === 0) &&
                                     <StatusCardComponent title={noDataText ? noDataText : "No data found"}
                                                          className={'table-data-not-found-card'}/>
                                 }
