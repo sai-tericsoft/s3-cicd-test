@@ -12,6 +12,11 @@
       }
       .product-details-wrapper{
         margin-left: 20px;
+        .quantity-available{
+          .data-value{
+            margin-top: 3px;
+          }
+        }
         .inventory-product-details{
           margin-left: 5px;
         }
