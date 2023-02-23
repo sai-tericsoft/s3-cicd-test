@@ -95,7 +95,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                 {/*         }><ImageConfig.CloseIcon/></div>*/}
                 {/*</ToolTipComponent>*/}
             </div>
-            <div className="secure-checkout-title">Secure Checkout</div>
+            <div className="secure-checkout-heading">Secure Checkout</div>
             <Formik
                 innerRef={formRef}
                 validationSchema={addAppointmentPaymentValidationSchema}

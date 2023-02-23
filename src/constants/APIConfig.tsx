@@ -313,6 +313,11 @@ const APIConfig: IAPIConfig = {
     // user end
 
     // user start
+
+    APPOINTMENT_CALENDAR_LIST: {
+        URL: ENV.API_URL + '/appointment/calendar',
+        METHOD: "get"
+    },
     APPOINTMENT_LIST: {
         URL: ENV.API_URL + '/appointment',
         METHOD: "get"

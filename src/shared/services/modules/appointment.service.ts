@@ -5,6 +5,10 @@ const getAppointmentList = (payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.APPOINTMENT_LIST.METHOD](APIConfig.APPOINTMENT_LIST.URL, payload);
 }
+const getAppointmentCalendarList = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.APPOINTMENT_CALENDAR_LIST.METHOD](APIConfig.APPOINTMENT_CALENDAR_LIST.URL, payload);
+}
 
 const getAppointment = (appointmentId: string) => {
     // @ts-ignore
@@ -52,6 +56,7 @@ const AppointmentService = {
     appointmentPayment,
     appointmentCancel,
     appointmentReschedule,
+    getAppointmentCalendarList,
     getAppointmentList,
     getAppointment,
     appointmentCheckin,
