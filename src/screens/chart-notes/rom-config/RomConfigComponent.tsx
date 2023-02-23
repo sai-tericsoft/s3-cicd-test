@@ -20,6 +20,7 @@ import {
     getMedicalInterventionDetails,
     updateMedicalInterventionROMConfigForABodyPart
 } from "../../../store/actions/chart-notes.action";
+import FormAutoSave from "../../../shared/utils/FormAutoSave";
 
 interface RomConfigComponentProps {
     mode?: 'read' | 'write';
@@ -85,6 +86,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                         title: 'AROM',
                         key: side + 'arom',
                         fixed: 'left',
+                        align: 'center',
                         width: 80,
                         render: (record: any) => {
                             return <Field
@@ -108,6 +110,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                         title: 'PROM',
                         key: side + 'prom',
                         fixed: 'left',
+                        align: 'center',
                         width: 80,
                         render: (record: any) => {
                             return <Field
@@ -131,6 +134,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                         title: 'Strength',
                         key: side + 'strength',
                         fixed: 'left',
+                        align: 'center',
                         width: 80,
                         render: (record: any) => {
                             return <Field
@@ -308,13 +312,15 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
             <Formik initialValues={romConfigValues}
                     enableReinitialize={true}
                     onSubmit={handleROMConfigSubmit}>
-                {({values, validateForm, setFieldValue, isSubmitting}) => {
+                {(formik) => {
+                    const { validateForm, values, isSubmitting, setFieldValue } = formik;
                     // eslint-disable-next-line react-hooks/rules-of-hooks
                     useEffect(() => {
                         validateForm();
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
+                            {/*<FormAutoSave formikCtx={formik}/>*/}
                             {(values?.movements?.length > 0) && <>
                                 <CardComponent title={"Body Part: " + romConfigValues?.name}
                                                actions={<>
