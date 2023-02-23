@@ -284,7 +284,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                         <FormAutoSave formikCtx={formik} onUpdating={setIsFormBeingUpdated}/>}
                                     <div
                                         className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
-                                        <FormControlLabelComponent label={"Soap Note"} size={'lg'} className={"mrg-0"}/>
+                                        <FormControlLabelComponent label={"SOAP Note"} size={'lg'} className={"mrg-0 font-size-20"}/>
                                         {
                                             (medicalInterventionId && medicalRecordId && true) &&
                                             <LinkComponent
