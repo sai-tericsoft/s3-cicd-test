@@ -162,7 +162,7 @@ const TableComponent = (props: TableComponentProps) => {
 
     return (
         <div className={'table-component'}>
-            <TableStyles className={`styled-table + ${className}`}>
+            <TableStyles className={`styled-table ${className}`}>
                 <div className={`t-table-wrapper`}>
                     <div {...getTableProps()} className={`t-table table sticky ${size}`}>
                         {
