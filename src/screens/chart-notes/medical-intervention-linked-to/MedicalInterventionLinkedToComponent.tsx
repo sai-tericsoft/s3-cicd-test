@@ -66,8 +66,6 @@ const MedicalInterventionLinkedToComponent = (props: MedicalInterventionLinkedTo
                 }
             }
         }, [shouldShowViewAllBodyPartsButton]);
-        console.log('medicalRecordDetails',medicalRecordDetails);
-        console.log('medicalRecordDetails?.injury_details.length',medicalRecordDetails?.injury_details.length);
 
         return (
             <div className={'medical-intervention-linked-to-component'}>
@@ -81,7 +79,7 @@ const MedicalInterventionLinkedToComponent = (props: MedicalInterventionLinkedTo
                     })}
                     </div>
                     {
-                        (medicalRecordDetails?.injury_details?.length > 1) &&
+                        (medicalRecordDetails?.injury_details?.length > 1 && shouldShowViewAllBodyParts) &&
                         <span className={'medical-record-injury-details-view-all-body-parts'}
                               onClick={openBodyPartsModal}>
                         View All Body Parts
