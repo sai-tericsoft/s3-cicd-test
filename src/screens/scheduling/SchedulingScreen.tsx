@@ -23,6 +23,7 @@ import CalendarAppointmentCard from "./calendar-appointment-card/CalendarAppoint
 import {IAPIResponseType} from "../../shared/models/api.model";
 import {IClientBasicDetails} from "../../shared/models/client.model";
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import ToolTipComponent from "../../shared/components/tool-tip/ToolTipComponent";
 
 interface SchedulingScreenProps {
 
@@ -30,6 +31,9 @@ interface SchedulingScreenProps {
 
 const HOURS_LIST = Array.from(Array(24).keys()).map((item: number) => {
     return moment().hour(item).minute(0).format('HH:mm')
+});
+const HOURS_LIST_IN_MINUTES = Array.from(Array(24).keys()).map((item: number) => {
+    return {start: item * 60, end: (item + 1) * 60, label: moment().hour(item).minute(0).format('HH:mm')}
 });
 
 
@@ -221,7 +225,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                     const data = response.data || [];
                     const colorMap: any = {};
                     data.forEach((item: any) => {
-                        colorMap[`${item._id}`] = item.color;
+                        colorMap[`${item._id}`] = item.color_code || '#AAAAAA';
                     })
                     setServiceCategoryColorMap(colorMap);
                     setServiceCategoryList(data);
@@ -238,13 +242,37 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
     }, [getServiceCategoriesList]);
 
     const [calendarData, setCalendarData] = useState<any>(null)
+    const [calendarDaysData, setCalendarDaysData] = useState<any>(null)
     const getCalenderList = useCallback((payload: any) => {
         delete payload.sort;
+        setCalendarData(null);
+        setCalendarDaysData(null);
         CommonService._appointment.getAppointmentCalendarList(payload)
             .then((response: IAPIResponseType<IClientBasicDetails>) => {
-                console.log(response, 'response');
+                // console.log(response, 'response');
                 // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                setCalendarData(response.data);
+                const data = response.data || {};
+                setCalendarData(data);
+                const daysData: any = {};
+                for (let date in data) {
+                    // const dayData = {}
+                    const appointments = data[date].appointments || [];
+                    const dayHourData: any = {};
+                    appointments.forEach((appointment: any) => {
+                        HOURS_LIST_IN_MINUTES.forEach((hour: any) => {
+                            // console.log(hour, 'hour', appointment.start_time, appointment.end_time);
+                            if (appointment.start_time >= hour.start && appointment.start_time < hour.end) {
+                                if (!dayHourData.hasOwnProperty(hour.label)) {
+                                    dayHourData[hour.label] = [];
+                                }
+                                dayHourData[hour.label].push(appointment);
+                            }
+                        });
+                    })
+                    daysData[date] = dayHourData
+                }
+                setCalendarDaysData(daysData);
+                console.log(daysData, 'daysData');
             })
             .catch((error: any) => {
             })
@@ -393,6 +421,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                             <div className="scheduling-filter-header-action-item">
                                 <AutoCompleteComponent size={'small'}
                                                        label={'Provider'}
+                                                       value={schedulingListFilterState?.provider_id}
                                                        dataListKey={'data'}
                                                        displayWith={item => item ? item?.first_name + ' ' + item?.last_name : ''}
                                                        keyExtractor={item => item?._id}
@@ -413,6 +442,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                             </div>
                             <div className="scheduling-filter-header-action-item">
                                 <AutoCompleteComponent size={'small'}
+                                                       value={schedulingListFilterState?.status}
                                                        options={appointmentStatus || []}
                                                        displayWith={(option: any) => (option?.title || '')}
                                                        valueExtractor={(option: any) => option?.code}
@@ -462,22 +492,55 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                 showControls={false}
                                 onDayRender={(day, dateMoment) => {
                                     const date = dateMoment.format('YYYY-MM-DD');
-                                    return (<div className={'calendar-appointments-holder'}>
+                                    return (<div key={'row-day-' + day}
+                                                 className={'calendar-appointments-holder' + ((calendarData && calendarData[date]?.appointments ? calendarData[date]?.appointments : []).length >= 9 ? ' fit-rows-min' : ((calendarData && calendarData[date]?.appointments ? calendarData[date]?.appointments : []).length >= 3 ? ' fit-rows' : ''))}>
                                         {calendarData && calendarData[date] && <>
                                             {(!!schedulingListFilterState.status || !!schedulingListFilterState.provider_id) ? (calendarData[date]?.appointments || [])
                                                 .map((value: any, index: number) => {
                                                     return (
-                                                        <div key={index} className={'appointment-mini-card fit-rows '+ (value.status)}>
+                                                        <ToolTipComponent key={index} tooltip={
+                                                            <>
+                                                                <b>{value.client_details.first_name + ' ' + value.client_details.last_name || "No title"}</b><br/>
+                                                                {value.category_details.name + ' / ' + value.service_details.name + ' - ' + (value.provider_details.first_name + ' ' + value.provider_details.last_name) || "-"}
+                                                                <br/>
+                                                                {CommonService.getHoursAndMinutesFromMinutes(value.start_time) + ' - ' + CommonService.getHoursAndMinutesFromMinutes(value.end_time) || "-"}
+                                                                <br/>
+                                                                <i>{value.status || "-"}</i>
+                                                            </>
+                                                        }
+                                                                          backgroundColor={'#000000'}
+                                                                          textColor={'#FFFFFF'}>
                                                             <div
-                                                                className="appointment-title">{value?.client_details?.first_name + ' ' + value?.client_details?.last_name}</div>
-                                                            <div
-                                                                className="appointment-status">{value.status || '-'}</div>
-                                                        </div>)
+                                                                onClick={() => {
+                                                                    setOpenedAppointmentDetails(value);
+                                                                }}
+                                                                className={'appointment-mini-card ' + (value.status)}>
+                                                                <div
+                                                                    className="appointment-title">{value?.client_details?.first_name + ' ' + value?.client_details?.last_name}</div>
+                                                                <div
+                                                                    className="appointment-status">{value.status || '-'}</div>
+                                                            </div>
+                                                        </ToolTipComponent>
+                                                    )
                                                 }) : (!!schedulingListFilterState.service_id) ? (calendarData[date]?.meta?.providers || [])
                                                 .map((value: any, index: number) => {
                                                     return (
-                                                        <div key={index} className={'appointment-count-card'}>
-                                                            <div className="appointment-count-card-wrapper">
+                                                        <div key={index} className={'appointment-count-card'}
+                                                             onClick={() => {
+                                                                 setSchedulingListFilterState({
+                                                                     ...schedulingListFilterState,
+                                                                     provider_id: value._id
+                                                                 })
+                                                             }}
+                                                        >
+                                                            <div className="appointment-count-card-wrapper"
+                                                                 style={{
+                                                                     color: '#000000',
+                                                                     background: ((serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id] : '#AAAAAA') + '30',
+                                                                     // opacity: 0.6,
+                                                                     borderColor: (serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id] : '#AAAAAA'
+                                                                 }}
+                                                            >
                                                                 <div
                                                                     className="appointment-title">{CommonService.getNameInitials(value.first_name + ' ' + value.last_name)}</div>
                                                                 <div className="appointment-count">({value?.count || 0})
@@ -487,8 +550,22 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                 }) : (!!schedulingListFilterState.category_id) ? (calendarData[date]?.meta?.services || [])
                                                 .map((value: any, index: number) => {
                                                     return (
-                                                        <div key={index} className={'appointment-count-card'}>
-                                                            <div className="appointment-count-card-wrapper">
+                                                        <div key={index} className={'appointment-count-card'}
+                                                             onClick={() => {
+                                                                 setSchedulingListFilterState({
+                                                                     ...schedulingListFilterState,
+                                                                     service_id: value._id
+                                                                 })
+                                                             }}
+                                                        >
+                                                            <div className="appointment-count-card-wrapper"
+                                                                 style={{
+                                                                     color: '#000000',
+                                                                     background: ((serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id] : '#AAAAAA') + '60',
+                                                                     // opacity: 0.6,
+                                                                     borderColor: (serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id] : '#AAAAAA'
+                                                                 }}
+                                                            >
                                                                 <div
                                                                     className="appointment-title">{CommonService.getNameInitials(value.name)}</div>
                                                                 <div
@@ -499,8 +576,19 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                 }) : (calendarData[date]?.meta?.categories || [])
                                                 .map((value: any, index: number) => {
                                                     return (
-                                                        <div key={index} className={'appointment-count-card '} style={{color: (serviceCategoryColorMap && serviceCategoryColorMap[value._id] ? serviceCategoryColorMap[value._id] : '')}}>
-                                                            <div className="appointment-count-card-wrapper">
+                                                        <div key={index} className={'appointment-count-card '}
+                                                             onClick={() => {
+                                                                 setSchedulingListFilterState({
+                                                                     ...schedulingListFilterState,
+                                                                     category_id: value?._id,
+                                                                     service_id: undefined
+                                                                 })
+                                                             }}>
+                                                            <div className="appointment-count-card-wrapper"
+                                                                 style={{
+                                                                     color: CommonService.getContrastYIQ((serviceCategoryColorMap && serviceCategoryColorMap[value._id]) ? serviceCategoryColorMap[value._id] : '#AAAAAA'),
+                                                                     background: (serviceCategoryColorMap && serviceCategoryColorMap[value._id]) ? serviceCategoryColorMap[value._id] : '#AAAAAA'
+                                                                 }}>
                                                                 <div
                                                                     className="appointment-title">{CommonService.getNameInitials(value.name)}</div>
                                                                 <div className="appointment-count">({value.count || 0})
@@ -519,9 +607,9 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                     {(serviceCategoryList || []).map((value, index) => {
                                         return <div className={'helper-tooltip-window-item '} key={index}>
                                             <div className={'helper-tooltip-window-item-color'}
-                                                 style={{background: value.color}}></div>
+                                                 style={{background: value.color_code}}></div>
                                             <div className={'helper-tooltip-window-item-text'}
-                                                 style={{color: value.color}}>{value.name}</div>
+                                                 style={{color: value.color_code}}>{value.name}</div>
                                         </div>
                                     })}
                                 </div>}
@@ -547,83 +635,43 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                             schedulingListFilterState.duration === '3day' ? 3 :
                                                 schedulingListFilterState.duration === '5day' ? 5 : 1)
                                     }, (v, i) => moment(schedulingListFilterState.start_date).add(i, 'days')).map((day, index) => {
+                                        const date = day.format('YYYY-MM-DD');
                                         return <div key={index}
                                                     className={"scheduling-calendar-day-wise-item view-" + schedulingListFilterState.duration}>
                                             <div className="scheduling-calendar-day-wise-item-header">
                                                 {day.format('DD MMMM YYYY')}
                                             </div>
                                             <div className="scheduling-calendar-day-wise-item-body">
-                                                {HOURS_LIST.map(
+                                                {HOURS_LIST_IN_MINUTES.map(
                                                     (value, index) => {
                                                         return <div key={index}
                                                                     className="scheduling-calendar-hour-block">
                                                             <div className="dashed-line"/>
                                                             <div className="scheduling-calendar-hour-block-content">
                                                                 {/*actual logic goes here*/}
-                                                                <div className="card-item">
-                                                                    <CalendarAppointmentCard title={'Fanny Mitchelle'}
-                                                                                             timeSlot={'3AM - 3:30AM'}
-                                                                                             description={'Therapy Services - Athletic Therapy / Physiotherapy - Terill Lobo'}
-                                                                                             style={{height: 45}}
-                                                                                             status={'upcoming'}
-                                                                    />
-                                                                </div>
-                                                                <div className="card-item">
-                                                                    <CalendarAppointmentCard title={'Fanny Mitchelle'}
-                                                                                             timeSlot={'3AM - 3:30AM'}
-                                                                                             description={'Therapy Services - Athletic Therapy / Physiotherapy - Terill Lobo'}
-                                                                                             style={{height: 45}}
-                                                                                             status={'upcoming'}
-                                                                    />
-                                                                </div>
-                                                                <div className="card-item">
-                                                                    <CalendarAppointmentCard title={'Fanny Mitchelle'}
-                                                                                             timeSlot={'3AM - 3:30AM'}
-                                                                                             description={'Therapy Services - Athletic Therapy / Physiotherapy - Terill Lobo'}
-                                                                                             style={{height: 45}}
-                                                                                             status={'upcoming'}
-                                                                    />
-                                                                </div>
-                                                                <div className="card-item">
-                                                                    <CalendarAppointmentCard title={'Fanny Mitchelle'}
-                                                                                             timeSlot={'3AM - 3:30AM'}
-                                                                                             description={'Therapy Services - Athletic Therapy / Physiotherapy - Terill Lobo'}
-                                                                                             style={{height: 45}}
-                                                                                             status={'upcoming'}
-                                                                    />
-                                                                </div>
-                                                                <div className="card-item">
-                                                                    <CalendarAppointmentCard title={'Fanny Mitchelle'}
-                                                                                             timeSlot={'3AM - 3:30AM'}
-                                                                                             description={'Therapy Services - Athletic Therapy / Physiotherapy - Terill Lobo'}
-                                                                                             style={{height: 45}}
-                                                                                             status={'upcoming'}
-                                                                    />
-                                                                </div>
-                                                                <div className="card-item">
-                                                                    <CalendarAppointmentCard title={'Fanny Mitchelle'}
-                                                                                             timeSlot={'3AM - 3:30AM'}
-                                                                                             description={'Therapy Services - Athletic Therapy / Physiotherapy - Terill Lobo'}
-                                                                                             style={{height: 45}}
-                                                                                             status={'upcoming'}
-                                                                    />
-                                                                </div>
-                                                                <div className="card-item">
-                                                                    <CalendarAppointmentCard title={'Fanny Mitchelle'}
-                                                                                             timeSlot={'3AM - 3:30AM'}
-                                                                                             description={'Therapy Services - Athletic Therapy / Physiotherapy - Terill Lobo'}
-                                                                                             style={{height: 45}}
-                                                                                             status={'upcoming'}
-                                                                    />
-                                                                </div>
-                                                                <div className="card-item">
-                                                                    <CalendarAppointmentCard title={'Fanny Mitchelle'}
-                                                                                             timeSlot={'3AM - 3:30AM'}
-                                                                                             description={'Therapy Services - Athletic Therapy / Physiotherapy - Terill Lobo'}
-                                                                                             style={{height: 45}}
-                                                                                             status={'upcoming'}
-                                                                    />
-                                                                </div>
+
+                                                                {
+                                                                    (calendarDaysData && calendarDaysData[date] && calendarDaysData[date][value.label] ? calendarDaysData[date][value.label] : [])
+                                                                        .map((appointment: any, index: number) => {
+                                                                            return (
+                                                                                <div className="card-item"
+                                                                                     onClick={() => {
+                                                                                         setOpenedAppointmentDetails(appointment);
+                                                                                     }}
+                                                                                     style={{marginTop: appointment.start_time - value.start}}>
+                                                                                    <CalendarAppointmentCard
+                                                                                        title={appointment.client_details.first_name + ' ' + appointment.client_details.last_name}
+                                                                                        timeSlot={CommonService.getHoursAndMinutesFromMinutes(appointment.start_time) + ' - ' + CommonService.getHoursAndMinutesFromMinutes(appointment.end_time)}
+                                                                                        description={
+                                                                                            appointment.category_details.name + ' / ' + appointment.service_details.name + ' - ' + (appointment.provider_details.first_name + ' ' + appointment.provider_details.last_name)
+                                                                                        }
+                                                                                        style={{height: appointment.end_time - appointment.start_time}}
+                                                                                        status={appointment.status}
+                                                                                    />
+                                                                                </div>
+                                                                            )
+                                                                        })
+                                                                }
 
 
                                                             </div>

@@ -506,7 +506,22 @@ const getNameInitials = (name: string) => {
     return initials;
 }
 
+const getContrastYIQ = (hexcolor: string) => {
+    const r = parseInt(hexcolor.substring(1, 3), 16);
+    const g = parseInt(hexcolor.substring(3, 5), 16);
+    const b = parseInt(hexcolor.substring(5, 7), 16);
+    const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+    return (yiq >= 128) ? 'black' : 'white';
+}
+
+const LightenDarkenColor = (col: any, amt: number) => {
+    col = parseInt(col, 16);
+    return (((col & 0x0000FF) + amt) | ((((col >> 8) & 0x00FF) + amt) << 8) | (((col >> 16) + amt) << 16)).toString(16)
+}
+
 const CommonService = {
+    LightenDarkenColor,
+    getContrastYIQ,
     getNameInitials,
     CurrentDate,
     parseQueryString,
