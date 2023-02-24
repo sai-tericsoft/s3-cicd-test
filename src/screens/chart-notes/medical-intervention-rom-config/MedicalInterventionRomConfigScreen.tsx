@@ -124,7 +124,7 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
                 {
                     isMedicalInterventionDetailsLoaded && <>
                         {
-                            (globalRomConfig[0]?.rom_config && globalRomConfig[0]?.rom_config?.length === 0) && <>
+                            (globalRomConfig?.length === 0) && <>
                                 <StatusCardComponent
                                     title={"There are no body parts listed under the Range of Motion and Strength. Please add a body part."}>
                                     <ButtonComponent
@@ -158,12 +158,12 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
 
                             </>
                         }
-                        <ButtonComponent
+                        {(globalRomConfig?.length > 0) && <ButtonComponent
                             prefixIcon={<ImageConfig.AddIcon/>}
                             onClick={handleAddNewBodyPartOpenModal}
                         >
                             Add Body Part
-                        </ButtonComponent>
+                        </ButtonComponent>}
                     </>
                 }
             </>
