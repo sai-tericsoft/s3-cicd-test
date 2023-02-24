@@ -24,6 +24,7 @@ import {IAPIResponseType} from "../../shared/models/api.model";
 import {IClientBasicDetails} from "../../shared/models/client.model";
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import ToolTipComponent from "../../shared/components/tool-tip/ToolTipComponent";
+import LoaderComponent from "../../shared/components/loader/LoaderComponent";
 
 interface SchedulingScreenProps {
 
@@ -243,10 +244,12 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
 
     const [calendarData, setCalendarData] = useState<any>(null)
     const [calendarDaysData, setCalendarDaysData] = useState<any>(null)
+    const [isCalendarLoading, setIsCalendarLoading] = useState<boolean>(false)
     const getCalenderList = useCallback((payload: any) => {
         delete payload.sort;
         setCalendarData(null);
         setCalendarDaysData(null);
+        setIsCalendarLoading(true);
         CommonService._appointment.getAppointmentCalendarList(payload)
             .then((response: IAPIResponseType<IClientBasicDetails>) => {
                 // console.log(response, 'response');
@@ -273,8 +276,10 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                 }
                 setCalendarDaysData(daysData);
                 console.log(daysData, 'daysData');
+                setIsCalendarLoading(false);
             })
             .catch((error: any) => {
+                setIsCalendarLoading(false);
             })
     }, []);
     useEffect(() => {
@@ -482,6 +487,9 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                         </div>
                     </div>
                     {viewMode === 'calendar' && <>
+                        {isCalendarLoading && <div className="scheduling-calendar-loader">
+                            <LoaderComponent/>
+                        </div>}
                         {schedulingListFilterState.duration === 'month' && <>
                             <FullCalendarComponent
                                 minDate={moment(schedulingListFilterState.start_date).subtract(1, 'months').format('YYYY-MM-DD')}
