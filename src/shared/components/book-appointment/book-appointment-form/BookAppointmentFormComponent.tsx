@@ -258,6 +258,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                         {
                                             consultation_title: group.title,
                                             duration: duration.duration,
+                                            _id: group.id,
                                             title: group.title + ' - ' + duration.duration + 'min',
                                             code: group.title + ':' + duration.duration
                                         }

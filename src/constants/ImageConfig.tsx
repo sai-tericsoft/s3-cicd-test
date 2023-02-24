@@ -59,6 +59,7 @@ import {ReactComponent as ChartNotes} from '../assets/icons/side-menu/chart_note
 import {ReactComponent as EventIcon} from '../assets/icons/side-menu/event_black.svg';
 
 // general
+import {ReactComponent as HelpQuestion} from './../assets/icons/help_black.svg';
 import {ReactComponent as AddIcon} from './../assets/icons/add.svg';
 import {ReactComponent as DeleteIcon} from "./../assets/icons/delete.svg";
 import {ReactComponent as AddCircleIcon} from './../assets/icons/add_circle.svg';
@@ -156,5 +157,6 @@ export {
     AttachMoneyIcon,
     AssignmentIcon,
     CancelIcon,
-    VerifiedCross
+    VerifiedCross,
+    HelpQuestion
 }
