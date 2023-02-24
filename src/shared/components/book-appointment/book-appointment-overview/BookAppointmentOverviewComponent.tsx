@@ -60,7 +60,7 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                 service_id: booking.service._id,
                 provider_id: booking.provider.provider_id,
                 appointment_type: booking.appointment_type,
-                consultation_title: booking.duration.consultation_title,
+                consultation_id: booking.duration._id,
                 appointment_date: booking.date,
                 duration: parseInt(booking.duration.duration),
                 start_time: booking.time.start_min,

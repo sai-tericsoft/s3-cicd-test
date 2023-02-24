@@ -122,6 +122,73 @@
       }
 
     }
+
+    .helper-tooltip {
+      width: 45px;
+      height: 45px;
+      position: absolute;
+      right: 30px;
+      border-radius: 50%;
+      bottom: 30px;
+      background: #00534F;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+
+      &:hover {
+        background: rgb(0, 58, 55)
+      }
+
+      svg {
+        color: #FFF;
+        width: auto;
+        height: 32px;
+      }
+
+      .helper-tooltip-window {
+        position: absolute;
+        bottom: 45px;
+        right: 45px;
+        background: #FFFFFF;
+        border: 1px solid #BABABA;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 30vw;
+        min-width: 300px;
+        padding: 10px;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+        .helper-tooltip-window-item {
+          display: flex;
+          width: calc(50% - 20px);
+          margin: 5px 10px;
+          justify-content: flex-start;
+          align-items: center;
+
+          .helper-tooltip-window-item-color {
+            width: 10px;
+            min-width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #AAAAAA;
+            margin-right: 10px;
+          }
+
+          .helper-tooltip-window-item-text {
+            font-weight: 400;
+            font-size: 12px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 100%;
+          }
+        }
+      }
+    }
   }
 
   .scheduling-calendar-day-wise-holder {
@@ -259,9 +326,46 @@
     }
   }
 }
+
 .calendar-appointments-holder {
   overflow: hidden;
   //width: 100%;
+  .appointment-count-card {
+    width: fit-content;
+    display: inline-block;
+
+    &.fit-rows {
+      flex-wrap: wrap;
+      flex-flow: row;
+    }
+
+    .appointment-count-card-wrapper {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin: 2px;
+      flex-shrink: 1;
+      flex-wrap: wrap;
+      //flex: 0;
+      //max-width: 100%;
+      padding: 4px;
+      border-radius: 4px;
+      background: #EFEFEF;
+      color: #000000;
+    }
+
+    .appointment-title {
+      font-weight: 400;
+      font-size: 12px;
+      margin-right: 3px;
+    }
+
+    .appointment-count {
+      font-size: 12px;
+      font-weight: 400;
+    }
+  }
+
   .appointment-mini-card {
 
     white-space: nowrap;

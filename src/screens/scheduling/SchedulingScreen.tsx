@@ -22,6 +22,7 @@ import TableWrapperComponent from "../../shared/components/table-wrapper/TableWr
 import CalendarAppointmentCard from "./calendar-appointment-card/CalendarAppointmentCard";
 import {IAPIResponseType} from "../../shared/models/api.model";
 import {IClientBasicDetails} from "../../shared/models/client.model";
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 
 interface SchedulingScreenProps {
 
@@ -35,6 +36,7 @@ const HOURS_LIST = Array.from(Array(24).keys()).map((item: number) => {
 const SchedulingScreen = (props: SchedulingScreenProps) => {
 
     const dispatch = useDispatch();
+    const [showCategoryColors, setShowCategoryColors] = useState<boolean>(false);
 
     const SchedulingListColumns: ITableColumn[] = [
         {
@@ -205,21 +207,48 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
         setViewMode(mode);
     }, [dateSwitcher]);
 
-    const handleCalendarData = useCallback((date: any) => {
+    // const handleCalendarData = useCallback((date: any) => {
+    //
+    // }, []);
 
-    }, []);
+    const [serviceCategoryList, setServiceCategoryList] = useState<any[] | null>(null);
+    const [serviceCategoryColorMap, setServiceCategoryColorMap] = useState<any>({});
+    const getServiceCategoriesList = useCallback(
+        () => {
+            setServiceCategoryList([]);
+            CommonService._serviceCategory.ServiceCategoryListAPICall({is_active: true})
+                .then((response: IAPIResponseType<any>) => {
+                    const data = response.data || [];
+                    const colorMap: any = {};
+                    data.forEach((item: any) => {
+                        colorMap[`${item._id}`] = item.color;
+                    })
+                    setServiceCategoryColorMap(colorMap);
+                    setServiceCategoryList(data);
+                })
+                .catch((error: any) => {
+                    setServiceCategoryList([]);
+                })
+        },
+        [],
+    );
 
+    useEffect(() => {
+        getServiceCategoriesList()
+    }, [getServiceCategoriesList]);
+
+    const [calendarData, setCalendarData] = useState<any>(null)
     const getCalenderList = useCallback((payload: any) => {
         delete payload.sort;
         CommonService._appointment.getAppointmentCalendarList(payload)
             .then((response: IAPIResponseType<IClientBasicDetails>) => {
                 console.log(response, 'response');
                 // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                handleCalendarData(response.data);
+                setCalendarData(response.data);
             })
             .catch((error: any) => {
             })
-    }, [handleCalendarData]);
+    }, []);
     useEffect(() => {
         if (viewMode === 'calendar') {
             getCalenderList(schedulingListFilterState);
@@ -423,25 +452,84 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                         </div>
                     </div>
                     {viewMode === 'calendar' && <>
-                        {schedulingListFilterState.duration === 'month' && <FullCalendarComponent
-                            minDate={moment(schedulingListFilterState.start_date).subtract(1, 'months').format('YYYY-MM-DD')}
-                            maxDate={moment(schedulingListFilterState.start_date).add(1, 'year').format('YYYY-MM-DD')}
-                            disabledDates={[]}
-                            canSelect={false}
-                            startDay={schedulingListFilterState.start_date}
-                            showControls={false}
-                            onDayRender={(day, dateMoment) => {
-                                return (<div className={'calendar-appointments-holder'}>
-                                    {(!!schedulingListFilterState.status || !!schedulingListFilterState.provider_id) && ['a', 'b'].map((value, index) => {
-                                        return (<div className={'appointment-mini-card upcoming'}>
-                                            <div className="appointment-title">Fanny Mitchelle</div>
-                                            <div className="appointment-status">Upcoming</div>
-                                        </div>)
+                        {schedulingListFilterState.duration === 'month' && <>
+                            <FullCalendarComponent
+                                minDate={moment(schedulingListFilterState.start_date).subtract(1, 'months').format('YYYY-MM-DD')}
+                                maxDate={moment(schedulingListFilterState.start_date).add(1, 'year').format('YYYY-MM-DD')}
+                                disabledDates={[]}
+                                canSelect={false}
+                                startDay={schedulingListFilterState.start_date}
+                                showControls={false}
+                                onDayRender={(day, dateMoment) => {
+                                    const date = dateMoment.format('YYYY-MM-DD');
+                                    return (<div className={'calendar-appointments-holder'}>
+                                        {calendarData && calendarData[date] && <>
+                                            {(!!schedulingListFilterState.status || !!schedulingListFilterState.provider_id) ? (calendarData[date]?.appointments || [])
+                                                .map((value: any, index: number) => {
+                                                    return (
+                                                        <div key={index} className={'appointment-mini-card fit-rows '+ (value.status)}>
+                                                            <div
+                                                                className="appointment-title">{value?.client_details?.first_name + ' ' + value?.client_details?.last_name}</div>
+                                                            <div
+                                                                className="appointment-status">{value.status || '-'}</div>
+                                                        </div>)
+                                                }) : (!!schedulingListFilterState.service_id) ? (calendarData[date]?.meta?.providers || [])
+                                                .map((value: any, index: number) => {
+                                                    return (
+                                                        <div key={index} className={'appointment-count-card'}>
+                                                            <div className="appointment-count-card-wrapper">
+                                                                <div
+                                                                    className="appointment-title">{CommonService.getNameInitials(value.first_name + ' ' + value.last_name)}</div>
+                                                                <div className="appointment-count">({value?.count || 0})
+                                                                </div>
+                                                            </div>
+                                                        </div>)
+                                                }) : (!!schedulingListFilterState.category_id) ? (calendarData[date]?.meta?.services || [])
+                                                .map((value: any, index: number) => {
+                                                    return (
+                                                        <div key={index} className={'appointment-count-card'}>
+                                                            <div className="appointment-count-card-wrapper">
+                                                                <div
+                                                                    className="appointment-title">{CommonService.getNameInitials(value.name)}</div>
+                                                                <div
+                                                                    className="appointment-count">({value.count || 0})
+                                                                </div>
+                                                            </div>
+                                                        </div>)
+                                                }) : (calendarData[date]?.meta?.categories || [])
+                                                .map((value: any, index: number) => {
+                                                    return (
+                                                        <div key={index} className={'appointment-count-card '} style={{color: (serviceCategoryColorMap && serviceCategoryColorMap[value._id] ? serviceCategoryColorMap[value._id] : '')}}>
+                                                            <div className="appointment-count-card-wrapper">
+                                                                <div
+                                                                    className="appointment-title">{CommonService.getNameInitials(value.name)}</div>
+                                                                <div className="appointment-count">({value.count || 0})
+                                                                </div>
+                                                            </div>
+                                                        </div>)
+                                                })
+                                            }
+                                        </>}
+                                    </div>)
+                                }}
+                            />
+                            <div className="helper-tooltip"
+                                 onClick={setShowCategoryColors.bind(null, !showCategoryColors)}>
+                                {showCategoryColors && <div className="helper-tooltip-window">
+                                    {(serviceCategoryList || []).map((value, index) => {
+                                        return <div className={'helper-tooltip-window-item '} key={index}>
+                                            <div className={'helper-tooltip-window-item-color'}
+                                                 style={{background: value.color}}></div>
+                                            <div className={'helper-tooltip-window-item-text'}
+                                                 style={{color: value.color}}>{value.name}</div>
+                                        </div>
                                     })}
-                                </div>)
-                            }}
-                        />
+                                </div>}
+                                <QuestionMarkIcon/>
+                            </div>
+                        </>
                         }
+
                         {schedulingListFilterState.duration !== 'month' &&
                             <div className={'scheduling-calendar-day-wise-holder'}>
                                 <div className="scheduling-calendar-day-wise-time-wrapper">
