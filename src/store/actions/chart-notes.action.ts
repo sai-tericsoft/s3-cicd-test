@@ -27,6 +27,10 @@ export const GET_MEDICAL_RECORD_SOAP_NOTE_LIST = 'GET_MEDICAL_RECORD_SOAP_NOTE_L
 export const SET_MEDICAL_RECORD_SOAP_NOTE_LIST = 'SET_MEDICAL_RECORD_SOAP_NOTE_LIST';
 
 export const UPDATE_MEDICAL_INTERVENTION_ROM_CONFIG_FOR_A_BODY_PART = 'UPDATE_MEDICAL_INTERVENTION_ROM_CONFIG_FOR_A_BODY_PART';
+export const UPDATE_MEDICAL_INTERVENTION_SPECIAL_TEST_CONFIG_FOR_A_BODY_PART = 'UPDATE_MEDICAL_INTERVENTION_SPECIAL_TEST_CONFIG_FOR_A_BODY_PART';
+
+export const DELETE_MEDICAL_INTERVENTION_ROM_CONFIG_FOR_A_BODY_PART = 'DELETE_MEDICAL_INTERVENTION_ROM_CONFIG_FOR_A_BODY_PART';
+export const DELETE_MEDICAL_INTERVENTION_SPECIAL_TEST_CONFIG_FOR_A_BODY_PART = 'DELETE_MEDICAL_INTERVENTION_SPECIAL_TEST_CONFIG_FOR_A_BODY_PART';
 
 export const refreshMedicalRecordAttachmentList = () => {
     return {
@@ -195,6 +199,31 @@ export const updateMedicalInterventionROMConfigForABodyPart = (body_part_id: str
         type: UPDATE_MEDICAL_INTERVENTION_ROM_CONFIG_FOR_A_BODY_PART, payload: {
             body_part_id,
             ROMConfig
+        }
+    }
+};
+
+export const updateMedicalInterventionSpecialTestConfigForABodyPart = (body_part_id: string, SpecialTestConfig: any) => {
+    return {
+        type: UPDATE_MEDICAL_INTERVENTION_SPECIAL_TEST_CONFIG_FOR_A_BODY_PART, payload: {
+            body_part_id,
+            SpecialTestConfig
+        }
+    }
+};
+
+export const deleteMedicalInterventionROMConfigForABodyPart = (body_part_id: string) => {
+    return {
+        type: DELETE_MEDICAL_INTERVENTION_ROM_CONFIG_FOR_A_BODY_PART, payload: {
+            body_part_id,
+        }
+    }
+};
+
+export const deleteMedicalInterventionSpecialTestConfigForABodyPart = (body_part_id: string) => {
+    return {
+        type: DELETE_MEDICAL_INTERVENTION_SPECIAL_TEST_CONFIG_FOR_A_BODY_PART, payload: {
+            body_part_id,
         }
     }
 };

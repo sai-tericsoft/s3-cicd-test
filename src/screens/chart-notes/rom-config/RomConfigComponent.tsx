@@ -16,7 +16,10 @@ import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {useDispatch} from "react-redux";
-import {updateMedicalInterventionROMConfigForABodyPart} from "../../../store/actions/chart-notes.action";
+import {
+    deleteMedicalInterventionROMConfigForABodyPart,
+    updateMedicalInterventionROMConfigForABodyPart
+} from "../../../store/actions/chart-notes.action";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
@@ -239,27 +242,28 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
     }, []);
 
     const handleBodyPartDelete = useCallback(() => {
-        if (onDelete) {
-            CommonService.onConfirm({
-                image: ImageConfig.RemoveBodyPartConfirmationIcon,
-                confirmationTitle: "REMOVE BODY PART",
-                confirmationSubTitle: "Are you sure you want to remove this body part?",
-            }).then(() => {
-                const bodyPartId = bodyPart._id;
-                setIsBodyPartBeingDeleted(true);
-                CommonService._chartNotes.DeleteBodyPartUnderMedicalInterventionROMConfigAPICall(medicalInterventionId, bodyPartId)
-                    .then((response: any) => {
-                        CommonService._alert.showToast(response.message, 'success');
-                        setIsBodyPartBeingDeleted(false);
+        CommonService.onConfirm({
+            image: ImageConfig.RemoveBodyPartConfirmationIcon,
+            confirmationTitle: "REMOVE BODY PART",
+            confirmationSubTitle: "Are you sure you want to remove this body part?",
+        }).then(() => {
+            const bodyPartId = bodyPart._id;
+            setIsBodyPartBeingDeleted(true);
+            CommonService._chartNotes.DeleteBodyPartUnderMedicalInterventionROMConfigAPICall(medicalInterventionId, bodyPartId)
+                .then((response: any) => {
+                    CommonService._alert.showToast(response.message, 'success');
+                    setIsBodyPartBeingDeleted(false);
+                    if (onDelete) {
                         onDelete(bodyPartId);
-                    })
-                    .catch((error: any) => {
-                        CommonService._alert.showToast(error.error || error.errors || 'Error deleting body part', 'error');
-                        setIsBodyPartBeingDeleted(false);
-                    });
-            });
-        }
-    }, [onDelete, bodyPart?._id, medicalInterventionId]);
+                    }
+                    dispatch(deleteMedicalInterventionROMConfigForABodyPart(bodyPartId));
+                })
+                .catch((error: any) => {
+                    CommonService._alert.showToast(error.error || error.errors || 'Error deleting body part', 'error');
+                    setIsBodyPartBeingDeleted(false);
+                });
+        });
+    }, [onDelete, dispatch, bodyPart?._id, medicalInterventionId]);
 
     const addBodySideToForm = useCallback((bodySide: string) => {
         setRomConfigValues((prevValues: any) => {

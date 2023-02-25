@@ -62,7 +62,8 @@ const MedicalInterventionSpecialTestsScreen = (props: MedicalInterventionSpecial
         setShowAddBodyPartModal(false);
         setGlobalSpecialTestConfig([...globalSpecialTestConfig, {
             body_part: selectedBodyPartToBeAdded,
-            selected_tests: []
+            selected_tests: [],
+            mode: 'write'
         }]);
         setSelectedBodyPartToBeAdded(undefined);
     }, [globalSpecialTestConfig, selectedBodyPartToBeAdded]);
@@ -75,7 +76,7 @@ const MedicalInterventionSpecialTestsScreen = (props: MedicalInterventionSpecial
         const specialTestConfig: any = [];
         const special_tests = medicalInterventionDetails?.special_tests;
         const injury_details = medicalInterventionDetails?.medical_record_details?.injury_details;
-        if (special_tests?.length) {
+        if (medicalInterventionDetails?.is_special_test_configured) {
             special_tests?.forEach((body_part: any) => {
                 if (!specialTestConfig.find((item: any) => item?.body_part?._id === body_part?.body_part_id)) {
                     specialTestConfig.push({
@@ -88,7 +89,7 @@ const MedicalInterventionSpecialTestsScreen = (props: MedicalInterventionSpecial
             if (injury_details?.length > 0) {
                 injury_details?.forEach((body_part: any) => {
                     if (!specialTestConfig.find((item: any) => item?.body_part?._id === body_part?.body_part_id)) {
-                        specialTestConfig.push({body_part: body_part.body_part_details, selected_tests: []});
+                        specialTestConfig.push({body_part: body_part.body_part_details, selected_tests: [], mode: 'write'});
                     }
                 });
             }
@@ -106,7 +107,7 @@ const MedicalInterventionSpecialTestsScreen = (props: MedicalInterventionSpecial
                     </>
                 }
                 {
-                    isMedicalInterventionDetailsLoaded && <>
+                    (isMedicalInterventionDetailsLoaded && medicalInterventionId) && <>
                         {
                             globalSpecialTestConfig?.length === 0 && <>
                                 <StatusCardComponent
@@ -122,20 +123,17 @@ const MedicalInterventionSpecialTestsScreen = (props: MedicalInterventionSpecial
                         }
                         {
                             globalSpecialTestConfig.length > 0 && <>
-                                {medicalInterventionId && <>
-                                    {
-                                        globalSpecialTestConfig.map((bodyPart, index) => {
-                                            return <SpecialTestComponent
-                                                medicalInterventionDetails={medicalInterventionDetails}
-                                                key={bodyPart.body_part._id}
-                                                bodyPart={bodyPart.body_part}
-                                                selected_tests={bodyPart.selected_tests}
-                                                onDelete={handleDeleteBodyPart}
-                                                medicalInterventionId={medicalInterventionId}
-                                            />
-                                        })
-                                    }
-                                </>
+                                {
+                                    globalSpecialTestConfig.map((bodyPart, index) => <SpecialTestComponent
+                                            medicalInterventionDetails={medicalInterventionDetails}
+                                            key={bodyPart.body_part._id}
+                                            bodyPart={bodyPart.body_part}
+                                            selected_tests={bodyPart.selected_tests}
+                                            onDelete={handleDeleteBodyPart}
+                                            medicalInterventionId={medicalInterventionId}
+                                            mode={bodyPart?.mode}
+                                        />
+                                    )
                                 }
                                 <ButtonComponent
                                     prefixIcon={<ImageConfig.AddIcon/>}

@@ -122,7 +122,7 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
                     </>
                 }
                 {
-                    ( isMedicalInterventionDetailsLoaded && medicalInterventionId) && <>
+                    (isMedicalInterventionDetailsLoaded && medicalInterventionId) && <>
                         {
                             (globalRomConfig?.length === 0) && <>
                                 <StatusCardComponent
@@ -138,27 +138,27 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
                         }
                         {
                             globalRomConfig.length > 0 && <>
-                                    {
-                                        globalRomConfig.map((bodyPart, index) => <RomConfigComponent
-                                                medicalInterventionDetails={medicalInterventionDetails}
-                                                key={bodyPart.body_part._id}
-                                                bodyPart={bodyPart.body_part}
-                                                rom_config={bodyPart.rom_config}
-                                                selectedBodySides={bodyPart.selected_sides}
-                                                onDelete={handleDeleteBodyPart}
-                                                medicalInterventionId={medicalInterventionId}
-                                                mode={bodyPart.mode}
-                                            />
-                                        )
-                                    }
+                                {
+                                    globalRomConfig.map((bodyPart, index) => <RomConfigComponent
+                                            medicalInterventionDetails={medicalInterventionDetails}
+                                            key={bodyPart.body_part._id}
+                                            bodyPart={bodyPart.body_part}
+                                            rom_config={bodyPart.rom_config}
+                                            selectedBodySides={bodyPart.selected_sides}
+                                            onDelete={handleDeleteBodyPart}
+                                            medicalInterventionId={medicalInterventionId}
+                                            mode={bodyPart.mode}
+                                        />
+                                    )
+                                }
+                                <ButtonComponent
+                                    prefixIcon={<ImageConfig.AddIcon/>}
+                                    onClick={handleAddNewBodyPartOpenModal}
+                                >
+                                    Add Body Part
+                                </ButtonComponent>
                             </>
                         }
-                        {(globalRomConfig?.length > 0) && <ButtonComponent
-                            prefixIcon={<ImageConfig.AddIcon/>}
-                            onClick={handleAddNewBodyPartOpenModal}
-                        >
-                            Add Body Part
-                        </ButtonComponent>}
                     </>
                 }
             </>

@@ -3,7 +3,7 @@ import {IBodyPart} from "../../../shared/models/static-data.model";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {ImageConfig} from "../../../constants";
 import {CommonService} from "../../../shared/services";
 import _ from "lodash";
@@ -13,16 +13,24 @@ import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import FormikRadioButtonGroupComponent
     from "../../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
-import TableV2Component from "../../../shared/components/table-v2/TableV2Component";
+import TableComponent from "../../../shared/components/table/TableComponent";
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
+import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
+import {useDispatch} from "react-redux";
+import {
+    deleteMedicalInterventionSpecialTestConfigForABodyPart,
+    updateMedicalInterventionSpecialTestConfigForABodyPart
+} from "../../../store/actions/chart-notes.action";
 
 interface SpecialTestComponentProps {
+    mode?: 'read' | 'write';
     medicalInterventionDetails: any;
     medicalInterventionId: string;
     bodyPart: IBodyPart;
     selected_tests: any[];
     onDelete?: (body_part_id: string) => void;
     onSave?: (specialTest: string) => void;
+
 }
 
 interface ISpecialTest extends IBodyPart {
@@ -31,30 +39,34 @@ interface ISpecialTest extends IBodyPart {
 
 const SpecialTestComponent = (props: SpecialTestComponentProps) => {
 
-    const {medicalInterventionId, medicalInterventionDetails, bodyPart, onDelete, selected_tests} = props;
+    const {medicalInterventionId, bodyPart, onDelete, selected_tests} = props;
     const [specialTestFormValues, setSpecialTestFormValues] = useState<ISpecialTest | any | undefined>({});
     const [showSpecialTestCommentsModal, setShowSpecialTestCommentsModal] = useState<boolean>(false);
     const [selectedSpecialTestComments, setSelectedSpecialTestComments] = useState<any>(undefined);
     const [isBodyPartBeingDeleted, setIsBodyPartBeingDeleted] = useState<boolean>(false);
+    const [mode, setMode] = useState<'read' | 'write'>(props.mode || 'read');
+    const dispatch = useDispatch();
 
     const generateSpecialTestColumns = useCallback((bodyPart: IBodyPart) => {
         const columns: any = [
             {
                 title: '',
                 key: 'select',
-                width: 40,
-                render: ( record: any) => {
+                align: 'center',
+                fixed: 'left',
+                width: 80,
+                render: (record: any) => {
                     return <Field name={`${bodyPart._id}.${record?.name}.is_tested`}>
                         {
                             (field: FieldProps) => (
                                 <FormikCheckBoxComponent
                                     formikField={field}
-                                    label={""}
+                                    disabled={mode === 'read'}
                                     onChange={(isChecked) => {
                                         if (!isChecked) {
                                             field.form.setFieldValue(`${bodyPart._id}.${record?.name}.result`, undefined);
                                             field.form.setFieldValue(`${bodyPart._id}.${record?.name}.comments`, undefined);
-                                            field.form.setFieldValue(`${bodyPart._id}.${record?.name}.commentTemp`, undefined);
+                                            field.form.setFieldValue(`${bodyPart._id}.${record?.name}.commentsTemp`, undefined);
                                         }
                                     }}
                                 />
@@ -66,22 +78,25 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
             {
                 title: 'Test Name',
                 key: 'test',
-                width: 200,
-                render: ( record: any) => {
+                fixed: 'left',
+                width: 220,
+                render: (record: any) => {
                     return record.name;
                 }
             },
             {
                 title: 'Results',
                 key: 'results',
-                width: 200,
-                render: ( record: any) => {
+                align: 'center',
+                fixed: 'left',
+                width: 300,
+                render: (record: any) => {
                     return <Field name={`${bodyPart._id}.${record?.name}.result`}>
                         {
                             (field: FieldProps) => (
                                 <FormikRadioButtonGroupComponent
                                     formikField={field}
-                                    disabled={!field.form.values[bodyPart._id]?.[record?.name]?.is_tested}
+                                    disabled={!field.form.values[bodyPart._id]?.[record?.name]?.is_tested || mode === 'read'}
                                     options={CommonService._staticData.resultOptions}/>
                             )
                         }
@@ -92,14 +107,14 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                 title: '',
                 key: 'comments',
                 width: 80,
-                render: (record: any, index: any) => <Field
+                render: (record: any) => <Field
                     name={`${bodyPart._id}.${record?.name}.comments`}
                     className="t-form-control">
                     {
                         (field: FieldProps) => (
                             <IconButtonComponent
-                                disabled={!field.form.values[bodyPart._id]?.[record?.name]?.is_tested}
-                                color={field.form.values[bodyPart._id]?.[record?.name].comments ? "primary" : "inherit"}
+                                disabled={!field.form.values[bodyPart._id]?.[record?.name]?.is_tested || mode === 'read'}
+                                color={(field.form.values[bodyPart._id]?.[record?.name].comments && mode === 'write') ? "primary" : "inherit"}
                                 onClick={() => {
                                     setShowSpecialTestCommentsModal(true);
                                     setSelectedSpecialTestComments(record);
@@ -115,7 +130,7 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
             }
         ];
         return columns;
-    }, []);
+    }, [mode]);
 
     const generateSpecialTestForAnInjury = useCallback((bodyPart: IBodyPart) => {
         const bodyPartConfig: any = _.cloneDeep(bodyPart);
@@ -124,11 +139,12 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
             return {
                 name: special_test,
                 comments: special_test_data?.comments,
-                commentTemp: special_test_data?.commentTemp || special_test_data?.comments,
+                commentsTemp: special_test_data?.commentsTemp || special_test_data?.comments,
                 result: special_test_data?.result,
                 is_tested: special_test_data?.is_tested
             };
         });
+        console.log(bodyPartConfig.special_tests);
         bodyPartConfig.tableConfig = generateSpecialTestColumns(bodyPartConfig);
         bodyPartConfig[bodyPart._id] = {};
         bodyPartConfig.special_tests?.forEach((special_test: any) => {
@@ -136,7 +152,7 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                 is_tested: special_test.is_tested,
                 result: special_test.result,
                 comments: special_test.comments,
-                commentTemp: special_test.commentTemp,
+                commentsTemp: special_test.commentsTemp,
             };
         });
         return bodyPartConfig;
@@ -151,31 +167,28 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
     }, [bodyPart, generateSpecialTestForAnInjury]);
 
     const handleBodyPartDelete = useCallback(() => {
-        if (onDelete) {
-            CommonService.onConfirm({
-                image: ImageConfig.RemoveBodyPartConfirmationIcon,
-                confirmationTitle: "REMOVE BODY PART",
-                confirmationSubTitle: "Are you sure you want to remove this body part?",
-            }).then(() => {
-                const bodyPartId = bodyPart._id;
-                if (medicalInterventionDetails?.medical_record_details?.injury_details?.findIndex((injury: any) => injury?.body_part_id === bodyPartId) === -1) {
-                    onDelete(bodyPartId);
-                } else {
-                    setIsBodyPartBeingDeleted(true);
-                    CommonService._chartNotes.DeleteBodyPartUnderMedicalInterventionSpecialTestAPICall(medicalInterventionId, bodyPartId)
-                        .then((response: any) => {
-                            CommonService._alert.showToast(response.message, 'success');
-                            setIsBodyPartBeingDeleted(false);
-                            onDelete(bodyPartId);
-                        })
-                        .catch((error: any) => {
-                            CommonService._alert.showToast(error.error || error.errors || 'Error deleting body part', 'error');
-                            setIsBodyPartBeingDeleted(false);
-                        });
-                }
-            });
-        }
-    }, [onDelete, bodyPart._id, medicalInterventionDetails, medicalInterventionId]);
+        CommonService.onConfirm({
+            image: ImageConfig.RemoveBodyPartConfirmationIcon,
+            confirmationTitle: "REMOVE BODY PART",
+            confirmationSubTitle: "Are you sure you want to remove this body part?",
+        }).then(() => {
+            const bodyPartId = bodyPart._id;
+            setIsBodyPartBeingDeleted(true);
+            CommonService._chartNotes.DeleteBodyPartUnderMedicalInterventionSpecialTestAPICall(medicalInterventionId, bodyPartId)
+                .then((response: any) => {
+                    CommonService._alert.showToast(response.message, 'success');
+                    setIsBodyPartBeingDeleted(false);
+                    if (onDelete) {
+                        onDelete(bodyPartId);
+                    }
+                    dispatch(deleteMedicalInterventionSpecialTestConfigForABodyPart(bodyPartId));
+                })
+                .catch((error: any) => {
+                    CommonService._alert.showToast(error.error || error.errors || 'Error deleting body part', 'error');
+                    setIsBodyPartBeingDeleted(false);
+                });
+        });
+    }, [onDelete, dispatch, bodyPart._id, medicalInterventionId]);
 
     const handleSpecialTestSubmit = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
         const config = values[values._id];
@@ -194,13 +207,23 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
         CommonService._chartNotes.SaveMedicalInterventionSpecialTestForABodyPartAPICall(medicalInterventionId, values._id, payload)
             .then((response: any) => {
                 CommonService._alert.showToast(response.message, 'success');
+                setMode('read');
                 setSubmitting(false);
+                dispatch(updateMedicalInterventionSpecialTestConfigForABodyPart(values?._id, {
+                    special_tests: payload?.special_tests,
+                    body_part_id: bodyPart?._id,
+                    body_part_details: bodyPart
+                }));
             })
             .catch((error: any) => {
                 CommonService._alert.showToast(error.error || error.errors || 'Error saving Special Test', 'error');
                 setSubmitting(false);
             });
-    }, [medicalInterventionId]);
+    }, [bodyPart, dispatch, medicalInterventionId]);
+
+    const handleBodyPartEdit = useCallback(() => {
+        setMode('write');
+    }, []);
 
     return (
         <div className={'special-test-component'}>
@@ -215,8 +238,21 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
+                            <FormDebuggerComponent values={values} showDebugger={false} canShow={false}/>
                             <CardComponent title={"Body Part: " + specialTestFormValues?.name}
                                            actions={<>
+                                               {
+                                                   (mode === 'read') && <>
+                                                       <ButtonComponent
+                                                           size={"small"}
+                                                           prefixIcon={<ImageConfig.EditIcon/>}
+                                                           onClick={handleBodyPartEdit}
+                                                           disabled={isSubmitting || isBodyPartBeingDeleted}
+                                                       >
+                                                           Edit
+                                                       </ButtonComponent>&nbsp;&nbsp;
+                                                   </>
+                                               }
                                                <ButtonComponent
                                                    size={"small"}
                                                    color={"error"}
@@ -230,20 +266,22 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                                            </>}
                             >
                                 <div className={'special-test-table-container'}>
-                                    <TableV2Component
-                                        data={specialTestFormValues.special_tests || []}
+                                    <TableComponent
+                                        data={specialTestFormValues?.special_tests}
                                         bordered={true}
                                         rowKey={(row: any, index: any) => index + '_' + row.name}
-                                        columns={specialTestFormValues.tableConfig}
+                                        columns={specialTestFormValues?.tableConfig}
                                     />
                                 </div>
-                                <div className="t-form-actions">
-                                    <ButtonComponent type={"submit"}
-                                                     disabled={isSubmitting}
-                                                     isLoading={isSubmitting}>
-                                        Save
-                                    </ButtonComponent>
-                                </div>
+                                {
+                                    mode === 'write' && <div className="t-form-actions">
+                                        <ButtonComponent type={"submit"}
+                                                         disabled={isSubmitting}
+                                                         isLoading={isSubmitting}>
+                                            Save
+                                        </ButtonComponent>
+                                    </div>
+                                }
                             </CardComponent>
                             {
                                 bodyPart.special_tests?.map((special_test: any, index: number) => {
@@ -259,14 +297,14 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                                                                  onClick={() => {
                                                                      const comments = values?.[bodyPart._id]?.[selectedSpecialTestComments?.name]?.comments;
                                                                      setShowSpecialTestCommentsModal(false);
-                                                                     setFieldValue(`${bodyPart._id}.${selectedSpecialTestComments?.name}.commentTemp`, comments);
+                                                                     setFieldValue(`${bodyPart._id}.${selectedSpecialTestComments?.name}.commentsTemp`, comments);
                                                                      setSelectedSpecialTestComments(undefined);
                                                                  }}>
                                                     Cancel
                                                 </ButtonComponent>&nbsp;
                                                 <ButtonComponent
                                                     onClick={() => {
-                                                        const newComment = values?.[bodyPart._id]?.[selectedSpecialTestComments?.name]?.commentTemp;
+                                                        const newComment = values?.[bodyPart._id]?.[selectedSpecialTestComments?.name]?.commentsTemp;
                                                         setShowSpecialTestCommentsModal(false);
                                                         setFieldValue(`${bodyPart._id}.${selectedSpecialTestComments?.name}.comments`, newComment);
                                                         setSelectedSpecialTestComments(undefined);
@@ -278,7 +316,7 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                                             </>
                                             }>
                                             <Field
-                                                name={`${bodyPart._id}.${selectedSpecialTestComments?.name}.commentTemp`}
+                                                name={`${bodyPart._id}.${selectedSpecialTestComments?.name}.commentsTemp`}
                                                 className="t-form-control">
                                                 {
                                                     (field: FieldProps) => (
