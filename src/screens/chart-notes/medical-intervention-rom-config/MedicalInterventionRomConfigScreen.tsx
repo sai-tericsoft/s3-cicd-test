@@ -78,29 +78,29 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
         const romConfig: any = [];
         const rom_config = medicalInterventionDetails?.rom_config;
         const injury_details = medicalInterventionDetails?.medical_record_details?.injury_details;
-        if (rom_config?.length > 0) {
-            rom_config.forEach((injury: any) => {
-                console.log(injury);
-                if (!romConfig.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
+        if (medicalInterventionDetails?.is_rom_configured) {
+            rom_config?.forEach((injury: any) => {
+                if (!romConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
                     romConfig.push({
                         body_part: injury?.body_part_details,
                         rom_config: injury?.rom_config || [],
-                        selected_sides: injury?.selected_sides || []
+                        selected_sides: injury?.selected_sides || [],
+                        mode: 'read'
                     });
                 } else {
-                    const bodyPart = romConfig.find((item: any) => item?.body_part?._id === injury?.body_part_id);
+                    const bodyPart = romConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id);
                     bodyPart.selected_sides.push(injury.body_side);
                 }
             });
         } else {
             if (injury_details?.length > 0) {
-                const injuryDetails = medicalInterventionDetails?.medical_record_details?.injury_details;
-                injuryDetails.forEach((injury: any) => {
-                    if (!romConfig.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
+                injury_details?.forEach((injury: any) => {
+                    if (!romConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
                         romConfig.push({
-                            body_part: injury.body_part_details,
+                            body_part: injury?.body_part_details,
                             rom_config: [],
-                            selected_sides: [injury.body_side]
+                            selected_sides: [injury?.body_side],
+                            mode: 'write'
                         });
                     } else {
                         const bodyPart = romConfig.find((item: any) => item?.body_part?._id === injury?.body_part_id);
@@ -117,12 +117,12 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
             <PageHeaderComponent title={'Range of Motion and Strength'}/>
             <>
                 {
-                    isMedicalInterventionDetailsLoading && <>
+                    (isMedicalInterventionDetailsLoading) && <>
                         <LoaderComponent/>
                     </>
                 }
                 {
-                    isMedicalInterventionDetailsLoaded && <>
+                    ( isMedicalInterventionDetailsLoaded && medicalInterventionId) && <>
                         {
                             (globalRomConfig?.length === 0) && <>
                                 <StatusCardComponent
@@ -138,10 +138,8 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
                         }
                         {
                             globalRomConfig.length > 0 && <>
-                                {medicalInterventionId && <>
                                     {
-                                        globalRomConfig.map((bodyPart, index) => {
-                                            return <RomConfigComponent
+                                        globalRomConfig.map((bodyPart, index) => <RomConfigComponent
                                                 medicalInterventionDetails={medicalInterventionDetails}
                                                 key={bodyPart.body_part._id}
                                                 bodyPart={bodyPart.body_part}
@@ -151,11 +149,8 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
                                                 medicalInterventionId={medicalInterventionId}
                                                 mode={bodyPart.mode}
                                             />
-                                        })
+                                        )
                                     }
-                                </>
-                                }
-
                             </>
                         }
                         {(globalRomConfig?.length > 0) && <ButtonComponent

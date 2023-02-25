@@ -2,7 +2,7 @@ import "./StatusCardComponent.scss";
 import React from "react";
 
 interface StatusCardComponentProps {
-    title: string;
+    title?: string;
     className?: string;
 }
 
