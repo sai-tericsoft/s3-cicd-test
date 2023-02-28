@@ -24,6 +24,7 @@ import {IAttachment} from "../models/common.model";
 import AppointmentService from "./modules/appointment.service";
 import InventoryService from "./modules/inventory.service";
 import SystemSettingsService from "./modules/settings.service";
+import BillingsService from "./modules/billings.service";
 
 
 yup.addMethod(yup.mixed, 'atLeastOne', (args) => {
@@ -582,5 +583,6 @@ const CommonService = {
     _chartNotes: ChartNotesService,
     _inventory: InventoryService,
     _systemSettings: SystemSettingsService,
+    _billingsService:BillingsService
 }
 export default CommonService;
