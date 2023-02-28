@@ -119,9 +119,9 @@ import UpdateMedicalIntervention
     from "../screens/chart-notes/update-medical-intervention/UpdateMedicalInterventionScreen";
 import ViewMedicalInterventionScreen
     from "../screens/chart-notes/view-medical-intervention/ViewMedicalInterventionScreen";
-import BillingDetailsMainLayoutComponent
-    from "../screens/billings/billing-details-main-layout/BillingDetailsMainLayoutComponent";
-import PaymentListComponent from "../screens/billings/payment-list/PaymentListComponent";
+import BillingMainLayoutComponent
+    from "../screens/billings/billing-main-layout/BillingMainLayoutComponent";
+import BillingPaymentScreen from "../screens/billings/payment-list/BillingPaymentScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -560,10 +560,10 @@ const Navigator = (props: NavigatorProps) => {
                         />
                     </Route>
 
-                    <Route path={BILLING} element={<BillingDetailsMainLayoutComponent/>}{...props}>
+                    <Route path={BILLING} element={<BillingMainLayoutComponent/>}{...props}>
                         <Route index element={<Navigate to={PAYMENT_LIST}/>}/>
                         <Route path={PAYMENT_LIST} element={<ProtectedRoute>
-                            <PaymentListComponent/>
+                            <BillingPaymentScreen/>
                         </ProtectedRoute>
                         }/>
                     </Route>
