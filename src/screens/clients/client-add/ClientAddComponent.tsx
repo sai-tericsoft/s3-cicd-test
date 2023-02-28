@@ -42,7 +42,6 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
     const [isClientAddInProgress, setIsClientAddInProgress] = useState<boolean>(false);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        console.log('values',values);
         const payload = {...values};
         setIsClientAddInProgress(true);
         CommonService._client.ClientBasicDetailsAddAPICall(payload)
@@ -58,8 +57,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
 
     }, [navigate]);
 
-    const handleInviteLink = useCallback((values:any) => {
-        console.log('values',values.first_name);
+    const handleInviteLink = useCallback((values:any,setErrors:any) => {
         CommonService.onConfirm({
             image: ImageConfig.DeleteAttachmentConfirmationIcon,
             confirmationTitle: 'SEND INVITE LINK',
@@ -74,6 +72,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                     onAdd();
                 }).catch((error: any) => {
                 setIsClientAddInProgress(false);
+                CommonService.handleErrors(setErrors, error, true);
                 CommonService._alert.showToast(error.error || "Error in sending link", "error");
 
             });
@@ -90,7 +89,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                     enableReinitialize={true}
                     validateOnMount={true}
                     onSubmit={onSubmit}>
-                {({values,isValid, touched, errors, setFieldValue, validateForm}) => {
+                {({values,isValid, touched, setErrors, errors, setFieldValue, validateForm}) => {
                     // eslint-disable-next-line react-hooks/rules-of-hooks
                     useEffect(() => {
                         validateForm();
@@ -155,7 +154,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                 </div>
                             </div>
                             <div className={'t-form-actions mrg-bottom-30'}>
-                                <ButtonComponent onClick={()=>handleInviteLink(values)}
+                                <ButtonComponent onClick={()=>handleInviteLink(values,setErrors)}
                                                  variant={"outlined"}
                                                  disabled={!isValid}
                                 >
