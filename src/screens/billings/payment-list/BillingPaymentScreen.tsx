@@ -25,7 +25,6 @@ import FormControlLabelComponent from "../../../shared/components/form-control-l
 import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
 import {IRootReducerState} from "../../../store/reducers";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {PersonIcon} from "../../../constants/ImageConfig";
 
 interface PaymentListComponentProps {
 
@@ -53,7 +52,7 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
 
     const handlePaymentSelection = useCallback((payment: any, isChecked: boolean) => {
         if (isChecked) {
-            setSelectedPayments([...selectedPayments, payment, payment]);
+            setSelectedPayments([...selectedPayments, payment]);
         } else {
             setSelectedPayments(selectedPayments.filter((item: any) => item._id !== payment._id));
         }
@@ -114,7 +113,7 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
             align: 'center',
             dataIndex: 'amount',
             render: (item: any) => {
-                return <>{Misc.CURRENCY_SYMBOL}{item?.amount}</>
+                return <>{Misc.CURRENCY_SYMBOL} {item?.amount}</>
             }
         },
         {
@@ -433,9 +432,9 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
                             <DataLabelValueComponent
                                 direction={"row"}
                                 label={<>
-                                <ImageConfig.PersonIcon/>
-                                <span className={'client-details-label'}>Client Name</span>
-                            </>}>
+                                    <ImageConfig.PersonIcon/>
+                                    <span className={'client-details-label'}>Client Name</span>
+                                </>}>
                                 {CommonService.extractName(selectedPayments[0]?.client_details)}
                             </DataLabelValueComponent>
                         </div>
@@ -443,9 +442,9 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
                             <DataLabelValueComponent
                                 direction={"row"}
                                 label={<>
-                                <ImageConfig.CallIcon/>
-                                <span className={'client-details-label'}>Phone Number</span>
-                            </>}>
+                                    <ImageConfig.CallIcon/>
+                                    <span className={'client-details-label'}>Phone Number</span>
+                                </>}>
                                 {selectedPayments[0]?.client_details?.primary_contact_info?.phone}
                             </DataLabelValueComponent>
                         </div>
