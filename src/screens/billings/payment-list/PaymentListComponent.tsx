@@ -13,7 +13,7 @@ import CheckBoxComponent from "../../../shared/components/form-controls/check-bo
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {CommonService} from "../../../shared/services";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
-import {APIConfig, ImageConfig} from "../../../constants";
+import {APIConfig, ImageConfig, Misc} from "../../../constants";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
 import SearchComponent from "../../../shared/components/search/SearchComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
@@ -73,6 +73,9 @@ const completePaymentListColumn: ITableColumn[] = [
         key: 'amount',
         align: 'center',
         dataIndex: 'amount',
+        render:(item:any)=>{
+            return <>{Misc.CURRENCY_SYMBOL}{item?.amount}</>
+        }
     },
     {
         title: 'Payment For',
@@ -217,6 +220,9 @@ const PaymentListComponent = (props: PaymentListComponentProps) => {
             key: 'amount',
             align: 'center',
             dataIndex: 'amount',
+            render:(item:any)=>{
+                return <>{Misc.CURRENCY_SYMBOL}{item?.amount} </>
+            }
         },
         {
             title: '',
