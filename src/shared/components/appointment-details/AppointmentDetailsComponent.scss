@@ -99,7 +99,6 @@
     .block-body {
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
 
       .block-content {
         flex-direction: row;
@@ -108,11 +107,12 @@
         color: #83909D;
         justify-content: center;
         flex: 0;
-        margin-right: 30px;
+        margin-right: 2px;
         white-space: nowrap;
 
         .content-title {
           margin-left: 10px;
+          margin-right: 32px;
           font-weight: 700;
           font-size: 16px;
           line-height: 20px;
