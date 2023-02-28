@@ -17,11 +17,14 @@
   }
 
   .select-interventions-wrapper {
+.card-component{
+ margin-bottom: 10px;
 
+}
     .select-intervention-choice-wrapper {
       display: flex;
       align-items: center;
-      margin-bottom:24px;
+      margin-bottom:10px;
 
       .select-intervention-choice-label {
         margin-bottom: 0 !important;
