@@ -577,3 +577,23 @@
     }
   }
 }
+
+.mark-as-paid-outstanding-balance-modal {
+  .modal-content-wrapper {
+
+    .card-body {
+      padding: 15px 25px 10px;
+
+      .data-label {
+        width: 150px;
+      }
+
+      .client-details-label {
+        position: relative;
+        top: -4px;
+        margin-left: 5px;
+      }
+    }
+
+  }
+}

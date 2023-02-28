@@ -25,6 +25,7 @@ import FormControlLabelComponent from "../../../shared/components/form-control-l
 import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
 import {IRootReducerState} from "../../../store/reducers";
 import {IAPIResponseType} from "../../../shared/models/api.model";
+import {PersonIcon} from "../../../constants/ImageConfig";
 
 interface PaymentListComponentProps {
 
@@ -52,7 +53,7 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
 
     const handlePaymentSelection = useCallback((payment: any, isChecked: boolean) => {
         if (isChecked) {
-            setSelectedPayments([...selectedPayments, payment]);
+            setSelectedPayments([...selectedPayments, payment, payment]);
         } else {
             setSelectedPayments(selectedPayments.filter((item: any) => item._id !== payment._id));
         }
@@ -317,7 +318,7 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
 
     const closePaymentModeModal = useCallback(() => {
         setIsPaymentModeModalOpen(false);
-        setSelectedPaymentMode('');
+        setSelectedPaymentMode(undefined);
     }, []);
 
     const handlePaymentMarkingConfirmation = useCallback(() => {
@@ -373,7 +374,7 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
                                              disabled={selectedPayments.length === 0}
                                              onClick={openMarkAsPaidModal}
                                              prefixIcon={<ImageConfig.CircleCheck/>}>
-                                Mark as paid {selectedPayments.length > 0 && <> ( {selectedPayments.length} ) </>}
+                                Mark as paid
                             </ButtonComponent>&nbsp;&nbsp;
                         </>
                     }
@@ -405,7 +406,9 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
                                            columns={completePaymentListColumn}/>
                 </TabContentComponent>
             </TabsWrapperComponent>
+            {/*Outstanding Balance Modal start*/}
             <ModalComponent isOpen={showMarkAsPaidModal}
+                            className={'mark-as-paid-outstanding-balance-modal'}
                             title={'Outstanding Balance'}
                             modalFooter={<>
                                 <ButtonComponent variant={'outlined'}
@@ -424,15 +427,25 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
                             </>
                             }
             >
-                <CardComponent title={'Client Details'}>
+                <CardComponent title={'Client Details'} className={'client-details-card'}>
                     <div className="ts-row">
                         <div className="ts-col-lg-6">
-                            <DataLabelValueComponent label={"Client Name"}>
+                            <DataLabelValueComponent
+                                direction={"row"}
+                                label={<>
+                                <ImageConfig.PersonIcon/>
+                                <span className={'client-details-label'}>Client Name</span>
+                            </>}>
                                 {CommonService.extractName(selectedPayments[0]?.client_details)}
                             </DataLabelValueComponent>
                         </div>
                         <div className="ts-col-lg-6">
-                            <DataLabelValueComponent label={"Phone Number"}>
+                            <DataLabelValueComponent
+                                direction={"row"}
+                                label={<>
+                                <ImageConfig.CallIcon/>
+                                <span className={'client-details-label'}>Phone Number</span>
+                            </>}>
                                 {selectedPayments[0]?.client_details?.primary_contact_info?.phone}
                             </DataLabelValueComponent>
                         </div>
@@ -442,7 +455,18 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
                     columns={markAsPaidTableColumns}
                     data={selectedPayments}
                 />
+                <div className={"mrg-top-20"}>
+                    <DataLabelValueComponent
+                        direction={"row"}
+                        label={"Total Outstanding Balance: "}>
+                        <span className="mrg-left-5">
+                            {Misc.CURRENCY_SYMBOL} {selectedPayments.reduce((acc: any, payment: any) => acc + parseInt(payment?.amount), 0)}
+                        </span>
+                    </DataLabelValueComponent>
+                </div>
             </ModalComponent>
+            {/*Outstanding Balance Modal end*/}
+            {/*Payment mode selection Modal start*/}
             <ModalComponent isOpen={isPaymentModeModalOpen}
                             className={'mark-payment-as-paid-payment-mode-modal'}
                             modalFooter={<>
@@ -468,13 +492,16 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
                 <SelectComponent
                     options={paymentModes || []}
                     fullWidth={true}
+                    required={true}
                     label={"Mode Of Payment"}
+                    value={selectedPaymentMode}
                     onUpdate={(value: any) => {
                         setSelectedPaymentMode(value);
                     }
                     }
                 />
             </ModalComponent>
+            {/*Payment mode selection Modal end*/}
         </div>
     );
 
