@@ -672,6 +672,10 @@ const APIConfig: IAPIConfig = {
     COMPLETE_PAYMENT_LIST:{
         URL:ENV.API_URL+'/receipt',
         METHOD:'get'
+    },
+    MARK_PAYMENTS_AS_PAID:{
+        URL:ENV.API_URL+'/invoice/markPaid',
+        METHOD:'post'
     }
 }
 

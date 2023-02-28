@@ -2,7 +2,7 @@ import "./DataLabelValueComponent.scss";
 import React from "react";
 
 interface DataLabelValueComponentProps {
-    label: string;
+    label: string | React.ReactNode;
     direction?: "row" | "column";
     className?:any;
 }

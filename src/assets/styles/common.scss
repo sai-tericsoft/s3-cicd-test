@@ -265,17 +265,19 @@
   }
 
 }
-.update-stock-modal{
-   .modal-content-wrapper{
-     width: 400px;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     .modal-body{
-       width: 300px;
-     }
-   }
- }
+
+.update-stock-modal {
+  .modal-content-wrapper {
+    width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .modal-body {
+      width: 300px;
+    }
+  }
+}
 
 
 .t-side-bar-form {
@@ -553,5 +555,45 @@
     .t-form-actions {
 
     }
+  }
+}
+
+.mark-payment-as-paid-payment-mode-modal {
+  .modal-content-wrapper {
+    width: 416px !important;
+
+    .modal-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .form-control-label-component {
+        margin: 30px 0 15px;
+
+        .form-control-label {
+          text-transform: uppercase;
+        }
+      }
+    }
+  }
+}
+
+.mark-as-paid-outstanding-balance-modal {
+  .modal-content-wrapper {
+
+    .card-body {
+      padding: 15px 25px 10px;
+
+      .data-label {
+        width: 150px;
+      }
+
+      .client-details-label {
+        position: relative;
+        top: -4px;
+        margin-left: 5px;
+      }
+    }
+
   }
 }

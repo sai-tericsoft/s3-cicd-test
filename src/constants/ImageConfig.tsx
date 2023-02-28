@@ -25,9 +25,11 @@ import {ReactComponent as AssignmentIcon} from './../assets/icons/assignment_ind
 import {ReactComponent as MedicalServicesIcon} from './../assets/icons/medical_services.svg';
 import {ReactComponent as AttachMoneyIcon} from './../assets/icons/attach_money.svg';
 import {ReactComponent as CancelIcon} from './../assets/icons/cancel.svg';
+import {ReactComponent as ConfirmIcon} from './../assets/confirmation/confirm.svg';
 
 import {ReactComponent as CircleCheck} from './../assets/icons/check_circle.svg';
-import {ReactComponent as CircleError} from './../assets/icons/error_circle.svg';
+import {ReactComponent as CircleInfo} from './../assets/icons/info_circle.svg';
+import {ReactComponent as CircleCancel} from './../assets/icons/cancel_circle.svg';
 import {ReactComponent as LeftArrow} from './../assets/icons/left_arrow.svg';
 import {ReactComponent as RightArrow} from './../assets/icons/right_arrow.svg';
 import {ReactComponent as SearchIcon} from './../assets/icons/search.svg';
@@ -105,7 +107,8 @@ export {
     LockIcon,
     UploadIcon,
     CircleCheck,
-    CircleError,
+    CircleCancel,
+    CircleInfo,
 
     CloseIcon,
     LogoSM,
@@ -158,5 +161,6 @@ export {
     AssignmentIcon,
     CancelIcon,
     VerifiedCross,
-    HelpQuestion
+    HelpQuestion,
+    ConfirmIcon
 }

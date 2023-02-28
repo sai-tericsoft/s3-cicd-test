@@ -1,3 +1,8 @@
+
+export interface ITableWrapperRefreshSubject {
+    moduleName: string;
+}
+
 export interface IAttachment {
     name: string;
     type: string;
