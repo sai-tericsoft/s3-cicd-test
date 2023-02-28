@@ -1,6 +1,6 @@
 import "./PasswordValidationComponent.scss";
 import {useEffect, useState} from "react";
-import {CircleCheck, CircleError} from "../../../constants/ImageConfig";
+import {CircleCheck, CircleInfo} from "../../../constants/ImageConfig";
 const passwordValidator = require('password-validator');
 
 interface PasswordValidationComponentProps {
@@ -65,23 +65,23 @@ const PasswordValidationComponent = (props: PasswordValidationComponentProps) =>
         <div className="password-validator-component component">
             <div className="validator-rule-list">
                 <div className={`validator-rule-item ${isLengthValid ? "valid" : 'invalid'}`}>
-                    <div className="validator-rule-icon"> {isLengthValid ? <CircleCheck/> : <CircleError/>}</div>
+                    <div className="validator-rule-icon"> {isLengthValid ? <CircleCheck/> : <CircleInfo/>}</div>
                     <div className="validator-rule-text"> A minimum 8 characters long and a maximum of 16.</div>
                 </div>
                 <div className={`validator-rule-item ${isDigitValid ? "valid" : 'invalid'}`}>
-                    <div className="validator-rule-icon"> {isDigitValid ? <CircleCheck/> : <CircleError/>}</div>
+                    <div className="validator-rule-icon"> {isDigitValid ? <CircleCheck/> : <CircleInfo/>}</div>
                     <div className="validator-rule-text"> At least 1 digit.</div>
                 </div>
                 <div className={`validator-rule-item ${isUpperCaseValid ? "valid" : 'invalid'}`}>
-                    <div className="validator-rule-icon"> {isUpperCaseValid ? <CircleCheck/> : <CircleError/>}</div>
+                    <div className="validator-rule-icon"> {isUpperCaseValid ? <CircleCheck/> : <CircleInfo/>}</div>
                     <div className="validator-rule-text"> At least 1 uppercase letter.</div>
                 </div>
                 <div className={`validator-rule-item ${isLowerCaseValid ? "valid" : 'invalid'}`}>
-                    <div className="validator-rule-icon"> {isLowerCaseValid ? <CircleCheck/> : <CircleError/>}</div>
+                    <div className="validator-rule-icon"> {isLowerCaseValid ? <CircleCheck/> : <CircleInfo/>}</div>
                     <div className="validator-rule-text"> At least 1 lowercase letter.</div>
                 </div>
                 <div className={`validator-rule-item ${isSpecialCharacterValid ? "valid" : 'invalid'}`}>
-                    <div className="validator-rule-icon"> {isSpecialCharacterValid ? <CircleCheck/> : <CircleError/>}</div>
+                    <div className="validator-rule-icon"> {isSpecialCharacterValid ? <CircleCheck/> : <CircleInfo/>}</div>
                     <div className="validator-rule-text"> At least 1 special character ( #-_!@ ).</div>
                 </div>
             </div>
