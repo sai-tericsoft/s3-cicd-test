@@ -664,6 +664,14 @@ const APIConfig: IAPIConfig = {
     UPDATE_INVENTORY_PRODUCT_QUANTITY:{
         URL: (productId: string) => ENV.API_URL + '/product/' + productId + '/updateStock',
         METHOD: 'put'
+    },
+    PENDING_PAYMENT_LIST: {
+        URL: ENV.API_URL + '/invoice',
+        METHOD:'get'
+    },
+    COMPLETE_PAYMENT_LIST:{
+        URL:ENV.API_URL+'/receipt',
+        METHOD:'get'
     }
 }
 

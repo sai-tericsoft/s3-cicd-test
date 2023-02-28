@@ -56,6 +56,9 @@ const ADD_INVENTORY_PRODUCT = "/inventory/add-product";
 const INVENTORY_PRODUCT_VIEW_DETAILS = "/inventory/product-details/:productId";
 const EDIT_INVENTORY_PRODUCT = "/inventory/edit-product/:productId";
 
+const BILLING = "/billing";
+const PAYMENT_LIST = "/billing/payment-list";
+
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
 export {
@@ -107,5 +110,8 @@ export {
     INVENTORY_PRODUCT_VIEW_DETAILS,
     EDIT_INVENTORY_PRODUCT,
     UPDATE_MEDICAL_INTERVENTION,
-    VIEW_MEDICAL_INTERVENTION
+    VIEW_MEDICAL_INTERVENTION,
+    BILLING,
+    PAYMENT_LIST
+
 };

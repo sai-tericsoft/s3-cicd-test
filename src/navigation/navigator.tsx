@@ -28,7 +28,7 @@ import AddMedicalRecordScreen from "../screens/chart-notes/add-medical-record/Ad
 import {
     ADD_INVENTORY_PRODUCT,
     ADD_MEDICAL_RECORD,
-    ADMIN,
+    ADMIN, BILLING,
     CHART_NOTES_LIST,
     CLIENT_ADD,
     CLIENT_DETAILS,
@@ -60,7 +60,7 @@ import {
     MEDICAL_RECORD_LIST,
     MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE,
     MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
-    NOT_FOUND_ROUTE,
+    NOT_FOUND_ROUTE, PAYMENT_LIST,
     PROGRESS_REPORT_VIEW_DETAILS,
     SCHEDULING_VIEW,
     SERVICE_ADD,
@@ -119,6 +119,9 @@ import UpdateMedicalIntervention
     from "../screens/chart-notes/update-medical-intervention/UpdateMedicalInterventionScreen";
 import ViewMedicalInterventionScreen
     from "../screens/chart-notes/view-medical-intervention/ViewMedicalInterventionScreen";
+import BillingDetailsMainLayoutComponent
+    from "../screens/billings/billing-details-main-layout/BillingDetailsMainLayoutComponent";
+import PaymentListComponent from "../screens/billings/payment-list/PaymentListComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -555,6 +558,14 @@ const Navigator = (props: NavigatorProps) => {
                                </ProtectedRoute>
                                }
                         />
+                    </Route>
+
+                    <Route path={BILLING} element={<BillingDetailsMainLayoutComponent/>}{...props}>
+                        <Route index element={<Navigate to={PAYMENT_LIST}/>}/>
+                        <Route path={PAYMENT_LIST} element={<ProtectedRoute>
+                            <PaymentListComponent/>
+                        </ProtectedRoute>
+                        }/>
                     </Route>
                 </Route>
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>

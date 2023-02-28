@@ -1,5 +1,5 @@
 import {
-    ADMIN,
+    ADMIN, BILLING,
     CHART_NOTES_LIST,
     CLIENT_ADD,
     CLIENT_DETAILS,
@@ -201,6 +201,10 @@ const EditInventoryProduct = (productId: string) => {
     return "/inventory/edit-product/" + productId;
 }
 
+const BillingPaymentList = () =>{
+    return BILLING
+}
+
 const RouteConfigService = {
     DefaultRoute,
     LoginRoute,
@@ -246,7 +250,8 @@ const RouteConfigService = {
     AddInventoryProduct,
     InventoryProductViewDetails,
     EditInventoryProduct,
-    SystemSettings
+    SystemSettings,
+    BillingPaymentList
 }
 
 export default RouteConfigService;
