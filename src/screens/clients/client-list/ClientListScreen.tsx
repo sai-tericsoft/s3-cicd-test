@@ -10,11 +10,14 @@ import {ImageConfig} from "../../../constants";
 import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
 import {IRootReducerState} from "../../../store/reducers";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
-import ClientAddComponent from "../client-add/ClientAddComponent";
+import ClientAddComponent from "../client-compact-add/ClientAddComponent";
+import {CommonService} from "../../../shared/services";
 
 interface ClientListScreenProps {
 
 }
+
+const CLIENT_LIST_TABLE = "ClientListScreen";
 
 const ClientListScreen = (props: ClientListScreenProps) => {
 
@@ -62,6 +65,13 @@ const ClientListScreen = (props: ClientListScreenProps) => {
         setIsClientAddDrawerOpen(false);
     }, []);
 
+    const handleClientAdd = useCallback(() => {
+        CommonService._communications.TableWrapperRefreshSubject.next({
+            moduleName: CLIENT_LIST_TABLE,
+        });
+        closeClientAddDrawer();
+    }, []);
+
     return (
         <div className={'client-list-screen list-screen'}>
             <div className={'list-screen-header'}>
@@ -104,12 +114,13 @@ const ClientListScreen = (props: ClientListScreenProps) => {
                     refreshToken={refreshToken}
                     clientListFilterState={clientListFilterState}
                     onSort={handleClientSort}
+                    moduleName={CLIENT_LIST_TABLE}
                 />
             </div>
             <DrawerComponent isOpen={isClientAddDrawerOpen}
                              showClose={true}
                              onClose={closeClientAddDrawer}>
-                <ClientAddComponent onAdd={()=>closeClientAddDrawer()} refreshList={refreshList}/>
+                <ClientAddComponent onAdd={handleClientAdd}/>
             </DrawerComponent>
         </div>
     );

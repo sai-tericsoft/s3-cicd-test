@@ -8,6 +8,7 @@ import {APIConfig} from "../../../constants";
 import {IClientBasicDetails, IClientListFilterState} from "../../../shared/models/client.model";
 
 interface ClientListTableComponentProps {
+    moduleName: string;
     clientListFilterState: IClientListFilterState;
     onSort?: (key: string, order: string) => void;
     refreshToken?: string;
@@ -15,7 +16,7 @@ interface ClientListTableComponentProps {
 
 const ClientListTableComponent = (props: ClientListTableComponentProps) => {
 
-    const {clientListFilterState, onSort,refreshToken} = props;
+    const {clientListFilterState, moduleName, onSort, refreshToken} = props;
 
     const ClientListTableColumns: ITableColumn[] = [
         {
@@ -116,6 +117,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
                 refreshToken={refreshToken}
                 extraPayload={clientListFilterState}
                 onSort={onSort}
+                moduleName={moduleName}
             />
         </div>
     );
