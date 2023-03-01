@@ -1,7 +1,6 @@
 name: ADMIN UAT CI&CD setup
 on:
-  release:
-    types: [published]
+  workflow_dispatch
   
 jobs:
   build:
