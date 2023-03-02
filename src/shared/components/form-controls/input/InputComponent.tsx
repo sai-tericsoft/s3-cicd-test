@@ -46,15 +46,15 @@ const InputComponent = (props: InputComponentProps) => {
             if (validationPattern) {
                 const reg = RegExp(validationPattern);
                 if (nextValue === "" || reg.test(nextValue)) {
-                    onChange(nextValue);
+                    onChange( type === "number" ? parseInt(nextValue) : nextValue );
                 } else {
                     console.log(nextValue, reg, reg.test(nextValue), "regex failed");
                 }
             } else {
-                onChange(nextValue);
+                onChange( type === "number" ? parseInt(nextValue) : nextValue );
             }
         }
-    }, [titleCase, validationPattern, onChange]);
+    }, [titleCase, type, validationPattern, onChange]);
 
     return (
         <FormControl className={'input-component ' + className + ' ' + (fullWidth ? "full-width" : "")}

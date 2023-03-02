@@ -377,9 +377,11 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
                             </ButtonComponent>&nbsp;&nbsp;
                         </>
                     }
-                    <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}>
-                        New Invoice
-                    </ButtonComponent>
+                    <LinkComponent route={CommonService._routeConfig.AddNewInvoice()}>
+                        <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}>
+                            New Invoice
+                        </ButtonComponent>
+                    </LinkComponent>
                 </div>
             </div>
             <TabsWrapperComponent>
@@ -454,10 +456,10 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
                     columns={markAsPaidTableColumns}
                     data={selectedPayments}
                 />
-                <div className={"mrg-top-20"}>
+                <div className={"mark-as-paid-total-outstanding-balance"}>
                     <DataLabelValueComponent
                         direction={"row"}
-                        label={"Total Outstanding Balance: "}>
+                        label={"Total Amount (Inc.Tax)"}>
                         <span className="mrg-left-5">
                             {Misc.CURRENCY_SYMBOL} {selectedPayments.reduce((acc: any, payment: any) => acc + parseInt(payment?.amount), 0)}
                         </span>

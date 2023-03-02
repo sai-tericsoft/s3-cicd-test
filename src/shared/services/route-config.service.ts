@@ -1,5 +1,5 @@
 import {
-    ADMIN, BILLING,
+    ADMIN,
     CHART_NOTES_LIST,
     CLIENT_ADD,
     CLIENT_DETAILS,
@@ -202,7 +202,11 @@ const EditInventoryProduct = (productId: string) => {
 }
 
 const BillingPaymentList = () =>{
-    return BILLING
+    return "/billing/payment-list";
+}
+
+const AddNewInvoice = () =>{
+    return "/billing/add-new-invoice";
 }
 
 const RouteConfigService = {
@@ -251,7 +255,8 @@ const RouteConfigService = {
     InventoryProductViewDetails,
     EditInventoryProduct,
     SystemSettings,
-    BillingPaymentList
+    BillingPaymentList,
+    AddNewInvoice
 }
 
 export default RouteConfigService;

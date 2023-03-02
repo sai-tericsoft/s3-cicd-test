@@ -58,6 +58,7 @@ const EDIT_INVENTORY_PRODUCT = "/inventory/edit-product/:productId";
 
 const BILLING = "/billing";
 const PAYMENT_LIST = "/billing/payment-list";
+const ADD_NEW_INVOICE = "/billing/add-new-invoice";
 
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
@@ -112,6 +113,7 @@ export {
     UPDATE_MEDICAL_INTERVENTION,
     VIEW_MEDICAL_INTERVENTION,
     BILLING,
-    PAYMENT_LIST
+    PAYMENT_LIST,
+    ADD_NEW_INVOICE
 
 };
