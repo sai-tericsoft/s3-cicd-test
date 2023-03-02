@@ -1,30 +1,67 @@
 @import "src/assets/styles/common";
 
 .transfer-medical-record-component {
+  .back-cross-btn-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+
+    .drawer-close {
+      cursor: pointer;
+      position: relative;
+      top: 2px;
+      background: #F4F4F8;
+      padding: 16px;
+      border-radius: 50%;
+      height: 46px;
+      width: 46px;
+      @include display-center();
+    }
+  }
+    .cross-btn {
+      display: flex;
+        align-items: center;
+        justify-content: end;
+
+      .drawer-close {
+        cursor: pointer;
+        position: relative;
+        top: 2px;
+        background: #F4F4F8;
+        padding: 16px;
+        border-radius: 50%;
+        height: 46px;
+        width: 46px;
+        @include display-center();
+      }
+
+  }
 
   .t-cell-date {
     text-align: center !important;
   }
 
   .select-client-wrapper {
-    .client-list-table{
-      color:#6D6D6D ;
+    .client-list-table {
+      color: #6D6D6D;
       border: 1px solid #F3F3F3;
     }
+
     .t-table-wrapper {
       height: calc(100vh - 290px);
     }
   }
 
   .select-interventions-wrapper {
-.card-component{
- margin-bottom: 10px;
+    .card-component {
+      margin-bottom: 10px;
 
-}
+    }
+
     .select-intervention-choice-wrapper {
       display: flex;
       align-items: center;
-      margin-bottom:10px;
+      margin-bottom: 10px;
 
       .select-intervention-choice-label {
         margin-bottom: 0 !important;

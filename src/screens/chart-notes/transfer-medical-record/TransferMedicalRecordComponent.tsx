@@ -15,15 +15,17 @@ import CardComponent from "../../../shared/components/card/CardComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
 import {ImageConfig, Misc} from "../../../constants";
+import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
 
 interface TransferMedicalRecordComponentProps {
+    onClose: () => void;
     onMedicalRecordTransfer: (data: any) => void;
     medicalRecordId: string;
 }
 
 const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentProps) => {
 
-        const {medicalRecordId} = props;
+        const {medicalRecordId,onClose} = props;
         const [currentStep, setCurrentStep] = useState<"selectClient" | "selectInterventions" | "selectTargetMedicalRecord">("selectClient");
         const [clientSearchKey, setClientSearchKey] = useState<string>('');
         const {onMedicalRecordTransfer} = props;
@@ -263,18 +265,17 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
             }
         }, [shouldTransferEntireMedicalRecord, currentStep, confirmTransferMedicalRecord, handleTransferMedicalRecord, getSelectedClientMedicalRecordList, getClientMedicalInterventionList]);
 
-        // To be use later
-        // const handleBack = useCallback(() => {
-        //     switch (currentStep) {
-        //         case "selectInterventions":
-        //             setCurrentStep("selectClient");
-        //             getClientMedicalInterventionList();
-        //             break;
-        //         case  "selectTargetMedicalRecord"  :
-        //             setCurrentStep("selectInterventions");
-        //             break;
-        //     }
-        // }, [currentStep, getClientMedicalInterventionList]);
+        const handleBack = useCallback(() => {
+            switch (currentStep) {
+                case "selectInterventions":
+                    setCurrentStep("selectClient");
+                    getClientMedicalInterventionList();
+                    break;
+                case  "selectTargetMedicalRecord"  :
+                    setCurrentStep("selectInterventions");
+                    break;
+            }
+        }, [currentStep, getClientMedicalInterventionList]);
         //
         // useEffect(() => {
         //     getClientList();
@@ -283,6 +284,37 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
         return (
             <div className={'transfer-medical-record-component'}>
 
+                {
+                    (currentStep === "selectInterventions" || currentStep === 'selectTargetMedicalRecord') &&
+                    <div className={'back-cross-btn-wrapper'}>
+                        <div className="back-btn" onClick={handleBack}><ImageConfig.LeftArrow/></div>
+                        <ToolTipComponent tooltip={"Close"} position={"left"}>
+                            <div className="drawer-close"
+                                 id={'book-appointment-close-btn'}
+                                 onClick={(event) => {
+                                     if (onClose) {
+                                         onClose();
+                                     }
+                                 }
+                                 }><ImageConfig.CloseIcon/></div>
+                        </ToolTipComponent>
+                    </div>
+                }
+                {
+                    currentStep === "selectClient" &&
+                    <div className={'cross-btn'}>
+                        <ToolTipComponent tooltip={"Close"} position={"left"}>
+                            <div className="drawer-close"
+                                 id={'book-appointment-close-btn'}
+                                 onClick={(event) => {
+                                     if (onClose) {
+                                         onClose();
+                                     }
+                                 }
+                                 }><ImageConfig.CloseIcon/></div>
+                        </ToolTipComponent>
+                    </div>
+                }
                 <FormControlLabelComponent label={"Transfer File to"} size={"lg"}/>
                 {
                     currentStep === "selectClient" && <div className={"select-client-wrapper"}>
