@@ -331,6 +331,11 @@
     align-items: center;
     justify-content: center;
   }
+
+  .t-table {
+    min-height: auto !important;
+    height: auto !important;
+  }
 }
 
 
@@ -602,9 +607,10 @@
     .mark-as-paid-total-outstanding-balance {
       margin-top: 18px;
 
-      .data-label-value{
+      .data-label-value {
         justify-content: space-evenly;
       }
+
       .data-label, .data-value {
         font-weight: $font-weight-bold;
         color: $body-color !important;
@@ -614,7 +620,7 @@
   }
 }
 
-.add-new-invoice-payment-mode-modal{
+.add-new-invoice-payment-mode-modal {
   .modal-content-wrapper {
     width: 416px !important;
 

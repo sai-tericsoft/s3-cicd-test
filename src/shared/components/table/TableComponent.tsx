@@ -33,6 +33,7 @@ const TableComponent = (props: TableComponentProps) => {
         expandRowRenderer,
         canExpandRow,
         onRowClick,
+        autoHeight,
         data = [],
         sort,
         onSort,
@@ -165,7 +166,7 @@ const TableComponent = (props: TableComponentProps) => {
         <div className={'table-component'}>
             <TableStyles className={`styled-table ${className}`}>
                 <div className={`t-table-wrapper`}>
-                    <div {...getTableProps()} className={`t-table table sticky ${size} ${bordered ? 'bordered' : ''}`}>
+                    <div {...getTableProps()} className={`t-table table sticky ${size} ${bordered ? 'bordered' : ''} ${autoHeight ? 'auto-height' : ''}`}>
                         {
                             !hideHeader && <div className="header t-thead">
                                 {headerGroups.map((headerGroup) => (
