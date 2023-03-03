@@ -243,11 +243,57 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
         getServiceCategoriesList()
     }, [getServiceCategoriesList]);
 
+
+    const [serviceList, setServiceList] = useState<any[] | null>(null);
+    const getServiceList = useCallback(
+        (categoryId: string) => {
+            setServiceList([]);
+            CommonService._service.ServiceListLiteAPICall(categoryId, {is_active: true})
+                .then((response: IAPIResponseType<any>) => {
+                    const data = response.data || [];
+                    setServiceList(data);
+                })
+                .catch((error: any) => {
+                    setServiceList([]);
+                })
+        },
+        [],
+    );
+
+    const [providerList, setProviderList] = useState<any[] | null>(null);
+    const getProvidersList = useCallback(
+        () => {
+            setProviderList([]);
+            CommonService._user.getUserListLite({role: 'provider', is_active: true})
+                .then((response: IAPIResponseType<any>) => {
+                    const data = response.data || [];
+                    setProviderList(data);
+                })
+                .catch((error: any) => {
+                    setProviderList([]);
+                })
+        },
+        [],
+    );
+    useEffect(() => {
+        getProvidersList()
+    }, [getProvidersList]);
+
     const [calendarData, setCalendarData] = useState<any>(null)
     const [calendarDaysData, setCalendarDaysData] = useState<any>(null)
     const [isCalendarLoading, setIsCalendarLoading] = useState<boolean>(false)
     const getCalenderList = useCallback((payload: any) => {
         delete payload.sort;
+        if (payload.provider_id) {
+            payload.provider_id = payload.provider_id._id;
+        }
+        if (payload.category_id) {
+            payload.category_id = payload.category_id._id;
+        }
+
+        if (payload.service_id) {
+            payload.service_id = payload.service_id._id;
+        }
         setCalendarData(null);
         setCalendarDaysData(null);
         setIsCalendarLoading(true);
@@ -285,7 +331,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
     }, []);
     useEffect(() => {
         if (viewMode === 'calendar') {
-            getCalenderList(schedulingListFilterState);
+            getCalenderList({...schedulingListFilterState});
         }
     }, [schedulingListFilterState, getCalenderList, viewMode]);
     return (
@@ -382,11 +428,14 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                 <AutoCompleteComponent size={'small'}
                                                        label={'Service Category'}
                                                        dataListKey={'data'}
+                                                       value={schedulingListFilterState?.category_id}
                                                        displayWith={item => item ? item?.name : ''}
                                                        keyExtractor={item => item?._id}
                                                        valueExtractor={item => item}
-                                                       searchMode={'serverSide'}
+                                                       freeSolo={true}
                                                        openOnFocus={true}
+                                                       searchMode={'serverSide'}
+                                                       defaultData={serviceCategoryList || []}
                                                        url={APIConfig.SERVICE_CATEGORY_LIST_LITE.URL}
                                                        method={APIConfig.SERVICE_CATEGORY_LIST_LITE.METHOD}
                                                        fullWidth={true}
@@ -394,9 +443,12 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                            (value) => {
                                                                setSchedulingListFilterState({
                                                                    ...schedulingListFilterState,
-                                                                   category_id: value?._id,
+                                                                   category_id: value,
                                                                    service_id: undefined
                                                                })
+                                                               if (value) {
+                                                                   getServiceList(value?._id);
+                                                               }
                                                            }
                                                        }
                                 />
@@ -405,19 +457,23 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                 <AutoCompleteComponent size={'small'}
                                                        label={'Service'}
                                                        disabled={!schedulingListFilterState?.category_id}
+                                                       value={schedulingListFilterState?.service_id}
                                                        dataListKey={'data'}
                                                        displayWith={item => item ? item?.name : ''}
                                                        keyExtractor={item => item?._id}
                                                        valueExtractor={item => item}
                                                        searchMode={'serverSide'}
-                                                       url={APIConfig.SERVICE_LIST_LITE.URL(schedulingListFilterState?.category_id)}
+                                                       freeSolo={true}
+                                                       openOnFocus={true}
+                                                       defaultData={serviceList || []}
+                                                       url={APIConfig.SERVICE_LIST_LITE.URL(schedulingListFilterState?.category_id?._id)}
                                                        method={APIConfig.SERVICE_LIST_LITE.METHOD}
                                                        fullWidth={true}
                                                        onUpdate={
                                                            (value) => {
                                                                setSchedulingListFilterState({
                                                                    ...schedulingListFilterState,
-                                                                   service_id: value?._id
+                                                                   service_id: value
                                                                })
 
                                                            }
@@ -432,15 +488,18 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                        displayWith={item => item ? item?.first_name + ' ' + item?.last_name : ''}
                                                        keyExtractor={item => item?._id}
                                                        valueExtractor={item => item}
+                                                       defaultData={providerList || []}
                                                        searchMode={'serverSide'}
                                                        url={APIConfig.USER_LIST_LITE.URL}
                                                        method={APIConfig.USER_LIST_LITE.METHOD}
                                                        fullWidth={true}
+                                                       freeSolo={true}
+                                                       openOnFocus={true}
                                                        onUpdate={
                                                            (value) => {
                                                                setSchedulingListFilterState({
                                                                    ...schedulingListFilterState,
-                                                                   provider_id: value?._id
+                                                                   provider_id: value
                                                                })
                                                            }
                                                        }
@@ -453,11 +512,13 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                        displayWith={(option: any) => (option?.title || '')}
                                                        valueExtractor={(option: any) => option?.code}
                                                        label={'Status'}
+                                                       freeSolo={true}
+                                                       openOnFocus={true}
                                                        onUpdate={
                                                            (value) => {
                                                                setSchedulingListFilterState({
                                                                    ...schedulingListFilterState,
-                                                                   status: value?.code
+                                                                   status: value
                                                                })
                                                            }
                                                        }
@@ -547,7 +608,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                  onClick={() => {
                                                                      setSchedulingListFilterState({
                                                                          ...schedulingListFilterState,
-                                                                         provider_id: value._id
+                                                                         provider_id: value
                                                                      })
                                                                  }}
                                                             >
@@ -582,7 +643,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                  onClick={() => {
                                                                      setSchedulingListFilterState({
                                                                          ...schedulingListFilterState,
-                                                                         service_id: value._id
+                                                                         service_id: value
                                                                      })
                                                                  }}
                                                             >
@@ -618,9 +679,12 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                  onClick={() => {
                                                                      setSchedulingListFilterState({
                                                                          ...schedulingListFilterState,
-                                                                         category_id: value?._id,
+                                                                         category_id: value,
                                                                          service_id: undefined
                                                                      })
+                                                                     if (value) {
+                                                                         getServiceList(value?._id);
+                                                                     }
                                                                  }}>
                                                                 <div className="appointment-count-card-wrapper"
                                                                      style={{
@@ -699,7 +763,10 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                                      onClick={() => {
                                                                                          setOpenedAppointmentDetails(appointment);
                                                                                      }}
-                                                                                     style={{top: appointment.start_time - value.start, height: appointment.end_time - appointment.start_time}}>
+                                                                                     style={{
+                                                                                         top: appointment.start_time - value.start,
+                                                                                         height: appointment.end_time - appointment.start_time
+                                                                                     }}>
                                                                                     <CalendarAppointmentCard
                                                                                         title={appointment.client_details.first_name + ' ' + appointment.client_details.last_name}
                                                                                         timeSlot={CommonService.getHoursAndMinutesFromMinutes(appointment.start_time) + ' - ' + CommonService.getHoursAndMinutesFromMinutes(appointment.end_time)}
