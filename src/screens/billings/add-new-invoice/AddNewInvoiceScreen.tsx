@@ -122,7 +122,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
 
     useEffect(() => {
         dispatch(setCurrentNavParams("Add New Invoice", null, () => {
-            navigate(CommonService._routeConfig.BillingPaymentList());
+            navigate(CommonService._routeConfig.BillingList());
         }));
     }, [navigate, dispatch]);
 
@@ -415,7 +415,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
             .then((response: IAPIResponseType<any>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setSubmitting && setSubmitting(false);
-                navigate(CommonService._routeConfig.BillingPaymentList() + '?activeTab=completedPayments');
+                navigate(CommonService._routeConfig.BillingList() + '?activeTab=completedPayments');
             })
             .catch((error: any) => {
                 setErrors && CommonService.handleErrors(setErrors, error);
@@ -432,7 +432,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
             }
         )
             .then((result: any) => {
-                navigate(CommonService._routeConfig.BillingPaymentList());
+                navigate(CommonService._routeConfig.BillingList());
             });
     }, [navigate]);
 

@@ -8,7 +8,8 @@ import {
     COMING_SOON_ROUTE,
     DASHBOARD,
     FACILITY_DETAILS,
-    FACILITY_LIST, INVENTORY,
+    FACILITY_LIST,
+    INVENTORY,
     LOGIN_ROUTE,
     NOT_FOUND_ROUTE,
     SCHEDULING_VIEW,
@@ -201,12 +202,16 @@ const EditInventoryProduct = (productId: string) => {
     return "/inventory/edit-product/" + productId;
 }
 
-const BillingPaymentList = () =>{
-    return "/billing/payment-list";
+const BillingList = () => {
+    return "/billing/billing-list";
 }
 
-const AddNewInvoice = () =>{
+const AddNewInvoice = () => {
     return "/billing/add-new-invoice";
+}
+
+const BillingDetails = (billingId: string, mode: 'invoice' | 'receipt') => {
+    return "/billing/billing-details/" + billingId + "?mode=" + mode;
 }
 
 const RouteConfigService = {
@@ -255,8 +260,9 @@ const RouteConfigService = {
     InventoryProductViewDetails,
     EditInventoryProduct,
     SystemSettings,
-    BillingPaymentList,
-    AddNewInvoice
+    BillingList,
+    AddNewInvoice,
+    BillingDetails
 }
 
 export default RouteConfigService;

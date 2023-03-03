@@ -1,4 +1,4 @@
-import "./BillingPaymentScreen.scss";
+import "./BillingListScreen.scss";
 import {useCallback, useEffect, useMemo, useState} from "react";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {useDispatch, useSelector} from "react-redux";
@@ -35,7 +35,7 @@ const PENDING_PAYMENTS_MODULE = 'PENDING_PAYMENTS_MODULE';
 
 type PaymentsListTabType = 'pendingPayments' | 'completedPayments';
 const PaymentsListTabTypes = ['pendingPayments', 'completedPayments'];
-const BillingPaymentScreen = (props: PaymentListComponentProps) => {
+const BillingListScreen = (props: PaymentListComponentProps) => {
 
     const dispatch = useDispatch();
 
@@ -150,7 +150,7 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
             fixed: 'right',
             dataIndex: 'action',
             render: (item: any) => {
-                return <LinkComponent route={""}>
+                return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id, 'receipt')}>
                     View Details
                 </LinkComponent>
             }
@@ -248,7 +248,7 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
             fixed: 'right',
             dataIndex: 'action',
             render: (item: any) => {
-                return <LinkComponent route={""}>
+                return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id, 'invoice')}>
                     View Details
                 </LinkComponent>
             }
@@ -523,4 +523,4 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
 
 };
 
-export default BillingPaymentScreen;
+export default BillingListScreen;
