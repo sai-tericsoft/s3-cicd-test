@@ -12,8 +12,16 @@
     height: 100%;
     position: relative;
 
-    .input-component {
+    &:not(&.auto-height){
+      min-height: 400px;
+    }
+
+    .autoComplete-component-wrapper, .input-component {
       margin-bottom: 0 !important;
+    }
+
+    .MuiFormHelperText-root.Mui-error {
+      display: none !important;
     }
 
     &.sticky {

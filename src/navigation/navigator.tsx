@@ -28,7 +28,9 @@ import AddMedicalRecordScreen from "../screens/chart-notes/add-medical-record/Ad
 import {
     ADD_INVENTORY_PRODUCT,
     ADD_MEDICAL_RECORD,
-    ADMIN, BILLING,
+    ADD_NEW_INVOICE,
+    ADMIN,
+    BILLING,
     CHART_NOTES_LIST,
     CLIENT_ADD,
     CLIENT_DETAILS,
@@ -60,7 +62,8 @@ import {
     MEDICAL_RECORD_LIST,
     MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE,
     MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
-    NOT_FOUND_ROUTE, PAYMENT_LIST,
+    NOT_FOUND_ROUTE,
+    PAYMENT_LIST,
     PROGRESS_REPORT_VIEW_DETAILS,
     SCHEDULING_VIEW,
     SERVICE_ADD,
@@ -119,9 +122,9 @@ import UpdateMedicalIntervention
     from "../screens/chart-notes/update-medical-intervention/UpdateMedicalInterventionScreen";
 import ViewMedicalInterventionScreen
     from "../screens/chart-notes/view-medical-intervention/ViewMedicalInterventionScreen";
-import BillingMainLayoutComponent
-    from "../screens/billings/billing-main-layout/BillingMainLayoutComponent";
+import BillingMainLayoutComponent from "../screens/billings/billing-main-layout/BillingMainLayoutComponent";
 import BillingPaymentScreen from "../screens/billings/payment-list/BillingPaymentScreen";
+import AddNewInvoiceScreen from "../screens/billings/add-new-invoice/AddNewInvoiceScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -559,13 +562,16 @@ const Navigator = (props: NavigatorProps) => {
                                }
                         />
                     </Route>
-
                     <Route path={BILLING} element={<BillingMainLayoutComponent/>}{...props}>
                         <Route index element={<Navigate to={PAYMENT_LIST}/>}/>
                         <Route path={PAYMENT_LIST} element={<ProtectedRoute>
                             <BillingPaymentScreen/>
-                        </ProtectedRoute>
-                        }/>
+                        </ProtectedRoute>}
+                        />
+                        <Route path={ADD_NEW_INVOICE} element={<ProtectedRoute>
+                            <AddNewInvoiceScreen/>
+                        </ProtectedRoute>}
+                        />
                     </Route>
                 </Route>
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>

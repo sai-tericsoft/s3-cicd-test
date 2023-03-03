@@ -1,4 +1,5 @@
 import Logo from './../assets/icons/logo.svg';
+import BillingLogo from './../assets/images/logo.png';
 import LogoSM from './../assets/icons/logo-sm.svg';
 import {ReactComponent as userIcon} from './../assets/icons/user_icon.svg';
 import {ReactComponent as LockIcon} from '../assets/icons/header/lock.svg';
@@ -162,5 +163,6 @@ export {
     CancelIcon,
     VerifiedCross,
     HelpQuestion,
-    ConfirmIcon
+    ConfirmIcon,
+    BillingLogo
 }

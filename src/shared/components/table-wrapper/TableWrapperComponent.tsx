@@ -18,11 +18,12 @@ export interface TableComponentProps extends ITableComponentProps {
     isPaginated?: boolean,
     extraPayload?: any;
     refreshToken?: string; // TODO review and make it standard
+    autoHeight?: boolean;
 }
 
 const TableWrapperComponent = (props: TableComponentProps) => {
 
-    const {refreshToken, moduleName, id, url, method, extraPayload, ...otherProps} = props;
+    const {refreshToken, moduleName, autoHeight, id, url, method, extraPayload, ...otherProps} = props;
 
     const [isDataLoading, setIsDataLoading] = useState<boolean>(false);
     const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);

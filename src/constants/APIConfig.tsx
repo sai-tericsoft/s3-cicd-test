@@ -206,6 +206,14 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + "/client/list",
         METHOD: "post"
     },
+    GET_CLIENT_BILLING_ADDRESS: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/billingAddress',
+        METHOD: "get"
+    },
+    UPDATE_CLIENT_BILLING_ADDRESS: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/billingAddress',
+        METHOD: "put"
+    },
     CLIENT_LIST_LITE: {
         URL: ENV.API_URL + "/client/lite",
         METHOD: "get"
@@ -625,6 +633,10 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + '/product/list',
         METHOD: 'post'
     },
+    GET_INVENTORY_LIST_LITE: {
+        URL: ENV.API_URL + '/product/lite',
+        METHOD: 'get'
+    },
     ADD_INVENTORY_PRODUCT: {
         URL: ENV.API_URL + '/product',
         METHOD: 'post'
@@ -675,6 +687,10 @@ const APIConfig: IAPIConfig = {
     },
     MARK_PAYMENTS_AS_PAID:{
         URL:ENV.API_URL+'/invoice/markPaid',
+        METHOD:'post'
+    },
+    ADD_NEW_RECEIPT:{
+        URL:ENV.API_URL+'/receipt',
         METHOD:'post'
     }
 }

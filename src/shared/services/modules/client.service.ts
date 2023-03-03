@@ -128,6 +128,14 @@ const ResendInviteToClient=(clientId:string,payload:any)=>{
     return ApiService[APIConfig.RESEND_INVITE_LINK_TO_CLIENT.METHOD](APIConfig.RESEND_INVITE_LINK_TO_CLIENT.URL(clientId),payload);
 }
 
+const GetClientBillingAddress = (clientId: any) => {
+    return ApiService[APIConfig.GET_CLIENT_BILLING_ADDRESS.METHOD](APIConfig.GET_CLIENT_BILLING_ADDRESS.URL(clientId));
+}
+
+const UpdateClientBillingAddress = (clientId: any, payload: any) => {
+    return ApiService[APIConfig.UPDATE_CLIENT_BILLING_ADDRESS.METHOD](APIConfig.UPDATE_CLIENT_BILLING_ADDRESS.URL(clientId), payload);
+}
+
 const ClientService = {
     ClientBasicDetailsAddAPICall,
     ClientBasicDetailsAPICall,
@@ -154,7 +162,9 @@ const ClientService = {
     GetClientList,
     GetClientMedicalRecordList,
     ClientListLiteAPICall,
-    ResendInviteToClient
+    ResendInviteToClient,
+    GetClientBillingAddress,
+    UpdateClientBillingAddress
 }
 
 export default ClientService;

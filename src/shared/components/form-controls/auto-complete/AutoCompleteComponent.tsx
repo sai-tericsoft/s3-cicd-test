@@ -58,7 +58,7 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
         if (!method) method = "get";
         if (!size) size = "medium";
         if (!searchMode) searchMode = "clientSide";
-        if (!dataListKey) dataListKey = "data.docs";
+        if (!dataListKey) dataListKey = "data";
         if (multiple === undefined) multiple = false;
         if (fullWidth === undefined) fullWidth = true;
         if (filterSelectedOptions === undefined) filterSelectedOptions = true;
@@ -204,6 +204,7 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
         }, [defaultData, url, dataListKey, method, extraPayload]);
 
         const handleInputChange = useCallback((event: any, value: any) => {
+            console.log(event, value);
             if (value) {
                 const sanitizedSearchValue = value.trim();
                 if (!event || (sanitizedSearchValue?.length === 0 || event?.type === "click")) {
