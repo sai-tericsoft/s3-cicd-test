@@ -27,13 +27,18 @@ const GetReceiptDetailsAPICall = (receiptId: any) => {
     return ApiService[APIConfig.GET_RECEIPT_DETAILS.METHOD](APIConfig.GET_RECEIPT_DETAILS.URL(receiptId))
 }
 
+const GetBillingStatsAPICall = () => {
+    // @ts-ignore
+    return ApiService[APIConfig.GET_BILLING_STATS.METHOD](APIConfig.GET_BILLING_STATS.URL)
+}
 
 const BillingService={
     MarkPaymentsAsPaidAPICall,
     AddNewInvoiceAPICall,
     MarkPaymentAsPaidAPICall,
     GetInvoiceDetailsAPICall,
-    GetReceiptDetailsAPICall
+    GetReceiptDetailsAPICall,
+    GetBillingStatsAPICall
 }
 
 export default BillingService;

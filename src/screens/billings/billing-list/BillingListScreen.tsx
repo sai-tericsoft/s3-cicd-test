@@ -38,6 +38,7 @@ const PaymentsListTabTypes = ['pendingPayments', 'completedPayments'];
 const BillingListScreen = (props: PaymentListComponentProps) => {
 
     const dispatch = useDispatch();
+    const [billingStats, setBillingStats] = useState<any>(null);
 
     const [currentTab, setCurrentTab] = useState<PaymentsListTabType>("pendingPayments");
     const [selectedPayments, setSelectedPayments] = useState<any[]>([]);
@@ -93,8 +94,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             align: 'center',
             render: (item: any) => {
                 return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id, 'invoice')}>
-                        {item?.appointment_id}
-                    </LinkComponent>
+                    {item?.appointment_id}
+                </LinkComponent>
             }
         },
         {
@@ -162,7 +163,6 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             }
         }
     ], [handlePaymentSelection, selectedPayments]);
-
 
     const completePaymentListColumn: ITableColumn[] = useMemo<any>(() => [
         {
@@ -363,6 +363,19 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             });
     }, [selectedPayments, closePaymentModeModal, selectedPaymentMode]);
 
+    const fetchBillingStats = useCallback(() => {
+        CommonService._billingsService.GetBillingStatsAPICall()
+            .then((response: IAPIResponseType<any>) => {
+                setBillingStats(response?.data);
+            }).catch((error: any) => {
+            setBillingStats(undefined);
+        })
+    }, []);
+
+    useEffect(() => {
+        fetchBillingStats();
+    }, [fetchBillingStats]);
+
     return (
         <div className={'payment-list-component list-screen'}>
             <div className={'list-screen-header'}>
@@ -403,7 +416,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                allowScrollButtonsMobile={false}
                                variant={"fullWidth"}
                                onUpdate={handleTabChange}>
-                    <TabComponent label={'Pending Payments'} value={'pendingPayments'}/>
+                    <TabComponent label={`Pending Payments(${(billingStats?.count !== undefined) ? billingStats?.count : '-'})`} value={'pendingPayments'}/>
                     <TabComponent label={'Completed Payments'} value={'completedPayments'}/>
                 </TabsComponent>
                 <TabContentComponent value={'pendingPayments'} selectedTab={currentTab}>

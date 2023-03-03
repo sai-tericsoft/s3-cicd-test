@@ -10,7 +10,6 @@ import {ImageConfig, Misc} from "../../../constants";
 import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
 import {ListItem} from "@mui/material";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {IService} from "../../../shared/models/service.model";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import HorizontalLineComponent
@@ -101,7 +100,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
         } else {
             return;
         }
-        apiCall.then((response: IAPIResponseType<IService>) => {
+        apiCall.then((response: IAPIResponseType<any>) => {
             if (response?.data) {
                 billingDetails = response.data;
             }

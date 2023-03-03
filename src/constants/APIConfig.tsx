@@ -705,6 +705,10 @@ const APIConfig: IAPIConfig = {
         URL: (receiptId: string) => ENV.API_URL + '/receipt/' + receiptId,
         METHOD:'get'
     },
+    GET_BILLING_STATS:{
+        URL: ENV.API_URL + '/invoiceStats',
+        METHOD:'get'
+    },
 }
 
 export default APIConfig;
