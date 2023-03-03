@@ -183,6 +183,7 @@ export interface IAutoCompleteProps {
     name?: string;
     noDataMessage?: string;
     onUpdate?: (value: any) => void;
+    onBlur?: () => void;
     openOnFocus?: boolean;
     payload?: object;
     placeholder?: string;
