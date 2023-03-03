@@ -58,6 +58,7 @@ const AddNewInvoiceFormValidationSchema = Yup.object({
     }),
     client_id: Yup.string().required("Client is required"),
     provider_id: Yup.string().required("Provider is required"),
+    comments: Yup.string().nullable().max(200, "Comments cannot be more than 200 characters"),
 });
 
 const ProductRow = {
