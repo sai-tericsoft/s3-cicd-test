@@ -23,6 +23,10 @@
     .service-category-list {
       display: flex;
       flex-wrap: wrap;
+
+      .ts-row {
+        flex: 1;
+      }
     }
   }
 }

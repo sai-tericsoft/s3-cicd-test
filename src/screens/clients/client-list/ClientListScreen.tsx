@@ -10,11 +10,14 @@ import {ImageConfig} from "../../../constants";
 import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
 import {IRootReducerState} from "../../../store/reducers";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
-import ClientAddComponent from "../client-add/ClientAddComponent";
+import ClientAddComponent from "../client-compact-add/ClientAddComponent";
+import {CommonService} from "../../../shared/services";
 
 interface ClientListScreenProps {
 
 }
+
+const CLIENT_LIST_TABLE = "ClientListScreen";
 
 const ClientListScreen = (props: ClientListScreenProps) => {
 
@@ -26,7 +29,6 @@ const ClientListScreen = (props: ClientListScreenProps) => {
         sort: {}
     });
     const [isClientAddDrawerOpen, setIsClientAddDrawerOpen] = useState<boolean>(false);
-    const [refreshToken, setRefreshToken] = useState<string>('');
 
     useEffect(() => {
         dispatch(setCurrentNavParams('Clients'));
@@ -44,16 +46,6 @@ const ClientListScreen = (props: ClientListScreenProps) => {
         });
     }, []);
 
-    const refreshList = useCallback(() => {
-        setRefreshToken(Math.random().toString(36).substring(7));
-    },[]);
-
-    // const handleClientAdd = useCallback(() => {
-    //     dispatch(setClientBasicDetails(undefined));
-    //     dispatch(setClientMedicalDetails(undefined));
-    //     dispatch(setClientAccountDetails(undefined));
-    //     navigate(CommonService._routeConfig.ClientAdd());
-    // }, [navigate, dispatch]);
     const openClientAddDrawer = useCallback(() => {
         setIsClientAddDrawerOpen(true);
     }, []);
@@ -61,6 +53,13 @@ const ClientListScreen = (props: ClientListScreenProps) => {
     const closeClientAddDrawer = useCallback(() => {
         setIsClientAddDrawerOpen(false);
     }, []);
+
+    const handleClientAdd = useCallback(() => {
+        CommonService._communications.TableWrapperRefreshSubject.next({
+            moduleName: CLIENT_LIST_TABLE,
+        });
+        closeClientAddDrawer();
+    }, [closeClientAddDrawer]);
 
     return (
         <div className={'client-list-screen list-screen'}>
@@ -101,15 +100,15 @@ const ClientListScreen = (props: ClientListScreenProps) => {
             </div>
             <div className="list-content-wrapper">
                 <ClientListTableComponent
-                    refreshToken={refreshToken}
                     clientListFilterState={clientListFilterState}
                     onSort={handleClientSort}
+                    moduleName={CLIENT_LIST_TABLE}
                 />
             </div>
             <DrawerComponent isOpen={isClientAddDrawerOpen}
                              showClose={true}
                              onClose={closeClientAddDrawer}>
-                <ClientAddComponent onAdd={()=>closeClientAddDrawer()} refreshList={refreshList}/>
+                <ClientAddComponent onAdd={handleClientAdd}/>
             </DrawerComponent>
         </div>
     );

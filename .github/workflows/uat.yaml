@@ -33,4 +33,3 @@ jobs:
           SERVER_IP: ${{ secrets.KINERGY_UAT_IP }}
           USERNAME: ${{ secrets.USERNAME }}
           SERVER_DESTINATION: ${{ secrets.DESTINATION_UAT }}
-          

@@ -1,5 +1,10 @@
+@import "src/assets/styles/common";
 
 .client-add-component {
+
+  .t-form-controls {
+    height: calc(100vh - 220px);
+  }
 
   .note-wrapper {
     width: 550px;
@@ -14,10 +19,10 @@
       font-size: 1.1429rem;
       padding: 18px 0px 0px 13px;
     }
+
     .note-content {
       padding: 18px 13px;
       font-size: 1.1429rem;
-
     }
   }
 }
