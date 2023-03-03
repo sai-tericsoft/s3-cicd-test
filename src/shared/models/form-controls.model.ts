@@ -175,7 +175,7 @@ export interface IAutoCompleteProps {
     isDataLoading?: boolean;
     isDataLoadingFailed?: boolean;
     keyExtractor?: (item: any) => any;
-    label: string;
+    label?: string;
     loading?: boolean;
     loadingText?: string;
     method?: "get" | "post" | string;

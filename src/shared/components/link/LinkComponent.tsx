@@ -5,7 +5,7 @@ import {CommonService} from "../../services";
 
 interface LinkComponentProps {
     id?: string;
-    route: string;
+    route?: string;
     onClick?: () => void;
     behaviour?: 'spa' | 'redirect';
 }
@@ -18,7 +18,7 @@ const LinkComponent = (props: PropsWithChildren<LinkComponentProps>) => {
     return (
         <>
             {
-                (route?.length > 0) && <>
+                (route && route?.length > 0) && <>
                     {
                         behaviour === 'spa' && <Link onClick={onClick} className={'link-component'} id={id} to={route}>
                             {children}
@@ -35,10 +35,13 @@ const LinkComponent = (props: PropsWithChildren<LinkComponentProps>) => {
                 </>
             }
             {
-                (!route && route?.length === 0) && <div className={'link-component'} id={id} onClick={
+                (!route || route?.length === 0) && <div className={'link-component'} id={id} onClick={
                     (e) => {
-                        onClick && onClick();
-                        CommonService._alert.showToast('Coming Soon', 'info');
+                        if (!onClick) {
+                            CommonService._alert.showToast('Coming Soon', 'info');
+                        } else {
+                            onClick();
+                        }
                     }
                 }>
                     {children}

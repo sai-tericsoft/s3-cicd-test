@@ -72,11 +72,13 @@ const getUUID = () => {
 }
 
 const handleErrors = ((setErrors: (errors: FormikErrors<any>) => void, err: any, showGlobalError: boolean = false) => {
+    console.log(err.errors);
     if (err.errors) {
         const errors: any = {};
         for (let field in err.errors) {
+            const error = err.errors[field];
             if (err.errors.hasOwnProperty(field)) {
-                errors[field] = err.errors[field][0];
+                errors[field] = error;
             }
         }
         setErrors(errors);

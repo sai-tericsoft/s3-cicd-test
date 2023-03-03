@@ -25,18 +25,23 @@ import FormControlLabelComponent from "../../../shared/components/form-control-l
 import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
 import {IRootReducerState} from "../../../store/reducers";
 import {IAPIResponseType} from "../../../shared/models/api.model";
+import {useSearchParams} from "react-router-dom";
 
 interface PaymentListComponentProps {
 
 }
 
 const PENDING_PAYMENTS_MODULE = 'PENDING_PAYMENTS_MODULE';
+
+type PaymentsListTabType = 'pendingPayments' | 'completedPayments';
+const PaymentsListTabTypes = ['pendingPayments', 'completedPayments'];
 const BillingPaymentScreen = (props: PaymentListComponentProps) => {
 
     const dispatch = useDispatch();
 
-    const [currentTab, setCurrentTab] = useState<any>("pendingPayments");
+    const [currentTab, setCurrentTab] = useState<PaymentsListTabType>("pendingPayments");
     const [selectedPayments, setSelectedPayments] = useState<any[]>([]);
+    const [searchParams, setSearchParams] = useSearchParams();
     const [showMarkAsPaidModal, setShowMarkAsPaidModal] = useState<boolean>(false);
     const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
     const [isPaymentsAreBeingMarkedAsPaid, setIsPaymentsAreBeingMarkedAsPaid] = useState<boolean>(false);
@@ -298,10 +303,20 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
     }, [dispatch]);
 
     const handleTabChange = useCallback((e: any, value: any) => {
-        // searchParams.set("currentStep", value);
-        // setSearchParams(searchParams);
+        searchParams.set("activeTab", value);
+        setSearchParams(searchParams);
         setCurrentTab(value);
-    }, []);
+    }, [searchParams, setSearchParams]);
+
+    useEffect(() => {
+        const step: PaymentsListTabType = searchParams.get("activeTab") as PaymentsListTabType;
+        if (step && PaymentsListTabTypes.includes(step)) {
+            setCurrentTab(step);
+        } else {
+            searchParams.set("activeTab", PaymentsListTabTypes[0]);
+            setSearchParams(searchParams);
+        }
+    }, [dispatch, searchParams, setSearchParams]);
 
     const openMarkAsPaidModal = useCallback(() => {
         setShowMarkAsPaidModal(true);
@@ -377,9 +392,11 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
                             </ButtonComponent>&nbsp;&nbsp;
                         </>
                     }
-                    <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}>
-                        New Invoice
-                    </ButtonComponent>
+                    <LinkComponent route={CommonService._routeConfig.AddNewInvoice()}>
+                        <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}>
+                            New Invoice
+                        </ButtonComponent>
+                    </LinkComponent>
                 </div>
             </div>
             <TabsWrapperComponent>
@@ -454,10 +471,10 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
                     columns={markAsPaidTableColumns}
                     data={selectedPayments}
                 />
-                <div className={"mrg-top-20"}>
+                <div className={"mark-as-paid-total-outstanding-balance"}>
                     <DataLabelValueComponent
                         direction={"row"}
-                        label={"Total Outstanding Balance: "}>
+                        label={"Total Amount (Inc.Tax)"}>
                         <span className="mrg-left-5">
                             {Misc.CURRENCY_SYMBOL} {selectedPayments.reduce((acc: any, payment: any) => acc + parseInt(payment?.amount), 0)}
                         </span>
