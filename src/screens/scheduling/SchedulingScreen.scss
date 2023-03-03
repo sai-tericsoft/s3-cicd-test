@@ -313,7 +313,8 @@
               .card-item {
                 display: flex;
                 overflow: hidden;
-                flex-shrink: 1;
+                flex: 1;
+                position: relative;
               }
             }
 
@@ -336,6 +337,7 @@
     display: inline-block;
     cursor: pointer;
 
+
     .appointment-count-card-wrapper {
       display: flex;
       justify-content: flex-start;
@@ -350,6 +352,7 @@
       border-radius: 4px;
       background: #EFEFEF;
       color: #FFFFFF;
+
     }
 
     .appointment-title {
@@ -433,7 +436,9 @@
       font-size: 12px;
       width: 100%;
       white-space: nowrap;
-      overflow: hidden;
+      margin-right: 10px;
+      margin-left: 10px;
+      //overflow: hidden;
       text-overflow: ellipsis;
     }
 
