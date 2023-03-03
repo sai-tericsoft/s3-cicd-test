@@ -167,7 +167,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                                 className={`product-available-quantity
                                 ${quantity !== undefined ? "visibility-visible" : "visibility-hidden"}
                                 ${quantity > 0 ? "text-primary" : "text-error"}
-                                `}>Available Stock: {quantity || "-"} unit(s)
+                                `}>Available Stock: {quantity > 0 ? quantity : 0} unit(s)
                             </span>
                         </>
                     }
@@ -414,7 +414,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
             .then((response: IAPIResponseType<any>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setSubmitting && setSubmitting(false);
-                navigate(CommonService._routeConfig.BillingPaymentList());
+                navigate(CommonService._routeConfig.BillingPaymentList() + '?activeTab=completedPayments');
             })
             .catch((error: any) => {
                 setErrors && CommonService.handleErrors(setErrors, error);
@@ -467,8 +467,8 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                         <Form className="t-form" noValidate={true}>
                             <FormDebuggerComponent
                                 form={formik}
-                                canShow={true}
-                                showDebugger={true}/>
+                                canShow={false}
+                                showDebugger={false}/>
                             <div className="t-form-controls">
                                 <div>
                                     <div
