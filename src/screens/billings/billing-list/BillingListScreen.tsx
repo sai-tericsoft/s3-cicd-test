@@ -67,6 +67,103 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         setSelectedPayments(selectedPayments.filter((item: any) => item._id !== payment._id));
     }, [selectedPayments]);
 
+    const pendingPaymentColumn: ITableColumn[] = useMemo<any>(() => [
+        {
+            title: '',
+            key: 'select',
+            dataIndex: 'select',
+            width: 50,
+            fixed: 'left',
+            render: (item: any) => {
+                const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
+                return <CheckBoxComponent
+                    disabled={clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id}
+                    checked={selectedPayments.includes(item)}
+                    onChange={(isChecked) => {
+                        handlePaymentSelection(item, isChecked)
+                    }}/>
+            }
+        },
+        {
+            title: 'Appointment ID',
+            key: 'appointment_id',
+            dataIndex: 'appointment_id',
+            fixed: 'left',
+            width: 193,
+            align: 'center',
+            render: (item: any) => {
+                return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id, 'invoice')}>
+                        {item?.appointment_id}
+                    </LinkComponent>
+            }
+        },
+        {
+            title: 'Appointment Date',
+            key: 'appointment_date',
+            dataIndex: "appointment_date",
+            align: 'center',
+            render: (item: any) => {
+                return <>
+                    {CommonService.convertDateFormat2(item?.appointment_details?.appointment_date)}</>
+            }
+        },
+        {
+            title: 'Client Name',
+            key: 'client_name',
+            dataIndex: 'first_name',
+            align: 'center',
+            render: (item: any) => {
+                return <>
+                    {item?.client_details?.first_name} {item?.client_details?.last_name}
+                </>
+            }
+        },
+        {
+            title: 'Phone Number',
+            key: 'phone_number',
+            dataIndex: 'phone',
+            align: 'center',
+            render: (item: any) => {
+                return <>
+                    {item?.client_details?.primary_contact_info?.phone}
+                </>
+            }
+        },
+        {
+            title: 'Service',
+            key: 'service',
+            dataIndex: 'name',
+            width: 225,
+            align: 'center',
+            render: (item: any) => {
+                return <>
+                    {item?.service_details?.name}
+                </>
+            }
+        },
+        {
+            title: 'Total Amount',
+            key: 'amount',
+            align: 'center',
+            dataIndex: 'amount',
+            render: (item: any) => {
+                return <>{Misc.CURRENCY_SYMBOL} {item?.amount} </>
+            }
+        },
+        {
+            title: '',
+            key: 'action',
+            fixed: 'right',
+            dataIndex: 'action',
+            render: (item: any) => {
+                return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id, 'invoice')}>
+                    View Details
+                </LinkComponent>
+            }
+        }
+    ], [handlePaymentSelection, selectedPayments]);
+
+
     const completePaymentListColumn: ITableColumn[] = useMemo<any>(() => [
         {
             title: 'Receipt No.',
@@ -75,7 +172,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             fixed: 'left',
             dataIndex: 'receipt_number',
             render: (item: any) => {
-                return <LinkComponent route={""}>
+                return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id, 'receipt')}>
                     {item?.receipt_number}
                 </LinkComponent>
             }
@@ -156,104 +253,6 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             }
         }
     ], []);
-
-    const pendingPaymentColumn: ITableColumn[] = useMemo<any>(() => [
-        {
-            title: '',
-            key: 'select',
-            dataIndex: 'select',
-            width: 50,
-            fixed: 'left',
-            render: (item: any) => {
-                const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
-                return <CheckBoxComponent
-                    disabled={clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id}
-                    checked={selectedPayments.includes(item)}
-                    onChange={(isChecked) => {
-                        handlePaymentSelection(item, isChecked)
-                    }}/>
-            }
-        },
-        {
-            title: 'Appointment ID',
-            key: 'appointment_id',
-            dataIndex: 'appointment_id',
-            fixed: 'left',
-            width: 193,
-            align: 'center',
-            render: (item: any) => {
-                return (
-                    <LinkComponent route={""}>
-                        {item?.appointment_id}
-                    </LinkComponent>
-                )
-            }
-        },
-        {
-            title: 'Appointment Date',
-            key: 'appointment_date',
-            dataIndex: "appointment_date",
-            align: 'center',
-            render: (item: any) => {
-                return <>
-                    {CommonService.convertDateFormat2(item?.appointment_details?.appointment_date)}</>
-            }
-        },
-        {
-            title: 'Client Name',
-            key: 'client_name',
-            dataIndex: 'first_name',
-            align: 'center',
-            render: (item: any) => {
-                return <>
-                    {item?.client_details?.first_name} {item?.client_details?.last_name}
-                </>
-            }
-        },
-        {
-            title: 'Phone Number',
-            key: 'phone_number',
-            dataIndex: 'phone',
-            align: 'center',
-            render: (item: any) => {
-                return <>
-                    {item?.client_details?.primary_contact_info?.phone}
-                </>
-            }
-        },
-        {
-            title: 'Service',
-            key: 'service',
-            dataIndex: 'name',
-            width: 225,
-            align: 'center',
-            render: (item: any) => {
-                return <>
-                    {item?.service_details?.name}
-                </>
-            }
-        },
-        {
-            title: 'Total Amount',
-            key: 'amount',
-            align: 'center',
-            dataIndex: 'amount',
-            render: (item: any) => {
-                return <>{Misc.CURRENCY_SYMBOL} {item?.amount} </>
-            }
-        },
-        {
-            title: '',
-            key: 'action',
-            fixed: 'right',
-            dataIndex: 'action',
-            render: (item: any) => {
-                return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id, 'invoice')}>
-                    View Details
-                </LinkComponent>
-            }
-        }
-    ], [handlePaymentSelection, selectedPayments]);
 
     const markAsPaidTableColumns: ITableColumn[] = useMemo<any>(() => [
         {

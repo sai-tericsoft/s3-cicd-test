@@ -337,6 +337,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                 setBillingAddressFormInitialValues(billingAddress);
             })
             .catch((error: any) => {
+                CommonService._alert.showToast(error.error || error.errors || "Failed to fetch client billing address", "error");
                 setSelectedClientBillingAddress(billingAddress);
                 setIsClientBillingAddressLoading(false);
             });

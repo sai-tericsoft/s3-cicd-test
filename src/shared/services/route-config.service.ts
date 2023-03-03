@@ -210,8 +210,8 @@ const AddNewInvoice = () => {
     return "/billing/add-new-invoice";
 }
 
-const BillingDetails = (billingId: string, mode: 'invoice' | 'receipt') => {
-    return "/billing/billing-details/" + billingId + "?mode=" + mode;
+const BillingDetails = (billingId: string, type: 'invoice' | 'receipt') => {
+    return "/billing/billing-details/" + billingId + "?type=" + type;
 }
 
 const RouteConfigService = {
