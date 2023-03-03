@@ -92,6 +92,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             title: 'Exercise Name',
             key: 'name',
             width: 280,
+            align:'center',
             render: (record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.name`}
@@ -111,6 +112,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             title: 'SET',
             key: 'set',
             width: 150,
+            align: 'center',
             render: (record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.no_of_sets`}
@@ -130,6 +132,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             title: 'REP',
             key: 'rep',
             width: 150,
+            align: 'center',
             render: (record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.no_of_reps`}
@@ -149,6 +152,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             title: 'TIME',
             key: 'time',
             width: 150,
+            align: 'center',
             render: (record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.time`}
@@ -168,6 +172,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             title: 'RESISTANCE',
             key: 'resistance',
             width: 150,
+            align: 'center',
             render: (record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.resistance`}
@@ -186,6 +191,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
         {
             title: '',
             key: 'actions',
+            align: 'center',
             render: (record: any, index: any) => {
                 return (
                     <>
