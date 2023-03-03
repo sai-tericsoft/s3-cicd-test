@@ -423,7 +423,13 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
     }, [closePaymentModeModal, invoiceAmount, navigate, selectedPaymentMode]);
 
     const handleAddInvoiceCancel = useCallback(() => {
-        CommonService.onConfirm()
+        CommonService.onConfirm(
+            {
+                confirmationTitle: "DISCARD INVOICE",
+                image: ImageConfig.RemoveImage,
+                confirmationSubTitle: `Are you sure you do not wish to generate an invoice, as it will be deleted?"?`
+            }
+        )
             .then((result: any) => {
                 navigate(CommonService._routeConfig.BillingPaymentList());
             });
@@ -525,7 +531,17 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                                             </div>
                                         </div>
                                     </div>
-                                    <CardComponent title={"Client Details"}>
+                                    <CardComponent title={"Client Details"}
+                                                   actions={<>
+                                                       {
+                                                           selectedClient && <ButtonComponent
+                                                               prefixIcon={<ImageConfig.EditIcon/>}
+                                                               onClick={openClientSelectionDrawer}
+                                                           >
+                                                               Edit
+                                                           </ButtonComponent>
+                                                       }
+                                                   </>}>
                                         {
                                             !selectedClient && <div className="h-v-center">
                                                 <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}
@@ -562,7 +578,18 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                                             </>
                                         }
                                     </CardComponent>
-                                    <CardComponent title={"Provider Details"}>
+                                    <CardComponent title={"Provider Details"}
+                                                   actions={<>
+                                                       {
+                                                           selectedProvider && <ButtonComponent
+                                                               prefixIcon={<ImageConfig.EditIcon/>}
+                                                               onClick={openProviderSelectionDrawer}
+                                                           >
+                                                               Edit
+                                                           </ButtonComponent>
+                                                       }
+                                                   </>}
+                                    >
                                         {
                                             !selectedProvider && <div className="h-v-center">
                                                 <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}
