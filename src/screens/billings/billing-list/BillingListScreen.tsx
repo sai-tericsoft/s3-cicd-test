@@ -483,7 +483,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             {/*Outstanding Balance Modal end*/}
             {/*Payment mode selection Modal start*/}
             <ModalComponent isOpen={isPaymentModeModalOpen}
-                            className={'mark-payment-as-paid-payment-mode-modal'}
+                            className={'payment-mode-modal'}
                             modalFooter={<>
                                 <ButtonComponent variant={'outlined'}
                                                  className={'mrg-right-10'}

@@ -14,6 +14,21 @@
 
       .billing-address-block {
 
+
+        &.from {
+          text-align: start;
+          .billing-address-block__header{
+            justify-content: flex-start;
+          }
+        }
+
+        &.to {
+          text-align: end;
+          .billing-address-block__header{
+            justify-content: flex-end;
+          }
+        }
+
         .billing-address-block__header {
           display: flex;
 
@@ -124,8 +139,3 @@
   }
 }
 
-.edit-billing-address-form {
-  .t-form-controls {
-    height: calc(100vh - 220px);
-  }
-}
