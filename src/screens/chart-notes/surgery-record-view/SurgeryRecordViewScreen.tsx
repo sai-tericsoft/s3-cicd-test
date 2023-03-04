@@ -392,14 +392,16 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                                     {CommonService.transformTimeStamp(surgeryRecordDetails?.surgery_date) || "-"}
                                 </DataLabelValueComponent>
                             </div>
-                            <div className={'ts-col-md-3'}>
-                                <DataLabelValueComponent label={'Reported By'}>
-                                    {(surgeryRecordDetails?.reported_by_details?.first_name || '-') + ' ' + (surgeryRecordDetails?.reported_by_details?.last_name || '')}
-                                </DataLabelValueComponent>
-                            </div>
-                            <div className={'ts-col-md-3'}>
+                            <div className={'ts-col-md-2'}></div>
+                            <div className={'ts-col-md-2'}>
                                 <DataLabelValueComponent label={'Name of Surgeon'}>
                                     {surgeryRecordDetails?.surgeon_name || "-"}
+                                </DataLabelValueComponent>
+                            </div>
+                            <div className={'ts-col-md-3'}></div>
+                            <div className={'ts-col-md-2'}>
+                                <DataLabelValueComponent label={'Reported By'}>
+                                    {(surgeryRecordDetails?.reported_by_details?.first_name || '-') + ' ' + (surgeryRecordDetails?.reported_by_details?.last_name || '')}
                                 </DataLabelValueComponent>
                             </div>
                         </div>
