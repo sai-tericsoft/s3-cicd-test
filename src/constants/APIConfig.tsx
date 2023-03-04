@@ -689,10 +689,26 @@ const APIConfig: IAPIConfig = {
         URL:ENV.API_URL+'/invoice/markPaid',
         METHOD:'post'
     },
+    MARK_PAYMENT_AS_PAID:{
+        URL: (invoiceId: string) => ENV.API_URL + '/invoice/' + invoiceId + '/markPaid',
+        METHOD:'post'
+    },
     ADD_NEW_RECEIPT:{
         URL:ENV.API_URL+'/receipt',
         METHOD:'post'
-    }
+    },
+    GET_INVOICE_DETAILS:{
+        URL: (invoiceId: string) => ENV.API_URL + '/invoice/' + invoiceId,
+        METHOD:'get'
+    },
+    GET_RECEIPT_DETAILS:{
+        URL: (receiptId: string) => ENV.API_URL + '/receipt/' + receiptId,
+        METHOD:'get'
+    },
+    GET_BILLING_STATS:{
+        URL: ENV.API_URL + '/invoiceStats',
+        METHOD:'get'
+    },
 }
 
 export default APIConfig;

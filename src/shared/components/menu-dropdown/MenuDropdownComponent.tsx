@@ -3,6 +3,7 @@ import React, {ReactNode, useCallback, useEffect, useState} from "react";
 import {MenuItem} from "@mui/material";
 
 interface MenuDropdownComponentProps {
+    className?: string;
     isOpen?: boolean;
     menuBase: ReactNode | null;
     menuOptions: ReactNode[] | null | undefined;
@@ -12,7 +13,7 @@ interface MenuDropdownComponentProps {
 
 const MenuDropdownComponent = (props: MenuDropdownComponentProps) => {
 
-    const {isOpen, menuBase, onClose, onOpen, menuOptions} = props;
+    const {isOpen, className, menuBase, onClose, onOpen, menuOptions} = props;
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [open, setOpen] = useState(!!isOpen);
 
@@ -56,7 +57,7 @@ const MenuDropdownComponent = (props: MenuDropdownComponentProps) => {
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}
-                className={"menu-dropdown-component-menu"}
+                className={`menu-dropdown-component-menu ${className}`}
                 anchorOrigin={{
                     vertical: 'bottom',
                     horizontal: 'right',

@@ -33,6 +33,7 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
             readOnly,
             disableClearable,
             blurOnSelect,
+            onBlur,
             clearLocalListData
         } = props;
 
@@ -251,6 +252,7 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
                                    required={required}
                                    color={color}
                                    placeholder={placeholder}
+                                   onBlur={onBlur}
                                    onClick={() => {
                                        if ((dropDownData && dropDownData.length > 0) && !disabled) {
                                            setOpenPopup(true);

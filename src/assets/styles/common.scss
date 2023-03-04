@@ -567,26 +567,6 @@
   }
 }
 
-.mark-payment-as-paid-payment-mode-modal {
-  .modal-content-wrapper {
-    width: 416px !important;
-
-    .modal-body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      .form-control-label-component {
-        margin: 30px 0 15px;
-
-        .form-control-label {
-          text-transform: uppercase;
-        }
-      }
-    }
-  }
-}
-
 .mark-as-paid-outstanding-balance-modal {
   .modal-content-wrapper {
 
@@ -620,7 +600,7 @@
   }
 }
 
-.add-new-invoice-payment-mode-modal {
+.payment-mode-modal {
   .modal-content-wrapper {
     width: 416px !important;
 
@@ -635,6 +615,39 @@
         .form-control-label {
           text-transform: uppercase;
         }
+      }
+    }
+  }
+}
+
+.billing-details-drop-down-menu {
+  .MuiMenu-paper {
+    margin-left: -5px;
+  }
+}
+
+.incomplete-invoice-info-modal {
+  .modal-content-wrapper {
+    width: 416px !important;
+    text-align: center;
+
+    .modal-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .incomplete-invoice-icon{
+        margin-bottom: 36px;
+      }
+
+      .incomplete-invoice-info-title {
+        font-weight: $font-weight-bolder;
+      }
+
+      .incomplete-invoice-info-description {
+        margin: 7px 0 20px;
+        color: #6D6D6D;
+        font-weight: $font-weight-bold;
       }
     }
   }

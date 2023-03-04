@@ -31,6 +31,7 @@ import {IRootReducerState} from "../../../store/reducers";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
+import EditBillingAddressComponent from "../edit-billing-address/EditBillingAddressComponent";
 
 interface AddNewInvoiceScreenProps {
 
@@ -79,18 +80,6 @@ const AddNewInvoiceFormInitialValues = {
     ]
 }
 
-const BillingAddressFormValidationSchema = Yup.object({});
-
-const BillingAddressFormInitialValues = {
-    name: "",
-    address_line: "",
-    city: "",
-    state: "",
-    zip_code: "",
-    country: "",
-    phone: ""
-}
-
 const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
 
     const dispatch = useDispatch();
@@ -110,7 +99,6 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
     const [isProviderSelectionDrawerOpened, setIsProviderSelectionDrawerOpened] = useState<boolean>(false);
     const {name, address, city, state, zip, phone_number} = Misc.COMPANY_BILLING_ADDRESS;
     const [addNewInvoiceFormInitialValues, setAddNewInvoiceFormFormInitialValues] = useState<any>(_.cloneDeep(AddNewInvoiceFormInitialValues));
-    const [billingAddressFormInitialValues, setBillingAddressFormInitialValues] = useState<any>(_.cloneDeep(BillingAddressFormInitialValues));
     const [isClientBillingAddressDrawerOpened, setIsClientBillingAddressDrawerOpened] = useState<boolean>(false);
     const [selectedPaymentMode, setSelectedPaymentMode] = useState<string | undefined>(undefined);
     const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
@@ -122,7 +110,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
 
     useEffect(() => {
         dispatch(setCurrentNavParams("Add New Invoice", null, () => {
-            navigate(CommonService._routeConfig.BillingPaymentList());
+            navigate(CommonService._routeConfig.BillingList());
         }));
     }, [navigate, dispatch]);
 
@@ -334,9 +322,9 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                 }
                 setSelectedClientBillingAddress(billingAddress);
                 setIsClientBillingAddressLoading(false);
-                setBillingAddressFormInitialValues(billingAddress);
             })
             .catch((error: any) => {
+                CommonService._alert.showToast(error.error || error.errors || "Failed to fetch client billing address", "error");
                 setSelectedClientBillingAddress(billingAddress);
                 setIsClientBillingAddressLoading(false);
             });
@@ -380,21 +368,6 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
         setSelectedPaymentMode(undefined);
     }, []);
 
-    const onBillingAddressFormSubmit = useCallback((values: any, {setSubmitting, setErrors}: FormikHelpers<any>) => {
-        setSubmitting(true);
-        CommonService._client.UpdateClientBillingAddress(selectedClient?._id, values)
-            .then((response: any) => {
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                setSelectedClientBillingAddress(values);
-                setSubmitting(false);
-                closeBillingAddressFormDrawer();
-            })
-            .catch((error: any) => {
-                CommonService.handleErrors(setErrors, error);
-                setSubmitting(false);
-            });
-    }, [selectedClient, closeBillingAddressFormDrawer]);
-
     const onSubmit = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
         setSubmitting(false);
         openPaymentModeModal()
@@ -415,7 +388,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
             .then((response: IAPIResponseType<any>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setSubmitting && setSubmitting(false);
-                navigate(CommonService._routeConfig.BillingPaymentList() + '?activeTab=completedPayments');
+                navigate(CommonService._routeConfig.BillingList() + '?activeTab=completedPayments');
             })
             .catch((error: any) => {
                 setErrors && CommonService.handleErrors(setErrors, error);
@@ -432,7 +405,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
             }
         )
             .then((result: any) => {
-                navigate(CommonService._routeConfig.BillingPaymentList());
+                navigate(CommonService._routeConfig.BillingList());
             });
     }, [navigate]);
 
@@ -443,6 +416,11 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
         formRef.current?.setFieldValue('amount', totalAmount);
         setInvoiceAmount(totalAmount);
     }, [addNewInvoiceFormInitialValues]);
+
+    const handleEditBillingAddress = useCallback((values: any) => {
+        setSelectedClientBillingAddress(values);
+        closeBillingAddressFormDrawer();
+    }, [closeBillingAddressFormDrawer]);
 
     return (
         <div className={'add-new-invoice-screen'}>
@@ -483,7 +461,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                                     </div>
                                     <HorizontalLineComponent/>
                                     <div className={"billing-address-wrapper"}>
-                                        <div className={"billing-address-block"}>
+                                        <div className={"billing-address-block from"}>
                                             <div className={"billing-address-block__header"}>
                                                 <div className={"billing-address-block__title"}>Billing From</div>
                                             </div>
@@ -497,7 +475,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                                                     className={"billing-address-block__detail__row"}> {phone_number} </div>
                                             </div>
                                         </div>
-                                        <div className={"billing-address-block"}>
+                                        <div className={"billing-address-block to"}>
                                             <div className={"billing-address-block__header"}>
                                                 <div className={"billing-address-block__title"}>Billing To</div>
                                                 &nbsp;&nbsp;
@@ -799,131 +777,14 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                              onClose={closeBillingAddressFormDrawer}
                              showClose={true}
             >
-                <Formik
-                    validationSchema={BillingAddressFormValidationSchema}
-                    initialValues={billingAddressFormInitialValues}
-                    validateOnChange={false}
-                    validateOnBlur={true}
-                    enableReinitialize={true}
-                    validateOnMount={true}
-                    onSubmit={onBillingAddressFormSubmit}
-                >
-                    {(formik) => {
-                        const {values, validateForm, isSubmitting} = formik;
-                        // eslint-disable-next-line react-hooks/rules-of-hooks
-                        useEffect(() => {
-                            validateForm();
-                        }, [validateForm, values]);
-                        return (
-                            <Form className="t-form edit-billing-address-form" noValidate={true}>
-                                <FormControlLabelComponent label={"Edit Billing To"}/>
-                                <div className="t-form-controls">
-                                    <Field name={`name`} className="t-form-control">
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikInputComponent
-                                                    label={"Name"}
-                                                    required={true}
-                                                    fullWidth={true}
-                                                    formikField={field}
-                                                />
-                                            )
-                                        }
-                                    </Field>
-                                    <Field name={`phone`} className="t-form-control">
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikInputComponent
-                                                    label={"Phone"}
-                                                    required={true}
-                                                    fullWidth={true}
-                                                    formikField={field}
-                                                />
-                                            )
-                                        }
-                                    </Field>
-                                    <Field name={`address_line`} className="t-form-control">
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikInputComponent
-                                                    label={"Address"}
-                                                    required={true}
-                                                    fullWidth={true}
-                                                    formikField={field}
-                                                />
-                                            )
-                                        }
-                                    </Field>
-                                    <Field name={`city`} className="t-form-control">
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikInputComponent
-                                                    label={"City"}
-                                                    required={true}
-                                                    fullWidth={true}
-                                                    formikField={field}
-                                                />
-                                            )
-                                        }
-                                    </Field>
-                                    <Field name={`state`} className="t-form-control">
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikInputComponent
-                                                    label={"State"}
-                                                    required={true}
-                                                    fullWidth={true}
-                                                    formikField={field}
-                                                />
-                                            )
-                                        }
-                                    </Field>
-                                    <Field name={`zip_code`} className="t-form-control">
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikInputComponent
-                                                    label={"Zip Code"}
-                                                    required={true}
-                                                    fullWidth={true}
-                                                    formikField={field}
-                                                />
-                                            )
-                                        }
-                                    </Field>
-                                    <Field name={`country`} className="t-form-control">
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikInputComponent
-                                                    label={"Country"}
-                                                    required={true}
-                                                    fullWidth={true}
-                                                    formikField={field}
-                                                />
-                                            )
-                                        }
-                                    </Field>
-                                </div>
-                                <div className="t-form-actions">
-                                    <ButtonComponent variant={"outlined"}
-                                                     onClick={() => closeBillingAddressFormDrawer()}>
-                                        Cancel
-                                    </ButtonComponent>&nbsp;&nbsp;
-                                    <ButtonComponent
-                                        type="submit"
-                                        isLoading={isSubmitting}
-                                        disabled={isSubmitting}
-                                    >
-                                        Save
-                                    </ButtonComponent>
-                                </div>
-                            </Form>
-                        );
-                    }}
-                </Formik>
+                <EditBillingAddressComponent billing_address={selectedClientBillingAddress}
+                                             clientId={selectedClient?._id}
+                                             onCancel={closeBillingAddressFormDrawer}
+                                             onSave={handleEditBillingAddress}/>
             </DrawerComponent>
             {/*Payment mode selection Modal start*/}
             <ModalComponent isOpen={isPaymentModeModalOpen}
-                            className={'add-new-invoice-payment-mode-modal'}
+                            className={'payment-mode-modal'}
                             modalFooter={<>
                                 <ButtonComponent variant={'outlined'}
                                                  className={'mrg-right-10'}
