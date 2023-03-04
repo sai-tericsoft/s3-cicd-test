@@ -329,7 +329,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                                             {
                                                 (field: FieldProps) => (
                                                     <FormikTextAreaComponent
-                                                        label={'Brief Details'}
+                                                        label={'Brief Surgical Details'}
                                                         formikField={field}
                                                         fullWidth={true}
                                                     />
@@ -405,7 +405,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                         </div>
                         <div className={'ts-row'}>
                             <div className={'ts-col-md-12'}>
-                                <DataLabelValueComponent label={'Brief Details'}>
+                                <DataLabelValueComponent label={'Brief Surgical Details'}>
                                     {surgeryRecordDetails?.details || "-"}
                                 </DataLabelValueComponent>
                             </div>
