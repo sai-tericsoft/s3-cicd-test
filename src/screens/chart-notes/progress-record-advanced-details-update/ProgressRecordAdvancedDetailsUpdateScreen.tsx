@@ -221,7 +221,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
 
     return (
         <div className={'progress-record-advanced-details-update-screen'}>
-            <PageHeaderComponent title={"Add Progress Report"}
+            <PageHeaderComponent title={"Add Therapy Progress Report"}
                                  actions={
                                      <div className="last-updated-status">
                                          <div className="last-updated-status-text">Last Updated On:&nbsp;</div>
