@@ -172,7 +172,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                         </CardComponent>
                                         {
                                             progressReportDetails?.progress_stats?.length > 0 &&
-                                            <CardComponent title={'Progress Stats:'}>
+                                            <CardComponent title={'Progress Overview:'}>
                                             <TableComponent data={progressReportDetails?.progress_stats}
                                                             columns={progressStatsColumn}
                                                             showExpandColumn={false}
