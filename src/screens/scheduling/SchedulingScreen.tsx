@@ -399,10 +399,15 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                 setRefreshToken(Math.random().toString());
                             }
                             setIsBookAppointmentOpen(false);
+                            setBookAppointmentPreFill({})
                         }
                     }
                     onClose={
-                        setIsBookAppointmentOpen.bind(null, false)}
+                        () => {
+                            setIsBookAppointmentOpen(false)
+                            setBookAppointmentPreFill({})
+                        }
+                    }
                 />
             </DrawerComponent>
             <div className="scheduling-header-wrapper">
