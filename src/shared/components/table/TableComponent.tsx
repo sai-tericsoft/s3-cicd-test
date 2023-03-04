@@ -16,7 +16,7 @@ interface TableComponentProps extends ITableComponentProps {
     columns: ITableColumn[];
     data: any[];
     noDataText?: string;
-    className?:any;
+    className?: any;
 }
 
 const TableComponent = (props: TableComponentProps) => {
@@ -34,7 +34,7 @@ const TableComponent = (props: TableComponentProps) => {
         canExpandRow,
         onRowClick,
         autoHeight,
-        data = [],
+        data ,
         sort,
         onSort,
         className
@@ -97,7 +97,7 @@ const TableComponent = (props: TableComponentProps) => {
         parseColumns(columns), [columns, parseColumns]);
 
     const dataMemoized = useMemo<any>(() =>
-        data || [], [data]);
+            data || [], [data]);
 
     const {
         getTableProps,
@@ -166,7 +166,8 @@ const TableComponent = (props: TableComponentProps) => {
         <div className={'table-component'}>
             <TableStyles className={`styled-table ${className}`}>
                 <div className={`t-table-wrapper`}>
-                    <div {...getTableProps()} className={`t-table table sticky ${size} ${bordered ? 'bordered' : ''} ${autoHeight ? 'auto-height' : ''}`}>
+                    <div {...getTableProps()}
+                         className={`t-table table sticky ${size} ${bordered ? 'bordered' : ''} ${autoHeight ? 'auto-height' : ''}`}>
                         {
                             !hideHeader && <div className="header t-thead">
                                 {headerGroups.map((headerGroup) => (
@@ -215,7 +216,7 @@ const TableComponent = (props: TableComponentProps) => {
                                     })
                                 }
                                 {
-                                    (!loading &&  rows.length === 0) &&
+                                    (!loading && rows.length === 0) &&
                                     <StatusCardComponent title={noDataText ? noDataText : "No data found"}
                                                          className={'table-data-not-found-card'}/>
                                 }
