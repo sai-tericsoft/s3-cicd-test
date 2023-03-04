@@ -294,6 +294,9 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
         if (payload.service_id) {
             payload.service_id = payload.service_id._id;
         }
+        if (payload.status) {
+            payload.status = payload.status.code;
+        }
         setCalendarData(null);
         setCalendarDaysData(null);
         setIsCalendarLoading(true);
