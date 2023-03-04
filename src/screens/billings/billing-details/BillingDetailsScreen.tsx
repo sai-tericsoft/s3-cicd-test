@@ -52,6 +52,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     const [isClientBillingAddressDrawerOpened, setIsClientBillingAddressDrawerOpened] = useState<boolean>(false);
     const [selectedPaymentMode, setSelectedPaymentMode] = useState<string>("");
     const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
+    const [isInterventionIncompleteModalOpen, setIsInterventionIncompleteModalOpen] = useState<boolean>(false);
 
     const {
         paymentModes
@@ -130,7 +131,8 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             .then((response: IAPIResponseType<any>) => {
                 setIsBillingBeingMarkedAsPaid(false);
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Payment marked as paid successfully", "success");
-                handleBillingMarkAsPaidSuccess(response?.data?._id);
+                handleBillingMarkAsPaidSuccess(response?.data?.receipt_id);
+                handleBillingMarkAsPaidSuccess(response?.data?.receipt_id);
             })
             .catch((error: any) => {
                 CommonService._alert.showToast(error.error || error.errors || "Failed to mark payment as paid", "error");
@@ -144,12 +146,24 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
         }
     }, [billingId, fetchBillingDetails]);
 
+    const openIncompleteInterventionInfoModal = useCallback(() => {
+        setIsInterventionIncompleteModalOpen(true);
+    }, []);
+
+    const closeIncompleteInterventionInfoModal = useCallback(() => {
+        setIsInterventionIncompleteModalOpen(false);
+    }, []);
+
     const handleViewModeChange = useCallback(() => {
+        if (!billingDetails?.is_intervention_complete) {
+            openIncompleteInterventionInfoModal();
+            return;
+        }
         const newViewMode: BillingViewMode = viewMode === 'general' ? 'detailed' : 'general';
         searchParams.set("viewMode", newViewMode);
         setSearchParams(searchParams);
         CommonService._alert.showToast(`Switched to ${newViewMode} view`, "success");
-    }, [searchParams, setSearchParams, viewMode]);
+    }, [searchParams, openIncompleteInterventionInfoModal, billingDetails, setSearchParams, viewMode]);
 
     const openBillingAddressFormDrawer = useCallback(() => {
         setIsClientBillingAddressDrawerOpened(true);
@@ -190,22 +204,32 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             title: 'Treatment(s)',
             dataIndex: 'treatment',
             key: 'treatment',
+            width: 500,
             fixed: 'left',
+            render: (record: any) => {
+                return <>{record?.cpt_code_details?.cpt_code}</>
+            }
         },
         {
             title: 'Units',
-            dataIndex: 'units',
-            key: 'units',
+            dataIndex: 'units_of_care',
+            key: 'units_of_care',
         },
         {
             title: 'Rate',
             dataIndex: 'rate',
             key: 'rate',
+            render: (record: any) => {
+                return <>N/A</>
+            }
         },
         {
             title: 'Amount',
             dataIndex: 'amount',
             key: 'amount',
+            render: (record: any) => {
+                return <>N/A</>
+            }
         }
     ], []);
 
@@ -258,11 +282,11 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                 isBillingDetailsBeingLoaded && <>
                     <div className={'billing-details-container'}>
                         <div
-                            className={"d-flex justify-content-space-between align-items-center mrg-bottom-20"}>
-                            <div>
+                            className={"billing-details-header"}>
+                            <div className={"billing-details-logo"}>
                                 <img src={ImageConfig.BillingLogo} alt=""/>
                             </div>
-                            <div>
+                            <div className={"billing-details-meta"}>
                                 {
                                     type === 'invoice' && <DataLabelValueComponent label={"Appointment ID"}>
                                         #{billingDetails?.appointment_id}
@@ -273,7 +297,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                         {billingDetails?.receipt_number}
                                     </DataLabelValueComponent>
                                 }
-                                <div>
+                                <div className={"billing-date"}>
                                     {CommonService.convertDateFormat2(billingDetails?.created_at, "DD MMM YYYY | hh:mm A")}
                                 </div>
                             </div>
@@ -397,12 +421,14 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                     <TableComponent
                                         columns={ICDCodesColumns}
                                         data={billingDetails?.linked_icd_codes || []}
+                                        autoHeight={true}
                                     />
                                 </CardComponent>
-                                <CardComponent title={"Treatments"}>
+                                <CardComponent className={'billing-treatment-card'}>
                                     <TableComponent
                                         columns={TreatmentColumns}
                                         data={billingDetails?.linked_cpt_codes || []}
+                                        autoHeight={true}
                                     />
                                 </CardComponent>
                             </>
@@ -502,6 +528,29 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                 />
             </ModalComponent>
             {/*Payment mode selection Modal end*/}
+
+            {/*Incomplete Appointment Info Modal start*/}
+            <ModalComponent isOpen={isInterventionIncompleteModalOpen}
+                            className={'incomplete-invoice-info-modal'}
+                            modalFooter={<>
+                                <ButtonComponent
+                                    onClick={closeIncompleteInterventionInfoModal}
+                                >
+                                    Close
+                                </ButtonComponent>
+                            </>
+                            }
+            >
+                <img className="incomplete-invoice-icon" src={ImageConfig.Confirm} alt=""/>
+                <div className={'incomplete-invoice-info-title'}>
+                    INTERVENTION INCOMPLETE
+                </div>
+                <div className={'incomplete-invoice-info-description'}>
+                    Once the treatment is completed, the corresponding <br/>
+                    invoice will be generated.
+                </div>
+            </ModalComponent>
+            {/*Incomplete Appointment Info Modal end*/}
         </div>
     );
 
