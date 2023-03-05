@@ -345,6 +345,15 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         openPaymentModeModal();
     }, [openPaymentModeModal, closeMarkAsPaidModal]);
 
+    const fetchBillingStats = useCallback(() => {
+        CommonService._billingsService.GetBillingStatsAPICall()
+            .then((response: IAPIResponseType<any>) => {
+                setBillingStats(response?.data);
+            }).catch((error: any) => {
+            setBillingStats(undefined);
+        })
+    }, []);
+
     const markPaymentsAsPaid = useCallback(() => {
         const payload = {
             invoice_ids: selectedPayments.map((payment: any) => payment?._id),
@@ -361,22 +370,14 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                     CommonService._communications.TableWrapperRefreshSubject.next({
                         moduleName: PENDING_PAYMENTS_MODULE
                     });
+                    fetchBillingStats();
                 }
             )
             .catch((error: any) => {
                 CommonService._alert.showToast(error?.error || error?.errors || "Failed to mark payments marked as paid", "error");
                 setIsPaymentsAreBeingMarkedAsPaid(false);
             });
-    }, [selectedPayments, closePaymentModeModal, selectedPaymentMode]);
-
-    const fetchBillingStats = useCallback(() => {
-        CommonService._billingsService.GetBillingStatsAPICall()
-            .then((response: IAPIResponseType<any>) => {
-                setBillingStats(response?.data);
-            }).catch((error: any) => {
-            setBillingStats(undefined);
-        })
-    }, []);
+    }, [selectedPayments, fetchBillingStats, closePaymentModeModal, selectedPaymentMode]);
 
     useEffect(() => {
         fetchBillingStats();
