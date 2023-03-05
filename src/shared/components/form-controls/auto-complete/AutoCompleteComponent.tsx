@@ -132,7 +132,7 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
         useEffect(() => {
             // setNoDataMsg(noDataMessage);
         }, [noDataMessage]);
-        
+
         // useEffect(() => {
         //     let dropDownData: any[] = [...defaultData || []];
         //     if (defaultData && data) {

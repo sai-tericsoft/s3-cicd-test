@@ -422,13 +422,18 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
     }, [navigate]);
 
     useEffect(() => {
-        const totalAmount = formRef.current?.values?.products?.reduce((acc: number, curr: any) => {
-            return (curr.amount && curr.units) ? acc + (parseInt(curr?.amount) * parseInt(curr?.units)) : acc;
-        }, 0);
+        let totalAmount = 0;
+        if (formRef.current?.values?.products){
+            totalAmount = formRef.current?.values?.products?.reduce((acc: number, curr: any) => {
+                return (curr.amount && curr.units) ? acc + (parseInt(curr?.amount) * parseInt(curr?.units)) : acc;
+            }, 0);
+        } else {
+            totalAmount = 0;
+        }
         formRef.current?.setFieldValue('amount', totalAmount);
         formRef.current?.setFieldTouched('discount_amount');
         setInvoiceAmount(totalAmount);
-    }, [addNewInvoiceFormInitialValues]);
+    }, [formRef.current?.values?.products]);
 
     const handleEditBillingAddress = useCallback((values: any) => {
         setSelectedClientBillingAddress(values);
