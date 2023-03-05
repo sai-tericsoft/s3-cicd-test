@@ -464,8 +464,8 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                         <Form className="t-form" noValidate={true}>
                             <FormDebuggerComponent
                                 form={formik}
-                                canShow={true}
-                                showDebugger={true}/>
+                                canShow={false}
+                                showDebugger={false}/>
                             <div className="t-form-controls">
                                 <div>
                                     <div
