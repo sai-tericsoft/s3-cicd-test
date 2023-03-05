@@ -132,7 +132,6 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                 setIsBillingBeingMarkedAsPaid(false);
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Payment marked as paid successfully", "success");
                 handleBillingMarkAsPaidSuccess(response?.data?.receipt_id);
-                handleBillingMarkAsPaidSuccess(response?.data?.receipt_id);
             })
             .catch((error: any) => {
                 CommonService._alert.showToast(error.error || error.errors || "Failed to mark payment as paid", "error");
@@ -435,10 +434,17 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                         }
                         <div className={'add-new-invoice__comments__payment__block__wrapper'}>
                             <div className="ts-row">
-                                <div className="ts-col-lg-6">
-                                    <DataLabelValueComponent label={"Comments"}>
+                                <div className="ts-col-lg-6 add-new-invoice__comments__block">
+                                    <DataLabelValueComponent className={'comments'} label={"Comments"}>
                                         {billingDetails?.comments || "N/A"}
                                     </DataLabelValueComponent>
+                                    {
+                                        type === 'receipt' && <DataLabelValueComponent className={'mode_of_payment'} label={"Mode Of Payment: "}
+                                                                                       direction={"row"}
+                                        >
+                                            {billingDetails?.payment_mode_details?.title || billingDetails?.payment_mode || "N/A"}
+                                        </DataLabelValueComponent>
+                                    }
                                 </div>
                                 <div className="ts-col-lg-6">
                                     <div className="add-new-invoice__payment__block">

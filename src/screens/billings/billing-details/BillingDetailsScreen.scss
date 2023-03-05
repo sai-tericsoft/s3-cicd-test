@@ -84,6 +84,32 @@
       background: #EAF3F2;
       padding: 24px;
 
+      .add-new-invoice__comments__block {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        justify-content: space-between;
+
+        .data-label-value {
+          margin-bottom: 0;
+
+          .data-label {
+            color: #212B36;
+            font-weight: $font-weight-bolder;
+          }
+
+          &.mode_of_payment {
+            .data-value {
+              font-weight: $font-weight-bolder;
+              font-size: 1.7143rem;
+              margin-left: 10px;
+            }
+          }
+
+
+        }
+      }
+
       .add-new-invoice__payment__block {
         width: 300px;
         float: right;
