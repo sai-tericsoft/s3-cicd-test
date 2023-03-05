@@ -13,6 +13,7 @@ interface AutoCompleteDropdownComponentProps extends IAutoCompleteProps {
     hasError?: boolean;
     errorMessage?: any;
     value?: any;
+    clearDefaultData?: boolean
 }
 
 const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps) => {
@@ -31,6 +32,7 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
             url,
             extraPayload,
             readOnly,
+            clearDefaultData,
             disableClearable,
             blurOnSelect,
             onBlur,
@@ -132,7 +134,7 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
         useEffect(() => {
             // setNoDataMsg(noDataMessage);
         }, [noDataMessage]);
-        
+
         // useEffect(() => {
         //     let dropDownData: any[] = [...defaultData || []];
         //     if (defaultData && data) {
@@ -185,6 +187,9 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
             setIsDropDownDataLoaded(false);
             setIsDropDownDataLoadingFailed(false);
             let dropDownData: any[] = [...defaultData || []];
+            if (clearDefaultData) {
+                dropDownData = [];
+            }
             request(url, finalPayload, {}, {cancelToken: cancelTokenSource.token})
                 .then((response: IAPIResponseType<any>) => {
                     if (dataListKey && _.get(response, dataListKey)) {
@@ -203,7 +208,7 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
                         setIsDropDownDataLoadingFailed(true);
                     }
                 });
-        }, [defaultData, url, dataListKey, method, extraPayload]);
+        }, [defaultData, clearDefaultData, url, dataListKey, method, extraPayload]);
 
         const handleInputChange = useCallback((event: any, value: any) => {
             console.log(event, value);
