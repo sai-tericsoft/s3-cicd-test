@@ -34,7 +34,9 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
             disableClearable,
             blurOnSelect,
             onBlur,
-            clearLocalListData
+            clearLocalListData,
+            filteredOptionKey,
+            filteredOptions
         } = props;
 
         let {
@@ -76,7 +78,6 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
         const APICallSubscription = useRef<any>(null);
         const [openPopup, setOpenPopup] = useState<boolean>(false);
         const [formControlValue, setFormControlValue] = useState<any | undefined>(props.value || undefined);
-
         const defaultDisplayWith = useCallback((item: any) => item?.title || '', []);
         const defaultKeyExtractor = useCallback((item: any, index?: number) => item?._id || index, []);
         const defaultValueExtractor = useCallback((item: any) => item?.code || '', []);
@@ -131,7 +132,7 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
         useEffect(() => {
             // setNoDataMsg(noDataMessage);
         }, [noDataMessage]);
-
+        
         // useEffect(() => {
         //     let dropDownData: any[] = [...defaultData || []];
         //     if (defaultData && data) {
@@ -223,11 +224,16 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
             }
         }, [getDataList, openPopup, searchMode]);
 
-        // const filterOptions = createFilterOptions({
-        //     // if(searchMode === "serverSide"){
-        //     //     stringify: (option: any) => option;
-        //     // }
-        // });
+        const filterOptions = useCallback((options: any[], {inputValue}: any) => {
+                if (filteredOptions && filteredOptionKey) {
+                    const filteredOptionsIds = filteredOptions?.map((item) => item && item[filteredOptionKey]);
+                    return options?.filter((item) => !filteredOptionsIds?.includes(item[filteredOptionKey]));
+                } else {
+                    return options;
+                }
+            },
+            // matchSorter(options, inputValue),
+            [filteredOptions, filteredOptionKey]);
 
         return (
             <FormControl className="autoComplete-component-wrapper"
@@ -286,7 +292,7 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
                             setOpenPopup(true);
                         }
                     }}
-                    filterOptions={searchMode === "serverSide" ? (x) => x : undefined}
+                    filterOptions={filterOptions}
                     filterSelectedOptions={filterSelectedOptions}
                 />
                 <FormHelperText>

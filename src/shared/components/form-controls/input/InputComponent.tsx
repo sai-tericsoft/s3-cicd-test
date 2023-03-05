@@ -77,6 +77,7 @@ const InputComponent = (props: InputComponentProps) => {
                        }}
                        inputProps={{
                            ...inputProps,
+                           max: props.max,
                            readOnly: readOnly
                        }}
                        onChange={(event) => {

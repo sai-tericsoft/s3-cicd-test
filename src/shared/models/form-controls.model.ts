@@ -22,6 +22,7 @@ export interface IInputFieldProps {
     prefix?: any;
     suffix?: any;
     size?: 'small' | 'medium';
+    max?: number;
 }
 
 
@@ -199,6 +200,8 @@ export interface IAutoCompleteProps {
     url?: string;
     valueExtractor?: (item: any) => any;
     filterSelectedOptions?: boolean;
+    filteredOptions?: any[];
+    filteredOptionKey?: string;
 }
 
 export interface IDatePickerProps {

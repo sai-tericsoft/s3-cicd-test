@@ -64,9 +64,21 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         }
     }, [selectedPayments]);
 
+    const openMarkAsPaidModal = useCallback(() => {
+        setShowMarkAsPaidModal(true);
+    }, []);
+
+    const closeMarkAsPaidModal = useCallback(() => {
+        setShowMarkAsPaidModal(false);
+    }, []);
+
     const removePaymentFromSelectedMarkAsPaidList = useCallback((payment: any) => {
-        setSelectedPayments(selectedPayments.filter((item: any) => item._id !== payment._id));
-    }, [selectedPayments]);
+        const updatedPayments = selectedPayments.filter((item: any) => item._id !== payment._id);
+        if (updatedPayments.length === 0) {
+            closeMarkAsPaidModal();
+        }
+        setSelectedPayments(updatedPayments);
+    }, [selectedPayments, closeMarkAsPaidModal]);
 
     const pendingPaymentColumn: ITableColumn[] = useMemo<any>(() => [
         {
@@ -259,8 +271,9 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: 'Appointment Date',
             key: 'date',
             dataIndex: 'date',
-            width: 150,
+            width: 180,
             align: 'center',
+            fixed: 'left',
             render: (item: any) => {
                 return <>
                     {CommonService.convertDateFormat2(item?.appointment_details?.appointment_date)}</>
@@ -289,6 +302,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             dataIndex: 'action',
             width: 150,
             align: 'center',
+            fixed: 'right',
             render: (item: any) => {
                 return <IconButtonComponent onClick={() => removePaymentFromSelectedMarkAsPaidList(item)}>
                     <ImageConfig.CircleCancel/>
@@ -316,14 +330,6 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             setSearchParams(searchParams);
         }
     }, [dispatch, searchParams, setSearchParams]);
-
-    const openMarkAsPaidModal = useCallback(() => {
-        setShowMarkAsPaidModal(true);
-    }, []);
-
-    const closeMarkAsPaidModal = useCallback(() => {
-        setShowMarkAsPaidModal(false);
-    }, []);
 
     const openPaymentModeModal = useCallback(() => {
         setIsPaymentModeModalOpen(true);
@@ -416,7 +422,9 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                allowScrollButtonsMobile={false}
                                variant={"fullWidth"}
                                onUpdate={handleTabChange}>
-                    <TabComponent label={`Pending Payments(${(billingStats?.count !== undefined) ? billingStats?.count : '-'})`} value={'pendingPayments'}/>
+                    <TabComponent
+                        label={`Pending Payments(${(billingStats?.count !== undefined) ? billingStats?.count : '-'})`}
+                        value={'pendingPayments'}/>
                     <TabComponent label={'Completed Payments'} value={'completedPayments'}/>
                 </TabsComponent>
                 <TabContentComponent value={'pendingPayments'} selectedTab={currentTab}>

@@ -597,6 +597,12 @@
       }
     }
 
+    .t-table {
+      height: calc(100vh - 500px);
+      min-height: 300px;
+      max-height: 800px;
+    }
+
   }
 }
 
@@ -636,7 +642,7 @@
       flex-direction: column;
       align-items: center;
 
-      .incomplete-invoice-icon{
+      .incomplete-invoice-icon {
         margin-bottom: 36px;
       }
 

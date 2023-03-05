@@ -52,11 +52,18 @@ const AddNewInvoiceFormValidationSchema = Yup.object({
     ),
     amount: Yup.number().min(1).required("Amount is required"),
     // discount: Yup.number().min(1).max(100).nullable(),
-    discount_amount: Yup.number().nullable().when("amount", {
+    discount_amount: Yup.mixed().nullable().when("amount", {
         is: (value: number) => value > 0,
-        then: Yup.number().min(0).max(Yup.ref('amount'), 'Invalid Discount Amount').required("Discount is required"),
-        otherwise: Yup.number().nullable()
+        then: Yup.number().max(Yup.ref('amount'), 'Invalid Discount Amount')
+            .nullable(true)
+            // checking self-equality works for NaN, transforming it to null
+            .transform((_, val) => val ? Number(val) : null),
+        otherwise: Yup.number()
+            .nullable(true)
+            // checking self-equality works for NaN, transforming it to null
+            .transform((_, val) => val ? Number(val) : null),
     }),
+    // discount_amount: Yup.mixed().nullable(),
     client_id: Yup.string().required("Client is required"),
     provider_id: Yup.string().required("Provider is required"),
     comments: Yup.string().nullable().max(200, "Comments cannot be more than 200 characters"),
@@ -135,6 +142,9 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                 {
                     (field: FieldProps) => {
                         const quantity = _.get(field.form?.values, `products[${index}].quantity`);
+                        const units = _.get(field.form?.values, `products[${index}].units`);
+                        const selectedProducts = _.get(field.form?.values, `products`).map((item: any) => item.product);
+                        const showAvailableQuantity = (quantity !== undefined && (units === undefined || units === '' || units === null || units === 0 || isNaN(units)));
                         return <>
                             <FormikAutoCompleteComponent
                                 required={true}
@@ -144,6 +154,8 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                                 formikField={field}
                                 size={"small"}
                                 // fullWidth={true}
+                                filteredOptionKey={"_id"}
+                                filteredOptions={selectedProducts}
                                 displayWith={(item: any) => item?.name || ''}
                                 onUpdate={(item: any) => {
                                     field.form.setFieldValue(`products[${index}].product_id`, item._id);
@@ -154,9 +166,9 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                             />
                             <span
                                 className={`product-available-quantity
-                                ${quantity !== undefined ? "visibility-visible" : "visibility-hidden"}
-                                ${quantity > 0 ? "text-primary" : "text-error"}
-                                `}>Available Stock: {quantity > 0 ? quantity : 0} unit(s)
+                                ${showAvailableQuantity ? "visibility-visible" : "visibility-hidden"}
+                                ${quantity > 0 ? "text-primary" : "text-error"}`
+                                }>Available Stock: {quantity > 0 ? quantity : 0} unit(s)
                             </span>
                         </>
                     }
@@ -414,6 +426,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
             return (curr.amount && curr.units) ? acc + (parseInt(curr?.amount) * parseInt(curr?.units)) : acc;
         }, 0);
         formRef.current?.setFieldValue('amount', totalAmount);
+        formRef.current?.setFieldTouched('discount_amount');
         setInvoiceAmount(totalAmount);
     }, [addNewInvoiceFormInitialValues]);
 
@@ -446,8 +459,8 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                         <Form className="t-form" noValidate={true}>
                             <FormDebuggerComponent
                                 form={formik}
-                                canShow={false}
-                                showDebugger={false}/>
+                                canShow={true}
+                                showDebugger={true}/>
                             <div className="t-form-controls">
                                 <div>
                                     <div
@@ -661,6 +674,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                                                                         label="Discount"
                                                                         fullWidth={true}
                                                                         type={"number"}
+                                                                        max={invoiceAmount}
                                                                         formikField={field}
                                                                         disabled={!(invoiceAmount > 0)}
                                                                         validationPattern={Patterns.POSITIVE_WHOLE_NUMBERS}
