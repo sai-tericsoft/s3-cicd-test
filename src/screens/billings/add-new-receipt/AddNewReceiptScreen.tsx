@@ -185,7 +185,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                     (field: FieldProps) => (
                         <>
                             {
-                                (field.form.values?.products?.[index]?.quantity !== undefined && field.form.values?.products?.[index]?.quantity !== null && field.form.values?.products?.[index]?.quantity > -1) ?
+                                (field.form.values?.products?.[index]?.quantity !== undefined && field.form.values?.products?.[index]?.quantity !== null && field.form.values?.products?.[index]?.quantity > 0) ?
                                     <FormikInputComponent
                                         required={true}
                                         formikField={field}

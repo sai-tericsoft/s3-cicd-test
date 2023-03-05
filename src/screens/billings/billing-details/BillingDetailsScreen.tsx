@@ -395,25 +395,27 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                 </div>
                             </div>
                         </CardComponent>
-                        <CardComponent title={"Appointment Details"}>
-                            <div className="ts-row">
-                                <div className="ts-col-lg-3">
-                                    <DataLabelValueComponent label={"Service Category"}>
-                                        {billingDetails?.category_details?.name || '-'}
-                                    </DataLabelValueComponent>
+                        {
+                            type === 'invoice' || (type === "receipt" && billingDetails?.payment_for !== 'products') && <CardComponent title={"Appointment Details"}>
+                                <div className="ts-row">
+                                    <div className="ts-col-lg-3">
+                                        <DataLabelValueComponent label={"Service Category"}>
+                                            {billingDetails?.category_details?.name || '-'}
+                                        </DataLabelValueComponent>
+                                    </div>
+                                    <div className="ts-col-lg-3">
+                                        <DataLabelValueComponent label={"Service"}>
+                                            {billingDetails?.service_details?.name || '-'}
+                                        </DataLabelValueComponent>
+                                    </div>
+                                    <div className="ts-col-lg-3">
+                                        <DataLabelValueComponent label={"Date and Time"}>
+                                            {CommonService.convertDateFormat2(billingDetails?.appointment_details?.appointment_date, "DD MMM YYYY, hh:mm A")}
+                                        </DataLabelValueComponent>
+                                    </div>
                                 </div>
-                                <div className="ts-col-lg-3">
-                                    <DataLabelValueComponent label={"Service"}>
-                                        {billingDetails?.service_details?.name || '-'}
-                                    </DataLabelValueComponent>
-                                </div>
-                                <div className="ts-col-lg-3">
-                                    <DataLabelValueComponent label={"Date and Time"}>
-                                        {CommonService.convertDateFormat2(billingDetails?.appointment_details?.appointment_date, "DD MMM YYYY, hh:mm A")}
-                                    </DataLabelValueComponent>
-                                </div>
-                            </div>
-                        </CardComponent>
+                            </CardComponent>
+                        }
                         {
                             viewMode === 'detailed' && <>
                                 <CardComponent title={"ICD-11 Description(s) and Code(s)"}>
