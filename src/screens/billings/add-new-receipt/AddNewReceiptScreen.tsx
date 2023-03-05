@@ -394,7 +394,8 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         const payload = {
             ...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['product', 'key']),
             amount: invoiceAmount,
-            payment_mode: selectedPaymentMode
+            payment_mode: selectedPaymentMode,
+            billing_address: selectedClientBillingAddress // TODO remove it to send from FE once BE fixes made
         }
         CommonService._billingsService.AddNewReceiptAPICall(payload)
             .then((response: IAPIResponseType<any>) => {
@@ -406,7 +407,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 setErrors && CommonService.handleErrors(setErrors, error);
                 setSubmitting && setSubmitting(false);
             })
-    }, [closePaymentModeModal, invoiceAmount, navigate, selectedPaymentMode]);
+    }, [closePaymentModeModal, selectedClientBillingAddress, invoiceAmount, navigate, selectedPaymentMode]);
 
     const handleAddReceiptCancel = useCallback(() => {
         CommonService.onConfirm(
