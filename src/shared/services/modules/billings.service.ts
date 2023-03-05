@@ -7,7 +7,7 @@ const MarkPaymentsAsPaidAPICall = (payload: any) => {
 }
 
 
-const AddNewInvoiceAPICall = (payload: any) => {
+const AddNewReceiptAPICall = (payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.ADD_NEW_RECEIPT.METHOD](APIConfig.ADD_NEW_RECEIPT.URL, payload)
 }
@@ -34,7 +34,7 @@ const GetBillingStatsAPICall = () => {
 
 const BillingService={
     MarkPaymentsAsPaidAPICall,
-    AddNewInvoiceAPICall,
+    AddNewReceiptAPICall,
     MarkPaymentAsPaidAPICall,
     GetInvoiceDetailsAPICall,
     GetReceiptDetailsAPICall,

@@ -28,7 +28,6 @@ import AddMedicalRecordScreen from "../screens/chart-notes/add-medical-record/Ad
 import {
     ADD_INVENTORY_PRODUCT,
     ADD_MEDICAL_RECORD,
-    ADD_NEW_INVOICE,
     ADMIN,
     BILLING,
     BILLING_DETAILS,
@@ -75,7 +74,8 @@ import {
     SYSTEM_SETTINGS,
     TEST_ROUTE,
     UPDATE_MEDICAL_INTERVENTION,
-    VIEW_MEDICAL_INTERVENTION
+    VIEW_MEDICAL_INTERVENTION,
+    ADD_NEW_RECEIPT
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
@@ -125,7 +125,7 @@ import ViewMedicalInterventionScreen
     from "../screens/chart-notes/view-medical-intervention/ViewMedicalInterventionScreen";
 import BillingMainLayoutComponent from "../screens/billings/billing-main-layout/BillingMainLayoutComponent";
 import BillingListScreen from "../screens/billings/billing-list/BillingListScreen";
-import AddNewInvoiceScreen from "../screens/billings/add-new-invoice/AddNewInvoiceScreen";
+import AddNewReceiptScreen from "../screens/billings/add-new-receipt/AddNewReceiptScreen";
 import BillingDetailsScreen from "../screens/billings/billing-details/BillingDetailsScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
@@ -570,8 +570,8 @@ const Navigator = (props: NavigatorProps) => {
                             <BillingListScreen/>
                         </ProtectedRoute>}
                         />
-                        <Route path={ADD_NEW_INVOICE} element={<ProtectedRoute>
-                            <AddNewInvoiceScreen/>
+                        <Route path={ADD_NEW_RECEIPT} element={<ProtectedRoute>
+                            <AddNewReceiptScreen/>
                         </ProtectedRoute>}
                         />
                         <Route path={BILLING_DETAILS} element={<ProtectedRoute>

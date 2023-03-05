@@ -206,8 +206,8 @@ const BillingList = () => {
     return "/billing/billing-list";
 }
 
-const AddNewInvoice = () => {
-    return "/billing/add-new-invoice";
+const AddNewReceipt = () => {
+    return "/billing/add-new-receipt";
 }
 
 const BillingDetails = (billingId: string, type: 'invoice' | 'receipt') => {
@@ -261,7 +261,7 @@ const RouteConfigService = {
     EditInventoryProduct,
     SystemSettings,
     BillingList,
-    AddNewInvoice,
+    AddNewReceipt,
     BillingDetails
 }
 

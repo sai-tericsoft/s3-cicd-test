@@ -58,7 +58,7 @@ const EDIT_INVENTORY_PRODUCT = "/inventory/edit-product/:productId";
 
 const BILLING = "/billing";
 const BILLING_LIST = "/billing/billing-list";
-const ADD_NEW_INVOICE = "/billing/add-new-invoice";
+const ADD_NEW_RECEIPT = "/billing/add-new-receipt";
 const BILLING_DETAILS = "/billing/billing-details/:billingId";
 
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
@@ -115,6 +115,6 @@ export {
     VIEW_MEDICAL_INTERVENTION,
     BILLING,
     BILLING_LIST,
-    ADD_NEW_INVOICE,
+    ADD_NEW_RECEIPT,
     BILLING_DETAILS
 };

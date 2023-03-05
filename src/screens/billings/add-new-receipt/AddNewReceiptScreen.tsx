@@ -1,4 +1,4 @@
-import "./AddNewInvoiceScreen.scss";
+import "./AddNewReceiptScreen.scss";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
@@ -33,7 +33,7 @@ import SelectComponent from "../../../shared/components/form-controls/select/Sel
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import EditBillingAddressComponent from "../edit-billing-address/EditBillingAddressComponent";
 
-interface AddNewInvoiceScreenProps {
+interface AddNewReceiptScreenProps {
 
 }
 
@@ -46,7 +46,7 @@ const ProductValidationSchema = Yup.object({
     }),
 });
 
-const AddNewInvoiceFormValidationSchema = Yup.object({
+const AddNewReceiptFormValidationSchema = Yup.object({
     products: Yup.array().of(
         ProductValidationSchema
     ),
@@ -78,7 +78,7 @@ const ProductRow = {
     quantity: undefined
 }
 
-const AddNewInvoiceFormInitialValues = {
+const AddNewReceiptFormInitialValues = {
     products: [
         {
             ...ProductRow,
@@ -87,7 +87,7 @@ const AddNewInvoiceFormInitialValues = {
     ]
 }
 
-const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
+const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -105,18 +105,18 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
     const [isClientSelectionDrawerOpened, setIsClientSelectionDrawerOpened] = useState<boolean>(false);
     const [isProviderSelectionDrawerOpened, setIsProviderSelectionDrawerOpened] = useState<boolean>(false);
     const {name, address, city, state, zip, phone_number} = Misc.COMPANY_BILLING_ADDRESS;
-    const [addNewInvoiceFormInitialValues, setAddNewInvoiceFormFormInitialValues] = useState<any>(_.cloneDeep(AddNewInvoiceFormInitialValues));
+    const [addNewReceiptFormInitialValues, setAddNewReceiptFormFormInitialValues] = useState<any>(_.cloneDeep(AddNewReceiptFormInitialValues));
     const [isClientBillingAddressDrawerOpened, setIsClientBillingAddressDrawerOpened] = useState<boolean>(false);
     const [selectedPaymentMode, setSelectedPaymentMode] = useState<string | undefined>(undefined);
     const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
-    const [invoiceAmount, setInvoiceAmount] = useState<number>(0);
+    const [invoiceAmount, setReceiptAmount] = useState<number>(0);
 
     const {
         paymentModes
     } = useSelector((state: IRootReducerState) => state.staticData);
 
     useEffect(() => {
-        dispatch(setCurrentNavParams("Add New Invoice", null, () => {
+        dispatch(setCurrentNavParams("Add New Receipt", null, () => {
             navigate(CommonService._routeConfig.BillingList());
         }));
     }, [navigate, dispatch]);
@@ -241,7 +241,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                         <IconButtonComponent
                             disabled={field.form.values?.products?.length === 1}
                             onClick={() => {
-                                setAddNewInvoiceFormFormInitialValues((prev: any) => ({
+                                setAddNewReceiptFormFormInitialValues((prev: any) => ({
                                     ...prev,
                                     products: prev.products.filter((_: any, i: number) => i !== index)
                                 }));
@@ -385,7 +385,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
         openPaymentModeModal()
     }, [openPaymentModeModal]);
 
-    const handleAddInvoiceConfirm = useCallback(() => {
+    const handleAddReceiptConfirm = useCallback(() => {
         closePaymentModeModal();
         const values = formRef?.current?.values;
         const setSubmitting = formRef?.current?.setSubmitting;
@@ -396,7 +396,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
             amount: invoiceAmount,
             payment_mode: selectedPaymentMode
         }
-        CommonService._billingsService.AddNewInvoiceAPICall(payload)
+        CommonService._billingsService.AddNewReceiptAPICall(payload)
             .then((response: IAPIResponseType<any>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setSubmitting && setSubmitting(false);
@@ -408,12 +408,12 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
             })
     }, [closePaymentModeModal, invoiceAmount, navigate, selectedPaymentMode]);
 
-    const handleAddInvoiceCancel = useCallback(() => {
+    const handleAddReceiptCancel = useCallback(() => {
         CommonService.onConfirm(
             {
-                confirmationTitle: "DISCARD INVOICE",
+                confirmationTitle: "DISCARD RECEIPT",
                 image: ImageConfig.RemoveImage,
-                confirmationSubTitle: `Are you sure you do not wish to generate an invoice, as it will be deleted?"?`
+                confirmationSubTitle: `Are you sure you do not wish to generate an receipt, as it will be deleted?"?`
             }
         )
             .then((result: any) => {
@@ -432,7 +432,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
         }
         formRef.current?.setFieldValue('amount', totalAmount);
         formRef.current?.setFieldTouched('discount_amount');
-        setInvoiceAmount(totalAmount);
+        setReceiptAmount(totalAmount);
     }, [formRef.current?.values?.products]);
 
     const handleEditBillingAddress = useCallback((values: any) => {
@@ -441,11 +441,11 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
     }, [closeBillingAddressFormDrawer]);
 
     return (
-        <div className={'add-new-invoice-screen'}>
+        <div className={'add-new-receipt-screen'}>
             <PageHeaderComponent title={'Add Receipt'}/>
             <Formik
-                validationSchema={AddNewInvoiceFormValidationSchema}
-                initialValues={addNewInvoiceFormInitialValues}
+                validationSchema={AddNewReceiptFormValidationSchema}
+                initialValues={addNewReceiptFormInitialValues}
                 validateOnChange={false}
                 validateOnBlur={true}
                 enableReinitialize={true}
@@ -458,7 +458,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                     // eslint-disable-next-line react-hooks/rules-of-hooks
                     useEffect(() => {
                         validateForm();
-                        setAddNewInvoiceFormFormInitialValues(values);
+                        setAddNewReceiptFormFormInitialValues(values);
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
@@ -621,14 +621,14 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                                     <div className="products-block">
                                         <div className="products-block-wrapper">
                                             <TableComponent columns={productListTableColumns}
-                                                            data={addNewInvoiceFormInitialValues.products}/>
+                                                            data={addNewReceiptFormInitialValues.products}/>
                                             <div className={'products-block-add-more'}>
                                                 <ButtonComponent
                                                     variant={"text"}
                                                     prefixIcon={<ImageConfig.AddIcon/>}
                                                     disabled={!ProductValidationSchema.isValidSync(values?.products[values.products.length - 1])}
                                                     onClick={() => {
-                                                        setAddNewInvoiceFormFormInitialValues((prev: any) => ({
+                                                        setAddNewReceiptFormFormInitialValues((prev: any) => ({
                                                             ...prev,
                                                             products: [...prev.products, {
                                                                 ..._.cloneDeep(ProductRow),
@@ -643,7 +643,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                                         </div>
                                     </div>
                                     <div className="clear-fix"/>
-                                    <div className={'add-new-invoice__comments__payment__block__wrapper'}>
+                                    <div className={'add-new-receipt__comments__payment__block__wrapper'}>
                                         <div className="ts-row">
                                             <div className="ts-col-lg-6">
                                                 <Field name={`comments`} className="t-form-control">
@@ -660,14 +660,14 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                                                 </Field>
                                             </div>
                                             <div className="ts-col-lg-6">
-                                                <div className="add-new-invoice__payment__block">
-                                                    <div className="add-new-invoice__payment__block__row">
+                                                <div className="add-new-receipt__payment__block">
+                                                    <div className="add-new-receipt__payment__block__row">
                                                         <div
-                                                            className="add-new-invoice__payment__block__row__title">Subtotal
+                                                            className="add-new-receipt__payment__block__row__title">Subtotal
                                                             (Inc. Tax)
                                                         </div>
                                                         <div
-                                                            className="add-new-invoice__payment__block__row__value">
+                                                            className="add-new-receipt__payment__block__row__value">
                                                             {Misc.CURRENCY_SYMBOL} {invoiceAmount}
                                                         </div>
                                                     </div>
@@ -689,14 +689,14 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                                                             }
                                                         </Field>
                                                     </div>
-                                                    <div className="add-new-invoice__payment__block__row grand">
-                                                        <div className="add-new-invoice__payment__block__row__title">
+                                                    <div className="add-new-receipt__payment__block__row grand">
+                                                        <div className="add-new-receipt__payment__block__row__title">
                                                             Grand Total (Inc. Tax)
                                                         </div>
                                                         <div
-                                                            className="add-new-invoice__payment__block__row__value">{Misc.CURRENCY_SYMBOL}
+                                                            className="add-new-receipt__payment__block__row__value">{Misc.CURRENCY_SYMBOL}
                                                             {
-                                                                invoiceAmount - (addNewInvoiceFormInitialValues.discount_amount ? parseInt(addNewInvoiceFormInitialValues.discount_amount) : 0)
+                                                                invoiceAmount - (addNewReceiptFormInitialValues.discount_amount ? parseInt(addNewReceiptFormInitialValues.discount_amount) : 0)
                                                             }
                                                         </div>
                                                     </div>
@@ -706,7 +706,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                                     </div>
                                     <div className="t-form-actions">
                                         <ButtonComponent variant={"outlined"}
-                                                         onClick={handleAddInvoiceCancel}
+                                                         onClick={handleAddReceiptCancel}
                                         >
                                             Cancel
                                         </ButtonComponent>&nbsp;&nbsp;
@@ -817,7 +817,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                                 <ButtonComponent variant={'contained'}
                                                  color={'primary'}
                                                  disabled={!selectedPaymentMode}
-                                                 onClick={handleAddInvoiceConfirm}
+                                                 onClick={handleAddReceiptConfirm}
                                 >
                                     Confirm Payment
                                 </ButtonComponent>
@@ -840,4 +840,4 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
     );
 };
 
-export default AddNewInvoiceScreen;
+export default AddNewReceiptScreen;

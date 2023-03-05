@@ -410,9 +410,9 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                             </ButtonComponent>&nbsp;&nbsp;
                         </>
                     }
-                    <LinkComponent route={CommonService._routeConfig.AddNewInvoice()}>
+                    <LinkComponent route={CommonService._routeConfig.AddNewReceipt()}>
                         <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}>
-                            New Invoice
+                            New Receipt
                         </ButtonComponent>
                     </LinkComponent>
                 </div>
