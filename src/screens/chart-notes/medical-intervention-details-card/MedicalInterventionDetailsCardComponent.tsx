@@ -22,12 +22,17 @@ import ViewPriorNoteComponent from "../view-prior-note/ViewPriorNoteComponent";
 import MedicalInterventionLinkedToComponent
     from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
 import TransferSoapNoteComponent from "../transfer-soap-note/TransferSoapNoteComponent";
-import {getMedicalInterventionDetails, getMedicalRecordSoapNoteList} from "../../../store/actions/chart-notes.action";
+import {
+    getMedicalInterventionDetails,
+    getMedicalRecordSoapNoteList,
+    refreshMedicalRecordAttachmentList
+} from "../../../store/actions/chart-notes.action";
 import AddConcussionFileComponent from "../add-concussion-file/AddConcussionFileComponent";
 import {IRootReducerState} from "../../../store/reducers";
 import ImportSoapNoteComponent from "../import-soap-note/ImportSoapNoteComponent";
 import FilesUneditableMiddlewareComponent
     from "../../../shared/components/files-uneditable-middleware/FilesUneditableMiddlewareComponent";
+import AddMedicalRecordDocumentComponent from "../add-medical-record-document/AddMedicalRecordDocumentComponent";
 
 interface MedicalInterventionDetailsCardComponentProps {
     showAction?: boolean,
@@ -51,6 +56,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     const [isAddConcussionFileDrawerOpen, setIsAddConcussionFileDrawerOpen] = useState<boolean>(false);
     const [isViewPriorNoteDrawerOpen, setIsViewPriorNoteDrawerOpen] = useState<boolean>(false);
     const [isImportSoapNoteDrawerOpen, setIsImportSoapNoteDrawerOpen] = useState<boolean>(false);
+    const [isMedicalRecordDocumentAddDrawerOpen, setIsMedicalRecordDocumentAddDrawerOpen] = useState<boolean>(false);
 
     const {
         clientMedicalRecord,
@@ -118,6 +124,20 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     const closeImportSoapNoteDrawer = useCallback(() => {
         setIsImportSoapNoteDrawerOpen(false);
     }, []);
+
+    const openMedicalRecordDocumentAddDrawer = useCallback(() => {
+        setIsMedicalRecordDocumentAddDrawerOpen(true);
+    }, []);
+
+    const closeMedicalRecordDocumentAddDrawer = useCallback(() => {
+        setIsMedicalRecordDocumentAddDrawerOpen(false);
+    }, []);
+
+    const handleMedicalRecordDocumentAdd = useCallback(() => {
+        dispatch(refreshMedicalRecordAttachmentList());
+        closeMedicalRecordDocumentAddDrawer();
+    }, [dispatch, closeMedicalRecordDocumentAddDrawer]);
+
 
     const handleMedicalRecordEdit = useCallback(() => {
         closeEditMedicalRecordDrawer();
@@ -195,7 +215,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
         } else {
             setMedicalInterventionDropDownOptions([
                 <ListItem onClick={openTransferSoapNoteDrawer}>Transfer SOAP to</ListItem>,
-                <ListItem onClick={handleNotifyAdmin}>Notify Admin</ListItem>,
+                <ListItem onClick={openMedicalRecordDocumentAddDrawer}>Add Document</ListItem>,
                 <ListItem onClick={openAddDryNeedlingFileDrawer}>
                     Add Dry Needling File
                 </ListItem>,
@@ -204,7 +224,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                 <ListItem onClick={openImportSoapNoteDrawer}>Import SOAP Note</ListItem>]
             );
         }
-    }, [comingSoon, handleEditSoapNote, mode, handleNotifyAdmin, openTransferSoapNoteDrawer, openAddConcussionFileDrawer, openAddDryNeedlingFileDrawer, openImportSoapNoteDrawer, openViewPriorNoteDrawer, medicalInterventionDetails]);
+    }, [comingSoon, handleEditSoapNote, mode, openMedicalRecordDocumentAddDrawer, openTransferSoapNoteDrawer, openAddConcussionFileDrawer, openAddDryNeedlingFileDrawer, openImportSoapNoteDrawer, openViewPriorNoteDrawer, medicalInterventionDetails]);
 
     return (
         <div className={'client-medical-details-card-component'}>
@@ -363,6 +383,17 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                 <ImportSoapNoteComponent medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
                                          handleSoapNoteImport={handleSoapNoteDrawer}
                 />
+            </DrawerComponent>
+
+            <DrawerComponent isOpen={isMedicalRecordDocumentAddDrawerOpen}
+                             showClose={true}
+                             onClose={() => closeMedicalRecordDocumentAddDrawer()}>
+                {medicalRecordId && <AddMedicalRecordDocumentComponent
+                    onAdd={handleMedicalRecordDocumentAdd}
+                    medicalRecordId={medicalRecordId}
+                    medicalRecordDetails={clientMedicalRecord}
+                    onCancel={() => closeMedicalRecordDocumentAddDrawer()}
+                />}
             </DrawerComponent>
         </div>
     );
