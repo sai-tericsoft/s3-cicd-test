@@ -232,6 +232,52 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
         }
     ], []);
 
+    const ProductsColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
+        {
+            title: 'S.No',
+            dataIndex: 's.no',
+            key: 's.no',
+            width: 100,
+            fixed: 'left',
+            render: (record: any, index) => {
+                return <>{index + 1}</>
+            }
+        },
+        {
+            title: 'Item(s)',
+            dataIndex: 'item',
+            key: 'item',
+            width: 500,
+            fixed: 'left',
+            render: (record: any) => {
+                return <>{record?.product_name}</>
+            }
+        },
+        {
+            title: 'Units',
+            dataIndex: 'units',
+            key: 'units',
+        },
+        {
+            title: 'Rate',
+            dataIndex: 'rate',
+            key: 'amount',
+            render: (record: any) => {
+                return <> { Misc.CURRENCY_SYMBOL } {record?.amount}</>
+            }
+        },
+        {
+            title: 'Amount',
+            dataIndex: 'amount',
+            key: 'amount',
+            render: (record: any) => {
+                return <>
+                    { Misc.CURRENCY_SYMBOL } {record?.amount * record?.units}
+                </>
+            }
+        }
+    ], []);
+
     return (
         <div className={'billing-details-screen'}>
             <PageHeaderComponent
@@ -396,7 +442,18 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                             </div>
                         </CardComponent>
                         {
-                            type === 'invoice' || (type === "receipt" && billingDetails?.payment_for !== 'products') && <CardComponent title={"Appointment Details"}>
+                            ((type === "receipt" && billingDetails?.payment_for === 'products')) &&
+                            <CardComponent className={'billing-products-card'}>
+                                <TableComponent
+                                    columns={ProductsColumns}
+                                    data={billingDetails?.products || []}
+                                    autoHeight={true}
+                                />
+                            </CardComponent>
+                        }
+                        {
+                            (type === 'invoice' || (type === "receipt" && billingDetails?.payment_for !== 'products')) &&
+                            <CardComponent title={"Appointment Details"}>
                                 <div className="ts-row">
                                     <div className="ts-col-lg-3">
                                         <DataLabelValueComponent label={"Service Category"}>
@@ -441,8 +498,9 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                         {billingDetails?.comments || "N/A"}
                                     </DataLabelValueComponent>
                                     {
-                                        type === 'receipt' && <DataLabelValueComponent className={'mode_of_payment'} label={"Mode Of Payment: "}
-                                                                                       direction={"row"}
+                                        type === 'receipt' &&
+                                        <DataLabelValueComponent className={'mode_of_payment'} label={"Mode Of Payment: "}
+                                                                 direction={"row"}
                                         >
                                             {billingDetails?.payment_mode_details?.title || billingDetails?.payment_mode || "N/A"}
                                         </DataLabelValueComponent>
