@@ -444,7 +444,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                                 options={CommonService._staticData.yesNoOptions}
                                                                 displayWith={(option) => option.title}
                                                                 valueExtractor={(option) => option.code}
-                                                                label={'Treatment Script Received'}
+                                                                label={'Treatment Script Received ?'}
                                                                 formikField={field}
                                                                 required={true}
                                                                 fullWidth={true}
