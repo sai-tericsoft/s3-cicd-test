@@ -158,7 +158,7 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
                                             disabled={!isValid || isProgressReportAddInProgress}
                                             id={"medical_intervention_add_save_btn"}
                                         >
-                                            Save
+                                            Next
                                         </ButtonComponent>
                                     </div>
                                 </Form>
