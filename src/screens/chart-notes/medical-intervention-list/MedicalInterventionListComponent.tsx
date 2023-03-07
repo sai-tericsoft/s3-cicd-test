@@ -47,7 +47,24 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             align: 'center',
             fixed: 'left',
             render: (item: any) => {
-                return <>{item?.created_at ? CommonService.getSystemFormatTimeStamp(item?.created_at) : "N/A"}</>
+                let route = '';
+                if (medicalRecordId) {
+                    if (item?.note_type?.toLowerCase() === 'exercise log') {
+                        route = CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, item?.intervention_id);
+                    } else if (["soap note", "discharge summary"].includes(item?.note_type?.toLowerCase())) {
+                        if (item?.status?.toLowerCase() === 'completed') {
+                            route = CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, item?._id);
+                        } else {
+                            route = CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, item?._id);
+                        }
+                    } else if (item?.note_type?.toLowerCase() === "progress report") {
+                        route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId, item?._id);
+                    } else {
+                    }
+                    return <LinkComponent route={route}>
+                             {item?.created_at ? CommonService.getSystemFormatTimeStamp(item?.created_at) : "N/A"}
+                    </LinkComponent>
+                }
             }
         },
         {
