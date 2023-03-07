@@ -45,7 +45,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             title: 'Results',
             dataIndex: 'result',
             width:150,
-        }
+        },
     ];
 
     const {progressReportId, medicalRecordId} = useParams();
@@ -80,8 +80,6 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
         }));
     }, [medicalRecordId, navigate, dispatch]);
-
-    console.log('progressReportDetails', progressReportDetails);
 
     return (
         <div className={'progress-report-view-details-screen'}>
@@ -134,6 +132,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             }
             {
                 (medicalRecordId && progressReportId) && <LinkComponent
+
                     route={CommonService._routeConfig.MedicalRecordProgressReportAdvancedDetailsUpdate(medicalRecordId, progressReportId)}>
                     <div className={'display-flex flex-direction-row-reverse mrg-bottom-20'}>
                         <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>Edit Progress Report</ButtonComponent>
@@ -174,22 +173,25 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                             progressReportDetails?.progress_stats?.length > 0 &&
                                             <CardComponent title={'Progress Stats:'}>
                                             <TableComponent data={progressReportDetails?.progress_stats}
+                                                            className={'progress-report-view-details-table'}
                                                             columns={progressStatsColumn}
-                                                            showExpandColumn={false}
-                                                            defaultExpandAllRows={true}
-                                                            canExpandRow={(row: any) => row?.comment?.length > 0}
-                                                            expandRowRenderer={(row: any) => {
-                                                                return (
-                                                                    <div key={row?._id} className={'display-flex'}>
-                                                                        <div className={'comment-icon mrg-right-10'}>
-                                                                            <ImageConfig.CommentIcon/>
-                                                                        </div>
-                                                                        <div
-                                                                            className={'progress-stats-comment'}>{row?.comment}</div>
-                                                                    </div>
-                                                                )
-                                                            }
-                                                            }
+                                                            hideHeader={true}
+                                                            bordered={true}
+                                                            // showExpandColumn={false}
+                                                            // defaultExpandAllRows={true}
+                                                            // canExpandRow={(row: any) => row?.comment?.length > 0}
+                                                            // expandRowRenderer={(row: any) => {
+                                                            //     return (
+                                                            //         <div key={row?._id} className={'display-flex'}>
+                                                            //             <div className={'comment-icon mrg-right-10'}>
+                                                            //                 <ImageConfig.CommentIcon/>
+                                                            //             </div>
+                                                            //             <div
+                                                            //                 className={'progress-stats-comment'}>{row?.comment}</div>
+                                                            //         </div>
+                                                            //     )
+                                                            // }
+                                                            // }
                                             />
                                         </CardComponent>
                                         }

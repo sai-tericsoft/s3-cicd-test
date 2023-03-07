@@ -106,17 +106,28 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                 className="t-form-control">
                 {
                     (field: FieldProps) => (
-                        <IconButtonComponent
-                            color={field.form.values.progress_stats?.[item?._id]?.comment ? "primary" : "inherit"}
-                            onClick={() => {
-                                setShowProgressStatCommentsModal(true);
-                                setSelectedProgressStatComments(item);
-                            }}>
+                        <div className={'progress-stats-comment'}
+                        >
                             {
-                                field.form.values.progress_stats?.[item?._id]?.comment ? <ImageConfig.ChatIcon/> :
-                                    <ImageConfig.CommentAddIcon/>
+                                field.form.values.progress_stats?.[item?._id]?.comment ?
+                                    <div className={'comment-edit-wrapper'}>
+                                        <div>{field.form.values.progress_stats?.[item?._id]?.comment}</div>
+                                        <IconButtonComponent
+                                            className={'edit-icon'}
+                                            onClick={() => {
+                                                setShowProgressStatCommentsModal(true);
+                                                setSelectedProgressStatComments(item);
+                                            }}>
+                                            <ImageConfig.EditIcon/>
+                                        </IconButtonComponent>
+                                    </div> :
+                                    <div className={'add-comment-heading'} onClick={() => {
+                                        setShowProgressStatCommentsModal(true);
+                                        setSelectedProgressStatComments(item);
+                                    }}
+                                    >+ Add Comment</div>
                             }
-                        </IconButtonComponent>
+                        </div>
                     )
                 }
             </Field>
@@ -339,76 +350,80 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                         }
                                     </Field>
                                 </CardComponent>
-                                <CardComponent title={'Progress Stats:'}>
-                                    <TableV2Component data={progressReportStatList}
-                                                      loading={isProgressReportStatListLoading}
-                                                      columns={ProgressStatsColumns}
-                                                      rowKey={(item: any) => item?._id}
-                                    />
-                                    {
-                                        progressReportStatList?.map((stat: IProgressReportStat, index: number) => {
-                                            if (showProgressStatCommentsModal && stat._id === selectedProgressStatComments?._id) {
-                                                return <ModalComponent
-                                                    key={stat?._id}
-                                                    isOpen={showProgressStatCommentsModal}
-                                                    title={`${formik.values?.progress_report?.[selectedProgressStatComments._id]?.comment ? "Edit Comments" : "Comments:"}`}
-                                                    closeOnBackDropClick={true}
-                                                    className={"intervention-comments-modal"}
-                                                    modalFooter={<>
-                                                        <ButtonComponent variant={"outlined"}
-                                                                         onClick={() => {
-                                                                             const comment = formik.values?.progress_stats?.[selectedProgressStatComments?._id]?.comment;
-                                                                             setShowProgressStatCommentsModal(false);
-                                                                             formik.setFieldValue(`progress_stats.${selectedProgressStatComments._id}.commentTemp`, comment);
-                                                                             setSelectedProgressStatComments(undefined);
-                                                                         }}>
-                                                            Cancel
-                                                        </ButtonComponent>&nbsp;
-                                                        <ButtonComponent
-                                                            onClick={() => {
-                                                                const newComment = formik.values?.progress_stats?.[selectedProgressStatComments?._id]?.commentTemp;
-                                                                setShowProgressStatCommentsModal(false);
-                                                                formik.setFieldValue(`progress_stats.${selectedProgressStatComments?._id}.comment`, newComment);
-                                                                setSelectedProgressStatComments(undefined);
-                                                            }}>
+                                <div className={'progress-stats-table'}>
+                                    <CardComponent title={'Progress Stats:'}>
+                                        <TableV2Component data={progressReportStatList}
+                                                          bordered={true}
+                                                          hideHeader={true}
+                                                          loading={isProgressReportStatListLoading}
+                                                          columns={ProgressStatsColumns}
+                                                          rowKey={(item: any) => item?._id}
+                                        />
+                                        {
+                                            progressReportStatList?.map((stat: IProgressReportStat, index: number) => {
+                                                if (showProgressStatCommentsModal && stat._id === selectedProgressStatComments?._id) {
+                                                    return <ModalComponent
+                                                        key={stat?._id}
+                                                        isOpen={showProgressStatCommentsModal}
+                                                        title={`${formik.values?.progress_report?.[selectedProgressStatComments._id]?.comment ? "Edit Comments" : "Comments:"}`}
+                                                        closeOnBackDropClick={true}
+                                                        className={"intervention-comments-modal"}
+                                                        modalFooter={<>
+                                                            <ButtonComponent variant={"outlined"}
+                                                                             onClick={() => {
+                                                                                 const comment = formik.values?.progress_stats?.[selectedProgressStatComments?._id]?.comment;
+                                                                                 setShowProgressStatCommentsModal(false);
+                                                                                 formik.setFieldValue(`progress_stats.${selectedProgressStatComments._id}.commentTemp`, comment);
+                                                                                 setSelectedProgressStatComments(undefined);
+                                                                             }}>
+                                                                Cancel
+                                                            </ButtonComponent>&nbsp;
+                                                            <ButtonComponent
+                                                                onClick={() => {
+                                                                    const newComment = formik.values?.progress_stats?.[selectedProgressStatComments?._id]?.commentTemp;
+                                                                    setShowProgressStatCommentsModal(false);
+                                                                    formik.setFieldValue(`progress_stats.${selectedProgressStatComments?._id}.comment`, newComment);
+                                                                    setSelectedProgressStatComments(undefined);
+                                                                }}>
+                                                                {
+                                                                    formik.values?.["progress_stats"]?.[selectedProgressStatComments?._id]?.comment ? "Save" : "Add"
+                                                                }
+                                                            </ButtonComponent>
+                                                        </>
+                                                        }>
+                                                        <Field
+                                                            name={`progress_stats.${selectedProgressStatComments?._id}.commentTemp`}
+                                                            className="t-form-control">
                                                             {
-                                                                formik.values?.["progress_stats"]?.[selectedProgressStatComments?._id]?.comment ? "Save" : "Add"
+                                                                (field: FieldProps) => (
+                                                                    <FormikTextAreaComponent
+                                                                        label={selectedProgressStatComments?.name}
+                                                                        placeholder={"Enter your comments here..."}
+                                                                        formikField={field}
+                                                                        size={"small"}
+                                                                        autoFocus={true}
+                                                                        fullWidth={true}
+                                                                    />
+                                                                )
                                                             }
-                                                        </ButtonComponent>
-                                                    </>
-                                                    }>
-                                                    <Field
-                                                        name={`progress_stats.${selectedProgressStatComments?._id}.commentTemp`}
-                                                        className="t-form-control">
-                                                        {
-                                                            (field: FieldProps) => (
-                                                                <FormikTextAreaComponent
-                                                                    label={selectedProgressStatComments?.name}
-                                                                    placeholder={"Enter your comments here..."}
-                                                                    formikField={field}
-                                                                    size={"small"}
-                                                                    autoFocus={true}
-                                                                    fullWidth={true}
-                                                                />
-                                                            )
-                                                        }
-                                                    </Field>
-                                                </ModalComponent>
-                                            } else {
-                                                return <></>
-                                            }
-                                        })
-                                    }
-                                    <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>
-                                        <ESignApprovalComponent isSigned={formik.values.is_signed}
-                                                                isSigning={isSigningInProgress}
-                                                                canSign={formik.values?.can_sign}
-                                                                signedAt={formik.values.signed_on}
-                                                                onSign={() => {
-                                                                    handleSign(formik.values, formik);
-                                                                }}/>
-                                    </div>
-                                </CardComponent>
+                                                        </Field>
+                                                    </ModalComponent>
+                                                } else {
+                                                    return <></>
+                                                }
+                                            })
+                                        }
+                                        <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>
+                                            <ESignApprovalComponent isSigned={formik.values.is_signed}
+                                                                    isSigning={isSigningInProgress}
+                                                                    canSign={formik.values?.can_sign}
+                                                                    signedAt={formik.values.signed_on}
+                                                                    onSign={() => {
+                                                                        handleSign(formik.values, formik);
+                                                                    }}/>
+                                        </div>
+                                    </CardComponent>
+                                </div>
                                 <div className="t-form-actions">
                                     {
                                         medicalRecordId && <>
