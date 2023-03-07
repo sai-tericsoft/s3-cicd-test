@@ -247,7 +247,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     setSubmitting(false);
                 });
         }
-    }, [medicalInterventionId]);
+    }, [medicalRecordId,navigate, medicalInterventionId]);
 
     const {
         medicalInterventionDetails,
