@@ -19,6 +19,7 @@ const resultOptions = [{
     title: "Negative",
     code: "Negative"
 }];
+const unitsOfCare=[1,2,3,4,5,6,7,8];
 
 const getConsultationDurationList = (payload: any) => {
     // @ts-ignore
@@ -146,6 +147,7 @@ const StaticDataService = {
     weekDays,
     yesNoOptions,
     resultOptions,
+    unitsOfCare,
     getConsultationDurationList,
     getGenderList,
     getPhoneTypeList,
