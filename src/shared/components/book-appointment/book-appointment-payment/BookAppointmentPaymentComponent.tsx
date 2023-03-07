@@ -14,6 +14,7 @@ import FormikTextAreaComponent from "../../form-controls/formik-text-area/Formik
 import {CommonService} from "../../../services";
 import {IAPIResponseType} from "../../../models/api.model";
 import ToolTipComponent from "../../tool-tip/ToolTipComponent";
+import HorizontalLineComponent from "../../horizontal-line/horizontal-line/HorizontalLineComponent";
 
 
 interface BookAppointmentPaymentComponentProps {
@@ -177,6 +178,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                                     <div className="price-item-text">Discount</div>
                                                     <div className="price-item-amount red">$0</div>
                                                 </div>
+                                                <HorizontalLineComponent className={'horizontal-line'}/>
                                                 <div className="price-item price-item-total">
                                                     <div className="price-item-text">Total Amount</div>
                                                     <div className="price-item-amount green">${booking.amount}.00</div>
@@ -213,7 +215,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                         </>}
 
                                     </div>
-                                    <div className="client-search-btn">
+                                    <div className="client-search-btn mrg-top-45">
                                         <ButtonComponent disabled={!isValid} type={'submit'} fullWidth={true}
                                         >Submit</ButtonComponent>
                                     </div>
