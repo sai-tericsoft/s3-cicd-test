@@ -339,7 +339,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                         }
                                     </Field>
                                 </CardComponent>
-                                <CardComponent title={'Progress Stats:'}>
+                                <CardComponent title={'Progress Overview:'}>
                                     <TableV2Component data={progressReportStatList}
                                                       loading={isProgressReportStatListLoading}
                                                       columns={ProgressStatsColumns}
