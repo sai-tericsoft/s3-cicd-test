@@ -19,33 +19,7 @@ const resultOptions = [{
     title: "Negative",
     code: "Negative"
 }];
-
-const unitsOfCare = [{
-    title: "1",
-    code: "1"
-}, {
-    title: "2",
-    code: "2"
-}, {
-    title: "3",
-    code: "3"
-}, {
-    title: "4",
-    code: "4"
-}, {
-    title: "5",
-    code: "5"
-}, {
-    title: "6",
-    code: "6"
-}, {
-    title: "7",
-    code: "7"
-}, {
-    title: "8",
-    code: "8"
-}
-];
+const unitsOfCare=[1,2,3,4,5,6,7,8];
 
 const getConsultationDurationList = (payload: any) => {
     // @ts-ignore

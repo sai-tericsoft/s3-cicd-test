@@ -115,8 +115,8 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                         label={'Units'}
                         fullWidth={true}
                         options={CommonService._staticData.unitsOfCare}
-                        displayWith={(option) => option.title}
-                        valueExtractor={(option) => option.code}
+                        displayWith={(option:any)=>option}
+                        valueExtractor={(option:any)=>option}
                         size={'small'}
                         className={!field.form.values[record._id]?.is_selected ? 'display-none' : ''}
                         disabled={!field.form.values[record._id]?.is_selected}
