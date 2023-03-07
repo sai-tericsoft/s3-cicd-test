@@ -92,6 +92,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             title: 'Exercise Name',
             key: 'name',
             width: 280,
+            align:'center',
             render: (record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.name`}
@@ -99,6 +100,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     {
                         (field: FieldProps) => (
                             <FormikInputComponent
+                                className={'exercise-name'}
                                 size={"small"}
                                 formikField={field}
                             />
@@ -111,6 +113,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             title: 'SET',
             key: 'set',
             width: 150,
+            align: 'center',
             render: (record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.no_of_sets`}
@@ -130,6 +133,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             title: 'REP',
             key: 'rep',
             width: 150,
+            align: 'center',
             render: (record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.no_of_reps`}
@@ -149,6 +153,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             title: 'TIME',
             key: 'time',
             width: 150,
+            align: 'center',
             render: (record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.time`}
@@ -168,6 +173,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             title: 'RESISTANCE',
             key: 'resistance',
             width: 150,
+            align: 'center',
             render: (record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.resistance`}
@@ -186,6 +192,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
         {
             title: '',
             key: 'actions',
+            align: 'center',
             render: (record: any, index: any) => {
                 return (
                     <>
@@ -218,7 +225,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
     ], []);
 
     const handleSubmit = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
-        if (medicalInterventionId) {
+        if (medicalInterventionId && medicalRecordId) {
             const payload: any = {
                 exercise_records: []
             };
@@ -233,6 +240,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                 .then((response: any) => {
                     CommonService._alert.showToast(response.message, 'success');
                     setSubmitting(false);
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
                 })
                 .catch((error: any) => {
                     CommonService._alert.showToast(error.error || error.errors || 'Error saving Exercise log', 'error');
@@ -248,10 +256,15 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
     useEffect(() => {
         if (medicalRecordId && medicalInterventionId) {
             dispatch(setCurrentNavParams("SOAP Note", null, () => {
-                medicalInterventionId && navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, medicalInterventionId));
+                if (medicalInterventionDetails?.status === 'completed') {
+                    navigate(CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId));
+
+                } else {
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+                }
             }));
         }
-    }, [dispatch, navigate, medicalRecordId, medicalInterventionId]);
+    }, [dispatch, navigate, medicalInterventionDetails, medicalRecordId, medicalInterventionId]);
 
     useEffect(() => {
         if (medicalRecordId) {
@@ -318,7 +331,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
     return (
         <div className={'medical-intervention-exercise-log-screen'}>
 
-            <PageHeaderComponent title={'Add Exercise Log'} actions={
+            <PageHeaderComponent title={'Add Exercise Log'} className={'add-exercise-log'} actions={
                 <div className="last-updated-status">
                     <div className="last-updated-status-text">Last Updated On:&nbsp;</div>
                     <div
@@ -413,7 +426,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                     </div>
                                     <div className="t-form-actions">
                                         {(medicalRecordId && medicalInterventionId) && <LinkComponent
-                                            route={CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, medicalInterventionId)}>
+                                            route={CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId)}>
                                             <ButtonComponent variant={"outlined"}
                                                              disabled={isSubmitting}
                                                              isLoading={isSubmitting}>

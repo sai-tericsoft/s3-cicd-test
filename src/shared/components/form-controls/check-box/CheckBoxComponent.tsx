@@ -23,13 +23,13 @@ const CheckBoxComponent = (props: CheckBoxComponentProps) => {
     }, [onChange]);
 
     return (
-        <FormControl className={`check-box-component label-position-${labelPlacement}`} error={hasError}>
+        <FormControl className={`check-box-component label-position-${labelPlacement} ${checked ? 'checked' : ''}`} error={hasError}>
             <FormControlLabel
                 labelPlacement={labelPlacement}
                 control={<Checkbox
                     size={size}
                     color={color}
-                    checked={checked}
+                    checked={checked === true || checked + '' === 'true'} // TODO: Fix this why to string
                     className={className}
                     disabled={disabled}
                     id={id}

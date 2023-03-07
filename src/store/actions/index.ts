@@ -15,5 +15,5 @@ export {
     service,
     user,
     chartNotes,
-    settings
+    settings,
 };

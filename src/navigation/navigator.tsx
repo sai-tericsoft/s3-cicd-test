@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect} from 'react';
+import React, {useEffect} from 'react';
 import {Navigate, Route, Routes, useLocation, useNavigate} from 'react-router-dom';
 import NotFoundScreen from "../screens/not-found/notFoundScreen";
 import AuthLayout from "../layouts/auth-layout/AuthLayout";
@@ -25,12 +25,12 @@ import ClientDetailsScreen from "../screens/clients/client-details/ClientDetails
 import ClientEditScreen from "../screens/clients/client-edit/ClientEditScreen";
 import ClientSearchScreen from "../screens/chart-notes/client-search/ClientSearchScreen";
 import AddMedicalRecordScreen from "../screens/chart-notes/add-medical-record/AddMedicalRecordScreen";
-import AddMedicalInterventionScreen from "../screens/chart-notes/add-medical-intervention/AddMedicalInterventionScreen";
 import {
     ADD_INVENTORY_PRODUCT,
-    ADD_MEDICAL_INTERVENTION,
     ADD_MEDICAL_RECORD,
     ADMIN,
+    BILLING,
+    BILLING_DETAILS,
     CHART_NOTES_LIST,
     CLIENT_ADD,
     CLIENT_DETAILS,
@@ -45,7 +45,8 @@ import {
     EDIT_INVENTORY_PRODUCT,
     FACILITY_DETAILS,
     FACILITY_LIST,
-    INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST, INVENTORY,
+    INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST,
+    INVENTORY,
     INVENTORY_LIST,
     INVENTORY_PRODUCT_VIEW_DETAILS,
     LOGIN_ROUTE,
@@ -62,6 +63,7 @@ import {
     MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE,
     MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
     NOT_FOUND_ROUTE,
+    BILLING_LIST,
     PROGRESS_REPORT_VIEW_DETAILS,
     SCHEDULING_VIEW,
     SERVICE_ADD,
@@ -70,7 +72,10 @@ import {
     SERVICE_DETAILS,
     SERVICE_EDIT,
     SYSTEM_SETTINGS,
-    TEST_ROUTE
+    TEST_ROUTE,
+    UPDATE_MEDICAL_INTERVENTION,
+    VIEW_MEDICAL_INTERVENTION,
+    ADD_NEW_RECEIPT
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
@@ -114,6 +119,14 @@ import ChartNotesLayoutComponent from "../screens/chart-notes/chart-notes-layout
 import InventoryDetailsMainLayoutComponent
     from "../screens/inventory/inventory-details-main-layout/InventoryDetailsMainLayoutComponent";
 import {setSystemLocked} from "../store/actions/account.action";
+import UpdateMedicalIntervention
+    from "../screens/chart-notes/update-medical-intervention/UpdateMedicalInterventionScreen";
+import ViewMedicalInterventionScreen
+    from "../screens/chart-notes/view-medical-intervention/ViewMedicalInterventionScreen";
+import BillingMainLayoutComponent from "../screens/billings/billing-main-layout/BillingMainLayoutComponent";
+import BillingListScreen from "../screens/billings/billing-list/BillingListScreen";
+import AddNewReceiptScreen from "../screens/billings/add-new-receipt/AddNewReceiptScreen";
+import BillingDetailsScreen from "../screens/billings/billing-details/BillingDetailsScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -160,145 +173,54 @@ export interface NavigatorProps {
 
 const Navigator = (props: NavigatorProps) => {
 
-    const location = useLocation();
-
-    useLayoutEffect(() => {
-        document.querySelector("body")?.scrollTo(0, 0);
-    }, [location.pathname]);
-
     return (
-        <Routes>
-            <Route element={<AppLayout/>}>
-                <Route
-                    index
-                    element={
-                        <Navigate to={CLIENT_LIST}/>
-                    }
-                />
-                {/*<Route*/}
-                {/*    path={DASHBOARD}*/}
-                {/*    element={*/}
-                {/*        <ProtectedRoute>*/}
-                {/*            <DashboardScreen/>*/}
-                {/*        </ProtectedRoute>*/}
-                {/*    }*/}
-                {/*/>*/}
-                <Route
-                    path={CLIENT_LIST}
-                    element={
-                        <ProtectedRoute>
-                            <ClientListScreen/>
-                        </ProtectedRoute>
-                    }
-                />
-                <Route
-                    path={CLIENT_ADD + '/:clientId'}
-                    element={
-                        <ProtectedRoute>
-                            <ClientAddScreen/>
-                        </ProtectedRoute>
-                    }
-                />
-                <Route
-                    path={CLIENT_DETAILS + '/:clientId'}
-                    element={
-                        <ProtectedRoute>
-                            <ClientDetailsScreen/>
-                        </ProtectedRoute>
-                    }
-                />
-                <Route
-                    path={CLIENT_EDIT + '/:clientId'}
-                    element={
-                        <ProtectedRoute>
-                            <ClientEditScreen/>
-                        </ProtectedRoute>
-                    }
-                />
-                <Route path={ADMIN} element={<AdminModuleLayoutScreen/>} {...props}>
+        <>
+            <Routes>
+                <Route element={<AppLayout/>}>
                     <Route
                         index
                         element={
-                            <Navigate to={FACILITY_LIST}/>
+                            <Navigate to={CLIENT_LIST}/>
                         }
                     />
+                    {/*<Route*/}
+                    {/*    path={DASHBOARD}*/}
+                    {/*    element={*/}
+                    {/*        <ProtectedRoute>*/}
+                    {/*            <DashboardScreen/>*/}
+                    {/*        </ProtectedRoute>*/}
+                    {/*    }*/}
+                    {/*/>*/}
                     <Route
-                        path={FACILITY_LIST}
+                        path={CLIENT_LIST}
                         element={
                             <ProtectedRoute>
-                                <FacilityListScreen/>
+                                <ClientListScreen/>
                             </ProtectedRoute>
                         }
                     />
                     <Route
-                        path={SYSTEM_SETTINGS}
+                        path={CLIENT_ADD + '/:clientId'}
                         element={
                             <ProtectedRoute>
-                                <SystemSettingsScreen/>
+                                <ClientAddScreen/>
                             </ProtectedRoute>
                         }
                     />
                     <Route
-                        path={SERVICE_CATEGORY_LIST}
+                        path={CLIENT_DETAILS + '/:clientId'}
                         element={
                             <ProtectedRoute>
-                                <ServiceCategoriesListScreen/>
+                                <ClientDetailsScreen/>
                             </ProtectedRoute>
                         }
                     />
-                </Route>
-                <Route
-                    path={SERVICE_CATEGORY_DETAILS + '/:serviceCategoryId'}
-                    element={
-                        <ProtectedRoute>
-                            <ServiceCategoryDetailsScreen/>
-                        </ProtectedRoute>
-                    }
-                />
-                <Route
-                    path={SERVICE_DETAILS + '/:serviceId'}
-                    element={
-                        <ProtectedRoute>
-                            <ServiceDetailsScreen/>
-                        </ProtectedRoute>
-                    }
-                />
-                <Route
-                    path={SERVICE_ADD + '/:serviceCategoryId'}
-                    element={
-                        <ProtectedRoute>
-                            <ServiceAddScreen/>
-                        </ProtectedRoute>
-                    }
-                />
-                <Route
-                    path={SERVICE_EDIT + '/:serviceCategoryId/:serviceId'}
-                    element={
-                        <ProtectedRoute>
-                            <ServiceEditScreen/>
-                        </ProtectedRoute>
-                    }
-                />
-                <Route
-                    path={FACILITY_DETAILS + '/:facilityId'}
-                    element={
-                        <ProtectedRoute>
-                            <FacilityDetailsScreen/>
-                        </ProtectedRoute>
-                    }
-                />
-                <Route path={SCHEDULING_VIEW}
-                       element={<ProtectedRoute>
-                           <SchedulingScreen/>
-                       </ProtectedRoute>
-                       }
-                />
-                <Route path={CHART_NOTES_LIST}
-                       element={<ChartNotesLayoutComponent/>} {...props}>
                     <Route
-                        index
+                        path={CLIENT_EDIT + '/:clientId'}
                         element={
-                            <Navigate to={CLIENT_SEARCH}/>
+                            <ProtectedRoute>
+                                <ClientEditScreen/>
+                            </ProtectedRoute>
                         }
                     />
                     <Route path={CLIENT_SEARCH}
@@ -322,9 +244,15 @@ const Navigator = (props: NavigatorProps) => {
                            </ProtectedRoute>
                            }
                     />
-                    <Route path={ADD_MEDICAL_INTERVENTION}
+                    <Route path={UPDATE_MEDICAL_INTERVENTION}
                            element={<ProtectedRoute>
-                               <AddMedicalInterventionScreen/>
+                               <UpdateMedicalIntervention/>
+                           </ProtectedRoute>
+                           }
+                    />
+                    <Route path={VIEW_MEDICAL_INTERVENTION}
+                           element={<ProtectedRoute>
+                               <ViewMedicalInterventionScreen/>
                            </ProtectedRoute>
                            }
                     />
@@ -411,61 +339,272 @@ const Navigator = (props: NavigatorProps) => {
                            element={<ProtectedRoute>
                                <ViewExerciseRecordScreen/>
                            </ProtectedRoute>}/>
-                </Route>
-                <Route path={INVENTORY} element={<InventoryDetailsMainLayoutComponent/>}{...props}>
+                    <Route path={ADMIN} element={<AdminModuleLayoutScreen/>} {...props}>
+                        <Route
+                            index
+                            element={
+                                <Navigate to={FACILITY_LIST}/>
+                            }
+                        />
+                        <Route
+                            path={FACILITY_LIST}
+                            element={
+                                <ProtectedRoute>
+                                    <FacilityListScreen/>
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path={SYSTEM_SETTINGS}
+                            element={
+                                <ProtectedRoute>
+                                    <SystemSettingsScreen/>
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path={SERVICE_CATEGORY_LIST}
+                            element={
+                                <ProtectedRoute>
+                                    <ServiceCategoriesListScreen/>
+                                </ProtectedRoute>
+                            }
+                        />
+                    </Route>
                     <Route
-                        index
+                        path={SERVICE_CATEGORY_DETAILS + '/:serviceCategoryId'}
                         element={
-                            <Navigate to={INVENTORY_LIST}/>
-                        }/>
-                    <Route path={INVENTORY_LIST}
+                            <ProtectedRoute>
+                                <ServiceCategoryDetailsScreen/>
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path={SERVICE_DETAILS + '/:serviceId'}
+                        element={
+                            <ProtectedRoute>
+                                <ServiceDetailsScreen/>
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path={SERVICE_ADD + '/:serviceCategoryId'}
+                        element={
+                            <ProtectedRoute>
+                                <ServiceAddScreen/>
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path={SERVICE_EDIT + '/:serviceCategoryId/:serviceId'}
+                        element={
+                            <ProtectedRoute>
+                                <ServiceEditScreen/>
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path={FACILITY_DETAILS + '/:facilityId'}
+                        element={
+                            <ProtectedRoute>
+                                <FacilityDetailsScreen/>
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route path={SCHEDULING_VIEW}
                            element={<ProtectedRoute>
-                               <InventoryListScreen/>
-                           </ProtectedRoute>
-                           }/>
-                    <Route path={ADD_INVENTORY_PRODUCT}
-                           element={<ProtectedRoute>
-                               <AddInventoryProductComponent/>
+                               <SchedulingScreen/>
                            </ProtectedRoute>
                            }
                     />
-                    <Route path={INVENTORY_PRODUCT_VIEW_DETAILS}
-                           element={<ProtectedRoute>
-                               <InventoryProductViewDetailsComponent/>
-                           </ProtectedRoute>
-                           }
-                    />
-                    <Route path={EDIT_INVENTORY_PRODUCT}
-                           element={<ProtectedRoute>
-                               <EditInventoryProductDetailsComponent/>
-                           </ProtectedRoute>
-                           }
-                    />
+                    <Route path={CHART_NOTES_LIST}
+                           element={<ChartNotesLayoutComponent/>} {...props}>
+                        <Route
+                            index
+                            element={
+                                <Navigate to={CLIENT_SEARCH}/>
+                            }
+                        />
+                        <Route path={CLIENT_SEARCH}
+                               element={<ProtectedRoute>
+                                   <ClientSearchScreen/>
+                               </ProtectedRoute>
+                               }
+                        />
+                        <Route path={MEDICAL_RECORD_LIST}
+                               element={<ProtectedRoute>
+                                   <MedicalRecordListScreen/>
+                               </ProtectedRoute>
+                               }
+                        />
+                        <Route path={CLIENT_MEDICAL_RECORD_DETAILS}
+                               element={<ProtectedRoute>
+                                   <ClientMedicalRecordDetailsComponent/>
+                               </ProtectedRoute>}
+                        />
+                        <Route path={ADD_MEDICAL_RECORD}
+                               element={<ProtectedRoute>
+                                   <AddMedicalRecordScreen/>
+                               </ProtectedRoute>
+                               }
+                        />
+                        <Route path={MEDICAL_INTERVENTION_ROM_CONFIG}
+                               element={<ProtectedRoute>
+                                   <MedicalInterventionRomConfigScreen/>
+                               </ProtectedRoute>
+                               }
+                        />
+                        <Route path={MEDICAL_INTERVENTION_SPECIAL_TESTS}
+                               element={<ProtectedRoute>
+                                   <MedicalInterventionSpecialTestsScreen/>
+                               </ProtectedRoute>
+                               }
+                        />
+                        <Route path={MEDICAL_INTERVENTION_ICD_CODES}
+                               element={<ProtectedRoute>
+                                   <MedicalInterventionICDCodesScreen/>
+                               </ProtectedRoute>
+                               }
+                        />
+                        <Route path={MEDICAL_INTERVENTION_FINALIZE_TREATMENT}
+                               element={<ProtectedRoute>
+                                   <MedicalInterventionFinalizeTreatmentScreen/>
+                               </ProtectedRoute>
+                               }
+                        />
+                        <Route path={MEDICAL_INTERVENTION_SURGERY_RECORD_DETAILS}
+                               element={<ProtectedRoute>
+                                   <SurgeryRecordViewScreen/>
+                               </ProtectedRoute>
+                               }
+                        />
+                        <Route path={MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE}
+                               element={<ProtectedRoute>
+                                   <MedicalInterventionExerciseLogUpdateScreen/>
+                               </ProtectedRoute>
+                               }
+                        />
+                        <Route path={MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW}
+                               element={<ProtectedRoute>
+                                   <MedicalInterventionExerciseLogViewScreen/>
+                               </ProtectedRoute>
+                               }
+                        />
+                        <Route path={INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST}
+                               element={<ProtectedRoute>
+                                   <ExerciseLogAttachmentListComponent/>
+                               </ProtectedRoute>
+                               }/>
+                        <Route path={PROGRESS_REPORT_VIEW_DETAILS}
+                               element={<ProtectedRoute>
+                                   <MedicalRecordProgressReportViewDetailsScreen/>
+                               </ProtectedRoute>
+                               }/>
+                        <Route path={DRY_NEEDLING_FILE_VIEW_DETAILS}
+                               element={<ProtectedRoute>
+                                   <ViewDryNeedlingFileScreen/>
+                               </ProtectedRoute>
+                               }/>
+                        <Route path={CONCUSSION_FILE_VIEW_DETAILS}
+                               element={<ProtectedRoute>
+                                   <ViewConcussionFileScreen/>
+                               </ProtectedRoute>
+                               }/>
+                        <Route path={MEDICAL_RECORD_DOCUMENT_VIEW_DETAILS}
+                               element={<ProtectedRoute>
+                                   <ViewMedicalRecordDocumentScreen/>
+                               </ProtectedRoute>
+                               }/>
+                        <Route path={MEDICAL_INTERVENTION_DETAILS}
+                               element={<ProtectedRoute>
+                                   <ClientMedicalInterventionDetailsComponent/>
+                               </ProtectedRoute>}/>
+                        <Route path={MEDICAL_INTERVENTION_DETAILS}
+                               element={<ProtectedRoute>
+                                   <ClientMedicalInterventionDetailsComponent/>
+                               </ProtectedRoute>}/>
+                        <Route path={MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE}
+                               element={<ProtectedRoute>
+                                   <ProgressRecordAdvancedDetailsUpdateScreen/>
+                               </ProtectedRoute>}/>
+                        <Route path={MEDICAL_RECORD_VIEW_EXERCISE_RECORD}
+                               element={<ProtectedRoute>
+                                   <ViewExerciseRecordScreen/>
+                               </ProtectedRoute>}
+                        />
+                    </Route>
+                    <Route path={INVENTORY}
+                           element={<InventoryDetailsMainLayoutComponent/>}{...props}>
+                        <Route
+                            index
+                            element={
+                                <Navigate to={INVENTORY_LIST}/>
+                            }/>
+                        <Route path={INVENTORY_LIST}
+                               element={<ProtectedRoute>
+                                   <InventoryListScreen/>
+                               </ProtectedRoute>
+                               }/>
+                        <Route path={ADD_INVENTORY_PRODUCT}
+                               element={<ProtectedRoute>
+                                   <AddInventoryProductComponent/>
+                               </ProtectedRoute>
+                               }
+                        />
+                        <Route path={INVENTORY_PRODUCT_VIEW_DETAILS}
+                               element={<ProtectedRoute>
+                                   <InventoryProductViewDetailsComponent/>
+                               </ProtectedRoute>
+                               }
+                        />
+                        <Route path={EDIT_INVENTORY_PRODUCT}
+                               element={<ProtectedRoute>
+                                   <EditInventoryProductDetailsComponent/>
+                               </ProtectedRoute>
+                               }
+                        />
+                    </Route>
+                    <Route path={BILLING} element={<BillingMainLayoutComponent/>}{...props}>
+                        <Route index element={<Navigate to={BILLING_LIST}/>}/>
+                        <Route path={BILLING_LIST} element={<ProtectedRoute>
+                            <BillingListScreen/>
+                        </ProtectedRoute>}
+                        />
+                        <Route path={ADD_NEW_RECEIPT} element={<ProtectedRoute>
+                            <AddNewReceiptScreen/>
+                        </ProtectedRoute>}
+                        />
+                        <Route path={BILLING_DETAILS} element={<ProtectedRoute>
+                            <BillingDetailsScreen/>
+                        </ProtectedRoute>}
+                        />
+                    </Route>
                 </Route>
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
-            </Route>
-            <Route element={<AuthLayout/>}>
-                <Route index
-                       element={
-                           <UnProtectedRoute>
-                               <LoginScreen/>
-                           </UnProtectedRoute>
-                       }/>
-                <Route
-                    path={LOGIN_ROUTE}
-                    element={
-                        <UnProtectedRoute>
-                            <LoginScreen/>
-                        </UnProtectedRoute>
-                    }
-                />
-            </Route>
-            <Route path={TEST_ROUTE} element={<TestScreen/>}/>
-            <Route path={DESIGN_SYSTEM_ROUTE} element={<DesignSystemScreen/>}/>
-            <Route path={NOT_FOUND_ROUTE} element={<NotFoundScreen/>}/>
-            <Route path="*" element={<Navigate to={NOT_FOUND_ROUTE}/>}/>
-        </Routes>
+                <Route element={<AuthLayout/>}>
+                    <Route index
+                           element={
+                               <UnProtectedRoute>
+                                   <LoginScreen/>
+                               </UnProtectedRoute>
+                           }/>
+                    <Route
+                        path={LOGIN_ROUTE}
+                        element={
+                            <UnProtectedRoute>
+                                <LoginScreen/>
+                            </UnProtectedRoute>
+                        }
+                    />
+                </Route>
+                <Route path={TEST_ROUTE} element={<TestScreen/>}/>
+                <Route path={DESIGN_SYSTEM_ROUTE} element={<DesignSystemScreen/>}/>
+                <Route path={NOT_FOUND_ROUTE} element={<NotFoundScreen/>}/>
+                <Route path="*" element={<Navigate to={NOT_FOUND_ROUTE}/>}/>
+            </Routes>
+        </>
     )
-};
+
+}
 
 export default Navigator;

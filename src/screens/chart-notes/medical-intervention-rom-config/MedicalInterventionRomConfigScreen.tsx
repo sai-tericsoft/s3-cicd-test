@@ -39,10 +39,14 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
     useEffect(() => {
         if (medicalRecordId && medicalInterventionId) {
             dispatch(setCurrentNavParams("SOAP Note", null, () => {
-                medicalInterventionId && navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, medicalInterventionId));
+                if (medicalInterventionDetails?.status === 'completed') {
+                    navigate(CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId));
+                } else {
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+                }
             }));
         }
-    }, [dispatch, navigate, medicalRecordId, medicalInterventionId]);
+    }, [dispatch, navigate, medicalInterventionDetails, medicalRecordId, medicalInterventionId]);
 
     useEffect(() => {
         if (medicalInterventionId && !medicalInterventionDetails) {
@@ -60,7 +64,8 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
         setGlobalRomConfig([...globalRomConfig, {
             body_part: selectedBodyPartToBeAdded,
             rom_config: [],
-            selected_sides: [selectedBodyPartToBeAdded.default_body_side]
+            selected_sides: [selectedBodyPartToBeAdded.default_body_side],
+            mode: 'write'
         }]);
         setSelectedBodyPartToBeAdded(undefined);
     }, [globalRomConfig, selectedBodyPartToBeAdded]);
@@ -72,30 +77,30 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
     useEffect(() => {
         const romConfig: any = [];
         const rom_config = medicalInterventionDetails?.rom_config;
-        const injury_details =medicalInterventionDetails?.medical_record_details?.injury_details;
-        if (rom_config?.length > 0) {
-            rom_config.forEach((injury: any) => {
-                console.log(injury);
-                if (!romConfig.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
+        const injury_details = medicalInterventionDetails?.medical_record_details?.injury_details;
+        if (medicalInterventionDetails?.is_rom_configured) {
+            rom_config?.forEach((injury: any) => {
+                if (!romConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
                     romConfig.push({
                         body_part: injury?.body_part_details,
                         rom_config: injury?.rom_config || [],
-                        selected_sides: injury?.selected_sides || []
+                        selected_sides: injury?.selected_sides || [],
+                        mode: 'read'
                     });
                 } else {
-                    const bodyPart = romConfig.find((item: any) => item?.body_part?._id === injury?.body_part_id);
+                    const bodyPart = romConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id);
                     bodyPart.selected_sides.push(injury.body_side);
                 }
             });
         } else {
             if (injury_details?.length > 0) {
-                const injuryDetails = medicalInterventionDetails?.medical_record_details?.injury_details;
-                injuryDetails.forEach((injury: any) => {
-                    if (!romConfig.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
+                injury_details?.forEach((injury: any) => {
+                    if (!romConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
                         romConfig.push({
-                            body_part: injury.body_part_details,
+                            body_part: injury?.body_part_details,
                             rom_config: [],
-                            selected_sides: [injury.body_side]
+                            selected_sides: [injury?.body_side],
+                            mode: 'write'
                         });
                     } else {
                         const bodyPart = romConfig.find((item: any) => item?.body_part?._id === injury?.body_part_id);
@@ -106,21 +111,20 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
         }
         setGlobalRomConfig(romConfig);
     }, [medicalInterventionDetails]);
-    console.log('globalRomConfig', globalRomConfig);
+
     return (
         <div className={'medical-intervention-rom-config-screen'}>
             <PageHeaderComponent title={'Range of Motion and Strength'}/>
             <>
                 {
-                    isMedicalInterventionDetailsLoading && <>
+                    (isMedicalInterventionDetailsLoading) && <>
                         <LoaderComponent/>
                     </>
                 }
                 {
-                    isMedicalInterventionDetailsLoaded && <>
+                    (isMedicalInterventionDetailsLoaded && medicalInterventionId) && <>
                         {
-                           (globalRomConfig[0]?.rom_config && globalRomConfig[0]?.rom_config?.length === 0)  &&<>
-                                <div className={'status-button-wrapper'}>
+                            (globalRomConfig?.length === 0) && <>
                                 <StatusCardComponent
                                     title={"There are no body parts listed under the Range of Motion and Strength. Please add a body part."}>
                                     <ButtonComponent
@@ -130,30 +134,29 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
                                         Add Body Part
                                     </ButtonComponent>
                                 </StatusCardComponent>
-                            </div>
                             </>
-
                         }
                         {
                             globalRomConfig.length > 0 && <>
-                                {medicalInterventionId && <>
-                                    {
-                                        globalRomConfig.map((bodyPart, index) => {
-                                            return <RomConfigComponent
-                                                medicalInterventionDetails={medicalInterventionDetails}
-                                                key={bodyPart.body_part._id}
-                                                bodyPart={bodyPart.body_part}
-                                                rom_config={bodyPart.rom_config}
-                                                selectedBodySides={bodyPart.selected_sides}
-                                                onDelete={handleDeleteBodyPart}
-                                                medicalInterventionId={medicalInterventionId}
-                                                handleAddNewBodyPartOpenModal={handleAddNewBodyPartOpenModal}
-                                            />
-                                        })
-                                    }
-                                </>
+                                {
+                                    globalRomConfig.map((bodyPart, index) => <RomConfigComponent
+                                            medicalInterventionDetails={medicalInterventionDetails}
+                                            key={bodyPart.body_part._id}
+                                            bodyPart={bodyPart.body_part}
+                                            rom_config={bodyPart.rom_config}
+                                            selectedBodySides={bodyPart.selected_sides}
+                                            onDelete={handleDeleteBodyPart}
+                                            medicalInterventionId={medicalInterventionId}
+                                            mode={bodyPart.mode}
+                                        />
+                                    )
                                 }
-                                  
+                                <ButtonComponent
+                                    prefixIcon={<ImageConfig.AddIcon/>}
+                                    onClick={handleAddNewBodyPartOpenModal}
+                                >
+                                    Add Body Part
+                                </ButtonComponent>
                             </>
                         }
                     </>
@@ -184,19 +187,19 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
                         bodyPartList.map((item: any, index: number) => {
                             return <>{
                                 item?.movements?.length > 0 &&
-                            <div className="ts-col-md-6 ts-col-lg-3"
-                                 key={item._id}>
-                                <RadioButtonComponent
-                                    name={"intervention-rom-config-add-body-part"}
-                                    key={index + item?.name}
-                                    label={item?.name}
-                                    checked={selectedBodyPartToBeAdded?._id === item?._id}
-                                    disabled={globalRomConfig.findIndex((bodyPart) => bodyPart.body_part._id === item._id) !== -1}
-                                    onChange={() => {
-                                        setSelectedBodyPartToBeAdded(item);
-                                    }}/>
-                            </div>
-                        }</>
+                                <div className="ts-col-md-6 ts-col-lg-3"
+                                     key={item._id}>
+                                    <RadioButtonComponent
+                                        name={"intervention-rom-config-add-body-part"}
+                                        key={index + item?.name}
+                                        label={item?.name}
+                                        checked={selectedBodyPartToBeAdded?._id === item?._id}
+                                        disabled={globalRomConfig.findIndex((bodyPart) => bodyPart.body_part._id === item._id) !== -1}
+                                        onChange={() => {
+                                            setSelectedBodyPartToBeAdded(item);
+                                        }}/>
+                                </div>
+                            }</>
                         })
                     }
 

@@ -1,11 +1,15 @@
 import {IActionModel} from "../../shared/models/action.model";
 import {
+    DELETE_MEDICAL_INTERVENTION_ROM_CONFIG_FOR_A_BODY_PART,
+    DELETE_MEDICAL_INTERVENTION_SPECIAL_TEST_CONFIG_FOR_A_BODY_PART,
     GET_CLIENT_MEDICAL_INTERVENTION_DETAILS,
     GET_INTERVENTION_ATTACHMENT_LIST,
     GET_MEDICAL_INTERVENTION_DETAILS,
     GET_MEDICAL_INTERVENTION_LIST,
     GET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS,
+    GET_MEDICAL_RECORD_SOAP_NOTE_LIST,
     GET_MEDICAL_RECORD_STATS,
+    GET_MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
     GET_PROGRESS_REPORT_VIEW_DETAILS,
     REFRESH_MEDICAL_RECORD_ATTACHMENT_LIST,
     SET_CLIENT_MEDICAL_INTERVENTION_DETAILS,
@@ -13,14 +17,15 @@ import {
     SET_MEDICAL_INTERVENTION_DETAILS,
     SET_MEDICAL_INTERVENTION_LIST,
     SET_MEDICAL_RECORD_PROGRESS_REPORT_DETAILS,
-    SET_PROGRESS_REPORT_VIEW_DETAILS,
+    SET_MEDICAL_RECORD_SOAP_NOTE_LIST,
     SET_MEDICAL_RECORD_STATS,
-    GET_MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
     SET_MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
-    GET_MEDICAL_RECORD_SOAP_NOTE_LIST,
-    SET_MEDICAL_RECORD_SOAP_NOTE_LIST
+    SET_PROGRESS_REPORT_VIEW_DETAILS,
+    UPDATE_MEDICAL_INTERVENTION_ROM_CONFIG_FOR_A_BODY_PART,
+    UPDATE_MEDICAL_INTERVENTION_SPECIAL_TEST_CONFIG_FOR_A_BODY_PART
 } from "../actions/chart-notes.action";
 import {CommonService} from "../../shared/services";
+import _ from "lodash";
 
 export interface IChartNotesReducerState {
     isMedicalInterventionDetailsLoading: boolean,
@@ -260,6 +265,80 @@ const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNot
                 isMedicalRecordSoapNoteListLoaded: !!action.payload.medicalRecordSoapNoteList,
                 isMedicalRecordSoapNoteListLoadingFailed: !action.payload.medicalRecordSoapNoteList,
                 medicalRecordSoapNoteList: action.payload.medicalRecordSoapNoteList
+            }
+            return state;
+        case UPDATE_MEDICAL_INTERVENTION_ROM_CONFIG_FOR_A_BODY_PART:
+            const medicalInterventionDetails = _.cloneDeep(state.medicalInterventionDetails);
+            const body_part_id = action?.payload?.body_part_id;
+            const ROMConfig = action?.payload?.ROMConfig;
+            if (medicalInterventionDetails.rom_config.length > 0) {
+                const index = medicalInterventionDetails.rom_config.findIndex((conf: any) => conf.body_part_id === body_part_id);
+                if ( index !== -1) {
+                    medicalInterventionDetails.rom_config[index] = ROMConfig;
+                } else {
+                    medicalInterventionDetails.rom_config.push(ROMConfig);
+                }
+            } else {
+                medicalInterventionDetails.rom_config = [ROMConfig]
+            }
+            medicalInterventionDetails.is_rom_configured = true;
+            state = {
+                ...state,
+                medicalInterventionDetails
+            }
+            return state;
+        case UPDATE_MEDICAL_INTERVENTION_SPECIAL_TEST_CONFIG_FOR_A_BODY_PART:
+            console.log(action.payload);
+            const medicalInterventionDetailsCopy = _.cloneDeep(state.medicalInterventionDetails);
+            const bodyPartId = action?.payload?.body_part_id;
+            const specialTestConfig = action?.payload?.SpecialTestConfig;
+            console.log(specialTestConfig);
+            if (medicalInterventionDetailsCopy?.special_tests?.length > 0) {
+                const index = medicalInterventionDetailsCopy?.special_tests?.findIndex((conf: any) => conf.body_part_id === bodyPartId);
+                console.log('if length > 0');
+                console.log("index", index);
+                if ( index !== -1) {
+                    medicalInterventionDetailsCopy.special_tests[index] = specialTestConfig;
+                } else {
+                    medicalInterventionDetailsCopy.special_tests.push(specialTestConfig);
+                }
+            } else {
+                console.log('else length > 0');
+                medicalInterventionDetailsCopy.special_tests = [specialTestConfig]
+            }
+            medicalInterventionDetailsCopy.is_special_test_configured = true;
+            console.log(medicalInterventionDetailsCopy);
+            state = {
+                ...state,
+                medicalInterventionDetails: medicalInterventionDetailsCopy
+            }
+            return state;
+        case DELETE_MEDICAL_INTERVENTION_ROM_CONFIG_FOR_A_BODY_PART:
+            const medicalInterventionDetailsCopy1 = _.cloneDeep(state.medicalInterventionDetails);
+            const bodyPartId1 = action?.payload?.body_part_id;
+            if (medicalInterventionDetailsCopy1?.rom_config?.length > 0) {
+                const index = medicalInterventionDetailsCopy1?.rom_config?.findIndex((conf: any) => conf?.body_part_id === bodyPartId1);
+                if ( index !== -1) {
+                    medicalInterventionDetailsCopy1?.rom_config?.splice(index, 1);
+                }
+            }
+            state = {
+                ...state,
+                medicalInterventionDetails: medicalInterventionDetailsCopy1
+            }
+            return state;
+        case DELETE_MEDICAL_INTERVENTION_SPECIAL_TEST_CONFIG_FOR_A_BODY_PART:
+            const medicalInterventionDetailsCopy2 = _.cloneDeep(state.medicalInterventionDetails);
+            const bodyPartId2 = action?.payload?.body_part_id;
+            if (medicalInterventionDetailsCopy2?.special_tests?.length > 0) {
+                const index = medicalInterventionDetailsCopy2?.special_tests?.findIndex((conf: any) => conf?.body_part_id === bodyPartId2);
+                if ( index !== -1) {
+                    medicalInterventionDetailsCopy2?.special_tests?.splice(index, 1);
+                }
+            }
+            state = {
+                ...state,
+                medicalInterventionDetails: medicalInterventionDetailsCopy2
             }
             return state;
         default:

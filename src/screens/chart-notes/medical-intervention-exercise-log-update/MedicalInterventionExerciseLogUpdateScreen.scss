@@ -2,10 +2,12 @@
   .input-component {
     margin-bottom: 0 !important;
   }
-
+.add-exercise-log{
+  font-size: 1.4286rem;
+  text-transform: uppercase;
+}
   .t-cell {
     text-align: center !important;
-
     .input-component {
       input {
         text-align: center !important;
@@ -15,6 +17,14 @@
     &:not(&.t-cell-name) {
       .input-component {
         width: 100px !important;
+      }
+    }
+  }
+  .t-cell-name{
+    text-align: left !important;
+    .input-component {
+      input {
+        text-align: left !important;
       }
     }
   }
@@ -31,6 +41,7 @@
       }
     }
   }
+
   .last-updated-status {
     display: flex;
     justify-content: flex-end;
@@ -47,8 +58,9 @@
       font-weight: bold;
       text-transform: capitalize;
     }
-    }
-  .provider-name{
+  }
+
+  .provider-name {
     width: 550px;
     margin-bottom: 24px;
   }

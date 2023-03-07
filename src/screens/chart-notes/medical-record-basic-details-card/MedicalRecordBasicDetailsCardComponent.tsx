@@ -163,7 +163,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
             CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, MedicalInterventionFormInitialValues)
                 .then((response) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully created discharging intervention", "success");
-                    navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, response.data._id));
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, response.data._id));
                 }).catch((error) => {
                 CommonService._alert.showToast(error?.error || "Error discharging the case", "error");
             });
@@ -281,7 +281,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-4 ts-col-lg'}>
-                                        <DataLabelValueComponent label={'Date of Surgery'}>
+                                        <DataLabelValueComponent className={'date-of-surgery'} label={'Date of Surgery'}>
                                             {clientMedicalRecord?.surgery_date ? CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.surgery_date) : "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
@@ -310,7 +310,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                 </div>
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-md-4 ts-col-lg'}>
-                                        <DataLabelValueComponent label={'Restrictions and Limitations'}>
+                                        <DataLabelValueComponent label={'Restrictions/Limitations'}>
                                             {clientMedicalRecord?.limitations || "N/A"}
                                         </DataLabelValueComponent>
                                     </div>

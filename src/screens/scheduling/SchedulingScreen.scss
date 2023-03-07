@@ -1,22 +1,28 @@
 @import "src/assets/styles/common";
+
 .scheduling-list-component {
+  height: calc(100vh - 100px);
 
   .scheduling-header-wrapper {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-content: center;
+
     .scheduling-header-search-wrapper {
       flex: 1;
       max-width: 40%;
     }
+
     .scheduling-header-actions-wrapper {
       display: flex;
       flex-direction: row;
       justify-content: center;
       align-items: center;
+
       .scheduling-header-action-item {
         margin-left: 10px;
+
         .MuiToggleButton-primary {
           color: $white;
           background: $primary-color;
@@ -24,12 +30,13 @@
       }
     }
   }
+
   .scheduling-list-input {
     background-color: #FFFFFF;;
   }
 
-  .scheduling-list-card{
-    .scheduling-list-logo-wrapper{
+  .scheduling-list-card {
+    .scheduling-list-logo-wrapper {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -49,12 +56,20 @@
     border: 1px solid #F3F3F3;
     border-radius: 4px;
     padding-top: 15px;
+
+    &.view-calendar {
+      height: calc(100% - 80px);
+      display: flex;
+      flex-direction: column;
+    }
+
     .scheduling-filter-header-wrapper {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-content: center;
       padding: 0 15px;
+
       .scheduling-filter-header-date-wrapper {
         flex: 1;
         max-width: 40%;
@@ -63,6 +78,7 @@
         align-items: center;
         align-self: center;
         margin-bottom: 20px;
+
         .filter-header-date-text {
           font-weight: 700;
           font-size: 20px;
@@ -70,11 +86,13 @@
           color: $body-color;
           margin-bottom: 4px;
         }
+
         .filter-header-date-controls {
           display: flex;
           margin-left: 20px;
           justify-content: center;
           align-content: center;
+
           .filter-header-date-control-item {
             color: $body-color;
             //padding-left: 10px;
@@ -84,21 +102,361 @@
           }
         }
       }
+
       .scheduling-filter-header-actions-wrapper {
         display: flex;
         flex-direction: row;
         justify-content: center;
         align-items: center;
         flex: 2;
+
         .scheduling-filter-header-action-item {
           margin-left: 10px;
           flex: 1;
+
           .MuiToggleButton-primary {
             color: $white;
             background: $primary-color;
           }
         }
       }
+
+    }
+
+    .helper-tooltip {
+      width: 45px;
+      height: 45px;
+      position: absolute;
+      right: 30px;
+      border-radius: 50%;
+      bottom: 30px;
+      background: #00534F;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+
+      &:hover {
+        background: rgb(0, 58, 55)
+      }
+
+      svg {
+        color: #FFF;
+        width: auto;
+        height: 32px;
+      }
+
+      .helper-tooltip-window {
+        position: absolute;
+        bottom: 45px;
+        right: 45px;
+        background: #FFFFFF;
+        border: 1px solid #BABABA;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 30vw;
+        min-width: 300px;
+        padding: 10px;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+        .helper-tooltip-window-item {
+          display: flex;
+          width: calc(50% - 20px);
+          margin: 5px 10px;
+          justify-content: flex-start;
+          align-items: center;
+
+          .helper-tooltip-window-item-color {
+            width: 10px;
+            min-width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #AAAAAA;
+            margin-right: 10px;
+          }
+
+          .helper-tooltip-window-item-text {
+            font-weight: 400;
+            font-size: 12px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  .scheduling-calendar-day-wise-holder {
+    display: flex;
+    flex-direction: row;
+
+    .scheduling-calendar-day-wise-time-wrapper {
+      width: 80px;
+      display: flex;
+      flex-direction: column;
+
+      .scheduling-calendar-day-wise-time-header {
+        background-color: #E1EBEA;
+        min-height: 48px;
+        max-height: 48px;
+      }
+
+      .scheduling-calendar-day-wise-time-body {
+        //background-color: #F2F6F6;
+        flex: 1;
+        padding-top: 3px;
+
+        .scheduling-calendar-time-body-item {
+          min-height: 62px;
+          max-height: 62px;
+          font-weight: 500;
+          border-top: 1px solid transparent;
+          font-size: 14px;
+          color: #212B36;
+          text-align: center;
+        }
+      }
+    }
+
+    .scheduling-calendar-day-wise-wrapper {
+      display: flex;
+      flex: 1;
+      flex-direction: row;
+      justify-content: center;
+      width: calc(100% - 80px);
+
+      .scheduling-calendar-day-wise-item {
+        &.view-day {
+          width: 100%;
+        }
+
+        &.view-3day {
+          width: calc(100% / 3);
+        }
+
+        &.view-5day {
+          width: calc(100% / 5);
+        }
+
+        &:first-child {
+          .scheduling-calendar-day-wise-item-header {
+            border-left: none;
+          }
+        }
+
+        &:last-child {
+          .scheduling-calendar-day-wise-item-header {
+            border-right: none;
+          }
+        }
+
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+
+        .scheduling-calendar-day-wise-item-header {
+
+          border-left: 1px solid #DDDDDD;
+          border-right: 1px solid #AAAAAA;
+          min-height: 48px;
+          max-height: 48px;
+          display: flex;
+          background-color: #E1EBEA;
+          justify-content: center;
+          align-items: center;
+
+          font-style: normal;
+          font-weight: 700;
+          font-size: 16px;
+          text-align: center;
+          color: #212B36;
+        }
+
+        &:first-child {
+          .scheduling-calendar-hour-block {
+            border-left: 1px solid #BFC6CD;
+          }
+        }
+
+        .scheduling-calendar-day-wise-item-body {
+          height: 100%;
+          min-height: 500px;
+          margin-top: 10px;
+          //background-color: #F2F6F6;
+          //border-left: 1px solid #BFC6CD;
+          .scheduling-calendar-hour-block {
+            border-right: 1px solid #BFC6CD;
+            border-bottom: 1px solid #BFC6CD;
+            min-height: 62px;
+            max-height: 62px;
+            position: relative;
+            &:hover {
+              background-color: #f0f5f5;
+            }
+
+            .dashed-line {
+              border-bottom: 1px dashed #BFC6CD;
+              position: absolute;
+              width: 100%;
+              top: 50%;
+              z-index: 1;
+            }
+
+            .scheduling-calendar-hour-block-content {
+              position: relative;
+              z-index: 1;
+              display: flex;
+              flex-direction: row;
+
+              .card-item {
+                display: flex;
+                overflow: hidden;
+                flex: 1;
+                position: relative;
+              }
+            }
+
+            &:first-child {
+              border-top: 1px solid #BFC6CD;
+            }
+          }
+        }
+      }
     }
   }
 }
+
+.calendar-appointments-holder {
+  overflow: hidden;
+  min-height: calc(100% - 20px);
+  &:hover {
+    cursor: pointer;
+  }
+  //width: 100%;
+
+  .appointment-count-card {
+    width: fit-content;
+    display: inline-block;
+    cursor: pointer;
+
+
+    .appointment-count-card-wrapper {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin: 2px;
+      flex-shrink: 1;
+      flex-wrap: wrap;
+      //flex: 0;
+      //max-width: 100%;
+      padding: 4px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      background: #EFEFEF;
+      color: #FFFFFF;
+
+    }
+
+    .appointment-title {
+      font-weight: 400;
+      font-size: 12px;
+      margin-right: 3px;
+    }
+
+    .appointment-count {
+      font-size: 12px;
+      font-weight: 400;
+    }
+  }
+
+  &.fit-rows {
+    display: flex;
+    flex-wrap: wrap;
+
+    .appointment-mini-card {
+      flex: 1;
+      min-width: 30px;
+    }
+  }
+
+  &.fit-rows-min {
+    display: flex;
+    flex-wrap: wrap;
+
+    .appointment-mini-card {
+      flex: 1;
+      min-width: 15px;
+    }
+  }
+
+  .appointment-mini-card {
+
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2px;
+    flex-shrink: 1;
+    //max-width: 100%;
+    padding: 4px;
+
+    &.no_show {
+      background: #EFEFEF;
+      color: #717171;
+    }
+
+    &.scheduled {
+      background: #E8F2FF;
+      color: #1C5EDE;
+    }
+
+    &.upcoming {
+      background: #FFF7EA;
+      color: #DE561C;
+    }
+
+    &.engaged {
+      background: #BDE8CA;
+      color: #00534F;
+    }
+
+    &.completed {
+      background: #F5F7F8;
+      color: #7583A6;
+    }
+
+    &.cancelled {
+      background: #FFE2E9;
+      color: #DE1C4E;
+    }
+
+    .appointment-title {
+      font-weight: 400;
+      font-size: 12px;
+      width: 100%;
+      white-space: nowrap;
+      margin-right: 10px;
+      margin-left: 10px;
+      //overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .appointment-status {
+      width: 100%;
+      font-size: 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      //text-overflow: ellipsis;
+    }
+  }
+}
+
+

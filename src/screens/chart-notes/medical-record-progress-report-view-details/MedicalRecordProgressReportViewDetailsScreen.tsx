@@ -31,19 +31,20 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
 
     const progressStatsColumn: ITableColumn[] = [
         {
+            key: 'name',
             title: 'Name',
             dataIndex: 'name',
-            key: 'name',
+            fixed: "left",
             width:150,
             render: (item: any) => {
                 return <>{item?.progress_stats_details?.name}</>
             }
         },
         {
-            title: 'Results',
-            width: 150,
-            dataIndex: 'result',
             key: 'result',
+            title: 'Results',
+            dataIndex: 'result',
+            width:150,
         }
     ];
 
@@ -133,7 +134,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             }
             {
                 (medicalRecordId && progressReportId) && <LinkComponent
-                    route={CommonService._routeConfig.MedicalRecordProgressReportAdvancedDetailsUpdate(medicalRecordId, progressReportId)}>
+                    route={CommonService._routeConfig.MedicalRecordProgressReportAdvancedDetailsUpdate(medicalRecordId, progressReportId,'edit')}>
                     <div className={'display-flex flex-direction-row-reverse mrg-bottom-20'}>
                         <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>Edit Progress Report</ButtonComponent>
                     </div>
@@ -169,7 +170,9 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                         <CardComponent title={'Plan'}>
                                             {progressReportDetails?.plan || "N/A"}
                                         </CardComponent>
-                                        <CardComponent title={'Progress Stats:'}>
+                                        {
+                                            progressReportDetails?.progress_stats?.length > 0 &&
+                                            <CardComponent title={'Progress Overview:'}>
                                             <TableComponent data={progressReportDetails?.progress_stats}
                                                             columns={progressStatsColumn}
                                                             showExpandColumn={false}
@@ -189,15 +192,6 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                                             }
                                             />
                                         </CardComponent>
-                                        {
-                                            progressReportDetails?.progress_stats.length > 0 &&
-                                            <CardComponent title={'Progress Stats:'}>
-                                                <TableComponent data={progressReportDetails?.progress_stats}
-                                                                columns={progressStatsColumn}
-                                                                showExpandColumn={false}
-                                                                rowKey={(item: any, index) => item._id}
-                                                />
-                                            </CardComponent>
                                         }
                                         <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>
                                             <ESignApprovalComponent isSigned={progressReportDetails?.is_signed}

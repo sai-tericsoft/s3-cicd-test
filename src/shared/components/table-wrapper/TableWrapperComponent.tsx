@@ -11,17 +11,19 @@ import TableComponent from "../table/TableComponent";
 import TableV2Component from "../table-v2/TableV2Component";
 
 export interface TableComponentProps extends ITableComponentProps {
+    moduleName?: string;
     type?: "ant" | "custom",
     url: string,
     method: "get" | "post" | string,
     isPaginated?: boolean,
     extraPayload?: any;
     refreshToken?: string; // TODO review and make it standard
+    autoHeight?: boolean;
 }
 
 const TableWrapperComponent = (props: TableComponentProps) => {
 
-    const {refreshToken, id, url, method, extraPayload, ...otherProps} = props;
+    const {refreshToken, moduleName, autoHeight, id, url, method, extraPayload, ...otherProps} = props;
 
     const [isDataLoading, setIsDataLoading] = useState<boolean>(false);
     const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
@@ -30,7 +32,6 @@ const TableWrapperComponent = (props: TableComponentProps) => {
     const pageNumRef = useRef<number>(0);
     const totalResultsRef = useRef<number>(0);
     const pageSizeRef = useRef<number>(10);
-    const fetchPageDataSubscriptionRef = useRef<boolean>(true);
     const isPaginated = props.isPaginated !== undefined ? props.isPaginated : true;
     const type = props.type || "custom";
 
@@ -90,14 +91,15 @@ const TableWrapperComponent = (props: TableComponentProps) => {
     }, [getListData]);
 
     useEffect(() => {
-        CommonService._communications.FetchPageDataSubject.subscribe(() => {
-            if (!fetchPageDataSubscriptionRef.current) return null;
-            getListData();
+        const sub = CommonService._communications.TableWrapperRefreshSubject.subscribe((data) => {
+            if (data.moduleName === moduleName) {
+                getListData();
+            }
         });
         return () => {
-            fetchPageDataSubscriptionRef.current = false;
+            sub.unsubscribe();
         }
-    }, [getListData]);
+    }, [getListData, moduleName]);
 
     return (
         <>

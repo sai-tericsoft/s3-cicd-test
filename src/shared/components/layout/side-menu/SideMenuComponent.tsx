@@ -35,6 +35,11 @@ const menuList: IMenuItem[] = [
         icon: ImageConfig.EventIcon
     },
     {
+        path:CommonService._routeConfig.BillingList(),
+        title:'Billing',
+        icon:ImageConfig.BillingIcon
+    },
+    {
         path: CommonService._routeConfig.InventoryList(),
         title: 'Inventory',
         icon: ImageConfig.InventoryIcon

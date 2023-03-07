@@ -33,7 +33,8 @@ export interface ITableComponentProps {
     sort?: {
         key: string;
         order: string;
-    }
+    },
+    autoHeight?: boolean;
 }
 
 

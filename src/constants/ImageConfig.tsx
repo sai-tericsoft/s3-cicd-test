@@ -1,5 +1,7 @@
 import Logo from './../assets/icons/logo.svg';
+import BillingLogo from './../assets/images/logo.png';
 import LogoSM from './../assets/icons/logo-sm.svg';
+import Confirm from './../assets/confirmation/confirm.png';
 import {ReactComponent as userIcon} from './../assets/icons/user_icon.svg';
 import {ReactComponent as LockIcon} from '../assets/icons/header/lock.svg';
 import {ReactComponent as ProfileIcon} from '../assets/icons/header/profile.svg';
@@ -25,9 +27,11 @@ import {ReactComponent as AssignmentIcon} from './../assets/icons/assignment_ind
 import {ReactComponent as MedicalServicesIcon} from './../assets/icons/medical_services.svg';
 import {ReactComponent as AttachMoneyIcon} from './../assets/icons/attach_money.svg';
 import {ReactComponent as CancelIcon} from './../assets/icons/cancel.svg';
+import {ReactComponent as ConfirmIcon} from './../assets/confirmation/confirm.svg';
 
 import {ReactComponent as CircleCheck} from './../assets/icons/check_circle.svg';
-import {ReactComponent as CircleError} from './../assets/icons/error_circle.svg';
+import {ReactComponent as CircleInfo} from './../assets/icons/info_circle.svg';
+import {ReactComponent as CircleCancel} from './../assets/icons/cancel_circle.svg';
 import {ReactComponent as LeftArrow} from './../assets/icons/left_arrow.svg';
 import {ReactComponent as RightArrow} from './../assets/icons/right_arrow.svg';
 import {ReactComponent as SearchIcon} from './../assets/icons/search.svg';
@@ -59,6 +63,7 @@ import {ReactComponent as ChartNotes} from '../assets/icons/side-menu/chart_note
 import {ReactComponent as EventIcon} from '../assets/icons/side-menu/event_black.svg';
 
 // general
+import {ReactComponent as HelpQuestion} from './../assets/icons/help_black.svg';
 import {ReactComponent as AddIcon} from './../assets/icons/add.svg';
 import {ReactComponent as DeleteIcon} from "./../assets/icons/delete.svg";
 import {ReactComponent as AddCircleIcon} from './../assets/icons/add_circle.svg';
@@ -104,7 +109,8 @@ export {
     LockIcon,
     UploadIcon,
     CircleCheck,
-    CircleError,
+    CircleCancel,
+    CircleInfo,
 
     CloseIcon,
     LogoSM,
@@ -156,5 +162,9 @@ export {
     AttachMoneyIcon,
     AssignmentIcon,
     CancelIcon,
-    VerifiedCross
+    VerifiedCross,
+    HelpQuestion,
+    ConfirmIcon,
+    BillingLogo,
+    Confirm
 }

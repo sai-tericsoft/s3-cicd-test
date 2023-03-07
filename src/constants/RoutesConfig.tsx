@@ -29,7 +29,8 @@ const SCHEDULING_VIEW='/scheduling';
 const CLIENT_MEDICAL_RECORD_DETAILS = '/chart-notes/:medicalRecordId/medical-record-details';
 const CHART_NOTES_LIST = "/chart-notes";
 const ADD_MEDICAL_RECORD = '/chart-notes/:clientId/add-medical-record';
-const ADD_MEDICAL_INTERVENTION = '/chart-notes/:medicalRecordId/:medicalInterventionId/add-medical-intervention';
+const UPDATE_MEDICAL_INTERVENTION = '/chart-notes/:medicalRecordId/:medicalInterventionId/update-medical-intervention';
+const VIEW_MEDICAL_INTERVENTION = '/chart-notes/:medicalRecordId/:medicalInterventionId/view-medical-intervention';
 const MEDICAL_INTERVENTION_ROM_CONFIG = '/chart-notes/:medicalRecordId/:medicalInterventionId/rom-config';
 const MEDICAL_INTERVENTION_SPECIAL_TESTS = '/chart-notes/:medicalRecordId/:medicalInterventionId/special-tests';
 const MEDICAL_INTERVENTION_ICD_CODES = '/chart-notes/:medicalRecordId/:medicalInterventionId/icd-codes';
@@ -43,7 +44,7 @@ const MEDICAL_INTERVENTION_DETAILS = '/chart-notes/intervention-details/:medical
 const MEDICAL_INTERVENTION_SURGERY_RECORD_DETAILS = '/chart-notes/:medicalRecordId/surgery-record/:surgeryRecordId';
 
 const PROGRESS_REPORT_VIEW_DETAILS = '/chart-notes/:medicalRecordId/:progressReportId/progress-report-view-details';
-const MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE = '/chart-notes/:medicalRecordId/:progressReportId/progress-report-advance-details-update';
+const MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE = '/chart-notes/:medicalRecordId/:progressReportId/progress-report-advance-details-update/:mode';
 const DRY_NEEDLING_FILE_VIEW_DETAILS = '/chart-notes/:medicalRecordId/:dryNeedlingFileId/dry-needling-file-view-details';
 const CONCUSSION_FILE_VIEW_DETAILS = '/chart-notes/:medicalRecordId/:concussionFileId/concussion-file-view-details';
 const MEDICAL_RECORD_DOCUMENT_VIEW_DETAILS = '/chart-notes/:medicalRecordId/:medicalRecordDocumentId/medical-record-document-view-details';
@@ -54,6 +55,11 @@ const INVENTORY_LIST = "/inventory/inventory-list";
 const ADD_INVENTORY_PRODUCT = "/inventory/add-product";
 const INVENTORY_PRODUCT_VIEW_DETAILS = "/inventory/product-details/:productId";
 const EDIT_INVENTORY_PRODUCT = "/inventory/edit-product/:productId";
+
+const BILLING = "/billing";
+const BILLING_LIST = "/billing/billing-list";
+const ADD_NEW_RECEIPT = "/billing/add-new-receipt";
+const BILLING_DETAILS = "/billing/billing-details/:billingId";
 
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
@@ -83,7 +89,6 @@ export {
     SCHEDULING_VIEW,
     CLIENT_MEDICAL_RECORD_DETAILS,
     ADD_MEDICAL_RECORD,
-    ADD_MEDICAL_INTERVENTION,
     CHART_NOTES_LIST,
     MEDICAL_INTERVENTION_ROM_CONFIG,
     MEDICAL_INTERVENTION_SPECIAL_TESTS,
@@ -106,4 +111,10 @@ export {
     ADD_INVENTORY_PRODUCT,
     INVENTORY_PRODUCT_VIEW_DETAILS,
     EDIT_INVENTORY_PRODUCT,
+    UPDATE_MEDICAL_INTERVENTION,
+    VIEW_MEDICAL_INTERVENTION,
+    BILLING,
+    BILLING_LIST,
+    ADD_NEW_RECEIPT,
+    BILLING_DETAILS
 };

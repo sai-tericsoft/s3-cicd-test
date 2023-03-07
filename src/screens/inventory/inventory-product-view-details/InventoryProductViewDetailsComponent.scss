@@ -12,6 +12,13 @@
       }
       .product-details-wrapper{
         margin-left: 20px;
+        .quantity-available{
+          .data-value{
+            font-size: 1.1429rem;
+            color: #949494;
+
+          }
+        }
         .inventory-product-details{
           margin-left: 5px;
         }

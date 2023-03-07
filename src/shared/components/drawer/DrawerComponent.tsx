@@ -25,7 +25,7 @@ const DrawerComponent = (props: React.PropsWithChildren<DrawerComponentProps>) =
     const closeOnBackDropClick = props.closeOnBackDropClick  !== undefined ? props.closeOnBackDropClick : true;
 
     const handleOnClose = useCallback((event: any, reason: string) => {
-        console.log(event, reason);
+        console.log(event, reason, closeOnBackDropClick, closeOnEsc);
 
         if(reason === "backdropClick" && !closeOnBackDropClick){
             return;

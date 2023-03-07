@@ -17,6 +17,7 @@ interface BookAppointmentFormComponentProps {
     onClose?: () => void,
     onComplete?: (values: any) => void,
     client?: any
+    preFillData?: any
 }
 
 const addAppointmentFormInitialValues: any = {
@@ -48,7 +49,7 @@ const addAppointmentValidationSchema = Yup.object().shape({
 });
 
 const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) => {
-    const {onClose, onComplete, client} = props;
+    const {onClose, onComplete, preFillData, client} = props;
 
     const {appointmentTypes} = useSelector((state: IRootReducerState) => state.staticData);
     const [clientCasesList, setClientCasesList] = useState<any[] | null>(null);
@@ -258,6 +259,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                         {
                                             consultation_title: group.title,
                                             duration: duration.duration,
+                                            _id: group.id,
                                             title: group.title + ' - ' + duration.duration + 'min',
                                             code: group.title + ':' + duration.duration
                                         }
@@ -281,6 +283,87 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
     }, [appointmentTypes]);
 
     const formRef = useRef<FormikProps<any>>(null)
+
+    useEffect(() => {
+        if (preFillData && formRef.current) {
+            const currentCategory = formRef.current.values.service_category;
+            if (preFillData.category_id && serviceCategoryList && currentCategory?._id !== preFillData.category_id) {
+                const selectedCategory = (serviceCategoryList || []).find(value => value._id === preFillData.category_id);
+                console.log(selectedCategory, 'selectedCategory');
+                if (selectedCategory) {
+                    formRef.current.setFieldValue('service_category', selectedCategory);
+                    // formRef.current.setFieldValue('service', undefined);
+                    // getServicesList(selectedCategory?._id);
+                }
+            }
+        }
+    }, [preFillData, serviceCategoryList])
+
+
+    useEffect(() => {
+        if (preFillData && formRef.current) {
+            const currentService = formRef.current.values.service;
+            if (preFillData.service_id && servicesList && currentService?._id !== preFillData.service_id) {
+                const selectedService = (servicesList || []).find(value => value._id === preFillData.service_id);
+                if (selectedService) {
+                    console.log(selectedService, 'selectedService');
+                    // getServicesInfo(selectedService?._id)
+                    // getServiceProviderList(selectedService?._id);
+                    // setAvailableRawTimes([]);
+                    // setAvailableDates([]);
+                    formRef.current.setFieldValue('service', selectedService);
+                }
+            }
+        }
+    }, [preFillData, servicesList])
+
+
+    useEffect(() => {
+        if (preFillData && formRef.current) {
+            const currentServiceProvider = formRef.current.values.provider;
+            if (preFillData.provider_id && serviceProvidersList && currentServiceProvider?.provider_id !== preFillData.provider_id) {
+                const selectedProvider = (serviceProvidersList || []).find(value => value.provider_id === preFillData.provider_id);
+                if (selectedProvider) {
+                    console.log(selectedProvider, 'selectedProvider');
+                    // setAvailableRawTimes([]);
+                    // getAvailableDatesList(selectedProvider.provider_id);
+                    formRef.current.setFieldValue('provider', selectedProvider);
+                }
+            }
+        }
+    }, [preFillData, serviceProvidersList])
+
+    useEffect(() => {
+        if (preFillData && formRef.current) {
+            const currentDate = formRef.current.values.date;
+            const date = preFillData.date;
+            if (date && availableDates && currentDate?.date !== date) {
+                const selectedDate = (availableDates || []).find(value => value === date);
+                if (selectedDate) {
+                    console.log(selectedDate, 'selectedDate');
+                    // getAvailableTimesList(formRef.current.values.provider?.provider_id, selectedDate);
+                    formRef.current.setFieldValue('date', selectedDate);
+                }
+            }
+        }
+    }, [preFillData, availableDates])
+
+
+    useEffect(() => {
+        console.log('prefill data changed', preFillData)
+        if (preFillData && formRef.current) {
+            if (preFillData.category_id) {
+                getServicesList(preFillData.category_id);
+            }
+            if (preFillData.service_id) {
+                getServiceProviderList(preFillData.service_id);
+            }
+            if (preFillData.provider_id) {
+                getAvailableDatesList(preFillData.provider_id);
+                getAvailableTimesList(preFillData.provider_id, preFillData.date);
+            }
+        }
+    }, [preFillData, getServicesList, getServiceProviderList, getAvailableDatesList, getAvailableTimesList])
 
     return (
         <div className={`book-appointment-form-component`}>
@@ -441,7 +524,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                             required={true}
                                                             disabled={isClientCasesListLoading}
                                                             options={clientCasesList || []}
-                                                            displayWith={item => (item?.created_at && CommonService.transformTimeStamp(item?.created_at) + " - " + (item?.injury_details.map((injury: any, index: number) => (injury.body_part_details.name + "(" + injury.body_side + ")"))).join(' | '))}
+                                                            displayWith={item => (item?.created_at && CommonService.transformTimeStamp(item?.created_at) + " - " + (item?.injury_details.map((injury: any, index: number) => (injury?.body_part_details?.name + "(" + injury?.body_side + ")"))).join(' | '))}
                                                             valueExtractor={(option: any) => option}
                                                             label={'Case'}
                                                             fullWidth={true}

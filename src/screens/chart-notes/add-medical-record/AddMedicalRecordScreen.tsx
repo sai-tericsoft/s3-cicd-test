@@ -143,7 +143,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                 .then((response: IAPIResponseType<any>) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     setIsMedicalRecordAddInProgress(false);
-                    navigate(CommonService._routeConfig.AddMedicalIntervention(response?.data._id, response?.data?.intervention_id));
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(response?.data._id, response?.data?.intervention_id));
                 })
                 .catch((error: any) => {
                     CommonService.handleErrors(setErrors, error, true);
@@ -444,7 +444,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                                 options={CommonService._staticData.yesNoOptions}
                                                                 displayWith={(option) => option.title}
                                                                 valueExtractor={(option) => option.code}
-                                                                label={'Treatment Script Received'}
+                                                                label={'Treatment Script Received ?'}
                                                                 formikField={field}
                                                                 required={true}
                                                                 fullWidth={true}

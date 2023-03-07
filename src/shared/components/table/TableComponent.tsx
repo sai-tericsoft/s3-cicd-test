@@ -15,7 +15,8 @@ interface TableComponentProps extends ITableComponentProps {
     id?: string;
     columns: ITableColumn[];
     data: any[];
-    noDataText?: string
+    noDataText?: string;
+    className?: any;
 }
 
 const TableComponent = (props: TableComponentProps) => {
@@ -25,15 +26,18 @@ const TableComponent = (props: TableComponentProps) => {
         loading,
         errored,
         hideHeader,
-        columns,
+        columns = [],
+        bordered,
         defaultExpandAllRows,
         showExpandColumn,
         expandRowRenderer,
         canExpandRow,
         onRowClick,
-        data,
+        autoHeight,
+        data ,
         sort,
-        onSort
+        onSort,
+        className
     } = props;
     const size = props.size || "medium";
 
@@ -93,7 +97,7 @@ const TableComponent = (props: TableComponentProps) => {
         parseColumns(columns), [columns, parseColumns]);
 
     const dataMemoized = useMemo<any>(() =>
-        data || [], [data]);
+            data || [], [data]);
 
     const {
         getTableProps,
@@ -160,9 +164,10 @@ const TableComponent = (props: TableComponentProps) => {
 
     return (
         <div className={'table-component'}>
-            <TableStyles className={'styled-table'}>
+            <TableStyles className={`styled-table ${className}`}>
                 <div className={`t-table-wrapper`}>
-                    <div {...getTableProps()} className={`t-table table sticky ${size}`}>
+                    <div {...getTableProps()}
+                         className={`t-table table sticky ${size} ${bordered ? 'bordered' : ''} ${autoHeight ? 'auto-height' : ''}`}>
                         {
                             !hideHeader && <div className="header t-thead">
                                 {headerGroups.map((headerGroup) => (
@@ -211,7 +216,7 @@ const TableComponent = (props: TableComponentProps) => {
                                     })
                                 }
                                 {
-                                    rows.length === 0 &&
+                                    (!loading && rows.length === 0) &&
                                     <StatusCardComponent title={noDataText ? noDataText : "No data found"}
                                                          className={'table-data-not-found-card'}/>
                                 }

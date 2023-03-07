@@ -15,10 +15,11 @@ import BookAppointmentPaymentComponent from "./book-appointment-payment/BookAppo
 interface BookAppointmentComponentProps {
     onClose?: () => void
     onComplete?: () => void
+    preFillData?: any
 }
 
 const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
-    const {onClose, onComplete} = props;
+    const {onClose, onComplete, preFillData} = props;
     const [step, setStep] = useState<'client' | 'form' | 'overview' | 'payment' | 'confirmation'>('client');
     const [selectedClient, setSelectedClient] = useState<any | null>(null);
     const [clientSearch, setClientSearch] = useState<string>('');
@@ -132,7 +133,8 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
             }
             {
                 step === 'form' &&
-                <BookAppointmentFormComponent client={selectedClient} onComplete={onFormComplete} onClose={onClose}/>
+                <BookAppointmentFormComponent preFillData={preFillData} client={selectedClient}
+                                              onComplete={onFormComplete} onClose={onClose}/>
             }
             {
                 step === 'overview' && <>
@@ -148,7 +150,7 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
                     () => {
                         setStep('form');
                     }
-                } booking={booking} onComplete={onPaymentComplete}/>
+                } booking={booking} onComplete={onPaymentComplete} onClose={onClose}/>
             }
             {
                 step === 'confirmation' && <div className={'booking-confirmation-wrapper'}>

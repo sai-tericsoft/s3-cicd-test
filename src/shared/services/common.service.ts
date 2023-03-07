@@ -24,6 +24,7 @@ import {IAttachment} from "../models/common.model";
 import AppointmentService from "./modules/appointment.service";
 import InventoryService from "./modules/inventory.service";
 import SystemSettingsService from "./modules/settings.service";
+import BillingsService from "./modules/billings.service";
 
 
 yup.addMethod(yup.mixed, 'atLeastOne', (args) => {
@@ -71,11 +72,13 @@ const getUUID = () => {
 }
 
 const handleErrors = ((setErrors: (errors: FormikErrors<any>) => void, err: any, showGlobalError: boolean = false) => {
+    console.log(err.errors);
     if (err.errors) {
         const errors: any = {};
         for (let field in err.errors) {
+            const error = err.errors[field];
             if (err.errors.hasOwnProperty(field)) {
-                errors[field] = err.errors[field][0];
+                errors[field] = error;
             }
         }
         setErrors(errors);
@@ -122,7 +125,6 @@ const getPayloadFilterDates = (mode: 'day' | 'week' | 'month' | 'year'): { start
 const transformTimeStamp = (date: Date | string | undefined) => {
     return moment(date).format('D-MMM-YYYY | hh:mm A');
 }
-
 
 
 const convertDateFormat = (date: Date, format: string = 'YYYY-MM-DD') => {
@@ -239,7 +241,8 @@ const getFormDataFromJSON = (obj: any, rootName = '', ignoreList = []): FormData
     return formData;
 }
 
-const capitalizeFirstLetter = (string: string) => {
+const capitalizeFirstLetter = (string: string | undefined) => {
+    if (!string) return '';
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
@@ -498,7 +501,36 @@ const isTextEllipsisActive = (e: HTMLDivElement) => {
     return (e.offsetWidth < e.scrollWidth);
 }
 
+const getNameInitials = (name: string) => {
+    const names = name.split(' ');
+    let initials = names[0].substring(0, 1).toUpperCase();
+    if (names.length > 1) {
+        initials += names[names.length - 1].substring(0, 1).toUpperCase();
+    }
+    return initials;
+}
+
+const getContrastYIQ = (hexcolor: string) => {
+    const r = parseInt(hexcolor.substring(1, 3), 16);
+    const g = parseInt(hexcolor.substring(3, 5), 16);
+    const b = parseInt(hexcolor.substring(5, 7), 16);
+    const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+    return (yiq >= 128) ? 'black' : 'white';
+}
+
+const LightenDarkenColor = (col: any, amt: number) => {
+    col = parseInt(col, 16);
+    return (((col & 0x0000FF) + amt) | ((((col >> 8) & 0x00FF) + amt) << 8) | (((col >> 16) + amt) << 16)).toString(16)
+}
+
+const ComingSoon = () => {
+    AlertService.showToast("Coming Soon", 'info');
+}
+
 const CommonService = {
+    LightenDarkenColor,
+    getContrastYIQ,
+    getNameInitials,
     CurrentDate,
     parseQueryString,
     handleErrors,
@@ -538,6 +570,7 @@ const CommonService = {
     getNormalizedFileType,
     openLinkInNewTab,
     isTextEllipsisActive,
+    ComingSoon,
 
     // createValidationsObject,
     // createYupSchema,
@@ -558,5 +591,6 @@ const CommonService = {
     _chartNotes: ChartNotesService,
     _inventory: InventoryService,
     _systemSettings: SystemSettingsService,
+    _billingsService: BillingsService
 }
 export default CommonService;

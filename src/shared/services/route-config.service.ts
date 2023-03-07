@@ -8,7 +8,8 @@ import {
     COMING_SOON_ROUTE,
     DASHBOARD,
     FACILITY_DETAILS,
-    FACILITY_LIST, INVENTORY,
+    FACILITY_LIST,
+    INVENTORY,
     LOGIN_ROUTE,
     NOT_FOUND_ROUTE,
     SCHEDULING_VIEW,
@@ -108,8 +109,12 @@ const AddMedicalRecord = (clientId: string) => {
     return "/chart-notes/" + clientId + '/add-medical-record';
 }
 
-const AddMedicalIntervention = (medicalRecordId: string, medicalInterventionId: string,) => {
-    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/add-medical-intervention';
+const UpdateMedicalIntervention = (medicalRecordId: string, medicalInterventionId: string,) => {
+    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/update-medical-intervention';
+}
+
+const ViewMedicalIntervention = (medicalRecordId: string, medicalInterventionId: string,) => {
+    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/view-medical-intervention';
 }
 
 const ChartNotesDetails = () => {
@@ -145,15 +150,15 @@ const ClientMedicalRecordDetails = (medicalRecordId: string) => {
 
 const MedicalInterventionDetails = (medicalRecordId: string, medicalInterventionId: string) => {
     // return '/chart-notes/intervention-details/' + medicalInterventionId
-    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/add-medical-intervention';
+    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/view-medical-intervention';
 }
 
 const MedicalRecordSurgeryRecordDetails = (medicalRecordId: string, surgeryRecordId: string) => {
     return '/chart-notes/' + medicalRecordId + '/surgery-record/' + surgeryRecordId;
 }
 
-const MedicalRecordProgressReportAdvancedDetailsUpdate = (medicalRecordId: string, progressReportId: string) => {
-    return '/chart-notes/' + medicalRecordId + '/' + progressReportId + '/progress-report-advance-details-update';
+const MedicalRecordProgressReportAdvancedDetailsUpdate = (medicalRecordId: string, progressReportId: string,mode:string) => {
+    return '/chart-notes/' + medicalRecordId + '/' + progressReportId + '/progress-report-advance-details-update/'+ mode;
 }
 
 const MedicalInterventionFinalizeTreatment = (medicalRecordId: string, medicalInterventionId: string) => {
@@ -197,6 +202,18 @@ const EditInventoryProduct = (productId: string) => {
     return "/inventory/edit-product/" + productId;
 }
 
+const BillingList = () => {
+    return "/billing/billing-list";
+}
+
+const AddNewReceipt = () => {
+    return "/billing/add-new-receipt";
+}
+
+const BillingDetails = (billingId: string, type: 'invoice' | 'receipt') => {
+    return "/billing/billing-details/" + billingId + "?type=" + type;
+}
+
 const RouteConfigService = {
     DefaultRoute,
     LoginRoute,
@@ -220,11 +237,12 @@ const RouteConfigService = {
     SchedulingView,
     ClientMedicalRecordDetails,
     AddMedicalRecord,
-    AddMedicalIntervention,
     ChartNotesDetails,
     MedicalInterventionROMConfig,
     MedicalInterventionSpecialTests,
     MedicalInterventionExerciseLogUpdate,
+    UpdateMedicalIntervention,
+    ViewMedicalIntervention,
     MedicalRecordList,
     MedicalInterventionExerciseLogView,
     MedicalInterventionICDCodes,
@@ -241,7 +259,10 @@ const RouteConfigService = {
     AddInventoryProduct,
     InventoryProductViewDetails,
     EditInventoryProduct,
-    SystemSettings
+    SystemSettings,
+    BillingList,
+    AddNewReceipt,
+    BillingDetails
 }
 
 export default RouteConfigService;

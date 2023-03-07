@@ -19,9 +19,7 @@ import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import {IProgressReportStat} from "../../../shared/models/common.model";
 import _ from "lodash";
 import ESignApprovalComponent from "../../../shared/components/e-sign-approval/ESignApprovalComponent";
-import {
-    getMedicalRecordProgressReportDetails,
-} from "../../../store/actions/chart-notes.action";
+import {getMedicalRecordProgressReportDetails,} from "../../../store/actions/chart-notes.action";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import TableV2Component from "../../../shared/components/table-v2/TableV2Component";
@@ -40,7 +38,7 @@ interface ProgressRecordAdvancedDetailsUpdateScreenProps {
 
 const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvancedDetailsUpdateScreenProps) => {
 
-    const {medicalRecordId, progressReportId} = useParams();
+    const {medicalRecordId, progressReportId,mode} = useParams();
 
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
 
@@ -54,7 +52,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
         isClientMedicalRecordProgressReportDetailsLoaded,
         clientMedicalRecordProgressReportDetails,
     } = useSelector((state: IRootReducerState) => state.chartNotes);
-
+    console.log('clientMedicalRecordProgressReportDetails',clientMedicalRecordProgressReportDetails);
     const {
         clientMedicalRecord,
     } = useSelector((state: IRootReducerState) => state.client);
@@ -78,12 +76,15 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
             title: "Name",
             dataIndex: "name",
             key: "name",
+            fixed: "left",
+            width: 150
         },
         {
             title: "Results",
             dataIndex: "results",
             key: "results",
-
+            fixed: "left",
+            width: 300,
             render: (_: any, item: any) => <Field name={`progress_stats.${item?._id}.result`}>
                 {
                     (field: FieldProps) => (
@@ -100,7 +101,6 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
             title: 'Comments',
             dataIndex: 'comment',
             key: 'comment',
-
             render: (_: any, item: any) => <Field
                 name={`progress_stats.${item?._id}.comment`}
                 className="t-form-control">
@@ -208,10 +208,10 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
 
     const handleEditProgressReport = useCallback(() => {
         closeEditProgressReportDrawer();
-        if(progressReportId){
+        if (progressReportId) {
             dispatch(getMedicalRecordProgressReportDetails(progressReportId));
         }
-    },[progressReportId,closeEditProgressReportDrawer,dispatch]);
+    }, [progressReportId, closeEditProgressReportDrawer, dispatch]);
 
     useEffect(() => {
         if (clientMedicalRecordProgressReportDetails) {
@@ -221,7 +221,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
 
     return (
         <div className={'progress-record-advanced-details-update-screen'}>
-            <PageHeaderComponent title={"Add Progress Report"}
+            <PageHeaderComponent title={mode==='add' ? "Add Therapy Progress Report" : "Edit Therapy Progress Report"}
                                  actions={
                                      <div className="last-updated-status">
                                          <div className="last-updated-status-text">Last Updated On:&nbsp;</div>
@@ -283,7 +283,8 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                     <DrawerComponent isOpen={isEditProgressReportDrawerOpen}
                                      showClose={true}
                                      onClose={closeEditProgressReportDrawer}>
-                        <EditProgressReportCardComponent onCancel={() => closeEditProgressReportDrawer()} onSave={handleEditProgressReport}/>
+                        <EditProgressReportCardComponent onCancel={() => closeEditProgressReportDrawer()}
+                                                         onSave={handleEditProgressReport}/>
                     </DrawerComponent>
                 </>
             }
@@ -338,7 +339,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                         }
                                     </Field>
                                 </CardComponent>
-                                <CardComponent title={'Progress Stats:'}>
+                                <CardComponent title={'Progress Overview:'}>
                                     <TableV2Component data={progressReportStatList}
                                                       loading={isProgressReportStatListLoading}
                                                       columns={ProgressStatsColumns}

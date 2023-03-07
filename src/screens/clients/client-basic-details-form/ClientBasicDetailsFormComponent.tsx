@@ -131,7 +131,7 @@ const ClientBasicDetailsFormInitialValues: IClientBasicDetails = {
         zip_code: "",
         state: ""
     },
-    send_invite:false
+    send_invite: false
 };
 
 
@@ -166,7 +166,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
         payload['dob'] = CommonService.convertDateFormat(payload['dob']);
         setIsClientBasicDetailsSavingInProgress(true);
         if (clientId) {
-            if(mode==='add' || mode==='edit') {
+            if (mode === 'add' || mode === 'edit') {
                 CommonService._client.ClientBasicDetailsEditAPICall(clientId, payload)
                     .then((response: IAPIResponseType<IClientBasicDetails>) => {
                         CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
@@ -215,6 +215,17 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                         phone_type: ""
                     }]
                 }
+            }
+            if (clientBasicDetails?.secondary_contact_info?.length === 0) {
+                clientBasicDetails.secondary_contact_info = [{
+                    phone: "",
+                    phone_type: ""
+                }];
+            }
+            if (clientBasicDetails?.secondary_emails?.length === 0) {
+                clientBasicDetails.secondary_emails = [{
+                    email: "",
+                }];
             }
             setClientBasicDetailsFormInitialValues(clientBasicDetails);
         }

@@ -22,22 +22,28 @@ import ViewPriorNoteComponent from "../view-prior-note/ViewPriorNoteComponent";
 import MedicalInterventionLinkedToComponent
     from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
 import TransferSoapNoteComponent from "../transfer-soap-note/TransferSoapNoteComponent";
-import {getMedicalInterventionDetails, getMedicalRecordSoapNoteList} from "../../../store/actions/chart-notes.action";
+import {
+    getMedicalInterventionDetails,
+    getMedicalRecordSoapNoteList,
+    refreshMedicalRecordAttachmentList
+} from "../../../store/actions/chart-notes.action";
 import AddConcussionFileComponent from "../add-concussion-file/AddConcussionFileComponent";
 import {IRootReducerState} from "../../../store/reducers";
 import ImportSoapNoteComponent from "../import-soap-note/ImportSoapNoteComponent";
 import FilesUneditableMiddlewareComponent
     from "../../../shared/components/files-uneditable-middleware/FilesUneditableMiddlewareComponent";
+import AddMedicalRecordDocumentComponent from "../add-medical-record-document/AddMedicalRecordDocumentComponent";
 
 interface MedicalInterventionDetailsCardComponentProps {
     showAction?: boolean,
     medicalInterventionDetails: any,
+    mode?: "edit" | "view",
 }
 
 
 const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetailsCardComponentProps) => {
 
-    const {showAction, medicalInterventionDetails} = props;
+    const {showAction, mode, medicalInterventionDetails} = props;
 
     const {medicalRecordId, medicalInterventionId} = useParams();
     const dispatch = useDispatch();
@@ -50,6 +56,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     const [isAddConcussionFileDrawerOpen, setIsAddConcussionFileDrawerOpen] = useState<boolean>(false);
     const [isViewPriorNoteDrawerOpen, setIsViewPriorNoteDrawerOpen] = useState<boolean>(false);
     const [isImportSoapNoteDrawerOpen, setIsImportSoapNoteDrawerOpen] = useState<boolean>(false);
+    const [isMedicalRecordDocumentAddDrawerOpen, setIsMedicalRecordDocumentAddDrawerOpen] = useState<boolean>(false);
 
     const {
         clientMedicalRecord,
@@ -79,7 +86,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     }, []);
 
     const openAddDryNeedlingFileDrawer = useCallback(() => {
-            setIsAddDryNeedlingFileDrawerOpen(true);
+        setIsAddDryNeedlingFileDrawerOpen(true);
     }, []);
 
     const closeAddDryNeedlingFileDrawer = useCallback(() => {
@@ -118,6 +125,20 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
         setIsImportSoapNoteDrawerOpen(false);
     }, []);
 
+    const openMedicalRecordDocumentAddDrawer = useCallback(() => {
+        setIsMedicalRecordDocumentAddDrawerOpen(true);
+    }, []);
+
+    const closeMedicalRecordDocumentAddDrawer = useCallback(() => {
+        setIsMedicalRecordDocumentAddDrawerOpen(false);
+    }, []);
+
+    const handleMedicalRecordDocumentAdd = useCallback(() => {
+        dispatch(refreshMedicalRecordAttachmentList());
+        closeMedicalRecordDocumentAddDrawer();
+    }, [dispatch, closeMedicalRecordDocumentAddDrawer]);
+
+
     const handleMedicalRecordEdit = useCallback(() => {
         closeEditMedicalRecordDrawer();
         if (medicalRecordId) {
@@ -149,9 +170,14 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     const handleSoapNoteDrawer = useCallback((medicalInterventionId: string) => {
         closeImportSoapNoteDrawer();
         if (medicalRecordId) {
-            navigate(CommonService._routeConfig.AddMedicalIntervention(medicalRecordId, medicalInterventionId));
+            if (medicalInterventionDetails?.status === 'completed') {
+                navigate(CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId));
+
+            } else {
+                navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+            }
         }
-    }, [medicalRecordId, closeImportSoapNoteDrawer, navigate]);
+    }, [medicalRecordId, medicalInterventionDetails, closeImportSoapNoteDrawer, navigate]);
 
     const handleNotifyAdmin = useCallback(() => {
         if (medicalInterventionId) {
@@ -164,23 +190,32 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
         }
     }, [medicalInterventionId]);
 
+    const handleEditSoapNote = useCallback(() => {
+        if (medicalRecordId && medicalInterventionId) {
+            navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+        }
+    }, [navigate, medicalRecordId, medicalInterventionId]);
+
     const [medicalInterventionDropDownOptions, setMedicalInterventionDropDownOptions] = useState<any>([]);
 
     useEffect(() => {
         if (medicalInterventionDetails?.status === 'completed') {
-            setMedicalInterventionDropDownOptions([<FilesUneditableMiddlewareComponent
+            const options = [
+                <ListItem
+                    onClick={comingSoon}>Print SOAP</ListItem>,
+                <ListItem onClick={openTransferSoapNoteDrawer}>Transfer SOAP to</ListItem>,
+                <ListItem onClick={handleNotifyAdmin}>Notify Admin</ListItem>];
+            if (mode === 'view') {
+                options.unshift(<FilesUneditableMiddlewareComponent
                     timeStamp={medicalInterventionDetails?.completed_date}>
-                    <ListItem onClick={comingSoon}>Edit SOAP</ListItem>
-                </FilesUneditableMiddlewareComponent>,
-                    <ListItem
-                        onClick={comingSoon}>Print SOAP</ListItem>,
-                    <ListItem onClick={openTransferSoapNoteDrawer}>Transfer SOAP to</ListItem>,
-                    <ListItem onClick={handleNotifyAdmin}>Notify Admin</ListItem>]
-            );
+                    <ListItem onClick={handleEditSoapNote}>Edit SOAP</ListItem>
+                </FilesUneditableMiddlewareComponent>)
+            }
+            setMedicalInterventionDropDownOptions(options);
         } else {
             setMedicalInterventionDropDownOptions([
                 <ListItem onClick={openTransferSoapNoteDrawer}>Transfer SOAP to</ListItem>,
-                <ListItem onClick={handleNotifyAdmin}>Notify Admin</ListItem>,
+                <ListItem onClick={openMedicalRecordDocumentAddDrawer}>Add Document</ListItem>,
                 <ListItem onClick={openAddDryNeedlingFileDrawer}>
                     Add Dry Needling File
                 </ListItem>,
@@ -189,7 +224,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                 <ListItem onClick={openImportSoapNoteDrawer}>Import SOAP Note</ListItem>]
             );
         }
-    }, [comingSoon, handleNotifyAdmin, openTransferSoapNoteDrawer, openAddConcussionFileDrawer, openAddDryNeedlingFileDrawer, openImportSoapNoteDrawer, openViewPriorNoteDrawer, medicalInterventionDetails]);
+    }, [comingSoon, handleEditSoapNote, mode, openMedicalRecordDocumentAddDrawer, openTransferSoapNoteDrawer, openAddConcussionFileDrawer, openAddDryNeedlingFileDrawer, openImportSoapNoteDrawer, openViewPriorNoteDrawer, medicalInterventionDetails]);
 
     return (
         <div className={'client-medical-details-card-component'}>
@@ -276,7 +311,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                         <div className={'ts-row'}>
                             <div className={'ts-col'}>
                                 <DataLabelValueComponent label={'Restrictions/Limitations'}>
-                                    {medicalInterventionDetails?.limitations || "-"}
+                                    {medicalInterventionDetails?.medical_record_details?.limitations || "-"}
                                 </DataLabelValueComponent>
                             </div>
                         </div>
@@ -348,6 +383,17 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                 <ImportSoapNoteComponent medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
                                          handleSoapNoteImport={handleSoapNoteDrawer}
                 />
+            </DrawerComponent>
+
+            <DrawerComponent isOpen={isMedicalRecordDocumentAddDrawerOpen}
+                             showClose={true}
+                             onClose={() => closeMedicalRecordDocumentAddDrawer()}>
+                {medicalRecordId && <AddMedicalRecordDocumentComponent
+                    onAdd={handleMedicalRecordDocumentAdd}
+                    medicalRecordId={medicalRecordId}
+                    medicalRecordDetails={clientMedicalRecord}
+                    onCancel={() => closeMedicalRecordDocumentAddDrawer()}
+                />}
             </DrawerComponent>
         </div>
     );
