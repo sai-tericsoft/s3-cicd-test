@@ -1,6 +1,12 @@
 @import "src/assets/styles/common";
 
 .calendar-appointment-card-component {
+  z-index: 1;
+  cursor: pointer;
+  &:hover {
+    z-index: 2;
+    box-shadow: 0 0 6px #AAAAAA;
+  }
   &.card-appointment-with-status {
     display: flex;
     flex-direction: column;
@@ -84,8 +90,9 @@
         font-weight: 500;
         font-size: 12px;
         text-overflow: ellipsis;
-        overflow: hidden;
-        flex: 1;
+        //overflow: hidden;
+        //flex: 1;
+        margin-right: 10px;
         white-space: nowrap;
       }
 
@@ -93,6 +100,7 @@
         font-weight: 500;
         text-overflow: ellipsis;
         overflow: hidden;
+        font-size: 12px;
         white-space: nowrap;
       }
     }

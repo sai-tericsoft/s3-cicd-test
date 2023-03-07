@@ -1,4 +1,4 @@
-import "./BillingPaymentScreen.scss";
+import "./BillingListScreen.scss";
 import {useCallback, useEffect, useMemo, useState} from "react";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {useDispatch, useSelector} from "react-redux";
@@ -25,18 +25,24 @@ import FormControlLabelComponent from "../../../shared/components/form-control-l
 import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
 import {IRootReducerState} from "../../../store/reducers";
 import {IAPIResponseType} from "../../../shared/models/api.model";
+import {useSearchParams} from "react-router-dom";
 
 interface PaymentListComponentProps {
 
 }
 
 const PENDING_PAYMENTS_MODULE = 'PENDING_PAYMENTS_MODULE';
-const BillingPaymentScreen = (props: PaymentListComponentProps) => {
+
+type PaymentsListTabType = 'pendingPayments' | 'completedPayments';
+const PaymentsListTabTypes = ['pendingPayments', 'completedPayments'];
+const BillingListScreen = (props: PaymentListComponentProps) => {
 
     const dispatch = useDispatch();
+    const [billingStats, setBillingStats] = useState<any>(null);
 
-    const [currentTab, setCurrentTab] = useState<any>("pendingPayments");
+    const [currentTab, setCurrentTab] = useState<PaymentsListTabType>("pendingPayments");
     const [selectedPayments, setSelectedPayments] = useState<any[]>([]);
+    const [searchParams, setSearchParams] = useSearchParams();
     const [showMarkAsPaidModal, setShowMarkAsPaidModal] = useState<boolean>(false);
     const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
     const [isPaymentsAreBeingMarkedAsPaid, setIsPaymentsAreBeingMarkedAsPaid] = useState<boolean>(false);
@@ -58,9 +64,117 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
         }
     }, [selectedPayments]);
 
+    const openMarkAsPaidModal = useCallback(() => {
+        setShowMarkAsPaidModal(true);
+    }, []);
+
+    const closeMarkAsPaidModal = useCallback(() => {
+        setShowMarkAsPaidModal(false);
+    }, []);
+
     const removePaymentFromSelectedMarkAsPaidList = useCallback((payment: any) => {
-        setSelectedPayments(selectedPayments.filter((item: any) => item._id !== payment._id));
-    }, [selectedPayments]);
+        const updatedPayments = selectedPayments.filter((item: any) => item._id !== payment._id);
+        if (updatedPayments.length === 0) {
+            closeMarkAsPaidModal();
+        }
+        setSelectedPayments(updatedPayments);
+    }, [selectedPayments, closeMarkAsPaidModal]);
+
+    const pendingPaymentColumn: ITableColumn[] = useMemo<any>(() => [
+        {
+            title: '',
+            key: 'select',
+            dataIndex: 'select',
+            width: 50,
+            fixed: 'left',
+            render: (item: any) => {
+                const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
+                return <CheckBoxComponent
+                    disabled={clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id}
+                    checked={selectedPayments.includes(item)}
+                    onChange={(isChecked) => {
+                        handlePaymentSelection(item, isChecked)
+                    }}/>
+            }
+        },
+        {
+            title: 'Appointment ID',
+            key: 'appointment_id',
+            dataIndex: 'appointment_id',
+            fixed: 'left',
+            width: 193,
+            align: 'center',
+            render: (item: any) => {
+                return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id, 'invoice')}>
+                    {item?.appointment_id}
+                </LinkComponent>
+            }
+        },
+        {
+            title: 'Appointment Date',
+            key: 'appointment_date',
+            dataIndex: "appointment_date",
+            align: 'center',
+            render: (item: any) => {
+                return <>
+                    {CommonService.convertDateFormat2(item?.appointment_details?.appointment_date)}</>
+            }
+        },
+        {
+            title: 'Client Name',
+            key: 'client_name',
+            dataIndex: 'first_name',
+            align: 'center',
+            render: (item: any) => {
+                return <>
+                    {item?.client_details?.first_name} {item?.client_details?.last_name}
+                </>
+            }
+        },
+        {
+            title: 'Phone Number',
+            key: 'phone_number',
+            dataIndex: 'phone',
+            align: 'center',
+            render: (item: any) => {
+                return <>
+                    {item?.client_details?.primary_contact_info?.phone}
+                </>
+            }
+        },
+        {
+            title: 'Service',
+            key: 'service',
+            dataIndex: 'name',
+            width: 225,
+            align: 'center',
+            render: (item: any) => {
+                return <>
+                    {item?.service_details?.name}
+                </>
+            }
+        },
+        {
+            title: 'Total Amount',
+            key: 'amount',
+            align: 'center',
+            dataIndex: 'amount',
+            render: (item: any) => {
+                return <>{Misc.CURRENCY_SYMBOL} {item?.amount} </>
+            }
+        },
+        {
+            title: '',
+            key: 'action',
+            fixed: 'right',
+            dataIndex: 'action',
+            render: (item: any) => {
+                return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id, 'invoice')}>
+                    View Details
+                </LinkComponent>
+            }
+        }
+    ], [handlePaymentSelection, selectedPayments]);
 
     const completePaymentListColumn: ITableColumn[] = useMemo<any>(() => [
         {
@@ -70,7 +184,7 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
             fixed: 'left',
             dataIndex: 'receipt_number',
             render: (item: any) => {
-                return <LinkComponent route={""}>
+                return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id, 'receipt')}>
                     {item?.receipt_number}
                 </LinkComponent>
             }
@@ -145,118 +259,21 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
             fixed: 'right',
             dataIndex: 'action',
             render: (item: any) => {
-                return <LinkComponent route={""}>
+                return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id, 'receipt')}>
                     View Details
                 </LinkComponent>
             }
         }
     ], []);
 
-    const pendingPaymentColumn: ITableColumn[] = useMemo<any>(() => [
-        {
-            title: '',
-            key: 'select',
-            dataIndex: 'select',
-            width: 50,
-            fixed: 'left',
-            render: (item: any) => {
-                const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
-                return <CheckBoxComponent
-                    disabled={clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id}
-                    checked={selectedPayments.includes(item)}
-                    onChange={(isChecked) => {
-                        handlePaymentSelection(item, isChecked)
-                    }}/>
-            }
-        },
-        {
-            title: 'Appointment ID',
-            key: 'appointment_id',
-            dataIndex: 'appointment_id',
-            fixed: 'left',
-            width: 193,
-            align: 'center',
-            render: (item: any) => {
-                return (
-                    <LinkComponent route={""}>
-                        {item?.appointment_id}
-                    </LinkComponent>
-                )
-            }
-        },
-        {
-            title: 'Appointment Date',
-            key: 'appointment_date',
-            dataIndex: "appointment_date",
-            align: 'center',
-            render: (item: any) => {
-                return <>
-                    {CommonService.convertDateFormat2(item?.appointment_details?.appointment_date)}</>
-            }
-        },
-        {
-            title: 'Client Name',
-            key: 'client_name',
-            dataIndex: 'first_name',
-            align: 'center',
-            render: (item: any) => {
-                return <>
-                    {item?.client_details?.first_name} {item?.client_details?.last_name}
-                </>
-            }
-        },
-        {
-            title: 'Phone Number',
-            key: 'phone_number',
-            dataIndex: 'phone',
-            align: 'center',
-            render: (item: any) => {
-                return <>
-                    {item?.client_details?.primary_contact_info?.phone}
-                </>
-            }
-        },
-        {
-            title: 'Service',
-            key: 'service',
-            dataIndex: 'name',
-            width: 225,
-            align: 'center',
-            render: (item: any) => {
-                return <>
-                    {item?.service_details?.name}
-                </>
-            }
-        },
-        {
-            title: 'Total Amount',
-            key: 'amount',
-            align: 'center',
-            dataIndex: 'amount',
-            render: (item: any) => {
-                return <>{Misc.CURRENCY_SYMBOL} {item?.amount} </>
-            }
-        },
-        {
-            title: '',
-            key: 'action',
-            fixed: 'right',
-            dataIndex: 'action',
-            render: (item: any) => {
-                return <LinkComponent route={""}>
-                    View Details
-                </LinkComponent>
-            }
-        }
-    ], [handlePaymentSelection, selectedPayments]);
-
     const markAsPaidTableColumns: ITableColumn[] = useMemo<any>(() => [
         {
             title: 'Appointment Date',
             key: 'date',
             dataIndex: 'date',
-            width: 150,
+            width: 180,
             align: 'center',
+            fixed: 'left',
             render: (item: any) => {
                 return <>
                     {CommonService.convertDateFormat2(item?.appointment_details?.appointment_date)}</>
@@ -285,6 +302,7 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
             dataIndex: 'action',
             width: 150,
             align: 'center',
+            fixed: 'right',
             render: (item: any) => {
                 return <IconButtonComponent onClick={() => removePaymentFromSelectedMarkAsPaidList(item)}>
                     <ImageConfig.CircleCancel/>
@@ -298,18 +316,20 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
     }, [dispatch]);
 
     const handleTabChange = useCallback((e: any, value: any) => {
-        // searchParams.set("currentStep", value);
-        // setSearchParams(searchParams);
+        searchParams.set("activeTab", value);
+        setSearchParams(searchParams);
         setCurrentTab(value);
-    }, []);
+    }, [searchParams, setSearchParams]);
 
-    const openMarkAsPaidModal = useCallback(() => {
-        setShowMarkAsPaidModal(true);
-    }, []);
-
-    const closeMarkAsPaidModal = useCallback(() => {
-        setShowMarkAsPaidModal(false);
-    }, []);
+    useEffect(() => {
+        const step: PaymentsListTabType = searchParams.get("activeTab") as PaymentsListTabType;
+        if (step && PaymentsListTabTypes.includes(step)) {
+            setCurrentTab(step);
+        } else {
+            searchParams.set("activeTab", PaymentsListTabTypes[0]);
+            setSearchParams(searchParams);
+        }
+    }, [dispatch, searchParams, setSearchParams]);
 
     const openPaymentModeModal = useCallback(() => {
         setIsPaymentModeModalOpen(true);
@@ -324,6 +344,15 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
         closeMarkAsPaidModal();
         openPaymentModeModal();
     }, [openPaymentModeModal, closeMarkAsPaidModal]);
+
+    const fetchBillingStats = useCallback(() => {
+        CommonService._billingsService.GetBillingStatsAPICall()
+            .then((response: IAPIResponseType<any>) => {
+                setBillingStats(response?.data);
+            }).catch((error: any) => {
+            setBillingStats(undefined);
+        })
+    }, []);
 
     const markPaymentsAsPaid = useCallback(() => {
         const payload = {
@@ -341,13 +370,18 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
                     CommonService._communications.TableWrapperRefreshSubject.next({
                         moduleName: PENDING_PAYMENTS_MODULE
                     });
+                    fetchBillingStats();
                 }
             )
             .catch((error: any) => {
                 CommonService._alert.showToast(error?.error || error?.errors || "Failed to mark payments marked as paid", "error");
                 setIsPaymentsAreBeingMarkedAsPaid(false);
             });
-    }, [selectedPayments, closePaymentModeModal, selectedPaymentMode]);
+    }, [selectedPayments, fetchBillingStats, closePaymentModeModal, selectedPaymentMode]);
+
+    useEffect(() => {
+        fetchBillingStats();
+    }, [fetchBillingStats]);
 
     return (
         <div className={'payment-list-component list-screen'}>
@@ -377,9 +411,11 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
                             </ButtonComponent>&nbsp;&nbsp;
                         </>
                     }
-                    <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}>
-                        New Invoice
-                    </ButtonComponent>
+                    <LinkComponent route={CommonService._routeConfig.AddNewReceipt()}>
+                        <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}>
+                            New Receipt
+                        </ButtonComponent>
+                    </LinkComponent>
                 </div>
             </div>
             <TabsWrapperComponent>
@@ -387,7 +423,9 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
                                allowScrollButtonsMobile={false}
                                variant={"fullWidth"}
                                onUpdate={handleTabChange}>
-                    <TabComponent label={'Pending Payments'} value={'pendingPayments'}/>
+                    <TabComponent
+                        label={`Pending Payments(${(billingStats?.count !== undefined) ? billingStats?.count : '-'})`}
+                        value={'pendingPayments'}/>
                     <TabComponent label={'Completed Payments'} value={'completedPayments'}/>
                 </TabsComponent>
                 <TabContentComponent value={'pendingPayments'} selectedTab={currentTab}>
@@ -454,10 +492,10 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
                     columns={markAsPaidTableColumns}
                     data={selectedPayments}
                 />
-                <div className={"mrg-top-20"}>
+                <div className={"mark-as-paid-total-outstanding-balance"}>
                     <DataLabelValueComponent
                         direction={"row"}
-                        label={"Total Outstanding Balance: "}>
+                        label={"Total Amount (Inc.Tax)"}>
                         <span className="mrg-left-5">
                             {Misc.CURRENCY_SYMBOL} {selectedPayments.reduce((acc: any, payment: any) => acc + parseInt(payment?.amount), 0)}
                         </span>
@@ -467,7 +505,7 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
             {/*Outstanding Balance Modal end*/}
             {/*Payment mode selection Modal start*/}
             <ModalComponent isOpen={isPaymentModeModalOpen}
-                            className={'mark-payment-as-paid-payment-mode-modal'}
+                            className={'payment-mode-modal'}
                             modalFooter={<>
                                 <ButtonComponent variant={'outlined'}
                                                  className={'mrg-right-10'}
@@ -506,4 +544,4 @@ const BillingPaymentScreen = (props: PaymentListComponentProps) => {
 
 };
 
-export default BillingPaymentScreen;
+export default BillingListScreen;

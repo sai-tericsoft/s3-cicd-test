@@ -63,6 +63,7 @@ const DatePickerComponent = (props: DatePickerComponentProps) => {
                     readOnly={readOnly}
                     value={value}
                     open={open}
+                    views={['year', 'month', 'day']}
                     onOpen={() => setOpen(true)}
                     onClose={() => setOpen(false)}
                     disabled={disabled}

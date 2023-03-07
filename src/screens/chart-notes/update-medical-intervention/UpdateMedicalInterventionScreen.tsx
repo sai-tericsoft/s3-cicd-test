@@ -345,6 +345,18 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                     </CardComponent>
                                     <CardComponent title={'O - Objective'}
                                                    actions={<>
+                                                       <Field name={'is_flagged'}>
+                                                           {
+                                                               (field: FieldProps) => (
+                                                                   <FormikCheckBoxComponent
+                                                                       label={'Flag Note'}
+                                                                       formikField={field}
+                                                                       required={false}
+                                                                       labelPlacement={"start"}
+                                                                   />
+                                                               )
+                                                           }
+                                                       </Field> &nbsp;&nbsp;&nbsp;
                                                        {search.showClear && <DraftReadonlySwitcherComponent
                                                            condition={true}
                                                            draft={<div className={'intervention-clear-button'}
@@ -358,19 +370,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                            });
                                                                        }
                                                                        }>Clear</div>}
-                                                           readonly={<></>}/>}&nbsp;&nbsp;
-                                                       <Field name={'is_flagged'}>
-                                                           {
-                                                               (field: FieldProps) => (
-                                                                   <FormikCheckBoxComponent
-                                                                       label={'Flag Note'}
-                                                                       formikField={field}
-                                                                       required={false}
-                                                                       labelPlacement={"start"}
-                                                                   />
-                                                               )
-                                                           }
-                                                       </Field>
+                                                           readonly={<></>}/>}
                                                    </>}
                                     >
                                         <div className="ts-row">
@@ -866,7 +866,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                         <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>
                                             <ESignApprovalComponent isSigned={medicalInterventionDetails?.is_signed}
                                                                     isSigning={isSigningInProgress}
-                                                                    isLoading={isFormBeingUpdated || formik.isSubmitting}
+                                                                    isLoading={formik.isSubmitting}
                                                                     canSign={medicalInterventionDetails?.can_sign}
                                                                     signedAt={medicalInterventionDetails?.signed_on}
                                                                     onSign={() => {

@@ -72,11 +72,13 @@ const getUUID = () => {
 }
 
 const handleErrors = ((setErrors: (errors: FormikErrors<any>) => void, err: any, showGlobalError: boolean = false) => {
+    console.log(err.errors);
     if (err.errors) {
         const errors: any = {};
         for (let field in err.errors) {
+            const error = err.errors[field];
             if (err.errors.hasOwnProperty(field)) {
-                errors[field] = err.errors[field][0];
+                errors[field] = error;
             }
         }
         setErrors(errors);
@@ -239,7 +241,8 @@ const getFormDataFromJSON = (obj: any, rootName = '', ignoreList = []): FormData
     return formData;
 }
 
-const capitalizeFirstLetter = (string: string) => {
+const capitalizeFirstLetter = (string: string | undefined) => {
+    if (!string) return '';
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
@@ -520,6 +523,10 @@ const LightenDarkenColor = (col: any, amt: number) => {
     return (((col & 0x0000FF) + amt) | ((((col >> 8) & 0x00FF) + amt) << 8) | (((col >> 16) + amt) << 16)).toString(16)
 }
 
+const ComingSoon = () => {
+    AlertService.showToast("Coming Soon", 'info');
+}
+
 const CommonService = {
     LightenDarkenColor,
     getContrastYIQ,
@@ -563,6 +570,7 @@ const CommonService = {
     getNormalizedFileType,
     openLinkInNewTab,
     isTextEllipsisActive,
+    ComingSoon,
 
     // createValidationsObject,
     // createYupSchema,
@@ -583,6 +591,6 @@ const CommonService = {
     _chartNotes: ChartNotesService,
     _inventory: InventoryService,
     _systemSettings: SystemSettingsService,
-    _billingsService:BillingsService
+    _billingsService: BillingsService
 }
 export default CommonService;

@@ -108,7 +108,7 @@ const ExerciseLogAttachmentListComponent = (props: ExerciseLogAttachmentListComp
                                                isLoading={isAttachmentBeingUploaded}
                                                onClick={handleClick}
                                                prefixIcon={<ImageConfig.AddIcon/>}>
-                                               Add Exercise Log</ButtonComponent>}>
+                                               Attach Exercise Log</ButtonComponent>}>
                                 <>
                                     {(attachmentList.attachments.length > 0) &&
                                         <>

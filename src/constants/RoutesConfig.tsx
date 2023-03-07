@@ -44,7 +44,7 @@ const MEDICAL_INTERVENTION_DETAILS = '/chart-notes/intervention-details/:medical
 const MEDICAL_INTERVENTION_SURGERY_RECORD_DETAILS = '/chart-notes/:medicalRecordId/surgery-record/:surgeryRecordId';
 
 const PROGRESS_REPORT_VIEW_DETAILS = '/chart-notes/:medicalRecordId/:progressReportId/progress-report-view-details';
-const MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE = '/chart-notes/:medicalRecordId/:progressReportId/progress-report-advance-details-update';
+const MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE = '/chart-notes/:medicalRecordId/:progressReportId/progress-report-advance-details-update/:mode';
 const DRY_NEEDLING_FILE_VIEW_DETAILS = '/chart-notes/:medicalRecordId/:dryNeedlingFileId/dry-needling-file-view-details';
 const CONCUSSION_FILE_VIEW_DETAILS = '/chart-notes/:medicalRecordId/:concussionFileId/concussion-file-view-details';
 const MEDICAL_RECORD_DOCUMENT_VIEW_DETAILS = '/chart-notes/:medicalRecordId/:medicalRecordDocumentId/medical-record-document-view-details';
@@ -57,7 +57,9 @@ const INVENTORY_PRODUCT_VIEW_DETAILS = "/inventory/product-details/:productId";
 const EDIT_INVENTORY_PRODUCT = "/inventory/edit-product/:productId";
 
 const BILLING = "/billing";
-const PAYMENT_LIST = "/billing/payment-list";
+const BILLING_LIST = "/billing/billing-list";
+const ADD_NEW_RECEIPT = "/billing/add-new-receipt";
+const BILLING_DETAILS = "/billing/billing-details/:billingId";
 
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
@@ -112,6 +114,7 @@ export {
     UPDATE_MEDICAL_INTERVENTION,
     VIEW_MEDICAL_INTERVENTION,
     BILLING,
-    PAYMENT_LIST
-
+    BILLING_LIST,
+    ADD_NEW_RECEIPT,
+    BILLING_DETAILS
 };

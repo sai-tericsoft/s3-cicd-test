@@ -200,7 +200,7 @@ const FullCalendarComponent = (props: FullCalendarComponentProps) => {
                 <div className="ts-calendar-weeks">
                     {weekDays && weekDays.map((dayName, index) => {
                         return (
-                            <div className={"ts-week-name-item ts-week-day-" + index}>
+                            <div className={"ts-week-name-item ts-week-day-" + index} key={'week-' + index}>
                                 <span className="d-block d-md-none">{weekDaysMin[index]}</span>
                                 <span
                                     className="d-none d-md-block d-lg-none">{weekDaysShort[index]}</span>

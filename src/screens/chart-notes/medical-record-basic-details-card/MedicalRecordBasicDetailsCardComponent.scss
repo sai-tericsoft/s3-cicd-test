@@ -2,6 +2,13 @@
 
 .client-medical-details-card-component {
 
+  .ts-row{
+    .date-of-surgery{
+      .data-value{
+        margin-left: 13px;
+      }
+    }
+  }
   .client-name-button-wrapper {
     display: flex;
     justify-content: space-between;

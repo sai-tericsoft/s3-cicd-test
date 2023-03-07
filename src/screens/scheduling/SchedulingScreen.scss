@@ -295,6 +295,9 @@
             min-height: 62px;
             max-height: 62px;
             position: relative;
+            &:hover {
+              background-color: #f0f5f5;
+            }
 
             .dashed-line {
               border-bottom: 1px dashed #BFC6CD;
@@ -313,7 +316,8 @@
               .card-item {
                 display: flex;
                 overflow: hidden;
-                flex-shrink: 1;
+                flex: 1;
+                position: relative;
               }
             }
 
@@ -329,12 +333,17 @@
 
 .calendar-appointments-holder {
   overflow: hidden;
+  min-height: calc(100% - 20px);
+  &:hover {
+    cursor: pointer;
+  }
   //width: 100%;
 
   .appointment-count-card {
     width: fit-content;
     display: inline-block;
     cursor: pointer;
+
 
     .appointment-count-card-wrapper {
       display: flex;
@@ -350,6 +359,7 @@
       border-radius: 4px;
       background: #EFEFEF;
       color: #FFFFFF;
+
     }
 
     .appointment-title {
@@ -433,7 +443,9 @@
       font-size: 12px;
       width: 100%;
       white-space: nowrap;
-      overflow: hidden;
+      margin-right: 10px;
+      margin-left: 10px;
+      //overflow: hidden;
       text-overflow: ellipsis;
     }
 

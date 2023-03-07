@@ -22,6 +22,7 @@ export interface IInputFieldProps {
     prefix?: any;
     suffix?: any;
     size?: 'small' | 'medium';
+    max?: number;
 }
 
 
@@ -175,7 +176,7 @@ export interface IAutoCompleteProps {
     isDataLoading?: boolean;
     isDataLoadingFailed?: boolean;
     keyExtractor?: (item: any) => any;
-    label: string;
+    label?: string;
     loading?: boolean;
     loadingText?: string;
     method?: "get" | "post" | string;
@@ -183,6 +184,7 @@ export interface IAutoCompleteProps {
     name?: string;
     noDataMessage?: string;
     onUpdate?: (value: any) => void;
+    onBlur?: () => void;
     openOnFocus?: boolean;
     payload?: object;
     placeholder?: string;
@@ -198,6 +200,8 @@ export interface IAutoCompleteProps {
     url?: string;
     valueExtractor?: (item: any) => any;
     filterSelectedOptions?: boolean;
+    filteredOptions?: any[];
+    filteredOptionKey?: string;
 }
 
 export interface IDatePickerProps {

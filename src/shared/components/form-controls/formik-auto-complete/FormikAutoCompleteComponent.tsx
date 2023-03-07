@@ -31,12 +31,17 @@ const FormikAutoCompleteComponent = (props: FormikAutoCompleteComponentProps) =>
         }
     }, [name, onUpdate, setFieldTouched, setFieldValue]);
 
+    const onBlur = useCallback(() => {
+       setFieldTouched(name);
+    }, [name, setFieldTouched]);
+
     return (
             <AutoCompleteDropdownComponent
                 onUpdate={(value: any) => {handleValueChange(value)}}
                 hasError={hasError}
                 errorMessage={hasError && (_.get(errors, name))}
                 value={value}
+                onBlur={onBlur}
                 {...otherProps}
             />
     );
