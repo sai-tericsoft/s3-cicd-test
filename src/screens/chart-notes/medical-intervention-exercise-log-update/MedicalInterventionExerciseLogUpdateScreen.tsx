@@ -331,7 +331,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
     return (
         <div className={'medical-intervention-exercise-log-screen'}>
 
-            <PageHeaderComponent title={'Add Exercise Log'} actions={
+            <PageHeaderComponent title={'Add Exercise Log'} className={'add-exercise-log'} actions={
                 <div className="last-updated-status">
                     <div className="last-updated-status-text">Last Updated On:&nbsp;</div>
                     <div
