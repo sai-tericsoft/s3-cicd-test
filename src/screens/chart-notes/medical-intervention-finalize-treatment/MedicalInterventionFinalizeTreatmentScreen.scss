@@ -6,6 +6,11 @@
       margin-bottom: 0 !important;
     }
   }
+  .ant-table-thead{
+    .t-cell-cpt_code{
+      text-align: center !important;
+    }
+  }
 
   .t-cell-units_of_care, .t-cell-minutes {
     .input-component {
