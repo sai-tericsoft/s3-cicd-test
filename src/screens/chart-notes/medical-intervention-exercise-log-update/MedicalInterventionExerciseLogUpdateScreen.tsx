@@ -219,7 +219,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
     ], []);
 
     const handleSubmit = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
-        if (medicalInterventionId) {
+        if (medicalInterventionId && medicalRecordId) {
             const payload: any = {
                 exercise_records: []
             };
@@ -234,6 +234,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                 .then((response: any) => {
                     CommonService._alert.showToast(response.message, 'success');
                     setSubmitting(false);
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
                 })
                 .catch((error: any) => {
                     CommonService._alert.showToast(error.error || error.errors || 'Error saving Exercise log', 'error');
