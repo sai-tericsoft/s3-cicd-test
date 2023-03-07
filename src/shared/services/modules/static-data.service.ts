@@ -20,6 +20,33 @@ const resultOptions = [{
     code: "Negative"
 }];
 
+const unitsOfCare = [{
+    title: "1",
+    code: "1"
+}, {
+    title: "2",
+    code: "2"
+}, {
+    title: "3",
+    code: "3"
+}, {
+    title: "4",
+    code: "4"
+}, {
+    title: "5",
+    code: "5"
+}, {
+    title: "6",
+    code: "6"
+}, {
+    title: "7",
+    code: "7"
+}, {
+    title: "8",
+    code: "8"
+}
+];
+
 const getConsultationDurationList = (payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.CONSULTATION_DURATION_LIST.METHOD](APIConfig.CONSULTATION_DURATION_LIST.URL, payload);
@@ -146,6 +173,7 @@ const StaticDataService = {
     weekDays,
     yesNoOptions,
     resultOptions,
+    unitsOfCare,
     getConsultationDurationList,
     getGenderList,
     getPhoneTypeList,

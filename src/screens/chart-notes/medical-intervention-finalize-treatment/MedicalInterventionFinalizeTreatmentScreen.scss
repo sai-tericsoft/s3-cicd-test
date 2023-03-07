@@ -1,10 +1,13 @@
 .medical-intervention-finalize-treatment-screen {
   .t-cell-units_of_care, .t-cell-minutes, .t-cell-notes {
     text-align: center !important;
-
     .input-component {
       margin-bottom: 0 !important;
     }
+  }
+  .select-component {
+   margin-top: 5px;
+    margin-bottom: 0px !important;
   }
 
   .t-cell-units_of_care, .t-cell-minutes {

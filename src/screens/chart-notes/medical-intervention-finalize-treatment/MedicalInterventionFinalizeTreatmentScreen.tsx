@@ -20,9 +20,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import MedicalRecordBasicDetailsCardComponent from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
+import MedicalRecordBasicDetailsCardComponent
+    from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
+import FormikSelectComponent from "../../../shared/components/form-controls/formik-select/FormikSelectComponent";
 
 interface MedicalInterventionFinalizeTreatmentScreenProps {
 
@@ -109,9 +111,13 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
         return <Field name={`${record._id}.units_of_care`}>
             {
                 (field: FieldProps) => (
-                    <FormikInputComponent
+                    <FormikSelectComponent
+                        label={'Units'}
+                        fullWidth={true}
+                        options={CommonService._staticData.unitsOfCare}
+                        displayWith={(option) => option.title}
+                        valueExtractor={(option) => option.code}
                         size={'small'}
-                        validationPattern={Patterns.POSITIVE_INTEGERS}
                         className={!field.form.values[record._id]?.is_selected ? 'display-none' : ''}
                         disabled={!field.form.values[record._id]?.is_selected}
                         formikField={field}
@@ -156,7 +162,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
     useEffect(() => {
         if (medicalRecordId && medicalInterventionId) {
             dispatch(setCurrentNavParams("Finalize Treatment", null, () => {
-                if (medicalInterventionDetails?.status === 'completed'){
+                if (medicalInterventionDetails?.status === 'completed') {
                     navigate(CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId));
 
                 } else {
