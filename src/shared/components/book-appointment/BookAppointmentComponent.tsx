@@ -150,7 +150,7 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
                     () => {
                         setStep('form');
                     }
-                } booking={booking} onComplete={onPaymentComplete}/>
+                } booking={booking} onComplete={onPaymentComplete} onClose={onClose}/>
             }
             {
                 step === 'confirmation' && <div className={'booking-confirmation-wrapper'}>
