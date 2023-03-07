@@ -256,7 +256,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
     }, [medicalInterventionDetails]);
     return (
         <div className={'medical-intervention-icd-codes-screen'}>
-            <PageHeaderComponent title={'ICD-11 Code'}/>
+            <PageHeaderComponent title={'Add ICD-11 Code'}/>
             {
                 (clientMedicalRecord) && <>
                     <CardComponent color={'primary'}>
