@@ -198,6 +198,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
 
 
     const [isBookAppointmentOpen, setIsBookAppointmentOpen] = useState(false);
+    const [bookAppointmentPreFill, setBookAppointmentPreFill] = useState({});
     const [openedAppointmentDetails, setOpenedAppointmentDetails] = useState<any | null>(null);
     const [refreshToken, setRefreshToken] = useState('');
 
@@ -227,7 +228,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                     const data = response.data || [];
                     const colorMap: any = {};
                     data.forEach((item: any) => {
-                        colorMap[`${item._id}`] = item.color_code || '#AAAAAA';
+                        colorMap[item._id] = item.color_code || '#AAAAAA';
                     })
                     setServiceCategoryColorMap(colorMap);
                     setServiceCategoryList(data);
@@ -294,6 +295,9 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
         if (payload.service_id) {
             payload.service_id = payload.service_id._id;
         }
+        if (payload.status) {
+            payload.status = payload.status.code;
+        }
         setCalendarData(null);
         setCalendarDaysData(null);
         setIsCalendarLoading(true);
@@ -334,6 +338,56 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             getCalenderList({...schedulingListFilterState});
         }
     }, [schedulingListFilterState, getCalenderList, viewMode]);
+
+    const prepareNewAppointmentBooking = useCallback(
+        (preState: any) => {
+            const prePayload: any = {};
+            if (preState.category_id) {
+                prePayload.category_id = preState.category_id._id;
+            }
+            if (preState.service_id) {
+                prePayload.service_id = preState.service_id._id;
+            }
+            if (preState.provider_id) {
+                prePayload.provider_id = preState.provider_id._id;
+            }
+            if (preState.date) {
+                prePayload.date = preState.date + 'T00:00:00.000Z';
+            }
+            if (preState.start) {
+                prePayload.start_time = preState.start;
+            }
+            if (preState.end) {
+                prePayload.end_time = preState.end;
+            }
+            console.log(preState, prePayload, 'opening booking');
+            setBookAppointmentPreFill(prePayload);
+            setIsBookAppointmentOpen(true);
+        },
+        [],
+    );
+
+    const [schedulingListModeFilterState, setSchedulingListModeFilterState] = useState<any>({})
+
+    useEffect(() => {
+        if (schedulingListFilterState) {
+            const prePayload: any = {...schedulingListFilterState};
+            if (schedulingListFilterState.category_id) {
+                prePayload.category_id = schedulingListFilterState.category_id._id;
+            }
+            if (schedulingListFilterState.service_id) {
+                prePayload.service_id = schedulingListFilterState.service_id._id;
+            }
+            if (schedulingListFilterState.provider_id) {
+                prePayload.provider_id = schedulingListFilterState.provider_id._id;
+            }
+            if (schedulingListFilterState.status) {
+                prePayload.status = schedulingListFilterState.status.code;
+            }
+            setSchedulingListModeFilterState(prePayload);
+        }
+    }, [schedulingListFilterState]);
+
     return (
         <div className={'scheduling-list-component'}>
             <DrawerComponent isOpen={!!openedAppointmentDetails} onClose={setOpenedAppointmentDetails.bind(null, null)}
@@ -357,14 +411,24 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                              onClose={setIsBookAppointmentOpen.bind(null, false)}
                              className={'book-appointment-component-drawer'}>
                 <BookAppointmentComponent
+                    preFillData={bookAppointmentPreFill}
                     onComplete={
                         () => {
-                            setRefreshToken(Math.random().toString());
+                            if (viewMode === 'calendar') {
+                                getCalenderList({...schedulingListFilterState});
+                            } else {
+                                setRefreshToken(Math.random().toString());
+                            }
                             setIsBookAppointmentOpen(false);
+                            setBookAppointmentPreFill({})
                         }
                     }
                     onClose={
-                        setIsBookAppointmentOpen.bind(null, false)}
+                        () => {
+                            setIsBookAppointmentOpen(false)
+                            setBookAppointmentPreFill({})
+                        }
+                    }
                 />
             </DrawerComponent>
             <div className="scheduling-header-wrapper">
@@ -425,84 +489,130 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                         </div>
                         <div className="scheduling-filter-header-actions-wrapper">
                             <div className="scheduling-filter-header-action-item">
-                                <AutoCompleteComponent size={'small'}
-                                                       label={'Service Category'}
-                                                       dataListKey={'data'}
-                                                       value={schedulingListFilterState?.category_id}
-                                                       displayWith={item => item ? item?.name : ''}
-                                                       keyExtractor={item => item?._id}
-                                                       valueExtractor={item => item}
-                                                       freeSolo={true}
-                                                       openOnFocus={true}
-                                                       searchMode={'serverSide'}
-                                                       defaultData={serviceCategoryList || []}
-                                                       url={APIConfig.SERVICE_CATEGORY_LIST_LITE.URL}
-                                                       method={APIConfig.SERVICE_CATEGORY_LIST_LITE.METHOD}
-                                                       fullWidth={true}
-                                                       onUpdate={
-                                                           (value) => {
-                                                               setSchedulingListFilterState({
-                                                                   ...schedulingListFilterState,
-                                                                   category_id: value,
-                                                                   service_id: undefined
-                                                               })
-                                                               if (value) {
-                                                                   getServiceList(value?._id);
-                                                               }
-                                                           }
-                                                       }
+                                {/*<SelectComponent size={'small'}*/}
+                                {/*                 label={'Service Category'}*/}
+                                {/*                 value={schedulingListFilterState?.category_id || ''}*/}
+                                {/*                 displayWith={item => item ? item?.name : ''}*/}
+                                {/*                 keyExtractor={item => item?._id}*/}
+                                {/*                 valueExtractor={item => item}*/}
+                                {/*                 options={serviceCategoryList || []}*/}
+                                {/*                 fullWidth={true}*/}
+                                {/*                 onUpdate={*/}
+                                {/*                     (value) => {*/}
+                                {/*                         setSchedulingListFilterState({*/}
+                                {/*                             ...schedulingListFilterState,*/}
+                                {/*                             category_id: value,*/}
+                                {/*                             service_id: undefined*/}
+                                {/*                         })*/}
+                                {/*                         if (value) {*/}
+                                {/*                             getServiceList(value?._id);*/}
+                                {/*                         }*/}
+                                {/*                     }*/}
+                                {/*                 }*/}
+                                {/*/>*/}
+                                <AutoCompleteComponent
+                                    size={'small'}
+                                    label={'Service Category'}
+                                    dataListKey={'data'}
+                                    value={schedulingListFilterState?.category_id}
+                                    displayWith={item => item ? item?.name : ''}
+                                    keyExtractor={item => item?._id}
+                                    valueExtractor={item => item}
+                                    freeSolo={true}
+                                    openOnFocus={true}
+                                    clearDefaultData={true}
+                                    searchMode={'serverSide'}
+                                    defaultData={serviceCategoryList || []}
+                                    url={APIConfig.SERVICE_CATEGORY_LIST_LITE.URL}
+                                    method={APIConfig.SERVICE_CATEGORY_LIST_LITE.METHOD}
+                                    fullWidth={true}
+                                    onUpdate={
+                                        (value) => {
+                                            setSchedulingListFilterState({
+                                                ...schedulingListFilterState,
+                                                category_id: value,
+                                                service_id: undefined
+                                            })
+                                            if (value) {
+                                                getServiceList(value?._id);
+                                            }
+                                        }
+                                    }
                                 />
                             </div>
                             <div className="scheduling-filter-header-action-item">
-                                <AutoCompleteComponent size={'small'}
-                                                       label={'Service'}
-                                                       disabled={!schedulingListFilterState?.category_id}
-                                                       value={schedulingListFilterState?.service_id}
-                                                       dataListKey={'data'}
-                                                       displayWith={item => item ? item?.name : ''}
-                                                       keyExtractor={item => item?._id}
-                                                       valueExtractor={item => item}
-                                                       searchMode={'serverSide'}
-                                                       freeSolo={true}
-                                                       openOnFocus={true}
-                                                       defaultData={serviceList || []}
-                                                       url={APIConfig.SERVICE_LIST_LITE.URL(schedulingListFilterState?.category_id?._id)}
-                                                       method={APIConfig.SERVICE_LIST_LITE.METHOD}
-                                                       fullWidth={true}
-                                                       onUpdate={
-                                                           (value) => {
-                                                               setSchedulingListFilterState({
-                                                                   ...schedulingListFilterState,
-                                                                   service_id: value
-                                                               })
+                                {/*<SelectComponent size={'small'}*/}
+                                {/*                 label={'Service'}*/}
+                                {/*                 disabled={!schedulingListFilterState?.category_id}*/}
+                                {/*                 value={schedulingListFilterState?.service_id || ''}*/}
+                                {/*                 displayWith={item => item ? item?.name : ''}*/}
+                                {/*                 keyExtractor={item => item?._id}*/}
+                                {/*                 valueExtractor={item => item}*/}
+                                {/*                 options={serviceList || []}*/}
+                                {/*                 fullWidth={true}*/}
+                                {/*                 onUpdate={*/}
+                                {/*                     (value) => {*/}
+                                {/*                         setSchedulingListFilterState({*/}
+                                {/*                             ...schedulingListFilterState,*/}
+                                {/*                             service_id: value*/}
+                                {/*                         })*/}
 
-                                                           }
-                                                       }
+                                {/*                     }*/}
+                                {/*                 }*/}
+                                {/*/>*/}
+                                <AutoCompleteComponent
+                                    size={'small'}
+                                    label={'Service'}
+                                    disabled={!schedulingListFilterState?.category_id}
+                                    value={schedulingListFilterState?.service_id}
+                                    dataListKey={'data'}
+                                    displayWith={item => item ? item?.name : ''}
+                                    keyExtractor={item => item?._id}
+                                    valueExtractor={item => item}
+                                    searchMode={'serverSide'}
+                                    freeSolo={true}
+                                    openOnFocus={true}
+                                    clearDefaultData={true}
+                                    defaultData={serviceList || []}
+                                    url={APIConfig.SERVICE_LIST_LITE.URL(schedulingListFilterState?.category_id?._id)}
+                                    method={APIConfig.SERVICE_LIST_LITE.METHOD}
+                                    fullWidth={true}
+                                    onUpdate={
+                                        (value) => {
+                                            setSchedulingListFilterState({
+                                                ...schedulingListFilterState,
+                                                service_id: value
+                                            })
+
+                                        }
+                                    }
                                 />
                             </div>
                             <div className="scheduling-filter-header-action-item">
-                                <AutoCompleteComponent size={'small'}
-                                                       label={'Provider'}
-                                                       value={schedulingListFilterState?.provider_id}
-                                                       dataListKey={'data'}
-                                                       displayWith={item => item ? item?.first_name + ' ' + item?.last_name : ''}
-                                                       keyExtractor={item => item?._id}
-                                                       valueExtractor={item => item}
-                                                       defaultData={providerList || []}
-                                                       searchMode={'serverSide'}
-                                                       url={APIConfig.USER_LIST_LITE.URL}
-                                                       method={APIConfig.USER_LIST_LITE.METHOD}
-                                                       fullWidth={true}
-                                                       freeSolo={true}
-                                                       openOnFocus={true}
-                                                       onUpdate={
-                                                           (value) => {
-                                                               setSchedulingListFilterState({
-                                                                   ...schedulingListFilterState,
-                                                                   provider_id: value
-                                                               })
-                                                           }
-                                                       }
+                                <AutoCompleteComponent
+                                    size={'small'}
+                                    label={'Provider'}
+                                    value={schedulingListFilterState?.provider_id}
+                                    dataListKey={'data'}
+                                    displayWith={item => item ? item?.first_name + ' ' + item?.last_name : ''}
+                                    keyExtractor={item => item?._id}
+                                    valueExtractor={item => item}
+                                    defaultData={providerList || []}
+                                    searchMode={'serverSide'}
+                                    url={APIConfig.USER_LIST_LITE.URL}
+                                    method={APIConfig.USER_LIST_LITE.METHOD}
+                                    fullWidth={true}
+                                    clearDefaultData={true}
+                                    freeSolo={true}
+                                    openOnFocus={true}
+                                    onUpdate={
+                                        (value) => {
+                                            setSchedulingListFilterState({
+                                                ...schedulingListFilterState,
+                                                provider_id: value
+                                            })
+                                        }
+                                    }
                                 />
                             </div>
                             <div className="scheduling-filter-header-action-item">
@@ -564,7 +674,20 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                 onDayRender={(day, dateMoment) => {
                                     const date = dateMoment.format('YYYY-MM-DD');
                                     return (<div key={'row-day-' + day}
-                                                 className={'calendar-appointments-holder' + ((calendarData && calendarData[date]?.appointments ? calendarData[date]?.appointments : []).length >= 9 ? ' fit-rows-min' : ((calendarData && calendarData[date]?.appointments ? calendarData[date]?.appointments : []).length >= 3 ? ' fit-rows' : ''))}>
+                                                 onClick={
+                                                     (event) => {
+                                                         // @ts-ignore
+                                                         if (event.target?.className.includes('calendar-appointments-holder')) {
+                                                             prepareNewAppointmentBooking({
+                                                                 ...schedulingListFilterState,
+                                                                 date
+                                                             });
+                                                         }
+                                                         // @ts-ignore
+                                                         console.log(event.target.className, 'add new appointment', date);
+                                                     }
+                                                 }
+                                                 className={'calendar-appointments-holder ' + ((calendarData && calendarData[date]?.appointments ? calendarData[date]?.appointments : []).length >= 9 ? ' fit-rows-min' : ((calendarData && calendarData[date]?.appointments ? calendarData[date]?.appointments : []).length >= 3 ? ' fit-rows' : ''))}>
                                         {calendarData && calendarData[date] && <>
                                             {(!!schedulingListFilterState.status || !!schedulingListFilterState.provider_id) ? (calendarData[date]?.appointments || [])
                                                 .map((value: any, index: number) => {
@@ -615,9 +738,9 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                 <div className="appointment-count-card-wrapper"
                                                                      style={{
                                                                          color: '#000000',
-                                                                         background: ((serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id] : '#AAAAAA') + '30',
+                                                                         background: ((serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id?._id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id?._id] : '#AAAAAA') + '30',
                                                                          // opacity: 0.6,
-                                                                         borderColor: (serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id] : '#AAAAAA'
+                                                                         borderColor: (serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id?._id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id?._id] : '#AAAAAA'
                                                                      }}
                                                                 >
                                                                     <div
@@ -650,9 +773,9 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                 <div className="appointment-count-card-wrapper"
                                                                      style={{
                                                                          color: '#000000',
-                                                                         background: ((serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id] : '#AAAAAA') + '60',
+                                                                         background: ((serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id?._id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id?._id] : '#AAAAAA') + '60',
                                                                          // opacity: 0.6,
-                                                                         borderColor: (serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id] : '#AAAAAA'
+                                                                         borderColor: (serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id?._id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id?._id] : '#AAAAAA'
                                                                      }}
                                                                 >
                                                                     <div
@@ -750,7 +873,19 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                 {HOURS_LIST_IN_MINUTES.map(
                                                     (value, index) => {
                                                         return <div key={index}
-                                                                    className="scheduling-calendar-hour-block">
+                                                                    className="scheduling-calendar-hour-block"
+                                                                    onClick={
+                                                                        (event) => {
+                                                                            // @ts-ignore
+                                                                            if (event.target?.className === 'scheduling-calendar-hour-block') {
+                                                                                prepareNewAppointmentBooking({
+                                                                                    ...schedulingListFilterState, ...value,
+                                                                                    date
+                                                                                });
+                                                                                // console.log(event.target.className, 'add new appointment', value, schedulingListFilterState);
+                                                                            }
+                                                                        }
+                                                                    }>
                                                             <div className="dashed-line"/>
                                                             <div className="scheduling-calendar-hour-block-content">
                                                                 {/*actual logic goes here*/}
@@ -799,8 +934,8 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                         method={APIConfig.APPOINTMENT_LIST.METHOD}
                         columns={SchedulingListColumns}
                         refreshToken={refreshToken}
-                        noDataText={(!!schedulingListFilterState.category_id || !!schedulingListFilterState.search || !!schedulingListFilterState.service_id || !!schedulingListFilterState.provider_id || !!schedulingListFilterState.status) ? 'No Appointments Available' : 'No Appointments Scheduled'}
-                        extraPayload={schedulingListFilterState}
+                        noDataText={(!!schedulingListModeFilterState.category_id || !!schedulingListModeFilterState.search || !!schedulingListModeFilterState.service_id || !!schedulingListModeFilterState.provider_id || !!schedulingListModeFilterState.status) ? 'No Appointments Available' : 'No Appointments Scheduled'}
+                        extraPayload={schedulingListModeFilterState}
                         onSort={handleSchedulingSort}
                     />}
                 </div>

@@ -295,6 +295,9 @@
             min-height: 62px;
             max-height: 62px;
             position: relative;
+            &:hover {
+              background-color: #f0f5f5;
+            }
 
             .dashed-line {
               border-bottom: 1px dashed #BFC6CD;
@@ -330,6 +333,10 @@
 
 .calendar-appointments-holder {
   overflow: hidden;
+  min-height: calc(100% - 20px);
+  &:hover {
+    cursor: pointer;
+  }
   //width: 100%;
 
   .appointment-count-card {

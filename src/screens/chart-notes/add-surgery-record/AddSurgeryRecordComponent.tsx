@@ -17,6 +17,7 @@ import {CommonService} from "../../../shared/services";
 import {Misc} from "../../../constants";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import InputComponent from "../../../shared/components/form-controls/input/InputComponent";
+import moment from "moment";
 
 interface AddSurgeryRecordComponentProps {
     medicalRecordId: string;
@@ -92,6 +93,7 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                                             <FormikDatePickerComponent
                                                 label={'Date of Surgery'}
                                                 placeholder={'Date of Surgery'}
+                                                maxDate={moment()}
                                                 formikField={field}
                                                 required={true}
                                                 fullWidth={true}
@@ -122,7 +124,7 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                                     {
                                         (field: FieldProps) => (
                                             <FormikTextAreaComponent
-                                                label={'Brief Details'}
+                                                label={'Brief Surgical Details'}
                                                 formikField={field}
                                                 fullWidth={true}
                                             />

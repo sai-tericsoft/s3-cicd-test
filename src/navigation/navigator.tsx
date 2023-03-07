@@ -28,9 +28,9 @@ import AddMedicalRecordScreen from "../screens/chart-notes/add-medical-record/Ad
 import {
     ADD_INVENTORY_PRODUCT,
     ADD_MEDICAL_RECORD,
-    ADD_NEW_INVOICE,
     ADMIN,
     BILLING,
+    BILLING_DETAILS,
     CHART_NOTES_LIST,
     CLIENT_ADD,
     CLIENT_DETAILS,
@@ -63,7 +63,7 @@ import {
     MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE,
     MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
     NOT_FOUND_ROUTE,
-    PAYMENT_LIST,
+    BILLING_LIST,
     PROGRESS_REPORT_VIEW_DETAILS,
     SCHEDULING_VIEW,
     SERVICE_ADD,
@@ -74,7 +74,8 @@ import {
     SYSTEM_SETTINGS,
     TEST_ROUTE,
     UPDATE_MEDICAL_INTERVENTION,
-    VIEW_MEDICAL_INTERVENTION
+    VIEW_MEDICAL_INTERVENTION,
+    ADD_NEW_RECEIPT
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
@@ -123,8 +124,9 @@ import UpdateMedicalIntervention
 import ViewMedicalInterventionScreen
     from "../screens/chart-notes/view-medical-intervention/ViewMedicalInterventionScreen";
 import BillingMainLayoutComponent from "../screens/billings/billing-main-layout/BillingMainLayoutComponent";
-import BillingPaymentScreen from "../screens/billings/payment-list/BillingPaymentScreen";
-import AddNewInvoiceScreen from "../screens/billings/add-new-invoice/AddNewInvoiceScreen";
+import BillingListScreen from "../screens/billings/billing-list/BillingListScreen";
+import AddNewReceiptScreen from "../screens/billings/add-new-receipt/AddNewReceiptScreen";
+import BillingDetailsScreen from "../screens/billings/billing-details/BillingDetailsScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -563,13 +565,17 @@ const Navigator = (props: NavigatorProps) => {
                         />
                     </Route>
                     <Route path={BILLING} element={<BillingMainLayoutComponent/>}{...props}>
-                        <Route index element={<Navigate to={PAYMENT_LIST}/>}/>
-                        <Route path={PAYMENT_LIST} element={<ProtectedRoute>
-                            <BillingPaymentScreen/>
+                        <Route index element={<Navigate to={BILLING_LIST}/>}/>
+                        <Route path={BILLING_LIST} element={<ProtectedRoute>
+                            <BillingListScreen/>
                         </ProtectedRoute>}
                         />
-                        <Route path={ADD_NEW_INVOICE} element={<ProtectedRoute>
-                            <AddNewInvoiceScreen/>
+                        <Route path={ADD_NEW_RECEIPT} element={<ProtectedRoute>
+                            <AddNewReceiptScreen/>
+                        </ProtectedRoute>}
+                        />
+                        <Route path={BILLING_DETAILS} element={<ProtectedRoute>
+                            <BillingDetailsScreen/>
                         </ProtectedRoute>}
                         />
                     </Route>

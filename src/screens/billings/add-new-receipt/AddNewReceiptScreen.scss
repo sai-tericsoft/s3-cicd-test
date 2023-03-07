@@ -1,6 +1,6 @@
 @import "src/assets/styles/common";
 
-.add-new-invoice-screen {
+.add-new-receipt-screen {
 
   .t-form {
     background-color: #ffffff;
@@ -13,6 +13,21 @@
       margin-bottom: 20px;
 
       .billing-address-block {
+
+
+        &.from {
+          text-align: start;
+          .billing-address-block__header{
+            justify-content: flex-start;
+          }
+        }
+
+        &.to {
+          text-align: end;
+          .billing-address-block__header{
+            justify-content: flex-end;
+          }
+        }
 
         .billing-address-block__header {
           display: flex;
@@ -46,28 +61,28 @@
     }
   }
 
-  .add-new-invoice__comments__payment__block__wrapper {
+  .add-new-receipt__comments__payment__block__wrapper {
     background: #EAF3F2;
     padding: 24px;
 
-    .add-new-invoice__payment__block {
+    .add-new-receipt__payment__block {
       width: 300px;
       float: right;
 
-      .add-new-invoice__payment__block__row {
+      .add-new-receipt__payment__block__row {
         display: flex;
         justify-content: space-between;
         margin-bottom: 16px;
         align-items: center;
 
-        .add-new-invoice__payment__block__row__title {
+        .add-new-receipt__payment__block__row__title {
           font-weight: 500;
           font-size: 14px;
           line-height: 16px;
           color: #6D6D6D;
         }
 
-        .add-new-invoice__payment__block__row__value {
+        .add-new-receipt__payment__block__row__value {
           font-weight: 700;
           font-size: 16px;
           line-height: 19px;
@@ -75,12 +90,12 @@
         }
 
         &.grand {
-          .add-new-invoice__payment__block__row__title {
+          .add-new-receipt__payment__block__row__title {
             color: #212B36;
             font-weight: 600;
           }
 
-          .add-new-invoice__payment__block__row__value {
+          .add-new-receipt__payment__block__row__value {
             font-size: 24px;
           }
         }
@@ -94,6 +109,7 @@
   .products-block-wrapper {
     .t-td {
       height: auto !important;
+      min-height: 52px;
     }
 
     .products-block-add-more {
@@ -124,8 +140,3 @@
   }
 }
 
-.edit-billing-address-form {
-  .t-form-controls {
-    height: calc(100vh - 220px);
-  }
-}

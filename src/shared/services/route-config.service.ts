@@ -8,7 +8,8 @@ import {
     COMING_SOON_ROUTE,
     DASHBOARD,
     FACILITY_DETAILS,
-    FACILITY_LIST, INVENTORY,
+    FACILITY_LIST,
+    INVENTORY,
     LOGIN_ROUTE,
     NOT_FOUND_ROUTE,
     SCHEDULING_VIEW,
@@ -156,8 +157,8 @@ const MedicalRecordSurgeryRecordDetails = (medicalRecordId: string, surgeryRecor
     return '/chart-notes/' + medicalRecordId + '/surgery-record/' + surgeryRecordId;
 }
 
-const MedicalRecordProgressReportAdvancedDetailsUpdate = (medicalRecordId: string, progressReportId: string) => {
-    return '/chart-notes/' + medicalRecordId + '/' + progressReportId + '/progress-report-advance-details-update';
+const MedicalRecordProgressReportAdvancedDetailsUpdate = (medicalRecordId: string, progressReportId: string,mode:string) => {
+    return '/chart-notes/' + medicalRecordId + '/' + progressReportId + '/progress-report-advance-details-update/'+ mode;
 }
 
 const MedicalInterventionFinalizeTreatment = (medicalRecordId: string, medicalInterventionId: string) => {
@@ -201,12 +202,16 @@ const EditInventoryProduct = (productId: string) => {
     return "/inventory/edit-product/" + productId;
 }
 
-const BillingPaymentList = () =>{
-    return "/billing/payment-list";
+const BillingList = () => {
+    return "/billing/billing-list";
 }
 
-const AddNewInvoice = () =>{
-    return "/billing/add-new-invoice";
+const AddNewReceipt = () => {
+    return "/billing/add-new-receipt";
+}
+
+const BillingDetails = (billingId: string, type: 'invoice' | 'receipt') => {
+    return "/billing/billing-details/" + billingId + "?type=" + type;
 }
 
 const RouteConfigService = {
@@ -255,8 +260,9 @@ const RouteConfigService = {
     InventoryProductViewDetails,
     EditInventoryProduct,
     SystemSettings,
-    BillingPaymentList,
-    AddNewInvoice
+    BillingList,
+    AddNewReceipt,
+    BillingDetails
 }
 
 export default RouteConfigService;

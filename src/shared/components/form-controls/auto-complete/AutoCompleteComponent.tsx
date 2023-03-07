@@ -13,6 +13,7 @@ interface AutoCompleteDropdownComponentProps extends IAutoCompleteProps {
     hasError?: boolean;
     errorMessage?: any;
     value?: any;
+    clearDefaultData?: boolean
 }
 
 const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps) => {
@@ -31,9 +32,13 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
             url,
             extraPayload,
             readOnly,
+            clearDefaultData,
             disableClearable,
             blurOnSelect,
-            clearLocalListData
+            onBlur,
+            clearLocalListData,
+            filteredOptionKey,
+            filteredOptions
         } = props;
 
         let {
@@ -75,7 +80,6 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
         const APICallSubscription = useRef<any>(null);
         const [openPopup, setOpenPopup] = useState<boolean>(false);
         const [formControlValue, setFormControlValue] = useState<any | undefined>(props.value || undefined);
-
         const defaultDisplayWith = useCallback((item: any) => item?.title || '', []);
         const defaultKeyExtractor = useCallback((item: any, index?: number) => item?._id || index, []);
         const defaultValueExtractor = useCallback((item: any) => item?.code || '', []);
@@ -183,6 +187,9 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
             setIsDropDownDataLoaded(false);
             setIsDropDownDataLoadingFailed(false);
             let dropDownData: any[] = [...defaultData || []];
+            if (clearDefaultData) {
+                dropDownData = [];
+            }
             request(url, finalPayload, {}, {cancelToken: cancelTokenSource.token})
                 .then((response: IAPIResponseType<any>) => {
                     if (dataListKey && _.get(response, dataListKey)) {
@@ -201,7 +208,7 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
                         setIsDropDownDataLoadingFailed(true);
                     }
                 });
-        }, [defaultData, url, dataListKey, method, extraPayload]);
+        }, [defaultData, clearDefaultData, url, dataListKey, method, extraPayload]);
 
         const handleInputChange = useCallback((event: any, value: any) => {
             console.log(event, value);
@@ -222,11 +229,16 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
             }
         }, [getDataList, openPopup, searchMode]);
 
-        // const filterOptions = createFilterOptions({
-        //     // if(searchMode === "serverSide"){
-        //     //     stringify: (option: any) => option;
-        //     // }
-        // });
+        const filterOptions = useCallback((options: any[], {inputValue}: any) => {
+                if (filteredOptions && filteredOptionKey) {
+                    const filteredOptionsIds = filteredOptions?.map((item) => item && item[filteredOptionKey]);
+                    return options?.filter((item) => !filteredOptionsIds?.includes(item[filteredOptionKey]));
+                } else {
+                    return options;
+                }
+            },
+            // matchSorter(options, inputValue),
+            [filteredOptions, filteredOptionKey]);
 
         return (
             <FormControl className="autoComplete-component-wrapper"
@@ -251,6 +263,7 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
                                    required={required}
                                    color={color}
                                    placeholder={placeholder}
+                                   onBlur={onBlur}
                                    onClick={() => {
                                        if ((dropDownData && dropDownData.length > 0) && !disabled) {
                                            setOpenPopup(true);
@@ -284,7 +297,7 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
                             setOpenPopup(true);
                         }
                     }}
-                    filterOptions={searchMode === "serverSide" ? (x) => x : undefined}
+                    filterOptions={filterOptions}
                     filterSelectedOptions={filterSelectedOptions}
                 />
                 <FormHelperText>

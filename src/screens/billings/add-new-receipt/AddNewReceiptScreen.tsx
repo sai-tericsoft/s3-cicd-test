@@ -1,4 +1,4 @@
-import "./AddNewInvoiceScreen.scss";
+import "./AddNewReceiptScreen.scss";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
@@ -31,8 +31,9 @@ import {IRootReducerState} from "../../../store/reducers";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
+import EditBillingAddressComponent from "../edit-billing-address/EditBillingAddressComponent";
 
-interface AddNewInvoiceScreenProps {
+interface AddNewReceiptScreenProps {
 
 }
 
@@ -45,17 +46,24 @@ const ProductValidationSchema = Yup.object({
     }),
 });
 
-const AddNewInvoiceFormValidationSchema = Yup.object({
+const AddNewReceiptFormValidationSchema = Yup.object({
     products: Yup.array().of(
         ProductValidationSchema
     ),
     amount: Yup.number().min(1).required("Amount is required"),
     // discount: Yup.number().min(1).max(100).nullable(),
-    discount_amount: Yup.number().nullable().when("amount", {
+    discount_amount: Yup.mixed().nullable().when("amount", {
         is: (value: number) => value > 0,
-        then: Yup.number().min(0).max(Yup.ref('amount'), 'Invalid Discount Amount').required("Discount is required"),
-        otherwise: Yup.number().nullable()
+        then: Yup.number().max(Yup.ref('amount'), 'Invalid Discount Amount')
+            .nullable(true)
+            // checking self-equality works for NaN, transforming it to null
+            .transform((_, val) => val ? Number(val) : null),
+        otherwise: Yup.number()
+            .nullable(true)
+            // checking self-equality works for NaN, transforming it to null
+            .transform((_, val) => val ? Number(val) : null),
     }),
+    // discount_amount: Yup.mixed().nullable(),
     client_id: Yup.string().required("Client is required"),
     provider_id: Yup.string().required("Provider is required"),
     comments: Yup.string().nullable().max(200, "Comments cannot be more than 200 characters"),
@@ -70,7 +78,7 @@ const ProductRow = {
     quantity: undefined
 }
 
-const AddNewInvoiceFormInitialValues = {
+const AddNewReceiptFormInitialValues = {
     products: [
         {
             ...ProductRow,
@@ -79,19 +87,7 @@ const AddNewInvoiceFormInitialValues = {
     ]
 }
 
-const BillingAddressFormValidationSchema = Yup.object({});
-
-const BillingAddressFormInitialValues = {
-    name: "",
-    address_line: "",
-    city: "",
-    state: "",
-    zip_code: "",
-    country: "",
-    phone: ""
-}
-
-const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
+const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -109,20 +105,19 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
     const [isClientSelectionDrawerOpened, setIsClientSelectionDrawerOpened] = useState<boolean>(false);
     const [isProviderSelectionDrawerOpened, setIsProviderSelectionDrawerOpened] = useState<boolean>(false);
     const {name, address, city, state, zip, phone_number} = Misc.COMPANY_BILLING_ADDRESS;
-    const [addNewInvoiceFormInitialValues, setAddNewInvoiceFormFormInitialValues] = useState<any>(_.cloneDeep(AddNewInvoiceFormInitialValues));
-    const [billingAddressFormInitialValues, setBillingAddressFormInitialValues] = useState<any>(_.cloneDeep(BillingAddressFormInitialValues));
+    const [addNewReceiptFormInitialValues, setAddNewReceiptFormFormInitialValues] = useState<any>(_.cloneDeep(AddNewReceiptFormInitialValues));
     const [isClientBillingAddressDrawerOpened, setIsClientBillingAddressDrawerOpened] = useState<boolean>(false);
     const [selectedPaymentMode, setSelectedPaymentMode] = useState<string | undefined>(undefined);
     const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
-    const [invoiceAmount, setInvoiceAmount] = useState<number>(0);
+    const [invoiceAmount, setReceiptAmount] = useState<number>(0);
 
     const {
         paymentModes
     } = useSelector((state: IRootReducerState) => state.staticData);
 
     useEffect(() => {
-        dispatch(setCurrentNavParams("Add New Invoice", null, () => {
-            navigate(CommonService._routeConfig.BillingPaymentList());
+        dispatch(setCurrentNavParams("Add New Receipt", null, () => {
+            navigate(CommonService._routeConfig.BillingList());
         }));
     }, [navigate, dispatch]);
 
@@ -147,6 +142,9 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                 {
                     (field: FieldProps) => {
                         const quantity = _.get(field.form?.values, `products[${index}].quantity`);
+                        const units = _.get(field.form?.values, `products[${index}].units`);
+                        const selectedProducts = _.get(field.form?.values, `products`).map((item: any) => item.product);
+                        const showAvailableQuantity = (quantity !== undefined && (units === undefined || units === '' || units === null || units === 0 || isNaN(units)));
                         return <>
                             <FormikAutoCompleteComponent
                                 required={true}
@@ -156,6 +154,8 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                                 formikField={field}
                                 size={"small"}
                                 // fullWidth={true}
+                                filteredOptionKey={"_id"}
+                                filteredOptions={selectedProducts}
                                 displayWith={(item: any) => item?.name || ''}
                                 onUpdate={(item: any) => {
                                     field.form.setFieldValue(`products[${index}].product_id`, item._id);
@@ -166,9 +166,9 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                             />
                             <span
                                 className={`product-available-quantity
-                                ${quantity !== undefined ? "visibility-visible" : "visibility-hidden"}
-                                ${quantity > 0 ? "text-primary" : "text-error"}
-                                `}>Available Stock: {quantity > 0 ? quantity : 0} unit(s)
+                                ${showAvailableQuantity ? "visibility-visible" : "visibility-hidden"}
+                                ${quantity > 0 ? "text-primary" : "text-error"}`
+                                }>Available Stock: {quantity > 0 ? quantity : 0} unit(s)
                             </span>
                         </>
                     }
@@ -185,7 +185,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                     (field: FieldProps) => (
                         <>
                             {
-                                (field.form.values?.products?.[index]?.quantity !== undefined && field.form.values?.products?.[index]?.quantity !== null && field.form.values?.products?.[index]?.quantity > -1) ?
+                                (field.form.values?.products?.[index]?.quantity !== undefined && field.form.values?.products?.[index]?.quantity !== null && field.form.values?.products?.[index]?.quantity > 0) ?
                                     <FormikInputComponent
                                         required={true}
                                         formikField={field}
@@ -241,7 +241,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                         <IconButtonComponent
                             disabled={field.form.values?.products?.length === 1}
                             onClick={() => {
-                                setAddNewInvoiceFormFormInitialValues((prev: any) => ({
+                                setAddNewReceiptFormFormInitialValues((prev: any) => ({
                                     ...prev,
                                     products: prev.products.filter((_: any, i: number) => i !== index)
                                 }));
@@ -334,9 +334,9 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                 }
                 setSelectedClientBillingAddress(billingAddress);
                 setIsClientBillingAddressLoading(false);
-                setBillingAddressFormInitialValues(billingAddress);
             })
             .catch((error: any) => {
+                CommonService._alert.showToast(error.error || error.errors || "Failed to fetch client billing address", "error");
                 setSelectedClientBillingAddress(billingAddress);
                 setIsClientBillingAddressLoading(false);
             });
@@ -380,27 +380,12 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
         setSelectedPaymentMode(undefined);
     }, []);
 
-    const onBillingAddressFormSubmit = useCallback((values: any, {setSubmitting, setErrors}: FormikHelpers<any>) => {
-        setSubmitting(true);
-        CommonService._client.UpdateClientBillingAddress(selectedClient?._id, values)
-            .then((response: any) => {
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                setSelectedClientBillingAddress(values);
-                setSubmitting(false);
-                closeBillingAddressFormDrawer();
-            })
-            .catch((error: any) => {
-                CommonService.handleErrors(setErrors, error);
-                setSubmitting(false);
-            });
-    }, [selectedClient, closeBillingAddressFormDrawer]);
-
     const onSubmit = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
         setSubmitting(false);
         openPaymentModeModal()
     }, [openPaymentModeModal]);
 
-    const handleAddInvoiceConfirm = useCallback(() => {
+    const handleAddReceiptConfirm = useCallback(() => {
         closePaymentModeModal();
         const values = formRef?.current?.values;
         const setSubmitting = formRef?.current?.setSubmitting;
@@ -409,47 +394,59 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
         const payload = {
             ...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['product', 'key']),
             amount: invoiceAmount,
-            payment_mode: selectedPaymentMode
+            payment_mode: selectedPaymentMode,
+            billing_address: selectedClientBillingAddress // TODO remove it to send from FE once BE fixes made
         }
-        CommonService._billingsService.AddNewInvoiceAPICall(payload)
+        CommonService._billingsService.AddNewReceiptAPICall(payload)
             .then((response: IAPIResponseType<any>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setSubmitting && setSubmitting(false);
-                navigate(CommonService._routeConfig.BillingPaymentList() + '?activeTab=completedPayments');
+                navigate(CommonService._routeConfig.BillingList() + '?activeTab=completedPayments');
             })
             .catch((error: any) => {
                 setErrors && CommonService.handleErrors(setErrors, error);
                 setSubmitting && setSubmitting(false);
             })
-    }, [closePaymentModeModal, invoiceAmount, navigate, selectedPaymentMode]);
+    }, [closePaymentModeModal, selectedClientBillingAddress, invoiceAmount, navigate, selectedPaymentMode]);
 
-    const handleAddInvoiceCancel = useCallback(() => {
+    const handleAddReceiptCancel = useCallback(() => {
         CommonService.onConfirm(
             {
-                confirmationTitle: "DISCARD INVOICE",
+                confirmationTitle: "DISCARD RECEIPT",
                 image: ImageConfig.RemoveImage,
-                confirmationSubTitle: `Are you sure you do not wish to generate an invoice, as it will be deleted?"?`
+                confirmationSubTitle: `Are you sure you do not wish to generate an receipt, as it will be deleted?"?`
             }
         )
             .then((result: any) => {
-                navigate(CommonService._routeConfig.BillingPaymentList());
+                navigate(CommonService._routeConfig.BillingList());
             });
     }, [navigate]);
 
     useEffect(() => {
-        const totalAmount = formRef.current?.values?.products?.reduce((acc: number, curr: any) => {
-            return (curr.amount && curr.units) ? acc + (parseInt(curr?.amount) * parseInt(curr?.units)) : acc;
-        }, 0);
+        let totalAmount = 0;
+        if (formRef.current?.values?.products){
+            totalAmount = formRef.current?.values?.products?.reduce((acc: number, curr: any) => {
+                return (curr.amount && curr.units) ? acc + (parseInt(curr?.amount) * parseInt(curr?.units)) : acc;
+            }, 0);
+        } else {
+            totalAmount = 0;
+        }
         formRef.current?.setFieldValue('amount', totalAmount);
-        setInvoiceAmount(totalAmount);
-    }, [addNewInvoiceFormInitialValues]);
+        formRef.current?.setFieldTouched('discount_amount');
+        setReceiptAmount(totalAmount);
+    }, [formRef.current?.values?.products]);
+
+    const handleEditBillingAddress = useCallback((values: any) => {
+        setSelectedClientBillingAddress(values);
+        closeBillingAddressFormDrawer();
+    }, [closeBillingAddressFormDrawer]);
 
     return (
-        <div className={'add-new-invoice-screen'}>
+        <div className={'add-new-receipt-screen'}>
             <PageHeaderComponent title={'Add Receipt'}/>
             <Formik
-                validationSchema={AddNewInvoiceFormValidationSchema}
-                initialValues={addNewInvoiceFormInitialValues}
+                validationSchema={AddNewReceiptFormValidationSchema}
+                initialValues={addNewReceiptFormInitialValues}
                 validateOnChange={false}
                 validateOnBlur={true}
                 enableReinitialize={true}
@@ -462,7 +459,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                     // eslint-disable-next-line react-hooks/rules-of-hooks
                     useEffect(() => {
                         validateForm();
-                        setAddNewInvoiceFormFormInitialValues(values);
+                        setAddNewReceiptFormFormInitialValues(values);
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
@@ -483,7 +480,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                                     </div>
                                     <HorizontalLineComponent/>
                                     <div className={"billing-address-wrapper"}>
-                                        <div className={"billing-address-block"}>
+                                        <div className={"billing-address-block from"}>
                                             <div className={"billing-address-block__header"}>
                                                 <div className={"billing-address-block__title"}>Billing From</div>
                                             </div>
@@ -497,7 +494,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                                                     className={"billing-address-block__detail__row"}> {phone_number} </div>
                                             </div>
                                         </div>
-                                        <div className={"billing-address-block"}>
+                                        <div className={"billing-address-block to"}>
                                             <div className={"billing-address-block__header"}>
                                                 <div className={"billing-address-block__title"}>Billing To</div>
                                                 &nbsp;&nbsp;
@@ -625,14 +622,14 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                                     <div className="products-block">
                                         <div className="products-block-wrapper">
                                             <TableComponent columns={productListTableColumns}
-                                                            data={addNewInvoiceFormInitialValues.products}/>
+                                                            data={addNewReceiptFormInitialValues.products}/>
                                             <div className={'products-block-add-more'}>
                                                 <ButtonComponent
                                                     variant={"text"}
                                                     prefixIcon={<ImageConfig.AddIcon/>}
                                                     disabled={!ProductValidationSchema.isValidSync(values?.products[values.products.length - 1])}
                                                     onClick={() => {
-                                                        setAddNewInvoiceFormFormInitialValues((prev: any) => ({
+                                                        setAddNewReceiptFormFormInitialValues((prev: any) => ({
                                                             ...prev,
                                                             products: [...prev.products, {
                                                                 ..._.cloneDeep(ProductRow),
@@ -647,7 +644,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                                         </div>
                                     </div>
                                     <div className="clear-fix"/>
-                                    <div className={'add-new-invoice__comments__payment__block__wrapper'}>
+                                    <div className={'add-new-receipt__comments__payment__block__wrapper'}>
                                         <div className="ts-row">
                                             <div className="ts-col-lg-6">
                                                 <Field name={`comments`} className="t-form-control">
@@ -664,14 +661,14 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                                                 </Field>
                                             </div>
                                             <div className="ts-col-lg-6">
-                                                <div className="add-new-invoice__payment__block">
-                                                    <div className="add-new-invoice__payment__block__row">
+                                                <div className="add-new-receipt__payment__block">
+                                                    <div className="add-new-receipt__payment__block__row">
                                                         <div
-                                                            className="add-new-invoice__payment__block__row__title">Subtotal
+                                                            className="add-new-receipt__payment__block__row__title">Subtotal
                                                             (Inc. Tax)
                                                         </div>
                                                         <div
-                                                            className="add-new-invoice__payment__block__row__value">
+                                                            className="add-new-receipt__payment__block__row__value">
                                                             {Misc.CURRENCY_SYMBOL} {invoiceAmount}
                                                         </div>
                                                     </div>
@@ -683,6 +680,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                                                                         label="Discount"
                                                                         fullWidth={true}
                                                                         type={"number"}
+                                                                        max={invoiceAmount}
                                                                         formikField={field}
                                                                         disabled={!(invoiceAmount > 0)}
                                                                         validationPattern={Patterns.POSITIVE_WHOLE_NUMBERS}
@@ -692,14 +690,14 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                                                             }
                                                         </Field>
                                                     </div>
-                                                    <div className="add-new-invoice__payment__block__row grand">
-                                                        <div className="add-new-invoice__payment__block__row__title">
+                                                    <div className="add-new-receipt__payment__block__row grand">
+                                                        <div className="add-new-receipt__payment__block__row__title">
                                                             Grand Total (Inc. Tax)
                                                         </div>
                                                         <div
-                                                            className="add-new-invoice__payment__block__row__value">{Misc.CURRENCY_SYMBOL}
+                                                            className="add-new-receipt__payment__block__row__value">{Misc.CURRENCY_SYMBOL}
                                                             {
-                                                                invoiceAmount - (addNewInvoiceFormInitialValues.discount_amount ? parseInt(addNewInvoiceFormInitialValues.discount_amount) : 0)
+                                                                invoiceAmount - (addNewReceiptFormInitialValues.discount_amount ? parseInt(addNewReceiptFormInitialValues.discount_amount) : 0)
                                                             }
                                                         </div>
                                                     </div>
@@ -709,7 +707,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                                     </div>
                                     <div className="t-form-actions">
                                         <ButtonComponent variant={"outlined"}
-                                                         onClick={handleAddInvoiceCancel}
+                                                         onClick={handleAddReceiptCancel}
                                         >
                                             Cancel
                                         </ButtonComponent>&nbsp;&nbsp;
@@ -799,131 +797,14 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                              onClose={closeBillingAddressFormDrawer}
                              showClose={true}
             >
-                <Formik
-                    validationSchema={BillingAddressFormValidationSchema}
-                    initialValues={billingAddressFormInitialValues}
-                    validateOnChange={false}
-                    validateOnBlur={true}
-                    enableReinitialize={true}
-                    validateOnMount={true}
-                    onSubmit={onBillingAddressFormSubmit}
-                >
-                    {(formik) => {
-                        const {values, validateForm, isSubmitting} = formik;
-                        // eslint-disable-next-line react-hooks/rules-of-hooks
-                        useEffect(() => {
-                            validateForm();
-                        }, [validateForm, values]);
-                        return (
-                            <Form className="t-form edit-billing-address-form" noValidate={true}>
-                                <FormControlLabelComponent label={"Edit Billing To"}/>
-                                <div className="t-form-controls">
-                                    <Field name={`name`} className="t-form-control">
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikInputComponent
-                                                    label={"Name"}
-                                                    required={true}
-                                                    fullWidth={true}
-                                                    formikField={field}
-                                                />
-                                            )
-                                        }
-                                    </Field>
-                                    <Field name={`phone`} className="t-form-control">
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikInputComponent
-                                                    label={"Phone"}
-                                                    required={true}
-                                                    fullWidth={true}
-                                                    formikField={field}
-                                                />
-                                            )
-                                        }
-                                    </Field>
-                                    <Field name={`address_line`} className="t-form-control">
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikInputComponent
-                                                    label={"Address"}
-                                                    required={true}
-                                                    fullWidth={true}
-                                                    formikField={field}
-                                                />
-                                            )
-                                        }
-                                    </Field>
-                                    <Field name={`city`} className="t-form-control">
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikInputComponent
-                                                    label={"City"}
-                                                    required={true}
-                                                    fullWidth={true}
-                                                    formikField={field}
-                                                />
-                                            )
-                                        }
-                                    </Field>
-                                    <Field name={`state`} className="t-form-control">
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikInputComponent
-                                                    label={"State"}
-                                                    required={true}
-                                                    fullWidth={true}
-                                                    formikField={field}
-                                                />
-                                            )
-                                        }
-                                    </Field>
-                                    <Field name={`zip_code`} className="t-form-control">
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikInputComponent
-                                                    label={"Zip Code"}
-                                                    required={true}
-                                                    fullWidth={true}
-                                                    formikField={field}
-                                                />
-                                            )
-                                        }
-                                    </Field>
-                                    <Field name={`country`} className="t-form-control">
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikInputComponent
-                                                    label={"Country"}
-                                                    required={true}
-                                                    fullWidth={true}
-                                                    formikField={field}
-                                                />
-                                            )
-                                        }
-                                    </Field>
-                                </div>
-                                <div className="t-form-actions">
-                                    <ButtonComponent variant={"outlined"}
-                                                     onClick={() => closeBillingAddressFormDrawer()}>
-                                        Cancel
-                                    </ButtonComponent>&nbsp;&nbsp;
-                                    <ButtonComponent
-                                        type="submit"
-                                        isLoading={isSubmitting}
-                                        disabled={isSubmitting}
-                                    >
-                                        Save
-                                    </ButtonComponent>
-                                </div>
-                            </Form>
-                        );
-                    }}
-                </Formik>
+                <EditBillingAddressComponent billing_address={selectedClientBillingAddress}
+                                             clientId={selectedClient?._id}
+                                             onCancel={closeBillingAddressFormDrawer}
+                                             onSave={handleEditBillingAddress}/>
             </DrawerComponent>
             {/*Payment mode selection Modal start*/}
             <ModalComponent isOpen={isPaymentModeModalOpen}
-                            className={'add-new-invoice-payment-mode-modal'}
+                            className={'payment-mode-modal'}
                             modalFooter={<>
                                 <ButtonComponent variant={'outlined'}
                                                  className={'mrg-right-10'}
@@ -937,7 +818,7 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
                                 <ButtonComponent variant={'contained'}
                                                  color={'primary'}
                                                  disabled={!selectedPaymentMode}
-                                                 onClick={handleAddInvoiceConfirm}
+                                                 onClick={handleAddReceiptConfirm}
                                 >
                                     Confirm Payment
                                 </ButtonComponent>
@@ -960,4 +841,4 @@ const AddNewInvoiceScreen = (props: AddNewInvoiceScreenProps) => {
     );
 };
 
-export default AddNewInvoiceScreen;
+export default AddNewReceiptScreen;
