@@ -31,13 +31,14 @@ const MedicalInterventionLinkedToComponent = (props: MedicalInterventionLinkedTo
                 title: "Body Part",
                 dataIndex: "body_part",
                 key: "body_part",
-                width: 91,
+                fixed: "left",
+                width: 151,
                 render: (item: any) => {
                     return <>{item?.body_part_details?.name}</>
                 }
             },
             {
-                title: "Body  Side",
+                title: "Body  Side(s)",
                 dataIndex: "body_side",
                 key: "body_side",
                 width: 114,
@@ -88,7 +89,7 @@ const MedicalInterventionLinkedToComponent = (props: MedicalInterventionLinkedTo
                 </DataLabelValueComponent>
 
                 {/*Body Parts Modal Start*/}
-                <ModalComponent title={"All Added Body Parts"} isOpen={isBodyPartsModalOpen} onClose={closeBodyPartsModal}>
+                <ModalComponent title={"All Added Body Parts"} className={'all-body-body-parts-heading'} isOpen={isBodyPartsModalOpen} onClose={closeBodyPartsModal}>
                     <TableComponent data={medicalRecordDetails?.injury_details} columns={bodyPartsColumns}/>
                     <div className={'close-modal-btn'}>
                         <ButtonComponent onClick={closeBodyPartsModal}>Close</ButtonComponent>
