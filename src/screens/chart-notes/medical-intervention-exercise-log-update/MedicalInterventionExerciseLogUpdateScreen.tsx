@@ -99,6 +99,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     {
                         (field: FieldProps) => (
                             <FormikInputComponent
+                                className={'exercise-name'}
                                 size={"small"}
                                 formikField={field}
                             />
