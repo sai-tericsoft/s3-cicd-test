@@ -13,6 +13,7 @@ import FormControlLabelComponent from "../../form-control-label/FormControlLabel
 import FormikInputComponent from "../../form-controls/formik-input/FormikInputComponent";
 import FormikSelectComponent from "../../form-controls/formik-select/FormikSelectComponent";
 import FormikTextAreaComponent from "../../form-controls/formik-text-area/FormikTextAreaComponent";
+import ToolTipComponent from "../../tool-tip/ToolTipComponent";
 
 
 interface AppointmentPaymentComponentProps {
@@ -43,7 +44,7 @@ const addAppointmentPaymentValidationSchema = Yup.object().shape({
 });
 
 const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) => {
-    const {onBack, onComplete, details} = props;
+    const {onBack, onComplete, details,onClose} = props;
     const {paymentModes} = useSelector((state: IRootReducerState) => state.staticData);
 
 
@@ -84,16 +85,16 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
         <div className={'appointment-payment-component'}>
             <div className="drawer-header">
                 <div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>
-                {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
-                {/*    <div className="drawer-close"*/}
-                {/*         id={'appointment-close-btn'}*/}
-                {/*         onClick={(event) => {*/}
-                {/*             if (onClose) {*/}
-                {/*                 onClose();*/}
-                {/*             }*/}
-                {/*         }*/}
-                {/*         }><ImageConfig.CloseIcon/></div>*/}
-                {/*</ToolTipComponent>*/}
+                <ToolTipComponent tooltip={"Close"} position={"left"}>
+                    <div className="drawer-close"
+                         id={'appointment-close-btn'}
+                         onClick={(event) => {
+                             if (onClose) {
+                                 onClose();
+                             }
+                         }
+                         }><ImageConfig.CloseIcon/></div>
+                </ToolTipComponent>
             </div>
             <div className="secure-checkout-heading">Secure Checkout</div>
             <Formik

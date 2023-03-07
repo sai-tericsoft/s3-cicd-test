@@ -42,7 +42,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             title: "Date of Onset",
             key: "date_of_onset",
             dataIndex: "date_of_onset",
-            width: 140,
+            width: 150,
             align:'center',
             fixed: "left",
             sortable: true,

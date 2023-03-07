@@ -275,7 +275,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                                  }}
                                                 />
                                             </div>
-                                            <div className="ts-col-6 text-right">
+                                            <div className="ts-col-6 text-right mrg-bottom-20">
                                                 <ButtonComponent
                                                     className={'white-space-nowrap'}
                                                     type={"button"}

@@ -44,7 +44,7 @@ const MEDICAL_INTERVENTION_DETAILS = '/chart-notes/intervention-details/:medical
 const MEDICAL_INTERVENTION_SURGERY_RECORD_DETAILS = '/chart-notes/:medicalRecordId/surgery-record/:surgeryRecordId';
 
 const PROGRESS_REPORT_VIEW_DETAILS = '/chart-notes/:medicalRecordId/:progressReportId/progress-report-view-details';
-const MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE = '/chart-notes/:medicalRecordId/:progressReportId/progress-report-advance-details-update';
+const MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE = '/chart-notes/:medicalRecordId/:progressReportId/progress-report-advance-details-update/:mode';
 const DRY_NEEDLING_FILE_VIEW_DETAILS = '/chart-notes/:medicalRecordId/:dryNeedlingFileId/dry-needling-file-view-details';
 const CONCUSSION_FILE_VIEW_DETAILS = '/chart-notes/:medicalRecordId/:concussionFileId/concussion-file-view-details';
 const MEDICAL_RECORD_DOCUMENT_VIEW_DETAILS = '/chart-notes/:medicalRecordId/:medicalRecordDocumentId/medical-record-document-view-details';
