@@ -383,9 +383,9 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
 
                     {/*Transfer medical record drawer start*/}
                     <DrawerComponent isOpen={isTransferMedicalRecordDrawerOpen}
-                                     showClose={true}
-                                     onClose={() => closeTransferMedicalRecordDrawer()}>
+                                     onClose={setIsTransferMedicalRecordDrawerOpen.bind(null, false)}>
                         <TransferMedicalRecordComponent medicalRecordId={medicalRecordId}
+                                                        onClose={setIsTransferMedicalRecordDrawerOpen.bind(null, false)}
                                                         onMedicalRecordTransfer={handleMedicalRecordTransfer}/>
                     </DrawerComponent>
                     {/*Transfer medical record drawer end*/}
