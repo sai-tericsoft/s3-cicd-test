@@ -1,4 +1,26 @@
 .progress-report-view-details-screen {
+  .t-body {
+    border: 1px solid #D9E2E2;
+  }
+
+ .t-cell-result{
+   &.t-cell-align-left {
+     justify-content: center !important;
+   }
+ }
+
+  .progress-report-view-details-container {
+    .progress-report-view-details-component__header {
+      .progress-stats-table {
+        .card-component {
+          .card-body {
+            padding: 0;
+          }
+        }
+      }
+    }
+  }
+
   .last-updated-status {
     display: flex;
     justify-content: flex-end;
@@ -16,23 +38,26 @@
       text-transform: capitalize;
     }
   }
-.client-name-button-wrapper {
-  display: flex;
-  justify-content: space-between;
 
-  .client-name-wrapper {
-    font-size: 1.4286rem;
-    font-weight: 700;
+  .client-name-button-wrapper {
+    display: flex;
+    justify-content: space-between;
 
-    .client-name {
-      padding-right: 10px;
+    .client-name-wrapper {
+      font-size: 1.4286rem;
+      font-weight: 700;
+
+      .client-name {
+        padding-right: 10px;
+      }
     }
   }
-}
+
   .progress-report-view-details-header {
     display: flex;
     justify-content: end;
     margin-bottom: 20px;
+
   }
 
 }

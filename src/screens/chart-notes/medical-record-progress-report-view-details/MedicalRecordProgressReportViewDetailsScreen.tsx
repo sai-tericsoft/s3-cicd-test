@@ -44,8 +44,19 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             key: 'result',
             title: 'Results',
             dataIndex: 'result',
-            width:150,
+            render: (item: any) => {
+                return <div>{item?.result}</div>
+            }
         },
+        {
+            key: 'comments',
+            title: 'Comments',
+            dataIndex: 'comment',
+            width:600,
+            render: (item: any) => {
+                return <>{item?.comment ||'N/A'}</>
+            }
+        }
     ];
 
     const {progressReportId, medicalRecordId} = useParams();
@@ -62,7 +73,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
         isProgressReportDetailsLoadingFailed,
         progressReportDetails
     } = useSelector((state: IRootReducerState) => state.chartNotes);
-
+    console.log(' progressReportDetails', progressReportDetails);
     useEffect(() => {
         if (progressReportId) {
             dispatch(getProgressReportViewDetails(progressReportId));
@@ -171,29 +182,16 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                         </CardComponent>
                                         {
                                             progressReportDetails?.progress_stats?.length > 0 &&
+                                            <div className={'progress-stats-table'}>
                                             <CardComponent title={'Progress Stats:'}>
                                             <TableComponent data={progressReportDetails?.progress_stats}
                                                             className={'progress-report-view-details-table'}
                                                             columns={progressStatsColumn}
                                                             hideHeader={true}
                                                             bordered={true}
-                                                            // showExpandColumn={false}
-                                                            // defaultExpandAllRows={true}
-                                                            // canExpandRow={(row: any) => row?.comment?.length > 0}
-                                                            // expandRowRenderer={(row: any) => {
-                                                            //     return (
-                                                            //         <div key={row?._id} className={'display-flex'}>
-                                                            //             <div className={'comment-icon mrg-right-10'}>
-                                                            //                 <ImageConfig.CommentIcon/>
-                                                            //             </div>
-                                                            //             <div
-                                                            //                 className={'progress-stats-comment'}>{row?.comment}</div>
-                                                            //         </div>
-                                                            //     )
-                                                            // }
-                                                            // }
                                             />
                                         </CardComponent>
+                                            </div>
                                         }
                                         <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>
                                             <ESignApprovalComponent isSigned={progressReportDetails?.is_signed}

@@ -34,7 +34,7 @@ const TableComponent = (props: TableComponentProps) => {
         canExpandRow,
         onRowClick,
         autoHeight,
-        data = [],
+        data,
         sort,
         onSort,
         className
