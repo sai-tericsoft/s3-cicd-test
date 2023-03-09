@@ -265,7 +265,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                         initialValues={addMedicalInterventionFormInitialValues}
                         onSubmit={(values, formikHelpers) => {
                             // if (medicalInterventionDetails.status === 'draft') {
-                                onSubmit(values, formikHelpers, false);
+                            onSubmit(values, formikHelpers, false);
                             // }
                         }}
                         validateOnChange={false}
@@ -283,7 +283,8 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                     <FormAutoSave formikCtx={formik} onUpdating={setIsFormBeingUpdated}/>
                                     <div
                                         className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
-                                        <FormControlLabelComponent label={"SOAP Note"} size={'lg'} className={"mrg-0 font-size-20"}/>
+                                        <FormControlLabelComponent label={"SOAP Note"} size={'lg'}
+                                                                   className={"mrg-0 font-size-20"}/>
                                         {
                                             (medicalInterventionId && medicalRecordId) &&
                                             <LinkComponent
@@ -436,6 +437,25 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                                        }
                                                                         >
                                                                         </CardComponent>
+                                                                        {
+                                                                            JSON.stringify(body_part?.rom_config?.filter((rom_config: any) => {
+                                                                                // console.log(body_part?.body_part_details, rom_config);
+                                                                                const bodyPartSides = body_part?.body_part_details?.sides;
+                                                                                const config = rom_config?.config;
+                                                                                if (config?.comments) {
+                                                                                    return rom_config;
+                                                                                } else {
+                                                                                   return bodyPartSides?.forEach((side: any) => {
+                                                                                        const sideConfig = config[side];
+                                                                                        console.log(rom_config.movement_name, rom_config, sideConfig);
+                                                                                        if (sideConfig?.arom || sideConfig?.prom || sideConfig?.strength) {
+                                                                                            console.log('returning', rom_config);
+                                                                                            return rom_config;
+                                                                                        }
+                                                                                    });
+                                                                                }
+                                                                            }), null, 4)
+                                                                        }
                                                                         <TableV2Component
                                                                             data={body_part?.rom_config}
                                                                             bordered={true}

@@ -693,6 +693,10 @@ const APIConfig: IAPIConfig = {
         URL: (invoiceId: string) => ENV.API_URL + '/invoice/' + invoiceId + '/markPaid',
         METHOD:'post'
     },
+    GENERATE_BILLING_DOCUMENT_PDF:{
+        URL: (billingDocumentId: string, type: 'invoice' | 'receipt') => `${ENV.API_URL}/${type}/${billingDocumentId}/generatePDF`,
+        METHOD:'post'
+    },
     ADD_NEW_RECEIPT:{
         URL:ENV.API_URL+'/receipt',
         METHOD:'post'

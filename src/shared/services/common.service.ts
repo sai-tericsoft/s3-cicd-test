@@ -296,10 +296,10 @@ const downloadFile = (url: string, fileName: any, type = 'pdf') => {
             break;
         case 'pdf':
             axios.get(url, {
-                headers: {Accept: 'application/pdf'}, responseType: 'blob'
+                headers: {Accept: 'application/pdf'}, responseType: 'arraybuffer'
             }).then(
                 (data: any) => {
-                    const blob = new Blob([data], {
+                    const blob = new Blob([data.data], {
                         type: 'application/pdf' // must match the Accept type
                     });
                     const link = document.createElement('a');

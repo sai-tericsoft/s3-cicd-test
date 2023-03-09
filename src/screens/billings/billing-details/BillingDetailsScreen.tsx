@@ -25,12 +25,12 @@ import FormControlLabelComponent from "../../../shared/components/form-control-l
 import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
 import {ITableColumn} from "../../../shared/models/table.model";
 import TableComponent from "../../../shared/components/table/TableComponent";
+import {BillingType} from "../../../shared/models/common.model";
 
 interface BillingDetailsScreenProps {
 
 }
 
-type BillingType = 'invoice' | 'receipt';
 const BillingTypes: BillingType[] = ['invoice', 'receipt'];
 type BillingViewMode = 'general' | 'detailed';
 const BillingViewModes: BillingViewMode[] = ['general', 'detailed'];
@@ -41,7 +41,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     const navigate = useNavigate();
     const {billingId} = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
-    const [type, setType] = useState<BillingType | undefined>(undefined);
+    const [type, setType] = useState<BillingType>('invoice');
     const [viewMode, setViewMode] = useState<BillingViewMode>('general');
     const [isBillingBeingMarkedAsPaid, setIsBillingBeingMarkedAsPaid] = useState<boolean>(false);
     const [isBillingDetailsBeingLoaded, setIsBillingDetailsBeingLoaded] = useState<boolean>(false);
@@ -263,7 +263,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             dataIndex: 'rate',
             key: 'amount',
             render: (record: any) => {
-                return <> { Misc.CURRENCY_SYMBOL } {record?.amount}</>
+                return <> {Misc.CURRENCY_SYMBOL} {record?.amount}</>
             }
         },
         {
@@ -272,11 +272,42 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             key: 'amount',
             render: (record: any) => {
                 return <>
-                    { Misc.CURRENCY_SYMBOL } {record?.amount * record?.units}
+                    {Misc.CURRENCY_SYMBOL} {record?.amount * record?.units}
                 </>
             }
         }
     ], []);
+
+    const fetchBillingPDF = useCallback((cb: any) => {
+        const payload = {
+            is_detailed: viewMode === 'detailed'
+        };
+        CommonService._billingsService.GetBillingPDFDocument(billingId, type, payload)
+            .then((response: IAPIResponseType<any>) => {
+                cb(response?.data?.url);
+            })
+            .catch((error: any) => {
+                CommonService._alert.showToast(error.error || error.errors || "Failed to fetch", "error");
+            });
+    }, [viewMode, type, billingId]);
+
+    const handleBillingPrint = useCallback(() => {
+        fetchBillingPDF((url: string) => {
+            CommonService.printAttachment({
+                url: url,
+                type: "application/pdf",
+                key: CommonService.getUUID(),
+                name: `${type}-${billingId}.pdf`
+            })
+        });
+
+    }, [fetchBillingPDF, type, billingId]);
+
+    const handleBillingDownload = useCallback(() => {
+        fetchBillingPDF((url: string) => {
+            CommonService.downloadFile(url, `${type}-${billingId}.pdf`);
+        });
+    }, [fetchBillingPDF, type, billingId]);
 
     return (
         <div className={'billing-details-screen'}>
@@ -305,10 +336,10 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                             View {viewMode === 'general' ? 'Detailed' : 'General'} {CommonService.capitalizeFirstLetter(type)}
                         </ListItem>,
                         <ListItem
-                            onClick={CommonService.ComingSoon}>
+                            onClick={handleBillingDownload}>
                             Download {CommonService.capitalizeFirstLetter(type)}
                         </ListItem>,
-                        <ListItem onClick={CommonService.ComingSoon}>
+                        <ListItem onClick={handleBillingPrint}>
                             Print {CommonService.capitalizeFirstLetter(type)}
                         </ListItem>
                     ]}
