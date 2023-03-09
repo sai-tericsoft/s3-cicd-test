@@ -52,10 +52,6 @@ const MedicalInterventionExerciseLogInitialValues = {
 }
 
 const ExerciseLogRecordValidationSchema = Yup.object({
-    no_of_sets: Yup.string().required(''),
-    no_of_reps: Yup.string().required(''),
-    time: Yup.string().required(''),
-    resistance: Yup.string().required(''),
     name: Yup.string().required(''),
 })
 
@@ -324,9 +320,6 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
         }));
         setFieldValue("exercise_records", new_exercise_records);
     }, []);
-
-    console.log('clientMedicalRecord', clientMedicalRecord);
-    console.log('medicalInterventionDetails', medicalInterventionDetails);
 
     return (
         <div className={'medical-intervention-exercise-log-screen'}>
