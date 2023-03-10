@@ -437,27 +437,23 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                                        }
                                                                         >
                                                                         </CardComponent>
-                                                                        {
-                                                                            JSON.stringify(body_part?.rom_config?.filter((rom_config: any) => {
-                                                                                // console.log(body_part?.body_part_details, rom_config);
+                                                                        <TableV2Component
+                                                                            data={body_part?.rom_config?.filter((rom_config: any) => {
                                                                                 const bodyPartSides = body_part?.body_part_details?.sides;
                                                                                 const config = rom_config?.config;
                                                                                 if (config?.comments) {
                                                                                     return rom_config;
                                                                                 } else {
-                                                                                   return bodyPartSides?.forEach((side: any) => {
+                                                                                    let romConfig = undefined;
+                                                                                    bodyPartSides?.forEach((side: any) => {
                                                                                         const sideConfig = config[side];
-                                                                                        console.log(rom_config.movement_name, rom_config, sideConfig);
                                                                                         if (sideConfig?.arom || sideConfig?.prom || sideConfig?.strength) {
-                                                                                            console.log('returning', rom_config);
-                                                                                            return rom_config;
+                                                                                            romConfig = rom_config;
                                                                                         }
                                                                                     });
+                                                                                    return romConfig;
                                                                                 }
-                                                                            }), null, 4)
-                                                                        }
-                                                                        <TableV2Component
-                                                                            data={body_part?.rom_config}
+                                                                            })}
                                                                             bordered={true}
                                                                             showExpandColumn={false}
                                                                             defaultExpandAllRows={true}
