@@ -24,6 +24,8 @@ import FormikSwitchComponent from "../../../shared/components/form-controls/form
 import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
 import {useParams} from "react-router-dom";
 import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
+import HorizontalLineComponent
+    from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 
 interface ClientBasicDetailsFormComponentProps {
     mode: "add" | "edit";
@@ -141,6 +143,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
     const {clientId} = useParams();
     const [clientBasicDetailsFormInitialValues, setClientBasicDetailsFormInitialValues] = useState<IClientBasicDetails>(_.cloneDeep(ClientBasicDetailsFormInitialValues));
     const [isClientBasicDetailsSavingInProgress, setIsClientBasicDetailsSavingInProgress] = useState(false);
+    const [isSecondaryEmergencyFormVisible, setIsSecondaryEmergencyFormVisible] = useState(false);
     const dispatch = useDispatch();
 
     const {
@@ -241,7 +244,9 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
         }
     }, [clientId, dispatch]);
 
-    console.log('clientBasicDetails', clientBasicDetails);
+   const handleSecondaryEmergencyFormVisibility = useCallback(() => {
+       setIsSecondaryEmergencyFormVisible(true)
+   },[]);
 
     return (
         <div className={'client-basic-details-form-component'}>
@@ -412,6 +417,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                     </div>
                                 </CardComponent>
                                 <CardComponent title={"Contact Information"} size={"md"}>
+                                    <FormControlLabelComponent label={'Primary Phone :'}/>
                                     <div className="ts-row">
                                         <div className="ts-col-md-5">
                                             <Field name={'primary_contact_info.phone_type'}>
@@ -457,6 +463,8 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                             </IconButtonComponent>
                                         </div>
                                     </div>
+                                    <HorizontalLineComponent className={'primary-phone-divider'}/>
+                                    <FormControlLabelComponent label={'Alternate Phone :'}/>
                                     <FieldArray
                                         name="secondary_contact_info"
                                         render={(arrayHelpers) => (
@@ -518,6 +526,8 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 })}
                                             </>
                                         )}/>
+                                    <HorizontalLineComponent className={'alternate-phone-divider'}/>
+                                    <FormControlLabelComponent label={'Primary Email :'}/>
                                     <div className="ts-row">
                                         <div className="ts-col-md-5">
                                             <Field name={'primary_email'}>
@@ -546,6 +556,8 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                             </IconButtonComponent>
                                         </div>
                                     </div>
+                                    <HorizontalLineComponent className={'primary-phone-divider'}/>
+                                    <FormControlLabelComponent label={'Alternate Email :'}/>
                                     <FieldArray
                                         name="secondary_emails"
                                         render={(arrayHelpers) => (
@@ -687,7 +699,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                     </div>
                                 </CardComponent>
                                 <CardComponent title={"Emergency Contact Information"} size={"md"}>
-                                    <FormControlLabelComponent label={"Primary Emergency Contact"}/>
+                                    <FormControlLabelComponent label={"Primary Emergency Contact"} size={'md'}/>
                                     <div className="ts-row">
                                         <div className="ts-col-md-5">
                                             <Field name={'emergency_contact_info.primary_emergency.name'}>
@@ -742,6 +754,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                         </div>
                                         <div className="ts-col-md-2"></div>
                                     </div>
+                                    <FormControlLabelComponent label={'Primary Phone :'}/>
                                     <div className="ts-row">
                                         <div className="ts-col-md-5">
                                             <Field
@@ -787,6 +800,8 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                             </IconButtonComponent>
                                         </div>
                                     </div>
+                                    <HorizontalLineComponent className={'primary-phone-divider'}/>
+                                    <FormControlLabelComponent label={'Alternate Phone :'}/>
                                     <FieldArray
                                         name="emergency_contact_info.primary_emergency.secondary_contact_info"
                                         render={(arrayHelpers) => (
@@ -862,8 +877,17 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                             </ButtonComponent>
                                         </div>
                                     }
+
+                                    {!isSecondaryEmergencyFormVisible &&
+                                        <div className={'display-flex justify-content-center flex-1'}>
+                                            <ButtonComponent
+                                                onClick={handleSecondaryEmergencyFormVisibility}
+                                                             prefixIcon={<ImageConfig.AddIcon/>}>
+                                                Add Another
+                                                Contact</ButtonComponent>
+                                        </div>}
                                     <>
-                                        {
+                                        {isSecondaryEmergencyFormVisible &&
                                             values.show_secondary_emergency_form && <>
                                                 <FormControlLabelComponent label={"Secondary Emergency Contact"}/>
                                                 <div className="ts-row">
@@ -883,7 +907,8 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                         </Field>
                                                     </div>
                                                     <div className="ts-col-md-5">
-                                                        <Field name={'emergency_contact_info.secondary_emergency.relationship'}>
+                                                        <Field
+                                                            name={'emergency_contact_info.secondary_emergency.relationship'}>
                                                             {
                                                                 (field: FieldProps) => (
                                                                     <FormikSelectComponent
@@ -999,13 +1024,14 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                             </Field>
                                                                         </div>
                                                                         <div className="ts-col-md-2">
-                                                                            <IconButtonComponent className={"form-helper-icon"}
-                                                                                                 onClick={() => {
-                                                                                                     arrayHelpers.push({
-                                                                                                         phone_type: undefined,
-                                                                                                         phone: undefined
-                                                                                                     });
-                                                                                                 }}
+                                                                            <IconButtonComponent
+                                                                                className={"form-helper-icon"}
+                                                                                onClick={() => {
+                                                                                    arrayHelpers.push({
+                                                                                        phone_type: undefined,
+                                                                                        phone: undefined
+                                                                                    });
+                                                                                }}
                                                                             >
                                                                                 <ImageConfig.AddCircleIcon/>
                                                                             </IconButtonComponent>
