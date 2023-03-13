@@ -66,6 +66,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
     const [isMedicalRecordDocumentAddDrawerOpen, setIsMedicalRecordDocumentAddDrawerOpen] = useState<boolean>(false);
     const [isMedicalRecordStatsModalOpen, setIsMedicalRecordStatsModalOpen] = useState<boolean>(false);
     const [isTransferMedicalRecordDrawerOpen, setIsTransferMedicalRecordDrawerOpen] = useState<boolean>(false);
+    const [medicalRecordMenuOptions, setMedicalRecordMenuOptions] = useState<any[]>([]);
 
     const {
         clientMedicalRecord,
@@ -88,11 +89,6 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
             }));
         }
     }, [navigate, dispatch, clientMedicalRecord?.client_id]);
-
-    // const comingSoon = useCallback(
-    //     () => {
-    //         CommonService._alert.showToast('Coming Soon!', 'info')
-    //     }, []);
 
     const openEditMedicalRecordDrawer = useCallback(() => {
         setIsEditMedicalRecordDrawerOpen(true);
@@ -158,6 +154,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
     //     setIsSurgeryAddOpen(false);
     // },[])
 
+
     const handleDischargeCase = useCallback(() => {
         if (medicalRecordId) {
             CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, MedicalInterventionFormInitialValues)
@@ -181,13 +178,63 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
         }
     }, [medicalRecordId]);
 
-
     const handleMedicalRecordTransfer = useCallback(() => {
         closeTransferMedicalRecordDrawer();
         if (medicalRecordId) {
             dispatch(getClientMedicalRecord(medicalRecordId));
         }
     }, [closeTransferMedicalRecordDrawer, medicalRecordId, dispatch]);
+
+    useEffect(() => {
+        if (medicalRecordId) {
+            if (clientMedicalRecord?.status_details?.code === "open") {
+                setMedicalRecordMenuOptions([
+                    <ListItem onClick={openAddSurgeryRecord}>
+                        Add Surgery Record
+                    </ListItem>,
+                    <ListItem onClick={addProgressRecord}>
+                        Add Progress Report
+                    </ListItem>,
+                    <ListItem onClick={openTransferMedicalRecordDrawer}>
+                        Transfer File To
+                    </ListItem>,
+                    <ListItem onClick={handleNotifyAdmin}>
+                        Notify Admin
+                    </ListItem>,
+                    <ListItem onClick={openMedicalRecordStatsModal}>
+                        View Case Statistics
+                    </ListItem>,
+                    <ListItem onClick={openMedicalRecordDocumentAddDrawer}>
+                        Add Document
+                    </ListItem>,
+                    <Link
+                        to={CommonService._routeConfig.MedicalRecordViewExerciseRecord(medicalRecordId)}>
+                        <ListItem>
+                            View Exercise Record
+                        </ListItem>
+                    </Link>,
+                    <ListItem onClick={handleDischargeCase}>
+                        Discharge Case
+                    </ListItem>
+                ]);
+            } else {
+                setMedicalRecordMenuOptions([
+                    <ListItem onClick={openMedicalRecordStatsModal}>
+                        View Case Statistics
+                    </ListItem>,
+                    <Link
+                        to={CommonService._routeConfig.MedicalRecordViewExerciseRecord(medicalRecordId)}>
+                        <ListItem>
+                            View Exercise Record
+                        </ListItem>
+                    </Link>,
+                    <ListItem onClick={CommonService.ComingSoon}>
+                        Reopen Case
+                    </ListItem>
+                ]);
+            }
+        }
+    }, [clientMedicalRecord, medicalRecordId, openAddSurgeryRecord, addProgressRecord, openTransferMedicalRecordDrawer, handleNotifyAdmin, openMedicalRecordStatsModal, openMedicalRecordDocumentAddDrawer, handleDischargeCase]);
 
     return (
         <div className={'client-medical-details-card-component'}>
@@ -223,12 +270,14 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                             label={clientMedicalRecord?.status_details?.title || "N/A"}/>
                                     </span>
                                     <div className="ts-row width-auto">
-                                        <div className="">
-                                            <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
-                                                             onClick={openEditMedicalRecordDrawer}>
-                                                Edit Details
-                                            </ButtonComponent>
-                                        </div>
+                                        {
+                                            clientMedicalRecord?.status_details?.code === 'open' && <div className="">
+                                                <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                                                 onClick={openEditMedicalRecordDrawer}>
+                                                    Edit Details
+                                                </ButtonComponent>
+                                            </div>
+                                        }
                                         {showAction && <div className="ts-col">
                                             <MenuDropdownComponent menuBase={
                                                 <ButtonComponent variant={'outlined'}
@@ -236,40 +285,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                                                  fullWidth={true}>
                                                     Select Action
                                                 </ButtonComponent>
-                                            } menuOptions={
-                                                [
-                                                    <ListItem onClick={openAddSurgeryRecord}>
-                                                        Add Surgery Record
-                                                    </ListItem>,
-                                                    <ListItem onClick={addProgressRecord}>
-                                                        Add Progress Report
-                                                    </ListItem>,
-                                                    <ListItem onClick={openTransferMedicalRecordDrawer}>
-                                                        Transfer File To
-                                                    </ListItem>,
-                                                    <ListItem onClick={handleNotifyAdmin} >
-                                                       Notify Admin
-                                                    </ListItem>,
-                                                    <ListItem onClick={openMedicalRecordStatsModal}>
-                                                        View Case Statistics
-                                                    </ListItem>,
-                                                    <ListItem onClick={openMedicalRecordDocumentAddDrawer}>
-                                                        Add Document
-                                                    </ListItem>,
-                                                    // <ListItem onClick={comingSoon}>
-                                                    //     View Exercise Record
-                                                    // </ListItem>,
-                                                    <Link
-                                                        to={CommonService._routeConfig.MedicalRecordViewExerciseRecord(medicalRecordId)}>
-                                                        <ListItem>
-                                                            View Exercise Record
-                                                        </ListItem>
-                                                    </Link>,
-                                                    <ListItem onClick={handleDischargeCase}>
-                                                        Discharge Case
-                                                    </ListItem>
-                                                ]
-                                            }/>
+                                            } menuOptions={medicalRecordMenuOptions}/>
                                         </div>}
                                     </div>
                                 </div>
@@ -329,7 +345,8 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                     >
                         <AddSurgeryRecordComponent medicalRecordId={medicalRecordId}
                                                    medicalRecordDetails={clientMedicalRecord}
-                                                   onSave={handleSurgeryRecordAdd} onCancel={()=>setIsSurgeryAddOpen(false)}/>
+                                                   onSave={handleSurgeryRecordAdd}
+                                                   onCancel={() => setIsSurgeryAddOpen(false)}/>
                     </DrawerComponent>
                     {/*Add Surgery Record end*/}
 
