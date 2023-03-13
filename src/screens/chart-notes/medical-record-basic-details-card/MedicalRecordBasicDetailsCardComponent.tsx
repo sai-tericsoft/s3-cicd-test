@@ -185,6 +185,18 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
         }
     }, [closeTransferMedicalRecordDrawer, medicalRecordId, dispatch]);
 
+    const handleMedicalRecordReOpen = useCallback(() => {
+        if (medicalRecordId) {
+            CommonService._chartNotes.ReOpenMedicalRecordAPICall(medicalRecordId, {})
+                .then((response) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully re-opened the case", "success");
+                    dispatch(getClientMedicalRecord(medicalRecordId));
+                }).catch((error) => {
+                CommonService._alert.showToast(error?.error || "Error re-opening the case", "error");
+            });
+        }
+    }, [medicalRecordId, dispatch]);
+
     useEffect(() => {
         if (medicalRecordId) {
             if (clientMedicalRecord?.status_details?.code === "open") {
@@ -228,13 +240,13 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                             View Exercise Record
                         </ListItem>
                     </Link>,
-                    <ListItem onClick={CommonService.ComingSoon}>
+                    <ListItem onClick={handleMedicalRecordReOpen}>
                         Reopen Case
                     </ListItem>
                 ]);
             }
         }
-    }, [clientMedicalRecord, medicalRecordId, openAddSurgeryRecord, addProgressRecord, openTransferMedicalRecordDrawer, handleNotifyAdmin, openMedicalRecordStatsModal, openMedicalRecordDocumentAddDrawer, handleDischargeCase]);
+    }, [clientMedicalRecord, medicalRecordId, handleMedicalRecordReOpen, openAddSurgeryRecord, addProgressRecord, openTransferMedicalRecordDrawer, handleNotifyAdmin, openMedicalRecordStatsModal, openMedicalRecordDocumentAddDrawer, handleDischargeCase]);
 
     return (
         <div className={'client-medical-details-card-component'}>
