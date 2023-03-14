@@ -671,7 +671,7 @@ const APIConfig: IAPIConfig = {
     },
     RE_OPEN_MEDICAL_RECORD:{
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/reopen',
-        METHOD: 'post'
+        METHOD: 'put'
     },
     GET_INVENTORY_PRODUCT_LIST: {
         URL: ENV.API_URL + '/product/lite',
