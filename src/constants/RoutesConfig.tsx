@@ -61,6 +61,8 @@ const BILLING_LIST = "/billing/billing-list";
 const ADD_NEW_RECEIPT = "/billing/add-new-receipt";
 const BILLING_DETAILS = "/billing/billing-details/:billingId";
 
+const CLIENT_BILLING_DETAILS = "/billing/client-billing-details";
+
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
 export {
@@ -116,5 +118,6 @@ export {
     BILLING,
     BILLING_LIST,
     ADD_NEW_RECEIPT,
-    BILLING_DETAILS
+    BILLING_DETAILS,
+    CLIENT_BILLING_DETAILS
 };

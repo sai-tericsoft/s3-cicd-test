@@ -25,7 +25,8 @@ import FormControlLabelComponent from "../../../shared/components/form-control-l
 import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
 import {IRootReducerState} from "../../../store/reducers";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {useSearchParams} from "react-router-dom";
+import {useLocation, useParams, useSearchParams} from "react-router-dom";
+import DatePickerComponent from "../../../shared/components/form-controls/date-picker/DatePickerComponent";
 
 interface PaymentListComponentProps {
 
@@ -47,6 +48,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
     const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
     const [isPaymentsAreBeingMarkedAsPaid, setIsPaymentsAreBeingMarkedAsPaid] = useState<boolean>(false);
     const [selectedPaymentMode, setSelectedPaymentMode] = useState<any>(null);
+    const clientId = searchParams.get("clientId");
 
     const {
         paymentModes
@@ -204,21 +206,160 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             dataIndex: 'first_name',
             align: 'center',
             render: (item: any) => {
-                return <>
-                    {item?.client_details?.first_name} {item?.client_details?.last_name}
-                </>
+                return <> !clientId && {item?.client_details?.first_name} {item?.client_details?.last_name}</>
             }
 
         },
         {
             title: 'Phone Number',
-            key: 'phone_number',
+            key:  'phone_number',
             dataIndex: 'phone',
             align: 'center',
             render: (item: any) => {
                 return <>
-                    {item?.client_details?.primary_contact_info?.phone}
+                    {!clientId && item?.client_details?.primary_contact_info?.phone}
                 </>
+            }
+        },
+        {
+            title: 'Total Amount',
+            key: 'amount',
+            align: 'center',
+            dataIndex: 'amount',
+            render: (item: any) => {
+                return <>{Misc.CURRENCY_SYMBOL} {item?.amount}</>
+            }
+        },
+        {
+            title: 'Payment For',
+            key: 'payment_for',
+            dataIndex: 'payment_for',
+            align: 'center',
+            render: (item: any) => {
+                let className = "";
+                if (item?.payment_for === 'appointment') {
+                    className = "active";
+                } else if (item?.payment_for === 'no show') {
+                    className = "no-show";
+                } else if (item?.payment_for === 'products') {
+                    className = "products";
+                } else if (item?.payment_for === 'waived') {
+                    className = "waived";
+                } else if (item?.payment_for === 'cancellation') {
+                    className = "cancellation";
+                }
+                return <>
+                    <ChipComponent className={className} label={item?.payment_for}/>
+                </>
+            }
+        },
+        {
+            title: '',
+            key: 'action',
+            fixed: 'right',
+            dataIndex: 'action',
+            render: (item: any) => {
+                return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id, 'receipt')}>
+                    View Details
+                </LinkComponent>
+            }
+        }
+    ], []);
+
+    const clientPendingPaymentColumn: ITableColumn[] = useMemo<any>(() => [
+        {
+            title: '',
+            key: 'select',
+            dataIndex: 'select',
+            width: 50,
+            fixed: 'left',
+            render: (item: any) => {
+                const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
+                return <CheckBoxComponent
+                    disabled={clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id}
+                    checked={selectedPayments.includes(item)}
+                    onChange={(isChecked) => {
+                        handlePaymentSelection(item, isChecked)
+                    }}/>
+            }
+        },
+        {
+            title: 'Appointment ID',
+            key: 'appointment_id',
+            dataIndex: 'appointment_id',
+            fixed: 'left',
+            width: 193,
+            align: 'center',
+            render: (item: any) => {
+                return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id, 'invoice')}>
+                    {item?.appointment_id}
+                </LinkComponent>
+            }
+        },
+        {
+            title: 'Appointment Date',
+            key: 'appointment_date',
+            dataIndex: "appointment_date",
+            align: 'center',
+            render: (item: any) => {
+                return <>
+                    {CommonService.convertDateFormat2(item?.appointment_details?.appointment_date)}</>
+            }
+        },
+        {
+            title: 'Service',
+            key: 'service',
+            dataIndex: 'name',
+            width: 225,
+            align: 'center',
+            render: (item: any) => {
+                return <>
+                    {item?.service_details?.name}
+                </>
+            }
+        },
+        {
+            title: 'Total Amount',
+            key: 'amount',
+            align: 'center',
+            dataIndex: 'amount',
+            render: (item: any) => {
+                return <>{Misc.CURRENCY_SYMBOL} {item?.amount} </>
+            }
+        },
+        {
+            title: '',
+            key: 'action',
+            fixed: 'right',
+            dataIndex: 'action',
+            render: (item: any) => {
+                return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id, 'invoice')}>
+                    View Details
+                </LinkComponent>
+            }
+        }
+    ], [handlePaymentSelection, selectedPayments]);
+
+    const clientCompletePaymentListColumn: ITableColumn[] = useMemo<any>(() => [
+        {
+            title: 'Receipt No.',
+            key: 'receipt_no',
+            align: 'center',
+            fixed: 'left',
+            dataIndex: 'receipt_number',
+            render: (item: any) => {
+                return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id, 'receipt')}>
+                    {item?.receipt_number}
+                </LinkComponent>
+            }
+        },
+        {
+            title: 'Date',
+            key: 'date',
+            dataIndex: 'created_at',
+            align: 'center',
+            render: (item: any) => {
+                return <>{CommonService.convertDateFormat2(item?.created_at)}</>
             }
         },
         {
@@ -388,7 +529,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             <div className={'list-screen-header'}>
                 <div className={'list-search-filters'}>
                     <div className="ts-row">
-                        <div className="ts-col-md-6 ts-col-lg-3">
+                        {!clientId && <div className="ts-col-md-6 ts-col-lg-3">
                             <SearchComponent
                                 label={"Search for clients"}
                                 value={clientListFilterState.search}
@@ -396,7 +537,17 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                     setClientListFilterState({...clientListFilterState, search: value})
                                 }}
                             />
-                        </div>
+                        </div>}
+                        {
+                            clientId && currentTab === 'completedPayments' && <div className="ts-col-md-6 ts-col-lg-3">
+                                <SelectComponent options={['Status']} label={'Status'} fullWidth={true}/>
+                            </div>
+                        }
+                        {
+                            clientId && <div className="ts-col-md-6 ts-col-lg-3">
+                                <DatePickerComponent name={"date"}/>
+                            </div>
+                        }
                     </div>
                 </div>
                 <div className="list-options">
@@ -411,11 +562,13 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                             </ButtonComponent>&nbsp;&nbsp;
                         </>
                     }
-                    <LinkComponent route={CommonService._routeConfig.AddNewReceipt()}>
-                        <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}>
-                            New Receipt
-                        </ButtonComponent>
-                    </LinkComponent>
+                    {
+                        !clientId && <LinkComponent route={CommonService._routeConfig.AddNewReceipt()}>
+                            <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}>
+                                New Receipt
+                            </ButtonComponent>
+                        </LinkComponent>
+                    }
                 </div>
             </div>
             <TabsWrapperComponent>
@@ -429,18 +582,20 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                     <TabComponent label={'Completed Payments'} value={'completedPayments'}/>
                 </TabsComponent>
                 <TabContentComponent value={'pendingPayments'} selectedTab={currentTab}>
-                    <TableWrapperComponent url={APIConfig.PENDING_PAYMENT_LIST.URL}
-                                           extraPayload={clientListFilterState}
-                                           method={APIConfig.PENDING_PAYMENT_LIST.METHOD}
-                                           columns={pendingPaymentColumn}
-                                           moduleName={PENDING_PAYMENTS_MODULE}
+                    <TableWrapperComponent
+                        url={clientId ? APIConfig.CLIENT_PENDING_PAYMENT_LIST.URL(clientId) : APIConfig.PENDING_PAYMENT_LIST.URL}
+                        extraPayload={clientListFilterState}
+                        method={APIConfig.PENDING_PAYMENT_LIST.METHOD}
+                        columns={clientId ? clientPendingPaymentColumn : pendingPaymentColumn}
+                        moduleName={PENDING_PAYMENTS_MODULE}
                     />
                 </TabContentComponent>
                 <TabContentComponent value={'completedPayments'} selectedTab={currentTab}>
-                    <TableWrapperComponent url={APIConfig.COMPLETE_PAYMENT_LIST.URL}
-                                           method={APIConfig.COMPLETE_PAYMENT_LIST.METHOD}
-                                           extraPayload={clientListFilterState}
-                                           columns={completePaymentListColumn}/>
+                    <TableWrapperComponent
+                        url={clientId ? (APIConfig.CLIENT_COMPLETE_PAYMENT_LIST.URL) : (APIConfig.COMPLETE_PAYMENT_LIST.URL)}
+                        method={APIConfig.COMPLETE_PAYMENT_LIST.METHOD}
+                        extraPayload={clientListFilterState}
+                        columns={clientId ?clientCompletePaymentListColumn:completePaymentListColumn}/>
                 </TabContentComponent>
             </TabsWrapperComponent>
             {/*Outstanding Balance Modal start*/}
