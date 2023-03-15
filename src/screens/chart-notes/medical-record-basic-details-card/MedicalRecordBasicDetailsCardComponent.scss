@@ -1,14 +1,25 @@
 @import "src/assets/styles/common";
 
 .client-medical-details-card-component {
+  .ts-row {
+    .show-more-less {
+      color: #83909D;
 
-  .ts-row{
-    .date-of-surgery{
-      .data-value{
+      .show-more-less-action {
+        margin: 10px;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .ts-row {
+    .date-of-surgery {
+      .data-value {
         margin-left: 13px;
       }
     }
   }
+
   .client-name-button-wrapper {
     display: flex;
     justify-content: space-between;

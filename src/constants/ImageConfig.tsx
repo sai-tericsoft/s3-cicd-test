@@ -43,6 +43,11 @@ import {ReactComponent as PDF_ICON} from './../assets/icons/pdf_icon.svg';
 import {ReactComponent as REPEAT_LAST_INTERVENTION} from './../assets/icons/repeat_last_intervention.svg';
 import {ReactComponent as SYNC} from './../assets/icons/sync.svg';
 import {ReactComponent as SendIcon} from './../assets/icons/send_icon.svg';
+import {ReactComponent as UpArrowIcon} from './../assets/icons/up_arrow.svg';
+import {ReactComponent as DownArrowIcon} from './../assets/icons/down_arrow.svg';
+
+
+
 
 //file types
 import PDFIcon from './../assets/icons/file-types/pdf.svg';
@@ -166,5 +171,7 @@ export {
     HelpQuestion,
     ConfirmIcon,
     BillingLogo,
-    Confirm
+    Confirm,
+    UpArrowIcon,
+    DownArrowIcon,
 }
