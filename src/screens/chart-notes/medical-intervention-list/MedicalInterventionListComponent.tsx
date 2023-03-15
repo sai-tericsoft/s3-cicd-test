@@ -19,19 +19,12 @@ interface ClientMedicalRecordsComponentProps {
 
 const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentProps) => {
 
-    const navigate = useNavigate();
     const {medicalRecordId} = useParams();
     const dispatch = useDispatch();
     const {
         medicalInterventionList,
         isMedicalInterventionListLoading,
     } = useSelector((state: IRootReducerState) => state.chartNotes);
-    const [isMedicalInterventionBeingAdded, setIsMedicalInterventionBeingAdded] = useState<boolean>(false);
-    const [isMedicalInterventionBeingRepeated, setIsMedicalInterventionBeingRepeated] = useState<boolean>(false);
-
-    const {
-        clientMedicalRecord,
-    } = useSelector((state: IRootReducerState) => state.client);
 
     const MedicalInterventionListColumns: any = [
         {
@@ -140,86 +133,6 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
         }
     ];
 
-    const repeatLastTreatment = useCallback(
-        (medicalRecordId: string) => {
-            setIsMedicalInterventionBeingRepeated(true);
-            CommonService._chartNotes.RepeatLastInterventionAPICall(medicalRecordId, {
-                    "repeat_previous": true //todo: Why Swetha ????
-                }
-            ).then((response: IAPIResponseType<any>) => {
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, response?.data._id) + '?showClear=true');
-                setIsMedicalInterventionBeingRepeated(false);
-            }).catch((error: any) => {
-                CommonService._alert.showToast(error?.error || "Error repeating last medical intervention", "error");
-                setIsMedicalInterventionBeingRepeated(false);
-            });
-        },
-        [navigate],
-    );
-    const confirmRepeatLastTreatment = useCallback(
-        () => {
-            if (!medicalRecordId) {
-                CommonService._alert.showToast('Medical Record ID not found!', "error");
-                return;
-            }
-            CommonService.onConfirm({
-                confirmationTitle: "REPEAT LAST TREATMENT",
-                image: ImageConfig.REPEAT_LAST_INTERVENTION,
-                confirmationSubTitle: "Do you want to repeat the last treatment\nfrom the same Medical Record?"
-            })
-                .then((value) => {
-                    repeatLastTreatment(medicalRecordId);
-                })
-                .catch(reason => {
-
-                })
-        },
-        [medicalRecordId, repeatLastTreatment],
-    );
-    const addNewTreatment = useCallback(
-        () => {
-            if (!medicalRecordId) {
-                CommonService._alert.showToast('Medical Record ID not found!', "error");
-                return;
-            }
-            const payload = {
-                "intervention_date": moment().format('YYYY-MM-DD'),
-                "subjective": "",
-                "objective": {
-                    "observation": "",
-                    "palpation": "",
-                    "functional_tests": "",
-                    "treatment": "",
-                    "treatment_response": ""
-                },
-                "assessment": {
-                    "suspicion_index": "",
-                    "surgery_procedure": ""
-                },
-                "plan": {
-                    "plan": "",
-                    "md_recommendations": "",
-                    "education": "",
-                    "treatment_goals": ""
-                },
-                is_discharge: false,
-            };
-            setIsMedicalInterventionBeingAdded(true);
-            CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, payload)
-                .then((response: IAPIResponseType<any>) => {
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, response?.data._id));
-                    setIsMedicalInterventionBeingAdded(false);
-                })
-                .catch((error: any) => {
-                    CommonService._alert.showToast(error?.error || "Error creating a medical intervention", "error");
-                    setIsMedicalInterventionBeingAdded(false);
-                });
-        },
-        [medicalRecordId, navigate],
-    );
-
     useEffect(() => {
         if (medicalRecordId) {
             dispatch(getMedicalInterventionList(medicalRecordId));
@@ -228,23 +141,6 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
 
     return (
         <div className={'client-medical-records-component'}>
-            <div className={'client-medical-records-header-button-wrapper'}>
-                <div className={'client-medical-records-header'}>Medical Records</div>
-                {clientMedicalRecord?.status_details?.code === 'open' && <div>
-                    <ButtonComponent onClick={confirmRepeatLastTreatment}
-                                     disabled={(isMedicalInterventionBeingRepeated || isMedicalInterventionListLoading || medicalInterventionList.filter((item: any) => (item?.status === 'completed' && item?.note_type?.toLowerCase() === "soap note")).length === 0)}
-                                     className={'outlined-button'}
-                                     variant={"outlined"}>
-                        Repeat Last Treatment
-                    </ButtonComponent>
-                    <ButtonComponent onClick={addNewTreatment}
-                                     disabled={isMedicalInterventionBeingAdded}
-                                     isLoading={isMedicalInterventionBeingAdded}
-                                     prefixIcon={<ImageConfig.AddIcon/>}>
-                        Add New Treatment
-                    </ButtonComponent>
-                </div>}
-            </div>
             <TableComponent data={medicalInterventionList} columns={MedicalInterventionListColumns}
                             loading={isMedicalInterventionListLoading}/>
         </div>

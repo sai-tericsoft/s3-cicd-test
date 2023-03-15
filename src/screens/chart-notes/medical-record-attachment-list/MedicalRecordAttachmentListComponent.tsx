@@ -83,9 +83,6 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
 
     return (
         <div className={'client-medical-attachments-component'}>
-            <div className={'client-medical-attachments-header'}>
-                Attachments
-            </div>
             <TableWrapperComponent refreshToken={refreshTokenForMedicalRecordAttachments}
                                    url={APIConfig.CLIENT_MEDICAL_ATTACHMENT.URL(medicalRecordId)}
                                    method={APIConfig.CLIENT_MEDICAL_ATTACHMENT.METHOD}
