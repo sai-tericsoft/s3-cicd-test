@@ -1,5 +1,5 @@
 import "./MedicalInterventionListComponent.scss";
-import {ImageConfig, Misc} from "../../../constants";
+import {APIConfig, ImageConfig, Misc} from "../../../constants";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
 import {useNavigate, useParams} from "react-router-dom";
@@ -12,6 +12,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {getMedicalInterventionList} from "../../../store/actions/chart-notes.action";
 import {IRootReducerState} from "../../../store/reducers";
 import TableComponent from "../../../shared/components/table/TableComponent";
+import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
 
 interface ClientMedicalRecordsComponentProps {
 
@@ -21,10 +22,25 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
 
     const {medicalRecordId} = useParams();
     const dispatch = useDispatch();
-    const {
-        medicalInterventionList,
-        isMedicalInterventionListLoading,
-    } = useSelector((state: IRootReducerState) => state.chartNotes);
+    // const {
+    //     medicalInterventionList,
+    //     isMedicalInterventionListLoading,
+    // } = useSelector((state: IRootReducerState) => state.chartNotes);
+
+    const [medicalRecordListFilterState, setMedicalRecordListFilterState] = useState<any>({
+        sort: {}
+    });
+
+    const handleClientMedicalListSort = useCallback((key: string, order: string) => {
+        setMedicalRecordListFilterState((oldState: any) => {
+            const newState = {...oldState};
+            newState["sort"] = {
+                key,
+                order
+            }
+            return newState;
+        });
+    }, []);
 
     const MedicalInterventionListColumns: any = [
         {
@@ -41,9 +57,10 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             title: 'Date of Intervention',
             key: 'date_of_intervention',
             dataIndex: 'intervention_date',
-            width: 160,
+            width: 200,
             align: 'center',
             fixed: 'left',
+            sortable: true,
             render: (item: any) => {
                 let route = '';
                 if (medicalRecordId) {
@@ -71,6 +88,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             width: 150,
             align: 'center',
             dataIndex: 'note_type',
+            sortable: true,
         },
         {
             title: 'Last Updated',
@@ -78,6 +96,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             dataIndex: 'updated_at',
             align: 'center',
             width: 170,
+            sortable: true,
             render: (item: any) => {
                 return <>{CommonService.transformTimeStamp(item?.updated_at)}</>
             }
@@ -88,6 +107,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             dataIndex: 'status',
             align: 'center',
             width: 110,
+            sortable: true,
             render: (item: any) => {
                 return <ChipComponent label={item?.status}
                                       className={item?.status === 'completed' ? "completed" : "draft"}/>
@@ -99,6 +119,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             dataIndex: 'name',
             align: 'center',
             width: 125,
+            sortable: true,
             render: (item: any) => {
                 return (item?.posted_by?.first_name + " " + item?.posted_by?.last_name)
             }
@@ -141,8 +162,18 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
 
     return (
         <div className={'client-medical-records-component'}>
-            <TableComponent data={medicalInterventionList} columns={MedicalInterventionListColumns}
-                            loading={isMedicalInterventionListLoading}/>
+            {/*<TableComponent data={medicalInterventionList}*/}
+            {/*                columns={MedicalInterventionListColumns}*/}
+            {/*                onSort={handleClientMedicalListSort}*/}
+            {/*                loading={isMedicalInterventionListLoading}/>*/}
+            <TableWrapperComponent
+                url={APIConfig.MEDICAL_RECORD_CONSOLIDATED_INTERVENTIONS_AND_ATTACHMENTS.URL(medicalRecordId)}
+                method={APIConfig.MEDICAL_RECORD_CONSOLIDATED_INTERVENTIONS_AND_ATTACHMENTS.METHOD}
+                columns={MedicalInterventionListColumns}
+                isPaginated={false}
+                onSort={handleClientMedicalListSort}
+                extraPayload={medicalRecordListFilterState}
+                />
         </div>
     );
 

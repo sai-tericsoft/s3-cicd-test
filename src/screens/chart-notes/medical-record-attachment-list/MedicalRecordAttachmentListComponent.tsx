@@ -7,6 +7,7 @@ import {CommonService} from "../../../shared/services";
 import {ITableColumn} from "../../../shared/models/table.model";
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
+import {useCallback, useState} from "react";
 
 interface ClientMedicalAttachmentsComponentProps {
 
@@ -16,7 +17,9 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
 
     const {medicalRecordId} = useParams();
     const {refreshTokenForMedicalRecordAttachments} = useSelector((state: IRootReducerState) => state.chartNotes)
-
+    const [medicalAttachmentListFilterState, setMedicalAttachmentListFilterState] = useState<any>({
+        sort: {}
+    });
     const attachmentRecord: ITableColumn[] = [
         {
             title: 'Date of Attachment',
@@ -24,6 +27,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             dataIndex: 'date_of_attachment',
             fixed: 'left',
             width: 250,
+            sortable: true,
             render: ( item: any) => {
                 return <>{CommonService.getSystemFormatTimeStamp(item?.updated_at)}</>
             }
@@ -42,6 +46,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             key: 'last_updated',
             dataIndex: 'last_updated',
             width: 250,
+            sortable: true,
             render: ( item: any) => {
                 return <>{CommonService.transformTimeStamp(item?.updated_at)}</>
             }
@@ -51,6 +56,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             key: 'posted_by',
             dataIndex: 'posted_by',
             width:250,
+            sortable: true,
             render: ( item: any) => {
                 return <>{item?.posted_by?.first_name} {item?.posted_by?.last_name}</>
             }
@@ -80,6 +86,16 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             }
         }
     ];
+    const handleClientMedicalListSort = useCallback((key: string, order: string) => {
+        setMedicalAttachmentListFilterState((oldState: any) => {
+            const newState = {...oldState};
+            newState["sort"] = {
+                key,
+                order
+            }
+            return newState;
+        });
+    }, []);
 
     return (
         <div className={'client-medical-attachments-component'}>
@@ -87,6 +103,8 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
                                    url={APIConfig.CLIENT_MEDICAL_ATTACHMENT.URL(medicalRecordId)}
                                    method={APIConfig.CLIENT_MEDICAL_ATTACHMENT.METHOD}
                                    isPaginated={false}
+                                   onSort={handleClientMedicalListSort}
+                                   extraPayload={medicalAttachmentListFilterState}
                                    columns={attachmentRecord}/>
         </div>
     );
