@@ -67,7 +67,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
     const [isMedicalRecordStatsModalOpen, setIsMedicalRecordStatsModalOpen] = useState<boolean>(false);
     const [isTransferMedicalRecordDrawerOpen, setIsTransferMedicalRecordDrawerOpen] = useState<boolean>(false);
     const [medicalRecordMenuOptions, setMedicalRecordMenuOptions] = useState<any[]>([]);
-    const [isFullCardOpen, setIsFullCardOpen] = useState<boolean>(true);
+    const [isFullCardOpen, setIsFullCardOpen] = useState<boolean>(false);
 
     const {
         clientMedicalRecord,
