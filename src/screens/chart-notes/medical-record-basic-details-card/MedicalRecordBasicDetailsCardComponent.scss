@@ -1,7 +1,11 @@
 @import "src/assets/styles/common";
 
 .client-medical-details-card-component {
-
+.form-control-label-component{
+  .form-control-label{
+    font-size:16px;
+  }
+}
   .ts-row{
     .date-of-surgery{
       .data-value{
