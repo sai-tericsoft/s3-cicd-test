@@ -50,11 +50,11 @@ const AddNewReceiptFormValidationSchema = Yup.object({
     products: Yup.array().of(
         ProductValidationSchema
     ),
-    amount: Yup.number().min(1).required("Amount is required"),
+    total: Yup.number().min(1).required("Amount is required"),
     // discount: Yup.number().min(1).max(100).nullable(),
-    discount: Yup.mixed().nullable().when("amount", {
+    discount: Yup.mixed().nullable().when("total", {
         is: (value: number) => value > 0,
-        then: Yup.number().max(Yup.ref('amount'), 'Invalid Discount Amount')
+        then: Yup.number().max(Yup.ref('total'), 'Invalid Discount Amount')
             .nullable(true)
             // checking self-equality works for NaN, transforming it to null
             .transform((_, val) => val ? Number(val) : null),
@@ -109,7 +109,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
     const [isClientBillingAddressDrawerOpened, setIsClientBillingAddressDrawerOpened] = useState<boolean>(false);
     const [selectedPaymentMode, setSelectedPaymentMode] = useState<string | undefined>(undefined);
     const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
-    const [invoiceAmount, setReceiptAmount] = useState<number>(0);
+    const [total, setTotal] = useState<number>(0);
 
     const {
         paymentModes
@@ -391,11 +391,12 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         const setSubmitting = formRef?.current?.setSubmitting;
         const setErrors = formRef?.current?.setErrors;
         setSubmitting && setSubmitting(true);
+        const discount = isNaN(values?.discount) ? 0 : values.discount;
         const payload = {
             ...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['product', 'key']),
-            total: invoiceAmount,
+            discount,
+            payable_amount: total - discount,
             payment_mode: selectedPaymentMode,
-            billing_address: selectedClientBillingAddress // TODO remove it to send from FE once BE fixes made
         }
         CommonService._billingsService.AddNewReceiptAPICall(payload)
             .then((response: IAPIResponseType<any>) => {
@@ -407,7 +408,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 setErrors && CommonService.handleErrors(setErrors, error);
                 setSubmitting && setSubmitting(false);
             })
-    }, [closePaymentModeModal, selectedClientBillingAddress, invoiceAmount, navigate, selectedPaymentMode]);
+    }, [closePaymentModeModal, navigate, selectedPaymentMode]);
 
     const handleAddReceiptCancel = useCallback(() => {
         CommonService.onConfirm(
@@ -431,9 +432,9 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         } else {
             totalAmount = 0;
         }
-        formRef.current?.setFieldValue('amount', totalAmount);
+        formRef.current?.setFieldValue('total', totalAmount);
         formRef.current?.setFieldTouched('discount');
-        setReceiptAmount(totalAmount);
+        setTotal(totalAmount);
     }, [formRef.current?.values?.products]);
 
     const handleEditBillingAddress = useCallback((values: any) => {
@@ -465,8 +466,8 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                         <Form className="t-form" noValidate={true}>
                             <FormDebuggerComponent
                                 form={formik}
-                                canShow={false}
-                                showDebugger={false}/>
+                                canShow={true}
+                                showDebugger={true}/>
                             <div className="t-form-controls">
                                 <div>
                                     <div
@@ -669,7 +670,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                         </div>
                                                         <div
                                                             className="add-new-receipt__payment__block__row__value">
-                                                            {Misc.CURRENCY_SYMBOL} {invoiceAmount}
+                                                            {Misc.CURRENCY_SYMBOL} {total}
                                                         </div>
                                                     </div>
                                                     <div>
@@ -680,9 +681,9 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                                         label="Discount"
                                                                         fullWidth={true}
                                                                         type={"number"}
-                                                                        max={invoiceAmount}
+                                                                        max={total}
                                                                         formikField={field}
-                                                                        disabled={!(invoiceAmount > 0)}
+                                                                        disabled={!(total > 0)}
                                                                         validationPattern={Patterns.POSITIVE_WHOLE_NUMBERS}
                                                                         prefix={Misc.CURRENCY_SYMBOL}
                                                                     />
@@ -697,7 +698,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                         <div
                                                             className="add-new-receipt__payment__block__row__value">{Misc.CURRENCY_SYMBOL}
                                                             {
-                                                                invoiceAmount - (addNewReceiptFormInitialValues.discount ? parseInt(addNewReceiptFormInitialValues.discount) : 0)
+                                                                total - (addNewReceiptFormInitialValues.discount ? parseInt(addNewReceiptFormInitialValues.discount) : 0)
                                                             }
                                                         </div>
                                                     </div>

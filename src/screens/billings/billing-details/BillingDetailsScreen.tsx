@@ -546,7 +546,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                             </div>
                                             <div
                                                 className="add-new-invoice__payment__block__row__value">
-                                                {Misc.CURRENCY_SYMBOL} {billingDetails?.amount}
+                                                {Misc.CURRENCY_SYMBOL} {billingDetails?.total}
                                             </div>
                                         </div>
                                         <div className="add-new-invoice__payment__block__row discount">
@@ -556,7 +556,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                             </div>
                                             <div
                                                 className="add-new-invoice__payment__block__row__value">
-                                                - {Misc.CURRENCY_SYMBOL} {(billingDetails?.discount_amount ? parseInt(billingDetails?.discount_amount) : 0)}
+                                                - {Misc.CURRENCY_SYMBOL} {(billingDetails?.discount ? parseInt(billingDetails?.discount) : 0)}
                                             </div>
                                         </div>
                                         <div className="add-new-invoice__payment__block__row grand">
@@ -566,7 +566,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                             <div
                                                 className="add-new-invoice__payment__block__row__value">{Misc.CURRENCY_SYMBOL}
                                                 {
-                                                    parseInt(billingDetails?.amount) - (billingDetails?.discount_amount ? parseInt(billingDetails?.discount_amount) : 0)
+                                                    parseInt(billingDetails?.total) - (billingDetails?.discount ? parseInt(billingDetails?.discount) : 0)
                                                 }
                                             </div>
                                         </div>
