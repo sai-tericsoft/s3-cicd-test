@@ -250,7 +250,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                 <ListItem onClick={openImportSoapNoteDrawer}>Import SOAP Note</ListItem>]
             );
         }
-    }, [handleNotifyAdmin, comingSoon, handleEditSoapNote, mode, openMedicalRecordDocumentAddDrawer, openTransferSoapNoteDrawer, openAddConcussionFileDrawer, openAddDryNeedlingFileDrawer, openImportSoapNoteDrawer, openViewPriorNoteDrawer, medicalInterventionDetails]);
+    }, [handleNotifyAdmin, handleNotifyAdminModalOpen, comingSoon, handleEditSoapNote, mode, openMedicalRecordDocumentAddDrawer, openTransferSoapNoteDrawer, openAddConcussionFileDrawer, openAddDryNeedlingFileDrawer, openImportSoapNoteDrawer, openViewPriorNoteDrawer, medicalInterventionDetails]);
 
     return (
         <div className={'client-medical-details-card-component'}>
