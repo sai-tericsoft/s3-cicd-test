@@ -126,9 +126,11 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                         } else {
                             route = CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, item?._id);
                         }
-                    } else if (item?.note_type?.toLowerCase() === "progress report") {
-                        route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId, item?._id);
-                    } else {
+                    }
+                    // else if (item?.note_type?.toLowerCase() === "progress report") {
+                    //     route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId, item?._id);
+                    // }
+                    else {
                     }
                     return <LinkComponent route={route}>
                         {
