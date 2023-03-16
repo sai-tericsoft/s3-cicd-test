@@ -266,36 +266,41 @@
 
 }
 
-.update-stock-modal{
-   .modal-content-wrapper{
-     width: 400px;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     .modal-body{
-       width: 300px;
-     }
-   }
- }
-.notify-admin-modal{
-  .modal-content-wrapper{
+.update-stock-modal {
+  .modal-content-wrapper {
+    width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .modal-body {
+      width: 300px;
+    }
+  }
+}
+
+.notify-admin-modal {
+  .modal-content-wrapper {
     width: 444px;
     display: flex;
     justify-content: center;
     align-items: center;
-    .modal-body{
+
+    .modal-body {
       width: 400px;
     }
-    .form-control-label-component{
-      .form-control-label{
+
+    .form-control-label-component {
+      .form-control-label {
         font-size: 16px;
       }
     }
   }
 }
-.all-body-body-parts-heading{
-  .modal-content-wrapper .modal-header{
-    .modal-title{
+
+.all-body-body-parts-heading {
+  .modal-content-wrapper .modal-header {
+    .modal-title {
       font-size: 1.4286rem;
       font-weight: 700;
     }
@@ -590,6 +595,13 @@
 }
 
 .mark-as-paid-outstanding-balance-modal {
+  .modal-content-wrapper .modal-header {
+    .modal-title {
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+
   .modal-content-wrapper {
 
     .card-body {
