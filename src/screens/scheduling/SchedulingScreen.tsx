@@ -803,7 +803,10 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                      setSchedulingListFilterState({
                                                                          ...schedulingListFilterState,
                                                                          category_id: value,
-                                                                         service_id: undefined
+                                                                         service_id: undefined,
+                                                                         start_date: date,
+                                                                         end_date: date,
+                                                                         duration: 'day'
                                                                      })
                                                                      if (value) {
                                                                          getServiceList(value?._id);
