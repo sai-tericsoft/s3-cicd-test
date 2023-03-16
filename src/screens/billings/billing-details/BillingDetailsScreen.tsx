@@ -374,7 +374,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                     </DataLabelValueComponent>
                                 }
                                 <div className={"billing-date"}>
-                                    {CommonService.convertDateFormat2(billingDetails?.created_at, "DD MMM YYYY | hh:mm A")}
+                                    {CommonService.convertDateFormat2(billingDetails?.created_at, "DD-MMM-YYYY | hh:mm A")}
                                 </div>
                             </div>
                         </div>
