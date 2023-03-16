@@ -277,6 +277,11 @@ const MedicalRecordNotifyAdminAPICall = (medicalRecordId: string, payload: any) 
     return ApiService[APIConfig.MEDICAL_RECORD_NOTIFY_ADMIN.METHOD](APIConfig.MEDICAL_RECORD_NOTIFY_ADMIN.URL(medicalRecordId), payload);
 }
 
+const ReOpenMedicalRecordAPICall = (medicalRecordId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.RE_OPEN_MEDICAL_RECORD.METHOD](APIConfig.RE_OPEN_MEDICAL_RECORD.URL(medicalRecordId), payload);
+}
+
 const ChartNotesService = {
     MedicalRecordAddAPICall,
     MedicalRecordEditAPICall,
@@ -334,7 +339,8 @@ const ChartNotesService = {
     TransferMedicalRecordAPICall,
     MedicalInterventionNotifyAdminAPICall,
     MedicalRecordNotifyAdminAPICall,
-    MedicalRecordFilesListAPICall
+    MedicalRecordFilesListAPICall,
+    ReOpenMedicalRecordAPICall
 }
 
 export default ChartNotesService;

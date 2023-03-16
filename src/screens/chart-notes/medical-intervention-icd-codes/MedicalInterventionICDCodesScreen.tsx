@@ -82,11 +82,11 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
         })
             .then((response: IAPIResponseType<any>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                if (medicalInterventionDetails?.status === 'completed') {
-                    navigate(CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId));
-                } else {
+                // if (medicalInterventionDetails?.status === 'completed') {
+                //     navigate(CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId));
+                // } else {
                     navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
-                }
+               // }
             })
             .catch((error: any) => {
                 CommonService._alert.showToast(error, "error");
@@ -341,7 +341,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                 </TabContentComponent>
                 <div className="text-center">
                     {(medicalRecordId && medicalInterventionId) && <LinkComponent
-                        route={medicalInterventionDetails?.status === 'completed' ? CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId) : CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId)}>
+                        route={CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId)}>
                         <ButtonComponent variant={"outlined"}
                                          disabled={isSubmitting}
                         >

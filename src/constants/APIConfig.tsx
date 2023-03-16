@@ -669,6 +669,10 @@ const APIConfig: IAPIConfig = {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/notifyAdmin',
         METHOD: 'post'
     },
+    RE_OPEN_MEDICAL_RECORD:{
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/reopen',
+        METHOD: 'put'
+    },
     GET_INVENTORY_PRODUCT_LIST: {
         URL: ENV.API_URL + '/product/lite',
         METHOD: 'get'
@@ -691,6 +695,10 @@ const APIConfig: IAPIConfig = {
     },
     MARK_PAYMENT_AS_PAID:{
         URL: (invoiceId: string) => ENV.API_URL + '/invoice/' + invoiceId + '/markPaid',
+        METHOD:'post'
+    },
+    GENERATE_BILLING_DOCUMENT_PDF:{
+        URL: (billingDocumentId: string, type: 'invoice' | 'receipt') => `${ENV.API_URL}/${type}/${billingDocumentId}/generatePDF`,
         METHOD:'post'
     },
     ADD_NEW_RECEIPT:{

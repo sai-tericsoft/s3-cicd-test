@@ -29,6 +29,10 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
     const [isMedicalInterventionBeingAdded, setIsMedicalInterventionBeingAdded] = useState<boolean>(false);
     const [isMedicalInterventionBeingRepeated, setIsMedicalInterventionBeingRepeated] = useState<boolean>(false);
 
+    const {
+        clientMedicalRecord,
+    } = useSelector((state: IRootReducerState) => state.client);
+
     const MedicalInterventionListColumns: any = [
         {
             title: '',
@@ -63,7 +67,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                     } else {
                     }
                     return <LinkComponent route={route}>
-                             {item?.created_at ? CommonService.getSystemFormatTimeStamp(item?.created_at) : "N/A"}
+                        {item?.created_at ? CommonService.getSystemFormatTimeStamp(item?.created_at) : "N/A"}
                     </LinkComponent>
                 }
             }
@@ -122,9 +126,11 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                         } else {
                             route = CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, item?._id);
                         }
-                    } else if (item?.note_type?.toLowerCase() === "progress report") {
-                        route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId, item?._id);
-                    } else {
+                    }
+                    // else if (item?.note_type?.toLowerCase() === "progress report") {
+                    //     route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId, item?._id);
+                    // }
+                    else {
                     }
                     return <LinkComponent route={route}>
                         {
@@ -226,7 +232,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
         <div className={'client-medical-records-component'}>
             <div className={'client-medical-records-header-button-wrapper'}>
                 <div className={'client-medical-records-header'}>Medical Records</div>
-                <div>
+                {clientMedicalRecord?.status_details?.code === 'open' && <div>
                     <ButtonComponent onClick={confirmRepeatLastTreatment}
                                      disabled={(isMedicalInterventionBeingRepeated || isMedicalInterventionListLoading || medicalInterventionList.filter((item: any) => (item?.status === 'completed' && item?.note_type?.toLowerCase() === "soap note")).length === 0)}
                                      className={'outlined-button'}
@@ -239,7 +245,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                                      prefixIcon={<ImageConfig.AddIcon/>}>
                         Add New Treatment
                     </ButtonComponent>
-                </div>
+                </div>}
             </div>
             <TableComponent data={medicalInterventionList} columns={MedicalInterventionListColumns}
                             loading={isMedicalInterventionListLoading}/>
