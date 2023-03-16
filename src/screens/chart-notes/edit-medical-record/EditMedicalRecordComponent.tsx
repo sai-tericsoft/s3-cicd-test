@@ -20,6 +20,7 @@ import HorizontalLineComponent
 import _ from "lodash";
 import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
+import moment from "moment";
 
 interface EditMedicalRecordComponentProps {
     medicalRecordId: string;
@@ -144,11 +145,11 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                         {
                                             (field: FieldProps) => (
                                                 <FormikDatePickerComponent
-                                                    label={'Date Of Onset'}
-                                                    placeholder={'Date Of Onset'}
-                                                    formikField={field}
-                                                    disabled={true}
+                                                    label={'Date of Onset'}
+                                                    placeholder={'Date of Onset'}
                                                     required={true}
+                                                    formikField={field}
+                                                    maxDate={moment()}
                                                     fullWidth={true}
                                                 />
                                             )
