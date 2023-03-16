@@ -471,7 +471,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                     <div className='scheduling-filter-header-wrapper'>
                         <div className="scheduling-filter-header-date-wrapper">
                             <div
-                                className="filter-header-date-text">{CommonService.convertDateFormat(schedulingListFilterState.start_date, (viewMode === 'calendar' && schedulingListFilterState.duration === 'month') ? ('MMMM, YYYY') : 'DD MMMM, YYYY')}</div>
+                                className="filter-header-date-text">{CommonService.convertDateFormat(schedulingListFilterState.start_date, (viewMode === 'calendar' && schedulingListFilterState.duration === 'month') ? ('MMMM YYYY') : 'MMMM DD YYYY')}</div>
                             <div className="filter-header-date-controls">
                                 <div className="filter-header-date-control-item">
                                     <IconButtonComponent
