@@ -159,7 +159,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                 displayWith={(item: any) => item?.name || ''}
                                 onUpdate={(item: any) => {
                                     field.form.setFieldValue(`products[${index}].product_id`, item._id);
-                                    field.form.setFieldValue(`products[${index}].amount`, item.price);
+                                    field.form.setFieldValue(`products[${index}].rate`, item.price);
                                     field.form.setFieldValue(`products[${index}].quantity`, item.quantity);
                                     field.form.setFieldValue(`products[${index}].units`, 0);
                                 }}
@@ -193,6 +193,10 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                         type={"number"}
                                         disabled={!field.form.values?.products?.[index]?.product_id}
                                         validationPattern={Patterns.POSITIVE_WHOLE_NUMBERS}
+                                        onChange={(value: any) => {
+                                                field.form.setFieldValue(`products[${index}].amount`, field.form.values?.products?.[index]?.rate * value);
+                                        }
+                                        }
                                     /> : "-"
                             }
                         </>
@@ -209,7 +213,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 {
                     (field: FieldProps) => (
                         <>
-                            {field.form.values?.products?.[index]?.amount ? <> {Misc.CURRENCY_SYMBOL} {field.form.values?.products?.[index]?.amount || "-"} </> : "-"}
+                            {field.form.values?.products?.[index]?.rate ? <> {Misc.CURRENCY_SYMBOL} {field.form.values?.products?.[index]?.rate || "-"} </> : "-"}
                         </>
                     )
                 }
@@ -224,7 +228,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 {
                     (field: FieldProps) => (
                         <>
-                            {field.form.values?.products?.[index]?.units ? <> {Misc.CURRENCY_SYMBOL} {(field.form.values?.products?.[index]?.amount || 0) * (field.form.values?.products?.[index]?.units || 0)} </> : "-"}
+                            <>{Misc.CURRENCY_SYMBOL} {(field.form.values?.products?.[index]?.amount || 0)}</>
                         </>
                     )
                 }
@@ -427,7 +431,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         let totalAmount = 0;
         if (formRef.current?.values?.products){
             totalAmount = formRef.current?.values?.products?.reduce((acc: number, curr: any) => {
-                return (curr.amount && curr.units) ? acc + (parseInt(curr?.amount) * parseInt(curr?.units)) : acc;
+                return (curr.rate && curr.units) ? acc + (parseInt(curr?.rate) * parseInt(curr?.units)) : acc;
             }, 0);
         } else {
             totalAmount = 0;
@@ -466,8 +470,8 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                         <Form className="t-form" noValidate={true}>
                             <FormDebuggerComponent
                                 form={formik}
-                                canShow={true}
-                                showDebugger={true}/>
+                                canShow={false}
+                                showDebugger={false}/>
                             <div className="t-form-controls">
                                 <div>
                                     <div
