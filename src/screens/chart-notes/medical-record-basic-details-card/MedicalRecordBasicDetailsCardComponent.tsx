@@ -188,12 +188,9 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
     }, [medicalRecordId, navigate]);
 
     const handleNotifyAdmin = useCallback((values: any, {setErrors, resetForm}: FormikHelpers<any>) => {
-        const payload = {
-            message: values.message,
-        };
         setIsNotifyAdminProgressIsLoading(true);
         if (medicalRecordId) {
-            CommonService._chartNotes.MedicalRecordNotifyAdminAPICall(medicalRecordId, payload)
+            CommonService._chartNotes.MedicalRecordNotifyAdminAPICall(medicalRecordId, values)
                 .then((response) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully Notify the admin", "success");
                     setIsNotifyAdminProgressIsLoading(false);
