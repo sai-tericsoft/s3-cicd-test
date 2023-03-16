@@ -94,7 +94,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             .finally(() => {
                 setIsSubmitting(false);
             })
-    }, [medicalInterventionId, medicalInterventionDetails, medicalRecordId, navigate])
+    }, [medicalInterventionId, medicalRecordId, navigate])
 
     const [currentTab, setCurrentTab] = useState<any>("icdCodes");
     const [searchParams, setSearchParams] = useSearchParams();

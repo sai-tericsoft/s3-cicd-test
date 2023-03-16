@@ -41,13 +41,13 @@ const FormikInputComponent = (props: FormikInputComponentProps) => {
         if (onFocus) {
             onFocus(value);
         }
-    },[name, setFieldValue]);
+    },[onFocus]);
 
     const handleOnBlur = useCallback((value: any) => {
         if (onBlur) {
             onBlur(value);
         }
-    },[]);
+    },[onBlur]);
 
     return (
         <InputComponent
