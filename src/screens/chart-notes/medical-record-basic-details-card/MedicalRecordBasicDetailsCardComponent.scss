@@ -1,18 +1,27 @@
 @import "src/assets/styles/common";
 
 .client-medical-details-card-component {
-.form-control-label-component{
-  .form-control-label{
-    font-size:16px;
+
+  .ts-row {
+    .show-more-less {
+      color: #83909D;
+      cursor: pointer;
+
+      .show-more-less-action {
+        margin: 10px;
+        cursor: pointer;
+      }
+    }
   }
-}
-  .ts-row{
-    .date-of-surgery{
-      .data-value{
+
+  .ts-row {
+    .date-of-surgery {
+      .data-value {
         margin-left: 13px;
       }
     }
   }
+
   .client-name-button-wrapper {
     display: flex;
     justify-content: space-between;

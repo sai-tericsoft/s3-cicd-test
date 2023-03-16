@@ -79,6 +79,8 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
     const [isNotifyModalOpen, setIsNotifyModalOpen] = useState<boolean>(false);
     const [notifyAdminFormInitialValues, setNotifyAdminFormInitialValues] = useState<any>(_.cloneDeep(NotifyAdminInitialValues));
     const [isNotifyAdminProgressIsLoading, setIsNotifyAdminProgressIsLoading] = useState<boolean>(false);
+    const [isFullCardOpen, setIsFullCardOpen] = useState<boolean>(false);
+
     const {
         clientMedicalRecord,
         isClientMedicalRecordLoading,
@@ -355,21 +357,33 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                         </DataLabelValueComponent>
                                     </div>
                                 </div>
-                                <div className={'ts-row'}>
-                                    <div className={'ts-col-md-4 ts-col-lg'}>
-                                        <DataLabelValueComponent label={'Injury/Condition Description'}>
-                                            {clientMedicalRecord?.injury_description || "N/A"}
-                                        </DataLabelValueComponent>
+
+                                {isFullCardOpen && <>
+                                    <div className={'ts-row'}>
+                                        <div className={'ts-col-md-4 ts-col-lg'}>
+                                            <DataLabelValueComponent label={'Injury/Condition Description'}>
+                                                {clientMedicalRecord?.injury_description || "N/A"}
+                                            </DataLabelValueComponent>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className={'ts-row'}>
-                                    <div className={'ts-col-md-4 ts-col-lg'}>
-                                        <DataLabelValueComponent label={'Restrictions/Limitations'}>
-                                            {clientMedicalRecord?.limitations || "N/A"}
-                                        </DataLabelValueComponent>
+                                    <div className={'ts-row'}>
+                                        <div className={'ts-col-md-4 ts-col-lg'}>
+                                            <DataLabelValueComponent label={'Restrictions/Limitations'}>
+                                                {clientMedicalRecord?.limitations || "N/A"}
+                                            </DataLabelValueComponent>
+                                        </div>
+                                        <div className={'ts-col-md-4 ts-col-lg'}/>
+                                        <div className={'ts-col-md-4 ts-col-lg'}/>
                                     </div>
+                                </>
+                                }
+                                <div className={'ts-row'}>
                                     <div className={'ts-col-md-4 ts-col-lg'}/>
                                     <div className={'ts-col-md-4 ts-col-lg'}/>
+                                    <div className={'show-more-less'}
+                                         onClick={() => setIsFullCardOpen(!isFullCardOpen)}>{isFullCardOpen ?
+                                        <div><span className={'show-more-less-action'}>More Details</span><span><ImageConfig.DownArrowIcon/></span></div> : <div><span className={'show-more-less-action'}>Less
+                                            Details</span><span><ImageConfig.UpArrowIcon/></span></div>}</div>
                                 </div>
                             </CardComponent>
                         </>

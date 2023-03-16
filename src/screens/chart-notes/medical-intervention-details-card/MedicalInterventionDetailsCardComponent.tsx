@@ -69,6 +69,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     const [isNotifyModalOpen, setIsNotifyModalOpen] = useState<boolean>(false);
     const [notifyAdminFormInitialValues, setNotifyAdminFormInitialValues] = useState<any>(_.cloneDeep(NotifyAdminInitialValues));
     const [isNotifyAdminProgressIsLoading, setIsNotifyAdminProgressIsLoading] = useState<boolean>(false);
+    const [isFullCardOpen, setIsFullCardOpen] = useState<boolean>(false);
 
     const {
         clientMedicalRecord,
@@ -334,12 +335,20 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                 </DataLabelValueComponent>
                             </div>
                         </div>
-                        <div className={'ts-row'}>
+                        {isFullCardOpen && <div className={'ts-row'}>
                             <div className={'ts-col'}>
                                 <DataLabelValueComponent label={'Restrictions/Limitations'}>
                                     {medicalInterventionDetails?.medical_record_details?.limitations || "-"}
                                 </DataLabelValueComponent>
                             </div>
+                        </div>}
+                        <div className={'ts-row'}>
+                            <div className={'ts-col-md-4 ts-col-lg'}/>
+                            <div className={'ts-col-md-4 ts-col-lg'}/>
+                            <div className={'show-more-less'}
+                                 onClick={() => setIsFullCardOpen(!isFullCardOpen)}>{isFullCardOpen ?
+                                <div><span className={'show-more-less-action'}>More Details</span><span><ImageConfig.DownArrowIcon/></span></div> : <div><span className={'show-more-less-action'}>Less
+                                            Details</span><span><ImageConfig.UpArrowIcon/></span></div>}</div>
                         </div>
                         <DrawerComponent isOpen={isEditMedicalRecordDrawerOpen}
                                          showClose={true}
