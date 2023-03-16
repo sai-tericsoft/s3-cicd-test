@@ -603,9 +603,8 @@
   }
 
   .modal-content-wrapper {
-
     .card-body {
-      padding: 15px 25px 10px;
+      padding: 15px 25px 0;
 
       .data-label {
         width: 150px;
@@ -623,6 +622,7 @@
 
       .data-label-value {
         justify-content: space-evenly;
+        margin-bottom: 0 !important;
       }
 
       .data-label, .data-value {

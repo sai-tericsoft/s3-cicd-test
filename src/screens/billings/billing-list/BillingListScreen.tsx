@@ -284,7 +284,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: 'Appointment ID',
             key: 'appointment_id',
             dataIndex: 'appointment_id',
-            width: 150,
+            width: 250,
             align: 'center',
         },
         {
@@ -293,6 +293,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             dataIndex: 'amount',
             width: 150,
             align: 'center',
+            fixed: 'right',
             render: (item: any) => {
                 return <>{Misc.CURRENCY_SYMBOL} {item?.amount} </>
             }
