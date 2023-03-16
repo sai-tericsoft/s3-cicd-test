@@ -90,6 +90,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             render: (item: any) => {
                 const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
                 return <CheckBoxComponent
+                    className={selectedPayments.includes(item) ? 'selected-row' : ''}
                     disabled={clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id}
                     checked={selectedPayments.includes(item)}
                     onChange={(isChecked) => {

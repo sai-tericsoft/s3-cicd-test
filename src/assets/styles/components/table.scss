@@ -80,6 +80,12 @@
         height: 52px;
         padding: 6px;
       }
+
+      .t-tr:has(.selected-row) {
+        .t-td {
+          background-color: #EFFAF2;
+        }
+      }
     }
 
     &.bordered {
