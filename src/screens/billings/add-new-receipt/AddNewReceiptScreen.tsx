@@ -408,7 +408,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 setErrors && CommonService.handleErrors(setErrors, error);
                 setSubmitting && setSubmitting(false);
             })
-    }, [closePaymentModeModal, navigate, selectedPaymentMode]);
+    }, [closePaymentModeModal, total, navigate, selectedPaymentMode]);
 
     const handleAddReceiptCancel = useCallback(() => {
         CommonService.onConfirm(
