@@ -33,6 +33,12 @@ import ImportSoapNoteComponent from "../import-soap-note/ImportSoapNoteComponent
 import FilesUneditableMiddlewareComponent
     from "../../../shared/components/files-uneditable-middleware/FilesUneditableMiddlewareComponent";
 import AddMedicalRecordDocumentComponent from "../add-medical-record-document/AddMedicalRecordDocumentComponent";
+import ModalComponent from "../../../shared/components/modal/ModalComponent";
+import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
+import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
+import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
+import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
+import _ from "lodash";
 
 interface MedicalInterventionDetailsCardComponentProps {
     showAction?: boolean,
@@ -40,6 +46,9 @@ interface MedicalInterventionDetailsCardComponentProps {
     mode?: "edit" | "view",
 }
 
+const NotifyAdminInitialValues: any = {
+    message: "",
+}
 
 const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetailsCardComponentProps) => {
 
@@ -57,6 +66,9 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     const [isViewPriorNoteDrawerOpen, setIsViewPriorNoteDrawerOpen] = useState<boolean>(false);
     const [isImportSoapNoteDrawerOpen, setIsImportSoapNoteDrawerOpen] = useState<boolean>(false);
     const [isMedicalRecordDocumentAddDrawerOpen, setIsMedicalRecordDocumentAddDrawerOpen] = useState<boolean>(false);
+    const [isNotifyModalOpen, setIsNotifyModalOpen] = useState<boolean>(false);
+    const [notifyAdminFormInitialValues, setNotifyAdminFormInitialValues] = useState<any>(_.cloneDeep(NotifyAdminInitialValues));
+    const [isNotifyAdminProgressIsLoading, setIsNotifyAdminProgressIsLoading] = useState<boolean>(false);
 
     const {
         clientMedicalRecord,
@@ -138,7 +150,6 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
         closeMedicalRecordDocumentAddDrawer();
     }, [dispatch, closeMedicalRecordDocumentAddDrawer]);
 
-
     const handleMedicalRecordEdit = useCallback(() => {
         closeEditMedicalRecordDrawer();
         if (medicalRecordId) {
@@ -179,16 +190,31 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
         }
     }, [medicalRecordId, medicalInterventionDetails, closeImportSoapNoteDrawer, navigate]);
 
-    const handleNotifyAdmin = useCallback(() => {
+    const handleNotifyAdminModalOpen = useCallback(() => {
+        setNotifyAdminFormInitialValues(_.cloneDeep(NotifyAdminInitialValues));
+        setIsNotifyModalOpen(true);
+    }, []);
+
+    const handleNotifyAdminModalClose = useCallback(() => {
+        setNotifyAdminFormInitialValues(_.cloneDeep(NotifyAdminInitialValues));
+        setIsNotifyModalOpen(false);
+    }, []);
+
+    const handleNotifyAdmin = useCallback((values: any, {setErrors, resetForm}: FormikHelpers<any>) => {
+        setIsNotifyAdminProgressIsLoading(true);
         if (medicalInterventionId) {
-            CommonService._chartNotes.MedicalInterventionNotifyAdminAPICall(medicalInterventionId, {})
+            CommonService._chartNotes.MedicalInterventionNotifyAdminAPICall(medicalInterventionId, values)
                 .then((response) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully Notify the admin", "success");
+                    setIsNotifyAdminProgressIsLoading(false);
+                    handleNotifyAdminModalClose();
+                    resetForm();
                 }).catch((error) => {
-                CommonService._alert.showToast(error?.error || "Error in Notifying the admin", "error");
+                CommonService.handleErrors(setErrors, error, true);
+                setIsNotifyModalOpen(false);
             });
         }
-    }, [medicalInterventionId]);
+    }, [medicalInterventionId, handleNotifyAdminModalClose]);
 
     const handleEditSoapNote = useCallback(() => {
         if (medicalRecordId && medicalInterventionId) {
@@ -204,7 +230,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                 <ListItem
                     onClick={comingSoon}>Print SOAP</ListItem>,
                 <ListItem onClick={openTransferSoapNoteDrawer}>Transfer SOAP to</ListItem>,
-                <ListItem onClick={handleNotifyAdmin}>Notify Admin</ListItem>];
+                <ListItem onClick={handleNotifyAdminModalOpen}>Notify Admin</ListItem>];
             if (mode === 'view') {
                 options.unshift(<FilesUneditableMiddlewareComponent
                     timeStamp={medicalInterventionDetails?.completed_date}>
@@ -395,6 +421,65 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                     onCancel={() => closeMedicalRecordDocumentAddDrawer()}
                 />}
             </DrawerComponent>
+
+            {/*Notify admin for medical record modal start*/}
+            <ModalComponent isOpen={isNotifyModalOpen} closeOnBackDropClick={true}
+                            className={'notify-admin-modal'}>
+                <div className={'display-flex ts-justify-content-center mrg-bottom-20'}>
+                    <ImageConfig.ConfirmIcon/>
+                </div>
+                <FormControlLabelComponent label={'NOTIFY ADMIN'}
+                                           className={'display-flex ts-justify-content-center '}/>
+                <Formik initialValues={notifyAdminFormInitialValues}
+                        onSubmit={handleNotifyAdmin}
+                        validateOnChange={false}
+                        validateOnBlur={true}
+                        enableReinitialize={true}
+                        validateOnMount={true}>
+                    {({values, isValid, resetForm, validateForm}) => {
+                        // eslint-disable-next-line react-hooks/rules-of-hooks
+                        useEffect(() => {
+                            validateForm();
+                        }, [values, validateForm]);
+                        return (
+                            <Form className={'t-form'} noValidate={true}>
+                                <FormDebuggerComponent values={values} showDebugger={false} canShow={false}/>
+                                <div className={'ts-row ts-justify-content-center'}>
+                                    <div className={'ts-col-lg-12'}>
+                                        <Field name={'message'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikTextAreaComponent formikField={field}
+                                                                             label={''}
+                                                                             fullWidth={true}
+                                                                             placeholder={'Enter your message here (if any) '}/>
+                                                )
+                                            }
+                                        </Field>
+                                    </div>
+                                </div>
+                                <div className={'ts-action display-flex ts-justify-content-center'}>
+                                    <ButtonComponent variant={'outlined'}
+                                                     onClick={() => {
+                                                         handleNotifyAdminModalClose();
+                                                         resetForm(); // TODO : check if this is required compare with Inventory stock update form
+                                                     }}>
+                                        Cancel
+                                    </ButtonComponent>
+                                    &nbsp;&nbsp;
+                                    <ButtonComponent variant={'contained'} color={'primary'}
+                                                     isLoading={isNotifyAdminProgressIsLoading}
+                                                     disabled={!isValid || isNotifyAdminProgressIsLoading}
+                                                     type={'submit'}>
+                                        Notify
+                                    </ButtonComponent>
+                                </div>
+                            </Form>
+                        )
+                    }}
+                </Formik>
+            </ModalComponent>
+            {/*Notify admin for medical record modal end*/}
         </div>
     );
 }

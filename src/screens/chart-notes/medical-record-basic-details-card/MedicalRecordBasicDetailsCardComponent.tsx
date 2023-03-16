@@ -445,6 +445,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                     </DrawerComponent>
                     {/*Transfer medical record drawer end*/}
 
+                    {/*Notify admin for medical record modal start*/}
                     <ModalComponent isOpen={isNotifyModalOpen} closeOnBackDropClick={true}
                                     className={'notify-admin-modal'}>
                         <div className={'display-flex ts-justify-content-center mrg-bottom-20'}>
@@ -501,7 +502,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                             }}
                         </Formik>
                     </ModalComponent>
-
+                    {/*Notify admin for medical record modal end*/}
                 </>
 
             }
