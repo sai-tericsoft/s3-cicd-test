@@ -617,6 +617,12 @@
       }
     }
 
+    .t-table {
+      height: calc(100vh - 700px) !important;
+      min-height: 300px !important;
+      max-height: 600px !important;
+    }
+
     .mark-as-paid-total-outstanding-balance {
       margin-top: 18px;
 
@@ -629,12 +635,6 @@
         font-weight: $font-weight-bold;
         color: $body-color !important;
       }
-    }
-
-    .t-table {
-      height: calc(100vh - 500px);
-      min-height: 300px;
-      max-height: 800px;
     }
 
   }
