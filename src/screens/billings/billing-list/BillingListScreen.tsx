@@ -103,7 +103,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             key: 'appointment_id',
             dataIndex: 'appointment_id',
             fixed: 'left',
-            width: 193,
+            width: 250,
             align: 'center',
             render: (item: any) => {
                 return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id, 'invoice')}>
@@ -147,7 +147,6 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: 'Service',
             key: 'service',
             dataIndex: 'name',
-            width: 225,
             align: 'center',
             render: (item: any) => {
                 return <>
@@ -168,6 +167,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: '',
             key: 'action',
             fixed: 'right',
+            width: 100,
             dataIndex: 'action',
             render: (item: any) => {
                 return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id, 'invoice')}>
