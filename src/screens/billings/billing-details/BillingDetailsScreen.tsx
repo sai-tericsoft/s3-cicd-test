@@ -498,7 +498,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                     </div>
                                     <div className="ts-col-lg-3">
                                         <DataLabelValueComponent label={"Date and Time"}>
-                                            {CommonService.convertDateFormat2(billingDetails?.appointment_details?.appointment_date, "DD MMM YYYY, hh:mm A")}
+                                            {CommonService.convertDateFormat2(billingDetails?.appointment_details?.appointment_date, "DD-MMM-YYYY, hh:mm A")}
                                         </DataLabelValueComponent>
                                     </div>
                                 </div>
