@@ -235,6 +235,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: 'Payment For',
             key: 'payment_for',
             dataIndex: 'payment_for',
+            width: 200,
             align: 'center',
             render: (item: any) => {
                 let className = "";
@@ -250,7 +251,9 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                     className = "cancellation";
                 }
                 return <>
-                    <ChipComponent className={className} label={item?.payment_for}/>
+                    <ChipComponent
+                        className={`min-width-60 ${className}`}
+                        label={item?.payment_for}/>
                 </>
             }
         },
