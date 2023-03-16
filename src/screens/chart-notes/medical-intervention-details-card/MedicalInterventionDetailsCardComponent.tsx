@@ -57,7 +57,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     const [isViewPriorNoteDrawerOpen, setIsViewPriorNoteDrawerOpen] = useState<boolean>(false);
     const [isImportSoapNoteDrawerOpen, setIsImportSoapNoteDrawerOpen] = useState<boolean>(false);
     const [isMedicalRecordDocumentAddDrawerOpen, setIsMedicalRecordDocumentAddDrawerOpen] = useState<boolean>(false);
-    const [isFullCardOpen, setIsFullCardOpen] = useState<boolean>(true);
+    const [isFullCardOpen, setIsFullCardOpen] = useState<boolean>(false);
 
     const {
         clientMedicalRecord,
