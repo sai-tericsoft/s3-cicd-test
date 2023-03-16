@@ -398,25 +398,27 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                 }}
                             />
                         </div>
+                        <div className="ts-col-lg-6"/>
+                        <div className="ts-col-lg-3 d-flex ts-justify-content-end">
+                            {currentTab === 'pendingPayments' &&
+                                <>
+                                    <ButtonComponent variant={'outlined'}
+                                                     className={'mrg-right-10'}
+                                                     disabled={selectedPayments.length === 0}
+                                                     onClick={openMarkAsPaidModal}
+                                                     prefixIcon={<ImageConfig.CircleCheck/>}>
+                                        Mark as paid
+                                    </ButtonComponent>&nbsp;&nbsp;
+                                </>
+                            }
+                            <LinkComponent route={CommonService._routeConfig.AddNewReceipt()}>
+                                <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}>
+                                    New Receipt
+                                </ButtonComponent>
+                            </LinkComponent>
+                        </div>
+
                     </div>
-                </div>
-                <div className="list-options">
-                    {currentTab === 'pendingPayments' &&
-                        <>
-                            <ButtonComponent variant={'outlined'}
-                                             className={'mrg-right-10'}
-                                             disabled={selectedPayments.length === 0}
-                                             onClick={openMarkAsPaidModal}
-                                             prefixIcon={<ImageConfig.CircleCheck/>}>
-                                Mark as paid
-                            </ButtonComponent>&nbsp;&nbsp;
-                        </>
-                    }
-                    <LinkComponent route={CommonService._routeConfig.AddNewReceipt()}>
-                        <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}>
-                            New Receipt
-                        </ButtonComponent>
-                    </LinkComponent>
                 </div>
             </div>
             <TabsWrapperComponent>
