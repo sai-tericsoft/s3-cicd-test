@@ -151,7 +151,7 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
                                         >
                                             Cancel
                                         </ButtonComponent>
-                                        &nbsp;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         <ButtonComponent
                                             type={"submit"}
                                             isLoading={isProgressReportAddInProgress}

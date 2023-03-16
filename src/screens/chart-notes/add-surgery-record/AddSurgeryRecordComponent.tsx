@@ -159,7 +159,7 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                                     acceptedFileTypes={["pdf"]}
                                 />
                             </div>
-                            <div className="t-form-actions mrg-top-30 mrg-bottom-30">
+                            <div className="t-form-actions">
                                 <ButtonComponent
                                     className={'mrg-right-10'}
                                     variant={"outlined"}
