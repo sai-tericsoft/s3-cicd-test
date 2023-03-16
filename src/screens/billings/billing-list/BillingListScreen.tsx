@@ -451,7 +451,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             <ModalComponent isOpen={showMarkAsPaidModal}
                             className={'mark-as-paid-outstanding-balance-modal'}
                             title={'Outstanding Balance'}
-                            modalFooter={<>
+                            modalFooter={<div className="mrg-top-20">
                                 <ButtonComponent variant={'outlined'}
                                                  className={'mrg-right-10'}
                                                  onClick={closeMarkAsPaidModal}
@@ -465,7 +465,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                 >
                                     Confirm
                                 </ButtonComponent>
-                            </>
+                            </div>
                             }
             >
                 <CardComponent title={'Client Details'} className={'client-details-card'}>
