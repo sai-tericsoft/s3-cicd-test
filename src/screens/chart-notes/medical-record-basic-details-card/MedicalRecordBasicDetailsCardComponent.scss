@@ -2,15 +2,14 @@
 
 .client-medical-details-card-component {
 
-  .ts-row {
-    .show-more-less {
-      color: #83909D;
-      cursor: pointer;
+  .show-more-less {
+    color: #83909D;
+    cursor: pointer;
+    float: right;
 
-      .show-more-less-action {
-        margin: 10px;
-        cursor: pointer;
-      }
+    .show-more-less-action {
+      margin: 10px;
+      cursor: pointer;
     }
   }
 

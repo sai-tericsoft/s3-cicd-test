@@ -381,9 +381,10 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                     <div className={'ts-col-md-4 ts-col-lg'}/>
                                     <div className={'ts-col-md-4 ts-col-lg'}/>
                                     <div className={'show-more-less'}
-                                         onClick={() => setIsFullCardOpen(!isFullCardOpen)}>{isFullCardOpen ?
-                                        <div><span className={'show-more-less-action'}>More Details</span><span><ImageConfig.DownArrowIcon/></span></div> : <div><span className={'show-more-less-action'}>Less
-                                            Details</span><span><ImageConfig.UpArrowIcon/></span></div>}</div>
+                                         onClick={() => setIsFullCardOpen(!isFullCardOpen)}>
+                                        {isFullCardOpen ? 'Less' : 'More'} Details &nbsp;&nbsp;
+                                        {isFullCardOpen ? <ImageConfig.DownArrowIcon/> : <ImageConfig.UpArrowIcon/> }
+                                    </div>
                                 </div>
                             </CardComponent>
                         </>
