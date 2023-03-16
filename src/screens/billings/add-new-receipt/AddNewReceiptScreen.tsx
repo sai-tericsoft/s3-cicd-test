@@ -52,7 +52,7 @@ const AddNewReceiptFormValidationSchema = Yup.object({
     ),
     amount: Yup.number().min(1).required("Amount is required"),
     // discount: Yup.number().min(1).max(100).nullable(),
-    discount_amount: Yup.mixed().nullable().when("amount", {
+    discount: Yup.mixed().nullable().when("amount", {
         is: (value: number) => value > 0,
         then: Yup.number().max(Yup.ref('amount'), 'Invalid Discount Amount')
             .nullable(true)
@@ -393,7 +393,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         setSubmitting && setSubmitting(true);
         const payload = {
             ...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['product', 'key']),
-            amount: invoiceAmount,
+            total: invoiceAmount,
             payment_mode: selectedPaymentMode,
             billing_address: selectedClientBillingAddress // TODO remove it to send from FE once BE fixes made
         }
@@ -432,7 +432,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             totalAmount = 0;
         }
         formRef.current?.setFieldValue('amount', totalAmount);
-        formRef.current?.setFieldTouched('discount_amount');
+        formRef.current?.setFieldTouched('discount');
         setReceiptAmount(totalAmount);
     }, [formRef.current?.values?.products]);
 
@@ -673,7 +673,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                         </div>
                                                     </div>
                                                     <div>
-                                                        <Field name={`discount_amount`} className="t-form-control">
+                                                        <Field name={`discount`} className="t-form-control">
                                                             {
                                                                 (field: FieldProps) => (
                                                                     <FormikInputComponent
@@ -697,7 +697,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                         <div
                                                             className="add-new-receipt__payment__block__row__value">{Misc.CURRENCY_SYMBOL}
                                                             {
-                                                                invoiceAmount - (addNewReceiptFormInitialValues.discount_amount ? parseInt(addNewReceiptFormInitialValues.discount_amount) : 0)
+                                                                invoiceAmount - (addNewReceiptFormInitialValues.discount ? parseInt(addNewReceiptFormInitialValues.discount) : 0)
                                                             }
                                                         </div>
                                                     </div>
