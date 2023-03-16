@@ -100,16 +100,6 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     {
                         (field: FieldProps) => (
                             <FormikInputComponent
-                                // onFocus={(event: any) =>{
-                                //     if(event.target.value === '-'){
-                                //         field.form.setFieldValue(`exercise_records.${index}.name`, '')
-                                //     }
-                                // }}
-                                // onBlur={(event: any) =>{
-                                //     if(event.target.value === ''){
-                                //         field.form.setFieldValue(`exercise_records.${index}.name`, '-')
-                                //     }
-                                // }}
                                 className={'exercise-name'}
                                 size={"small"}
                                 formikField={field}

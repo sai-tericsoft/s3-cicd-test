@@ -41,25 +41,37 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
             title: 'SET',
             key: 'no_of_sets',
             dataIndex: 'no_of_sets',
-            width: 150
+            width: 150,
+            render: (item:any) => {
+                return <div>{item?.no_of_sets || '-'}</div>
+            }
         },
         {
             title: 'REP',
             key: 'no_of_reps',
             dataIndex: 'no_of_reps',
-            width: 150
+            width: 150,
+            render: (item:any) => {
+                return <div>{item?.no_of_reps || '-'}</div>
+            }
         },
         {
             title: 'TIME',
             key: 'time',
             dataIndex: 'time',
-            width: 150
+            width: 150,
+            render: (item:any) => {
+                return <div>{item?.time || '-'}</div>
+            }
         },
         {
             title: 'RESISTANCE',
             key: 'resistance',
             dataIndex: 'resistance',
-            width: 150
+            width: 150,
+            render: (item:any) => {
+                return <div>{item?.resistance || '-'}</div>
+            }
         },
     ];
 
