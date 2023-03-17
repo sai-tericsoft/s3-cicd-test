@@ -459,6 +459,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                             fullWidth={true}
                                                                             variant={'outlined'}
                                                                             size={"large"}
+                                                                            className={'rom-special-test-icd-11-cta'}
                                                                         >
                                                                             Add Range of Motion and Strength
                                                                         </ButtonComponent>
@@ -538,7 +539,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                         fullWidth={true}
                                                                         variant={'outlined'}
                                                                         size={"large"}
-                                                                        className={'mrg-bottom-20'}
+                                                                        className={'rom-special-test-icd-11-cta'}
                                                                     >
                                                                         Add Special Test
                                                                     </ButtonComponent>
@@ -726,7 +727,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                     fullWidth={true}
                                                                     variant={'outlined'}
                                                                     size={"large"}
-                                                                    className={'mrg-bottom-20'}
+                                                                    className={'rom-special-test-icd-11-cta'}
                                                                 >
                                                                     Add Medical Diagnosis / ICD-11 Codes
                                                                 </ButtonComponent>
