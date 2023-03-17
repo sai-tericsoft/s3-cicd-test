@@ -45,7 +45,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
             render: (item: any) => {
                 return <RadioButtonComponent name={'selected-client'}
                                              value={item}
-                                             label={CommonService.extractName(item)}
+                                             label={`${CommonService.extractName(item)} (ID: ${item.client_id || ''})`}
                                              checked={selectedClient?._id === item?._id}
                                              onChange={(value: any) => {
                                                  setSelectedClient(value);
@@ -173,9 +173,14 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                         clientListSearch &&
                         <>
                             <div className={'client-list-heading'}>Client List</div>
-                            <TableComponent data={clientList} columns={clientListColumns}
+                            <TableComponent data={clientList}
+                                            columns={clientListColumns}
                                             loading={isClientListLoading}
-                                            hideHeader={true}/>
+                                            hideHeader={true}
+                                            onRowClick={(row: any) => {
+                                                setSelectedClient(row);
+                                            }}
+                            />
                             <ButtonComponent fullWidth={true}
                                              className={'mrg-top-30'}
                                              onClick={() => handleClientSelectionConfirmation()}
@@ -212,7 +217,10 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                             </CardComponent>
                             <div className={'card-table-button-wrapper'}>
                                 <div className={'card-table'}>
-                                    <TableComponent data={medicalRecordList} columns={medicalRecordColumns}/>
+                                    <TableComponent
+                                        data={medicalRecordList}
+                                        columns={medicalRecordColumns}
+                                    />
                                 </div>
                             </div>
                                 <div className="t-form-actions display-flex ts-justify-content-center mrg-top-50">

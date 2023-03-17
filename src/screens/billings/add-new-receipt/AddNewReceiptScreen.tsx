@@ -194,7 +194,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                         disabled={!field.form.values?.products?.[index]?.product_id}
                                         validationPattern={Patterns.POSITIVE_WHOLE_NUMBERS}
                                         onChange={(value: any) => {
-                                                field.form.setFieldValue(`products[${index}].amount`, field.form.values?.products?.[index]?.rate * value);
+                                            field.form.setFieldValue(`products[${index}].amount`, field.form.values?.products?.[index]?.rate * value);
                                         }
                                         }
                                     /> : "-"
@@ -300,7 +300,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             render: (item: any) => {
                 return <RadioButtonComponent name={'selected-client'}
                                              value={item}
-                                             label={CommonService.extractName(item)}
+                                             label={`${CommonService.extractName(item)} (ID: ${item.client_id || ''})`}
                                              checked={selectedClient?._id === item?._id}
                                              onChange={(value: any) => {
                                                  formRef?.current?.setFieldValue('client_id', value._id);
@@ -429,7 +429,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
 
     useEffect(() => {
         let totalAmount = 0;
-        if (formRef.current?.values?.products){
+        if (formRef.current?.values?.products) {
             totalAmount = formRef.current?.values?.products?.reduce((acc: number, curr: any) => {
                 return (curr.rate && curr.units) ? acc + (parseInt(curr?.rate) * parseInt(curr?.units)) : acc;
             }, 0);
@@ -752,7 +752,11 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                             <div className={'client-list-heading'}>Client List</div>
                             <TableComponent data={clientList} columns={clientListColumns}
                                             loading={isClientListLoading}
-                                            hideHeader={true}/>
+                                            hideHeader={true}
+                                            onRowClick={(row: any) => {
+                                                setSelectedClient(row);
+                                            }}
+                            />
                             <ButtonComponent fullWidth={true}
                                              className={'mrg-top-30'}
                                              onClick={() => confirmClientSelection()}
@@ -787,7 +791,11 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                             <TableComponent data={providerList}
                                             columns={providerListColumns}
                                             loading={isProviderListLoading}
-                                            hideHeader={true}/>
+                                            hideHeader={true}
+                                            onRowClick={(row: any) => {
+                                                setSelectedProvider(row);
+                                            }}
+                            />
                             <ButtonComponent fullWidth={true}
                                              className={'mrg-top-30'}
                                              onClick={() => closeProviderSelectionDrawer()}

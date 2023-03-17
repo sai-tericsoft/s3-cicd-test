@@ -47,7 +47,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 dataIndex: 'name',
                 render: (item: any) => {
                     return <RadioButtonComponent
-                        label={CommonService.extractName(item) + ' (ID:' + (item.client_id) + ')'}
+                        label={`${CommonService.extractName(item)} (ID: ${item.client_id || ''})`}
                         name={'client'} value={item?._id}
                         checked={selectedClient?._id === item?._id}
                         onChange={() => {
@@ -332,6 +332,9 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                                                 loading={isClientListLoading}
                                                 bordered={true}
                                                 hideHeader={true}
+                                                onRowClick={(row: any) => {
+                                                    setSelectedClient(row);
+                                                }}
                                 />
                             </>
                         }
