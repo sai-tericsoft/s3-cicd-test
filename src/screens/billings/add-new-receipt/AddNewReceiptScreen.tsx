@@ -201,9 +201,6 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                         onBlur={() => {
                                             setShowQuantityText(false);
                                         }}
-                                        onChange={() => {
-
-                                        }}
                                         maxValue={quantity > 0 ? quantity : 0}
                                         disabled={!field.form.values?.products?.[index]?.product_id}
                                         validationPattern={Patterns.POSITIVE_WHOLE_NUMBERS}
