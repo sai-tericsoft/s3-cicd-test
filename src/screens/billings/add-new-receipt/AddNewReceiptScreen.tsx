@@ -475,7 +475,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                             <img src={ImageConfig.BillingLogo} alt=""/>
                                         </div>
                                         <div>
-                                            {CommonService.convertDateFormat2(new Date(), "DD MMM YYYY | hh:mm A")}
+                                            {CommonService.convertDateFormat2(new Date(), "DD-MMM-YYYY | hh:mm A")}
                                         </div>
                                     </div>
                                     <HorizontalLineComponent/>
