@@ -631,10 +631,8 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             <ModalComponent isOpen={isInterventionIncompleteModalOpen}
                             className={'incomplete-invoice-info-modal'}
                             modalFooter={<>
-                                <ButtonComponent
-                                    onClick={closeIncompleteInterventionInfoModal}
-                                >
-                                    Close
+                                <ButtonComponent onClick={closeIncompleteInterventionInfoModal}>
+                                     Close
                                 </ButtonComponent>
                             </>
                             }
