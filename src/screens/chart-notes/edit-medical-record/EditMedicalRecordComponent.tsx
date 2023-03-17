@@ -139,7 +139,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                         }, [validateForm, values]);
                         return (
                             <Form className="t-form" noValidate={true}>
-                                <FormDebuggerComponent values={values} canShow={false}/>
+                                <FormDebuggerComponent values={values} />
                                 <div>
                                     <Field name={'onset_date'}>
                                         {

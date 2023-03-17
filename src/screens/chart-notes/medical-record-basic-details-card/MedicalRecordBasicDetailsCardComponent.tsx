@@ -481,7 +481,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                 }, [values, validateForm]);
                                 return (
                                     <Form className={'t-form'} noValidate={true}>
-                                        <FormDebuggerComponent values={values} showDebugger={false} canShow={false}/>
+                                        <FormDebuggerComponent values={values} showDebugger={false} />
                                         <div className={'ts-row ts-justify-content-center'}>
                                             <div className={'ts-col-lg-12'}>
                                                 <Field name={'message'}>

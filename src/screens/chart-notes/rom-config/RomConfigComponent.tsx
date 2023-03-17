@@ -405,7 +405,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                     return (
                         <Form className="t-form" noValidate={true}>
                             {/*<FormAutoSave formikCtx={formik}/>*/}
-                            <FormDebuggerComponent form={formik} showDebugger={true} canShow={false}/>
+                            <FormDebuggerComponent form={formik} showDebugger={true} />
                             <CardComponent title={"Body Part: " + romConfigValues?.name}
                                            actions={<>
                                                {values?.movements?.length > 0 &&
