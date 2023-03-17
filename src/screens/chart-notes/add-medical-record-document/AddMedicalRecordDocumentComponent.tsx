@@ -189,7 +189,7 @@ const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentCompon
                                         </>
                                     </div>
                                 </div>
-                                <div className="t-form-actions mrg-top-40 mrg-bottom-30">
+                                <div className="t-form-actions">
                                     <ButtonComponent className={'mrg-right-15'}
                                         variant={"outlined"}
                                         id={"medical_intervention_add_cancel_btn"}

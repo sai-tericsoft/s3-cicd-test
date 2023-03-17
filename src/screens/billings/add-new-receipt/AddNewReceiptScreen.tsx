@@ -50,11 +50,11 @@ const AddNewReceiptFormValidationSchema = Yup.object({
     products: Yup.array().of(
         ProductValidationSchema
     ),
-    amount: Yup.number().min(1).required("Amount is required"),
+    total: Yup.number().min(1).required("Amount is required"),
     // discount: Yup.number().min(1).max(100).nullable(),
-    discount: Yup.mixed().nullable().when("amount", {
+    discount: Yup.mixed().nullable().when("total", {
         is: (value: number) => value > 0,
-        then: Yup.number().max(Yup.ref('amount'), 'Invalid Discount Amount')
+        then: Yup.number().max(Yup.ref('total'), 'Invalid Discount Amount')
             .nullable(true)
             // checking self-equality works for NaN, transforming it to null
             .transform((_, val) => val ? Number(val) : null),
@@ -109,8 +109,8 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
     const [isClientBillingAddressDrawerOpened, setIsClientBillingAddressDrawerOpened] = useState<boolean>(false);
     const [selectedPaymentMode, setSelectedPaymentMode] = useState<string | undefined>(undefined);
     const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
-    const [invoiceAmount, setReceiptAmount] = useState<number>(0);
     const [showQuantityText, setShowQuantityText] = useState<boolean>(false);
+    const [total, setTotal] = useState<number>(0);
 
     const {
         paymentModes
@@ -161,7 +161,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                 displayWith={(item: any) => item?.name || ''}
                                 onUpdate={(item: any) => {
                                     field.form.setFieldValue(`products[${index}].product_id`, item._id);
-                                    field.form.setFieldValue(`products[${index}].amount`, item.price);
+                                    field.form.setFieldValue(`products[${index}].rate`, item.price);
                                     field.form.setFieldValue(`products[${index}].quantity`, item.quantity);
                                     field.form.setFieldValue(`products[${index}].units`, 0);
                                 }}
@@ -207,6 +207,10 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                         maxValue={quantity > 0 ? quantity : 0}
                                         disabled={!field.form.values?.products?.[index]?.product_id}
                                         validationPattern={Patterns.POSITIVE_WHOLE_NUMBERS}
+                                        onChange={(value: any) => {
+                                            field.form.setFieldValue(`products[${index}].amount`, field.form.values?.products?.[index]?.rate * value);
+                                        }
+                                        }
                                     /> : "-"
                             }
                         </>
@@ -223,7 +227,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 {
                     (field: FieldProps) => (
                         <>
-                            {field.form.values?.products?.[index]?.amount ? <> {Misc.CURRENCY_SYMBOL} {field.form.values?.products?.[index]?.amount || "-"} </> : "-"}
+                            {field.form.values?.products?.[index]?.rate ? <> {Misc.CURRENCY_SYMBOL} {field.form.values?.products?.[index]?.rate || "-"} </> : "-"}
                         </>
                     )
                 }
@@ -238,7 +242,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 {
                     (field: FieldProps) => (
                         <>
-                            {field.form.values?.products?.[index]?.units ? <> {Misc.CURRENCY_SYMBOL} {(field.form.values?.products?.[index]?.amount || 0) * (field.form.values?.products?.[index]?.units || 0)} </> : "-"}
+                            <>{Misc.CURRENCY_SYMBOL} {(field.form.values?.products?.[index]?.amount || 0)}</>
                         </>
                     )
                 }
@@ -310,7 +314,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             render: (item: any) => {
                 return <RadioButtonComponent name={'selected-client'}
                                              value={item}
-                                             label={CommonService.extractName(item)}
+                                             label={`${CommonService.extractName(item)} (ID: ${item.client_id || ''})`}
                                              checked={selectedClient?._id === item?._id}
                                              onChange={(value: any) => {
                                                  formRef?.current?.setFieldValue('client_id', value._id);
@@ -405,11 +409,12 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         const setSubmitting = formRef?.current?.setSubmitting;
         const setErrors = formRef?.current?.setErrors;
         setSubmitting && setSubmitting(true);
+        const discount = isNaN(values?.discount) ? 0 : values.discount;
         const payload = {
             ...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['product', 'key']),
-            total: invoiceAmount,
+            discount,
+            payable_amount: total - discount,
             payment_mode: selectedPaymentMode,
-            billing_address: selectedClientBillingAddress // TODO remove it to send from FE once BE fixes made
         }
         CommonService._billingsService.AddNewReceiptAPICall(payload)
             .then((response: IAPIResponseType<any>) => {
@@ -421,7 +426,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 setErrors && CommonService.handleErrors(setErrors, error);
                 setSubmitting && setSubmitting(false);
             })
-    }, [closePaymentModeModal, selectedClientBillingAddress, invoiceAmount, navigate, selectedPaymentMode]);
+    }, [closePaymentModeModal, total, navigate, selectedPaymentMode]);
 
     const handleAddReceiptCancel = useCallback(() => {
         CommonService.onConfirm(
@@ -440,14 +445,14 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         let totalAmount = 0;
         if (formRef.current?.values?.products) {
             totalAmount = formRef.current?.values?.products?.reduce((acc: number, curr: any) => {
-                return (curr.amount && curr.units) ? acc + (parseInt(curr?.amount) * parseInt(curr?.units)) : acc;
+                return (curr.rate && curr.units) ? acc + (parseInt(curr?.rate) * parseInt(curr?.units)) : acc;
             }, 0);
         } else {
             totalAmount = 0;
         }
-        formRef.current?.setFieldValue('amount', totalAmount);
+        formRef.current?.setFieldValue('total', totalAmount);
         formRef.current?.setFieldTouched('discount');
-        setReceiptAmount(totalAmount);
+        setTotal(totalAmount);
     }, [formRef.current?.values?.products]);
 
     const handleEditBillingAddress = useCallback((values: any) => {
@@ -479,7 +484,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                         <Form className="t-form" noValidate={true}>
                             <FormDebuggerComponent
                                 form={formik}
-                                canShow={false}
+
                                 showDebugger={false}/>
                             <div className="t-form-controls">
                                 <div>
@@ -683,7 +688,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                         </div>
                                                         <div
                                                             className="add-new-receipt__payment__block__row__value">
-                                                            {Misc.CURRENCY_SYMBOL} {invoiceAmount}
+                                                            {Misc.CURRENCY_SYMBOL} {total}
                                                         </div>
                                                     </div>
                                                     <div>
@@ -694,9 +699,9 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                                         label="Discount"
                                                                         fullWidth={true}
                                                                         type={"number"}
-                                                                        max={invoiceAmount}
+                                                                        max={total}
                                                                         formikField={field}
-                                                                        disabled={!(invoiceAmount > 0)}
+                                                                        disabled={!(total > 0)}
                                                                         validationPattern={Patterns.POSITIVE_WHOLE_NUMBERS}
                                                                         prefix={Misc.CURRENCY_SYMBOL}
                                                                     />
@@ -711,7 +716,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                         <div
                                                             className="add-new-receipt__payment__block__row__value">{Misc.CURRENCY_SYMBOL}
                                                             {
-                                                                invoiceAmount - (addNewReceiptFormInitialValues.discount ? parseInt(addNewReceiptFormInitialValues.discount) : 0)
+                                                                total - (addNewReceiptFormInitialValues.discount ? parseInt(addNewReceiptFormInitialValues.discount) : 0)
                                                             }
                                                         </div>
                                                     </div>
@@ -761,7 +766,12 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                             <div className={'client-list-heading'}>Client List</div>
                             <TableComponent data={clientList} columns={clientListColumns}
                                             loading={isClientListLoading}
-                                            hideHeader={true}/>
+                                            hideHeader={true}
+                                            onRowClick={(row: any) => {
+                                                formRef?.current?.setFieldValue('client_id', row._id);
+                                                setSelectedClient(row);
+                                            }}
+                            />
                             <ButtonComponent fullWidth={true}
                                              className={'mrg-top-30'}
                                              onClick={() => confirmClientSelection()}
@@ -796,7 +806,12 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                             <TableComponent data={providerList}
                                             columns={providerListColumns}
                                             loading={isProviderListLoading}
-                                            hideHeader={true}/>
+                                            hideHeader={true}
+                                            onRowClick={(row: any) => {
+                                                formRef?.current?.setFieldValue('provider_id', row._id);
+                                                setSelectedProvider(row);
+                                            }}
+                            />
                             <ButtonComponent fullWidth={true}
                                              className={'mrg-top-30'}
                                              onClick={() => closeProviderSelectionDrawer()}

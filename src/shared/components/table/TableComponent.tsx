@@ -191,7 +191,7 @@ const TableComponent = (props: TableComponentProps) => {
                                         prepareRow(row);
                                         return (
                                             <>
-                                                <div className="t-tr"
+                                                <div className={`t-tr ${onRowClick ? 't-tr-clickable' : ''}`}
                                                      key={index}
                                                      onClick={() => handleRowClick(row)} {...row.getRowProps()}>
                                                     {row.cells.map((cell: any, index: any) => {

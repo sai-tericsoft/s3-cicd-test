@@ -133,8 +133,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             width: 200,
             align: 'center',
             render: (item: any) => {
-                return <>
-                    {CommonService.convertDateFormat2(item?.appointment_details?.appointment_date)}</>
+                return <>{CommonService.convertDateFormat2(item?.appointment_details?.appointment_date)}</>
             }
         },
         {
@@ -170,9 +169,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             width: 200,
             align: 'center',
             render: (item: any) => {
-                return <>
-                    {item?.client_details?.primary_contact_info?.phone}
-                </>
+                return <>{item?.client_details?.primary_contact_info?.phone}</>
             }
         },
         {
@@ -182,9 +179,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             align: 'center',
             width: 200,
             render: (item: any) => {
-                return <>
-                    {item?.service_details?.name}
-                </>
+                return <>{item?.service_details?.name}</>
             }
         },
         {
@@ -194,7 +189,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             dataIndex: 'amount',
             width: 120,
             render: (item: any) => {
-                return <>{Misc.CURRENCY_SYMBOL} {item?.amount} </>
+                return <>{Misc.CURRENCY_SYMBOL} {item?.total}</>
             }
         },
         {
@@ -230,7 +225,9 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             dataIndex: 'created_at',
             align: 'center',
             render: (item: any) => {
-                return <>{CommonService.convertDateFormat2(item?.created_at)}</>
+                return <>
+                    {CommonService.convertDateFormat2(item?.created_at)}
+                </>
             }
         },
         {
@@ -240,10 +237,9 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             align: 'center',
             render: (item: any) => {
                 return <>
-                    {item?.client_details?.first_name} {item?.client_details?.last_name}
+                    {CommonService.extractName(item?.client_details)}
                 </>
             }
-
         },
         {
             title: 'Phone Number',
@@ -262,7 +258,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             align: 'center',
             dataIndex: 'amount',
             render: (item: any) => {
-                return <>{Misc.CURRENCY_SYMBOL} {item?.amount}</>
+                return <>{Misc.CURRENCY_SYMBOL} {item?.total}</>
             }
         },
         {

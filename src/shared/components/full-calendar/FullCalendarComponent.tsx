@@ -41,9 +41,9 @@ const FullCalendarComponent = (props: FullCalendarComponentProps) => {
 
     useEffect(() => {
         setTmpSelectedDates(selectedDates)
-    }, [selectedDates])
-    const build = useCallback(
-        (date: Moment = moment()) => {
+    }, [selectedDates]);
+
+    const build = useCallback((date: Moment = moment()) => {
             console.log('building...')
             const dates: any = {};
             const currentInstanceStart = date.clone();
@@ -212,13 +212,25 @@ const FullCalendarComponent = (props: FullCalendarComponentProps) => {
                 </div>
                 {
                     calendar?.weekRows && calendar?.weekRows.map((week: string | number, index: string) => {
+                        const weekNullDaysCount = calendar?.dates[week].filter((day: any) => day === null)?.length;
                         return (
                             <div key={'week-item-' + index} className="ts-calendar-dates">
                                 {
                                     calendar?.dates[week] && (calendar?.dates[week] || []).map((day: any, dayIndex: number) => {
+                                        const nonMonthDay = +index === 0 ? calendar.currentMonthStart.clone().subtract(weekNullDaysCount - dayIndex, 'day') : calendar.currentMonthEnd.clone().add(dayIndex - (6 - weekNullDaysCount), 'day');
                                         return (
                                             <div key={'day-item-' + dayIndex}
                                                  className={`ts-day-item-wrapper ts-week-day-${dayIndex} ts-week-${week} ` + (!day ? ' ts-date-not-available' : '')}>
+                                                {/*<div style={{display: "flex", flexDirection: "column"}}>*/}
+                                                {/*    <small>Week Null Days: {weekNullDaysCount}</small>*/}
+                                                {/*    <small>Week Index: {index}</small>*/}
+                                                {/*    <small>Day Index: {dayIndex}</small>*/}
+                                                {/*/!*    /!*<small>Week: {week}</small>*!/*!/*/}
+                                                {/*    <small>Diff: {dayIndex - (6 - weekNullDaysCount) }</small>*/}
+                                                {/*/!*    /!*<small>Start: {JSON.stringify(calendar.currentMonthStart)}</small>*!/*!/*/}
+                                                {/*/!*    <br/>*!/*/}
+                                                {/*</div>*/}
+                                                {/*<br/>*/}
                                                 {
                                                     !!day && <div
                                                         onClick={
@@ -232,10 +244,19 @@ const FullCalendarComponent = (props: FullCalendarComponentProps) => {
                                                             day?.is_not_available ? ' is_disabled' : '') +
                                                             (tmpSelectedDates && tmpSelectedDates.indexOf(day?.date) > -1 ? ' is_selected' : '') + (calendar?.canSelect ? ' cursor-pointer' : '')}>
                                                         <>
-                                                            {!hideDay && <div className="ts-day-text">{day.day}</div>}
+                                                            {!hideDay &&
+                                                                <div className="ts-day-text">{moment(day).format('DD')}</div>}
                                                             {onDayRender && onDayRender(day.day, day.dateMoment)}
                                                         </>
                                                     </div>
+                                                }
+                                                {
+                                                    !day &&
+                                                    <>
+                                                        <div className={"ts-day-item is_disabled"}>
+                                                            {nonMonthDay.format('DD')}
+                                                        </div>
+                                                    </>
                                                 }
                                             </div>
                                         )
@@ -248,7 +269,8 @@ const FullCalendarComponent = (props: FullCalendarComponentProps) => {
             </div>
         }
         </>
-    );
+    )
+        ;
 };
 
 export default FullCalendarComponent;

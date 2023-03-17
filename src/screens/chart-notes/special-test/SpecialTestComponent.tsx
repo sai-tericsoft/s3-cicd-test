@@ -238,7 +238,7 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
-                            <FormDebuggerComponent values={values} showDebugger={false} canShow={false}/>
+                            <FormDebuggerComponent values={values} showDebugger={false} />
                             <CardComponent title={"Body Part: " + specialTestFormValues?.name}
                                            actions={<>
                                                {

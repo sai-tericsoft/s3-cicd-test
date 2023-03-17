@@ -56,7 +56,7 @@ const ExerciseLogRecordValidationSchema = Yup.object({
     // no_of_reps: Yup.string().required(''),
     // time: Yup.string().required(''),
     // resistance: Yup.string().required(''),
-    name: Yup.string().required(''),
+    name: Yup.string().required('Required'),
 })
 
 const MedicalInterventionExerciseLogFormValidationSchema = Yup.object({
