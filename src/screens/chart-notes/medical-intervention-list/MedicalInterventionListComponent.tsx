@@ -91,6 +91,26 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             sortable: true,
         },
         {
+            title:'Exercise Log',
+            key: 'exercise_log',
+            width: 150,
+            align: 'center',
+            dataIndex: 'is_exercise_log_added',
+            render: (item: any) => {
+                return <>
+                    {medicalRecordId && item?.is_exercise_log_added && <LinkComponent
+                        route={CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, item?.intervention_id)}>
+                        View Log
+                    </LinkComponent>
+                    }
+                    {
+                        medicalRecordId && !item?.is_exercise_log_added && <div>N/A</div>
+                    }
+                </>
+            }
+
+        },
+        {
             title: 'Last Updated',
             key: 'last_updated',
             dataIndex: 'updated_at',
