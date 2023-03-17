@@ -419,7 +419,8 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                             <div
                                                 className={"billing-address-block__detail__row"}> {billingDetails?.billing_address.address_line} </div>
                                             <div className={"billing-address-block__detail__row"}>
-                                                <span>{billingDetails?.billing_address?.city}</span>, <span>{billingDetails?.billing_address?.state}</span>
+                                                <span>{billingDetails?.billing_address?.city}</span>,
+                                                <span>{billingDetails?.billing_address?.state}</span>&nbsp;
                                                 <span>{billingDetails?.billing_address?.zip_code}</span>
                                             </div>
                                             <div
