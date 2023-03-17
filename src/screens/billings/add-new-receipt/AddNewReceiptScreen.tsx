@@ -110,6 +110,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
     const [selectedPaymentMode, setSelectedPaymentMode] = useState<string | undefined>(undefined);
     const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
     const [invoiceAmount, setReceiptAmount] = useState<number>(0);
+    const [showQuantityText, setShowQuantityText] = useState<boolean>(false);
 
     const {
         paymentModes
@@ -119,6 +120,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         dispatch(setCurrentNavParams("Add New Receipt", null, () => {
             navigate(CommonService._routeConfig.BillingList());
         }));
+        // console.log(showQuantityText);
     }, [navigate, dispatch]);
 
     const productListTableColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
@@ -166,7 +168,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                             />
                             <span
                                 className={`product-available-quantity
-                                ${showAvailableQuantity ? "visibility-visible" : "visibility-hidden"}
+                                ${showAvailableQuantity || showQuantityText ? "visibility-visible" : "visibility-hidden"}
                                 ${quantity > 0 ? "text-primary" : "text-error"}`
                                 }>Available Stock: {quantity > 0 ? quantity : 0} unit(s)
                             </span>
@@ -191,6 +193,12 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                         formikField={field}
                                         size={"small"}
                                         type={"number"}
+                                        onFocus={() => {
+                                            setShowQuantityText(true);
+                                        }}
+                                        onBlur={() => {
+                                            setShowQuantityText(false);
+                                        }}
                                         disabled={!field.form.values?.products?.[index]?.product_id}
                                         validationPattern={Patterns.POSITIVE_WHOLE_NUMBERS}
                                     /> : "-"
@@ -253,7 +261,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 }
             </Field>
         }
-    ], []);
+    ], [showQuantityText]);
 
     const getClientList = useCallback(() => {
         setIsClientListLoading(true);
@@ -424,7 +432,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
 
     useEffect(() => {
         let totalAmount = 0;
-        if (formRef.current?.values?.products){
+        if (formRef.current?.values?.products) {
             totalAmount = formRef.current?.values?.products?.reduce((acc: number, curr: any) => {
                 return (curr.amount && curr.units) ? acc + (parseInt(curr?.amount) * parseInt(curr?.units)) : acc;
             }, 0);
