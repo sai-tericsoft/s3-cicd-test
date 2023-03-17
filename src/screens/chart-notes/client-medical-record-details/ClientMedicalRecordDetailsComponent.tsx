@@ -171,7 +171,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
             <TabsWrapperComponent>
                 <TabsComponent value={currentTab} onUpdate={handleTabChange} variant={"fullWidth"}
                                allowScrollButtonsMobile={false}>
-                    <TabComponent label={'Medical Record'} value={"medicalRecord"}/>
+                    <TabComponent label={'Medical Records'} value={"medicalRecord"}/>
                     <TabComponent label={'Attachments'} value={"attachmentList"}/>
                 </TabsComponent>
                 <TabContentComponent value={"medicalRecord"} selectedTab={currentTab}>

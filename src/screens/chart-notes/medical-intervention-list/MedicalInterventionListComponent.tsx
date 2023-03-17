@@ -58,7 +58,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             key: 'date_of_intervention',
             dataIndex: 'intervention_date',
             width: 200,
-            align: 'center',
+            align: 'left',
             fixed: 'left',
             sortable: true,
             render: (item: any) => {
