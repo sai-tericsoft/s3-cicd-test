@@ -61,7 +61,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
     const onSubmitAppointmentPayment = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
             const appointmentId = values.appointmentId;
             delete values.appointmentId;
-            CommonService._appointment.appointmentPayment(appointmentId, {...values, total: +values?.amount})
+            CommonService._appointment.appointmentPayment(appointmentId, {...values, total: +values?.amount, discount: 0})
                 .then((response: IAPIResponseType<any>) => {
                     if (onComplete) {
                         onComplete(response.data);
