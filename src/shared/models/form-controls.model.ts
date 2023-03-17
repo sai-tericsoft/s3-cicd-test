@@ -12,6 +12,8 @@ export interface IInputFieldProps {
     label?: string;
     name?: string;
     onChange?: (value: any) => void;
+    onFocus?: (event: any) => void;
+    onBlur?: (event: any) => void;
     placeholder?: string;
     readOnly?: boolean;
     required?: boolean;
@@ -23,6 +25,8 @@ export interface IInputFieldProps {
     suffix?: any;
     size?: 'small' | 'medium';
     max?: number;
+    maxValue?: number;
+    autoFocus?:boolean;
 }
 
 

@@ -1,6 +1,6 @@
 import "./SchedulingScreen.scss";
 import {useDispatch, useSelector} from "react-redux";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {setCurrentNavParams} from "../../store/actions/navigation.action";
 import {ITableColumn} from "../../shared/models/table.model";
 import {CommonService} from "../../shared/services";
@@ -43,7 +43,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
     const dispatch = useDispatch();
     const [showCategoryColors, setShowCategoryColors] = useState<boolean>(false);
 
-    const SchedulingListColumns: ITableColumn[] = [
+    const SchedulingListColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
         {
             title: "Time",
             key: "time",
@@ -60,7 +60,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             sortable: true,
             width: 150,
             render: (item: any) => {
-                return <span>{item?.client_details?.last_name} {item?.client_details?.first_name}</span>
+                return CommonService.extractName(item?.client_details)
             }
         },
         {
@@ -119,7 +119,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                 }
             }
         }
-    ];
+    ], []);
 
     const {appointmentStatus} = useSelector((state: IRootReducerState) => state.staticData);
     const [schedulingListFilterState, setSchedulingListFilterState] = useState<any>({
@@ -471,7 +471,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                     <div className='scheduling-filter-header-wrapper'>
                         <div className="scheduling-filter-header-date-wrapper">
                             <div
-                                className="filter-header-date-text">{CommonService.convertDateFormat(schedulingListFilterState.start_date, (viewMode === 'calendar' && schedulingListFilterState.duration === 'month') ? ('MMMM, YYYY') : 'DD MMMM, YYYY')}</div>
+                                className="filter-header-date-text">{CommonService.convertDateFormat(schedulingListFilterState.start_date, (viewMode === 'calendar' && schedulingListFilterState.duration === 'month') ? ('MMMM YYYY') : 'MMMM DD YYYY')}</div>
                             <div className="filter-header-date-controls">
                                 <div className="filter-header-date-control-item">
                                     <IconButtonComponent
@@ -803,7 +803,10 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                      setSchedulingListFilterState({
                                                                          ...schedulingListFilterState,
                                                                          category_id: value,
-                                                                         service_id: undefined
+                                                                         service_id: undefined,
+                                                                         start_date: date,
+                                                                         end_date: date,
+                                                                         duration: 'day'
                                                                      })
                                                                      if (value) {
                                                                          getServiceList(value?._id);
@@ -867,7 +870,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                         return <div key={index}
                                                     className={"scheduling-calendar-day-wise-item view-" + schedulingListFilterState.duration}>
                                             <div className="scheduling-calendar-day-wise-item-header">
-                                                {day.format('DD MMMM YYYY')}
+                                                {day.format(' MMMM DD YYYY')}
                                             </div>
                                             <div className="scheduling-calendar-day-wise-item-body">
                                                 {HOURS_LIST_IN_MINUTES.map(

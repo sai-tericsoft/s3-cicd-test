@@ -30,22 +30,34 @@
       display: flex;
       justify-content: space-between;
       margin-bottom: 20px;
+      flex-direction: column;
+
+      @include md() {
+        flex-direction: row;
+      }
 
       .billing-address-block {
+        text-align: start;
+        max-width: 50%;
 
-        &.from {
-          text-align: start;
+        .billing-address-block__header {
+          justify-content: flex-start;
+          .link-component {
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 16px;
+            letter-spacing: 0.002em;
 
-          .billing-address-block__header {
-            justify-content: flex-start;
-          }
-        }
+            &:not(&:has(button)) {
+              text-decoration: underline;
+              color: #1479FF;
+            }
 
-        &.to {
-          text-align: end;
-
-          .billing-address-block__header {
-            justify-content: flex-end;
+            &:hover {
+              color: #1479FF;
+              cursor: pointer;
+              text-decoration: none !important;
+            }
           }
         }
 
@@ -80,9 +92,13 @@
       }
     }
 
+    .card-component{
+      margin-bottom: 0px !important;
+    }
+
     .add-new-invoice__comments__payment__block__wrapper {
       background: #EAF3F2;
-      padding: 24px;
+      padding: 24px 24px 13px;
 
       .add-new-invoice__comments__block {
         display: flex;

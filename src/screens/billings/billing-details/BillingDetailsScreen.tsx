@@ -374,7 +374,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                     </DataLabelValueComponent>
                                 }
                                 <div className={"billing-date"}>
-                                    {CommonService.convertDateFormat2(billingDetails?.created_at, "DD MMM YYYY | hh:mm A")}
+                                    {CommonService.convertDateFormat2(billingDetails?.created_at, "DD-MMM-YYYY | hh:mm A")}
                                 </div>
                             </div>
                         </div>
@@ -388,7 +388,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                     <div className={"billing-address-block__detail__row name"}>{name}</div>
                                     <div className={"billing-address-block__detail__row"}> {address} </div>
                                     <div className={"billing-address-block__detail__row"}>
-                                        <span> {city} </span>, <span>{state}</span>&nbsp;<span>{zip}</span>
+                                        <span>{city}</span>,<span>{state}</span>&nbsp;<span>{zip}</span>
                                     </div>
                                     <div
                                         className={"billing-address-block__detail__row"}> {phone_number} </div>
@@ -419,8 +419,9 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                             <div
                                                 className={"billing-address-block__detail__row"}> {billingDetails?.billing_address.address_line} </div>
                                             <div className={"billing-address-block__detail__row"}>
-                                                <span>  {billingDetails?.billing_address?.city} </span>, <span> {billingDetails?.billing_address?.state} </span>&nbsp;
-                                                <span>  {billingDetails?.billing_address?.zip_code} </span>
+                                                <span>{billingDetails?.billing_address?.city}</span>,
+                                                <span>{billingDetails?.billing_address?.state}</span>&nbsp;
+                                                <span>{billingDetails?.billing_address?.zip_code}</span>
                                             </div>
                                             <div
                                                 className={"billing-address-block__detail__row"}>  {billingDetails?.billing_address?.phone || '-'} </div>
@@ -498,7 +499,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                     </div>
                                     <div className="ts-col-lg-3">
                                         <DataLabelValueComponent label={"Date and Time"}>
-                                            {CommonService.convertDateFormat2(billingDetails?.appointment_details?.appointment_date, "DD MMM YYYY, hh:mm A")}
+                                            {CommonService.convertDateFormat2(billingDetails?.appointment_details?.appointment_date, "DD-MMM-YYYY, hh:mm A")}
                                         </DataLabelValueComponent>
                                     </div>
                                 </div>
@@ -546,7 +547,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                             </div>
                                             <div
                                                 className="add-new-invoice__payment__block__row__value">
-                                                {Misc.CURRENCY_SYMBOL} {billingDetails?.amount}
+                                                {Misc.CURRENCY_SYMBOL} {billingDetails?.total}
                                             </div>
                                         </div>
                                         <div className="add-new-invoice__payment__block__row discount">
@@ -556,7 +557,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                             </div>
                                             <div
                                                 className="add-new-invoice__payment__block__row__value">
-                                                - {Misc.CURRENCY_SYMBOL} {(billingDetails?.discount_amount ? parseInt(billingDetails?.discount_amount) : 0)}
+                                                - {Misc.CURRENCY_SYMBOL} {(billingDetails?.discount ? parseInt(billingDetails?.discount) : 0)}
                                             </div>
                                         </div>
                                         <div className="add-new-invoice__payment__block__row grand">
@@ -566,7 +567,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                             <div
                                                 className="add-new-invoice__payment__block__row__value">{Misc.CURRENCY_SYMBOL}
                                                 {
-                                                    parseInt(billingDetails?.amount) - (billingDetails?.discount_amount ? parseInt(billingDetails?.discount_amount) : 0)
+                                                    parseInt(billingDetails?.total) - (billingDetails?.discount ? parseInt(billingDetails?.discount) : 0)
                                                 }
                                             </div>
                                         </div>
@@ -630,10 +631,8 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             <ModalComponent isOpen={isInterventionIncompleteModalOpen}
                             className={'incomplete-invoice-info-modal'}
                             modalFooter={<>
-                                <ButtonComponent
-                                    onClick={closeIncompleteInterventionInfoModal}
-                                >
-                                    Close
+                                <ButtonComponent onClick={closeIncompleteInterventionInfoModal}>
+                                     Close
                                 </ButtonComponent>
                             </>
                             }

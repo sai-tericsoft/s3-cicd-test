@@ -76,7 +76,10 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
                     route = CommonService._routeConfig.MedicalInterventionConcussionFileViewDetails(item.medical_record_id, item._id);
                 } else if (item.note_type_category.toLowerCase() === 'document') {
                     route = CommonService._routeConfig.MedicalRecordDocumentViewDetails(item.medical_record_id, item._id);
-                } else {
+                } else if(item.note_type_category.toLowerCase() === 'progress report') {
+                    route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(item.medical_record_id, item?._id);
+                }
+                else {
                 }
                 return <LinkComponent route={route}>
                     {

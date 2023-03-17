@@ -12,7 +12,7 @@
     height: 100%;
     position: relative;
 
-    &:not(&.auto-height){
+    &:not(&.auto-height) {
       min-height: 400px;
     }
 
@@ -79,6 +79,22 @@
       .t-td {
         height: 52px;
         padding: 6px;
+      }
+
+      .t-tr:has(.selected-row) {
+        .t-td {
+          background-color: #EFFAF2;
+        }
+      }
+
+      .t-tr-clickable {
+        cursor: pointer;
+
+        &:hover {
+          .t-td {
+            background-color: #EFFAF2;
+          }
+        }
       }
     }
 

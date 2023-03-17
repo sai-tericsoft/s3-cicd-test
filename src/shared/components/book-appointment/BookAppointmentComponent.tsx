@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useMemo, useState} from "react";
 import "./BookAppointmentComponent.scss";
 import ButtonComponent from "../button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
@@ -7,10 +7,12 @@ import {IAPIResponseType} from "../../models/api.model";
 import LoaderComponent from "../loader/LoaderComponent";
 import {RadioButtonComponent} from "../form-controls/radio-button/RadioButtonComponent";
 import ErrorComponent from "../error/ErrorComponent";
-import InputComponent from "../form-controls/input/InputComponent";
 import BookAppointmentFormComponent from "./book-appointment-form/BookAppointmentFormComponent";
 import BookAppointmentOverviewComponent from "./book-appointment-overview/BookAppointmentOverviewComponent";
 import BookAppointmentPaymentComponent from "./book-appointment-payment/BookAppointmentPaymentComponent";
+import SearchComponent from "../search/SearchComponent";
+import TableComponent from "../table/TableComponent";
+import {ITableColumn} from "../../models/table.model";
 
 interface BookAppointmentComponentProps {
     onClose?: () => void
@@ -19,6 +21,7 @@ interface BookAppointmentComponentProps {
 }
 
 const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
+
     const {onClose, onComplete, preFillData} = props;
     const [step, setStep] = useState<'client' | 'form' | 'overview' | 'payment' | 'confirmation'>('client');
     const [selectedClient, setSelectedClient] = useState<any | null>(null);
@@ -72,64 +75,63 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
     );
 
 
+    const clientListColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
+        {
+            key: "name",
+            dataIndex: "name",
+            render: (item: any) => {
+                return <RadioButtonComponent name={'selected-client'}
+                                             value={item}
+                                             label={`${CommonService.extractName(item)} (ID: ${item.client_id || ''})`}
+                                             checked={selectedClient?._id === item?._id}
+                                             onChange={(value: any) => {
+                                                 setSelectedClient(value);
+                                             }}/>
+            }
+        }
+    ], [selectedClient]);
+
     return (
         <div className={`book-appointment-component`}>
             {
-                step === 'client' && <div className={'client-search-wrapper'}>
-                    <div className="client-search-input mrg-bottom-20">
-                        <InputComponent value={clientSearch} fullWidth={true}
-                                        placeholder={'Client Search'}
-                                        suffix={<ImageConfig.SearchIcon/>}
-                                        onChange={(value) => {
-                                            console.log('search ', value);
-                                            setClientSearch(value);
-                                            setSelectedClient(null)
-                                            getClientList(value);
-                                        }}
-                        />
+                step === 'client' && <>
+                    <div className={'client-search-wrapper'}>
+                        <div className="client-search-input">
+                            <SearchComponent value={clientSearch}
+                                             label={""}
+                                             placeholder={'Search Client (Name or Phone Number or Client ID)'}
+                                             onSearchChange={(value) => {
+                                                 setClientSearch(value);
+                                                 setSelectedClient(null)
+                                                 getClientList(value);
+                                             }}
+                            />
+                        </div>
+                        <div className="client-search-body">
+                            <div className="client-search-body-heading">Client List</div>
+                            {isClientListLoading && <LoaderComponent/>}
+                            {!isClientListLoading && !isClientListLoaded && clientList && clientList.length === 0 &&
+                                <div className={'text-center'}>
+                                    <img src={ImageConfig.Search} alt={'search'}/>
+                                </div>}
+                            {!isClientListLoading && isClientListLoaded && clientList && clientList.length === 0 &&
+                                <ErrorComponent errorText={'Client not found'}/>}
+                            {!isClientListLoading && isClientListLoaded && clientList && clientList.length > 0 && <>
+                                <TableComponent data={clientList} columns={clientListColumns}
+                                                loading={isClientListLoading}
+                                                hideHeader={true}
+                                                onRowClick={(row: any) => {
+                                                    setSelectedClient(row);
+                                                }}
+                                />
+                            </>}
+                        </div>
+                        <div className="client-search-btn">
+                            <ButtonComponent disabled={!selectedClient} fullWidth={true}
+                                             onClick={setStep.bind(null, 'form')}>Next</ButtonComponent>
+                        </div>
                     </div>
-                    <div className="client-search-body">
-                        <div className="client-search-body-heading">Client List</div>
-                        {isClientListLoading && <LoaderComponent/>}
-                        {!isClientListLoading && !isClientListLoaded && clientList && clientList.length === 0 &&
-                            <div className={'text-center'}>
-                                <img src={ImageConfig.Search} alt={'search'}/>
-                            </div>}
-                        {!isClientListLoading && isClientListLoaded && clientList && clientList.length === 0 &&
-                            <ErrorComponent errorText={'Client not found'}/>}
-                        {!isClientListLoading && isClientListLoaded && clientList && clientList.length > 0 && <>
-                            <div className="client-search-list-wrapper">
-                                {
-                                    clientList.map((value, index) => {
-                                        return (
-                                            <div key={index}
-                                                 className={'client-search-list-item'}
-                                                 onClick={
-                                                     () => {
-                                                         setSelectedClient(value);
-                                                     }
-                                                 }>
-                                                <div className="item-radio">
-                                                    <RadioButtonComponent name={'client'} checked={selectedClient === value}
-                                                                          id={'client-item-' + index} onChange={value1 => {
-                                                        setSelectedClient(value);
-                                                    }}/>
-                                                </div>
-                                                <div className="item-client-name">
-                                                    {value.first_name + ' ' + value.last_name} (ID: {value.client_id || ''})
-                                                </div>
-                                            </div>
-                                        )
-                                    })
-                                }
-                            </div>
-                        </>}
-                    </div>
-                    <div className="client-search-btn">
-                        <ButtonComponent disabled={!selectedClient} fullWidth={true}
-                                         onClick={setStep.bind(null, 'form')}>Next</ButtonComponent>
-                    </div>
-                </div>
+                </>
             }
             {
                 step === 'form' &&

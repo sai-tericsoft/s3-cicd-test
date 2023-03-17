@@ -36,10 +36,10 @@ interface MedicalInterventionExerciseLogScreenProps {
 const MedicalInterventionExerciseLogRow = {
     key: undefined,
     name: undefined,
-    no_of_sets: undefined,
-    no_of_reps: undefined,
-    time: undefined,
-    resistance: undefined,
+    no_of_sets: '-',
+    no_of_reps: '-',
+    time: '-',
+    resistance: '-',
 }
 
 const MedicalInterventionExerciseLogInitialValues = {
@@ -52,11 +52,11 @@ const MedicalInterventionExerciseLogInitialValues = {
 }
 
 const ExerciseLogRecordValidationSchema = Yup.object({
-    no_of_sets: Yup.string().required(''),
-    no_of_reps: Yup.string().required(''),
-    time: Yup.string().required(''),
-    resistance: Yup.string().required(''),
-    name: Yup.string().required(''),
+    // no_of_sets: Yup.string().required(''),
+    // no_of_reps: Yup.string().required(''),
+    // time: Yup.string().required(''),
+    // resistance: Yup.string().required(''),
+    name: Yup.string().required('Required'),
 })
 
 const MedicalInterventionExerciseLogFormValidationSchema = Yup.object({
@@ -92,7 +92,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             title: 'Exercise Name',
             key: 'name',
             width: 280,
-            align:'center',
+            align: 'center',
             render: (record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.name`}
@@ -121,6 +121,16 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     {
                         (field: FieldProps) => (
                             <FormikInputComponent
+                                onFocus={(event: any) =>{
+                                    if(event.target.value === '-'){
+                                    field.form.setFieldValue(`exercise_records.${index}.no_of_sets`, '')
+                                }
+                                }}
+                                onBlur={(event: any) =>{
+                                    if(event.target.value === ''){
+                                        field.form.setFieldValue(`exercise_records.${index}.no_of_sets`, '-')
+                                    }
+                                }}
                                 size={"small"}
                                 formikField={field}
                             />
@@ -141,6 +151,16 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     {
                         (field: FieldProps) => (
                             <FormikInputComponent
+                                onFocus={(event: any) =>{
+                                    if(event.target.value === '-'){
+                                        field.form.setFieldValue(`exercise_records.${index}.no_of_reps`, '')
+                                    }
+                                }}
+                                onBlur={(event: any) =>{
+                                    if(event.target.value === ''){
+                                        field.form.setFieldValue(`exercise_records.${index}.no_of_reps`, '-')
+                                    }
+                                }}
                                 size={"small"}
                                 formikField={field}
                             />
@@ -161,6 +181,16 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     {
                         (field: FieldProps) => (
                             <FormikInputComponent
+                                onFocus={(event: any) =>{
+                                    if(event.target.value === '-'){
+                                        field.form.setFieldValue(`exercise_records.${index}.time`, '')
+                                    }
+                                }}
+                                onBlur={(event: any) =>{
+                                    if(event.target.value === ''){
+                                        field.form.setFieldValue(`exercise_records.${index}.time`, '-')
+                                    }
+                                }}
                                 size={"small"}
                                 formikField={field}
                             />
@@ -181,6 +211,16 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     {
                         (field: FieldProps) => (
                             <FormikInputComponent
+                                onFocus={(event: any) =>{
+                                    if(event.target.value === '-'){
+                                        field.form.setFieldValue(`exercise_records.${index}.resistance`, '')
+                                    }
+                                }}
+                                onBlur={(event: any) =>{
+                                    if(event.target.value === ''){
+                                        field.form.setFieldValue(`exercise_records.${index}.resistance`, '-')
+                                    }
+                                }}
                                 size={"small"}
                                 formikField={field}
                             />
@@ -197,7 +237,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                 return (
                     <>
                         {
-                            (index === 1) && (
+                            (index >= 1) && (
                                 <Field
                                     name={`exercise_records.${index}.actions`}
                                     className="t-form-control">
@@ -247,7 +287,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     setSubmitting(false);
                 });
         }
-    }, [medicalRecordId,navigate, medicalInterventionId]);
+    }, [medicalRecordId, navigate, medicalInterventionId]);
 
     const {
         medicalInterventionDetails,
@@ -325,13 +365,10 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
         setFieldValue("exercise_records", new_exercise_records);
     }, []);
 
-    console.log('clientMedicalRecord', clientMedicalRecord);
-    console.log('medicalInterventionDetails', medicalInterventionDetails);
-
     return (
         <div className={'medical-intervention-exercise-log-screen'}>
 
-            <PageHeaderComponent title={'Add Exercise Log'} className={'add-exercise-log'} actions={
+            <PageHeaderComponent title={'Add Exercise Log'} actions={
                 <div className="last-updated-status">
                     <div className="last-updated-status-text">Last Updated On:&nbsp;</div>
                     <div

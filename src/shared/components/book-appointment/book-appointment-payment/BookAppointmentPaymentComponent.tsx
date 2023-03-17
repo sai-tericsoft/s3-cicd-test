@@ -45,7 +45,7 @@ const addAppointmentPaymentValidationSchema = Yup.object().shape({
 });
 
 const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentProps) => {
-    const {onClose, onComplete, booking,onBack} = props;
+    const {onClose, onComplete, booking, onBack} = props;
     const {paymentModes} = useSelector((state: IRootReducerState) => state.staticData);
 
 
@@ -61,7 +61,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
     const onSubmitAppointmentPayment = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
             const appointmentId = values.appointmentId;
             delete values.appointmentId;
-            CommonService._appointment.appointmentPayment(appointmentId, values)
+            CommonService._appointment.appointmentPayment(appointmentId, {...values, total: +values?.amount, discount: 0})
                 .then((response: IAPIResponseType<any>) => {
                     if (onComplete) {
                         onComplete(response.data);
@@ -153,19 +153,20 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
 
                                         {values.payment_type === 'current' && <>
                                             <FormControlLabelComponent
-                                                label={"Add a gift card or promotion code or voucher"} className={'add-gift-card-msg'} />
+                                                label={"Add a gift card or promotion code or voucher"}
+                                                className={'add-gift-card-msg'}/>
                                             <div className={'mrg-bottom-10'}>
-                                            <Field name={'promotion_code'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikInputComponent
-                                                            formikField={field}
-                                                            label={'Add a gift card or promotion code or voucher'}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
+                                                <Field name={'promotion_code'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikInputComponent
+                                                                formikField={field}
+                                                                label={'Add a gift card or promotion code or voucher'}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
                                             </div>
                                             <FormControlLabelComponent
                                                 label={"Checkout Summary"}/>

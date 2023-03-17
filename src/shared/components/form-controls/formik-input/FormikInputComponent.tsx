@@ -13,7 +13,9 @@ const FormikInputComponent = (props: FormikInputComponentProps) => {
 
     const {
         formikField,
+        onFocus,
         onChange,
+        onBlur,
         ...otherProps
     } = props;
 
@@ -35,6 +37,19 @@ const FormikInputComponent = (props: FormikInputComponentProps) => {
         setFieldTouched(name);
     }, [name, handleBlur, setFieldTouched]);
 
+    const handleFocus = useCallback((value: any) => {
+        console.log(value);
+        if (onFocus) {
+            onFocus(value);
+        }
+    },[onFocus]);
+
+    const handleOnBlur = useCallback((value: any) => {
+        if (onBlur) {
+            onBlur(value);
+        }
+    },[onBlur]);
+
     return (
         <InputComponent
             name={name}
@@ -43,6 +58,8 @@ const FormikInputComponent = (props: FormikInputComponentProps) => {
                 onBlur: onInputBlur,
             }}
             onChange={textChangeHandler}
+            onFocus={handleFocus}
+            onBlur={handleOnBlur}
             hasError={hasError}
             errorMessage={hasError && (_.get(errors, name))}
             {...otherProps}

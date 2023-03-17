@@ -1,17 +1,12 @@
 import "./MedicalInterventionListComponent.scss";
-import {APIConfig, ImageConfig, Misc} from "../../../constants";
+import {APIConfig, ImageConfig} from "../../../constants";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
-import {useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {CommonService} from "../../../shared/services";
-import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {useCallback, useEffect, useState} from "react";
-import {IAPIResponseType} from "../../../shared/models/api.model";
-import moment from "moment";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {getMedicalInterventionList} from "../../../store/actions/chart-notes.action";
-import {IRootReducerState} from "../../../store/reducers";
-import TableComponent from "../../../shared/components/table/TableComponent";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
 
 interface ClientMedicalRecordsComponentProps {
@@ -58,6 +53,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             key: 'date_of_intervention',
             dataIndex: 'intervention_date',
             width: 200,
+            align: 'left',
             fixed: 'left',
             sortable: true,
             render: (item: any) => {
@@ -159,9 +155,11 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                         } else {
                             route = CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, item?._id);
                         }
-                    } else if (item?.note_type?.toLowerCase() === "progress report") {
-                        route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId, item?._id);
-                    } else {
+                    }
+                    // else if (item?.note_type?.toLowerCase() === "progress report") {
+                    //     route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId, item?._id);
+                    // }
+                    else {
                     }
                     return <LinkComponent route={route}>
                         {
