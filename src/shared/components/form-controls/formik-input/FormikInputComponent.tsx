@@ -38,6 +38,7 @@ const FormikInputComponent = (props: FormikInputComponentProps) => {
     }, [name, handleBlur, setFieldTouched]);
 
     const handleFocus = useCallback((value: any) => {
+        console.log(value);
         if (onFocus) {
             onFocus(value);
         }

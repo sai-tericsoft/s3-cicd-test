@@ -18,6 +18,7 @@ const ToolTipComponent = (props: React.PropsWithChildren<ToolTipComponentProps>)
 
     const {tooltip, showArrow, showAfter, hideAfter, onOpen, onClose, backgroundColor, textColor, children} = props;
 
+    console.log(tooltip);
     const position = props.position || "top";
 
     const handleOpen = useCallback((e: any) => {

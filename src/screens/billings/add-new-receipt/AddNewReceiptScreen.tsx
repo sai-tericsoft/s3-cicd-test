@@ -109,6 +109,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
     const [isClientBillingAddressDrawerOpened, setIsClientBillingAddressDrawerOpened] = useState<boolean>(false);
     const [selectedPaymentMode, setSelectedPaymentMode] = useState<string | undefined>(undefined);
     const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
+    const [showQuantityText, setShowQuantityText] = useState<boolean>(false);
     const [total, setTotal] = useState<number>(0);
 
     const {
@@ -119,6 +120,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         dispatch(setCurrentNavParams("Add New Receipt", null, () => {
             navigate(CommonService._routeConfig.BillingList());
         }));
+        // console.log(showQuantityText);
     }, [navigate, dispatch]);
 
     const productListTableColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
@@ -166,7 +168,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                             />
                             <span
                                 className={`product-available-quantity
-                                ${showAvailableQuantity ? "visibility-visible" : "visibility-hidden"}
+                                ${showAvailableQuantity || showQuantityText ? "visibility-visible" : "visibility-hidden"}
                                 ${quantity > 0 ? "text-primary" : "text-error"}`
                                 }>Available Stock: {quantity > 0 ? quantity : 0} unit(s)
                             </span>
@@ -182,8 +184,9 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             width: 70,
             render: (record: any, index: number) => <Field name={`products[${index}].units`} className="t-form-control">
                 {
-                    (field: FieldProps) => (
-                        <>
+                    (field: FieldProps) => {
+                        const quantity = _.get(field.form?.values, `products[${index}].quantity`);
+                        return <>
                             {
                                 (field.form.values?.products?.[index]?.quantity !== undefined && field.form.values?.products?.[index]?.quantity !== null && field.form.values?.products?.[index]?.quantity > 0) ?
                                     <FormikInputComponent
@@ -191,6 +194,17 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                         formikField={field}
                                         size={"small"}
                                         type={"number"}
+                                        autoFocus={showQuantityText}
+                                        onFocus={() => {
+                                            setShowQuantityText(true);
+                                        }}
+                                        onBlur={() => {
+                                            setShowQuantityText(false);
+                                        }}
+                                        onChange={() => {
+
+                                        }}
+                                        maxValue={quantity > 0 ? quantity : 0}
                                         disabled={!field.form.values?.products?.[index]?.product_id}
                                         validationPattern={Patterns.POSITIVE_WHOLE_NUMBERS}
                                         onChange={(value: any) => {
@@ -200,7 +214,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                     /> : "-"
                             }
                         </>
-                    )
+                    }
                 }
             </Field>
         },
@@ -257,7 +271,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 }
             </Field>
         }
-    ], []);
+    ], [showQuantityText]);
 
     const getClientList = useCallback(() => {
         setIsClientListLoading(true);
@@ -480,7 +494,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                             <img src={ImageConfig.BillingLogo} alt=""/>
                                         </div>
                                         <div>
-                                            {CommonService.convertDateFormat2(new Date(), "DD MMM YYYY | hh:mm A")}
+                                            {CommonService.convertDateFormat2(new Date(), "DD-MMM-YYYY | hh:mm A")}
                                         </div>
                                     </div>
                                     <HorizontalLineComponent/>

@@ -42,6 +42,23 @@
 
         .billing-address-block__header {
           justify-content: flex-start;
+          .link-component {
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 16px;
+            letter-spacing: 0.002em;
+
+            &:not(&:has(button)) {
+              text-decoration: underline;
+              color: #1479FF;
+            }
+
+            &:hover {
+              color: #1479FF;
+              cursor: pointer;
+              text-decoration: none !important;
+            }
+          }
         }
 
         .billing-address-block__header {
@@ -75,9 +92,13 @@
       }
     }
 
+    .card-component{
+      margin-bottom: 0px !important;
+    }
+
     .add-new-invoice__comments__payment__block__wrapper {
       background: #EAF3F2;
-      padding: 24px;
+      padding: 24px 24px 13px;
 
       .add-new-invoice__comments__block {
         display: flex;
