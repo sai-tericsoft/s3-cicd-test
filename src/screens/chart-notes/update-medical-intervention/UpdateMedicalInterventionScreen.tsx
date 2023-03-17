@@ -403,137 +403,182 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                     </div>
                                                 }
                                                 />
-                                                <div className="card-styling padding-card-5 mrg-bottom-20">
-                                                    <CardComponent className={'white-card-header'}
-                                                                   title={"Range of Motion and Strength"}
-                                                                   actions={
-                                                                       <DraftReadonlySwitcherComponent
-                                                                           condition={true}
-                                                                           draft={<>
-                                                                               {
-                                                                                   (medicalInterventionId && medicalRecordId) &&
-                                                                                   <LinkComponent
-                                                                                       route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId)}>
-                                                                                       <ButtonComponent
-                                                                                           prefixIcon={(medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0) ?
-                                                                                               <ImageConfig.EditIcon/> :
-                                                                                               <ImageConfig.AddIcon/>}>
-                                                                                           {medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0 ? 'Edit' : 'Add'}
-                                                                                       </ButtonComponent>
-                                                                                   </LinkComponent>
-                                                                               }
-                                                                           </>} readonly={<></>}
-                                                                       />
-                                                                   }
-                                                    >
-
+                                                <div className="card-styling padding-card-5">
+                                                    <>
                                                         {
-                                                            medicalInterventionDetails?.rom_config?.map((body_part: any) => {
-                                                                return (
-                                                                    <>
-                                                                        <CardComponent size={'sm'}
-                                                                                       title={
-                                                                                           body_part?.body_part_details?.name || "-"
-                                                                                       }
+                                                            medicalRecordId && medicalInterventionId && <>
+                                                                {
+                                                                    medicalInterventionDetails?.rom_config?.length === 0 &&
+                                                                    <LinkComponent
+                                                                        route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId)}>
+                                                                        <ButtonComponent
+                                                                            fullWidth={true}
+                                                                            variant={'outlined'}
+                                                                            size={"large"}
+                                                                            className={'mrg-bottom-20'}
                                                                         >
-                                                                        </CardComponent>
-                                                                        <TableV2Component
-                                                                            data={body_part?.rom_config?.filter((rom_config: any) => {
-                                                                                const bodyPartSides = body_part?.body_part_details?.sides;
-                                                                                const config = rom_config?.config;
-                                                                                if (config?.comments) {
-                                                                                    return rom_config;
-                                                                                } else {
-                                                                                    let romConfig = undefined;
-                                                                                    bodyPartSides?.forEach((side: any) => {
-                                                                                        const sideConfig = config[side];
-                                                                                        if (sideConfig?.arom || sideConfig?.prom || sideConfig?.strength) {
-                                                                                            romConfig = rom_config;
-                                                                                        }
-                                                                                    });
-                                                                                    return romConfig;
-                                                                                }
-                                                                            })}
-                                                                            bordered={true}
-                                                                            showExpandColumn={false}
-                                                                            defaultExpandAllRows={true}
-                                                                            canExpandRow={(row: any) => row?.config?.comments?.length > 0}
-                                                                            expandRowRenderer={
-                                                                                (row: any) => {
-                                                                                    return (
-                                                                                        <div key={row?.config?._id}
-                                                                                             className={'comment-row'}>
-                                                                                            <div className={'comment-icon'}>
-                                                                                                <ImageConfig.CommentIcon/>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
-                                                                                        </div>
-                                                                                    )
-                                                                                }
-                                                                            }
-                                                                            columns={getMedicalInterventionROMConfigColumns(body_part)}/>
-                                                                    </>
-                                                                )
-                                                            })
-                                                        }
-                                                    </CardComponent>
-                                                </div>
-                                                <div
-                                                    className={"card-styling padding-card-5 mrg-bottom-20 " + ((medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0) ?
-                                                        ' white-card-header ' : '')}>
-                                                    <CardComponent title={"Special Test"}
-                                                                   actions={
-                                                                       <DraftReadonlySwitcherComponent
-                                                                           condition={true}
-                                                                           draft={<>
-                                                                               {
-                                                                                   (medicalInterventionId && medicalRecordId) &&
-                                                                                   <LinkComponent
-                                                                                       route={CommonService._routeConfig.MedicalInterventionSpecialTests(medicalRecordId, medicalInterventionId)}>
-                                                                                       <ButtonComponent
-                                                                                           prefixIcon={(medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0) ?
-                                                                                               <ImageConfig.EditIcon/> :
-                                                                                               <ImageConfig.AddIcon/>}>
-                                                                                           {medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0 ? 'Edit' : 'Add'}
-                                                                                       </ButtonComponent>
-                                                                                   </LinkComponent>
-                                                                               }
-                                                                           </>} readonly={<></>}/>
-                                                                   }
-                                                    >
+                                                                            Add Range of Motion and Strength
+                                                                        </ButtonComponent>
+                                                                    </LinkComponent>
+                                                                }
+                                                                {
+                                                                    medicalInterventionDetails?.rom_config?.length > 0 &&
+                                                                    <CardComponent className={'white-card-header'}
+                                                                                   title={"Range of Motion and Strength"}
+                                                                                   actions={
+                                                                                       <DraftReadonlySwitcherComponent
+                                                                                           condition={true}
+                                                                                           draft={<>
+                                                                                               {
+                                                                                                   (medicalInterventionId && medicalRecordId) &&
+                                                                                                   <LinkComponent
+                                                                                                       route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId)}>
+                                                                                                       <ButtonComponent
+                                                                                                           prefixIcon={(medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0) ?
+                                                                                                               <ImageConfig.EditIcon/> :
+                                                                                                               <ImageConfig.AddIcon/>}>
+                                                                                                           {medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0 ? 'Edit' : 'Add'}
+                                                                                                       </ButtonComponent>
+                                                                                                   </LinkComponent>
+                                                                                               }
+                                                                                           </>} readonly={<></>}
+                                                                                       />
+                                                                                   }
+                                                                    >
 
-                                                        {medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.map((body_part: any) => {
-                                                            return (<div className={'mrg-bottom-5'}>
-                                                                <CardComponent size={'sm'}
-                                                                               title={body_part?.body_part_details?.name || "-"
-                                                                               }>
-                                                                </CardComponent>
-                                                                <TableV2Component
-                                                                    data={body_part.special_tests}
-                                                                    columns={SpecialTestsColumns}
-                                                                    bordered={true}
-                                                                    showExpandColumn={false}
-                                                                    defaultExpandAllRows={true}
-                                                                    canExpandRow={(row: any) => row?.comments?.length > 0}
-                                                                    expandRowRenderer={
-                                                                        (row: any) => {
-                                                                            return (
-                                                                                <div key={row?._id}
-                                                                                     className={'comment-row'}>
-                                                                                    <div className={'comment-icon'}>
-                                                                                        <ImageConfig.CommentIcon/>
-                                                                                    </div>
-                                                                                    <div
-                                                                                        className={'comment-text'}>{row?.comments ? CommonService.capitalizeFirstLetter(row?.comments) : "-"}</div>
-                                                                                </div>
-                                                                            )
+                                                                        {
+                                                                            medicalInterventionDetails?.rom_config?.map((body_part: any) => {
+                                                                                return (
+                                                                                    <>
+                                                                                        <CardComponent size={'sm'}
+                                                                                                       title={
+                                                                                                           body_part?.body_part_details?.name || "-"
+                                                                                                       }
+                                                                                        >
+                                                                                        </CardComponent>
+                                                                                        <TableV2Component
+                                                                                            data={body_part?.rom_config?.filter((rom_config: any) => {
+                                                                                                const bodyPartSides = body_part?.body_part_details?.sides;
+                                                                                                const config = rom_config?.config;
+                                                                                                if (config?.comments) {
+                                                                                                    return rom_config;
+                                                                                                } else {
+                                                                                                    let romConfig = undefined;
+                                                                                                    bodyPartSides?.forEach((side: any) => {
+                                                                                                        const sideConfig = config[side];
+                                                                                                        if (sideConfig?.arom || sideConfig?.prom || sideConfig?.strength) {
+                                                                                                            romConfig = rom_config;
+                                                                                                        }
+                                                                                                    });
+                                                                                                    return romConfig;
+                                                                                                }
+                                                                                            })}
+                                                                                            bordered={true}
+                                                                                            showExpandColumn={false}
+                                                                                            defaultExpandAllRows={true}
+                                                                                            canExpandRow={(row: any) => row?.config?.comments?.length > 0}
+                                                                                            expandRowRenderer={
+                                                                                                (row: any) => {
+                                                                                                    return (
+                                                                                                        <div
+                                                                                                            key={row?.config?._id}
+                                                                                                            className={'comment-row'}>
+                                                                                                            <div
+                                                                                                                className={'comment-icon'}>
+                                                                                                                <ImageConfig.CommentIcon/>
+                                                                                                            </div>
+                                                                                                            <div
+                                                                                                                className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
+                                                                                                        </div>
+                                                                                                    )
+                                                                                                }
+                                                                                            }
+                                                                                            columns={getMedicalInterventionROMConfigColumns(body_part)}/>
+                                                                                    </>
+                                                                                )
+                                                                            })
                                                                         }
-                                                                    }/>
-                                                            </div>)
-                                                        })}
-                                                    </CardComponent>
+                                                                    </CardComponent>
+                                                                }
+                                                            </>
+                                                        }
+                                                    </>
                                                 </div>
+                                                {
+                                                    medicalRecordId && medicalInterventionId && <>
+                                                        {
+                                                            medicalInterventionDetails?.special_tests?.length === 0 &&
+                                                            <LinkComponent
+                                                                route={CommonService._routeConfig.MedicalInterventionSpecialTests(medicalRecordId, medicalInterventionId)}>
+                                                                <ButtonComponent
+                                                                    fullWidth={true}
+                                                                    variant={'outlined'}
+                                                                    size={"large"}
+                                                                    className={'mrg-bottom-20'}
+                                                                >
+                                                                    Add Special Test
+                                                                </ButtonComponent>
+                                                            </LinkComponent>
+                                                        }
+                                                        {
+                                                            medicalInterventionDetails?.special_tests?.length > 0 &&
+                                                            <div
+                                                                className={"card-styling padding-card-5 mrg-bottom-20 " + ((medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0) ?
+                                                                    ' white-card-header ' : '')}>
+                                                                <CardComponent title={"Special Test"}
+                                                                               actions={
+                                                                                   <DraftReadonlySwitcherComponent
+                                                                                       condition={true}
+                                                                                       draft={<>
+                                                                                           {
+                                                                                               (medicalInterventionId && medicalRecordId) &&
+                                                                                               <LinkComponent
+                                                                                                   route={CommonService._routeConfig.MedicalInterventionSpecialTests(medicalRecordId, medicalInterventionId)}>
+                                                                                                   <ButtonComponent
+                                                                                                       prefixIcon={(medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0) ?
+                                                                                                           <ImageConfig.EditIcon/> :
+                                                                                                           <ImageConfig.AddIcon/>}>
+                                                                                                       {medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0 ? 'Edit' : 'Add'}
+                                                                                                   </ButtonComponent>
+                                                                                               </LinkComponent>
+                                                                                           }
+                                                                                       </>} readonly={<></>}/>
+                                                                               }
+                                                                >
+
+                                                                    {medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.map((body_part: any) => {
+                                                                        return (<div className={'mrg-bottom-5'}>
+                                                                            <CardComponent size={'sm'}
+                                                                                           title={body_part?.body_part_details?.name || "-"
+                                                                                           }>
+                                                                            </CardComponent>
+                                                                            <TableV2Component
+                                                                                data={body_part.special_tests}
+                                                                                columns={SpecialTestsColumns}
+                                                                                bordered={true}
+                                                                                showExpandColumn={false}
+                                                                                defaultExpandAllRows={true}
+                                                                                canExpandRow={(row: any) => row?.comments?.length > 0}
+                                                                                expandRowRenderer={
+                                                                                    (row: any) => {
+                                                                                        return (
+                                                                                            <div key={row?._id}
+                                                                                                 className={'comment-row'}>
+                                                                                                <div className={'comment-icon'}>
+                                                                                                    <ImageConfig.CommentIcon/>
+                                                                                                </div>
+                                                                                                <div
+                                                                                                    className={'comment-text'}>{row?.comments ? CommonService.capitalizeFirstLetter(row?.comments) : "-"}</div>
+                                                                                            </div>
+                                                                                        )
+                                                                                    }
+                                                                                }/>
+                                                                        </div>)
+                                                                    })}
+                                                                </CardComponent>
+                                                            </div>}
+                                                    </>
+                                                }
                                                 <DraftReadonlySwitcherComponent
                                                     condition={true} draft={
                                                     <Field name={'objective.palpation'}>
@@ -616,8 +661,6 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                     </div>
                                                 }
                                                 />
-
-
                                                 <DraftReadonlySwitcherComponent
                                                     condition={true} draft={
                                                     <Field name={'objective.treatment_response'}>
@@ -645,8 +688,6 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                     </div>
                                                 }
                                                 />
-
-
                                             </div>
                                         </div>
                                     </CardComponent>
@@ -664,36 +705,56 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                     }>
                                         <div className="ts-row">
                                             <div className="ts-col-12">
-
-                                                <div className="icd-codes-wrapper">
-                                                    <div className="card-styling">
-                                                        <CardComponent size={'sm'} title={'Medical Diagnosis/ICD-10 Codes:'}
-                                                                       actions={
-                                                                           <DraftReadonlySwitcherComponent
-                                                                               condition={true}
-                                                                               draft={<>
-                                                                                   {
-                                                                                       (medicalInterventionId && medicalRecordId) &&
-                                                                                       <LinkComponent
-                                                                                           route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId)}>
-                                                                                           <ButtonComponent
-                                                                                               prefixIcon={(medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0) ?
-                                                                                                   <ImageConfig.EditIcon/> :
-                                                                                                   <ImageConfig.AddIcon/>}>
-                                                                                               {medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0 ? 'Edit' : 'Add'}
-                                                                                           </ButtonComponent>
-                                                                                       </LinkComponent>
-                                                                                   }
-                                                                               </>} readonly={<></>}/>
-                                                                       }>
-                                                        </CardComponent>
-                                                    </div>
-                                                    {medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0 &&
-                                                        <TableV2Component
-                                                            data={medicalInterventionDetails?.linked_icd_codes}
-                                                            bordered={true} columns={ICDTableColumns}/>}
-                                                </div>
-
+                                                {
+                                                    medicalRecordId && medicalInterventionId && <>
+                                                        {
+                                                            medicalInterventionDetails?.linked_icd_codes?.length === 0 &&
+                                                            <LinkComponent
+                                                                route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId)}>
+                                                                <ButtonComponent
+                                                                    fullWidth={true}
+                                                                    variant={'outlined'}
+                                                                    size={"large"}
+                                                                    className={'mrg-bottom-20'}
+                                                                >
+                                                                    Add Medical Diagnosis / ICD-11 Codes
+                                                                </ButtonComponent>
+                                                            </LinkComponent>
+                                                        }
+                                                        {
+                                                            medicalInterventionDetails?.linked_icd_codes?.length > 0 &&
+                                                            <div className="icd-codes-wrapper">
+                                                                <div className="card-styling">
+                                                                    <CardComponent size={'sm'}
+                                                                                   title={'Medical Diagnosis/ICD-10 Codes:'}
+                                                                                   actions={
+                                                                                       <DraftReadonlySwitcherComponent
+                                                                                           condition={true}
+                                                                                           draft={<>
+                                                                                               {
+                                                                                                   (medicalInterventionId && medicalRecordId) &&
+                                                                                                   <LinkComponent
+                                                                                                       route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId)}>
+                                                                                                       <ButtonComponent
+                                                                                                           prefixIcon={(medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0) ?
+                                                                                                               <ImageConfig.EditIcon/> :
+                                                                                                               <ImageConfig.AddIcon/>}>
+                                                                                                           {medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0 ? 'Edit' : 'Add'}
+                                                                                                       </ButtonComponent>
+                                                                                                   </LinkComponent>
+                                                                                               }
+                                                                                           </>} readonly={<></>}/>
+                                                                                   }>
+                                                                    </CardComponent>
+                                                                </div>
+                                                                {medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0 &&
+                                                                    <TableV2Component
+                                                                        data={medicalInterventionDetails?.linked_icd_codes}
+                                                                        bordered={true} columns={ICDTableColumns}/>}
+                                                            </div>
+                                                        }
+                                                    </>
+                                                }
                                                 <DraftReadonlySwitcherComponent
                                                     condition={true} draft={
                                                     <Field name={'assessment.suspicion_index'}>
