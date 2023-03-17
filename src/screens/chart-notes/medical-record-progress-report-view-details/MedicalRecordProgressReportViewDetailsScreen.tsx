@@ -44,8 +44,9 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             key: 'result',
             title: 'Results',
             dataIndex: 'result',
+            width:150,
             render: (item: any) => {
-                return <div>{item?.result}</div>
+                return <div>{item?.result || '-'}</div>
             }
         },
         {
@@ -54,7 +55,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             dataIndex: 'comment',
             width:600,
             render: (item: any) => {
-                return <>{item?.comment ||'N/A'}</>
+                return <div className={'comment'}>{item?.comment ||<div className={'display-flex ts-justify-content-center'}>-</div>}</div>
             }
         }
     ];
@@ -171,15 +172,17 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                             {
                                 (isProgressReportDetailsLoaded && progressReportDetails) && <>
                                     <div className={'progress-report-view-details-component__header'}>
+                                        {progressReportDetails?.synopsis &&
                                         <CardComponent title={'Synopsis'}>
                                             {progressReportDetails?.synopsis || "N/A"}
                                         </CardComponent>
-                                        <CardComponent title={'Impression'}>
+                                        }
+                                        {progressReportDetails?.impression && <CardComponent title={'Impression'}>
                                             {progressReportDetails?.impression || "N/A"}
-                                        </CardComponent>
-                                        <CardComponent title={'Plan'}>
+                                        </CardComponent>}
+                                        {progressReportDetails?.plan && <CardComponent title={'Plan'}>
                                             {progressReportDetails?.plan || "N/A"}
-                                        </CardComponent>
+                                        </CardComponent>}
                                         {
                                             progressReportDetails?.progress_stats?.length > 0 &&
                                             <div className={'progress-stats-table'}>

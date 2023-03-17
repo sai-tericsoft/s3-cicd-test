@@ -121,11 +121,12 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                             <ImageConfig.EditIcon/>
                                         </IconButtonComponent>
                                     </div> :
-                                    <div className={'add-comment-heading'} onClick={() => {
+                                    <ButtonComponent disabled={!field.form.values.progress_stats?.[item?._id]?.result}
+                                                     variant={'text'} onClick={() => {
                                         setShowProgressStatCommentsModal(true);
                                         setSelectedProgressStatComments(item);
                                     }}
-                                    >+ Add Comment</div>
+                                    >+ Add Comment</ButtonComponent>
                             }
                         </div>
                     )
