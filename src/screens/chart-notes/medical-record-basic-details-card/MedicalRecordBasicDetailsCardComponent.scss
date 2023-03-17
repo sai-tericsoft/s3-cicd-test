@@ -2,6 +2,25 @@
 
 .client-medical-details-card-component {
 
+  .show-more-less {
+    color: #83909D;
+    cursor: pointer;
+    float: right;
+
+    .show-more-less-action {
+      margin: 10px;
+      cursor: pointer;
+    }
+  }
+
+  .ts-row {
+    .date-of-surgery {
+      .data-value {
+        margin-left: 13px;
+      }
+    }
+  }
+
   .client-name-button-wrapper {
     display: flex;
     justify-content: space-between;

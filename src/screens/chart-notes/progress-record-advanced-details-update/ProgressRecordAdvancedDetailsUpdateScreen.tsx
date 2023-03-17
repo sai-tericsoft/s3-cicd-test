@@ -38,7 +38,7 @@ interface ProgressRecordAdvancedDetailsUpdateScreenProps {
 
 const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvancedDetailsUpdateScreenProps) => {
 
-    const {medicalRecordId, progressReportId} = useParams();
+    const {medicalRecordId, progressReportId,mode} = useParams();
 
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
 
@@ -52,7 +52,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
         isClientMedicalRecordProgressReportDetailsLoaded,
         clientMedicalRecordProgressReportDetails,
     } = useSelector((state: IRootReducerState) => state.chartNotes);
-
+    console.log('clientMedicalRecordProgressReportDetails',clientMedicalRecordProgressReportDetails);
     const {
         clientMedicalRecord,
     } = useSelector((state: IRootReducerState) => state.client);
@@ -233,7 +233,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
 
     return (
         <div className={'progress-record-advanced-details-update-screen'}>
-            <PageHeaderComponent title={"Add Progress Report"}
+            <PageHeaderComponent title={mode==='add' ? "Add Therapy Progress Report" : "Edit Therapy Progress Report"}
                                  actions={
                                      <div className="last-updated-status">
                                          <div className="last-updated-status-text">Last Updated On:&nbsp;</div>
@@ -351,6 +351,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                         }
                                     </Field>
                                 </CardComponent>
+
                                 <div className={'progress-stats-table'}>
                                     <CardComponent title={'Progress Stats:'}>
                                         <TableV2Component data={progressReportStatList}
@@ -395,6 +396,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                                         <Field
                                                             name={`progress_stats.${selectedProgressStatComments?._id}.commentTemp`}
                                                             className="t-form-control">
+
                                                             {
                                                                 (field: FieldProps) => (
                                                                     <FormikTextAreaComponent

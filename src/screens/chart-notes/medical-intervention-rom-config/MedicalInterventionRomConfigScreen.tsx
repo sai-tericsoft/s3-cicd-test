@@ -15,6 +15,8 @@ import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
+import MedicalRecordBasicDetailsCardComponent
+    from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 
 interface MedicalInterventionRomConfigScreenProps {
 
@@ -39,11 +41,11 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
     useEffect(() => {
         if (medicalRecordId && medicalInterventionId) {
             dispatch(setCurrentNavParams("SOAP Note", null, () => {
-                if (medicalInterventionDetails?.status === 'completed') {
-                    navigate(CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId));
-                } else {
+                // if (medicalInterventionDetails?.status === 'completed') {
+                //     navigate(CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId));
+                // } else {
                     navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
-                }
+               // }
             }));
         }
     }, [dispatch, navigate, medicalInterventionDetails, medicalRecordId, medicalInterventionId]);
@@ -115,6 +117,7 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
     return (
         <div className={'medical-intervention-rom-config-screen'}>
             <PageHeaderComponent title={'Range of Motion and Strength'}/>
+            <MedicalRecordBasicDetailsCardComponent/>
             <>
                 {
                     (isMedicalInterventionDetailsLoading) && <>

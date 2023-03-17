@@ -129,3 +129,5 @@ export interface IFilesUneditableAfterOption {
     title: string;
     code: number;
 }
+
+export type BillingType = 'invoice' | 'receipt';

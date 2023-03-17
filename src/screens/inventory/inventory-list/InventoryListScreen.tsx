@@ -51,20 +51,21 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
             title: 'Product',
             dataIndex: 'name',
             key: 'name',
-            width: 153
+            width: 163,
+            fixed: 'left',
         },
         {
             title: 'Product Code',
             dataIndex: 'code',
             key: 'code',
             align: 'center',
-            width: 118
+            width: 138
         },
         {
             title: 'Quantity Available',
             dataIndex: 'quantity',
             key: 'quantity',
-            width: 151,
+            width: 171,
             align: 'center',
             sortable: true,
             render: (item: any) => {
@@ -78,7 +79,7 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
             dataIndex: 'price',
             key: 'price',
             align: 'center',
-            width: 156,
+            width: 176,
             render: (item: any) => {
                 return <> {Misc.CURRENCY_SYMBOL} {item?.price} </>
             }
@@ -88,7 +89,8 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
             dataIndex: 'action',
             key: 'action',
             align: 'center',
-            width: 98,
+            width: 159,
+            fixed: 'right',
             render: (item: any) => {
                 return <LinkComponent route={CommonService._routeConfig.InventoryProductViewDetails(item?._id)}>
                     View Details</LinkComponent>

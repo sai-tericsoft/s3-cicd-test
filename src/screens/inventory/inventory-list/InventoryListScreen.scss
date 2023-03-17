@@ -3,8 +3,16 @@
     text-align: center !important;
   }
 
-.out-of-stock-chip{
-  background-color: #FFE2E9;
-  color: #DE1C4E;
-}
+  .t-table-wrapper .t-table {
+    .t-th, .t-td {
+      &:first-child {
+        padding-left: 40px;
+      }
+    }
+  }
+
+  .out-of-stock-chip {
+    background-color: #FFE2E9;
+    color: #DE1C4E;
+  }
 }

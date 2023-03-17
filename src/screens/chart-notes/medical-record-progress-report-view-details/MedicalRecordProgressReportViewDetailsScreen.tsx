@@ -144,8 +144,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             }
             {
                 (medicalRecordId && progressReportId) && <LinkComponent
-
-                    route={CommonService._routeConfig.MedicalRecordProgressReportAdvancedDetailsUpdate(medicalRecordId, progressReportId)}>
+                    route={CommonService._routeConfig.MedicalRecordProgressReportAdvancedDetailsUpdate(medicalRecordId, progressReportId,'edit')}>
                     <div className={'display-flex flex-direction-row-reverse mrg-bottom-20'}>
                         <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>Edit Progress Report</ButtonComponent>
                     </div>
@@ -185,6 +184,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                         </CardComponent>}
                                         {
                                             progressReportDetails?.progress_stats?.length > 0 &&
+
                                             <div className={'progress-stats-table'}>
                                             <CardComponent title={'Progress Overview:'}>
                                             <TableComponent data={progressReportDetails?.progress_stats}

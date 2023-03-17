@@ -40,46 +40,13 @@
       .client-search-body-heading {
         font-weight: 700;
         font-size: 16px;
-        margin-bottom: 5px;
+        margin-bottom: 15px;
         color: #6D6D6D;
       }
 
-      .client-search-list-wrapper {
-        border: 1px solid #F3F3F3;
-        border-radius: 4px;
+      .t-table-wrapper {
         overflow: auto;
-        max-height: 60vh;
-      }
-
-      .client-search-list-item {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: center;
-        border-bottom: 1px solid #F3F3F3;
-        background: #FFFFFF;
-
-        &:last-child {
-          border-bottom: none;
-        }
-
-        &:hover {
-          background: #FAFAFA;
-          cursor: pointer;
-        }
-
-        .item-radio {
-          margin-left: 15px;
-        }
-
-        .item-client-name {
-          font-weight: 400;
-          font-size: 14px;
-          display: flex;
-          align-items: center;
-          letter-spacing: 0.002em;
-          color: #212B36;
-        }
+        max-height: calc(100vh - 200px);
       }
     }
 

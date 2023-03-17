@@ -16,6 +16,7 @@ import FilePreviewThumbnailComponent
     from "../../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import FormikTextAreaComponent
     from "../../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
+import FormDebuggerComponent from "../../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface ServiceCategoryAddComponentProps {
     onAdd: (data: IServiceCategory) => void;
@@ -71,13 +72,14 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
                     validateOnMount={true}
                     onSubmit={onSubmit}
                 >
-                    {({values, touched, errors, setFieldValue, validateForm}) => {
+                    {({values, touched, errors, setFieldValue, setFieldTouched, validateForm}) => {
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
                             validateForm();
                         }, [validateForm, values]);
                         return (
                             <Form className="t-form" noValidate={true}>
+                                <FormDebuggerComponent values={values} errors={errors}/>
                                 <div className="t-form-controls">
                                     <Field name={'name'} className="t-form-control">
                                         {
@@ -141,7 +143,7 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
                                                         file={values.image}
                                                         removeButtonId={"sc_delete_img"}
                                                         onRemove={() => {
-                                                            setFieldValue('image', undefined);
+                                                            setFieldValue('image', '');
                                                         }}
                                                     />
                                                 </>

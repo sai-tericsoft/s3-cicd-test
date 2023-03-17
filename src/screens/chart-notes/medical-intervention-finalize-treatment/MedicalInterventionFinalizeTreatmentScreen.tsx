@@ -20,9 +20,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import MedicalRecordBasicDetailsCardComponent from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
+import MedicalRecordBasicDetailsCardComponent
+    from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
+import FormikSelectComponent from "../../../shared/components/form-controls/formik-select/FormikSelectComponent";
 
 interface MedicalInterventionFinalizeTreatmentScreenProps {
 
@@ -109,9 +111,13 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
         return <Field name={`${record._id}.units_of_care`}>
             {
                 (field: FieldProps) => (
-                    <FormikInputComponent
+                    <FormikSelectComponent
+                        label={'Units'}
+                        fullWidth={true}
+                        options={CommonService._staticData.unitsOfCare}
+                        displayWith={(option:any)=>option}
+                        valueExtractor={(option:any)=>option}
                         size={'small'}
-                        validationPattern={Patterns.POSITIVE_INTEGERS}
                         className={!field.form.values[record._id]?.is_selected ? 'display-none' : ''}
                         disabled={!field.form.values[record._id]?.is_selected}
                         formikField={field}
@@ -156,7 +162,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
     useEffect(() => {
         if (medicalRecordId && medicalInterventionId) {
             dispatch(setCurrentNavParams("Finalize Treatment", null, () => {
-                if (medicalInterventionDetails?.status === 'completed'){
+                if (medicalInterventionDetails?.status === 'completed') {
                     navigate(CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId));
 
                 } else {
@@ -171,6 +177,22 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
             dispatch(getMedicalInterventionDetails(medicalInterventionId));
         }
     }, [medicalInterventionId, medicalInterventionDetails, dispatch]);
+
+    const handleInterventionCheckout = useCallback(() => {
+        if (medicalInterventionId && medicalRecordId) {
+            setIsInterventionCheckingOut(true);
+            CommonService._chartNotes.CheckoutAMedicalInterventionAPICall(medicalInterventionId)
+                .then((response: any) => {
+                    CommonService._alert.showToast(response.message, 'success');
+                    navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+                    setIsInterventionCheckingOut(false);
+                })
+                .catch((error: any) => {
+                    CommonService._alert.showToast(error.error || error.errors || 'Error checking out an intervention', 'error');
+                    setIsInterventionCheckingOut(false);
+                });
+        }
+    }, [navigate, medicalInterventionId, medicalRecordId]);
 
     const handleCPTCodesSubmit = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
         if (medicalInterventionId) {
@@ -195,13 +217,14 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                     CommonService._alert.showToast(response.message, 'success');
                     setSubmitting(false);
                     setLinkedCPTCodes(payload.cpt_codes);
+                    handleInterventionCheckout();
                 })
                 .catch((error: any) => {
                     CommonService._alert.showToast(error.error || error.errors || 'Error saving CPT Codes', 'error');
                     setSubmitting(false);
                 });
         }
-    }, [linkedCPTCodes, medicalInterventionId]);
+    }, [linkedCPTCodes, medicalInterventionId, handleInterventionCheckout]);
 
     useEffect(() => {
         const linkedCPTCodesConfig: any = {};
@@ -219,22 +242,6 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
         setLinkedCPTCodes(linked_cpt_codes);
         setCptCodesFormInitialValues(linkedCPTCodesConfig);
     }, [medicalInterventionDetails]);
-
-    const handleInterventionCheckout = useCallback(() => {
-        if (medicalInterventionId && medicalRecordId) {
-            setIsInterventionCheckingOut(true);
-            CommonService._chartNotes.CheckoutAMedicalInterventionAPICall(medicalInterventionId)
-                .then((response: any) => {
-                    CommonService._alert.showToast(response.message, 'success');
-                    navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
-                    setIsInterventionCheckingOut(false);
-                })
-                .catch((error: any) => {
-                    CommonService._alert.showToast(error.error || error.errors || 'Error checking out an intervention', 'error');
-                    setIsInterventionCheckingOut(false);
-                });
-        }
-    }, [navigate, medicalInterventionId, medicalRecordId]);
 
     return (
         <div className={'medical-intervention-finalize-treatment-screen'}>
@@ -257,7 +264,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                             }, [validateForm, values]);
                             return (
                                 <Form className="t-form" noValidate={true}>
-                                    <FormDebuggerComponent values={values} errors={errors} canShow={false}/>
+                                    <FormDebuggerComponent values={values} errors={errors} />
                                     <CardComponent>
                                         <div className="ts-row align-items-center">
                                             <div className="ts-col ts-col-6">
@@ -269,7 +276,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                                  }}
                                                 />
                                             </div>
-                                            <div className="ts-col-6 text-right">
+                                            <div className="ts-col-6 text-right mrg-bottom-20">
                                                 <ButtonComponent
                                                     className={'white-space-nowrap'}
                                                     type={"button"}
@@ -317,20 +324,8 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                                  }
                                                              })
                                                          }>
-                                            Save
+                                            Checkout
                                         </ButtonComponent>
-                                        <>
-                                            {
-                                                (medicalRecordId) && <>&nbsp;&nbsp;
-                                                    <ButtonComponent
-                                                        disabled={isSubmitting || isInterventionCheckingOut || linkedCPTCodes?.length === 0}
-                                                        isLoading={isInterventionCheckingOut}
-                                                        onClick={handleInterventionCheckout}>
-                                                        Checkout
-                                                    </ButtonComponent>
-                                                </>
-                                            }
-                                        </>
                                     </div>
                                 </Form>
                             );

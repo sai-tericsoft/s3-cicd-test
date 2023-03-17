@@ -56,7 +56,7 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
                 .then((response: IAPIResponseType<any>) => {
                     setIsProgressReportAddInProgress(false);
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                    navigate(CommonService._routeConfig.MedicalRecordProgressReportAdvancedDetailsUpdate(clientMedicalRecord?._id, response.data._id));
+                    navigate(CommonService._routeConfig.MedicalRecordProgressReportAdvancedDetailsUpdate(clientMedicalRecord?._id, response.data._id, 'add'));
                 }).catch((error: any) => {
                 CommonService.handleErrors(setErrors, error, true);
                 setIsProgressReportAddInProgress(false);
@@ -151,14 +151,14 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
                                         >
                                             Cancel
                                         </ButtonComponent>
-                                        &nbsp;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         <ButtonComponent
                                             type={"submit"}
                                             isLoading={isProgressReportAddInProgress}
                                             disabled={!isValid || isProgressReportAddInProgress}
                                             id={"medical_intervention_add_save_btn"}
                                         >
-                                            Save
+                                            Next
                                         </ButtonComponent>
                                     </div>
                                 </Form>

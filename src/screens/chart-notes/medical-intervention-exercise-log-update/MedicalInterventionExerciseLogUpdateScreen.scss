@@ -3,6 +3,28 @@
     margin-bottom: 0 !important;
   }
 
+  .page-header-component {
+    .page-header-title {
+      font-size: 1.4286rem;
+      text-transform: uppercase;
+    }
+  }
+
+  .t-tr:has(.Mui-error) {
+    .t-td {
+      height: 65px !important;
+      align-items: start;
+    }
+
+    .t-cell-exercise {
+      align-items: center !important;
+    }
+
+    .MuiFormHelperText-root.Mui-error {
+      display: block !important;
+    }
+  }
+
   .t-cell {
     text-align: center !important;
 
@@ -18,6 +40,17 @@
       }
     }
   }
+
+  .t-cell-name {
+    text-align: left !important;
+
+    .input-component {
+      input {
+        text-align: left !important;
+      }
+    }
+  }
+
   .client-name-button-wrapper {
     display: flex;
     justify-content: space-between;
@@ -31,6 +64,7 @@
       }
     }
   }
+
   .last-updated-status {
     display: flex;
     justify-content: flex-end;
@@ -47,8 +81,9 @@
       font-weight: bold;
       text-transform: capitalize;
     }
-    }
-  .provider-name{
+  }
+
+  .provider-name {
     width: 550px;
     margin-bottom: 24px;
   }

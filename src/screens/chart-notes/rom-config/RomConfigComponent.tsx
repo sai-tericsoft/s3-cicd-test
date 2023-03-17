@@ -13,7 +13,6 @@ import {ITableColumn} from "../../../shared/models/table.model";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
-import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {useDispatch} from "react-redux";
 import {
@@ -22,6 +21,7 @@ import {
 } from "../../../store/actions/chart-notes.action";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
+import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
 
 interface RomConfigComponentProps {
     mode?: 'read' | 'write';
@@ -49,11 +49,13 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
     } = props;
     const dispatch = useDispatch();
     const [bodySides, setBodySides] = useState<string[]>(selectedBodySides);
+    const [bodySidesTemp, setBodySidesTemp] = useState<string[]>(selectedBodySides);
     const [romConfigValues, setRomConfigValues] = useState<IROMConfig | any | undefined>({});
     const [showROMMovementCommentsModal, setShowROMMovementCommentsModal] = useState<boolean>(false);
     const [selectedROMMovementComments, setSelectedROMMovementComments] = useState<any>(undefined);
     const [isBodyPartBeingDeleted, setIsBodyPartBeingDeleted] = useState<boolean>(false);
     const [mode, setMode] = useState<'read' | 'write'>(props.mode || 'read');
+    const [isBodySidesModalOpen, setIsBodySidesModalOpen] = useState<boolean>(false);
 
     const generateRomConfigForBodySide = useCallback((side: string) => {
         return {
@@ -161,37 +163,64 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
         selectedBodySides?.forEach((side: any) => {
             columns.push(generateRomConfigForBodySide(side));
         });
-        if (mode === 'write') {
-            columns.push({
-                title: '',
-                key: 'comments',
-                width: 80,
-                render: (record: any, index: any) => <Field
-                    name={`${bodyPart._id}.${record?.name}.comments`}
-                    className="t-form-control">
-                    {
-                        (field: FieldProps) => (
-                            <IconButtonComponent
-                                color={field.form?.values[bodyPart._id]?.[record?.name]?.comments ? "primary" : "inherit"}
-                                onClick={() => {
-                                    setShowROMMovementCommentsModal(true);
-                                    setSelectedROMMovementComments(record);
-                                }}>
-                                {
-                                    field.form?.values[bodyPart._id]?.[record?.name]?.comments ?
-                                        <ImageConfig.ChatIcon/> :
-                                        <ImageConfig.CommentAddIcon/>
-                                }
-                            </IconButtonComponent>
-                        )
-                    }
-                </Field>
-            });
-        } else {
-            columns.push({
-                title: '', // dummy column to fill table
-            });
-        }
+        columns.push({
+            title: 'Comments',
+            key: 'comments',
+            align: 'center',
+            width: 80,
+            render: (record: any, index: any) => <Field
+                name={`${bodyPart._id}.${record?.name}.comments`}
+                className="t-form-control">
+                {
+                    (field: FieldProps) => (
+                        <>
+                            {
+                                mode === 'write' && <>
+                                    {
+                                        field.form?.values[bodyPart._id]?.[record?.name]?.comments && <>
+                                            <ToolTipComponent
+                                                tooltip={field.form?.values[bodyPart._id]?.[record?.name]?.comments}>
+                                                <div className="movement-comment">
+                                                    {field.form?.values[bodyPart._id]?.[record?.name]?.comments}
+                                                </div>
+                                            </ToolTipComponent>
+                                            &nbsp;
+                                            <IconButtonComponent
+                                                onClick={() => {
+                                                    setShowROMMovementCommentsModal(true);
+                                                    setSelectedROMMovementComments(record);
+                                                }}>
+                                                <ImageConfig.EditIcon/>
+                                            </IconButtonComponent>
+                                        </>
+                                    }
+                                    {
+                                        !field.form?.values[bodyPart._id]?.[record?.name]?.comments &&
+                                        <ButtonComponent
+                                            variant={"text"}
+                                            prefixIcon={<ImageConfig.AddIcon/>}
+                                            onClick={() => {
+                                                setShowROMMovementCommentsModal(true);
+                                                setSelectedROMMovementComments(record);
+                                            }}>
+                                            Add Comment
+                                        </ButtonComponent>
+                                    }
+                                </>
+                            }
+                            {
+                                mode === 'read' &&
+                                <ToolTipComponent tooltip={field.form?.values[bodyPart._id]?.[record?.name]?.comments}>
+                                    <div className="movement-comment">
+                                        {field.form?.values[bodyPart._id]?.[record?.name]?.comments}
+                                    </div>
+                                </ToolTipComponent>
+                            }
+                        </>
+                    )
+                }
+            </Field>
+        });
         return columns;
     }, [mode, generateRomConfigForBodySide, selectedBodySides]);
 
@@ -271,7 +300,6 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
             const commentsColumn = tableConfig[tableConfig?.length - 1];
             tableConfig[tableConfig?.length - 1] = generateRomConfigForBodySide(bodySide);
             tableConfig.push(commentsColumn);
-            console.log(tableConfig);
             return {
                 ...prevValues,
                 tableConfig
@@ -292,17 +320,39 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
 
     const handleBodySideSelect = useCallback((isSelected: boolean, bodySide: string) => {
         if (isSelected) {
-            setBodySides((prevBodySides) => {
+            setBodySidesTemp((prevBodySides) => {
                 return [...prevBodySides, bodySide];
             });
-            addBodySideToForm(bodySide);
         } else {
-            setBodySides((prevBodySides) => {
+            setBodySidesTemp((prevBodySides) => {
                 return prevBodySides?.filter((side: string) => side !== bodySide);
             });
-            removeBodySideFromForm(bodySide);
         }
-    }, [addBodySideToForm, removeBodySideFromForm]);
+    }, []);
+
+    const openBodySideSelectionModal = useCallback(() => {
+        setIsBodySidesModalOpen(true);
+    }, []);
+
+    const closeBodySideSelectionModal = useCallback(() => {
+        setIsBodySidesModalOpen(false);
+    }, []);
+
+    const handleBodySideSelectConfirm = useCallback(() => {
+        console.log(bodySidesTemp, bodySides);
+        bodySidesTemp.forEach((bodySide: string) => {
+            if (!bodySides.includes(bodySide)) {
+                addBodySideToForm(bodySide);
+            }
+        });
+        bodySides.forEach((bodySide: string) => {
+            if (!bodySidesTemp.includes(bodySide)) {
+                removeBodySideFromForm(bodySide);
+            }
+        });
+        setBodySides(bodySidesTemp);
+        closeBodySideSelectionModal();
+    }, [bodySidesTemp, bodySides, addBodySideToForm, removeBodySideFromForm, closeBodySideSelectionModal]);
 
     const handleROMConfigSubmit = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
         if (bodySides.length === 0) {
@@ -355,19 +405,35 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                     return (
                         <Form className="t-form" noValidate={true}>
                             {/*<FormAutoSave formikCtx={formik}/>*/}
-                            <FormDebuggerComponent form={formik} showDebugger={true} canShow={false}/>
+                            <FormDebuggerComponent form={formik} showDebugger={true} />
                             <CardComponent title={"Body Part: " + romConfigValues?.name}
                                            actions={<>
-                                               {
-                                                   (mode === 'read' && values?.movements?.length > 0) && <>
-                                                       <ButtonComponent
-                                                           size={"small"}
-                                                           prefixIcon={<ImageConfig.EditIcon/>}
-                                                           onClick={handleBodyPartEdit}
-                                                           disabled={isSubmitting || isBodyPartBeingDeleted}
-                                                       >
-                                                           Edit
-                                                       </ButtonComponent>&nbsp;&nbsp;
+                                               {values?.movements?.length > 0 &&
+                                                   <>
+                                                       {
+                                                           (mode === 'read') && <>
+                                                               <ButtonComponent
+                                                                   size={"small"}
+                                                                   prefixIcon={<ImageConfig.EditIcon/>}
+                                                                   onClick={handleBodyPartEdit}
+                                                                   disabled={isSubmitting || isBodyPartBeingDeleted}
+                                                               >
+                                                                   Edit
+                                                               </ButtonComponent>&nbsp;&nbsp;
+                                                           </>
+                                                       }
+                                                       {
+                                                           (mode === 'write') &&
+                                                           <>
+                                                               <ButtonComponent
+                                                                   size={"small"}
+                                                                   prefixIcon={<ImageConfig.AddIcon/>}
+                                                                   onClick={openBodySideSelectionModal}
+                                                               >
+                                                                   Add Body Side
+                                                               </ButtonComponent>&nbsp;&nbsp;
+                                                           </>
+                                                       }
                                                    </>
                                                }
                                                <ButtonComponent
@@ -393,51 +459,27 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                     {
                                         (values?.movements?.length > 0) && <>
                                             <div className={'rom-config-table-container'}>
-                                                {mode === 'write' && <div className={'rom-config-table-context'}>
-                                                    <MenuDropdownComponent
-                                                        menuBase={
-                                                            <IconButtonComponent>
-                                                                <ImageConfig.MoreVerticalIcon/>
-                                                            </IconButtonComponent>
-                                                        }
-                                                        menuOptions={
-                                                            bodyPart?.sides?.map((side: any, index: number) => {
-                                                                return <CheckBoxComponent
-                                                                    label={side}
-                                                                    key={index + side}
-                                                                    // disabled={selectedBodySides?.includes(side)}
-                                                                    checked={bodySides?.includes(side)}
-                                                                    onChange={(isChecked) => {
-                                                                        console.log('isChecked', isChecked);
-                                                                        handleBodySideSelect(isChecked, side);
-                                                                    }
-                                                                    }
-                                                                />
-                                                            })
-                                                        }
-                                                    />
-                                                </div>}
                                                 <TableComponent
                                                     data={romConfigValues?.movements || []}
                                                     bordered={true}
                                                     columns={romConfigValues?.tableConfig}
-                                                    showExpandColumn={false}
-                                                    defaultExpandAllRows={true}
-                                                    canExpandRow={(row: any) => {
-                                                        return mode === 'read' && row?.config?.comments?.length > 0;
-                                                    }}
-                                                    expandRowRenderer={(row: any) => {
-                                                        return (
-                                                            <div key={row?._id} className={'display-flex'}>
-                                                                <div className={'comment-icon mrg-right-10'}>
-                                                                    <ImageConfig.CommentIcon/>
-                                                                </div>
-                                                                <div
-                                                                    className={'progress-stats-comment'}>{row?.config?.comments}</div>
-                                                            </div>
-                                                        )
-                                                    }
-                                                    }
+                                                    // showExpandColumn={false}
+                                                    // defaultExpandAllRows={true}
+                                                    // canExpandRow={(row: any) => {
+                                                    //     return mode === 'read' && row?.config?.comments?.length > 0;
+                                                    // }}
+                                                    // expandRowRenderer={(row: any) => {
+                                                    //     return (
+                                                    //         <div key={row?._id} className={'display-flex'}>
+                                                    //             <div className={'comment-icon mrg-right-10'}>
+                                                    //                 <ImageConfig.CommentIcon/>
+                                                    //             </div>
+                                                    //             <div
+                                                    //                 className={'progress-stats-comment'}>{row?.config?.comments}</div>
+                                                    //         </div>
+                                                    //     )
+                                                    // }
+                                                    // }
                                                 />
                                             </div>
                                             {
@@ -451,7 +493,6 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                             }
                                         </>
                                     }
-
                                 </>
                             </CardComponent>
                             {
@@ -512,6 +553,41 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                     );
                 }}
             </Formik>
+            <ModalComponent isOpen={isBodySidesModalOpen}
+                            title={"Add Body Side:"}
+                            className={"intervention-body-side-selection-modal"}
+                            modalFooter={<>
+                                <ButtonComponent
+                                    onClick={closeBodySideSelectionModal}
+                                    variant={"outlined"}
+                                >
+                                    Cancel
+                                </ButtonComponent>&nbsp;&nbsp;
+                                <ButtonComponent
+                                    onClick={handleBodySideSelectConfirm}>
+                                    Update Sides
+                                </ButtonComponent>
+                            </>}
+            >
+                <div className={'body-side-modal'}>
+                    <>
+                        {
+                            bodyPart?.sides?.map((side: any, index: number) => {
+                                return <CheckBoxComponent
+                                    label={side}
+                                    key={index + side}
+                                    // disabled={selectedBodySides?.includes(side)}
+                                    checked={bodySidesTemp?.includes(side)}
+                                    onChange={(isChecked) => {
+                                        handleBodySideSelect(isChecked, side);
+                                    }
+                                    }
+                                />
+                            })
+                        }
+                    </>
+                </div>
+            </ModalComponent>
         </div>
     );
 

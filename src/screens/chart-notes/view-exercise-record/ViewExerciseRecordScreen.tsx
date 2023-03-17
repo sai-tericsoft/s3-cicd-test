@@ -80,8 +80,6 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
         }));
     }, [medicalRecordId, navigate, dispatch]);
 
-    console.log('medicalRecordViewExerciseRecord', medicalRecordViewExerciseRecord);
-
     return (
         <div className={'view-exercise-log-component'}>
             <>
@@ -95,7 +93,6 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                     {
                         isMedicalRecordViewExerciseRecordLoading &&
                         <LoaderComponent/>
-
                     }
                     {
                         isMedicalRecordViewExerciseRecordLoadingFailed &&
@@ -103,13 +100,11 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                     }
                     {
                         (isMedicalRecordViewExerciseRecordLoaded && medicalRecordViewExerciseRecord && medicalRecordId) && <>
-
                             <CardComponent color={'primary'}>
                                 <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
                                         <span className={'client-name'}>
-                                         {medicalRecordViewExerciseRecord?.medical_record_details?.client_details?.first_name} {medicalRecordViewExerciseRecord?.medical_record_details?.client_details?.last_name}
-
+                                            {medicalRecordViewExerciseRecord?.medical_record_details?.client_details?.first_name} {medicalRecordViewExerciseRecord?.medical_record_details?.client_details?.last_name}
                                         </span>
                                         <ChipComponent
                                             className={medicalRecordViewExerciseRecord?.medical_record_details?.status ? "active" : "inactive"}
@@ -131,11 +126,8 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                 <MedicalInterventionLinkedToComponent
                                     medicalRecordDetails={medicalRecordViewExerciseRecord?.medical_record_details}/>
                             </CardComponent>
-
                             <PageHeaderComponent title={'View Exercise Record'}/>
-
                             {medicalRecordViewExerciseRecord?.exercise_logs?.map((item: any) => {
-                                console.log('item', item);
                                 return <>  <CardComponent color={'primary'}>
                                     <div className={'ts-row'}>
                                         <div className={'ts-col-4'}>
@@ -159,15 +151,19 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                     <CardComponent title={'Attachments'}>
                                         <div className={'ts-col-md-2'}>
                                             {item?.attachments?.length > 0 && item?.attachments?.map((attachment: any) => {
-                                                return <><ChipComponent label={attachment?.name}
-                                                                        prefixIcon={<ImageConfig.PDFIcon/>}/></>
+                                                return <ChipComponent label={attachment?.name}
+                                                                      key={attachment?._id}
+                                                                      prefixIcon={ImageConfig.PDFIcon}/>
                                             })}
                                             {
                                                 item?.attachments?.length === 0 && <div>No Attachments</div>
                                             }
                                         </div>
                                     </CardComponent>
-                                    <TableComponent data={item?.exercise_records} columns={viewExerciseRecordColumn}/>
+                                    <TableComponent data={item?.exercise_records}
+                                                    columns={viewExerciseRecordColumn}
+                                                    autoHeight={true}
+                                    />
                                     <div className={'horizontal-line'}></div>
                                 </>
                             })}

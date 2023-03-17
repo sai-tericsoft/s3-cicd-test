@@ -441,7 +441,22 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                         >
                                                                         </CardComponent>
                                                                         <TableV2Component
-                                                                            data={body_part?.rom_config}
+                                                                            data={body_part?.rom_config?.filter((rom_config: any) => {
+                                                                                const bodyPartSides = body_part?.body_part_details?.sides;
+                                                                                const config = rom_config?.config;
+                                                                                if (config?.comments) {
+                                                                                    return rom_config;
+                                                                                } else {
+                                                                                    let romConfig = undefined;
+                                                                                    bodyPartSides?.forEach((side: any) => {
+                                                                                        const sideConfig = config[side];
+                                                                                        if (sideConfig?.arom || sideConfig?.prom || sideConfig?.strength) {
+                                                                                            romConfig = rom_config;
+                                                                                        }
+                                                                                    });
+                                                                                    return romConfig;
+                                                                                }
+                                                                            })}
                                                                             bordered={true}
                                                                             showExpandColumn={false}
                                                                             defaultExpandAllRows={true}

@@ -1,17 +1,13 @@
 import "./MedicalInterventionListComponent.scss";
-import {ImageConfig, Misc} from "../../../constants";
+import {APIConfig, ImageConfig} from "../../../constants";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
-import {useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {CommonService} from "../../../shared/services";
-import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {useCallback, useEffect, useState} from "react";
-import {IAPIResponseType} from "../../../shared/models/api.model";
-import moment from "moment";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {getMedicalInterventionList} from "../../../store/actions/chart-notes.action";
-import {IRootReducerState} from "../../../store/reducers";
-import TableComponent from "../../../shared/components/table/TableComponent";
+import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
 
 interface ClientMedicalRecordsComponentProps {
 
@@ -19,22 +15,35 @@ interface ClientMedicalRecordsComponentProps {
 
 const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentProps) => {
 
-    const navigate = useNavigate();
     const {medicalRecordId} = useParams();
     const dispatch = useDispatch();
-    const {
-        medicalInterventionList,
-        isMedicalInterventionListLoading,
-    } = useSelector((state: IRootReducerState) => state.chartNotes);
-    const [isMedicalInterventionBeingAdded, setIsMedicalInterventionBeingAdded] = useState<boolean>(false);
-    const [isMedicalInterventionBeingRepeated, setIsMedicalInterventionBeingRepeated] = useState<boolean>(false);
+    // const {
+    //     medicalInterventionList,
+    //     isMedicalInterventionListLoading,
+    // } = useSelector((state: IRootReducerState) => state.chartNotes);
+
+    const [medicalRecordListFilterState, setMedicalRecordListFilterState] = useState<any>({
+        sort: {}
+    });
+
+    const handleClientMedicalListSort = useCallback((key: string, order: string) => {
+        setMedicalRecordListFilterState((oldState: any) => {
+            const newState = {...oldState};
+            newState["sort"] = {
+                key,
+                order
+            }
+            return newState;
+        });
+    }, []);
 
     const MedicalInterventionListColumns: any = [
         {
             title: '',
             key: "flag",
             dataIndex: 'is_flagged',
-            width: 5,
+            width: 35,
+            fixed: 'left',
             render: (item: any) => {
                 return <div className={'flag-wrapper'}>{item?.is_flagged && <ImageConfig.FlagIcon/>}</div>
             }
@@ -43,11 +52,29 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             title: 'Date of Intervention',
             key: 'date_of_intervention',
             dataIndex: 'intervention_date',
-            width: 150,
-            align: 'center',
+            width: 200,
+            align: 'left',
             fixed: 'left',
+            sortable: true,
             render: (item: any) => {
-                return <>{item?.created_at ? CommonService.getSystemFormatTimeStamp(item?.created_at) : "N/A"}</>
+                let route = '';
+                if (medicalRecordId) {
+                    if (item?.note_type?.toLowerCase() === 'exercise log') {
+                        route = CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, item?.intervention_id);
+                    } else if (["soap note", "discharge summary"].includes(item?.note_type?.toLowerCase())) {
+                        if (item?.status?.toLowerCase() === 'completed') {
+                            route = CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, item?._id);
+                        } else {
+                            route = CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, item?._id);
+                        }
+                    } else if (item?.note_type?.toLowerCase() === "progress report") {
+                        route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId, item?._id);
+                    } else {
+                    }
+                    return <LinkComponent route={route}>
+                        {item?.created_at ? CommonService.getSystemFormatTimeStamp(item?.created_at) : "N/A"}
+                    </LinkComponent>
+                }
             }
         },
         {
@@ -56,6 +83,27 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             width: 150,
             align: 'center',
             dataIndex: 'note_type',
+            sortable: true,
+        },
+        {
+            title:'Exercise Log',
+            key: 'exercise_log',
+            width: 150,
+            align: 'center',
+            dataIndex: 'is_exercise_log_added',
+            render: (item: any) => {
+                return <>
+                    {medicalRecordId && item?.is_exercise_log_added && <LinkComponent
+                        route={CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, item?.intervention_id)}>
+                        View Log
+                    </LinkComponent>
+                    }
+                    {
+                        medicalRecordId && !item?.is_exercise_log_added && <div>N/A</div>
+                    }
+                </>
+            }
+
         },
         {
             title: 'Last Updated',
@@ -63,6 +111,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             dataIndex: 'updated_at',
             align: 'center',
             width: 170,
+            sortable: true,
             render: (item: any) => {
                 return <>{CommonService.transformTimeStamp(item?.updated_at)}</>
             }
@@ -73,6 +122,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             dataIndex: 'status',
             align: 'center',
             width: 110,
+            sortable: true,
             render: (item: any) => {
                 return <ChipComponent label={item?.status}
                                       className={item?.status === 'completed' ? "completed" : "draft"}/>
@@ -84,6 +134,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             dataIndex: 'name',
             align: 'center',
             width: 125,
+            sortable: true,
             render: (item: any) => {
                 return (item?.posted_by?.first_name + " " + item?.posted_by?.last_name)
             }
@@ -104,9 +155,11 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                         } else {
                             route = CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, item?._id);
                         }
-                    } else if (item?.note_type?.toLowerCase() === "progress report") {
-                        route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId, item?._id);
-                    } else {
+                    }
+                    // else if (item?.note_type?.toLowerCase() === "progress report") {
+                    //     route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId, item?._id);
+                    // }
+                    else {
                     }
                     return <LinkComponent route={route}>
                         {
@@ -118,86 +171,6 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
         }
     ];
 
-    const repeatLastTreatment = useCallback(
-        (medicalRecordId: string) => {
-            setIsMedicalInterventionBeingRepeated(true);
-            CommonService._chartNotes.RepeatLastInterventionAPICall(medicalRecordId, {
-                    "repeat_previous": true //todo: Why Swetha ????
-                }
-            ).then((response: IAPIResponseType<any>) => {
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, response?.data._id) + '?showClear=true');
-                setIsMedicalInterventionBeingRepeated(false);
-            }).catch((error: any) => {
-                CommonService._alert.showToast(error?.error || "Error repeating last medical intervention", "error");
-                setIsMedicalInterventionBeingRepeated(false);
-            });
-        },
-        [navigate],
-    );
-    const confirmRepeatLastTreatment = useCallback(
-        () => {
-            if (!medicalRecordId) {
-                CommonService._alert.showToast('Medical Record ID not found!', "error");
-                return;
-            }
-            CommonService.onConfirm({
-                confirmationTitle: "REPEAT LAST TREATMENT",
-                image: ImageConfig.REPEAT_LAST_INTERVENTION,
-                confirmationSubTitle: "Do you want to repeat the last treatment\nfrom the same Medical Record?"
-            })
-                .then((value) => {
-                    repeatLastTreatment(medicalRecordId);
-                })
-                .catch(reason => {
-
-                })
-        },
-        [medicalRecordId, repeatLastTreatment],
-    );
-    const addNewTreatment = useCallback(
-        () => {
-            if (!medicalRecordId) {
-                CommonService._alert.showToast('Medical Record ID not found!', "error");
-                return;
-            }
-            const payload = {
-                "intervention_date": moment().format('YYYY-MM-DD'),
-                "subjective": "",
-                "objective": {
-                    "observation": "",
-                    "palpation": "",
-                    "functional_tests": "",
-                    "treatment": "",
-                    "treatment_response": ""
-                },
-                "assessment": {
-                    "suspicion_index": "",
-                    "surgery_procedure": ""
-                },
-                "plan": {
-                    "plan": "",
-                    "md_recommendations": "",
-                    "education": "",
-                    "treatment_goals": ""
-                },
-                is_discharge: false,
-            };
-            setIsMedicalInterventionBeingAdded(true);
-            CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, payload)
-                .then((response: IAPIResponseType<any>) => {
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, response?.data._id));
-                    setIsMedicalInterventionBeingAdded(false);
-                })
-                .catch((error: any) => {
-                    CommonService._alert.showToast(error?.error || "Error creating a medical intervention", "error");
-                    setIsMedicalInterventionBeingAdded(false);
-                });
-        },
-        [medicalRecordId, navigate],
-    );
-
     useEffect(() => {
         if (medicalRecordId) {
             dispatch(getMedicalInterventionList(medicalRecordId));
@@ -206,25 +179,18 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
 
     return (
         <div className={'client-medical-records-component'}>
-            <div className={'client-medical-records-header-button-wrapper'}>
-                <div className={'client-medical-records-header'}>Medical Records</div>
-                <div>
-                    <ButtonComponent onClick={confirmRepeatLastTreatment}
-                                     disabled={(isMedicalInterventionBeingRepeated || isMedicalInterventionListLoading || medicalInterventionList.filter((item: any) => (item?.status === 'completed' && item?.note_type?.toLowerCase() === "soap note")).length === 0)}
-                                     className={'outlined-button'}
-                                     variant={"outlined"}>
-                        Repeat Last Treatment
-                    </ButtonComponent>
-                    <ButtonComponent onClick={addNewTreatment}
-                                     disabled={isMedicalInterventionBeingAdded}
-                                     isLoading={isMedicalInterventionBeingAdded}
-                                     prefixIcon={<ImageConfig.AddIcon/>}>
-                        Add New Treatment
-                    </ButtonComponent>
-                </div>
-            </div>
-            <TableComponent data={medicalInterventionList} columns={MedicalInterventionListColumns}
-                            loading={isMedicalInterventionListLoading}/>
+            {/*<TableComponent data={medicalInterventionList}*/}
+            {/*                columns={MedicalInterventionListColumns}*/}
+            {/*                onSort={handleClientMedicalListSort}*/}
+            {/*                loading={isMedicalInterventionListLoading}/>*/}
+            <TableWrapperComponent
+                url={APIConfig.MEDICAL_RECORD_CONSOLIDATED_INTERVENTIONS_AND_ATTACHMENTS.URL(medicalRecordId)}
+                method={APIConfig.MEDICAL_RECORD_CONSOLIDATED_INTERVENTIONS_AND_ATTACHMENTS.METHOD}
+                columns={MedicalInterventionListColumns}
+                isPaginated={false}
+                onSort={handleClientMedicalListSort}
+                extraPayload={medicalRecordListFilterState}
+                />
         </div>
     );
 

@@ -181,7 +181,7 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                                         file={values.image}
                                                         removeButtonId={"sc_delete_img"}
                                                         onRemove={() => {
-                                                            setFieldValue('image', undefined);
+                                                            setFieldValue('image', '');
                                                         }}
                                                     />
                                                 </>

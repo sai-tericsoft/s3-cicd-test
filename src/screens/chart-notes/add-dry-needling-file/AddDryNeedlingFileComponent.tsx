@@ -66,8 +66,8 @@ const AddDryNeedlingFileComponent = (props: AddDryNeedlingFileComponentProps) =>
     }, [medicalInterventionId, onAdd]);
 
     return (
-        <div className="service-category-add-component">
-            <div className="service-category-add-form-container">
+        <div className="add-dry-needling-file-component">
+            <div className="add-dry-needling-file-form-container">
                 <FormControlLabelComponent label={"Add Dry Needling File"}
                                            size={"lg"}/>
                 <Formik

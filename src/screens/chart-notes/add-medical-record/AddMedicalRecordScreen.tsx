@@ -293,7 +293,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
-                            <FormDebuggerComponent values={values} errors={errors} canShow={false}/>
+                            <FormDebuggerComponent values={values} errors={errors} />
                             {
                                 !surgeryRecord && <div
                                     className={"mrg-bottom-20 display-flex ts-justify-content-sm-between"}>
@@ -444,7 +444,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                                 options={CommonService._staticData.yesNoOptions}
                                                                 displayWith={(option) => option.title}
                                                                 valueExtractor={(option) => option.code}
-                                                                label={'Treatment Script Received'}
+                                                                label={'Treatment Script Received ?'}
                                                                 formikField={field}
                                                                 required={true}
                                                                 fullWidth={true}

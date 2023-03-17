@@ -28,7 +28,9 @@ const InputComponent = (props: InputComponentProps) => {
         required,
         value,
         validationPattern,
-        onChange
+        onChange,
+        onFocus,
+        onBlur,
     } = props;
     const variant = props.variant || "outlined";
     const size = props.size || "medium";
@@ -55,6 +57,18 @@ const InputComponent = (props: InputComponentProps) => {
             }
         }
     }, [titleCase, type, validationPattern, onChange]);
+
+    const handleOnFocus = useCallback((event: any) => {
+        if (onFocus) {
+            onFocus(event);
+        }
+    }, [onFocus]);
+
+    const handleOnBlur = useCallback((event: any) => {
+        if(onBlur){
+            onBlur(event);
+        }
+    },[onBlur]);
 
     return (
         <FormControl className={'input-component ' + className + ' ' + (fullWidth ? "full-width" : "")}
@@ -83,6 +97,12 @@ const InputComponent = (props: InputComponentProps) => {
                        onChange={(event) => {
                            handleOnChange(event);
                        }}
+                       onFocus={(event) => {
+                       handleOnFocus(event);}
+                       }
+                       onBlur={(event) => {
+                           handleOnBlur(event);}
+                       }
                        error={hasError}
                        helperText={errorMessage}
             />
