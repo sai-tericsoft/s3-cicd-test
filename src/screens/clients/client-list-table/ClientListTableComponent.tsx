@@ -36,7 +36,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
         },
         {
             title: "Client Name",
-            key: "name",
+            key: "first_name",
             dataIndex: "first_name",
             sortable: true,
             width: 250,
