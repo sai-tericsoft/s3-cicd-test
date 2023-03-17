@@ -470,7 +470,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                         <Form className="t-form" noValidate={true}>
                             <FormDebuggerComponent
                                 form={formik}
-                                
+
                                 showDebugger={false}/>
                             <div className="t-form-controls">
                                 <div>
@@ -754,6 +754,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                             loading={isClientListLoading}
                                             hideHeader={true}
                                             onRowClick={(row: any) => {
+                                                formRef?.current?.setFieldValue('client_id', row._id);
                                                 setSelectedClient(row);
                                             }}
                             />
@@ -793,6 +794,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                             loading={isProviderListLoading}
                                             hideHeader={true}
                                             onRowClick={(row: any) => {
+                                                formRef?.current?.setFieldValue('provider_id', row._id);
                                                 setSelectedProvider(row);
                                             }}
                             />
