@@ -13,7 +13,6 @@ import BookAppointmentPaymentComponent from "./book-appointment-payment/BookAppo
 import SearchComponent from "../search/SearchComponent";
 import TableComponent from "../table/TableComponent";
 import {ITableColumn} from "../../models/table.model";
-import FormControlLabelComponent from "../form-control-label/FormControlLabelComponent";
 
 interface BookAppointmentComponentProps {
     onClose?: () => void
