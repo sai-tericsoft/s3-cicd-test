@@ -45,6 +45,20 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             title: 'Results',
             dataIndex: 'result',
             width:150,
+            align: "center",
+            render: (item: any) => {
+                return <div>{item?.result || '-'}</div>
+            }
+        },
+        {
+            key: 'comments',
+            title: 'Comments',
+            dataIndex: 'comment',
+            align: "center",
+            width:600,
+            render: (item: any) => {
+                return <div className={'comment'}>{item?.comment ||<div className={'display-flex ts-justify-content-center'}>-</div>}</div>
+            }
         }
     ];
 
@@ -80,8 +94,6 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
         }));
     }, [medicalRecordId, navigate, dispatch]);
-
-    console.log('progressReportDetails', progressReportDetails);
 
     return (
         <div className={'progress-report-view-details-screen'}>
@@ -161,37 +173,30 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                             {
                                 (isProgressReportDetailsLoaded && progressReportDetails) && <>
                                     <div className={'progress-report-view-details-component__header'}>
+                                        {progressReportDetails?.synopsis &&
                                         <CardComponent title={'Synopsis'}>
                                             {progressReportDetails?.synopsis || "N/A"}
                                         </CardComponent>
-                                        <CardComponent title={'Impression'}>
+                                        }
+                                        {progressReportDetails?.impression && <CardComponent title={'Impression'}>
                                             {progressReportDetails?.impression || "N/A"}
-                                        </CardComponent>
-                                        <CardComponent title={'Plan'}>
+                                        </CardComponent>}
+                                        {progressReportDetails?.plan && <CardComponent title={'Plan'}>
                                             {progressReportDetails?.plan || "N/A"}
-                                        </CardComponent>
+                                        </CardComponent>}
                                         {
                                             progressReportDetails?.progress_stats?.length > 0 &&
+
+                                            <div className={'progress-stats-table'}>
                                             <CardComponent title={'Progress Overview:'}>
                                             <TableComponent data={progressReportDetails?.progress_stats}
+                                                            className={'progress-report-view-details-table'}
                                                             columns={progressStatsColumn}
-                                                            showExpandColumn={false}
-                                                            defaultExpandAllRows={true}
-                                                            canExpandRow={(row: any) => row?.comment?.length > 0}
-                                                            expandRowRenderer={(row: any) => {
-                                                                return (
-                                                                    <div key={row?._id} className={'display-flex'}>
-                                                                        <div className={'comment-icon mrg-right-10'}>
-                                                                            <ImageConfig.CommentIcon/>
-                                                                        </div>
-                                                                        <div
-                                                                            className={'progress-stats-comment'}>{row?.comment}</div>
-                                                                    </div>
-                                                                )
-                                                            }
-                                                            }
+                                                            hideHeader={true}
+                                                            bordered={true}
                                             />
                                         </CardComponent>
+                                            </div>
                                         }
                                         <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>
                                             <ESignApprovalComponent isSigned={progressReportDetails?.is_signed}
