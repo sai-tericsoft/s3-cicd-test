@@ -154,7 +154,6 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                         {values.payment_type === 'current' && <>
                                             <FormControlLabelComponent
                                                 label={"Add a gift card or promotion code or voucher"} className={'add-gift-card-msg'} />
-                                            <div className={'mrg-bottom-10'}>
                                             <Field name={'promotion_code'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -166,9 +165,8 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                                     )
                                                 }
                                             </Field>
-                                            </div>
                                             <FormControlLabelComponent
-                                                label={"Checkout Summary"}/>
+                                                label={"Checkout Summary"} className={'checkout-summary'}/>
                                             <div className="price-holder">
                                                 <div className="price-item">
                                                     <div className="price-item-text">Amount (Inc. tax)</div>
