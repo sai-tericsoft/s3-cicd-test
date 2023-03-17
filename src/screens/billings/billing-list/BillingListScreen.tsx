@@ -328,7 +328,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             align: 'center',
             fixed: 'right',
             render: (item: any) => {
-                return <>{Misc.CURRENCY_SYMBOL} {item?.amount} </>
+                return <>{Misc.CURRENCY_SYMBOL} {item?.total} </>
             }
         },
         {
@@ -535,7 +535,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                         direction={"row"}
                         label={"Total Amount (Inc.Tax)"}>
                         <span className="mrg-left-5">
-                            {Misc.CURRENCY_SYMBOL} {selectedPayments.reduce((acc: any, payment: any) => acc + parseInt(payment?.amount), 0)}
+                            {Misc.CURRENCY_SYMBOL} {selectedPayments.reduce((acc: any, payment: any) => acc + parseInt(payment?.total), 0)}
                         </span>
                     </DataLabelValueComponent>
                 </div>
