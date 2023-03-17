@@ -870,7 +870,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                         return <div key={index}
                                                     className={"scheduling-calendar-day-wise-item view-" + schedulingListFilterState.duration}>
                                             <div className="scheduling-calendar-day-wise-item-header">
-                                                {day.format('DD MMMM YYYY')}
+                                                {day.format(' MMMM DD YYYY')}
                                             </div>
                                             <div className="scheduling-calendar-day-wise-item-body">
                                                 {HOURS_LIST_IN_MINUTES.map(
