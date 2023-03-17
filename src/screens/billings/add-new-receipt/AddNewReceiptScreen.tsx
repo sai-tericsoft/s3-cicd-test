@@ -184,8 +184,9 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             width: 70,
             render: (record: any, index: number) => <Field name={`products[${index}].units`} className="t-form-control">
                 {
-                    (field: FieldProps) => (
-                        <>
+                    (field: FieldProps) => {
+                        const quantity = _.get(field.form?.values, `products[${index}].quantity`);
+                       return <>
                             {
                                 (field.form.values?.products?.[index]?.quantity !== undefined && field.form.values?.products?.[index]?.quantity !== null && field.form.values?.products?.[index]?.quantity > 0) ?
                                     <FormikInputComponent
@@ -199,12 +200,13 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                         onBlur={() => {
                                             setShowQuantityText(false);
                                         }}
+                                        maxValue={quantity > 0 ? quantity : 0}
                                         disabled={!field.form.values?.products?.[index]?.product_id}
                                         validationPattern={Patterns.POSITIVE_WHOLE_NUMBERS}
                                     /> : "-"
                             }
                         </>
-                    )
+                    }
                 }
             </Field>
         },

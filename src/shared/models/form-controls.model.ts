@@ -25,6 +25,7 @@ export interface IInputFieldProps {
     suffix?: any;
     size?: 'small' | 'medium';
     max?: number;
+    maxValue?: number;
 }
 
 
