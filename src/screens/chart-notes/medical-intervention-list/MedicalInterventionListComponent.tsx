@@ -1,17 +1,12 @@
 import "./MedicalInterventionListComponent.scss";
-import {APIConfig, ImageConfig, Misc} from "../../../constants";
+import {APIConfig, ImageConfig} from "../../../constants";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
-import {useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {CommonService} from "../../../shared/services";
-import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {useCallback, useEffect, useState} from "react";
-import {IAPIResponseType} from "../../../shared/models/api.model";
-import moment from "moment";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {getMedicalInterventionList} from "../../../store/actions/chart-notes.action";
-import {IRootReducerState} from "../../../store/reducers";
-import TableComponent from "../../../shared/components/table/TableComponent";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
 
 interface ClientMedicalRecordsComponentProps {
