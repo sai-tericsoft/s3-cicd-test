@@ -14,7 +14,6 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import _ from "lodash";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import FormikAutoCompleteComponent
     from "../../../shared/components/form-controls/formik-auto-complete/FormikAutoCompleteComponent";
