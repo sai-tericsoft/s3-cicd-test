@@ -182,17 +182,9 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
             });
         });
         ROMColumns.push({
-            title: 'Comments',
-            dataIndex: 'comments',
-            key: 'name',
-            width: 147,
-            // align: 'center',
-            // fixed: 'right',
-            render: (item: any) => {
-                return <div className={'comments'}>
-                    {item?.config?.comments || 'N/A'}
-                </div>
-            }
+            title: '',
+            dataIndex: '',
+            key: 'dummy',
         })
         return ROMColumns;
     }, []);
@@ -491,6 +483,25 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                                                     return romConfig;
                                                                                                 }
                                                                                             })}
+                                                                                            showExpandColumn={false}
+                                                                                            defaultExpandAllRows={true}
+                                                                                            canExpandRow={(row: any) => row?.config?.comments?.length > 0}
+                                                                                            expandRowRenderer={
+                                                                                                (row: any) => {
+                                                                                                    return (
+                                                                                                        <div
+                                                                                                            key={row?.config?._id}
+                                                                                                            className={'comment-row'}>
+                                                                                                            <div
+                                                                                                                className={'comment-icon'}>
+                                                                                                                <ImageConfig.CommentIcon/>
+                                                                                                            </div>
+                                                                                                            <div
+                                                                                                                className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
+                                                                                                        </div>
+                                                                                                    )
+                                                                                                }
+                                                                                            }
                                                                                             bordered={true}
                                                                                             columns={getMedicalInterventionROMConfigColumns(body_part)}/>
                                                                                     </>
