@@ -74,7 +74,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
         isProgressReportDetailsLoadingFailed,
         progressReportDetails
     } = useSelector((state: IRootReducerState) => state.chartNotes);
-    console.log(' progressReportDetails', progressReportDetails);
+
     useEffect(() => {
         if (progressReportId) {
             dispatch(getProgressReportViewDetails(progressReportId));
@@ -186,7 +186,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                         {
                                             progressReportDetails?.progress_stats?.length > 0 &&
                                             <div className={'progress-stats-table'}>
-                                            <CardComponent title={'Progress Stats:'}>
+                                            <CardComponent title={'Progress Overview:'}>
                                             <TableComponent data={progressReportDetails?.progress_stats}
                                                             className={'progress-report-view-details-table'}
                                                             columns={progressStatsColumn}
