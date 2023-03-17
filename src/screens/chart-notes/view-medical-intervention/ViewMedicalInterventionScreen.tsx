@@ -1,6 +1,6 @@
 import "./ViewMedicalInterventionScreen.scss";
 import * as Yup from "yup";
-import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
+import { useLocation, useNavigate, useParams} from "react-router-dom";
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
@@ -26,7 +26,6 @@ import DraftReadonlySwitcherComponent from "../draft-readonly-switcher/DraftRead
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 import ESignApprovalComponent from "../../../shared/components/e-sign-approval/ESignApprovalComponent";
-import TableV2Component from "../../../shared/components/table-v2/TableV2Component";
 import TableComponent from "../../../shared/components/table/TableComponent";
 
 interface ViewMedicalInterventionScreenProps {
