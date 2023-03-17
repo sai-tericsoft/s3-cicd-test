@@ -234,7 +234,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: 'Client Name',
             key: 'client_name',
             dataIndex: 'first_name',
-            align: 'center',
+            align: 'left',
             render: (item: any) => {
                 return <>
                     {CommonService.extractName(item?.client_details)}

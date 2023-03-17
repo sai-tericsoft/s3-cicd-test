@@ -42,7 +42,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             title: '',
             key: "flag",
             dataIndex: 'is_flagged',
-            width: 35,
+            width: 55,
             fixed: 'left',
             render: (item: any) => {
                 return <div className={'flag-wrapper'}>{item?.is_flagged && <ImageConfig.FlagIcon/>}</div>
