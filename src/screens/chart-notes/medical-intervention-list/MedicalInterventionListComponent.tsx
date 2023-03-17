@@ -55,7 +55,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             width: 200,
             align: 'left',
             fixed: 'left',
-            sortable: true,
+            // sortable: true,
             render: (item: any) => {
                 let route = '';
                 if (medicalRecordId) {
@@ -83,7 +83,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             width: 150,
             align: 'center',
             dataIndex: 'note_type',
-            sortable: true,
+            // sortable: true,
         },
         {
             title:'Exercise Log',
@@ -111,7 +111,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             dataIndex: 'updated_at',
             align: 'center',
             width: 170,
-            sortable: true,
+            // sortable: true,
             render: (item: any) => {
                 return <>{CommonService.transformTimeStamp(item?.updated_at)}</>
             }
@@ -122,7 +122,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             dataIndex: 'status',
             align: 'center',
             width: 110,
-            sortable: true,
+            // sortable: true,
             render: (item: any) => {
                 return <ChipComponent label={item?.status}
                                       className={item?.status === 'completed' ? "completed" : "draft"}/>
@@ -134,7 +134,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             dataIndex: 'name',
             align: 'center',
             width: 125,
-            sortable: true,
+            // sortable: true,
             render: (item: any) => {
                 return (item?.posted_by?.first_name + " " + item?.posted_by?.last_name)
             }
