@@ -17,14 +17,16 @@
 
         &.from {
           text-align: start;
-          .billing-address-block__header{
+
+          .billing-address-block__header {
             justify-content: flex-start;
           }
         }
 
         &.to {
           text-align: end;
-          .billing-address-block__header{
+
+          .billing-address-block__header {
             justify-content: flex-end;
           }
         }
@@ -107,9 +109,12 @@
 
 .products-block {
   .products-block-wrapper {
-    .t-td {
-      height: auto !important;
-      min-height: 52px;
+    .t-tr {
+      padding-top: 5px !important;
+      .t-td {
+        height: auto !important;
+        min-height: 52px;
+      }
     }
 
     .products-block-add-more {

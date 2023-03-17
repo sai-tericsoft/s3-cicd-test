@@ -266,36 +266,41 @@
 
 }
 
-.update-stock-modal{
-   .modal-content-wrapper{
-     width: 400px;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     .modal-body{
-       width: 300px;
-     }
-   }
- }
-.notify-admin-modal{
-  .modal-content-wrapper{
+.update-stock-modal {
+  .modal-content-wrapper {
+    width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .modal-body {
+      width: 300px;
+    }
+  }
+}
+
+.notify-admin-modal {
+  .modal-content-wrapper {
     width: 444px;
     display: flex;
     justify-content: center;
     align-items: center;
-    .modal-body{
+
+    .modal-body {
       width: 400px;
     }
-    .form-control-label-component{
-      .form-control-label{
+
+    .form-control-label-component {
+      .form-control-label {
         font-size: 16px;
       }
     }
   }
 }
-.all-body-body-parts-heading{
-  .modal-content-wrapper .modal-header{
-    .modal-title{
+
+.all-body-body-parts-heading {
+  .modal-content-wrapper .modal-header {
+    .modal-title {
       font-size: 1.4286rem;
       font-weight: 700;
     }
@@ -590,10 +595,17 @@
 }
 
 .mark-as-paid-outstanding-balance-modal {
-  .modal-content-wrapper {
+  .modal-content-wrapper .modal-header {
+    .modal-title {
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
 
+  .modal-content-wrapper {
     .card-body {
-      padding: 15px 25px 10px;
+      padding: 15px 25px 0;
+      margin-bottom: -8px;
 
       .data-label {
         width: 150px;
@@ -606,23 +618,25 @@
       }
     }
 
+    .t-table {
+      height: calc(100vh - 700px) !important;
+      min-height: 300px !important;
+      max-height: 600px !important;
+    }
+
     .mark-as-paid-total-outstanding-balance {
       margin-top: 18px;
+      margin-bottom: 26px;
 
       .data-label-value {
         justify-content: space-evenly;
+        margin-bottom: 0 !important;
       }
 
       .data-label, .data-value {
         font-weight: $font-weight-bold;
         color: $body-color !important;
       }
-    }
-
-    .t-table {
-      height: calc(100vh - 500px);
-      min-height: 300px;
-      max-height: 800px;
     }
 
   }
@@ -643,6 +657,10 @@
         .form-control-label {
           text-transform: uppercase;
         }
+      }
+
+      .t-form-control {
+        width: 300px;
       }
     }
   }
@@ -678,5 +696,14 @@
         font-weight: $font-weight-bold;
       }
     }
+  }
+}
+
+.t-table {
+  .ellipses-for-table-data {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
