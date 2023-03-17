@@ -461,11 +461,12 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                variant={"fullWidth"}
                                onUpdate={handleTabChange}>
                     <TabComponent
+                        className={'payment-details-tab'}
                         label={`Pending Payments(${(billingStats?.count !== undefined) ? billingStats?.count : '-'})`}
                         value={'pendingPayments'}/>
-                    <TabComponent label={'Completed Payments'} value={'completedPayments'}/>
+                    <TabComponent className={'payment-details-tab'} label={'Completed Payments'} value={'completedPayments'}/>
                 </TabsComponent>
-                <TabContentComponent value={'pendingPayments'} selectedTab={currentTab}>
+                <TabContentComponent  value={'pendingPayments'} selectedTab={currentTab}>
                     <TableWrapperComponent url={APIConfig.PENDING_PAYMENT_LIST.URL}
                                            extraPayload={clientListFilterState}
                                            method={APIConfig.PENDING_PAYMENT_LIST.METHOD}

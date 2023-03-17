@@ -1,4 +1,9 @@
 .payment-list-component {
+
+  .payment-details-tab {
+    font-size: 1.1429rem;
+  }
+
   .no-show {
     background-color: #EFEFEF;
     color: #717171;
@@ -8,11 +13,13 @@
     background-color: #E8F2FF;
     color: #1C5EDE;
   }
-  .waived{
+
+  .waived {
     background-color: #FFF7EA;
     color: #DE561C;
   }
-  .cancellation{
+
+  .cancellation {
     background-color: #FFE2E9;
     color: #DE1C4E
   }
