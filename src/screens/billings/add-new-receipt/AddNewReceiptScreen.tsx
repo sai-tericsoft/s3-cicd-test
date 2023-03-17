@@ -186,7 +186,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 {
                     (field: FieldProps) => {
                         const quantity = _.get(field.form?.values, `products[${index}].quantity`);
-                       return <>
+                        return <>
                             {
                                 (field.form.values?.products?.[index]?.quantity !== undefined && field.form.values?.products?.[index]?.quantity !== null && field.form.values?.products?.[index]?.quantity > 0) ?
                                     <FormikInputComponent
@@ -194,11 +194,15 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                         formikField={field}
                                         size={"small"}
                                         type={"number"}
+                                        autoFocus={showQuantityText}
                                         onFocus={() => {
                                             setShowQuantityText(true);
                                         }}
                                         onBlur={() => {
                                             setShowQuantityText(false);
+                                        }}
+                                        onChange={() => {
+
                                         }}
                                         maxValue={quantity > 0 ? quantity : 0}
                                         disabled={!field.form.values?.products?.[index]?.product_id}

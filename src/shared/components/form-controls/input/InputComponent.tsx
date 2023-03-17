@@ -31,6 +31,7 @@ const InputComponent = (props: InputComponentProps) => {
         onChange,
         onFocus,
         onBlur,
+        autoFocus,
         maxValue,
     } = props;
 
@@ -92,6 +93,7 @@ const InputComponent = (props: InputComponentProps) => {
                        size={size}
                        label={label}
                        value={value || ""}
+                       autoFocus={autoFocus}
                        variant={variant}
                        disabled={disabled}
                        InputProps={{

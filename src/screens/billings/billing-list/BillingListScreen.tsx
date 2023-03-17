@@ -26,6 +26,7 @@ import SelectComponent from "../../../shared/components/form-controls/select/Sel
 import {IRootReducerState} from "../../../store/reducers";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {useSearchParams} from "react-router-dom";
+import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
 
 interface PaymentListComponentProps {
 
@@ -103,11 +104,25 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             key: 'appointment_id',
             dataIndex: 'appointment_id',
             fixed: 'left',
-            width: 250,
+            width: 150,
             align: 'center',
             render: (item: any) => {
                 return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id, 'invoice')}>
-                    {item?.appointment_id}
+                    {
+                        (item?.appointment_details.appointment_number).length > 10 ?
+                            <ToolTipComponent
+                                tooltip={item?.appointment_details.appointment_number}
+                                showArrow={true}
+                                position={"top"}
+                            >
+                                <div className={"ellipses-for-table-data"}>
+                                    {item?.appointment_details.appointment_number}
+                                </div>
+                            </ToolTipComponent> :
+                            <>
+                                {item?.appointment_details.appointment_number}
+                            </>
+                    }
                 </LinkComponent>
             }
         },
@@ -115,6 +130,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: 'Appointment Date',
             key: 'appointment_date',
             dataIndex: "appointment_date",
+            width: 200,
             align: 'center',
             render: (item: any) => {
                 return <>
@@ -125,10 +141,25 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: 'Client Name',
             key: 'client_name',
             dataIndex: 'first_name',
-            align: 'center',
+            width: 150,
+            align: 'left',
             render: (item: any) => {
                 return <>
-                    {item?.client_details?.first_name} {item?.client_details?.last_name}
+                    {
+                        (item?.client_details.first_name + ' ' + item?.client_details?.last_name).length > 20 ?
+                            <ToolTipComponent
+                                tooltip={(item?.client_details.first_name + ' ' + item?.client_details?.last_name)}
+                                position={"top"}
+                                showArrow={true}
+                            >
+                                <div className={"ellipses-for-table-data"}>
+                                    {item?.client_details?.first_name} {item?.client_details?.last_name}
+                                </div>
+                            </ToolTipComponent> :
+                            <>
+                                {item?.client_details?.first_name} {item?.client_details?.last_name}
+                            </>
+                    }
                 </>
             }
         },
@@ -136,6 +167,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: 'Phone Number',
             key: 'phone_number',
             dataIndex: 'phone',
+            width: 200,
             align: 'center',
             render: (item: any) => {
                 return <>
@@ -148,6 +180,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             key: 'service',
             dataIndex: 'name',
             align: 'center',
+            width: 200,
             render: (item: any) => {
                 return <>
                     {item?.service_details?.name}
@@ -159,6 +192,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             key: 'amount',
             align: 'center',
             dataIndex: 'amount',
+            width: 120,
             render: (item: any) => {
                 return <>{Misc.CURRENCY_SYMBOL} {item?.amount} </>
             }

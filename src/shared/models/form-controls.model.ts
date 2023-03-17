@@ -26,6 +26,7 @@ export interface IInputFieldProps {
     size?: 'small' | 'medium';
     max?: number;
     maxValue?: number;
+    autoFocus?:boolean;
 }
 
 
