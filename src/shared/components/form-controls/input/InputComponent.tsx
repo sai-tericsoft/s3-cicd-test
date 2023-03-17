@@ -65,7 +65,7 @@ const InputComponent = (props: InputComponentProps) => {
                 onChange(type === "number" ? parseInt(nextValue) : nextValue);
             }
         }
-    }, [titleCase, type, validationPattern, onChange]);
+    }, [titleCase, type, validationPattern, onChange, maxValue]);
 
     const handleOnFocus = useCallback((event: any) => {
         if (onFocus) {
