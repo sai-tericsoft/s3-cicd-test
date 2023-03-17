@@ -2,18 +2,6 @@
   .t-body {
     border: 1px solid #D9E2E2;
   }
-
- .t-cell-result{
-   &.t-cell-align-left {
-     justify-content: center !important;
-   }
- }
-  .t-cell-comments{
-    &.t-cell-align-left {
-      justify-content: center !important;
-    }
-  }
-
   .progress-report-view-details-container {
     .progress-report-view-details-component__header {
       .progress-stats-table {

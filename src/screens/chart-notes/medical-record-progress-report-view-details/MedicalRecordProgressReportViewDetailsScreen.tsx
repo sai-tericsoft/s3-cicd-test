@@ -45,6 +45,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             title: 'Results',
             dataIndex: 'result',
             width:150,
+            align: "center",
             render: (item: any) => {
                 return <div>{item?.result || '-'}</div>
             }
@@ -53,6 +54,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             key: 'comments',
             title: 'Comments',
             dataIndex: 'comment',
+            align: "center",
             width:600,
             render: (item: any) => {
                 return <div className={'comment'}>{item?.comment ||<div className={'display-flex ts-justify-content-center'}>-</div>}</div>
