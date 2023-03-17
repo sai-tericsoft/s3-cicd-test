@@ -75,7 +75,9 @@ const ProductRow = {
     product_id: undefined,
     amount: undefined,
     units: undefined,
-    quantity: undefined
+    quantity: undefined,
+    showQuantity: false,
+    // productIndex: undefined,
 }
 
 const AddNewReceiptFormInitialValues = {
@@ -109,7 +111,6 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
     const [isClientBillingAddressDrawerOpened, setIsClientBillingAddressDrawerOpened] = useState<boolean>(false);
     const [selectedPaymentMode, setSelectedPaymentMode] = useState<string | undefined>(undefined);
     const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
-    const [showQuantityText, setShowQuantityText] = useState<boolean>(false);
     const [total, setTotal] = useState<number>(0);
 
     const {
@@ -144,6 +145,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 {
                     (field: FieldProps) => {
                         const quantity = _.get(field.form?.values, `products[${index}].quantity`);
+                        const showQuantity = _.get(field.form?.values, `products[${index}].showQuantity`);
                         const units = _.get(field.form?.values, `products[${index}].units`);
                         const selectedProducts = _.get(field.form?.values, `products`).map((item: any) => item.product);
                         const showAvailableQuantity = (quantity !== undefined && (units === undefined || units === '' || units === null || units === 0 || isNaN(units)));
@@ -164,11 +166,13 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                     field.form.setFieldValue(`products[${index}].rate`, item.price);
                                     field.form.setFieldValue(`products[${index}].quantity`, item.quantity);
                                     field.form.setFieldValue(`products[${index}].units`, 0);
+                                    field.form.setFieldValue(`products[${index}].showQuantity`, false);
                                 }}
                             />
+
                             <span
                                 className={`product-available-quantity
-                                ${showAvailableQuantity || showQuantityText ? "visibility-visible" : "visibility-hidden"}
+                                ${showAvailableQuantity || showQuantity ? "visibility-visible" : "visibility-hidden"}
                                 ${quantity > 0 ? "text-primary" : "text-error"}`
                                 }>Available Stock: {quantity > 0 ? quantity : 0} unit(s)
                             </span>
@@ -194,12 +198,13 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                         formikField={field}
                                         size={"small"}
                                         type={"number"}
-                                        autoFocus={showQuantityText}
+                                        // autoFocus={showQuantityText}
                                         onFocus={() => {
-                                            setShowQuantityText(true);
+                                            // field.form.setFieldValue(`products[${index}].productIndex`, index);
+                                            field.form.setFieldValue(`products[${index}].showQuantity`, true);
                                         }}
                                         onBlur={() => {
-                                            setShowQuantityText(false);
+                                            field.form.setFieldValue(`products[${index}].showQuantity`, false);
                                         }}
                                         maxValue={quantity > 0 ? quantity : 0}
                                         disabled={!field.form.values?.products?.[index]?.product_id}
@@ -268,7 +273,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 }
             </Field>
         }
-    ], [showQuantityText]);
+    ], []);
 
     const getClientList = useCallback(() => {
         setIsClientListLoading(true);
@@ -479,10 +484,9 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
-                            <FormDebuggerComponent
-                                form={formik}
-
-                                showDebugger={false}/>
+                            {/*<FormDebuggerComponent*/}
+                            {/*    form={formik}*/}
+                            {/*    showDebugger={false}/>*/}
                             <div className="t-form-controls">
                                 <div>
                                     <div
