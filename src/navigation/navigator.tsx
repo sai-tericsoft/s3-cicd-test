@@ -201,12 +201,12 @@ const Navigator = (props: NavigatorProps) => {
                         }
                     />
                     <Route path={CLIENT_DETAILS} element={<ClientDetailsScreen/>} {...props}>
-                        {/*<Route*/}
-                        {/*    index*/}
-                        {/*    element={*/}
-                        {/*        <Navigate to={CLIENT_PROFILE_DETAILS}/>*/}
-                        {/*    }*/}
-                        {/*/>*/}
+                        <Route
+                            index
+                            element={
+                                <Navigate to={CLIENT_PROFILE_DETAILS}/>
+                            }
+                        />
                         <Route
                             path={CLIENT_PROFILE_DETAILS}
                             element={

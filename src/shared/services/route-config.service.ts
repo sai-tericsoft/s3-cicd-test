@@ -92,7 +92,6 @@ const ClientDetails = (clientId: string) => {
 }
 
 const ClientProfileDetails = (clientId: string) => {
-    console.log(clientId);
     return '/client/' + clientId + '/client-profile-details';
 }
 
