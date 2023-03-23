@@ -65,6 +65,11 @@ export interface IClientBasicDetails {
     send_invite?: boolean;
 }
 
+export interface IClientAppointmentsFilterState {
+    status:string;
+    provider_id:string;
+}
+
 export interface IEmergencyContactInfo {
     primary_emergency: IEmergencyContact;
     secondary_emergency: IEmergencyContact;
