@@ -2,9 +2,7 @@ import {
     ADMIN,
     CHART_NOTES_LIST,
     CLIENT_ADD,
-    CLIENT_DETAILS,
-    CLIENT_EDIT,
-    CLIENT_LIST, CLIENT_PROFILE_DETAILS,
+    CLIENT_LIST,
     COMING_SOON_ROUTE,
     DASHBOARD,
     FACILITY_DETAILS,
@@ -90,15 +88,16 @@ const ClientAdd = (clientId: string) => {
 }
 
 const ClientDetails = (clientId: string) => {
-    return CLIENT_DETAILS + '/' + clientId;
+    return '/client/' + clientId;
 }
 
 const ClientProfileDetails = (clientId: string) => {
-    return CLIENT_PROFILE_DETAILS + '/' + clientId;
+    console.log(clientId);
+    return '/client/' + clientId + '/client-profile-details';
 }
 
 const ClientEdit = (clientId: string) => {
-    return CLIENT_EDIT + '/' + clientId;
+    return '/client/' + clientId + '/client-edit';
 }
 
 const ClientSearch = () => {
@@ -161,8 +160,8 @@ const MedicalRecordSurgeryRecordDetails = (medicalRecordId: string, surgeryRecor
     return '/chart-notes/' + medicalRecordId + '/surgery-record/' + surgeryRecordId;
 }
 
-const MedicalRecordProgressReportAdvancedDetailsUpdate = (medicalRecordId: string, progressReportId: string,mode:string) => {
-    return '/chart-notes/' + medicalRecordId + '/' + progressReportId + '/progress-report-advance-details-update/'+ mode;
+const MedicalRecordProgressReportAdvancedDetailsUpdate = (medicalRecordId: string, progressReportId: string, mode: string) => {
+    return '/chart-notes/' + medicalRecordId + '/' + progressReportId + '/progress-report-advance-details-update/' + mode;
 }
 
 const MedicalInterventionFinalizeTreatment = (medicalRecordId: string, medicalInterventionId: string) => {

@@ -200,29 +200,29 @@ const Navigator = (props: NavigatorProps) => {
                             </ProtectedRoute>
                         }
                     />
-                    <Route path={CLIENT_DETAILS + '/:clientId'} element={<ClientDetailsScreen/>} {...props}>
+                    <Route path={CLIENT_DETAILS} element={<ClientDetailsScreen/>} {...props}>
+                        {/*<Route*/}
+                        {/*    index*/}
+                        {/*    element={*/}
+                        {/*        <Navigate to={CLIENT_PROFILE_DETAILS}/>*/}
+                        {/*    }*/}
+                        {/*/>*/}
                         <Route
-                            index
-                            element={
-                                <Navigate to={CLIENT_PROFILE_DETAILS + '/:clientId'}/>
-                            }
-                        />
-                        <Route
-                            path={CLIENT_PROFILE_DETAILS + '/:clientId'}
+                            path={CLIENT_PROFILE_DETAILS}
                             element={
                                 <ProtectedRoute>
                                     <ClientProfileLayoutComponent/>
                                 </ProtectedRoute>
                             }
                         />
-                        {/*<Route*/}
-                        {/*    path={CLIENT_EDIT + '/:clientId'}*/}
-                        {/*    element={*/}
-                        {/*        <ProtectedRoute>*/}
-                        {/*            <ClientEditScreen/>*/}
-                        {/*        </ProtectedRoute>*/}
-                        {/*    }*/}
-                        {/*/>*/}
+                        <Route
+                            path={CLIENT_EDIT}
+                            element={
+                                <ProtectedRoute>
+                                    <ClientEditScreen/>
+                                </ProtectedRoute>
+                            }
+                        />
                     </Route>
                     <Route
                         path={CLIENT_ADD + '/:clientId'}

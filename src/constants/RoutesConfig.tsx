@@ -21,10 +21,9 @@ const FACILITY_DETAILS = "/admin/facility-details";
 
 const CLIENT_LIST = "/client-list";
 const CLIENT_ADD = "/client-add";
-const CLIENT_DETAILS = "/client";
-const CLIENT_PROFILE_DETAILS = "/client/client-profile-details";
-const CLIENT_EDIT = "/client/client-edit";
-
+const CLIENT_DETAILS = "/client/:clientId";
+const CLIENT_PROFILE_DETAILS = "/client/:clientId/client-profile-details";
+const CLIENT_EDIT = "/client/:clientId/client-edit";
 const CLIENT_SEARCH='/chart-notes/client-list';
 const SCHEDULING_VIEW='/scheduling';
 const CLIENT_MEDICAL_RECORD_DETAILS = '/chart-notes/:medicalRecordId/medical-record-details';

@@ -1,5 +1,5 @@
 import "./ClientDetailsScreen.scss";
-import {Outlet, useParams} from "react-router-dom";
+import {Outlet, useLocation, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import React, {useEffect} from "react";
 import {CommonService} from "../../../shared/services";
@@ -8,6 +8,9 @@ import SubMenuListComponent from "../../../shared/components/sub-menu-list/SubMe
 import ClientBasicDetailsCardComponent from "../client-basic-details-card/ClientBasicDetailsCardComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
+import {
+    getClientBasicDetails,
+} from "../../../store/actions/client.action";
 
 interface ClientDetailsScreenProps {
 
@@ -17,15 +20,7 @@ interface ClientDetailsScreenProps {
 const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
 
     const {clientId} = useParams();
-
-    const {
-        isClientBasicDetailsLoaded,
-        isClientBasicDetailsLoading,
-        isClientBasicDetailsLoadingFailed,
-        clientBasicDetails,
-    } = useSelector((state: IRootReducerState) => state.client);
-
-
+    const dispatch = useDispatch();
 
     const CLIENT_MENU_ITEMS = [
         {
@@ -54,6 +49,23 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
         }
     ];
 
+    const location: any = useLocation();
+    const title = (location.state && location.state.title) ? location.state.title : CLIENT_MENU_ITEMS[0].title;
+
+    const {
+        isClientBasicDetailsLoaded,
+        isClientBasicDetailsLoading,
+        isClientBasicDetailsLoadingFailed,
+        clientBasicDetails,
+    } = useSelector((state: IRootReducerState) => state.client);
+
+    useEffect(() => {
+        if (clientId) {
+            dispatch(getClientBasicDetails(clientId));
+        }
+    }, [clientId, dispatch]);
+
+
     return (
         <>
             <div className={'client-details-screen'}>
@@ -77,10 +89,11 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
                             }
                             {
                                 (isClientBasicDetailsLoaded && clientBasicDetails) && <>
-                                    <div className={"client-details-layout"}>
+
+                                    <div className={'client-details-layout'}>
                                         <div className={"client-details-left-bar"}>
                                             <div className={"client-details-title"}>
-                                                Client Profile
+                                                {title}
                                             </div>
                                             <div className={"client-details-basic-card-holder"}>
                                                 <ClientBasicDetailsCardComponent
@@ -89,9 +102,9 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
                                             <div className={"client-details-sub-menu-holder"}>
                                                 <SubMenuListComponent menuItems={CLIENT_MENU_ITEMS}/>
                                             </div>
-                                                {/*<div className="admin-module-content-wrapper">*/}
-                                                {/*    <Outlet/>*/}
-                                                {/*</div>*/}
+                                        </div>
+                                        <div className="admin-module-content-wrapper client-details-content-wrapper">
+                                            <Outlet/>
                                         </div>
                                     </div>
                                 </>

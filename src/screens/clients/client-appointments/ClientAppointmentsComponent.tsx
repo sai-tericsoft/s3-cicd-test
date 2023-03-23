@@ -1,11 +1,9 @@
 import "./ClientAppointmentsComponent.scss";
-import {useDispatch, useSelector} from "react-redux";
-import {IRootReducerState} from "../../../store/reducers";
+import {useDispatch} from "react-redux";
 import React, {useEffect, useState} from "react";
 import {IClientAppointmentsFilterState} from "../../../shared/models/client.model";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import ClientAppointmentsTableComponent from "../client-appointments-table/ClientAppointmentsTableComponent";
-import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
 import {APIConfig} from "../../../constants";
 import AutoCompleteComponent from "../../../shared/components/form-controls/auto-complete/AutoCompleteComponent";
 
@@ -17,7 +15,7 @@ interface ClientAppointmentsComponentProps {
 
 const ClientAppointmentsComponent = (props: ClientAppointmentsComponentProps) => {
     const dispatch = useDispatch();
-    const {appointmentStatus} = useSelector((store: IRootReducerState) => store.staticData);
+    // const {appointmentStatus} = useSelector((store: IRootReducerState) => store.staticData);
     const [clientAppointmentListFilterState, setClientAppointmentListFilterState] = useState<IClientAppointmentsFilterState>({
         status: "",
         provider_id: "",

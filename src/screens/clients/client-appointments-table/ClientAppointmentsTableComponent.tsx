@@ -1,9 +1,6 @@
 import "./ClientAppointmentsTableComponent.scss";
-import {IClientAppointmentsFilterState, IClientBasicDetails} from "../../../shared/models/client.model";
+import {IClientAppointmentsFilterState} from "../../../shared/models/client.model";
 import {ITableColumn} from "../../../shared/models/table.model";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
-import {CommonService} from "../../../shared/services";
-import ChipComponent from "../../../shared/components/chip/ChipComponent";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
 import {APIConfig} from "../../../constants";
 import React from "react";

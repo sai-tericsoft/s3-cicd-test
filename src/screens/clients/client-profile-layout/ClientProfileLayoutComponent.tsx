@@ -55,9 +55,14 @@ const ClientProfileLayoutComponent = (props: ClientProfileLayoutComponentProps) 
 
     useEffect(() => {
         if (clientId) {
-            dispatch(getClientBasicDetails(clientId));
             dispatch(getClientMedicalDetails(clientId));
             dispatch(getClientAccountDetails(clientId));
+        }
+    }, [clientId, dispatch])
+
+    useEffect(() => {
+        if (clientId && !clientBasicDetails) {
+            dispatch(getClientBasicDetails(clientId));
         }
     }, [clientId, dispatch]);
 
@@ -97,7 +102,7 @@ const ClientProfileLayoutComponent = (props: ClientProfileLayoutComponentProps) 
     }, [clientId]);
 
     return (
-        <div className="client-details-content-wrapper">
+        <div>
             {clientId && <>
                 <div className={`client-details-actions`}>
 
