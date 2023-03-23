@@ -95,6 +95,10 @@ const ClientProfileDetails = (clientId: string) => {
     return '/client/' + clientId + '/client-profile-details';
 }
 
+const ClientBillingDetails = (clientId: string) => {
+    return '/client/' + clientId + '/client-billing-details'
+}
+
 const ClientEdit = (clientId: string) => {
     return '/client/' + clientId + '/client-edit';
 }
@@ -216,9 +220,6 @@ const BillingDetails = (billingId: string, type: 'invoice' | 'receipt') => {
     return "/billing/billing-details/" + billingId + "?type=" + type;
 }
 
-const ClientBillingDetails = (clientId: string) => {
-    return "/billing/client-billing-details" + "?clientId=" + clientId;
-}
 
 const RouteConfigService = {
     DefaultRoute,
@@ -269,7 +270,7 @@ const RouteConfigService = {
     BillingList,
     AddNewReceipt,
     BillingDetails,
-    ClientProfileDetails
+    ClientProfileDetails,
     ClientBillingDetails
 }
 

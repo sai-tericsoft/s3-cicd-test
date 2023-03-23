@@ -25,7 +25,7 @@ import FormControlLabelComponent from "../../../shared/components/form-control-l
 import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
 import {IRootReducerState} from "../../../store/reducers";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {useSearchParams} from "react-router-dom";
+import {useParams, useSearchParams} from "react-router-dom";
 import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
 
 interface PaymentListComponentProps {
@@ -40,7 +40,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
 
     const dispatch = useDispatch();
     const [billingStats, setBillingStats] = useState<any>(null);
-
+    const {clientId} = useParams();
     const [currentTab, setCurrentTab] = useState<PaymentsListTabType>("pendingPayments");
     const [selectedPayments, setSelectedPayments] = useState<any[]>([]);
     const [searchParams, setSearchParams] = useSearchParams();
@@ -55,6 +55,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
 
     const [clientListFilterState, setClientListFilterState] = useState<any>({
         search: "",
+        clientId: clientId,
     });
 
     const handlePaymentSelection = useCallback((payment: any, isChecked: boolean) => {
@@ -445,11 +446,11 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                     </ButtonComponent>&nbsp;&nbsp;
                                 </>
                             }
-                            <LinkComponent route={CommonService._routeConfig.AddNewReceipt()}>
+                            {!clientId && <LinkComponent route={CommonService._routeConfig.AddNewReceipt()}>
                                 <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}>
                                     New Receipt
                                 </ButtonComponent>
-                            </LinkComponent>
+                            </LinkComponent>}
                         </div>
 
                     </div>
@@ -464,9 +465,10 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                         className={'payment-details-tab'}
                         label={`Pending Payments(${(billingStats?.count !== undefined) ? billingStats?.count : '-'})`}
                         value={'pendingPayments'}/>
-                    <TabComponent className={'payment-details-tab'} label={'Completed Payments'} value={'completedPayments'}/>
+                    <TabComponent className={'payment-details-tab'} label={'Completed Payments'}
+                                  value={'completedPayments'}/>
                 </TabsComponent>
-                <TabContentComponent  value={'pendingPayments'} selectedTab={currentTab}>
+                <TabContentComponent value={'pendingPayments'} selectedTab={currentTab}>
                     <TableWrapperComponent url={APIConfig.PENDING_PAYMENT_LIST.URL}
                                            extraPayload={clientListFilterState}
                                            method={APIConfig.PENDING_PAYMENT_LIST.METHOD}

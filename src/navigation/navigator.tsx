@@ -224,6 +224,16 @@ const Navigator = (props: NavigatorProps) => {
                                 </ProtectedRoute>
                             }
                         />
+
+                        <Route
+                            path={CLIENT_BILLING_DETAILS}
+                            element={
+                                <ProtectedRoute>
+                                    <BillingListScreen />
+                                </ProtectedRoute>
+                            }
+                        />
+
                     </Route>
                     <Route
                         path={CLIENT_ADD + '/:clientId'}
