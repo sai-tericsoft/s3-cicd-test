@@ -1,9 +1,9 @@
 import "./RomConfigComponent.scss";
 import {IBodyPart} from "../../../shared/models/static-data.model";
-import {Field, FieldProps, Form, Formik, FormikHelpers, FormikProps} from "formik";
+import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {ImageConfig} from "../../../constants";
 import {CommonService} from "../../../shared/services";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
