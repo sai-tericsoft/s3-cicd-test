@@ -4,7 +4,7 @@ import {
     CLIENT_ADD,
     CLIENT_DETAILS,
     CLIENT_EDIT,
-    CLIENT_LIST,
+    CLIENT_LIST, CLIENT_PROFILE_DETAILS,
     COMING_SOON_ROUTE,
     DASHBOARD,
     FACILITY_DETAILS,
@@ -91,6 +91,10 @@ const ClientAdd = (clientId: string) => {
 
 const ClientDetails = (clientId: string) => {
     return CLIENT_DETAILS + '/' + clientId;
+}
+
+const ClientProfileDetails = (clientId: string) => {
+    return CLIENT_PROFILE_DETAILS + '/' + clientId;
 }
 
 const ClientEdit = (clientId: string) => {
@@ -262,7 +266,8 @@ const RouteConfigService = {
     SystemSettings,
     BillingList,
     AddNewReceipt,
-    BillingDetails
+    BillingDetails,
+    ClientProfileDetails
 }
 
 export default RouteConfigService;
