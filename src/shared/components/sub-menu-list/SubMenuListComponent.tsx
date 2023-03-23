@@ -10,6 +10,7 @@ interface SubMenuListComponentProps {
 const SubMenuListComponent = (props: SubMenuListComponentProps) => {
 
     const {menuItems, ...otherProps} = props;
+    console.log('menuItems', menuItems);
 
     return (
         <div className={'sub-menu-list-component'}>

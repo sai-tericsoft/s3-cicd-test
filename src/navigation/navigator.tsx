@@ -75,7 +75,8 @@ import {
     TEST_ROUTE,
     UPDATE_MEDICAL_INTERVENTION,
     VIEW_MEDICAL_INTERVENTION,
-    ADD_NEW_RECEIPT, CLIENT_PROFILE_DETAILS
+     CLIENT_PROFILE_DETAILS,
+    ADD_NEW_RECEIPT, CLIENT_BILLING_DETAILS
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
@@ -589,6 +590,9 @@ const Navigator = (props: NavigatorProps) => {
                         </ProtectedRoute>}
                         />
                     </Route>
+                    <Route path={CLIENT_BILLING_DETAILS} element={<ProtectedRoute>
+                        <BillingListScreen/>
+                    </ProtectedRoute>}/>
                 </Route>
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
                 <Route element={<AuthLayout/>}>

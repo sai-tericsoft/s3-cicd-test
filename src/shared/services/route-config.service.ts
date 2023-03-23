@@ -216,6 +216,10 @@ const BillingDetails = (billingId: string, type: 'invoice' | 'receipt') => {
     return "/billing/billing-details/" + billingId + "?type=" + type;
 }
 
+const ClientBillingDetails = (clientId: string) => {
+    return "/billing/client-billing-details" + "?clientId=" + clientId;
+}
+
 const RouteConfigService = {
     DefaultRoute,
     LoginRoute,
@@ -266,6 +270,7 @@ const RouteConfigService = {
     AddNewReceipt,
     BillingDetails,
     ClientProfileDetails
+    ClientBillingDetails
 }
 
 export default RouteConfigService;

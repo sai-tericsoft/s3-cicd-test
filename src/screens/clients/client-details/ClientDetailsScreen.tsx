@@ -45,7 +45,7 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
         },
         {
             title: "Billing",
-            path: ""
+             path: clientId ? CommonService._routeConfig.ClientBillingDetails(clientId) : ""
         }
     ];
 
