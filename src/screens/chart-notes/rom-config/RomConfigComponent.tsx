@@ -1,9 +1,9 @@
 import "./RomConfigComponent.scss";
 import {IBodyPart} from "../../../shared/models/static-data.model";
-import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
+import {Field, FieldProps, Form, Formik, FormikHelpers, FormikProps} from "formik";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import {ImageConfig} from "../../../constants";
 import {CommonService} from "../../../shared/services";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
@@ -196,15 +196,19 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                     }
                                     {
                                         !field.form?.values[bodyPart._id]?.[record?.name]?.comments &&
-                                        <ButtonComponent
-                                            variant={"text"}
-                                            prefixIcon={<ImageConfig.AddIcon/>}
-                                            onClick={() => {
-                                                setShowROMMovementCommentsModal(true);
-                                                setSelectedROMMovementComments(record);
-                                            }}>
-                                            Add Comment
-                                        </ButtonComponent>
+                                        <>
+                                            <ButtonComponent
+                                                variant={"text"}
+                                                prefixIcon={<ImageConfig.AddIcon/>}
+                                                disabled={!(record?.applicable_sides?.some((side: string) => field.form?.values?.tableConfig?.map((item: any)=> item.title)?.includes(side)))}
+                                                onClick={() => {
+                                                    setShowROMMovementCommentsModal(true);
+                                                    setSelectedROMMovementComments(record);
+                                                }}>
+                                                Add Comment
+                                            </ButtonComponent>
+                                        </>
+
                                     }
                                 </>
                             }
@@ -212,7 +216,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                 mode === 'read' &&
                                 <ToolTipComponent tooltip={field.form?.values[bodyPart._id]?.[record?.name]?.comments}>
                                     <div className="movement-comment">
-                                        {field.form?.values[bodyPart._id]?.[record?.name]?.comments}
+                                        {field.form?.values[bodyPart._id]?.[record?.name]?.comments || "N/A"}
                                     </div>
                                 </ToolTipComponent>
                             }
@@ -225,7 +229,6 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
     }, [mode, generateRomConfigForBodySide, selectedBodySides]);
 
     const generateROMConfigForAnInjury = useCallback((bodyPart: IBodyPart) => {
-        console.log('generate');
         const bodyPartConfig: any = _.cloneDeep(bodyPart);
         if (bodyPart?.movements && bodyPart?.movements?.length > 0) {
             bodyPartConfig.movements = bodyPart?.movements?.map((movement: any, index: number) => {
@@ -296,6 +299,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
 
     const addBodySideToForm = useCallback((bodySide: string) => {
         setRomConfigValues((prevValues: any) => {
+            console.log(prevValues);
             const tableConfig = _.cloneDeep(prevValues?.tableConfig);
             const commentsColumn = tableConfig[tableConfig?.length - 1];
             tableConfig[tableConfig?.length - 1] = generateRomConfigForBodySide(bodySide);
@@ -339,7 +343,6 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
     }, []);
 
     const handleBodySideSelectConfirm = useCallback(() => {
-        console.log(bodySidesTemp, bodySides);
         bodySidesTemp.forEach((bodySide: string) => {
             if (!bodySides.includes(bodySide)) {
                 addBodySideToForm(bodySide);
@@ -350,9 +353,14 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                 removeBodySideFromForm(bodySide);
             }
         });
-        setBodySides(bodySidesTemp);
+        setBodySides(_.cloneDeep(bodySidesTemp));
         closeBodySideSelectionModal();
     }, [bodySidesTemp, bodySides, addBodySideToForm, removeBodySideFromForm, closeBodySideSelectionModal]);
+
+    const handleBodySideSelectCancel = useCallback(() => {
+        closeBodySideSelectionModal();
+        setBodySidesTemp(_.cloneDeep(bodySides));
+    }, [closeBodySideSelectionModal, bodySides]);
 
     const handleROMConfigSubmit = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
         if (bodySides.length === 0) {
@@ -558,7 +566,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                             className={"intervention-body-side-selection-modal"}
                             modalFooter={<>
                                 <ButtonComponent
-                                    onClick={closeBodySideSelectionModal}
+                                    onClick={handleBodySideSelectCancel}
                                     variant={"outlined"}
                                 >
                                     Cancel
