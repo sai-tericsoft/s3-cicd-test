@@ -52,17 +52,17 @@ const AdminModuleLayoutScreen = (props: AdminModuleLayoutScreenProps) => {
     const title = (location.state && location.state.title) ? location.state.title : ADMIN_MENU_ITEMS[0].title;
 
     return (
-        <div className={'admin-module-layout'}>
-            <div className={"admin-module-layout-left-bar"}>
-                <div className="admin-module-layout-title">
-                    {title}
+            <div className={'admin-module-layout'}>
+                <div className={"admin-module-layout-left-bar"}>
+                    <div className="admin-module-layout-title">
+                        {title}
+                    </div>
+                    <SubMenuListComponent menuItems={ADMIN_MENU_ITEMS}/>
                 </div>
-                <SubMenuListComponent menuItems={ADMIN_MENU_ITEMS}/>
+                <div className="admin-module-content-wrapper">
+                    <Outlet/>
+                </div>
             </div>
-            <div className="admin-module-content-wrapper">
-                <Outlet/>
-            </div>
-        </div>
     );
 
 };

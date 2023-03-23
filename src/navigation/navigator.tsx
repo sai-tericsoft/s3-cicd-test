@@ -75,7 +75,7 @@ import {
     TEST_ROUTE,
     UPDATE_MEDICAL_INTERVENTION,
     VIEW_MEDICAL_INTERVENTION,
-    ADD_NEW_RECEIPT
+    ADD_NEW_RECEIPT, CLIENT_PROFILE_DETAILS
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
@@ -127,6 +127,7 @@ import BillingMainLayoutComponent from "../screens/billings/billing-main-layout/
 import BillingListScreen from "../screens/billings/billing-list/BillingListScreen";
 import AddNewReceiptScreen from "../screens/billings/add-new-receipt/AddNewReceiptScreen";
 import BillingDetailsScreen from "../screens/billings/billing-details/BillingDetailsScreen";
+import ClientProfileLayoutComponent from "../screens/clients/client-profile-layout/ClientProfileLayoutComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -199,6 +200,30 @@ const Navigator = (props: NavigatorProps) => {
                             </ProtectedRoute>
                         }
                     />
+                    <Route path={CLIENT_DETAILS} element={<ClientDetailsScreen/>} {...props}>
+                        <Route
+                            index
+                            element={
+                                <Navigate to={CLIENT_PROFILE_DETAILS}/>
+                            }
+                        />
+                        <Route
+                            path={CLIENT_PROFILE_DETAILS}
+                            element={
+                                <ProtectedRoute>
+                                    <ClientProfileLayoutComponent/>
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path={CLIENT_EDIT}
+                            element={
+                                <ProtectedRoute>
+                                    <ClientEditScreen/>
+                                </ProtectedRoute>
+                            }
+                        />
+                    </Route>
                     <Route
                         path={CLIENT_ADD + '/:clientId'}
                         element={
@@ -207,22 +232,7 @@ const Navigator = (props: NavigatorProps) => {
                             </ProtectedRoute>
                         }
                     />
-                    <Route
-                        path={CLIENT_DETAILS + '/:clientId'}
-                        element={
-                            <ProtectedRoute>
-                                <ClientDetailsScreen/>
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route
-                        path={CLIENT_EDIT + '/:clientId'}
-                        element={
-                            <ProtectedRoute>
-                                <ClientEditScreen/>
-                            </ProtectedRoute>
-                        }
-                    />
+
                     <Route path={CLIENT_SEARCH}
                            element={<ProtectedRoute>
                                <ClientSearchScreen/>
