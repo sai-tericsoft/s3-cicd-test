@@ -1,5 +1,5 @@
 import "./MedicalInterventionExerciseLogViewScreen.scss";
-import {useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {CommonService} from "../../../shared/services";
 import React, {useCallback, useEffect, useState} from "react";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
@@ -23,6 +23,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
     const navigate = useNavigate();
     const [medicalInterventionExerciseLogDetails, setMedicalInterventionExerciseLogDetails] = useState<any>(undefined);
     const [isMedicalInterventionExerciseLogDetailsLoading, setIsMedicalInterventionExerciseLogDetailsLoading] = useState<boolean>(false);
+    const location = useLocation();
 
     const medicalInterventionExerciseLogColumns = [
         {
@@ -100,6 +101,18 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
             fetchMedicalInterventionExerciseLogDetails(medicalInterventionId);
         }
     }, [medicalInterventionId, fetchMedicalInterventionExerciseLogDetails]);
+
+
+    useEffect(() => {
+        if (medicalInterventionExerciseLogDetails) {
+            setTimeout(() => {
+                const ele = document.getElementById('medical-intervention-exercise-log-view-table-container');
+                if (ele) {
+                    ele.scrollIntoView({behavior: "smooth", block: "start"});
+                }
+            }, 100); //TODO: Need to find a better way to scroll to the form
+        }
+    }, [location, medicalInterventionExerciseLogDetails]);
 
     return (
         <div className={'medical-intervention-exercise-log-view-screen'}>
