@@ -432,14 +432,16 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 <div className={'list-search-filters'}>
                     <div className="ts-row">
                         <div className="ts-col-md-12 ts-col-lg-6 d-flex ts-justify-content-start">
-                            {!clientId &&
+                            {!clientId && <>
                                 <SearchComponent
                                     label={"Search for clients"}
                                     value={clientListFilterState.search}
                                     onSearchChange={(value) => {
                                         setClientListFilterState({...clientListFilterState, search: value})
                                     }}
-                                /> &nbsp;&nbsp;
+                                />&nbsp;&nbsp;
+                            </>
+
                             }
                             <DateRangePickerComponent
                                 label={"Select Date Range"}
