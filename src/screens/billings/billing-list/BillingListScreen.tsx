@@ -27,6 +27,9 @@ import {IRootReducerState} from "../../../store/reducers";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {useSearchParams} from "react-router-dom";
 import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
+import DateRangePickerComponent
+    from "../../../shared/components/form-controls/date-range-picker/DateRangePickerComponent";
+import moment from "moment";
 
 interface PaymentListComponentProps {
 
@@ -55,6 +58,9 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
 
     const [clientListFilterState, setClientListFilterState] = useState<any>({
         search: "",
+        dateRange: [null, null],
+        startDate: null,
+        endDate: null,
     });
 
     const handlePaymentSelection = useCallback((payment: any, isChecked: boolean) => {
@@ -423,17 +429,33 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             <div className={'list-screen-header'}>
                 <div className={'list-search-filters'}>
                     <div className="ts-row">
-                        <div className="ts-col-md-6 ts-col-lg-3">
+                        <div className="ts-col-md-12 ts-col-lg-6 d-flex ts-justify-content-start">
                             <SearchComponent
                                 label={"Search for clients"}
                                 value={clientListFilterState.search}
                                 onSearchChange={(value) => {
                                     setClientListFilterState({...clientListFilterState, search: value})
                                 }}
+                            /> &nbsp;&nbsp;
+
+                            <DateRangePickerComponent
+                                label={"Select Date Range"}
+                                value={clientListFilterState.dateRange}
+                                onDateChange={(value: any) => {
+                                    if (value) {
+                                        setClientListFilterState({
+                                            ...clientListFilterState,
+                                            startDate: moment(value[0]).format('YYYY-MM-DD'),
+                                            endDate: moment(value[1]).format('YYYY-MM-DD'),
+                                            dateRange: value
+                                        })
+                                    }
+                                }}
                             />
                         </div>
-                        <div className="ts-col-lg-6"/>
-                        <div className="ts-col-lg-3 d-flex ts-justify-content-end">
+
+                        <div className="ts-col-lg-2"/>
+                        <div className="ts-col-lg-4 d-flex ts-justify-content-end">
                             {currentTab === 'pendingPayments' &&
                                 <>
                                     <ButtonComponent variant={'outlined'}
@@ -464,11 +486,14 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                         className={'payment-details-tab'}
                         label={`Pending Payments(${(billingStats?.count !== undefined) ? billingStats?.count : '-'})`}
                         value={'pendingPayments'}/>
-                    <TabComponent className={'payment-details-tab'} label={'Completed Payments'} value={'completedPayments'}/>
+                    <TabComponent className={'payment-details-tab'} label={'Completed Payments'}
+                                  value={'completedPayments'}/>
                 </TabsComponent>
-                <TabContentComponent  value={'pendingPayments'} selectedTab={currentTab}>
+                <TabContentComponent value={'pendingPayments'} selectedTab={currentTab}>
                     <TableWrapperComponent url={APIConfig.PENDING_PAYMENT_LIST.URL}
-                                           extraPayload={clientListFilterState}
+                                           extraPayload={
+                                               clientListFilterState
+                                           }
                                            method={APIConfig.PENDING_PAYMENT_LIST.METHOD}
                                            columns={pendingPaymentColumn}
                                            moduleName={PENDING_PAYMENTS_MODULE}

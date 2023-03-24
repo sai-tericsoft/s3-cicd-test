@@ -2748,6 +2748,11 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-clock@*":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@types/react-clock/-/react-clock-3.0.1.tgz#4d8f8736e1ca95d697f2120b5261bd6e45482d48"
+  integrity sha512-lgtqEGV8StA4yTvXqrZGCD4PJFe90RjSMWdgYzPZX7JsIpqZqum9+Dns+UkcnnFOz6jTKXr7e48yNjYREWDe9w==
+
 "@types/react-dom@^18.0.0":
   version "18.0.5"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.0.5.tgz#330b2d472c22f796e5531446939eacef8378444a"
@@ -2783,6 +2788,13 @@
   integrity sha512-TYrv7onCiakaG1uAu/UpQ9FojNEt/4/ht87EgJQaEGFoWV606ZLWUZAcUHzMxgc3v1mywP1cDyz3qB4ho3hWOw==
   dependencies:
     "@types/react" "*"
+
+"@types/react-time-picker@^4.0.3":
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/@types/react-time-picker/-/react-time-picker-4.0.3.tgz#1435259534b7f4956936166ea8c8d7b1bbe3e0c7"
+  integrity sha512-DUmzFGItnwL106dYTQ/M3882NS16KKVhZWXu4FOjl/uumrv0r+npkEmOxpCapA3XBDMlI0FIG54+MOtmxzwQGA==
+  dependencies:
+    "@types/react-clock" "*"
 
 "@types/react-transition-group@^4.2.0", "@types/react-transition-group@^4.4.5":
   version "4.4.5"
@@ -2888,6 +2900,13 @@
   version "8.3.4"
   resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-8.3.4.tgz#bd86a43617df0594787d38b735f55c805becf1bc"
   integrity sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==
+
+"@types/wojtekmaj__react-daterange-picker@^3.4.2":
+  version "3.4.2"
+  resolved "https://registry.yarnpkg.com/@types/wojtekmaj__react-daterange-picker/-/wojtekmaj__react-daterange-picker-3.4.2.tgz#d7228a1ea75115e33a1be045a59fd97a135e9351"
+  integrity sha512-O+ED4NnQRcLZHPWg5FzgKRxDizk6cls4YCenRv4EUIAvyDpjRiG76kkIWHD6Kl33XMKF9glADTc9bQOkZ28FFQ==
+  dependencies:
+    "@types/react" "*"
 
 "@types/ws@^8.5.1":
   version "8.5.3"
@@ -3132,6 +3151,18 @@
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@wojtekmaj/date-utils/-/date-utils-1.0.3.tgz#2dcfd92881425c5923e429c2aec86fb3609032a1"
   integrity sha512-1VPkkTBk07gMR1fjpBtse4G+oJqpmE+0gUFB0dg3VIL7qJmUVaBoD/vlzMm/jNeOPfvlmerl1lpnsZyBUFIRuw==
+
+"@wojtekmaj/react-daterange-picker@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@wojtekmaj/react-daterange-picker/-/react-daterange-picker-4.2.0.tgz#e3066aaff8dc077eeb81f90d504e818ebf32c770"
+  integrity sha512-N3IFE+73Q8WNSejOD6I+6Ywo7o1xZKCp/G32tVrRc3TitJrNYSrc0ThDBgWNOyQbe7VeIv5ELoHktARyfLdGCQ==
+  dependencies:
+    clsx "^1.2.1"
+    make-event-props "^1.1.0"
+    prop-types "^15.6.0"
+    react-calendar "^4.0.0"
+    react-date-picker "^9.2.0"
+    react-fit "^1.4.0"
 
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
@@ -9095,6 +9126,16 @@ react-calendar@^3.3.1:
     merge-class-names "^1.1.1"
     prop-types "^15.6.0"
 
+react-calendar@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/react-calendar/-/react-calendar-4.0.0.tgz#99ad73dd0c7c5b25aa535a5fdeee3d71bfe45faa"
+  integrity sha512-y9Q5Oo3Mq869KExbOCP3aJ3hEnRZKZ0TqUa9QU1wJGgDZFrW1qTaWp5v52oZpmxTTrpAMTUcUGaC0QJcO1f8Nw==
+  dependencies:
+    "@wojtekmaj/date-utils" "^1.0.2"
+    clsx "^1.2.1"
+    get-user-locale "^1.2.0"
+    prop-types "^15.6.0"
+
 react-date-picker@^8.4.0:
   version "8.4.0"
   resolved "https://registry.yarnpkg.com/react-date-picker/-/react-date-picker-8.4.0.tgz#2d166bbaa59b08ec8686f671fde553458d19f8c8"
@@ -9108,6 +9149,21 @@ react-date-picker@^8.4.0:
     merge-refs "^1.0.0"
     prop-types "^15.6.0"
     react-calendar "^3.3.1"
+    react-fit "^1.4.0"
+    update-input-width "^1.2.2"
+
+react-date-picker@^9.2.0:
+  version "9.2.0"
+  resolved "https://registry.yarnpkg.com/react-date-picker/-/react-date-picker-9.2.0.tgz#ee194a694fa9891d93e4d40e76fbcdae7eafbe86"
+  integrity sha512-kAE7HFLq1ic4pS0Pk9SyPTjejIfjTyPov04a2eZzLxfZh8ss8EPaaaX7bBUP4RUCkbxHpR0P4UHloD0/fFDCZw==
+  dependencies:
+    "@types/react-calendar" "^3.0.0"
+    "@wojtekmaj/date-utils" "^1.0.3"
+    clsx "^1.2.1"
+    get-user-locale "^1.2.0"
+    make-event-props "^1.1.0"
+    prop-types "^15.6.0"
+    react-calendar "^4.0.0"
     react-fit "^1.4.0"
     update-input-width "^1.2.2"
 
