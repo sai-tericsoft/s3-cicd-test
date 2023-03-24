@@ -19,14 +19,11 @@
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-
-      .MuiSvgIcon-root {
-        color: $primary-color;
-      }
     }
 
     .billing-stats-card-title-amount-wrapper {
       margin-left: 15px;
+
       .billing-stats-card-amount {
         font-weight: 700;
         font-size: 18px;

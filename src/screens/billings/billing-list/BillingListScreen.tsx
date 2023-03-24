@@ -33,10 +33,6 @@ import moment from "moment";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import BillingStatsCardComponent from "../billing-stats-card/BillingStatsCardComponent";
-import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
-import PaymentsIcon from '@mui/icons-material/Payments';
-import PriceCheckIcon from '@mui/icons-material/PriceCheck';
-import RedeemIcon from '@mui/icons-material/Redeem';
 
 
 interface PaymentListComponentProps {
@@ -405,7 +401,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             }).catch((error: any) => {
             setBillingStatsCount(undefined);
         })
-    }, []);
+    }, [clientId]);
 
     const fetchBillingStats = useCallback(() => {
         setIsBillingStatsBeingLoading(true);
@@ -430,7 +426,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             setIsBillingStatsBeingLoadingFailed(true);
             setBillingStats(billingDetails);
         })
-    }, []);
+    }, [clientListFilterState, clientId]);
 
     const markPaymentsAsPaid = useCallback(() => {
         const payload = {
@@ -458,7 +454,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 CommonService._alert.showToast(error?.error || error?.errors || "Failed to mark payments marked as paid", "error");
                 setIsPaymentsAreBeingMarkedAsPaid(false);
             });
-    }, [selectedPayments, fetchBillingStatsCount, fetchBillingStats, closePaymentModeModal, selectedPaymentMode]);
+    }, [selectedPayments, fetchBillingStatsCount, fetchBillingStats, clientId, closePaymentModeModal, selectedPaymentMode]);
 
     useEffect(() => {
         fetchBillingStatsCount();
@@ -468,7 +464,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         if (clientId) {
             fetchBillingStats();
         }
-    }, [fetchBillingStats]);
+    }, [fetchBillingStats,clientId]);
 
     return (
         <div className={'payment-list-component list-screen'}>
@@ -541,7 +537,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                     <BillingStatsCardComponent
                                         title={"Total Amount"}
                                         amount={billingStats.total_payments}
-                                        icon={<RequestQuoteIcon/>}
+                                        icon={<ImageConfig.TotalAmount/>}
                                     />
                                 </div>
 
@@ -549,21 +545,21 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                     <BillingStatsCardComponent
                                         title={"Pending Payments"}
                                         amount={billingStats.pending_payments}
-                                        icon={<PaymentsIcon/>}
+                                        icon={<ImageConfig.PendingPayments/>}
                                     />
                                 </div>
                                 <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6">
                                     <BillingStatsCardComponent
                                         title={"Completed Payments"}
                                         amount={billingStats.completed_payments}
-                                        icon={<PriceCheckIcon/>}
+                                        icon={<ImageConfig.CompletedPayments/>}
                                     />
                                 </div>
                                 <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6">
                                     <BillingStatsCardComponent
                                         title={"Discount Amount"}
                                         amount={billingStats.discounts}
-                                        icon={<RedeemIcon/>}
+                                        icon={<ImageConfig.PendingAmount/>}
                                     />
                                 </div>
                             </div>
