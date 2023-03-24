@@ -1,5 +1,5 @@
 import "./BillingListScreen.scss";
-import {useCallback, useEffect, useMemo, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {useDispatch, useSelector} from "react-redux";
 import TabsWrapperComponent, {
@@ -30,6 +30,10 @@ import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipCompone
 import DateRangePickerComponent
     from "../../../shared/components/form-controls/date-range-picker/DateRangePickerComponent";
 import moment from "moment";
+import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
+import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
+import BillingStatsCardComponent from "../billing-stats-card/BillingStatsCardComponent";
+
 
 interface PaymentListComponentProps {
 
@@ -42,7 +46,7 @@ const PaymentsListTabTypes = ['pendingPayments', 'completedPayments'];
 const BillingListScreen = (props: PaymentListComponentProps) => {
 
     const dispatch = useDispatch();
-    const [billingStats, setBillingStats] = useState<any>(null);
+    const [billingStatsCount, setBillingStatsCount] = useState<any>(null);
     const {clientId} = useParams();
     const [currentTab, setCurrentTab] = useState<PaymentsListTabType>("pendingPayments");
     const [selectedPayments, setSelectedPayments] = useState<any[]>([]);
@@ -51,10 +55,12 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
     const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
     const [isPaymentsAreBeingMarkedAsPaid, setIsPaymentsAreBeingMarkedAsPaid] = useState<boolean>(false);
     const [selectedPaymentMode, setSelectedPaymentMode] = useState<any>(null);
+    const {paymentModes} = useSelector((state: IRootReducerState) => state.staticData);
+    const [isBillingStatsBeingLoaded, setIsBillingStatsBeingLoaded] = useState<boolean>(false);
+    const [isBillingStatsBeingLoading, setIsBillingStatsBeingLoading] = useState<boolean>(false);
+    const [isBillingStatsBeingLoadingFailed, setIsBillingStatsBeingLoadingFailed] = useState<boolean>(false);
+    const [billingStats, setBillingStats] = useState<any>(undefined);
 
-    const {
-        paymentModes
-    } = useSelector((state: IRootReducerState) => state.staticData);
 
     const [clientListFilterState, setClientListFilterState] = useState<any>({
         search: "",
@@ -387,15 +393,40 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         openPaymentModeModal();
     }, [openPaymentModeModal, closeMarkAsPaidModal]);
 
-    const fetchBillingStats = useCallback(() => {
+    const fetchBillingStatsCount = useCallback(() => {
         const payload = {client_id: clientId};
-        CommonService._billingsService.GetBillingStatsAPICall(payload)
+        CommonService._billingsService.GetBillingStatsCountAPICall(payload)
             .then((response: IAPIResponseType<any>) => {
-                setBillingStats(response?.data);
+                setBillingStatsCount(response?.data);
             }).catch((error: any) => {
-            setBillingStats(undefined);
+            setBillingStatsCount(undefined);
         })
-    }, []);
+    }, [clientId]);
+
+    const fetchBillingStats = useCallback(() => {
+        setIsBillingStatsBeingLoading(true);
+        let billingDetails: any = undefined;
+
+        const payload = {
+            startDate: clientListFilterState.startDate,
+            endDate: clientListFilterState.endDate,
+        };
+        CommonService._billingsService.GetBillingStatsAPICall(clientId, payload)
+            .then((response: IAPIResponseType<any>) => {
+                if (response?.data) {
+                    billingDetails = response.data;
+                }
+                setBillingStats(billingDetails);
+                setIsBillingStatsBeingLoading(false);
+                setIsBillingStatsBeingLoaded(true);
+                setIsBillingStatsBeingLoadingFailed(false);
+            }).catch((error: any) => {
+            setIsBillingStatsBeingLoading(false);
+            setIsBillingStatsBeingLoaded(false);
+            setIsBillingStatsBeingLoadingFailed(true);
+            setBillingStats(billingDetails);
+        })
+    }, [clientListFilterState, clientId]);
 
     const markPaymentsAsPaid = useCallback(() => {
         const payload = {
@@ -413,18 +444,27 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                     CommonService._communications.TableWrapperRefreshSubject.next({
                         moduleName: PENDING_PAYMENTS_MODULE
                     });
-                    fetchBillingStats();
+                    fetchBillingStatsCount();
+                    if (clientId) {
+                        fetchBillingStats();
+                    }
                 }
             )
             .catch((error: any) => {
                 CommonService._alert.showToast(error?.error || error?.errors || "Failed to mark payments marked as paid", "error");
                 setIsPaymentsAreBeingMarkedAsPaid(false);
             });
-    }, [selectedPayments, fetchBillingStats, closePaymentModeModal, selectedPaymentMode]);
+    }, [selectedPayments, fetchBillingStatsCount, fetchBillingStats, clientId, closePaymentModeModal, selectedPaymentMode]);
 
     useEffect(() => {
-        fetchBillingStats();
-    }, [fetchBillingStats]);
+        fetchBillingStatsCount();
+    }, [fetchBillingStatsCount]);
+
+    useEffect(() => {
+        if (clientId) {
+            fetchBillingStats();
+        }
+    }, [fetchBillingStats,clientId]);
 
     return (
         <div className={'payment-list-component list-screen'}>
@@ -481,6 +521,52 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                     </div>
                 </div>
             </div>
+            {clientId &&
+                <div>
+                    {
+                        isBillingStatsBeingLoading && <LoaderComponent/>
+                    }
+                    {
+                        isBillingStatsBeingLoadingFailed &&
+                        <StatusCardComponent title={"Failed to fetch service details"}/>
+                    }
+                    {
+                        isBillingStatsBeingLoaded && <>
+                            <div className="ts-row">
+                                <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6 ">
+                                    <BillingStatsCardComponent
+                                        title={"Total Amount"}
+                                        amount={billingStats.total_payments}
+                                        icon={<ImageConfig.TotalAmount/>}
+                                    />
+                                </div>
+
+                                <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6">
+                                    <BillingStatsCardComponent
+                                        title={"Pending Payments"}
+                                        amount={billingStats.pending_payments}
+                                        icon={<ImageConfig.PendingPayments/>}
+                                    />
+                                </div>
+                                <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6">
+                                    <BillingStatsCardComponent
+                                        title={"Completed Payments"}
+                                        amount={billingStats.completed_payments}
+                                        icon={<ImageConfig.CompletedPayments/>}
+                                    />
+                                </div>
+                                <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6">
+                                    <BillingStatsCardComponent
+                                        title={"Discount Amount"}
+                                        amount={billingStats.discounts}
+                                        icon={<ImageConfig.PendingAmount/>}
+                                    />
+                                </div>
+                            </div>
+                        </>
+                    }
+                </div>
+            }
             <TabsWrapperComponent>
                 <TabsComponent value={currentTab}
                                allowScrollButtonsMobile={false}
@@ -488,7 +574,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                onUpdate={handleTabChange}>
                     <TabComponent
                         className={'payment-details-tab'}
-                        label={`Pending Payments(${(billingStats?.count !== undefined) ? billingStats?.count : '-'})`}
+                        label={`Pending Payments(${(billingStatsCount?.count !== undefined) ? billingStatsCount?.count : '-'})`}
                         value={'pendingPayments'}/>
                     <TabComponent className={'payment-details-tab'} label={'Completed Payments'}
                                   value={'completedPayments'}/>
