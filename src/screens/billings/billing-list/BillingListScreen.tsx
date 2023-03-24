@@ -55,7 +55,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
 
     const [clientListFilterState, setClientListFilterState] = useState<any>({
         search: "",
-        clientId: clientId,
+        client_id: clientId,
     });
 
     const handlePaymentSelection = useCallback((payment: any, isChecked: boolean) => {
@@ -382,7 +382,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
     }, [openPaymentModeModal, closeMarkAsPaidModal]);
 
     const fetchBillingStats = useCallback(() => {
-        CommonService._billingsService.GetBillingStatsAPICall()
+        const payload = {client_id: clientId};
+        CommonService._billingsService.GetBillingStatsAPICall(payload)
             .then((response: IAPIResponseType<any>) => {
                 setBillingStats(response?.data);
             }).catch((error: any) => {
@@ -425,13 +426,15 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 <div className={'list-search-filters'}>
                     <div className="ts-row">
                         <div className="ts-col-md-6 ts-col-lg-3">
-                            <SearchComponent
-                                label={"Search for clients"}
-                                value={clientListFilterState.search}
-                                onSearchChange={(value) => {
-                                    setClientListFilterState({...clientListFilterState, search: value})
-                                }}
-                            />
+                            {!clientId &&
+                                <SearchComponent
+                                    label={"Search for clients"}
+                                    value={clientListFilterState.search}
+                                    onSearchChange={(value) => {
+                                        setClientListFilterState({...clientListFilterState, search: value})
+                                    }}
+                                />
+                            }
                         </div>
                         <div className="ts-col-lg-6"/>
                         <div className="ts-col-lg-3 d-flex ts-justify-content-end">

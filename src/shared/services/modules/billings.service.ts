@@ -28,9 +28,9 @@ const GetReceiptDetailsAPICall = (receiptId: any) => {
     return ApiService[APIConfig.GET_RECEIPT_DETAILS.METHOD](APIConfig.GET_RECEIPT_DETAILS.URL(receiptId))
 }
 
-const GetBillingStatsAPICall = () => {
+const GetBillingStatsAPICall = (payload:any) => {
     // @ts-ignore
-    return ApiService[APIConfig.GET_BILLING_STATS.METHOD](APIConfig.GET_BILLING_STATS.URL)
+    return ApiService[APIConfig.GET_BILLING_STATS.METHOD](APIConfig.GET_BILLING_STATS.URL,payload)
 }
 
 const GetBillingPDFDocument = (billingDocumentId: any, type: BillingType, payload: any) => {
