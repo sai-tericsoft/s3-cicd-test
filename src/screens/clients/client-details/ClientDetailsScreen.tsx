@@ -45,7 +45,7 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
         },
         {
             title: "Billing",
-            path: ""
+            path: clientId ? CommonService._routeConfig.ClientBillingDetails(clientId) : ""
         }
     ];
 
@@ -103,7 +103,7 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
                                                 <SubMenuListComponent menuItems={CLIENT_MENU_ITEMS}/>
                                             </div>
                                         </div>
-                                        <div className="admin-module-content-wrapper client-details-content-wrapper">
+                                        <div className="client-details-content-wrapper">
                                             <Outlet/>
                                         </div>
                                     </div>

@@ -25,7 +25,7 @@ import FormControlLabelComponent from "../../../shared/components/form-control-l
 import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
 import {IRootReducerState} from "../../../store/reducers";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {useSearchParams} from "react-router-dom";
+import {useParams, useSearchParams} from "react-router-dom";
 import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
 import DateRangePickerComponent
     from "../../../shared/components/form-controls/date-range-picker/DateRangePickerComponent";
@@ -43,7 +43,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
 
     const dispatch = useDispatch();
     const [billingStats, setBillingStats] = useState<any>(null);
-
+    const {clientId} = useParams();
     const [currentTab, setCurrentTab] = useState<PaymentsListTabType>("pendingPayments");
     const [selectedPayments, setSelectedPayments] = useState<any[]>([]);
     const [searchParams, setSearchParams] = useSearchParams();
@@ -58,6 +58,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
 
     const [clientListFilterState, setClientListFilterState] = useState<any>({
         search: "",
+        client_id: clientId,
         dateRange: [null, null],
         startDate: null,
         endDate: null,
@@ -387,7 +388,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
     }, [openPaymentModeModal, closeMarkAsPaidModal]);
 
     const fetchBillingStats = useCallback(() => {
-        CommonService._billingsService.GetBillingStatsAPICall()
+        const payload = {client_id: clientId};
+        CommonService._billingsService.GetBillingStatsAPICall(payload)
             .then((response: IAPIResponseType<any>) => {
                 setBillingStats(response?.data);
             }).catch((error: any) => {
@@ -430,14 +432,15 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 <div className={'list-search-filters'}>
                     <div className="ts-row">
                         <div className="ts-col-md-12 ts-col-lg-6 d-flex ts-justify-content-start">
-                            <SearchComponent
-                                label={"Search for clients"}
-                                value={clientListFilterState.search}
-                                onSearchChange={(value) => {
-                                    setClientListFilterState({...clientListFilterState, search: value})
-                                }}
-                            /> &nbsp;&nbsp;
-
+                            {!clientId &&
+                                <SearchComponent
+                                    label={"Search for clients"}
+                                    value={clientListFilterState.search}
+                                    onSearchChange={(value) => {
+                                        setClientListFilterState({...clientListFilterState, search: value})
+                                    }}
+                                /> &nbsp;&nbsp;
+                            }
                             <DateRangePickerComponent
                                 label={"Select Date Range"}
                                 value={clientListFilterState.dateRange}
@@ -453,7 +456,6 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                 }}
                             />
                         </div>
-
                         <div className="ts-col-lg-2"/>
                         <div className="ts-col-lg-4 d-flex ts-justify-content-end">
                             {currentTab === 'pendingPayments' &&
@@ -467,11 +469,11 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                     </ButtonComponent>&nbsp;&nbsp;
                                 </>
                             }
-                            <LinkComponent route={CommonService._routeConfig.AddNewReceipt()}>
+                            {!clientId && <LinkComponent route={CommonService._routeConfig.AddNewReceipt()}>
                                 <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}>
                                     New Receipt
                                 </ButtonComponent>
-                            </LinkComponent>
+                            </LinkComponent>}
                         </div>
 
                     </div>

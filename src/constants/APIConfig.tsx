@@ -689,6 +689,15 @@ const APIConfig: IAPIConfig = {
         URL:ENV.API_URL+'/receipt',
         METHOD:'get'
     },
+    CLIENT_PENDING_PAYMENT_LIST: {
+        URL:(clientId:string)=> ENV.API_URL + '/invoice/'+clientId,
+        METHOD:'get'
+    },
+    CLIENT_COMPLETE_PAYMENT_LIST:{
+        URL:(clientId:string)=>ENV.API_URL+'/receipt/'+clientId,
+        METHOD:'get'
+    },
+
     MARK_PAYMENTS_AS_PAID:{
         URL:ENV.API_URL+'/invoice/markPaid',
         METHOD:'post'

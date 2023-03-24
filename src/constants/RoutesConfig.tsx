@@ -23,6 +23,7 @@ const CLIENT_LIST = "/client-list";
 const CLIENT_ADD = "/client-add";
 const CLIENT_DETAILS = "/client/:clientId";
 const CLIENT_PROFILE_DETAILS = "client-profile-details";
+const CLIENT_BILLING_DETAILS = "client-billing-details";
 const CLIENT_EDIT = "/client/:clientId/client-edit";
 const CLIENT_SEARCH='/chart-notes/client-list';
 const SCHEDULING_VIEW='/scheduling';
@@ -117,5 +118,6 @@ export {
     BILLING_LIST,
     ADD_NEW_RECEIPT,
     BILLING_DETAILS,
-    CLIENT_PROFILE_DETAILS
+    CLIENT_PROFILE_DETAILS,
+    CLIENT_BILLING_DETAILS
 };
