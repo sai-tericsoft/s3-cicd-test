@@ -23,11 +23,11 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
     const attachmentRecord: ITableColumn[] = [
         {
             title: 'Date of Attachment',
-            key: 'date_of_attachment',
+            key: 'updated_at',
             dataIndex: 'date_of_attachment',
             fixed: 'left',
             width: 250,
-            // sortable: true,
+            sortable: true,
             render: ( item: any) => {
                 return <>{CommonService.getSystemFormatTimeStamp(item?.updated_at)}</>
             }
@@ -46,7 +46,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             key: 'last_updated',
             dataIndex: 'last_updated',
             width: 250,
-            // sortable: true,
+            sortable: true,
             render: ( item: any) => {
                 return <>{CommonService.transformTimeStamp(item?.updated_at)}</>
             }
@@ -56,7 +56,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             key: 'posted_by',
             dataIndex: 'posted_by',
             width:250,
-            // sortable: true,
+            sortable: true,
             render: ( item: any) => {
                 return <>{item?.posted_by?.first_name} {item?.posted_by?.last_name}</>
             }
