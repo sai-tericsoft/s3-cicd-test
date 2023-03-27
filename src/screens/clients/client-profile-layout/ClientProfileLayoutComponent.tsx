@@ -64,7 +64,7 @@ const ClientProfileLayoutComponent = (props: ClientProfileLayoutComponentProps) 
         if (clientId && !clientBasicDetails) {
             dispatch(getClientBasicDetails(clientId));
         }
-    }, [clientId, dispatch,clientBasicDetails]);
+    }, [clientId, dispatch, clientBasicDetails]);
 
     useEffect(() => {
         const referrer: any = searchParams.get("referrer");
