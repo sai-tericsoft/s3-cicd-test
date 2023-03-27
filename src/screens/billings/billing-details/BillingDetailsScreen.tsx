@@ -76,9 +76,14 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     }, [searchParams, setSearchParams]);
 
     useEffect(() => {
+        const referrer: any = searchParams.get("referrer");
         dispatch(setCurrentNavParams("View Invoice", null, () => {
-            navigate(CommonService._routeConfig.BillingList());
-        }));
+                if (referrer) {
+                    navigate(referrer);
+                } else {
+                    navigate(CommonService._routeConfig.BillingList());
+                }
+            }));
     }, [navigate, dispatch]);
 
     const openPaymentModeModal = useCallback(() => {
