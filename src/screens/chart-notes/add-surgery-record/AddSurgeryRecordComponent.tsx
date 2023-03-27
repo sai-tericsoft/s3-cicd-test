@@ -131,6 +131,9 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                                         )
                                     }
                                 </Field>
+                                <div className={'attachment-heading'}>
+                                    Attachment
+                                </div>
                                 <FieldArray
                                     name="documents"
                                     render={arrayHelpers => (
@@ -161,6 +164,7 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                                     acceptedFileTypes={["pdf"]}
                                 />
                             </div>
+
                             <div className="t-form-actions">
                                 <ButtonComponent
                                     className={'mrg-right-10'}

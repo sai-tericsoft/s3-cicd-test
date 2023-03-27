@@ -18,14 +18,25 @@
 
 }
 .edit-medical-record-component{
+  .drawer-container{
+    padding-bottom: 20px;
+  }
   .t-form{
     .t-form-actions {
-      margin-bottom: 5px;
+      margin-top: 10px;
+      margin-bottom: 0px;
     }
     .t-surgery-record-drawer-form-controls{
       .file-picker-wrapper{
         margin-bottom: 50px;
       }
+    }
+    .attachment-heading{
+      margin:10px 0 26px 0;
+      font-weight: 700;
+      font-size: 1.1429rem;
+
+
     }
   }
 }
