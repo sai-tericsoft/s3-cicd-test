@@ -22,7 +22,6 @@ export interface TableComponentProps extends ITableComponentProps {
 }
 
 const TableWrapperComponent = (props: TableComponentProps) => {
-
     const {refreshToken, moduleName, autoHeight, id, url, method, extraPayload, ...otherProps} = props;
     const [isDataLoading, setIsDataLoading] = useState<boolean>(false);
     const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
@@ -34,8 +33,11 @@ const TableWrapperComponent = (props: TableComponentProps) => {
     const isPaginated = props.isPaginated !== undefined ? props.isPaginated : true;
     const type = props.type || "custom";
 
+    console.log(extraPayload);
+
     const getListData = useCallback(() => {
         const payload = _.cloneDeep({page: pageNumRef.current + 1, limit: pageSizeRef.current, ...extraPayload});
+        console.log(payload);
         if (payload?.sort && payload?.sort?.key) { // TODO to make sort more consistent
             payload.sort[payload.sort.key] = payload?.sort?.order;
             delete payload.sort.key;

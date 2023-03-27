@@ -1,5 +1,5 @@
 import "./ClientDocumentsTableComponent.scss";
-import {IClientBasicDetails, IClientDocumentsFilterState} from "../../../shared/models/client.model";
+import {IClientDocumentsFilterState} from "../../../shared/models/client.model";
 import {ITableColumn} from "../../../shared/models/table.model";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
 import {APIConfig} from "../../../constants";
@@ -7,6 +7,7 @@ import React, {useEffect, useState} from "react";
 import {CommonService} from "../../../shared/services";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
+import {useLocation} from "react-router-dom";
 
 interface ClientDocumentsTableComponentProps {
     clientId: string | undefined;
@@ -16,18 +17,7 @@ interface ClientDocumentsTableComponentProps {
 
 const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps) => {
     const {clientDocumentListFilterState, moduleName, clientId} = props;
-    const [clientDocumentFilters, setClientDocumentFilters] = useState<any>();
-
-    // useEffect(() => {
-    //     if (clientDocumentListFilterState) {
-    //         const prePayload: any = {...clientDocumentListFilterState};
-    //         if (clientDocumentListFilterState.posted_by) {
-    //             prePayload.posted_by = clientDocumentListFilterState.posted_by._id;
-    //         }
-    //         delete prePayload.date_range;
-    //         setClientDocumentFilters(prePayload);
-    //     }
-    // }, [clientDocumentListFilterState]);
+    const location = useLocation();
 
     const ClientDocumentListTableColumns: ITableColumn[] = [
         {
@@ -118,12 +108,24 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
             fixed: "right",
             align: "center",
             render: (item: any) => {
-                if (item?._id) {
-                    return <LinkComponent
-                        route={CommonService._routeConfig.MedicalRecordDocumentViewDetails(item.medical_record_id, item?._id, 'client')}>
-                        View Details
-                    </LinkComponent>
+                let route = '';
+                if (item.note_type_category.toLowerCase() === 'surgery record') {
+                    route = CommonService._routeConfig.MedicalRecordSurgeryRecordDetails(item.medical_record_id, item._id) + '?referrer=' + location.pathname + 'client_module';
+                } else if (item.note_type_category.toLowerCase() === 'dry needling') {
+                    route = CommonService._routeConfig.MedicalInterventionDryNeedlingFileViewDetails(item.medical_record_id, item._id) + '?referrer=' + location.pathname + 'client_module';
+                } else if (item.note_type_category.toLowerCase() === 'concussion') {
+                    route = CommonService._routeConfig.MedicalInterventionConcussionFileViewDetails(item.medical_record_id, item._id) + '?referrer=' + location.pathname + 'client_module';
+                } else if (item.note_type_category.toLowerCase() === 'document') {
+                    route = CommonService._routeConfig.MedicalRecordDocumentViewDetails(item.medical_record_id, item?._id) + '?referrer=' + location.pathname + '&module_name=' + 'client_module';
+                } else if (item.note_type_category.toLowerCase() === 'progress report') {
+                    route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(item.medical_record_id, item?._id) + '?referrer=' + location.pathname + 'client_module';
+                } else {
                 }
+                return <LinkComponent route={route}>
+                    {
+                        route ? "View Details" : "Coming soon"
+                    }
+                </LinkComponent>
             }
         }
     ];
@@ -134,7 +136,7 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
                 url={APIConfig.GET_CLIENT_DOCUMENTS.URL(clientId)}
                 method={APIConfig.GET_CLIENT_DOCUMENTS.METHOD}
                 columns={ClientDocumentListTableColumns}
-                extraPayload={clientDocumentFilters}
+                extraPayload={clientDocumentListFilterState}
                 moduleName={moduleName}
             />
         </div>

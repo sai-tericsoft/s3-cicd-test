@@ -256,21 +256,6 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
         });
     }, [onSubmit]);
 
-    useEffect(() => {
-        if (medicalRecordId) {
-            const referrer: any = searchParams.get("referrer");
-            dispatch(setCurrentNavParams("Medical Record details", null, () => {
-                if (referrer) {
-                    navigate(referrer);
-                    console.log("referrer", referrer);
-                } else {
-                    navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
-                }
-            }));
-
-        }
-    }, [navigate, dispatch, medicalRecordId, searchParams]);
-
     return (
         <div className={'add-medical-intervention-screen'}>
             {

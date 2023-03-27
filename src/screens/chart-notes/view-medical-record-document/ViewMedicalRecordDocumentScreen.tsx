@@ -26,7 +26,7 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
 
         const {medicalRecordId, medicalRecordDocumentId} = useParams();
         const [searchParams] = useSearchParams();
-        const [type, setType] = useState<any>('');
+        const [module, setModule] = useState<any>('');
         const dispatch = useDispatch();
         const navigate = useNavigate();
         const [medicalRecordDocumentDetails, setMedicalRecordDocumentDetails] = useState<any>(undefined);
@@ -38,10 +38,21 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
         const [isMedicalRecordAttachmentAdding, setIsMedicalRecordAttachmentAdding] = useState<boolean>(false);
         const [medicalRecordDocumentAttachmentFile, setMedicalRecordDocumentAttachmentFile] = useState<any>(undefined);
 
+
         useEffect(() => {
-            const module = searchParams.get("type") as string;
-            setType(module);
-        }, [])
+            const referrer: any = searchParams.get("referrer");
+            const module_name: any = searchParams.get("module_name");
+            setModule(module_name);
+            dispatch(setCurrentNavParams("View Document", null, () => {
+                console.log(referrer);
+                if (referrer) {
+                    navigate(referrer);
+                } else {
+                    medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+                }
+            }));
+        }, [searchParams, navigate, dispatch, medicalRecordId]);
+
         const openEditMedicalRecordDocumentDrawer = useCallback(() => {
             setIsEditMedicalRecordDocumentDrawerOpened(true);
         }, []);
@@ -73,12 +84,6 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
             getMedicalRecordDocumentDetails();
             setIsEditMedicalRecordDocumentDrawerOpened(false);
         }, [getMedicalRecordDocumentDetails]);
-
-        useEffect(() => {
-            dispatch(setCurrentNavParams("View Document", null, () => {
-                medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
-            }));
-        }, [medicalRecordId, navigate, dispatch]);
 
         const handleMedicalRecordDocumentDelete = useCallback(() => {
             CommonService.onConfirm({
@@ -158,7 +163,7 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                             attachmentDetails={medicalRecordDocumentDetails}
                             medicalRecordDetails={medicalRecordDocumentDetails?.medical_record_details}
                             attachmentType={"medicalRecordDocument"}
-                            showEdit={type === 'client' ? false : true}
+                            showEdit={module === 'client_module' ? false : true}
                             onEdit={openEditMedicalRecordDocumentDrawer}
                         />
                         <div className={'medical-record-document-attachment'}>
@@ -166,7 +171,7 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                                 medicalRecordDocumentDetails?.attachment &&
                                 <AttachmentComponent
                                     attachment={medicalRecordDocumentDetails?.attachment}
-                                    showDelete={type === 'client' ? false : true}
+                                    showDelete={module === 'client_module' ? false : true}
                                     onDelete={handleMedicalRecordDocumentDelete}
                                     isDeleting={isMedicalRecordAttachmentDeleting}
                                 />
