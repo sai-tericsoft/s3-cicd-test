@@ -33,7 +33,7 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
         },
         {
             title: "Documents",
-            path: ""
+            path: clientId ? CommonService._routeConfig.ClientDocuments(clientId) : ""
         },
         {
             title: "Insurance",
@@ -41,11 +41,11 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
         },
         {
             title: "Appointments",
-            path: ""
+            path: clientId ? CommonService._routeConfig.ClientAppointments(clientId) : ""
         },
         {
             title: "Billing",
-            path: ""
+            path: clientId ? CommonService._routeConfig.ClientBillingDetails(clientId) : ""
         }
     ];
 
@@ -103,7 +103,7 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
                                                 <SubMenuListComponent menuItems={CLIENT_MENU_ITEMS}/>
                                             </div>
                                         </div>
-                                        <div className="admin-module-content-wrapper client-details-content-wrapper">
+                                        <div className="client-details-content-wrapper">
                                             <Outlet/>
                                         </div>
                                     </div>
