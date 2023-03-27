@@ -65,9 +65,9 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
     const [clientListFilterState, setClientListFilterState] = useState<any>({
         search: "",
         client_id: clientId,
-        dateRange: [null, null],
-        startDate: null,
-        endDate: null,
+        date_range: [null, null],
+        start_date: null,
+        end_date: null,
     });
 
     const handlePaymentSelection = useCallback((payment: any, isChecked: boolean) => {
@@ -218,6 +218,167 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             }
         }
     ], [handlePaymentSelection, selectedPayments]);
+
+    const clientPendingPaymentColumn: ITableColumn[] = useMemo<any>(() => [
+        {
+            title: '',
+            key: 'select',
+            dataIndex: 'select',
+            width: 50,
+            fixed: 'left',
+            render: (item: any) => {
+                const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
+                return <CheckBoxComponent
+                    className={selectedPayments.includes(item) ? 'selected-row' : ''}
+                    disabled={clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id}
+                    checked={selectedPayments.includes(item)}
+                    onChange={(isChecked) => {
+                        handlePaymentSelection(item, isChecked)
+                    }}/>
+            }
+        },
+        {
+            title: 'Appointment ID',
+            key: 'appointment_id',
+            dataIndex: 'appointment_id',
+            fixed: 'left',
+            width: 150,
+            align: 'center',
+            render: (item: any) => {
+                return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id, 'invoice')}>
+                    {
+                        (item?.appointment_details.appointment_number).length > 10 ?
+                            <ToolTipComponent
+                                tooltip={item?.appointment_details.appointment_number}
+                                showArrow={true}
+                                position={"top"}
+                            >
+                                <div className={"ellipses-for-table-data"}>
+                                    {item?.appointment_details.appointment_number}
+                                </div>
+                            </ToolTipComponent> :
+                            <>
+                                {item?.appointment_details.appointment_number}
+                            </>
+                    }
+                </LinkComponent>
+            }
+        },
+        {
+            title: 'Appointment Date',
+            key: 'appointment_date',
+            dataIndex: "appointment_date",
+            width: 200,
+            align: 'center',
+            render: (item: any) => {
+                return <>{CommonService.convertDateFormat2(item?.appointment_details?.appointment_date)}</>
+            }
+        },
+        {
+            title: 'Service',
+            key: 'service',
+            dataIndex: 'name',
+            align: 'center',
+            width: 200,
+            render: (item: any) => {
+                return <>{item?.service_details?.name}</>
+            }
+        },
+        {
+            title: 'Total Amount',
+            key: 'amount',
+            align: 'center',
+            dataIndex: 'amount',
+            width: 120,
+            render: (item: any) => {
+                return <>{Misc.CURRENCY_SYMBOL} {item?.total}</>
+            }
+        },
+        {
+            title: '',
+            key: 'action',
+            fixed: 'right',
+            width: 100,
+            dataIndex: 'action',
+            render: (item: any) => {
+                return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id, 'invoice')}>
+                    View Details
+                </LinkComponent>
+            }
+        }
+    ], [handlePaymentSelection, selectedPayments]);
+
+    const clientCompletePaymentListColumn: ITableColumn[] = useMemo<any>(() => [
+        {
+            title: 'Receipt No.',
+            key: 'receipt_no',
+            align: 'center',
+            fixed: 'left',
+            dataIndex: 'receipt_number',
+            render: (item: any) => {
+                return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id, 'receipt')}>
+                    {item?.receipt_number}
+                </LinkComponent>
+            }
+        },
+        {
+            title: 'Date',
+            key: 'date',
+            dataIndex: 'created_at',
+            align: 'center',
+            render: (item: any) => {
+                return <>
+                    {CommonService.convertDateFormat2(item?.created_at)}
+                </>
+            }
+        },
+        {
+            title: 'Total Amount',
+            key: 'amount',
+            align: 'center',
+            dataIndex: 'amount',
+            render: (item: any) => {
+                return <>{Misc.CURRENCY_SYMBOL} {item?.total}</>
+            }
+        },
+        {
+            title: 'Payment For',
+            key: 'payment_for',
+            dataIndex: 'payment_for',
+            width: 200,
+            align: 'center',
+            render: (item: any) => {
+                let className = "";
+                if (item?.payment_for === 'appointment') {
+                    className = "active";
+                } else if (item?.payment_for === 'no show') {
+                    className = "no-show";
+                } else if (item?.payment_for === 'products') {
+                    className = "products";
+                } else if (item?.payment_for === 'waived') {
+                    className = "waived";
+                } else if (item?.payment_for === 'cancellation') {
+                    className = "cancellation";
+                }
+                return <>
+                    <ChipComponent
+                        className={`min-width-60 ${className}`}
+                        label={item?.payment_for}/>
+                </>
+            }
+        },
+        {
+            title: '',
+            key: 'action',
+            fixed: 'right',
+            dataIndex: 'action',
+            render: (item: any) => {
+                return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id, 'receipt')}>
+                    View Details
+                </LinkComponent>
+            }
+        }
+    ], []);
 
     const completePaymentListColumn: ITableColumn[] = useMemo<any>(() => [
         {
@@ -408,8 +569,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         let billingDetails: any = undefined;
 
         const payload = {
-            startDate: clientListFilterState.startDate,
-            endDate: clientListFilterState.endDate,
+            start_date: clientListFilterState.start_date,
+            end_date: clientListFilterState.end_date,
         };
         CommonService._billingsService.GetBillingStatsAPICall(clientId, payload)
             .then((response: IAPIResponseType<any>) => {
@@ -464,7 +625,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         if (clientId) {
             fetchBillingStats();
         }
-    }, [fetchBillingStats,clientId]);
+    }, [fetchBillingStats, clientId]);
 
     return (
         <div className={'payment-list-component list-screen'}>
@@ -485,14 +646,14 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                             }
                             <DateRangePickerComponent
                                 label={"Select Date Range"}
-                                value={clientListFilterState.dateRange}
+                                value={clientListFilterState.date_range}
                                 onDateChange={(value: any) => {
                                     if (value) {
                                         setClientListFilterState({
                                             ...clientListFilterState,
-                                            startDate: moment(value[0]).format('YYYY-MM-DD'),
-                                            endDate: moment(value[1]).format('YYYY-MM-DD'),
-                                            dateRange: value
+                                            start_date: moment(value[0]).format('YYYY-MM-DD'),
+                                            end_date: moment(value[1]).format('YYYY-MM-DD'),
+                                            date_range: value
                                         })
                                     }
                                 }}
@@ -585,7 +746,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                                clientListFilterState
                                            }
                                            method={APIConfig.PENDING_PAYMENT_LIST.METHOD}
-                                           columns={pendingPaymentColumn}
+                                           columns={clientId ? clientPendingPaymentColumn : pendingPaymentColumn}
                                            moduleName={PENDING_PAYMENTS_MODULE}
                     />
                 </TabContentComponent>
@@ -593,7 +754,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                     <TableWrapperComponent url={APIConfig.COMPLETE_PAYMENT_LIST.URL}
                                            method={APIConfig.COMPLETE_PAYMENT_LIST.METHOD}
                                            extraPayload={clientListFilterState}
-                                           columns={completePaymentListColumn}/>
+                                           columns={clientId ? clientCompletePaymentListColumn : completePaymentListColumn}
+                    />
                 </TabContentComponent>
             </TabsWrapperComponent>
             {/*Outstanding Balance Modal start*/}

@@ -12,11 +12,12 @@ interface AttachmentComponentProps {
     attachment: IAttachment;
     onDelete?: (attachment: IAttachment) => void;
     isDeleting?: boolean;
+    showDelete?: boolean;
 }
 
 const AttachmentComponent = (props: AttachmentComponentProps) => {
 
-    const {onDelete, isDeleting, attachment} = props;
+    const {onDelete, isDeleting, attachment, showDelete} = props;
 
     const handleDelete = useCallback(() => {
         onDelete && onDelete(attachment);
@@ -42,14 +43,14 @@ const AttachmentComponent = (props: AttachmentComponentProps) => {
                                  disabled={isDeleting}>
                     View
                 </ButtonComponent>
-                <ButtonComponent color={'error'}
-                                 prefixIcon={<ImageConfig.DeleteIcon/>}
-                                 variant={"outlined"}
-                                 onClick={handleDelete}
-                                 isLoading={isDeleting}
-                                 disabled={isDeleting}>
+                {showDelete && <ButtonComponent color={'error'}
+                                                prefixIcon={<ImageConfig.DeleteIcon/>}
+                                                variant={"outlined"}
+                                                onClick={handleDelete}
+                                                isLoading={isDeleting}
+                                                disabled={isDeleting}>
                     Delete
-                </ButtonComponent>
+                </ButtonComponent>}
                 <ButtonComponent prefixIcon={<ImageConfig.PrintIcon/>}
                                  onClick={handlePrint}
                                  disabled={isDeleting || !SUPPORTED_PRINTABLE_FORMATS.includes(CommonService.getNormalizedFileType(attachment?.type))}>

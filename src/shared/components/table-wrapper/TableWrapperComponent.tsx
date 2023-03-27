@@ -24,7 +24,6 @@ export interface TableComponentProps extends ITableComponentProps {
 const TableWrapperComponent = (props: TableComponentProps) => {
 
     const {refreshToken, moduleName, autoHeight, id, url, method, extraPayload, ...otherProps} = props;
-
     const [isDataLoading, setIsDataLoading] = useState<boolean>(false);
     const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
     const [isDataLoadingFailed, setIsDataLoadingFailed] = useState<boolean>(false);
