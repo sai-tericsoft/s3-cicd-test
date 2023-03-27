@@ -33,7 +33,7 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
         },
         {
             title: "Documents",
-            path: ""
+            path: clientId ? CommonService._routeConfig.ClientDocuments(clientId) : ""
         },
         {
             title: "Insurance",
@@ -41,7 +41,7 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
         },
         {
             title: "Appointments",
-            path: ""
+            path: clientId ? CommonService._routeConfig.ClientAppointments(clientId) : ""
         },
         {
             title: "Billing",

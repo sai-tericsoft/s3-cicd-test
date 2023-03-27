@@ -99,6 +99,19 @@ const ClientBillingDetails = (clientId: string) => {
     return '/client/' + clientId + '/client-billing-details'
 }
 
+const ClientDocuments = (clientId: string) => {
+    return '/client/' + clientId + '/client-documents';
+}
+
+const clientDocumentViewDetails = (clientId: any, clientDocumentId: string) => {
+    return "/client/" + clientId + "/" + clientDocumentId + '/client-document-view-details';
+
+}
+
+const ClientAppointments = (clientId: string) => {
+    return '/client/' + clientId + '/client-appointments';
+}
+
 const ClientEdit = (clientId: string) => {
     return '/client/' + clientId + '/client-edit';
 }
@@ -183,8 +196,8 @@ const MedicalInterventionConcussionFileViewDetails = (medicalRecordId: string, c
     return "/chart-notes/" + medicalRecordId + "/" + concussionFileId + '/concussion-file-view-details';
 }
 
-const MedicalRecordDocumentViewDetails = (medicalRecordId: string, medicalRecordDocumentId: string) => {
-    return "/chart-notes/" + medicalRecordId + "/" + medicalRecordDocumentId + '/medical-record-document-view-details';
+const MedicalRecordDocumentViewDetails = (medicalRecordId: string, medicalRecordDocumentId: string, type?: any) => {
+    return "/chart-notes/" + medicalRecordId + "/" + medicalRecordDocumentId + '/medical-record-document-view-details' + "?type=" + type;
 
 }
 
@@ -271,7 +284,10 @@ const RouteConfigService = {
     AddNewReceipt,
     BillingDetails,
     ClientProfileDetails,
-    ClientBillingDetails
+    ClientBillingDetails,
+    ClientDocuments,
+    ClientAppointments,
+    clientDocumentViewDetails
 }
 
 export default RouteConfigService;
