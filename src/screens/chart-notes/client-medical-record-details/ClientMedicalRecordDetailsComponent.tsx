@@ -155,7 +155,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
             <div className={'client-medical-records-header-button-wrapper'}>
             {clientMedicalRecord?.status_details?.code === 'open' && <div>
                 <ButtonComponent onClick={confirmRepeatLastTreatment}
-                                 // disabled={(isMedicalInterventionBeingRepeated || isMedicalInterventionListLoading || medicalInterventionList.filter((item: any) => (item?.status === 'completed' && item?.note_type?.toLowerCase() === "soap note"))?.length === 0)}
+                                 disabled={(isMedicalInterventionBeingRepeated || isMedicalInterventionListLoading || medicalInterventionList.filter((item: any) => (item?.status === 'completed' && item?.note_type?.toLowerCase() === "soap note"))?.length === 0)}
                                  className={'mrg-right-10'}
                                  variant={"outlined"}>
                     Repeat Last Treatment
