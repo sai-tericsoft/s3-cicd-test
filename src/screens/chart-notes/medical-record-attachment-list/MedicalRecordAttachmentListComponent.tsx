@@ -105,7 +105,6 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             <TableWrapperComponent refreshToken={refreshTokenForMedicalRecordAttachments}
                                    url={APIConfig.CLIENT_MEDICAL_ATTACHMENT.URL(medicalRecordId)}
                                    method={APIConfig.CLIENT_MEDICAL_ATTACHMENT.METHOD}
-                                   isPaginated={false}
                                    onSort={handleClientMedicalListSort}
                                    extraPayload={medicalAttachmentListFilterState}
                                    columns={attachmentRecord}/>

@@ -187,7 +187,6 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                 url={APIConfig.MEDICAL_RECORD_CONSOLIDATED_INTERVENTIONS_AND_ATTACHMENTS.URL(medicalRecordId)}
                 method={APIConfig.MEDICAL_RECORD_CONSOLIDATED_INTERVENTIONS_AND_ATTACHMENTS.METHOD}
                 columns={MedicalInterventionListColumns}
-                isPaginated={false}
                 onSort={handleClientMedicalListSort}
                 extraPayload={medicalRecordListFilterState}
                 />
