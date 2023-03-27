@@ -33,8 +33,6 @@ const TableWrapperComponent = (props: TableComponentProps) => {
     const isPaginated = props.isPaginated !== undefined ? props.isPaginated : true;
     const type = props.type || "custom";
 
-    console.log(extraPayload);
-
     const getListData = useCallback(() => {
         const payload = _.cloneDeep({page: pageNumRef.current + 1, limit: pageSizeRef.current, ...extraPayload});
         console.log(payload);

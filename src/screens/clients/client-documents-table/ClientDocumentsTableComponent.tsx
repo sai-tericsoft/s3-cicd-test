@@ -17,7 +17,21 @@ interface ClientDocumentsTableComponentProps {
 
 const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps) => {
     const {clientDocumentListFilterState, moduleName, clientId} = props;
+    const [clientDocumentFilters, setClientDocumentFilters] = useState<any>();
     const location = useLocation();
+
+    useEffect(() => {
+        if (clientDocumentListFilterState) {
+            const prePayload: any = {...clientDocumentListFilterState};
+            if (clientDocumentListFilterState.posted_by) {
+                prePayload.posted_by = clientDocumentListFilterState.posted_by._id;
+            } else {
+                delete prePayload.posted_by;
+            }
+            delete prePayload.date_range;
+            setClientDocumentFilters(prePayload);
+        }
+    }, [clientDocumentListFilterState]);
 
     const ClientDocumentListTableColumns: ITableColumn[] = [
         {
@@ -132,13 +146,15 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
 
     return (
         <div className={'client-documents-list-table-component'}>
-            <TableWrapperComponent
-                url={APIConfig.GET_CLIENT_DOCUMENTS.URL(clientId)}
-                method={APIConfig.GET_CLIENT_DOCUMENTS.METHOD}
-                columns={ClientDocumentListTableColumns}
-                extraPayload={clientDocumentListFilterState}
-                moduleName={moduleName}
-            />
+            {clientDocumentFilters &&
+                <TableWrapperComponent
+                    url={APIConfig.GET_CLIENT_DOCUMENTS.URL(clientId)}
+                    method={APIConfig.GET_CLIENT_DOCUMENTS.METHOD}
+                    columns={ClientDocumentListTableColumns}
+                    extraPayload={clientDocumentFilters}
+                    moduleName={moduleName}
+                />
+            }
         </div>
     );
 
