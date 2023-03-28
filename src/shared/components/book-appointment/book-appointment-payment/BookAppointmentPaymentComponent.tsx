@@ -172,15 +172,15 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                             <div className="price-holder">
                                                 <div className="price-item">
                                                     <div className="price-item-text">Amount (Inc. tax)</div>
-                                                    <div className="price-item-amount">${booking.amount}.00</div>
+                                                    <div className="price-item-amount amount">${booking.amount}.00</div>
                                                 </div>
                                                 <div className="price-item">
-                                                    <div className="price-item-text">Discount</div>
+                                                    <div className="price-item-text discount">Discount</div>
                                                     <div className="price-item-amount red">$0</div>
                                                 </div>
                                                 <HorizontalLineComponent className={'horizontal-line'}/>
                                                 <div className="price-item price-item-total">
-                                                    <div className="price-item-text">Total Amount</div>
+                                                    <div className="price-item-text">Total Amount (Inc.tax)</div>
                                                     <div className="price-item-amount green">${booking.amount}.00</div>
                                                 </div>
                                             </div>

@@ -101,6 +101,7 @@
       font-size: 32px;
       color: #212B36;
       padding-left: 24px;
+      padding-bottom: 0px;
     }
 
     .block-content {
@@ -157,7 +158,7 @@
       .option-item-text {
         font-weight: 400;
         font-size: 16px;
-        flex: 1;
+        justify-content: space-between;
         color: #000000;
       }
     }
@@ -175,21 +176,28 @@
 
       .price-item-text, .price-item-amount {
         font-weight: 400;
-        font-size: 14px;
+        font-size: 1.1429rem;
         color: #191919;
         padding-bottom: 10px;
+        &.discount{
+          color: #919191;
+        }
+        &.amount{
+          color: #919191
+        }
       }
 
       .price-item-text {
         flex: 1;
+        font-size: 1.1429rem;
       }
 
       &.price-item-total {
         margin-bottom: 26px;
 
         .price-item-text, .price-item-amount {
-          font-weight: 500;
-          font-size: 16px;
+          font-weight: 400;
+          font-size: 1.1429rem;
           color: #191919;
           padding: 10px 0;
         }
