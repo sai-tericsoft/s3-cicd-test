@@ -16,7 +16,6 @@ import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import FilePreviewThumbnailComponent
     from "../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import EditMedicalRecordDocumentComponent from "../edit-medical-record-document/EditMedicalRecordDocumentComponent";
-import {BillingType} from "../../../shared/models/common.model";
 
 interface ViewMedicalRecordDocumentScreenProps {
 
