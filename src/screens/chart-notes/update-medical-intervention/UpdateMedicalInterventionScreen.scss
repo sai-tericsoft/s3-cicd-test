@@ -12,6 +12,7 @@
       margin-bottom: 5px;
     }
   }
+
   .intervention-clear-button {
     font-size: 16px;
     font-weight: bold;
@@ -20,6 +21,7 @@
     margin-right: 10px;
     margin-bottom: 5px;
   }
+
   .icd-codes-wrapper {
     margin-bottom: 20px;
 
@@ -52,8 +54,8 @@
     }
 
     &.white-card-header {
-      &> .card-header {
-        background: #FFFFFF;
+      & > .card-header {
+        background: #FFFFFF !important;
       }
     }
 
@@ -101,6 +103,7 @@
       justify-content: center;
       align-items: center;
     }
+
     .spin-item {
       animation-name: spin;
       animation-duration: 1600ms;
@@ -114,11 +117,41 @@
 
     @keyframes spin {
       from {
-        transform:rotate(360deg);
+        transform: rotate(360deg);
       }
       to {
-        transform:rotate(0deg);
+        transform: rotate(0deg);
       }
     }
+  }
+
+  .range-of-motion-wrapper, .special-test-wrapper, .icd-codes-wrapper {
+    margin-bottom: 20px;
+
+
+    .rom-header, .special-test-header, .icd-codes-header {
+      & > .card-header {
+        background: #FFFFFF !important;
+        padding: 16px;
+      }
+
+      //& > .card-component {
+      border: 1px solid #ABB6BE;
+      border-radius: 5px;
+      overflow: hidden;
+      //}
+    }
+
+    .card-body {
+      padding: 0 !important;
+
+      .card-component {
+        border-radius: 0;
+      }
+    }
+  }
+
+  .rom-special-test-icd-11-cta {
+    height: 68px;
   }
 }

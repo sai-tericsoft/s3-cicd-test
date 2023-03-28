@@ -10,7 +10,7 @@ import {ImageConfig} from "../../../constants";
 import {CommonService} from "../../../shared/services";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {useDispatch, useSelector} from "react-redux";
-import {useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {IService} from "../../../shared/models/service.model";
@@ -28,6 +28,8 @@ import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
 import moment from "moment-timezone";
 import InputComponent from "../../../shared/components/form-controls/input/InputComponent";
+
+// import scrollToComponent from 'react-scroll-to-component';
 
 interface MedicalInterventionExerciseLogScreenProps {
 
@@ -56,7 +58,7 @@ const ExerciseLogRecordValidationSchema = Yup.object({
     // no_of_reps: Yup.string().required(''),
     // time: Yup.string().required(''),
     // resistance: Yup.string().required(''),
-    name: Yup.string().required(''),
+    name: Yup.string().required('Required'),
 })
 
 const MedicalInterventionExerciseLogFormValidationSchema = Yup.object({
@@ -72,6 +74,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
     const [medicalInterventionExerciseLogDetails, setMedicalInterventionExerciseLogDetails] = useState<any>(undefined);
     const [isMedicalInterventionExerciseLogDetailsLoading, setIsMedicalInterventionExerciseLogDetailsLoading] = useState<boolean>(false);
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
+    const location = useLocation();
 
     const {
         clientMedicalRecord,
@@ -121,13 +124,13 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     {
                         (field: FieldProps) => (
                             <FormikInputComponent
-                                onFocus={(event: any) =>{
-                                    if(event.target.value === '-'){
-                                    field.form.setFieldValue(`exercise_records.${index}.no_of_sets`, '')
-                                }
+                                onFocus={(event: any) => {
+                                    if (event.target.value === '-') {
+                                        field.form.setFieldValue(`exercise_records.${index}.no_of_sets`, '')
+                                    }
                                 }}
-                                onBlur={(event: any) =>{
-                                    if(event.target.value === ''){
+                                onBlur={(event: any) => {
+                                    if (event.target.value === '') {
                                         field.form.setFieldValue(`exercise_records.${index}.no_of_sets`, '-')
                                     }
                                 }}
@@ -151,13 +154,13 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     {
                         (field: FieldProps) => (
                             <FormikInputComponent
-                                onFocus={(event: any) =>{
-                                    if(event.target.value === '-'){
+                                onFocus={(event: any) => {
+                                    if (event.target.value === '-') {
                                         field.form.setFieldValue(`exercise_records.${index}.no_of_reps`, '')
                                     }
                                 }}
-                                onBlur={(event: any) =>{
-                                    if(event.target.value === ''){
+                                onBlur={(event: any) => {
+                                    if (event.target.value === '') {
                                         field.form.setFieldValue(`exercise_records.${index}.no_of_reps`, '-')
                                     }
                                 }}
@@ -181,13 +184,13 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     {
                         (field: FieldProps) => (
                             <FormikInputComponent
-                                onFocus={(event: any) =>{
-                                    if(event.target.value === '-'){
+                                onFocus={(event: any) => {
+                                    if (event.target.value === '-') {
                                         field.form.setFieldValue(`exercise_records.${index}.time`, '')
                                     }
                                 }}
-                                onBlur={(event: any) =>{
-                                    if(event.target.value === ''){
+                                onBlur={(event: any) => {
+                                    if (event.target.value === '') {
                                         field.form.setFieldValue(`exercise_records.${index}.time`, '-')
                                     }
                                 }}
@@ -211,13 +214,13 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     {
                         (field: FieldProps) => (
                             <FormikInputComponent
-                                onFocus={(event: any) =>{
-                                    if(event.target.value === '-'){
+                                onFocus={(event: any) => {
+                                    if (event.target.value === '-') {
                                         field.form.setFieldValue(`exercise_records.${index}.resistance`, '')
                                     }
                                 }}
-                                onBlur={(event: any) =>{
-                                    if(event.target.value === ''){
+                                onBlur={(event: any) => {
+                                    if (event.target.value === '') {
                                         field.form.setFieldValue(`exercise_records.${index}.resistance`, '-')
                                     }
                                 }}
@@ -365,6 +368,17 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
         setFieldValue("exercise_records", new_exercise_records);
     }, []);
 
+    useEffect(() => {
+        if (medicalInterventionExerciseLogDetails) {
+            setTimeout(() => {
+                const ele = document.getElementById('exercise-log-form');
+                if (ele) {
+                    ele.scrollIntoView({behavior: "smooth", block: "start"});
+                }
+            }, 100); //TODO: Need to find a better way to scroll to the form
+        }
+    }, [location, medicalInterventionExerciseLogDetails]);
+
     return (
         <div className={'medical-intervention-exercise-log-screen'}>
 
@@ -407,7 +421,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                 value={CommonService.extractName(currentUser)} disabled={true}/>
             </div>
             <ExerciseLogAttachmentListComponent/>
-            <>
+            <div id={'exercise-log-form'}>
                 {
                     isMedicalInterventionExerciseLogDetailsLoading && <LoaderComponent/>
                 }
@@ -482,7 +496,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                         }}
                     </Formik>
                 }
-            </>
+            </div>
         </div>
     );
 

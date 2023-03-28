@@ -493,7 +493,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                         file={values.image}
                                                         removeButtonId={"sv_delete_img"}
                                                         onRemove={() => {
-                                                            setFieldValue('image', undefined);
+                                                            setFieldValue('image', '');
                                                         }}/>
                                                 </>
                                             }

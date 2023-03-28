@@ -14,7 +14,6 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import _ from "lodash";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import FormikAutoCompleteComponent
     from "../../../shared/components/form-controls/formik-auto-complete/FormikAutoCompleteComponent";
@@ -75,7 +74,9 @@ const ProductRow = {
     product_id: undefined,
     amount: undefined,
     units: undefined,
-    quantity: undefined
+    quantity: undefined,
+    showQuantity: false,
+    // productIndex: undefined,
 }
 
 const AddNewReceiptFormInitialValues = {
@@ -119,6 +120,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         dispatch(setCurrentNavParams("Add New Receipt", null, () => {
             navigate(CommonService._routeConfig.BillingList());
         }));
+        // console.log(showQuantityText);
     }, [navigate, dispatch]);
 
     const productListTableColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
@@ -142,6 +144,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 {
                     (field: FieldProps) => {
                         const quantity = _.get(field.form?.values, `products[${index}].quantity`);
+                        const showQuantity = _.get(field.form?.values, `products[${index}].showQuantity`);
                         const units = _.get(field.form?.values, `products[${index}].units`);
                         const selectedProducts = _.get(field.form?.values, `products`).map((item: any) => item.product);
                         const showAvailableQuantity = (quantity !== undefined && (units === undefined || units === '' || units === null || units === 0 || isNaN(units)));
@@ -159,14 +162,16 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                 displayWith={(item: any) => item?.name || ''}
                                 onUpdate={(item: any) => {
                                     field.form.setFieldValue(`products[${index}].product_id`, item._id);
-                                    field.form.setFieldValue(`products[${index}].amount`, item.price);
+                                    field.form.setFieldValue(`products[${index}].rate`, item.price);
                                     field.form.setFieldValue(`products[${index}].quantity`, item.quantity);
                                     field.form.setFieldValue(`products[${index}].units`, 0);
+                                    field.form.setFieldValue(`products[${index}].showQuantity`, false);
                                 }}
                             />
+
                             <span
                                 className={`product-available-quantity
-                                ${showAvailableQuantity ? "visibility-visible" : "visibility-hidden"}
+                                ${showAvailableQuantity || showQuantity ? "visibility-visible" : "visibility-hidden"}
                                 ${quantity > 0 ? "text-primary" : "text-error"}`
                                 }>Available Stock: {quantity > 0 ? quantity : 0} unit(s)
                             </span>
@@ -182,8 +187,9 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             width: 70,
             render: (record: any, index: number) => <Field name={`products[${index}].units`} className="t-form-control">
                 {
-                    (field: FieldProps) => (
-                        <>
+                    (field: FieldProps) => {
+                        const quantity = _.get(field.form?.values, `products[${index}].quantity`);
+                        return <>
                             {
                                 (field.form.values?.products?.[index]?.quantity !== undefined && field.form.values?.products?.[index]?.quantity !== null && field.form.values?.products?.[index]?.quantity > 0) ?
                                     <FormikInputComponent
@@ -191,12 +197,25 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                         formikField={field}
                                         size={"small"}
                                         type={"number"}
+                                        // autoFocus={showQuantityText}
+                                        onFocus={() => {
+                                            // field.form.setFieldValue(`products[${index}].productIndex`, index);
+                                            field.form.setFieldValue(`products[${index}].showQuantity`, true);
+                                        }}
+                                        onBlur={() => {
+                                            field.form.setFieldValue(`products[${index}].showQuantity`, false);
+                                        }}
+                                        maxValue={quantity > 0 ? quantity : 0}
                                         disabled={!field.form.values?.products?.[index]?.product_id}
                                         validationPattern={Patterns.POSITIVE_WHOLE_NUMBERS}
+                                        onChange={(value: any) => {
+                                            field.form.setFieldValue(`products[${index}].amount`, field.form.values?.products?.[index]?.rate * value);
+                                        }
+                                        }
                                     /> : "-"
                             }
                         </>
-                    )
+                    }
                 }
             </Field>
         },
@@ -209,7 +228,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 {
                     (field: FieldProps) => (
                         <>
-                            {field.form.values?.products?.[index]?.amount ? <> {Misc.CURRENCY_SYMBOL} {field.form.values?.products?.[index]?.amount || "-"} </> : "-"}
+                            {field.form.values?.products?.[index]?.rate ? <> {Misc.CURRENCY_SYMBOL} {field.form.values?.products?.[index]?.rate || "-"} </> : "-"}
                         </>
                     )
                 }
@@ -224,7 +243,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 {
                     (field: FieldProps) => (
                         <>
-                            {field.form.values?.products?.[index]?.units ? <> {Misc.CURRENCY_SYMBOL} {(field.form.values?.products?.[index]?.amount || 0) * (field.form.values?.products?.[index]?.units || 0)} </> : "-"}
+                            <>{Misc.CURRENCY_SYMBOL} {(field.form.values?.products?.[index]?.amount || 0)}</>
                         </>
                     )
                 }
@@ -296,7 +315,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             render: (item: any) => {
                 return <RadioButtonComponent name={'selected-client'}
                                              value={item}
-                                             label={CommonService.extractName(item)}
+                                             label={`${CommonService.extractName(item)} (ID: ${item.client_id || ''})`}
                                              checked={selectedClient?._id === item?._id}
                                              onChange={(value: any) => {
                                                  formRef?.current?.setFieldValue('client_id', value._id);
@@ -425,9 +444,9 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
 
     useEffect(() => {
         let totalAmount = 0;
-        if (formRef.current?.values?.products){
+        if (formRef.current?.values?.products) {
             totalAmount = formRef.current?.values?.products?.reduce((acc: number, curr: any) => {
-                return (curr.amount && curr.units) ? acc + (parseInt(curr?.amount) * parseInt(curr?.units)) : acc;
+                return (curr.rate && curr.units) ? acc + (parseInt(curr?.rate) * parseInt(curr?.units)) : acc;
             }, 0);
         } else {
             totalAmount = 0;
@@ -464,10 +483,9 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
-                            <FormDebuggerComponent
-                                form={formik}
-                                canShow={true}
-                                showDebugger={true}/>
+                            {/*<FormDebuggerComponent*/}
+                            {/*    form={formik}*/}
+                            {/*    showDebugger={false}/>*/}
                             <div className="t-form-controls">
                                 <div>
                                     <div
@@ -476,7 +494,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                             <img src={ImageConfig.BillingLogo} alt=""/>
                                         </div>
                                         <div>
-                                            {CommonService.convertDateFormat2(new Date(), "DD MMM YYYY | hh:mm A")}
+                                            {CommonService.convertDateFormat2(new Date(), "DD-MMM-YYYY | hh:mm A")}
                                         </div>
                                     </div>
                                     <HorizontalLineComponent/>
@@ -748,7 +766,12 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                             <div className={'client-list-heading'}>Client List</div>
                             <TableComponent data={clientList} columns={clientListColumns}
                                             loading={isClientListLoading}
-                                            hideHeader={true}/>
+                                            hideHeader={true}
+                                            onRowClick={(row: any) => {
+                                                formRef?.current?.setFieldValue('client_id', row._id);
+                                                setSelectedClient(row);
+                                            }}
+                            />
                             <ButtonComponent fullWidth={true}
                                              className={'mrg-top-30'}
                                              onClick={() => confirmClientSelection()}
@@ -783,7 +806,12 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                             <TableComponent data={providerList}
                                             columns={providerListColumns}
                                             loading={isProviderListLoading}
-                                            hideHeader={true}/>
+                                            hideHeader={true}
+                                            onRowClick={(row: any) => {
+                                                formRef?.current?.setFieldValue('provider_id', row._id);
+                                                setSelectedProvider(row);
+                                            }}
+                            />
                             <ButtonComponent fullWidth={true}
                                              className={'mrg-top-30'}
                                              onClick={() => closeProviderSelectionDrawer()}

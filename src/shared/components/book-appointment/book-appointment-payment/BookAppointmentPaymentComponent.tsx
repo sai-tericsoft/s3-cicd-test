@@ -1,3 +1,5 @@
+
+
 import React, {useCallback, useEffect, useRef} from "react";
 import "./BookAppointmentPaymentComponent.scss";
 import {ImageConfig} from "../../../../constants";
@@ -228,3 +230,5 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
 };
 
 export default BookAppointmentPaymentComponent;
+
+

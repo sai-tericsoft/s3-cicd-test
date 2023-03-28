@@ -45,8 +45,10 @@ import {ReactComponent as SYNC} from './../assets/icons/sync.svg';
 import {ReactComponent as SendIcon} from './../assets/icons/send_icon.svg';
 import {ReactComponent as UpArrowIcon} from './../assets/icons/up_arrow.svg';
 import {ReactComponent as DownArrowIcon} from './../assets/icons/down_arrow.svg';
-
-
+import {ReactComponent as TotalAmount} from './../assets/icons/total_amount.svg';
+import {ReactComponent as PendingPayments} from './../assets/icons/pending_payments.svg';
+import {ReactComponent as CompletedPayments} from './../assets/icons/completed_payments.svg';
+import {ReactComponent as PendingAmount} from './../assets/icons/discount_amount.svg';
 
 
 //file types
@@ -174,4 +176,8 @@ export {
     Confirm,
     UpArrowIcon,
     DownArrowIcon,
+    TotalAmount,
+    PendingPayments,
+    CompletedPayments,
+    PendingAmount
 }

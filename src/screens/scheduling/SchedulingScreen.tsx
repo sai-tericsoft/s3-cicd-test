@@ -286,7 +286,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
     const getCalenderList = useCallback((payload: any) => {
         delete payload.sort;
         if (payload.provider_id) {
-            payload.provider_id = payload.provider_id._id;
+            payload.provider_id = payload.provider_id.provider_id || payload.provider_id._id;
         }
         if (payload.category_id) {
             payload.category_id = payload.category_id._id;
@@ -349,7 +349,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                 prePayload.service_id = preState.service_id._id;
             }
             if (preState.provider_id) {
-                prePayload.provider_id = preState.provider_id._id;
+                prePayload.provider_id = preState.provider_id.provider_id || preState.provider_id._id;
             }
             if (preState.date) {
                 prePayload.date = preState.date + 'T00:00:00.000Z';
@@ -379,7 +379,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                 prePayload.service_id = schedulingListFilterState.service_id._id;
             }
             if (schedulingListFilterState.provider_id) {
-                prePayload.provider_id = schedulingListFilterState.provider_id._id;
+                prePayload.provider_id = schedulingListFilterState.provider_id.provider_id || schedulingListFilterState.provider_id._id;
             }
             if (schedulingListFilterState.status) {
                 prePayload.status = schedulingListFilterState.status.code;
@@ -523,6 +523,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                     clearDefaultData={true}
                                     searchMode={'serverSide'}
                                     defaultData={serviceCategoryList || []}
+                                    extraPayload={{is_active: true}}
                                     url={APIConfig.SERVICE_CATEGORY_LIST_LITE.URL}
                                     method={APIConfig.SERVICE_CATEGORY_LIST_LITE.METHOD}
                                     fullWidth={true}
@@ -574,6 +575,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                     openOnFocus={true}
                                     clearDefaultData={true}
                                     defaultData={serviceList || []}
+                                    extraPayload={{is_active: true}}
                                     url={APIConfig.SERVICE_LIST_LITE.URL(schedulingListFilterState?.category_id?._id)}
                                     method={APIConfig.SERVICE_LIST_LITE.METHOD}
                                     fullWidth={true}
@@ -594,14 +596,15 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                     label={'Provider'}
                                     value={schedulingListFilterState?.provider_id}
                                     dataListKey={'data'}
-                                    displayWith={item => item ? item?.first_name + ' ' + item?.last_name : ''}
-                                    keyExtractor={item => item?._id}
+                                    displayWith={item => item ? item?.provider_name || (item?.first_name + ' ' + item?.last_name) : ''}
+                                    keyExtractor={item => item?.provider_id || item?._id}
                                     valueExtractor={item => item}
                                     defaultData={providerList || []}
                                     searchMode={'serverSide'}
-                                    url={APIConfig.USER_LIST_LITE.URL}
-                                    method={APIConfig.USER_LIST_LITE.METHOD}
+                                    url={(!!schedulingListFilterState.service_id) ? APIConfig.SERVICE_PROVIDERS_LINKED_TO_SERVICE.URL(schedulingListFilterState.service_id._id) : APIConfig.USER_LIST_LITE.URL}
+                                    method={(!!schedulingListFilterState.service_id) ? APIConfig.SERVICE_PROVIDERS_LINKED_TO_SERVICE.METHOD : APIConfig.USER_LIST_LITE.METHOD}
                                     fullWidth={true}
+                                    extraPayload={{role: 'provider', is_active: true}}
                                     clearDefaultData={true}
                                     freeSolo={true}
                                     openOnFocus={true}
@@ -803,7 +806,10 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                      setSchedulingListFilterState({
                                                                          ...schedulingListFilterState,
                                                                          category_id: value,
-                                                                         service_id: undefined
+                                                                         service_id: undefined,
+                                                                         start_date: date,
+                                                                         end_date: date,
+                                                                         duration: 'day'
                                                                      })
                                                                      if (value) {
                                                                          getServiceList(value?._id);
@@ -867,7 +873,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                         return <div key={index}
                                                     className={"scheduling-calendar-day-wise-item view-" + schedulingListFilterState.duration}>
                                             <div className="scheduling-calendar-day-wise-item-header">
-                                                {day.format('DD MMMM YYYY')}
+                                                {day.format(' MMMM DD YYYY')}
                                             </div>
                                             <div className="scheduling-calendar-day-wise-item-body">
                                                 {HOURS_LIST_IN_MINUTES.map(
@@ -942,7 +948,6 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             }
         </div>
     );
-
 };
 
 export default SchedulingScreen;

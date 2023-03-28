@@ -268,8 +268,6 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                             }
                         })
                     }
-
-
                 })
                 console.log(finalData, 'finaldata')
                 setDurationList(finalData);
@@ -307,7 +305,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                 const selectedService = (servicesList || []).find(value => value._id === preFillData.service_id);
                 if (selectedService) {
                     console.log(selectedService, 'selectedService');
-                    // getServicesInfo(selectedService?._id)
+                    getServicesInfo(selectedService?._id)
                     // getServiceProviderList(selectedService?._id);
                     // setAvailableRawTimes([]);
                     // setAvailableDates([]);
@@ -315,7 +313,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                 }
             }
         }
-    }, [preFillData, servicesList])
+    }, [preFillData, servicesList, getServicesInfo])
 
 
     useEffect(() => {

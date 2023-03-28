@@ -36,6 +36,7 @@ export interface IClientListFilterState {
         [key: string]: string,
     }
 }
+
 export interface IClientMedicalStatusFilterState {
     status?: boolean;
 }
@@ -63,6 +64,18 @@ export interface IClientBasicDetails {
     last_provider?: string;
     created_at?: string;
     send_invite?: boolean;
+}
+
+export interface IClientAppointmentsFilterState {
+    status: string;
+    provider_id: string;
+}
+
+export interface IClientDocumentsFilterState {
+    posted_by: any;
+    date_range: any;
+    start_date: any;
+    end_date: any;
 }
 
 export interface IEmergencyContactInfo {
@@ -133,12 +146,12 @@ export interface IClientMedicalRecord {
     total_direct_minutes: number;
     injury_description: string;
     limitations: string;
-    intervention_linked_to:string;
-    next_appointment:string;
+    intervention_linked_to: string;
+    next_appointment: string;
     injury_details: any;
     body_side: string;
     created_at: string | undefined;
-    status_details:any;
+    status_details: any;
     client_details: IClientBasicDetails;
 }
 

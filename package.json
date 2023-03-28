@@ -1,6 +1,6 @@
 {
   "name": "kinergy_admin_ui",
-  "version": "0.15.1",
+  "version": "0.15.20",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.4",
@@ -22,6 +22,8 @@
     "@types/react": "^18.0.0",
     "@types/react-autocomplete": "^1.8.6",
     "@types/react-dom": "^18.0.0",
+    "@types/wojtekmaj__react-daterange-picker": "^3.4.2",
+    "@wojtekmaj/react-daterange-picker": "^4.2.0",
     "add": "^2.0.6",
     "antd": "^5.0.1",
     "axios": "^0.27.2",

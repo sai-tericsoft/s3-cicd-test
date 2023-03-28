@@ -650,8 +650,8 @@ const APIConfig: IAPIConfig = {
         METHOD: 'put'
     },
     RESEND_INVITE_LINK_TO_CLIENT: {
-        URL:(clientId:string)=> ENV.API_URL + '/client/'+clientId + '/resendInvite',
-        METHOD:'post'
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/resendInvite',
+        METHOD: 'post'
     },
     SAVE_SYSTEM_SETTINGS: {
         URL: ENV.API_URL + "/systemSetting",
@@ -665,11 +665,11 @@ const APIConfig: IAPIConfig = {
         URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/notifyAdmin',
         METHOD: 'post'
     },
-    MEDICAL_RECORD_NOTIFY_ADMIN:{
+    MEDICAL_RECORD_NOTIFY_ADMIN: {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/notifyAdmin',
         METHOD: 'post'
     },
-    RE_OPEN_MEDICAL_RECORD:{
+    RE_OPEN_MEDICAL_RECORD: {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/reopen',
         METHOD: 'put'
     },
@@ -677,46 +677,69 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + '/product/lite',
         METHOD: 'get'
     },
-    UPDATE_INVENTORY_PRODUCT_QUANTITY:{
+    UPDATE_INVENTORY_PRODUCT_QUANTITY: {
         URL: (productId: string) => ENV.API_URL + '/product/' + productId + '/updateStock',
         METHOD: 'put'
     },
     PENDING_PAYMENT_LIST: {
         URL: ENV.API_URL + '/invoice',
-        METHOD:'get'
+        METHOD: 'get'
     },
-    COMPLETE_PAYMENT_LIST:{
-        URL:ENV.API_URL+'/receipt',
-        METHOD:'get'
+    COMPLETE_PAYMENT_LIST: {
+        URL: ENV.API_URL + '/receipt',
+        METHOD: 'get'
     },
-    MARK_PAYMENTS_AS_PAID:{
-        URL:ENV.API_URL+'/invoice/markPaid',
-        METHOD:'post'
+    CLIENT_PENDING_PAYMENT_LIST: {
+        URL: (clientId: string) => ENV.API_URL + '/invoice/' + clientId,
+        METHOD: 'get'
     },
-    MARK_PAYMENT_AS_PAID:{
+    CLIENT_COMPLETE_PAYMENT_LIST: {
+        URL: (clientId: string) => ENV.API_URL + '/receipt/' + clientId,
+        METHOD: 'get'
+    },
+
+    MARK_PAYMENTS_AS_PAID: {
+        URL: ENV.API_URL + '/invoice/markPaid',
+        METHOD: 'post'
+    },
+    MARK_PAYMENT_AS_PAID: {
         URL: (invoiceId: string) => ENV.API_URL + '/invoice/' + invoiceId + '/markPaid',
-        METHOD:'post'
+        METHOD: 'post'
     },
-    GENERATE_BILLING_DOCUMENT_PDF:{
+    GENERATE_BILLING_DOCUMENT_PDF: {
         URL: (billingDocumentId: string, type: 'invoice' | 'receipt') => `${ENV.API_URL}/${type}/${billingDocumentId}/generatePDF`,
-        METHOD:'post'
+        METHOD: 'post'
     },
-    ADD_NEW_RECEIPT:{
-        URL:ENV.API_URL+'/receipt',
-        METHOD:'post'
+    ADD_NEW_RECEIPT: {
+        URL: ENV.API_URL + '/receipt',
+        METHOD: 'post'
     },
-    GET_INVOICE_DETAILS:{
+    GET_INVOICE_DETAILS: {
         URL: (invoiceId: string) => ENV.API_URL + '/invoice/' + invoiceId,
-        METHOD:'get'
+        METHOD: 'get'
     },
-    GET_RECEIPT_DETAILS:{
+    GET_RECEIPT_DETAILS: {
         URL: (receiptId: string) => ENV.API_URL + '/receipt/' + receiptId,
-        METHOD:'get'
+        METHOD: 'get'
     },
-    GET_BILLING_STATS:{
+    GET_BILLING_STATS_COUNT: {
         URL: ENV.API_URL + '/invoiceStats',
-        METHOD:'get'
+        METHOD: 'get'
     },
+
+    GET_BILLING_STATS: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/billingStats',
+        METHOD: 'get'
+    },
+
+    GET_CLIENT_DOCUMENTS: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/documents',
+        METHOD: 'get'
+    },
+    GET_CLIENT_APPOINTMENTS: {
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/appointments',
+        METHOD: 'get'
+    }
 }
 
 export default APIConfig;

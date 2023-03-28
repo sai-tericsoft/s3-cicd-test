@@ -3,6 +3,29 @@
     text-align: center !important;
   }
 
+  .progress-stats-table {
+    .card-component {
+      .card-body {
+        padding: 0;
+      }
+    }
+    .progress-stats-comment{
+     display: flex;
+      justify-content: center;
+      .comment-edit-wrapper{
+        display: flex;
+        justify-content: space-between;
+        flex: 1 1;
+      }
+      .add-comment-heading{
+        color: #00534F;
+        font-weight: 700;
+        cursor: pointer;
+      }
+    }
+
+  }
+
   .last-updated-status {
     display: flex;
     justify-content: flex-end;

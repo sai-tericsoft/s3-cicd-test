@@ -1,5 +1,6 @@
 .edit-medical-record-container {
   .t-form {
+
     .remove-btn {
       display: flex;
       justify-content: end;
@@ -14,9 +15,13 @@
       margin: auto;
     }
   }
+
 }
 .edit-medical-record-component{
   .t-form{
+    .t-form-actions {
+      margin-bottom: 5px;
+    }
     .t-surgery-record-drawer-form-controls{
       .file-picker-wrapper{
         margin-bottom: 50px;

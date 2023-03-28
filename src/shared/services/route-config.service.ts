@@ -2,8 +2,6 @@ import {
     ADMIN,
     CHART_NOTES_LIST,
     CLIENT_ADD,
-    CLIENT_DETAILS,
-    CLIENT_EDIT,
     CLIENT_LIST,
     COMING_SOON_ROUTE,
     DASHBOARD,
@@ -90,11 +88,32 @@ const ClientAdd = (clientId: string) => {
 }
 
 const ClientDetails = (clientId: string) => {
-    return CLIENT_DETAILS + '/' + clientId;
+    return '/client/' + clientId;
+}
+
+const ClientProfileDetails = (clientId: string) => {
+    return '/client/' + clientId + '/client-profile-details';
+}
+
+const ClientBillingDetails = (clientId: string) => {
+    return '/client/' + clientId + '/client-billing-details'
+}
+
+const ClientDocuments = (clientId: string) => {
+    return '/client/' + clientId + '/client-documents';
+}
+
+const clientDocumentViewDetails = (clientId: any, clientDocumentId: string) => {
+    return "/client/" + clientId + "/" + clientDocumentId + '/client-document-view-details';
+
+}
+
+const ClientAppointments = (clientId: string) => {
+    return '/client/' + clientId + '/client-appointments';
 }
 
 const ClientEdit = (clientId: string) => {
-    return CLIENT_EDIT + '/' + clientId;
+    return '/client/' + clientId + '/client-edit';
 }
 
 const ClientSearch = () => {
@@ -153,28 +172,28 @@ const MedicalInterventionDetails = (medicalRecordId: string, medicalIntervention
     return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/view-medical-intervention';
 }
 
-const MedicalRecordSurgeryRecordDetails = (medicalRecordId: string, surgeryRecordId: string) => {
-    return '/chart-notes/' + medicalRecordId + '/surgery-record/' + surgeryRecordId;
+const MedicalRecordSurgeryRecordDetails = (medicalRecordId: string, surgeryRecordId: string, type?: any) => {
+    return '/chart-notes/' + medicalRecordId + '/surgery-record/' + surgeryRecordId + "?type=" + type;
 }
 
-const MedicalRecordProgressReportAdvancedDetailsUpdate = (medicalRecordId: string, progressReportId: string,mode:string) => {
-    return '/chart-notes/' + medicalRecordId + '/' + progressReportId + '/progress-report-advance-details-update/'+ mode;
+const MedicalRecordProgressReportAdvancedDetailsUpdate = (medicalRecordId: string, progressReportId: string, mode: string) => {
+    return '/chart-notes/' + medicalRecordId + '/' + progressReportId + '/progress-report-advance-details-update/' + mode;
 }
 
 const MedicalInterventionFinalizeTreatment = (medicalRecordId: string, medicalInterventionId: string) => {
     return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/finalize-treatment';
 }
 
-const MedicalRecordProgressReportViewDetails = (medicalRecordId: string, progressReportId: string) => {
-    return "/chart-notes/" + medicalRecordId + "/" + progressReportId + '/progress-report-view-details';
+const MedicalRecordProgressReportViewDetails = (medicalRecordId: string, progressReportId: string, type?: any) => {
+    return "/chart-notes/" + medicalRecordId + "/" + progressReportId + '/progress-report-view-details' + "?type=" + type;
 }
 
 const MedicalInterventionDryNeedlingFileViewDetails = (medicalRecordId: string, dryNeedlingFileId: string) => {
     return "/chart-notes/" + medicalRecordId + "/" + dryNeedlingFileId + '/dry-needling-file-view-details';
 }
 
-const MedicalInterventionConcussionFileViewDetails = (medicalRecordId: string, concussionFileId: string) => {
-    return "/chart-notes/" + medicalRecordId + "/" + concussionFileId + '/concussion-file-view-details';
+const MedicalInterventionConcussionFileViewDetails = (medicalRecordId: string, concussionFileId: string, type?: any) => {
+    return "/chart-notes/" + medicalRecordId + "/" + concussionFileId + '/concussion-file-view-details' + "?type=" + type;
 }
 
 const MedicalRecordDocumentViewDetails = (medicalRecordId: string, medicalRecordDocumentId: string) => {
@@ -213,6 +232,7 @@ const AddNewReceipt = () => {
 const BillingDetails = (billingId: string, type: 'invoice' | 'receipt') => {
     return "/billing/billing-details/" + billingId + "?type=" + type;
 }
+
 
 const RouteConfigService = {
     DefaultRoute,
@@ -262,7 +282,12 @@ const RouteConfigService = {
     SystemSettings,
     BillingList,
     AddNewReceipt,
-    BillingDetails
+    BillingDetails,
+    ClientProfileDetails,
+    ClientBillingDetails,
+    ClientDocuments,
+    ClientAppointments,
+    clientDocumentViewDetails
 }
 
 export default RouteConfigService;

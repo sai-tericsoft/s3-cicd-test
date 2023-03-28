@@ -17,11 +17,12 @@ interface MedicalRecordAttachmentBasicDetailsCardComponentProps {
     attachmentDetails: any;
     medicalRecordDetails: any;
     onEdit?: () => void;
+    showEdit?: boolean;
 }
 
 const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAttachmentBasicDetailsCardComponentProps) => {
 
-    const {pageTitle, medicalRecordDetails, attachmentDetails, attachmentType, onEdit} = props;
+    const {pageTitle, medicalRecordDetails, attachmentDetails, attachmentType, onEdit, showEdit} = props;
 
     const handleEdit = useCallback(() => {
         if (onEdit) {
@@ -53,7 +54,7 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                             </div>
                         </div>
                         <div className={"medical-record-attachment-basic-details-actions"}>
-                            {onEdit && <ButtonComponent
+                            {showEdit && <ButtonComponent
                                 prefixIcon={<ImageConfig.EditIcon/>}
                                 onClick={handleEdit}
                             >

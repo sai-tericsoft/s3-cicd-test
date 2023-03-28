@@ -41,8 +41,11 @@
     border-bottom: 1px solid $header-line-color;
     border-top: 1px solid $header-line-color;
 
-    &:first-child, &:last-child {
+    &:first-child {
       border-left: none;
+    }
+
+    &:last-child {
       border-right: none;
     }
 
@@ -75,7 +78,7 @@
       flex: 1;
       color: getTextColorForBackground($header-color);
       padding: 5px;
-      font-weight: bold;
+      //font-weight: bold;
       overflow: hidden;
       background-color: $background-color;
 
@@ -85,7 +88,7 @@
       }
 
       &.is_disabled {
-        background-color: colorDarkness($background-color, 5) !important;
+        //background-color: colorDarkness($background-color, 5) !important;
         color: colorDarkness($background-color, 15)
       }
 

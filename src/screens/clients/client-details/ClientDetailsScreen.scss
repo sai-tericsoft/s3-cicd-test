@@ -6,9 +6,6 @@
     display: flex;
 
     .client-details-left-bar {
-      position: fixed;
-      padding: 0 15px 0 0;
-      flex: 0;
 
       .client-details-title {
         font-weight: $font-weight-bolder;
@@ -25,8 +22,10 @@
     }
 
     .client-details-content-wrapper {
-      margin-left: 233px;
       flex: 1;
+      padding: 0 0 0 15px;
+      overflow-x: hidden;
+      overflow-y: auto;
 
       .client-details-tab{
         font-size: 1.0714rem;

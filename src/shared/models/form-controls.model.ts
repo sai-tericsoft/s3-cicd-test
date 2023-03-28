@@ -25,6 +25,8 @@ export interface IInputFieldProps {
     suffix?: any;
     size?: 'small' | 'medium';
     max?: number;
+    maxValue?: number;
+    autoFocus?:boolean;
 }
 
 
@@ -222,4 +224,25 @@ export interface IDatePickerProps {
     onUpdate?: Function;
     label?: string;
     mask?: string
+}
+
+
+export interface IDateRangePickerProps {
+    fullWidth?: boolean;
+    id?: string;
+    variant?: "filled" | "standard" | "outlined" | undefined;
+    color?: "error" | "primary" | "secondary" | "info" | "success" | "warning" | undefined;
+    size?: "small" | "medium" | undefined;
+    placeholder?: string;
+    required?: boolean;
+    disabled?: boolean;
+    readOnly?: boolean;
+    format?: string;
+    minDate?: Moment;
+    maxDate?: Moment;
+    onUpdate?: Function;
+    label?: string;
+    mask?: string;
+    rangeDivider?: 'to' | '-';
+    className?: string;
 }

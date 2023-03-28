@@ -264,7 +264,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                             }, [validateForm, values]);
                             return (
                                 <Form className="t-form" noValidate={true}>
-                                    <FormDebuggerComponent values={values} errors={errors} canShow={false}/>
+                                    <FormDebuggerComponent values={values} errors={errors} />
                                     <CardComponent>
                                         <div className="ts-row align-items-center">
                                             <div className="ts-col ts-col-6">

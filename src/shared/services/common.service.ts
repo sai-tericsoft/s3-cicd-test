@@ -136,6 +136,12 @@ const convertDateFormat2 = (date: Date, format: string = 'DD-MMM-YYYY') => {
     return moment(date).format(format);
 }
 
+const generateUseCaseFromCaseDetails = (case_details: any) => {
+    return `${CommonService.convertDateFormat2(case_details?.case_date)} - ${case_details?.injury_details?.map((bodyPart: any, index: number) => {
+        return (bodyPart?.body_part_details + (bodyPart?.body_side ? `( ${bodyPart.body_side} )` : ' ') + (index !== case_details?.injury_details?.length - 1 ? ' | ' : ''))
+    })} `
+}
+
 const generateInterventionNameFromMedicalRecord = (medicalRecordDetails: any) => {
     return `${medicalRecordDetails?.injury_details?.map((bodyPart: any, index: number) => {
         return (bodyPart?.body_part_details?.name + (index === medicalRecordDetails?.injury_details?.length - 1 ? '' : '/'))
@@ -571,6 +577,7 @@ const CommonService = {
     openLinkInNewTab,
     isTextEllipsisActive,
     ComingSoon,
+    generateUseCaseFromCaseDetails,
 
     // createValidationsObject,
     // createYupSchema,

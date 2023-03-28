@@ -31,7 +31,10 @@ const InputComponent = (props: InputComponentProps) => {
         onChange,
         onFocus,
         onBlur,
+        autoFocus,
+        maxValue,
     } = props;
+
     const variant = props.variant || "outlined";
     const size = props.size || "medium";
     const type = props.type || "text";
@@ -45,18 +48,25 @@ const InputComponent = (props: InputComponentProps) => {
             nextValue = CommonService.Capitalize(nextValue);
         }
         if (onChange) {
+            if (type === "number" && maxValue) {
+                if (maxValue >= nextValue) {
+                    onChange(nextValue);
+                } else {
+                    return;
+                }
+            }
             if (validationPattern) {
                 const reg = RegExp(validationPattern);
                 if (nextValue === "" || reg.test(nextValue)) {
-                    onChange( type === "number" ? parseInt(nextValue) : nextValue );
+                    onChange(type === "number" ? parseInt(nextValue) : nextValue);
                 } else {
                     console.log(nextValue, reg, reg.test(nextValue), "regex failed");
                 }
             } else {
-                onChange( type === "number" ? parseInt(nextValue) : nextValue );
+                onChange(type === "number" ? parseInt(nextValue) : nextValue);
             }
         }
-    }, [titleCase, type, validationPattern, onChange]);
+    }, [titleCase, type, validationPattern, onChange, maxValue]);
 
     const handleOnFocus = useCallback((event: any) => {
         if (onFocus) {
@@ -65,10 +75,10 @@ const InputComponent = (props: InputComponentProps) => {
     }, [onFocus]);
 
     const handleOnBlur = useCallback((event: any) => {
-        if(onBlur){
+        if (onBlur) {
             onBlur(event);
         }
-    },[onBlur]);
+    }, [onBlur]);
 
     return (
         <FormControl className={'input-component ' + className + ' ' + (fullWidth ? "full-width" : "")}
@@ -83,6 +93,7 @@ const InputComponent = (props: InputComponentProps) => {
                        size={size}
                        label={label}
                        value={value || ""}
+                       autoFocus={autoFocus}
                        variant={variant}
                        disabled={disabled}
                        InputProps={{
@@ -98,10 +109,12 @@ const InputComponent = (props: InputComponentProps) => {
                            handleOnChange(event);
                        }}
                        onFocus={(event) => {
-                       handleOnFocus(event);}
+                           handleOnFocus(event);
+                       }
                        }
                        onBlur={(event) => {
-                           handleOnBlur(event);}
+                           handleOnBlur(event);
+                       }
                        }
                        error={hasError}
                        helperText={errorMessage}

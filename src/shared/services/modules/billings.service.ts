@@ -28,9 +28,14 @@ const GetReceiptDetailsAPICall = (receiptId: any) => {
     return ApiService[APIConfig.GET_RECEIPT_DETAILS.METHOD](APIConfig.GET_RECEIPT_DETAILS.URL(receiptId))
 }
 
-const GetBillingStatsAPICall = () => {
+const GetBillingStatsCountAPICall = (payload: any) => {
     // @ts-ignore
-    return ApiService[APIConfig.GET_BILLING_STATS.METHOD](APIConfig.GET_BILLING_STATS.URL)
+    return ApiService[APIConfig.GET_BILLING_STATS_COUNT.METHOD](APIConfig.GET_BILLING_STATS_COUNT.URL, payload)
+}
+
+const GetBillingStatsAPICall = (clientId:any,payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.GET_BILLING_STATS.METHOD](APIConfig.GET_BILLING_STATS.URL(clientId), payload)
 }
 
 const GetBillingPDFDocument = (billingDocumentId: any, type: BillingType, payload: any) => {
@@ -38,14 +43,15 @@ const GetBillingPDFDocument = (billingDocumentId: any, type: BillingType, payloa
     return ApiService[APIConfig.GENERATE_BILLING_DOCUMENT_PDF.METHOD](APIConfig.GENERATE_BILLING_DOCUMENT_PDF.URL(billingDocumentId, type), payload)
 }
 
-const BillingService={
+const BillingService = {
     MarkPaymentsAsPaidAPICall,
     AddNewReceiptAPICall,
     MarkPaymentAsPaidAPICall,
     GetInvoiceDetailsAPICall,
     GetReceiptDetailsAPICall,
-    GetBillingStatsAPICall,
-    GetBillingPDFDocument
+    GetBillingStatsCountAPICall,
+    GetBillingPDFDocument,
+    GetBillingStatsAPICall
 }
 
 export default BillingService;
