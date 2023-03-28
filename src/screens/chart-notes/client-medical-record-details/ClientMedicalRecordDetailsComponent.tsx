@@ -5,7 +5,7 @@ import MedicalInterventionListComponent from "../medical-intervention-list/Medic
 import MedicalRecordAttachmentListComponent
     from "../medical-record-attachment-list/MedicalRecordAttachmentListComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import TabsWrapperComponent, {
     TabComponent,
     TabContentComponent,
@@ -20,6 +20,11 @@ import moment from "moment/moment";
 import {getMedicalInterventionList} from "../../../store/actions/chart-notes.action";
 import {IRootReducerState} from "../../../store/reducers";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
+import ModalComponent from "../../../shared/components/modal/ModalComponent";
+import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
+import {getAppointmentListLite} from "../../../store/actions/appointment.action";
+import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
+import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 
 interface ClientMedicalDetailsComponentProps {
 
@@ -41,10 +46,28 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
     } = useSelector((state: IRootReducerState) => state.chartNotes);
     const [isMedicalInterventionBeingAdded, setIsMedicalInterventionBeingAdded] = useState<boolean>(false);
     const [isMedicalInterventionBeingRepeated, setIsMedicalInterventionBeingRepeated] = useState<boolean>(false);
-
+    const [isAddTreatmentModalOpen, setIsAddTreatmentModalOpen] = useState<boolean>(false);
+    const [isAppointmentSelectionModalOpen, setIsAppointmentSelectionModalOpen] = useState<boolean>(false);
+    const [selectedAppointment, setSelectedAppointment] = useState<any>();
+    const [isTreatmentWithoutAppointmentModalOpen, setIsTreatmentWithoutAppointmentModalOpen] = useState<boolean>(false);
     const {
         clientMedicalRecord,
     } = useSelector((state: IRootReducerState) => state.client);
+
+    const {
+        isAppointmentListLiteLoading,
+        isAppointmentListLiteLoaded,
+        isAppointmentListLiteLoadingFailed,
+        appointmentListLite,
+    } = useSelector((state: IRootReducerState) => state.appointments);
+
+
+    useEffect(() => {
+        if (clientMedicalRecord && clientMedicalRecord.client_id) {
+            const payload = {client_id: clientMedicalRecord.client_id};
+            dispatch(getAppointmentListLite(payload));
+        }
+    }, [clientMedicalRecord, dispatch]);
 
     const handleTabChange = useCallback((e: any, value: any) => {
         searchParams.set("activeTab", value);
@@ -100,7 +123,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
         [medicalRecordId, repeatLastTreatment],
     );
     const addNewTreatment = useCallback(
-        () => {
+        (is_link_to_appointment: boolean) => {
             if (!medicalRecordId) {
                 CommonService._alert.showToast('Medical Record ID not found!', "error");
                 return;
@@ -126,6 +149,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                     "treatment_goals": ""
                 },
                 is_discharge: false,
+                is_link_to_appointment: is_link_to_appointment,
             };
             setIsMedicalInterventionBeingAdded(true);
             CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, payload)
@@ -153,27 +177,29 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
             <PageHeaderComponent title={"Medical Record Main Page"} className={'mrg-left-10'}/>
             <MedicalRecordBasicDetailsCardComponent showAction={true}/>
             <div className={'client-medical-records-header-button-wrapper'}>
-            {clientMedicalRecord?.status_details?.code === 'open' && <div>
-                <ButtonComponent onClick={confirmRepeatLastTreatment}
-                                 disabled={(isMedicalInterventionBeingRepeated || isMedicalInterventionListLoading || medicalInterventionList.filter((item: any) => (item?.status === 'completed' && item?.note_type?.toLowerCase() === "soap note"))?.length === 0)}
-                                 className={'mrg-right-10'}
-                                 variant={"outlined"}>
-                    Repeat Last Treatment
-                </ButtonComponent>
-                <ButtonComponent onClick={addNewTreatment}
-                                 disabled={isMedicalInterventionBeingAdded}
-                                 isLoading={isMedicalInterventionBeingAdded}
-                                 prefixIcon={<ImageConfig.AddIcon/>}>
-                    Add New Treatment
-                </ButtonComponent>
-            </div>}
+                {clientMedicalRecord?.status_details?.code === 'open' && <div>
+                    <ButtonComponent onClick={confirmRepeatLastTreatment}
+                                     disabled={(isMedicalInterventionBeingRepeated || isMedicalInterventionListLoading || medicalInterventionList.filter((item: any) => (item?.status === 'completed' && item?.note_type?.toLowerCase() === "soap note"))?.length === 0)}
+                                     className={'mrg-right-10'}
+                                     variant={"outlined"}>
+                        Repeat Last Treatment
+                    </ButtonComponent>
+                    <ButtonComponent onClick={() => {
+                        setIsAddTreatmentModalOpen(true)
+                    }}
+                                     disabled={isMedicalInterventionBeingAdded}
+                                     isLoading={isMedicalInterventionBeingAdded}
+                                     prefixIcon={<ImageConfig.AddIcon/>}>
+                        Add New Treatment
+                    </ButtonComponent>
+                </div>}
             </div>
             <TabsWrapperComponent>
                 <TabsComponent value={currentTab} onUpdate={handleTabChange} variant={"fullWidth"}
                                allowScrollButtonsMobile={false}>
 
                     <TabComponent label={'Medical Record'} className={'tab-heading'} value={"medicalRecord"}/>
-                    <TabComponent label={'Attachments'}  className={'tab-heading'}  value={"attachmentList"}/>
+                    <TabComponent label={'Attachments'} className={'tab-heading'} value={"attachmentList"}/>
 
                 </TabsComponent>
                 <TabContentComponent value={"medicalRecord"} selectedTab={currentTab}>
@@ -184,6 +210,109 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                 </TabContentComponent>
             </TabsWrapperComponent>
 
+
+            <ModalComponent title={""}
+                            size={'xs'}
+                            className={'add-new-treatment-modal'}
+                            isOpen={isAddTreatmentModalOpen}
+                            showClose={true}
+                            onClose={() => {
+                                setIsAddTreatmentModalOpen(false)
+                            }}>
+                <>
+                    <div className="add-new-treatment-modal-header">Add New Treatment</div>
+                    <ButtonComponent
+                        className={'mrg-top-10 mrg-bottom-10'}
+                        fullWidth={true}
+                        onClick={() => {
+                            setIsAddTreatmentModalOpen(false)
+                            setIsAppointmentSelectionModalOpen(true)
+                        }}>
+                        With Appointment
+                    </ButtonComponent>
+
+                    <ButtonComponent
+                        className={'mrg-top-10 mrg-bottom-10'}
+                        onClick={() => {
+                            setIsAddTreatmentModalOpen(false)
+                            setIsTreatmentWithoutAppointmentModalOpen(true);
+                        }}
+                        fullWidth={true}>
+                        Without Appointment
+                    </ButtonComponent>
+                </>
+
+            </ModalComponent>
+
+
+            <ModalComponent isOpen={isAppointmentSelectionModalOpen}
+                            className={'select-appointment-modal'}
+                            modalFooter={<>
+                                <ButtonComponent variant={'contained'}
+                                                 color={'primary'}
+                                                 disabled={!selectedAppointment}
+                                                 onClick={() => addNewTreatment(true)}
+                                >
+                                    Proceed
+                                </ButtonComponent>
+                            </>
+                            }
+            >
+                <div className="select-appointment-modal-header">Please select the appointment</div>
+                <>
+                    {
+                        isAppointmentListLiteLoading && <div>
+                            <LoaderComponent/>
+                        </div>
+                    }
+                    {
+                        isAppointmentListLiteLoadingFailed &&
+                        <StatusCardComponent title={"Failed to fetch Appointment list"}/>
+                    }
+                    {isAppointmentListLiteLoaded && <SelectComponent
+                        options={appointmentListLite || []}
+                        fullWidth={true}
+                        required={true}
+                        label={"Select Appointment"}
+                        value={selectedAppointment}
+                        onUpdate={(value: any) => {
+                            setSelectedAppointment(value);
+                        }
+                        }
+                    />}
+                </>
+            </ModalComponent>
+
+            <ModalComponent isOpen={isTreatmentWithoutAppointmentModalOpen}
+                            className={'treatment-without-application-modal'}
+                            onClose={() => setIsTreatmentWithoutAppointmentModalOpen(false)}
+                            modalFooter={<>
+                                <ButtonComponent variant={'outlined'}
+                                                 className={'mrg-right-10'}
+                                                 onClick={() => {
+
+                                                 }}
+                                >
+                                    Create Appointment
+                                </ButtonComponent>
+                                <ButtonComponent variant={'contained'}
+                                                 color={'primary'}
+                                                 onClick={() => addNewTreatment(false)}
+                                >
+                                    Yes
+                                </ButtonComponent>
+                            </>
+                            }
+            >
+                <img className="treatment-without-application-icon" src={ImageConfig.RemoveBodyPartConfirmationIcon}
+                     alt=""/>
+                <div className={'treatment-without-application-info-title'}>
+                    CONTINUE WITHOUT APPOINTMENT
+                </div>
+                <div className={'treatment-without-application-info-description'}>
+                    Are you sure you do not require an appointment?
+                </div>
+            </ModalComponent>
         </div>
     );
 

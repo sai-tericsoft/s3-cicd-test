@@ -370,6 +370,10 @@ const APIConfig: IAPIConfig = {
         URL: (appointmentId: string) => ENV.API_URL + "/appointment/" + appointmentId + '/formStatus',
         METHOD: "get"
     },
+    APPOINTMENT_LIST_LITE: {
+        URL: ENV.API_URL + "/appointment/lite",
+        METHOD: "get"
+    },
     // user end
 
     // chart notes start

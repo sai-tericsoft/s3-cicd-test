@@ -90,7 +90,9 @@ const ModalComponent = (props: React.PropsWithChildren<ModalComponentProps>) => 
                 {
                     (title || showClose) && <div className="modal-header">
                         <div className="modal-title">{title}</div>
-                        {showClose && <div className="modal-close" onClick={(event) => {
+                        {showClose &&
+                            <div className="modal-close"
+                                 onClick={(event) => {
                             handleOnClose(event, 'closeBtnClick');
                         }
                         }><ImageConfig.CloseIcon/></div>}

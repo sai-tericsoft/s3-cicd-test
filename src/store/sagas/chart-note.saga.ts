@@ -9,7 +9,6 @@ function* getClientFavouriteCodeList(action: any) {
         const resp = yield call(CommonService._client.GetAllFavouriteCodes, action.payload);
         yield put(setClientFavouriteCode(resp.data.docs));
     } catch (error) {
-        console.log(error, 'getClientFavouriteCodeList');
         yield put(setClientFavouriteCode(undefined));
     }
 }
