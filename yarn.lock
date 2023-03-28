@@ -2748,11 +2748,6 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-clock@*":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@types/react-clock/-/react-clock-3.0.1.tgz#4d8f8736e1ca95d697f2120b5261bd6e45482d48"
-  integrity sha512-lgtqEGV8StA4yTvXqrZGCD4PJFe90RjSMWdgYzPZX7JsIpqZqum9+Dns+UkcnnFOz6jTKXr7e48yNjYREWDe9w==
-
 "@types/react-dom@^18.0.0":
   version "18.0.5"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.0.5.tgz#330b2d472c22f796e5531446939eacef8378444a"
@@ -2788,13 +2783,6 @@
   integrity sha512-TYrv7onCiakaG1uAu/UpQ9FojNEt/4/ht87EgJQaEGFoWV606ZLWUZAcUHzMxgc3v1mywP1cDyz3qB4ho3hWOw==
   dependencies:
     "@types/react" "*"
-
-"@types/react-time-picker@^4.0.3":
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/@types/react-time-picker/-/react-time-picker-4.0.3.tgz#1435259534b7f4956936166ea8c8d7b1bbe3e0c7"
-  integrity sha512-DUmzFGItnwL106dYTQ/M3882NS16KKVhZWXu4FOjl/uumrv0r+npkEmOxpCapA3XBDMlI0FIG54+MOtmxzwQGA==
-  dependencies:
-    "@types/react-clock" "*"
 
 "@types/react-transition-group@^4.2.0", "@types/react-transition-group@^4.4.5":
   version "4.4.5"
