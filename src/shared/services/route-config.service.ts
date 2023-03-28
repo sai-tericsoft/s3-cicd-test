@@ -229,11 +229,7 @@ const AddNewReceipt = () => {
     return "/billing/add-new-receipt";
 }
 
-const BillingDetails = (billingId: string, type: 'invoice' | 'receipt') => {
-    return "/billing/billing-details/" + billingId + "?type=" + type;
-}
-
-const SingleClientBillingDetails = (billingId: string) => {
+const  BillingDetails = (billingId: string) => {
     return "/billing/billing-details/" + billingId;
 }
 
@@ -293,7 +289,6 @@ const RouteConfigService = {
     ClientDocuments,
     ClientAppointments,
     clientDocumentViewDetails,
-    SingleClientBillingDetails
 }
 
 export default RouteConfigService;

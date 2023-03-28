@@ -1,6 +1,6 @@
 import "./BillingDetailsScreen.scss";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
-import {useNavigate, useParams, useSearchParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {CommonService} from "../../../shared/services";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
@@ -40,6 +40,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {billingId} = useParams();
+    const location = useLocation();
     const [searchParams, setSearchParams] = useSearchParams();
     const [type, setType] = useState<BillingType>('invoice');
     const [viewMode, setViewMode] = useState<BillingViewMode>('general');
@@ -123,7 +124,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     }, [type, billingId]);
 
     const handleBillingMarkAsPaidSuccess = useCallback((receiptId: string) => {
-        navigate(CommonService._routeConfig.BillingDetails(receiptId, "receipt"));
+        navigate(CommonService._routeConfig.BillingDetails(receiptId)+ '?referrer='+ location.pathname + '&type='+'receipt');
     }, [navigate]);
 
     const handleBillingMarkAsPaid = useCallback(() => {

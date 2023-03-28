@@ -121,7 +121,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             width: 150,
             align: 'center',
             render: (item: any) => {
-                return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id, 'invoice')}>
+                return <LinkComponent route={CommonService._routeConfig. BillingDetails(item?._id)+ '?referrer='+ location.pathname + '&type='+'invoice'}>
                     {
                         (item?.appointment_details.appointment_number).length > 10 ?
                             <ToolTipComponent
@@ -213,7 +213,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             width: 100,
             dataIndex: 'action',
             render: (item: any) => {
-                return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id, 'invoice')}>
+                return <LinkComponent route={CommonService._routeConfig. BillingDetails(item?._id)+ '?referrer='+ location.pathname + '&type='+'invoice'}>
                     View Details
                 </LinkComponent>
             }
@@ -246,7 +246,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             width: 150,
             align: 'center',
             render: (item: any) => {
-                return <LinkComponent route={CommonService._routeConfig.SingleClientBillingDetails(item?._id)+ '?referrer='+ location.pathname + '&type='+'invoice' }>
+                return <LinkComponent route={CommonService._routeConfig. BillingDetails(item?._id)+ '?referrer='+ location.pathname + '&type='+'invoice' }>
                     {
                         (item?.appointment_details.appointment_number).length > 10 ?
                             <ToolTipComponent
@@ -302,7 +302,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             width: 100,
             dataIndex: 'action',
             render: (item: any) => {
-                return <LinkComponent route={CommonService._routeConfig.SingleClientBillingDetails(item?._id)+ '?referrer='+ location.pathname + '&type='+'invoice' }>
+                return <LinkComponent route={CommonService._routeConfig. BillingDetails(item?._id)+ '?referrer='+ location.pathname + '&type='+'invoice' }>
                     View Details
                 </LinkComponent>
             }
@@ -317,7 +317,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             fixed: 'left',
             dataIndex: 'receipt_number',
             render: (item: any) => {
-                return <LinkComponent route={CommonService._routeConfig.SingleClientBillingDetails(item?._id)+ '?referrer='+ location.pathname + '&type='+'receipt' }>
+                return <LinkComponent route={CommonService._routeConfig. BillingDetails(item?._id)+ '?referrer='+ location.pathname + '&type='+'receipt' }>
                     {item?.receipt_number}
                 </LinkComponent>
             }
@@ -374,7 +374,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             fixed: 'right',
             dataIndex: 'action',
             render: (item: any) => {
-                return <LinkComponent route={CommonService._routeConfig.SingleClientBillingDetails(item?._id)+ '?referrer='+ location.pathname + '&type='+'receipt' }>
+                return <LinkComponent route={CommonService._routeConfig. BillingDetails(item?._id)+ '?referrer='+ location.pathname + '&type='+'receipt' }>
                     View Details
                 </LinkComponent>
             }
@@ -389,7 +389,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             fixed: 'left',
             dataIndex: 'receipt_number',
             render: (item: any) => {
-                return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id, 'receipt')}>
+                return <LinkComponent route={CommonService._routeConfig. BillingDetails(item?._id)+ '?referrer='+ location.pathname + '&type='+'receipt'}>
                     {item?.receipt_number}
                 </LinkComponent>
             }
@@ -468,7 +468,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             fixed: 'right',
             dataIndex: 'action',
             render: (item: any) => {
-                return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id, 'receipt')}>
+                return <LinkComponent route={CommonService._routeConfig. BillingDetails(item?._id)+ '?referrer='+ location.pathname + '&type='+'receipt'}>
                     View Details
                 </LinkComponent>
             }
