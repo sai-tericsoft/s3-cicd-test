@@ -69,6 +69,10 @@
       justify-content: space-between;
       align-content: center;
       padding: 0 15px;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background-color: white;
 
       .scheduling-filter-header-date-wrapper {
         flex: 1;
