@@ -16,7 +16,6 @@ const initialData: IAppointmentReducerState = {
 }
 
 const appointmentReducer = (state: IAppointmentReducerState = initialData, action: any) => {
-    console.log(action);
     switch (action.type) {
         case GET_APPOINTMENT_LIST_LITE :
             state = {
@@ -27,6 +26,7 @@ const appointmentReducer = (state: IAppointmentReducerState = initialData, actio
             };
             return state;
         case SET_APPOINTMENT_LIST_LITE:
+            console.log(action.payload);
             state = {
                 ...state,
                 isAppointmentListLiteLoading: false,

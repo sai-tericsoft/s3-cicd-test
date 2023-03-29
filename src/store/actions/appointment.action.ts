@@ -11,6 +11,8 @@ export const getAppointmentListLite = (payload: any) => {
 export const setAppointmentListLite = (payload: any) => {
     console.log(payload);
     return {
-        type: SET_APPOINTMENT_LIST_LITE, payload: payload
+        type: SET_APPOINTMENT_LIST_LITE, payload: {
+            appointmentListLite: payload
+        }
     };
 };

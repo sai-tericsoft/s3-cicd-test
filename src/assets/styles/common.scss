@@ -732,18 +732,28 @@
   .modal-content-wrapper {
     width: 444px;
 
-    .select-appointment-modal-header {
-      color: #212B36;
-      font-weight: 700;
-      font-size: 16px;
-      margin-bottom: 25px;
+    .drawer-header {
+      .back-btn {
+        align-items: center;
+        display: flex;
+        cursor: pointer;
+        margin-right: 10px;
+        font-weight: $font-weight-bold;
+      }
     }
 
-    .modal-body {
+    .select-appointment-modal-body {
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: 20px;
+
+      .select-appointment-modal-header {
+        color: #212B36;
+        font-weight: 700;
+        font-size: 16px;
+        margin-bottom: 25px;
+      }
     }
   }
 }

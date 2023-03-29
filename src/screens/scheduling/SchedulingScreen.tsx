@@ -390,47 +390,6 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
 
     return (
         <div className={'scheduling-list-component'}>
-            <DrawerComponent isOpen={!!openedAppointmentDetails} onClose={setOpenedAppointmentDetails.bind(null, null)}
-                             className={'book-appointment-component-drawer'}>
-
-                <AppointmentDetailsComponent
-                    appointment_id={openedAppointmentDetails?._id}
-                    onComplete={
-                        () => {
-                            setRefreshToken(Math.random().toString());
-                            setOpenedAppointmentDetails(null);
-                        }
-                    }
-                    onClose={
-                        setOpenedAppointmentDetails.bind(null, null)
-                    }
-                />
-            </DrawerComponent>
-
-            <DrawerComponent isOpen={isBookAppointmentOpen}
-                             onClose={setIsBookAppointmentOpen.bind(null, false)}
-                             className={'book-appointment-component-drawer'}>
-                <BookAppointmentComponent
-                    preFillData={bookAppointmentPreFill}
-                    onComplete={
-                        () => {
-                            if (viewMode === 'calendar') {
-                                getCalenderList({...schedulingListFilterState});
-                            } else {
-                                setRefreshToken(Math.random().toString());
-                            }
-                            setIsBookAppointmentOpen(false);
-                            setBookAppointmentPreFill({})
-                        }
-                    }
-                    onClose={
-                        () => {
-                            setIsBookAppointmentOpen(false)
-                            setBookAppointmentPreFill({})
-                        }
-                    }
-                />
-            </DrawerComponent>
             <div className="scheduling-header-wrapper">
                 <div className="scheduling-header-search-wrapper">
                     <SearchComponent size={'small'}
@@ -946,6 +905,49 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                     />}
                 </div>
             }
+
+            <DrawerComponent isOpen={!!openedAppointmentDetails} onClose={setOpenedAppointmentDetails.bind(null, null)}
+                             className={'book-appointment-component-drawer'}>
+
+                <AppointmentDetailsComponent
+                    appointment_id={openedAppointmentDetails?._id}
+                    onComplete={
+                        () => {
+                            setRefreshToken(Math.random().toString());
+                            setOpenedAppointmentDetails(null);
+                        }
+                    }
+                    onClose={
+                        setOpenedAppointmentDetails.bind(null, null)
+                    }
+                />
+            </DrawerComponent>
+
+            <DrawerComponent isOpen={isBookAppointmentOpen}
+                             onClose={setIsBookAppointmentOpen.bind(null, false)}
+                             className={'book-appointment-component-drawer'}>
+                <BookAppointmentComponent
+                    preFillData={bookAppointmentPreFill}
+                    onComplete={
+                        () => {
+                            if (viewMode === 'calendar') {
+                                getCalenderList({...schedulingListFilterState});
+                            } else {
+                                setRefreshToken(Math.random().toString());
+                            }
+                            setIsBookAppointmentOpen(false);
+                            setBookAppointmentPreFill({})
+                        }
+                    }
+                    onClose={
+                        () => {
+                            setIsBookAppointmentOpen(false)
+                            setBookAppointmentPreFill({})
+                        }
+                    }
+                />
+            </DrawerComponent>
+
         </div>
     );
 };
