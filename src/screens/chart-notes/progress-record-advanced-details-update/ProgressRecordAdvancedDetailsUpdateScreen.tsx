@@ -1,12 +1,12 @@
 import "./ProgressRecordAdvancedDetailsUpdateScreen.scss";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {useDispatch, useSelector} from "react-redux";
 import {CommonService} from "../../../shared/services";
-import {ImageConfig, Misc} from "../../../constants";
+import {APIConfig, ImageConfig, Misc} from "../../../constants";
 import {useNavigate, useParams} from "react-router-dom";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
@@ -31,6 +31,11 @@ import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import EditProgressReportCardComponent from "../edit-progress-report-card/EditProgressReportCardComponent";
 import moment from "moment-timezone";
+import AddBasicProgressReportComponent from "../add-basic-progress-report/AddBasicProgressReportComponent";
+import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
+import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
+import TableComponent from "../../../shared/components/table/TableComponent";
+import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
 
 interface ProgressRecordAdvancedDetailsUpdateScreenProps {
 
@@ -38,7 +43,7 @@ interface ProgressRecordAdvancedDetailsUpdateScreenProps {
 
 const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvancedDetailsUpdateScreenProps) => {
 
-    const {medicalRecordId, progressReportId,mode} = useParams();
+    const {medicalRecordId, progressReportId, mode} = useParams();
 
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
 
@@ -52,14 +57,14 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
         isClientMedicalRecordProgressReportDetailsLoaded,
         clientMedicalRecordProgressReportDetails,
     } = useSelector((state: IRootReducerState) => state.chartNotes);
-    console.log('clientMedicalRecordProgressReportDetails',clientMedicalRecordProgressReportDetails);
+
     const {
         clientMedicalRecord,
     } = useSelector((state: IRootReducerState) => state.client);
     const [showProgressStatCommentsModal, setShowProgressStatCommentsModal] = useState<boolean>(false);
     const [selectedProgressStatComments, setSelectedProgressStatComments] = useState<any>(undefined);
     const [isEditProgressReportDrawerOpen, setIsEditProgressReportDrawerOpen] = useState<boolean>(false);
-
+    const [isICDDrawerOpen, setIsICDDrawerOpen] = useState<boolean>(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [isSigningInProgress, setIsSigningInProgress] = useState<boolean>(false);
@@ -134,6 +139,23 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
             </Field>
         }
     ];
+
+
+    const AddedICDCodesColumns: any = useMemo(() => [
+        {
+            title: 'ICD Code',
+            key: 'icd_code',
+            dataIndex: 'icd_code',
+            fixed: 'left',
+            width: 150,
+        },
+        {
+            title: 'Description',
+            key: 'description',
+            dataIndex: 'description',
+        }
+    ], [medicalRecordId]);
+
 
     const openEditProgressReportDrawer = useCallback(() => {
         setIsEditProgressReportDrawerOpen(true);
@@ -231,9 +253,13 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
         }
     }, [patchDataToProgressReportForm, clientMedicalRecordProgressReportDetails]);
 
+    const handleICDCodeDrawer = useCallback(() => {
+        setIsICDDrawerOpen(true);
+    }, []);
+
     return (
         <div className={'progress-record-advanced-details-update-screen'}>
-            <PageHeaderComponent title={mode==='add' ? "Add Therapy Progress Report" : "Edit Therapy Progress Report"}
+            <PageHeaderComponent title={mode === 'add' ? "Add Therapy Progress Report" : "Edit Therapy Progress Report"}
                                  actions={
                                      <div className="last-updated-status">
                                          <div className="last-updated-status-text">Last Updated On:&nbsp;</div>
@@ -261,6 +287,9 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                     </span>
                             <div className="ts-row width-auto">
                                 <div className="">
+                                    <ButtonComponent className={'mrg-right-10'} onClick={handleICDCodeDrawer}
+                                                     variant={'outlined'}>View ICD-11 Code
+                                        (s)</ButtonComponent>
                                     <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
                                                      onClick={openEditProgressReportDrawer}>
                                         Edit Details
@@ -455,6 +484,31 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                     }}
                 </Formik>
             }
+            <DrawerComponent isOpen={isICDDrawerOpen}
+                             showClose={true}
+                             closeOnEsc={false}
+                             closeOnBackDropClick={false}
+                             onClose={() => setIsICDDrawerOpen(false)}>
+                <div className={'display-flex align-items-center '}>
+                    <FormControlLabelComponent className={'mrg-top-20'} label={'Added ICD-11 Code (s)'} size={'lg'}/>
+                    <IconButtonComponent className={"form-helper-icon"}>
+                        <ToolTipComponent
+                            showArrow={true}
+                            position={'top'}
+                            tooltip={"The displayed ICD-11 codes are from the most recent SOAP note that contained ICD-11 codes."}>
+                            <ImageConfig.InfoIcon/>
+                        </ToolTipComponent>
+                    </IconButtonComponent>
+                </div>
+                {
+                    medicalRecordId &&
+                    <TableWrapperComponent columns={AddedICDCodesColumns}
+                                           isPaginated={false}
+                                           bordered={true}
+                                           url={APIConfig.GET_ADDED_ICD_CODES.URL(medicalRecordId)}
+                                           method={APIConfig.GET_ADDED_ICD_CODES.METHOD}/>
+                }
+            </DrawerComponent>
         </div>
     );
 
