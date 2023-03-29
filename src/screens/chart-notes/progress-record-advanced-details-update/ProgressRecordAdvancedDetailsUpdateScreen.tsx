@@ -490,7 +490,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                              closeOnBackDropClick={false}
                              onClose={() => setIsICDDrawerOpen(false)}>
                 <div className={'display-flex align-items-center '}>
-                    <FormControlLabelComponent className={'mrg-top-20'} label={'Added ICD-11 Code (s)'} size={'lg'}/>
+                    <FormControlLabelComponent className={'mrg-top-20 mrg-right-20'} label={'Added ICD-11 Code (s)'} size={'lg'}/>
                     <IconButtonComponent className={"form-helper-icon"}>
                         <ToolTipComponent
                             showArrow={true}
