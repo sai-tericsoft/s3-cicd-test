@@ -12,10 +12,18 @@
       margin-bottom: 5px;
     }
   }
+  .t-form{
+    .clear-cta{
+      display: flex;
+      justify-content: end;
+
+      color: #00534F;
+    }
+  }
 
   .intervention-clear-button {
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 600;
     text-decoration: underline;
     cursor: pointer;
     margin-right: 10px;
