@@ -10,6 +10,7 @@ import chartNotesSaga from "./chart-notes.saga";
 import inventorySaga from "./inventory.saga";
 import settingsSaga from "./settings.saga";
 import billingsSaga from "./billings.saga";
+import appointmentsSaga from "./appointment.saga";
 
 // Redux Saga: Root Saga
 export default function* rootSaga() {
@@ -22,6 +23,7 @@ export default function* rootSaga() {
         fork(chartNotesSaga),
         fork(inventorySaga),
         fork(settingsSaga),
-        fork(billingsSaga)
+        fork(billingsSaga),
+        fork(appointmentsSaga)
     ]);
 }

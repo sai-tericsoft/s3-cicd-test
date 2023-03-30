@@ -17,9 +17,6 @@ import AppointmentNoShowComponent from "./appointment-noshow/AppointmentNoShowCo
 import AppointmentCancelComponent from "./appointment-cancel/AppointmentCancelComponent";
 import AppointmentRescheduleComponent from "./appointment-reschedule/AppointmentRescheduleComponent";
 import AppointmentPaymentComponent from "./appointment-payment/AppointmentPaymentComponent";
-// import BookAppointmentFormComponent from "./appointment-details-form/BookAppointmentFormComponent";
-// import BookAppointmentOverviewComponent from "./appointment-details-overview/BookAppointmentOverviewComponent";
-// import BookAppointmentPaymentComponent from "./-payment/BookAppointmentPaymentComponent";
 
 interface AppointmentDetailsComponentProps {
     onClose?: () => void
