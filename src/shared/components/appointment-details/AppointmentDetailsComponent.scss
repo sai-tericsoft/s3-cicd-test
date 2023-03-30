@@ -131,10 +131,14 @@
       padding: 12px;
       font-weight: 500;
       display: flex;
+      justify-content: space-between;
       padding-left: 24px;
 
       .form-heading {
         margin-right: 210px;
+      }
+      .status-heading{
+        margin-right: 43px;
       }
     }
 
@@ -143,8 +147,6 @@
 
       .details-body-item {
         display: flex;
-        flex-direction: row;
-
         .item-heading {
           flex: 1;
           font-weight: 400;
@@ -181,7 +183,74 @@
           }
 
           &.red {
-            color: #CB6100 !important
+            color: #CB6100 !important;
+          }
+        }
+      }
+    }
+  }
+  .details-box-bottom {
+  margin-bottom: 50px;
+    border: 1px solid #E7E8EA;
+    .details-header {
+      background: #F2F6F6;
+      padding: 12px;
+      font-weight: 500;
+      display: flex;
+      justify-content: space-between;
+      padding-left: 24px;
+
+      .form-heading {
+        margin-right: 210px;
+      }
+      .status-heading{
+        margin-right: 43px;
+      }
+    }
+
+    .details-body-block-bottom {
+      border-top: 1px solid #E7E8EA;
+
+      .details-body-item {
+        display: flex;
+        justify-content: space-between;
+
+        .item-heading {
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 16px;
+          display: flex;
+          color: #83909D;
+          padding: 9px;
+          margin-left: 15px;
+        }
+
+        .item-value {
+          padding: 9px;
+          font-weight: 400;
+          font-size: 14px;
+          //line-height: 16px;
+          //display: flex;
+          //align-items: center;
+          color: #212B36;
+          margin-right: 43px;
+
+          .unpaid {
+            color: #DE1C4E;
+            background-color: #FFE2E9;
+          }
+
+          .paid {
+            color: #00534F;
+            background-color: #BDE8CA;
+          }
+
+          &.green {
+            color: #37A850 !important
+          }
+
+          &.red {
+            color: #CB6100 !important;
           }
         }
       }
