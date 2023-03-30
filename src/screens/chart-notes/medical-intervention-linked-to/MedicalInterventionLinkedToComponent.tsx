@@ -9,11 +9,12 @@ import {fromEvent} from "rxjs";
 
 interface MedicalInterventionLinkedToComponentProps {
     medicalRecordDetails: any;
+    label?: string;
 }
 
 const MedicalInterventionLinkedToComponent = (props: MedicalInterventionLinkedToComponentProps) => {
 
-        const {medicalRecordDetails} = props;
+        const {medicalRecordDetails, label} = props;
         const [isBodyPartsModalOpen, setIsBodyPartsModalOpen] = React.useState<boolean>(false);
         const interventionDivRef = React.useRef<HTMLDivElement>(null);
         const [shouldShowViewAllBodyParts, setShowViewAllBodyParts] = useState<boolean>(false);
@@ -70,7 +71,7 @@ const MedicalInterventionLinkedToComponent = (props: MedicalInterventionLinkedTo
 
         return (
             <div className={'medical-intervention-linked-to-component'}>
-                <DataLabelValueComponent label={'Intervention Linked to:'} direction={"row"}
+                <DataLabelValueComponent label={label ? label : 'Intervention Linked to:'} direction={"row"}
                                          className={'medical-record-injury-details-wrapper'}>
                     <div className={'medical-record-injury-details'} ref={interventionDivRef}>
                         {medicalRecordDetails?.intervention_linked_to}
@@ -89,7 +90,8 @@ const MedicalInterventionLinkedToComponent = (props: MedicalInterventionLinkedTo
                 </DataLabelValueComponent>
 
                 {/*Body Parts Modal Start*/}
-                <ModalComponent title={"All Added Body Parts"} className={'all-body-body-parts-heading'} isOpen={isBodyPartsModalOpen} onClose={closeBodyPartsModal}>
+                <ModalComponent title={"All Added Body Parts"} className={'all-body-body-parts-heading'}
+                                isOpen={isBodyPartsModalOpen} onClose={closeBodyPartsModal}>
                     <TableComponent data={medicalRecordDetails?.injury_details} columns={bodyPartsColumns}/>
                     <div className={'close-modal-btn'}>
                         <ButtonComponent onClick={closeBodyPartsModal}>Close</ButtonComponent>

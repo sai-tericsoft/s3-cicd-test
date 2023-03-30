@@ -76,7 +76,12 @@ import {
     UPDATE_MEDICAL_INTERVENTION,
     VIEW_MEDICAL_INTERVENTION,
     CLIENT_PROFILE_DETAILS,
-    ADD_NEW_RECEIPT, CLIENT_BILLING_DETAILS, CLIENT_DOCUMENTS, CLIENT_APPOINTMENTS, CLIENT_DOCUMENTS_DETAILS
+    ADD_NEW_RECEIPT,
+    CLIENT_BILLING_DETAILS,
+    CLIENT_DOCUMENTS,
+    CLIENT_APPOINTMENTS,
+    CLIENT_DOCUMENTS_DETAILS,
+    CLIENT_APPOINTMENT_DETAILS
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
@@ -131,6 +136,8 @@ import BillingDetailsScreen from "../screens/billings/billing-details/BillingDet
 import ClientProfileLayoutComponent from "../screens/clients/client-profile-layout/ClientProfileLayoutComponent";
 import ClientDocumentsComponent from "../screens/clients/client-documents/ClientDocumentsComponent";
 import ClientAppointmentsComponent from "../screens/clients/client-appointments/ClientAppointmentsComponent";
+import ClientAppointmentDetailsComponent
+    from "../screens/clients/client-appointment-details/ClientAppointmentDetailsComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -261,6 +268,13 @@ const Navigator = (props: NavigatorProps) => {
                         />
 
                     </Route>
+                    <Route path={CLIENT_APPOINTMENT_DETAILS}
+                           element={
+                               <ProtectedRoute>
+                                   <ClientAppointmentDetailsComponent/>
+                               </ProtectedRoute>
+                           }
+                    />
                     <Route
                         path={CLIENT_ADD + '/:clientId'}
                         element={
@@ -285,6 +299,7 @@ const Navigator = (props: NavigatorProps) => {
                     <Route path={CLIENT_MEDICAL_RECORD_DETAILS} element={<ProtectedRoute>
                         <ClientMedicalRecordDetailsComponent/>
                     </ProtectedRoute>}/>
+
                     <Route path={ADD_MEDICAL_RECORD}
                            element={<ProtectedRoute>
                                <AddMedicalRecordScreen/>

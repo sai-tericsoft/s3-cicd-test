@@ -2,8 +2,8 @@ import "./ClientAppointmentsTableComponent.scss";
 import {IClientAppointmentsFilterState} from "../../../shared/models/client.model";
 import {ITableColumn} from "../../../shared/models/table.model";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
+import React, {useEffect, useState} from "react";
 import {APIConfig, ImageConfig} from "../../../constants";
-import React from "react";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {CommonService} from "../../../shared/services";
 import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
@@ -17,6 +17,26 @@ interface ClientAppointmentsTableComponentProps {
 
 const ClientAppointmentsTableComponent = (props: ClientAppointmentsTableComponentProps) => {
     const {clientAppointmentListFilterState, moduleName, clientId} = props;
+    const [clientAppointmentFilters, setClientAppointmentFilters] = useState<any>();
+
+    useEffect(() => {
+        if (clientAppointmentListFilterState) {
+            const prePayload: any = {...clientAppointmentListFilterState};
+            if (clientAppointmentListFilterState.provider_id) {
+                prePayload.provider_id = clientAppointmentListFilterState.provider_id._id;
+            } else {
+                delete prePayload.provider_id;
+            }
+
+            if (clientAppointmentListFilterState.status) {
+                prePayload.status = clientAppointmentListFilterState.status;
+            } else {
+                delete prePayload.status;
+            }
+
+            setClientAppointmentFilters(prePayload);
+        }
+    }, [clientAppointmentListFilterState]);
 
     const ClientAppointmentListTableColumns: ITableColumn[] = [
         {
@@ -70,7 +90,7 @@ const ClientAppointmentsTableComponent = (props: ClientAppointmentsTableComponen
                 </span>
             }
         },
-        
+
         {
             title: 'Provider',
             key: 'provider',
@@ -80,18 +100,18 @@ const ClientAppointmentsTableComponent = (props: ClientAppointmentsTableComponen
             render: (item: any) => {
                 return <>
                     {
-                        (item?.provider.first_name + ' ' + item?.provider?.last_name).length > 20 ?
+                        (item?.provider_details.first_name + ' ' + item?.provider_details?.last_name).length > 20 ?
                             <ToolTipComponent
-                                tooltip={(item?.provider.first_name + ' ' + item?.provider?.last_name)}
+                                tooltip={(item?.provider_details.first_name + ' ' + item?.provider_details?.last_name)}
                                 position={"top"}
                                 showArrow={true}
                             >
                                 <div className={"ellipses-for-table-data"}>
-                                    {item?.provider?.first_name} {item?.provider?.last_name}
+                                    {item?.provider_details?.first_name} {item?.provider_details?.last_name}
                                 </div>
                             </ToolTipComponent> :
                             <>
-                                {item?.provider?.first_name} {item?.provider?.last_name}
+                                {item?.provider_details?.first_name} {item?.provider_details?.last_name}
                             </>
                     }
                 </>
@@ -119,7 +139,8 @@ const ClientAppointmentsTableComponent = (props: ClientAppointmentsTableComponen
             align: "center",
             render: (item: any) => {
                 if (item?._id) {
-                    return <LinkComponent route={CommonService._routeConfig.ClientDetails(item?._id)}>
+                    return <LinkComponent
+                        route={CommonService._routeConfig.ClientAppointmentViewDetails(clientId, item?._id)}>
                         View Details
                     </LinkComponent>
                 }
@@ -128,6 +149,7 @@ const ClientAppointmentsTableComponent = (props: ClientAppointmentsTableComponen
     ];
 
     return (
+
         <div className={'client-appointment-list-table-component'}>
             <TableWrapperComponent
                 id={"client_appointment_list"}
