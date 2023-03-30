@@ -14,6 +14,7 @@ import FormikInputComponent from "../../form-controls/formik-input/FormikInputCo
 import FormikSelectComponent from "../../form-controls/formik-select/FormikSelectComponent";
 import FormikTextAreaComponent from "../../form-controls/formik-text-area/FormikTextAreaComponent";
 import ToolTipComponent from "../../tool-tip/ToolTipComponent";
+import HorizontalLineComponent from "../../horizontal-line/horizontal-line/HorizontalLineComponent";
 
 
 interface AppointmentPaymentComponentProps {
@@ -120,7 +121,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                             <Form className="t-form" noValidate={true}>
                                 <>
                                     <div className={"t-appointment-drawer-form-controls height-100"}>
-                                        <div className={'payment-block payment-block-time green-card pdd-15 pdd-left-30 mrg-bottom-20'}>
+                                        <div className={'payment-block payment-block-time green-card pdd-15 pdd-left-30 mrg-bottom-24'}>
                                             <div className="block-heading">
                                                 Total Amount
                                             </div>
@@ -167,16 +168,17 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                                                 }
                                             </Field>
                                             <FormControlLabelComponent
-                                                label={"Checkout Summary"}/>
+                                                label={"Checkout Summary"} className={'mrg-bottom-5'}/>
                                             <div className="price-holder">
                                                 <div className="price-item">
-                                                    <div className="price-item-text">Amount (Inc. tax)</div>
+                                                    <div className="price-item-text amount">Amount (Inc. tax)</div>
                                                     <div className="price-item-amount">${details.amount}.00</div>
                                                 </div>
                                                 <div className="price-item">
-                                                    <div className="price-item-text">Discount</div>
+                                                    <div className="price-item-text discount">Discount</div>
                                                     <div className="price-item-amount red">$0</div>
                                                 </div>
+                                                <HorizontalLineComponent/>
                                                 <div className="price-item price-item-total">
                                                     <div className="price-item-text">Total Amount</div>
                                                     <div className="price-item-amount green">${details.amount}.00</div>

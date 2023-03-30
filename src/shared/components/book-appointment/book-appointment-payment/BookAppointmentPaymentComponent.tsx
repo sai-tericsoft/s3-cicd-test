@@ -1,3 +1,5 @@
+
+
 import React, {useCallback, useEffect, useRef} from "react";
 import "./BookAppointmentPaymentComponent.scss";
 import {ImageConfig} from "../../../../constants";
@@ -27,7 +29,7 @@ interface BookAppointmentPaymentComponentProps {
 const addAppointmentPaymentInitialValues: any = {
     appointmentId: '',
     payment_type: '',
-    payment_mode: '',
+    mode: '',
     promotion_code: '',
     comments: ''
 };
@@ -35,7 +37,7 @@ const addAppointmentPaymentInitialValues: any = {
 
 const addAppointmentPaymentValidationSchema = Yup.object().shape({
     payment_type: Yup.string().required('Payment type is required'),
-    payment_mode: Yup.mixed().when("payment_type", {
+    mode: Yup.mixed().when("payment_type", {
         is: 'current',
         then: Yup.mixed().required('Payment mode is required')
     }),
@@ -45,9 +47,9 @@ const addAppointmentPaymentValidationSchema = Yup.object().shape({
 });
 
 const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentProps) => {
-
-    const {onClose, onComplete, booking, onBack} = props;
+    const {onClose, onComplete, booking,onBack} = props;
     const {paymentModes} = useSelector((state: IRootReducerState) => state.staticData);
+
 
     //
     // useEffect(() => {
@@ -61,7 +63,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
     const onSubmitAppointmentPayment = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
             const appointmentId = values.appointmentId;
             delete values.appointmentId;
-            CommonService._appointment.appointmentPayment(appointmentId, {...values, total: +values?.amount, discount: 0})
+            CommonService._appointment.appointmentPayment(appointmentId, values)
                 .then((response: IAPIResponseType<any>) => {
                     if (onComplete) {
                         onComplete(response.data);
@@ -149,42 +151,41 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                                 <div className="option-item-text">Reserve without paying</div>
                                             </label>
                                         </div>
+
+
                                         {values.payment_type === 'current' && <>
                                             <FormControlLabelComponent
-                                                label={"Add a gift card or promotion code or voucher"}
-                                                className={'add-gift-card-msg'}/>
-                                            <div className={'mrg-bottom-10'}>
-                                                <Field name={'promotion_code'}>
-                                                    {
-                                                        (field: FieldProps) => (
-                                                            <FormikInputComponent
-                                                                formikField={field}
-                                                                label={'Add a gift card or promotion code or voucher'}
-                                                                fullWidth={true}
-                                                            />
-                                                        )
-                                                    }
-                                                </Field>
-                                            </div>
+                                                label={"Add a gift card or promotion code or voucher"} className={'add-gift-card-msg'} />
+                                            <Field name={'promotion_code'}>
+                                                {
+                                                    (field: FieldProps) => (
+                                                        <FormikInputComponent
+                                                            formikField={field}
+                                                            label={'Add a gift card or promotion code or voucher'}
+                                                            fullWidth={true}
+                                                        />
+                                                    )
+                                                }
+                                            </Field>
                                             <FormControlLabelComponent
-                                                label={"Checkout Summary"}/>
+                                                label={"Checkout Summary"} className={'checkout-summary'}/>
                                             <div className="price-holder">
                                                 <div className="price-item">
                                                     <div className="price-item-text">Amount (Inc. tax)</div>
-                                                    <div className="price-item-amount">${booking.amount}.00</div>
+                                                    <div className="price-item-amount amount">${booking.amount}.00</div>
                                                 </div>
                                                 <div className="price-item">
-                                                    <div className="price-item-text">Discount</div>
+                                                    <div className="price-item-text discount">Discount</div>
                                                     <div className="price-item-amount red">$0</div>
                                                 </div>
                                                 <HorizontalLineComponent className={'horizontal-line'}/>
                                                 <div className="price-item price-item-total">
-                                                    <div className="price-item-text">Total Amount</div>
+                                                    <div className="price-item-text">Total Amount (Inc.tax)</div>
                                                     <div className="price-item-amount green">${booking.amount}.00</div>
                                                 </div>
                                             </div>
 
-                                            <Field name={'payment_mode'}>
+                                            <Field name={'mode'}>
                                                 {
                                                     (field: FieldProps) => (
                                                         <FormikSelectComponent
@@ -229,3 +230,5 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
 };
 
 export default BookAppointmentPaymentComponent;
+
+
