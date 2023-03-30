@@ -510,7 +510,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: '',
             key: 'action',
             dataIndex: 'action',
-            width: 150,
+            width: 140,
             align: 'center',
             fixed: 'right',
             render: (item: any) => {
@@ -630,6 +630,11 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
 
     return (
         <div className={'payment-list-component list-screen'}>
+            {/*<iframe src={"https://kinergycustomertest.teric.services/"}*/}
+            {/*        width={"100%"}*/}
+            {/*        height={"700"}*/}
+            {/*        frameBorder={0}*/}
+            {/*/>*/}
             <div className={'list-screen-header'}>
                 <div className={'list-search-filters'}>
                     <div className="ts-row">

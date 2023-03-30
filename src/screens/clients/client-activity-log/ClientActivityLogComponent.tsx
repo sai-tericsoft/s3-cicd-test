@@ -16,7 +16,7 @@ const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
         {
             key: 'activity',
             title: 'Activity',
-            width: '40%',
+            width: '600',
             fixed: "left",
             render: (item: IClientActivityLog) => {
                 return <span className={'module-field-name'}>
@@ -27,7 +27,7 @@ const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
         {
             key: 'staff',
             title: 'Staff',
-            width: "35%",
+            width: "150",
             render: (item: IClientActivityLog) => {
                 return <>{item?.updated_by?.name}</>
             }
@@ -35,7 +35,7 @@ const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
         {
             key: 'date_time',
             title: 'Date/Time Stamp',
-            width: "25%",
+            width: "200",
             fixed: "right",
             render: (item: IClientActivityLog) => {
                 return <>

@@ -50,12 +50,12 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
         },
         {
             title: 'Date of Intervention',
-            key: 'date_of_intervention',
+            key: 'intervention_date',
             dataIndex: 'intervention_date',
             width: 200,
             align: 'left',
             fixed: 'left',
-            // sortable: true,
+            sortable: true,
             render: (item: any) => {
                 let route = '';
                 if (medicalRecordId) {
@@ -72,7 +72,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                     } else {
                     }
                     return <LinkComponent route={route}>
-                        {item?.created_at ? CommonService.getSystemFormatTimeStamp(item?.created_at) : "N/A"}
+                        {item?.intervention_date ? CommonService.getSystemFormatTimeStamp(item?.intervention_date) : "N/A"}
                     </LinkComponent>
                 }
             }
@@ -111,7 +111,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             dataIndex: 'updated_at',
             align: 'center',
             width: 170,
-            // sortable: true,
+            sortable: true,
             render: (item: any) => {
                 return <>{CommonService.transformTimeStamp(item?.updated_at)}</>
             }
@@ -122,7 +122,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             dataIndex: 'status',
             align: 'center',
             width: 110,
-            // sortable: true,
+            sortable: true,
             render: (item: any) => {
                 return <ChipComponent label={item?.status}
                                       className={item?.status === 'completed' ? "completed" : "draft"}/>
@@ -130,11 +130,11 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
         },
         {
             title: 'Posted By',
-            key: 'name',
+            key: 'posted_by',
             dataIndex: 'name',
             align: 'center',
             width: 125,
-            // sortable: true,
+            sortable: true,
             render: (item: any) => {
                 return (item?.posted_by?.first_name + " " + item?.posted_by?.last_name)
             }

@@ -1,8 +1,8 @@
 import "./MedicalRecordProgressReportViewDetailsScreen.scss";
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {getProgressReportViewDetails} from "../../../store/actions/chart-notes.action";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
@@ -35,7 +35,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             title: 'Name',
             dataIndex: 'name',
             fixed: "left",
-            width:150,
+            width: 150,
             render: (item: any) => {
                 return <>{item?.progress_stats_details?.name}</>
             }
@@ -44,7 +44,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             key: 'result',
             title: 'Results',
             dataIndex: 'result',
-            width:150,
+            width: 150,
             align: "center",
             render: (item: any) => {
                 return <div>{item?.result || '-'}</div>
@@ -55,15 +55,18 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             title: 'Comments',
             dataIndex: 'comment',
             align: "center",
-            width:600,
+            width: 600,
             render: (item: any) => {
-                return <div className={'comment'}>{item?.comment ||<div className={'display-flex ts-justify-content-center'}>-</div>}</div>
+                return <div className={'comment'}>{item?.comment ||
+                    <div className={'display-flex ts-justify-content-center'}>-</div>}</div>
             }
         }
     ];
 
     const {progressReportId, medicalRecordId} = useParams();
     const dispatch = useDispatch();
+    const [searchParams] = useSearchParams();
+    const [module, setModule] = useState<any>('');
     const navigate = useNavigate();
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const {
@@ -90,10 +93,18 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
     }, [medicalRecordId, dispatch]);
 
     useEffect(() => {
+        const referrer: any = searchParams.get("referrer");
+        const module_name: any = searchParams.get("module_name");
+        setModule(module_name);
         dispatch(setCurrentNavParams("Progress Report Details", null, () => {
-            medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+            console.log(referrer);
+            if (referrer) {
+                navigate(referrer);
+            } else {
+                medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+            }
         }));
-    }, [medicalRecordId, navigate, dispatch]);
+    }, [searchParams, navigate, dispatch, medicalRecordId]);
 
     return (
         <div className={'progress-report-view-details-screen'}>
@@ -145,13 +156,12 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                 </CardComponent>
             }
             {
-                (medicalRecordId && progressReportId) && <LinkComponent
-                    route={CommonService._routeConfig.MedicalRecordProgressReportAdvancedDetailsUpdate(medicalRecordId, progressReportId,'edit')}>
+                (medicalRecordId && progressReportId && module === null) && <LinkComponent
+                    route={CommonService._routeConfig.MedicalRecordProgressReportAdvancedDetailsUpdate(medicalRecordId, progressReportId, 'edit')}>
                     <div className={'display-flex flex-direction-row-reverse mrg-bottom-20'}>
                         <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>Edit Progress Report</ButtonComponent>
                     </div>
                 </LinkComponent>
-
             }
             <div className={'progress-report-view-details-container'}>
                 <>
@@ -174,9 +184,9 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                 (isProgressReportDetailsLoaded && progressReportDetails) && <>
                                     <div className={'progress-report-view-details-component__header'}>
                                         {progressReportDetails?.synopsis &&
-                                        <CardComponent title={'Synopsis'}>
-                                            {progressReportDetails?.synopsis || "N/A"}
-                                        </CardComponent>
+                                            <CardComponent title={'Synopsis'}>
+                                                {progressReportDetails?.synopsis || "N/A"}
+                                            </CardComponent>
                                         }
                                         {progressReportDetails?.impression && <CardComponent title={'Impression'}>
                                             {progressReportDetails?.impression || "N/A"}
@@ -188,14 +198,14 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                             progressReportDetails?.progress_stats?.length > 0 &&
 
                                             <div className={'progress-stats-table'}>
-                                            <CardComponent title={'Progress Overview:'}>
-                                            <TableComponent data={progressReportDetails?.progress_stats}
-                                                            className={'progress-report-view-details-table'}
-                                                            columns={progressStatsColumn}
-                                                            hideHeader={true}
-                                                            bordered={true}
-                                            />
-                                        </CardComponent>
+                                                <CardComponent title={'Progress Overview:'}>
+                                                    <TableComponent data={progressReportDetails?.progress_stats}
+                                                                    className={'progress-report-view-details-table'}
+                                                                    columns={progressStatsColumn}
+                                                                    hideHeader={true}
+                                                                    bordered={true}
+                                                    />
+                                                </CardComponent>
                                             </div>
                                         }
                                         <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>
