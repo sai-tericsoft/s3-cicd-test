@@ -2,8 +2,8 @@ import "./ClientAppointmentsTableComponent.scss";
 import {IClientAppointmentsFilterState} from "../../../shared/models/client.model";
 import {ITableColumn} from "../../../shared/models/table.model";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
-import {APIConfig} from "../../../constants";
 import React, {useEffect, useState} from "react";
+import {APIConfig, ImageConfig} from "../../../constants";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {CommonService} from "../../../shared/services";
 import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
@@ -149,17 +149,18 @@ const ClientAppointmentsTableComponent = (props: ClientAppointmentsTableComponen
     ];
 
     return (
-        <div className={'client-list-table-component'}>
-            {clientAppointmentFilters &&
-                <TableWrapperComponent
-                    id={"client_list"}
-                    url={APIConfig.GET_CLIENT_APPOINTMENTS.URL(clientId)}
-                    method={APIConfig.GET_CLIENT_APPOINTMENTS.METHOD}
-                    columns={ClientAppointmentListTableColumns}
-                    extraPayload={clientAppointmentFilters}
-                    moduleName={moduleName}
-                />
-            }
+
+        <div className={'client-appointment-list-table-component'}>
+            <TableWrapperComponent
+                id={"client_appointment_list"}
+                url={APIConfig.GET_CLIENT_APPOINTMENTS.URL(clientId)}
+                method={APIConfig.GET_CLIENT_APPOINTMENTS.METHOD}
+                columns={ClientAppointmentListTableColumns}
+                extraPayload={clientAppointmentListFilterState}
+                moduleName={moduleName}
+                noDataText={'No Appointments To Show'}
+                noDataImage={<ImageConfig.NoDataAppointmentsIcon/>}
+            />
         </div>
     );
 };
