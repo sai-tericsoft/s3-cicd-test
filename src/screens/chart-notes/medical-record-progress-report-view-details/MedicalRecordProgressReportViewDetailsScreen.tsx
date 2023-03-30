@@ -2,7 +2,7 @@ import "./MedicalRecordProgressReportViewDetailsScreen.scss";
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {getProgressReportViewDetails} from "../../../store/actions/chart-notes.action";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
@@ -22,6 +22,8 @@ import MedicalInterventionLinkedToComponent
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import moment from "moment-timezone";
+import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
+import AllAddedICD11CodesComponent from "../all-added-icd-11-codes/AllAddedICD11CodesComponent";
 
 interface ProgressReportViewDetailsComponentProps {
 
@@ -72,6 +74,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
     const {
         clientMedicalRecord,
     } = useSelector((state: IRootReducerState) => state.client);
+    const [isICDDrawerOpen,setIsICDDrawerOpen] = useState<boolean>(false);
 
     const {
         isProgressReportDetailsLoaded,
@@ -106,6 +109,10 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
         }));
     }, [searchParams, navigate, dispatch, medicalRecordId]);
 
+    const handleICDCodeDrawer = useCallback(() => {
+        setIsICDDrawerOpen(true);
+    }, []);
+
     return (
         <div className={'progress-report-view-details-screen'}>
             <PageHeaderComponent title={"View Progress Report"} actions={
@@ -129,6 +136,14 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                             size={'small'}
                                             label={progressReportDetails?.status || "-"}/>
                                     </span>
+                        <div className="ts-row width-auto">
+                            <div className="">
+                                <ButtonComponent className={'mrg-right-10'} onClick={handleICDCodeDrawer}
+                                                 variant={'outlined'}>View ICD-11 Code
+                                    (s)</ButtonComponent>
+
+                            </div>
+                        </div>
                     </div>
                     <MedicalInterventionLinkedToComponent medicalRecordDetails={clientMedicalRecord}/>
                     <div className={'ts-row'}>
@@ -220,6 +235,16 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                 </>
 
             </div>
+            <DrawerComponent isOpen={isICDDrawerOpen}
+                             showClose={true}
+                             closeOnEsc={false}
+                             closeOnBackDropClick={false}
+                             onClose={() => setIsICDDrawerOpen(false)}>
+                {
+                    medicalRecordId &&
+                    <AllAddedICD11CodesComponent medicalRecordId={medicalRecordId}/>
+                }
+            </DrawerComponent>
         </div>
     );
 

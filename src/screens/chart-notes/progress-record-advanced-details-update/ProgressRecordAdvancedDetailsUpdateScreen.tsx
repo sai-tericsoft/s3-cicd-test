@@ -31,11 +31,7 @@ import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import EditProgressReportCardComponent from "../edit-progress-report-card/EditProgressReportCardComponent";
 import moment from "moment-timezone";
-import AddBasicProgressReportComponent from "../add-basic-progress-report/AddBasicProgressReportComponent";
-import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
-import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
-import TableComponent from "../../../shared/components/table/TableComponent";
-import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
+import AllAddedICD11CodesComponent from "../all-added-icd-11-codes/AllAddedICD11CodesComponent";
 
 interface ProgressRecordAdvancedDetailsUpdateScreenProps {
 
@@ -154,7 +150,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
             key: 'description',
             dataIndex: 'description',
         }
-    ], [medicalRecordId]);
+    ], []);
 
 
     const openEditProgressReportDrawer = useCallback(() => {
@@ -489,24 +485,9 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                              closeOnEsc={false}
                              closeOnBackDropClick={false}
                              onClose={() => setIsICDDrawerOpen(false)}>
-                <div className={'display-flex align-items-center '}>
-                    <FormControlLabelComponent className={'mrg-top-20 mrg-right-20'} label={'Added ICD-11 Code (s)'} size={'lg'}/>
-                    <IconButtonComponent className={"form-helper-icon"}>
-                        <ToolTipComponent
-                            showArrow={true}
-                            position={'top'}
-                            tooltip={"The displayed ICD-11 codes are from the most recent SOAP note that contained ICD-11 codes."}>
-                            <ImageConfig.InfoIcon/>
-                        </ToolTipComponent>
-                    </IconButtonComponent>
-                </div>
                 {
                     medicalRecordId &&
-                    <TableWrapperComponent columns={AddedICDCodesColumns}
-                                           isPaginated={false}
-                                           bordered={true}
-                                           url={APIConfig.GET_ADDED_ICD_CODES.URL(medicalRecordId)}
-                                           method={APIConfig.GET_ADDED_ICD_CODES.METHOD}/>
+                    <AllAddedICD11CodesComponent medicalRecordId={medicalRecordId}/>
                 }
             </DrawerComponent>
         </div>
