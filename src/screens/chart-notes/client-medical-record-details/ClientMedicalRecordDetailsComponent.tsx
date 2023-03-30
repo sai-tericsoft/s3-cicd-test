@@ -29,6 +29,9 @@ import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import BookAppointmentFormComponent
     from "../../../shared/components/book-appointment/book-appointment-form/BookAppointmentFormComponent";
 
+const REPEAT_LAST_TREATMENT = "repeat_last_treatment";
+const ADD_NEW_TREATMENT = "add_new_treatment";
+
 interface ClientMedicalDetailsComponentProps {
 
 }
@@ -41,7 +44,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
     const [currentTab, setCurrentTab] = useState<MedicalListTabType>("medicalRecord");
     const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
-    const {medicalRecordId} = useParams();
+    const {medicalRecordId}: any = useParams();
     const dispatch = useDispatch();
     const {
         medicalInterventionList,
@@ -56,6 +59,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
     const [isBookAppointmentOpen, setIsBookAppointmentOpen] = useState<boolean>(false);
     const [selectedClient, setSelectedClient] = useState<any | null>(null);
     const [isBookingLoading, setIsBookingLoading] = useState<boolean>(false);
+    const [appointmentMode, setAppointmentMode] = useState<string>()
 
     const {
         clientMedicalRecord,
@@ -103,42 +107,51 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
     }, [dispatch, searchParams, setSearchParams]);
 
     const repeatLastTreatment = useCallback(
-        (medicalRecordId: string) => {
+        (is_link_to_appointment: boolean) => {
+            if (!medicalRecordId) {
+                CommonService._alert.showToast('Medical Record ID not found!', "error");
+                return;
+            }
             setIsMedicalInterventionBeingRepeated(true);
-            CommonService._chartNotes.RepeatLastInterventionAPICall(medicalRecordId, {
-                    "repeat_previous": true //todo: Why Swetha ????
-                }
+            const payload = {
+                is_link_to_appointment: is_link_to_appointment,
+                appointment_id: selectedAppointment,
+                "repeat_previous": true //todo: Why Swetha ????
+            }
+            CommonService._chartNotes.RepeatLastInterventionAPICall(medicalRecordId, payload
             ).then((response: IAPIResponseType<any>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, response?.data._id) + '?showClear=true');
                 setIsMedicalInterventionBeingRepeated(false);
+                selectedAppointment(null)
             }).catch((error: any) => {
                 CommonService._alert.showToast(error?.error || "Error repeating last medical intervention", "error");
                 setIsMedicalInterventionBeingRepeated(false);
             });
         },
-        [navigate],
+        [navigate, medicalRecordId],
     );
-    const confirmRepeatLastTreatment = useCallback(
-        () => {
-            if (!medicalRecordId) {
-                CommonService._alert.showToast('Medical Record ID not found!', "error");
-                return;
-            }
-            CommonService.onConfirm({
-                confirmationTitle: "REPEAT LAST TREATMENT",
-                image: ImageConfig.REPEAT_LAST_INTERVENTION,
-                confirmationSubTitle: "Do you want to repeat the last treatment\nfrom the same Medical Record?"
-            })
-                .then((value) => {
-                    repeatLastTreatment(medicalRecordId);
-                })
-                .catch(reason => {
+    // const confirmRepeatLastTreatment = useCallback(
+    //     () => {
+    //         if (!medicalRecordId) {
+    //             CommonService._alert.showToast('Medical Record ID not found!', "error");
+    //             return;
+    //         }
+    //         CommonService.onConfirm({
+    //             confirmationTitle: "REPEAT LAST TREATMENT",
+    //             image: ImageConfig.REPEAT_LAST_INTERVENTION,
+    //             confirmationSubTitle: "Do you want to repeat the last treatment\nfrom the same Medical Record?"
+    //         })
+    //             .then((value) => {
+    //                 repeatLastTreatment(medicalRecordId);
+    //             })
+    //             .catch(reason => {
+    //
+    //             })
+    //     },
+    //     [medicalRecordId, repeatLastTreatment],
+    // );
 
-                })
-        },
-        [medicalRecordId, repeatLastTreatment],
-    );
     const addNewTreatment = useCallback(
         (is_link_to_appointment: boolean) => {
             if (!medicalRecordId) {
@@ -169,13 +182,13 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                 is_link_to_appointment: is_link_to_appointment,
                 appointment_id: selectedAppointment,
             };
-            console.log(selectedAppointment);
             setIsMedicalInterventionBeingAdded(true);
             CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, payload)
                 .then((response: IAPIResponseType<any>) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, response?.data._id));
                     setIsMedicalInterventionBeingAdded(false);
+                    selectedAppointment(null)
                 })
                 .catch((error: any) => {
                     CommonService._alert.showToast(error?.error || "Error creating a medical intervention", "error");
@@ -190,7 +203,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
             dispatch(getMedicalInterventionList(medicalRecordId));
         }
     }, [dispatch, medicalRecordId]);
-    console.log('medicalInterventionList',medicalInterventionList);
+    console.log('medicalInterventionList', medicalInterventionList);
 
     const createBooking = useCallback(
         (booking: any) => {
@@ -231,13 +244,17 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
             <MedicalRecordBasicDetailsCardComponent showAction={true}/>
             <div className={'client-medical-records-header-button-wrapper'}>
                 {clientMedicalRecord?.status_details?.code === 'open' && <div>
-                    <ButtonComponent onClick={confirmRepeatLastTreatment}
+                    <ButtonComponent onClick={() => {
+                        setIsAddTreatmentModalOpen(true)
+                        setAppointmentMode(REPEAT_LAST_TREATMENT)
+                    }}
                                      disabled={(isMedicalInterventionBeingRepeated || isMedicalInterventionListLoading || medicalInterventionList.filter((item: any) => (item?.status === 'completed' && item?.note_type?.toLowerCase() === "soap note"))?.length === 0)}
                                      className={'mrg-right-10'}
                                      variant={"outlined"}>
                         Repeat Last Treatment
                     </ButtonComponent>
                     <ButtonComponent onClick={() => {
+                        setAppointmentMode(ADD_NEW_TREATMENT)
                         setIsAddTreatmentModalOpen(true)
                     }}
                                      disabled={isMedicalInterventionBeingAdded}
@@ -273,7 +290,9 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                                 setIsAddTreatmentModalOpen(false)
                             }}>
                 <>
-                    <div className="add-new-treatment-modal-header">Add New Treatment</div>
+                    <div className="add-new-treatment-modal-header">
+                        {appointmentMode === REPEAT_LAST_TREATMENT ? 'Repeat Last Treatment' : 'Add New Treatment'}
+                    </div>
                     <ButtonComponent
                         className={'mrg-top-10 mrg-bottom-10'}
                         fullWidth={true}
@@ -304,7 +323,14 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                                 <ButtonComponent variant={'contained'}
                                                  color={'primary'}
                                                  disabled={!selectedAppointment}
-                                                 onClick={() => addNewTreatment(true)}
+                                                 onClick={() => {
+                                                     if (appointmentMode === REPEAT_LAST_TREATMENT) {
+                                                         repeatLastTreatment(true)
+                                                     } else {
+                                                         addNewTreatment(true)
+                                                     }
+                                                 }
+                                                 }
                                 >
                                     Proceed
                                 </ButtonComponent>
@@ -362,7 +388,14 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                                 </ButtonComponent>
                                 <ButtonComponent variant={'contained'}
                                                  color={'primary'}
-                                                 onClick={() => addNewTreatment(false)}
+                                                 onClick={() => {
+                                                     if (appointmentMode === REPEAT_LAST_TREATMENT) {
+                                                         repeatLastTreatment(false)
+                                                     } else {
+                                                         addNewTreatment(false)
+                                                     }
+                                                 }
+                                                 }
                                 >
                                     Yes
                                 </ButtonComponent>
