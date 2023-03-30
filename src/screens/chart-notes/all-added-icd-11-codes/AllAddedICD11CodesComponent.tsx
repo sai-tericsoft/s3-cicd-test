@@ -3,8 +3,7 @@ import React, {useEffect, useMemo} from "react";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
-import {APIConfig, ImageConfig} from "../../../constants";
-import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
+import {ImageConfig} from "../../../constants";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import TableComponent from "../../../shared/components/table/TableComponent";
@@ -40,7 +39,7 @@ const AllAddedICD11CodesComponent = (props: AllAddedIcd11CodesComponentProps) =>
             key: 'description',
             dataIndex: 'description',
         }
-    ], [medicalRecordId]);
+    ], []);
 
     useEffect(() => {
         if (medicalRecordId) {

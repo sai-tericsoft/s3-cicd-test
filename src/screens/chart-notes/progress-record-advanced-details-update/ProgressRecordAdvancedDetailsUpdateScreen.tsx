@@ -1,12 +1,12 @@
 import "./ProgressRecordAdvancedDetailsUpdateScreen.scss";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
-import React, {useCallback, useEffect, useMemo, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {useDispatch, useSelector} from "react-redux";
 import {CommonService} from "../../../shared/services";
-import {APIConfig, ImageConfig, Misc} from "../../../constants";
+import {ImageConfig, Misc} from "../../../constants";
 import {useNavigate, useParams} from "react-router-dom";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
@@ -135,23 +135,6 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
             </Field>
         }
     ];
-
-
-    const AddedICDCodesColumns: any = useMemo(() => [
-        {
-            title: 'ICD Code',
-            key: 'icd_code',
-            dataIndex: 'icd_code',
-            fixed: 'left',
-            width: 150,
-        },
-        {
-            title: 'Description',
-            key: 'description',
-            dataIndex: 'description',
-        }
-    ], []);
-
 
     const openEditProgressReportDrawer = useCallback(() => {
         setIsEditProgressReportDrawerOpen(true);
