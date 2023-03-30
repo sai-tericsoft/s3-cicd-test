@@ -68,7 +68,7 @@ export interface IClientBasicDetails {
 
 export interface IClientAppointmentsFilterState {
     status: string;
-    provider_id: string;
+    provider_id: any;
 }
 
 export interface IClientDocumentsFilterState {

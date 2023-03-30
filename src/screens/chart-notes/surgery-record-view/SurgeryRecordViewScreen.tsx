@@ -1,5 +1,5 @@
 import "./SurgeryRecordViewScreen.scss";
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import React, {useCallback, useEffect, useState} from "react";
 import {CommonService} from "../../../shared/services";
 import {ImageConfig, Misc} from "../../../constants";
@@ -39,7 +39,7 @@ const bodyPartsColumns: any = [
         dataIndex: "body_part",
         key: "body_part",
         width: 91,
-        render: ( item: any) => {
+        render: (item: any) => {
             return <>{item.body_part_details.name}</>
         }
     },
@@ -48,7 +48,7 @@ const bodyPartsColumns: any = [
         dataIndex: "body_side",
         key: "body_side",
         width: 114,
-        render: ( item: any) => {
+        render: (item: any) => {
             return <>{item?.body_side}</>
         }
     }
@@ -78,7 +78,9 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {currentUser}=useSelector((state:IRootReducerState)=>state.account);
+    const [searchParams] = useSearchParams();
+    const [module, setModule] = useState<any>('');
+    const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const {medicalRecordId, surgeryRecordId} = useParams();
     const [isBodyPartsModalOpen, setIsBodyPartsModalOpen] = React.useState<boolean>(false);
 
@@ -94,12 +96,19 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
     }, [medicalRecordId, dispatch]);
 
     useEffect(() => {
-        if (clientMedicalRecord?.client_id) {
-            dispatch(setCurrentNavParams("Medical Record details", null, () => {
-                navigate(CommonService._routeConfig.MedicalRecordList(clientMedicalRecord?.client_id));
-            }));
-        }
-    }, [navigate, dispatch, clientMedicalRecord?.client_id]);
+        const referrer: any = searchParams.get("referrer");
+        const module_name: any = searchParams.get("module_name");
+        setModule(module_name);
+        dispatch(setCurrentNavParams("Medical Record details", null, () => {
+            console.log(referrer);
+            if (referrer) {
+                navigate(referrer);
+            } else {
+                clientMedicalRecord && navigate(CommonService._routeConfig.MedicalRecordList(clientMedicalRecord?.client_id));
+            }
+        }));
+    }, [searchParams, navigate, dispatch, clientMedicalRecord]);
+
 
     const openBodyPartsModal = useCallback(() => {
         setIsBodyPartsModalOpen(true);
@@ -370,10 +379,10 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                                                        label={clientMedicalRecord?.status || "-"}/>
                                     </span>
                             <div className="ts-row width-auto">
-                                <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
-                                                 onClick={setIsEditSurgeryRecordDrawerOpen.bind(null, true)}>
+                                {module === 'client_details' && <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                                                                 onClick={setIsEditSurgeryRecordDrawerOpen.bind(null, true)}>
                                     Edit Details
-                                </ButtonComponent>
+                                </ButtonComponent>}
                             </div>
                         </div>
                         <DataLabelValueComponent label={'Surgery Linked to:'} direction={"row"}
@@ -416,21 +425,21 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                 </>
             }
             <div className="ts-col-12 text-right">
-                <ButtonComponent
+                {module === 'client_details' && <ButtonComponent
                     prefixIcon={<ImageConfig.AddIcon/>}
-                    onClick={
-                        setShowAddAttachment.bind(null, true)
-                    }
+                    onClick={setShowAddAttachment.bind(null, true)}
                 >
                     Add Attachment
-                </ButtonComponent>
+                </ButtonComponent>}
             </div>
             <div className="ts-row mrg-top-20">
                 <div className="ts-col">
                     {surgeryRecordDetails && surgeryRecordId && surgeryRecordDetails.attachments.map((attachment: any, index: number) => {
                         return (
-                            <AttachmentComponent attachment={attachment} key={attachment?._id + index}
-                                                 onDelete={() => deleteSurgeryAttachment(surgeryRecordId, attachment._id)}/>
+                            <AttachmentComponent
+                                attachment={attachment}
+                                key={attachment?._id + index}
+                                onDelete={() => deleteSurgeryAttachment(surgeryRecordId, attachment._id)}/>
                         )
                     })}
                 </div>
