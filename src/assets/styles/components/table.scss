@@ -133,8 +133,13 @@
       }
     }
 
-    .table-data-not-found-card {
+    .table-no-data-wrapper {
       min-height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+
     }
 
     .data-loading-wrapper {

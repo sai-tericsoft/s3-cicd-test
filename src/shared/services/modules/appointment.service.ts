@@ -10,7 +10,7 @@ const getAppointmentCalendarList = (payload: any) => {
     return ApiService[APIConfig.APPOINTMENT_CALENDAR_LIST.METHOD](APIConfig.APPOINTMENT_CALENDAR_LIST.URL, payload);
 }
 
-const getAppointment = (appointmentId: string) => {
+const getAppointment = (appointmentId: any) => {
     // @ts-ignore
     return ApiService[APIConfig.APPOINTMENT_VIEW.METHOD](APIConfig.APPOINTMENT_VIEW.URL(appointmentId));
 }

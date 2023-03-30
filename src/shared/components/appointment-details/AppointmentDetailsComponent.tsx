@@ -220,7 +220,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                 </div>
                             </div>
                         </div>
-                        <div className="flex-1">
+                        <div>
                             <div className="details-box">
                                 <div className="details-header">Other Details</div>
                                 <div className="details-body">
@@ -291,9 +291,8 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                     {/*</div>*/}
                                 </div>
                             </div>
-
-
-                            <div className="details-box">
+                        </div>
+                            <div className="details-box-bottom">
                                 <div className="details-header">
                                     <div className={'form-heading'}>
                                         Forms
@@ -303,7 +302,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                     </div>
                                 </div>
                                 <div className="details-body">
-                                    <div className="details-body-block">
+                                    <div className="details-body-block-bottom">
                                         {formStatus && formStatus.map((value, index) => {
                                             return (<div key={'item-' + index} className="details-body-item">
                                                 <div className="item-heading">{value.name}</div>
@@ -315,7 +314,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+
 
                         <div className="client-search-btn">
                             {details && details.status === 'scheduled' && <ButtonComponent

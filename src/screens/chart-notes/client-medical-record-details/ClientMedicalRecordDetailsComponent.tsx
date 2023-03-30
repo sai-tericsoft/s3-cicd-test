@@ -190,6 +190,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
             dispatch(getMedicalInterventionList(medicalRecordId));
         }
     }, [dispatch, medicalRecordId]);
+    console.log('medicalInterventionList',medicalInterventionList);
 
     const createBooking = useCallback(
         (booking: any) => {

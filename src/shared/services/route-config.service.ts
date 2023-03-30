@@ -112,6 +112,10 @@ const ClientAppointments = (clientId: string) => {
     return '/client/' + clientId + '/client-appointments';
 }
 
+const ClientAppointmentViewDetails = (clientId: any, clientAppointmentId: string) => {
+    return "/client/" + clientId + "/" + clientAppointmentId + '/client-appointment-view-details';
+}
+
 const ClientEdit = (clientId: string) => {
     return '/client/' + clientId + '/client-edit';
 }
@@ -172,8 +176,8 @@ const MedicalInterventionDetails = (medicalRecordId: string, medicalIntervention
     return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/view-medical-intervention';
 }
 
-const MedicalRecordSurgeryRecordDetails = (medicalRecordId: string, surgeryRecordId: string, type?: any) => {
-    return '/chart-notes/' + medicalRecordId + '/surgery-record/' + surgeryRecordId + "?type=" + type;
+const MedicalRecordSurgeryRecordDetails = (medicalRecordId: string, surgeryRecordId: string) => {
+    return '/chart-notes/' + medicalRecordId + '/surgery-record/' + surgeryRecordId;
 }
 
 const MedicalRecordProgressReportAdvancedDetailsUpdate = (medicalRecordId: string, progressReportId: string, mode: string) => {
@@ -192,8 +196,8 @@ const MedicalInterventionDryNeedlingFileViewDetails = (medicalRecordId: string, 
     return "/chart-notes/" + medicalRecordId + "/" + dryNeedlingFileId + '/dry-needling-file-view-details';
 }
 
-const MedicalInterventionConcussionFileViewDetails = (medicalRecordId: string, concussionFileId: string, type?: any) => {
-    return "/chart-notes/" + medicalRecordId + "/" + concussionFileId + '/concussion-file-view-details?type=' + type;
+const MedicalInterventionConcussionFileViewDetails = (medicalRecordId: string, concussionFileId: string) => {
+    return "/chart-notes/" + medicalRecordId + "/" + concussionFileId + '/concussion-file-view-details?type=';
 }
 
 const MedicalRecordDocumentViewDetails = (medicalRecordId: string, medicalRecordDocumentId: string) => {
@@ -229,8 +233,8 @@ const AddNewReceipt = () => {
     return "/billing/add-new-receipt";
 }
 
-const BillingDetails = (billingId: string, type: 'invoice' | 'receipt') => {
-    return "/billing/billing-details/" + billingId + "?type=" + type;
+const BillingDetails = (billingId: string) => {
+    return "/billing/billing-details/" + billingId;
 }
 
 
@@ -287,7 +291,8 @@ const RouteConfigService = {
     ClientBillingDetails,
     ClientDocuments,
     ClientAppointments,
-    clientDocumentViewDetails
+    clientDocumentViewDetails,
+    ClientAppointmentViewDetails
 }
 
 export default RouteConfigService;

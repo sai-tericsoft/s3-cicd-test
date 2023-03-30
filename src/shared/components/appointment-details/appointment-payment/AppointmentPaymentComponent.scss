@@ -9,7 +9,7 @@
     font-weight: 700;
     font-size: 1.4286rem;
     margin-top: 25px;
-    margin-bottom:24px ;
+    margin-bottom:5px ;
   }
 
   .t-form {
@@ -41,7 +41,7 @@
 
   .payment-block {
     padding: 10px;
-    margin: 10px 0;
+    margin: 10px 0 24px;
     background: #F9F9FB;
     border-radius: 5px;
 
@@ -141,7 +141,7 @@
       display: flex;
       align-items: center;
       flex: 1;
-      margin: 0 10px;
+      margin: 0 10px 9px;
 
       .option-item {
         flex: 0;
@@ -164,11 +164,20 @@
       display: flex;
       flex-direction: row;
 
-      .price-item-text, .price-item-amount {
-        font-weight: 400;
-        font-size: 14px;
-        color: #191919;
-        padding: 10px 0;
+      .price-item-text {
+        .price-item-amount {
+          font-weight: 400;
+          font-size: 14px;
+          color: #191919;
+          padding: 10px 0;
+        }
+        &.amount{
+          padding-top: 11px;
+        }
+        &.discount{
+          padding-top: 11px;
+          padding-bottom: 10px;
+        }
       }
 
       .price-item-text {
@@ -176,9 +185,7 @@
       }
 
       &.price-item-total {
-
-        border-top: 1px solid #DDD;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
 
         .price-item-text, .price-item-amount {
           font-weight: 500;
@@ -186,6 +193,7 @@
           color: #191919;
           padding: 10px 0;
         }
+
       }
 
       .price-item-amount {
@@ -195,11 +203,20 @@
 
         &.red {
           color: #ED2B2D !important;
+          padding-top: 11px;
+          padding-bottom: 10px;
+
         }
       }
 
 
     }
+  }
+  .horizontal-line-wrapper{
+    margin: 5px 0;
+  }
+  .client-search-btn{
+    margin:25px 0 5px;
   }
 
 }

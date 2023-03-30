@@ -2,7 +2,7 @@ import "./ClientDocumentsTableComponent.scss";
 import {IClientDocumentsFilterState} from "../../../shared/models/client.model";
 import {ITableColumn} from "../../../shared/models/table.model";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
-import {APIConfig} from "../../../constants";
+import {APIConfig, ImageConfig} from "../../../constants";
 import React, {useEffect, useState} from "react";
 import {CommonService} from "../../../shared/services";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
@@ -153,6 +153,8 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
                     columns={ClientDocumentListTableColumns}
                     extraPayload={clientDocumentFilters}
                     moduleName={moduleName}
+                    noDataText={'No Documents To Show'}
+                    noDataImage={<ImageConfig.NoDataDocumentsIcon/>}
                 />
             }
         </div>

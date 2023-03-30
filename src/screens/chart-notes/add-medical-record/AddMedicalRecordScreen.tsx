@@ -445,6 +445,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                                 displayWith={(option) => option.title}
                                                                 valueExtractor={(option) => option.code}
                                                                 label={'Treatment Script Received ?'}
+                                                                id={'is_treated_script_received'}
                                                                 formikField={field}
                                                                 required={true}
                                                                 fullWidth={true}
@@ -494,6 +495,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                                                         formikField={field}
                                                                                         required={true}
                                                                                         fullWidth={true}
+                                                                                        id={`body_part_dd_${index}`}
                                                                                         onUpdate={(value) => {
                                                                                             setFieldValue(`injury_details[${index}].body_part_details`, bodyPartList.find((item: any) => item?._id === value));
                                                                                             setFieldValue(`injury_details[${index}].injury_type_id`, '');

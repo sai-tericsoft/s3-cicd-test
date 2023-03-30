@@ -27,6 +27,7 @@ const CLIENT_BILLING_DETAILS = "client-billing-details";
 const CLIENT_DOCUMENTS = "client-documents";
 const CLIENT_DOCUMENTS_DETAILS = ":clientDocumentId/client-documents-view-details";
 const CLIENT_APPOINTMENTS = "client-appointments";
+const CLIENT_APPOINTMENT_DETAILS = '/client/:clientId/:clientAppointmentId/client-appointment-view-details';
 const CLIENT_EDIT = "client-edit";
 const CLIENT_SEARCH = '/chart-notes/client-list';
 const SCHEDULING_VIEW = '/scheduling';
@@ -125,5 +126,7 @@ export {
     CLIENT_BILLING_DETAILS,
     CLIENT_DOCUMENTS,
     CLIENT_APPOINTMENTS,
-    CLIENT_DOCUMENTS_DETAILS
+    CLIENT_DOCUMENTS_DETAILS,
+    CLIENT_APPOINTMENT_DETAILS,
+
 };
