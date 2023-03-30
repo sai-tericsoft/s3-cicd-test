@@ -77,13 +77,14 @@ const SelectComponent = (props: SelectComponentProps) => {
                 variant={variant}
                 onChange={handleUpdate}
                 onBlur={handleOnBlur}
+                id={id}
                 {...otherProps}
             >
                 {
                     (options?.length > 0) && options?.map((item, index) => {
                         return <MenuItem
-                            id={id + '_' + (keyExtractor ? keyExtractor(item) : `drop-down-option-${index}`)}
-                            key={keyExtractor ? keyExtractor(item) : `drop-down-option-${index}`}
+                            id={id + '_' + `drop-down-option-${displayWith(item)}`}
+                            key={keyExtractor ? keyExtractor(item)  : `drop-down-option-${index}`}
                             value={valueExtractor(item, index)}>
                             {displayWith(item)}
                         </MenuItem>;
