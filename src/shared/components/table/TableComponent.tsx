@@ -16,6 +16,7 @@ interface TableComponentProps extends ITableComponentProps {
     columns: ITableColumn[];
     data: any[];
     noDataText?: string;
+    noDataImage?: any;
     className?: any;
 }
 
@@ -23,6 +24,7 @@ const TableComponent = (props: TableComponentProps) => {
 
     const {
         noDataText,
+        noDataImage,
         loading,
         errored,
         hideHeader,
@@ -34,7 +36,7 @@ const TableComponent = (props: TableComponentProps) => {
         canExpandRow,
         onRowClick,
         autoHeight,
-        data ,
+        data,
         sort,
         onSort,
         className
@@ -97,7 +99,7 @@ const TableComponent = (props: TableComponentProps) => {
         parseColumns(columns), [columns, parseColumns]);
 
     const dataMemoized = useMemo<any>(() =>
-            data || [], [data]);
+        data || [], [data]);
 
     const {
         getTableProps,
@@ -217,8 +219,13 @@ const TableComponent = (props: TableComponentProps) => {
                                 }
                                 {
                                     (!loading && rows.length === 0) &&
-                                    <StatusCardComponent title={noDataText ? noDataText : "No data found"}
-                                                         className={'table-data-not-found-card'}/>
+                                    <div className="table-no-data-wrapper">
+                                        <>
+                                            {noDataImage ? noDataImage : ''}
+                                        </>
+                                        <StatusCardComponent title={noDataText ? noDataText : "No data found"}
+                                                             className={'table-data-not-found-card'}/>
+                                    </div>
                                 }
                             </div>
                         }
