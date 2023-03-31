@@ -27,12 +27,13 @@
       .modal-close {
         cursor: pointer;
         position: relative;
-        top: 2px;
+        top: -10px;
         opacity: 0.7;
+        left: 10px;
 
         svg {
-          height: 22px;
-          width: 22px;
+          height: 15px;
+          width: 15px;
         }
       }
     }

@@ -10,6 +10,7 @@ import ChartNotesReducer, {IChartNotesReducerState} from "./chart-notes.reducer"
 import {IInventoryReducerState, InventoryReducer} from "./inventory.reducer";
 import SettingsReducer, {ISettingsReducerState} from "./settings.reducer";
 import {BillingReducer, IBillingsReducerState} from "./billings.reducer";
+import AppointmentReducer, {IAppointmentReducerState} from "./appointment.reducer";
 
 
 export interface IRootReducerState {
@@ -22,7 +23,8 @@ export interface IRootReducerState {
     chartNotes: IChartNotesReducerState,
     inventory: IInventoryReducerState,
     settings: ISettingsReducerState,
-    billings:IBillingsReducerState
+    billings: IBillingsReducerState
+    appointments: IAppointmentReducerState
 }
 
 const rootReducer = combineReducers({
@@ -35,7 +37,8 @@ const rootReducer = combineReducers({
     chartNotes: ChartNotesReducer,
     inventory: InventoryReducer,
     settings: SettingsReducer,
-    billings:BillingReducer
+    billings: BillingReducer,
+    appointments: AppointmentReducer
 });
 
 export default rootReducer;

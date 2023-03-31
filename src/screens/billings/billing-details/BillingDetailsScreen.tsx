@@ -85,7 +85,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                     navigate(CommonService._routeConfig.BillingList());
                 }
             }));
-    }, [navigate, dispatch]);
+    }, [navigate, dispatch,searchParams]);
 
     const openPaymentModeModal = useCallback(() => {
         setIsPaymentModeModalOpen(true);

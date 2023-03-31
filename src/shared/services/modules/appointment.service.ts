@@ -10,7 +10,7 @@ const getAppointmentCalendarList = (payload: any) => {
     return ApiService[APIConfig.APPOINTMENT_CALENDAR_LIST.METHOD](APIConfig.APPOINTMENT_CALENDAR_LIST.URL, payload);
 }
 
-const getAppointment = (appointmentId: string) => {
+const getAppointment = (appointmentId: any) => {
     // @ts-ignore
     return ApiService[APIConfig.APPOINTMENT_VIEW.METHOD](APIConfig.APPOINTMENT_VIEW.URL(appointmentId));
 }
@@ -51,6 +51,12 @@ const getAppointmentFormStatus = (appointmentId: string) => {
     return ApiService[APIConfig.APPOINTMENT_FORM_STATUS.METHOD](APIConfig.APPOINTMENT_FORM_STATUS.URL(appointmentId));
 }
 
+const getAppointmentListLite = (payload: any) => {
+    // @ts-ignore
+    console.log(payload);
+    return ApiService[APIConfig.APPOINTMENT_LIST_LITE.METHOD](APIConfig.APPOINTMENT_LIST_LITE.URL, payload);
+}
+
 const AppointmentService = {
     addAppointment,
     appointmentPayment,
@@ -63,7 +69,8 @@ const AppointmentService = {
     appointmentStart,
     appointmentStop,
     appointmentNoShow,
-    getAppointmentFormStatus
+    getAppointmentFormStatus,
+    getAppointmentListLite,
 }
 
 export default AppointmentService;

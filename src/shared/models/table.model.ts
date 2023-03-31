@@ -30,6 +30,7 @@ export interface ITableComponentProps {
     expandRowRenderer?: (row: any, index: number) => React.ReactNode;
     rowSelection?: TableRowSelection<any>;
     noDataText?:string;
+    noDataImage?: any;
     sort?: {
         key: string;
         order: string;

@@ -18,6 +18,7 @@ interface BookAppointmentFormComponentProps {
     onComplete?: (values: any) => void,
     client?: any
     preFillData?: any
+    isLoading?: boolean
 }
 
 const addAppointmentFormInitialValues: any = {
@@ -49,7 +50,7 @@ const addAppointmentValidationSchema = Yup.object().shape({
 });
 
 const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) => {
-    const {onClose, onComplete, preFillData, client} = props;
+    const {onClose, onComplete, preFillData, client, isLoading} = props;
 
     const {appointmentTypes} = useSelector((state: IRootReducerState) => state.staticData);
     const [clientCasesList, setClientCasesList] = useState<any[] | null>(null);
@@ -66,6 +67,8 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
     const [isProviderListLoading, setIsProviderListLoading] = useState<boolean>(false);
     const [isServiceListLoading, setIsServiceListLoading] = useState<boolean>(false);
 
+    console.log(preFillData);
+    console.log(client);
 
     const getClientCasesList = useCallback(
         (clientId: string) => {
@@ -602,7 +605,11 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
 
                                     </div>
                                     <div className="booking-form-action">
-                                        <ButtonComponent fullWidth={true} type={'submit'}>Next</ButtonComponent>
+                                        <ButtonComponent
+                                            isLoading={isLoading}
+                                            fullWidth={true}
+                                            type={'submit'}
+                                        >Next</ButtonComponent>
                                     </div>
                                 </Form>
                             )

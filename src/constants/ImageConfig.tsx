@@ -83,6 +83,8 @@ import {ReactComponent as AlertIcon} from './../assets/icons/alert_icon.svg';
 import {ReactComponent as BlockIcon} from './../assets/icons/block_black.svg';
 import {ReactComponent as ListIcon} from './../assets/icons/list_black.svg';
 import {ReactComponent as CommentIcon} from './../assets/icons/comment.svg';
+import {ReactComponent as NoDataDocumentsIcon} from '../assets/icons/no_documents.svg';
+import {ReactComponent as NoDataAppointmentsIcon} from '../assets/icons/no_appointments.svg';
 
 import {ReactComponent as TableRowExpandIcon} from './../assets/icons/table/expand.svg';
 import {ReactComponent as TableRowCollapseIcon} from './../assets/icons/table/collapse.svg';
@@ -179,5 +181,7 @@ export {
     TotalAmount,
     PendingPayments,
     CompletedPayments,
-    PendingAmount
+    PendingAmount,
+    NoDataDocumentsIcon,
+    NoDataAppointmentsIcon
 }
