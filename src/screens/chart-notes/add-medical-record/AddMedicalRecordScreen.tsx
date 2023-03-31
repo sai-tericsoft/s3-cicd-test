@@ -550,7 +550,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                             </div>
                                                             {
                                                                 index > 0 && <div className="ts-col-lg-1">
-                                                                    <IconButtonComponent onClick={() => {
+                                                                    <IconButtonComponent id={"delete_body_" + index} onClick={() => {
                                                                         arrayHelpers.remove(index)
                                                                     }}>
                                                                         <ImageConfig.DeleteIcon/>
@@ -582,6 +582,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                             {
                                                 (field: FieldProps) => (
                                                     <FormikTextAreaComponent
+                                                        id={"injury_input"}
                                                         label={'Injury/Condition Description'}
                                                         formikField={field}
                                                         fullWidth={true}
@@ -597,6 +598,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                             {
                                                 (field: FieldProps) => (
                                                     <FormikTextAreaComponent
+                                                        id={"limitations_input"}
                                                         label={'Restrictions/Limitations'}
                                                         formikField={field}
                                                         fullWidth={true}

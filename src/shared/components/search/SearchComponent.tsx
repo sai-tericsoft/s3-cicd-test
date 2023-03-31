@@ -38,6 +38,7 @@ const SearchComponent = (props: SearchComponentProps) => {
     return (
         <div className={'search-component'}>
             <InputComponent
+                id={"search_input"}
                 label={label}
                 className={className}
                 value={searchText}

@@ -23,6 +23,7 @@ const FormikTextAreaComponent = (props: FormikTextAreaComponentProps) => {
     const {name, value} = field;
     const {setFieldTouched, touched, handleBlur, errors, setFieldValue} = form;
     const hasError = _.get(touched, name) && !!(_.get(errors, name));
+    otherProps.id = otherProps.id || name;
 
     const textChangeHandler = useCallback((text: string) => {
         setFieldValue(name, text);
