@@ -129,7 +129,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                 setIsMedicalInterventionBeingRepeated(false);
             });
         },
-        [navigate, medicalRecordId],
+        [navigate, selectedAppointment, medicalRecordId],
     );
     // const confirmRepeatLastTreatment = useCallback(
     //     () => {

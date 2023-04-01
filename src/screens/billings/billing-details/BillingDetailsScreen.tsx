@@ -124,8 +124,8 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     }, [type, billingId]);
 
     const handleBillingMarkAsPaidSuccess = useCallback((receiptId: string) => {
-        navigate(CommonService._routeConfig.BillingDetails(receiptId)+ '?referrer='+ location.pathname + '&type='+'receipt');
-    }, [navigate]);
+        navigate(CommonService._routeConfig.BillingDetails(receiptId)+ '?referrer='+ location.pathname + '&type=receipt');
+    }, [navigate, location.pathname]);
 
     const handleBillingMarkAsPaid = useCallback(() => {
         closePaymentModeModal();
