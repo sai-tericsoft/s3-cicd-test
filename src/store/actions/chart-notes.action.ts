@@ -32,6 +32,9 @@ export const UPDATE_MEDICAL_INTERVENTION_SPECIAL_TEST_CONFIG_FOR_A_BODY_PART = '
 export const DELETE_MEDICAL_INTERVENTION_ROM_CONFIG_FOR_A_BODY_PART = 'DELETE_MEDICAL_INTERVENTION_ROM_CONFIG_FOR_A_BODY_PART';
 export const DELETE_MEDICAL_INTERVENTION_SPECIAL_TEST_CONFIG_FOR_A_BODY_PART = 'DELETE_MEDICAL_INTERVENTION_SPECIAL_TEST_CONFIG_FOR_A_BODY_PART';
 
+export const GET_ALL_ADDED_11_ICD_CODES = 'GET_ALL_ADDED_11_ICD_CODES';
+export const SET_ALL_ADDED_11_ICD_CODES = 'SET_ALL_ADDED_11_ICD_CODES';
+
 export const refreshMedicalRecordAttachmentList = () => {
     return {
         type: REFRESH_MEDICAL_RECORD_ATTACHMENT_LIST
@@ -224,6 +227,22 @@ export const deleteMedicalInterventionSpecialTestConfigForABodyPart = (body_part
     return {
         type: DELETE_MEDICAL_INTERVENTION_SPECIAL_TEST_CONFIG_FOR_A_BODY_PART, payload: {
             body_part_id,
+        }
+    }
+};
+
+export const getAllAddedICD11Code = (medicalRecordId: string) => {
+    return {
+        type: GET_ALL_ADDED_11_ICD_CODES, payload: {
+            medicalRecordId
+        }
+    }
+};
+
+export const setAllAddedICD11Code = (addedICD11CodeList: any) => {
+    return {
+        type: SET_ALL_ADDED_11_ICD_CODES, payload: {
+            addedICD11CodeList
         }
     }
 };

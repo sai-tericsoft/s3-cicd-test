@@ -2,6 +2,7 @@ import {call, put, takeEvery} from "redux-saga/effects";
 
 import {CommonService} from "../../shared/services";
 import {
+    GET_ALL_ADDED_11_ICD_CODES,
     GET_CLIENT_MEDICAL_INTERVENTION_DETAILS,
     GET_INTERVENTION_ATTACHMENT_LIST,
     GET_MEDICAL_INTERVENTION_DETAILS,
@@ -10,7 +11,7 @@ import {
     GET_MEDICAL_RECORD_SOAP_NOTE_LIST,
     GET_MEDICAL_RECORD_STATS,
     GET_MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
-    GET_PROGRESS_REPORT_VIEW_DETAILS,
+    GET_PROGRESS_REPORT_VIEW_DETAILS, setAllAddedICD11Code,
     setClientMedicalInterventionDetails,
     setInterventionAttachmentList,
     setMedicalInterventionDetails,
@@ -113,6 +114,16 @@ function* getMedicalRecordSoapNotesList(action: any) {
     }
 }
 
+function* getAddedICD11CodeList(action:any){
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._chartNotes.GetAllAddedICD11CodeList, action.payload.medicalRecordId);
+        yield put(setAllAddedICD11Code(resp?.data));
+    } catch (error: any) {
+        yield put(setAllAddedICD11Code([]));
+    }
+}
+
 export default function* chartNotesSaga() {
     yield takeEvery(GET_MEDICAL_INTERVENTION_DETAILS, getMedicalInterventionDetails);
     yield takeEvery(GET_CLIENT_MEDICAL_INTERVENTION_DETAILS, getClientMedicalInterventionDetails);
@@ -123,4 +134,6 @@ export default function* chartNotesSaga() {
     yield takeEvery(GET_MEDICAL_RECORD_STATS, getMedicalRecordStats);
     yield takeEvery(GET_MEDICAL_RECORD_VIEW_EXERCISE_RECORD, getMedicalRecordViewExerciseRecord);
     yield takeEvery(GET_MEDICAL_RECORD_SOAP_NOTE_LIST, getMedicalRecordSoapNotesList);
+    yield takeEvery(GET_ALL_ADDED_11_ICD_CODES, getAddedICD11CodeList);
+
 }

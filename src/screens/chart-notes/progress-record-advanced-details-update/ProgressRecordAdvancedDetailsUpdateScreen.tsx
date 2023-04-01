@@ -31,6 +31,7 @@ import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import EditProgressReportCardComponent from "../edit-progress-report-card/EditProgressReportCardComponent";
 import moment from "moment-timezone";
+import AllAddedICD11CodesComponent from "../all-added-icd-11-codes/AllAddedICD11CodesComponent";
 
 interface ProgressRecordAdvancedDetailsUpdateScreenProps {
 
@@ -38,7 +39,7 @@ interface ProgressRecordAdvancedDetailsUpdateScreenProps {
 
 const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvancedDetailsUpdateScreenProps) => {
 
-    const {medicalRecordId, progressReportId,mode} = useParams();
+    const {medicalRecordId, progressReportId, mode} = useParams();
 
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
 
@@ -52,14 +53,14 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
         isClientMedicalRecordProgressReportDetailsLoaded,
         clientMedicalRecordProgressReportDetails,
     } = useSelector((state: IRootReducerState) => state.chartNotes);
-    console.log('clientMedicalRecordProgressReportDetails',clientMedicalRecordProgressReportDetails);
+
     const {
         clientMedicalRecord,
     } = useSelector((state: IRootReducerState) => state.client);
     const [showProgressStatCommentsModal, setShowProgressStatCommentsModal] = useState<boolean>(false);
     const [selectedProgressStatComments, setSelectedProgressStatComments] = useState<any>(undefined);
     const [isEditProgressReportDrawerOpen, setIsEditProgressReportDrawerOpen] = useState<boolean>(false);
-
+    const [isICDDrawerOpen, setIsICDDrawerOpen] = useState<boolean>(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [isSigningInProgress, setIsSigningInProgress] = useState<boolean>(false);
@@ -231,9 +232,13 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
         }
     }, [patchDataToProgressReportForm, clientMedicalRecordProgressReportDetails]);
 
+    const handleICDCodeDrawer = useCallback(() => {
+        setIsICDDrawerOpen(true);
+    }, []);
+
     return (
         <div className={'progress-record-advanced-details-update-screen'}>
-            <PageHeaderComponent title={mode==='add' ? "Add Therapy Progress Report" : "Edit Therapy Progress Report"}
+            <PageHeaderComponent title={mode === 'add' ? "Add Therapy Progress Report" : "Edit Therapy Progress Report"}
                                  actions={
                                      <div className="last-updated-status">
                                          <div className="last-updated-status-text">Last Updated On:&nbsp;</div>
@@ -261,6 +266,9 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                     </span>
                             <div className="ts-row width-auto">
                                 <div className="">
+                                    <ButtonComponent className={'mrg-right-10'} onClick={handleICDCodeDrawer}
+                                                     variant={'outlined'}>View ICD-11 Code
+                                        (s)</ButtonComponent>
                                     <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
                                                      onClick={openEditProgressReportDrawer}>
                                         Edit Details
@@ -455,6 +463,16 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                     }}
                 </Formik>
             }
+            <DrawerComponent isOpen={isICDDrawerOpen}
+                             showClose={true}
+                             closeOnEsc={false}
+                             closeOnBackDropClick={false}
+                             onClose={() => setIsICDDrawerOpen(false)}>
+                {
+                    medicalRecordId &&
+                    <AllAddedICD11CodesComponent medicalRecordId={medicalRecordId}/>
+                }
+            </DrawerComponent>
         </div>
     );
 

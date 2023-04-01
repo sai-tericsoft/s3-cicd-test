@@ -11,6 +11,7 @@ import {
     GET_MEDICAL_RECORD_STATS,
     GET_MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
     GET_PROGRESS_REPORT_VIEW_DETAILS,
+    GET_ALL_ADDED_11_ICD_CODES,
     REFRESH_MEDICAL_RECORD_ATTACHMENT_LIST,
     SET_CLIENT_MEDICAL_INTERVENTION_DETAILS,
     SET_INTERVENTION_ATTACHMENT_LIST,
@@ -21,8 +22,10 @@ import {
     SET_MEDICAL_RECORD_STATS,
     SET_MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
     SET_PROGRESS_REPORT_VIEW_DETAILS,
+    SET_ALL_ADDED_11_ICD_CODES,
     UPDATE_MEDICAL_INTERVENTION_ROM_CONFIG_FOR_A_BODY_PART,
-    UPDATE_MEDICAL_INTERVENTION_SPECIAL_TEST_CONFIG_FOR_A_BODY_PART
+    UPDATE_MEDICAL_INTERVENTION_SPECIAL_TEST_CONFIG_FOR_A_BODY_PART,
+
 } from "../actions/chart-notes.action";
 import {CommonService} from "../../shared/services";
 import _ from "lodash";
@@ -65,6 +68,10 @@ export interface IChartNotesReducerState {
     isMedicalRecordSoapNoteListLoaded: boolean,
     isMedicalRecordSoapNoteListLoadingFailed: boolean,
     medicalRecordSoapNoteList?: any,
+    isAddedICD11CodeListLoading: boolean,
+    isAddedICD11CodeListLoaded: boolean,
+    isAddedICD11CodeListLoadingFailed: boolean,
+    addedICD11CodeList: any,
 }
 
 const initialData: IChartNotesReducerState = {
@@ -105,6 +112,10 @@ const initialData: IChartNotesReducerState = {
     isMedicalRecordSoapNoteListLoaded: false,
     isMedicalRecordSoapNoteListLoadingFailed: false,
     medicalRecordSoapNoteList: [],
+    isAddedICD11CodeListLoading: false,
+    isAddedICD11CodeListLoaded: false,
+    isAddedICD11CodeListLoadingFailed: false,
+    addedICD11CodeList: undefined,
 };
 
 const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNotesReducerState => {
@@ -273,7 +284,7 @@ const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNot
             const ROMConfig = action?.payload?.ROMConfig;
             if (medicalInterventionDetails.rom_config.length > 0) {
                 const index = medicalInterventionDetails.rom_config.findIndex((conf: any) => conf.body_part_id === body_part_id);
-                if ( index !== -1) {
+                if (index !== -1) {
                     medicalInterventionDetails.rom_config[index] = ROMConfig;
                 } else {
                     medicalInterventionDetails.rom_config.push(ROMConfig);
@@ -297,7 +308,7 @@ const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNot
                 const index = medicalInterventionDetailsCopy?.special_tests?.findIndex((conf: any) => conf.body_part_id === bodyPartId);
                 console.log('if length > 0');
                 console.log("index", index);
-                if ( index !== -1) {
+                if (index !== -1) {
                     medicalInterventionDetailsCopy.special_tests[index] = specialTestConfig;
                 } else {
                     medicalInterventionDetailsCopy.special_tests.push(specialTestConfig);
@@ -318,7 +329,7 @@ const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNot
             const bodyPartId1 = action?.payload?.body_part_id;
             if (medicalInterventionDetailsCopy1?.rom_config?.length > 0) {
                 const index = medicalInterventionDetailsCopy1?.rom_config?.findIndex((conf: any) => conf?.body_part_id === bodyPartId1);
-                if ( index !== -1) {
+                if (index !== -1) {
                     medicalInterventionDetailsCopy1?.rom_config?.splice(index, 1);
                 }
             }
@@ -332,7 +343,7 @@ const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNot
             const bodyPartId2 = action?.payload?.body_part_id;
             if (medicalInterventionDetailsCopy2?.special_tests?.length > 0) {
                 const index = medicalInterventionDetailsCopy2?.special_tests?.findIndex((conf: any) => conf?.body_part_id === bodyPartId2);
-                if ( index !== -1) {
+                if (index !== -1) {
                     medicalInterventionDetailsCopy2?.special_tests?.splice(index, 1);
                 }
             }
@@ -341,6 +352,25 @@ const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNot
                 medicalInterventionDetails: medicalInterventionDetailsCopy2
             }
             return state;
+
+        case GET_ALL_ADDED_11_ICD_CODES:
+            state = {
+                ...state,
+                isAddedICD11CodeListLoading: true,
+                isAddedICD11CodeListLoaded: false,
+                isAddedICD11CodeListLoadingFailed: false,
+            };
+            return state;
+
+        case SET_ALL_ADDED_11_ICD_CODES:
+            state = {
+                ...state,
+                isAddedICD11CodeListLoading: false,
+                isAddedICD11CodeListLoaded: !!action.payload.addedICD11CodeList,
+                isAddedICD11CodeListLoadingFailed: !!!action.payload.addedICD11CodeList,
+                addedICD11CodeList: action.payload.addedICD11CodeList
+            };
+            return state
         default:
             return state;
     }

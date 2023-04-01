@@ -282,6 +282,12 @@ const ReOpenMedicalRecordAPICall = (medicalRecordId: string, payload: any) => {
     return ApiService[APIConfig.RE_OPEN_MEDICAL_RECORD.METHOD](APIConfig.RE_OPEN_MEDICAL_RECORD.URL(medicalRecordId), payload);
 }
 
+const GetAllAddedICD11CodeList = (medicalRecordId: string, payload: any)=>{
+    // @ts-ignore
+    return ApiService[APIConfig.GET_ADDED_ICD_CODES.METHOD](APIConfig.GET_ADDED_ICD_CODES.URL(medicalRecordId), payload);
+
+}
+
 const ChartNotesService = {
     MedicalRecordAddAPICall,
     MedicalRecordEditAPICall,
@@ -340,7 +346,8 @@ const ChartNotesService = {
     MedicalInterventionNotifyAdminAPICall,
     MedicalRecordNotifyAdminAPICall,
     MedicalRecordFilesListAPICall,
-    ReOpenMedicalRecordAPICall
+    ReOpenMedicalRecordAPICall,
+    GetAllAddedICD11CodeList
 }
 
 export default ChartNotesService;
