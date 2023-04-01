@@ -219,13 +219,15 @@ const TableComponent = (props: TableComponentProps) => {
                                 }
                                 {
                                     (!loading && rows.length === 0) &&
+
                                     <div className="table-no-data-wrapper">
                                         <>
                                             {noDataImage ? noDataImage : ''}
                                         </>
-                                        <StatusCardComponent title={noDataText ? noDataText : "No data found"}
+                                        <StatusCardComponent  id={"status_card"} title={noDataText ? noDataText : "No data found"}
                                                              className={'table-data-not-found-card'}/>
                                     </div>
+
                                 }
                             </div>
                         }
