@@ -1,8 +1,7 @@
 @import "src/assets/styles/common";
 
 .scheduling-list-component {
-  height: calc(100vh - 100px);
-
+  //height: calc(100vh - 100px);
   .scheduling-header-wrapper {
     display: flex;
     flex-direction: row;
@@ -32,7 +31,7 @@
   }
 
   .scheduling-list-input {
-    background-color: #FFFFFF;;
+    background-color: #FFFFFF;
   }
 
   .scheduling-list-card {
@@ -66,9 +65,14 @@
     .scheduling-filter-header-wrapper {
       display: flex;
       flex-direction: row;
+      height: 76px;
       justify-content: space-between;
       align-content: center;
       padding: 0 15px;
+      position: sticky;
+      top: -20px;
+      background-color: #FFFFFF;
+      z-index: 2;
 
       .scheduling-filter-header-date-wrapper {
         flex: 1;
