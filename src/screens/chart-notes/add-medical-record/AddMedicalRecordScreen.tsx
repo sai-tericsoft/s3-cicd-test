@@ -143,7 +143,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                 .then((response: IAPIResponseType<any>) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     setIsMedicalRecordAddInProgress(false);
-                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(response?.data._id, response?.data?.intervention_id));
+                    navigate(CommonService._routeConfig.ClientMedicalRecordDetails(response?.data._id));
                 })
                 .catch((error: any) => {
                     CommonService.handleErrors(setErrors, error, true);
@@ -293,7 +293,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
-                            <FormDebuggerComponent values={values} errors={errors} />
+                            <FormDebuggerComponent values={values} errors={errors}/>
                             {
                                 !surgeryRecord && <div
                                     className={"mrg-bottom-20 display-flex ts-justify-content-sm-between"}>
@@ -550,9 +550,10 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                             </div>
                                                             {
                                                                 index > 0 && <div className="ts-col-lg-1">
-                                                                    <IconButtonComponent id={"delete_body_" + index} onClick={() => {
-                                                                        arrayHelpers.remove(index)
-                                                                    }}>
+                                                                    <IconButtonComponent id={"delete_body_" + index}
+                                                                                         onClick={() => {
+                                                                                             arrayHelpers.remove(index)
+                                                                                         }}>
                                                                         <ImageConfig.DeleteIcon/>
                                                                     </IconButtonComponent>
                                                                 </div>
@@ -610,15 +611,16 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                 </div>
                             </CardComponent>
                             <div className="t-form-actions">
-                                {clientId && <LinkComponent route={CommonService._routeConfig.MedicalRecordList(clientId)}>
-                                    <ButtonComponent // TODO: Add CTA to take back to the previous screen
-                                        variant={"outlined"}
-                                        disabled={isMedicalRecordAddInProgress}
-                                        id={"medical_record_add_cancel_btn"}
-                                    >
-                                        Cancel
-                                    </ButtonComponent>
-                                </LinkComponent>
+                                {clientId &&
+                                    <LinkComponent route={CommonService._routeConfig.MedicalRecordList(clientId)}>
+                                        <ButtonComponent // TODO: Add CTA to take back to the previous screen
+                                            variant={"outlined"}
+                                            disabled={isMedicalRecordAddInProgress}
+                                            id={"medical_record_add_cancel_btn"}
+                                        >
+                                            Cancel
+                                        </ButtonComponent>
+                                    </LinkComponent>
                                 }
                                 &nbsp;
                                 <ButtonComponent
@@ -626,7 +628,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                     type={"submit"}
                                     id={"medical_record_add_save_btn"}
                                 >
-                                    {isMedicalRecordAddInProgress ? "Saving" : "Add Treatment Intervention"}
+                                    {isMedicalRecordAddInProgress ? "Saving" : "Save"}
                                 </ButtonComponent>
                             </div>
                         </Form>

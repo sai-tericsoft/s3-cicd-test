@@ -23,13 +23,13 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
     const attachmentRecord: ITableColumn[] = [
         {
             title: 'Date of Attachment',
-            key: 'updated_at',
+            key: 'created_at',
             dataIndex: 'date_of_attachment',
             fixed: 'left',
             width: 250,
             sortable: true,
             render: ( item: any) => {
-                return <>{CommonService.getSystemFormatTimeStamp(item?.updated_at)}</>
+                return <>{CommonService.getSystemFormatTimeStamp(item?.created_at)}</>
             }
         },
         {
