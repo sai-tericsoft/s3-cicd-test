@@ -35,7 +35,7 @@ const ClientDocumentsComponent = (props: ClientDocumentsComponentProps) => {
 
     return (
         <div className={'client-document-list-screen'}>
-                <div className="ts-row">
+                <div className="ts-row pdd-top-6">
                     <div className="ts-col-md-6 ts-col-lg-3">
                         <AutoCompleteComponent
                             size={'small'}
