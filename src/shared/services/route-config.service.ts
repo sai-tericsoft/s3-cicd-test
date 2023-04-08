@@ -241,6 +241,10 @@ const BillingDetails = (billingId: string) => {
     return "/billing/billing-details/" + billingId;
 }
 
+const CouponViewDetails = (couponId: string) => {
+    return "/coupon-details" + "/" + couponId;
+}
+
 
 const RouteConfigService = {
     DefaultRoute,
@@ -298,6 +302,7 @@ const RouteConfigService = {
     clientDocumentViewDetails,
     ClientAppointmentViewDetails,
     DiscountList,
+    CouponViewDetails,
 }
 
 export default RouteConfigService;

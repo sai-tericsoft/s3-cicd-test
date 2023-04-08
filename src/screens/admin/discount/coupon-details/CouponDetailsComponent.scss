@@ -1,0 +1,18 @@
+
+
+.coupon-details-component {
+  .coupon-name-button-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+
+    .coupon-name-wrapper {
+      font-size: 1.4286rem;
+      font-weight: 700;
+
+      .coupon-name {
+        padding-right: 10px;
+      }
+    }
+  }
+}

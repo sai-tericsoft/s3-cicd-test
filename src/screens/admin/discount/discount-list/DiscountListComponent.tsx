@@ -14,6 +14,7 @@ import {IFacility} from "../../../../shared/models/facility.model";
 import ChipComponent from "../../../../shared/components/chip/ChipComponent";
 import TableComponent from "../../../../shared/components/table/TableComponent";
 import LinkComponent from "../../../../shared/components/link/LinkComponent";
+import {CommonService} from "../../../../shared/services";
 
 interface DiscountListComponentProps {
 
@@ -74,7 +75,7 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
             fixed: "right",
             align: "center",
             render: (item: any) => {
-                return <LinkComponent>View Details</LinkComponent>
+                return <LinkComponent route={CommonService._routeConfig.CouponViewDetails('1')}>View Details</LinkComponent>
             }
         }
         ],[]);

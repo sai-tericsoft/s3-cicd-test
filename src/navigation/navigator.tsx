@@ -81,7 +81,7 @@ import {
     CLIENT_DOCUMENTS,
     CLIENT_APPOINTMENTS,
     CLIENT_DOCUMENTS_DETAILS,
-    CLIENT_APPOINTMENT_DETAILS, DISCOUNT_LIST
+    CLIENT_APPOINTMENT_DETAILS, DISCOUNT_LIST, COUPON_DETAILS
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
@@ -139,6 +139,7 @@ import ClientAppointmentsComponent from "../screens/clients/client-appointments/
 import ClientAppointmentDetailsComponent
     from "../screens/clients/client-appointment-details/ClientAppointmentDetailsComponent";
 import DiscountListComponent from "../screens/admin/discount/discount-list/DiscountListComponent";
+import CouponDetailsComponent from "../screens/admin/discount/coupon-details/CouponDetailsComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -433,6 +434,7 @@ const Navigator = (props: NavigatorProps) => {
                                 </ProtectedRoute>
                             }
                         />
+
                         <Route
                             path={SERVICE_CATEGORY_LIST}
                             element={
@@ -442,6 +444,14 @@ const Navigator = (props: NavigatorProps) => {
                             }
                         />
                     </Route>
+                    <Route
+                        path={COUPON_DETAILS}
+                        element={
+                            <ProtectedRoute>
+                                <CouponDetailsComponent/>
+                            </ProtectedRoute>
+                        }
+                    />
                     <Route
                         path={SERVICE_CATEGORY_DETAILS + '/:serviceCategoryId'}
                         element={
