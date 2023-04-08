@@ -4,7 +4,7 @@ import {
     CLIENT_ADD,
     CLIENT_LIST,
     COMING_SOON_ROUTE,
-    DASHBOARD,
+    DASHBOARD, DISCOUNT_LIST,
     FACILITY_DETAILS,
     FACILITY_LIST,
     INVENTORY,
@@ -77,6 +77,10 @@ const FacilityList = () => {
 
 const FacilityDetails = (facilityId: string) => {
     return FACILITY_DETAILS + '/' + facilityId;
+}
+
+const DiscountList = () => {
+    return DISCOUNT_LIST;
 }
 
 const ClientList = () => {
@@ -292,7 +296,8 @@ const RouteConfigService = {
     ClientDocuments,
     ClientAppointments,
     clientDocumentViewDetails,
-    ClientAppointmentViewDetails
+    ClientAppointmentViewDetails,
+    DiscountList,
 }
 
 export default RouteConfigService;

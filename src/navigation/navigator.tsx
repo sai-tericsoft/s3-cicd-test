@@ -81,7 +81,7 @@ import {
     CLIENT_DOCUMENTS,
     CLIENT_APPOINTMENTS,
     CLIENT_DOCUMENTS_DETAILS,
-    CLIENT_APPOINTMENT_DETAILS
+    CLIENT_APPOINTMENT_DETAILS, DISCOUNT_LIST
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
@@ -138,6 +138,7 @@ import ClientDocumentsComponent from "../screens/clients/client-documents/Client
 import ClientAppointmentsComponent from "../screens/clients/client-appointments/ClientAppointmentsComponent";
 import ClientAppointmentDetailsComponent
     from "../screens/clients/client-appointment-details/ClientAppointmentDetailsComponent";
+import DiscountListComponent from "../screens/admin/discount/discount-list/DiscountListComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -421,6 +422,14 @@ const Navigator = (props: NavigatorProps) => {
                             element={
                                 <ProtectedRoute>
                                     <SystemSettingsScreen/>
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path={DISCOUNT_LIST}
+                            element={
+                                <ProtectedRoute>
+                                    <DiscountListComponent/>
                                 </ProtectedRoute>
                             }
                         />
