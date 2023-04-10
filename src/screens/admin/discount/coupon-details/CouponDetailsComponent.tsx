@@ -1,11 +1,14 @@
 import "./CouponDetailsComponent.scss";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import ChipComponent from "../../../../shared/components/chip/ChipComponent";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../../constants";
 import DataLabelValueComponent from "../../../../shared/components/data-label-value/DataLabelValueComponent";
 import CardComponent from "../../../../shared/components/card/CardComponent";
-import React from "react";
+import React, {useEffect} from "react";
+import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
+import {CommonService} from "../../../../shared/services";
+import {useDispatch} from "react-redux";
 
 interface CouponDetailsComponentProps {
 
@@ -14,6 +17,14 @@ interface CouponDetailsComponentProps {
 const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
 
     const {couponId} = useParams();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+        dispatch(setCurrentNavParams("Back", null, () => {
+            navigate(CommonService._routeConfig.DiscountList());
+        }));
+    },[]);
 
     return (
         <div className={'coupon-details-component'}>
