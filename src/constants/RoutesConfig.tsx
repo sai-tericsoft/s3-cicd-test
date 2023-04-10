@@ -11,6 +11,7 @@ const DASHBOARD = "/dashboard";
 const ADMIN = "/admin";
 const SERVICE_CATEGORY_LIST = "/admin/service-category-list";
 const SYSTEM_SETTINGS = "/admin/system-settings";
+const APPOINTMENT_SETTINGS = "/admin/appointment-settings";
 const SERVICE_DETAILS = "/admin/service-details";
 const SERVICE_ADD = "/admin/service/add";
 const SERVICE_EDIT = "/admin/service/edit";
@@ -128,5 +129,5 @@ export {
     CLIENT_APPOINTMENTS,
     CLIENT_DOCUMENTS_DETAILS,
     CLIENT_APPOINTMENT_DETAILS,
-
+    APPOINTMENT_SETTINGS
 };

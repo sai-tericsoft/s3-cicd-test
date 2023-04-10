@@ -1,0 +1,39 @@
+.message-section {
+  padding: 20px;
+  border: 1px solid #ABB6BE;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  color: #6D6D6D;
+
+  .message-screen__body__row {
+    padding: 10px 0;
+  }
+}
+
+.email-section {
+  border: 1px solid #ABB6BE;
+  border-radius: 10px;
+  color: #6D6D6D;
+
+  .email-header-section {
+    background: #EAF3F2;
+    border-radius: 10px 10px 0 0;
+
+    .email-screen__header__row {
+      color: #6D6D6D;
+      padding: 10px 20px;
+
+      .hr-line {
+        color: #D5D5D5;
+      }
+    }
+  }
+
+  .email-screen-body {
+    padding: 0 20px;
+
+    .email-screen__body__row {
+      padding: 10px 0;
+    }
+  }
+}

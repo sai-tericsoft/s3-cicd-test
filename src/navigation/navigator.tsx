@@ -72,6 +72,7 @@ import {
     SERVICE_DETAILS,
     SERVICE_EDIT,
     SYSTEM_SETTINGS,
+    APPOINTMENT_SETTINGS,
     TEST_ROUTE,
     UPDATE_MEDICAL_INTERVENTION,
     VIEW_MEDICAL_INTERVENTION,
@@ -138,6 +139,8 @@ import ClientDocumentsComponent from "../screens/clients/client-documents/Client
 import ClientAppointmentsComponent from "../screens/clients/client-appointments/ClientAppointmentsComponent";
 import ClientAppointmentDetailsComponent
     from "../screens/clients/client-appointment-details/ClientAppointmentDetailsComponent";
+import AppointmentSettingsLayoutComponent
+    from "../screens/admin/appointments-settings/appointment-settings-layout/AppointmentSettingsLayoutComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -421,6 +424,14 @@ const Navigator = (props: NavigatorProps) => {
                             element={
                                 <ProtectedRoute>
                                     <SystemSettingsScreen/>
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path={APPOINTMENT_SETTINGS}
+                            element={
+                                <ProtectedRoute>
+                                    <AppointmentSettingsLayoutComponent/>
                                 </ProtectedRoute>
                             }
                         />
