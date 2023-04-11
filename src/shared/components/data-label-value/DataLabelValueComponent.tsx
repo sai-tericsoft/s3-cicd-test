@@ -5,11 +5,12 @@ interface DataLabelValueComponentProps {
     label: string | React.ReactNode;
     direction?: "row" | "column";
     className?:any;
+    id?:string;
 }
 
 const DataLabelValueComponent = (props: React.PropsWithChildren<DataLabelValueComponentProps>) => {
 
-    const { label, children,className } = props;
+    const { label, children,className, id } = props;
     const direction = props.direction || "column";
 
     return (
@@ -17,7 +18,7 @@ const DataLabelValueComponent = (props: React.PropsWithChildren<DataLabelValueCo
             <div className={"data-label"}>
                 {label}
             </div>
-            <div className={"data-value"}>
+            <div className={"data-value"} id={id}>
                 {children}
             </div>
         </div>

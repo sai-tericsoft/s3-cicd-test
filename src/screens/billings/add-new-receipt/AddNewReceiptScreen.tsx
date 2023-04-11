@@ -31,6 +31,7 @@ import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import EditBillingAddressComponent from "../edit-billing-address/EditBillingAddressComponent";
+import {getBillingFromAddress} from "../../../store/actions/billings.action";
 
 interface AddNewReceiptScreenProps {
 
@@ -105,7 +106,6 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
     const [selectedProvider, setSelectedProvider] = useState<any>(null);
     const [isClientSelectionDrawerOpened, setIsClientSelectionDrawerOpened] = useState<boolean>(false);
     const [isProviderSelectionDrawerOpened, setIsProviderSelectionDrawerOpened] = useState<boolean>(false);
-    const {name, address, city, state, zip, phone_number} = Misc.COMPANY_BILLING_ADDRESS;
     const [addNewReceiptFormInitialValues, setAddNewReceiptFormFormInitialValues] = useState<any>(_.cloneDeep(AddNewReceiptFormInitialValues));
     const [isClientBillingAddressDrawerOpened, setIsClientBillingAddressDrawerOpened] = useState<boolean>(false);
     const [selectedPaymentMode, setSelectedPaymentMode] = useState<string | undefined>(undefined);
@@ -116,12 +116,18 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         paymentModes
     } = useSelector((state: IRootReducerState) => state.staticData);
 
+    const {billingFromAddress} = useSelector((state: IRootReducerState) => state.billings);
+
     useEffect(() => {
         dispatch(setCurrentNavParams("Add New Receipt", null, () => {
             navigate(CommonService._routeConfig.BillingList());
         }));
         // console.log(showQuantityText);
     }, [navigate, dispatch]);
+
+    useEffect(() => {
+        dispatch(getBillingFromAddress())
+    }, [dispatch]);
 
     const productListTableColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
         {
@@ -504,13 +510,13 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                 <div className={"billing-address-block__title"}>Billing From</div>
                                             </div>
                                             <div className={"billing-address-block__details"}>
-                                                <div className={"billing-address-block__detail__row name"}>{name}</div>
-                                                <div className={"billing-address-block__detail__row"}> {address} </div>
+                                                <div className={"billing-address-block__detail__row name"}>{billingFromAddress?.name}</div>
+                                                <div className={"billing-address-block__detail__row"}> {billingFromAddress?.address_line} </div>
                                                 <div className={"billing-address-block__detail__row"}>
-                                                    <span> {city} </span>, <span>{state}</span>&nbsp;<span>{zip}</span>
+                                                    <span> {billingFromAddress?.city} </span>, <span>{billingFromAddress?.state}</span>&nbsp;<span>{billingFromAddress?.zip_code}</span>
                                                 </div>
                                                 <div
-                                                    className={"billing-address-block__detail__row"}> {phone_number} </div>
+                                                    className={"billing-address-block__detail__row"}> {billingFromAddress?.phone} </div>
                                             </div>
                                         </div>
                                         <div className={"billing-address-block to"}>
