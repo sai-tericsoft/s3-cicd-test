@@ -166,7 +166,7 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
                     </div>
                 </div>
                 <div className="list-options">
-                    <ButtonComponent variant={'outlined'} onClick={handleUpdateQuantityModalOpen}
+                    <ButtonComponent id={"update_product_btn"} variant={'outlined'} onClick={handleUpdateQuantityModalOpen}
                                      className={'mrg-right-10'}>
                         Update Stock
                     </ButtonComponent>
@@ -241,12 +241,12 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
                                     </div>
                                 </div>
                                 <div className={'ts-action display-flex ts-justify-content-center'}>
-                                    <ButtonComponent variant={'outlined'}
+                                    <ButtonComponent id={"cancel_btn"} variant={'outlined'}
                                                      onClick={handleUpdateQuantityModalClose}>
                                         Cancel
                                     </ButtonComponent>
                                     &nbsp;
-                                    <ButtonComponent variant={'contained'} color={'primary'}
+                                    <ButtonComponent id={"save_btn"} variant={'contained'} color={'primary'}
                                                      isLoading={isQuantityUpdateLoading}
                                                      disabled={!isValid || isQuantityUpdateLoading} type={'submit'}>
                                         Add Quantity
