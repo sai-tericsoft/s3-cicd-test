@@ -8,7 +8,9 @@ import CardComponent from "../../../../shared/components/card/CardComponent";
 import React, {useEffect} from "react";
 import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import {CommonService} from "../../../../shared/services";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {IRootReducerState} from "../../../../store/reducers";
+import {getCouponDetails} from "../../../../store/actions/discount.action";
 
 interface CouponDetailsComponentProps {
 
@@ -19,12 +21,22 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
     const {couponId} = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    
+    const {couponDetails}=useSelector((state:IRootReducerState)=>state.discount);
+    
+    useEffect(()=>{
+        if(couponId) {
+            dispatch(getCouponDetails(couponId));
+        }
+    },[dispatch,couponId])
+    
+    console.log('couponDetails',couponDetails);
 
     useEffect(()=>{
-        dispatch(setCurrentNavParams("Back", null, () => {
+        dispatch(setCurrentNavParams("", null, () => {
             navigate(CommonService._routeConfig.DiscountList());
         }));
-    },[]);
+    },[dispatch,navigate]);
 
     return (
         <div className={'coupon-details-component'}>
@@ -32,18 +44,17 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
                 <div className={'coupon-name-button-wrapper'}>
                                     <span className={'coupon-name-wrapper'}>
                                         <span className={'coupon-name'}>
-                                                {"first_name || N/A"} {"last_name || N/A"}
+                                                {couponDetails?.title || "N/A"}
                                         </span>
                                         <ChipComponent
-                                            className={".status === open" ? "active" : "inactive"}
+                                            className={couponDetails?.is_active ? "active" : "inactive"}
                                             size={'small'}
-                                            label={"status_details?.title || N/A"}/>
+                                            label={couponDetails?.is_active? "Active":"Inactive" || "N/A"}/>
                                     </span>
                     <div className="ts-row width-auto">
 
                             <div className="">
-                                <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
-                                                 >
+                                <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>
                                     Edit Coupon
                                 </ButtonComponent>
                             </div>
@@ -53,46 +64,53 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
                 <div className={'ts-row'}>
                     <div className={'ts-col-md-4 ts-col-lg'}>
                         <DataLabelValueComponent label={'Coupon Code'}>
-                            {"coupon_code || N/A"}
+                            { couponDetails?.code || "N/A"}
                         </DataLabelValueComponent>
                     </div>
                     <div className={'ts-col-md-4 ts-col-lg'}>
                         <DataLabelValueComponent  label={'Minimum Billing Amount'}>
-                            {"minimum_billing_amount || N/A"}
+                            {couponDetails?.min_billing_amount || "N/A"}
                         </DataLabelValueComponent>
                     </div>
                     <div className={'ts-col-md-4 ts-col-lg'}>
                         <DataLabelValueComponent label={'Usage Limit Per User'}>
-                            {"usage_limit_per_user || N/A"}
+                            {couponDetails?.usage_limit || "N/A"}
                         </DataLabelValueComponent>
                     </div>
                     <div className={'ts-col-md-4 ts-col-lg'}>
                         <DataLabelValueComponent label={'Start Date'}>
-                            {"start_date || N/A"}
+                            {couponDetails?.start_date || "N/A"}
                         </DataLabelValueComponent>
                     </div>
                     <div className={'ts-col-md-4 ts-col-lg'}>
                         <DataLabelValueComponent label={'End Date'}>
-                            {"end_date || N/A"}
+                            {couponDetails?.end_date  || "N/A"}
                         </DataLabelValueComponent>
                     </div>
                 </div>
                 <div className={'ts-row'}>
                     <div className={'ts-col-md-4 ts-col-lg'}>
                         <DataLabelValueComponent label={'Discount Type'}>
-                            {"discount_type || N/A"}
+                            { couponDetails?.discount_type ||"N/A"}
                         </DataLabelValueComponent>
                     </div>
                     <div className={'ts-col-md-4 ts-col-lg'}>
                         <DataLabelValueComponent label={'Percentage'}>
-                            {"percentage || N/A"}
+                            {couponDetails?.percentage ||"N/A"}
                         </DataLabelValueComponent>
                     </div>
+                    <div className={'ts-col-md-4 ts-col-lg'}>
+                        <DataLabelValueComponent label={'Maximum Discount Amount'}>
+                            {couponDetails?.max_discount_amount || "N/A"}
+                        </DataLabelValueComponent>
+                    </div>
+                    <div className={'ts-col-md-4 ts-col-lg'}/>
+                    <div className={'ts-col-md-4 ts-col-lg'}/>
                 </div>
                 <div className={'ts-row'}>
                     <div className={'ts-col-md-4 ts-col-lg'}>
                         <DataLabelValueComponent label={'Description'}>
-                            {"description || N/A"}
+                            {couponDetails?.description || "N/A"}
                         </DataLabelValueComponent>
                     </div>
                 </div>

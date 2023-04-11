@@ -242,7 +242,7 @@ const BillingDetails = (billingId: string) => {
 }
 
 const CouponViewDetails = (couponId: string) => {
-    return "/coupon-details" + "/" + couponId;
+    return "/coupon-details/" + couponId;
 }
 
 

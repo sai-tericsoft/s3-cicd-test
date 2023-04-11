@@ -747,6 +747,15 @@ const APIConfig: IAPIConfig = {
     GET_ADDED_ICD_CODES:{
         URL:(medicalRecordId:string)=>ENV.API_URL+'/medicalRecord/'+medicalRecordId+'/latestICDCodes',
         METHOD:'get'
+    },
+    //Discount starts
+    GET_COUPON_LIST: {
+        URL: ENV.API_URL + '/coupon',
+        METHOD: 'get'
+    },
+    GET_COUPON_VIEW_DETAILS:{
+        URL:(couponId:any)=>ENV.API_URL + '/coupon/'+couponId,
+        METHOD:'get'
     }
 }
 

@@ -11,6 +11,7 @@ import {IInventoryReducerState, InventoryReducer} from "./inventory.reducer";
 import SettingsReducer, {ISettingsReducerState} from "./settings.reducer";
 import {BillingReducer, IBillingsReducerState} from "./billings.reducer";
 import AppointmentReducer, {IAppointmentReducerState} from "./appointment.reducer";
+import DiscountReducer, {IDiscountReducerState} from "./discount.reducer";
 
 
 export interface IRootReducerState {
@@ -24,7 +25,8 @@ export interface IRootReducerState {
     inventory: IInventoryReducerState,
     settings: ISettingsReducerState,
     billings: IBillingsReducerState
-    appointments: IAppointmentReducerState
+    appointments: IAppointmentReducerState,
+    discount:IDiscountReducerState,
 }
 
 const rootReducer = combineReducers({
@@ -38,7 +40,8 @@ const rootReducer = combineReducers({
     inventory: InventoryReducer,
     settings: SettingsReducer,
     billings: BillingReducer,
-    appointments: AppointmentReducer
+    appointments: AppointmentReducer,
+    discount:DiscountReducer
 });
 
 export default rootReducer;

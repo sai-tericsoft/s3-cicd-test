@@ -1,19 +1,15 @@
 import "./DiscountListComponent.scss";
 import SearchComponent from "../../../../shared/components/search/SearchComponent";
-import DateRangePickerComponent
-    from "../../../../shared/components/form-controls/date-range-picker/DateRangePickerComponent";
-import moment from "moment/moment";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
-import {ImageConfig} from "../../../../constants";
+import {APIConfig, ImageConfig} from "../../../../constants";
 import React, {useMemo, useState} from "react";
 import SelectComponent from "../../../../shared/components/form-controls/select/SelectComponent";
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../../store/reducers";
 import {ITableColumn} from "../../../../shared/models/table.model";
-import {IFacility} from "../../../../shared/models/facility.model";
 import ChipComponent from "../../../../shared/components/chip/ChipComponent";
-import TableComponent from "../../../../shared/components/table/TableComponent";
 import LinkComponent from "../../../../shared/components/link/LinkComponent";
+import TableWrapperComponent from "../../../../shared/components/table-wrapper/TableWrapperComponent";
 import {CommonService} from "../../../../shared/services";
 
 interface DiscountListComponentProps {
@@ -28,7 +24,7 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
     });
     const {statusList} = useSelector((store: IRootReducerState) => store.staticData);
 
-    const columns :ITableColumn[] = useMemo(() => [
+    const columns: ITableColumn[] = useMemo(() => [
         {
             title: "Title",
             dataIndex: "title",
@@ -37,8 +33,8 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
         },
         {
             title: "Coupon Code",
-            dataIndex: "coupon_code",
-            key: "coupon_code",
+            dataIndex: "code",
+            key: "code",
             align: "center",
             width: 200,
         },
@@ -57,9 +53,9 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
             width: 150,
         },
         {
-            title:"Status",
-            dataIndex:"status",
-            key:"status",
+            title: "Status",
+            dataIndex: "status",
+            key: "status",
             align: "center",
             width: 150,
             render: (item: any) => {
@@ -69,41 +65,16 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
             }
         },
         {
-            title:"",
-            dataIndex:"action",
-            key:"action",
+            title: "",
+            dataIndex: "action",
+            key: "action",
             fixed: "right",
             align: "center",
             render: (item: any) => {
-                return <LinkComponent route={CommonService._routeConfig.CouponViewDetails('1')}>View Details</LinkComponent>
+                return <LinkComponent route={CommonService._routeConfig.CouponViewDetails(item?._id)}>View Details</LinkComponent>
             }
         }
-        ],[]);
-
-    const couponData:any=[
-        {
-            title:"New Year",
-            coupon_code:"NY2021",
-            start_date:"01/01/2021",
-            end_date:"01/31/2021",
-            is_active:true,
-        },
-        {
-            title:"Father's Day",
-            coupon_code:"FD2021",
-            start_date:"06/01/2021",
-            end_date:"06/30/2021",
-           is_active:false
-        },
-        {
-            title:"Mother's Day",
-            coupon_code:"MD2021",
-            start_date:"05/01/2021",
-            end_date:"05/31/2021",
-            is_active:true,
-        }
-    ]
-
+    ], []);
 
     return (
         <div className={'discount-list-component list-screen'}>
@@ -137,12 +108,16 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
                 </div>
                 <div className="list-options">
                     <ButtonComponent id={'add_client_btn'} prefixIcon={<ImageConfig.AddIcon/>}
-                                     >
+                    >
                         Add Coupon
                     </ButtonComponent>
                 </div>
             </div>
-       <TableComponent columns={columns} data={couponData}/>
+
+            <TableWrapperComponent url={APIConfig.GET_COUPON_LIST.URL}
+                                   method={APIConfig.GET_COUPON_LIST.METHOD}
+                                   extraPayload={discountListFilterState}
+                                   columns={columns}/>
         </div>
     );
 
