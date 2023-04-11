@@ -5,7 +5,7 @@ import ButtonComponent from "../../../../shared/components/button/ButtonComponen
 import {ImageConfig} from "../../../../constants";
 import DataLabelValueComponent from "../../../../shared/components/data-label-value/DataLabelValueComponent";
 import CardComponent from "../../../../shared/components/card/CardComponent";
-import React, {useEffect} from "react";
+import React, {useEffect, useMemo} from "react";
 import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import {CommonService} from "../../../../shared/services";
 import {useDispatch, useSelector} from "react-redux";
@@ -13,6 +13,9 @@ import {IRootReducerState} from "../../../../store/reducers";
 import {getCouponDetails} from "../../../../store/actions/discount.action";
 import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../../shared/components/status-card/StatusCardComponent";
+import FormControlLabelComponent from "../../../../shared/components/form-control-label/FormControlLabelComponent";
+import TableComponent from "../../../../shared/components/table/TableComponent";
+import {ITableColumn} from "../../../../shared/models/table.model";
 
 interface CouponDetailsComponentProps {
 
@@ -31,11 +34,34 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
         isCouponDetailsLoadingFailed
     } = useSelector((state: IRootReducerState) => state.discount);
 
+
+    const couponValidOnColumn: ITableColumn[] = useMemo(() => [
+        {
+            title:'Service Category',
+            key:'service_category',
+            render:(item:any)=>{
+                return <>{item?.category_name || "-"}</>
+            }
+        },
+        {
+            title:"Service",
+            key:'service',
+            dataIndex:'name',
+            render:(item:any)=>{
+                return <>{item?.service_names?.map((service:any)=>{
+                    return <>{service?.name || "-"}</>
+                })}</>
+            }
+        }
+    ],[])
+
     useEffect(() => {
         if (couponId) {
             dispatch(getCouponDetails(couponId));
         }
-    }, [dispatch, couponId])
+    }, [dispatch, couponId]);
+    
+    console.log('couponDetails',couponDetails);
 
     useEffect(() => {
         dispatch(setCurrentNavParams("", null, () => {
@@ -52,7 +78,7 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
                 isCouponDetailsLoadingFailed && <StatusCardComponent title={'Error in fetching coupon details'}/>
             }
             {
-                isCouponDetailsLoaded &&
+                isCouponDetailsLoaded &&<>
                 <CardComponent color={'primary'}>
                     <div className={'coupon-name-button-wrapper'}>
                                     <span className={'coupon-name-wrapper'}>
@@ -127,8 +153,17 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
                             </DataLabelValueComponent>
                         </div>
                     </div>
-
                 </CardComponent>
+                    <CardComponent>
+                        <FormControlLabelComponent label={"Coupon Valid On :"} size={'lg'}/>
+                        <div className={'coupon-valid-on-table-wrapper'}>
+                            <TableComponent columns={couponValidOnColumn}
+                                            data={couponDetails?.services}
+                                            bordered={true}/>
+                        </div>
+                    </CardComponent>
+                </>
+
             }
         </div>
 
