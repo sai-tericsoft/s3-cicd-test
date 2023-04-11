@@ -32,11 +32,6 @@ interface MedicalInterventionFinalizeTreatmentScreenProps {
 
 const CPTCodesInitialValues = {};
 
-const FULL_PAGES = {
-    page: 1,
-    limit: 1000
-}
-
 const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFinalizeTreatmentScreenProps) => {
 
     const {medicalRecordId, medicalInterventionId} = useParams();
@@ -53,7 +48,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
     const [linkedCPTCodes, setLinkedCPTCodes] = useState<any[]>([]);
 
     const [extraPayload, setExtraPayload] = useState<any>({
-        ...FULL_PAGES, search: ''
+        search: ''
     });
 
     const CPTCodesColumns: ITableColumn[] = [
@@ -115,8 +110,8 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                         label={'Units'}
                         fullWidth={true}
                         options={CommonService._staticData.unitsOfCare}
-                        displayWith={(option:any)=>option}
-                        valueExtractor={(option:any)=>option}
+                        displayWith={(option: any) => option}
+                        valueExtractor={(option: any) => option}
                         size={'small'}
                         className={!field.form.values[record._id]?.is_selected ? 'display-none' : ''}
                         disabled={!field.form.values[record._id]?.is_selected}
@@ -264,7 +259,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                             }, [validateForm, values]);
                             return (
                                 <Form className="t-form" noValidate={true}>
-                                    <FormDebuggerComponent values={values} errors={errors} />
+                                    <FormDebuggerComponent values={values} errors={errors}/>
                                     <CardComponent>
                                         <div className="ts-row align-items-center">
                                             <div className="ts-col ts-col-6">
@@ -290,7 +285,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                         <div>
                                             <TableWrapperComponent url={APIConfig.CPT_CODES_LIST.URL}
                                                                    method={APIConfig.CPT_CODES_LIST.METHOD}
-                                                                   isPaginated={false}
+                                                                   isPaginated={true}
                                                                    extraPayload={extraPayload}
                                                                    type={"ant"}
                                                                    columns={CPTCodesColumns}/>

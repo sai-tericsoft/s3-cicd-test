@@ -744,19 +744,23 @@ const APIConfig: IAPIConfig = {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/appointments',
         METHOD: 'get'
     },
-    GET_ADDED_ICD_CODES:{
-        URL:(medicalRecordId:string)=>ENV.API_URL+'/medicalRecord/'+medicalRecordId+'/latestICDCodes',
-        METHOD:'get'
+    GET_ADDED_ICD_CODES: {
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/latestICDCodes',
+        METHOD: 'get'
+    },
+    GET_BILLING_FROM_ADDRESS: {
+        URL: ENV.API_URL + '/billingFrom',
+        METHOD: 'get'
     },
     //Discount starts
     GET_COUPON_LIST: {
         URL: ENV.API_URL + '/coupon',
         METHOD: 'get'
     },
-    GET_COUPON_VIEW_DETAILS:{
-        URL:(couponId:any)=>ENV.API_URL + '/coupon/'+couponId,
-        METHOD:'get'
-    }
+    GET_COUPON_VIEW_DETAILS: {
+        URL: (couponId: any) => ENV.API_URL + '/coupon/' + couponId,
+        METHOD: 'get'
+    },
 }
 
 export default APIConfig;

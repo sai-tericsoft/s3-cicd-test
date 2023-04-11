@@ -43,6 +43,11 @@ const GetBillingPDFDocument = (billingDocumentId: any, type: BillingType, payloa
     return ApiService[APIConfig.GENERATE_BILLING_DOCUMENT_PDF.METHOD](APIConfig.GENERATE_BILLING_DOCUMENT_PDF.URL(billingDocumentId, type), payload)
 }
 
+const GetBillingFromAddress = (payload:any)=>{
+    // @ts-ignore
+    return ApiService[APIConfig.GET_BILLING_FROM_ADDRESS.METHOD](APIConfig.GET_BILLING_FROM_ADDRESS.URL, payload)
+}
+
 const BillingService = {
     MarkPaymentsAsPaidAPICall,
     AddNewReceiptAPICall,
@@ -51,7 +56,8 @@ const BillingService = {
     GetReceiptDetailsAPICall,
     GetBillingStatsCountAPICall,
     GetBillingPDFDocument,
-    GetBillingStatsAPICall
+    GetBillingStatsAPICall,
+    GetBillingFromAddress
 }
 
 export default BillingService;
