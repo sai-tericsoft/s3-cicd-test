@@ -3,7 +3,7 @@ import {
     CHART_NOTES_LIST,
     CLIENT_ADD,
     CLIENT_LIST,
-    COMING_SOON_ROUTE,
+    COMING_SOON_ROUTE, COUPON_ADD,
     DASHBOARD, DISCOUNT_LIST,
     FACILITY_DETAILS,
     FACILITY_LIST,
@@ -245,6 +245,9 @@ const CouponViewDetails = (couponId: string) => {
     return "/coupon-details/" + couponId;
 }
 
+const CouponAdd = () => {
+    return COUPON_ADD;
+}
 
 const RouteConfigService = {
     DefaultRoute,
@@ -303,6 +306,7 @@ const RouteConfigService = {
     ClientAppointmentViewDetails,
     DiscountList,
     CouponViewDetails,
+    CouponAdd,
 }
 
 export default RouteConfigService;

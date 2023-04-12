@@ -761,6 +761,10 @@ const APIConfig: IAPIConfig = {
         URL: (couponId: any) => ENV.API_URL + '/coupon/' + couponId,
         METHOD: 'get'
     },
+    ADD_COUPON: {
+        URL: ENV.API_URL + '/coupon',
+        METHOD: 'post'
+    },
 }
 
 export default APIConfig;

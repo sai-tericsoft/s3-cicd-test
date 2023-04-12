@@ -71,7 +71,8 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
             fixed: "right",
             align: "center",
             render: (item: any) => {
-                return <LinkComponent route={CommonService._routeConfig.CouponViewDetails(item?._id)}>View Details</LinkComponent>
+                return <LinkComponent route={CommonService._routeConfig.CouponViewDetails(item?._id)}>View
+                    Details</LinkComponent>
             }
         }
     ], []);
@@ -107,10 +108,11 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
                     </div>
                 </div>
                 <div className="list-options">
-                    <ButtonComponent id={'add_client_btn'} prefixIcon={<ImageConfig.AddIcon/>}
-                    >
-                        Add Coupon
-                    </ButtonComponent>
+                    <LinkComponent route={CommonService._routeConfig.CouponAdd()}>
+                        <ButtonComponent id={'add_client_btn'} prefixIcon={<ImageConfig.AddIcon/>}>
+                            Add Coupon
+                        </ButtonComponent>
+                    </LinkComponent>
                 </div>
             </div>
 

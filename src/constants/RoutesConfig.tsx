@@ -21,6 +21,7 @@ const FACILITY_DETAILS = "/admin/facility-details";
 
 const DISCOUNT_LIST = "/admin/discount-list";
 const COUPON_DETAILS = "/coupon-details/:couponId";
+const COUPON_ADD = "/coupon/add";
 
 const CLIENT_LIST = "/client-list";
 const CLIENT_ADD = "/client-add";
@@ -133,5 +134,6 @@ export {
     CLIENT_APPOINTMENT_DETAILS,
     DISCOUNT_LIST,
     COUPON_DETAILS,
+    COUPON_ADD,
 
 };

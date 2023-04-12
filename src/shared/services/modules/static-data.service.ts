@@ -19,6 +19,15 @@ const resultOptions = [{
     title: "Negative",
     code: "Negative"
 }];
+
+const discountType = [{
+    title: "Percentage",
+    code: 'percentage'
+},{
+    title: "Amount",
+    code:"amount"
+}]
+
 const unitsOfCare=[1,2,3,4,5,6,7,8];
 
 const getConsultationDurationList = (payload: any) => {
@@ -172,7 +181,8 @@ const StaticDataService = {
     getAppointmentStatus,
     getAppointmentTypes,
     getSystemAutoLockDurationOptionsList,
-    getFilesUneditableAfterOptionsList
+    getFilesUneditableAfterOptionsList,
+    discountType
 }
 
 export default StaticDataService;

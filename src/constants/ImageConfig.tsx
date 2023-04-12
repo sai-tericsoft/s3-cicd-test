@@ -97,6 +97,10 @@ import DeleteAttachmentConfirmationIcon from './../assets/confirmation/delete_at
 import Search from '../assets/images/search.png';
 import AppointmentConfirm from '../assets/images/appintment-confirm.png';
 
+import {ReactComponent as DollarSymbol} from '../assets/icons/dollar_symbol.svg';
+import {ReactComponent as PercentageSymbol} from '../assets/icons/percentage_symbol.svg';
+
+
 export {
     Logo,
     PlaceHolderImage,
@@ -183,5 +187,7 @@ export {
     CompletedPayments,
     PendingAmount,
     NoDataDocumentsIcon,
-    NoDataAppointmentsIcon
+    NoDataAppointmentsIcon,
+    DollarSymbol,
+    PercentageSymbol,
 }
