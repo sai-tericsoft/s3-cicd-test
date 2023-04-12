@@ -48,8 +48,8 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
             key:'service',
             dataIndex:'name',
             render:(item:any)=>{
-                return <>{item?.service_names?.map((service:any)=>{
-                    return <>{service?.name || "-"}</>
+                return <>{item?.service_names?.length>0 && item?.service_names?.map((service:any)=>{
+                    return <>{service?.name || "-"}{","}</>
                 })}</>
             }
         }
