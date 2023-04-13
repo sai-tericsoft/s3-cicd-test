@@ -3,7 +3,7 @@ import {
     CHART_NOTES_LIST,
     CLIENT_ADD,
     CLIENT_LIST,
-    COMING_SOON_ROUTE, COUPON_ADD,
+    COMING_SOON_ROUTE, COUPON_ADD, COUPON_EDIT,
     DASHBOARD, DISCOUNT_LIST,
     FACILITY_DETAILS,
     FACILITY_LIST,
@@ -249,6 +249,10 @@ const CouponAdd = () => {
     return COUPON_ADD;
 }
 
+const CouponEdit = (couponId: string) => {
+    return "/coupon/"+couponId+"/edit";
+}
+
 const RouteConfigService = {
     DefaultRoute,
     LoginRoute,
@@ -307,6 +311,7 @@ const RouteConfigService = {
     DiscountList,
     CouponViewDetails,
     CouponAdd,
+    CouponEdit,
 }
 
 export default RouteConfigService;

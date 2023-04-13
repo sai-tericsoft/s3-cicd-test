@@ -1,6 +1,5 @@
-
-.coupon-add-screen {
-  .add-coupon-heading {
+.coupon-edit-screen {
+  .edit-coupon-heading {
     color: #6D6D6D;
     font-size: 1.4286rem;
     font-weight: 700;
@@ -8,9 +7,10 @@
   }
 
   .t-form {
-    .card-component{
+    .card-component {
       margin-bottom: 0px;
     }
+
     .currency-field {
       display: flex;
       justify-content: center;
@@ -20,22 +20,37 @@
       border: 1px solid #F3F3F3;
       border-radius: 4px;
     }
-    .minimum-billing-amount-wrapper{
+
+    .minimum-billing-amount-wrapper {
       width: 465px;
       margin-left: 10px;
       margin-right: 10px;
     }
-    .select-discount-heading{
+
+    .select-discount-heading {
       margin-bottom: 20px;
-      margin-right: 30px;
+      margin-right: 10px;
       color: #07213C;
       font-weight: 500;
     }
-    .coupon-valid-on-service-text{
-      color:#6D6D6D;
-      margin-bottom:27px;
+
+    .coupon-valid-on-service-text {
+      color: #6D6D6D;
+      margin-bottom: 27px;
       margin-top: 24px;
       font-size: 1.1429rem;
+    }
+
+    .discount-type-wrapper {
+      display: flex;
+      align-items: center;
+      .discount-type-text{
+        margin-bottom: 20px;
+        font-weight: 700;
+        text-transform: capitalize;
+        color: #07213C;
+        font-size:1.1429rem;
+      }
     }
   }
 }

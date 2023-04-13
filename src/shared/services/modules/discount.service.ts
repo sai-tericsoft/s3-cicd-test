@@ -11,12 +11,18 @@ const CouponAddAPICall = (payload:any)=>{
     return ApiService[APIConfig.ADD_COUPON.METHOD](APIConfig.ADD_COUPON.URL, payload);
 }
 
+const CouponEditAPICall = (couponId:string,payload:any)=>{
+    //@ts-ignore
+    return ApiService[APIConfig.EDIT_COUPON.METHOD](APIConfig.EDIT_COUPON.URL(couponId), payload);
+}
+
 
 
 
 const DiscountService={
     CouponDetailsAPICall,
-    CouponAddAPICall
+    CouponAddAPICall,
+    CouponEditAPICall
 }
 
 export default DiscountService;
