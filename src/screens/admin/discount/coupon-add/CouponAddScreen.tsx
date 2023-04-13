@@ -5,7 +5,7 @@ import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import {CommonService} from "../../../../shared/services";
 import {useDispatch, useSelector} from "react-redux";
 import _ from "lodash";
-import {Field, FieldArray, FieldArrayRenderProps, FieldProps, Form, Formik, FormikHelpers} from "formik";
+import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import CardComponent from "../../../../shared/components/card/CardComponent";
 import FormikInputComponent from "../../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import FormikDatePickerComponent
@@ -22,6 +22,7 @@ import * as Yup from "yup";
 import {getAllServiceList} from "../../../../store/actions/service.action";
 import FormikCheckBoxComponent
     from "../../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
+import FormDebuggerComponent from "../../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface CouponAddScreenProps {
 
@@ -39,8 +40,10 @@ const CouponAddInitialValues: any = {
     percentage: '',
     max_discount_amount: '',
     amount: '',
-    services: [],
+    service_categories: [],
 };
+
+
 const couponAddValidationSchema = Yup.object({
     title: Yup.string().matches(/^[a-zA-Z0-9]+$/, 'Must be alphanumeric').min(3).required('Title is required and must have at least 3 characters'),
     code: Yup.string().required('Coupon code is required'),
@@ -74,8 +77,6 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
     useEffect(() => {
         dispatch(getAllServiceList())
     }, [dispatch]);
-
-    console.log('allServiceList', allServiceList)
 
     useEffect(() => {
         dispatch(setCurrentNavParams("", null, () => {
@@ -116,6 +117,7 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
+                            <FormDebuggerComponent values={values} errors={errors}/>
                             <CardComponent title={'Coupon Details'}>
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-md-6'}>
@@ -345,24 +347,36 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                                 <div className={'coupon-valid-on-service-text'}>
                                     Coupon will be valid on the following service(s):
                                 </div>
-                                <FieldArray name={'services'}
+                                <FieldArray name={'service_categories'}
                                             render={(arrayHelpers) => (
                                                 <>
-                                                    {allServiceList?.map((service_category: any) => {
-                                                        // console.log('service_category',service_category);
-                                                        return <> <Field
-                                                            name={`service_category.${service_category._id}`}>
+                                                    {allServiceList?.map((service_category: any, index: any) => {
+                                                        // console.log('service_category', (service_category?.services?.filter((service: any) => service?.is_selected)?.length > 0));
+                                                        // console.log('service_category', (service_category?.services?.length !== service_category?.services?.filter((service: any) => service?.is_selected)?.length));
+                                                        return <><Field
+                                                            name={`service_categories.${index}.is_selected`}>
                                                             {
                                                                 (field: FieldProps) => (
                                                                     <FormikCheckBoxComponent formikField={field}
-                                                                                             name={`service_category.${service_category._id}`}
                                                                                              label={service_category.name}
+                                                                        // indeterminate={service_category?.services?.length > 0 &&
+                                                                        // service_category?.services?.filter((service: any) => service?.is_selected)?.length > 0
+                                                                        // && (service_category?.services?.length !== service_category?.services?.filter((service: any) => service?.is_selected)?.length)}
                                                                                              onChange={(isChecked: any) => {
+                                                                                                 const serviceIds = service_category.services?.map((service: any) => {
+                                                                                                     return {
+                                                                                                         service: service?._id,
+                                                                                                         is_selected: true
+                                                                                                     }
+                                                                                                 });
                                                                                                  if (isChecked) {
-                                                                                                     arrayHelpers.push(service_category._id);
+                                                                                                     setFieldValue(`service_categories.${index}.is_selected`, true);
+                                                                                                     setFieldValue(`service_categories.${index}.category_id`, service_category._id);
+                                                                                                     setFieldValue(`service_categories.${index}.services`, serviceIds);
                                                                                                  } else {
-                                                                                                     const index = values.services.findIndex((service: any) => service === service_category._id);
-                                                                                                     arrayHelpers.remove(index);
+                                                                                                     setFieldValue(`service_categories.${index}.is_selected`, false);
+                                                                                                     setFieldValue(`service_categories.${index}.category_id`, {});
+                                                                                                     setFieldValue(`service_categories.${index}.services`, []);
                                                                                                  }
                                                                                              }}
 
@@ -371,21 +385,31 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                                                             }
                                                         </Field>
                                                             <div>
-                                                                {service_category?.services?.map((service: any) => {
-                                                                    return <div className={'mrg-left-20'}>
-                                                                        <Field name={`service.${service._id}`}>
+                                                                {service_category?.services?.map((service: any, serviceIndex: any) => {
+                                                                    return <div
+                                                                        className={'mrg-left-20'}>
+                                                                        <Field
+                                                                            name={`service_categories[${index}].services[${serviceIndex}.is_selected`}>
                                                                             {
                                                                                 (field: FieldProps) => (
                                                                                     <FormikCheckBoxComponent
                                                                                         formikField={field}
-                                                                                        name={`service.${service._id}`}
                                                                                         label={service.name}
                                                                                         onChange={(isChecked: any) => {
                                                                                             if (isChecked) {
-                                                                                                arrayHelpers.push(service._id);
+                                                                                                setFieldValue(`service_categories.${index}.category_id`, service_category._id);
+                                                                                                setFieldValue(`service_categories.${index}.services[${serviceIndex}].service`, service._id);
+                                                                                                setFieldValue(`service_categories.${index}.services[${serviceIndex}].is_selected`, true);
                                                                                             } else {
-                                                                                                const index = values.services.findIndex((service: any) => service === service._id);
-                                                                                                arrayHelpers.remove(index);
+                                                                                                setFieldValue(`service_categories.${index}.services[${serviceIndex}].is_selected`, false)
+                                                                                                console.log(values.service_categories[index]?.services.filter((ser: any) => ser.service === service._id));
+                                                                                                setFieldValue(`service_categories.${index}.services`, values.service_categories[index]?.services.filter((ser: any) => ser.service !== service._id));
+                                                                                                console.log(values.service_categories[index]?.services)
+                                                                                                if (values?.service_categories?.index?.services?.length === 0) {
+                                                                                                    console.log('here');
+                                                                                                    setFieldValue(`service_categories.${index}.is_selected`, false);
+                                                                                                    setFieldValue(`service_categories.${index}.category_id`, {});
+                                                                                                }
                                                                                             }
                                                                                         }}
 
