@@ -765,6 +765,10 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + '/coupon',
         METHOD: 'post'
     },
+    ALL_SERVICE_LIST: {
+        URL: ENV.API_URL + '/allServices',
+        METHOD: 'get'
+    }
 }
 
 export default APIConfig;

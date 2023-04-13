@@ -5,7 +5,7 @@ import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import {CommonService} from "../../../../shared/services";
 import {useDispatch, useSelector} from "react-redux";
 import _ from "lodash";
-import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
+import {Field, FieldArray, FieldArrayRenderProps, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import CardComponent from "../../../../shared/components/card/CardComponent";
 import FormikInputComponent from "../../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import FormikDatePickerComponent
@@ -19,6 +19,9 @@ import FormikRadioButtonGroupComponent
 import LinkComponent from "../../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 import * as Yup from "yup";
+import {getAllServiceList} from "../../../../store/actions/service.action";
+import FormikCheckBoxComponent
+    from "../../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 
 interface CouponAddScreenProps {
 
@@ -32,50 +35,47 @@ const CouponAddInitialValues: any = {
     min_billing_amount: '',
     usage_limit: '',
     description: '',
-    discount_type: {
-        type: '',
-        percentage: {
-            percentage: '',
-            max_discount_amount: ''
-        },
-        amount: {
-            amount: ''
-        },
-    },
+    discount_type: '',
+    percentage: '',
+    max_discount_amount: '',
+    amount: '',
+    services: [],
 };
 const couponAddValidationSchema = Yup.object({
-    title: Yup.string().required('Title is required'),
+    title: Yup.string().matches(/^[a-zA-Z0-9]+$/, 'Must be alphanumeric').min(3).required('Title is required and must have at least 3 characters'),
     code: Yup.string().required('Coupon code is required'),
     start_date: Yup.string().required('Start date is required'),
     end_date: Yup.string().required('End date is required'),
-    min_billing_amount: Yup.string().required('Minimum billing amount is required'),
-    usage_limit: Yup.string().required('Usage limit is required'),
-    discount_type: Yup.object({
-        percentage: Yup.object({
-            percentage: Yup.string().when('type', {
-                is: 'percentage',
-                then: Yup.string().required('Percentage is required')
-            }),
-            max_discount_amount: Yup.string().when('type', {
-                is: 'percentage',
-                then: Yup.string().required('Maximum discount amount is required')
-            }),
-        }),
-        amount: Yup.object({
-            amount: Yup.string().when('type', {
-                is: 'amount',
-                then: Yup.string().required('Amount is required')
-            }),
-        })
+    min_billing_amount: Yup.number().required('Minimum billing amount is required'),
+    usage_limit: Yup.number().required('Usage limit is required'),
+    discount_type: Yup.string().required('Discount type is required'),
+    percentage: Yup.number().when('discount_type', {
+        is: 'percentage',
+        then: Yup.number().required('Percentage is required')
+    }),
+    max_discount_amount: Yup.number().when('discount_type', {
+        is: 'percentage',
+        then: Yup.number().required('Maximum discount amount is required')
+    }),
+    amount: Yup.number().when('discount_type', {
+        is: 'amount',
+        then: Yup.number().required('Amount is required')
     }),
 });
-
 const CouponAddScreen = (props: CouponAddScreenProps) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const [addCouponInitialValues] = useState<any>(_.cloneDeep(CouponAddInitialValues));
     const [isAddCouponInProgress, setIsAddCouponInProgress] = useState<boolean>(false);
+    const {allServiceList} = useSelector((state: any) => state.service);
+
+
+    useEffect(() => {
+        dispatch(getAllServiceList())
+    }, [dispatch]);
+
+    console.log('allServiceList', allServiceList)
 
     useEffect(() => {
         dispatch(setCurrentNavParams("", null, () => {
@@ -197,6 +197,7 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                                                         titleCase={true}
                                                         label={'Minimum Billing Amount'}
                                                         formikField={field}
+                                                        type={'number'}
                                                         fullWidth={true}
                                                         required={true}
                                                         placeholder={'Minimum Billing Amount'}
@@ -213,6 +214,7 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                                                         titleCase={true}
                                                         label={'Usage Limit Per User'}
                                                         formikField={field}
+                                                        type={'number'}
                                                         fullWidth={true}
                                                         required={true}
                                                         placeholder={'Minimum Billing Amount'}
@@ -244,7 +246,7 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                                         Select the type of discount you want to offer:*
                                     </div>
                                     <div className={'mrg-bottom-20'}>
-                                        <Field name={'discount_type.type'}>
+                                        <Field name={'discount_type'}>
                                             {
                                                 (field: FieldProps) => (
                                                     <FormikRadioButtonGroupComponent
@@ -256,10 +258,10 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                                                         onChange={(value: any) => {
                                                             console.log('value', value);
                                                             if (value === 'percentage') {
-                                                                setFieldValue('discount_type.amount.amount', '');
+                                                                setFieldValue('amount', '');
                                                             } else {
-                                                                setFieldValue('discount_type.percentage.percentage', '');
-                                                                setFieldValue('discount_type.percentage.max_discount_amount', '');
+                                                                setFieldValue('percentage', '');
+                                                                setFieldValue('max_discount_amount', '');
                                                             }
                                                         }}
                                                     />
@@ -268,18 +270,19 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                                         </Field>
                                     </div>
                                 </div>
-                                {values?.discount_type?.type === "percentage" && <>
+                                {values?.discount_type === "percentage" && <>
                                     <div className={'ts-row'}>
                                         <div className={'currency-field'}>
                                             <ImageConfig.PercentageSymbol/>
                                         </div>
                                         <div className="ts-col-lg-5">
-                                            <Field name={'discount_type.percentage.percentage'}>
+                                            <Field name={'percentage'}>
                                                 {
                                                     (field: FieldProps) => (
                                                         <FormikInputComponent
                                                             titleCase={true}
                                                             label={'Percent'}
+                                                            type={'number'}
                                                             placeholder={'Percent'}
                                                             formikField={field}
                                                             required={true}
@@ -295,7 +298,7 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                                             <ImageConfig.DollarSymbol/>
                                         </div>
                                         <div className="ts-col-lg-5">
-                                            <Field name={'discount_type.percentage.max_discount_amount'}>
+                                            <Field name={'max_discount_amount'}>
                                                 {
                                                     (field: FieldProps) => (
                                                         <FormikInputComponent
@@ -303,6 +306,7 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                                                             label={'Max Discount Amount'}
                                                             placeholder={'Max Discount Amount'}
                                                             formikField={field}
+                                                            type={'number'}
                                                             required={true}
                                                             fullWidth={true}
                                                         />
@@ -312,19 +316,19 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                                         </div>
                                     </div>
                                 </>}
-                                {/*{console.log('values',values)}*/}
-                                {values?.discount_type?.type === 'amount' && <>
+                                {values?.discount_type === 'amount' && <>
                                     <div className={'ts-row'}>
                                         <div className={'currency-field'}>
                                             <ImageConfig.DollarSymbol/>
                                         </div>
                                         <div className="ts-col-lg-5">
-                                            <Field name={'discount_type.amount.amount'}>
+                                            <Field name={'amount'}>
                                                 {
                                                     (field: FieldProps) => (
                                                         <FormikInputComponent
                                                             titleCase={true}
                                                             label={'Amount'}
+                                                            type={'number'}
                                                             placeholder={'Amount'}
                                                             formikField={field}
                                                             required={true}
@@ -341,7 +345,63 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                                 <div className={'coupon-valid-on-service-text'}>
                                     Coupon will be valid on the following service(s):
                                 </div>
+                                <FieldArray name={'services'}
+                                            render={(arrayHelpers) => (
+                                                <>
+                                                    {allServiceList?.map((service_category: any) => {
+                                                        // console.log('service_category',service_category);
+                                                        return <> <Field
+                                                            name={`service_category.${service_category._id}`}>
+                                                            {
+                                                                (field: FieldProps) => (
+                                                                    <FormikCheckBoxComponent formikField={field}
+                                                                                             name={`service_category.${service_category._id}`}
+                                                                                             label={service_category.name}
+                                                                                             onChange={(isChecked: any) => {
+                                                                                                 if (isChecked) {
+                                                                                                     arrayHelpers.push(service_category._id);
+                                                                                                 } else {
+                                                                                                     const index = values.services.findIndex((service: any) => service === service_category._id);
+                                                                                                     arrayHelpers.remove(index);
+                                                                                                 }
+                                                                                             }}
 
+                                                                    />
+                                                                )
+                                                            }
+                                                        </Field>
+                                                            <div>
+                                                                {service_category?.services?.map((service: any) => {
+                                                                    return <div className={'mrg-left-20'}>
+                                                                        <Field name={`service.${service._id}`}>
+                                                                            {
+                                                                                (field: FieldProps) => (
+                                                                                    <FormikCheckBoxComponent
+                                                                                        formikField={field}
+                                                                                        name={`service.${service._id}`}
+                                                                                        label={service.name}
+                                                                                        onChange={(isChecked: any) => {
+                                                                                            if (isChecked) {
+                                                                                                arrayHelpers.push(service._id);
+                                                                                            } else {
+                                                                                                const index = values.services.findIndex((service: any) => service === service._id);
+                                                                                                arrayHelpers.remove(index);
+                                                                                            }
+                                                                                        }}
+
+                                                                                    />
+                                                                                )
+                                                                            }
+                                                                        </Field>
+                                                                    </div>
+                                                                })}
+                                                            </div>
+                                                        </>
+
+                                                    })}
+                                                </>
+                                            )}
+                                />
                             </CardComponent>
                             <div className="t-form-actions">
                                 {

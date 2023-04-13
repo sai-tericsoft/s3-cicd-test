@@ -44,6 +44,9 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
             key: "start_date",
             align: "center",
             width: 150,
+            render: (item: any) => {
+                return <>{CommonService.convertDateFormat2(item?.start_date)}</>
+            }
         },
         {
             title: "End Date",
@@ -51,6 +54,9 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
             key: "end_date",
             align: "center",
             width: 150,
+            render: (item: any) => {
+                return <>{CommonService.convertDateFormat2(item?.end_date)}</>
+            }
         },
         {
             title: "Status",

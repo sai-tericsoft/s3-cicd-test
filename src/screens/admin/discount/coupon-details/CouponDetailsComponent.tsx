@@ -118,12 +118,12 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
                         </div>
                         <div className={'ts-col-md-4 ts-col-lg'}>
                             <DataLabelValueComponent label={'Start Date'}>
-                                {couponDetails?.start_date || "N/A"}
+                                {CommonService.convertDateFormat2(couponDetails?.start_date) || "N/A"}
                             </DataLabelValueComponent>
                         </div>
                         <div className={'ts-col-md-4 ts-col-lg'}>
                             <DataLabelValueComponent label={'End Date'}>
-                                {couponDetails?.end_date || "N/A"}
+                                {CommonService.convertDateFormat2(couponDetails?.end_date) || "N/A"}
                             </DataLabelValueComponent>
                         </div>
                     </div>
