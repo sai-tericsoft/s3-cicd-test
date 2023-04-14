@@ -11,6 +11,26 @@
     }
   }
 
+  .available-mentions-wrapper {
+    padding: 10px;
+    background: #F7F9F9;
+    border-radius: 10px;
+    margin: 20px 0;
+
+    .available-mentions-title {
+      font-weight: 700;
+      font-size: 12px;
+      padding-bottom: 10px;
+    }
+
+    .available-mentions-chips-wrapper {
+      display: flex;
+      row-gap: 20px;
+      column-gap: 20px;
+      flex-wrap: wrap;
+    }
+  }
+
   .email-section {
     border: 1px solid #ABB6BE;
     border-radius: 10px;
@@ -38,4 +58,5 @@
       }
     }
   }
+
 }

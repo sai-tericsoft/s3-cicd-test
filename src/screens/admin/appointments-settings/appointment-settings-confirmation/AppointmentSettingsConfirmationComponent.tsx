@@ -7,14 +7,54 @@ import ButtonComponent from "../../../../shared/components/button/ButtonComponen
 import {ImageConfig} from "../../../../constants";
 import HorizontalLineComponent
     from "../../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
+import MentionsComponent from "../../../../shared/components/mentions/MentionsComponent";
+import ChipComponent from "../../../../shared/components/chip/ChipComponent";
 
 interface AppointmentSettingsConfirmationComponentProps {
 
 }
 
+const mentionsList = [
+    {
+        id: "${client_name}",
+        display: "client_name",
+    },
+    {
+        id: "${client_phone}",
+        display: "client_emailid",
+    },
+    {
+        id: "${provider_name}",
+        display: "provider_name",
+    },
+    {
+        id: "${appointment_date}",
+        display: "appointment_date",
+    },
+    {
+        id: "${appointment_time}",
+        display: "appointment_time",
+    },
+    {
+        id: "${service_category}",
+        display: "service_category",
+    },
+    {
+        id: "${service}",
+        display: "service",
+    },
+    {
+        id: "${appointment_id}",
+        display: "appointment_id",
+    },
+];
+
 const AppointmentSettingsConfirmationComponent = (props: AppointmentSettingsConfirmationComponentProps) => {
     const [messageMode, setMessageMode] = useState<'edit' | 'view'>('view');
-    const [emailMode, setEmailMode] = useState<'edit' | 'view'>('view');
+    const [emailMode, setEmailMode] = useState<'edit' | 'view'>('edit');
+
+    const [messageValue, setMessageValue] = useState("");
+    const [emailValue, setEmailValue] = useState("");
 
     return (
         <div className={'appointment-settings-remainder-component'}>
@@ -100,8 +140,40 @@ const AppointmentSettingsConfirmationComponent = (props: AppointmentSettingsConf
                                                 </ButtonComponent>
                                             </div>
                                         </div>
-                                        <div className="message-section">
-                                            Edit card
+                                        <MentionsComponent
+                                            data={mentionsList}
+                                            inputHeight={180}
+                                            value={messageValue}
+                                            onChange={(value) => setMessageValue(value)}
+                                            placeholder={"Enter text here"}
+                                        />
+                                        <div className="available-mentions-wrapper">
+                                            <div className="available-mentions-title">Available Keywords</div>
+                                            <div className="available-mentions-chips-wrapper">
+                                                {
+                                                    mentionsList.map((mention) => {
+                                                        return (
+                                                            <div>
+                                                                <ChipComponent label={mention.display}/>
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
+                                            </div>
+                                        </div>
+                                        <div className="t-form-actions">
+                                            <ButtonComponent variant={"outlined"}
+                                            >
+                                                Cancel
+                                            </ButtonComponent>&nbsp;&nbsp;
+                                            <ButtonComponent
+                                                type="button"
+                                                onClick={() => {
+                                                    console.log(messageValue)
+                                                }}
+                                            >
+                                                save
+                                            </ButtonComponent>
                                         </div>
                                     </>
                                     }
