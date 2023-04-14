@@ -48,8 +48,8 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
             key:'service',
             dataIndex:'name',
             render:(item:any)=>{
-                return <>{item?.service_names?.length>0 && item?.service_names?.map((service:any)=>{
-                    return <>{service?.name || "-"}{","}</>
+                return <>{item?.services?.length>0 && item?.services?.map((service:any)=>{
+                    return <div>{service?.name || "-"}</div>
                 })}</>
             }
         }
@@ -158,7 +158,7 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
                         <FormControlLabelComponent label={"Coupon Valid On :"} size={'lg'}/>
                         <div className={'coupon-valid-on-table-wrapper'}>
                             <TableComponent columns={couponValidOnColumn}
-                                            data={couponDetails?.services}
+                                            data={couponDetails?.linked_services}
                                             bordered={true}/>
                         </div>
                     </CardComponent>
