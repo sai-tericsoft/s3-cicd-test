@@ -97,7 +97,6 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
         });
     }, [])
 
-
     return (
         <div className={'coupon-add-screen'}>
             <div className={'add-coupon-heading'}>
@@ -392,14 +391,20 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                                                                                         formikField={field}
                                                                                         label={service.name}
                                                                                         onChange={(isChecked: any) => {
-                                                                                            const services = service_category?.services;
-                                                                                            console.log('services', values?.service_categories[index]?.services);
                                                                                             const selectedServices = values?.service_categories[index]?.services?.filter((service: any) => service?.is_selected);
-                                                                                            console.log('selectedServices', selectedServices);
                                                                                             if (isChecked) {
                                                                                                 setFieldValue(`service_categories.${index}.services[${serviceIndex}].service_id`, service._id);
                                                                                                 setFieldValue(`service_categories.${index}.category_id`, service_category._id);
+                                                                                                selectedServices.push({
+                                                                                                    service_id: service._id,
+                                                                                                    is_selected: true
+                                                                                                });
+                                                                                            } else {
+                                                                                                selectedServices.splice(serviceIndex, 1);
                                                                                             }
+                                                                                            const services = service_category?.services;
+                                                                                            console.log('services', values?.service_categories[index]?.services);
+                                                                                            console.log('selectedServices', selectedServices);
                                                                                             if (selectedServices?.length === services?.length) {
                                                                                                 setFieldValue(`service_categories.${index}.is_selected`, true);
                                                                                             } else {
