@@ -533,6 +533,17 @@ const ComingSoon = () => {
     AlertService.showToast("Coming Soon", 'info');
 }
 
+const cleanMentionsPayload = (value: string, mentionsData: any) => {
+    const ids = mentionsData.map((item: any) => item.id);
+    let cleanedValue: string = value;
+    ids.forEach((id: any) => {
+        cleanedValue = cleanedValue.replaceAll(new RegExp(`\\(${id}\\)`, 'g'), '');
+    });
+    console.log(cleanedValue.split('\n'));
+    cleanedValue = cleanedValue.split('\n').join("\\n");
+    return cleanedValue;
+}
+
 const CommonService = {
     LightenDarkenColor,
     getContrastYIQ,
@@ -578,6 +589,7 @@ const CommonService = {
     isTextEllipsisActive,
     ComingSoon,
     generateUseCaseFromCaseDetails,
+    cleanMentionsPayload,
 
     // createValidationsObject,
     // createYupSchema,

@@ -1,6 +1,7 @@
 import "./MentionsComponent.scss";
 import {Mention, MentionsInput} from "react-mentions";
 import merge from "lodash/merge";
+import {useCallback} from "react";
 
 interface MentionsComponentProps {
     data: any[];
@@ -11,6 +12,7 @@ interface MentionsComponentProps {
 }
 
 const MentionsComponent = (props: MentionsComponentProps) => {
+
     const {data, inputHeight, value, onChange, placeholder} = props;
 
     const styledComponents = {
@@ -73,15 +75,21 @@ const MentionsComponent = (props: MentionsComponentProps) => {
     });
 
     const mentionStyle = {
-        color: "#1479FF",
+        // color: "#1479FF",
+        backgroundColor: "#E6F2FF",
         fontSize: 14,
     }
+
+    const handleChange = useCallback((e: any) => {
+        const value = e.target.value;
+        onChange(value);
+    }, [onChange]);
 
     return (
         <div className={'mentions-component'}>
             <MentionsInput
                 value={value}
-                onChange={(e: any) => onChange(e.target.value)}
+                onChange={handleChange}
                 style={customStyle}
                 placeholder={placeholder}
             >
@@ -89,6 +97,8 @@ const MentionsComponent = (props: MentionsComponentProps) => {
                     trigger="@"
                     data={data}
                     style={mentionStyle}
+                    displayTransform={(id: any, display: any) => `@${display}`}
+                    // markup=""
                 />
             </MentionsInput>
         </div>

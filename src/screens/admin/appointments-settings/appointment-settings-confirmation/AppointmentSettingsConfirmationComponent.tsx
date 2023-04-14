@@ -9,6 +9,7 @@ import HorizontalLineComponent
     from "../../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 import MentionsComponent from "../../../../shared/components/mentions/MentionsComponent";
 import ChipComponent from "../../../../shared/components/chip/ChipComponent";
+import {CommonService} from "../../../../shared/services";
 
 interface AppointmentSettingsConfirmationComponentProps {
 
@@ -16,35 +17,35 @@ interface AppointmentSettingsConfirmationComponentProps {
 
 const mentionsList = [
     {
-        id: "${client_name}",
+        id: "client_name",
         display: "client_name",
     },
     {
-        id: "${client_phone}",
+        id: "client_emailid",
         display: "client_emailid",
     },
     {
-        id: "${provider_name}",
+        id: "provider_name",
         display: "provider_name",
     },
     {
-        id: "${appointment_date}",
+        id: "appointment_date",
         display: "appointment_date",
     },
     {
-        id: "${appointment_time}",
+        id: "appointment_time",
         display: "appointment_time",
     },
     {
-        id: "${service_category}",
+        id: "service_category",
         display: "service_category",
     },
     {
-        id: "${service}",
+        id: "service",
         display: "service",
     },
     {
-        id: "${appointment_id}",
+        id: "appointment_id",
         display: "appointment_id",
     },
 ];
@@ -169,10 +170,10 @@ const AppointmentSettingsConfirmationComponent = (props: AppointmentSettingsConf
                                             <ButtonComponent
                                                 type="button"
                                                 onClick={() => {
-                                                    console.log(messageValue)
+                                                    console.log(CommonService.cleanMentionsPayload(messageValue, mentionsList));
                                                 }}
                                             >
-                                                save
+                                                Save
                                             </ButtonComponent>
                                         </div>
                                     </>
