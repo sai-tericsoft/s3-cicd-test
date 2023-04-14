@@ -7,15 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import _ from "lodash";
 import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import CardComponent from "../../../../shared/components/card/CardComponent";
-import FormikInputComponent from "../../../../shared/components/form-controls/formik-input/FormikInputComponent";
-import FormikDatePickerComponent
-    from "../../../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
-import moment from "moment/moment";
 import {ImageConfig, Misc} from "../../../../constants";
-import FormikTextAreaComponent
-    from "../../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
-import FormikRadioButtonGroupComponent
-    from "../../../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
 import LinkComponent from "../../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 import * as Yup from "yup";
@@ -23,6 +15,14 @@ import {getAllServiceList} from "../../../../store/actions/service.action";
 import FormikCheckBoxComponent
     from "../../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 import FormDebuggerComponent from "../../../../shared/components/form-debugger/FormDebuggerComponent";
+import FormikInputComponent from "../../../../shared/components/form-controls/formik-input/FormikInputComponent";
+import FormikDatePickerComponent
+    from "../../../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
+import moment from "moment/moment";
+import FormikTextAreaComponent
+    from "../../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
+import FormikRadioButtonGroupComponent
+    from "../../../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
 
 interface CouponAddScreenProps {
 
@@ -359,13 +359,10 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                                                                 (field: FieldProps) => (
                                                                     <FormikCheckBoxComponent formikField={field}
                                                                                              label={service_category.name}
-                                                                        // indeterminate={service_category?.services?.length > 0 &&
-                                                                        // service_category?.services?.filter((service: any) => service?.is_selected)?.length > 0
-                                                                        // && (service_category?.services?.length !== service_category?.services?.filter((service: any) => service?.is_selected)?.length)}
                                                                                              onChange={(isChecked: any) => {
                                                                                                  const serviceIds = service_category.services?.map((service: any) => {
                                                                                                      return {
-                                                                                                         service: service?._id,
+                                                                                                         service_id: service?._id,
                                                                                                          is_selected: true
                                                                                                      }
                                                                                                  });
@@ -374,12 +371,10 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                                                                                                      setFieldValue(`service_categories.${index}.category_id`, service_category._id);
                                                                                                      setFieldValue(`service_categories.${index}.services`, serviceIds);
                                                                                                  } else {
-                                                                                                     setFieldValue(`service_categories.${index}.is_selected`, false);
-                                                                                                     setFieldValue(`service_categories.${index}.category_id`, {});
-                                                                                                     setFieldValue(`service_categories.${index}.services`, []);
+                                                                                                     const filteredCategories = values?.service_categories?.filter((category: any) => category?.category_id !== service_category._id);
+                                                                                                     setFieldValue(`service_categories`, filteredCategories);
                                                                                                  }
                                                                                              }}
-
                                                                     />
                                                                 )
                                                             }
@@ -387,6 +382,7 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                                                             <div>
                                                                 {service_category?.services?.map((service: any, serviceIndex: any) => {
                                                                     return <div
+                                                                        key={service._id}
                                                                         className={'mrg-left-20'}>
                                                                         <Field
                                                                             name={`service_categories[${index}].services[${serviceIndex}.is_selected`}>
@@ -396,23 +392,20 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                                                                                         formikField={field}
                                                                                         label={service.name}
                                                                                         onChange={(isChecked: any) => {
+                                                                                            const services = service_category?.services;
+                                                                                            console.log('services', values?.service_categories[index]?.services);
+                                                                                            const selectedServices = values?.service_categories[index]?.services?.filter((service: any) => service?.is_selected);
+                                                                                            console.log('selectedServices', selectedServices);
                                                                                             if (isChecked) {
+                                                                                                setFieldValue(`service_categories.${index}.services[${serviceIndex}].service_id`, service._id);
                                                                                                 setFieldValue(`service_categories.${index}.category_id`, service_category._id);
-                                                                                                setFieldValue(`service_categories.${index}.services[${serviceIndex}].service`, service._id);
-                                                                                                setFieldValue(`service_categories.${index}.services[${serviceIndex}].is_selected`, true);
+                                                                                            }
+                                                                                            if (selectedServices?.length === services?.length) {
+                                                                                                setFieldValue(`service_categories.${index}.is_selected`, true);
                                                                                             } else {
-                                                                                                setFieldValue(`service_categories.${index}.services[${serviceIndex}].is_selected`, false)
-                                                                                                console.log(values.service_categories[index]?.services.filter((ser: any) => ser.service === service._id));
-                                                                                                setFieldValue(`service_categories.${index}.services`, values.service_categories[index]?.services.filter((ser: any) => ser.service !== service._id));
-                                                                                                console.log(values.service_categories[index]?.services)
-                                                                                                if (values?.service_categories?.index?.services?.length === 0) {
-                                                                                                    console.log('here');
-                                                                                                    setFieldValue(`service_categories.${index}.is_selected`, false);
-                                                                                                    setFieldValue(`service_categories.${index}.category_id`, {});
-                                                                                                }
+                                                                                                setFieldValue(`service_categories.${index}.is_selected`, false);
                                                                                             }
                                                                                         }}
-
                                                                                     />
                                                                                 )
                                                                             }
