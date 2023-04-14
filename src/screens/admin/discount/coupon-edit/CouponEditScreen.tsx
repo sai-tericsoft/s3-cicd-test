@@ -29,7 +29,6 @@ interface CouponEditScreenProps {
 
 const CouponEditInitialValues: any = {
     title: '',
-    code: '',
     start_date: '',
     end_date: '',
     min_billing_amount: '',
@@ -39,10 +38,10 @@ const CouponEditInitialValues: any = {
     percentage: '',
     max_discount_amount: '',
     amount: '',
-    services: [],
+    services:[],
 };
 const couponEditValidationSchema = Yup.object({
-    title: Yup.string().matches(/^[a-zA-Z0-9]+$/, 'Must be alphanumeric').min(3).required('Title is required and must have at least 3 characters'),
+    title: Yup.string().required('Title is required and must have at least 3 characters'),
     code: Yup.string().required('Coupon code is required'),
     start_date: Yup.string().required('Start date is required'),
     end_date: Yup.string().required('End date is required'),
@@ -86,7 +85,8 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
             percentage: couponDetails?.percentage,
             max_discount_amount: couponDetails?.max_discount_amount,
             amount: couponDetails?.amount,
-        })
+
+        });
     },[]);
 
 
@@ -159,6 +159,7 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                                                         label={'Coupon Code'}
                                                         formikField={field}
                                                         fullWidth={true}
+                                                        disabled={true}
                                                         required={true}
                                                         placeholder={'Coupon Code'}
                                                     />
