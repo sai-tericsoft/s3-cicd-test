@@ -457,7 +457,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 <ToolTipComponent
                                                     showArrow={true}
                                                     position={"left"}
-                                                    tooltip={"This phone number will be used to communicate with you in case of emergency. Ensure that this number is constantly operational."}>
+                                                    tooltip={"This phone number will be used as the primary number for your account. Please ensure that this number is constantly operational."}>
                                                     <ImageConfig.InfoIcon/>
                                                 </ToolTipComponent>
                                             </IconButtonComponent>
@@ -794,7 +794,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 <ToolTipComponent
                                                     showArrow={true}
                                                     position={"left"}
-                                                    tooltip={"This phone number will be used to communicate with you in case of emergency. Ensure that this number is constantly operational."}>
+                                                    tooltip={"This phone number will be used as the primary number for your account. Please ensure that this number is constantly operational."}>
                                                     <ImageConfig.InfoIcon/>
                                                 </ToolTipComponent>
                                             </IconButtonComponent>
@@ -979,7 +979,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                             <ToolTipComponent
                                                                 showArrow={true}
                                                                 position={"left"}
-                                                                tooltip={"This phone number will be used to communicate with you in case of emergency. Ensure that this number is constantly operational."}>
+                                                                tooltip={"This phone number will be used as the primary number for your account. Please ensure that this number is constantly operational."}>
                                                                 <ImageConfig.InfoIcon/>
                                                             </ToolTipComponent>
                                                         </IconButtonComponent>
