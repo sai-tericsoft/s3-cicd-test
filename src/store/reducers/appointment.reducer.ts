@@ -1,4 +1,9 @@
-import {GET_APPOINTMENT_LIST_LITE, SET_APPOINTMENT_LIST_LITE} from "../actions/appointment.action";
+import {
+    GET_APPOINTMENT_LIST_LITE,
+    GET_APPOINTMENT_SETTINGS,
+    SET_APPOINTMENT_LIST_LITE,
+    SET_APPOINTMENT_SETTINGS
+} from "../actions/appointment.action";
 
 
 export interface IAppointmentReducerState {
@@ -6,13 +11,23 @@ export interface IAppointmentReducerState {
     isAppointmentListLiteLoaded: boolean,
     isAppointmentListLiteLoadingFailed: boolean,
     appointmentListLite: any
+
+    isAppointmentSettingsLoading: boolean,
+    isAppointmentSettingsLoaded: boolean,
+    isAppointmentSettingsLoadingFailed: boolean,
+    appointmentSettings: any
 }
 
 const initialData: IAppointmentReducerState = {
     isAppointmentListLiteLoading: false,
     isAppointmentListLiteLoaded: false,
     isAppointmentListLiteLoadingFailed: false,
-    appointmentListLite: undefined
+    appointmentListLite: undefined,
+
+    isAppointmentSettingsLoading: false,
+    isAppointmentSettingsLoaded: false,
+    isAppointmentSettingsLoadingFailed: false,
+    appointmentSettings: undefined
 }
 
 const appointmentReducer = (state: IAppointmentReducerState = initialData, action: any) => {
@@ -33,6 +48,23 @@ const appointmentReducer = (state: IAppointmentReducerState = initialData, actio
                 isAppointmentListLiteLoaded: !!action.payload.appointmentListLite,
                 isAppointmentListLiteLoadingFailed: !action.payload.appointmentListLite,
                 appointmentListLite: action.payload.appointmentListLite
+            }
+            return state;
+        case GET_APPOINTMENT_SETTINGS:
+            state = {
+                ...state,
+                isAppointmentSettingsLoading: true,
+                isAppointmentSettingsLoaded: false,
+                isAppointmentSettingsLoadingFailed: false,
+            };
+            return state;
+        case SET_APPOINTMENT_SETTINGS:
+            state = {
+                ...state,
+                isAppointmentSettingsLoading: false,
+                isAppointmentSettingsLoaded: !!action.payload.appointmentSettings,
+                isAppointmentSettingsLoadingFailed: !action.payload.appointmentSettings,
+                appointmentSettings: action.payload.appointmentSettings
             }
             return state;
         default:

@@ -744,9 +744,17 @@ const APIConfig: IAPIConfig = {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/appointments',
         METHOD: 'get'
     },
-    GET_ADDED_ICD_CODES:{
-        URL:(medicalRecordId:string)=>ENV.API_URL+'/medicalRecord/'+medicalRecordId+'/latestICDCodes',
-        METHOD:'get'
+    GET_ADDED_ICD_CODES: {
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/latestICDCodes',
+        METHOD: 'get'
+    },
+    GET_APPOINTMENT_SETTINGS: {
+        URL: ENV.API_URL + '/appointmentSetting',
+        METHOD: 'get'
+    },
+    SET_APPOINTMENT_SETTINGS: {
+        URL: ENV.API_URL + '/appointmentSetting',
+        METHOD: 'post'
     }
 }
 

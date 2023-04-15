@@ -47,13 +47,14 @@ const ToolTipComponent = (props: React.PropsWithChildren<ToolTipComponentProps>)
                  componentsProps={{
                      tooltip: {
                          sx: {
+                             marginRight:'20px',
                              fontSize: '12px',
                              fontFamily: "Roboto",
                              padding: '10px',
                              bgcolor: backgroundColor || '#DEFFE8',
                              color: textColor || '#282828',
                              '& .MuiTooltip-arrow': {
-                                 color: '#DEFFE8',
+                                 color: backgroundColor || '#DEFFE8',
                              },
                          },
                      },

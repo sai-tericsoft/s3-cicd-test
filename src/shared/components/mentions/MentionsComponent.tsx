@@ -33,11 +33,14 @@ const MentionsComponent = (props: MentionsComponentProps) => {
             input: {
                 padding: 9,
                 border: '1px solid silver',
+                '&:focus': {
+                    border: '1px solid #00534F',
+                },
             },
         },
         '&singleLine': {
             display: 'inline-block',
-            width: 180,
+            // width: 180,
             highlighter: {
                 padding: 1,
                 border: '2px inset transparent',
@@ -78,6 +81,7 @@ const MentionsComponent = (props: MentionsComponentProps) => {
         // color: "#1479FF",
         backgroundColor: "#E6F2FF",
         fontSize: 14,
+        width: "100%",
     }
 
     const handleChange = useCallback((e: any) => {
@@ -97,7 +101,7 @@ const MentionsComponent = (props: MentionsComponentProps) => {
                     trigger="@"
                     data={data}
                     style={mentionStyle}
-                    displayTransform={(id: any, display: any) => `@${display}`}
+                    // displayTransform={(id: any, display: any) => `@${display}`}
                     // markup=""
                 />
             </MentionsInput>

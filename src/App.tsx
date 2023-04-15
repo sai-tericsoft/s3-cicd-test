@@ -11,26 +11,30 @@ import {logout, updateLastActivityTime} from "./store/actions/account.action";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "./store/reducers";
 import {
-    get8MinuteRuleChart, getAppointmentStatus, getAppointmentTypes,
+    get8MinuteRuleChart,
+    getAppointmentStatus,
+    getAppointmentTypes,
     getBodyPartsList,
     getCaseStatusList,
     getCommunicationModeTypeList,
     getConcussionFileTypes,
     getConsultationDurationList,
     getEmploymentStatusList,
+    getFilesUneditableAfterOptionsList,
     getGenderList,
     getInjuryTypeList,
     getLanguageList,
     getMedicalHistoryOptionsList,
-    getMusculoskeletalHistoryOptionsList,
     getMedicalRecordDocumentTypes,
+    getMusculoskeletalHistoryOptionsList,
     getPaymentModes,
     getPhoneTypeList,
     getProgressReportStatsList,
     getReferralTypeList,
     getRelationShipList,
     getSocialMediaPlatformList,
-    getSurgicalHistoryOptionsList, getFilesUneditableAfterOptionsList, getSystemAutoLockDurationOptionsList
+    getSurgicalHistoryOptionsList,
+    getSystemAutoLockDurationOptionsList
 } from "./store/actions/static-data.action";
 import AppVersionComponent from "./shared/components/app-version/appVersionComponent";
 import {getAllProvidersList} from "./store/actions/user.action";
@@ -38,6 +42,7 @@ import LightBoxComponent from "./shared/components/light-box/LightBoxComponent";
 import {debounceTime, fromEvent} from "rxjs";
 import SystemLockComponent from "./shared/components/system-lock/SystemLockComponent";
 import {getSystemSettings} from "./store/actions/settings.action";
+import {getAppointmentSettings} from "./store/actions/appointment.action";
 
 interface AppProps {
     setCurrentUser?: any;
@@ -141,6 +146,7 @@ const App = (props: AppProps) => {
             dispatch(getSystemAutoLockDurationOptionsList());
             dispatch(getFilesUneditableAfterOptionsList());
             dispatch(getSystemSettings());
+            dispatch(getAppointmentSettings())
         }
     }, [token, dispatch])
 

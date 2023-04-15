@@ -1,6 +1,5 @@
 import "./AppointmentSettingsConfirmationComponent.scss";
-import {Form, Formik} from "formik";
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import CardComponent from "../../../../shared/components/card/CardComponent";
 import QuestionComponent from "../../../../shared/components/question/QuestionComponent";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
@@ -10,250 +9,252 @@ import HorizontalLineComponent
 import MentionsComponent from "../../../../shared/components/mentions/MentionsComponent";
 import ChipComponent from "../../../../shared/components/chip/ChipComponent";
 import {CommonService} from "../../../../shared/services";
+import ToolTipComponent from "../../../../shared/components/tool-tip/ToolTipComponent";
 
 interface AppointmentSettingsConfirmationComponentProps {
-
+    appointmentSettingsConfirmationDetails: any;
+    onSubmit: Function;
+    isTemplateSaveInProgress: boolean;
+    mentionsList: any[]
 }
 
-const mentionsList = [
-    {
-        id: "client_name",
-        display: "client_name",
-    },
-    {
-        id: "client_emailid",
-        display: "client_emailid",
-    },
-    {
-        id: "provider_name",
-        display: "provider_name",
-    },
-    {
-        id: "appointment_date",
-        display: "appointment_date",
-    },
-    {
-        id: "appointment_time",
-        display: "appointment_time",
-    },
-    {
-        id: "service_category",
-        display: "service_category",
-    },
-    {
-        id: "service",
-        display: "service",
-    },
-    {
-        id: "appointment_id",
-        display: "appointment_id",
-    },
-];
 
 const AppointmentSettingsConfirmationComponent = (props: AppointmentSettingsConfirmationComponentProps) => {
+    const {appointmentSettingsConfirmationDetails, onSubmit, isTemplateSaveInProgress, mentionsList} = props;
     const [messageMode, setMessageMode] = useState<'edit' | 'view'>('view');
-    const [emailMode, setEmailMode] = useState<'edit' | 'view'>('edit');
+    const [emailMode, setEmailMode] = useState<'edit' | 'view'>('view');
+
 
     const [messageValue, setMessageValue] = useState("");
+    const [subjectValue, setSubjectValue] = useState("");
     const [emailValue, setEmailValue] = useState("");
+
+    const messageVal = CommonService.editMentionsFormat(appointmentSettingsConfirmationDetails.sms.content, mentionsList);
+    const emailSubVal = CommonService.editMentionsFormat(appointmentSettingsConfirmationDetails.email.subject, mentionsList);
+    const emailContentValVal = CommonService.editMentionsFormat(appointmentSettingsConfirmationDetails.email.subject, mentionsList);
+
+    useEffect(() => {
+        setMessageValue(messageVal);
+        setEmailValue(emailSubVal);
+        setSubjectValue(emailContentValVal);
+    }, [appointmentSettingsConfirmationDetails]);
+
+    const onTemplateSubmit = useCallback(() => {
+        console.log(messageValue);
+
+        const payload = {
+            "sms": {
+                "content": CommonService.cleanMentionsPayload(messageValue, mentionsList)
+            },
+            "email": {
+                "subject": CommonService.cleanMentionsPayload(subjectValue, mentionsList),
+                "content": CommonService.cleanMentionsPayload(emailValue, mentionsList)
+            }
+        }
+        onSubmit(payload)
+    }, [emailValue, messageValue, subjectValue]);
 
     return (
         <div className={'appointment-settings-remainder-component'}>
-            <Formik
-                initialValues={{}}
-                validateOnChange={false}
-                validateOnBlur={true}
-                enableReinitialize={true}
-                validateOnMount={true}
-                onSubmit={() => {
-                    console.log('submit');
-                }}
-            >
-                {({values, validateForm}) => {
-                    // eslint-disable-next-line react-hooks/rules-of-hooks
-                    useEffect(() => {
-                        validateForm();
-                    }, [validateForm, values]);
-                    return (
-                        <Form className="t-form" noValidate={true}>
-                            <CardComponent title={"Appointment Confirmation"}>
-                                <div className="t-form-controls">
-                                    {messageMode === 'view' &&
-                                    <>
-                                        <div className="d-flex ts-justify-content-between">
-                                            <QuestionComponent title={"Message (SMS)"}
-                                                               description={"Message template for sending appointment confirmations."}
-                                            ></QuestionComponent>
-                                            <div>
-                                                <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
-                                                                 onClick={() => {
-                                                                     setMessageMode('edit')
-                                                                 }}>
-                                                    Edit
-                                                </ButtonComponent>
-                                            </div>
-                                        </div>
-                                        <div className="message-section">
-                                            Dear John Richardson,
-                                            <div className="message-screen__body__row">
-                                                This is a reminder that you have an upcoming appointment with Terrill
-                                                Lobo
-                                                on
-                                                04-April-2023 at 09:00 AM at Kinergy Sports Medicine and Performance. We
-                                                value
-                                                your time and are committed to providing you with exceptional service.
-                                            </div>
-                                            <div className="message-screen__body__row">
-                                                Please note that if you need to reschedule or cancel your appointment,
-                                                we
-                                                require at least 24 hours notice in advance. If you have any specific
-                                                concerns
-                                                or requirements that need to be addressed prior to your appointment,
-                                                please
-                                                do
-                                                not hesitate to contact us.
-                                            </div>
-
-                                            <div className="message-screen__body__row">
-                                                Thank you for choosing Kinergy. We look forward to seeing you soon.
-                                            </div>
-                                            <div className="message-screen__body__row">
-                                                <div>Best regards,</div>
-                                                <div>Kinergy Sports Medicine and Performance</div>
-
-                                            </div>
-                                        </div>
-                                    </>
-                                    }
-
-                                    {messageMode === 'edit' &&
-                                    <>
-                                        <div className="d-flex ts-justify-content-between">
-                                            <QuestionComponent title={"Message (SMS)"}
-                                                               description={"Message template for sending appointment confirmations."}
-                                            ></QuestionComponent>
-                                            <div>
-                                                <ButtonComponent prefixIcon={<ImageConfig.EyeIcon/>}
-                                                                 onClick={() => {
-                                                                     console.log('edit')
-                                                                 }}>
-                                                    Preview
-                                                </ButtonComponent>
-                                            </div>
-                                        </div>
-                                        <MentionsComponent
-                                            data={mentionsList}
-                                            inputHeight={180}
-                                            value={messageValue}
-                                            onChange={(value) => setMessageValue(value)}
-                                            placeholder={"Enter text here"}
-                                        />
-                                        <div className="available-mentions-wrapper">
-                                            <div className="available-mentions-title">Available Keywords</div>
-                                            <div className="available-mentions-chips-wrapper">
-                                                {
-                                                    mentionsList.map((mention) => {
-                                                        return (
-                                                            <div>
-                                                                <ChipComponent label={mention.display}/>
-                                                            </div>
-                                                        )
-                                                    })
-                                                }
-                                            </div>
-                                        </div>
-                                        <div className="t-form-actions">
-                                            <ButtonComponent variant={"outlined"}
-                                            >
-                                                Cancel
-                                            </ButtonComponent>&nbsp;&nbsp;
-                                            <ButtonComponent
-                                                type="button"
-                                                onClick={() => {
-                                                    console.log(CommonService.cleanMentionsPayload(messageValue, mentionsList));
-                                                }}
-                                            >
-                                                Save
-                                            </ButtonComponent>
-                                        </div>
-                                    </>
-                                    }
-
-                                    <HorizontalLineComponent/>
-                                    <div className="d-flex ts-justify-content-between">
-                                        <QuestionComponent title={"Email"}
-                                                           description={"Email template for sending appointment confirmations."}
-                                        ></QuestionComponent>
-                                        <div>
-                                            <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
-                                                             onClick={() => {
-                                                                 console.log('edit')
-                                                             }}>
-                                                Edit
-                                            </ButtonComponent>
-                                        </div>
-                                    </div>
-                                    <div className="email-section">
-                                        <div className="email-header-section">
-                                            <div className="email-screen__header__row">From: Kinergy Sports Medicine
-                                                and Performance
-                                            </div>
-                                            <hr className="hr-line"/>
-                                            <div className="email-screen__header__row">To: john@gmail.com</div>
-                                            <hr className="hr-line"/>
-                                            <div className="email-screen__header__row">Subject: Appointment
-                                                Confirmation for John Richardson
-                                            </div>
-                                            <hr className="hr-line"/>
-                                        </div>
-
-                                        <div className="email-screen-body">
-                                            <div className="email-screen__body__row">Dear John Richardson,</div>
-                                            <div className="email-screen__body__row">
-                                                This is a reminder that you have an upcoming appointment with Terrill
-                                                Lobo
-                                                on
-                                                04-April-2023 at 09:00 AM at Kinergy Sports Medicine and Performance. We
-                                                value
-                                                your time and are committed to providing you with exceptional service.
-                                            </div>
-                                            <div className="email-screen__body__row">
-                                                Please note that if you need to reschedule or cancel your appointment,
-                                                we
-                                                require at least 24 hours notice in advance. If you have any specific
-                                                concerns
-                                                or requirements that need to be addressed prior to your appointment,
-                                                please
-                                                do
-                                                not hesitate to contact us.
-                                            </div>
-
-                                            <div className="email-screen__body__row">
-                                                Thank you for choosing Kinergy. We look forward to seeing you soon.
-                                            </div>
-                                            <div className="email-screen__body__row">
-                                                <div>Best regards,</div>
-                                                <div>Kinergy Sports Medicine and Performance</div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </CardComponent>
-                            <div className="t-form-actions">
-                                <ButtonComponent
-                                    type={"submit"}
-                                    id={"save_btn"}
-                                >
-                                    Save
+            <CardComponent title={"Appointment Confirmation"}>
+                <div className="t-form-controls">
+                    {messageMode === 'view' &&
+                    <>
+                        <div className="d-flex ts-justify-content-between">
+                            <QuestionComponent title={"Message (SMS)"}
+                                               description={"Message template for sending appointment confirmations."}
+                            ></QuestionComponent>
+                            <div>
+                                <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                                 onClick={() => {
+                                                     setMessageMode('edit')
+                                                 }}>
+                                    Edit
                                 </ButtonComponent>
                             </div>
-                        </Form>
-                    )
-                }}
-            </Formik>
+                        </div>
+                        <div className="message-section"
+                             dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsConfirmationDetails.sms.content, mentionsList)}}>
+
+                        </div>
+                    </>
+                    }
+
+                    {messageMode === 'edit' &&
+                    <>
+                        <div className="d-flex ts-justify-content-between">
+                            <QuestionComponent title={"Message (SMS)"}
+                                               description={"Message template for sending appointment confirmations."}
+                            ></QuestionComponent>
+                        </div>
+                        <MentionsComponent
+                            data={mentionsList}
+                            inputHeight={180}
+                            value={messageValue}
+                            onChange={(value) => setMessageValue(value)}
+                            placeholder={"Enter text here"}
+                        />
+                        <div className="available-mentions-wrapper">
+                            <div className="available-mentions-title">Available Keywords</div>
+                            <div className="available-mentions-chips-wrapper">
+                                {
+                                    mentionsList.map((mention) => {
+                                        return (
+                                            <div>
+                                                <ChipComponent label={mention.display}/>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                        </div>
+                        <div className="d-flex ts-justify-content-center">
+                            <ButtonComponent variant={"outlined"}
+                                             disabled={isTemplateSaveInProgress}
+                                             onClick={() => {
+                                                 setMessageMode('view');
+                                                 setMessageValue(messageVal);
+                                             }}
+                            >
+                                Cancel
+                            </ButtonComponent>&nbsp;&nbsp;
+                            <ButtonComponent
+                                isLoading={isTemplateSaveInProgress}
+                                type="button"
+                                onClick={onTemplateSubmit}
+                            >
+                                Save
+                            </ButtonComponent>
+                        </div>
+                    </>
+                    }
+
+                    <HorizontalLineComponent/>
+
+                    {emailMode === 'view' && <>
+
+                        <div className="d-flex ts-justify-content-between">
+                            <QuestionComponent title={"Email"}
+                                               description={"Email template for sending appointment confirmations."}
+                            ></QuestionComponent>
+                            <div>
+                                <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                                 onClick={() => {
+                                                     setEmailMode('edit');
+                                                 }}
+                                >
+                                    Edit
+                                </ButtonComponent>
+                            </div>
+                        </div>
+                        <div className="email-section">
+                            <div className="email-header-section">
+                                <div className="email-screen__header__row"
+                                     dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsConfirmationDetails.email.subject, mentionsList)}}>
+                                </div>
+                                <hr className="hr-line"/>
+                            </div>
+
+                            <div className="email-screen-body"
+                                 dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsConfirmationDetails.email.content, mentionsList)}}>
+                            </div>
+                        </div>
+                    </>
+                    }
+
+
+                    {emailMode === 'edit' &&
+                    <>
+                        <div className="d-flex ts-justify-content-between">
+                            <QuestionComponent title={"Email"}
+                                               description={"Email template for sending appointment confirmations."}
+                            ></QuestionComponent>
+                        </div>
+                        <div>
+                            <div className="mention-field-titles">Subject :</div>
+                            <MentionsComponent
+                                data={mentionsList}
+                                inputHeight={50}
+                                value={subjectValue}
+                                onChange={(value) => setSubjectValue(value)}
+                                placeholder={"Write Subject here"}
+                            />
+                        </div>
+                        <div>
+                            <div className="mention-field-titles">Body :</div>
+                            <MentionsComponent
+                                data={mentionsList}
+                                inputHeight={180}
+                                value={emailValue}
+                                onChange={(value) => setEmailValue(value)}
+                                placeholder={"Enter text here"}
+                            />
+                        </div>
+                        <div className="info-tool-tip-wrapper">
+                            <ToolTipComponent
+                                showArrow={true}
+                                position={'top'}
+                                backgroundColor={'#FFF5D3'}
+                                tooltip={<div>
+                                    <div>To create a custom template with pre-defined keywords and specific formatting
+                                        rules, please follow the instructions below:
+                                    </div>
+                                    <ul>
+                                        <li>Start by typing your message in the template box.</li>
+                                        <br/>
+                                        <li>To access the list of pre-defined keywords, type "@" in the text box. A
+                                            dropdown
+                                            list will appear with the available keywords. Select the appropriate keyword
+                                            from the list by clicking on it or by using the arrow keys to navigate and
+                                            pressing "Enter" to select it.
+                                        </li>
+                                    </ul>
+                                </div>}>
+
+                                <ImageConfig.InfoIcon/>
+                            </ToolTipComponent>
+
+                        </div>
+                        <div className="available-mentions-wrapper">
+                            <div className="available-mentions-title">Available Keywords</div>
+                            <div className="available-mentions-chips-wrapper">
+                                {
+                                    mentionsList.map((mention) => {
+                                        return (
+                                            <div>
+                                                <ChipComponent label={mention.display}/>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                        </div>
+                        <div className="d-flex ts-justify-content-center">
+                            <ButtonComponent variant={"outlined"}
+                                             disabled={isTemplateSaveInProgress}
+                                             onClick={() => {
+                                                 setEmailMode('view');
+                                                 setEmailValue(emailSubVal);
+                                                 setSubjectValue(emailContentValVal);
+                                             }}
+                            >
+                                Cancel
+                            </ButtonComponent>&nbsp;&nbsp;
+                            <ButtonComponent
+                                isLoading={isTemplateSaveInProgress}
+                                type="button"
+                                onClick={onTemplateSubmit}
+                            >
+                                Save
+                            </ButtonComponent>
+                        </div>
+                    </>
+                    }
+                </div>
+            </CardComponent>
         </div>
-    );
+    )
+        ;
 
 };
 

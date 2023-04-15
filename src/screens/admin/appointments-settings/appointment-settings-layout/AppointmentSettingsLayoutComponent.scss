@@ -51,7 +51,7 @@
     }
 
     .email-screen-body {
-      padding: 0 20px;
+      padding: 10px 20px;
 
       .email-screen__body__row {
         padding: 10px 0;
@@ -59,4 +59,16 @@
     }
   }
 
+  .mention-field-titles {
+    padding-bottom: 5px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .info-tool-tip-wrapper {
+    display: flex;
+    justify-content: end;
+    padding-top: 10px;
+    color: #1479FF;
+  }
 }

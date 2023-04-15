@@ -544,6 +544,28 @@ const cleanMentionsPayload = (value: string, mentionsData: any) => {
     return cleanedValue;
 }
 
+const cleanMentionsResponse = (value: string, mentionsData: any) => {
+    const ids = mentionsData.map((item: any) => item.id);
+    let cleanedValue: string = value;
+    ids.forEach((id: any) => {
+        cleanedValue = cleanedValue.replaceAll(`@[${id}]`, `@${id}`)
+    });
+    cleanedValue = cleanedValue.split('\\n').join("<br />");
+    return cleanedValue;
+}
+
+const editMentionsFormat = (value: string, mentionsData: any) => {
+    const ids = mentionsData.map((item: any) => item.id);
+    let cleanedValue: string = value;
+    ids.forEach((id: any) => {
+        cleanedValue = cleanedValue.split(`@[${id}]`).join(`@[${id}](${id})`);
+    });
+    cleanedValue = cleanedValue.split('\\n').join("\n");
+
+    console.log(cleanedValue);
+    return cleanedValue;
+}
+
 const CommonService = {
     LightenDarkenColor,
     getContrastYIQ,
@@ -590,6 +612,8 @@ const CommonService = {
     ComingSoon,
     generateUseCaseFromCaseDetails,
     cleanMentionsPayload,
+    cleanMentionsResponse,
+    editMentionsFormat,
 
     // createValidationsObject,
     // createYupSchema,
