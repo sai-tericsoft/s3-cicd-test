@@ -550,7 +550,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 <ToolTipComponent
                                                     showArrow={true}
                                                     position={"right"}
-                                                    tooltip={"This email will be used to communicate with you in case of emergency. Ensure that this email is constantly operational."}>
+                                                    tooltip={"This email address will be used as the primary email address for your account. Please ensure that this email address is constantly operational."}>
                                                     <ImageConfig.InfoIcon/>
                                                 </ToolTipComponent>
                                             </IconButtonComponent>
