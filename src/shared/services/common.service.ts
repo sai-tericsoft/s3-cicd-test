@@ -464,7 +464,7 @@ const isEqual = (a: any, b: any) => {
 const formatPhoneNumber = (phone: string) => {
     const x = phone.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
     if (x) {
-        phone = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? ' ' + x[3] : '');
+        phone = !x[2] ? x[1] : '(' + x[1] + ')-' + x[2] + (x[3] ? '-' + x[3] : '');
     }
     return phone
 }

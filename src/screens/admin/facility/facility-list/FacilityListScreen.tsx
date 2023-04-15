@@ -44,7 +44,7 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
             width: 130,
             align: "center",
             render: (item: IFacility) => {
-                return <span>{item.primary_contact_info.phone}</span>
+                return <span>{CommonService.formatPhoneNumber(item.primary_contact_info.phone)}</span>
             }
         },
         {
