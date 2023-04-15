@@ -281,7 +281,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                         }, [validateForm, values]);
                         return (
                             <Form noValidate={true} className={"t-form"}>
-                                <FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>
+                                {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
                                 {
                                     mode === "edit" &&
                                     <div
@@ -463,7 +463,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                             </IconButtonComponent>
                                         </div>
                                     </div>
-                                    <HorizontalLineComponent className={'primary-phone-divider'}/>
+                                    {/*<HorizontalLineComponent className={'primary-phone-divider'}/>*/}
                                     <FormControlLabelComponent label={'Alternate Phone :'}/>
                                     <FieldArray
                                         name="secondary_contact_info"
@@ -556,7 +556,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                             </IconButtonComponent>
                                         </div>
                                     </div>
-                                    <HorizontalLineComponent className={'primary-phone-divider'}/>
+                                    {/*<HorizontalLineComponent className={'primary-phone-divider'}/>*/}
                                     <FormControlLabelComponent label={'Alternate Email :'}/>
                                     <FieldArray
                                         name="secondary_emails"
@@ -800,7 +800,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                             </IconButtonComponent>
                                         </div>
                                     </div>
-                                    <HorizontalLineComponent className={'primary-phone-divider'}/>
+                                    {/*<HorizontalLineComponent className={'primary-phone-divider'}/>*/}
                                     <FormControlLabelComponent label={'Alternate Phone :'}/>
                                     <FieldArray
                                         name="emergency_contact_info.primary_emergency.secondary_contact_info"
