@@ -409,6 +409,10 @@ const APIConfig: IAPIConfig = {
         URL: (medicalInterventionId: string, bodyPartId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/rom/' + bodyPartId,
         METHOD: "post"
     },
+    SAVE_MEDICAL_INTERVENTION_ROM_CONFIG: {
+        URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/rom',
+        METHOD: "post"
+    },
     DELETE_BODY_PART_UNDER_MEDICAL_INTERVENTION_ROM_CONFIG: {
         URL: (medicalInterventionId: string, bodyPartId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/rom/' + bodyPartId,
         METHOD: "delete"

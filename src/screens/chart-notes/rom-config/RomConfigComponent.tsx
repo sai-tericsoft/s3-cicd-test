@@ -9,7 +9,6 @@ import {CommonService} from "../../../shared/services";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import _ from "lodash";
-import {ITableColumn} from "../../../shared/models/table.model";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
@@ -20,8 +19,8 @@ import {
     updateMedicalInterventionROMConfigForABodyPart
 } from "../../../store/actions/chart-notes.action";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
+import {IROMConfig} from "../../../shared/models/chart-notes.model";
 
 interface RomConfigComponentProps {
     mode?: 'read' | 'write';
@@ -32,10 +31,6 @@ interface RomConfigComponentProps {
     selectedBodySides: string[];
     onDelete?: (body_part_id: string) => void;
     onSave?: (body_part_id: string, romConfig: any) => void;
-}
-
-interface IROMConfig extends IBodyPart {
-    tableConfig: ITableColumn[];
 }
 
 const RomConfigComponent = (props: RomConfigComponentProps) => {
@@ -200,7 +195,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                             <ButtonComponent
                                                 variant={"text"}
                                                 prefixIcon={<ImageConfig.AddIcon/>}
-                                                disabled={!(record?.applicable_sides?.some((side: string) => field.form?.values?.tableConfig?.map((item: any)=> item.title)?.includes(side)))}
+                                                disabled={!(record?.applicable_sides?.some((side: string) => field.form?.values?.tableConfig?.map((item: any) => item.title)?.includes(side)))}
                                                 onClick={() => {
                                                     setShowROMMovementCommentsModal(true);
                                                     setSelectedROMMovementComments(record);
@@ -412,9 +407,8 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
-                            {/*<FormAutoSave formikCtx={formik}/>*/}
-                            <FormDebuggerComponent form={formik} showDebugger={true} />
-                            <CardComponent title={"Body Part: " + romConfigValues?.name}
+                            {/*<FormDebuggerComponent form={formik} showDebugger={false}/>*/}
+                                <CardComponent title={"Body Part: " + romConfigValues?.name}
                                            actions={<>
                                                {values?.movements?.length > 0 &&
                                                    <>
@@ -471,23 +465,6 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                                     data={romConfigValues?.movements || []}
                                                     bordered={true}
                                                     columns={romConfigValues?.tableConfig}
-                                                    // showExpandColumn={false}
-                                                    // defaultExpandAllRows={true}
-                                                    // canExpandRow={(row: any) => {
-                                                    //     return mode === 'read' && row?.config?.comments?.length > 0;
-                                                    // }}
-                                                    // expandRowRenderer={(row: any) => {
-                                                    //     return (
-                                                    //         <div key={row?._id} className={'display-flex'}>
-                                                    //             <div className={'comment-icon mrg-right-10'}>
-                                                    //                 <ImageConfig.CommentIcon/>
-                                                    //             </div>
-                                                    //             <div
-                                                    //                 className={'progress-stats-comment'}>{row?.config?.comments}</div>
-                                                    //         </div>
-                                                    //     )
-                                                    // }
-                                                    // }
                                                 />
                                             </div>
                                             {

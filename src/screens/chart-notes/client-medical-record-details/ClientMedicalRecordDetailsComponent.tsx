@@ -390,6 +390,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                                 </ButtonComponent>
                                 <ButtonComponent variant={'contained'}
                                                  color={'primary'}
+                                                 isLoading={isMedicalInterventionBeingAdded}
                                                  onClick={() => {
                                                      if (appointmentMode === REPEAT_LAST_TREATMENT) {
                                                          repeatLastTreatment(false)
