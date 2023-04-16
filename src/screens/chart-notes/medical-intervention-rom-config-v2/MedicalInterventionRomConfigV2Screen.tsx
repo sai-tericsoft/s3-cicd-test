@@ -23,32 +23,13 @@ import FormikInputComponent from "../../../shared/components/form-controls/formi
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface MedicalInterventionRomConfigV2ScreenProps {
 
 }
 
 const ROM_CONFIG_INITIAL_VALUES = {
-    config: [
-        // {
-        //     body_part_id: "5f9f1b0b0b0b0b0b0b0b0b0b",
-        //     rom_config: [
-        //         // {
-        //         //     "movement_name": "Retraction",
-        //         //     "config": {
-        //         //         "Right": {
-        //         //             "arom": "2",
-        //         //             "prom": "2",
-        //         //             "strength": "2"
-        //         //         },
-        //         //         "comments": "comment"
-        //         //     }
-        //         // }
-        //     ],
-        //     selected_sides: ["left"]
-        // }
-    ]
+    config: {}
 }
 
 const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfigV2ScreenProps) => {
@@ -59,7 +40,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         isMedicalInterventionDetailsLoading,
         isMedicalInterventionDetailsLoaded,
     } = useSelector((state: IRootReducerState) => state.chartNotes);
-    const {medicalRecordId, medicalInterventionId} = useParams();
+    const {medicalInterventionId} = useParams();
     const [globalRomConfig, setGlobalRomConfig] = useState<IBodyPartROMConfig[]>([]);
     const [
         romFormValues, setRomFormValues
@@ -231,7 +212,8 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                             }
                             {
                                 mode === 'read' &&
-                                <ToolTipComponent tooltip={field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments}>
+                                <ToolTipComponent
+                                    tooltip={field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments}>
                                     <div className="movement-comment">
                                         {field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments || "N/A"}
                                     </div>
@@ -334,21 +316,50 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
 
     const handleROMConfigSave = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
         console.log('values', values);
-        return;
-        // if (medicalInterventionId) {
-        //     setSubmitting(true);
-        //     CommonService._chartNotes.SaveMedicalInterventionROMConfigAPICall(medicalInterventionId, values)
-        //         .then((response: any) => {
-        //             CommonService._alert.showToast(response.message || 'Saved ROM information', 'success');
-        //         })
-        //         .catch((error: any) => {
-        //             CommonService.handleErrors(error.error || error.errors || 'Error saving ROM configuration', 'error');
-        //         }).finally(() => {
-        //         setSubmitting(false);
-        //     });
-        // } else {
-        //     CommonService._alert.showToast('Please select a medical intervention', 'error');
-        // }
+        if (medicalInterventionId) {
+            const config: any = [];
+            Object.keys(values).forEach((bodyPartId: string) => {
+                const bodyPartConfig = values[bodyPartId];
+                const bodyPartData: any = {
+                    body_part_id: bodyPartId,
+                    selected_sides: bodyPartConfig?.selected_sides,
+                    rom_config: []
+                };
+                bodyPartConfig?.movements?.forEach((movement: any) => {
+                    const movementDataTemp: any = bodyPartConfig?.rom_config?.[movement?.name];
+                    const movementData: any = {
+                        movement_name: movement?.name,
+                        config: {}
+                    };
+                    bodyPartConfig?.selected_sides?.forEach((side: any) => {
+                        const sideData = movementDataTemp?.[side];
+                        if (sideData) {
+                            movementData.config[side] = {
+                                arom: sideData?.arom,
+                                prom: sideData?.prom,
+                                strength: sideData?.strength,
+                            }
+                        }
+                    });
+                    movementData.config.comments = movementDataTemp?.comments;
+                    movementData.config.commentsTemp = movementDataTemp?.commentsTemp;
+                    bodyPartData.rom_config.push(movementData);
+                });
+                config.push(bodyPartData);
+            });
+            setSubmitting(true);
+            // CommonService._chartNotes.SaveMedicalInterventionROMConfigAPICall(medicalInterventionId, values)
+            //     .then((response: any) => {
+            //         CommonService._alert.showToast(response.message || 'Saved ROM information', 'success');
+            //     })
+            //     .catch((error: any) => {
+            //         CommonService.handleErrors(error.error || error.errors || 'Error saving ROM configuration', 'error');
+            //     }).finally(() => {
+            //     setSubmitting(false);
+            // });
+        } else {
+            CommonService._alert.showToast('Please select a medical intervention', 'error');
+        }
     }, [medicalInterventionId]);
 
     const handleBodyPartDelete = useCallback((bodyPart: IBodyPart) => {
@@ -450,7 +461,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                         }, [validateForm, values]);
                                         return (
                                             <Form className="t-form" noValidate={true}>
-                                                <FormDebuggerComponent form={formik}/>
+                                                {/*<FormDebuggerComponent form={formik}/>*/}
                                                 <div>
                                                     {
                                                         Object.keys(values)?.map((bodyPartId: any) => {
