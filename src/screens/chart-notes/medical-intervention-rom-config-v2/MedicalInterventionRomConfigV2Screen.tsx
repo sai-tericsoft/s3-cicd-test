@@ -362,20 +362,24 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         }
     }, [medicalInterventionId]);
 
-    const handleBodyPartDelete = useCallback((bodyPart: IBodyPart) => {
+    const handleBodyPartDelete = useCallback((bodyPartId: string) => {
         if (medicalInterventionId) {
             CommonService.onConfirm({
                 image: ImageConfig.RemoveBodyPartConfirmationIcon,
                 confirmationTitle: "REMOVE BODY PART",
                 confirmationSubTitle: "Are you sure you want to remove this body part?",
             }).then(() => {
-                const bodyPartId = bodyPart._id;
                 setIsBodyPartBeingDeleted(true);
                 CommonService._chartNotes.DeleteBodyPartUnderMedicalInterventionROMConfigAPICall(medicalInterventionId, bodyPartId)
                     .then((response: any) => {
                         CommonService._alert.showToast(response.message, 'success');
                         setIsBodyPartBeingDeleted(false);
-                        // dispatch(deleteMedicalInterventionROMConfigForABodyPart(bodyPartId));
+                        // remove body part from global rom config and rom form values
+                        const romConfig = globalRomConfig?.filter((item: any) => item?.body_part?._id !== bodyPartId);
+                        setGlobalRomConfig(romConfig);
+                        const romFormValuesTemp = {...romFormValues};
+                        delete romFormValuesTemp[bodyPartId];
+                        setRomFormValues(romFormValuesTemp);
                     })
                     .catch((error: any) => {
                         CommonService._alert.showToast(error.error || error.errors || 'Error deleting body part', 'error');
@@ -383,7 +387,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                     });
             });
         }
-    }, [dispatch, medicalInterventionId]);
+    }, [dispatch, globalRomConfig, romFormValues, medicalInterventionId]);
 
     const openBodySideSelectionModal = useCallback((bodyPart: IBodyPart) => {
         setSelectedBodyPartForSideSelection(bodyPart);
@@ -458,6 +462,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                         // eslint-disable-next-line react-hooks/rules-of-hooks
                                         useEffect(() => {
                                             validateForm();
+                                            setRomFormValues(values);
                                         }, [validateForm, values]);
                                         return (
                                             <Form className="t-form" noValidate={true}>
@@ -509,7 +514,9 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                                                                        color={"error"}
                                                                                        variant={"outlined"}
                                                                                        prefixIcon={<ImageConfig.DeleteIcon/>}
-                                                                                       onClick={handleBodyPartDelete}
+                                                                                       onClick={() => {
+                                                                                           handleBodyPartDelete(bodyPartId);
+                                                                                       }}
                                                                                        disabled={isSubmitting || isBodyPartBeingDeleted}
                                                                                    >
                                                                                        Delete
