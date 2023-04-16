@@ -23,6 +23,7 @@ import FormikInputComponent from "../../../shared/components/form-controls/formi
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
+import {RadioButtonComponent} from "../../../shared/components/form-controls/radio-button/RadioButtonComponent";
 
 interface MedicalInterventionRomConfigV2ScreenProps {
 
@@ -40,6 +41,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         isMedicalInterventionDetailsLoading,
         isMedicalInterventionDetailsLoaded,
     } = useSelector((state: IRootReducerState) => state.chartNotes);
+    const {bodyPartList} = useSelector((state: IRootReducerState) => state.staticData);
     const {medicalInterventionId} = useParams();
     const [globalRomConfig, setGlobalRomConfig] = useState<IBodyPartROMConfig[]>([]);
     const [
@@ -52,6 +54,8 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     const [selectedROMMovementComments, setSelectedROMMovementComments] = useState<any>(undefined);
     const [isBodyPartBeingDeleted, setIsBodyPartBeingDeleted] = useState<boolean>(false);
     const [isBodySidesModalOpen, setIsBodySidesModalOpen] = useState<boolean>(false);
+    const [showAddBodyPartModal, setShowAddBodyPartModal] = useState<boolean>(false);
+    const [selectedBodyPartToBeAdded, setSelectedBodyPartToBeAdded] = useState<any>(undefined);
 
     const generateRomConfigForBodySide = useCallback((bodyPart: any, side: string) => {
         return {
@@ -268,6 +272,26 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         });
         setRomFormValues(config);
     }, []);
+
+    const handleAddNewBodyPartOpenModal = useCallback(() => {
+        setShowAddBodyPartModal(true);
+        setSelectedBodyPartToBeAdded(undefined);
+    }, []);
+
+    const handleAddNewBodyPart = useCallback(() => {
+        setShowAddBodyPartModal(false);
+        const updatedGlobalRomConfig: any = [...globalRomConfig, {
+            body_part: selectedBodyPartToBeAdded,
+            rom_config: [],
+            selected_sides: [selectedBodyPartToBeAdded.default_body_side],
+            mode: 'write'
+        }];
+        setGlobalRomConfig(updatedGlobalRomConfig);
+        const romFormValuesCopy = _.cloneDeep(romFormValues);
+        romFormValuesCopy[selectedBodyPartToBeAdded._id] = generateROMConfigForAnInjury(selectedBodyPartToBeAdded, [selectedBodyPartToBeAdded?.default_body_side], []);
+        setRomFormValues(romFormValuesCopy);
+        setSelectedBodyPartToBeAdded(undefined);
+    }, [buildRomConfig, globalRomConfig, selectedBodyPartToBeAdded]);
 
     useEffect(() => {
         if (medicalInterventionId && !medicalInterventionDetails) {
@@ -616,7 +640,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                                 </div>
                                                 <ButtonComponent
                                                     prefixIcon={<ImageConfig.AddIcon/>}
-                                                    // onClick={handleAddNewBodyPartOpenModal}
+                                                    onClick={handleAddNewBodyPartOpenModal}
                                                 >
                                                     Add Body Part
                                                 </ButtonComponent>
@@ -662,6 +686,49 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                             })
                         }
                     </>
+                </div>
+            </ModalComponent>
+            <ModalComponent
+                isOpen={showAddBodyPartModal}
+                title={"Add Body Part: "}
+                className={"intervention-rom-config-add-body-part-modal"}
+                modalFooter={<>
+                    <ButtonComponent variant={"outlined"}
+                                     onClick={() => {
+                                         setShowAddBodyPartModal(false);
+                                     }}
+                    >
+                        Cancel
+                    </ButtonComponent>&nbsp;
+                    <ButtonComponent onClick={handleAddNewBodyPart}
+                                     disabled={!selectedBodyPartToBeAdded}
+                    >
+                        Add
+                    </ButtonComponent>
+                </>}
+            >
+                <div className="ts-row">
+                    {
+
+                        bodyPartList.map((item: any, index: number) => {
+                            return <>{
+                                item?.movements?.length > 0 &&
+                                <div className="ts-col-md-6 ts-col-lg-3"
+                                     key={item._id}>
+                                    <RadioButtonComponent
+                                        name={"intervention-rom-config-add-body-part"}
+                                        key={index + item?.name}
+                                        label={item?.name}
+                                        checked={selectedBodyPartToBeAdded?._id === item?._id}
+                                        disabled={globalRomConfig.findIndex((bodyPart) => bodyPart.body_part._id === item._id) !== -1}
+                                        onChange={() => {
+                                            setSelectedBodyPartToBeAdded(item);
+                                        }}/>
+                                </div>
+                            }</>
+                        })
+                    }
+
                 </div>
             </ModalComponent>
         </div>
