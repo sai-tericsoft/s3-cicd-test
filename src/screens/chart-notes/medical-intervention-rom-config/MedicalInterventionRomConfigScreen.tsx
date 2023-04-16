@@ -17,7 +17,6 @@ import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import MedicalRecordBasicDetailsCardComponent
     from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
-import {IROMConfig} from "../../../shared/models/chart-notes.model";
 
 interface MedicalInterventionRomConfigScreenProps {
 
@@ -29,11 +28,9 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
     const navigate = useNavigate();
     const {medicalRecordId, medicalInterventionId} = useParams();
     const [globalRomConfig, setGlobalRomConfig] = useState<IBodyPartROMConfig[]>([]);
-    const [globalRomConfigLoaded, setGlobalRomConfigLoaded] = useState<boolean>(false);
     const [showAddBodyPartModal, setShowAddBodyPartModal] = useState<boolean>(false);
     const {bodyPartList} = useSelector((state: IRootReducerState) => state.staticData);
     const [selectedBodyPartToBeAdded, setSelectedBodyPartToBeAdded] = useState<any>(undefined);
-    const [romConfigValues, setRomConfigValues] = useState<IROMConfig | any | undefined>({});
 
     const {
         medicalInterventionDetails,

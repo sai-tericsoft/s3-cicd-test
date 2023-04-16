@@ -9,7 +9,6 @@ import {CommonService} from "../../../shared/services";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import _ from "lodash";
-import {ITableColumn} from "../../../shared/models/table.model";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
@@ -20,7 +19,6 @@ import {
     updateMedicalInterventionROMConfigForABodyPart
 } from "../../../store/actions/chart-notes.action";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
 import {IROMConfig} from "../../../shared/models/chart-notes.model";
 
