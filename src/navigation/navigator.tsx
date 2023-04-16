@@ -138,6 +138,8 @@ import ClientDocumentsComponent from "../screens/clients/client-documents/Client
 import ClientAppointmentsComponent from "../screens/clients/client-appointments/ClientAppointmentsComponent";
 import ClientAppointmentDetailsComponent
     from "../screens/clients/client-appointment-details/ClientAppointmentDetailsComponent";
+import MedicalInterventionRomConfigV2Screen
+    from "../screens/chart-notes/medical-intervention-rom-config-v2/MedicalInterventionRomConfigV2Screen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -320,7 +322,7 @@ const Navigator = (props: NavigatorProps) => {
                     />
                     <Route path={MEDICAL_INTERVENTION_ROM_CONFIG}
                            element={<ProtectedRoute>
-                               <MedicalInterventionRomConfigScreen/>
+                               <MedicalInterventionRomConfigV2Screen/>
                            </ProtectedRoute>
                            }
                     />

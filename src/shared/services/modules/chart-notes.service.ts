@@ -28,6 +28,11 @@ const SaveMedicalInterventionROMConfigForABodyPartAPICall = (medicalIntervention
     return ApiService[APIConfig.SAVE_MEDICAL_INTERVENTION_ROM_CONFIG_FOR_A_BODY_PART.METHOD](APIConfig.SAVE_MEDICAL_INTERVENTION_ROM_CONFIG_FOR_A_BODY_PART.URL(medicalInterventionId, bodyPartId), payload);
 }
 
+const SaveMedicalInterventionROMConfigAPICall = (medicalInterventionId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.SAVE_MEDICAL_INTERVENTION_ROM_CONFIG.METHOD](APIConfig.SAVE_MEDICAL_INTERVENTION_ROM_CONFIG.URL(medicalInterventionId), payload);
+}
+
 const DeleteBodyPartUnderMedicalInterventionROMConfigAPICall = (medicalInterventionId: string, bodyPartId: string) => {
     // @ts-ignore
     return ApiService[APIConfig.DELETE_BODY_PART_UNDER_MEDICAL_INTERVENTION_ROM_CONFIG.METHOD](APIConfig.DELETE_BODY_PART_UNDER_MEDICAL_INTERVENTION_ROM_CONFIG.URL(medicalInterventionId, bodyPartId), {});
@@ -347,7 +352,8 @@ const ChartNotesService = {
     MedicalRecordNotifyAdminAPICall,
     MedicalRecordFilesListAPICall,
     ReOpenMedicalRecordAPICall,
-    GetAllAddedICD11CodeList
+    GetAllAddedICD11CodeList,
+    SaveMedicalInterventionROMConfigAPICall
 }
 
 export default ChartNotesService;
