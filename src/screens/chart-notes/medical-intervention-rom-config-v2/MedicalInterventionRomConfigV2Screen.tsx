@@ -271,7 +271,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
             config[bodyPart?.body_part?._id] = generateROMConfigForAnInjury(bodyPart?.body_part, bodyPart?.selected_sides, bodyPart?.rom_config);
         });
         setRomFormValues(config);
-    }, []);
+    }, [generateROMConfigForAnInjury]);
 
     const handleAddNewBodyPartOpenModal = useCallback(() => {
         setShowAddBodyPartModal(true);
@@ -291,7 +291,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         romFormValuesCopy[selectedBodyPartToBeAdded._id] = generateROMConfigForAnInjury(selectedBodyPartToBeAdded, [selectedBodyPartToBeAdded?.default_body_side], []);
         setRomFormValues(romFormValuesCopy);
         setSelectedBodyPartToBeAdded(undefined);
-    }, [buildRomConfig, globalRomConfig, selectedBodyPartToBeAdded]);
+    }, [romFormValues, buildRomConfig, globalRomConfig, selectedBodyPartToBeAdded, generateROMConfigForAnInjury]);
 
     useEffect(() => {
         if (medicalInterventionId && !medicalInterventionDetails) {
@@ -411,7 +411,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                     });
             });
         }
-    }, [dispatch, globalRomConfig, romFormValues, medicalInterventionId]);
+    }, [globalRomConfig, romFormValues, medicalInterventionId]);
 
     const openBodySideSelectionModal = useCallback((bodyPart: IBodyPart) => {
         setSelectedBodyPartForSideSelection(bodyPart);
