@@ -45,7 +45,6 @@ const MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW = '/chart-notes/:medicalRecordId/:m
 const MEDICAL_RECORD_LIST = '/chart-notes/:clientId/medical-record-list';
 const INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST = '/chart-notes/:interventionId/exercise-log';
 
-const MEDICAL_INTERVENTION_DETAILS = '/chart-notes/intervention-details/:medicalInterventionId';
 const MEDICAL_INTERVENTION_SURGERY_RECORD_DETAILS = '/chart-notes/:medicalRecordId/surgery-record/:surgeryRecordId';
 
 const PROGRESS_REPORT_VIEW_DETAILS = '/chart-notes/:medicalRecordId/:progressReportId/progress-report-view-details';
@@ -102,7 +101,6 @@ export {
     INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST,
     MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE,
     MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW,
-    MEDICAL_INTERVENTION_DETAILS,
     MEDICAL_INTERVENTION_SURGERY_RECORD_DETAILS,
     PROGRESS_REPORT_VIEW_DETAILS,
     MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE,
