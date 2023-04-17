@@ -244,9 +244,9 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
         }
     }, [clientId, dispatch]);
 
-   const handleSecondaryEmergencyFormVisibility = useCallback(() => {
-       setIsSecondaryEmergencyFormVisible(true)
-   },[]);
+    const handleSecondaryEmergencyFormVisibility = useCallback(() => {
+        setIsSecondaryEmergencyFormVisible(true)
+    }, []);
 
     return (
         <div className={'client-basic-details-form-component'}>
@@ -882,14 +882,19 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                         <div className={'display-flex justify-content-center flex-1'}>
                                             <ButtonComponent
                                                 onClick={handleSecondaryEmergencyFormVisibility}
-                                                             prefixIcon={<ImageConfig.AddIcon/>}>
+                                                prefixIcon={<ImageConfig.AddIcon/>}>
                                                 Add Another
                                                 Contact</ButtonComponent>
                                         </div>}
                                     <>
                                         {isSecondaryEmergencyFormVisible &&
                                             values.show_secondary_emergency_form && <>
-                                                <FormControlLabelComponent label={"Secondary Emergency Contact"}/>
+                                                <div className={'d-flex ts-justify-content-sm-between'}>
+                                                    <FormControlLabelComponent label={"Secondary Emergency Contact"}/>
+                                                    <ButtonComponent className={'remove-contact-button'} variant={'outlined'} color={'error'}
+                                                                     onClick={() => setIsSecondaryEmergencyFormVisible(false)}>Remove
+                                                        Contact</ButtonComponent>
+                                                </div>
                                                 <div className="ts-row">
                                                     <div className="ts-col-md-5">
                                                         <Field name={'emergency_contact_info.secondary_emergency.name'}>
