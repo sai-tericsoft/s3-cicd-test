@@ -39,8 +39,8 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
     const [messageValue, setMessageValue] = useState("");
     const [subjectValue, setSubjectValue] = useState("");
     const [emailValue, setEmailValue] = useState("");
-    const [selectedPrimaryHours, setSelectedPrimaryHours] = useState<any>(null);
-    const [selectedSecondaryHours, setSelectedSecondaryHours] = useState<any>(null);
+    const [selectedPrimaryHours, setSelectedPrimaryHours] = useState<any>("");
+    const [selectedSecondaryHours, setSelectedSecondaryHours] = useState<any>("");
 
     const messageVal = CommonService.editMentionsFormat(appointmentSettingsRemainderDetails.sms.content, mentionsList);
     const emailSubVal = CommonService.editMentionsFormat(appointmentSettingsRemainderDetails.email.subject, mentionsList);
@@ -53,8 +53,8 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
     useEffect(() => {
         setMessageValue(messageVal);
         setEmailValue(emailSubVal);
-        setSelectedPrimaryHours(primaryReminderBefore)
-        setSelectedSecondaryHours(secondaryReminderBefore)
+        setSelectedPrimaryHours(primaryReminderBefore.toString())
+        setSelectedSecondaryHours(secondaryReminderBefore.toString())
         setSubjectValue(emailContentValVal);
     }, [appointmentSettingsRemainderDetails, emailContentValVal, emailSubVal, primaryReminderBefore, secondaryReminderBefore, messageVal]);
 

@@ -45,13 +45,13 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
     const emailSubVal = CommonService.editMentionsFormat(appointmentSettingsReschedulingDetails.email.subject, mentionsList);
     const emailContentValVal = CommonService.editMentionsFormat(appointmentSettingsReschedulingDetails.email.subject, mentionsList);
     const {reschedulingHoursList, reschedulingTimesList} = useSelector((state: IRootReducerState) => state.staticData);
-    const [selectedHours, setSelectedHours] = useState<any>(null);
-    const [selectedTimes, setSelectedTimes] = useState<any>(null);
+    const [selectedHours, setSelectedHours] = useState<any>("");
+    const [selectedTimes, setSelectedTimes] = useState<any>("");
 
     useEffect(() => {
         setMessageValue(messageVal);
-        setSelectedHours(allowReschedulingBefore)
-        setSelectedTimes(maxRescheduling);
+        setSelectedHours(allowReschedulingBefore.toString())
+        setSelectedTimes(maxRescheduling.toString());
         setEmailValue(emailSubVal);
         setSubjectValue(emailContentValVal);
     }, [appointmentSettingsReschedulingDetails, allowReschedulingBefore, emailContentValVal, emailSubVal, maxRescheduling, messageVal]);
@@ -67,8 +67,8 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                 "subject": CommonService.cleanMentionsPayload(subjectValue, mentionsList),
                 "content": CommonService.cleanMentionsPayload(emailValue, mentionsList)
             },
-            allow_rescheduling_before: selectedHours,
-            max_rescheduling: selectedTimes
+            allow_rescheduling_before: parseInt(selectedHours),
+            max_rescheduling: parseInt(selectedTimes)
         }
 
         if (type === 'allow_rescheduling_before') {
