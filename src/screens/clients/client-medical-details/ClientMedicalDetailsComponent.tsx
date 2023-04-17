@@ -154,10 +154,10 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                 {
                                     clientMedicalDetails?.medical_history?.questions_details?.map((question, index) => {
                                         return <span key={question?._id + index}>
-                                                    <span>{question.title}</span>
-                                            {(clientMedicalDetails?.medical_history?.questions_details && clientMedicalDetails?.medical_history?.questions_details?.length - 1 !== index) &&
-                                                <span>, </span>
-                                            }
+                                                    <li>{question.title}</li>
+                                            {/*{(clientMedicalDetails?.medical_history?.questions_details && clientMedicalDetails?.medical_history?.questions_details?.length - 1 !== index) &&*/}
+                                            {/*    <span>, </span>*/}
+                                            {/*}*/}
                                                 </span>
                                     })
                                 }
@@ -165,7 +165,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                         }
                         {clientMedicalDetails?.medical_history?.comments &&
                             <DataLabelValueComponent label={"Comments"}>
-                                {clientMedicalDetails?.medical_history?.comments}
+                              <li> {clientMedicalDetails?.medical_history?.comments}</li>
                             </DataLabelValueComponent>
                         }
                     </CardComponent>
@@ -208,10 +208,10 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                 {
                                     clientMedicalDetails?.surgical_history?.questions_details?.map((question, index) => {
                                         return <span key={question?._id + index}>
-                                                    <span>{question.title}</span>
-                                            {(clientMedicalDetails?.surgical_history?.questions_details && clientMedicalDetails?.surgical_history?.questions_details?.length - 1 !== index) &&
-                                                <span> , </span>
-                                            }
+                                                    <li>{question.title}</li>
+                                            {/*{(clientMedicalDetails?.surgical_history?.questions_details && clientMedicalDetails?.surgical_history?.questions_details?.length - 1 !== index) &&*/}
+                                            {/*    <span> , </span>*/}
+                                            {/*}*/}
                                                 </span>
                                     })
                                 }
@@ -219,7 +219,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                         }
                         {clientMedicalDetails?.surgical_history?.comments
                             && <DataLabelValueComponent label={"Comments"}>
-                                {clientMedicalDetails?.surgical_history?.comments}
+                               <li> {clientMedicalDetails?.surgical_history?.comments}</li>
                             </DataLabelValueComponent>
                         }
                     </CardComponent>
