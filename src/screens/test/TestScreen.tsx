@@ -5,18 +5,39 @@ import MentionsComponent from "../../shared/components/mentions/MentionsComponen
 
 const users = [
     {
-        id: "isaac",
-        display: "Isaac Newton",
+        id: "client_name",
+        display: "client_name",
     },
     {
-        id: "sam",
-        display: "Sam Victor",
+        id: "client_emailid",
+        display: "client_emailid",
     },
     {
-        id: "emma",
-        display: "emmanuel@nobody.com",
+        id: "provider_name",
+        display: "provider_name",
+    },
+    {
+        id: "appointment_date",
+        display: "appointment_date",
+    },
+    {
+        id: "appointment_time",
+        display: "appointment_time",
+    },
+    {
+        id: "service_category",
+        display: "service_category",
+    },
+    {
+        id: "service",
+        display: "service",
+    },
+    {
+        id: "appointment_id",
+        display: "appointment_id",
     },
 ];
+
 
 const TestScreen = () => {
     const [value, setValue] = useState("");
@@ -27,7 +48,6 @@ const TestScreen = () => {
 
             <MentionsComponent
                 data={users}
-                inputHeight={180}
                 value={value}
                 onChange={(value) => setValue(value)}
                 placeholder={"Enter text here"}

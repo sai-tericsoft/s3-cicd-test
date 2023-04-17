@@ -1,246 +1,380 @@
 import "./AppointmentSettingsRemainderComponent.scss";
-import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import React, {useCallback, useEffect, useState} from "react";
 import CardComponent from "../../../../shared/components/card/CardComponent";
 import QuestionComponent from "../../../../shared/components/question/QuestionComponent";
-import FormikSelectComponent from "../../../../shared/components/form-controls/formik-select/FormikSelectComponent";
 import HorizontalLineComponent
     from "../../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
-import _ from "lodash";
+import {ImageConfig} from "../../../../constants";
+import {CommonService} from "../../../../shared/services";
+import MentionsComponent from "../../../../shared/components/mentions/MentionsComponent";
+import ChipComponent from "../../../../shared/components/chip/ChipComponent";
+import ToolTipComponent from "../../../../shared/components/tool-tip/ToolTipComponent";
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../../store/reducers";
-import * as Yup from "yup";
-import {ImageConfig} from "../../../../constants";
+import SelectComponent from "../../../../shared/components/form-controls/select/SelectComponent";
 
-
-const AppointmentRemainderFormValidationSchema = Yup.object({
-    primary_remainder_before: Yup.string(),
-    secondary_remainder_before: Yup.string()
-});
-
-
-const AppointmentRemainderFormInitialValues = {
-    primary_remainder_before: "",
-    secondary_remainder_before: ""
-}
 
 interface AppointmentSettingsRemainderComponentProps {
-
+    appointmentSettingsRemainderDetails: any;
+    onSubmit: Function;
+    isTemplateSaveInProgress: boolean;
+    mentionsList: any[]
+    primaryReminderBefore: any
+    secondaryReminderBefore: any
 }
 
 const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemainderComponentProps) => {
-    const [systemSettingsFormInitialValues, setAppointmentRemainderFormInitialValues] = useState<any>(_.cloneDeep(AppointmentRemainderFormInitialValues));
     const {
-        systemAutoLockDurationOptionList,
-        filesUneditableAfterOptionList,
+        appointmentSettingsRemainderDetails,
+        onSubmit,
+        isTemplateSaveInProgress,
+        mentionsList,
+        primaryReminderBefore,
+        secondaryReminderBefore
+    } = props;
+    const [messageMode, setMessageMode] = useState<'edit' | 'view'>('view');
+    const [emailMode, setEmailMode] = useState<'edit' | 'view'>('view');
+
+    const [messageValue, setMessageValue] = useState("");
+    const [subjectValue, setSubjectValue] = useState("");
+    const [emailValue, setEmailValue] = useState("");
+    const [selectedPrimaryHours, setSelectedPrimaryHours] = useState<any>(null);
+    const [selectedSecondaryHours, setSelectedSecondaryHours] = useState<any>(null);
+
+    const messageVal = CommonService.editMentionsFormat(appointmentSettingsRemainderDetails.sms.content, mentionsList);
+    const emailSubVal = CommonService.editMentionsFormat(appointmentSettingsRemainderDetails.email.subject, mentionsList);
+    const emailContentValVal = CommonService.editMentionsFormat(appointmentSettingsRemainderDetails.email.subject, mentionsList);
+    const {
+        primaryRemainderHoursList,
+        secondaryRemainderHoursList
     } = useSelector((state: IRootReducerState) => state.staticData);
-    const [isSaving, setIsSaving] = useState(false);
 
-    const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        setIsSaving(true);
-        // CommonService._systemSettings.SaveAppointmentRemainderAPICall(values)
-        //     .then((response: IAPIResponseType<IAppointmentRemainderConfig>) => {
-        //         CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-        //         setIsSaving(false);
-        //     })
-        //     .catch((error: any) => {
-        //         CommonService.handleErrors(setErrors, error);
-        //         setIsSaving(false);
-        //     });
-    }, []);
+    useEffect(() => {
+        setMessageValue(messageVal);
+        setEmailValue(emailSubVal);
+        setSelectedPrimaryHours(primaryReminderBefore)
+        setSelectedSecondaryHours(secondaryReminderBefore)
+        setSubjectValue(emailContentValVal);
+    }, [appointmentSettingsRemainderDetails, emailContentValVal, emailSubVal, primaryReminderBefore, secondaryReminderBefore, messageVal]);
 
-    // useEffect(() => {
-    //     if (systemSettings) {
-    //         setAppointmentRemainderFormInitialValues({
-    //             other_settings: {
-    //                 auto_lock_minutes: systemSettings?.other_settings?.auto_lock_minutes,
-    //                 uneditable_after_days: systemSettings?.other_settings?.uneditable_after_days
-    //             }
-    //         });
-    //     }
-    // }, [systemSettings]);
+    const onTemplateSubmit = useCallback((type?: any, value?: any) => {
+        let payload;
+
+        payload = {
+            "sms": {
+                "content": CommonService.cleanMentionsPayload(messageValue, mentionsList)
+            },
+            "email": {
+                "subject": CommonService.cleanMentionsPayload(subjectValue, mentionsList),
+                "content": CommonService.cleanMentionsPayload(emailValue, mentionsList)
+            },
+            primary_reminder_before: selectedPrimaryHours,
+            secondary_reminder_before: selectedSecondaryHours
+        }
+
+        if (type === 'primary_reminder_before') {
+            payload.primary_reminder_before = value
+        } else {
+            payload.secondary_reminder_before = value
+        }
+        onSubmit(payload)
+    }, [emailValue, messageValue, subjectValue, mentionsList, onSubmit]);
+
 
     return (
         <div className={'appointment-settings-remainder-component'}>
-            <Formik
-                validationSchema={AppointmentRemainderFormValidationSchema}
-                initialValues={systemSettingsFormInitialValues}
-                validateOnChange={false}
-                validateOnBlur={true}
-                enableReinitialize={true}
-                validateOnMount={true}
-                onSubmit={onSubmit}
-            >
-                {({values, validateForm}) => {
-                    // eslint-disable-next-line react-hooks/rules-of-hooks
-                    useEffect(() => {
-                        validateForm();
-                    }, [validateForm, values]);
-                    return (
-                        <Form className="t-form" noValidate={true}>
-                            <CardComponent title={"Appointment Reminder"}>
-                                <div className="t-form-controls">
-                                    <div className="ts-row">
-                                        <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-6">
-                                            <QuestionComponent title={"Primary Reminder Before"}
-                                                               description={"Select the number of hours prior to the appointment a client receives a Primary Appointment Reminder"}
-                                            ></QuestionComponent>
-                                        </div>
-                                        <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-2"}/>
-                                        <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
-                                            <Field name={'primary_remainder_before'} className="t-form-control">
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikSelectComponent
-                                                            label={'Select hours'}
-                                                            options={systemAutoLockDurationOptionList}
-                                                            formikField={field}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-                                        </div>
-                                    </div>
-                                    <div className="ts-row">
-                                        <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-6">
-                                            <QuestionComponent title={"Secondary Reminder Before"}
-                                                               description={"Select the number of hours prior to the appointment a client receives a Secondary Reminder."}
-                                            ></QuestionComponent>
-                                        </div>
-                                        <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-2"}/>
-                                        <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
-                                            <Field name={'secondary_remainder_before'}
-                                                   className="t-form-control">
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikSelectComponent
-                                                            label={'Select hours'}
-                                                            options={filesUneditableAfterOptionList}
-                                                            formikField={field}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-                                        </div>
-                                    </div>
-                                    <HorizontalLineComponent/>
-                                    <div className="d-flex ts-justify-content-between">
-                                        <QuestionComponent title={"Message (SMS)"}
-                                                           description={"Message template for sending appointment confirmations."}
-                                        ></QuestionComponent>
-                                        <div>
-                                            <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
-                                                             onClick={() => {
-                                                                 console.log('edit')
-                                                             }}>
-                                                Edit
-                                            </ButtonComponent>
-                                        </div>
-                                    </div>
-                                    <div className="message-section">
-                                        Dear John Richardson,
-                                        <div className="message-screen__body__row">
-                                            This is a reminder that you have an upcoming appointment with Terrill Lobo
-                                            on
-                                            04-April-2023 at 09:00 AM at Kinergy Sports Medicine and Performance. We
-                                            value
-                                            your time and are committed to providing you with exceptional service.
-                                        </div>
-                                        <div className="message-screen__body__row">
-                                            Please note that if you need to reschedule or cancel your appointment, we
-                                            require at least 24 hours notice in advance. If you have any specific
-                                            concerns
-                                            or requirements that need to be addressed prior to your appointment, please
-                                            do
-                                            not hesitate to contact us.
-                                        </div>
 
-                                        <div className="message-screen__body__row">
-                                            Thank you for choosing Kinergy. We look forward to seeing you soon.
-                                        </div>
-                                        <div className="message-screen__body__row">
-                                            <div>Best regards,</div>
-                                            <div>Kinergy Sports Medicine and Performance</div>
+            <CardComponent title={"Appointment Reminder"}>
+                <div className="t-form-controls">
+                    <div className="ts-row">
+                        <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-6">
+                            <QuestionComponent title={"Primary Reminder Before"}
+                                               description={"Select the number of hours prior to the appointment a client receives a Primary Appointment Reminder"}
+                            ></QuestionComponent>
+                        </div>
+                        <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-2"}/>
+                        <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
 
-                                        </div>
-                                    </div>
-                                    <HorizontalLineComponent/>
-                                    <div className="d-flex ts-justify-content-between">
-                                        <QuestionComponent title={"Email"}
-                                                           description={"Email template for sending appointment confirmations."}
-                                        ></QuestionComponent>
-                                        <div>
-                                            <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
-                                                             onClick={() => {
-                                                                 console.log('edit')
-                                                             }}>
-                                                Edit
-                                            </ButtonComponent>
-                                        </div>
-                                    </div>
-                                    <div className="email-section">
-                                        <div className="email-header-section">
-                                            <div className="email-screen__header__row">From: Kinergy Sports Medicine
-                                                and Performance
-                                            </div>
-                                            <hr className="hr-line"/>
-                                            <div className="email-screen__header__row">To: john@gmail.com</div>
-                                            <hr className="hr-line"/>
-                                            <div className="email-screen__header__row">Subject: Appointment
-                                                Confirmation for John Richardson
-                                            </div>
-                                            <hr className="hr-line"/>
-                                        </div>
+                            <SelectComponent
+                                label={"Select hours"}
+                                className={'t-form-control'}
+                                options={primaryRemainderHoursList || []}
+                                value={selectedPrimaryHours}
+                                fullWidth={true}
+                                onUpdate={(value) => {
+                                    setSelectedPrimaryHours(value)
+                                    onTemplateSubmit('primary_reminder_before', value);
+                                }}
+                            />
+                        </div>
+                    </div>
+                    <div className="ts-row">
+                        <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-6">
+                            <QuestionComponent title={"Secondary Reminder Before"}
+                                               description={"Select the number of hours prior to the appointment a client receives a Secondary Reminder."}
+                            ></QuestionComponent>
+                        </div>
+                        <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-2"}/>
+                        <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
+                            <SelectComponent
+                                label={"Select hours"}
+                                className={'t-form-control'}
+                                options={secondaryRemainderHoursList || []}
+                                value={selectedSecondaryHours}
+                                fullWidth={true}
+                                keyExtractor={(item) => item.title}
+                                valueExtractor={(item) => item.code}
+                                onUpdate={(value) => {
+                                    setSelectedSecondaryHours(value)
+                                    onTemplateSubmit('secondary_reminder_before', value);
+                                }}
+                            />
+                        </div>
+                    </div>
 
-                                        <div className="email-screen-body">
-                                            <div className="email-screen__body__row">Dear John Richardson,</div>
-                                            <div className="email-screen__body__row">
-                                                This is a reminder that you have an upcoming appointment with Terrill
-                                                Lobo
-                                                on
-                                                04-April-2023 at 09:00 AM at Kinergy Sports Medicine and Performance. We
-                                                value
-                                                your time and are committed to providing you with exceptional service.
-                                            </div>
-                                            <div className="email-screen__body__row">
-                                                Please note that if you need to reschedule or cancel your appointment,
-                                                we
-                                                require at least 24 hours notice in advance. If you have any specific
-                                                concerns
-                                                or requirements that need to be addressed prior to your appointment,
-                                                please
-                                                do
-                                                not hesitate to contact us.
-                                            </div>
-
-                                            <div className="email-screen__body__row">
-                                                Thank you for choosing Kinergy. We look forward to seeing you soon.
-                                            </div>
-                                            <div className="email-screen__body__row">
-                                                <div>Best regards,</div>
-                                                <div>Kinergy Sports Medicine and Performance</div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </CardComponent>
-                            <div className="t-form-actions">
-                                <ButtonComponent
-                                    isLoading={isSaving}
-                                    type={"submit"}
-                                    id={"save_btn"}
-                                >
-                                    {isSaving ? "Saving" : "Save"}
+                    <HorizontalLineComponent/>
+                    {messageMode === 'view' &&
+                    <>
+                        <div className="d-flex ts-justify-content-between">
+                            <QuestionComponent title={"Message (SMS)"}
+                                               description={"Message template for sending appointment confirmations."}
+                            ></QuestionComponent>
+                            <div>
+                                <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                                 onClick={() => {
+                                                     setMessageMode('edit')
+                                                 }}>
+                                    Edit
                                 </ButtonComponent>
                             </div>
-                        </Form>
-                    )
-                }}
-            </Formik>
+                        </div>
+                        <div className="message-section"
+                             dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsRemainderDetails.sms.content, mentionsList)}}>
+
+                        </div>
+                    </>
+                    }
+
+                    {messageMode === 'edit' &&
+                    <>
+                        <div className="d-flex ts-justify-content-between">
+                            <QuestionComponent title={"Message (SMS)"}
+                                               description={"Message template for sending appointment confirmations."}
+                            ></QuestionComponent>
+                        </div>
+                        <MentionsComponent
+                            data={mentionsList}
+                            inputHeight={180}
+                            value={messageValue}
+                            onChange={(value) => setMessageValue(value)}
+                            placeholder={"Enter text here"}
+                        />
+                        <div className="info-tool-tip-wrapper">
+                            <ToolTipComponent
+                                showArrow={true}
+                                position={'top'}
+                                backgroundColor={'#FFF5D3'}
+                                tooltip={<div className="pdd-10" >
+                                    <div>To create a custom template with pre-defined keywords and specific formatting
+                                        rules, please follow the instructions below:
+                                    </div>
+                                    <div className="">
+                                        <div className="tooltip-text-row-wrapper">
+                                            <div className="tooltip-text-pointer">*</div>
+                                            <div className="tooltip-text">Start by typing your message in the template box.</div>
+                                        </div>
+
+                                        <div className="tooltip-text-row-wrapper">
+                                            <div className="tooltip-text-pointer">*</div>
+                                            <div className="tooltip-text">To access the list of pre-defined keywords, type "@" in the text box. A
+                                                dropdown
+                                                list will appear with the available keywords. Select the appropriate
+                                                keyword
+                                                from the list by clicking on it or by using the arrow keys to navigate
+                                                and
+                                                pressing "Enter" to select it.
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>}
+                            >
+
+                                <ImageConfig.InfoIcon/>
+                            </ToolTipComponent>
+
+                        </div>
+                        <div className="available-mentions-wrapper">
+                            <div className="available-mentions-title">Available Keywords</div>
+                            <div className="available-mentions-chips-wrapper">
+                                {
+                                    mentionsList?.map((mention) => {
+                                        return (
+                                            <div>
+                                                <ChipComponent label={mention.display}/>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                        </div>
+                        <div className="d-flex ts-justify-content-center">
+                            <ButtonComponent variant={"outlined"}
+                                             disabled={isTemplateSaveInProgress}
+                                             onClick={() => {
+                                                 setMessageMode('view');
+                                                 setMessageValue(messageVal);
+                                             }}
+                            >
+                                Cancel
+                            </ButtonComponent>&nbsp;&nbsp;
+                            <ButtonComponent
+                                isLoading={isTemplateSaveInProgress}
+                                type="button"
+                                disabled={messageValue.length === 0 || messageValue === messageVal}
+                                onClick={onTemplateSubmit}
+                            >
+                                Save
+                            </ButtonComponent>
+                        </div>
+                    </>
+                    }
+
+                    <HorizontalLineComponent/>
+
+                    {emailMode === 'view' && <>
+
+                        <div className="d-flex ts-justify-content-between">
+                            <QuestionComponent title={"Email"}
+                                               description={"Email template for sending appointment confirmations."}
+                            ></QuestionComponent>
+                            <div>
+                                <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                                 onClick={() => {
+                                                     setEmailMode('edit');
+                                                 }}
+                                >
+                                    Edit
+                                </ButtonComponent>
+                            </div>
+                        </div>
+                        <div className="email-section">
+                            <div className="email-header-section">
+                                <div className="email-screen__header__row"
+                                     dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsRemainderDetails.email.subject, mentionsList)}}>
+                                </div>
+                                <hr className="hr-line"/>
+                            </div>
+
+                            <div className="email-screen-body"
+                                 dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsRemainderDetails.email.content, mentionsList)}}>
+                            </div>
+                        </div>
+                    </>
+                    }
+
+
+                    {emailMode === 'edit' &&
+                    <>
+                        <div className="d-flex ts-justify-content-between">
+                            <QuestionComponent title={"Email"}
+                                               description={"Email template for sending appointment confirmations."}
+                            ></QuestionComponent>
+                        </div>
+                        <div>
+                            <div className="mention-field-titles">Subject :</div>
+                            <MentionsComponent
+                                data={mentionsList}
+                                inputHeight={50}
+                                value={subjectValue}
+                                onChange={(value) => setSubjectValue(value)}
+                                placeholder={"Write Subject here"}
+                            />
+                        </div>
+                        <div>
+                            <div className="mention-field-titles">Body :</div>
+                            <MentionsComponent
+                                data={mentionsList}
+                                inputHeight={180}
+                                value={emailValue}
+                                onChange={(value) => setEmailValue(value)}
+                                placeholder={"Enter text here"}
+                            />
+                        </div>
+                        <div className="info-tool-tip-wrapper">
+                            <ToolTipComponent
+                                showArrow={true}
+                                position={'top'}
+                                backgroundColor={'#FFF5D3'}
+                                tooltip={<div className="pdd-10" >
+                                    <div>To create a custom template with pre-defined keywords and specific formatting
+                                        rules, please follow the instructions below:
+                                    </div>
+                                    <div className="">
+                                        <div className="tooltip-text-row-wrapper">
+                                            <div className="tooltip-text-pointer">*</div>
+                                            <div className="tooltip-text">Start by typing your message in the template box.</div>
+                                        </div>
+
+                                        <div className="tooltip-text-row-wrapper">
+                                            <div className="tooltip-text-pointer">*</div>
+                                            <div className="tooltip-text">To access the list of pre-defined keywords, type "@" in the text box. A
+                                                dropdown
+                                                list will appear with the available keywords. Select the appropriate
+                                                keyword
+                                                from the list by clicking on it or by using the arrow keys to navigate
+                                                and
+                                                pressing "Enter" to select it.
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>}
+                            >
+
+                                <ImageConfig.InfoIcon/>
+                            </ToolTipComponent>
+
+                        </div>
+                        <div className="available-mentions-wrapper">
+                            <div className="available-mentions-title">Available Keywords</div>
+                            <div className="available-mentions-chips-wrapper">
+                                {
+                                    mentionsList.map((mention) => {
+                                        return (
+                                            <div>
+                                                <ChipComponent label={mention.display}/>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                        </div>
+                        <div className="d-flex ts-justify-content-center">
+                            <ButtonComponent variant={"outlined"}
+                                             disabled={isTemplateSaveInProgress}
+                                             onClick={() => {
+                                                 setEmailMode('view');
+                                                 setEmailValue(emailSubVal);
+                                                 setSubjectValue(emailContentValVal);
+                                             }}
+                            >
+                                Cancel
+                            </ButtonComponent>&nbsp;&nbsp;
+                            <ButtonComponent
+                                isLoading={isTemplateSaveInProgress}
+                                type="button"
+                                disabled={emailValue.length === 0 || emailValue === emailContentValVal}
+                                onClick={onTemplateSubmit}
+                            >
+                                Save
+                            </ButtonComponent>
+                        </div>
+                    </>
+                    }
+                </div>
+            </CardComponent>
         </div>
     );
 

@@ -755,6 +755,26 @@ const APIConfig: IAPIConfig = {
     SET_APPOINTMENT_SETTINGS: {
         URL: ENV.API_URL + '/appointmentSetting',
         METHOD: 'post'
+    },
+    PRIMARY_REMAINDERS_HOURS_LIST: {
+        URL: ENV.API_URL + '/primaryReminderHours',
+        METHOD: 'get'
+    },
+    SECONDARY_REMAINDERS_HOURS_LIST: {
+        URL: ENV.API_URL + '/secondaryReminderHours',
+        METHOD: 'get'
+    },
+    RESCHEDULING_HOURS_LIST: {
+        URL: ENV.API_URL + '/reschedulingHours',
+        METHOD: 'get'
+    },
+    RESCHEDULING_TIMES_LIST: {
+        URL: ENV.API_URL + '/reschedulingTimes',
+        METHOD: 'get'
+    },
+    USER_MENTIONS_LIST: {
+        URL: ENV.API_URL + '/mentions',
+        METHOD: 'get'
     }
 }
 

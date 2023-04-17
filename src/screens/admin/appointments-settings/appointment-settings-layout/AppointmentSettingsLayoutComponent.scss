@@ -72,3 +72,20 @@
     color: #1479FF;
   }
 }
+
+.tooltip-text-row-wrapper {
+  display: flex;
+  padding: 10px 0 0 10px;
+  justify-content: center;
+
+  .tooltip-text-pointer {
+    //width: 5px;
+    //height: 5px;
+    //background-color: black;
+    //border-radius: 50%;
+  }
+
+  .tooltip-text {
+    padding-left: 10px;
+  }
+}

@@ -29,12 +29,17 @@ import {
     getMusculoskeletalHistoryOptionsList,
     getPaymentModes,
     getPhoneTypeList,
+    getPrimaryRemainderHoursList,
     getProgressReportStatsList,
     getReferralTypeList,
     getRelationShipList,
+    getRescheduledHoursList,
+    getRescheduledTimesList,
+    getSecondaryRemainderHoursList,
     getSocialMediaPlatformList,
     getSurgicalHistoryOptionsList,
-    getSystemAutoLockDurationOptionsList
+    getSystemAutoLockDurationOptionsList,
+    getUserMentionsList
 } from "./store/actions/static-data.action";
 import AppVersionComponent from "./shared/components/app-version/appVersionComponent";
 import {getAllProvidersList} from "./store/actions/user.action";
@@ -146,7 +151,12 @@ const App = (props: AppProps) => {
             dispatch(getSystemAutoLockDurationOptionsList());
             dispatch(getFilesUneditableAfterOptionsList());
             dispatch(getSystemSettings());
-            dispatch(getAppointmentSettings())
+            dispatch(getAppointmentSettings());
+            dispatch(getPrimaryRemainderHoursList());
+            dispatch(getSecondaryRemainderHoursList());
+            dispatch(getRescheduledHoursList());
+            dispatch(getRescheduledTimesList());
+            dispatch(getUserMentionsList());
         }
     }, [token, dispatch])
 
