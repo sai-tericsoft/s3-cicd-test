@@ -29,6 +29,11 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
             width: 220,
             key: "name",
             fixed: "left",
+            render: (item: IFacility) => {
+                return <LinkComponent route={CommonService._routeConfig.FacilityDetails(item._id)}>
+                    {item?.name}
+                </LinkComponent>
+            }
         },
         {
             title: "Facility Location",
