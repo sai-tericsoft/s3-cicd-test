@@ -272,7 +272,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                                                 (field: FieldProps) => (
                                                                     <FormikSelectComponent
                                                                         options={socialMediaPlatformList}
-                                                                        label={"Select"}
+                                                                        label={"Select Platform"}
                                                                         formikField={field}
                                                                         fullWidth={true}
                                                                     />
