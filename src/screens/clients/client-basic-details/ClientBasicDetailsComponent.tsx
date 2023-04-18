@@ -105,8 +105,8 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                             </div>
                         </div>
                         <div className="ts-row">
-                            {clientBasicDetails?.secondary_contact_info?.length > 0 && (clientBasicDetails?.secondary_contact_info[0]?.phone !== "" || clientBasicDetails?.secondary_emails[0]?.email !== "")
-                                &&  <HorizontalLineComponent className={'alternate-heading-horizontal-line'}/>}
+                            {/*{clientBasicDetails?.secondary_contact_info?.length > 0 && (clientBasicDetails?.secondary_contact_info[0]?.phone !== "" || clientBasicDetails?.secondary_emails[0]?.email !== "")*/}
+                            {/*    &&  <HorizontalLineComponent className={'alternate-heading-horizontal-line'}/>}*/}
                             <div className="ts-col-8">
                                 {
                                     clientBasicDetails?.secondary_contact_info?.length > 0 &&
@@ -209,11 +209,11 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                 </div>
                             </div>
                         </div>
-                        {
-                            clientBasicDetails?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.length > 0 &&
-                            clientBasicDetails?.emergency_contact_info?.primary_emergency?.secondary_contact_info[0]?.phone !== "" &&
-                            <HorizontalLineComponent className={'alternate-heading-horizontal-line'}/>
-                        }
+                        {/*{*/}
+                        {/*    clientBasicDetails?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.length > 0 &&*/}
+                        {/*    clientBasicDetails?.emergency_contact_info?.primary_emergency?.secondary_contact_info[0]?.phone !== "" &&*/}
+                        {/*    <HorizontalLineComponent className={'alternate-heading-horizontal-line'}/>*/}
+                        {/*}*/}
                         <div className="ts-row">
                             <div className="ts-col-6">
                                 {clientBasicDetails?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.length > 0 &&
