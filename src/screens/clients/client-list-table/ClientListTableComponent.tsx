@@ -23,8 +23,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             title: "Client ID",
             key: "client_id",
             dataIndex: "client_id",
-            width: 150,
-            align: "center",
+            width: 180,
             fixed: "left",
             render: (item: IClientBasicDetails) => {
                 if (item?._id) {
@@ -39,7 +38,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             key: "first_name",
             dataIndex: "first_name",
             sortable: true,
-            width: 250,
+            width: 200,
             render: (item: IClientBasicDetails) => {
                 return <span>{item?.last_name} {item?.first_name}</span>
             }
@@ -71,7 +70,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             key: "last_provider",
             dataIndex: "last_provider",
             align: "center",
-            width: 200,
+            width: 190,
             render: (item: IClientBasicDetails) => {
                 return <span>
                     {item?.last_provider}
