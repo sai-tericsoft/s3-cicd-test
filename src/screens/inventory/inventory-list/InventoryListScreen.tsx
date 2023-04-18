@@ -70,7 +70,7 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
             sortable: true,
             render: (item: any) => {
                 return <>
-                    {item?.quantity === 0 ? <ChipComponent className={'out-of-stock-chip'} label={'out of stock'}/> : item.quantity}
+                    {item?.quantity <=0 ? <ChipComponent className={'out-of-stock-chip'} label={'out of stock'}/> : item.quantity}
                 </>
             }
         },
@@ -230,7 +230,6 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
                                                 (field: FieldProps) => (
                                                     <FormikInputComponent formikField={field}
                                                                           label={'Quantity'}
-                                                                          type={'number'}
                                                                           required={true}
                                                                           fullWidth={true}
                                                                           validationPattern={Patterns.NEGATIVE_WHOLE_NUMBERS}
