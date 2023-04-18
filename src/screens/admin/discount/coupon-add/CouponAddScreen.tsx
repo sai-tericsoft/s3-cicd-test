@@ -22,6 +22,7 @@ import * as Yup from "yup";
 import {getAllServiceList} from "../../../../store/actions/service.action";
 import FormikCheckBoxComponent
     from "../../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
+import PageHeaderComponent from "../../../../shared/components/page-header/PageHeaderComponent";
 
 interface CouponAddScreenProps {
 
@@ -99,9 +100,7 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
 
     return (
         <div className={'coupon-add-screen'}>
-            <div className={'add-coupon-heading'}>
-                Add Coupon
-            </div>
+            <PageHeaderComponent title={'Add Coupon'}/>
             <Formik initialValues={addCouponInitialValues}
                     validationSchema={couponAddValidationSchema}
                     onSubmit={onCouponAddSubmit}

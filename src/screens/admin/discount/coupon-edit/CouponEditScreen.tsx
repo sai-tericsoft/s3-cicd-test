@@ -22,6 +22,7 @@ import LinkComponent from "../../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 import {IRootReducerState} from "../../../../store/reducers";
 import {getCouponDetails} from "../../../../store/actions/discount.action";
+import PageHeaderComponent from "../../../../shared/components/page-header/PageHeaderComponent";
 
 interface CouponEditScreenProps {
 
@@ -40,6 +41,7 @@ const CouponEditInitialValues: any = {
     amount: '',
     service_categories: [],
 };
+
 const couponEditValidationSchema = Yup.object({
     title: Yup.string().required('Title is required and must have at least 3 characters'),
     code: Yup.string().required('Coupon code is required'),
@@ -47,8 +49,8 @@ const couponEditValidationSchema = Yup.object({
     end_date: Yup.string().required('End date is required'),
     min_billing_amount: Yup.number().required('Minimum billing amount is required'),
     usage_limit: Yup.number().required('Usage limit is required'),
-
 });
+
 const CouponEditScreen = (props: CouponEditScreenProps) => {
 
     const navigate = useNavigate();
@@ -74,7 +76,7 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
 
     useEffect(() => {
         if (couponDetails) {
-            setEditCouponInitialValues({
+            const couponDetailsCopy: any = {
                 title: couponDetails?.title,
                 code: couponDetails?.code,
                 start_date: couponDetails?.start_date,
@@ -85,42 +87,31 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                 discount_type: couponDetails?.discount_type,
                 percentage: couponDetails?.percentage,
                 max_discount_amount: couponDetails?.max_discount_amount,
-                amount: couponDetails?.amount,
-                service_categories: couponDetails?.linked_services?.filter((item: any) =>
-                    item?.services?.length > 0).map((item: any) => {
+                amount: couponDetails?.amount
+            };
+            if (allServiceList?.length > 0) {
+                console.log(allServiceList, couponDetails?.linked_services);
+                const service_categories = allServiceList.map((serviceCategory: any) => {
                     return {
-                        category_id: item?._id,
-                          // services: item?.services?.map((service: any) => service?._id),
-                        category_name: item?.category_name,
-                        services: item?.services?.map((service: any) => {
+                        category_id: serviceCategory._id,
+                        is_selected: !!couponDetails?.linked_services?.find((selectedServiceCategory: any) => selectedServiceCategory?._id === serviceCategory._id),
+                        services: serviceCategory?.services?.map((service: any) => {
                             return {
-                                service_id: service?._id,
-                                name: service?.name,
-
+                                service_id: service._id,
+                                is_selected: !!couponDetails?.linked_services?.find((item: any) => {
+                                    return serviceCategory?._id === item._id
+                                })?.services?.find((serviceItem: any) => serviceItem._id === service._id)
                             }
                         })
                     }
-                }),
-            });
+                });
+                console.log("-----------------");
+                console.log(service_categories);
+                couponDetailsCopy.service_categories = service_categories;
+            }
+            setEditCouponInitialValues(couponDetailsCopy);
         }
-    }, [couponDetails]);
-
-    console.log("cc", couponDetails?.linked_services?.filter((item: any) => item?.services?.length > 0).map((item: any) => {
-        return {
-            category_id: item?._id,
-            // services: item?.services?.map((service: any) => service?._id),
-            category_name: item?.category_name,
-            services: item?.services?.map((service: any) => {
-                return {
-                    service_id: service?._id,
-                      name: service?.name,
-
-                }
-            })
-        }
-    }),);
-
-    console.log("couponDetails", couponDetails);
+    }, [couponDetails, allServiceList]);
 
     useEffect(() => {
         if (couponId) {
@@ -130,7 +121,7 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
         }
     }, [dispatch, navigate, couponId]);
 
-    const onCouponAddSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
+    const onCouponEditSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         if (couponId) {
             const payload = _.cloneDeep(values);
             payload.start_date = moment(payload?.start_date).format('YYYY-MM-DD');
@@ -158,12 +149,10 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
 
     return (
         <div className={'coupon-edit-screen'}>
-            <div className={'edit-coupon-heading'}>
-                Edit Coupon Details
-            </div>
+            <PageHeaderComponent title={'Edit Coupon Details'}/>
             <Formik initialValues={editCouponInitialValues}
                     validationSchema={couponEditValidationSchema}
-                    onSubmit={onCouponAddSubmit}
+                    onSubmit={onCouponEditSubmit}
                     validateOnChange={false}
                     validateOnBlur={true}
                     enableReinitialize={true}
