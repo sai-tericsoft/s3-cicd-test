@@ -1,7 +1,10 @@
 .service-consultation-details-component {
-  .card-component {
-    .card-body {
-      //padding: 0 !important;
+  .card-component{
+    .card-header{
+      .card-title-description-wrapper{}
+      .card-title{
+        margin-left: 150px;
+      }
     }
   }
 }
