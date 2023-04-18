@@ -166,8 +166,8 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             </div>
                         }
                         {clientMedicalDetails?.medical_history?.comments &&
-                            <DataLabelValueComponent label={"Comments"}>
-                              <li> {clientMedicalDetails?.medical_history?.comments}</li>
+                            <DataLabelValueComponent label={""}>
+                                {clientMedicalDetails?.medical_history?.comments}
                             </DataLabelValueComponent>
                         }
                     </CardComponent>
@@ -221,8 +221,8 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             </div>
                         }
                         {clientMedicalDetails?.surgical_history?.comments
-                            && <DataLabelValueComponent label={"Comments"}>
-                               <li> {clientMedicalDetails?.surgical_history?.comments}</li>
+                            <DataLabelValueComponent label={""}>
+                                {clientMedicalDetails?.surgical_history?.comments}
                             </DataLabelValueComponent>
                         }
                     </CardComponent>
