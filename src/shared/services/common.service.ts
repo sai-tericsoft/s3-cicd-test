@@ -72,7 +72,6 @@ const getUUID = () => {
 }
 
 const handleErrors = ((setErrors: (errors: FormikErrors<any>) => void, err: any, showGlobalError: boolean = false) => {
-    console.log(err.errors);
     if (err.errors) {
         const errors: any = {};
         for (let field in err.errors) {
@@ -162,10 +161,8 @@ const getFlatJsonFromNestedJSON = (jsonData: any, rootName: string = "", ignoreL
         let newObj: any = {};
         let tmp: any = {};
         if (!ignore(root)) {
-            console.log(data, root);
             root = root || '';
             if (data instanceof File) {
-                console.log(root, data, 'appending');
                 newObj[root] = data;
             } else if (Array.isArray(data)) {
                 for (let i = 0; i < data.length; i++) {
@@ -187,7 +184,6 @@ const getFlatJsonFromNestedJSON = (jsonData: any, rootName: string = "", ignoreL
             } else {
                 if (data !== null && typeof data !== 'undefined') {
                     newObj[root] = data;
-                    console.log(root, data, newObj, 'appending');
                 }
             }
         }
@@ -361,7 +357,6 @@ const generateBlobFileFromUrl = (attachmentUrl: string, attachmentTitle: string,
     return fetch(attachmentUrl)
         .then((res) => res.blob())
         .then((myBlob) => {
-            console.log(myBlob);
             const myFile = new File([myBlob], attachmentTitle, {
                 type: attachmentType
             });
@@ -457,7 +452,6 @@ const removeKeysFromJSON = (obj: any, keys: string[]): any => {
 }
 
 const isEqual = (a: any, b: any) => {
-    console.log(a, b);
     return _.isEqual(a, b);
 }
 
@@ -533,6 +527,42 @@ const ComingSoon = () => {
     AlertService.showToast("Coming Soon", 'info');
 }
 
+const cleanMentionsPayload = (value: string, mentionsData: any) => {
+    const ids = mentionsData?.map((item: any) => item.id);
+    let cleanedValue: string = value;
+    if (ids.length) {
+        ids.forEach((id: any) => {
+            cleanedValue = cleanedValue.replaceAll(new RegExp(`\\(${id}\\)`, 'g'), '');
+        });
+    }
+    cleanedValue = cleanedValue.split('\n').join("\\n");
+    return cleanedValue;
+}
+
+const cleanMentionsResponse = (value: string, mentionsData: any) => {
+    const ids = mentionsData?.map((item: any) => item.id);
+    let cleanedValue: string = value;
+    if (ids?.length) {
+        ids.forEach((id: any) => {
+            cleanedValue = cleanedValue.replaceAll(`@[${id}]`, `@${id}`)
+        });
+    }
+    cleanedValue = cleanedValue.split('\\n').join("<br />");
+    return cleanedValue;
+}
+
+const editMentionsFormat = (value: string, mentionsData: any) => {
+    const ids = mentionsData?.map((item: any) => item.id);
+    let cleanedValue: string = value;
+    if (ids?.length) {
+        ids?.forEach((id: any) => {
+            cleanedValue = cleanedValue.split(`@[${id}]`).join(`@[${id}](${id})`);
+        });
+    }
+    cleanedValue = cleanedValue.split('\\n').join("\n");
+    return cleanedValue;
+}
+
 const CommonService = {
     LightenDarkenColor,
     getContrastYIQ,
@@ -578,6 +608,9 @@ const CommonService = {
     isTextEllipsisActive,
     ComingSoon,
     generateUseCaseFromCaseDetails,
+    cleanMentionsPayload,
+    cleanMentionsResponse,
+    editMentionsFormat,
 
     // createValidationsObject,
     // createYupSchema,

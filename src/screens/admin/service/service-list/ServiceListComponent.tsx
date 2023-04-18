@@ -20,13 +20,13 @@ const ServiceListComponent = (props: ServiceListComponentProps) => {
         {
             dataIndex: "name",
             key: "name",
-            width: "70%",
-            title: "Service Name"
+            width: 600,
+            title: "Service Name",
         },
         {
             dataIndex: "status",
             key: "status",
-            width: "20%",
+            width: 100,
             title: "Status",
             render: ( item: any) => {
                 return <ChipComponent label={item?.is_active ? "Active" : "Inactive"}
@@ -37,7 +37,7 @@ const ServiceListComponent = (props: ServiceListComponentProps) => {
             dataIndex: "viewDetails",
             key: "viewDetails",
             title: "",
-            width: "10%",
+             fixed: "right",
             render: ( item: IService, index: number) => {
                 if (item._id){
                     return <LinkComponent id={"sv_view_details_" + index} route={CommonService._routeConfig.ServiceDetails(item._id)}>

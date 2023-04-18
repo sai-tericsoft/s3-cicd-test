@@ -16,3 +16,5 @@ declare module "*.png" {
 }
 
 declare module '@wojtekmaj/react-daterange-picker';
+
+declare module 'react-mentions';

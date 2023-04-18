@@ -348,7 +348,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                     </div>
                                     <div className={'ts-col-md-4 ts-col-lg'}>
                                         <DataLabelValueComponent label={'Next MD Appointment'}>
-                                            {clientMedicalRecord?.next_md_appointment ? CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.next_md_appointment) : "N/A"}
+                                            {clientMedicalRecord?.case_physician.next_appointment ? CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.case_physician.next_appointment) : "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-4 ts-col-lg'}>
