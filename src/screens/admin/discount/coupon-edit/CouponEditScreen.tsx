@@ -38,7 +38,7 @@ const CouponEditInitialValues: any = {
     percentage: '',
     max_discount_amount: '',
     amount: '',
-    services:[],
+    service_categories: [],
 };
 const couponEditValidationSchema = Yup.object({
     title: Yup.string().required('Title is required and must have at least 3 characters'),
@@ -55,7 +55,7 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
     const dispatch = useDispatch();
     const {couponId} = useParams();
 
-    const [editCouponInitialValues,setEditCouponInitialValues] = useState<any>(_.cloneDeep(CouponEditInitialValues));
+    const [editCouponInitialValues, setEditCouponInitialValues] = useState<any>(_.cloneDeep(CouponEditInitialValues));
     const [isEditCouponInProgress, setIsEditCouponInProgress] = useState<boolean>(false);
     const {allServiceList} = useSelector((state: any) => state.service);
     const {
@@ -73,22 +73,54 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
     }, [dispatch, couponId]);
 
     useEffect(() => {
-        setEditCouponInitialValues({
-            title: couponDetails?.title,
-            code: couponDetails?.code,
-            start_date: couponDetails?.start_date,
-            end_date: couponDetails?.end_date,
-            min_billing_amount: couponDetails?.min_billing_amount,
-            usage_limit: couponDetails?.usage_limit,
-            description: couponDetails?.description,
-            discount_type: couponDetails?.discount_type,
-            percentage: couponDetails?.percentage,
-            max_discount_amount: couponDetails?.max_discount_amount,
-            amount: couponDetails?.amount,
+        if (couponDetails) {
+            setEditCouponInitialValues({
+                title: couponDetails?.title,
+                code: couponDetails?.code,
+                start_date: couponDetails?.start_date,
+                end_date: couponDetails?.end_date,
+                min_billing_amount: couponDetails?.min_billing_amount,
+                usage_limit: couponDetails?.usage_limit,
+                description: couponDetails?.description,
+                discount_type: couponDetails?.discount_type,
+                percentage: couponDetails?.percentage,
+                max_discount_amount: couponDetails?.max_discount_amount,
+                amount: couponDetails?.amount,
+                service_categories: couponDetails?.linked_services?.filter((item: any) =>
+                    item?.services?.length > 0).map((item: any) => {
+                    return {
+                        category_id: item?._id,
+                          // services: item?.services?.map((service: any) => service?._id),
+                        category_name: item?.category_name,
+                        services: item?.services?.map((service: any) => {
+                            return {
+                                service_id: service?._id,
+                                name: service?.name,
 
-        });
-    },[]);
+                            }
+                        })
+                    }
+                }),
+            });
+        }
+    }, [couponDetails]);
 
+    console.log("cc", couponDetails?.linked_services?.filter((item: any) => item?.services?.length > 0).map((item: any) => {
+        return {
+            category_id: item?._id,
+            // services: item?.services?.map((service: any) => service?._id),
+            category_name: item?.category_name,
+            services: item?.services?.map((service: any) => {
+                return {
+                    service_id: service?._id,
+                      name: service?.name,
+
+                }
+            })
+        }
+    }),);
+
+    console.log("couponDetails", couponDetails);
 
     useEffect(() => {
         if (couponId) {
@@ -99,10 +131,21 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
     }, [dispatch, navigate, couponId]);
 
     const onCouponAddSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        if(couponId) {
-            const payload = {...values};
+        if (couponId) {
+            const payload = _.cloneDeep(values);
+            payload.start_date = moment(payload?.start_date).format('YYYY-MM-DD');
+            payload.end_date = moment(payload?.end_date).format('YYYY-MM-DD');
+            const linked_service_categories = payload?.service_categories?.filter((item: any) => item?.services?.length > 0);
+            const linked_service_categories_transformed = linked_service_categories.map((item: any) => {
+                return {
+                    category_id: item.category_id,
+                    services: item?.services?.filter((service: any) => service.is_selected).map((service: any) => service?.service_id)
+                }
+            });
+            payload.linked_services = linked_service_categories_transformed;
+            delete payload.service_categories;
             setIsEditCouponInProgress(true);
-            CommonService._discountService.CouponEditAPICall(couponId,payload)
+            CommonService._discountService.CouponEditAPICall(couponId, payload)
                 .then((response: any) => {
                     setIsEditCouponInProgress(false);
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
@@ -344,50 +387,71 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                                 <div className={'coupon-valid-on-service-text'}>
                                     Coupon will be valid on the following service(s):
                                 </div>
-                                <FieldArray name={'services'}
+                                <FieldArray name={'service_categories'}
                                             render={(arrayHelpers) => (
                                                 <>
-                                                    {allServiceList?.map((service_category: any) => {
-                                                        // console.log('service_category',service_category);
-                                                        return <> <Field
-                                                            name={`service_category.${service_category._id}`}>
+                                                    {allServiceList?.map((service_category: any, index: any) => {
+                                                        // console.log('service_category', (service_category?.services?.filter((service: any) => service?.is_selected)?.length > 0));
+                                                        // console.log('service_category', (service_category?.services?.length !== service_category?.services?.filter((service: any) => service?.is_selected)?.length));
+                                                        return <><Field
+                                                            name={`service_categories.${index}.is_selected`}>
                                                             {
                                                                 (field: FieldProps) => (
                                                                     <FormikCheckBoxComponent formikField={field}
-                                                                                             name={`service_category.${service_category._id}`}
                                                                                              label={service_category.name}
                                                                                              onChange={(isChecked: any) => {
+                                                                                                 const serviceIds = service_category.services?.map((service: any) => {
+                                                                                                     return {
+                                                                                                         service_id: service?._id,
+                                                                                                         is_selected: true
+                                                                                                     }
+                                                                                                 });
                                                                                                  if (isChecked) {
-                                                                                                     arrayHelpers.push(service_category._id);
+                                                                                                     setFieldValue(`service_categories.${index}.is_selected`, true);
+                                                                                                     setFieldValue(`service_categories.${index}.category_id`, service_category._id);
+                                                                                                     setFieldValue(`service_categories.${index}.services`, serviceIds);
                                                                                                  } else {
-                                                                                                     const index = values.services.findIndex((service: any) => service === service_category._id);
-                                                                                                     arrayHelpers.remove(index);
+                                                                                                     setFieldValue(`service_categories.${index}.category_id`, null);
+                                                                                                     setFieldValue(`service_categories.${index}.services`, []);
                                                                                                  }
                                                                                              }}
-
                                                                     />
                                                                 )
                                                             }
                                                         </Field>
                                                             <div>
-                                                                {service_category?.services?.map((service: any) => {
-                                                                    return <div className={'mrg-left-20'}>
-                                                                        <Field name={`service.${service._id}`}>
+                                                                {service_category?.services?.map((service: any, serviceIndex: any) => {
+                                                                    return <div
+                                                                        key={service._id}
+                                                                        className={'mrg-left-20'}>
+                                                                        <Field
+                                                                            name={`service_categories[${index}].services[${serviceIndex}.is_selected`}>
                                                                             {
                                                                                 (field: FieldProps) => (
                                                                                     <FormikCheckBoxComponent
                                                                                         formikField={field}
-                                                                                        name={`service.${service._id}`}
                                                                                         label={service.name}
                                                                                         onChange={(isChecked: any) => {
+                                                                                            const selectedServices = values?.service_categories[index]?.services?.filter((service: any) => service?.is_selected);
                                                                                             if (isChecked) {
-                                                                                                arrayHelpers.push(service._id);
+                                                                                                setFieldValue(`service_categories.${index}.services[${serviceIndex}].service_id`, service._id);
+                                                                                                setFieldValue(`service_categories.${index}.category_id`, service_category._id);
+                                                                                                selectedServices.push({
+                                                                                                    service_id: service._id,
+                                                                                                    is_selected: true
+                                                                                                });
                                                                                             } else {
-                                                                                                const index = values.services.findIndex((service: any) => service === service._id);
-                                                                                                arrayHelpers.remove(index);
+                                                                                                selectedServices.splice(serviceIndex, 1);
+                                                                                            }
+                                                                                            const services = service_category?.services;
+                                                                                            console.log('services', values?.service_categories[index]?.services);
+                                                                                            console.log('selectedServices', selectedServices);
+                                                                                            if (selectedServices?.length === services?.length) {
+                                                                                                setFieldValue(`service_categories.${index}.is_selected`, true);
+                                                                                            } else {
+                                                                                                setFieldValue(`service_categories.${index}.is_selected`, false);
                                                                                             }
                                                                                         }}
-
                                                                                     />
                                                                                 )
                                                                             }
@@ -403,7 +467,7 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                                 />
                             </CardComponent>
                             <div className="t-form-actions">
-                                { couponId &&
+                                {couponId &&
                                     <LinkComponent route={CommonService._routeConfig.CouponViewDetails(couponId)}>
                                         <ButtonComponent
                                             variant={"outlined"}
