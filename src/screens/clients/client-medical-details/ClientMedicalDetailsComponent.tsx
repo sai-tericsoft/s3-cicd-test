@@ -10,6 +10,8 @@ import React from "react";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
+import HorizontalLineComponent
+    from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 
 interface ClientMedicalDetailsComponentProps {
     clientId: string;
@@ -130,12 +132,12 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                 </DataLabelValueComponent>
                             </div>
                             <div className={'ts-col-lg-3'}>
-                                <DataLabelValueComponent label={'Primary Phone'}>
+                                <DataLabelValueComponent label={'MD Phone'}>
                                     {clientMedicalDetails?.medical_provider_info?.primary_phone || "N/A"}
                                 </DataLabelValueComponent>
                             </div>
                             <div className={'ts-col-lg-6'}>
-                                <DataLabelValueComponent label={'Last Date of Physical Examination'}>
+                                <DataLabelValueComponent label={' Date of Last Physical Examination'}>
                                     {clientMedicalDetails?.medical_provider_info?.last_examination_date ? CommonService.getSystemFormatTimeStamp(clientMedicalDetails?.medical_provider_info?.last_examination_date) : "N/A"}
                                 </DataLabelValueComponent>
                             </div>
@@ -154,17 +156,17 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                 {
                                     clientMedicalDetails?.medical_history?.questions_details?.map((question, index) => {
                                         return <span key={question?._id + index}>
-                                                    <span>{question.title}</span>
-                                            {(clientMedicalDetails?.medical_history?.questions_details && clientMedicalDetails?.medical_history?.questions_details?.length - 1 !== index) &&
-                                                <span>, </span>
-                                            }
+                                                    <li>{question.title}</li>
+                                            {/*{(clientMedicalDetails?.medical_history?.questions_details && clientMedicalDetails?.medical_history?.questions_details?.length - 1 !== index) &&*/}
+                                            {/*    <span>, </span>*/}
+                                            {/*}*/}
                                                 </span>
                                     })
                                 }
                             </div>
                         }
                         {clientMedicalDetails?.medical_history?.comments &&
-                            <DataLabelValueComponent label={"Comments"}>
+                            <DataLabelValueComponent label={""}>
                                 {clientMedicalDetails?.medical_history?.comments}
                             </DataLabelValueComponent>
                         }
@@ -180,16 +182,17 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             }>
                                 <div className={'ts-row'}>
                                     <div className={'females-only-block'}>
-                                    <div className={'ts-col-12'}>
-                                        <DataLabelValueComponent label={'Pregnant or Attempting to be pregnant?'}  direction={'row'}>
-                                            {clientMedicalDetails?.females_only_questions?.["Pregnant or trying to get pregnant?"] || "N/A"}
-                                        </DataLabelValueComponent>
-                                    </div>
-                                    <div className={'ts-col-12'}>
-                                        <DataLabelValueComponent label={'Nursing?'} direction={'row'}>
-                                            {clientMedicalDetails?.females_only_questions?.["Nursing?"] || "N/A"}
-                                        </DataLabelValueComponent>
-                                    </div>
+                                        <div className={'ts-col-12'}>
+                                            <DataLabelValueComponent label={'Pregnant or Attempting to be pregnant?'}
+                                                                     direction={'row'}>
+                                                {clientMedicalDetails?.females_only_questions?.["Pregnant or trying to get pregnant?"] || "N/A"}
+                                            </DataLabelValueComponent>
+                                        </div>
+                                        <div className={'ts-col-12'}>
+                                            <DataLabelValueComponent label={'Nursing?'} direction={'row'}>
+                                                {clientMedicalDetails?.females_only_questions?.["Nursing?"] || "N/A"}
+                                            </DataLabelValueComponent>
+                                        </div>
                                     </div>
                                 </div>
                             </CardComponent>
@@ -208,17 +211,17 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                 {
                                     clientMedicalDetails?.surgical_history?.questions_details?.map((question, index) => {
                                         return <span key={question?._id + index}>
-                                                    <span>{question.title}</span>
-                                            {(clientMedicalDetails?.surgical_history?.questions_details && clientMedicalDetails?.surgical_history?.questions_details?.length - 1 !== index) &&
-                                                <span> , </span>
-                                            }
+                                                    <li>{question.title}</li>
+                                            {/*{(clientMedicalDetails?.surgical_history?.questions_details && clientMedicalDetails?.surgical_history?.questions_details?.length - 1 !== index) &&*/}
+                                            {/*    <span> , </span>*/}
+                                            {/*}*/}
                                                 </span>
                                     })
                                 }
                             </div>
                         }
                         {clientMedicalDetails?.surgical_history?.comments
-                            && <DataLabelValueComponent label={"Comments"}>
+                            <DataLabelValueComponent label={""}>
                                 {clientMedicalDetails?.surgical_history?.comments}
                             </DataLabelValueComponent>
                         }
@@ -239,16 +242,19 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             (Object.keys(clientMedicalDetails?.musculoskeletal_history || {})?.map((question, index) => {
                                 return <div key={question + index} className={"musculoskeletal-history-block"}>
                                     <div className="ts-row">
-                                        <div className="ts-col-lg-6 font-weight-bold">
+                                        <div className="ts-col-lg-4 font-weight-bold mrg-top-10 mrg-bottom-10">
                                             {clientMedicalDetails?.musculoskeletal_history[question]?.title}
                                         </div>
-                                        <div className="ts-col-lg-2 font-weight-bold text-primary">
+                                        <div className="ts-col-lg-2 font-weight-bold text-primary mrg-top-10 mrg-bottom-10">
                                             {clientMedicalDetails?.musculoskeletal_history[question]?.value}
                                         </div>
-                                        <div className="ts-col-lg-4">
-                                            {clientMedicalDetails?.musculoskeletal_history[question]?.text || '-'}
+                                        <div className="ts-col-lg-6">
+                                            {clientMedicalDetails?.musculoskeletal_history[question]?.text && <ol>
+                                                <li className={'musculoskeletal-question'}>{clientMedicalDetails?.musculoskeletal_history[question]?.text}</li>
+                                            </ol> || <div className={'musculoskeletal-question-na'}>N/A</div>}
                                         </div>
                                     </div>
+                                    <HorizontalLineComponent/>
                                 </div>
                             }))
                         }

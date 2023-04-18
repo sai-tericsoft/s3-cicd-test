@@ -11,6 +11,7 @@ const DASHBOARD = "/dashboard";
 const ADMIN = "/admin";
 const SERVICE_CATEGORY_LIST = "/admin/service-category-list";
 const SYSTEM_SETTINGS = "/admin/system-settings";
+const APPOINTMENT_SETTINGS = "/admin/appointment-settings";
 const SERVICE_DETAILS = "/admin/service-details";
 const SERVICE_ADD = "/admin/service/add";
 const SERVICE_EDIT = "/admin/service/edit";
@@ -45,7 +46,6 @@ const MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW = '/chart-notes/:medicalRecordId/:m
 const MEDICAL_RECORD_LIST = '/chart-notes/:clientId/medical-record-list';
 const INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST = '/chart-notes/:interventionId/exercise-log';
 
-const MEDICAL_INTERVENTION_DETAILS = '/chart-notes/intervention-details/:medicalInterventionId';
 const MEDICAL_INTERVENTION_SURGERY_RECORD_DETAILS = '/chart-notes/:medicalRecordId/surgery-record/:surgeryRecordId';
 
 const PROGRESS_REPORT_VIEW_DETAILS = '/chart-notes/:medicalRecordId/:progressReportId/progress-report-view-details';
@@ -102,7 +102,6 @@ export {
     INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST,
     MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE,
     MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW,
-    MEDICAL_INTERVENTION_DETAILS,
     MEDICAL_INTERVENTION_SURGERY_RECORD_DETAILS,
     PROGRESS_REPORT_VIEW_DETAILS,
     MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE,
@@ -128,5 +127,5 @@ export {
     CLIENT_APPOINTMENTS,
     CLIENT_DOCUMENTS_DETAILS,
     CLIENT_APPOINTMENT_DETAILS,
-
+    APPOINTMENT_SETTINGS
 };

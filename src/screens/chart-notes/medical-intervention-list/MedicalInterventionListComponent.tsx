@@ -136,7 +136,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             width: 125,
             sortable: true,
             render: (item: any) => {
-                return (item?.posted_by?.first_name + " " + item?.posted_by?.last_name)
+                return (CommonService.capitalizeFirstLetter(item?.posted_by?.first_name) + " " +CommonService.capitalizeFirstLetter(item?.posted_by?.last_name))
             }
         },
         {
