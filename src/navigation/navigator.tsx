@@ -50,7 +50,6 @@ import {
     INVENTORY_LIST,
     INVENTORY_PRODUCT_VIEW_DETAILS,
     LOGIN_ROUTE,
-    MEDICAL_INTERVENTION_DETAILS,
     MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE,
     MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW,
     MEDICAL_INTERVENTION_FINALIZE_TREATMENT,
@@ -98,8 +97,6 @@ import ExerciseLogAttachmentListComponent
 import MedicalInterventionExerciseLogViewScreen
     from "../screens/chart-notes/medical-intervention-exercise-log-view/MedicalInterventionExerciseLogViewScreen";
 import MedicalRecordListScreen from "../screens/chart-notes/medical-record-list/MedicalRecordListScreen";
-import ClientMedicalInterventionDetailsComponent
-    from "../screens/chart-notes/client-medical-intervention-details/ClientMedicalInterventionDetailsComponent";
 import MedicalInterventionICDCodesScreen
     from "../screens/chart-notes/medical-intervention-icd-codes/MedicalInterventionICDCodesScreen";
 import SurgeryRecordViewScreen from "../screens/chart-notes/surgery-record-view/SurgeryRecordViewScreen";
@@ -141,6 +138,8 @@ import ClientAppointmentDetailsComponent
     from "../screens/clients/client-appointment-details/ClientAppointmentDetailsComponent";
 import AppointmentSettingsLayoutComponent
     from "../screens/admin/appointments-settings/appointment-settings-layout/AppointmentSettingsLayoutComponent";
+import MedicalInterventionRomConfigV2Screen
+    from "../screens/chart-notes/medical-intervention-rom-config-v2/MedicalInterventionRomConfigV2Screen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -323,7 +322,7 @@ const Navigator = (props: NavigatorProps) => {
                     />
                     <Route path={MEDICAL_INTERVENTION_ROM_CONFIG}
                            element={<ProtectedRoute>
-                               <MedicalInterventionRomConfigScreen/>
+                               <MedicalInterventionRomConfigV2Screen/>
                            </ProtectedRoute>
                            }
                     />
@@ -388,14 +387,6 @@ const Navigator = (props: NavigatorProps) => {
                                <ViewMedicalRecordDocumentScreen/>
                            </ProtectedRoute>
                            }/>
-                    <Route path={MEDICAL_INTERVENTION_DETAILS}
-                           element={<ProtectedRoute>
-                               <ClientMedicalInterventionDetailsComponent/>
-                           </ProtectedRoute>}/>
-                    <Route path={MEDICAL_INTERVENTION_DETAILS}
-                           element={<ProtectedRoute>
-                               <ClientMedicalInterventionDetailsComponent/>
-                           </ProtectedRoute>}/>
                     <Route path={MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE}
                            element={<ProtectedRoute>
                                <ProgressRecordAdvancedDetailsUpdateScreen/>
@@ -588,14 +579,6 @@ const Navigator = (props: NavigatorProps) => {
                                    <ViewMedicalRecordDocumentScreen/>
                                </ProtectedRoute>
                                }/>
-                        <Route path={MEDICAL_INTERVENTION_DETAILS}
-                               element={<ProtectedRoute>
-                                   <ClientMedicalInterventionDetailsComponent/>
-                               </ProtectedRoute>}/>
-                        <Route path={MEDICAL_INTERVENTION_DETAILS}
-                               element={<ProtectedRoute>
-                                   <ClientMedicalInterventionDetailsComponent/>
-                               </ProtectedRoute>}/>
                         <Route path={MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE}
                                element={<ProtectedRoute>
                                    <ProgressRecordAdvancedDetailsUpdateScreen/>

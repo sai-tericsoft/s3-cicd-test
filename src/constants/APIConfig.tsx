@@ -409,6 +409,10 @@ const APIConfig: IAPIConfig = {
         URL: (medicalInterventionId: string, bodyPartId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/rom/' + bodyPartId,
         METHOD: "post"
     },
+    SAVE_MEDICAL_INTERVENTION_ROM_CONFIG: {
+        URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/rom',
+        METHOD: "post"
+    },
     DELETE_BODY_PART_UNDER_MEDICAL_INTERVENTION_ROM_CONFIG: {
         URL: (medicalInterventionId: string, bodyPartId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/rom/' + bodyPartId,
         METHOD: "delete"
@@ -775,6 +779,14 @@ const APIConfig: IAPIConfig = {
     USER_MENTIONS_LIST: {
         URL: ENV.API_URL + '/mentions',
         METHOD: 'get'
+    },
+    GET_ADDED_ICD_CODES:{
+        URL:(medicalRecordId:string)=>ENV.API_URL+'/medicalRecord/'+medicalRecordId+'/latestICDCodes',
+        METHOD:'get'
+    },
+    GET_BILLING_FROM_ADDRESS:{
+        URL:ENV.API_URL+'/billingFrom',
+        METHOD:'get'
     }
 }
 

@@ -4,15 +4,16 @@ interface PageHeaderComponentProps {
     title: string;
     actions?: any;
     className?: any;
+    id?: string;
 }
 
 const PageHeaderComponent = (props: PageHeaderComponentProps) => {
 
-    const {title, actions,className} = props;
+    const {title, actions,className, id} = props;
 
     return (
         <div className={`page-header-component ${className}`}>
-            <div className="page-header-title">
+            <div id={id} className="page-header-title">
                 {title}
             </div>
             {

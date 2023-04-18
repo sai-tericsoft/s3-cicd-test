@@ -176,7 +176,6 @@ const ClientMedicalRecordDetails = (medicalRecordId: string) => {
 }
 
 const MedicalInterventionDetails = (medicalRecordId: string, medicalInterventionId: string) => {
-    // return '/chart-notes/intervention-details/' + medicalInterventionId
     return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/view-medical-intervention';
 }
 

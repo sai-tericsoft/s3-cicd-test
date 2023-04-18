@@ -162,13 +162,13 @@ const AddInventoryProductComponent = (props: AddInventoryProductComponentProps) 
                                     </div>
                                 </div>
                             </CardComponent>
-                            <CardComponent title={"Upload Image"}>
+                            <CardComponent title={"Upload Image *"}>
                                 <>
                                     {
 
                                         (!values.image) && <>
                                             <FilePickerComponent maxFileCount={1}
-                                                                 id={"sc_upload_btn"}
+                                                                 id={"upload_btn"}
                                                                  onFilesDrop={(acceptedFiles, rejectedFiles) => {
                                                                      if (acceptedFiles && acceptedFiles.length > 0) {
                                                                          const file = acceptedFiles[0];
@@ -205,7 +205,7 @@ const AddInventoryProductComponent = (props: AddInventoryProductComponentProps) 
                                 <LinkComponent route={CommonService._routeConfig.InventoryList()}>
                                     <ButtonComponent
                                         variant={"outlined"}
-                                        id={"inventory_product_add_cancel_btn"}
+                                        id={"cancel_btn"}
                                     >
                                         Cancel
                                     </ButtonComponent>
@@ -215,7 +215,7 @@ const AddInventoryProductComponent = (props: AddInventoryProductComponentProps) 
                                     type={"submit"}
                                     isLoading={isInventoryProductAddInProgress}
                                     disabled={!isValid || isInventoryProductAddInProgress}
-                                    id={"inventory_product_add_save_btn"}
+                                    id={"save_btn"}
                                 >
                                     Save
                                 </ButtonComponent>

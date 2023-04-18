@@ -63,11 +63,11 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                                 <AvatarComponent url={inventoryProductDetails?.image?.url} size={'xl'}/>
                             </div>
                             <div className={'product-details-wrapper'}>
-                                <DataLabelValueComponent label={'Quantity Available: '} className={'quantity-available'} direction={'row'}>
+                                <DataLabelValueComponent id={"qty_available"} label={'Quantity Available: '} className={'quantity-available'} direction={'row'}>
                                     {inventoryProductDetails?.quantity}
                                 </DataLabelValueComponent>
-                                <FormControlLabelComponent size={'xl'} label={inventoryProductDetails?.name} className={'inventory-product-details'}/>
-                                <div className={'description'}>
+                                <FormControlLabelComponent id="product_title" size={'xl'} label={inventoryProductDetails?.name} className={'inventory-product-details'}/>
+                                <div id={"product_desc"} className={'description'}>
                                     {inventoryProductDetails?.description}
                                 </div>
                             </div>
@@ -84,17 +84,17 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                 <CardComponent title={'Product Details'}>
                     <div className={'ts-row'}>
                         <div className={'ts-col-4'}>
-                            <DataLabelValueComponent label={'Product Code'}>
+                            <DataLabelValueComponent id={"product_code"} label={'Product Code'}>
                                 {inventoryProductDetails?.code}
                             </DataLabelValueComponent>
                         </div>
                         <div className={'ts-col-4'}>
-                            <DataLabelValueComponent label={'Price*'}>
+                            <DataLabelValueComponent id={"product_price"} label={'Price*'}>
                                 <span> {Misc.CURRENCY_SYMBOL}</span> {inventoryProductDetails?.price}
                             </DataLabelValueComponent>
                         </div>
                         <div className={'ts-col-4'}>
-                            <DataLabelValueComponent label={'Sold Quantity'}>
+                            <DataLabelValueComponent id={"sold_qty"} label={'Sold Quantity'}>
                                 {inventoryProductDetails?.sold_quantity}
                             </DataLabelValueComponent>
                         </div>

@@ -195,7 +195,7 @@ const EditInventoryProductDetailsComponent = (props: EditInventoryProductDetails
 
                                         (!values.image) && <>
                                             <FilePickerComponent maxFileCount={1}
-                                                                 id={"sc_upload_btn"}
+                                                                 id={"upload_btn"}
                                                                  onFilesDrop={(acceptedFiles, rejectedFiles) => {
                                                                      if (acceptedFiles && acceptedFiles.length > 0) {
                                                                          const file = acceptedFiles[0];
@@ -232,7 +232,7 @@ const EditInventoryProductDetailsComponent = (props: EditInventoryProductDetails
                                     route={CommonService._routeConfig.InventoryProductViewDetails(inventoryProductDetails?._id)}>
                                     <ButtonComponent
                                         variant={"outlined"}
-                                        id={"inventory_product_edit_cancel_btn"}
+                                        id={"cancel_btn"}
                                     >
                                         Cancel
                                     </ButtonComponent>
@@ -242,7 +242,7 @@ const EditInventoryProductDetailsComponent = (props: EditInventoryProductDetails
                                     type={"submit"}
                                     isLoading={isInventoryProductEditInProgress}
                                     disabled={!isValid || isInventoryProductEditInProgress}
-                                    id={"inventory_product_edit_save_btn"}
+                                    id={"save_btn"}
                                 >
                                     Save
                                 </ButtonComponent>

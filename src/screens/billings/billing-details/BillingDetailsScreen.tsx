@@ -26,6 +26,7 @@ import SelectComponent from "../../../shared/components/form-controls/select/Sel
 import {ITableColumn} from "../../../shared/models/table.model";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {BillingType} from "../../../shared/models/common.model";
+import {getBillingFromAddress} from "../../../store/actions/billings.action";
 
 interface BillingDetailsScreenProps {
 
@@ -49,7 +50,6 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     const [isBillingDetailsBeingLoading, setIsBillingDetailsBeingLoading] = useState<boolean>(false);
     const [isBillingDetailsBeingLoadingFailed, setIsBillingDetailsBeingLoadingFailed] = useState<boolean>(false);
     const [billingDetails, setBillingDetails] = useState<any>(undefined);
-    const {name, address, city, state, zip, phone_number} = Misc.COMPANY_BILLING_ADDRESS;
     const [isClientBillingAddressDrawerOpened, setIsClientBillingAddressDrawerOpened] = useState<boolean>(false);
     const [selectedPaymentMode, setSelectedPaymentMode] = useState<string>("");
     const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
@@ -58,6 +58,13 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     const {
         paymentModes
     } = useSelector((state: IRootReducerState) => state.staticData);
+
+    const {billingFromAddress} = useSelector((state: IRootReducerState) => state.billings);
+    useEffect(() => {
+        dispatch(getBillingFromAddress())
+    }, [dispatch]);
+
+    console.log('bill', billingFromAddress);
 
     useEffect(() => {
         const type: BillingType = searchParams.get("type") as BillingType;
@@ -391,13 +398,13 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                     <div className={"billing-address-block__title"}>Billing From</div>
                                 </div>
                                 <div className={"billing-address-block__details"}>
-                                    <div className={"billing-address-block__detail__row name"}>{name}</div>
-                                    <div className={"billing-address-block__detail__row"}> {address} </div>
+                                    <div className={"billing-address-block__detail__row name"}>{billingFromAddress?.name}</div>
+                                    <div className={"billing-address-block__detail__row"}> {billingFromAddress?.address_line} </div>
                                     <div className={"billing-address-block__detail__row"}>
-                                        <span>{city}</span>, <span>{state}</span> <span>{zip}</span>
+                                        <span>{billingFromAddress?.city}</span>, <span>{billingFromAddress?.state}</span> <span>{billingFromAddress?.zip_code}</span>
                                     </div>
                                     <div
-                                        className={"billing-address-block__detail__row"}> {phone_number} </div>
+                                        className={"billing-address-block__detail__row"}> {billingFromAddress?.phone} </div>
                                 </div>
                             </div>
                             <div className={"billing-address-block to"}>
