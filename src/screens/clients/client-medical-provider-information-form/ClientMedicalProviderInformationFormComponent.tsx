@@ -144,8 +144,8 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                                     {
                                                         (field: FieldProps) => (
                                                             <FormikInputComponent
-                                                                label={"Primary Phone Number"}
-                                                                placeholder={"Primary Phone Number"}
+                                                                label={"MD Phone"}
+                                                                placeholder={"MD Phone"}
                                                                 required={true}
                                                                 formikField={field}
                                                                 fullWidth={true}
