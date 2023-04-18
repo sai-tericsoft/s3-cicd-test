@@ -51,6 +51,10 @@ const SystemSettings = () => {
     return "/admin/system-settings";
 }
 
+const appointmentSettingsLayout = () => {
+    return "/admin/appointment-settings";
+}
+
 const ServiceCategoryDetails = (serviceCategoryId: string) => {
     return SERVICE_CATEGORY_DETAILS + '/' + serviceCategoryId;
 }
@@ -291,7 +295,8 @@ const RouteConfigService = {
     ClientDocuments,
     ClientAppointments,
     clientDocumentViewDetails,
-    ClientAppointmentViewDetails
+    ClientAppointmentViewDetails,
+    appointmentSettingsLayout
 }
 
 export default RouteConfigService;

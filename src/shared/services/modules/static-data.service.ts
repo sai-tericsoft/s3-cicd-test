@@ -19,7 +19,7 @@ const resultOptions = [{
     title: "Negative",
     code: "Negative"
 }];
-const unitsOfCare=[1,2,3,4,5,6,7,8];
+const unitsOfCare = [1, 2, 3, 4, 5, 6, 7, 8];
 
 const getConsultationDurationList = (payload: any) => {
     // @ts-ignore
@@ -142,6 +142,32 @@ const getFilesUneditableAfterOptionsList = (payload: any) => {
     return ApiService[APIConfig.GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST.METHOD](APIConfig.GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST.URL, payload)
 }
 
+const getPrimaryRemainderHoursList = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.PRIMARY_REMAINDERS_HOURS_LIST.METHOD](APIConfig.PRIMARY_REMAINDERS_HOURS_LIST.URL, payload)
+}
+
+const getSecondaryRemainderHoursList = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.SECONDARY_REMAINDERS_HOURS_LIST.METHOD](APIConfig.SECONDARY_REMAINDERS_HOURS_LIST.URL, payload)
+}
+
+const getRescheduledHoursList = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.RESCHEDULING_HOURS_LIST.METHOD](APIConfig.RESCHEDULING_HOURS_LIST.URL, payload)
+}
+
+const getRescheduledTimesList = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.RESCHEDULING_TIMES_LIST.METHOD](APIConfig.RESCHEDULING_TIMES_LIST.URL, payload)
+}
+
+const getUserMentionsList = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.USER_MENTIONS_LIST.METHOD](APIConfig.USER_MENTIONS_LIST.URL, payload)
+}
+
+
 const StaticDataService = {
     today,
     weekDays,
@@ -172,7 +198,12 @@ const StaticDataService = {
     getAppointmentStatus,
     getAppointmentTypes,
     getSystemAutoLockDurationOptionsList,
-    getFilesUneditableAfterOptionsList
+    getFilesUneditableAfterOptionsList,
+    getPrimaryRemainderHoursList,
+    getSecondaryRemainderHoursList,
+    getRescheduledHoursList,
+    getRescheduledTimesList,
+    getUserMentionsList
 }
 
 export default StaticDataService;

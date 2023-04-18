@@ -57,6 +57,16 @@ const getAppointmentListLite = (payload: any) => {
     return ApiService[APIConfig.APPOINTMENT_LIST_LITE.METHOD](APIConfig.APPOINTMENT_LIST_LITE.URL, payload);
 }
 
+const getAppointmentSetting = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.GET_APPOINTMENT_SETTINGS.METHOD](APIConfig.GET_APPOINTMENT_SETTINGS.URL, payload);
+}
+
+const setAppointmentSetting = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.SET_APPOINTMENT_SETTINGS.METHOD](APIConfig.SET_APPOINTMENT_SETTINGS.URL, payload);
+}
+
 const AppointmentService = {
     addAppointment,
     appointmentPayment,
@@ -71,6 +81,8 @@ const AppointmentService = {
     appointmentNoShow,
     getAppointmentFormStatus,
     getAppointmentListLite,
+    getAppointmentSetting,
+    setAppointmentSetting
 }
 
 export default AppointmentService;
