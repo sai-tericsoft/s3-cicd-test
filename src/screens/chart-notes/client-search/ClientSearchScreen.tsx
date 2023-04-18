@@ -81,7 +81,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             align: "center",
             render: (item: IClientBasicDetails) => {
                 return <span>
-                    {item?.last_provider}
+                    {CommonService.capitalizeFirstLetter(item?.last_provider)}
                 </span>
             }
         },
