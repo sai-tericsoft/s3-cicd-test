@@ -123,7 +123,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, response?.data._id) + '?showClear=true');
                 setIsMedicalInterventionBeingRepeated(false);
-                selectedAppointment(null)
+                setSelectedAppointment(null)
             }).catch((error: any) => {
                 CommonService._alert.showToast(error?.error || "Error repeating last medical intervention", "error");
                 setIsMedicalInterventionBeingRepeated(false);
@@ -270,7 +270,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                 <TabsComponent value={currentTab} onUpdate={handleTabChange} variant={"fullWidth"}
                                allowScrollButtonsMobile={false}>
 
-                    <TabComponent label={'Medical Record'} className={'tab-heading'} value={"medicalRecord"}/>
+                    <TabComponent label={'Medical Records'} className={'tab-heading'} value={"medicalRecord"}/>
                     <TabComponent label={'Attachments'} className={'tab-heading'} value={"attachmentList"}/>
 
                 </TabsComponent>
@@ -390,6 +390,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                                 </ButtonComponent>
                                 <ButtonComponent variant={'contained'}
                                                  color={'primary'}
+                                                 isLoading={isMedicalInterventionBeingAdded}
                                                  onClick={() => {
                                                      if (appointmentMode === REPEAT_LAST_TREATMENT) {
                                                          repeatLastTreatment(false)

@@ -5,7 +5,8 @@ import {
     ICaseStatus,
     ICommunicationModeType,
     IConcussionFileType,
-    IEmploymentStatus, IFilesUneditableAfterOption,
+    IEmploymentStatus,
+    IFilesUneditableAfterOption,
     IGender,
     IInjuryType,
     ILanguage,
@@ -17,7 +18,8 @@ import {
     IReferralType,
     IRelationship,
     ISocialMediaPlatform,
-    ISurgicalHistoryOption, ISystemAutoLockDurationOption
+    ISurgicalHistoryOption,
+    ISystemAutoLockDurationOption
 } from "../../shared/models/common.model";
 
 export const GET_CONSULTATION_DURATION_LIST = 'GET_CONSULTATION_DURATION_LIST';
@@ -92,6 +94,21 @@ export const SET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST = 'SET_SYSTEM_AUTO_LOCK_
 
 export const GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST = 'GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST';
 export const SET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST = 'SET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST';
+
+export const GET_PRIMARY_REMAINDER_HOURS_LIST = 'GET_PRIMARY_REMAINDER_HOURS_LIST';
+export const SET_PRIMARY_REMAINDER_HOURS_LIST = 'SET_PRIMARY_REMAINDER_HOURS_LIST';
+
+export const GET_SECONDARY_REMAINDER_HOURS_LIST = 'GET_SECONDARY_REMAINDER_HOURS_LIST';
+export const SET_SECONDARY_REMAINDER_HOURS_LIST = 'SET_SECONDARY_REMAINDER_HOURS_LIST';
+
+export const GET_RESCHEDULED_HOURS_LIST = 'GET_RESCHEDULED_HOURS_LIST';
+export const SET_RESCHEDULED_HOURS_LIST = 'SET_RESCHEDULED_HOURS_LIST';
+
+export const GET_RESCHEDULED_TIMES_LIST = 'GET_RESCHEDULED_TIMES_LIST';
+export const SET_RESCHEDULED_TIMES_LIST = 'SET_RESCHEDULED_TIMES_LIST';
+
+export const GET_USER_MENTIONS_LIST = 'GET_USER_MENTIONS_LIST';
+export const SET_USER_MENTIONS_LIST = 'SET_USER_MENTIONS_LIST';
 
 export const getConsultationDurationList = () => {
     return {type: GET_CONSULTATION_DURATION_LIST};
@@ -383,5 +400,65 @@ export const setPaymentModes = (paymentModes: any[]) => {
     };
 };
 
+export const getPrimaryRemainderHoursList = () => {
+    return {type: GET_PRIMARY_REMAINDER_HOURS_LIST};
+}
 
+export const setPrimaryRemainderHoursList = (primaryRemainderHoursList: any[]) => {
+    return {
+        type: SET_PRIMARY_REMAINDER_HOURS_LIST, payload: {
+            primaryRemainderHoursList
+        }
+    };
+};
+
+export const getSecondaryRemainderHoursList = () => {
+    return {type: GET_SECONDARY_REMAINDER_HOURS_LIST};
+}
+
+export const setSecondaryRemainderHoursList = (secondaryRemainderHoursList: any[]) => {
+    return {
+        type: SET_SECONDARY_REMAINDER_HOURS_LIST, payload: {
+            secondaryRemainderHoursList
+        }
+    };
+};
+
+
+export const getRescheduledHoursList = () => {
+    return {type: GET_RESCHEDULED_HOURS_LIST};
+}
+
+export const setRescheduledHoursList = (reschedulingHoursList: any[]) => {
+    return {
+        type: SET_RESCHEDULED_HOURS_LIST, payload: {
+            reschedulingHoursList
+        }
+    };
+};
+
+export const getRescheduledTimesList = () => {
+    return {type: GET_RESCHEDULED_TIMES_LIST};
+}
+
+export const setRescheduledTimesList = (reschedulingTimesList: any[]) => {
+    return {
+        type: SET_RESCHEDULED_TIMES_LIST, payload: {
+            reschedulingTimesList
+        }
+    };
+};
+
+export const getUserMentionsList = () => {
+    return {type: GET_USER_MENTIONS_LIST};
+}
+
+export const setUserMentionsList = (userMentions: any[]) => {
+    console.log("userMentions", userMentions);
+    return {
+        type: SET_USER_MENTIONS_LIST, payload: {
+            userMentions
+        }
+    };
+}
 

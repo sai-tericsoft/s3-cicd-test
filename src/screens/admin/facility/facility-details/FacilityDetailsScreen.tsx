@@ -1,5 +1,5 @@
 import "./FacilityDetailsScreen.scss";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {CommonService} from "../../../../shared/services";
 import {IAPIResponseType} from "../../../../shared/models/api.model";
 import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
@@ -28,6 +28,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
     const [isFacilityDetailsLoading, setIsFacilityDetailsLoading] = useState<boolean>(false);
     const [isFacilityDetailsLoaded, setIsFacilityDetailsLoaded] = useState<boolean>(false);
     const [isFacilityDetailsLoadingFailed, setIsFacilityDetailsLoadingFailed] = useState<boolean>(false);
+
 
     const fetchFacilityDetails = useCallback((facilityId: string) => {
         setIsFacilityDetailsLoading(true);
@@ -91,103 +92,72 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                         </div>
                     </CardComponent>
                     <CardComponent title={"Contact Information"}>
-
-                        <FormControlLabelComponent label={'Phone 1:'}/>
                         <div className={'ts-row'}>
-                            <div className={'ts-col-lg-3'}>
-                                <DataLabelValueComponent label={'Phone Type(Primary)'}>
-                                    {facilityDetails?.primary_contact_info?.phone_type_details.title || "-"}
-                                </DataLabelValueComponent>
-                            </div>
-                            <div className={'ts-col-lg-3'}>
-                                <DataLabelValueComponent label={'Phone Number'}>
-                                    {facilityDetails?.primary_contact_info?.phone || "-"}
-                                </DataLabelValueComponent>
-                            </div>
-                        </div>
-                        {facilityDetails.secondary_contact_info.map((phone_number: any, index: number) => {
-                            return (<div key={index}>
-                                    <HorizontalLineComponent/>
-                                    <FormControlLabelComponent label={'Phone ' + (index + 2) + ":"}/>
-                                    <div className={'ts-row'}>
-                                        <div className={'ts-col-lg-3'}>
-                                            <DataLabelValueComponent label={'Phone Type'}>
-                                                <div>{phone_number?.phone_type_details?.title || "-"}</div>
-                                            </DataLabelValueComponent>
-                                        </div>
-                                        <div className={'ts-col-lg-3'}>
-                                            <DataLabelValueComponent label={'Phone Number'}>
-                                                {phone_number?.phone || '-'}
-                                            </DataLabelValueComponent>
-                                        </div>
-                                    </div>
-                                </div>
-                            )
-                        })
-                        }
-                        <div className={'ts-row'}>
-                            <div className={'ts-col-lg-3'}>
-                                <DataLabelValueComponent label={'Email(Primary)'}>
-                                    {facilityDetails?.primary_email || '-'}
-                                </DataLabelValueComponent>
-                            </div>
-
-
-                            {facilityDetails.secondary_emails?.map((email: any, index: number) => {
-                                return (<div className={'ts-col-lg-3'} key={index}>
-                                        <DataLabelValueComponent label={'Email ' + (index + 2)}>
-                                            <div>{email || '-'}</div>
+                            <div className={" ts-col-7"}>
+                                <FormControlLabelComponent label={'Primary Phone'}/>
+                                <div className={'ts-row'}>
+                                    <div className={'ts-col-5'}>
+                                        <DataLabelValueComponent label={'Phone Type'}>
+                                            {facilityDetails?.primary_contact_info?.phone_type_details.title || "-"}
                                         </DataLabelValueComponent>
                                     </div>
-                                )
-                            })
-                            }
+                                    <div className={'ts-col-lg-3'}>
+                                        <DataLabelValueComponent label={'Phone Number'}>
+                                            {CommonService.formatPhoneNumber(facilityDetails?.primary_contact_info?.phone || "-")}
+                                        </DataLabelValueComponent>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="ts-col-4">
+                                <FormControlLabelComponent label={'Primary Email:'}/>
+                                <div className={'ts-row'}>
+                                    <div className={'ts-col-12'}>
+                                        <DataLabelValueComponent label={'Email'}>
+                                            {facilityDetails?.primary_email || '-'}
+                                        </DataLabelValueComponent>
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
-                    </CardComponent>
-                    <CardComponent title={"Opening Hours"}>
-                        <div className={"facility-opening-hours"}>
-                            <DataLabelValueComponent direction={'row'} label={"Mon"}>
-                                {facilityDetails.timings?.mon?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.mon?.start_time) + " - "}{facilityDetails.timings?.mon?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.mon?.end_time)}
-                                {!(facilityDetails.timings?.mon?.start_time) &&
-                                    <span className={'facility-opening-hours-closed-text'}>Closed</span>}
+                        <div className={'ts-row'}>
+                            <HorizontalLineComponent/>
+                            <div className={'ts-col-7'}>
+                                <FormControlLabelComponent label={'Alternate Phone'}/>
 
-                            </DataLabelValueComponent>
-                            <DataLabelValueComponent direction={'row'} label={"Tue"}>
-                                {facilityDetails.timings?.tue?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.tue?.start_time) + " - "}{facilityDetails.timings?.tue?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.tue?.end_time)}
-                                {!(facilityDetails.timings?.tue?.start_time) &&
-                                    <span className={'facility-opening-hours-closed-text'}>Closed</span>}
+                                {facilityDetails.secondary_contact_info.map((phone_number: any, index: number) => {
+                                    return (<div key={index}>
 
-                            </DataLabelValueComponent>
-                            <DataLabelValueComponent direction={'row'} label={"Wed"}>
-                                {facilityDetails.timings?.wed?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.wed?.start_time) + " - "}{facilityDetails.timings?.wed?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.wed?.end_time)}
-                                {!(facilityDetails.timings?.wed?.start_time) &&
-                                    <span className={'facility-opening-hours-closed-text'}>Closed</span>}
+                                            <div className={'ts-row'}>
+                                                <div className={'ts-col-5'}>
+                                                    <DataLabelValueComponent label={'Phone Type'}>
+                                                        <div>{phone_number?.phone_type_details?.title || "-"}</div>
+                                                    </DataLabelValueComponent>
+                                                </div>
+                                                <div className={'ts-col-3'}>
+                                                    <DataLabelValueComponent label={'Phone Number'}>
+                                                        {CommonService.formatPhoneNumber(phone_number?.phone || '-')}
+                                                    </DataLabelValueComponent>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                            </DataLabelValueComponent>
-                            <DataLabelValueComponent direction={'row'} label={"Thu"}>
-                                {facilityDetails.timings?.thu?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.thu?.start_time) + " - "}{facilityDetails.timings?.thu?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.thu?.end_time)}
-                                {!(facilityDetails.timings?.thu?.start_time) &&
-                                    <span className={'facility-opening-hours-closed-text'}>Closed</span>}
-
-                            </DataLabelValueComponent>
-                            <DataLabelValueComponent direction={'row'} label={"Fri"}>
-                                {facilityDetails.timings?.fri?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.fri?.start_time) + " - "}{facilityDetails.timings?.fri?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.fri?.end_time)}
-                                {!(facilityDetails.timings?.fri?.start_time) &&
-                                    <span className={'facility-opening-hours-closed-text'}>Closed</span>}
-
-                            </DataLabelValueComponent>
-                            <DataLabelValueComponent direction={'row'} label={"Sat"}>
-                                {facilityDetails.timings?.sat?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.sat?.start_time) + " - "}{facilityDetails.timings?.sat?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.sat?.end_time)}
-                                {!(facilityDetails.timings?.sat?.start_time) &&
-                                    <span className={'facility-opening-hours-closed-text'}>Closed</span>}
-
-                            </DataLabelValueComponent>
-                            <DataLabelValueComponent direction={'row'} label={"Sun"}>
-                                {facilityDetails.timings?.sun?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.sun?.start_time) + " - "}{facilityDetails.timings?.sun?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.sun?.end_time)}
-                                {!(facilityDetails.timings?.sun?.start_time) &&
-                                    <span className={'facility-opening-hours-closed-text'}>Closed</span>}
-
-                            </DataLabelValueComponent>
+                                    )
+                                })
+                                }
+                            </div>
+                            <div className={'ts-col-4'}>
+                                <FormControlLabelComponent label={'Alternate Email:'}/>
+                                {facilityDetails.secondary_emails?.map((email: any, index: number) => {
+                                    return (<div className={'ts-col-lg-3'} key={index}>
+                                            <DataLabelValueComponent label={'Email '}>
+                                                <div>{email || '-'}</div>
+                                            </DataLabelValueComponent>
+                                        </div>
+                                    )
+                                })
+                                }
+                            </div>
                         </div>
                     </CardComponent>
                     <CardComponent title={"Address Information"}>
@@ -198,6 +168,57 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                             </DataLabelValueComponent>
                         </div>
                     </CardComponent>
+                    <CardComponent title={"Operating Hours"}>
+                        <div className={"facility-opening-hours"}>
+                            <div className={'facility-hours-header'}>
+                               <div className={'week-days-heading'}>Week Days</div>
+                                <div className={'timing-heading'}>Timing</div>
+                            </div>
+                            <DataLabelValueComponent direction={'row'} label={"Monday"}>
+                                {facilityDetails.timings?.mon?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.mon?.start_time) + " - "}{facilityDetails.timings?.mon?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.mon?.end_time)}
+                                {!(facilityDetails.timings?.mon?.start_time) &&
+                                    <span className={'facility-opening-hours-closed-text'}>Closed</span>}
+
+                            </DataLabelValueComponent>
+                            <DataLabelValueComponent direction={'row'} label={"Tuesday"}>
+                                {facilityDetails.timings?.tue?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.tue?.start_time) + " - "}{facilityDetails.timings?.tue?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.tue?.end_time)}
+                                {!(facilityDetails.timings?.tue?.start_time) &&
+                                    <span className={'facility-opening-hours-closed-text'}>Closed</span>}
+
+                            </DataLabelValueComponent>
+                            <DataLabelValueComponent direction={'row'} label={"Wednesday"}>
+                                {facilityDetails.timings?.wed?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.wed?.start_time) + " - "}{facilityDetails.timings?.wed?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.wed?.end_time)}
+                                {!(facilityDetails.timings?.wed?.start_time) &&
+                                    <span className={'facility-opening-hours-closed-text'}>Closed</span>}
+
+                            </DataLabelValueComponent>
+                            <DataLabelValueComponent direction={'row'} label={"Thursday"}>
+                                {facilityDetails.timings?.thu?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.thu?.start_time) + " - "}{facilityDetails.timings?.thu?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.thu?.end_time)}
+                                {!(facilityDetails.timings?.thu?.start_time) &&
+                                    <span className={'facility-opening-hours-closed-text'}>Closed</span>}
+
+                            </DataLabelValueComponent>
+                            <DataLabelValueComponent direction={'row'} label={"Friday"}>
+                                {facilityDetails.timings?.fri?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.fri?.start_time) + " - "}{facilityDetails.timings?.fri?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.fri?.end_time)}
+                                {!(facilityDetails.timings?.fri?.start_time) &&
+                                    <span className={'facility-opening-hours-closed-text'}>Closed</span>}
+
+                            </DataLabelValueComponent>
+                            <DataLabelValueComponent direction={'row'} label={"Saturday"}>
+                                {facilityDetails.timings?.sat?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.sat?.start_time) + " - "}{facilityDetails.timings?.sat?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.sat?.end_time)}
+                                {!(facilityDetails.timings?.sat?.start_time) &&
+                                    <span className={'facility-opening-hours-closed-text'}>Closed</span>}
+
+                            </DataLabelValueComponent>
+                            <DataLabelValueComponent direction={'row'} label={"Sunday"}>
+                                {facilityDetails.timings?.sun?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.sun?.start_time) + " - "}{facilityDetails.timings?.sun?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings.sun?.end_time)}
+                                {!(facilityDetails.timings?.sun?.start_time) &&
+                                    <span className={'facility-opening-hours-closed-text'}>Closed</span>}
+
+                            </DataLabelValueComponent>
+                        </div>
+                    </CardComponent>
+
                     {/*<CardComponent title={"Services"}>*/}
                     {/*    <div className={"therapy-and-performance-training-wrapper"}>*/}
                     {/*    <DataLabelValueComponent label={'Therapy Services'}>*/}

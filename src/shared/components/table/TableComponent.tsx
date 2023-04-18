@@ -55,10 +55,12 @@ const TableComponent = (props: TableComponentProps) => {
         const colObject: any = {
             Header: column?.title || "  ",
             key: column?.key,
+            id: column?.key,
             align: column?.align || "left",
             accessor: column?.dataIndex || column?.key,
             sticky: column?.fixed,
             sortable: column?.sortable,
+
             width: 150,
         };
         if (column?.dataIndex) {

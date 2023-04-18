@@ -51,6 +51,10 @@ const SystemSettings = () => {
     return "/admin/system-settings";
 }
 
+const appointmentSettingsLayout = () => {
+    return "/admin/appointment-settings";
+}
+
 const ServiceCategoryDetails = (serviceCategoryId: string) => {
     return SERVICE_CATEGORY_DETAILS + '/' + serviceCategoryId;
 }
@@ -176,7 +180,6 @@ const ClientMedicalRecordDetails = (medicalRecordId: string) => {
 }
 
 const MedicalInterventionDetails = (medicalRecordId: string, medicalInterventionId: string) => {
-    // return '/chart-notes/intervention-details/' + medicalInterventionId
     return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/view-medical-intervention';
 }
 
@@ -307,6 +310,7 @@ const RouteConfigService = {
     DiscountList,
     CouponViewDetails,
     CouponAdd,
+    appointmentSettingsLayout
 }
 
 export default RouteConfigService;

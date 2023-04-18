@@ -27,6 +27,7 @@ import FormikTextAreaComponent from "../../../shared/components/form-controls/fo
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 import ESignApprovalComponent from "../../../shared/components/e-sign-approval/ESignApprovalComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
+import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 
 interface UpdateMedicalInterventionScreenProps {
 
@@ -198,7 +199,14 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
         if (medicalInterventionId) {
             setSubmitting(true);
             setIsSavingProgress(true);
-            CommonService._chartNotes.MedicalInterventionBasicDetailsUpdateAPICall(medicalInterventionId, values)
+            console.log(values);
+            const payload = {...values}
+            delete payload.medical_record_id
+            delete payload.treated_by
+            delete payload.appointment_id
+            delete payload.category_id
+            delete payload.service_id
+            CommonService._chartNotes.MedicalInterventionBasicDetailsUpdateAPICall(medicalInterventionId, payload)
                 .then((response: IAPIResponseType<any>) => {
                     dispatch(setMedicalInterventionDetails(response.data));
                     if (announce) {
@@ -322,16 +330,16 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                         }
                                     </div>
                                     <CardComponent title={'S - Subjective'}
-                                                   // actions={
-                                                   //     search.showClear && <DraftReadonlySwitcherComponent
-                                                   //         condition={true}
-                                                   //         draft={<div className={'intervention-clear-button'}
-                                                   //                     onClick={event => {
-                                                   //                         formik.setFieldValue('subjective', '');
-                                                   //                     }
-                                                   //                     }>Clear</div>}
-                                                   //         readonly={<></>}/>
-                                                   // }
+                                        // actions={
+                                        //     search.showClear && <DraftReadonlySwitcherComponent
+                                        //         condition={true}
+                                        //         draft={<div className={'intervention-clear-button'}
+                                        //                     onClick={event => {
+                                        //                         formik.setFieldValue('subjective', '');
+                                        //                     }
+                                        //                     }>Clear</div>}
+                                        //         readonly={<></>}/>
+                                        // }
                                     >
                                         <div className="ts-row">
 
@@ -480,48 +488,58 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                             medicalInterventionDetails?.rom_config?.map((body_part: any) => {
                                                                                 return (
                                                                                     <>
-                                                                                        <CardComponent className={'body-part-card'}
-                                                                                                       size={'sm'}
-                                                                                                       title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
+                                                                                        <CardComponent
+                                                                                            className={'body-part-card'}
+                                                                                            size={'sm'}
+                                                                                            title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
                                                                                         </CardComponent>
-                                                                                        <TableComponent
-                                                                                            data={body_part?.rom_config?.filter((rom_config: any) => {
-                                                                                                const bodyPartSides = body_part?.body_part_details?.sides;
-                                                                                                const config = rom_config?.config;
-                                                                                                if (config?.comments) {
-                                                                                                    return rom_config;
-                                                                                                } else {
-                                                                                                    let romConfig = undefined;
-                                                                                                    bodyPartSides?.forEach((side: any) => {
-                                                                                                        const sideConfig = config[side];
-                                                                                                        if (sideConfig?.arom || sideConfig?.prom || sideConfig?.strength) {
-                                                                                                            romConfig = rom_config;
-                                                                                                        }
-                                                                                                    });
-                                                                                                    return romConfig;
-                                                                                                }
-                                                                                            })}
-                                                                                            bordered={true}
-                                                                                            showExpandColumn={false}
-                                                                                            defaultExpandAllRows={true}
-                                                                                            canExpandRow={(row: any) => row?.config?.comments?.length > 0}
-                                                                                            expandRowRenderer={
-                                                                                                (row: any) => {
-                                                                                                    return (
-                                                                                                        <div
-                                                                                                            key={row?.config?._id}
-                                                                                                            className={'comment-row'}>
+                                                                                        {
+                                                                                            body_part?.rom_config?.length > 0 &&
+                                                                                            <TableComponent
+                                                                                                data={body_part?.rom_config?.filter((rom_config: any) => {
+                                                                                                    const bodyPartSides = body_part?.body_part_details?.sides;
+                                                                                                    const config = rom_config?.config;
+                                                                                                    if (config?.comments) {
+                                                                                                        return rom_config;
+                                                                                                    } else {
+                                                                                                        let romConfig = undefined;
+                                                                                                        bodyPartSides?.forEach((side: any) => {
+                                                                                                            const sideConfig = config[side];
+                                                                                                            if (sideConfig?.arom || sideConfig?.prom || sideConfig?.strength) {
+                                                                                                                romConfig = rom_config;
+                                                                                                            }
+                                                                                                        });
+                                                                                                        return romConfig;
+                                                                                                    }
+                                                                                                })}
+                                                                                                bordered={true}
+                                                                                                showExpandColumn={false}
+                                                                                                defaultExpandAllRows={true}
+                                                                                                canExpandRow={(row: any) => row?.config?.comments?.length > 0}
+                                                                                                expandRowRenderer={
+                                                                                                    (row: any) => {
+                                                                                                        return (
                                                                                                             <div
-                                                                                                                className={'comment-icon'}>
-                                                                                                                <ImageConfig.CommentIcon/>
+                                                                                                                key={row?.config?._id}
+                                                                                                                className={'comment-row'}>
+                                                                                                                <div
+                                                                                                                    className={'comment-icon'}>
+                                                                                                                    <ImageConfig.CommentIcon/>
+                                                                                                                </div>
+                                                                                                                <div
+                                                                                                                    className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
                                                                                                             </div>
-                                                                                                            <div
-                                                                                                                className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
-                                                                                                        </div>
-                                                                                                    )
+                                                                                                        )
+                                                                                                    }
                                                                                                 }
-                                                                                            }
-                                                                                            columns={getMedicalInterventionROMConfigColumns(body_part)}/>
+                                                                                                columns={getMedicalInterventionROMConfigColumns(body_part)}/>
+                                                                                        }
+                                                                                        {
+                                                                                            body_part?.rom_config?.length === 0 &&
+                                                                                            <StatusCardComponent
+                                                                                                title={"The following body part does not have any Range of Motion or Strength " +
+                                                                                                    "                                                measurements. \n Please choose another body part."}/>
+                                                                                        }
                                                                                     </>
                                                                                 )
                                                                             })
@@ -579,8 +597,10 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
 
                                                                         {medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.map((body_part: any) => {
                                                                             return (<div className={''}>
-                                                                                <CardComponent className={'body-part-card'} size={'sm'}
-                                                                                               title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
+                                                                                <CardComponent
+                                                                                    className={'body-part-card'}
+                                                                                    size={'sm'}
+                                                                                    title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
                                                                                 </CardComponent>
                                                                                 <TableComponent
                                                                                     data={body_part.special_tests}
@@ -763,85 +783,86 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                         </div>
                                     </CardComponent>
                                     <CardComponent title={'A - Assessment'}
-                                    //                actions={
-                                    //     search.showClear && <DraftReadonlySwitcherComponent
-                                    //         condition={true}
-                                    //         draft={<div className={'intervention-clear-button'} onClick={event => {
-                                    //             formik.setFieldValue('assessment', {
-                                    //                 suspicion_index: '',
-                                    //                 surgery_procedure: ''
-                                    //             });
-                                    //         }
-                                    //         }>Clear</div>}
-                                    //         readonly={<></>}/>
-                                    // }
+                                        //                actions={
+                                        //     search.showClear && <DraftReadonlySwitcherComponent
+                                        //         condition={true}
+                                        //         draft={<div className={'intervention-clear-button'} onClick={event => {
+                                        //             formik.setFieldValue('assessment', {
+                                        //                 suspicion_index: '',
+                                        //                 surgery_procedure: ''
+                                        //             });
+                                        //         }
+                                        //         }>Clear</div>}
+                                        //         readonly={<></>}/>
+                                        // }
                                     >
                                         <div className="ts-row">
                                             <div className="ts-col-12">
                                                 <div className="icd-codes-wrapper">
-                                                {
-                                                    medicalRecordId && medicalInterventionId && <>
-                                                        {
-                                                            medicalInterventionDetails?.linked_icd_codes?.length === 0 &&
-                                                            <LinkComponent
-                                                                route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId)}>
-                                                                <ButtonComponent
-                                                                    fullWidth={true}
-                                                                    variant={'outlined'}
-                                                                    size={"large"}
-                                                                    className={'rom-special-test-icd-11-cta'}
-                                                                >
-                                                                    Add Medical Diagnosis / ICD-11 Codes
-                                                                </ButtonComponent>
-                                                            </LinkComponent>
-                                                        }
-                                                        {
-                                                            medicalInterventionDetails?.linked_icd_codes?.length > 0 &&
-                                                            <div className="icd-codes-wrapper">
-                                                                <div className="card-styling">
-                                                                    <CardComponent size={'sm'}
-                                                                                   className={'icd-codes-header'}
-                                                                                   title={'Medical Diagnosis/ICD-11 Codes:'}
-                                                                                   actions={
-                                                                                       <DraftReadonlySwitcherComponent
-                                                                                           condition={true}
-                                                                                           draft={<>
-                                                                                               {
-                                                                                                   (medicalInterventionId && medicalRecordId) &&
-                                                                                                   <LinkComponent
-                                                                                                       route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId)}>
-                                                                                                       <ButtonComponent
-                                                                                                           size={"small"}
-                                                                                                           prefixIcon={(medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0) ?
-                                                                                                               <ImageConfig.EditIcon/> :
-                                                                                                               <ImageConfig.AddIcon/>}>
-                                                                                                           {medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0 ? 'Edit' : 'Add'}
-                                                                                                       </ButtonComponent>
-                                                                                                   </LinkComponent>
-                                                                                               }
-                                                                                           </>} readonly={<></>}/>
-                                                                                   }>
+                                                    {
+                                                        medicalRecordId && medicalInterventionId && <>
+                                                            {
+                                                                medicalInterventionDetails?.linked_icd_codes?.length === 0 &&
+                                                                <LinkComponent
+                                                                    route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId)}>
+                                                                    <ButtonComponent
+                                                                        fullWidth={true}
+                                                                        variant={'outlined'}
+                                                                        size={"large"}
+                                                                        className={'rom-special-test-icd-11-cta'}
+                                                                    >
+                                                                        Add Medical Diagnosis / ICD-11 Codes
+                                                                    </ButtonComponent>
+                                                                </LinkComponent>
+                                                            }
+                                                            {
+                                                                medicalInterventionDetails?.linked_icd_codes?.length > 0 &&
+                                                                <div className="icd-codes-wrapper">
+                                                                    <div className="card-styling">
+                                                                        <CardComponent size={'sm'}
+                                                                                       className={'icd-codes-header'}
+                                                                                       title={'Medical Diagnosis/ICD-11 Codes:'}
+                                                                                       actions={
+                                                                                           <DraftReadonlySwitcherComponent
+                                                                                               condition={true}
+                                                                                               draft={<>
+                                                                                                   {
+                                                                                                       (medicalInterventionId && medicalRecordId) &&
+                                                                                                       <LinkComponent
+                                                                                                           route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId)}>
+                                                                                                           <ButtonComponent
+                                                                                                               size={"small"}
+                                                                                                               prefixIcon={(medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0) ?
+                                                                                                                   <ImageConfig.EditIcon/> :
+                                                                                                                   <ImageConfig.AddIcon/>}>
+                                                                                                               {medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0 ? 'Edit' : 'Add'}
+                                                                                                           </ButtonComponent>
+                                                                                                       </LinkComponent>
+                                                                                                   }
+                                                                                               </>} readonly={<></>}/>
+                                                                                       }>
                                                                             <TableComponent
                                                                                 data={medicalInterventionDetails?.linked_icd_codes}
                                                                                 bordered={true}
                                                                                 columns={ICDTableColumns}/>
-                                                                    </CardComponent>
+                                                                        </CardComponent>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        }
-                                                    </>
-                                                }
+                                                            }
+                                                        </>
+                                                    }
                                                 </div>
                                                 <div className={'ts-row'}>
                                                     <div className={'ts-col-12'}>
-                                                        {search.showClear && <div className={'clear-cta'}><DraftReadonlySwitcherComponent
-                                                            condition={true}
-                                                            draft={<div className={'intervention-clear-button'}
-                                                                        onClick={event => {
-                                                                            formik.setFieldValue('assessment.suspicion_index', '');
-                                                                        }
-                                                                        }>Clear</div>}
-                                                            readonly={<></>}/></div>}
+                                                        {search.showClear &&
+                                                            <div className={'clear-cta'}><DraftReadonlySwitcherComponent
+                                                                condition={true}
+                                                                draft={<div className={'intervention-clear-button'}
+                                                                            onClick={event => {
+                                                                                formik.setFieldValue('assessment.suspicion_index', '');
+                                                                            }
+                                                                            }>Clear</div>}
+                                                                readonly={<></>}/></div>}
                                                     </div>
                                                 </div>
                                                 <DraftReadonlySwitcherComponent
@@ -873,14 +894,15 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                 />
                                                 <div className={'ts-row'}>
                                                     <div className={'ts-col-12'}>
-                                                        {search.showClear && <div className={'clear-cta'}><DraftReadonlySwitcherComponent
-                                                            condition={true}
-                                                            draft={<div className={'intervention-clear-button'}
-                                                                        onClick={event => {
-                                                                            formik.setFieldValue('assessment.surgery_procedure', '');
-                                                                        }
-                                                                        }>Clear</div>}
-                                                            readonly={<></>}/></div>}
+                                                        {search.showClear &&
+                                                            <div className={'clear-cta'}><DraftReadonlySwitcherComponent
+                                                                condition={true}
+                                                                draft={<div className={'intervention-clear-button'}
+                                                                            onClick={event => {
+                                                                                formik.setFieldValue('assessment.surgery_procedure', '');
+                                                                            }
+                                                                            }>Clear</div>}
+                                                                readonly={<></>}/></div>}
                                                     </div>
                                                 </div>
                                                 <DraftReadonlySwitcherComponent
@@ -914,30 +936,32 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                         </div>
                                     </CardComponent>
                                     <CardComponent title={'P - Plan'}
-                                    //                actions={
-                                    //     search.showClear && <DraftReadonlySwitcherComponent
-                                    //         condition={true}
-                                    //         draft={<div className={'intervention-clear-button'} onClick={event => {
-                                    //             formik.setFieldValue('plan', {
-                                    //                 plan: "",
-                                    //                 md_recommendations: "",
-                                    //                 education: "",
-                                    //                 treatment_goals: "",
-                                    //             });
-                                    //         }
-                                    //         }>Clear</div>}
-                                    //         readonly={<></>}/>
-                                    // }
+                                        //                actions={
+                                        //     search.showClear && <DraftReadonlySwitcherComponent
+                                        //         condition={true}
+                                        //         draft={<div className={'intervention-clear-button'} onClick={event => {
+                                        //             formik.setFieldValue('plan', {
+                                        //                 plan: "",
+                                        //                 md_recommendations: "",
+                                        //                 education: "",
+                                        //                 treatment_goals: "",
+                                        //             });
+                                        //         }
+                                        //         }>Clear</div>}
+                                        //         readonly={<></>}/>
+                                        // }
                                     >
                                         <div className="ts-row">
                                             <div className="ts-col-12">
                                                 {
-                                                    search.showClear && <div className={'clear-cta'}><DraftReadonlySwitcherComponent
+                                                    search.showClear &&
+                                                    <div className={'clear-cta'}><DraftReadonlySwitcherComponent
                                                         condition={true}
-                                                        draft={<div className={'intervention-clear-button'} onClick={event => {
-                                                            formik.setFieldValue('plan.plan', "");
-                                                        }
-                                                        }>Clear</div>}
+                                                        draft={<div className={'intervention-clear-button'}
+                                                                    onClick={event => {
+                                                                        formik.setFieldValue('plan.plan', "");
+                                                                    }
+                                                                    }>Clear</div>}
                                                         readonly={<></>}/></div>
                                                 }
                                                 <DraftReadonlySwitcherComponent
@@ -970,12 +994,14 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                 <div className="ts-row">
                                                     <div className="ts-col-12">
                                                         {
-                                                            search.showClear && <div className={'clear-cta'}><DraftReadonlySwitcherComponent
+                                                            search.showClear &&
+                                                            <div className={'clear-cta'}><DraftReadonlySwitcherComponent
                                                                 condition={true}
-                                                                draft={<div className={'intervention-clear-button'} onClick={event => {
-                                                                    formik.setFieldValue('plan.md_recommendations', "");
-                                                                }
-                                                                }>Clear</div>}
+                                                                draft={<div className={'intervention-clear-button'}
+                                                                            onClick={event => {
+                                                                                formik.setFieldValue('plan.md_recommendations', "");
+                                                                            }
+                                                                            }>Clear</div>}
                                                                 readonly={<></>}/></div>
                                                         }
                                                     </div>
@@ -1010,13 +1036,15 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                 <div className="ts-row">
                                                     <div className="ts-col-12">
                                                         {
-                                                            search.showClear && <div className={'clear-cta'}><DraftReadonlySwitcherComponent
+                                                            search.showClear &&
+                                                            <div className={'clear-cta'}><DraftReadonlySwitcherComponent
                                                                 condition={true}
-                                                                draft={<div className={'intervention-clear-button'} onClick={event => {
-                                                                    formik.setFieldValue('plan.education', "",
-                                                                    );
-                                                                }
-                                                                }>Clear</div>}
+                                                                draft={<div className={'intervention-clear-button'}
+                                                                            onClick={event => {
+                                                                                formik.setFieldValue('plan.education', "",
+                                                                                );
+                                                                            }
+                                                                            }>Clear</div>}
                                                                 readonly={<></>}/></div>
                                                         }
                                                     </div>
@@ -1051,12 +1079,14 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                 <div className="ts-row">
                                                     <div className="ts-col-12">
                                                         {
-                                                            search.showClear && <div className={'clear-cta'}><DraftReadonlySwitcherComponent
+                                                            search.showClear &&
+                                                            <div className={'clear-cta'}><DraftReadonlySwitcherComponent
                                                                 condition={true}
-                                                                draft={<div className={'intervention-clear-button'} onClick={event => {
-                                                                    formik.setFieldValue('plan.treatment_goals', "",);
-                                                                }
-                                                                }>Clear</div>}
+                                                                draft={<div className={'intervention-clear-button'}
+                                                                            onClick={event => {
+                                                                                formik.setFieldValue('plan.treatment_goals', "",);
+                                                                            }
+                                                                            }>Clear</div>}
                                                                 readonly={<></>}/></div>
                                                         }
                                                     </div>

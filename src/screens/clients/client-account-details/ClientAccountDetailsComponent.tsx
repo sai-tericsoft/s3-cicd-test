@@ -87,7 +87,7 @@ const ClientAccountDetailsComponent = (props: ClientAccountDetailsComponentProps
                         {
                             clientAccountDetails?.referral_details.source_details?.code === "social_media" && <>
                                 <DataLabelValueComponent
-                                    label={"Social Media"}> {clientAccountDetails?.referral_details.source_info_name_details?.title || "N/A"} </DataLabelValueComponent>
+                                    label={"Platform"}> {clientAccountDetails?.referral_details.source_info_name_details?.title || "N/A"} </DataLabelValueComponent>
                             </>
                         }
                         {
