@@ -15,14 +15,14 @@ import {getAllServiceList} from "../../../../store/actions/service.action";
 import FormikCheckBoxComponent
     from "../../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 import FormDebuggerComponent from "../../../../shared/components/form-debugger/FormDebuggerComponent";
-import FormikInputComponent from "../../../../shared/components/form-controls/formik-input/FormikInputComponent";
-import FormikDatePickerComponent
-    from "../../../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
-import moment from "moment/moment";
 import FormikTextAreaComponent
     from "../../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import FormikRadioButtonGroupComponent
     from "../../../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
+import FormikDatePickerComponent
+    from "../../../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
+import FormikInputComponent from "../../../../shared/components/form-controls/formik-input/FormikInputComponent";
+import moment from "moment";
 
 interface CouponAddScreenProps {
 
@@ -66,6 +66,7 @@ const couponAddValidationSchema = Yup.object({
     }),
 });
 const CouponAddScreen = (props: CouponAddScreenProps) => {
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -85,7 +86,18 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
     }, [dispatch, navigate])
 
     const onCouponAddSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        const payload = {...values};
+        const payload = _.cloneDeep(values);
+        payload.start_date = moment(payload.start_date).format('YYYY-MM-DD');
+        payload.end_date = moment(payload.end_date).format('YYYY-MM-DD');
+        const linked_service_categories = payload.service_categories.filter((item: any) => item.services?.length > 0);
+        const linked_service_categories_transformed = linked_service_categories.map((item: any) => {
+            return {
+                category_id: item.category_id,
+                services: item.services.filter((service: any) => service.is_selected).map((service: any) => service.service_id)
+            }
+        });
+        payload.linked_services = linked_service_categories_transformed;
+        delete payload.service_categories;
         setIsAddCouponInProgress(true);
         CommonService._discountService.CouponAddAPICall(payload)
             .then((response: any) => {
@@ -116,7 +128,7 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
-                            <FormDebuggerComponent values={values} errors={errors}/>
+                            <FormDebuggerComponent values={values} errors={errors} showDebugger={true}/>
                             <CardComponent title={'Coupon Details'}>
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-md-6'}>
@@ -370,8 +382,8 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                                                                                                      setFieldValue(`service_categories.${index}.category_id`, service_category._id);
                                                                                                      setFieldValue(`service_categories.${index}.services`, serviceIds);
                                                                                                  } else {
-                                                                                                     const filteredCategories = values?.service_categories?.filter((category: any) => category?.category_id !== service_category._id);
-                                                                                                     setFieldValue(`service_categories`, filteredCategories);
+                                                                                                     setFieldValue(`service_categories.${index}.category_id`, null);
+                                                                                                     setFieldValue(`service_categories.${index}.services`, []);
                                                                                                  }
                                                                                              }}
                                                                     />
