@@ -252,6 +252,10 @@ const CouponAdd = () => {
     return COUPON_ADD;
 }
 
+const CouponEdit = (couponId: string) => {
+    return "/coupon/"+couponId+"/edit";
+}
+
 const RouteConfigService = {
     DefaultRoute,
     LoginRoute,
@@ -310,6 +314,7 @@ const RouteConfigService = {
     DiscountList,
     CouponViewDetails,
     CouponAdd,
+    CouponEdit,
     appointmentSettingsLayout
 }
 

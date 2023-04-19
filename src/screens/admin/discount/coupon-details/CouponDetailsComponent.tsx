@@ -16,6 +16,7 @@ import StatusCardComponent from "../../../../shared/components/status-card/Statu
 import FormControlLabelComponent from "../../../../shared/components/form-control-label/FormControlLabelComponent";
 import TableComponent from "../../../../shared/components/table/TableComponent";
 import {ITableColumn} from "../../../../shared/models/table.model";
+import LinkComponent from "../../../../shared/components/link/LinkComponent";
 
 interface CouponDetailsComponentProps {
 
@@ -92,11 +93,13 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
                                     </span>
                         <div className="ts-row width-auto">
 
-                            <div className="">
+                            { couponId && <LinkComponent route={CommonService._routeConfig.CouponEdit(couponId)}>
+                                <div>
                                 <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>
                                     Edit Coupon
                                 </ButtonComponent>
                             </div>
+                            </LinkComponent>}
 
                         </div>
                     </div>

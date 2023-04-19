@@ -81,7 +81,7 @@ import {
     CLIENT_DOCUMENTS,
     CLIENT_APPOINTMENTS,
     CLIENT_DOCUMENTS_DETAILS,
-    CLIENT_APPOINTMENT_DETAILS, DISCOUNT_LIST, COUPON_DETAILS, COUPON_ADD
+    CLIENT_APPOINTMENT_DETAILS, DISCOUNT_LIST, COUPON_DETAILS, COUPON_ADD, COUPON_EDIT
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
@@ -143,6 +143,7 @@ import AppointmentSettingsLayoutComponent
     from "../screens/admin/appointments-settings/appointment-settings-layout/AppointmentSettingsLayoutComponent";
 import MedicalInterventionRomConfigV2Screen
     from "../screens/chart-notes/medical-intervention-rom-config-v2/MedicalInterventionRomConfigV2Screen";
+import CouponEditScreen from "../screens/admin/discount/coupon-edit/CouponEditScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -458,6 +459,14 @@ const Navigator = (props: NavigatorProps) => {
                         element={
                             <ProtectedRoute>
                                 <CouponAddScreen/>
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path={COUPON_EDIT}
+                        element={
+                            <ProtectedRoute>
+                                <CouponEditScreen/>
                             </ProtectedRoute>
                         }
                     />

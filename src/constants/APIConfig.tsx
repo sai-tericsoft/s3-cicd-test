@@ -797,6 +797,10 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + '/coupon',
         METHOD: 'post'
     },
+    EDIT_COUPON: {
+        URL: (couponId: any) => ENV.API_URL + '/coupon/' + couponId,
+        METHOD: 'put'
+    },
     ALL_SERVICE_LIST: {
         URL: ENV.API_URL + '/allServices',
         METHOD: 'get'
