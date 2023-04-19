@@ -74,7 +74,7 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
 
     useEffect(() => {
         if (couponDetails) {
-            setEditCouponInitialValues({
+            const couponDetailsCopy: any = {
                 title: couponDetails?.title,
                 code: couponDetails?.code,
                 start_date: couponDetails?.start_date,
@@ -85,26 +85,29 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                 discount_type: couponDetails?.discount_type,
                 percentage: couponDetails?.percentage,
                 max_discount_amount: couponDetails?.max_discount_amount,
-                amount: couponDetails?.amount,
-                service_categories: couponDetails?.linked_services?.filter((item: any) =>
-                    item?.services?.length > 0).map((item: any) => {
+                amount: couponDetails?.amount
+            };
+            if (allServiceList?.length > 0) {
+                const service_categories = allServiceList.map((serviceCategory: any) => {
                     return {
-                        category_id: item?._id,
-                        // services: item?.services?.map((service: any) => service?._id),
-                        category_name: item?.category_name,
-                        services: item?.services?.map((service: any) => {
+                        category_id: serviceCategory._id,
+                        is_selected: !!couponDetails?.linked_services?.find((selectedServiceCategory: any) => selectedServiceCategory?._id === serviceCategory._id),
+                        services: serviceCategory?.services?.map((service: any) => {
                             return {
-                                service_id: service?._id,
-                                name: service?.name,
-
+                                service_id: service._id,
+                                is_selected: !!couponDetails?.linked_services?.find((item: any) => {
+                                    return serviceCategory?._id === item._id
+                                })?.services?.find((serviceItem: any) => serviceItem._id === service._id)
                             }
                         })
                     }
-                }),
-            });
+                });
+                couponDetailsCopy.service_categories = service_categories;
+            }
+            setEditCouponInitialValues(couponDetailsCopy);
         }
-    }, [couponDetails]);
-    
+    }, [couponDetails, allServiceList]);
+
 
     console.log("couponDetails", couponDetails);
 
