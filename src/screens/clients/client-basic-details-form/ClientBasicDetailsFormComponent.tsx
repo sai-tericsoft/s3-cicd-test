@@ -23,7 +23,6 @@ import StatusCardComponent from "../../../shared/components/status-card/StatusCa
 import FormikSwitchComponent from "../../../shared/components/form-controls/formik-switch/FormikSwitchComponent";
 import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
 import {useParams} from "react-router-dom";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import HorizontalLineComponent
     from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 

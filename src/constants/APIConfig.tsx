@@ -804,10 +804,6 @@ const APIConfig: IAPIConfig = {
     ALL_SERVICE_LIST: {
         URL: ENV.API_URL + '/allServices',
         METHOD: 'get'
-        },
-    GET_BILLING_FROM_ADDRESS:{
-        URL:ENV.API_URL+'/billingFrom',
-        METHOD:'get'
     }
 }
 

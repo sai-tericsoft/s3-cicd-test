@@ -222,7 +222,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                         }
                         {clientMedicalDetails?.surgical_history?.comments && <>
 
-                                {clientMedicalDetails?.surgical_history?.comments}
+                            {clientMedicalDetails?.surgical_history?.comments}
                         </>
 
                         }
@@ -250,9 +250,12 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                             {clientMedicalDetails?.musculoskeletal_history[question]?.value}
                                         </div>
                                         <div className="ts-col-lg-6">
-                                            {clientMedicalDetails?.musculoskeletal_history[question]?.text && <ol>
-                                                <li className={'musculoskeletal-question'}>{clientMedicalDetails?.musculoskeletal_history[question]?.text}</li>
-                                            </ol> || <div className={'musculoskeletal-question-na'}>N/A</div>}
+                                            {
+                                                (clientMedicalDetails?.musculoskeletal_history[question]?.text) ? <ol>
+                                                    <li className={'musculoskeletal-question'}>
+                                                        {clientMedicalDetails?.musculoskeletal_history[question]?.text}</li>
+                                                </ol> : <div className={'musculoskeletal-question-na'}>N/A</div>
+                                            }
                                         </div>
                                     </div>
                                     <HorizontalLineComponent/>

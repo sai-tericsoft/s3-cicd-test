@@ -79,7 +79,7 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
             payload.secondary_reminder_before = value
         }
         onSubmit(payload)
-    }, [emailValue, messageValue, subjectValue, mentionsList, onSubmit]);
+    }, [selectedPrimaryHours, selectedSecondaryHours, emailValue, messageValue, subjectValue, mentionsList, onSubmit]);
 
 
     return (
