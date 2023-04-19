@@ -145,7 +145,7 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                 CommonService.handleErrors(setErrors, error, true);
             });
         }
-    }, [])
+    }, [couponId])
 
     return (
         <div className={'coupon-edit-screen'}>
