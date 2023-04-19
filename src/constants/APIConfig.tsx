@@ -752,6 +752,15 @@ const APIConfig: IAPIConfig = {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/latestICDCodes',
         METHOD: 'get'
     },
+    GET_BILLING_FROM_ADDRESS: {
+        URL: ENV.API_URL + '/billingFrom',
+        METHOD: 'get'
+    },
+    //Discount starts
+    GET_COUPON_LIST: {
+        URL: ENV.API_URL + '/coupon',
+        METHOD: 'get'
+    },
     GET_APPOINTMENT_SETTINGS: {
         URL: ENV.API_URL + '/appointmentSetting',
         METHOD: 'get'
@@ -780,6 +789,22 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + '/mentions',
         METHOD: 'get'
     },
+    GET_COUPON_VIEW_DETAILS: {
+        URL: (couponId: any) => ENV.API_URL + '/coupon/' + couponId,
+        METHOD: 'get'
+    },
+    ADD_COUPON: {
+        URL: ENV.API_URL + '/coupon',
+        METHOD: 'post'
+    },
+    EDIT_COUPON: {
+        URL: (couponId: any) => ENV.API_URL + '/coupon/' + couponId,
+        METHOD: 'put'
+    },
+    ALL_SERVICE_LIST: {
+        URL: ENV.API_URL + '/allServices',
+        METHOD: 'get'
+        },
     GET_BILLING_FROM_ADDRESS:{
         URL:ENV.API_URL+'/billingFrom',
         METHOD:'get'

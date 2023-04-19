@@ -81,7 +81,7 @@ import {
     CLIENT_DOCUMENTS,
     CLIENT_APPOINTMENTS,
     CLIENT_DOCUMENTS_DETAILS,
-    CLIENT_APPOINTMENT_DETAILS
+    CLIENT_APPOINTMENT_DETAILS, DISCOUNT_LIST, COUPON_DETAILS, COUPON_ADD, COUPON_EDIT
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
@@ -136,10 +136,14 @@ import ClientDocumentsComponent from "../screens/clients/client-documents/Client
 import ClientAppointmentsComponent from "../screens/clients/client-appointments/ClientAppointmentsComponent";
 import ClientAppointmentDetailsComponent
     from "../screens/clients/client-appointment-details/ClientAppointmentDetailsComponent";
+import DiscountListComponent from "../screens/admin/discount/discount-list/DiscountListComponent";
+import CouponDetailsComponent from "../screens/admin/discount/coupon-details/CouponDetailsComponent";
+import CouponAddScreen from "../screens/admin/discount/coupon-add/CouponAddScreen";
 import AppointmentSettingsLayoutComponent
     from "../screens/admin/appointments-settings/appointment-settings-layout/AppointmentSettingsLayoutComponent";
 import MedicalInterventionRomConfigV2Screen
     from "../screens/chart-notes/medical-intervention-rom-config-v2/MedicalInterventionRomConfigV2Screen";
+import CouponEditScreen from "../screens/admin/discount/coupon-edit/CouponEditScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -419,7 +423,14 @@ const Navigator = (props: NavigatorProps) => {
                             }
                         />
                         <Route
-                            path={APPOINTMENT_SETTINGS}
+                            path={DISCOUNT_LIST}
+                            element={
+                                <ProtectedRoute>
+                                    <DiscountListComponent/>
+                                </ProtectedRoute>
+                            }
+                        />
+                         <Route path={APPOINTMENT_SETTINGS}
                             element={
                                 <ProtectedRoute>
                                     <AppointmentSettingsLayoutComponent/>
@@ -435,6 +446,30 @@ const Navigator = (props: NavigatorProps) => {
                             }
                         />
                     </Route>
+                    <Route
+                        path={COUPON_DETAILS}
+                        element={
+                            <ProtectedRoute>
+                                <CouponDetailsComponent/>
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path={COUPON_ADD}
+                        element={
+                            <ProtectedRoute>
+                                <CouponAddScreen/>
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path={COUPON_EDIT}
+                        element={
+                            <ProtectedRoute>
+                                <CouponEditScreen/>
+                            </ProtectedRoute>
+                        }
+                    />
                     <Route
                         path={SERVICE_CATEGORY_DETAILS + '/:serviceCategoryId'}
                         element={

@@ -3,8 +3,8 @@ import {
     CHART_NOTES_LIST,
     CLIENT_ADD,
     CLIENT_LIST,
-    COMING_SOON_ROUTE,
-    DASHBOARD,
+    COMING_SOON_ROUTE, COUPON_ADD,
+    DASHBOARD, DISCOUNT_LIST,
     FACILITY_DETAILS,
     FACILITY_LIST,
     INVENTORY,
@@ -81,6 +81,10 @@ const FacilityList = () => {
 
 const FacilityDetails = (facilityId: string) => {
     return FACILITY_DETAILS + '/' + facilityId;
+}
+
+const DiscountList = () => {
+    return DISCOUNT_LIST;
 }
 
 const ClientList = () => {
@@ -240,6 +244,17 @@ const BillingDetails = (billingId: string) => {
     return "/billing/billing-details/" + billingId;
 }
 
+const CouponViewDetails = (couponId: string) => {
+    return "/coupon-details/" + couponId;
+}
+
+const CouponAdd = () => {
+    return COUPON_ADD;
+}
+
+const CouponEdit = (couponId: string) => {
+    return "/coupon/"+couponId+"/edit";
+}
 
 const RouteConfigService = {
     DefaultRoute,
@@ -296,6 +311,10 @@ const RouteConfigService = {
     ClientAppointments,
     clientDocumentViewDetails,
     ClientAppointmentViewDetails,
+    DiscountList,
+    CouponViewDetails,
+    CouponAdd,
+    CouponEdit,
     appointmentSettingsLayout
 }
 

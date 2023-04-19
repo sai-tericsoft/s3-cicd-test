@@ -30,7 +30,7 @@ const ADMIN_MENU_ITEMS = [
     },
     {
         title: "Discounts",
-        path: ""
+        path: CommonService._routeConfig.DiscountList()
     },
     {
         title: "Referral Discounts",

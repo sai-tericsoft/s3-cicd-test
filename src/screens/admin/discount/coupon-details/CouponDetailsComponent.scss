@@ -1,0 +1,33 @@
+
+
+.coupon-details-component {
+  .coupon-name-button-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+
+    .coupon-name-wrapper {
+      font-size: 1.4286rem;
+      font-weight: 700;
+
+      .coupon-name {
+        padding-right: 10px;
+      }
+    }
+  }
+  .coupon-valid-on-table-wrapper{
+    width: 700px;
+    .table-component {
+      .t-table-wrapper {
+        .t-tr{
+          border-bottom: 1px solid #F3F3F3;
+        }
+
+        .t-cell-service {
+          padding-left: 20px;
+        }
+      }
+    }
+  }
+
+}
