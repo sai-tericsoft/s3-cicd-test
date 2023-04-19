@@ -780,10 +780,6 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + '/mentions',
         METHOD: 'get'
     },
-    GET_ADDED_ICD_CODES:{
-        URL:(medicalRecordId:string)=>ENV.API_URL+'/medicalRecord/'+medicalRecordId+'/latestICDCodes',
-        METHOD:'get'
-    },
     GET_BILLING_FROM_ADDRESS:{
         URL:ENV.API_URL+'/billingFrom',
         METHOD:'get'
