@@ -17,7 +17,6 @@ import AppointmentSettingsConfirmationComponent
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../../store/reducers";
 import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
-import StatusCardComponent from "../../../../shared/components/status-card/StatusCardComponent";
 import {CommonService} from "../../../../shared/services";
 import {IAPIResponseType} from "../../../../shared/models/api.model";
 import {IServiceCategory} from "../../../../shared/models/service-category.model";
@@ -119,11 +118,7 @@ const AppointmentSettingsLayoutComponent = (props: AppointmentSettingsLayoutComp
                 </div>
             }
             {
-                isAppointmentSettingsLoadingFailed &&
-                <StatusCardComponent title={"Failed to fetch client Details"}/>
-            }
-            {
-                (isAppointmentSettingsLoaded && appointmentSettings) && <>
+                isAppointmentSettingsLoaded && <>
                     <TabsWrapperComponent>
                         <TabsComponent
                             value={currentTab}
