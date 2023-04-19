@@ -28,9 +28,9 @@ const AppointmentSettingsConfirmationComponent = (props: AppointmentSettingsConf
     const [subjectValue, setSubjectValue] = useState("");
     const [emailValue, setEmailValue] = useState("");
 
-    const messageVal = CommonService.editMentionsFormat(appointmentSettingsConfirmationDetails.sms.content, mentionsList);
-    const emailSubVal = CommonService.editMentionsFormat(appointmentSettingsConfirmationDetails.email.subject, mentionsList);
-    const emailContentVal = CommonService.editMentionsFormat(appointmentSettingsConfirmationDetails.email.subject, mentionsList);
+    const messageVal = CommonService.editMentionsFormat(appointmentSettingsConfirmationDetails?.sms?.content, mentionsList);
+    const emailSubVal = CommonService.editMentionsFormat(appointmentSettingsConfirmationDetails?.email?.subject, mentionsList);
+    const emailContentVal = CommonService.editMentionsFormat(appointmentSettingsConfirmationDetails?.email?.subject, mentionsList);
 
     useEffect(() => {
         setMessageValue(messageVal);
@@ -71,7 +71,7 @@ const AppointmentSettingsConfirmationComponent = (props: AppointmentSettingsConf
                                 </div>
                             </div>
                             <div className="message-section"
-                                 dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsConfirmationDetails.sms.content, mentionsList)}}>
+                                 dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsConfirmationDetails?.sms?.content, mentionsList)}}>
 
                             </div>
                         </>
@@ -191,13 +191,13 @@ const AppointmentSettingsConfirmationComponent = (props: AppointmentSettingsConf
                         <div className="email-section">
                             <div className="email-header-section">
                                 <div className="email-screen__header__row"
-                                     dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsConfirmationDetails.email.subject, mentionsList)}}>
+                                     dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsConfirmationDetails?.email?.subject, mentionsList)}}>
                                 </div>
                                 <hr className="hr-line"/>
                             </div>
 
                             <div className="email-screen-body"
-                                 dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsConfirmationDetails.email.content, mentionsList)}}>
+                                 dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsConfirmationDetails?.email?.content, mentionsList)}}>
                             </div>
                         </div>
                     </>

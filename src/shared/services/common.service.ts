@@ -533,10 +533,10 @@ const cleanMentionsPayload = (value: string, mentionsData: any) => {
     let cleanedValue: string = value;
     if (ids.length) {
         ids.forEach((id: any) => {
-            cleanedValue = cleanedValue.replaceAll(new RegExp(`\\(${id}\\)`, 'g'), '');
+            cleanedValue = cleanedValue?.replaceAll(new RegExp(`\\(${id}\\)`, 'g'), '');
         });
     }
-    cleanedValue = cleanedValue.split('\n').join("\\n");
+    cleanedValue = cleanedValue?.split('\n').join("\\n");
     return cleanedValue;
 }
 
@@ -545,11 +545,11 @@ const cleanMentionsResponse = (value: string, mentionsData: any) => {
     let cleanedValue: string = value;
     if (ids?.length) {
         ids.forEach((id: any) => {
-            cleanedValue = cleanedValue.replaceAll(`@[${id}]`, `@${id}`)
+            cleanedValue = cleanedValue?.replaceAll(`@[${id}]`, `@${id}`)
         });
     }
-    cleanedValue = cleanedValue.split('\\n').join("<br />");
-    return cleanedValue;
+    cleanedValue = cleanedValue?.split('\\n').join("<br />");
+    return cleanedValue || '-';
 }
 
 const editMentionsFormat = (value: string, mentionsData: any) => {
@@ -557,10 +557,10 @@ const editMentionsFormat = (value: string, mentionsData: any) => {
     let cleanedValue: string = value;
     if (ids?.length) {
         ids?.forEach((id: any) => {
-            cleanedValue = cleanedValue.split(`@[${id}]`).join(`@[${id}](${id})`);
+            cleanedValue = cleanedValue?.split(`@[${id}]`).join(`@[${id}](${id})`);
         });
     }
-    cleanedValue = cleanedValue.split('\\n').join("\n");
+    cleanedValue = cleanedValue?.split('\\n').join("\n");
     return cleanedValue;
 }
 

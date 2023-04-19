@@ -38,7 +38,6 @@ const AppointmentSettingsLayoutComponent = (props: AppointmentSettingsLayoutComp
     const {
         isAppointmentSettingsLoading,
         isAppointmentSettingsLoaded,
-        isAppointmentSettingsLoadingFailed,
         appointmentSettings,
     } = useSelector((state: IRootReducerState) => state.appointments);
     const [isTemplateSaveInProgress, setIsTemplateSaveInProgress] = useState(false);
@@ -141,7 +140,7 @@ const AppointmentSettingsLayoutComponent = (props: AppointmentSettingsLayoutComp
                                 mentionsList={mentionsList}
                                 isTemplateSaveInProgress={isTemplateSaveInProgress}
                                 onSubmit={(confirmation_template_data: any) => onSubmit(confirmation_template_data, 'confirmation_template')}
-                                appointmentSettingsConfirmationDetails={appointmentSettings.confirmation_template}/>
+                                appointmentSettingsConfirmationDetails={appointmentSettings?.confirmation_template}/>
                         </TabContentComponent>
                         <TabContentComponent value={"cancellation"}
                                              selectedTab={currentTab}>
@@ -149,7 +148,7 @@ const AppointmentSettingsLayoutComponent = (props: AppointmentSettingsLayoutComp
                                 mentionsList={mentionsList}
                                 isTemplateSaveInProgress={isTemplateSaveInProgress}
                                 onSubmit={(cancellation_template_data: any) => onSubmit(cancellation_template_data, 'cancellation_template')}
-                                appointmentSettingsCancellationDetails={appointmentSettings.cancellation_template}
+                                appointmentSettingsCancellationDetails={appointmentSettings?.cancellation_template}
                             />
                         </TabContentComponent>
                         <TabContentComponent value={"reschedule"} selectedTab={currentTab}>
@@ -157,9 +156,9 @@ const AppointmentSettingsLayoutComponent = (props: AppointmentSettingsLayoutComp
                                 mentionsList={mentionsList}
                                 isTemplateSaveInProgress={isTemplateSaveInProgress}
                                 onSubmit={(rescheduling_template_data: any) => onSubmit(rescheduling_template_data, 'rescheduling_template')}
-                                appointmentSettingsReschedulingDetails={appointmentSettings.rescheduling_template}
-                                allowReschedulingBefore={appointmentSettings.allow_rescheduling_before}
-                                maxRescheduling={appointmentSettings.max_rescheduling}
+                                appointmentSettingsReschedulingDetails={appointmentSettings?.rescheduling_template}
+                                allowReschedulingBefore={appointmentSettings?.allow_rescheduling_before}
+                                maxRescheduling={appointmentSettings?.max_rescheduling}
                             />
                         </TabContentComponent>
                         <TabContentComponent value={"reminder"} selectedTab={currentTab}>
@@ -167,9 +166,9 @@ const AppointmentSettingsLayoutComponent = (props: AppointmentSettingsLayoutComp
                                 mentionsList={mentionsList}
                                 isTemplateSaveInProgress={isTemplateSaveInProgress}
                                 onSubmit={(reminder_template_data: any) => onSubmit(reminder_template_data, 'reminder_template')}
-                                appointmentSettingsRemainderDetails={appointmentSettings.reminder_template}
-                                primaryReminderBefore={appointmentSettings.primary_reminder_before}
-                                secondaryReminderBefore={appointmentSettings.secondary_reminder_before}
+                                appointmentSettingsRemainderDetails={appointmentSettings?.reminder_template}
+                                primaryReminderBefore={appointmentSettings?.primary_reminder_before}
+                                secondaryReminderBefore={appointmentSettings?.secondary_reminder_before}
                             />
                         </TabContentComponent>
                     </TabsWrapperComponent>

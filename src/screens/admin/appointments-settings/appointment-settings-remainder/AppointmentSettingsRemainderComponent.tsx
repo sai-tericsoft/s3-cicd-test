@@ -42,9 +42,9 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
     const [selectedPrimaryHours, setSelectedPrimaryHours] = useState<any>("");
     const [selectedSecondaryHours, setSelectedSecondaryHours] = useState<any>("");
 
-    const messageVal = CommonService.editMentionsFormat(appointmentSettingsRemainderDetails.sms.content, mentionsList);
-    const emailSubVal = CommonService.editMentionsFormat(appointmentSettingsRemainderDetails.email.subject, mentionsList);
-    const emailContentValVal = CommonService.editMentionsFormat(appointmentSettingsRemainderDetails.email.subject, mentionsList);
+    const messageVal = CommonService.editMentionsFormat(appointmentSettingsRemainderDetails?.sms?.content, mentionsList);
+    const emailSubVal = CommonService.editMentionsFormat(appointmentSettingsRemainderDetails?.email?.subject, mentionsList);
+    const emailContentValVal = CommonService.editMentionsFormat(appointmentSettingsRemainderDetails?.email?.subject, mentionsList);
     const {
         primaryRemainderHoursList,
         secondaryRemainderHoursList
@@ -53,8 +53,8 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
     useEffect(() => {
         setMessageValue(messageVal);
         setEmailValue(emailSubVal);
-        setSelectedPrimaryHours(primaryReminderBefore.toString())
-        setSelectedSecondaryHours(secondaryReminderBefore.toString())
+        setSelectedPrimaryHours(primaryReminderBefore?.toString())
+        setSelectedSecondaryHours(secondaryReminderBefore?.toString())
         setSubjectValue(emailContentValVal);
     }, [appointmentSettingsRemainderDetails, emailContentValVal, emailSubVal, primaryReminderBefore, secondaryReminderBefore, messageVal]);
 
@@ -150,7 +150,7 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
                             </div>
                         </div>
                         <div className="message-section"
-                             dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsRemainderDetails.sms.content, mentionsList)}}>
+                             dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsRemainderDetails?.sms?.content, mentionsList)}}>
 
                         </div>
                     </>
@@ -261,14 +261,13 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
                         </div>
                         <div className="email-section">
                             <div className="email-header-section">
-                                <div className="email-screen__header__row"
-                                     dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsRemainderDetails.email.subject, mentionsList)}}>
+                                <div className="email-screen__header__row" dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsRemainderDetails?.email?.subject, mentionsList)}}>
                                 </div>
                                 <hr className="hr-line"/>
                             </div>
 
                             <div className="email-screen-body"
-                                 dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsRemainderDetails.email.content, mentionsList)}}>
+                                 dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsRemainderDetails?.email?.content, mentionsList)}}>
                             </div>
                         </div>
                     </>

@@ -41,17 +41,17 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
     const [subjectValue, setSubjectValue] = useState("");
     const [emailValue, setEmailValue] = useState("");
 
-    const messageVal = CommonService.editMentionsFormat(appointmentSettingsReschedulingDetails.sms.content, mentionsList);
-    const emailSubVal = CommonService.editMentionsFormat(appointmentSettingsReschedulingDetails.email.subject, mentionsList);
-    const emailContentValVal = CommonService.editMentionsFormat(appointmentSettingsReschedulingDetails.email.subject, mentionsList);
+    const messageVal = CommonService.editMentionsFormat(appointmentSettingsReschedulingDetails?.sms?.content, mentionsList);
+    const emailSubVal = CommonService.editMentionsFormat(appointmentSettingsReschedulingDetails?.email?.subject, mentionsList);
+    const emailContentValVal = CommonService.editMentionsFormat(appointmentSettingsReschedulingDetails?.email?.subject, mentionsList);
     const {reschedulingHoursList, reschedulingTimesList} = useSelector((state: IRootReducerState) => state.staticData);
     const [selectedHours, setSelectedHours] = useState<any>("");
     const [selectedTimes, setSelectedTimes] = useState<any>("");
 
     useEffect(() => {
         setMessageValue(messageVal);
-        setSelectedHours(allowReschedulingBefore.toString())
-        setSelectedTimes(maxRescheduling.toString());
+        setSelectedHours(allowReschedulingBefore?.toString())
+        setSelectedTimes(maxRescheduling?.toString());
         setEmailValue(emailSubVal);
         setSubjectValue(emailContentValVal);
     }, [appointmentSettingsReschedulingDetails, allowReschedulingBefore, emailContentValVal, emailSubVal, maxRescheduling, messageVal]);
@@ -145,7 +145,7 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                             </div>
                         </div>
                         <div className="message-section"
-                             dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsReschedulingDetails.sms.content, mentionsList)}}>
+                             dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsReschedulingDetails?.sms?.content, mentionsList)}}>
 
                         </div>
                     </>
@@ -247,13 +247,13 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                         <div className="email-section">
                             <div className="email-header-section">
                                 <div className="email-screen__header__row"
-                                     dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsReschedulingDetails.email.subject, mentionsList)}}>
+                                     dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsReschedulingDetails?.email?.subject, mentionsList)}}>
                                 </div>
                                 <hr className="hr-line"/>
                             </div>
 
                             <div className="email-screen-body"
-                                 dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsReschedulingDetails.email.content, mentionsList)}}>
+                                 dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsReschedulingDetails?.email?.content, mentionsList)}}>
                             </div>
                         </div>
                     </>

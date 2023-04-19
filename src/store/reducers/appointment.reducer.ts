@@ -14,7 +14,6 @@ export interface IAppointmentReducerState {
 
     isAppointmentSettingsLoading: boolean,
     isAppointmentSettingsLoaded: boolean,
-    isAppointmentSettingsLoadingFailed: boolean,
     appointmentSettings: any
 }
 
@@ -26,7 +25,6 @@ const initialData: IAppointmentReducerState = {
 
     isAppointmentSettingsLoading: false,
     isAppointmentSettingsLoaded: false,
-    isAppointmentSettingsLoadingFailed: false,
     appointmentSettings: undefined
 }
 
@@ -55,15 +53,13 @@ const appointmentReducer = (state: IAppointmentReducerState = initialData, actio
                 ...state,
                 isAppointmentSettingsLoading: true,
                 isAppointmentSettingsLoaded: false,
-                isAppointmentSettingsLoadingFailed: false,
             };
             return state;
         case SET_APPOINTMENT_SETTINGS:
             state = {
                 ...state,
                 isAppointmentSettingsLoading: false,
-                isAppointmentSettingsLoaded: !!action.payload.appointmentSettings,
-                isAppointmentSettingsLoadingFailed: !action.payload.appointmentSettings,
+                isAppointmentSettingsLoaded: true,
                 appointmentSettings: action.payload.appointmentSettings
             }
             return state;
