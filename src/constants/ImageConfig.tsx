@@ -50,6 +50,9 @@ import {ReactComponent as PendingPayments} from './../assets/icons/pending_payme
 import {ReactComponent as CompletedPayments} from './../assets/icons/completed_payments.svg';
 import {ReactComponent as PendingAmount} from './../assets/icons/discount_amount.svg';
 
+import {ReactComponent as CircularShowMore} from './../assets/icons/circular_show_more.svg';
+import {ReactComponent as CircularShowLess} from './../assets/icons/circular_show_less.svg';
+
 
 //file types
 import PDFIcon from './../assets/icons/file-types/pdf.svg';
@@ -183,5 +186,7 @@ export {
     CompletedPayments,
     PendingAmount,
     NoDataDocumentsIcon,
-    NoDataAppointmentsIcon
+    NoDataAppointmentsIcon,
+    CircularShowMore,
+    CircularShowLess,
 }

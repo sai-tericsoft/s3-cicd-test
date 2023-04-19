@@ -142,6 +142,11 @@ const getFilesUneditableAfterOptionsList = (payload: any) => {
     return ApiService[APIConfig.GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST.METHOD](APIConfig.GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST.URL, payload)
 }
 
+const getFQAList = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.GET_FQA_LIST.METHOD](APIConfig.GET_FQA_LIST.URL, payload)
+}
+
 const StaticDataService = {
     today,
     weekDays,
@@ -172,7 +177,8 @@ const StaticDataService = {
     getAppointmentStatus,
     getAppointmentTypes,
     getSystemAutoLockDurationOptionsList,
-    getFilesUneditableAfterOptionsList
+    getFilesUneditableAfterOptionsList,
+    getFQAList
 }
 
 export default StaticDataService;

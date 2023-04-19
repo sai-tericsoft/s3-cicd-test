@@ -6,7 +6,7 @@ import {
     COMING_SOON_ROUTE,
     DASHBOARD,
     FACILITY_DETAILS,
-    FACILITY_LIST,
+    FACILITY_LIST, FAQ,
     INVENTORY,
     LOGIN_ROUTE,
     NOT_FOUND_ROUTE,
@@ -237,6 +237,10 @@ const BillingDetails = (billingId: string) => {
     return "/billing/billing-details/" + billingId;
 }
 
+const FrequentlyAskedQuestions = () => {
+    return FAQ;
+}
+
 
 const RouteConfigService = {
     DefaultRoute,
@@ -292,7 +296,8 @@ const RouteConfigService = {
     ClientDocuments,
     ClientAppointments,
     clientDocumentViewDetails,
-    ClientAppointmentViewDetails
+    ClientAppointmentViewDetails,
+    FrequentlyAskedQuestions
 }
 
 export default RouteConfigService;

@@ -751,6 +751,10 @@ const APIConfig: IAPIConfig = {
     GET_BILLING_FROM_ADDRESS:{
         URL:ENV.API_URL+'/billingFrom',
         METHOD:'get'
+    },
+    GET_FQA_LIST:{
+        URL:ENV.API_URL+'/faqs',
+        METHOD:'get'
     }
 }
 

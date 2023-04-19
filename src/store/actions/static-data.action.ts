@@ -93,6 +93,9 @@ export const SET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST = 'SET_SYSTEM_AUTO_LOCK_
 export const GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST = 'GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST';
 export const SET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST = 'SET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST';
 
+export const GET_FAQ_LIST = 'GET_FAQ_LIST';
+export const SET_FAQ_LIST = 'SET_FAQ_LIST';
+
 export const getConsultationDurationList = () => {
     return {type: GET_CONSULTATION_DURATION_LIST};
 };
@@ -382,6 +385,18 @@ export const setPaymentModes = (paymentModes: any[]) => {
         }
     };
 };
+
+export const getFAQList = () => {
+    return {type: GET_FAQ_LIST};
+};
+
+export const setFAQList = (faqList: any) => {
+    return {
+        type: SET_FAQ_LIST, payload: {
+            faqList
+        }
+    };
+}
 
 
 

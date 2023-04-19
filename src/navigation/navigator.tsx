@@ -81,7 +81,7 @@ import {
     CLIENT_DOCUMENTS,
     CLIENT_APPOINTMENTS,
     CLIENT_DOCUMENTS_DETAILS,
-    CLIENT_APPOINTMENT_DETAILS
+    CLIENT_APPOINTMENT_DETAILS, HELP, FAQ
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
@@ -138,6 +138,8 @@ import ClientDocumentsComponent from "../screens/clients/client-documents/Client
 import ClientAppointmentsComponent from "../screens/clients/client-appointments/ClientAppointmentsComponent";
 import ClientAppointmentDetailsComponent
     from "../screens/clients/client-appointment-details/ClientAppointmentDetailsComponent";
+import HelpModuleLayoutScreen from "../screens/help-module-layout/HelpModuleLayoutScreen";
+import FaqComponent from "../screens/help/faq/FaqComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -644,7 +646,20 @@ const Navigator = (props: NavigatorProps) => {
                     <Route path={CLIENT_BILLING_DETAILS} element={<ProtectedRoute>
                         <BillingListScreen/>
                     </ProtectedRoute>}/>
+                    <Route path ={HELP} element={<HelpModuleLayoutScreen/>}{...props}>
+                        <Route
+                            index
+                            element={
+                                <Navigate to={FAQ}/>
+                            }
+                        />
+                        <Route path={FAQ} element={<ProtectedRoute>
+                            <FaqComponent/>
+                        </ProtectedRoute>}/>
+                    </Route>
                 </Route>
+
+
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
                 <Route element={<AuthLayout/>}>
                     <Route index

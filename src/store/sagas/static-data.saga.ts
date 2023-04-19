@@ -9,7 +9,7 @@ import {
     GET_COMMUNICATION_MODE_TYPE_LIST,
     GET_CONCUSSION_FILE_TYPES,
     GET_CONSULTATION_DURATION_LIST,
-    GET_EMPLOYMENT_STATUS_LIST,
+    GET_EMPLOYMENT_STATUS_LIST, GET_FAQ_LIST,
     GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST,
     GET_GENDER_LIST,
     GET_INJURY_TYPE_LIST,
@@ -33,7 +33,7 @@ import {
     setCommunicationModeTypeList,
     setConcussionFileTypes,
     setConsultationDurationList,
-    setEmploymentStatusList,
+    setEmploymentStatusList, setFAQList,
     setFilesUneditableAfterOptionsList,
     setGenderList,
     setInjuryTypeList,
@@ -294,6 +294,16 @@ function* getFilesUneditableAfterOptionsList() {
     }
 }
 
+function* getFaqList() {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._staticData.getFQAList);
+        yield put(setFAQList(resp?.data));
+    } catch (error: any) {
+        yield put(setFAQList([]));
+    }
+}
+
 export default function* staticDataSaga() {
     yield takeEvery(GET_CONSULTATION_DURATION_LIST, getConsultationDurationList);
     yield takeEvery(GET_GENDER_LIST, getGenderList);
@@ -319,4 +329,5 @@ export default function* staticDataSaga() {
     yield takeEvery(GET_PAYMENT_MODES, getPaymentModes);
     yield takeEvery(GET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST, getSystemAutoLockDurationOptionsList);
     yield takeEvery(GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST, getFilesUneditableAfterOptionsList);
+    yield takeEvery(GET_FAQ_LIST, getFaqList);
 }
