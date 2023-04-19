@@ -220,10 +220,11 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                 }
                             </div>
                         }
-                        {clientMedicalDetails?.surgical_history?.comments
-                            <DataLabelValueComponent label={""}>
+                        {clientMedicalDetails?.surgical_history?.comments && <>
+
                                 {clientMedicalDetails?.surgical_history?.comments}
-                            </DataLabelValueComponent>
+                        </>
+
                         }
                     </CardComponent>
                     <CardComponent title={'Musculoskeletal History'} actions={<LinkComponent
