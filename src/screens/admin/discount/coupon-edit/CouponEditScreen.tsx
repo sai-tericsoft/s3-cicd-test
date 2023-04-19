@@ -104,21 +104,7 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
             });
         }
     }, [couponDetails]);
-
-    console.log("cc", couponDetails?.linked_services?.filter((item: any) => item?.services?.length > 0).map((item: any) => {
-        return {
-            category_id: item?._id,
-            // services: item?.services?.map((service: any) => service?._id),
-            category_name: item?.category_name,
-            services: item?.services?.map((service: any) => {
-                return {
-                    service_id: service?._id,
-                    name: service?.name,
-
-                }
-            })
-        }
-    }),);
+    
 
     console.log("couponDetails", couponDetails);
 
