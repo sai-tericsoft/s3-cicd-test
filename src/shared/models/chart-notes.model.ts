@@ -1,3 +1,6 @@
+import {IBodyPart} from "./static-data.model";
+import {ITableColumn} from "./table.model";
+
 export interface IDryNeedlingAddForm {
     attachment: any;
     comments: any;
@@ -32,4 +35,8 @@ export interface IMedicalRecordDocumentEditForm {
     comments: string;
     document_date: any;
     document_type_id: string;
+}
+
+export interface IROMConfig extends IBodyPart {
+    tableConfig: ITableColumn[];
 }

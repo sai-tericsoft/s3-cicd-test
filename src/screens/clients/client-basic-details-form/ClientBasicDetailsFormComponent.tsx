@@ -23,7 +23,6 @@ import StatusCardComponent from "../../../shared/components/status-card/StatusCa
 import FormikSwitchComponent from "../../../shared/components/form-controls/formik-switch/FormikSwitchComponent";
 import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
 import {useParams} from "react-router-dom";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import HorizontalLineComponent
     from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 
@@ -244,9 +243,9 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
         }
     }, [clientId, dispatch]);
 
-   const handleSecondaryEmergencyFormVisibility = useCallback(() => {
-       setIsSecondaryEmergencyFormVisible(true)
-   },[]);
+    const handleSecondaryEmergencyFormVisibility = useCallback(() => {
+        setIsSecondaryEmergencyFormVisible(true)
+    }, []);
 
     return (
         <div className={'client-basic-details-form-component'}>
@@ -281,7 +280,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                         }, [validateForm, values]);
                         return (
                             <Form noValidate={true} className={"t-form"}>
-                                <FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>
+                                {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
                                 {
                                     mode === "edit" &&
                                     <div
@@ -457,13 +456,13 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 <ToolTipComponent
                                                     showArrow={true}
                                                     position={"left"}
-                                                    tooltip={"This phone number will be used to communicate with you in case of emergency. Ensure that this number is constantly operational."}>
+                                                    tooltip={"This phone number will be used as the primary number for your account. Please ensure that this number is constantly operational."}>
                                                     <ImageConfig.InfoIcon/>
                                                 </ToolTipComponent>
                                             </IconButtonComponent>
                                         </div>
                                     </div>
-                                    <HorizontalLineComponent className={'primary-phone-divider'}/>
+                                    {/*<HorizontalLineComponent className={'primary-phone-divider'}/>*/}
                                     <FormControlLabelComponent label={'Alternate Phone :'}/>
                                     <FieldArray
                                         name="secondary_contact_info"
@@ -550,13 +549,13 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 <ToolTipComponent
                                                     showArrow={true}
                                                     position={"right"}
-                                                    tooltip={"This email will be used to communicate with you in case of emergency. Ensure that this email is constantly operational."}>
+                                                    tooltip={"This email address will be used as the primary email address for your account. Please ensure that this email address is constantly operational."}>
                                                     <ImageConfig.InfoIcon/>
                                                 </ToolTipComponent>
                                             </IconButtonComponent>
                                         </div>
                                     </div>
-                                    <HorizontalLineComponent className={'primary-phone-divider'}/>
+                                    {/*<HorizontalLineComponent className={'primary-phone-divider'}/>*/}
                                     <FormControlLabelComponent label={'Alternate Email :'}/>
                                     <FieldArray
                                         name="secondary_emails"
@@ -794,13 +793,13 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 <ToolTipComponent
                                                     showArrow={true}
                                                     position={"left"}
-                                                    tooltip={"This phone number will be used to communicate with you in case of emergency. Ensure that this number is constantly operational."}>
+                                                    tooltip={"This phone number will be used as the primary number for your account. Please ensure that this number is constantly operational."}>
                                                     <ImageConfig.InfoIcon/>
                                                 </ToolTipComponent>
                                             </IconButtonComponent>
                                         </div>
                                     </div>
-                                    <HorizontalLineComponent className={'primary-phone-divider'}/>
+                                    {/*<HorizontalLineComponent className={'primary-phone-divider'}/>*/}
                                     <FormControlLabelComponent label={'Alternate Phone :'}/>
                                     <FieldArray
                                         name="emergency_contact_info.primary_emergency.secondary_contact_info"
@@ -882,14 +881,19 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                         <div className={'display-flex justify-content-center flex-1'}>
                                             <ButtonComponent
                                                 onClick={handleSecondaryEmergencyFormVisibility}
-                                                             prefixIcon={<ImageConfig.AddIcon/>}>
+                                                prefixIcon={<ImageConfig.AddIcon/>}>
                                                 Add Another
                                                 Contact</ButtonComponent>
                                         </div>}
                                     <>
                                         {isSecondaryEmergencyFormVisible &&
                                             values.show_secondary_emergency_form && <>
-                                                <FormControlLabelComponent label={"Secondary Emergency Contact"}/>
+                                                <div className={'d-flex ts-justify-content-sm-between'}>
+                                                    <FormControlLabelComponent label={"Secondary Emergency Contact"}/>
+                                                    <ButtonComponent className={'remove-contact-button'} variant={'outlined'} color={'error'}
+                                                                     onClick={() => setIsSecondaryEmergencyFormVisible(false)}>Remove
+                                                        Contact</ButtonComponent>
+                                                </div>
                                                 <div className="ts-row">
                                                     <div className="ts-col-md-5">
                                                         <Field name={'emergency_contact_info.secondary_emergency.name'}>
@@ -979,7 +983,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                             <ToolTipComponent
                                                                 showArrow={true}
                                                                 position={"left"}
-                                                                tooltip={"This phone number will be used to communicate with you in case of emergency. Ensure that this number is constantly operational."}>
+                                                                tooltip={"This phone number will be used as the primary number for your account. Please ensure that this number is constantly operational."}>
                                                                 <ImageConfig.InfoIcon/>
                                                             </ToolTipComponent>
                                                         </IconButtonComponent>

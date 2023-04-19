@@ -151,7 +151,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                         </div>
                                                         <div className={"ts-col-md-8"}>
                                                             {
-                                                                values.musculoskeletal_history[_id]?.value &&
+                                                                values.musculoskeletal_history[_id]?.value==="No" &&
                                                                 <Field name={`musculoskeletal_history.${_id}.text`}>
                                                                     {
                                                                         (field: FieldProps) => (

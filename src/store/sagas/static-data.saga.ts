@@ -19,12 +19,17 @@ import {
     GET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
     GET_PAYMENT_MODES,
     GET_PHONE_TYPE_LIST,
+    GET_PRIMARY_REMAINDER_HOURS_LIST,
     GET_PROGRESS_REPORT_STATS_LIST,
     GET_REFERRAL_TYPE_LIST,
     GET_RELATIONSHIP_LIST,
+    GET_RESCHEDULED_HOURS_LIST,
+    GET_RESCHEDULED_TIMES_LIST,
+    GET_SECONDARY_REMAINDER_HOURS_LIST,
     GET_SOCIAL_MEDIA_PLATFORM_LIST,
     GET_SURGICAL_HISTORY_OPTIONS_LIST,
     GET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST,
+    GET_USER_MENTIONS_LIST,
     set8MinuteRuleChart,
     setAppointmentStatus,
     setAppointmentTypes,
@@ -43,12 +48,17 @@ import {
     setMusculoskeletalHistoryOptionsList,
     setPaymentModes,
     setPhoneTypeList,
+    setPrimaryRemainderHoursList,
     setProgressReportStatsList,
     setReferralTypeList,
     setRelationShipList,
+    setRescheduledHoursList,
+    setRescheduledTimesList,
+    setSecondaryRemainderHoursList,
     setSocialMediaPlatformList,
     setSurgicalHistoryOptionsList,
-    setSystemAutoLockDurationOptionsList
+    setSystemAutoLockDurationOptionsList,
+    setUserMentionsList
 } from "../actions/static-data.action";
 import {CommonService} from "../../shared/services";
 
@@ -303,6 +313,55 @@ function* getFaqList() {
         yield put(setFAQList([]));
     }
 }
+function* getPrimaryRemainderHoursList() {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._staticData.getPrimaryRemainderHoursList);
+        yield put(setPrimaryRemainderHoursList(resp?.data));
+    } catch (error: any) {
+        yield put(setPrimaryRemainderHoursList([]));
+    }
+}
+
+function* getSecondaryRemainderHoursList() {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._staticData.getSecondaryRemainderHoursList);
+        yield put(setSecondaryRemainderHoursList(resp?.data));
+    } catch (error: any) {
+        yield put(setSecondaryRemainderHoursList([]));
+    }
+}
+
+function* getRescheduledHoursList() {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._staticData.getRescheduledHoursList);
+        yield put(setRescheduledHoursList(resp?.data));
+    } catch (error: any) {
+        yield put(setRescheduledHoursList([]));
+    }
+}
+
+function* getRescheduledTimesList() {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._staticData.getRescheduledTimesList);
+        yield put(setRescheduledTimesList(resp?.data));
+    } catch (error: any) {
+        yield put(setRescheduledTimesList([]));
+    }
+}
+
+function* getMentionsList() {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._staticData.getUserMentionsList);
+        yield put(setUserMentionsList(resp?.data));
+    } catch (error: any) {
+        yield put(setUserMentionsList([]));
+    }
+}
 
 export default function* staticDataSaga() {
     yield takeEvery(GET_CONSULTATION_DURATION_LIST, getConsultationDurationList);
@@ -330,4 +389,9 @@ export default function* staticDataSaga() {
     yield takeEvery(GET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST, getSystemAutoLockDurationOptionsList);
     yield takeEvery(GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST, getFilesUneditableAfterOptionsList);
     yield takeEvery(GET_FAQ_LIST, getFaqList);
+    yield takeEvery(GET_PRIMARY_REMAINDER_HOURS_LIST, getPrimaryRemainderHoursList);
+    yield takeEvery(GET_SECONDARY_REMAINDER_HOURS_LIST, getSecondaryRemainderHoursList);
+    yield takeEvery(GET_RESCHEDULED_HOURS_LIST, getRescheduledHoursList);
+    yield takeEvery(GET_RESCHEDULED_TIMES_LIST, getRescheduledTimesList);
+    yield takeEvery(GET_USER_MENTIONS_LIST, getMentionsList);
 }

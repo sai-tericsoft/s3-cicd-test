@@ -6,6 +6,7 @@ import {
     GET_CONCUSSION_FILE_TYPES,
     GET_CONSULTATION_DURATION_LIST,
     GET_EMPLOYMENT_STATUS_LIST, GET_FAQ_LIST, GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST,
+
     GET_GENDER_LIST,
     GET_INJURY_TYPE_LIST,
     GET_LANGUAGE_LIST,
@@ -13,12 +14,17 @@ import {
     GET_MEDICAL_RECORD_DOCUMENT_TYPES,
     GET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
     GET_PHONE_TYPE_LIST,
+    GET_PRIMARY_REMAINDER_HOURS_LIST,
     GET_PROGRESS_REPORT_STATS_LIST,
     GET_REFERRAL_TYPE_LIST,
     GET_RELATIONSHIP_LIST,
+    GET_RESCHEDULED_HOURS_LIST,
+    GET_RESCHEDULED_TIMES_LIST,
+    GET_SECONDARY_REMAINDER_HOURS_LIST,
     GET_SOCIAL_MEDIA_PLATFORM_LIST,
     GET_SURGICAL_HISTORY_OPTIONS_LIST,
     GET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST,
+    GET_USER_MENTIONS_LIST,
     SET_8_MINUTE_RULE_CHART,
     SET_APPOINTMENT_STATUS,
     SET_APPOINTMENT_TYPES,
@@ -28,6 +34,7 @@ import {
     SET_CONCUSSION_FILE_TYPES,
     SET_CONSULTATION_DURATION_LIST,
     SET_EMPLOYMENT_STATUS_LIST, SET_FAQ_LIST, SET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST,
+
     SET_GENDER_LIST,
     SET_INJURY_TYPE_LIST,
     SET_LANGUAGE_LIST,
@@ -36,12 +43,17 @@ import {
     SET_MUSCULOSKELETAL_HISTORY_OPTIONS_LIST,
     SET_PAYMENT_MODES,
     SET_PHONE_TYPE_LIST,
+    SET_PRIMARY_REMAINDER_HOURS_LIST,
     SET_PROGRESS_REPORT_STATS_LIST,
     SET_REFERRAL_TYPE_LIST,
     SET_RELATIONSHIP_LIST,
+    SET_RESCHEDULED_HOURS_LIST,
+    SET_RESCHEDULED_TIMES_LIST,
+    SET_SECONDARY_REMAINDER_HOURS_LIST,
     SET_SOCIAL_MEDIA_PLATFORM_LIST,
     SET_SURGICAL_HISTORY_OPTIONS_LIST,
-    SET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST
+    SET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST,
+    SET_USER_MENTIONS_LIST,
 } from "../actions/static-data.action";
 import {IActionModel} from "../../shared/models/action.model";
 import {ICommonType} from "../../shared/models/static-data.model";
@@ -124,6 +136,26 @@ export interface IStaticDataReducerState {
     isFaqListLoaded: boolean,
     isFaqListLoadingFailed: boolean,
     faqList: any[],
+
+    primaryRemainderHoursList: any[],
+    isPrimaryRemainderHoursListLoading: boolean,
+    isPrimaryRemainderHoursListLoaded: boolean,
+
+    secondaryRemainderHoursList: any[],
+    isSecondaryRemainderHoursListLoading: boolean,
+    isSecondaryRemainderHoursListLoaded: boolean,
+
+    userMentionsList: any[],
+    isUserMentionsListLoading: boolean,
+    isUserMentionsListLoaded: boolean,
+
+    reschedulingHoursList: any[],
+    isReschedulingHoursListLoading: boolean,
+    isReschedulingHoursListLoaded: boolean,
+
+    reschedulingTimesList: any[],
+    isReschedulingTimesListLoading: boolean,
+    isReschedulingTimesListLoaded: boolean,
 }
 
 const initialData: IStaticDataReducerState = {
@@ -212,6 +244,26 @@ const initialData: IStaticDataReducerState = {
     isFaqListLoaded: false,
     isFaqListLoadingFailed: false,
     faqList: [],
+
+    primaryRemainderHoursList: [],
+    isPrimaryRemainderHoursListLoading: false,
+    isPrimaryRemainderHoursListLoaded: false,
+
+    reschedulingHoursList: [],
+    isReschedulingHoursListLoading: false,
+    isReschedulingHoursListLoaded: false,
+
+    reschedulingTimesList: [],
+    isReschedulingTimesListLoading: false,
+    isReschedulingTimesListLoaded: false,
+
+    userMentionsList: [],
+    isUserMentionsListLoading: false,
+    isUserMentionsListLoaded: false,
+
+    secondaryRemainderHoursList: [],
+    isSecondaryRemainderHoursListLoading: false,
+    isSecondaryRemainderHoursListLoaded: false,
 };
 
 const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDataReducerState => {
@@ -564,6 +616,85 @@ const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDa
                 isFaqListLoaded: true,
                 isFaqListLoadingFailed: false,
                 faqList: action.payload.faqList
+            }
+            return state;
+        case GET_PRIMARY_REMAINDER_HOURS_LIST:
+            state = {
+                ...state,
+                isPrimaryRemainderHoursListLoading: true,
+                isPrimaryRemainderHoursListLoaded: false
+            }
+            return state;
+
+        case SET_PRIMARY_REMAINDER_HOURS_LIST:
+            state = {
+                ...state,
+                isPrimaryRemainderHoursListLoading: false,
+                isPrimaryRemainderHoursListLoaded: true,
+                primaryRemainderHoursList: action.payload.primaryRemainderHoursList
+            }
+            return state;
+        case GET_SECONDARY_REMAINDER_HOURS_LIST:
+            state = {
+                ...state,
+                isSecondaryRemainderHoursListLoading: true,
+                isSecondaryRemainderHoursListLoaded: false
+            }
+            return state;
+
+        case SET_SECONDARY_REMAINDER_HOURS_LIST:
+            state = {
+                ...state,
+                isSecondaryRemainderHoursListLoading: false,
+                isSecondaryRemainderHoursListLoaded: true,
+                secondaryRemainderHoursList: action.payload.secondaryRemainderHoursList
+            }
+            return state;
+        case GET_RESCHEDULED_HOURS_LIST:
+            state = {
+                ...state,
+                isReschedulingHoursListLoading: true,
+                isReschedulingHoursListLoaded: false
+            }
+            return state;
+        case SET_RESCHEDULED_HOURS_LIST:
+            state = {
+                ...state,
+                isReschedulingHoursListLoading: false,
+                isReschedulingHoursListLoaded: true,
+                reschedulingHoursList: action.payload.reschedulingHoursList
+            }
+            return state;
+
+        case GET_RESCHEDULED_TIMES_LIST:
+            state = {
+                ...state,
+                isReschedulingTimesListLoading: true,
+                isReschedulingTimesListLoaded: false
+            }
+            return state;
+        case SET_RESCHEDULED_TIMES_LIST:
+            state = {
+                ...state,
+                isReschedulingTimesListLoading: false,
+                isReschedulingTimesListLoaded: true,
+                reschedulingTimesList: action.payload.reschedulingTimesList
+            }
+            return state;
+
+        case GET_USER_MENTIONS_LIST:
+            state = {
+                ...state,
+                isUserMentionsListLoading: true,
+                isUserMentionsListLoaded: false
+            }
+            return state;
+        case SET_USER_MENTIONS_LIST:
+            state = {
+                ...state,
+                isUserMentionsListLoading: false,
+                isUserMentionsListLoaded: true,
+                userMentionsList: action.payload.userMentions
             }
             return state;
         default:

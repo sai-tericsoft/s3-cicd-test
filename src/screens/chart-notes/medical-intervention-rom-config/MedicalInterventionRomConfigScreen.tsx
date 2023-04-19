@@ -44,8 +44,8 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
                 // if (medicalInterventionDetails?.status === 'completed') {
                 //     navigate(CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId));
                 // } else {
-                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
-               // }
+                navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+                // }
             }));
         }
     }, [dispatch, navigate, medicalInterventionDetails, medicalRecordId, medicalInterventionId]);
@@ -74,6 +74,10 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
 
     const handleDeleteBodyPart = useCallback((body_part_id: string) => {
         setGlobalRomConfig((prev) => prev.filter((item) => item.body_part._id !== body_part_id));
+    }, []);
+
+    const buildRomConfig = useCallback((romConfig: any) => {
+        console.log('build', romConfig);
     }, []);
 
     useEffect(() => {
@@ -112,7 +116,12 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
             }
         }
         setGlobalRomConfig(romConfig);
-    }, [medicalInterventionDetails]);
+        buildRomConfig(romConfig);
+    }, [medicalInterventionDetails, buildRomConfig]);
+
+    const saveRomConfig = useCallback(() => {
+        console.log('saveRomConfig');
+    }, []);
 
     return (
         <div className={'medical-intervention-rom-config-screen'}>
@@ -154,6 +163,13 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
                                         />
                                     )
                                 }
+                                <div className={"h-v-center"}>
+                                    <ButtonComponent
+                                        onClick={saveRomConfig}
+                                    >
+                                        Save
+                                    </ButtonComponent>
+                                </div>
                                 <ButtonComponent
                                     prefixIcon={<ImageConfig.AddIcon/>}
                                     onClick={handleAddNewBodyPartOpenModal}

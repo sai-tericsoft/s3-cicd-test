@@ -1,0 +1,91 @@
+.appointment-settings-layout-component {
+  .message-section {
+    padding: 20px;
+    border: 1px solid #ABB6BE;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    color: #6D6D6D;
+
+    .message-screen__body__row {
+      padding: 10px 0;
+    }
+  }
+
+  .available-mentions-wrapper {
+    padding: 10px;
+    background: #F7F9F9;
+    border-radius: 10px;
+    margin: 20px 0;
+
+    .available-mentions-title {
+      font-weight: 700;
+      font-size: 12px;
+      padding-bottom: 10px;
+    }
+
+    .available-mentions-chips-wrapper {
+      display: flex;
+      row-gap: 20px;
+      column-gap: 20px;
+      flex-wrap: wrap;
+    }
+  }
+
+  .email-section {
+    border: 1px solid #ABB6BE;
+    border-radius: 10px;
+    color: #6D6D6D;
+
+    .email-header-section {
+      background: #EAF3F2;
+      border-radius: 10px 10px 0 0;
+
+      .email-screen__header__row {
+        color: #6D6D6D;
+        padding: 10px 20px;
+
+        .hr-line {
+          color: #D5D5D5;
+        }
+      }
+    }
+
+    .email-screen-body {
+      padding: 10px 20px;
+
+      .email-screen__body__row {
+        padding: 10px 0;
+      }
+    }
+  }
+
+  .mention-field-titles {
+    padding-bottom: 5px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .info-tool-tip-wrapper {
+    display: flex;
+    justify-content: end;
+    padding-top: 10px;
+    color: #1479FF;
+  }
+}
+
+.tooltip-text-row-wrapper {
+  display: flex;
+  padding: 10px 0 0 10px;
+  justify-content: center;
+
+  .tooltip-text-pointer {
+    //width: 5px;
+    //height: 5px;
+    //background-color: black;
+    //border-radius: 50%;
+  }
+
+  .tooltip-text {
+    padding-left: 10px;
+  }
+}

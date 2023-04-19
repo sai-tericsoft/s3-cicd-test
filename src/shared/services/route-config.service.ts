@@ -3,8 +3,8 @@ import {
     CHART_NOTES_LIST,
     CLIENT_ADD,
     CLIENT_LIST,
-    COMING_SOON_ROUTE,
-    DASHBOARD,
+    COMING_SOON_ROUTE, COUPON_ADD,
+    DASHBOARD, DISCOUNT_LIST,
     FACILITY_DETAILS,
     FACILITY_LIST, FAQ,
     INVENTORY,
@@ -51,6 +51,10 @@ const SystemSettings = () => {
     return "/admin/system-settings";
 }
 
+const appointmentSettingsLayout = () => {
+    return "/admin/appointment-settings";
+}
+
 const ServiceCategoryDetails = (serviceCategoryId: string) => {
     return SERVICE_CATEGORY_DETAILS + '/' + serviceCategoryId;
 }
@@ -77,6 +81,10 @@ const FacilityList = () => {
 
 const FacilityDetails = (facilityId: string) => {
     return FACILITY_DETAILS + '/' + facilityId;
+}
+
+const DiscountList = () => {
+    return DISCOUNT_LIST;
 }
 
 const ClientList = () => {
@@ -172,7 +180,6 @@ const ClientMedicalRecordDetails = (medicalRecordId: string) => {
 }
 
 const MedicalInterventionDetails = (medicalRecordId: string, medicalInterventionId: string) => {
-    // return '/chart-notes/intervention-details/' + medicalInterventionId
     return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/view-medical-intervention';
 }
 
@@ -241,6 +248,17 @@ const FrequentlyAskedQuestions = () => {
     return FAQ;
 }
 
+const CouponViewDetails = (couponId: string) => {
+    return "/coupon-details/" + couponId;
+}
+
+const CouponAdd = () => {
+    return COUPON_ADD;
+}
+
+const CouponEdit = (couponId: string) => {
+    return "/coupon/"+couponId+"/edit";
+}
 
 const RouteConfigService = {
     DefaultRoute,
@@ -297,7 +315,12 @@ const RouteConfigService = {
     ClientAppointments,
     clientDocumentViewDetails,
     ClientAppointmentViewDetails,
-    FrequentlyAskedQuestions
+    FrequentlyAskedQuestions,
+    DiscountList,
+    CouponViewDetails,
+    CouponAdd,
+    CouponEdit,
+    appointmentSettingsLayout
 }
 
 export default RouteConfigService;

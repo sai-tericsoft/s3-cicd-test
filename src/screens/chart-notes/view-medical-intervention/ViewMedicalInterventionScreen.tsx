@@ -1,6 +1,6 @@
 import "./ViewMedicalInterventionScreen.scss";
 import * as Yup from "yup";
-import { useLocation, useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
@@ -27,6 +27,7 @@ import FormikTextAreaComponent from "../../../shared/components/form-controls/fo
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 import ESignApprovalComponent from "../../../shared/components/e-sign-approval/ESignApprovalComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
+import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 
 interface ViewMedicalInterventionScreenProps {
 
@@ -296,7 +297,8 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                         <FormAutoSave formikCtx={formik} onUpdating={setIsFormBeingUpdated}/>}
                                     <div
                                         className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
-                                        <FormControlLabelComponent label={"SOAP Note"} size={'lg'} className={"mrg-0 font-size-20"}/>
+                                        <FormControlLabelComponent label={"SOAP Note"} size={'lg'}
+                                                                   className={"mrg-0 font-size-20"}/>
                                         {
                                             (medicalInterventionId && medicalRecordId && medicalInterventionDetails?.status === 'draft') &&
                                             <LinkComponent
@@ -462,48 +464,56 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                             medicalInterventionDetails?.rom_config?.map((body_part: any) => {
                                                                                 return (
                                                                                     <>
-                                                                                        <CardComponent className={'body-part-card'}
-                                                                                                       size={'sm'}
-                                                                                                       title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
+                                                                                        <CardComponent
+                                                                                            className={'body-part-card'}
+                                                                                            size={'sm'}
+                                                                                            title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
                                                                                         </CardComponent>
-                                                                                        <TableComponent
-                                                                                            data={body_part?.rom_config?.filter((rom_config: any) => {
-                                                                                                const bodyPartSides = body_part?.body_part_details?.sides;
-                                                                                                const config = rom_config?.config;
-                                                                                                if (config?.comments) {
-                                                                                                    return rom_config;
-                                                                                                } else {
-                                                                                                    let romConfig = undefined;
-                                                                                                    bodyPartSides?.forEach((side: any) => {
-                                                                                                        const sideConfig = config[side];
-                                                                                                        if (sideConfig?.arom || sideConfig?.prom || sideConfig?.strength) {
-                                                                                                            romConfig = rom_config;
-                                                                                                        }
-                                                                                                    });
-                                                                                                    return romConfig;
-                                                                                                }
-                                                                                            })}
-                                                                                            showExpandColumn={false}
-                                                                                            defaultExpandAllRows={true}
-                                                                                            canExpandRow={(row: any) => row?.config?.comments?.length > 0}
-                                                                                            expandRowRenderer={
-                                                                                                (row: any) => {
-                                                                                                    return (
-                                                                                                        <div
-                                                                                                            key={row?.config?._id}
-                                                                                                            className={'comment-row'}>
+                                                                                        {
+                                                                                            body_part?.rom_config?.length > 0 && <TableComponent
+                                                                                                data={body_part?.rom_config?.filter((rom_config: any) => {
+                                                                                                    const bodyPartSides = body_part?.body_part_details?.sides;
+                                                                                                    const config = rom_config?.config;
+                                                                                                    if (config?.comments) {
+                                                                                                        return rom_config;
+                                                                                                    } else {
+                                                                                                        let romConfig = undefined;
+                                                                                                        bodyPartSides?.forEach((side: any) => {
+                                                                                                            const sideConfig = config[side];
+                                                                                                            if (sideConfig?.arom || sideConfig?.prom || sideConfig?.strength) {
+                                                                                                                romConfig = rom_config;
+                                                                                                            }
+                                                                                                        });
+                                                                                                        return romConfig;
+                                                                                                    }
+                                                                                                })}
+                                                                                                showExpandColumn={false}
+                                                                                                defaultExpandAllRows={true}
+                                                                                                canExpandRow={(row: any) => row?.config?.comments?.length > 0}
+                                                                                                expandRowRenderer={
+                                                                                                    (row: any) => {
+                                                                                                        return (
                                                                                                             <div
-                                                                                                                className={'comment-icon'}>
-                                                                                                                <ImageConfig.CommentIcon/>
+                                                                                                                key={row?.config?._id}
+                                                                                                                className={'comment-row'}>
+                                                                                                                <div
+                                                                                                                    className={'comment-icon'}>
+                                                                                                                    <ImageConfig.CommentIcon/>
+                                                                                                                </div>
+                                                                                                                <div
+                                                                                                                    className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
                                                                                                             </div>
-                                                                                                            <div
-                                                                                                                className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
-                                                                                                        </div>
-                                                                                                    )
+                                                                                                        )
+                                                                                                    }
                                                                                                 }
-                                                                                            }
-                                                                                            bordered={true}
-                                                                                            columns={getMedicalInterventionROMConfigColumns(body_part)}/>
+                                                                                                bordered={true}
+                                                                                                columns={getMedicalInterventionROMConfigColumns(body_part)}/>
+                                                                                        }
+                                                                                        {
+                                                                                            body_part?.rom_config?.length === 0 &&  <StatusCardComponent
+                                                                                                title={"The following body part does not have any Range of Motion or Strength " +
+                                                                                                    "                                                measurements. \n Please choose another body part."}/>
+                                                                                        }
                                                                                     </>
                                                                                 )
                                                                             })
@@ -561,7 +571,8 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
 
                                                                         {medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.map((body_part: any) => {
                                                                             return (<div className={''}>
-                                                                                <CardComponent className={'body-part-card'} size={'sm'}
+                                                                                <CardComponent className={'body-part-card'}
+                                                                                               size={'sm'}
                                                                                                title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
                                                                                 </CardComponent>
                                                                                 <TableComponent

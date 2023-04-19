@@ -409,6 +409,10 @@ const APIConfig: IAPIConfig = {
         URL: (medicalInterventionId: string, bodyPartId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/rom/' + bodyPartId,
         METHOD: "post"
     },
+    SAVE_MEDICAL_INTERVENTION_ROM_CONFIG: {
+        URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/rom',
+        METHOD: "post"
+    },
     DELETE_BODY_PART_UNDER_MEDICAL_INTERVENTION_ROM_CONFIG: {
         URL: (medicalInterventionId: string, bodyPartId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/rom/' + bodyPartId,
         METHOD: "delete"
@@ -744,17 +748,67 @@ const APIConfig: IAPIConfig = {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/appointments',
         METHOD: 'get'
     },
-    GET_ADDED_ICD_CODES:{
-        URL:(medicalRecordId:string)=>ENV.API_URL+'/medicalRecord/'+medicalRecordId+'/latestICDCodes',
-        METHOD:'get'
+    GET_ADDED_ICD_CODES: {
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/latestICDCodes',
+        METHOD: 'get'
     },
-    GET_BILLING_FROM_ADDRESS:{
-        URL:ENV.API_URL+'/billingFrom',
-        METHOD:'get'
+    GET_BILLING_FROM_ADDRESS: {
+        URL: ENV.API_URL + '/billingFrom',
+        METHOD: 'get'
     },
-    GET_FQA_LIST:{
-        URL:ENV.API_URL+'/faqs',
-        METHOD:'get'
+    //Discount starts
+    GET_COUPON_LIST: {
+        URL: ENV.API_URL + '/coupon',
+        METHOD: 'get'
+    },
+    GET_APPOINTMENT_SETTINGS: {
+        URL: ENV.API_URL + '/appointmentSetting',
+        METHOD: 'get'
+    },
+    SET_APPOINTMENT_SETTINGS: {
+        URL: ENV.API_URL + '/appointmentSetting',
+        METHOD: 'post'
+    },
+    PRIMARY_REMAINDERS_HOURS_LIST: {
+        URL: ENV.API_URL + '/primaryReminderHours',
+        METHOD: 'get'
+    },
+    SECONDARY_REMAINDERS_HOURS_LIST: {
+        URL: ENV.API_URL + '/secondaryReminderHours',
+        METHOD: 'get'
+    },
+    RESCHEDULING_HOURS_LIST: {
+        URL: ENV.API_URL + '/reschedulingHours',
+        METHOD: 'get'
+    },
+    RESCHEDULING_TIMES_LIST: {
+        URL: ENV.API_URL + '/reschedulingTimes',
+        METHOD: 'get'
+    },
+    USER_MENTIONS_LIST: {
+        URL: ENV.API_URL + '/mentions',
+        METHOD: 'get'
+    },
+
+    GET_FQA_LIST: {
+        URL: ENV.API_URL + '/faqs',
+        METHOD: 'get'
+    },
+    GET_COUPON_VIEW_DETAILS: {
+        URL: (couponId: any) => ENV.API_URL + '/coupon/' + couponId,
+        METHOD: 'get'
+    },
+    ADD_COUPON: {
+        URL: ENV.API_URL + '/coupon',
+        METHOD: 'post'
+    },
+    EDIT_COUPON: {
+        URL: (couponId: any) => ENV.API_URL + '/coupon/' + couponId,
+        METHOD: 'put'
+    },
+    ALL_SERVICE_LIST: {
+        URL: ENV.API_URL + '/allServices',
+        METHOD: 'get'
     }
 }
 

@@ -48,7 +48,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             align:'center',
             width: 250,
             render: (item: IClientBasicDetails) => {
-                return <span>{item?.last_name} {item?.first_name}</span>
+                return <span>{item?.last_name}{","}{item?.first_name}</span>
             }
         },
         {
@@ -81,7 +81,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             align: "center",
             render: (item: IClientBasicDetails) => {
                 return <span>
-                    {item?.last_provider}
+                    {CommonService.capitalizeFirstLetter(item?.last_provider)}
                 </span>
             }
         },
