@@ -125,7 +125,7 @@ const ClientAppointmentViewDetails = (clientId: any, clientAppointmentId: string
 }
 
 const ClientEdit = (clientId: string) => {
-    return '/client/' + clientId + '/client-edit';
+    return '/client-edit/' + clientId;
 }
 
 const ClientSearch = () => {
