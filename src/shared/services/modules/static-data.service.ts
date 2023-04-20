@@ -181,6 +181,10 @@ const getUserMentionsList = (payload: any) => {
     return ApiService[APIConfig.USER_MENTIONS_LIST.METHOD](APIConfig.USER_MENTIONS_LIST.URL, payload)
 }
 
+const ReportAnIssue = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.REPORT_AN_ISSUE.METHOD](APIConfig.REPORT_AN_ISSUE.URL, payload,{'Content-Type': 'multipart/form-data'})
+}
 
 const StaticDataService = {
     today,
@@ -219,7 +223,8 @@ const StaticDataService = {
     getSecondaryRemainderHoursList,
     getRescheduledHoursList,
     getRescheduledTimesList,
-    getUserMentionsList
+    getUserMentionsList,
+    ReportAnIssue
 }
 
 export default StaticDataService;

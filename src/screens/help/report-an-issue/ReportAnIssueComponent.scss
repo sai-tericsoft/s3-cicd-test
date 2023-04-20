@@ -1,0 +1,21 @@
+.report-an-issue-component{
+  .t-form {
+    .ts-row {
+      .issue-heading {
+        margin-left: 13px;
+      }
+
+        .alert-error {
+          color: #FF6767;
+          font-weight: 500;
+          font-size: 1.1429rem;
+          float: end;
+        }
+        .no-alert {
+          color: #83909D;
+          font-weight: 500;
+          font-size: 1.1429rem;
+      }
+    }
+  }
+}

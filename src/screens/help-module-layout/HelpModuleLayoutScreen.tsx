@@ -14,7 +14,7 @@ const HELP_MENU_ITEMS = [
     },
     {
         title: "Report an issue",
-        path: ""
+        path: CommonService._routeConfig.ReportAnIssue()
     }
 ]
 

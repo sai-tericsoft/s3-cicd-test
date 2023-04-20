@@ -81,8 +81,8 @@ import {
     CLIENT_DOCUMENTS,
     CLIENT_APPOINTMENTS,
     CLIENT_DOCUMENTS_DETAILS,
-     HELP, FAQ,
-    CLIENT_APPOINTMENT_DETAILS, DISCOUNT_LIST, COUPON_DETAILS, COUPON_ADD, COUPON_EDIT
+    HELP, FAQ,
+    CLIENT_APPOINTMENT_DETAILS, DISCOUNT_LIST, COUPON_DETAILS, COUPON_ADD, COUPON_EDIT, REPORT_AN_ISSUE
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
@@ -147,6 +147,7 @@ import AppointmentSettingsLayoutComponent
 import MedicalInterventionRomConfigV2Screen
     from "../screens/chart-notes/medical-intervention-rom-config-v2/MedicalInterventionRomConfigV2Screen";
 import CouponEditScreen from "../screens/admin/discount/coupon-edit/CouponEditScreen";
+import ReportAnIssueComponent from "../screens/help/report-an-issue/ReportAnIssueComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -685,6 +686,9 @@ const Navigator = (props: NavigatorProps) => {
                         />
                         <Route path={FAQ} element={<ProtectedRoute>
                             <FaqComponent/>
+                        </ProtectedRoute>}/>
+                        <Route path={REPORT_AN_ISSUE} element={<ProtectedRoute>
+                            <ReportAnIssueComponent/>
                         </ProtectedRoute>}/>
                     </Route>
                 </Route>

@@ -73,6 +73,7 @@ const BILLING_DETAILS = "/billing/billing-details/:billingId";
 
 const HELP = "/help";
 const FAQ = "/help/faq";
+const REPORT_AN_ISSUE = "/help/report-an-issue";
 
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
@@ -137,6 +138,7 @@ export {
     CLIENT_APPOINTMENT_DETAILS,
     HELP,
     FAQ,
+    REPORT_AN_ISSUE,
     DISCOUNT_LIST,
     COUPON_DETAILS,
     COUPON_ADD,

@@ -9,7 +9,7 @@ import {
     FACILITY_LIST, FAQ,
     INVENTORY,
     LOGIN_ROUTE,
-    NOT_FOUND_ROUTE,
+    NOT_FOUND_ROUTE, REPORT_AN_ISSUE,
     SCHEDULING_VIEW,
     SERVICE_ADD,
     SERVICE_CATEGORY_DETAILS,
@@ -248,6 +248,10 @@ const FrequentlyAskedQuestions = () => {
     return FAQ;
 }
 
+const ReportAnIssue = () => {
+    return REPORT_AN_ISSUE;
+}
+
 const CouponViewDetails = (couponId: string) => {
     return "/coupon-details/" + couponId;
 }
@@ -320,7 +324,8 @@ const RouteConfigService = {
     CouponViewDetails,
     CouponAdd,
     CouponEdit,
-    appointmentSettingsLayout
+    appointmentSettingsLayout,
+    ReportAnIssue
 }
 
 export default RouteConfigService;

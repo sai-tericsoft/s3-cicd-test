@@ -809,6 +809,10 @@ const APIConfig: IAPIConfig = {
     ALL_SERVICE_LIST: {
         URL: ENV.API_URL + '/allServices',
         METHOD: 'get'
+    },
+    REPORT_AN_ISSUE:{
+        URL: ENV.API_URL + '/notifyIssue',
+        METHOD: 'post'
     }
 }
 
