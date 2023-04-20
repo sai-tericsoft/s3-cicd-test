@@ -1,0 +1,22 @@
+.accordion-component{
+  .accordion-question {
+    margin-bottom: 24px;
+    width: 850px;
+
+    .accordion-question-title {
+      display: flex;
+      font-weight: 500;
+      font-size: 1.1429rem;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      cursor: pointer;
+    }
+
+    .accordion-question-answer {
+      color: #7B7E80;
+      margin-bottom: 24px;
+      line-height: 24px;
+    }
+  }
+}
