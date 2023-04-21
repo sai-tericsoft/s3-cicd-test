@@ -1,9 +1,9 @@
 .accordion-component{
-  .accordion-question {
+  .question-answer-wrapper {
     margin-bottom: 24px;
     width: 850px;
 
-    .accordion-question-title {
+    .question {
       display: flex;
       font-weight: 500;
       font-size: 1.1429rem;
@@ -13,7 +13,7 @@
       cursor: pointer;
     }
 
-    .accordion-question-answer {
+    .answer {
       color: #7B7E80;
       margin-bottom: 24px;
       line-height: 24px;

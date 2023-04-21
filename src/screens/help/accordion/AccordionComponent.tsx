@@ -18,15 +18,15 @@ const AccordionComponent = (props: AccordionComponentProps) => {
 
     return (
         <div className={'accordion-component'}>
-            <div className={'accordion-question'} >
-                <div className={'accordion-question-title'} onClick={handleText}>
+            <div className={'question-answer-wrapper'} >
+                <div className={'question'} onClick={handleText}>
                     <div>
                         {question}
                     </div>
                     <div>{text ? <ImageConfig.CircularShowLess/> :
                         <ImageConfig.CircularShowMore/>}</div>
                 </div>
-                {text && <div className={'accordion-question-answer'}>
+                {text && <div className={'answer'}>
                     {answer}
                 </div>}
 
