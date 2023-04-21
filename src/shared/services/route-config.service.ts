@@ -3,8 +3,8 @@ import {
     CHART_NOTES_LIST,
     CLIENT_ADD,
     CLIENT_LIST,
-    COMING_SOON_ROUTE,
-    DASHBOARD,
+    COMING_SOON_ROUTE, COUPON_ADD,
+    DASHBOARD, DISCOUNT_LIST,
     FACILITY_DETAILS,
     FACILITY_LIST,
     INVENTORY,
@@ -51,6 +51,10 @@ const SystemSettings = () => {
     return "/admin/system-settings";
 }
 
+const appointmentSettingsLayout = () => {
+    return "/admin/appointment-settings";
+}
+
 const ServiceCategoryDetails = (serviceCategoryId: string) => {
     return SERVICE_CATEGORY_DETAILS + '/' + serviceCategoryId;
 }
@@ -77,6 +81,10 @@ const FacilityList = () => {
 
 const FacilityDetails = (facilityId: string) => {
     return FACILITY_DETAILS + '/' + facilityId;
+}
+
+const DiscountList = () => {
+    return DISCOUNT_LIST;
 }
 
 const ClientList = () => {
@@ -117,7 +125,7 @@ const ClientAppointmentViewDetails = (clientId: any, clientAppointmentId: string
 }
 
 const ClientEdit = (clientId: string) => {
-    return '/client/' + clientId + '/client-edit';
+    return '/client-edit/' + clientId;
 }
 
 const ClientSearch = () => {
@@ -236,6 +244,17 @@ const BillingDetails = (billingId: string) => {
     return "/billing/billing-details/" + billingId;
 }
 
+const CouponViewDetails = (couponId: string) => {
+    return "/coupon-details/" + couponId;
+}
+
+const CouponAdd = () => {
+    return COUPON_ADD;
+}
+
+const CouponEdit = (couponId: string) => {
+    return "/coupon/"+couponId+"/edit";
+}
 
 const RouteConfigService = {
     DefaultRoute,
@@ -291,7 +310,12 @@ const RouteConfigService = {
     ClientDocuments,
     ClientAppointments,
     clientDocumentViewDetails,
-    ClientAppointmentViewDetails
+    ClientAppointmentViewDetails,
+    DiscountList,
+    CouponViewDetails,
+    CouponAdd,
+    CouponEdit,
+    appointmentSettingsLayout
 }
 
 export default RouteConfigService;

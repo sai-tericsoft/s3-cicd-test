@@ -1,6 +1,6 @@
 import "./ViewMedicalInterventionScreen.scss";
 import * as Yup from "yup";
-import { useLocation, useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
@@ -297,7 +297,8 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                         <FormAutoSave formikCtx={formik} onUpdating={setIsFormBeingUpdated}/>}
                                     <div
                                         className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
-                                        <FormControlLabelComponent label={"SOAP Note"} size={'lg'} className={"mrg-0 font-size-20"}/>
+                                        <FormControlLabelComponent label={"SOAP Note"} size={'lg'}
+                                                                   className={"mrg-0 font-size-20"}/>
                                         {
                                             (medicalInterventionId && medicalRecordId && medicalInterventionDetails?.status === 'draft') &&
                                             <LinkComponent
@@ -463,9 +464,10 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                             medicalInterventionDetails?.rom_config?.map((body_part: any) => {
                                                                                 return (
                                                                                     <>
-                                                                                        <CardComponent className={'body-part-card'}
-                                                                                                       size={'sm'}
-                                                                                                       title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
+                                                                                        <CardComponent
+                                                                                            className={'body-part-card'}
+                                                                                            size={'sm'}
+                                                                                            title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
                                                                                         </CardComponent>
                                                                                         {
                                                                                             body_part?.rom_config?.length > 0 && <TableComponent
@@ -569,7 +571,8 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
 
                                                                         {medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.map((body_part: any) => {
                                                                             return (<div className={''}>
-                                                                                <CardComponent className={'body-part-card'} size={'sm'}
+                                                                                <CardComponent className={'body-part-card'}
+                                                                                               size={'sm'}
                                                                                                title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
                                                                                 </CardComponent>
                                                                                 <TableComponent

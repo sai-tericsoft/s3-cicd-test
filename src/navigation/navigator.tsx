@@ -28,19 +28,32 @@ import AddMedicalRecordScreen from "../screens/chart-notes/add-medical-record/Ad
 import {
     ADD_INVENTORY_PRODUCT,
     ADD_MEDICAL_RECORD,
+    ADD_NEW_RECEIPT,
     ADMIN,
+    APPOINTMENT_SETTINGS,
     BILLING,
     BILLING_DETAILS,
+    BILLING_LIST,
     CHART_NOTES_LIST,
     CLIENT_ADD,
+    CLIENT_APPOINTMENT_DETAILS,
+    CLIENT_APPOINTMENTS,
+    CLIENT_BILLING_DETAILS,
     CLIENT_DETAILS,
+    CLIENT_DOCUMENTS,
+    CLIENT_DOCUMENTS_DETAILS,
     CLIENT_EDIT,
     CLIENT_LIST,
     CLIENT_MEDICAL_RECORD_DETAILS,
+    CLIENT_PROFILE_DETAILS,
     CLIENT_SEARCH,
     COMING_SOON_ROUTE,
     CONCUSSION_FILE_VIEW_DETAILS,
+    COUPON_ADD,
+    COUPON_DETAILS,
+    COUPON_EDIT,
     DESIGN_SYSTEM_ROUTE,
+    DISCOUNT_LIST,
     DRY_NEEDLING_FILE_VIEW_DETAILS,
     EDIT_INVENTORY_PRODUCT,
     FACILITY_DETAILS,
@@ -62,7 +75,6 @@ import {
     MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE,
     MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
     NOT_FOUND_ROUTE,
-    BILLING_LIST,
     PROGRESS_REPORT_VIEW_DETAILS,
     SCHEDULING_VIEW,
     SERVICE_ADD,
@@ -73,14 +85,7 @@ import {
     SYSTEM_SETTINGS,
     TEST_ROUTE,
     UPDATE_MEDICAL_INTERVENTION,
-    VIEW_MEDICAL_INTERVENTION,
-    CLIENT_PROFILE_DETAILS,
-    ADD_NEW_RECEIPT,
-    CLIENT_BILLING_DETAILS,
-    CLIENT_DOCUMENTS,
-    CLIENT_APPOINTMENTS,
-    CLIENT_DOCUMENTS_DETAILS,
-    CLIENT_APPOINTMENT_DETAILS
+    VIEW_MEDICAL_INTERVENTION
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
@@ -135,8 +140,14 @@ import ClientDocumentsComponent from "../screens/clients/client-documents/Client
 import ClientAppointmentsComponent from "../screens/clients/client-appointments/ClientAppointmentsComponent";
 import ClientAppointmentDetailsComponent
     from "../screens/clients/client-appointment-details/ClientAppointmentDetailsComponent";
+import DiscountListComponent from "../screens/admin/discount/discount-list/DiscountListComponent";
+import CouponDetailsComponent from "../screens/admin/discount/coupon-details/CouponDetailsComponent";
+import CouponAddScreen from "../screens/admin/discount/coupon-add/CouponAddScreen";
+import AppointmentSettingsLayoutComponent
+    from "../screens/admin/appointments-settings/appointment-settings-layout/AppointmentSettingsLayoutComponent";
 import MedicalInterventionRomConfigV2Screen
     from "../screens/chart-notes/medical-intervention-rom-config-v2/MedicalInterventionRomConfigV2Screen";
+import CouponEditScreen from "../screens/admin/discount/coupon-edit/CouponEditScreen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -209,6 +220,14 @@ const Navigator = (props: NavigatorProps) => {
                             </ProtectedRoute>
                         }
                     />
+                    <Route
+                        path={CLIENT_EDIT}
+                        element={
+                            <ProtectedRoute>
+                                <ClientEditScreen/>
+                            </ProtectedRoute>
+                        }
+                    />
                     <Route path={CLIENT_DETAILS} element={<ClientDetailsScreen/>} {...props}>
                         <Route
                             index
@@ -245,14 +264,6 @@ const Navigator = (props: NavigatorProps) => {
                             element={
                                 <ProtectedRoute>
                                     <ClientAppointmentsComponent/>
-                                </ProtectedRoute>
-                            }
-                        />
-                        <Route
-                            path={CLIENT_EDIT}
-                            element={
-                                <ProtectedRoute>
-                                    <ClientEditScreen/>
                                 </ProtectedRoute>
                             }
                         />
@@ -416,6 +427,21 @@ const Navigator = (props: NavigatorProps) => {
                             }
                         />
                         <Route
+                            path={DISCOUNT_LIST}
+                            element={
+                                <ProtectedRoute>
+                                    <DiscountListComponent/>
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route path={APPOINTMENT_SETTINGS}
+                               element={
+                                   <ProtectedRoute>
+                                       <AppointmentSettingsLayoutComponent/>
+                                   </ProtectedRoute>
+                               }
+                        />
+                        <Route
                             path={SERVICE_CATEGORY_LIST}
                             element={
                                 <ProtectedRoute>
@@ -424,6 +450,30 @@ const Navigator = (props: NavigatorProps) => {
                             }
                         />
                     </Route>
+                    <Route
+                        path={COUPON_DETAILS}
+                        element={
+                            <ProtectedRoute>
+                                <CouponDetailsComponent/>
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path={COUPON_ADD}
+                        element={
+                            <ProtectedRoute>
+                                <CouponAddScreen/>
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path={COUPON_EDIT}
+                        element={
+                            <ProtectedRoute>
+                                <CouponEditScreen/>
+                            </ProtectedRoute>
+                        }
+                    />
                     <Route
                         path={SERVICE_CATEGORY_DETAILS + '/:serviceCategoryId'}
                         element={

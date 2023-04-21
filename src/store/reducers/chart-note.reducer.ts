@@ -25,6 +25,7 @@ const chartNoteReducer = (state: IChartNoteReducerState = initialData, action: a
                 isFavouriteCodeListLoadingFailed: false,
             };
             return state;
+
         case SET_CLIENT_FAVOURITE_CODES:
             console.log(action.payload, 'action.payload');
             state = {

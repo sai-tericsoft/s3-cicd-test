@@ -11,6 +11,7 @@ const DASHBOARD = "/dashboard";
 const ADMIN = "/admin";
 const SERVICE_CATEGORY_LIST = "/admin/service-category-list";
 const SYSTEM_SETTINGS = "/admin/system-settings";
+const APPOINTMENT_SETTINGS = "/admin/appointment-settings";
 const SERVICE_DETAILS = "/admin/service-details";
 const SERVICE_ADD = "/admin/service/add";
 const SERVICE_EDIT = "/admin/service/edit";
@@ -18,6 +19,11 @@ const SERVICE_CATEGORY_DETAILS = "/admin/service-category-details";
 
 const FACILITY_LIST = "/admin/facility-list";
 const FACILITY_DETAILS = "/admin/facility-details";
+
+const DISCOUNT_LIST = "/admin/discount-list";
+const COUPON_DETAILS = "/coupon-details/:couponId";
+const COUPON_ADD = "/coupon/add";
+const COUPON_EDIT = "/coupon/:couponId/edit";
 
 const CLIENT_LIST = "/client-list";
 const CLIENT_ADD = "/client-add";
@@ -28,7 +34,7 @@ const CLIENT_DOCUMENTS = "client-documents";
 const CLIENT_DOCUMENTS_DETAILS = ":clientDocumentId/client-documents-view-details";
 const CLIENT_APPOINTMENTS = "client-appointments";
 const CLIENT_APPOINTMENT_DETAILS = '/client/:clientId/:clientAppointmentId/client-appointment-view-details';
-const CLIENT_EDIT = "client-edit";
+const CLIENT_EDIT = "/client-edit/:clientId";
 const CLIENT_SEARCH = '/chart-notes/client-list';
 const SCHEDULING_VIEW = '/scheduling';
 const CLIENT_MEDICAL_RECORD_DETAILS = '/chart-notes/:medicalRecordId/medical-record-details';
@@ -126,5 +132,9 @@ export {
     CLIENT_APPOINTMENTS,
     CLIENT_DOCUMENTS_DETAILS,
     CLIENT_APPOINTMENT_DETAILS,
-
+    DISCOUNT_LIST,
+    COUPON_DETAILS,
+    COUPON_ADD,
+    COUPON_EDIT,
+    APPOINTMENT_SETTINGS
 };

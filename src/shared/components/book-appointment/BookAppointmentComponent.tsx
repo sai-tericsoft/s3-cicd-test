@@ -55,6 +55,7 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
     );
     const onFormComplete = useCallback(
         (values: any) => {
+            console.log(values);
             setBookingDraft(values);
             setStep('overview');
         },

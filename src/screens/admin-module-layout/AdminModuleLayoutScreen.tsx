@@ -26,11 +26,11 @@ const ADMIN_MENU_ITEMS = [
     },
     {
         title: "Appointments",
-        path: ""
+        path: CommonService._routeConfig.appointmentSettingsLayout()
     },
     {
         title: "Discounts",
-        path: ""
+        path: CommonService._routeConfig.DiscountList()
     },
     {
         title: "Referral Discounts",
@@ -52,17 +52,17 @@ const AdminModuleLayoutScreen = (props: AdminModuleLayoutScreenProps) => {
     const title = (location.state && location.state.title) ? location.state.title : ADMIN_MENU_ITEMS[0].title;
 
     return (
-            <div className={'admin-module-layout'}>
-                <div className={"admin-module-layout-left-bar"}>
-                    <div className="admin-module-layout-title">
-                        {title}
-                    </div>
-                    <SubMenuListComponent menuItems={ADMIN_MENU_ITEMS}/>
+        <div className={'admin-module-layout'}>
+            <div className={"admin-module-layout-left-bar"}>
+                <div className="admin-module-layout-title">
+                    {title}
                 </div>
-                <div className="admin-module-content-wrapper">
-                    <Outlet/>
-                </div>
+                <SubMenuListComponent menuItems={ADMIN_MENU_ITEMS}/>
             </div>
+            <div className="admin-module-content-wrapper">
+                <Outlet/>
+            </div>
+        </div>
     );
 
 };

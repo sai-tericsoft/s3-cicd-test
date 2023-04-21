@@ -1,10 +1,28 @@
 @import "src/assets/styles/common";
 
 .facility-opening-hours {
-  width: 300px;
+  width: 550px;
   display: inline-block;
   border: 1px solid #F3F3F3;
   border-radius: 4px;
+
+  .facility-hours-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 56px;
+    background-color: #E1EBEA;
+  }
+  .week-days-heading{
+    margin-left: 40px;
+    font-weight: 700;
+    font-size: 1.1429rem;
+  }
+  .timing-heading{
+    margin-right: 140px;
+    font-weight: 700;
+    font-size: 1.1429rem;
+  }
 
   .data-label-value {
     flex-direction: row;
@@ -13,15 +31,17 @@
     padding-left: 24px;
 
     .data-label {
-      width: 66px;
+      width: 133px;
+      padding-left: 20px;
     }
 
     .data-value {
-      width: 130px;
+      width: 370px;
       font-weight: $font-weight-normal;
       align-items: center;
       margin-left: 50px;
       margin-right: 24px;
+      padding-left: 140px;
 
     }
   }
