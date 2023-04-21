@@ -22,6 +22,8 @@ import LinkComponent from "../../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 import {IRootReducerState} from "../../../../store/reducers";
 import {getCouponDetails} from "../../../../store/actions/discount.action";
+import PageHeaderComponent from "../../../../shared/components/page-header/PageHeaderComponent";
+import FormikSwitchComponent from "../../../../shared/components/form-controls/formik-switch/FormikSwitchComponent";
 
 interface CouponEditScreenProps {
 
@@ -85,7 +87,8 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                 discount_type: couponDetails?.discount_type,
                 percentage: couponDetails?.percentage,
                 max_discount_amount: couponDetails?.max_discount_amount,
-                amount: couponDetails?.amount
+                amount: couponDetails?.amount,
+                is_active: couponDetails?.is_active,
             };
             if (allServiceList?.length > 0) {
                 const service_categories = allServiceList.map((serviceCategory: any) => {
@@ -109,8 +112,6 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
     }, [couponDetails, allServiceList]);
 
 
-    console.log("couponDetails", couponDetails);
-
     useEffect(() => {
         if (couponId) {
             dispatch(setCurrentNavParams("", null, () => {
@@ -119,7 +120,7 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
         }
     }, [dispatch, navigate, couponId]);
 
-    const onCouponAddSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
+    const onCouponEditSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         if (couponId) {
             const payload = _.cloneDeep(values);
             payload.start_date = moment(payload?.start_date).format('YYYY-MM-DD');
@@ -138,21 +139,19 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                 .then((response: any) => {
                     setIsEditCouponInProgress(false);
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    navigate(CommonService._routeConfig.DiscountList());
                 }).catch((error: any) => {
                 setIsEditCouponInProgress(false);
                 CommonService.handleErrors(setErrors, error, true);
             });
         }
-    }, [couponId])
+    }, [couponId,navigate])
 
     return (
         <div className={'coupon-edit-screen'}>
-            <div className={'edit-coupon-heading'}>
-                Edit Coupon Details
-            </div>
             <Formik initialValues={editCouponInitialValues}
                     validationSchema={couponEditValidationSchema}
-                    onSubmit={onCouponAddSubmit}
+                    onSubmit={onCouponEditSubmit}
                     validateOnChange={false}
                     validateOnBlur={true}
                     enableReinitialize={true}
@@ -164,6 +163,24 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
+                            <div className={'d-flex ts-justify-content-sm-between'}>
+                                <PageHeaderComponent title={'Edit Coupon Details'}/>
+                                <div className={'d-flex  align-items-center'}>
+                                    <div className={'status-heading'}>Status:</div>
+                                    <Field name={'is_active'} className="t-form-control">
+                                        {
+                                            (field: FieldProps) => (
+                                                <FormikSwitchComponent
+                                                    label={values.is_active ? "Active" : "Inactive"}
+                                                    required={true}
+                                                    formikField={field}
+                                                    labelPlacement={"start"}
+                                                />
+                                            )
+                                        }
+                                    </Field>
+                                </div>
+                            </div>
                             <CardComponent title={'Coupon Details'}>
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-md-6'}>
