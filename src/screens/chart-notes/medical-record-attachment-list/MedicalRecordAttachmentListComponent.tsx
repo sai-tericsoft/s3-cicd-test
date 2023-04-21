@@ -71,6 +71,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             key: 'posted_by',
             dataIndex: 'posted_by',
             width: 250,
+            align: 'center',
             sortable: true,
             render: (item: any) => {
                 return <>{item?.posted_by?.first_name} {item?.posted_by?.last_name}</>

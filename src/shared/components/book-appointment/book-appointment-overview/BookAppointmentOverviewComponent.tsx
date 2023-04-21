@@ -65,6 +65,7 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                 duration: parseInt(booking.duration.duration),
                 start_time: booking.time.start_min,
                 end_time: booking.time.end_min,
+                medical_record_id: booking.case._id,
 
             }
             CommonService._appointment.addAppointment(payload)
