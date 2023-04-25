@@ -19,12 +19,12 @@ interface ReportAnIssueComponentProps {
 }
 
 const ReportAnIssueInitialValues: any = {
-    description: '',
+    issue: '',
     attachment: '',
 }
 
 const ReportAnIssueValidationSchema = Yup.object().shape({
-    description: Yup.string().max(500, ''),
+    issue: Yup.string().max(500, ''),
 });
 
 const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
@@ -39,7 +39,8 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
                 setIsIssueSubmitting(false);
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
 
-            }).catch((error) => {
+
+            }).catch((error:any) => {
             setIsIssueSubmitting(false);
             CommonService.handleErrors(setErrors, error, true);
         });
@@ -67,7 +68,7 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
 
                                     <FormControlLabelComponent className={'issue-heading'} label={'Issue'}/>
                                     <div className={'ts-col-md-12'}>
-                                        <Field name={'description'}>
+                                        <Field name={'issue'}>
                                             {
                                                 (field: FieldProps) => (
                                                     <FormikTextAreaComponent
@@ -82,11 +83,11 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
 
                                     </div>
                                     <div className={'ts-col-md-12'}>
-                                        {(values.description.length) >= 500 ?
+                                        {(values.issue.length) >= 500 ?
                                         <div className={'alert-error'}> Characters Limit
-                                            : {(values.description.length)}/500</div> :
+                                            : {(values.issue.length)}/500</div> :
                                         <div className={'no-alert'}> Characters Limit
-                                            : {(values.description.length)}/500</div>}
+                                            : {(values.issue.length)}/500</div>}
                                     </div>
                                     <div className={'ts-col-md-12'}>
                                         <FormControlLabelComponent label={"Attachment (if any)"}/>
@@ -129,6 +130,7 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
                                 <div className="t-form-actions">
                                     <ButtonComponent type={'submit'}
                                                      isLoading={isIssueSubmitting}
+
                                                      disabled={!isValid || isIssueSubmitting}>
                                         Submit
                                     </ButtonComponent>
