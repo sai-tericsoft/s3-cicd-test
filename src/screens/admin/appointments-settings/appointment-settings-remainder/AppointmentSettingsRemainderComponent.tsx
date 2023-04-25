@@ -232,7 +232,7 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
                             <ButtonComponent
                                 isLoading={isTemplateSaveInProgress}
                                 type="button"
-                                disabled={messageValue.length === 0 || messageValue === messageVal}
+                                disabled={messageValue?.length === 0 || messageValue === messageVal}
                                 onClick={onTemplateSubmit}
                             >
                                 Save
@@ -364,7 +364,7 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
                             <ButtonComponent
                                 isLoading={isTemplateSaveInProgress}
                                 type="button"
-                                disabled={emailValue.length === 0 || emailValue === emailContentValVal}
+                                disabled={emailValue?.length === 0 || emailValue === emailContentValVal}
                                 onClick={onTemplateSubmit}
                             >
                                 Save

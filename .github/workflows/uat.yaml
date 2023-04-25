@@ -23,13 +23,22 @@ jobs:
         run: yarn install
       - name: Run build task
         run:  yarn build:uat
-      - name: deploy to server
-        uses: AEnterprise/rsync-deploy@v1.0
-        env:
-          DEPLOY_KEY: ${{ secrets.KINERGY_UAT_PEM }}
-          ARGS: "-e -c -r --delete"
-          SERVER_PORT: 22
-          FOLDER: build/*
-          SERVER_IP: ${{ secrets.KINERGY_UAT_IP }}
-          USERNAME: ${{ secrets.USERNAME }}
-          SERVER_DESTINATION: ${{ secrets.DESTINATION_UAT }}
+      # - name: deploy to server
+      #   uses: AEnterprise/rsync-deploy@v1.0
+      #   env:
+      #     DEPLOY_KEY: ${{ secrets.KINERGY_UAT_PEM }}
+      #     ARGS: "-e -c -r --delete"
+      #     SERVER_PORT: 22
+      #     FOLDER: build/*
+      #     SERVER_IP: ${{ secrets.KINERGY_UAT_IP }}
+      #     USERNAME: ${{ secrets.USERNAME }}
+      #     SERVER_DESTINATION: ${{ secrets.DESTINATION_UAT }}
+      - name: rsync deployments
+        uses: burnett01/rsync-deployments@5.2.1
+        with:
+          switches: -avzr --delete
+          path: build/*
+          remote_path: ${{ secrets.DESTINATION_UAT }}
+          remote_host: ${{ secrets.KINERGY_UAT_IP }}
+          remote_user: ${{ secrets.USERNAME }}
+          remote_key: ${{ secrets.KINERGY_UAT_PEM }}       

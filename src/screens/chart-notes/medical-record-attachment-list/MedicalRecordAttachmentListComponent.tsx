@@ -28,45 +28,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             fixed: 'left',
             width: 250,
             sortable: true,
-            render: ( item: any) => {
-                return <>{CommonService.getSystemFormatTimeStamp(item?.created_at)}</>
-            }
-        },
-        {
-            title: 'File',
-            key: 'file',
-            dataIndex: 'file',
-            width: 250,
-            render: ( item: any) => {
-                return <>{item?.note_type}</>
-            }
-        },
-        {
-            title: 'Last Updated',
-            key: 'last_updated',
-            dataIndex: 'last_updated',
-            width: 250,
-            sortable: true,
-            render: ( item: any) => {
-                return <>{CommonService.transformTimeStamp(item?.updated_at)}</>
-            }
-        },
-        {
-            title: 'Posted By',
-            key: 'posted_by',
-            dataIndex: 'posted_by',
-            width:250,
-            sortable: true,
-            render: ( item: any) => {
-                return <>{item?.posted_by?.first_name} {item?.posted_by?.last_name}</>
-            }
-        },
-        {
-            title: '',
-            key: 'actions',
-            width: 130,
-            fixed: 'right',
-            render: ( item: any) => {
+            render: (item: any) => {
                 let route = '';
                 if (item.note_type_category.toLowerCase() === 'surgery record') {
                     route = CommonService._routeConfig.MedicalRecordSurgeryRecordDetails(item.medical_record_id, item._id);
@@ -76,10 +38,63 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
                     route = CommonService._routeConfig.MedicalInterventionConcussionFileViewDetails(item.medical_record_id, item._id);
                 } else if (item.note_type_category.toLowerCase() === 'document') {
                     route = CommonService._routeConfig.MedicalRecordDocumentViewDetails(item.medical_record_id, item._id);
-                } else if(item.note_type_category.toLowerCase() === 'progress report') {
+                } else if (item.note_type_category.toLowerCase() === 'progress report') {
                     route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(item.medical_record_id, item?._id);
+                } else {
                 }
-                else {
+                return <><LinkComponent route={route}>{CommonService.getSystemFormatTimeStamp(item?.created_at)}</LinkComponent></>
+            }
+        },
+        {
+            title: 'File',
+            key: 'file',
+            dataIndex: 'file',
+            width: 250,
+            render: (item: any) => {
+                return <>{item?.note_type}</>
+            }
+        },
+        {
+            title: 'Last Updated',
+            key: 'last_updated',
+            dataIndex: 'last_updated',
+            width: 250,
+            sortable: true,
+            render: (item: any) => {
+
+                return<>{CommonService.transformTimeStamp(item?.updated_at)}</>
+
+            }
+        },
+        {
+            title: 'Posted By',
+            key: 'posted_by',
+            dataIndex: 'posted_by',
+            width: 250,
+            align: 'center',
+            sortable: true,
+            render: ( item: any) => {
+                return <>{CommonService.capitalizeFirstLetter(item?.posted_by?.first_name)} {CommonService.capitalizeFirstLetter(item?.posted_by?.last_name)}</>
+            }
+        },
+        {
+            title: '',
+            key: 'actions',
+            width: 130,
+            fixed: 'right',
+            render: (item: any) => {
+                let route = '';
+                if (item.note_type_category.toLowerCase() === 'surgery record') {
+                    route = CommonService._routeConfig.MedicalRecordSurgeryRecordDetails(item.medical_record_id, item._id);
+                } else if (item.note_type_category.toLowerCase() === 'dry needling') {
+                    route = CommonService._routeConfig.MedicalInterventionDryNeedlingFileViewDetails(item.medical_record_id, item._id);
+                } else if (item.note_type_category.toLowerCase() === 'concussion') {
+                    route = CommonService._routeConfig.MedicalInterventionConcussionFileViewDetails(item.medical_record_id, item._id);
+                } else if (item.note_type_category.toLowerCase() === 'document') {
+                    route = CommonService._routeConfig.MedicalRecordDocumentViewDetails(item.medical_record_id, item._id);
+                } else if (item.note_type_category.toLowerCase() === 'progress report') {
+                    route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(item.medical_record_id, item?._id);
+                } else {
                 }
                 return <LinkComponent route={route}>
                     {

@@ -28,15 +28,24 @@ import AddMedicalRecordScreen from "../screens/chart-notes/add-medical-record/Ad
 import {
     ADD_INVENTORY_PRODUCT,
     ADD_MEDICAL_RECORD,
+    ADD_NEW_RECEIPT,
     ADMIN,
+    APPOINTMENT_SETTINGS,
     BILLING,
     BILLING_DETAILS,
+    BILLING_LIST,
     CHART_NOTES_LIST,
     CLIENT_ADD,
+    CLIENT_APPOINTMENT_DETAILS,
+    CLIENT_APPOINTMENTS,
+    CLIENT_BILLING_DETAILS,
     CLIENT_DETAILS,
+    CLIENT_DOCUMENTS,
+    CLIENT_DOCUMENTS_DETAILS,
     CLIENT_EDIT,
     CLIENT_LIST,
     CLIENT_MEDICAL_RECORD_DETAILS,
+    CLIENT_PROFILE_DETAILS,
     CLIENT_SEARCH,
     COMING_SOON_ROUTE,
     CONCUSSION_FILE_VIEW_DETAILS,
@@ -62,7 +71,6 @@ import {
     MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE,
     MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
     NOT_FOUND_ROUTE,
-    BILLING_LIST,
     PROGRESS_REPORT_VIEW_DETAILS,
     SCHEDULING_VIEW,
     SERVICE_ADD,
@@ -71,18 +79,11 @@ import {
     SERVICE_DETAILS,
     SERVICE_EDIT,
     SYSTEM_SETTINGS,
-    APPOINTMENT_SETTINGS,
     TEST_ROUTE,
     UPDATE_MEDICAL_INTERVENTION,
-    VIEW_MEDICAL_INTERVENTION,
-    CLIENT_PROFILE_DETAILS,
-    ADD_NEW_RECEIPT,
-    CLIENT_BILLING_DETAILS,
-    CLIENT_DOCUMENTS,
-    CLIENT_APPOINTMENTS,
-    CLIENT_DOCUMENTS_DETAILS,
     HELP, FAQ,
-    CLIENT_APPOINTMENT_DETAILS, DISCOUNT_LIST, COUPON_DETAILS, COUPON_ADD, COUPON_EDIT, REPORT_AN_ISSUE
+     DISCOUNT_LIST, COUPON_DETAILS, COUPON_ADD, COUPON_EDIT, REPORT_AN_ISSUE,
+    VIEW_MEDICAL_INTERVENTION
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
@@ -220,6 +221,14 @@ const Navigator = (props: NavigatorProps) => {
                             </ProtectedRoute>
                         }
                     />
+                    <Route
+                        path={CLIENT_EDIT}
+                        element={
+                            <ProtectedRoute>
+                                <ClientEditScreen/>
+                            </ProtectedRoute>
+                        }
+                    />
                     <Route path={CLIENT_DETAILS} element={<ClientDetailsScreen/>} {...props}>
                         <Route
                             index
@@ -256,14 +265,6 @@ const Navigator = (props: NavigatorProps) => {
                             element={
                                 <ProtectedRoute>
                                     <ClientAppointmentsComponent/>
-                                </ProtectedRoute>
-                            }
-                        />
-                        <Route
-                            path={CLIENT_EDIT}
-                            element={
-                                <ProtectedRoute>
-                                    <ClientEditScreen/>
                                 </ProtectedRoute>
                             }
                         />
@@ -434,12 +435,12 @@ const Navigator = (props: NavigatorProps) => {
                                 </ProtectedRoute>
                             }
                         />
-                         <Route path={APPOINTMENT_SETTINGS}
-                            element={
-                                <ProtectedRoute>
-                                    <AppointmentSettingsLayoutComponent/>
-                                </ProtectedRoute>
-                            }
+                        <Route path={APPOINTMENT_SETTINGS}
+                               element={
+                                   <ProtectedRoute>
+                                       <AppointmentSettingsLayoutComponent/>
+                                   </ProtectedRoute>
+                               }
                         />
                         <Route
                             path={SERVICE_CATEGORY_LIST}

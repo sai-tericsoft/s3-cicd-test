@@ -158,7 +158,7 @@ const AppointmentSettingsCancellationComponent = (props: AppointmentSettingsCanc
                                 isLoading={isTemplateSaveInProgress}
                                 type="button"
                                 onClick={onTemplateSubmit}
-                                disabled={messageValue.length === 0 || messageValue === messageVal}
+                                disabled={messageValue?.length === 0 || messageValue === messageVal}
                             >
                                 Save
                             </ButtonComponent>
@@ -292,7 +292,7 @@ const AppointmentSettingsCancellationComponent = (props: AppointmentSettingsCanc
                                 isLoading={isTemplateSaveInProgress}
                                 type="button"
                                 onClick={onTemplateSubmit}
-                                disabled={emailValue.length === 0 || emailValue === emailContentValVal}
+                                disabled={emailValue?.length === 0 || emailValue === emailContentValVal}
                             >
                                 Save
                             </ButtonComponent>
