@@ -226,24 +226,24 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                 <div className="details-body">
                                     <div className="details-body-block">
                                         <div className="details-body-item">
-                                            <div className="item-heading"><ImageConfig.PersonIcon/>&nbsp;Client Name</div>
+                                            <div className="item-heading"><ImageConfig.PersonIcon/>&nbsp;&nbsp;Client Name</div>
                                             <div
                                                 className="item-value">{details?.client_details?.first_name + ' ' + details?.client_details?.last_name}</div>
                                         </div>
                                         <div className="details-body-item">
-                                            <div className="item-heading"><ImageConfig.CallIcon/>&nbsp;Phone Number</div>
+                                            <div className="item-heading"><ImageConfig.CallIcon/>&nbsp;&nbsp;Phone Number</div>
                                             <div
                                                 className="item-value">{details?.client_details?.primary_contact_info?.phone ? CommonService.formatPhoneNumber(details?.client_details?.primary_contact_info?.phone) : 'N/A'}</div>
                                         </div>
                                         <div className="details-body-item">
-                                            <div className="item-heading"><ImageConfig.EmailIcon/>&nbsp;Email</div>
+                                            <div className="item-heading"><ImageConfig.EmailIcon/>&nbsp;&nbsp;Email</div>
                                             <div
                                                 className="item-value">{details?.client_details?.primary_email || 'N/A'}</div>
                                         </div>
                                     </div>
                                     <div className="details-body-block">
                                         <div className="details-body-item">
-                                            <div className="item-heading"><ImageConfig.AssignmentIcon/>&nbsp;Provider Name
+                                            <div className="item-heading"><ImageConfig.AssignmentIcon/>&nbsp;&nbsp;Provider Name
                                             </div>
                                             <div
                                                 className="item-value">
@@ -251,7 +251,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                                     {details?.provider_details?.first_name + ' ' + details?.provider_details?.last_name}
                                                 </div>
                                                 <div className="d-inline">
-                                                    <ChipComponent color={'success'} label={bookType?.title}/>&nbsp;
+                                                    <ChipComponent color={'success'} label={bookType?.title}/>&nbsp;&nbsp;
                                                     <ChipComponent color={'success'} label={details.duration + ' min'}/>
                                                 </div>
                                             </div>
@@ -259,7 +259,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                     </div>
                                     <div className="details-body-block">
                                         <div className="details-body-item">
-                                            <div className="item-heading"><ImageConfig.MedicalServicesIcon/>&nbsp;Service
+                                            <div className="item-heading"><ImageConfig.MedicalServicesIcon/>&nbsp;&nbsp;Service
                                             </div>
                                             <div
                                                 className="item-value">{details?.category_details?.name || 'N/A'} / {details?.service_details?.name || 'N/A'}</div>
@@ -267,7 +267,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                     </div>
                                     <div className="details-body-block">
                                         <div className="details-body-item">
-                                            <div className="item-heading"><ImageConfig.AttachMoneyIcon/>&nbsp;Payment Status
+                                            <div className="item-heading"><ImageConfig.AttachMoneyIcon/>&nbsp;&nbsp;Payment Status
                                             </div>
                                             <div className={"item-value"}>
                                                 <ChipComponent size={'small'}
