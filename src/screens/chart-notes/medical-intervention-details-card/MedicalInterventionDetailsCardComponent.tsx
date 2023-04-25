@@ -310,18 +310,18 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                             medicalRecordDetails={medicalInterventionDetails?.medical_record_details}/>
                         <DataLabelValueComponent label={'File Created On:'} direction={"row"}
                                                  className={'intervention-injury-details-wrapper'}>
-                            {(medicalInterventionDetails?.created_at ? moment(medicalInterventionDetails?.created_at).tz(moment.tz.guess()).format('DD-MM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
+                            {(medicalInterventionDetails?.created_at ? moment(medicalInterventionDetails?.created_at).tz(moment.tz.guess()).format('DD-MMM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
                             {medicalInterventionDetails?.created_by_details?.first_name ? medicalInterventionDetails?.created_by_details?.first_name + ' ' + medicalInterventionDetails?.created_by_details?.last_name : ' NA'}
                         </DataLabelValueComponent>
                         <div className={'ts-row'}>
                             <div className={'ts-col-md-3'}>
                                 <DataLabelValueComponent label={'Date of Intervention'}>
-                                    {medicalInterventionDetails?.intervention_date ? CommonService.getSystemFormatTimeStamp(medicalInterventionDetails?.intervention_date) : "N/A"}
+                                    {medicalInterventionDetails?.intervention_date ? CommonService.convertDateFormat2(medicalInterventionDetails?.intervention_date) : "N/A"}
                                 </DataLabelValueComponent>
                             </div>
                             <div className={'ts-col-md-3'}>
                                 <DataLabelValueComponent label={'Treated by'}>
-                                    {medicalInterventionDetails?.treated_by_details?.first_name ? (medicalInterventionDetails?.treated_by_details?.first_name + ' ' + medicalInterventionDetails?.treated_by_details?.last_name) : "N/A"}
+                                    {CommonService.capitalizeFirstLetter(medicalInterventionDetails?.treated_by_details?.first_name ? (medicalInterventionDetails?.treated_by_details?.first_name) + ' ' + CommonService.capitalizeFirstLetter(medicalInterventionDetails?.treated_by_details?.last_name) : "N/A")}
                                 </DataLabelValueComponent>
                             </div>
                             <div className={'ts-col-md-3'}>
@@ -348,7 +348,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                             <div className={'show-more-less'}
                                  onClick={() => setIsFullCardOpen(!isFullCardOpen)}>
                                 {isFullCardOpen ? 'Less' : 'More'} Details &nbsp;&nbsp;
-                                {isFullCardOpen ? <ImageConfig.DownArrowIcon/> : <ImageConfig.UpArrowIcon/> }
+                                {isFullCardOpen ? <ImageConfig.UpArrowIcon/> : <ImageConfig.DownArrowIcon/> }
                             </div>
                         </div>
                         <DrawerComponent isOpen={isEditMedicalRecordDrawerOpen}
