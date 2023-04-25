@@ -24,7 +24,7 @@ const ReportAnIssueInitialValues: any = {
 }
 
 const ReportAnIssueValidationSchema = Yup.object().shape({
-    description: Yup.string().max(500, 'Issue must be at most 500 characters'),
+    description: Yup.string().max(500, ''),
 });
 
 const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
@@ -81,7 +81,8 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
                                         </Field>
 
                                     </div>
-                                    <div className={'alert-wrapper'}> {(values.description.length) >= 500 ?
+                                    <div className={'ts-col-md-12'}>
+                                        {(values.description.length) >= 500 ?
                                         <div className={'alert-error'}> Characters Limit
                                             : {(values.description.length)}/500</div> :
                                         <div className={'no-alert'}> Characters Limit
