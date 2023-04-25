@@ -49,9 +49,9 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
             key: 'service',
             dataIndex: 'name',
             render: (item: any) => {
-                return <div className={'mrg-top-10 mrg-bottom-10'}>{item?.services?.length > 0 && item?.services?.map((service: any) => {
+                return <div>{item?.services?.length > 0 && item?.services?.map((service: any) => {
                     return <>
-                    <div>{service?.name || "-"}</div>
+                    <div className={'mrg-bottom-5 mrg-top-5'}>{service?.name || "-"}</div>
                     </>
                 })}</div>
             }

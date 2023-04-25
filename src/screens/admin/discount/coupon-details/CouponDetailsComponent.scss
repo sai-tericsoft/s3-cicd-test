@@ -20,15 +20,11 @@
     .table-component {
       .t-table-wrapper {
         .t-table {
-          .body{
-            .t-body{
-              .t-tr{
-                height: fit-content;
-              }
-            }
+          .t-tr{
+            height: fit-content;
           }
           .t-cell{
-            height: fit-content;
+            height: 80px;
           }
           .t-cell-service {
             padding-left: 20px;
