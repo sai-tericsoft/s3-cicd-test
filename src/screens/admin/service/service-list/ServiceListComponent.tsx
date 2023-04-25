@@ -26,7 +26,8 @@ const ServiceListComponent = (props: ServiceListComponentProps) => {
         {
             dataIndex: "status",
             key: "status",
-            width: 100,
+            width: 300,
+            align:'center',
             title: "Status",
             render: ( item: any) => {
                 return <ChipComponent label={item?.is_active ? "Active" : "Inactive"}
