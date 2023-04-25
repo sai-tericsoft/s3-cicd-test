@@ -18,8 +18,6 @@ const ServiceConsultationDetailsComponent = (props: ServiceConsultationDetailsCo
             title: "Duration",
             key: "duration",
             dataIndex: "duration",
-            width: 400,
-            fixed: "left",
             render: ( item: IConsultation) => {
                 return <span> {item?.duration_details?.title} </span>
             }
@@ -28,7 +26,8 @@ const ServiceConsultationDetailsComponent = (props: ServiceConsultationDetailsCo
             title: "Price",
             key: "price",
             dataIndex: "price",
-            align: "center",
+            align:'center',
+            fixed:'right',
             render: ( item: any) => {
                 return <span> {Misc.CURRENCY_SYMBOL}{item.price} </span>
             }
@@ -60,6 +59,7 @@ const ServiceConsultationDetailsComponent = (props: ServiceConsultationDetailsCo
                                 title={consultation.title ? "Follow-up Appointment" + (index + 1) + " ( " + consultation.title + " ) " : "Follow-up Appointment " + (index + 1)}
                                 size={"sm"}>
                                 <TableComponent data={consultation.consultation_details || []}
+                                                className={'followup-consultation-table'}
                                                 columns={ServiceConsultationColumns}
                                                 size={"small"}
                                                 id={"fa_table"}
