@@ -19,12 +19,20 @@
     width: 700px;
     .table-component {
       .t-table-wrapper {
-        .t-tr{
-          border-bottom: 1px solid #F3F3F3;
-        }
-
-        .t-cell-service {
-          padding-left: 20px;
+        .t-table {
+          .body{
+            .t-body{
+              .t-tr{
+                height: fit-content;
+              }
+            }
+          }
+          .t-cell{
+            height: fit-content;
+          }
+          .t-cell-service {
+            padding-left: 20px;
+          }
         }
       }
     }
