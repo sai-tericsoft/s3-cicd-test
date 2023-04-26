@@ -68,6 +68,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             key: "primary_contact_info",
             dataIndex: "primary_contact_info",
             width: 150,
+            align:'center',
             render: (item: any) => {
                 return <span>{item?.client_details?.primary_contact_info?.phone ? CommonService.formatPhoneNumber(item?.client_details?.primary_contact_info?.phone) : ''}</span>
             }
@@ -77,6 +78,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             key: "service",
             dataIndex: "service",
             width: 150,
+            align:'center',
             render: (item: any) => {
                 return <span>
                     {item?.service_details?.name}
@@ -87,6 +89,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             title: "Provider",
             key: "provider",
             dataIndex: "provider",
+            align:'center',
             width: 140,
             render: (item: any) => {
                 return <span>
@@ -98,6 +101,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             title: "Status",
             dataIndex: "status",
             key: "status",
+            align:'center',
             width: 90,
             render: (item: any) => {
                 return <ChipComponent label={item?.status}
