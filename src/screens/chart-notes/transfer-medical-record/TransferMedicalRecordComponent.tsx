@@ -95,16 +95,17 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 title: 'File',
                 key: 'note_type',
                 dataIndex: 'note_type',
-                width: 200,
+                width: 150,
             },
             {
                 title: 'Date',
                 key: 'date',
                 dataIndex: 'date',
+                align: 'center',
                 render: (item: any) => {
                     return CommonService.getSystemFormatTimeStamp(item?.created_at);
                 },
-                width: 150,
+                width: 200,
             },
             {
                 title: '',
