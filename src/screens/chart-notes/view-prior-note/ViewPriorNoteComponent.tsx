@@ -51,6 +51,7 @@ const {
             render: ( item: any) => {
                 return <LinkComponent
                     onClick={() => onMedicalInterventionSelection(item?.id)}
+                    behaviour={'redirect'}
                     route={CommonService._routeConfig.MedicalInterventionDetails(item?.medical_record_id, item?._id)+ '?referrer=' + location.pathname}>
                     View Details</LinkComponent>
             }
