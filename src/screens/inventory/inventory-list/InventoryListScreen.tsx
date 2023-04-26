@@ -51,7 +51,7 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
             title: 'Product',
             dataIndex: 'name',
             key: 'name',
-            width: 163,
+            width: 263,
             fixed: 'left',
         },
         {
@@ -59,13 +59,13 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
             dataIndex: 'code',
             key: 'code',
             align: 'center',
-            width: 138
+            width: 148
         },
         {
             title: 'Quantity Available',
             dataIndex: 'quantity',
             key: 'quantity',
-            width: 171,
+            width: 181,
             align: 'center',
             sortable: true,
             render: (item: any) => {
@@ -75,11 +75,11 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
             }
         },
         {
-            title: 'Amount',
+            title: 'Retail Price',
             dataIndex: 'price',
             key: 'price',
             align: 'center',
-            width: 176,
+            width: 186,
             render: (item: any) => {
                 return <> {Misc.CURRENCY_SYMBOL} {item?.price} </>
             }
