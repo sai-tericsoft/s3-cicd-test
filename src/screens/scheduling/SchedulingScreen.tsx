@@ -55,12 +55,12 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
         },
         {
             title: "Client Name",
-            key: "name",
-            dataIndex: "client_name",
+            key: "first_name",
+            dataIndex: "first_name",
             sortable: true,
             width: 150,
             render: (item: any) => {
-                return CommonService.extractName(item?.client_details)
+                return <>{item?.client_details?.last_name}{","}{" "}{item?.client_details?.first_name}</>
             }
         },
         {
