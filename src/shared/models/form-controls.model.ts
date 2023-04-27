@@ -1,4 +1,4 @@
-import React from "react";
+import React, {InputHTMLAttributes} from "react";
 import {AutocompleteRenderOptionState} from "@mui/material";
 import {Moment} from "moment/moment";
 
@@ -245,4 +245,19 @@ export interface IDateRangePickerProps {
     mask?: string;
     rangeDivider?: 'to' | '-';
     className?: string;
+}
+
+export interface IPhoneInputProps {
+    className?: string;
+    disabled?: boolean;
+    fullWidth?: boolean;
+    id?: string;
+    inputProps?: InputHTMLAttributes<HTMLInputElement>;
+    label?: string;
+    name?: string;
+    onChange?: (value: any) => void;
+    placeholder?: string;
+    readOnly?: boolean;
+    required?: boolean;
+    value?: any;
 }

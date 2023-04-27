@@ -50,7 +50,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             width: 150,
             align: "center",
             render: (item: IClientBasicDetails) => {
-                return <span>{item?.primary_contact_info?.phone}</span>
+                return <span>{CommonService.formatPhoneNumber(item?.primary_contact_info?.phone || '-')}</span>
             }
         },
         {

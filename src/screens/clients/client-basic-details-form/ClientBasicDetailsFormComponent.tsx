@@ -25,6 +25,8 @@ import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipCompone
 import {useParams} from "react-router-dom";
 import HorizontalLineComponent
     from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
+import FormikPhoneInputComponent
+    from "../../../shared/components/form-controls/formik-phone-input/FormikPhoneInputComponent";
 
 interface ClientBasicDetailsFormComponentProps {
     mode: "add" | "edit";
@@ -438,10 +440,9 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                             <Field name={'primary_contact_info.phone'}>
                                                 {
                                                     (field: FieldProps) => (
-                                                        <FormikInputComponent
+                                                        <FormikPhoneInputComponent
                                                             label={'Phone Number (Primary)'}
                                                             placeholder={'Phone Number (Primary)'}
-                                                            type={"text"}
                                                             required={true}
                                                             formikField={field}
                                                             id={'primary_phone_number'}
@@ -489,10 +490,9 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                 <Field name={`secondary_contact_info[${index}].phone`}>
                                                                     {
                                                                         (field: FieldProps) => (
-                                                                            <FormikInputComponent
+                                                                            <FormikPhoneInputComponent
                                                                                 label={'Phone Number'}
                                                                                 placeholder={'Phone Number'}
-                                                                                type={"text"}
                                                                                 formikField={field}
                                                                                 fullWidth={true}
                                                                             />
@@ -776,10 +776,9 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 name={'emergency_contact_info.primary_emergency.primary_contact_info.phone'}>
                                                 {
                                                     (field: FieldProps) => (
-                                                        <FormikInputComponent
+                                                        <FormikPhoneInputComponent
                                                             label={'Phone Number (Primary)'}
                                                             placeholder={'Phone Number (Primary)'}
-                                                            type={"text"}
                                                             required={true}
                                                             formikField={field}
                                                             fullWidth={true}
@@ -828,10 +827,9 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                     name={`emergency_contact_info.primary_emergency.secondary_contact_info[${index}].phone`}>
                                                                     {
                                                                         (field: FieldProps) => (
-                                                                            <FormikInputComponent
+                                                                            <FormikPhoneInputComponent
                                                                                 label={'Phone Number'}
                                                                                 placeholder={'Phone Number'}
-                                                                                type={"text"}
                                                                                 formikField={field}
                                                                                 fullWidth={true}
                                                                             />
@@ -967,10 +965,9 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                             name={'emergency_contact_info.secondary_emergency.primary_contact_info.phone'}>
                                                             {
                                                                 (field: FieldProps) => (
-                                                                    <FormikInputComponent
+                                                                    <FormikPhoneInputComponent
                                                                         label={'Phone Number (Primary)'}
                                                                         placeholder={'Phone Number (Primary)'}
-                                                                        type={"text"}
                                                                         formikField={field}
                                                                         fullWidth={true}
                                                                     />
@@ -1016,10 +1013,9 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                                 name={`emergency_contact_info.secondary_emergency.secondary_contact_info[${index}].phone`}>
                                                                                 {
                                                                                     (field: FieldProps) => (
-                                                                                        <FormikInputComponent
+                                                                                        <FormikPhoneInputComponent
                                                                                             label={'Phone Number'}
                                                                                             placeholder={'Phone Number'}
-                                                                                            type={"text"}
                                                                                             formikField={field}
                                                                                             fullWidth={true}
                                                                                         />

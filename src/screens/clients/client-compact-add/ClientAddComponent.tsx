@@ -8,6 +8,8 @@ import {CommonService} from "../../../shared/services";
 import {ENV, ImageConfig, Misc} from "../../../constants";
 import {useNavigate} from "react-router-dom";
 import * as Yup from "yup";
+import FormikPhoneInputComponent
+    from "../../../shared/components/form-controls/formik-phone-input/FormikPhoneInputComponent";
 
 
 interface ClientAddComponentProps {
@@ -136,8 +138,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                 <Field name={'primary_contact_info.phone'}>
                                     {
                                         (field: FieldProps) => (
-                                            <FormikInputComponent
-                                                titleCase={true}
+                                            <FormikPhoneInputComponent
                                                 label={'Phone Number'}
                                                 formikField={field}
                                                 required={true}
