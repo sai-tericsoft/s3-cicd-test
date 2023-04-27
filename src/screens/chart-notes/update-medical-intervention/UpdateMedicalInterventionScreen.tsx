@@ -454,7 +454,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                             size={"large"}
                                                                             className={'rom-special-test-icd-11-cta'}
                                                                         >
-                                                                            Add Range of Motion and Strength
+                                                                            Range of Motion and Strength
                                                                         </ButtonComponent>
                                                                     </LinkComponent>
                                                                 }
@@ -563,7 +563,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                         size={"large"}
                                                                         className={'rom-special-test-icd-11-cta'}
                                                                     >
-                                                                        Add Special Test
+                                                                       Special Tests
                                                                     </ButtonComponent>
                                                                 </LinkComponent>
                                                             }
@@ -811,7 +811,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                         size={"large"}
                                                                         className={'rom-special-test-icd-11-cta'}
                                                                     >
-                                                                        Add Medical Diagnosis / ICD-11 Codes
+                                                                        Medical Diagnosis / ICD-11 Codes
                                                                     </ButtonComponent>
                                                                 </LinkComponent>
                                                             }
