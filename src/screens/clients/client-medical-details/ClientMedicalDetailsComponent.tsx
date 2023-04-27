@@ -102,7 +102,9 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                        </ButtonComponent>
                                    </LinkComponent>
                                    }>
-                        {clientMedicalDetails?.allergies || "N/A"}
+                        {clientMedicalDetails?.allergies.split("\n").map((i: any, key: any) => {
+                            return <div key={key}>{i}</div>;
+                        }) || "N/A"}
                     </CardComponent>
                     <CardComponent title={'Medication/Supplements'} actions={<LinkComponent
                         route={CommonService._client.NavigateToClientEdit(clientId, "medicalSupplements")}>
@@ -166,10 +168,9 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             </div>
                         }
                         {clientMedicalDetails?.medical_history?.comments &&
-                            <DataLabelValueComponent label={""}>
-                                {clientMedicalDetails?.medical_history?.comments}
-                            </DataLabelValueComponent>
-                        }
+                                clientMedicalDetails?.medical_history?.comments.split("\n").map((i: any, key: any) => {
+                                    return <div key={key}>{i}</div>;
+                                }) || "N/A"}
                     </CardComponent>
                     {
                         clientBasicDetails?.gender === "female" && <>
@@ -222,7 +223,9 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                         }
                         {clientMedicalDetails?.surgical_history?.comments && <>
 
-                            {clientMedicalDetails?.surgical_history?.comments}
+                            {clientMedicalDetails?.surgical_history?.comments.split("\n").map((i: any, key: any) => {
+                                return <div key={key}>{i}</div>;
+                            }) || "N/A"}
                         </>
 
                         }
