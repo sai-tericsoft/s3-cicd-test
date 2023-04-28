@@ -564,6 +564,10 @@ const editMentionsFormat = (value: string, mentionsData: any) => {
     return cleanedValue;
 }
 
+const convertToDecimals = (value: number) => {
+    return value.toFixed(2)
+}
+
 const CommonService = {
     LightenDarkenColor,
     getContrastYIQ,
@@ -612,6 +616,7 @@ const CommonService = {
     cleanMentionsPayload,
     cleanMentionsResponse,
     editMentionsFormat,
+    convertToDecimals,
 
     // createValidationsObject,
     // createYupSchema,
@@ -633,6 +638,6 @@ const CommonService = {
     _inventory: InventoryService,
     _systemSettings: SystemSettingsService,
     _billingsService: BillingsService,
-    _discountService:DiscountService,
+    _discountService: DiscountService,
 }
 export default CommonService;

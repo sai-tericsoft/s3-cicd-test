@@ -121,7 +121,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             width: 150,
             align: 'center',
             render: (item: any) => {
-                return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id)+ '?referrer='+ location.pathname + '&type=invoice'}>
+                return <LinkComponent
+                    route={CommonService._routeConfig.BillingDetails(item?._id) + '?referrer=' + location.pathname + '&type=invoice'}>
                     {
                         (item?.appointment_details.appointment_number).length > 10 ?
                             <ToolTipComponent
@@ -203,7 +204,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             dataIndex: 'amount',
             width: 120,
             render: (item: any) => {
-                return <>{Misc.CURRENCY_SYMBOL} {item?.total}</>
+                return <>{Misc.CURRENCY_SYMBOL} {CommonService.convertToDecimals(item?.total)}</>
             }
         },
         {
@@ -294,7 +295,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             dataIndex: 'amount',
             width: 120,
             render: (item: any) => {
-                return <>{Misc.CURRENCY_SYMBOL} {item?.total}</>
+                return <>{Misc.CURRENCY_SYMBOL} {CommonService.convertToDecimals(item?.total)}</>
             }
         },
         {
@@ -343,7 +344,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             align: 'center',
             dataIndex: 'amount',
             render: (item: any) => {
-                return <>{Misc.CURRENCY_SYMBOL} {item?.total}</>
+                return <>{Misc.CURRENCY_SYMBOL} {CommonService.convertToDecimals(item?.total)}</>
             }
         },
         {
@@ -396,7 +397,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             dataIndex: 'receipt_number',
             render: (item: any) => {
 
-      return <LinkComponent route={CommonService._routeConfig.BillingDetails(item?._id)+ '?referrer='+ location.pathname + '&type=receipt'}>
+                return <LinkComponent
+                    route={CommonService._routeConfig.BillingDetails(item?._id) + '?referrer=' + location.pathname + '&type=receipt'}>
                     {item?.receipt_number}
                 </LinkComponent>
             }
@@ -440,7 +442,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             align: 'center',
             dataIndex: 'amount',
             render: (item: any) => {
-                return <>{Misc.CURRENCY_SYMBOL} {item?.total}</>
+                return <>{Misc.CURRENCY_SYMBOL} {CommonService.convertToDecimals(item?.total)}</>
             }
         },
         {
@@ -676,15 +678,15 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                         <div className="ts-col-lg-2"/>
                         <div className="ts-col-lg-4 d-flex ts-justify-content-end">
                             {currentTab === 'pendingPayments' &&
-                                <>
-                                    <ButtonComponent variant={'outlined'}
-                                                     className={'mrg-right-10'}
-                                                     disabled={selectedPayments.length === 0}
-                                                     onClick={openMarkAsPaidModal}
-                                                     prefixIcon={<ImageConfig.CircleCheck/>}>
-                                        Mark as paid
-                                    </ButtonComponent>&nbsp;&nbsp;
-                                </>
+                            <>
+                                <ButtonComponent variant={'outlined'}
+                                                 className={'mrg-right-10'}
+                                                 disabled={selectedPayments.length === 0}
+                                                 onClick={openMarkAsPaidModal}
+                                                 prefixIcon={<ImageConfig.CircleCheck/>}>
+                                    Mark as paid
+                                </ButtonComponent>&nbsp;&nbsp;
+                            </>
                             }
                             {!clientId && <LinkComponent route={CommonService._routeConfig.AddNewReceipt()}>
                                 <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}>
@@ -697,50 +699,50 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 </div>
             </div>
             {clientId &&
-                <div>
-                    {
-                        isBillingStatsBeingLoading && <LoaderComponent/>
-                    }
-                    {
-                        isBillingStatsBeingLoadingFailed &&
-                        <StatusCardComponent title={"Failed to fetch service details"}/>
-                    }
-                    {
-                        isBillingStatsBeingLoaded && <>
-                            <div className="ts-row">
-                                <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6 ">
-                                    <BillingStatsCardComponent
-                                        title={"Total Amount"}
-                                        amount={billingStats.total_payments}
-                                        icon={<ImageConfig.TotalAmount/>}
-                                    />
-                                </div>
-
-                                <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6">
-                                    <BillingStatsCardComponent
-                                        title={"Pending Payments"}
-                                        amount={billingStats.pending_payments}
-                                        icon={<ImageConfig.PendingPayments/>}
-                                    />
-                                </div>
-                                <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6">
-                                    <BillingStatsCardComponent
-                                        title={"Completed Payments"}
-                                        amount={billingStats.completed_payments}
-                                        icon={<ImageConfig.CompletedPayments/>}
-                                    />
-                                </div>
-                                <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6">
-                                    <BillingStatsCardComponent
-                                        title={"Discount Amount"}
-                                        amount={billingStats.discounts}
-                                        icon={<ImageConfig.PendingAmount/>}
-                                    />
-                                </div>
+            <div>
+                {
+                    isBillingStatsBeingLoading && <LoaderComponent/>
+                }
+                {
+                    isBillingStatsBeingLoadingFailed &&
+                    <StatusCardComponent title={"Failed to fetch service details"}/>
+                }
+                {
+                    isBillingStatsBeingLoaded && <>
+                        <div className="ts-row">
+                            <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6 ">
+                                <BillingStatsCardComponent
+                                    title={"Total Amount"}
+                                    amount={billingStats.total_payments}
+                                    icon={<ImageConfig.TotalAmount/>}
+                                />
                             </div>
-                        </>
-                    }
-                </div>
+
+                            <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6">
+                                <BillingStatsCardComponent
+                                    title={"Pending Payments"}
+                                    amount={billingStats.pending_payments}
+                                    icon={<ImageConfig.PendingPayments/>}
+                                />
+                            </div>
+                            <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6">
+                                <BillingStatsCardComponent
+                                    title={"Completed Payments"}
+                                    amount={billingStats.completed_payments}
+                                    icon={<ImageConfig.CompletedPayments/>}
+                                />
+                            </div>
+                            <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6">
+                                <BillingStatsCardComponent
+                                    title={"Discount Amount"}
+                                    amount={billingStats.discounts}
+                                    icon={<ImageConfig.PendingAmount/>}
+                                />
+                            </div>
+                        </div>
+                    </>
+                }
+            </div>
             }
             <TabsWrapperComponent>
                 <TabsComponent value={currentTab}
