@@ -49,7 +49,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             title: 'File',
             key: 'file',
             dataIndex: 'file',
-            width: 250,
+            width: 200,
             render: (item: any) => {
                 return <>{item?.note_type}</>
             }
@@ -58,7 +58,8 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             title: 'Last Updated',
             key: 'last_updated',
             dataIndex: 'last_updated',
-            width: 250,
+            width: 360,
+            align:'center',
             sortable: true,
             render: (item: any) => {
 
@@ -70,8 +71,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             title: 'Posted By',
             key: 'posted_by',
             dataIndex: 'posted_by',
-            width: 250,
-            align: 'center',
+            width: 380,
             sortable: true,
             render: ( item: any) => {
                 return <>{CommonService.capitalizeFirstLetter(item?.posted_by?.first_name)} {CommonService.capitalizeFirstLetter(item?.posted_by?.last_name)}</>

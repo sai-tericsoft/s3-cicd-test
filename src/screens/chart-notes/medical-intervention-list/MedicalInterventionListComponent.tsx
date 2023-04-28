@@ -132,7 +132,6 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             title: 'Posted By',
             key: 'posted_by',
             dataIndex: 'name',
-            align: 'center',
             width: 125,
             sortable: true,
             render: (item: any) => {
