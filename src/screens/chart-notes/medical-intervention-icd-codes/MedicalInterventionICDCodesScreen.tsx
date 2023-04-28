@@ -124,7 +124,8 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             key: 'select',
             title: '',
             dataIndex: 'select',
-            width: 90,
+            width: 20,
+            fixed: 'left',
             render: (item: any, record: any) => {
                 return <CheckBoxComponent label={""} checked={selectedICDCodes.includes(record?._id)}
                                           onChange={(isChecked) => {
@@ -141,14 +142,15 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             title: 'ICD-11 Codes',
             dataIndex: 'icd_code',
             key: 'icd_code',
-            width: 120,
+            width: 180,
             fixed: 'left',
+            align: 'left',
         },
         {
             title: 'Description',
             dataIndex: 'description',
             key: 'description',
-            width: 250,
+            width:650,
         },
         {
             title: 'Mark as Favourite',
@@ -156,7 +158,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             key: 'favorite',
             fixed: 'right',
             align: 'center',
-            width: 120,
+            width: 220,
             render: (_: any, item: any) => {
                 return <span>
                     {
@@ -179,7 +181,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             key: 'select',
             title: '',
             dataIndex: 'select',
-            width: 90,
+            width: 20,
             render: (item: any, record: any) => {
                 return <CheckBoxComponent label={""} checked={selectedICDCodes.includes(record?.icd_code_id)}
                                           onChange={(isChecked) => {
@@ -197,7 +199,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             title: 'ICD-11 Codes',
             dataIndex: 'icd_code',
             key: 'icd_code',
-            width: 120,
+            width: 180,
             fixed: 'left',
             render: (_: any, item: any) => {
                 return <>{item?.icd_code_details?.icd_code}</>
@@ -207,7 +209,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             title: 'Description',
             dataIndex: 'description',
             key: 'description',
-            width: 250,
+            width:650,
             render: (_: any, item: any) => {
                 return <>{item?.icd_code_details?.description}</>
             }
@@ -218,7 +220,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             key: 'favorite',
             fixed: 'right',
             align: 'center',
-            width: 120,
+            width: 220,
             render: (_: any, item: any) => {
                 return <span onClick={() => removeFavouriteCode(item?.icd_code_id)}>
                   <ImageConfig.FilledStarIcon className={'star-icon-favourite'}/>
