@@ -40,7 +40,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             sortable: true,
             width: 200,
             render: (item: IClientBasicDetails) => {
-                return <span>{item?.last_name}{","}{" "}{item?.first_name}</span>
+                return <span>{CommonService.extractName(item)}</span>
             }
         },
         {
