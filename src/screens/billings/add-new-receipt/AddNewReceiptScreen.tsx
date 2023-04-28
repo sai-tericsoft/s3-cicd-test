@@ -190,6 +190,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             title: "Units",
             dataIndex: "units",
             key: "units",
+            align: 'center',
             width: 70,
             render: (record: any, index: number) => <Field name={`products[${index}].units`} className="t-form-control">
                 {
@@ -229,6 +230,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             title: "Rate",
             dataIndex: "rate",
             key: "rate",
+            align: 'center',
             width: 70,
             render: (record: any, index: number) => <Field name={`products[${index}].units`} className="t-form-control">
                 {
@@ -243,6 +245,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         {
             title: "Amount",
             dataIndex: "amount",
+            align: 'center',
             key: "amount",
             width: 70,
             render: (record: any, index: number) => <Field name={`products[${index}].units`} className="t-form-control">
