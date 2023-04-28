@@ -43,7 +43,6 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: "onset_date",
             dataIndex: "onset_set",
             width: 150,
-            align:'center',
             fixed: "left",
             sortable: true,
             render: ( item: any) => {
@@ -59,7 +58,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: "body_part",
             align:'center',
             dataIndex: "body_part",
-            width: 120,
+            width: 200,
             render: ( item: any) => {
                 if (item?.injury_details?.length === 1) {
                     return <>{item?.injury_details[0]?.body_part_details?.name}</>
