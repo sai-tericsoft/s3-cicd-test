@@ -5,10 +5,16 @@
     font-weight: 700;
     margin-bottom: 20px;
   }
+  .card-component .card-header .card-title-description-wrapper .card-title{
+    text-transform: capitalize;
+  }
 
   .t-form {
     .card-component {
       margin-bottom: 0px;
+    }
+    .status-heading{
+      color: #ABB6BE;
     }
 
     .currency-field {
