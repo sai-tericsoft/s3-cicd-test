@@ -103,6 +103,7 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
             .then((response: any) => {
                 setIsAddCouponInProgress(false);
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                navigate(CommonService._routeConfig.DiscountList());
             }).catch((error: any) => {
             setIsAddCouponInProgress(false);
             CommonService.handleErrors(setErrors, error, true);
