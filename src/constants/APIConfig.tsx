@@ -789,6 +789,11 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + '/mentions',
         METHOD: 'get'
     },
+
+    GET_FQA_LIST: {
+        URL: ENV.API_URL + '/faqs',
+        METHOD: 'get'
+    },
     GET_COUPON_VIEW_DETAILS: {
         URL: (couponId: any) => ENV.API_URL + '/coupon/' + couponId,
         METHOD: 'get'
@@ -804,6 +809,10 @@ const APIConfig: IAPIConfig = {
     ALL_SERVICE_LIST: {
         URL: ENV.API_URL + '/allServices',
         METHOD: 'get'
+    },
+    REPORT_AN_ISSUE:{
+        URL: ENV.API_URL + '/notifyIssue',
+        METHOD: 'post'
     }
 }
 

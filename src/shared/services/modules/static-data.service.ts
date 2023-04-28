@@ -151,6 +151,11 @@ const getFilesUneditableAfterOptionsList = (payload: any) => {
     return ApiService[APIConfig.GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST.METHOD](APIConfig.GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST.URL, payload)
 }
 
+const getFQAList = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.GET_FQA_LIST.METHOD](APIConfig.GET_FQA_LIST.URL, payload)
+}
+
 const getPrimaryRemainderHoursList = (payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.PRIMARY_REMAINDERS_HOURS_LIST.METHOD](APIConfig.PRIMARY_REMAINDERS_HOURS_LIST.URL, payload)
@@ -176,6 +181,10 @@ const getUserMentionsList = (payload: any) => {
     return ApiService[APIConfig.USER_MENTIONS_LIST.METHOD](APIConfig.USER_MENTIONS_LIST.URL, payload)
 }
 
+const ReportAnIssue = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.REPORT_AN_ISSUE.METHOD](APIConfig.REPORT_AN_ISSUE.URL, payload,{'Content-Type': 'multipart/form-data'})
+}
 
 const StaticDataService = {
     today,
@@ -208,12 +217,14 @@ const StaticDataService = {
     getAppointmentTypes,
     getSystemAutoLockDurationOptionsList,
     getFilesUneditableAfterOptionsList,
+    getFQAList,
     discountType,
     getPrimaryRemainderHoursList,
     getSecondaryRemainderHoursList,
     getRescheduledHoursList,
     getRescheduledTimesList,
-    getUserMentionsList
+    getUserMentionsList,
+    ReportAnIssue
 }
 
 export default StaticDataService;

@@ -5,8 +5,8 @@ import {
     GET_COMMUNICATION_MODE_TYPE_LIST,
     GET_CONCUSSION_FILE_TYPES,
     GET_CONSULTATION_DURATION_LIST,
-    GET_EMPLOYMENT_STATUS_LIST,
-    GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST,
+    GET_EMPLOYMENT_STATUS_LIST, GET_FAQ_LIST, GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST,
+
     GET_GENDER_LIST,
     GET_INJURY_TYPE_LIST,
     GET_LANGUAGE_LIST,
@@ -33,8 +33,8 @@ import {
     SET_COMMUNICATION_MODE_TYPE_LIST,
     SET_CONCUSSION_FILE_TYPES,
     SET_CONSULTATION_DURATION_LIST,
-    SET_EMPLOYMENT_STATUS_LIST,
-    SET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST,
+    SET_EMPLOYMENT_STATUS_LIST, SET_FAQ_LIST, SET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST,
+
     SET_GENDER_LIST,
     SET_INJURY_TYPE_LIST,
     SET_LANGUAGE_LIST,
@@ -132,6 +132,10 @@ export interface IStaticDataReducerState {
     filesUneditableAfterOptionList: ISystemAutoLockDurationOption[],
     isFilesUneditableAfterOptionListLoading?: boolean,
     isFilesUneditableAfterOptionListLoaded?: boolean,
+    isFaqListLoading: boolean,
+    isFaqListLoaded: boolean,
+    isFaqListLoadingFailed: boolean,
+    faqList: any[],
 
     primaryRemainderHoursList: any[],
     isPrimaryRemainderHoursListLoading: boolean,
@@ -236,6 +240,10 @@ const initialData: IStaticDataReducerState = {
     filesUneditableAfterOptionList: [],
     isFilesUneditableAfterOptionListLoading: false,
     isFilesUneditableAfterOptionListLoaded: false,
+    isFaqListLoading: false,
+    isFaqListLoaded: false,
+    isFaqListLoadingFailed: false,
+    faqList: [],
 
     primaryRemainderHoursList: [],
     isPrimaryRemainderHoursListLoading: false,
@@ -591,6 +599,23 @@ const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDa
                 isFilesUneditableAfterOptionListLoading: false,
                 isFilesUneditableAfterOptionListLoaded: true,
                 filesUneditableAfterOptionList: action.payload.filesUneditableAfterOptionList
+            }
+            return state;
+        case GET_FAQ_LIST:
+            state = {
+                ...state,
+                isFaqListLoading: true,
+                isFaqListLoaded: false,
+                isFaqListLoadingFailed: false
+            }
+            return state;
+        case SET_FAQ_LIST:
+            state = {
+                ...state,
+                isFaqListLoading: false,
+                isFaqListLoaded: true,
+                isFaqListLoadingFailed: false,
+                faqList: action.payload.faqList
             }
             return state;
         case GET_PRIMARY_REMAINDER_HOURS_LIST:

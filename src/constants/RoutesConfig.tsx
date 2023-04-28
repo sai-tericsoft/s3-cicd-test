@@ -71,6 +71,10 @@ const BILLING_LIST = "/billing/billing-list";
 const ADD_NEW_RECEIPT = "/billing/add-new-receipt";
 const BILLING_DETAILS = "/billing/billing-details/:billingId";
 
+const HELP = "/help";
+const FAQ = "/help/faq";
+const REPORT_AN_ISSUE = "/help/report-an-issue";
+
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
 export {
@@ -132,9 +136,12 @@ export {
     CLIENT_APPOINTMENTS,
     CLIENT_DOCUMENTS_DETAILS,
     CLIENT_APPOINTMENT_DETAILS,
+    HELP,
+    FAQ,
+    REPORT_AN_ISSUE,
     DISCOUNT_LIST,
     COUPON_DETAILS,
     COUPON_ADD,
     COUPON_EDIT,
-    APPOINTMENT_SETTINGS
+    APPOINTMENT_SETTINGS,
 };

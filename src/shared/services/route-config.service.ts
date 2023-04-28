@@ -6,10 +6,10 @@ import {
     COMING_SOON_ROUTE, COUPON_ADD,
     DASHBOARD, DISCOUNT_LIST,
     FACILITY_DETAILS,
-    FACILITY_LIST,
+    FACILITY_LIST, FAQ,
     INVENTORY,
     LOGIN_ROUTE,
-    NOT_FOUND_ROUTE,
+    NOT_FOUND_ROUTE, REPORT_AN_ISSUE,
     SCHEDULING_VIEW,
     SERVICE_ADD,
     SERVICE_CATEGORY_DETAILS,
@@ -244,6 +244,14 @@ const BillingDetails = (billingId: string) => {
     return "/billing/billing-details/" + billingId;
 }
 
+const FrequentlyAskedQuestions = () => {
+    return FAQ;
+}
+
+const ReportAnIssue = () => {
+    return REPORT_AN_ISSUE;
+}
+
 const CouponViewDetails = (couponId: string) => {
     return "/coupon-details/" + couponId;
 }
@@ -311,11 +319,13 @@ const RouteConfigService = {
     ClientAppointments,
     clientDocumentViewDetails,
     ClientAppointmentViewDetails,
+    FrequentlyAskedQuestions,
     DiscountList,
     CouponViewDetails,
     CouponAdd,
     CouponEdit,
-    appointmentSettingsLayout
+    appointmentSettingsLayout,
+    ReportAnIssue
 }
 
 export default RouteConfigService;

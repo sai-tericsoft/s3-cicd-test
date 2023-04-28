@@ -43,6 +43,11 @@ const menuList: IMenuItem[] = [
         path: CommonService._routeConfig.InventoryList(),
         title: 'Inventory',
         icon: ImageConfig.InventoryIcon
+    },
+    {
+        path:CommonService._routeConfig.FrequentlyAskedQuestions(),
+        title:"Help",
+        icon:ImageConfig.HelpIcon
     }
 ]
 

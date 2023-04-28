@@ -1,0 +1,27 @@
+.report-an-issue-component{
+  .t-form {
+    .ts-row {
+      .issue-heading {
+        margin-left: 13px;
+      }
+
+        .alert-error {
+          display: flex;
+          flex-direction: row-reverse;
+          color: #FF6767;
+          font-weight: 500;
+          font-size: 1.1429rem;
+          float: end;
+          margin-left: 200px;
+        }
+        .no-alert {
+          display: flex;
+          flex-direction: row-reverse;
+          color: #83909D;
+          font-weight: 500;
+          font-size: 1.1429rem;
+
+      }
+    }
+  }
+}

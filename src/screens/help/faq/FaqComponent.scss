@@ -1,0 +1,90 @@
+@import "src/assets/styles/common";
+
+.faq-component {
+  margin-top: 50px;
+
+
+  .faq-question-wrapper {
+    width: 941px;
+    height: 450px;
+    .card-component {
+      margin-bottom: 0px;
+    }
+
+    .faq-block-wrapper {
+      overflow: hidden;
+      overflow-y: scroll;
+      height: 450px;
+      .faq-question {
+        margin-bottom: 24px;
+        width: 850px;
+
+        .faq-question-title {
+          display: flex;
+          font-weight: 500;
+          font-size: 1.1429rem;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 15px;
+          cursor: pointer;
+        }
+
+        .faq-question-answer {
+          color: #7B7E80;
+          margin-bottom: 24px;
+          line-height: 24px;
+        }
+      }
+    }
+
+
+    .contact-info-wrapper {
+      background-color: #E0F0F0;
+      height: 80px;
+      border-radius: 8px;
+      margin-top: 24px;
+
+
+      .card-component {
+        margin: 0px;
+
+      }
+
+      .contact-number-wrapper {
+        display: flex;
+        justify-content: space-between;
+
+        .contact-text {
+          font-weight: 700;
+          font-size: 1.2857rem;
+          margin: 17px 0 5px 24px;
+        }
+
+        .contact-number-icon-wrapper {
+          display: flex;
+          justify-content: space-between;
+          font-weight: 700;
+          font-size: 1.2857rem;
+          padding-top: 5px;
+          align-items: center;
+
+          .contact-number-wrapper {
+            font-weight: 700;
+            font-size: 1.2857rem;
+            margin: 17px 24px 5px 0;
+            align-items: center;
+            //padding-top: 5px;
+
+          }
+        }
+      }
+
+      .help-text {
+        margin-left: 24px;
+        color: #484848;
+        opacity: 0.5;
+      }
+    }
+  }
+
+}

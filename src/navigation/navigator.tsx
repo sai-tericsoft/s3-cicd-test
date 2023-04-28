@@ -49,11 +49,7 @@ import {
     CLIENT_SEARCH,
     COMING_SOON_ROUTE,
     CONCUSSION_FILE_VIEW_DETAILS,
-    COUPON_ADD,
-    COUPON_DETAILS,
-    COUPON_EDIT,
     DESIGN_SYSTEM_ROUTE,
-    DISCOUNT_LIST,
     DRY_NEEDLING_FILE_VIEW_DETAILS,
     EDIT_INVENTORY_PRODUCT,
     FACILITY_DETAILS,
@@ -85,6 +81,8 @@ import {
     SYSTEM_SETTINGS,
     TEST_ROUTE,
     UPDATE_MEDICAL_INTERVENTION,
+    HELP, FAQ,
+     DISCOUNT_LIST, COUPON_DETAILS, COUPON_ADD, COUPON_EDIT, REPORT_AN_ISSUE,
     VIEW_MEDICAL_INTERVENTION
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
@@ -140,6 +138,8 @@ import ClientDocumentsComponent from "../screens/clients/client-documents/Client
 import ClientAppointmentsComponent from "../screens/clients/client-appointments/ClientAppointmentsComponent";
 import ClientAppointmentDetailsComponent
     from "../screens/clients/client-appointment-details/ClientAppointmentDetailsComponent";
+import HelpModuleLayoutScreen from "../screens/help-module-layout/HelpModuleLayoutScreen";
+import FaqComponent from "../screens/help/faq/FaqComponent";
 import DiscountListComponent from "../screens/admin/discount/discount-list/DiscountListComponent";
 import CouponDetailsComponent from "../screens/admin/discount/coupon-details/CouponDetailsComponent";
 import CouponAddScreen from "../screens/admin/discount/coupon-add/CouponAddScreen";
@@ -148,6 +148,7 @@ import AppointmentSettingsLayoutComponent
 import MedicalInterventionRomConfigV2Screen
     from "../screens/chart-notes/medical-intervention-rom-config-v2/MedicalInterventionRomConfigV2Screen";
 import CouponEditScreen from "../screens/admin/discount/coupon-edit/CouponEditScreen";
+import ReportAnIssueComponent from "../screens/help/report-an-issue/ReportAnIssueComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -677,7 +678,23 @@ const Navigator = (props: NavigatorProps) => {
                     <Route path={CLIENT_BILLING_DETAILS} element={<ProtectedRoute>
                         <BillingListScreen/>
                     </ProtectedRoute>}/>
+                    <Route path ={HELP} element={<HelpModuleLayoutScreen/>}{...props}>
+                        <Route
+                            index
+                            element={
+                                <Navigate to={FAQ}/>
+                            }
+                        />
+                        <Route path={FAQ} element={<ProtectedRoute>
+                            <FaqComponent/>
+                        </ProtectedRoute>}/>
+                        <Route path={REPORT_AN_ISSUE} element={<ProtectedRoute>
+                            <ReportAnIssueComponent/>
+                        </ProtectedRoute>}/>
+                    </Route>
                 </Route>
+
+
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
                 <Route element={<AuthLayout/>}>
                     <Route index
