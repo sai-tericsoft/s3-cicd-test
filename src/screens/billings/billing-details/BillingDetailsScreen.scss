@@ -1,6 +1,9 @@
 @import "src/assets/styles/common";
 
 .billing-details-screen {
+  .card-component .card-header .card-title-description-wrapper .card-title{
+    text-transform: capitalize;
+  }
 
   .billing-details-container {
     background-color: #ffffff;
@@ -16,12 +19,25 @@
       .billing-details-meta {
         text-align: end;
 
+        .appointment-id-heading,.receipt-no-heading {
+          color: #6D6D6D;
+          font-size: 1.1429rem;
+          margin-bottom: 6px;
+          font-weight: 500;
+        }
+        .appointment-id, .receipt-no{
+          color: #212B36;
+
+        }
+
         .data-label-value {
           margin-bottom: 4px;
         }
 
         .billing-date {
-
+          color: #212B36;
+          font-weight: 500;
+          margin-top: 4px;
         }
       }
     }
@@ -42,6 +58,7 @@
 
         .billing-address-block__header {
           justify-content: flex-start;
+
           .link-component {
             font-weight: 400;
             font-size: 14px;
@@ -92,7 +109,7 @@
       }
     }
 
-    .card-component{
+    .card-component {
       margin-bottom: 0px !important;
     }
 

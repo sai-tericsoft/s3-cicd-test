@@ -86,13 +86,13 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     useEffect(() => {
         const referrer: any = searchParams.get("referrer");
         dispatch(setCurrentNavParams("View Invoice", null, () => {
-                if (referrer) {
-                    navigate(referrer);
-                } else {
-                    navigate(CommonService._routeConfig.BillingList());
-                }
-            }));
-    }, [navigate, dispatch,searchParams]);
+            if (referrer) {
+                navigate(referrer);
+            } else {
+                navigate(CommonService._routeConfig.BillingList());
+            }
+        }));
+    }, [navigate, dispatch, searchParams]);
 
     const openPaymentModeModal = useCallback(() => {
         setIsPaymentModeModalOpen(true);
@@ -131,7 +131,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     }, [type, billingId]);
 
     const handleBillingMarkAsPaidSuccess = useCallback((receiptId: string) => {
-        navigate(CommonService._routeConfig.BillingDetails(receiptId)+ '?referrer='+ location.pathname + '&type=receipt');
+        navigate(CommonService._routeConfig.BillingDetails(receiptId) + '?referrer=' + location.pathname + '&type=receipt');
     }, [navigate, location.pathname]);
 
     const handleBillingMarkAsPaid = useCallback(() => {
@@ -377,14 +377,24 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                             </div>
                             <div className={"billing-details-meta"}>
                                 {
-                                    type === 'invoice' && <DataLabelValueComponent label={"Appointment ID"}>
-                                        #{billingDetails?.appointment_id}
-                                    </DataLabelValueComponent>
+                                    type === 'invoice' && <div>
+                                        <div className={'appointment-id-heading'}>
+                                            Appointment ID
+                                        </div>
+                                        <div className={'appointment-id'}>
+                                            #{billingDetails?.appointment_id}
+                                        </div>
+                                    </div>
                                 }
                                 {
-                                    type === 'receipt' && <DataLabelValueComponent label={"Receipt No."}>
+                                    type === 'receipt' &&<div>
+                                    <div className={'receipt-no-heading'}>
+                                        Receipt No
+                                    </div>
+                                    <div className={'receipt-no'}>
                                         {billingDetails?.receipt_number}
-                                    </DataLabelValueComponent>
+                                    </div>
+                                    </div>
                                 }
                                 <div className={"billing-date"}>
                                     {CommonService.convertDateFormat2(billingDetails?.created_at, "DD-MMM-YYYY | hh:mm A")}
@@ -398,10 +408,13 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                     <div className={"billing-address-block__title"}>Billing From</div>
                                 </div>
                                 <div className={"billing-address-block__details"}>
-                                    <div className={"billing-address-block__detail__row name"}>{billingFromAddress?.name}</div>
-                                    <div className={"billing-address-block__detail__row"}> {billingFromAddress?.address_line} </div>
+                                    <div
+                                        className={"billing-address-block__detail__row name"}>{billingFromAddress?.name}</div>
+                                    <div
+                                        className={"billing-address-block__detail__row"}> {billingFromAddress?.address_line} </div>
                                     <div className={"billing-address-block__detail__row"}>
-                                        <span>{billingFromAddress?.city}</span>, <span>{billingFromAddress?.state}</span> <span>{billingFromAddress?.zip_code}</span>
+                                        <span>{billingFromAddress?.city}</span>, <span>{billingFromAddress?.state}</span>
+                                        <span>{billingFromAddress?.zip_code}</span>
                                     </div>
                                     <div
                                         className={"billing-address-block__detail__row"}> {billingFromAddress?.phone} </div>
