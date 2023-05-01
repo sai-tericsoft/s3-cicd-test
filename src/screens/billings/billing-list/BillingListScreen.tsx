@@ -171,7 +171,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                 </div>
                             </ToolTipComponent> :
                             <>
-                                {item?.client_details?.first_name} {item?.client_details?.last_name}
+                                {CommonService.extractName(item?.client_details)}
                             </>
                     }
                 </>

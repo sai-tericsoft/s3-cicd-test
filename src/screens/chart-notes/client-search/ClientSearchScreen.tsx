@@ -48,7 +48,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             align:'center',
             width: 250,
             render: (item: IClientBasicDetails) => {
-                return <span>{item?.last_name}{","}{item?.first_name}</span>
+                return <span>{CommonService.extractName(item)}</span>
             }
         },
         {

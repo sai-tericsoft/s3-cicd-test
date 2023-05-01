@@ -465,7 +465,7 @@ const formatPhoneNumber = (phone: string) => {
 }
 
 const extractName = (data: any) => {
-    return (data?.first_name || data?.last_name ? data?.last_name + ' ' + data?.first_name : '-');
+    return (data?.first_name || data?.last_name ? data?.last_name + ', ' + data?.first_name : '-');
 };
 
 const getNormalizedFileType = (fileType: any) => {
