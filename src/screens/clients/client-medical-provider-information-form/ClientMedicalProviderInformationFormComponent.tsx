@@ -39,6 +39,9 @@ const ClientMedicalProviderInformationInitialValues: IClientMedicalProviderForm 
         name: "",
         primary_phone: "",
         last_examination_date: "",
+        referring_name:"",
+        phone_number:""
+
     }
 };
 
@@ -146,6 +149,39 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                                             <FormikInputComponent
                                                                 label={"MD Phone"}
                                                                 placeholder={"MD Phone"}
+                                                                required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                        </div>
+                                        <FormControlLabelComponent label={'Referring Doctor'}/>
+                                        <div className="ts-row">
+                                            <div className="ts-col-md-6 ts-col-lg-4">
+                                                <Field name={`medical_provider_info. referring_name`}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikInputComponent
+                                                                label={"Full Name"}
+                                                                placeholder={"Full Name"}
+                                                                required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                            <div className="ts-col-md-6 ts-col-lg-4">
+                                                <Field name={`medical_provider_info.phone_number`}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikInputComponent
+                                                                label={"Primary Phone Number"}
+                                                                placeholder={"Primary Phone Number"}
                                                                 required={true}
                                                                 formikField={field}
                                                                 fullWidth={true}

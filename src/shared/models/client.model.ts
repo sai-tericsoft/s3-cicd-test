@@ -205,6 +205,10 @@ export interface IClientMedicalProvider {
     "name": string;
     "primary_phone": string;
     "primary_phone_details"?: IPhoneType;
+    "referring_name":string;
+    "phone_number":string;
+
+
 }
 
 export interface IClientMusculoskeletalHistoryForm {

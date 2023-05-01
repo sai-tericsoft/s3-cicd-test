@@ -138,12 +138,27 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                     {clientMedicalDetails?.medical_provider_info?.primary_phone || "N/A"}
                                 </DataLabelValueComponent>
                             </div>
+                        </div>
+                        <div className={'ts-row'}>
+                            <div className={'ts-col-lg-3'}>
+                                <DataLabelValueComponent label={'Referring Doctor Name'}>
+                                    {clientMedicalDetails?.medical_provider_info?.referring_name || "N/A"}
+                                </DataLabelValueComponent>
+                            </div>
+                            <div className={'ts-col-lg-3'}>
+                                <DataLabelValueComponent label={'Primary Phone'}>
+                                    {clientMedicalDetails?.medical_provider_info?.phone_number || "N/A"}
+                                </DataLabelValueComponent>
+                            </div>
+                        </div>
+                        <div className={'ts-row'}>
                             <div className={'ts-col-lg-6'}>
                                 <DataLabelValueComponent label={' Date of Last Physical Examination'}>
                                     {clientMedicalDetails?.medical_provider_info?.last_examination_date ? CommonService.getSystemFormatTimeStamp(clientMedicalDetails?.medical_provider_info?.last_examination_date) : "N/A"}
                                 </DataLabelValueComponent>
                             </div>
                         </div>
+
                     </CardComponent>
                     <CardComponent title={'Medical History'} actions={<LinkComponent
                         route={CommonService._client.NavigateToClientEdit(clientId, "medicalHistory")}>
@@ -168,9 +183,9 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             </div>
                         }
                         {clientMedicalDetails?.medical_history?.comments &&
-                                clientMedicalDetails?.medical_history?.comments.split("\n").map((i: any, key: any) => {
-                                    return <div key={key}>{i}</div>;
-                                }) || "N/A"}
+                            clientMedicalDetails?.medical_history?.comments.split("\n").map((i: any, key: any) => {
+                                return <div key={key}>{i}</div>;
+                            }) || "N/A"}
                     </CardComponent>
                     {
                         clientBasicDetails?.gender === "female" && <>
