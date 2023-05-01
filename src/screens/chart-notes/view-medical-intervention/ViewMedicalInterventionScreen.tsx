@@ -421,18 +421,29 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                     <>
                                                         {
                                                             medicalRecordId && medicalInterventionId && <>
+                                                                {/*{*/}
+                                                                {/*    medicalInterventionDetails?.rom_config?.length === 0 &&*/}
+                                                                {/*    <LinkComponent*/}
+                                                                {/*        route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId)}>*/}
+                                                                {/*        <ButtonComponent*/}
+                                                                {/*            fullWidth={true}*/}
+                                                                {/*            variant={'outlined'}*/}
+                                                                {/*            size={"large"}*/}
+                                                                {/*        >*/}
+                                                                {/*            Add Range of Motion and Strength*/}
+                                                                {/*        </ButtonComponent>*/}
+                                                                {/*    </LinkComponent>*/}
+                                                                {/*}*/}
                                                                 {
                                                                     medicalInterventionDetails?.rom_config?.length === 0 &&
-                                                                    <LinkComponent
-                                                                        route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId)}>
-                                                                        <ButtonComponent
-                                                                            fullWidth={true}
-                                                                            variant={'outlined'}
-                                                                            size={"large"}
-                                                                        >
-                                                                            Add Range of Motion and Strength
-                                                                        </ButtonComponent>
-                                                                    </LinkComponent>
+                                                                    <>
+                                                                        <FormControlLabelComponent
+                                                                            label={"Range of Motion and Strength :"}/>
+                                                                        <div className={'readonly-text'}>
+                                                                            Not Tested
+                                                                        </div>
+
+                                                                    </>
                                                                 }
                                                                 {
                                                                     medicalInterventionDetails?.rom_config?.length > 0 &&
@@ -470,7 +481,8 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                                             title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
                                                                                         </CardComponent>
                                                                                         {
-                                                                                            body_part?.rom_config?.length > 0 && <TableComponent
+                                                                                            body_part?.rom_config?.length > 0 &&
+                                                                                            <TableComponent
                                                                                                 data={body_part?.rom_config?.filter((rom_config: any) => {
                                                                                                     const bodyPartSides = body_part?.body_part_details?.sides;
                                                                                                     const config = rom_config?.config;
@@ -510,7 +522,8 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                                                 columns={getMedicalInterventionROMConfigColumns(body_part)}/>
                                                                                         }
                                                                                         {
-                                                                                            body_part?.rom_config?.length === 0 &&  <StatusCardComponent
+                                                                                            body_part?.rom_config?.length === 0 &&
+                                                                                            <StatusCardComponent
                                                                                                 title={"The following body part does not have any Range of Motion or Strength " +
                                                                                                     "                                                measurements. \n Please choose another body part."}/>
                                                                                         }
@@ -527,19 +540,30 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                 <div className="special-test-wrapper">
                                                     {
                                                         medicalRecordId && medicalInterventionId && <>
+                                                            {/*{*/}
+                                                            {/*    medicalInterventionDetails?.special_tests?.length === 0 &&*/}
+                                                            {/*    <LinkComponent*/}
+                                                            {/*        route={CommonService._routeConfig.MedicalInterventionSpecialTests(medicalRecordId, medicalInterventionId)}>*/}
+                                                            {/*        <ButtonComponent*/}
+                                                            {/*            fullWidth={true}*/}
+                                                            {/*            variant={'outlined'}*/}
+                                                            {/*            size={"large"}*/}
+                                                            {/*            className={'mrg-bottom-20'}*/}
+                                                            {/*        >*/}
+                                                            {/*            Add Special Test*/}
+                                                            {/*        </ButtonComponent>*/}
+                                                            {/*    </LinkComponent>*/}
+                                                            {/*}*/}
                                                             {
-                                                                medicalInterventionDetails?.special_tests?.length === 0 &&
-                                                                <LinkComponent
-                                                                    route={CommonService._routeConfig.MedicalInterventionSpecialTests(medicalRecordId, medicalInterventionId)}>
-                                                                    <ButtonComponent
-                                                                        fullWidth={true}
-                                                                        variant={'outlined'}
-                                                                        size={"large"}
-                                                                        className={'mrg-bottom-20'}
-                                                                    >
-                                                                        Add Special Test
-                                                                    </ButtonComponent>
-                                                                </LinkComponent>
+                                                                medicalInterventionDetails?.special_tests?.length === 0&&
+                                                                <>
+                                                                    <FormControlLabelComponent
+                                                                        label={"Special Tests :"}/>
+                                                                    <div className={'readonly-text'}>
+                                                                        Not Tested
+                                                                    </div>
+
+                                                                </>
                                                             }
                                                             {
                                                                 medicalInterventionDetails?.special_tests?.length > 0 &&
@@ -720,19 +744,30 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                 <div className="icd-codes-wrapper">
                                                     {
                                                         medicalRecordId && medicalInterventionId && <>
+                                                            {/*{*/}
+                                                            {/*    medicalInterventionDetails?.linked_icd_codes?.length === 0 &&*/}
+                                                            {/*    <LinkComponent*/}
+                                                            {/*        route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId)}>*/}
+                                                            {/*        <ButtonComponent*/}
+                                                            {/*            fullWidth={true}*/}
+                                                            {/*            variant={'outlined'}*/}
+                                                            {/*            size={"large"}*/}
+                                                            {/*            className={'mrg-bottom-20'}*/}
+                                                            {/*        >*/}
+                                                            {/*            Add Medical Diagnosis / ICD-11 Codes*/}
+                                                            {/*        </ButtonComponent>*/}
+                                                            {/*    </LinkComponent>*/}
+                                                            {/*}*/}
                                                             {
-                                                                medicalInterventionDetails?.linked_icd_codes?.length === 0 &&
-                                                                <LinkComponent
-                                                                    route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId)}>
-                                                                    <ButtonComponent
-                                                                        fullWidth={true}
-                                                                        variant={'outlined'}
-                                                                        size={"large"}
-                                                                        className={'mrg-bottom-20'}
-                                                                    >
-                                                                        Add Medical Diagnosis / ICD-11 Codes
-                                                                    </ButtonComponent>
-                                                                </LinkComponent>
+                                                                medicalInterventionDetails?.linked_icd_codes?.length === 0&&
+                                                                <>
+                                                                    <FormControlLabelComponent
+                                                                        label={"Add Medical Diagnosis / ICD-11 Codes :"}/>
+                                                                    <div className={'readonly-text'}>
+                                                                        Not Added
+                                                                    </div>
+
+                                                                </>
                                                             }
                                                             {
                                                                 medicalInterventionDetails?.linked_icd_codes?.length > 0 &&
