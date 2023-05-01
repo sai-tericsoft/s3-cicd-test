@@ -1,0 +1,15 @@
+.service-provider{
+  .add-provider{
+    display: flex;
+    justify-content: end;
+    margin-bottom: 10px;
+  }
+  .card-component{
+    .card-body{
+      padding: 0;
+    }
+    .card-header{
+      padding-left:20px ;
+    }
+  }
+}
