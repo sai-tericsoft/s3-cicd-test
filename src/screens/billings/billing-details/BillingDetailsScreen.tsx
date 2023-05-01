@@ -213,7 +213,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
 
     const TreatmentColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
         {
-            title: 'Treatment(s)',
+            title: 'CPT Code(s)',
             dataIndex: 'treatment',
             key: 'treatment',
             width: 500,
