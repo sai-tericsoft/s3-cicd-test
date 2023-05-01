@@ -1,9 +1,9 @@
 .accordion-component{
-  .question-answer-wrapper {
+  .title-children-wrapper {
     margin-bottom: 24px;
     width: 850px;
 
-    .question {
+    .title {
       display: flex;
       font-weight: 500;
       font-size: 1.1429rem;
@@ -11,12 +11,6 @@
       align-items: center;
       margin-bottom: 15px;
       cursor: pointer;
-    }
-
-    .answer {
-      color: #7B7E80;
-      margin-bottom: 24px;
-      line-height: 24px;
     }
   }
 }

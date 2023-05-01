@@ -7,7 +7,7 @@ import CardComponent from "../../../shared/components/card/CardComponent";
 import {ImageConfig} from "../../../constants";
 import HorizontalLineComponent
     from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
-import AccordionComponent from "../accordion/AccordionComponent";
+import FaqAccordionComponent from "../faq-accordion/Faq-AccordionComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 
 interface FaqComponentProps {
@@ -35,7 +35,9 @@ const FaqComponent = (props: FaqComponentProps) => {
                             {faqList.map((faq: any, index) => {
                                 return (
                                     <>
-                                        <AccordionComponent question={faq.question} answer={faq.answer}/>
+                                        <FaqAccordionComponent title={faq.question}>
+                                            {faq.answer}
+                                        </FaqAccordionComponent>
                                         <HorizontalLineComponent/>
 
 

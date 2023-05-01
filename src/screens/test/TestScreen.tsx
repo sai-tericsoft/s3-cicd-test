@@ -2,6 +2,8 @@ import './TestScreen.scss';
 import {useState} from "react";
 import ButtonComponent from "../../shared/components/button/ButtonComponent";
 import MentionsComponent from "../../shared/components/mentions/MentionsComponent";
+import AccordionComponent from "../../shared/components/accordion/AccordionComponent";
+import InputComponent from "../../shared/components/form-controls/input/InputComponent";
 
 const users = [
     {
@@ -41,6 +43,7 @@ const users = [
 
 const TestScreen = () => {
     const [value, setValue] = useState("");
+    const [isExpanded, setIsExpanded] = useState(false);
 
 
     return (
@@ -57,6 +60,13 @@ const TestScreen = () => {
                 variant={"contained"}
                 onClick={() => console.log(value)}
                 color={"primary"}>Submit</ButtonComponent>
+            <AccordionComponent title={"Test Accordion"}
+                                isExpand={isExpanded}
+                                className={'color-red'}
+                                onChange={() => setIsExpanded(!isExpanded)}
+            >
+                <InputComponent name={'Accordion'} value={'aa'}/>
+            </AccordionComponent>
         </div>
     );
 };
