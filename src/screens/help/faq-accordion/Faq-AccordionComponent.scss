@@ -1,0 +1,16 @@
+.accordion-component{
+  .title-children-wrapper {
+    margin-bottom: 24px;
+    width: 850px;
+
+    .title {
+      display: flex;
+      font-weight: 500;
+      font-size: 1.1429rem;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      cursor: pointer;
+    }
+  }
+}
