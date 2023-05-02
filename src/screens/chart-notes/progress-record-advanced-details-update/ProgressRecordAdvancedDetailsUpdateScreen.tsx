@@ -322,10 +322,10 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                         const {values} = formik
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
-                            if (values.synopsis || values.impression || values.plan) {
+                            // if (values.synopsis || values.impression || values.plan) {
                                 if (formRef.current) {
                                     formRef.current.setFieldValue('can_sign', true);
-                                }
+                                // }
                             }
                         }, [formRef,values]);
                         return (
