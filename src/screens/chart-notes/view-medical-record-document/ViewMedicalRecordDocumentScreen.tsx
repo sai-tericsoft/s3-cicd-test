@@ -43,8 +43,10 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
             const module_name: any = searchParams.get("module_name");
             setModule(module_name);
             dispatch(setCurrentNavParams("View Document", null, () => {
-                console.log(referrer);
                 if (referrer) {
+                    if (module_name === "client_documents") {
+                        navigate(referrer);
+                    }
                     navigate(referrer);
                 } else {
                     medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
@@ -162,7 +164,7 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                             attachmentDetails={medicalRecordDocumentDetails}
                             medicalRecordDetails={medicalRecordDocumentDetails?.medical_record_details}
                             attachmentType={"medicalRecordDocument"}
-                            showEdit={module === 'client_module' ? false : true}
+                            showEdit={module === 'client_documents' ? false : true}
                             onEdit={openEditMedicalRecordDocumentDrawer}
                         />
                         <div className={'medical-record-document-attachment'}>
@@ -170,7 +172,7 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                                 medicalRecordDocumentDetails?.attachment &&
                                 <AttachmentComponent
                                     attachment={medicalRecordDocumentDetails?.attachment}
-                                    showDelete={module === 'client_module' ? false : true}
+                                    showDelete={module === 'client_documents' ? false : true}
                                     onDelete={handleMedicalRecordDocumentDelete}
                                     isDeleting={isMedicalRecordAttachmentDeleting}
                                 />

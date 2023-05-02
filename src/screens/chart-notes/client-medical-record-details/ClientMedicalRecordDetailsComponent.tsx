@@ -28,6 +28,7 @@ import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import BookAppointmentFormComponent
     from "../../../shared/components/book-appointment/book-appointment-form/BookAppointmentFormComponent";
+import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 
 const REPEAT_LAST_TREATMENT = "repeat_last_treatment";
 const ADD_NEW_TREATMENT = "add_new_treatment";
@@ -64,6 +65,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
     const {
         clientMedicalRecord,
     } = useSelector((state: IRootReducerState) => state.client);
+    const referrer: any = searchParams.get("referrer");
 
     const {
         isAppointmentListLiteLoading,
@@ -105,6 +107,19 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
             setSearchParams(searchParams);
         }
     }, [dispatch, searchParams, setSearchParams]);
+
+    useEffect(() => {
+        dispatch(setCurrentNavParams("Chart Notes", null, () => {
+            console.log("referrer", referrer);
+            if (clientMedicalRecord && clientMedicalRecord.client_details._id) {
+                if (referrer) {
+                    navigate(CommonService._routeConfig.MedicalRecordList(clientMedicalRecord.client_details._id) + '?referrer=' + referrer);
+                } else {
+                    navigate(CommonService._routeConfig.MedicalRecordList(clientMedicalRecord.client_details._id));
+                }
+            }
+        }));
+    }, [navigate, dispatch, searchParams,clientMedicalRecord]);
 
     const repeatLastTreatment = useCallback(
         (is_link_to_appointment: boolean) => {
@@ -275,10 +290,10 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
 
                 </TabsComponent>
                 <TabContentComponent value={"medicalRecord"} selectedTab={currentTab}>
-                    <MedicalInterventionListComponent/>
+                    <MedicalInterventionListComponent referrer={referrer}/>
                 </TabContentComponent>
                 <TabContentComponent value={"attachmentList"} selectedTab={currentTab}>
-                    <MedicalRecordAttachmentListComponent/>
+                    <MedicalRecordAttachmentListComponent referrer={referrer}/>
                 </TabContentComponent>
             </TabsWrapperComponent>
 

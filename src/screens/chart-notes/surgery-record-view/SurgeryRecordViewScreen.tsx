@@ -96,17 +96,20 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
     }, [medicalRecordId, dispatch]);
 
     useEffect(() => {
-        const referrer: any = searchParams.get("referrer");
-        const module_name: any = searchParams.get("module_name");
-        setModule(module_name);
-        dispatch(setCurrentNavParams("Medical Record details", null, () => {
+        if (clientMedicalRecord) {
+            const referrer: any = searchParams.get("referrer");
+            const module_name: any = searchParams.get("module_name");
+            setModule(module_name);
             console.log(referrer);
-            if (referrer) {
-                navigate(referrer);
-            } else {
-                clientMedicalRecord && navigate(CommonService._routeConfig.MedicalRecordList(clientMedicalRecord?.client_id));
-            }
-        }));
+            dispatch(setCurrentNavParams("Surgery Records", null, () => {
+                console.log(referrer);
+                if (referrer) {
+                    navigate(referrer);
+                } else {
+                    navigate(CommonService._routeConfig.MedicalRecordList(clientMedicalRecord?.client_id));
+                }
+            }));
+        }
     }, [searchParams, navigate, dispatch, clientMedicalRecord]);
 
 

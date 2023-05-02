@@ -10,11 +10,11 @@ import {IRootReducerState} from "../../../store/reducers";
 import {useCallback, useState} from "react";
 
 interface ClientMedicalAttachmentsComponentProps {
-
+    referrer?: any;
 }
 
 const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsComponentProps) => {
-
+    const {referrer} = props;
     const {medicalRecordId} = useParams();
     const {refreshTokenForMedicalRecordAttachments} = useSelector((state: IRootReducerState) => state.chartNotes)
     const [medicalAttachmentListFilterState, setMedicalAttachmentListFilterState] = useState<any>({
@@ -31,18 +31,19 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             render: (item: any) => {
                 let route = '';
                 if (item.note_type_category.toLowerCase() === 'surgery record') {
-                    route = CommonService._routeConfig.MedicalRecordSurgeryRecordDetails(item.medical_record_id, item._id);
+                    route = CommonService._routeConfig.MedicalRecordSurgeryRecordDetails(item.medical_record_id, item._id) + '?referrer=' + referrer;
                 } else if (item.note_type_category.toLowerCase() === 'dry needling') {
-                    route = CommonService._routeConfig.MedicalInterventionDryNeedlingFileViewDetails(item.medical_record_id, item._id);
+                    route = CommonService._routeConfig.MedicalInterventionDryNeedlingFileViewDetails(item.medical_record_id, item._id) + '?referrer=' + referrer;
                 } else if (item.note_type_category.toLowerCase() === 'concussion') {
-                    route = CommonService._routeConfig.MedicalInterventionConcussionFileViewDetails(item.medical_record_id, item._id);
+                    route = CommonService._routeConfig.MedicalInterventionConcussionFileViewDetails(item.medical_record_id, item._id) + '?referrer=' + referrer;
                 } else if (item.note_type_category.toLowerCase() === 'document') {
-                    route = CommonService._routeConfig.MedicalRecordDocumentViewDetails(item.medical_record_id, item._id);
+                    route = CommonService._routeConfig.MedicalRecordDocumentViewDetails(item.medical_record_id, item._id) + '?referrer=' + referrer;
                 } else if (item.note_type_category.toLowerCase() === 'progress report') {
-                    route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(item.medical_record_id, item?._id);
+                    route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(item.medical_record_id, item?._id) + '?referrer=' + referrer;
                 } else {
                 }
-                return <><LinkComponent route={route}>{CommonService.getSystemFormatTimeStamp(item?.created_at)}</LinkComponent></>
+                return <><LinkComponent
+                    route={route}>{CommonService.getSystemFormatTimeStamp(item?.created_at)}</LinkComponent></>
             }
         },
         {
@@ -59,11 +60,11 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             key: 'last_updated',
             dataIndex: 'last_updated',
             width: 360,
-            align:'center',
+            align: 'center',
             sortable: true,
             render: (item: any) => {
 
-                return<>{CommonService.transformTimeStamp(item?.updated_at)}</>
+                return <>{CommonService.transformTimeStamp(item?.updated_at)}</>
 
             }
         },
@@ -73,7 +74,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             dataIndex: 'posted_by',
             width: 380,
             sortable: true,
-            render: ( item: any) => {
+            render: (item: any) => {
                 return <>{CommonService.capitalizeFirstLetter(item?.posted_by?.first_name)} {CommonService.capitalizeFirstLetter(item?.posted_by?.last_name)}</>
             }
         },
@@ -85,15 +86,15 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             render: (item: any) => {
                 let route = '';
                 if (item.note_type_category.toLowerCase() === 'surgery record') {
-                    route = CommonService._routeConfig.MedicalRecordSurgeryRecordDetails(item.medical_record_id, item._id);
+                    route = CommonService._routeConfig.MedicalRecordSurgeryRecordDetails(item.medical_record_id, item._id) + '&referrer=' + referrer;
                 } else if (item.note_type_category.toLowerCase() === 'dry needling') {
-                    route = CommonService._routeConfig.MedicalInterventionDryNeedlingFileViewDetails(item.medical_record_id, item._id);
+                    route = CommonService._routeConfig.MedicalInterventionDryNeedlingFileViewDetails(item.medical_record_id, item._id) + '&referrer=' + referrer;
                 } else if (item.note_type_category.toLowerCase() === 'concussion') {
-                    route = CommonService._routeConfig.MedicalInterventionConcussionFileViewDetails(item.medical_record_id, item._id);
+                    route = CommonService._routeConfig.MedicalInterventionConcussionFileViewDetails(item.medical_record_id, item._id) + '&referrer=' + referrer;
                 } else if (item.note_type_category.toLowerCase() === 'document') {
-                    route = CommonService._routeConfig.MedicalRecordDocumentViewDetails(item.medical_record_id, item._id);
+                    route = CommonService._routeConfig.MedicalRecordDocumentViewDetails(item.medical_record_id, item._id) + '&referrer=' + referrer;
                 } else if (item.note_type_category.toLowerCase() === 'progress report') {
-                    route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(item.medical_record_id, item?._id);
+                    route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(item.medical_record_id, item?._id) + '&referrer=' + referrer;
                 } else {
                 }
                 return <LinkComponent route={route}>

@@ -167,10 +167,10 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                 }
                             </div>
                         }
-                        {clientMedicalDetails?.medical_history?.comments &&
-                                clientMedicalDetails?.medical_history?.comments.split("\n").map((i: any, key: any) => {
-                                    return <div key={key}>{i}</div>;
-                                }) || "N/A"}
+                        {(clientMedicalDetails?.medical_history?.comments &&
+                            clientMedicalDetails?.medical_history?.comments.split("\n").map((i: any, key: any) => {
+                                return <div key={key}>{i}</div>;
+                            })) || "N/A"}
                     </CardComponent>
                     {
                         clientBasicDetails?.gender === "female" && <>

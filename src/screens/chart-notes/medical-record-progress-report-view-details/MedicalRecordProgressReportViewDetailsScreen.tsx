@@ -60,21 +60,21 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             width: 600,
             render: (item: any) => {
                 return <div className={'comment'}>{item?.comment ||
-                    <div className={'display-flex ts-justify-content-center'}>-</div>}</div>
+                <div className={'display-flex ts-justify-content-center'}>-</div>}</div>
             }
         }
     ];
 
     const {progressReportId, medicalRecordId} = useParams();
     const dispatch = useDispatch();
-    const [searchParams] = useSearchParams();
     const [module, setModule] = useState<any>('');
     const navigate = useNavigate();
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const {
         clientMedicalRecord,
     } = useSelector((state: IRootReducerState) => state.client);
-    const [isICDDrawerOpen,setIsICDDrawerOpen] = useState<boolean>(false);
+    const [isICDDrawerOpen, setIsICDDrawerOpen] = useState<boolean>(false);
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const {
         isProgressReportDetailsLoaded,
@@ -96,18 +96,25 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
     }, [medicalRecordId, dispatch]);
 
     useEffect(() => {
-        const referrer: any = searchParams.get("referrer");
-        const module_name: any = searchParams.get("module_name");
-        setModule(module_name);
-        dispatch(setCurrentNavParams("Progress Report Details", null, () => {
+        if (medicalRecordId) {
+            const referrer: any = searchParams.get("referrer");
+            const module_name: any = searchParams.get("module_name");
+            setModule(module_name);
             console.log(referrer);
-            if (referrer) {
-                navigate(referrer);
-            } else {
-                medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
-            }
-        }));
+            dispatch(setCurrentNavParams("Progress Report Details", null, () => {
+                if (referrer) {
+                    if (module_name === "client_documents") {
+                        navigate(referrer);
+                    } else {
+                        navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?referrer=' + referrer);
+                    }
+                } else {
+                    navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+                }
+            }));
+        }
     }, [searchParams, navigate, dispatch, medicalRecordId]);
+
 
     const handleICDCodeDrawer = useCallback(() => {
         setIsICDDrawerOpen(true);
@@ -199,9 +206,9 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                 (isProgressReportDetailsLoaded && progressReportDetails) && <>
                                     <div className={'progress-report-view-details-component__header'}>
                                         {progressReportDetails?.synopsis &&
-                                            <CardComponent title={'Synopsis'}>
-                                                {progressReportDetails?.synopsis || "N/A"}
-                                            </CardComponent>
+                                        <CardComponent title={'Synopsis'}>
+                                            {progressReportDetails?.synopsis || "N/A"}
+                                        </CardComponent>
                                         }
                                         {progressReportDetails?.impression && <CardComponent title={'Impression'}>
                                             {progressReportDetails?.impression || "N/A"}
