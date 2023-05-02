@@ -119,7 +119,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                 }
             }
         }));
-    }, [navigate, dispatch, searchParams,clientMedicalRecord]);
+    }, [navigate, dispatch, searchParams, clientMedicalRecord]);
 
     const repeatLastTreatment = useCallback(
         (is_link_to_appointment: boolean) => {
@@ -243,13 +243,15 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                 .then((response: IAPIResponseType<any>) => {
                     if (response) {
                         getAppointmentLite();
+                        setIsAppointmentSelectionModalOpen(true);
+                        setIsBookingLoading(false);
                     }
                 })
                 .catch((error: any) => {
                     // CommonService.handleErrors(errors);
                 })
                 .finally(() => {
-                    setIsBookingLoading(true)
+                    setIsBookingLoading(false);
                 })
         },
         [getAppointmentLite],
@@ -379,7 +381,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                         required={true}
                         label={"Select Appointment"}
                         value={selectedAppointment}
-                        displayWith={(item: any) => item?.appointment_type_details?.title + '' + (moment(item.appointment_date).format('DD-MMM-YYYY'))}
+                        displayWith={(item: any) => item?.appointment_type + ' ' + (moment(item.appointment_date).format('DD-MMM-YYYY'))}
                         valueExtractor={(item: any) => item?._id}
                         onUpdate={(value: any) => {
                             console.log(value);

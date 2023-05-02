@@ -286,7 +286,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                         {clientBasicDetails?.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.length > 0 &&
                             clientBasicDetails?.emergency_contact_info?.secondary_emergency?.secondary_contact_info[0]?.phone !== "" &&
                             <>
-                                < HorizontalLineComponent className={'alternate-heading-horizontal-line'}/>
+                                {/*< HorizontalLineComponent className={'alternate-heading-horizontal-line'}/>*/}
                                 <FormControlLabelComponent label={'Alternate:'}/>
                             </>
                         }
