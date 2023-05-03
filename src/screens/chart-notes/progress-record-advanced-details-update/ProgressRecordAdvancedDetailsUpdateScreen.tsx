@@ -1,7 +1,7 @@
 import "./ProgressRecordAdvancedDetailsUpdateScreen.scss";
 import CardComponent from "../../../shared/components/card/CardComponent";
-import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
-import React, {useCallback, useEffect, useState} from "react";
+import {Field, FieldProps, Form, Formik, FormikHelpers, FormikProps} from "formik";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {useDispatch, useSelector} from "react-redux";
@@ -64,7 +64,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [isSigningInProgress, setIsSigningInProgress] = useState<boolean>(false);
-
+    const formRef = useRef<FormikProps<any>>(null)
     const [updateProgressRecordAdvancedInitialValues, setUpdateProgressRecordAdvancedInitialValues] = useState<any>({
         synopsis: "",
         impression: "",
@@ -179,7 +179,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                         cb();
                     } else {
                         if (medicalRecordId) {
-                            // navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+                             navigate(CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId,progressReportId));
                         }
                     }
                 }).catch((error: any) => {
@@ -316,8 +316,18 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                         validateOnBlur={true}
                         enableReinitialize={true}
                         validateOnMount={true}
+                        innerRef={formRef}
                 >
-                    {(formik) => {
+                    {(formik,) => {
+                        const {values} = formik
+                        // eslint-disable-next-line react-hooks/rules-of-hooks
+                        useEffect(() => {
+                            // if (values.synopsis || values.impression || values.plan) {
+                                if (formRef.current) {
+                                    formRef.current.setFieldValue('can_sign', true);
+                                // }
+                            }
+                        }, [formRef,values]);
                         return (
                             <Form noValidate={true} className={'t-form'}>
                                 <CardComponent title={'Synopsis'}>
@@ -450,13 +460,13 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                             &nbsp;
                                         </>
                                     }
-                                    <ButtonComponent
-                                        type={"submit"}
-                                        id={"progress_report_update_save_btn"}
-                                        disabled={formik.isSubmitting}
-                                        isLoading={formik.isSubmitting}>
-                                        Save
-                                    </ButtonComponent>
+                                    {/*<ButtonComponent*/}
+                                    {/*    type={"submit"}*/}
+                                    {/*    id={"progress_report_update_save_btn"}*/}
+                                    {/*    disabled={formik.isSubmitting}*/}
+                                    {/*    isLoading={formik.isSubmitting}>*/}
+                                    {/*    Save*/}
+                                    {/*</ButtonComponent>*/}
                                 </div>
                             </Form>
                         )
