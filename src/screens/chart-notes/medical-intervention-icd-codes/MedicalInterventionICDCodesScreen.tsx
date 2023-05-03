@@ -40,9 +40,18 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
     const navigate = useNavigate();
     const {medicalInterventionDetails} = useSelector((state: IRootReducerState) => state.chartNotes);
     const {medicalRecordId, medicalInterventionId} = useParams();
+    const [currentTab, setCurrentTab] = useState<any>("icdCodes");
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [refreshToken, setRefreshToken] = useState<string>('');
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const {
         clientMedicalRecord,
     } = useSelector((state: IRootReducerState) => state.client);
+
+    const [selectedICDCodes, setSelectedICDCodes] = useState<any[]>([]);
+    const [searchICDCodes, setSearchICDCodes] = useState<any>({
+        search: "",
+    });
 
     useEffect(() => {
         if (medicalInterventionId) {
@@ -52,23 +61,10 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
 
     useEffect(() => {
         if (medicalRecordId) {
-            dispatch(setCurrentNavParams("Medical Record details", null, () => {
-                navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
-            }));
-        }
-    }, [navigate, dispatch, medicalRecordId]);
-
-    useEffect(() => {
-        if (medicalRecordId) {
             dispatch(getClientMedicalRecord(medicalRecordId));
         }
     }, [dispatch, medicalRecordId]);
 
-    const [selectedICDCodes, setSelectedICDCodes] = useState<any[]>([]);
-    const [searchICDCodes, setSearchICDCodes] = useState<any>({
-        search: "",
-    });
-    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
     const linkICDCodesToIntervention = useCallback((codes: string[], mode: 'add' | 'edit' = 'add') => {
         if (!medicalInterventionId || !medicalRecordId) {
@@ -85,8 +81,8 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                 // if (medicalInterventionDetails?.status === 'completed') {
                 //     navigate(CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId));
                 // } else {
-                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
-               // }
+                navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+                // }
             })
             .catch((error: any) => {
                 CommonService._alert.showToast(error, "error");
@@ -95,10 +91,6 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                 setIsSubmitting(false);
             })
     }, [medicalInterventionId, medicalRecordId, navigate])
-
-    const [currentTab, setCurrentTab] = useState<any>("icdCodes");
-    const [searchParams, setSearchParams] = useSearchParams();
-    const [refreshToken, setRefreshToken] = useState<string>('');
 
     useEffect(() => {
         let currentTab: any = searchParams.get("currentStep");
@@ -117,6 +109,20 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
         setSearchParams(searchParams);
         setCurrentTab(value);
     }, [searchParams, setSearchParams]);
+
+    useEffect(() => {
+        if (medicalRecordId && medicalInterventionId) {
+            const referrer: any = searchParams.get("referrer");
+            dispatch(setCurrentNavParams("ICD codes", null, () => {
+                if (referrer) {
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + '?referrer=' + referrer);
+                } else {
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+                }
+            }));
+
+        }
+    }, [navigate, dispatch, medicalRecordId, medicalInterventionId, searchParams]);
 
 
     const codeListColumns: ITableColumn[] = [
@@ -150,7 +156,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             title: 'Description',
             dataIndex: 'description',
             key: 'description',
-            width:650,
+            width: 650,
         },
         {
             title: 'Mark as Favourite',
@@ -209,7 +215,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             title: 'Description',
             dataIndex: 'description',
             key: 'description',
-            width:650,
+            width: 650,
             render: (_: any, item: any) => {
                 return <>{item?.icd_code_details?.description}</>
             }

@@ -124,15 +124,15 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
             render: (item: any) => {
                 let route = '';
                 if (item.note_type_category.toLowerCase() === 'surgery record') {
-                    route = CommonService._routeConfig.MedicalRecordSurgeryRecordDetails(item.medical_record_id, item._id) + '&referrer=' + location.pathname + '&module_name=client_documents';
+                    route = CommonService._routeConfig.MedicalRecordSurgeryRecordDetails(item.medical_record_id, item._id) + '?referrer=' + location.pathname + '&module_name=client_module';
                 } else if (item.note_type_category.toLowerCase() === 'dry needling') {
-                    route = CommonService._routeConfig.MedicalInterventionDryNeedlingFileViewDetails(item.medical_record_id, item._id) + '&referrer=' + location.pathname + '&module_name=client_documents';
+                    route = CommonService._routeConfig.MedicalInterventionDryNeedlingFileViewDetails(item.medical_record_id, item._id) + '?referrer=' + location.pathname + '&module_name=client_module';
                 } else if (item.note_type_category.toLowerCase() === 'concussion') {
-                    route = CommonService._routeConfig.MedicalInterventionConcussionFileViewDetails(item.medical_record_id, item._id) + '&referrer=' + location.pathname + '&module_name=client_documents';
+                    route = CommonService._routeConfig.MedicalInterventionConcussionFileViewDetails(item.medical_record_id, item._id) + '?referrer=' + location.pathname + '&module_name=client_module';
                 } else if (item.note_type_category.toLowerCase() === 'document') {
-                    route = CommonService._routeConfig.MedicalRecordDocumentViewDetails(item.medical_record_id, item?._id) + '&referrer=' + location.pathname + '&module_name=client_documents';
+                    route = CommonService._routeConfig.MedicalRecordDocumentViewDetails(item.medical_record_id, item?._id) + '?referrer=' + location.pathname + '&module_name=client_module';
                 } else if (item.note_type_category.toLowerCase() === 'progress report') {
-                    route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(item.medical_record_id, item?._id) + '&referrer=' + location.pathname + '&module_name=client_documents';
+                    route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(item.medical_record_id, item?._id) + '&referrer=' + location.pathname + '&module_name=client_module';
                 } else {
                 }
                 return <LinkComponent route={route}>
@@ -147,15 +147,15 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
     return (
         <div className={'client-documents-list-table-component'}>
             {clientDocumentFilters &&
-                <TableWrapperComponent
-                    url={APIConfig.GET_CLIENT_DOCUMENTS.URL(clientId)}
-                    method={APIConfig.GET_CLIENT_DOCUMENTS.METHOD}
-                    columns={ClientDocumentListTableColumns}
-                    extraPayload={clientDocumentFilters}
-                    moduleName={moduleName}
-                    noDataText={'No Documents To Show'}
-                    noDataImage={<ImageConfig.NoDataDocumentsIcon/>}
-                />
+            <TableWrapperComponent
+                url={APIConfig.GET_CLIENT_DOCUMENTS.URL(clientId)}
+                method={APIConfig.GET_CLIENT_DOCUMENTS.METHOD}
+                columns={ClientDocumentListTableColumns}
+                extraPayload={clientDocumentFilters}
+                moduleName={moduleName}
+                noDataText={'No Documents To Show'}
+                noDataImage={<ImageConfig.NoDataDocumentsIcon/>}
+            />
             }
         </div>
     );

@@ -96,21 +96,23 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
     }, [medicalRecordId, dispatch]);
 
     useEffect(() => {
-        if (clientMedicalRecord) {
-            const referrer: any = searchParams.get("referrer");
-            const module_name: any = searchParams.get("module_name");
-            setModule(module_name);
-            console.log(referrer);
-            dispatch(setCurrentNavParams("Surgery Records", null, () => {
-                console.log(referrer);
-                if (referrer) {
+        const referrer: any = searchParams.get("referrer");
+        const module_name: any = searchParams.get("module_name");
+        setModule(module_name);
+        dispatch(setCurrentNavParams("Surgery Records", null, () => {
+            if (referrer) {
+                console.log(module_name, module_name);
+                if (module_name === "client_module") {
+                    console.log(module_name, module_name);
                     navigate(referrer);
                 } else {
-                    navigate(CommonService._routeConfig.MedicalRecordList(clientMedicalRecord?.client_id));
+                    medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?referrer=' + referrer);
                 }
-            }));
-        }
-    }, [searchParams, navigate, dispatch, clientMedicalRecord]);
+            } else {
+                medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+            }
+        }));
+    }, [searchParams, navigate, dispatch, medicalRecordId]);
 
 
     const openBodyPartsModal = useCallback(() => {
@@ -121,13 +123,6 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
         setIsBodyPartsModalOpen(false);
     }, []);
 
-    useEffect(() => {
-        if (medicalRecordId) {
-            dispatch(setCurrentNavParams("Medical Record details", null, () => {
-                navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
-            }));
-        }
-    }, [navigate, dispatch, medicalRecordId]);
 
     const [surgeryRecordDetails, setSurgeryRecordDetails] = useState<any | null>(null)
     const getSurgeryRecord = useCallback(

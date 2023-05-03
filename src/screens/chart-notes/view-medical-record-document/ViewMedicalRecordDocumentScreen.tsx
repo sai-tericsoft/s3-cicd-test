@@ -37,21 +37,23 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
         const [isMedicalRecordAttachmentAdding, setIsMedicalRecordAttachmentAdding] = useState<boolean>(false);
         const [medicalRecordDocumentAttachmentFile, setMedicalRecordDocumentAttachmentFile] = useState<any>(undefined);
 
-
         useEffect(() => {
-            const referrer: any = searchParams.get("referrer");
-            const module_name: any = searchParams.get("module_name");
-            setModule(module_name);
-            dispatch(setCurrentNavParams("View Document", null, () => {
-                if (referrer) {
-                    if (module_name === "client_documents") {
-                        navigate(referrer);
+            if (medicalRecordId) {
+                const referrer: any = searchParams.get("referrer");
+                const module_name: any = searchParams.get("module_name");
+                setModule(module_name);
+                dispatch(setCurrentNavParams("View Document", null, () => {
+                    if (referrer && referrer !== "undefined" && referrer !== "null") {
+                        if (module_name === "client_module") {
+                            navigate(referrer);
+                        } else {
+                            navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?referrer=' + referrer);
+                        }
+                    } else {
+                        navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
                     }
-                    navigate(referrer);
-                } else {
-                    medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
-                }
-            }));
+                }));
+            }
         }, [searchParams, navigate, dispatch, medicalRecordId]);
 
         const openEditMedicalRecordDocumentDrawer = useCallback(() => {

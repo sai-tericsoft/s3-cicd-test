@@ -74,7 +74,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
         clientMedicalRecord,
     } = useSelector((state: IRootReducerState) => state.client);
     const [isICDDrawerOpen, setIsICDDrawerOpen] = useState<boolean>(false);
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
 
     const {
         isProgressReportDetailsLoaded,
@@ -100,10 +100,9 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             const referrer: any = searchParams.get("referrer");
             const module_name: any = searchParams.get("module_name");
             setModule(module_name);
-            console.log(referrer);
             dispatch(setCurrentNavParams("Progress Report Details", null, () => {
-                if (referrer) {
-                    if (module_name === "client_documents") {
+                if (referrer && referrer !== "undefined" && referrer !== "null") {
+                    if (module_name === "client_module") {
                         navigate(referrer);
                     } else {
                         navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?referrer=' + referrer);

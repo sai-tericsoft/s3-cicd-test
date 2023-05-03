@@ -27,7 +27,7 @@ const ClientAppointmentDetailsComponent = (props: ClientAppointmentDetailsCompon
     const [isAppointmentDetailsLoaded, setIsAppointmentDetailsLoaded] = useState<boolean>(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
 
     const getAppointmentDetails = useCallback(() => {
             setIsAppointmentDetailsLoading(true);

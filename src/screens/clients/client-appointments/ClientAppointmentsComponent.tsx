@@ -6,9 +6,10 @@ import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import ClientAppointmentsTableComponent from "../client-appointments-table/ClientAppointmentsTableComponent";
 import {APIConfig} from "../../../constants";
 import AutoCompleteComponent from "../../../shared/components/form-controls/auto-complete/AutoCompleteComponent";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
 import {IRootReducerState} from "../../../store/reducers";
+import {CommonService} from "../../../shared/services";
 
 const CLIENT_APPOINTMENTS_LIST_TABLE = "ClientListScreen";
 
@@ -19,6 +20,8 @@ interface ClientAppointmentsComponentProps {
 const ClientAppointmentsComponent = (props: ClientAppointmentsComponentProps) => {
     const dispatch = useDispatch();
     const {clientId} = useParams();
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
     const {appointmentStatus}: any = useSelector((store: IRootReducerState) => store.staticData);
     const [clientAppointmentListFilterState, setClientAppointmentListFilterState] = useState<IClientAppointmentsFilterState>({
         status: "",
@@ -26,9 +29,15 @@ const ClientAppointmentsComponent = (props: ClientAppointmentsComponentProps) =>
     });
 
     useEffect(() => {
-        dispatch(setCurrentNavParams('Clients'));
-    }, [dispatch]);
-
+        const referrer: any = searchParams.get("referrer");
+        dispatch(setCurrentNavParams("Client Details", null, () => {
+            if (referrer) {
+                navigate(referrer);
+            } else {
+                navigate(CommonService._routeConfig.ClientList());
+            }
+        }));
+    }, [searchParams, navigate, dispatch]);
 
     return (
         <div className={'client-appointments-list-screen'}>

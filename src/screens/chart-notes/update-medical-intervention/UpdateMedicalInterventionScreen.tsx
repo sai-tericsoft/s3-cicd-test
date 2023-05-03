@@ -76,6 +76,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
+    const referrer: any = searchParams.get("referrer");
 
     const {
         medicalInterventionDetails,
@@ -446,7 +447,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                 {
                                                                     medicalInterventionDetails?.rom_config?.length === 0 &&
                                                                     <LinkComponent
-                                                                        route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId)}>
+                                                                        route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId) + '?referrer=' + referrer}>
                                                                         <ButtonComponent
                                                                             fullWidth={true}
                                                                             variant={'outlined'}
@@ -803,7 +804,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                             {
                                                                 medicalInterventionDetails?.linked_icd_codes?.length === 0 &&
                                                                 <LinkComponent
-                                                                    route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId)}>
+                                                                    route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId) + '?referrer=' + referrer}>
                                                                     <ButtonComponent
                                                                         fullWidth={true}
                                                                         variant={'outlined'}
