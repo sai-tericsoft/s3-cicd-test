@@ -25,9 +25,14 @@
       flex: 1;
       padding: 0 0 0 15px;
       overflow-x: hidden;
-      overflow-y: auto;
+      overflow-y: hidden;
 
-      .client-details-tab{
+      .t-tab-panel {
+        flex: 1 1;
+        overflow: auto;
+      }
+
+      .client-details-tab {
         font-size: 1.0714rem;
       }
 

@@ -102,7 +102,7 @@ const ClientProfileLayoutComponent = (props: ClientProfileLayoutComponentProps) 
     }, [clientId]);
 
     return (
-        <div>
+        <div className={'client-profile-layout-component'}>
             {clientId && <>
                 <div className={`client-details-actions`}>
 
@@ -131,6 +131,7 @@ const ClientProfileLayoutComponent = (props: ClientProfileLayoutComponentProps) 
                     </>
                 </div>
                 <TabsWrapperComponent>
+                    <div className={'tabs-wrapper'}>
                     <TabsComponent
                         value={currentTab}
                         allowScrollButtonsMobile={false}
@@ -147,6 +148,7 @@ const ClientProfileLayoutComponent = (props: ClientProfileLayoutComponentProps) 
                         <TabComponent className={'client-details-tab'} label="Activity Log"
                                       value={"activityLog"}/>
                     </TabsComponent>
+                    </div>
                     <TabContentComponent value={"basicDetails"} selectedTab={currentTab}>
                         <ClientBasicDetailsComponent clientId={clientId}/>
                     </TabContentComponent>
