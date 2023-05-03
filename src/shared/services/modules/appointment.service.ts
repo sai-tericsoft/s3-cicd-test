@@ -67,6 +67,11 @@ const setAppointmentSetting = (payload: any) => {
     return ApiService[APIConfig.SET_APPOINTMENT_SETTINGS.METHOD](APIConfig.SET_APPOINTMENT_SETTINGS.URL, payload);
 }
 
+const getAvailableCouponList = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.GET_AVAILABLE_COUPONS_LIST.METHOD](APIConfig.GET_AVAILABLE_COUPONS_LIST.URL, payload);
+}
+
 const AppointmentService = {
     addAppointment,
     appointmentPayment,
@@ -82,7 +87,8 @@ const AppointmentService = {
     getAppointmentFormStatus,
     getAppointmentListLite,
     getAppointmentSetting,
-    setAppointmentSetting
+    setAppointmentSetting,
+    getAvailableCouponList
 }
 
 export default AppointmentService;

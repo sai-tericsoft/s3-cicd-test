@@ -813,6 +813,10 @@ const APIConfig: IAPIConfig = {
     REPORT_AN_ISSUE:{
         URL: ENV.API_URL + '/notifyIssue',
         METHOD: 'post'
+    },
+    GET_AVAILABLE_COUPONS_LIST:{
+        URL: ENV.API_URL + '/availableCoupons',
+        METHOD:'get'
     }
 }
 
