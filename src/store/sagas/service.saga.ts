@@ -20,7 +20,7 @@ function* getServiceProviderList(action: any) {
 function* getAllServiceList() {
     try {
         // @ts-ignore
-        const resp = yield call(CommonService._service.AllServiceListAPICall);
+        const resp = yield call(CommonService._service.AllServiceListAPICall,{is_active:true});
         yield put(setAllServiceList(resp.data));
     } catch (error) {
         yield put(setAllServiceList([]));
