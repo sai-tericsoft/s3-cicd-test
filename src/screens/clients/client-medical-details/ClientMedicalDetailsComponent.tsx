@@ -130,24 +130,24 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                         <div className={'ts-row'}>
                             <div className={'ts-col-lg-3'}>
                                 <DataLabelValueComponent label={'Family Doctor Name'}>
-                                    {clientMedicalDetails?.medical_provider_info?.name || "N/A"}
+                                    {clientMedicalDetails?.medical_provider_info?.family_doctor_name || "N/A"}
                                 </DataLabelValueComponent>
                             </div>
                             <div className={'ts-col-lg-3'}>
                                 <DataLabelValueComponent label={'MD Phone'}>
-                                    {clientMedicalDetails?.medical_provider_info?.primary_phone || "N/A"}
+                                    {CommonService.formatPhoneNumber(clientMedicalDetails?.medical_provider_info?.md_phone || "N/A")}
                                 </DataLabelValueComponent>
                             </div>
                         </div>
                         <div className={'ts-row'}>
                             <div className={'ts-col-lg-3'}>
                                 <DataLabelValueComponent label={'Referring Doctor Name'}>
-                                    {clientMedicalDetails?.medical_provider_info?.referring_name || "N/A"}
+                                    {clientMedicalDetails?.medical_provider_info?.referring_doctor_name || "N/A"}
                                 </DataLabelValueComponent>
                             </div>
                             <div className={'ts-col-lg-3'}>
                                 <DataLabelValueComponent label={'Primary Phone'}>
-                                    {clientMedicalDetails?.medical_provider_info?.phone_number || "N/A"}
+                                    {CommonService.formatPhoneNumber(clientMedicalDetails?.medical_provider_info?.primary_phone || "N/A")}
                                 </DataLabelValueComponent>
                             </div>
                         </div>

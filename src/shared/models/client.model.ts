@@ -202,11 +202,11 @@ export interface IClientMedicalProviderForm {
 
 export interface IClientMedicalProvider {
     "last_examination_date": string;
-    "name": string;
-    "primary_phone": string;
+    "family_doctor_name": string;
+    "md_phone": string;
     "primary_phone_details"?: IPhoneType;
-    "referring_name":string;
-    "phone_number":string;
+    "referring_doctor_name":string;
+    "primary_phone":string;
 
 
 }
