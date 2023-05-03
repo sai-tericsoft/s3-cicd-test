@@ -42,12 +42,14 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
         {
             key: 'action',
             title: 'Action',
-            width: "10%",
+            width: 200,
+            fixed:'right',
+            align: 'center',
             render: (item: any) => {
                 return <IconButtonComponent onClick={() => {
                     handleDeleteProvider(item);
                 }}
-                id={"pv_delete_btn_" + item.provider_name}>
+                                            id={"pv_delete_btn_" + item.provider_name}>
                     <ImageConfig.DeleteIcon/>
                 </IconButtonComponent>
             }
@@ -109,7 +111,7 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
 
     return (
         <div className={'service-provider'}>
-            <CardComponent title={'Providers'} actions={<>
+            <div  className={'add-provider'}>
                 <ButtonComponent
                     size={"small"}
                     prefixIcon={<ImageConfig.AddIcon/>}
@@ -118,7 +120,8 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
                 >
                     Add Provider
                 </ButtonComponent>
-            </>}>
+            </div>
+            <CardComponent title={'Providers'}>
                 <TableComponent
                     size={"small"}
                     columns={ClientListColumns}
