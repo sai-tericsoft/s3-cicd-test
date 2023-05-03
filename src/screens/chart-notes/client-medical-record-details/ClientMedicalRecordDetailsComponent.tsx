@@ -76,10 +76,10 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
 
     const getAppointmentLite = useCallback(() => {
         if (clientMedicalRecord && clientMedicalRecord.client_id) {
-            const payload = {client_id: clientMedicalRecord.client_id};
+            const payload = {client_id: clientMedicalRecord.client_id, medicalRecordId: medicalRecordId};
             dispatch(getAppointmentListLite(payload));
         }
-    }, [clientMedicalRecord, dispatch])
+    }, [clientMedicalRecord, dispatch, medicalRecordId])
 
 
     useEffect(() => {
