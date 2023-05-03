@@ -190,7 +190,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                 }
             });
         }
-    }, [patchDataToProgressReportForm, medicalRecordId, progressReportId]);
+    }, [patchDataToProgressReportForm, medicalRecordId, progressReportId,navigate]);
 
     useEffect(() => {
         dispatch(setCurrentNavParams("Update Progress Report Details", null, () => {
@@ -327,7 +327,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                     formRef.current.setFieldValue('can_sign', true);
                                 // }
                             }
-                        }, [formRef,values]);
+                        }, [values]);
                         return (
                             <Form noValidate={true} className={'t-form'}>
                                 <CardComponent title={'Synopsis'}>

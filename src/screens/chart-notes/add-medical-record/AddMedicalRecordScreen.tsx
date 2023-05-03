@@ -30,6 +30,9 @@ import {useNavigate, useParams} from "react-router-dom";
 import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
+import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
+import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
+import {getAppointmentListLite} from "../../../store/actions/appointment.action";
 
 interface AddMedicalRecordScreenProps {
 
@@ -83,6 +86,7 @@ const InjuryDetailsValidationSchema = Yup.object().shape({
 const MedicalRecordAddFormValidationSchema = Yup.object({
     onset_date: Yup.string().required("Date Of Onset is required"),
     injury_details: Yup.array().of(InjuryDetailsValidationSchema),
+    appointment_id: Yup.string().required("Appointment is required"),
     case_physician: Yup.object({
         is_case_physician: Yup.boolean(),
         name: Yup.string().when("is_case_physician", {
@@ -97,7 +101,6 @@ const MedicalRecordAddFormValidationSchema = Yup.object({
 });
 
 const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
-
     const {clientId} = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -107,6 +110,24 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
     const [isMedicalRecordAddInProgress, setIsMedicalRecordAddInProgress] = useState<boolean>(false);
     const [isSurgeryRecordDrawerOpen, setIsSurgeryRecordDrawerOpen] = useState<boolean>(false);
     const [surgeryRecord, setSurgeryRecord] = useState<any | null>(null);
+    const {
+        isAppointmentListLiteLoading,
+        isAppointmentListLiteLoaded,
+        isAppointmentListLiteLoadingFailed,
+        appointmentListLite,
+    } = useSelector((state: IRootReducerState) => state.appointments);
+
+    const getAppointmentLite = useCallback(() => {
+        if (clientId) {
+            const payload = {client_id: clientId};
+            dispatch(getAppointmentListLite(payload));
+        }
+    }, [dispatch])
+
+
+    useEffect(() => {
+        getAppointmentLite();
+    }, [getAppointmentLite]);
 
     useEffect(() => {
         dispatch(setCurrentNavParams("Add New Medical Record", null, () => {
@@ -393,6 +414,42 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                     </div>
                                 </div>
                             </CardComponent>
+
+                            <CardComponent title={"Appointment Details"}>
+                                {
+                                    isAppointmentListLiteLoading && <div>
+                                        <LoaderComponent/>
+                                    </div>
+                                }
+                                {
+                                    isAppointmentListLiteLoadingFailed &&
+                                    <StatusCardComponent title={"Failed to fetch Appointment list"}/>
+                                }
+                                {isAppointmentListLiteLoaded && <>
+
+                                    <div className="ts-row">
+                                        <div className="ts-col-lg-4">
+                                            <Field name={'appointment_id'}>
+                                                {
+                                                    (field: FieldProps) => (
+                                                        <FormikSelectComponent
+                                                            formikField={field}
+                                                            required={true}
+                                                            options={appointmentListLite || []}
+                                                            fullWidth={true}
+                                                            label={"Select Appointment"}
+                                                            displayWith={(item: any) => item?.appointment_type + ' ' + (moment(item.appointment_date).format('DD-MMM-YYYY'))}
+                                                            valueExtractor={(item: any) => item?._id}
+                                                        />
+                                                    )
+                                                }
+                                            </Field>
+                                        </div>
+                                    </div>
+                                </>
+                                }
+                            </CardComponent>
+
                             <CardComponent title={"Case Physician Details"}>
                                 <div className="ts-row">
                                     <div className="ts-col-lg-4">
@@ -612,15 +669,15 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                             </CardComponent>
                             <div className="t-form-actions">
                                 {clientId &&
-                                    <LinkComponent route={CommonService._routeConfig.MedicalRecordList(clientId)}>
-                                        <ButtonComponent // TODO: Add CTA to take back to the previous screen
-                                            variant={"outlined"}
-                                            disabled={isMedicalRecordAddInProgress}
-                                            id={"medical_record_add_cancel_btn"}
-                                        >
-                                            Cancel
-                                        </ButtonComponent>
-                                    </LinkComponent>
+                                <LinkComponent route={CommonService._routeConfig.MedicalRecordList(clientId)}>
+                                    <ButtonComponent // TODO: Add CTA to take back to the previous screen
+                                        variant={"outlined"}
+                                        disabled={isMedicalRecordAddInProgress}
+                                        id={"medical_record_add_cancel_btn"}
+                                    >
+                                        Cancel
+                                    </ButtonComponent>
+                                </LinkComponent>
                                 }
                                 &nbsp;
                                 <ButtonComponent
