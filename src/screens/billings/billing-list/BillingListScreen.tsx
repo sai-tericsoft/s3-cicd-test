@@ -184,7 +184,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             width: 200,
             align: 'center',
             render: (item: any) => {
-                return <>{item?.client_details?.primary_contact_info?.phone}</>
+                return <>{CommonService.formatPhoneNumber(item?.client_details?.primary_contact_info?.phone)}</>
             }
         },
         {
@@ -432,7 +432,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             align: 'center',
             render: (item: any) => {
                 return <>
-                    {item?.client_details?.primary_contact_info?.phone}
+                  {CommonService.formatPhoneNumber(item?.client_details?.primary_contact_info?.phone)}
+
                 </>
             }
         },
