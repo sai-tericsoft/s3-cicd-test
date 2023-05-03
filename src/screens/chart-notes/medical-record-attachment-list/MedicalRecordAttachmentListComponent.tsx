@@ -86,13 +86,13 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             render: (item: any) => {
                 let route = '';
                 if (item.note_type_category.toLowerCase() === 'surgery record') {
-                    route = CommonService._routeConfig.MedicalRecordSurgeryRecordDetails(item.medical_record_id, item._id) + '&referrer=' + referrer;
+                    route = CommonService._routeConfig.MedicalRecordSurgeryRecordDetails(item.medical_record_id, item._id) + '?referrer=' + referrer;
                 } else if (item.note_type_category.toLowerCase() === 'dry needling') {
-                    route = CommonService._routeConfig.MedicalInterventionDryNeedlingFileViewDetails(item.medical_record_id, item._id) + '&referrer=' + referrer;
+                    route = CommonService._routeConfig.MedicalInterventionDryNeedlingFileViewDetails(item.medical_record_id, item._id) + '?referrer=' + referrer;
                 } else if (item.note_type_category.toLowerCase() === 'concussion') {
-                    route = CommonService._routeConfig.MedicalInterventionConcussionFileViewDetails(item.medical_record_id, item._id) + '&referrer=' + referrer;
+                    route = CommonService._routeConfig.MedicalInterventionConcussionFileViewDetails(item.medical_record_id, item._id) + '?referrer=' + referrer;
                 } else if (item.note_type_category.toLowerCase() === 'document') {
-                    route = CommonService._routeConfig.MedicalRecordDocumentViewDetails(item.medical_record_id, item._id) + '&referrer=' + referrer;
+                    route = CommonService._routeConfig.MedicalRecordDocumentViewDetails(item.medical_record_id, item._id) + '?referrer=' + referrer;
                 } else if (item.note_type_category.toLowerCase() === 'progress report') {
                     route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(item.medical_record_id, item?._id) + '&referrer=' + referrer;
                 } else {

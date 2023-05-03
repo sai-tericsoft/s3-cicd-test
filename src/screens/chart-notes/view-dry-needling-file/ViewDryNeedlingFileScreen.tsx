@@ -1,5 +1,5 @@
 import "./ViewDryNeedlingFileScreen.scss";
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import MedicalRecordAttachmentBasicDetailsCardComponent
     from "../medical-record-attachment-basic-details-card/MedicalRecordAttachmentBasicDetailsCardComponent";
 import AttachmentComponent from "../../../shared/attachment/AttachmentComponent";
@@ -34,6 +34,7 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
         const [isDryNeedlingAttachmentDeleting, setIsDryNeedlingAttachmentDeleting] = useState<boolean>(false);
         const [isDryNeedlingAttachmentAdding, setIsDryNeedlingAttachmentAdding] = useState<boolean>(false);
         const [dryNeedlingFileAttachmentFile, setDryNeedlingFileAttachmentFile] = useState<any>(undefined);
+        const [searchParams] = useSearchParams();
 
         const openEditDryNeedlingFileDrawer = useCallback(() => {
             setIsEditDryNeedlingFileDrawerOpened(true);
@@ -68,10 +69,22 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
         }, [getDryNeedlingFileDetails]);
 
         useEffect(() => {
-            dispatch(setCurrentNavParams("View Dry Needling File", null, () => {
-                medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
-            }));
-        }, [medicalRecordId, navigate, dispatch]);
+            if (medicalRecordId) {
+                const referrer: any = searchParams.get("referrer");
+                const module_name: any = searchParams.get("module_name");
+                dispatch(setCurrentNavParams("View Dry Needling File", null, () => {
+                    if (referrer && referrer !== "undefined" && referrer !== "null") {
+                        if (module_name === "client_module") {
+                            navigate(referrer);
+                        } else {
+                            navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?referrer=' + referrer);
+                        }
+                    } else {
+                        navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+                    }
+                }));
+            }
+        }, [searchParams, navigate, dispatch, medicalRecordId]);
 
         const handleDryNeedlingFileDelete = useCallback(() => {
             CommonService.onConfirm({

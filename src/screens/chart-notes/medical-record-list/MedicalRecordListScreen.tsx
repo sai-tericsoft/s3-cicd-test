@@ -1,5 +1,5 @@
 import "./MedicalRecordListScreen.scss";
-import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import React, {useCallback, useEffect, useState} from "react";
 import {IRootReducerState} from "../../../store/reducers";
@@ -48,7 +48,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             render: (item: any) => {
                 if (item?._id) {
                     return <LinkComponent
-                        route={CommonService._routeConfig.ClientMedicalRecordDetails(item?._id, )}>
+                        route={CommonService._routeConfig.ClientMedicalRecordDetails(item?._id,)}>
                         {CommonService.convertDateFormat2(item?.onset_date)}
                     </LinkComponent>
                 }
@@ -138,7 +138,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
 
     useEffect(() => {
         dispatch(setCurrentNavParams("Chart Notes", null, () => {
-            if (referrer) {
+            if (referrer && referrer !== "undefined" && referrer !== "null") {
                 navigate(referrer);
             } else {
                 navigate(CommonService._routeConfig.ClientSearch());

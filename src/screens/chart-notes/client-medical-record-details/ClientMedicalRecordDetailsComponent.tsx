@@ -119,7 +119,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                 }
             }
         }));
-    }, [navigate, dispatch, searchParams, clientMedicalRecord]);
+    }, [navigate, dispatch, searchParams, clientMedicalRecord, referrer]);
 
     const repeatLastTreatment = useCallback(
         (is_link_to_appointment: boolean) => {
