@@ -525,7 +525,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 })}
                                             </>
                                         )}/>
-                                    <HorizontalLineComponent className={'alternate-phone-divider'}/>
+                                    <HorizontalLineComponent />
                                     <FormControlLabelComponent label={'Primary Email :'}/>
                                     <div className="ts-row">
                                         <div className="ts-col-md-5">

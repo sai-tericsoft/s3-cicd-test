@@ -108,7 +108,7 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
             setIsAddCouponInProgress(false);
             CommonService.handleErrors(setErrors, error, true);
         });
-    }, [])
+    }, [navigate])
 
     return (
         <div className={'coupon-add-screen'}>

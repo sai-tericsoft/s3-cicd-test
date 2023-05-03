@@ -1,5 +1,5 @@
 import "./MedicalRecordListScreen.scss";
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import React, {useCallback, useEffect, useState} from "react";
 import {IRootReducerState} from "../../../store/reducers";
@@ -30,7 +30,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: 'alert_icon',
             fixed: "left",
             width: 50,
-            render: ( item: any) => {
+            render: (item: any) => {
                 return <span className={`medical-record-alert ${item?.alert_type}`}>
                     {
                         (item?.alert_type === "high" || item?.alert_type === "medium") && <ImageConfig.AlertIcon/>
@@ -45,9 +45,10 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             width: 150,
             fixed: "left",
             sortable: true,
-            render: ( item: any) => {
+            render: (item: any) => {
                 if (item?._id) {
-                    return <LinkComponent route={CommonService._routeConfig.ClientMedicalRecordDetails(item?._id)}>
+                    return <LinkComponent
+                        route={CommonService._routeConfig.ClientMedicalRecordDetails(item?._id,)}>
                         {CommonService.convertDateFormat2(item?.onset_date)}
                     </LinkComponent>
                 }
@@ -56,10 +57,10 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
         {
             title: "Body Part",
             key: "body_part",
-            align:'center',
+            align: 'center',
             dataIndex: "body_part",
             width: 200,
-            render: ( item: any) => {
+            render: (item: any) => {
                 if (item?.injury_details?.length === 1) {
                     return <>{item?.injury_details[0]?.body_part_details?.name}</>
                 } else {
@@ -70,10 +71,10 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
         {
             title: "Body Side",
             key: "body_side",
-            align:'center',
+            align: 'center',
             dataIndex: "body_side",
             width: 110,
-            render: ( item: any) => {
+            render: (item: any) => {
                 return <>{item?.injury_details[0]?.body_side || "N/A"}</>
             }
         },
@@ -81,9 +82,9 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             title: "Current Status",
             dataIndex: "status",
             key: "status",
-            align:'center',
+            align: 'center',
             width: 155,
-            render: ( item: any) => {
+            render: (item: any) => {
                 return <ChipComponent label={item?.status}
                                       className={item?.status === 'Open/Active' ? "active" : "inactive"}></ChipComponent>
             }
@@ -91,7 +92,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
         {
             title: "Last Provider",
             key: "last_provider",
-            align:'center',
+            align: 'center',
             dataIndex: "last_provider",
             sortable: true,
             width: 140,
@@ -102,9 +103,10 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: "actions",
             width: 120,
             fixed: "right",
-            render: ( item: IClientBasicDetails) => {
+            render: (item: IClientBasicDetails) => {
                 if (item?._id) {
-                    return <LinkComponent route={CommonService._routeConfig.ClientMedicalRecordDetails(item?._id)}>
+                    return <LinkComponent
+                        route={CommonService._routeConfig.ClientMedicalRecordDetails(item?._id) + '?referrer=' + referrer}>
                         View Details
                     </LinkComponent>
                 }
@@ -116,8 +118,8 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
     const navigate = useNavigate();
     const {caseStatusList} = useSelector((state: IRootReducerState) => state.staticData);
     const [medicalRecordListStatusDateAndProviderFilterState, setMedicalRecordListStatusDateAndProviderFilterState] = useState<any>({
-        status:undefined,
-        sort:{}
+        status: undefined,
+        sort: {}
     })
     const {
         isClientBasicDetailsLoaded,
@@ -125,6 +127,8 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
         isClientBasicDetailsLoadingFailed,
         clientBasicDetails,
     } = useSelector((state: IRootReducerState) => state.client);
+    const [searchParams] = useSearchParams();
+    const referrer: any = searchParams.get("referrer");
 
     useEffect(() => {
         if (clientId) {
@@ -134,12 +138,16 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
 
     useEffect(() => {
         dispatch(setCurrentNavParams("Chart Notes", null, () => {
-            navigate(CommonService._routeConfig.ClientSearch());
+            if (referrer && referrer !== "undefined" && referrer !== "null") {
+                navigate(referrer);
+            } else {
+                navigate(CommonService._routeConfig.ClientSearch());
+            }
         }));
-    }, [navigate, dispatch]);
+    }, [navigate, dispatch, searchParams, referrer]);
 
     const handleClientMedicalListSort = useCallback((key: string, order: string) => {
-        setMedicalRecordListStatusDateAndProviderFilterState((oldState:any) => {
+        setMedicalRecordListStatusDateAndProviderFilterState((oldState: any) => {
             const newState = {...oldState};
             newState["sort"] = {
                 key,
@@ -191,7 +199,8 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                                             </div>
                                         </div>
                                         <div>
-                                            <LinkComponent route={CommonService._routeConfig.AddMedicalRecord(clientId)}>
+                                            <LinkComponent
+                                                route={CommonService._routeConfig.AddMedicalRecord(clientId)}>
                                                 <ButtonComponent
                                                     prefixIcon={<ImageConfig.AddIcon/>}
                                                 >

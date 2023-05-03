@@ -38,13 +38,13 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
             title: "Case Name",
             key: "case_name",
             dataIndex: "case_name",
-            width: 250,
+            width: 350,
             align: "left",
             fixed: "left",
             render: (item: any) => {
                 if (item?._id) {
                     return <>
-                        {CommonService.generateUseCaseFromCaseDetails(item?.case_details).length > 30 ?
+                        {CommonService.generateUseCaseFromCaseDetails(item?.case_details).length > 50 ?
                             <ToolTipComponent
                                 tooltip={item?.case_details && CommonService.generateUseCaseFromCaseDetails(item?.case_details)}
                                 position={"top"}
@@ -67,7 +67,7 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
             key: "file_name",
             dataIndex: "file_name",
             sortable: true,
-            width: 200,
+            width: 150,
             render: (item: any) => {
                 return <span>{item?.note_type}</span>
             }
@@ -95,9 +95,9 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
             render: (item: any) => {
                 return <>
                     {
-                        (item?.posted_by.first_name + ' ' + item?.posted_by?.last_name).length > 20 ?
+                        (item?.posted_by?.first_name + ' ' + item?.posted_by?.last_name).length > 20 ?
                             <ToolTipComponent
-                                tooltip={(item?.posted_by.first_name + ' ' + item?.posted_by?.last_name)}
+                                tooltip={(item?.posted_by?.first_name + ' ' + item?.posted_by?.last_name)}
                                 position={"top"}
                                 showArrow={true}
                             >
@@ -124,15 +124,15 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
             render: (item: any) => {
                 let route = '';
                 if (item.note_type_category.toLowerCase() === 'surgery record') {
-                    route = CommonService._routeConfig.MedicalRecordSurgeryRecordDetails(item.medical_record_id, item._id) + '?referrer=' + location.pathname + 'client_module';
+                    route = CommonService._routeConfig.MedicalRecordSurgeryRecordDetails(item.medical_record_id, item._id) + '?referrer=' + location.pathname + '&module_name=client_module';
                 } else if (item.note_type_category.toLowerCase() === 'dry needling') {
-                    route = CommonService._routeConfig.MedicalInterventionDryNeedlingFileViewDetails(item.medical_record_id, item._id) + '?referrer=' + location.pathname + 'client_module';
+                    route = CommonService._routeConfig.MedicalInterventionDryNeedlingFileViewDetails(item.medical_record_id, item._id) + '?referrer=' + location.pathname + '&module_name=client_module';
                 } else if (item.note_type_category.toLowerCase() === 'concussion') {
-                    route = CommonService._routeConfig.MedicalInterventionConcussionFileViewDetails(item.medical_record_id, item._id) + '?referrer=' + location.pathname + 'client_module';
+                    route = CommonService._routeConfig.MedicalInterventionConcussionFileViewDetails(item.medical_record_id, item._id) + '?referrer=' + location.pathname + '&module_name=client_module';
                 } else if (item.note_type_category.toLowerCase() === 'document') {
                     route = CommonService._routeConfig.MedicalRecordDocumentViewDetails(item.medical_record_id, item?._id) + '?referrer=' + location.pathname + '&module_name=client_module';
                 } else if (item.note_type_category.toLowerCase() === 'progress report') {
-                    route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(item.medical_record_id, item?._id) + '?referrer=' + location.pathname + 'client_module';
+                    route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(item.medical_record_id, item?._id) + '&referrer=' + location.pathname + '&module_name=client_module';
                 } else {
                 }
                 return <LinkComponent route={route}>
@@ -147,15 +147,15 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
     return (
         <div className={'client-documents-list-table-component'}>
             {clientDocumentFilters &&
-                <TableWrapperComponent
-                    url={APIConfig.GET_CLIENT_DOCUMENTS.URL(clientId)}
-                    method={APIConfig.GET_CLIENT_DOCUMENTS.METHOD}
-                    columns={ClientDocumentListTableColumns}
-                    extraPayload={clientDocumentFilters}
-                    moduleName={moduleName}
-                    noDataText={'No Documents To Show'}
-                    noDataImage={<ImageConfig.NoDataDocumentsIcon/>}
-                />
+            <TableWrapperComponent
+                url={APIConfig.GET_CLIENT_DOCUMENTS.URL(clientId)}
+                method={APIConfig.GET_CLIENT_DOCUMENTS.METHOD}
+                columns={ClientDocumentListTableColumns}
+                extraPayload={clientDocumentFilters}
+                moduleName={moduleName}
+                noDataText={'No Documents To Show'}
+                noDataImage={<ImageConfig.NoDataDocumentsIcon/>}
+            />
             }
         </div>
     );

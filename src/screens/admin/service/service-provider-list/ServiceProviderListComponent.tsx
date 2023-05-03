@@ -42,7 +42,8 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
         {
             key: 'action',
             title: 'Action',
-            width: "10%",
+            width: 200,
+            fixed:'right',
             align: 'center',
             render: (item: any) => {
                 return <IconButtonComponent onClick={() => {

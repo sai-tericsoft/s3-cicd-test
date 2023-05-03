@@ -12,6 +12,7 @@ import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
 import HorizontalLineComponent
     from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
+import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 
 interface ClientMedicalDetailsComponentProps {
     clientId: string;
@@ -103,7 +104,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                    </LinkComponent>
                                    }>
                         {clientMedicalDetails?.allergies.split("\n").map((i: any, key: any) => {
-                            return <div key={key}>{i}</div>;
+                            return <li key={key}>{i}</li>;
                         }) || "N/A"}
                     </CardComponent>
                     <CardComponent title={'Medication/Supplements'} actions={<LinkComponent
@@ -182,10 +183,12 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                 }
                             </div>
                         }
-                        {clientMedicalDetails?.medical_history?.comments &&
+
+                        <FormControlLabelComponent label={"Other Illnesses/Conditions"} className={'mrg-bottom-10'}/>
+                        {(clientMedicalDetails?.medical_history?.comments &&
                             clientMedicalDetails?.medical_history?.comments.split("\n").map((i: any, key: any) => {
-                                return <div key={key}>{i}</div>;
-                            }) || "N/A"}
+                                return <li key={key}>{i}</li>;
+                            })) || "N/A"}
                     </CardComponent>
                     {
                         clientBasicDetails?.gender === "female" && <>
@@ -237,9 +240,9 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             </div>
                         }
                         {clientMedicalDetails?.surgical_history?.comments && <>
-
+                            <FormControlLabelComponent label={"Other Illnesses/Conditions"} className={'mrg-bottom-10'}/>
                             {clientMedicalDetails?.surgical_history?.comments.split("\n").map((i: any, key: any) => {
-                                return <div key={key}>{i}</div>;
+                                return <li key={key}>{i}</li>;
                             }) || "N/A"}
                         </>
 

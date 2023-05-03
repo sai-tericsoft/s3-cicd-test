@@ -21,6 +21,7 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
 
     const {clientId} = useParams();
     const dispatch = useDispatch();
+    const location: any = useLocation();
 
     const CLIENT_MENU_ITEMS = [
         {
@@ -29,7 +30,7 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
         },
         {
             title: "Chart Notes",
-            path: clientId ? CommonService._routeConfig.MedicalRecordList(clientId) : ""
+            path: clientId ? CommonService._routeConfig.MedicalRecordList(clientId) + '?referrer=' + location.pathname : ""
         },
         {
             title: "Documents",
@@ -48,10 +49,7 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
             path: clientId ? CommonService._routeConfig.ClientBillingDetails(clientId) : ""
         }
     ];
-
-    const location: any = useLocation();
     const title = (location.state && location.state.title) ? location.state.title : CLIENT_MENU_ITEMS[0].title;
-
     const {
         isClientBasicDetailsLoaded,
         isClientBasicDetailsLoading,

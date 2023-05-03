@@ -28,6 +28,7 @@ import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import BookAppointmentFormComponent
     from "../../../shared/components/book-appointment/book-appointment-form/BookAppointmentFormComponent";
+import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 
 const REPEAT_LAST_TREATMENT = "repeat_last_treatment";
 const ADD_NEW_TREATMENT = "add_new_treatment";
@@ -64,6 +65,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
     const {
         clientMedicalRecord,
     } = useSelector((state: IRootReducerState) => state.client);
+    const referrer: any = searchParams.get("referrer");
 
     const {
         isAppointmentListLiteLoading,
@@ -74,10 +76,10 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
 
     const getAppointmentLite = useCallback(() => {
         if (clientMedicalRecord && clientMedicalRecord.client_id) {
-            const payload = {client_id: clientMedicalRecord.client_id};
+            const payload = {client_id: clientMedicalRecord.client_id, medicalRecordId: medicalRecordId};
             dispatch(getAppointmentListLite(payload));
         }
-    }, [clientMedicalRecord, dispatch])
+    }, [clientMedicalRecord, dispatch, medicalRecordId])
 
 
     useEffect(() => {
@@ -105,6 +107,19 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
             setSearchParams(searchParams);
         }
     }, [dispatch, searchParams, setSearchParams]);
+
+    useEffect(() => {
+        dispatch(setCurrentNavParams("Chart Notes", null, () => {
+            console.log("referrer", referrer);
+            if (clientMedicalRecord && clientMedicalRecord.client_details._id) {
+                if (referrer) {
+                    navigate(CommonService._routeConfig.MedicalRecordList(clientMedicalRecord.client_details._id) + '?referrer=' + referrer);
+                } else {
+                    navigate(CommonService._routeConfig.MedicalRecordList(clientMedicalRecord.client_details._id));
+                }
+            }
+        }));
+    }, [navigate, dispatch, searchParams, clientMedicalRecord, referrer]);
 
     const repeatLastTreatment = useCallback(
         (is_link_to_appointment: boolean) => {
@@ -228,13 +243,15 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                 .then((response: IAPIResponseType<any>) => {
                     if (response) {
                         getAppointmentLite();
+                        setIsAppointmentSelectionModalOpen(true);
+                        setIsBookingLoading(false);
                     }
                 })
                 .catch((error: any) => {
                     // CommonService.handleErrors(errors);
                 })
                 .finally(() => {
-                    setIsBookingLoading(true)
+                    setIsBookingLoading(false);
                 })
         },
         [getAppointmentLite],
@@ -275,10 +292,10 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
 
                 </TabsComponent>
                 <TabContentComponent value={"medicalRecord"} selectedTab={currentTab}>
-                    <MedicalInterventionListComponent/>
+                    <MedicalInterventionListComponent referrer={referrer}/>
                 </TabContentComponent>
                 <TabContentComponent value={"attachmentList"} selectedTab={currentTab}>
-                    <MedicalRecordAttachmentListComponent/>
+                    <MedicalRecordAttachmentListComponent referrer={referrer}/>
                 </TabContentComponent>
             </TabsWrapperComponent>
 
@@ -364,7 +381,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                         required={true}
                         label={"Select Appointment"}
                         value={selectedAppointment}
-                        displayWith={(item: any) => item?.appointment_type_details?.title + '' + (moment(item.appointment_date).format('DD-MMM-YYYY'))}
+                        displayWith={(item: any) => item?.appointment_type + ' ' + (moment(item.appointment_date).format('DD-MMM-YYYY'))}
                         valueExtractor={(item: any) => item?._id}
                         onUpdate={(value: any) => {
                             console.log(value);
