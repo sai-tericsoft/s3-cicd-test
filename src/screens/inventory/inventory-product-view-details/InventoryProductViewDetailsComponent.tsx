@@ -89,7 +89,7 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                             </DataLabelValueComponent>
                         </div>
                         <div className={'ts-col-4'}>
-                            <DataLabelValueComponent id={"product_price"} label={'Price*'}>
+                            <DataLabelValueComponent id={"product_price"} label={'Retail Price'}>
                                 <span> {Misc.CURRENCY_SYMBOL}</span> {inventoryProductDetails?.price}
                             </DataLabelValueComponent>
                         </div>
