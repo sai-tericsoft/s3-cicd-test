@@ -568,6 +568,10 @@ const convertToDecimals = (value: number) => {
     return value.toFixed(2)
 }
 
+const calculateFinalAmountFromDiscountPercentage = (percentage: any, totalAmount: number) => {
+    return (parseFloat(percentage) / 100) * totalAmount;
+}
+
 const CommonService = {
     LightenDarkenColor,
     getContrastYIQ,
@@ -617,6 +621,7 @@ const CommonService = {
     cleanMentionsResponse,
     editMentionsFormat,
     convertToDecimals,
+    calculateFinalAmountFromDiscountPercentage,
 
     // createValidationsObject,
     // createYupSchema,

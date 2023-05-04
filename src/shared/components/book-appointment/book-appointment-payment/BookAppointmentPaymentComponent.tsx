@@ -1,6 +1,4 @@
-
-
-import React, {useCallback, useEffect, useRef} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import "./BookAppointmentPaymentComponent.scss";
 import {ImageConfig} from "../../../../constants";
 import ButtonComponent from "../../button/ButtonComponent";
@@ -30,7 +28,7 @@ const addAppointmentPaymentInitialValues: any = {
     appointmentId: '',
     payment_type: '',
     mode: '',
-    promotion_code: '',
+    available_coupons: '',
     comments: ''
 };
 
@@ -41,23 +39,58 @@ const addAppointmentPaymentValidationSchema = Yup.object().shape({
         is: 'current',
         then: Yup.mixed().required('Payment mode is required')
     }),
-    promotion_code: Yup.string(),
+    available_coupons: Yup.string(),
     amount: Yup.number(),
     comments: Yup.string(),
 });
 
 const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentProps) => {
-    const {onClose, onComplete, booking,onBack} = props;
+    const {onClose, onComplete, booking, onBack} = props;
     const {paymentModes} = useSelector((state: IRootReducerState) => state.staticData);
+    const [availableCouponsList, setAvailableCouponsList] = useState<any[]>([]);
+    const [selectedCoupon, setSelectedCoupon] = useState<any>(undefined);
+    const [discountAmount, setDiscountAmount] = useState<number>(0);
+    const [payableAmount, setPayableAmount] = useState<number>(0);
+
+    const onCouponSelect = useCallback((value: any) => {
+        setSelectedCoupon(value);
+        if (value.discount_type === 'amount') {
+            setDiscountAmount(value.amount)
+            const totalPayableAmount = booking?.amount - value.amount
+            setPayableAmount(totalPayableAmount);
+        } else {
+            let totalPayableAmount;
+            const finalDiscountAmount = CommonService.calculateFinalAmountFromDiscountPercentage(value.percentage, booking?.amount)
+            if (finalDiscountAmount > value.max_discount_amount) {
+                totalPayableAmount = booking?.amount - value.max_discount_amount
+            } else {
+                totalPayableAmount = booking?.amount - finalDiscountAmount
+            }
+            setPayableAmount(totalPayableAmount);
+        }
+    }, [booking]);
+
+    const getAvailableCouponsList = useCallback(() => {
+        const payload = {
+            service_id: booking?.service_id,
+            amount: booking?.amount,
+            client_id: booking?.client_id,
+        }
+        CommonService._appointment.getAvailableCouponList(payload)
+            .then((response: IAPIResponseType<any>) => {
+                if (response?.data) {
+                    setAvailableCouponsList(response.data);
+                }
+            })
+            .catch((error: any) => {
+                CommonService._alert.showToast(error.error || error.errors || "Failed to fetch", "error");
+            });
+    }, [booking]);
 
 
-    //
-    // useEffect(() => {
-    //     console.log(booking, 'bookingDraft');
-    //     if (booking && booking.service) {
-    //         getServiceView(booking.service._id);
-    //     }
-    // }, [getServiceView, booking]);
+    useEffect(() => {
+        getAvailableCouponsList();
+    }, [getAvailableCouponsList]);
 
 
     const onSubmitAppointmentPayment = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
@@ -155,14 +188,24 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
 
                                         {values.payment_type === 'current' && <>
                                             <FormControlLabelComponent
-                                                label={"Add a gift card or promotion code or voucher"} className={'add-gift-card-msg'} />
-                                            <Field name={'promotion_code'}>
+                                                label={"Add a gift card or promotion code or voucher"}
+                                                className={'add-gift-card-msg'}/>
+                                            <Field name={'available_coupons'}>
                                                 {
                                                     (field: FieldProps) => (
-                                                        <FormikInputComponent
+                                                        <FormikSelectComponent
                                                             formikField={field}
-                                                            label={'Add a gift card or promotion code or voucher'}
+                                                            size={"small"}
                                                             fullWidth={true}
+                                                            label={'Available Coupons'}
+                                                            options={availableCouponsList}
+                                                            displayWith={(option: any) => option?.title}
+                                                            valueExtractor={(option: any) => option}
+                                                            onUpdate={(value: any) => {
+                                                                onCouponSelect(value);
+                                                            }}
+
+
                                                         />
                                                     )
                                                 }
@@ -176,12 +219,17 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                                 </div>
                                                 <div className="price-item">
                                                     <div className="price-item-text discount">Discount</div>
-                                                    <div className="price-item-amount red">$0</div>
+                                                    <div className="price-item-amount red">
+                                                        {selectedCoupon ? `- $ ${discountAmount}` : `$0` || 'N/A'}
+
+                                                    </div>
                                                 </div>
                                                 <HorizontalLineComponent className={'horizontal-line'}/>
                                                 <div className="price-item price-item-total">
                                                     <div className="price-item-text">Total Amount (Inc.tax)</div>
-                                                    <div className="price-item-amount green">${booking.amount}.00</div>
+                                                    <div className="price-item-amount green">
+                                                        ${selectedCoupon ? payableAmount : booking.amount}.00
+                                                    </div>
                                                 </div>
                                             </div>
 
