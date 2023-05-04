@@ -14,6 +14,7 @@ import ServiceConsultationDetailsComponent from "../service-consultation-details
 import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../../shared/components/status-card/StatusCardComponent";
 import {IService} from "../../../../shared/models/service.model";
+import FormControlLabelComponent from "../../../../shared/components/form-control-label/FormControlLabelComponent";
 
 interface ServiceDetailsScreenProps {
 
@@ -69,6 +70,9 @@ const ServiceDetailsScreen = (props: ServiceDetailsScreenProps) => {
             }
             {
                 isServiceDetailsLoaded && <>
+                <div className={'view-service-heading'}>
+                    View Service
+                </div>
                     <div className={"service-details-card"}>
                         <BasicDetailsCardComponent
                             legend={serviceDetails?.category?.name}
