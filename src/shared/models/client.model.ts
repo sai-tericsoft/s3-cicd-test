@@ -202,9 +202,13 @@ export interface IClientMedicalProviderForm {
 
 export interface IClientMedicalProvider {
     "last_examination_date": string;
-    "name": string;
-    "primary_phone": string;
+    "family_doctor_name": string;
+    "md_phone": string;
     "primary_phone_details"?: IPhoneType;
+    "referring_doctor_name":string;
+    "primary_phone":string;
+
+
 }
 
 export interface IClientMusculoskeletalHistoryForm {

@@ -18,6 +18,8 @@ import {IRootReducerState} from "../../../store/reducers";
 import {getClientMedicalDetails} from "../../../store/actions/client.action";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
+import FormikPhoneInputComponent
+    from "../../../shared/components/form-controls/formik-phone-input/FormikPhoneInputComponent";
 
 interface ClientMedicalProviderInformationFormComponentProps {
     clientId: string;
@@ -36,9 +38,12 @@ const ClientMedicalProviderInformationValidationSchema = Yup.object({
 
 const ClientMedicalProviderInformationInitialValues: IClientMedicalProviderForm = {
     medical_provider_info: {
-        name: "",
-        primary_phone: "",
+        family_doctor_name: "",
+        md_phone: "",
         last_examination_date: "",
+        referring_doctor_name:"",
+        primary_phone:""
+
     }
 };
 
@@ -125,7 +130,40 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                         <FormControlLabelComponent label={"Family Doctor"}/>
                                         <div className="ts-row">
                                             <div className="ts-col-md-6 ts-col-lg-4">
-                                                <Field name={`medical_provider_info.name`}>
+                                                <Field name={`medical_provider_info.family_doctor_name`}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikInputComponent
+                                                                label={"Full Name"}
+                                                                placeholder={"Full Name"}
+                                                                required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                            <div className="ts-col-md-6 ts-col-lg-4">
+                                                <Field name={`medical_provider_info.md_phone`}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikPhoneInputComponent
+                                                                label={"MD Phone"}
+                                                                placeholder={"MD Phone"}
+                                                                required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                        </div>
+                                        <FormControlLabelComponent label={'Referring Doctor'}/>
+                                        <div className="ts-row">
+                                            <div className="ts-col-md-6 ts-col-lg-4">
+                                                <Field name={`medical_provider_info.referring_doctor_name`}>
                                                     {
                                                         (field: FieldProps) => (
                                                             <FormikInputComponent
@@ -143,9 +181,9 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                                 <Field name={`medical_provider_info.primary_phone`}>
                                                     {
                                                         (field: FieldProps) => (
-                                                            <FormikInputComponent
-                                                                label={"MD Phone"}
-                                                                placeholder={"MD Phone"}
+                                                            <FormikPhoneInputComponent
+                                                                label={"Primary Phone Number"}
+                                                                placeholder={"Primary Phone Number"}
                                                                 required={true}
                                                                 formikField={field}
                                                                 fullWidth={true}
