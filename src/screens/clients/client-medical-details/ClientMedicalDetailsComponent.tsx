@@ -272,10 +272,12 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                         </div>
                                         <div className="ts-col-lg-6">
                                             {
-                                                (clientMedicalDetails?.musculoskeletal_history[question]?.text) ? <ol>
-                                                    <li className={'musculoskeletal-question'}>
-                                                        {clientMedicalDetails?.musculoskeletal_history[question]?.text}</li>
-                                                </ol> : <div className={'musculoskeletal-question-na'}>N/A</div>
+                                                (clientMedicalDetails?.musculoskeletal_history[question]?.text) ?
+                                                    <div className={'musculoskeletal-question'}>
+                                                        {clientMedicalDetails?.musculoskeletal_history[question]?.text.split("\n").map((i: any, key: any) => {
+                                                            return <li key={key}>{i}</li>;
+                                                        })}</div>
+                                                 : <div className={'musculoskeletal-question-na'}>N/A</div>
                                             }
                                         </div>
                                     </div>

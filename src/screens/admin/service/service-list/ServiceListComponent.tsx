@@ -20,8 +20,16 @@ const ServiceListComponent = (props: ServiceListComponentProps) => {
         {
             dataIndex: "name",
             key: "name",
-            width: 600,
+            width: 500,
+            fixed:'left',
             title: "Service Name",
+            render: ( item: IService, index: number) => {
+                if (item._id){
+                    return <LinkComponent id={"sv_view_details_" + index} route={CommonService._routeConfig.ServiceDetails(item._id)}>
+                        {item?.name}
+                    </LinkComponent>
+                }
+            }
         },
         {
             dataIndex: "status",

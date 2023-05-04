@@ -38,12 +38,12 @@ const PhoneInputComponent = (props: PhoneInputComponentProps) => {
         // if phoneNumberLength is greater than 4 and less the 7 we start to return
         // the formatted number
         if (phoneNumberLength < 7) {
-            return `(${phoneNumber.slice(0, 3)})-${phoneNumber.slice(3)}`;
+            return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
         }
 
         // finally, if the phoneNumberLength is greater then seven, we add the last
         // bit of formatting and return it.
-        return `(${phoneNumber.slice(0, 3)})-${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}`;
+        return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}`;
     }, []);
 
     const handleInput = useCallback((value: string) => {
@@ -66,7 +66,7 @@ const PhoneInputComponent = (props: PhoneInputComponentProps) => {
             <InputComponent
                 onChange={handleInput}
                 value={value}
-                placeholder={placeholder || '(xxx)-xxx-xxxx'}
+                placeholder={placeholder || '(xxx) xxx-xxxx'}
                 {...otherProps}/>
         </div>
     );
