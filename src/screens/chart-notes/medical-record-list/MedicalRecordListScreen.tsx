@@ -92,7 +92,6 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
         {
             title: "Last Provider",
             key: "last_provider",
-            align: 'center',
             dataIndex: "last_provider",
             sortable: true,
             width: 140,

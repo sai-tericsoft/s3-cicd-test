@@ -1,0 +1,21 @@
+.service-category-details-screen {
+  .view-service-heading {
+    font-weight: 700;
+    font-size: 1.4286rem;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    margin-left: 10px;
+  }
+
+  .card-component {
+    &.sm {
+      .card-header {
+        .card-title {
+          text-transform: capitalize;
+          font-weight: 500;
+          font-size: 1.1429rem;
+        }
+      }
+    }
+  }
+}
