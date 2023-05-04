@@ -3,7 +3,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {useNavigate, useParams} from "react-router-dom";
 import React, {useCallback, useEffect, useState} from "react";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
-import {CommonService} from "../../../shared/services";
 import {IRootReducerState} from "../../../store/reducers";
 import {IBodyPartROMConfig} from "../../../shared/models/static-data.model";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
@@ -44,7 +43,7 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
                 // if (medicalInterventionDetails?.status === 'completed') {
                 //     navigate(CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId));
                 // } else {
-                navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+                // navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
                 // }
             }));
         }

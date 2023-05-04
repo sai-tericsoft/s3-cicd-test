@@ -31,8 +31,8 @@ const HeaderComponent = (props: HeaderComponentProps) => {
     }, [onNavigateBack]);
 
     const handleSystemLock = useCallback(() => {
-        dispatch(setSystemLocked(true,'manual'));
-    },[dispatch]);
+        dispatch(setSystemLocked(true, 'manual'));
+    }, [dispatch]);
 
     return (
         <div className="header-component">

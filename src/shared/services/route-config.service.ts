@@ -3,13 +3,17 @@ import {
     CHART_NOTES_LIST,
     CLIENT_ADD,
     CLIENT_LIST,
-    COMING_SOON_ROUTE, COUPON_ADD,
-    DASHBOARD, DISCOUNT_LIST,
+    COMING_SOON_ROUTE,
+    COUPON_ADD,
+    DASHBOARD,
+    DISCOUNT_LIST,
     FACILITY_DETAILS,
-    FACILITY_LIST, FAQ,
+    FACILITY_LIST,
+    FAQ,
     INVENTORY,
     LOGIN_ROUTE,
-    NOT_FOUND_ROUTE, REPORT_AN_ISSUE,
+    NOT_FOUND_ROUTE,
+    REPORT_AN_ISSUE,
     SCHEDULING_VIEW,
     SERVICE_ADD,
     SERVICE_CATEGORY_DETAILS,
@@ -140,11 +144,11 @@ const AddMedicalRecord = (clientId: string) => {
     return "/chart-notes/" + clientId + '/add-medical-record';
 }
 
-const UpdateMedicalIntervention = (medicalRecordId: string, medicalInterventionId: string,) => {
+const UpdateMedicalIntervention = (medicalRecordId: string, medicalInterventionId: string, referrer?: any) => {
     return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/update-medical-intervention';
 }
 
-const ViewMedicalIntervention = (medicalRecordId: string, medicalInterventionId: string,) => {
+const ViewMedicalIntervention = (medicalRecordId: string, medicalInterventionId: string) => {
     return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/view-medical-intervention';
 }
 
@@ -184,7 +188,7 @@ const MedicalInterventionDetails = (medicalRecordId: string, medicalIntervention
 }
 
 const MedicalRecordSurgeryRecordDetails = (medicalRecordId: string, surgeryRecordId: string) => {
-    return '/chart-notes/' + medicalRecordId + '/surgery-record/' + surgeryRecordId;
+    return '/chart-notes/' + medicalRecordId + '/' + surgeryRecordId + '/surgery-record';
 }
 
 const MedicalRecordProgressReportAdvancedDetailsUpdate = (medicalRecordId: string, progressReportId: string, mode: string) => {
@@ -204,7 +208,7 @@ const MedicalInterventionDryNeedlingFileViewDetails = (medicalRecordId: string, 
 }
 
 const MedicalInterventionConcussionFileViewDetails = (medicalRecordId: string, concussionFileId: string) => {
-    return "/chart-notes/" + medicalRecordId + "/" + concussionFileId + '/concussion-file-view-details?type=';
+    return "/chart-notes/" + medicalRecordId + "/" + concussionFileId + '/concussion-file-view-details';
 }
 
 const MedicalRecordDocumentViewDetails = (medicalRecordId: string, medicalRecordDocumentId: string) => {
@@ -261,7 +265,7 @@ const CouponAdd = () => {
 }
 
 const CouponEdit = (couponId: string) => {
-    return "/coupon/"+couponId+"/edit";
+    return "/coupon/" + couponId + "/edit";
 }
 
 const RouteConfigService = {

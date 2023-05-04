@@ -6,7 +6,7 @@ import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
 import {IBodyPart, IBodyPartROMConfig} from "../../../shared/models/static-data.model";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
@@ -24,6 +24,7 @@ import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
 import {RadioButtonComponent} from "../../../shared/components/form-controls/radio-button/RadioButtonComponent";
+import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 
 interface MedicalInterventionRomConfigV2ScreenProps {
 
@@ -42,7 +43,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         isMedicalInterventionDetailsLoaded,
     } = useSelector((state: IRootReducerState) => state.chartNotes);
     const {bodyPartList} = useSelector((state: IRootReducerState) => state.staticData);
-    const {medicalInterventionId} = useParams();
+    const {medicalRecordId, medicalInterventionId} = useParams();
     const [globalRomConfig, setGlobalRomConfig] = useState<IBodyPartROMConfig[]>([]);
     const [
         romFormValues, setRomFormValues
@@ -56,7 +57,8 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     const [isBodySidesModalOpen, setIsBodySidesModalOpen] = useState<boolean>(false);
     const [showAddBodyPartModal, setShowAddBodyPartModal] = useState<boolean>(false);
     const [selectedBodyPartToBeAdded, setSelectedBodyPartToBeAdded] = useState<any>(undefined);
-
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
     const generateRomConfigForBodySide = useCallback((bodyPart: any, side: string) => {
         return {
             title: side,
@@ -298,6 +300,21 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
             dispatch(getMedicalInterventionDetails(medicalInterventionId));
         }
     }, [medicalInterventionId, medicalInterventionDetails, dispatch]);
+
+    useEffect(() => {
+        if (medicalRecordId && medicalInterventionId) {
+            const referrer: any = searchParams.get("referrer");
+            dispatch(setCurrentNavParams("Save SOAP Note", null, () => {
+                if (referrer) {
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + '?referrer=' + referrer);
+                } else {
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+                }
+            }));
+
+        }
+    }, [navigate, dispatch, medicalRecordId, medicalInterventionId, searchParams]);
+
 
     useEffect(() => {
         const romConfig: any = [];
@@ -548,37 +565,37 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                                                                key={bodyPartId}
                                                                                actions={<>
                                                                                    {bodyPart?.movements?.length > 0 &&
-                                                                                       <>
-                                                                                           {
-                                                                                               (mode === 'read') && <>
-                                                                                                   <ButtonComponent
-                                                                                                       size={"small"}
-                                                                                                       prefixIcon={
-                                                                                                           <ImageConfig.EditIcon/>}
-                                                                                                       // onClick={handleBodyPartEdit}
-                                                                                                       // disabled={isSubmitting || isBodyPartBeingDeleted}
-                                                                                                   >
-                                                                                                       Edit
-                                                                                                   </ButtonComponent>&nbsp;&nbsp;
-                                                                                               </>
-                                                                                           }
-                                                                                           {
-                                                                                               (mode === 'write') &&
-                                                                                               <>
-                                                                                                   <ButtonComponent
-                                                                                                       size={"small"}
-                                                                                                       prefixIcon={
-                                                                                                           <ImageConfig.AddIcon/>}
-                                                                                                       onClick={() => {
-                                                                                                           openBodySideSelectionModal(bodyPart);
-                                                                                                       }
-                                                                                                       }
-                                                                                                   >
-                                                                                                       Add Body Side
-                                                                                                   </ButtonComponent>&nbsp;&nbsp;
-                                                                                               </>
-                                                                                           }
-                                                                                       </>
+                                                                                   <>
+                                                                                       {
+                                                                                           (mode === 'read') && <>
+                                                                                               <ButtonComponent
+                                                                                                   size={"small"}
+                                                                                                   prefixIcon={
+                                                                                                       <ImageConfig.EditIcon/>}
+                                                                                                   // onClick={handleBodyPartEdit}
+                                                                                                   // disabled={isSubmitting || isBodyPartBeingDeleted}
+                                                                                               >
+                                                                                                   Edit
+                                                                                               </ButtonComponent>&nbsp;&nbsp;
+                                                                                           </>
+                                                                                       }
+                                                                                       {
+                                                                                           (mode === 'write') &&
+                                                                                           <>
+                                                                                               <ButtonComponent
+                                                                                                   size={"small"}
+                                                                                                   prefixIcon={
+                                                                                                       <ImageConfig.AddIcon/>}
+                                                                                                   onClick={() => {
+                                                                                                       openBodySideSelectionModal(bodyPart);
+                                                                                                   }
+                                                                                                   }
+                                                                                               >
+                                                                                                   Add Body Side
+                                                                                               </ButtonComponent>&nbsp;&nbsp;
+                                                                                           </>
+                                                                                       }
+                                                                                   </>
                                                                                    }
                                                                                    <ButtonComponent
                                                                                        size={"small"}
@@ -599,12 +616,13 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                                                             (!bodyPart?.movements || bodyPart?.movements?.length === 0) && <>
                                                                                 <StatusCardComponent
                                                                                     title={"The following body part does not have any Range of Motion or Strength " +
-                                                                                        "                                                measurements. \n Please choose another body part."}/>
+                                                                                    "                                                measurements. \n Please choose another body part."}/>
                                                                             </>
                                                                         }
                                                                         {
                                                                             (bodyPart?.movements?.length > 0) && <>
-                                                                                <div className={'rom-config-table-container'}>
+                                                                                <div
+                                                                                    className={'rom-config-table-container'}>
                                                                                     <TableComponent
                                                                                         data={bodyPart?.movements || []}
                                                                                         bordered={true}

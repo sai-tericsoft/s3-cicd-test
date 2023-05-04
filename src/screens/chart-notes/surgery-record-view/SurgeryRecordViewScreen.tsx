@@ -99,15 +99,20 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
         const referrer: any = searchParams.get("referrer");
         const module_name: any = searchParams.get("module_name");
         setModule(module_name);
-        dispatch(setCurrentNavParams("Medical Record details", null, () => {
-            console.log(referrer);
+        dispatch(setCurrentNavParams("Surgery Records", null, () => {
             if (referrer) {
-                navigate(referrer);
+                console.log(module_name, module_name);
+                if (module_name === "client_module") {
+                    console.log(module_name, module_name);
+                    navigate(referrer);
+                } else {
+                    medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?referrer=' + referrer);
+                }
             } else {
-                clientMedicalRecord && navigate(CommonService._routeConfig.MedicalRecordList(clientMedicalRecord?.client_id));
+                medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
             }
         }));
-    }, [searchParams, navigate, dispatch, clientMedicalRecord]);
+    }, [searchParams, navigate, dispatch, medicalRecordId]);
 
 
     const openBodyPartsModal = useCallback(() => {
@@ -118,13 +123,6 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
         setIsBodyPartsModalOpen(false);
     }, []);
 
-    useEffect(() => {
-        if (medicalRecordId) {
-            dispatch(setCurrentNavParams("Medical Record details", null, () => {
-                navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
-            }));
-        }
-    }, [navigate, dispatch, medicalRecordId]);
 
     const [surgeryRecordDetails, setSurgeryRecordDetails] = useState<any | null>(null)
     const getSurgeryRecord = useCallback(

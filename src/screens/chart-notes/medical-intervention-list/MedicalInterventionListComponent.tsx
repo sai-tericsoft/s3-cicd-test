@@ -10,11 +10,11 @@ import {getMedicalInterventionList} from "../../../store/actions/chart-notes.act
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
 
 interface ClientMedicalRecordsComponentProps {
-
+    referrer?: any;
 }
 
 const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentProps) => {
-
+    const {referrer} = props
     const {medicalRecordId} = useParams();
     const dispatch = useDispatch();
     // const {
@@ -86,7 +86,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             // sortable: true,
         },
         {
-            title:'Exercise Log',
+            title: 'Exercise Log',
             key: 'exercise_log',
             width: 150,
             align: 'center',
@@ -135,7 +135,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             width: 125,
             sortable: true,
             render: (item: any) => {
-                return (CommonService.capitalizeFirstLetter(item?.posted_by?.first_name) + " " +CommonService.capitalizeFirstLetter(item?.posted_by?.last_name))
+                return (CommonService.capitalizeFirstLetter(item?.posted_by?.first_name) + " " + CommonService.capitalizeFirstLetter(item?.posted_by?.last_name))
             }
         },
         {
@@ -147,18 +147,14 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                 let route = '';
                 if (medicalRecordId) {
                     if (item?.note_type?.toLowerCase() === 'exercise log') {
-                        route = CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, item?.intervention_id);
+                        route = CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, item?.intervention_id) + '?referrer=' + referrer;
                     } else if (["soap note", "discharge summary"].includes(item?.note_type?.toLowerCase())) {
                         if (item?.status?.toLowerCase() === 'completed') {
-                            route = CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, item?._id);
+                            route = CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, item?._id) + '?referrer=' + referrer;
                         } else {
-                            route = CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, item?._id);
+                            route = CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, item?._id) + '?referrer=' + referrer;
                         }
-                    }
-                    // else if (item?.note_type?.toLowerCase() === "progress report") {
-                    //     route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId, item?._id);
-                    // }
-                    else {
+                    } else {
                     }
                     return <LinkComponent route={route}>
                         {
@@ -188,7 +184,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                 columns={MedicalInterventionListColumns}
                 onSort={handleClientMedicalListSort}
                 extraPayload={medicalRecordListFilterState}
-                />
+            />
         </div>
     );
 

@@ -2,7 +2,7 @@ import "./ClientAppointmentDetailsComponent.scss";
 import {useCallback, useEffect, useState} from "react";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import AttachmentComponent from "../../../shared/attachment/AttachmentComponent";
@@ -12,6 +12,8 @@ import CardComponent from "../../../shared/components/card/CardComponent";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
 import MedicalInterventionLinkedToComponent
     from "../../chart-notes/medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
+import {setCurrentNavParams} from "../../../store/actions/navigation.action";
+import {useDispatch} from "react-redux";
 
 interface ClientAppointmentDetailsComponentProps {
 
@@ -23,6 +25,9 @@ const ClientAppointmentDetailsComponent = (props: ClientAppointmentDetailsCompon
     const [isAppointmentDetailsLoading, setIsAppointmentDetailsLoading] = useState<boolean>(false);
     const [isAppointmentDetailsFailed, setIsAppointmentDetailsFailed] = useState<boolean>(false);
     const [isAppointmentDetailsLoaded, setIsAppointmentDetailsLoaded] = useState<boolean>(false);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
 
     const getAppointmentDetails = useCallback(() => {
             setIsAppointmentDetailsLoading(true);
@@ -43,6 +48,18 @@ const ClientAppointmentDetailsComponent = (props: ClientAppointmentDetailsCompon
         },
         [clientAppointmentId]);
 
+    useEffect(() => {
+        if (appointmentDetails) {
+            const referrer: any = searchParams.get("referrer");
+            dispatch(setCurrentNavParams("Appointments", null, () => {
+                if (referrer) {
+                    navigate(referrer);
+                } else {
+                    navigate(CommonService._routeConfig.ClientAppointments(appointmentDetails.client_id));
+                }
+            }));
+        }
+    }, [navigate, dispatch, searchParams, appointmentDetails]);
 
     useEffect(() => {
         if (clientAppointmentId) {

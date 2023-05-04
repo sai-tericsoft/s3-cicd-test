@@ -37,19 +37,23 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
         const [isMedicalRecordAttachmentAdding, setIsMedicalRecordAttachmentAdding] = useState<boolean>(false);
         const [medicalRecordDocumentAttachmentFile, setMedicalRecordDocumentAttachmentFile] = useState<any>(undefined);
 
-
         useEffect(() => {
-            const referrer: any = searchParams.get("referrer");
-            const module_name: any = searchParams.get("module_name");
-            setModule(module_name);
-            dispatch(setCurrentNavParams("View Document", null, () => {
-                console.log(referrer);
-                if (referrer) {
-                    navigate(referrer);
-                } else {
-                    medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
-                }
-            }));
+            if (medicalRecordId) {
+                const referrer: any = searchParams.get("referrer");
+                const module_name: any = searchParams.get("module_name");
+                setModule(module_name);
+                dispatch(setCurrentNavParams("View Document", null, () => {
+                    if (referrer && referrer !== "undefined" && referrer !== "null") {
+                        if (module_name === "client_module") {
+                            navigate(referrer);
+                        } else {
+                            navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?referrer=' + referrer);
+                        }
+                    } else {
+                        navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+                    }
+                }));
+            }
         }, [searchParams, navigate, dispatch, medicalRecordId]);
 
         const openEditMedicalRecordDocumentDrawer = useCallback(() => {
@@ -162,7 +166,7 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                             attachmentDetails={medicalRecordDocumentDetails}
                             medicalRecordDetails={medicalRecordDocumentDetails?.medical_record_details}
                             attachmentType={"medicalRecordDocument"}
-                            showEdit={module === 'client_module' ? false : true}
+                            showEdit={module === 'client_documents' ? false : true}
                             onEdit={openEditMedicalRecordDocumentDrawer}
                         />
                         <div className={'medical-record-document-attachment'}>
@@ -170,7 +174,7 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                                 medicalRecordDocumentDetails?.attachment &&
                                 <AttachmentComponent
                                     attachment={medicalRecordDocumentDetails?.attachment}
-                                    showDelete={module === 'client_module' ? false : true}
+                                    showDelete={module === 'client_documents' ? false : true}
                                     onDelete={handleMedicalRecordDocumentDelete}
                                     isDeleting={isMedicalRecordAttachmentDeleting}
                                 />
