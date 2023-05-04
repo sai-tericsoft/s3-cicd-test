@@ -294,7 +294,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                             return (
                                 <Form className="t-form" noValidate={true}>
                                     {medicalInterventionDetails?.status === 'draft' &&
-                                        <FormAutoSave formikCtx={formik} onUpdating={setIsFormBeingUpdated}/>}
+                                    <FormAutoSave formikCtx={formik} onUpdating={setIsFormBeingUpdated}/>}
                                     <div
                                         className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
                                         <FormControlLabelComponent label={"SOAP Note"} size={'lg'}
@@ -348,9 +348,9 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <FormControlLabelComponent
                                                             label={'Subjective'}/>
                                                         <div className={'readonly-text'}>
-                                                            {
-                                                                medicalInterventionDetails?.subjective || 'N/A'
-                                                            }
+                                                            {medicalInterventionDetails?.subjective.split("\n").map((i: any, key: any) => {
+                                                                return <div key={key}>{i}</div>;
+                                                            }) || "N/A"}
                                                         </div>
                                                     </div>
                                                 }
@@ -525,7 +525,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                                             body_part?.rom_config?.length === 0 &&
                                                                                             <StatusCardComponent
                                                                                                 title={"The following body part does not have any Range of Motion or Strength " +
-                                                                                                    "                                                measurements. \n Please choose another body part."}/>
+                                                                                                "                                                measurements. \n Please choose another body part."}/>
                                                                                         }
                                                                                     </>
                                                                                 )
@@ -555,7 +555,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                             {/*    </LinkComponent>*/}
                                                             {/*}*/}
                                                             {
-                                                                medicalInterventionDetails?.special_tests?.length === 0&&
+                                                                medicalInterventionDetails?.special_tests?.length === 0 &&
                                                                 <>
                                                                     <FormControlLabelComponent
                                                                         label={"Special Tests :"}/>
@@ -595,9 +595,10 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
 
                                                                         {medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.map((body_part: any) => {
                                                                             return (<div className={''}>
-                                                                                <CardComponent className={'body-part-card'}
-                                                                                               size={'sm'}
-                                                                                               title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
+                                                                                <CardComponent
+                                                                                    className={'body-part-card'}
+                                                                                    size={'sm'}
+                                                                                    title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
                                                                                 </CardComponent>
                                                                                 <TableComponent
                                                                                     data={body_part.special_tests}
@@ -759,7 +760,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                             {/*    </LinkComponent>*/}
                                                             {/*}*/}
                                                             {
-                                                                medicalInterventionDetails?.linked_icd_codes?.length === 0&&
+                                                                medicalInterventionDetails?.linked_icd_codes?.length === 0 &&
                                                                 <>
                                                                     <FormControlLabelComponent
                                                                         label={"Add Medical Diagnosis / ICD-11 Codes :"}/>

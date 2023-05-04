@@ -274,7 +274,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
         {
             title: 'Rate',
             dataIndex: 'rate',
-            key: 'amount',
+            key: 'rate',
             render: (record: any) => {
                 return <> {Misc.CURRENCY_SYMBOL} {record?.amount}</>
             }
@@ -344,7 +344,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                             Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
                         </ButtonComponent>
                     } menuOptions={[
-                        <ListItem
+                        billingDetails?.payment_for !== 'products' && <ListItem
                             onClick={handleViewModeChange}>
                             View {viewMode === 'general' ? 'Detailed' : 'General'} {CommonService.capitalizeFirstLetter(type)}
                         </ListItem>,
@@ -387,13 +387,13 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                     </div>
                                 }
                                 {
-                                    type === 'receipt' &&<div>
-                                    <div className={'receipt-no-heading'}>
-                                        Receipt No
-                                    </div>
-                                    <div className={'receipt-no'}>
-                                        {billingDetails?.receipt_number}
-                                    </div>
+                                    type === 'receipt' && <div>
+                                        <div className={'receipt-no-heading'}>
+                                            Receipt No
+                                        </div>
+                                        <div className={'receipt-no'}>
+                                            {billingDetails?.receipt_number}
+                                        </div>
                                     </div>
                                 }
                                 <div className={"billing-date"}>
@@ -425,9 +425,9 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                     <div className={"billing-address-block__title"}>Billing To</div>
                                     &nbsp;&nbsp;
                                     {(billingDetails?.billing_address && type === 'invoice') &&
-                                        <LinkComponent onClick={openBillingAddressFormDrawer}>
-                                            (Edit Billing To)
-                                        </LinkComponent>}
+                                    <LinkComponent onClick={openBillingAddressFormDrawer}>
+                                        (Edit Billing To)
+                                    </LinkComponent>}
                                 </div>
                                 <div className={"billing-address-block__details"}>
                                     {
@@ -557,7 +557,8 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                     </DataLabelValueComponent>
                                     {
                                         type === 'receipt' &&
-                                        <DataLabelValueComponent className={'mode_of_payment'} label={"Mode Of Payment: "}
+                                        <DataLabelValueComponent className={'mode_of_payment'}
+                                                                 label={"Mode Of Payment: "}
                                                                  direction={"row"}
                                         >
                                             {billingDetails?.payment_mode_details?.title || billingDetails?.payment_mode || "N/A"}

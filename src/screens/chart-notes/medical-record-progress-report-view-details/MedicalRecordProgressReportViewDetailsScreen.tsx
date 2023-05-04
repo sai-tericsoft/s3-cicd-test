@@ -206,14 +206,20 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                     <div className={'progress-report-view-details-component__header'}>
                                         {progressReportDetails?.synopsis &&
                                         <CardComponent title={'Synopsis'}>
-                                            {progressReportDetails?.synopsis || "N/A"}
+                                            {progressReportDetails?.synopsis.split("\n").map((i: any, key: any) => {
+                                                return <div key={key}>{i}</div>;
+                                            }) || "N/A"}
                                         </CardComponent>
                                         }
                                         {progressReportDetails?.impression && <CardComponent title={'Impression'}>
-                                            {progressReportDetails?.impression || "N/A"}
+                                            {progressReportDetails?.impression.split("\n").map((i: any, key: any) => {
+                                                return <div key={key}>{i}</div>;
+                                            }) || "N/A"}
                                         </CardComponent>}
                                         {progressReportDetails?.plan && <CardComponent title={'Plan'}>
-                                            {progressReportDetails?.plan || "N/A"}
+                                            {progressReportDetails?.plan.split("\n").map((i: any, key: any) => {
+                                                return <div key={key}>{i}</div>;
+                                            }) || "N/A"}
                                         </CardComponent>}
                                         {
                                             progressReportDetails?.progress_stats?.length > 0 &&

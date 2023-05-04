@@ -337,7 +337,8 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-4 ts-col-lg'}>
-                                        <DataLabelValueComponent className={'date-of-surgery'} label={'Date of Surgery'}>
+                                        <DataLabelValueComponent className={'date-of-surgery'}
+                                                                 label={'Date of Surgery'}>
                                             {clientMedicalRecord?.surgery_date ? CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.surgery_date) : "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
@@ -362,14 +363,18 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                     <div className={'ts-row'}>
                                         <div className={'ts-col-md-4 ts-col-lg'}>
                                             <DataLabelValueComponent label={'Injury/Condition Description'}>
-                                                {clientMedicalRecord?.injury_description || "N/A"}
+                                                {clientMedicalRecord?.injury_description.split("\n").map((i: any, key: any) => {
+                                                    return <li key={key}>{i}</li>;
+                                                }) || "N/A"}
                                             </DataLabelValueComponent>
                                         </div>
                                     </div>
                                     <div className={'ts-row'}>
                                         <div className={'ts-col-md-4 ts-col-lg'}>
                                             <DataLabelValueComponent label={'Restrictions/Limitations'}>
-                                                {clientMedicalRecord?.limitations || "N/A"}
+                                                {clientMedicalRecord?.limitations.split("\n").map((i: any, key: any) => {
+                                                    return <li key={key}>{i}</li>;
+                                                }) || "N/A"}
                                             </DataLabelValueComponent>
                                         </div>
                                         <div className={'ts-col-md-4 ts-col-lg'}/>
@@ -383,7 +388,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                     <div className={'show-more-less'}
                                          onClick={() => setIsFullCardOpen(!isFullCardOpen)}>
                                         {isFullCardOpen ? 'Less' : 'More'} Details &nbsp;&nbsp;
-                                        {isFullCardOpen ? <ImageConfig.UpArrowIcon/> : <ImageConfig.DownArrowIcon/> }
+                                        {isFullCardOpen ? <ImageConfig.UpArrowIcon/> : <ImageConfig.DownArrowIcon/>}
                                     </div>
                                 </div>
                             </CardComponent>
@@ -481,7 +486,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                 }, [values, validateForm]);
                                 return (
                                     <Form className={'t-form'} noValidate={true}>
-                                        <FormDebuggerComponent values={values} showDebugger={false} />
+                                        <FormDebuggerComponent values={values} showDebugger={false}/>
                                         <div className={'ts-row ts-justify-content-center'}>
                                             <div className={'ts-col-lg-12'}>
                                                 <Field name={'message'}>

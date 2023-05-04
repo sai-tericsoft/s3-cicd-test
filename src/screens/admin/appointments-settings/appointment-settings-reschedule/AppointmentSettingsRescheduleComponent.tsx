@@ -198,10 +198,24 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                                     </div>
                                 </div>}
                             >
-
                                 <ImageConfig.InfoIcon/>
                             </ToolTipComponent>
 
+                        </div>
+
+                        <div className="available-mentions-wrapper">
+                            <div className="available-mentions-title">Available Keywords</div>
+                            <div className="available-mentions-chips-wrapper">
+                                {
+                                    mentionsList?.map((mention) => {
+                                        return (
+                                            <div>
+                                                <ChipComponent label={mention.display}/>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
                         </div>
 
                         <div className="d-flex ts-justify-content-center">

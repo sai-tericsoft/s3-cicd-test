@@ -565,6 +565,7 @@ const editMentionsFormat = (value: string, mentionsData: any) => {
 }
 
 const convertToDecimals = (value: number) => {
+    if (!value) return 0;
     return value.toFixed(2)
 }
 
