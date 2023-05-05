@@ -10,7 +10,6 @@ import {IRootReducerState} from "../../../../store/reducers";
 import {Field, FieldProps, Form, Formik, FormikHelpers, FormikProps} from "formik";
 import {RadioButtonComponent} from "../../form-controls/radio-button/RadioButtonComponent";
 import FormControlLabelComponent from "../../form-control-label/FormControlLabelComponent";
-import FormikInputComponent from "../../form-controls/formik-input/FormikInputComponent";
 import FormikSelectComponent from "../../form-controls/formik-select/FormikSelectComponent";
 import FormikTextAreaComponent from "../../form-controls/formik-text-area/FormikTextAreaComponent";
 import ToolTipComponent from "../../tool-tip/ToolTipComponent";

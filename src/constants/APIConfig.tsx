@@ -817,6 +817,10 @@ const APIConfig: IAPIConfig = {
     GET_AVAILABLE_COUPONS_LIST:{
         URL: ENV.API_URL + '/availableCoupons',
         METHOD:'get'
+    },
+    DISCARD_SOAP_NOTE:{
+        URL:(interventionId:string)=> ENV.API_URL + '/intervention/' + interventionId,
+        METHOD:'delete'
     }
 }
 

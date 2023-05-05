@@ -242,8 +242,6 @@ const MedicalRecordViewExerciseRecordPICall = (medicalRecordId: string, payload:
 }
 
 const MedicalRecordInterventionListAPICall = (medicalRecordId: string, payload: any) => {
-    console.log('medicalRecordId', medicalRecordId);
-    console.log('payload', payload);
     // @ts-ignore
     return ApiService[APIConfig.GET_MEDICAL_RECORD_INTERVENTION_LIST.METHOD](APIConfig.GET_MEDICAL_RECORD_INTERVENTION_LIST.URL(medicalRecordId), payload);
 }
@@ -291,6 +289,11 @@ const GetAllAddedICD11CodeList = (medicalRecordId: string, payload: any)=>{
     // @ts-ignore
     return ApiService[APIConfig.GET_ADDED_ICD_CODES.METHOD](APIConfig.GET_ADDED_ICD_CODES.URL(medicalRecordId), payload);
 
+}
+
+const DiscardSoapNote = (interventionId:string , payload:any)=>{
+    // @ts-ignore
+    return ApiService[APIConfig.DISCARD_SOAP_NOTE.METHOD](APIConfig.DISCARD_SOAP_NOTE.URL(interventionId),payload);
 }
 
 const ChartNotesService = {
@@ -353,7 +356,8 @@ const ChartNotesService = {
     MedicalRecordFilesListAPICall,
     ReOpenMedicalRecordAPICall,
     GetAllAddedICD11CodeList,
-    SaveMedicalInterventionROMConfigAPICall
+    SaveMedicalInterventionROMConfigAPICall,
+    DiscardSoapNote
 }
 
 export default ChartNotesService;
