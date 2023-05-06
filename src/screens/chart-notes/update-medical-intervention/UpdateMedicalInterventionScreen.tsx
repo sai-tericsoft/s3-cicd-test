@@ -1125,7 +1125,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                             <ESignApprovalComponent isSigned={medicalInterventionDetails?.is_signed}
                                                                     isSigning={isSigningInProgress}
                                                                     isLoading={formik.isSubmitting}
-                                                                    canSign={medicalInterventionDetails?.can_sign}
+                                                                    canSign={true}
                                                                     signedAt={medicalInterventionDetails?.signed_on}
                                                                     onSign={() => {
                                                                         handleSign(formik.values, formik);
