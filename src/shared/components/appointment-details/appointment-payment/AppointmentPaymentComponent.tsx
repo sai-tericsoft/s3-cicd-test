@@ -99,7 +99,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
             if (values.payment_type === 'reserved') {
                 delete values.payment_mode;
             }
-            CommonService._appointment.appointmentPayment(appointmentId, {...values, total: +values?.amount, discount: 0})
+            CommonService._appointment.appointmentPayment(appointmentId, {...values, total: +values?.amount, discount: 0,coupon_id:selectedCoupon?._id})
                 .then((response: IAPIResponseType<any>) => {
                     if (onComplete) {
                         onComplete(response.data);
