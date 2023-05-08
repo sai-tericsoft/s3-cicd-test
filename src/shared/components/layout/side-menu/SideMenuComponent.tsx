@@ -9,11 +9,11 @@ interface SideMenuComponentProps {
 }
 
 const menuList: IMenuItem[] = [
-    // {
-    //     path: CommonService._routeConfig.Dashboard(),
-    //     title: 'Dashboard',
-    //     icon: ImageConfig.DashboardIcon
-    // },
+    {
+        path: CommonService._routeConfig.Dashboard(),
+        title: 'Dashboard',
+        icon: ImageConfig.DashboardIcon
+    },
     {
         path: CommonService._routeConfig.ClientList(),
         title: 'Clients',
