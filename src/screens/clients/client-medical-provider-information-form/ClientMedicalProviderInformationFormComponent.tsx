@@ -30,7 +30,9 @@ interface ClientMedicalProviderInformationFormComponentProps {
 
 const ClientMedicalProviderInformationValidationSchema = Yup.object({
     medical_provider_info: Yup.object({
-        name: Yup.string().required('Name is required'),
+        family_doctor_name: Yup.string().required('Name is required'),
+        md_phone: Yup.string().required('MD Phone is required'),
+        referring_doctor_name: Yup.string().required('Name is required'),
         primary_phone: Yup.string().required('Primary Phone is required'),
         last_examination_date: Yup.string().required('Last Examination Date is required'),
     }),
