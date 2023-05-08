@@ -8,12 +8,7 @@ import TabsWrapperComponent, {
     TabComponent,
     TabContentComponent
 } from "../../../shared/components/tabs/TabsComponent";
-import MedicalInterventionListComponent
-    from "../../chart-notes/medical-intervention-list/MedicalInterventionListComponent";
-import MedicalRecordAttachmentListComponent
-    from "../../chart-notes/medical-record-attachment-list/MedicalRecordAttachmentListComponent";
 import {useSearchParams} from "react-router-dom";
-import {IClientDetailsSteps} from "../../../shared/models/client.model";
 
 interface DashboardScreenProps {
 
