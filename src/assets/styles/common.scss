@@ -463,7 +463,15 @@
     }
   }
 }
-
+.basic-tabs-wrapper{
+  margin-top: 24px;
+  .MuiTabs-scroller{
+    border-bottom: 1px solid #CECECE;
+    .Mui-selected{
+      border-bottom: 2px solid #00534F;
+    }
+  }
+}
 
 .font-weight-bold {
   font-weight: bold;
