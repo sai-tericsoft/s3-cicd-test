@@ -5,7 +5,6 @@ import ButtonComponent from "../../button/ButtonComponent";
 import {RadioButtonComponent} from "../../form-controls/radio-button/RadioButtonComponent";
 import {Field, FieldProps, Form, Formik, FormikHelpers, FormikProps} from "formik";
 import * as Yup from "yup";
-import FormikInputComponent from "../../form-controls/formik-input/FormikInputComponent";
 import FormControlLabelComponent from "../../form-control-label/FormControlLabelComponent";
 import FormikSelectComponent from "../../form-controls/formik-select/FormikSelectComponent";
 import {useSelector} from "react-redux";

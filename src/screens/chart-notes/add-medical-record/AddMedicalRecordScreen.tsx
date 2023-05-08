@@ -122,7 +122,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
             const payload = {client_id: clientId};
             dispatch(getAppointmentListLite(payload));
         }
-    }, [dispatch])
+    }, [dispatch,clientId])
 
 
     useEffect(() => {
