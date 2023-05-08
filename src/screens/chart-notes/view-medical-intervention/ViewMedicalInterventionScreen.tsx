@@ -410,9 +410,9 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <FormControlLabelComponent
                                                             label={'Observation'}/>
                                                         <div className={'readonly-text'}>
-                                                            {
-                                                                medicalInterventionDetails?.objective.observation || 'N/A'
-                                                            }
+                                                            {medicalInterventionDetails?.objective?.observation.split("\n").map((i: any, key: any) => {
+                                                                return <div key={key}>{i}</div>;
+                                                            }) || "N/A"}
                                                         </div>
                                                     </div>
                                                 }
@@ -632,9 +632,9 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <FormControlLabelComponent
                                                             label={'Palpation'}/>
                                                         <div className={'readonly-text'}>
-                                                            {
-                                                                medicalInterventionDetails?.objective.palpation || 'N/A'
-                                                            }
+                                                            {medicalInterventionDetails?.objective?.palpation.split("\n").map((i: any, key: any) => {
+                                                                return <div key={key}>{i}</div>;
+                                                            }) || "N/A"}
                                                         </div>
                                                     </div>
                                                 }
@@ -659,9 +659,9 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <FormControlLabelComponent
                                                             label={'Functional Tests'}/>
                                                         <div className={'readonly-text'}>
-                                                            {
-                                                                medicalInterventionDetails?.objective.functional_tests || 'N/A'
-                                                            }
+                                                            {medicalInterventionDetails?.objective?.functional_tests.split("\n").map((i: any, key: any) => {
+                                                                return <div key={key}>{i}</div>;
+                                                            }) || "N/A"}
                                                         </div>
                                                     </div>
                                                 }
@@ -687,9 +687,10 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <FormControlLabelComponent
                                                             label={'Treatment'}/>
                                                         <div className={'readonly-text'}>
-                                                            {
-                                                                medicalInterventionDetails?.objective.treatment || 'N/A'
-                                                            }
+                                                            {medicalInterventionDetails?.objective?.treatment.split("\n").map((i: any, key: any) => {
+                                                                return <div key={key}>{i}</div>;
+                                                            }) || "N/A"}
+
                                                         </div>
                                                     </div>
                                                 }
@@ -716,9 +717,9 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <FormControlLabelComponent
                                                             label={'Response to Treatment'}/>
                                                         <div className={'readonly-text'}>
-                                                            {
-                                                                medicalInterventionDetails?.objective.treatment_response || 'N/A'
-                                                            }
+                                                            {medicalInterventionDetails?.objective?.treatment_response.split("\n").map((i: any, key: any) => {
+                                                                return <div key={key}>{i}</div>;
+                                                            }) || "N/A"}
                                                         </div>
                                                     </div>
                                                 }
@@ -827,9 +828,9 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <FormControlLabelComponent
                                                             label={'Index of Suspicion'}/>
                                                         <div className={'readonly-text'}>
-                                                            {
-                                                                medicalInterventionDetails?.assessment.suspicion_index || 'N/A'
-                                                            }
+                                                            {medicalInterventionDetails?.objective?.suspicion_index.split("\n").map((i: any, key: any) => {
+                                                                return <div key={key}>{i}</div>;
+                                                            }) || "N/A"}
                                                         </div>
                                                     </div>
                                                 }
@@ -854,9 +855,9 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <FormControlLabelComponent
                                                             label={'Surgery Procedure Complete'}/>
                                                         <div className={'readonly-text'}>
-                                                            {
-                                                                medicalInterventionDetails?.assessment.surgery_procedure || 'N/A'
-                                                            }
+                                                            {medicalInterventionDetails?.objective?.surgery_procedure.split("\n").map((i: any, key: any) => {
+                                                                return <div key={key}>{i}</div>;
+                                                            }) || "N/A"}
                                                         </div>
                                                     </div>
                                                 }
@@ -900,9 +901,9 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <FormControlLabelComponent
                                                             label={'Plan'}/>
                                                         <div className={'readonly-text'}>
-                                                            {
-                                                                medicalInterventionDetails?.plan.plan || 'N/A'
-                                                            }
+                                                            {medicalInterventionDetails?.plan.plan.split("\n").map((i: any, key: any) => {
+                                                                return <div key={key}>{i}</div>;
+                                                            }) || "N/A"}
                                                         </div>
                                                     </div>
                                                 }
@@ -927,9 +928,9 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <FormControlLabelComponent
                                                             label={'MD Recommendations'}/>
                                                         <div className={'readonly-text'}>
-                                                            {
-                                                                medicalInterventionDetails?.plan.md_recommendations || 'N/A'
-                                                            }
+                                                            {medicalInterventionDetails?.plan.md_recommendations.split("\n").map((i: any, key: any) => {
+                                                                return <div key={key}>{i}</div>;
+                                                            }) || "N/A"}
                                                         </div>
                                                     </div>
                                                 }
@@ -954,9 +955,9 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <FormControlLabelComponent
                                                             label={'Education'}/>
                                                         <div className={'readonly-text'}>
-                                                            {
-                                                                medicalInterventionDetails?.plan.education || 'N/A'
-                                                            }
+                                                            {medicalInterventionDetails?.plan.education.split("\n").map((i: any, key: any) => {
+                                                                return <div key={key}>{i}</div>;
+                                                            }) || "N/A"}
                                                         </div>
                                                     </div>
                                                 }
@@ -983,9 +984,9 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <FormControlLabelComponent
                                                             label={'Treatment Goals'}/>
                                                         <div className={'readonly-text'}>
-                                                            {
-                                                                medicalInterventionDetails?.plan.treatment_goals || 'N/A'
-                                                            }
+                                                            {medicalInterventionDetails?.plan.treatment_goals.split("\n").map((i: any, key: any) => {
+                                                                return <div key={key}>{i}</div>;
+                                                            }) || "N/A"}
                                                         </div>
                                                     </div>
                                                 }
