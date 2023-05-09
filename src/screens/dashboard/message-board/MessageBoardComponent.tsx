@@ -5,6 +5,7 @@ import {IRootReducerState} from "../../../store/reducers";
 import {CommonService} from "../../../shared/services";
 import HorizontalLineComponent
     from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
+import {ImageConfig} from "../../../constants";
 
 interface MessageBoardComponentProps {
 
@@ -14,7 +15,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
 
     const {messageHistory} = useSelector((state: IRootReducerState) => state.dashboard)
 
-    console.log('messageHistory',messageHistory);
+    console.log('messageHistory', messageHistory);
 
     return (
         <div className={'message-board-component'}>
@@ -25,12 +26,13 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                         <div className={'view-all-message'}>View All Message(s)</div>
                     </div>
                     <CardComponent color={'primary'} className={'view-message-board'}>
-                        {messageHistory?.map((message:any)=>{
-                            return( <>
-                                <div className={'message-text'}>{message?.message}</div>
-                                    <div className={'time-stamp'}>{CommonService.transformTimeStamp(message?.created_at)}</div>
-                                    {messageHistory?.length>1 &&
-                                    <HorizontalLineComponent/>
+                        {messageHistory?.map((message: any) => {
+                            return (<>
+                                    <div className={'message-text'}>{message?.message}</div>
+                                    <div
+                                        className={'time-stamp'}>{CommonService.transformTimeStamp(message?.created_at)}</div>
+                                    {messageHistory?.length > 1 &&
+                                        <HorizontalLineComponent/>
                                     }
                                 </>
                             )
@@ -38,6 +40,22 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                     </CardComponent>
                 </CardComponent>
             </div>
+                <CardComponent className={'birthday-board'}>
+                    <div className={'today-birthday-text'}>
+                        Today's Birthday
+                    </div>
+                    <div className={'coming-soon-image-text-wrapper'}>
+                        <div>
+                            <div className={'mrg-left-50'}>
+                            <ImageConfig.ComingSoon/>
+                            </div>
+                            <div>
+                                Coming Soon
+                            </div>
+                        </div>
+                    </div>
+
+                </CardComponent>
         </div>
     );
 

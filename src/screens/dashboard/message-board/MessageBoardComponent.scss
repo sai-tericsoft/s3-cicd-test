@@ -1,5 +1,8 @@
 .message-board-component{
+  display: flex;
+  justify-content: center;
   .message-board-wrapper{
+    margin-right: 24px;
     .message-board{
       width: 706px;
       height: 280px;
@@ -37,6 +40,23 @@
           font-size: 0.85714rem;
         }
       }
+    }
+  }
+  .birthday-board{
+    width: 442px;
+    height: 280px;
+    .today-birthday-text{
+      font-weight: 700;
+      font-size:1.1429rem;
+    }
+    .coming-soon-image-text-wrapper{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 50px;
+      color: #8B8E90;
+      font-weight: 700;
+      font-size: 1.4286rem;
     }
   }
 }
