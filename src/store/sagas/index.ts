@@ -12,6 +12,7 @@ import settingsSaga from "./settings.saga";
 import billingsSaga from "./billings.saga";
 import appointmentsSaga from "./appointment.saga";
 import discountSaga from "./discount.saga";
+import dashboardSaga from "./dashboard.saga";
 
 // Redux Saga: Root Saga
 export default function* rootSaga() {
@@ -26,6 +27,7 @@ export default function* rootSaga() {
         fork(settingsSaga),
         fork(billingsSaga),
         fork(appointmentsSaga),
-        fork(discountSaga)
+        fork(discountSaga),
+        fork(dashboardSaga)
     ]);
 }

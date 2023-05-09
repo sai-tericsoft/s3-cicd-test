@@ -26,6 +26,7 @@ import InventoryService from "./modules/inventory.service";
 import SystemSettingsService from "./modules/settings.service";
 import BillingsService from "./modules/billings.service";
 import DiscountService from "./modules/discount.service";
+import DashboardService from "./modules/dashboard.service";
 
 
 yup.addMethod(yup.mixed, 'atLeastOne', (args) => {
@@ -645,5 +646,6 @@ const CommonService = {
     _systemSettings: SystemSettingsService,
     _billingsService: BillingsService,
     _discountService: DiscountService,
+    _dashboardService:DashboardService,
 }
 export default CommonService;

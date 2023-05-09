@@ -821,7 +821,12 @@ const APIConfig: IAPIConfig = {
     DISCARD_SOAP_NOTE:{
         URL:(interventionId:string)=> ENV.API_URL + '/intervention/' + interventionId,
         METHOD:'delete'
+    },
+    DASHBOARD_MESSAGE_HISTORY:{
+        URL:ENV.API_URL + '/messageHistory',
+        METHOD:'get'
     }
+
 }
 
 export default APIConfig;

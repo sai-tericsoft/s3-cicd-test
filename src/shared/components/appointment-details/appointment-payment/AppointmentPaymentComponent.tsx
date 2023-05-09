@@ -45,7 +45,7 @@ const addAppointmentPaymentValidationSchema = Yup.object().shape({
 
 const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) => {
 
-    const {onBack, onComplete, details,onClose} = props;
+    const {onBack, onComplete, details, onClose} = props;
     const {paymentModes} = useSelector((state: IRootReducerState) => state.staticData);
     const [availableCouponsList, setAvailableCouponsList] = useState<any[]>([]);
     const [selectedCoupon, setSelectedCoupon] = useState<any>(undefined);
@@ -98,7 +98,8 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
             if (values.payment_type === 'reserved') {
                 delete values.payment_mode;
             }
-            CommonService._appointment.appointmentPayment(appointmentId, {...values, total: +values?.amount, discount: 0,coupon_id:selectedCoupon?._id})
+            const payload = {...values, total: +values?.amount, discount: 0, coupon_id: selectedCoupon?._id}
+            CommonService._appointment.appointmentPayment(appointmentId, payload)
                 .then((response: IAPIResponseType<any>) => {
                     if (onComplete) {
                         onComplete(response.data);
@@ -111,7 +112,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                     setSubmitting(false);
                 })
         },
-        [onComplete],
+        [onComplete, selectedCoupon],
     );
 
     const formRef = useRef<FormikProps<any>>(null)
@@ -155,7 +156,8 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                             <Form className="t-form" noValidate={true}>
                                 <>
                                     <div className={"t-appointment-drawer-form-controls height-100"}>
-                                        <div className={'payment-block payment-block-time green-card pdd-15 pdd-left-30 mrg-bottom-24'}>
+                                        <div
+                                            className={'payment-block payment-block-time green-card pdd-15 pdd-left-30 mrg-bottom-24'}>
                                             <div className="block-heading">
                                                 Total Amount
                                             </div>

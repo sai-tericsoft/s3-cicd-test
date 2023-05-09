@@ -5,7 +5,6 @@ export const GET_INVENTORY_PRODUCT_LIST = 'GET_INVENTORY_PRODUCT_LIST';
 export const SET_INVENTORY_PRODUCT_LIST = 'SET_INVENTORY_PRODUCT_LIST';
 
 export const getInventoryProductDetails = (productId: string) => {
-    console.log('productId',productId);
     return {
         type: GET_INVENTORY_PRODUCT_DETAILS, payload: {
             productId
