@@ -82,8 +82,8 @@ import {
     TEST_ROUTE,
     UPDATE_MEDICAL_INTERVENTION,
     HELP, FAQ,
-     DISCOUNT_LIST, COUPON_DETAILS, COUPON_ADD, COUPON_EDIT, REPORT_AN_ISSUE,
-    VIEW_MEDICAL_INTERVENTION
+    DISCOUNT_LIST, COUPON_DETAILS, COUPON_ADD, COUPON_EDIT, REPORT_AN_ISSUE,
+    VIEW_MEDICAL_INTERVENTION, DASHBOARD
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
@@ -149,6 +149,8 @@ import MedicalInterventionRomConfigV2Screen
     from "../screens/chart-notes/medical-intervention-rom-config-v2/MedicalInterventionRomConfigV2Screen";
 import CouponEditScreen from "../screens/admin/discount/coupon-edit/CouponEditScreen";
 import ReportAnIssueComponent from "../screens/help/report-an-issue/ReportAnIssueComponent";
+import DashboardScreen from "../screens/dashboard/dashboard-screen/DashboardScreen";
+import DashboardLayoutComponent from "../screens/dashboard/dashboard-layout/DashboardLayoutComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -199,20 +201,23 @@ const Navigator = (props: NavigatorProps) => {
         <>
             <Routes>
                 <Route element={<AppLayout/>}>
+                    <Route path ={DASHBOARD} element={<DashboardLayoutComponent/>}{...props}>
+                        <Route
+                            path={DASHBOARD}
+                            element={
+                                <ProtectedRoute>
+                                    <DashboardScreen/>
+                                </ProtectedRoute>
+                            }
+                        />
+                    </Route>
                     <Route
                         index
                         element={
                             <Navigate to={CLIENT_LIST}/>
                         }
                     />
-                    {/*<Route*/}
-                    {/*    path={DASHBOARD}*/}
-                    {/*    element={*/}
-                    {/*        <ProtectedRoute>*/}
-                    {/*            <DashboardScreen/>*/}
-                    {/*        </ProtectedRoute>*/}
-                    {/*    }*/}
-                    {/*/>*/}
+
                     <Route
                         path={CLIENT_LIST}
                         element={

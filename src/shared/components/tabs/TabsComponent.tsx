@@ -65,6 +65,38 @@ const TabsComponent = (props: React.PropsWithChildren<TabsComponentProps>) => {
     );
 };
 
+const BasicTabsComponent = (props: React.PropsWithChildren<TabsComponentProps>) => {
+
+    const {onUpdate, value, className, allowScrollButtonsMobile, children} = props;
+    let {color, orientation, scrollButtons} = props;
+    if (!color) color = "primary";
+    if (!scrollButtons) scrollButtons = false;
+    if (!orientation) orientation = "horizontal";
+
+    const handleChange = useCallback((event: React.SyntheticEvent, value: string) => {
+        if (onUpdate) {
+            onUpdate(event, value);
+        }
+    }, [onUpdate]);
+
+    return (
+        <div className={`t-basic-tabs ${className} ${color}`}>
+            <Tabs
+                value={value}
+                orientation={orientation}
+                textColor={color}
+                indicatorColor={color}
+                className={`t-tabs-header ${className}`}
+                onChange={handleChange}
+                scrollButtons={scrollButtons}
+                allowScrollButtonsMobile={allowScrollButtonsMobile}
+            >
+                {children}
+            </Tabs>
+        </div>
+    );
+};
+
 interface TabComponentProps {
     label: string;
     className?: string;
@@ -134,6 +166,7 @@ export default TabsWrapperComponent;
 export {
     TabComponent,
     TabsComponent,
+    BasicTabsComponent,
     TabContentComponent
 };
 

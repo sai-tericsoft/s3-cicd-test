@@ -30,9 +30,28 @@
       }
     }
   }
+  .t-basic-tabs {
+    //border-bottom: 1px solid #dfdfdf;
+
+    .t-tab {
+      text-transform: unset !important;
+      font-weight: $font-weight-normal;
+
+    }
+
+    .t-tab.Mui-selected {
+      font-weight: $font-weight-bolder;
+    }
+
+    &.primary {
+      .t-tab.Mui-selected {
+        color: $primary-color !important;
+      }
+    }
+  }
 
   .t-tab-panel {
-    padding: 10px 0 !important;
+    padding: 24px 0 12px 0!important;
   }
 
   .MuiTabs-indicator {
