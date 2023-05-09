@@ -1,0 +1,15 @@
+.draft-note-list-component{
+  .draft-note-list-wrapper{
+    height:331px;
+    overflow: scroll;
+  }
+  .draft-note-heading{
+    font-weight: 700;
+    font-size: 1.1429rem;
+    color: #212B36;
+    margin-bottom: 24px;
+  }
+  .provider-name{
+    text-transform: capitalize;
+  }
+}

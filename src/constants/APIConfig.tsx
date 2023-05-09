@@ -825,6 +825,10 @@ const APIConfig: IAPIConfig = {
     DASHBOARD_MESSAGE_HISTORY:{
         URL:ENV.API_URL + '/messageHistory',
         METHOD:'get'
+    },
+    DASHBOARD_DRAFT_NOTE_LIST:{
+        URL:ENV.API_URL + '/draftNotes',
+        METHOD:'get'
     }
 
 }
