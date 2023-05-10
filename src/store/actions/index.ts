@@ -7,6 +7,7 @@ import * as user from "./user.action";
 import * as chartNotes from "./chart-notes.action";
 import * as settings from "./settings.action";
 import * as appointments from "./appointment.action";
+import * as dashboard from "./dashboard.action";
 
 export {
     account,
@@ -17,5 +18,6 @@ export {
     user,
     chartNotes,
     settings,
-    appointments
+    appointments,
+    dashboard
 };

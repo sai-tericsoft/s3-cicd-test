@@ -9,7 +9,6 @@ import {
 
 
 function* getInventoryProductDetails(action: any) {
-    console.log('action.payload.productId',action.payload.productId);
     try {
         // @ts-ignore
         const resp = yield call(CommonService._inventory.InventoryProductViewDetailsAPICall, action.payload.productId);

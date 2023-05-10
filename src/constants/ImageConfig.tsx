@@ -53,6 +53,7 @@ import {ReactComponent as PendingAmount} from './../assets/icons/discount_amount
 import {ReactComponent as CircularShowMore} from './../assets/icons/circular_show_more.svg';
 import {ReactComponent as CircularShowLess} from './../assets/icons/circular_show_less.svg';
 
+import {ReactComponent as ComingSoon} from './../assets/icons/coming_soon.svg';
 
 //file types
 import PDFIcon from './../assets/icons/file-types/pdf.svg';
@@ -195,4 +196,5 @@ export {
     CircularShowLess,
     DollarSymbol,
     PercentageSymbol,
+    ComingSoon,
 }

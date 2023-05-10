@@ -26,6 +26,7 @@ import InventoryService from "./modules/inventory.service";
 import SystemSettingsService from "./modules/settings.service";
 import BillingsService from "./modules/billings.service";
 import DiscountService from "./modules/discount.service";
+import DashboardService from "./modules/dashboard.service";
 
 
 yup.addMethod(yup.mixed, 'atLeastOne', (args) => {
@@ -139,6 +140,12 @@ const convertDateFormat2 = (date: Date, format: string = 'DD-MMM-YYYY') => {
 const generateUseCaseFromCaseDetails = (case_details: any) => {
     return `${CommonService.convertDateFormat2(case_details?.case_date)} - ${case_details?.injury_details?.map((bodyPart: any, index: number) => {
         return (bodyPart?.body_part_details + (bodyPart?.body_side ? `( ${bodyPart.body_side} )` : ' ') + (index !== case_details?.injury_details?.length - 1 ? ' | ' : ''))
+    })} `
+}
+
+const generateUseCaseFromCaseDetails2 = (case_details: any) => {
+    return `${CommonService.convertDateFormat2(case_details?.case_date)} - ${case_details?.injury_details?.map((bodyPart: any, index: number) => {
+        return (bodyPart?.body_part_name + (bodyPart?.body_side ? `( ${bodyPart.body_side} )` : ' ') + (index !== case_details?.injury_details?.length - 1 ? ' | ' : ''))
     })} `
 }
 
@@ -623,6 +630,7 @@ const CommonService = {
     editMentionsFormat,
     convertToDecimals,
     calculateFinalAmountFromDiscountPercentage,
+    generateUseCaseFromCaseDetails2,
 
     // createValidationsObject,
     // createYupSchema,
@@ -645,5 +653,6 @@ const CommonService = {
     _systemSettings: SystemSettingsService,
     _billingsService: BillingsService,
     _discountService: DiscountService,
+    _dashboardService:DashboardService,
 }
 export default CommonService;

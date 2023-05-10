@@ -1,0 +1,62 @@
+.message-board-component{
+  display: flex;
+  justify-content: center;
+  .message-board-wrapper{
+    margin-right: 24px;
+    .message-board{
+      width: 706px;
+      height: 280px;
+      .message-board-view-all-messages-wrapper{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .message-board-text{
+          font-weight: 700;
+          font-size:1.1429rem;
+          color: #212B36;
+        }
+        .view-all-message{
+          color: #212B36;
+          text-decoration: underline;
+
+        }
+      }
+      .view-message-board{
+        width: 635px;
+        height: 185px;
+        margin-top: 15px;
+        border-radius: 10px;
+        overflow: hidden;
+        overflow-y: scroll;
+
+        .message-text{
+          color: #6D6D6D;
+          font-size: 1.1429rem;
+        }
+        .time-stamp{
+          color: #6D6D6D;
+          display: flex;
+          justify-content: end;
+          font-size: 0.85714rem;
+        }
+      }
+    }
+  }
+  .birthday-board{
+    width: 442px;
+    height: 280px;
+    .today-birthday-text{
+      font-weight: 700;
+      font-size:1.1429rem;
+    }
+    .coming-soon-image-text-wrapper{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 50px;
+      color: #8B8E90;
+      font-weight: 700;
+      font-size: 1.4286rem;
+    }
+  }
+}

@@ -48,6 +48,7 @@ import {debounceTime, fromEvent} from "rxjs";
 import SystemLockComponent from "./shared/components/system-lock/SystemLockComponent";
 import {getSystemSettings} from "./store/actions/settings.action";
 import {getAppointmentSettings} from "./store/actions/appointment.action";
+import {getAllMessageHistory} from "./store/actions/dashboard.action";
 
 interface AppProps {
     setCurrentUser?: any;
@@ -157,6 +158,7 @@ const App = (props: AppProps) => {
             dispatch(getRescheduledHoursList());
             dispatch(getRescheduledTimesList());
             dispatch(getUserMentionsList());
+            dispatch(getAllMessageHistory());
         }
     }, [token, dispatch])
 
