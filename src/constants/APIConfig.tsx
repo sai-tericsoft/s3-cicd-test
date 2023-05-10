@@ -418,7 +418,7 @@ const APIConfig: IAPIConfig = {
         METHOD: "delete"
     },
     SAVE_MEDICAL_INTERVENTION_SPECIAL_TEST_FOR_A_BODY_PART: {
-        URL: (medicalInterventionId: string, bodyPartId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/specialTest/' + bodyPartId,
+        URL: (medicalInterventionId: string, bodyPartId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/specialTest',
         METHOD: "post"
     },
     DELETE_BODY_PART_UNDER_MEDICAL_INTERVENTION_SPECIAL_TEST: {
@@ -810,25 +810,25 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + '/allServices',
         METHOD: 'get'
     },
-    REPORT_AN_ISSUE:{
+    REPORT_AN_ISSUE: {
         URL: ENV.API_URL + '/notifyIssue',
         METHOD: 'post'
     },
-    GET_AVAILABLE_COUPONS_LIST:{
+    GET_AVAILABLE_COUPONS_LIST: {
         URL: ENV.API_URL + '/availableCoupons',
-        METHOD:'get'
+        METHOD: 'get'
     },
-    DISCARD_SOAP_NOTE:{
-        URL:(interventionId:string)=> ENV.API_URL + '/intervention/' + interventionId,
-        METHOD:'delete'
+    DISCARD_SOAP_NOTE: {
+        URL: (interventionId: string) => ENV.API_URL + '/intervention/' + interventionId,
+        METHOD: 'delete'
     },
-    DASHBOARD_MESSAGE_HISTORY:{
-        URL:ENV.API_URL + '/messageHistory',
-        METHOD:'get'
+    DASHBOARD_MESSAGE_HISTORY: {
+        URL: ENV.API_URL + '/messageHistory',
+        METHOD: 'get'
     },
-    DASHBOARD_DRAFT_NOTE_LIST:{
-        URL:ENV.API_URL + '/draftNotes',
-        METHOD:'get'
+    DASHBOARD_DRAFT_NOTE_LIST: {
+        URL: ENV.API_URL + '/draftNotes',
+        METHOD: 'get'
     }
 
 }
