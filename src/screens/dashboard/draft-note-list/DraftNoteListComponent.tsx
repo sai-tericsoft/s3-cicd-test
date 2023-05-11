@@ -86,6 +86,8 @@ const DraftNoteListComponent = (props: DraftNoteListComponentProps) => {
                 </div>
                 <div className={'draft-note-list-wrapper'}>
                     <TableWrapperComponent columns={draftNoteListColumn}
+                                           fixedHeader={true}
+                                           autoHeight={true}
                                            url={APIConfig.DASHBOARD_DRAFT_NOTE_LIST.URL}
                                            isPaginated={false}
                                            method={APIConfig.DASHBOARD_DRAFT_NOTE_LIST.METHOD}
