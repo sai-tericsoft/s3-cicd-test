@@ -829,8 +829,11 @@ const APIConfig: IAPIConfig = {
     DASHBOARD_DRAFT_NOTE_LIST: {
         URL: ENV.API_URL + '/draftNotes',
         METHOD: 'get'
+    },
+    DASHBOARD_APPOINTMENT_LIST: {
+        URL: ENV.API_URL + '/todayAppointments',
+        METHOD: 'get'
     }
-
 }
 
 export default APIConfig;
