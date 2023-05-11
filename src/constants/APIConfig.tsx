@@ -829,6 +829,10 @@ const APIConfig: IAPIConfig = {
     DASHBOARD_DRAFT_NOTE_LIST: {
         URL: ENV.API_URL + '/draftNotes',
         METHOD: 'get'
+    },
+    DASHBOARD_DELETE_MESSAGE:{
+        URL:(messageId:string)=>ENV.API_URL + '/message/' + messageId,
+        METHOD: 'delete'
     }
 
 }
