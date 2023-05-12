@@ -425,6 +425,39 @@
   }
 }
 
+.t-view-all-message {
+  .drawer-container {
+    .drawer-body {
+      .message-timestamp-wrapper {
+        width: 422px;
+        .message-edit-delete-button-wrapper{
+          display: flex;
+          align-items: center;
+        }
+        .card-component {
+          width: 422px;
+          margin-bottom: 0px;
+
+          .card-body {
+            color: #212B36;
+            font-size: 1.1429rem;
+            padding: 16px 12px 40px;
+          }
+        }
+        .created-at-time-stamp {
+          display: flex;
+          justify-content: end;
+          color: #6D6D6D;
+          font-weight: 500;
+          font-size: 12px;
+          margin-top: 10px;
+          margin-bottom: 24px;
+        }
+      }
+    }
+  }
+}
+
 .form-question-list {
   .form-question {
     border-bottom: 1px solid #ddd;
@@ -463,11 +496,14 @@
     }
   }
 }
-.basic-tabs-wrapper{
+
+.basic-tabs-wrapper {
   margin-top: 24px;
-  .MuiTabs-scroller{
+
+  .MuiTabs-scroller {
     border-bottom: 1px solid #CECECE;
-    .Mui-selected{
+
+    .Mui-selected {
       border-bottom: 2px solid #00534F;
     }
   }
