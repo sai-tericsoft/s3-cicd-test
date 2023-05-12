@@ -61,11 +61,13 @@ const ICDTableColumns: any = [
         dataIndex: 'icd_code',
         key: 'icd_code',
         width: 150,
+        fixed:'left'
     },
     {
         title: 'Description',
         dataIndex: 'description',
         key: 'description',
+
     }
 ]
 
@@ -348,7 +350,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <FormControlLabelComponent
                                                             label={'Subjective'}/>
                                                         <div className={'readonly-text'}>
-                                                            {medicalInterventionDetails?.subjective.split("\n").map((i: any, key: any) => {
+                                                            {medicalInterventionDetails?.subjective?.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) || "N/A"}
                                                         </div>
@@ -828,7 +830,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <FormControlLabelComponent
                                                             label={'Index of Suspicion'}/>
                                                         <div className={'readonly-text'}>
-                                                            {medicalInterventionDetails?.objective?.suspicion_index.split("\n").map((i: any, key: any) => {
+                                                            {medicalInterventionDetails?.objective?.suspicion_index?.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) || "N/A"}
                                                         </div>
@@ -855,7 +857,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <FormControlLabelComponent
                                                             label={'Surgery Procedure Complete'}/>
                                                         <div className={'readonly-text'}>
-                                                            {medicalInterventionDetails?.objective?.surgery_procedure.split("\n").map((i: any, key: any) => {
+                                                            {medicalInterventionDetails?.objective?.surgery_procedure?.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) || "N/A"}
                                                         </div>
@@ -901,7 +903,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <FormControlLabelComponent
                                                             label={'Plan'}/>
                                                         <div className={'readonly-text'}>
-                                                            {medicalInterventionDetails?.plan.plan.split("\n").map((i: any, key: any) => {
+                                                            {medicalInterventionDetails?.plan.plan?.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) || "N/A"}
                                                         </div>
@@ -928,7 +930,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <FormControlLabelComponent
                                                             label={'MD Recommendations'}/>
                                                         <div className={'readonly-text'}>
-                                                            {medicalInterventionDetails?.plan.md_recommendations.split("\n").map((i: any, key: any) => {
+                                                            {medicalInterventionDetails?.plan.md_recommendations?.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) || "N/A"}
                                                         </div>
@@ -955,7 +957,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <FormControlLabelComponent
                                                             label={'Education'}/>
                                                         <div className={'readonly-text'}>
-                                                            {medicalInterventionDetails?.plan.education.split("\n").map((i: any, key: any) => {
+                                                            {medicalInterventionDetails?.plan.education?.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) || "N/A"}
                                                         </div>
@@ -984,7 +986,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <FormControlLabelComponent
                                                             label={'Treatment Goals'}/>
                                                         <div className={'readonly-text'}>
-                                                            {medicalInterventionDetails?.plan.treatment_goals.split("\n").map((i: any, key: any) => {
+                                                            {medicalInterventionDetails?.plan.treatment_goals?.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) || "N/A"}
                                                         </div>

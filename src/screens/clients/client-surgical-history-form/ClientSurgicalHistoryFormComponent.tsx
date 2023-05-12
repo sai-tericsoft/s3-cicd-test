@@ -203,7 +203,7 @@ const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComp
                                                         (field: FieldProps) => (
                                                             <FormikTextAreaComponent
                                                                 id={"comments"}
-                                                                label={"Other Illnesses/Conditions"}
+                                                                label={"Other Surgeries/Conditions"}
                                                                 placeholder={"Enter your comments here"}
                                                                 disabled={!values.surgical_history?.isCustomOption}
                                                                 required={values.surgical_history?.isCustomOption}

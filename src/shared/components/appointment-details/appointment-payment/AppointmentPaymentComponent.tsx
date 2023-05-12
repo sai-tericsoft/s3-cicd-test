@@ -138,7 +138,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                 validationSchema={addAppointmentPaymentValidationSchema}
                 initialValues={{
                     ...addAppointmentPaymentInitialValues,
-                    amount: details?.amount || 0,
+                    amount: CommonService.convertToDecimals(+(details?.amount)) || 0,
                     appointmentId: details?._id
                 }}
                 onSubmit={onSubmitAppointmentPayment}
@@ -162,7 +162,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                                                 Total Amount
                                             </div>
                                             <div className="block-body payment-price ts-row">
-                                                $ {details?.amount || 0}
+                                                $ {CommonService.convertToDecimals(+details?.amount) || 0}
                                             </div>
                                         </div>
                                         <div className="ts-row option-item-wrapper mrg-bottom-15 mrg-top-15">

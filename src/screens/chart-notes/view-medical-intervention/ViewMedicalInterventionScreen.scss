@@ -1,6 +1,9 @@
 @import "src/assets/styles/common";
 
 .add-medical-intervention-screen {
+  .t-cell-description{
+    padding-left: 20px !important;
+  }
   .readonly-wrapper {
     margin-bottom: 15px;
 

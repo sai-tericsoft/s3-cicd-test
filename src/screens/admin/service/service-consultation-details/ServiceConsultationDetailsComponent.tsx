@@ -4,6 +4,7 @@ import {Misc} from "../../../../constants";
 import {ITableColumn} from "../../../../shared/models/table.model";
 import TableComponent from "../../../../shared/components/table/TableComponent";
 import {IConsultation, IService} from "../../../../shared/models/service.model";
+import {CommonService} from "../../../../shared/services";
 
 interface ServiceConsultationDetailsComponentProps {
     serviceDetails: IService
@@ -29,7 +30,7 @@ const ServiceConsultationDetailsComponent = (props: ServiceConsultationDetailsCo
             align:'center',
             fixed:'right',
             render: ( item: any) => {
-                return <span> {Misc.CURRENCY_SYMBOL}{item.price} </span>
+                return <span> {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(+(item?.price))} </span>
             }
         }
     ]
