@@ -833,6 +833,10 @@ const APIConfig: IAPIConfig = {
     DASHBOARD_DELETE_MESSAGE:{
         URL:(messageId:string)=>ENV.API_URL + '/message/' + messageId,
         METHOD: 'delete'
+    },
+    DASHBOARD_EDIT_MESSAGE:{
+        URL:(messageId:string)=>ENV.API_URL + '/message/' + messageId,
+        METHOD:'put'
     }
 
 }
