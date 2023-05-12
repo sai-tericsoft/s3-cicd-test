@@ -11,6 +11,7 @@ import TabsWrapperComponent, {
 import {useSearchParams} from "react-router-dom";
 import MessageBoardComponent from "../message-board/MessageBoardComponent";
 import DraftNoteListComponent from "../draft-note-list/DraftNoteListComponent";
+import AppointmentListComponent from "../appointment-list/AppointmentListComponent";
 
 interface DashboardScreenProps {
 
@@ -58,6 +59,7 @@ const DashboardScreen = (props: DashboardScreenProps) => {
                 </BasicTabsComponent>
                 <TabContentComponent value={"home"} selectedTab={currentTab}>
                     <MessageBoardComponent/>
+                    <AppointmentListComponent/>
                     <DraftNoteListComponent/>
                 </TabContentComponent>
             </TabsWrapperComponent>

@@ -1,15 +1,12 @@
-.draft-note-list-component{
-  .draft-note-list-wrapper{
+.appointment-list-component{
+  .appointment-list-wrapper{
     height:calc(100vh - 331px);
     overflow: scroll;
   }
-  .draft-note-heading{
+  .appointment-list-heading{
     font-weight: 700;
     font-size: 1.1429rem;
     color: #212B36;
     margin-bottom: 24px;
-  }
-  .provider-name{
-    text-transform: capitalize;
   }
 }

@@ -71,7 +71,7 @@ const DraftNoteListComponent = (props: DraftNoteListComponentProps) => {
             fixed:'right',
             width: 100,
             render:(item:any)=>{
-                return <><LinkComponent route={CommonService._routeConfig.UpdateMedicalIntervention(item?.medicalRecordId, item?._id)}>
+                return <><LinkComponent route={CommonService._routeConfig.UpdateMedicalIntervention(item?.medical_record_id, item?._id)}>
                     View Details
                 </LinkComponent> </>
             }
