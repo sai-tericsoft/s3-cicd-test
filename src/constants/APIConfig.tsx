@@ -833,6 +833,10 @@ const APIConfig: IAPIConfig = {
     DASHBOARD_APPOINTMENT_LIST: {
         URL: ENV.API_URL + '/todayAppointments',
         METHOD: 'get'
+    },
+    DASHBOARD_DELETE_MESSAGE:{
+        URL:(messageId:string)=>ENV.API_URL + '/message/' + messageId,
+        METHOD: 'delete'
     }
 }
 
