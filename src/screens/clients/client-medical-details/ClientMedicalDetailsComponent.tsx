@@ -147,7 +147,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                 </DataLabelValueComponent>
                             </div>
                             <div className={'ts-col-lg-3'}>
-                                <DataLabelValueComponent label={'Primary Phone'}>
+                                <DataLabelValueComponent label={'MD Phone'}>
                                     {CommonService.formatPhoneNumber(clientMedicalDetails?.medical_provider_info?.primary_phone || "N/A")}
                                 </DataLabelValueComponent>
                             </div>
@@ -240,7 +240,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             </div>
                         }
                         {clientMedicalDetails?.surgical_history?.comments && <>
-                            <FormControlLabelComponent label={"Other Illnesses/Conditions"} className={'mrg-bottom-10'}/>
+                            <FormControlLabelComponent label={"Other Surgeries/Conditions"} className={'mrg-bottom-10'}/>
                             {clientMedicalDetails?.surgical_history?.comments.split("\n").map((i: any, key: any) => {
                                 return <li key={key}>{i}</li>;
                             }) || "N/A"}

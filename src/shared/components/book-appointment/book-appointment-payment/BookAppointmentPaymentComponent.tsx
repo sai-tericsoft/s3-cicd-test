@@ -95,7 +95,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
     const onSubmitAppointmentPayment = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
             const appointmentId = values.appointmentId;
             delete values.appointmentId;
-            CommonService._appointment.appointmentPayment(appointmentId, {...values, total: +values?.amount, discount: 0})
+            CommonService._appointment.appointmentPayment(appointmentId, {...values, total: +values?.amount, discount: 0,coupon_id: selectedCoupon?._id})
                 .then((response: IAPIResponseType<any>) => {
                     if (onComplete) {
                         onComplete(response.data);
@@ -158,7 +158,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                                 Total Amount
                                             </div>
                                             <div className="block-body payment-price ts-row">
-                                                $ {booking?.amount || 0}
+                                                $ {CommonService.convertToDecimals(+booking?.amount) || 0}
                                             </div>
                                         </div>
                                         <div className="ts-row option-item-wrapper mrg-bottom-15 mrg-top-15">

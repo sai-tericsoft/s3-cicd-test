@@ -151,7 +151,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                             <div className="status-info">
                                 {details?.status === 'scheduled' && <>
                                     <div className="info-text">
-                                        Appointment Fees : $ {details?.amount}
+                                        Appointment Fees : $ {CommonService.convertToDecimals(+(details?.amount))}
                                     </div>
                                 </>}
                                 {details?.status === 'upcoming' && <>

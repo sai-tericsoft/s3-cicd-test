@@ -571,7 +571,14 @@ const editMentionsFormat = (value: string, mentionsData: any) => {
     return cleanedValue;
 }
 
-const convertToDecimals = (value: number) => {
+const convertToDecimals = (value: number | string) => {
+    if( typeof(value) !== "number" ){
+        return
+    }
+    if(typeof(value) === 'string'){
+        let tempValue = +(value)
+        return tempValue.toFixed(2)
+    }
     if (!value) return 0;
     return value.toFixed(2)
 }

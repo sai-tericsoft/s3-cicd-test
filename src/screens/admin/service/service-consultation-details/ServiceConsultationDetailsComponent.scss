@@ -6,7 +6,12 @@
       }
     }
     .card-header{
-      .card-title-description-wrapper{}
+      .card-title-description-wrapper{
+        .card-title{
+          font-weight: 700;
+          text-decoration: underline;
+        }
+      }
       .card-title{
         margin-left: 150px;
       }
