@@ -9,6 +9,7 @@ import {APIConfig} from "../../../constants";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import AppointmentDetailsComponent from "../../../shared/components/appointment-details/AppointmentDetailsComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
+import LinkComponent from "../../../shared/components/link/LinkComponent";
 
 interface AppointmentListComponentProps {
 
@@ -94,9 +95,11 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
             width: 120,
             fixed: "right",
             render: (item: any) => {
-                if(item?.status==='upcoming') {
-                 return  <ButtonComponent>Start Appointment</ButtonComponent>
-                }else{
+                if (item?.status === 'upcoming') {
+                    return <LinkComponent
+                        route={CommonService._routeConfig.UpdateMedicalIntervention(item?.medical_record_id, item?._id)}>
+                        <ButtonComponent>Start Appointment</ButtonComponent></LinkComponent>
+                } else {
                     if (item?._id) {
                         return <div className={'link-component'} onClick={setOpenedAppointmentDetails.bind(null, item)}>
                             View Details
@@ -109,7 +112,7 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
 
     return (
         <div className={'appointment-list-component'}>
-            <CardComponent >
+            <CardComponent>
                 <div className={'appointment-list-heading'}>
                     Today’s Appointments
                 </div>
