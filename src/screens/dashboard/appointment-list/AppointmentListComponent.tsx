@@ -43,7 +43,7 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
 
         },
         {
-            title: "Phone",
+            title: "Phone Number",
             key: "primary_contact_info",
             dataIndex: "primary_contact_info",
             width: 150,

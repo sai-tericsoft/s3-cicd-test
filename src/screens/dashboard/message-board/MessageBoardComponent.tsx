@@ -96,7 +96,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                     </div>
                     <CardComponent className={'birthday-board'}>
                         <div className={'today-birthday-text'}>
-                            Today's Birthday
+                            Today's Birthday(s)
                         </div>
                         <div className={'coming-soon-image-text-wrapper'}>
                             <div>
@@ -104,7 +104,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                                     <ImageConfig.ComingSoon/>
                                 </div>
                                 <div>
-                                    Coming Soon
+                                    Coming Soon!
                                 </div>
                             </div>
                         </div>
