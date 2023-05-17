@@ -11,6 +11,7 @@ import FormikTextAreaComponent
 import {CommonService} from "../../../../shared/services";
 import {IAPIResponseType} from "../../../../shared/models/api.model";
 import {ISystemSettingsConfig} from "../../../../shared/models/account.model";
+import NewMessageComponent from "../new-message/NewMessageComponent";
 
 interface DefaultMessageComponentProps {
 
@@ -109,6 +110,7 @@ const DefaultMessageComponent = (props: DefaultMessageComponentProps) => {
                         </div>
                     </AccordionComponent>
                 </div>
+                <NewMessageComponent/>
             </CardComponent>
         </div>
     );

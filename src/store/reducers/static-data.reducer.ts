@@ -24,7 +24,7 @@ import {
     GET_SOCIAL_MEDIA_PLATFORM_LIST,
     GET_SURGICAL_HISTORY_OPTIONS_LIST,
     GET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST,
-    GET_USER_MENTIONS_LIST,
+    GET_USER_MENTIONS_LIST, GET_VALID_DAYS_LIST,
     SET_8_MINUTE_RULE_CHART,
     SET_APPOINTMENT_STATUS,
     SET_APPOINTMENT_TYPES,
@@ -53,7 +53,7 @@ import {
     SET_SOCIAL_MEDIA_PLATFORM_LIST,
     SET_SURGICAL_HISTORY_OPTIONS_LIST,
     SET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST,
-    SET_USER_MENTIONS_LIST,
+    SET_USER_MENTIONS_LIST, SET_VALID_DAYS_LIST,
 } from "../actions/static-data.action";
 import {IActionModel} from "../../shared/models/action.model";
 import {ICommonType} from "../../shared/models/static-data.model";
@@ -156,6 +156,10 @@ export interface IStaticDataReducerState {
     reschedulingTimesList: any[],
     isReschedulingTimesListLoading: boolean,
     isReschedulingTimesListLoaded: boolean,
+
+    isValidDaysListLoading: boolean,
+    isValidDaysListLoaded: boolean,
+    validDaysList: any[],
 }
 
 const initialData: IStaticDataReducerState = {
@@ -264,6 +268,10 @@ const initialData: IStaticDataReducerState = {
     secondaryRemainderHoursList: [],
     isSecondaryRemainderHoursListLoading: false,
     isSecondaryRemainderHoursListLoaded: false,
+
+    isValidDaysListLoading: false,
+    isValidDaysListLoaded: false,
+    validDaysList: [],
 };
 
 const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDataReducerState => {
@@ -695,6 +703,22 @@ const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDa
                 isUserMentionsListLoading: false,
                 isUserMentionsListLoaded: true,
                 userMentionsList: action.payload.userMentions
+            }
+            return state;
+        case GET_VALID_DAYS_LIST:
+            state = {
+                ...state,
+                isValidDaysListLoading: true,
+                isValidDaysListLoaded: false
+            }
+            return state;
+
+        case SET_VALID_DAYS_LIST:
+            state = {
+                ...state,
+                isValidDaysListLoading: false,
+                isValidDaysListLoaded: true,
+                validDaysList: action.payload.validDaysList
             }
             return state;
         default:
