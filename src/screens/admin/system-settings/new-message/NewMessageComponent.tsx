@@ -31,7 +31,6 @@ const NewMessageComponent = (props: NewMessageComponentProps) => {
     const [isSaving, setIsSaving] = useState<boolean>(false);
     
     const {validDaysList} = useSelector((state:IRootReducerState)=>state.staticData);
-    console.log('vd',validDaysList);
 
     const handleChange = useCallback(() => {
         setIsExpanded(!isExpanded)

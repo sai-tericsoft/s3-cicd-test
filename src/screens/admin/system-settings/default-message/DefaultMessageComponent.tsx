@@ -12,6 +12,8 @@ import {CommonService} from "../../../../shared/services";
 import {IAPIResponseType} from "../../../../shared/models/api.model";
 import {ISystemSettingsConfig} from "../../../../shared/models/account.model";
 import NewMessageComponent from "../new-message/NewMessageComponent";
+import DrawerComponent from "../../../../shared/components/drawer/DrawerComponent";
+import AllMessageHistoryComponent from "../all-message-history/AllMessageHistoryComponent";
 
 interface DefaultMessageComponentProps {
 
@@ -26,6 +28,15 @@ const DefaultMessageComponent = (props: DefaultMessageComponentProps) => {
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
     const [defaultMessageFormInitialValue] = useState<any>(_.cloneDeep(defaultMessageInitialValue));
     const [isSaving, setIsSaving] = useState<boolean>(false);
+    const [isHistoryDrawerOpen,setIsHistoryDrawerOpen]=useState<boolean>(false);
+
+    const openHistoryDrawer = useCallback(()=>{
+        setIsHistoryDrawerOpen(true)
+    },[]);
+
+    const closeHistoryDrawer = useCallback(()=>{
+        setIsHistoryDrawerOpen(false)
+    },[])
 
     const handleChange = useCallback(() => {
         setIsExpanded(!isExpanded)
@@ -48,7 +59,7 @@ const DefaultMessageComponent = (props: DefaultMessageComponentProps) => {
 
     return (
         <div className={'default-message-component'}>
-            <CardComponent title={'Message Board'} actions={<><ButtonComponent prefixIcon={<ImageConfig.History/>}>
+            <CardComponent title={'Message Board'} actions={<><ButtonComponent onClick={openHistoryDrawer} prefixIcon={<ImageConfig.History/>}>
                 History
             </ButtonComponent></>}>
                 <div className={'news-update-text'}>
@@ -112,6 +123,14 @@ const DefaultMessageComponent = (props: DefaultMessageComponentProps) => {
                 </div>
                 <NewMessageComponent/>
             </CardComponent>
+            <DrawerComponent isOpen={isHistoryDrawerOpen}
+                             showClose={true}
+                             closeOnEsc={false}
+                             closeOnBackDropClick={false}
+                             closeButtonId={"sc_close_btn"}
+                             onClose={closeHistoryDrawer}>
+                <AllMessageHistoryComponent/>
+            </DrawerComponent>
         </div>
     );
 
