@@ -56,6 +56,9 @@ import {ReactComponent as CircularShowLess} from './../assets/icons/circular_sho
 import {ReactComponent as ComingSoon} from './../assets/icons/coming_soon.svg';
 import {ReactComponent as History} from './../assets/icons/history_icon.svg';
 
+import {ReactComponent as CopyIcon} from './../assets/icons/copy_icon.svg';
+
+
 //file types
 import PDFIcon from './../assets/icons/file-types/pdf.svg';
 import WordDocIcon from './../assets/icons/file-types/doc.svg';
@@ -199,4 +202,5 @@ export {
     PercentageSymbol,
     ComingSoon,
     History,
+    CopyIcon,
 }
