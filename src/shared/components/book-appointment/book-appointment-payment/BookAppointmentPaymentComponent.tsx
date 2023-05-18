@@ -93,23 +93,26 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
 
 
     const onSubmitAppointmentPayment = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
-            const appointmentId = values.appointmentId;
-            delete values.appointmentId;
-            CommonService._appointment.appointmentPayment(appointmentId, {...values, total: +values?.amount, discount: 0,coupon_id: selectedCoupon?._id})
-                .then((response: IAPIResponseType<any>) => {
-                    if (onComplete) {
-                        onComplete(response.data);
-                    }
-                })
-                .catch((error: any) => {
-                    CommonService.handleErrors(setErrors, error);
-                })
-                .finally(() => {
-                    setSubmitting(false);
-                })
-        },
-        [onComplete,selectedCoupon?._id],
-    );
+        const appointmentId = values.appointmentId;
+        delete values.appointmentId;
+        CommonService._appointment.appointmentPayment(appointmentId, {
+            ...values,
+            total: +values?.amount,
+            discount: 0,
+            coupon_id: selectedCoupon?._id
+        })
+            .then((response: IAPIResponseType<any>) => {
+                if (onComplete) {
+                    onComplete(response.data);
+                }
+            })
+            .catch((error: any) => {
+                CommonService.handleErrors(setErrors, error);
+            })
+            .finally(() => {
+                setSubmitting(false);
+            })
+    }, [onComplete, selectedCoupon?._id]);
 
     const formRef = useRef<FormikProps<any>>(null)
 

@@ -127,6 +127,10 @@ const transformTimeStamp = (date: Date | string | undefined) => {
     return moment(date).format('D-MMM-YYYY | hh:mm A');
 }
 
+const transformTimeStamp2 = (date: Date | string | undefined) => {
+    return moment(date).format('hh:mm A, D-MMM-YYYY ');
+}
+
 
 const convertDateFormat = (date: Date, format: string = 'YYYY-MM-DD') => {
     return moment(date).format(format);
@@ -638,6 +642,7 @@ const CommonService = {
     convertToDecimals,
     calculateFinalAmountFromDiscountPercentage,
     generateUseCaseFromCaseDetails2,
+    transformTimeStamp2,
 
     // createValidationsObject,
     // createYupSchema,
