@@ -30,6 +30,10 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
     const [editableMessage, setEditableMessage] = useState<any | null>(null);
     const [mode, setMode] = useState<'view' | 'edit'>('view');
 
+    const {systemSettings} = useSelector((state: IRootReducerState) => state.settings);
+    
+    console.log('systemSettings',systemSettings);
+    
     const handleOpenViewAllMessagesDrawer = useCallback(() => {
         setIsViewMessageDrawerOpen(true)
     }, []);
@@ -80,6 +84,9 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                                 </div>
                             </div>
                             <CardComponent color={'primary'} className={'view-message-board'}>
+                                {
+                                    (messageHistory?.length===0 ) && <div className={'message-text'}>{systemSettings?.default_message}</div>
+                                }
                                 {messageHistory?.map((message: any) => {
                                     return (<>
                                             <div className={'message-text'}>{message?.message}</div>
