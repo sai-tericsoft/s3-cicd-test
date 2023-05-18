@@ -15,6 +15,8 @@ import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import SpecialTestComponent from "../special-test/SpecialTestComponent";
+import MedicalRecordBasicDetailsCardComponent
+    from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 
 interface MedicalInterventionSpecialTestsScreenProps {
 
@@ -100,6 +102,7 @@ const MedicalInterventionSpecialTestsScreen = (props: MedicalInterventionSpecial
     return (
         <div className={'medical-intervention-special-tests-screen'}>
             <FormControlLabelComponent label={'Special Test'} size={'lg'}/>
+            <MedicalRecordBasicDetailsCardComponent/>
             <>
                 {
                     isMedicalInterventionDetailsLoading && <>
