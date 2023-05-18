@@ -31,9 +31,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
     const [mode, setMode] = useState<'view' | 'edit'>('view');
 
     const {systemSettings} = useSelector((state: IRootReducerState) => state.settings);
-    
-    console.log('systemSettings',systemSettings);
-    
+
     const handleOpenViewAllMessagesDrawer = useCallback(() => {
         setIsViewMessageDrawerOpen(true)
     }, []);
