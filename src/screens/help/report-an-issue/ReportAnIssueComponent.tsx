@@ -13,6 +13,8 @@ import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {CommonService} from "../../../shared/services";
 import {Misc} from "../../../constants";
 import * as Yup from "yup";
+import {setCurrentNavParams} from "../../../store/actions/navigation.action";
+import {useDispatch} from "react-redux";
 
 interface ReportAnIssueComponentProps {
 
@@ -28,8 +30,12 @@ const ReportAnIssueValidationSchema = Yup.object().shape({
 });
 
 const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
-
+    const dispatch = useDispatch();
     const [isIssueSubmitting, setIsIssueSubmitting] = useState<boolean>(false);
+
+    useEffect(() => {
+        dispatch(setCurrentNavParams("Help"));
+    }, [dispatch]);
 
     const onIssueSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         const formData = CommonService.getFormDataFromJSON(values);
@@ -38,9 +44,7 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
             .then((response) => {
                 setIsIssueSubmitting(false);
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-
-
-            }).catch((error:any) => {
+            }).catch((error: any) => {
             setIsIssueSubmitting(false);
             CommonService.handleErrors(setErrors, error, true);
         });
@@ -84,10 +88,10 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
                                     </div>
                                     <div className={'ts-col-md-12'}>
                                         {(values.issue.length) >= 1000 ?
-                                        <div className={'alert-error'}> Characters Limit
-                                            : {(values.issue.length)}/1000</div> :
-                                        <div className={'no-alert'}> Characters Limit
-                                            : {(values.issue.length)}/1000</div>}
+                                            <div className={'alert-error'}> Characters Limit
+                                                : {(values.issue.length)}/1000</div> :
+                                            <div className={'no-alert'}> Characters Limit
+                                                : {(values.issue.length)}/1000</div>}
                                     </div>
                                     <div className={'ts-col-md-12'}>
                                         <FormControlLabelComponent label={"Attachment (if any)"}/>
@@ -130,7 +134,7 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
                                 <div className="t-form-actions">
                                     <ButtonComponent type={'submit'}
                                                      isLoading={isIssueSubmitting}
-                                                     disabled={!isValid || isIssueSubmitting ||( values.issue?.length===0 && values.attachment?.length===0) }>
+                                                     disabled={!isValid || isIssueSubmitting || (values.issue?.length === 0 && values.attachment?.length === 0)}>
                                         Submit
                                     </ButtonComponent>
                                 </div>
