@@ -94,7 +94,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             render: (item: any) => {
                 return <>
                     {medicalRecordId && item?.is_exercise_log_added && <LinkComponent
-                        route={CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, item?.intervention_id)}>
+                        route={CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, item?._id)}>
                         View Log
                     </LinkComponent>
                     }
