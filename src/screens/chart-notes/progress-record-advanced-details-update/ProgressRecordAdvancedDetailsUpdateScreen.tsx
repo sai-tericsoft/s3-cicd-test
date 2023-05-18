@@ -174,6 +174,9 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                 .then((response) => {
                     patchDataToProgressReportForm(response?.data);
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    if (medicalRecordId) {
+                        navigate(CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId,progressReportId));
+                    }
                     setSubmitting(false);
                     if (cb) {
                         cb();
