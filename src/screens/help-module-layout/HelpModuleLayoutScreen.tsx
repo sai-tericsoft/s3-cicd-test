@@ -25,12 +25,12 @@ const HelpModuleLayoutScreen = (props: HelpModuleLayoutComponentProps) => {
     return (
         <div className={'help-module-layout'}>
             <div className={"help-module-layout-left-bar"}>
-                <div className="help-module-layout-title">
+                <div className={"help-module-layout-title"}>
                     {title}
                 </div>
                 <SubMenuListComponent menuItems={HELP_MENU_ITEMS}/>
             </div>
-            <div className="help-module-content-wrapper">
+            <div className={"help-module-content-wrapper"}>
                 <Outlet/>
             </div>
         </div>
