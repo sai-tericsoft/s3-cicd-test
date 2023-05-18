@@ -78,7 +78,7 @@ const AllMessageHistoryComponent = (props: AllMessageHistoryComponentProps) => {
                                     </IconButtonComponent></span>
                                 {copiedIndex === message?._id && <span>Copied!</span>}
                                 {
-                                    !message?.can_delete && <span>
+                                    message?.can_delete && <span>
                                         <IconButtonComponent onClick={() => toggleCard(message._id)}>
                                     <ImageConfig.HorizontalMore/>
                                     </IconButtonComponent>
