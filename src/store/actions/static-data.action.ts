@@ -112,6 +112,9 @@ export const SET_RESCHEDULED_TIMES_LIST = 'SET_RESCHEDULED_TIMES_LIST';
 export const GET_USER_MENTIONS_LIST = 'GET_USER_MENTIONS_LIST';
 export const SET_USER_MENTIONS_LIST = 'SET_USER_MENTIONS_LIST';
 
+export const GET_VALID_DAYS_LIST = 'GET_VALID_DAYS_LIST';
+export const SET_VALID_DAYS_LIST = 'SET_VALID_DAYS_LIST';
+
 export const getConsultationDurationList = () => {
     return {type: GET_CONSULTATION_DURATION_LIST};
 };
@@ -468,7 +471,6 @@ export const getUserMentionsList = () => {
 }
 
 export const setUserMentionsList = (userMentions: any[]) => {
-    console.log("userMentions", userMentions);
     return {
         type: SET_USER_MENTIONS_LIST, payload: {
             userMentions
@@ -476,3 +478,14 @@ export const setUserMentionsList = (userMentions: any[]) => {
     };
 }
 
+export const getValidDaysList = () => {
+    return {type: GET_VALID_DAYS_LIST}
+}
+
+export const setValidDaysList = (validDaysList: any[]) => {
+    return {
+        type: SET_VALID_DAYS_LIST, payload: {
+            validDaysList
+        }
+    }
+}

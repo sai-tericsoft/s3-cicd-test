@@ -17,6 +17,7 @@ import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import HorizontalLineComponent
     from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 import {getSystemSettings} from "../../../store/actions/settings.action";
+import DefaultMessageComponent from "./default-message/DefaultMessageComponent";
 
 const SystemSettingsFormValidationSchema = Yup.object({
     other_settings: Yup.object({
@@ -86,92 +87,96 @@ const SystemSettingsScreen = (props: SystemSettingsScreenProps) => {
 
     return (
         <div className={'system-settings-screen'}>
-            {
-                isSystemSettingsLoading && <LoaderComponent/>
-            }
-            {
-                isSystemSettingsLoaded && <Formik
-                    validationSchema={SystemSettingsFormValidationSchema}
-                    initialValues={systemSettingsFormInitialValues}
-                    validateOnChange={false}
-                    validateOnBlur={true}
-                    enableReinitialize={true}
-                    validateOnMount={true}
-                    onSubmit={onSubmit}
-                >
-                    {({values, validateForm}) => {
-                        // eslint-disable-next-line react-hooks/rules-of-hooks
-                        useEffect(() => {
-                            validateForm();
-                        }, [validateForm, values]);
-                        return (
-                            <Form className="t-form" noValidate={true}>
-                                <CardComponent title={"Other Settings"}>
-                                    <div className="t-form-controls">
-                                        <div className="ts-row">
-                                            <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-6">
-                                                <QuestionComponent title={"System Auto Lock"}
-                                                                   description={"The length of time before the system auto-saves the work that has been done, and locks the system if there’s been a certain length of inactivity."}
-                                                ></QuestionComponent>
+            <div>
+                <DefaultMessageComponent/>
+                {
+                    isSystemSettingsLoading && <LoaderComponent/>
+                }
+                {
+                    isSystemSettingsLoaded && <Formik
+                        validationSchema={SystemSettingsFormValidationSchema}
+                        initialValues={systemSettingsFormInitialValues}
+                        validateOnChange={false}
+                        validateOnBlur={true}
+                        enableReinitialize={true}
+                        validateOnMount={true}
+                        onSubmit={onSubmit}
+                    >
+                        {({values, validateForm}) => {
+                            // eslint-disable-next-line react-hooks/rules-of-hooks
+                            useEffect(() => {
+                                validateForm();
+                            }, [validateForm, values]);
+                            return (
+                                <Form className="t-form" noValidate={true}>
+                                    <CardComponent title={"Other Settings"}>
+                                        <div className="t-form-controls">
+                                            <div className="ts-row">
+                                                <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-6">
+                                                    <QuestionComponent title={"System Auto Lock"}
+                                                                       description={"The length of time before the system auto-saves the work that has been done, and locks the system if there’s been a certain length of inactivity."}
+                                                    ></QuestionComponent>
+                                                </div>
+                                                <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-2"}/>
+                                                <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
+                                                    <Field name={'other_settings.auto_lock_minutes'}
+                                                           className="t-form-control">
+                                                        {
+                                                            (field: FieldProps) => (
+                                                                <FormikSelectComponent
+                                                                    label={'Select'}
+                                                                    options={systemAutoLockDurationOptionList}
+                                                                    required={true}
+                                                                    formikField={field}
+                                                                    fullWidth={true}
+                                                                />
+                                                            )
+                                                        }
+                                                    </Field>
+                                                </div>
                                             </div>
-                                            <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-2"}/>
-                                            <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
-                                                <Field name={'other_settings.auto_lock_minutes'} className="t-form-control">
-                                                    {
-                                                        (field: FieldProps) => (
-                                                            <FormikSelectComponent
-                                                                label={'Select'}
-                                                                options={systemAutoLockDurationOptionList}
-                                                                required={true}
-                                                                formikField={field}
-                                                                fullWidth={true}
-                                                            />
-                                                        )
-                                                    }
-                                                </Field>
+                                            <HorizontalLineComponent/>
+                                            <div className="ts-row">
+                                                <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-6">
+                                                    <QuestionComponent title={"Files Uneditable after"}
+                                                                       description={"Makes file uneditable after XX days."}
+                                                    ></QuestionComponent>
+                                                </div>
+                                                <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-2"}/>
+                                                <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
+                                                    <Field name={'other_settings.uneditable_after_days'}
+                                                           className="t-form-control">
+                                                        {
+                                                            (field: FieldProps) => (
+                                                                <FormikSelectComponent
+                                                                    label={'Select'}
+                                                                    options={filesUneditableAfterOptionList}
+                                                                    required={true}
+                                                                    formikField={field}
+                                                                    fullWidth={true}
+                                                                />
+                                                            )
+                                                        }
+                                                    </Field>
+                                                </div>
                                             </div>
                                         </div>
-                                        <HorizontalLineComponent/>
-                                        <div className="ts-row">
-                                            <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-6">
-                                                <QuestionComponent title={"Files Uneditable after"}
-                                                                   description={"Makes file uneditable after XX days."}
-                                                ></QuestionComponent>
-                                            </div>
-                                            <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-2"}/>
-                                            <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
-                                                <Field name={'other_settings.uneditable_after_days'}
-                                                       className="t-form-control">
-                                                    {
-                                                        (field: FieldProps) => (
-                                                            <FormikSelectComponent
-                                                                label={'Select'}
-                                                                options={filesUneditableAfterOptionList}
-                                                                required={true}
-                                                                formikField={field}
-                                                                fullWidth={true}
-                                                            />
-                                                        )
-                                                    }
-                                                </Field>
-                                            </div>
-                                        </div>
+                                    </CardComponent>
+                                    <div className="t-form-actions">
+                                        <ButtonComponent
+                                            isLoading={isSaving}
+                                            type={"submit"}
+                                            id={"save_btn"}
+                                        >
+                                            {isSaving ? "Saving" : "Save"}
+                                        </ButtonComponent>
                                     </div>
-                                </CardComponent>
-                                <div className="t-form-actions">
-                                    <ButtonComponent
-                                        isLoading={isSaving}
-                                        type={"submit"}
-                                        id={"save_btn"}
-                                    >
-                                        {isSaving ? "Saving" : "Save"}
-                                    </ButtonComponent>
-                                </div>
-                            </Form>
-                        )
-                    }}
-                </Formik>
-            }
+                                </Form>
+                            )
+                        }}
+                    </Formik>
+                }
+            </div>
         </div>
     );
 
