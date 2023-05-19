@@ -48,7 +48,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     } = useSelector((state: IRootReducerState) => state.chartNotes);
     const {bodyPartList} = useSelector((state: IRootReducerState) => state.staticData);
     const {medicalRecordId, medicalInterventionId} = useParams();
-    const [globalRomConfig, setGloablSpecialTestConfig] = useState<IBodyPartROMConfig[]>([]);
+    const [globalRomConfig, setGlobalSpecialTestConfig] = useState<IBodyPartROMConfig[]>([]);
     const [romFormValues, setRomFormValues] = useState<any>(ROM_CONFIG_INITIAL_VALUES);
     const [selectedBodyPartForSpecialTestSelection, setSelectedBodyPartForSpecialTestSelection] = useState<any>(undefined);
     const [mode] = useState<'read' | 'write'>('write');
@@ -215,8 +215,8 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         const bodyPartConfig: any = _.cloneDeep(bodyPart);
         if (special_test_config && special_test_config?.length > 0) {
             bodyPartConfig.special_tests_selected = special_test_config?.map((special_test: any, index: number) => {
-                const special_test_data = special_test_config?.find((test: any) => test?.name === special_test);
-                return {name: special_test, ...special_test_data, comments: "", commentsTemp: ""};
+                const special_test_data = special_test_config?.find((test: any) => test?.name === special_test.name);
+                return {name: special_test.name, ...special_test_data, comments: "", commentsTemp: ""};
             });
         } else {
             bodyPartConfig.special_tests_selected = [];
@@ -244,6 +244,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     const buildSpecialTestConfig = useCallback((specialTestConfig: any) => {
         const config: any = {};
         specialTestConfig?.forEach((bodyPart: any) => {
+            console.log(bodyPart);
             config[bodyPart?.body_part?._id] = generateSpecialTestConfigForAnInjury(bodyPart?.body_part, bodyPart?.selected_sides, bodyPart?.special_test_config);
         });
         setRomFormValues(config);
@@ -262,7 +263,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
             selected_sides: SPECIAL_TEST_APPLICABLE_BODY_SIDES,
             mode: 'write'
         }];
-        setGloablSpecialTestConfig(updatedGloablSpecialTestConfig);
+        setGlobalSpecialTestConfig(updatedGloablSpecialTestConfig);
         const romFormValuesCopy = _.cloneDeep(romFormValues);
         romFormValuesCopy[selectedBodyPartToBeAdded._id] = generateSpecialTestConfigForAnInjury(selectedBodyPartToBeAdded, SPECIAL_TEST_APPLICABLE_BODY_SIDES, []);
         setRomFormValues(romFormValuesCopy);
@@ -292,40 +293,41 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
 
     useEffect(() => {
         const specialTestConfig: any = [];
-        const special_test_config = medicalInterventionDetails?.special_test_config;
+        const special_test_config = medicalInterventionDetails?.special_tests;
         const injury_details = medicalInterventionDetails?.medical_record_details?.injury_details;
-        // if (medicalInterventionDetails?.is_special_test_configured) {
-        //     special_test_config?.forEach((injury: any) => {
-        //         if (!specialTestConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
-        //             specialTestConfig.push({
-        //                 body_part: injury?.body_part_details,
-        //                 special_test_config: injury?.special_test_config || [],
-        //                 selected_sides: ['Left', 'Right', 'Central'],
-        //                 mode: 'read'
-        //             });
-        //         } else {
-        //             const bodyPart = specialTestConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id);
-        //             bodyPart.selected_sides.push(injury.body_side);
-        //         }
-        //     });
-        // } else {
-        if (injury_details?.length > 0) {
-            injury_details?.forEach((injury: any) => {
+        if (medicalInterventionDetails?.is_special_test_configured) {
+            special_test_config?.forEach((injury: any) => {
                 if (!specialTestConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
                     specialTestConfig.push({
                         body_part: injury?.body_part_details,
-                        special_test_config: [],
+                        special_test_config: injury?.special_tests || [],
                         selected_sides: SPECIAL_TEST_APPLICABLE_BODY_SIDES,
                         mode: 'write'
                     });
                     // } else {
-                    //     const bodyPart = specialTestConfig.find((item: any) => item?.body_part?._id === injury?.body_part_id);
+                    //     const bodyPart = specialTestConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id);
                     //     bodyPart.selected_sides.push(injury.body_side);
                 }
             });
+        } else {
+            if (injury_details?.length > 0) {
+                injury_details?.forEach((injury: any) => {
+                    if (!specialTestConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
+                        specialTestConfig.push({
+                            body_part: injury?.body_part_details,
+                            special_test_config: [],
+                            selected_sides: SPECIAL_TEST_APPLICABLE_BODY_SIDES,
+                            mode: 'write'
+                        });
+                        // } else {
+                        //     const bodyPart = specialTestConfig.find((item: any) => item?.body_part?._id === injury?.body_part_id);
+                        //     bodyPart.selected_sides.push(injury.body_side);
+                    }
+                });
+            }
         }
-        // }
-        setGloablSpecialTestConfig(specialTestConfig);
+        console.log(specialTestConfig);
+        setGlobalSpecialTestConfig(specialTestConfig);
         buildSpecialTestConfig(specialTestConfig);
     }, [medicalInterventionDetails, buildSpecialTestConfig]);
 
@@ -380,7 +382,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                         setIsBodyPartBeingDeleted(false);
                         // remove body part from global rom config and rom form values
                         const specialTestConfig = globalRomConfig?.filter((item: any) => item?.body_part?._id !== bodyPartId);
-                        setGloablSpecialTestConfig(specialTestConfig);
+                        setGlobalSpecialTestConfig(specialTestConfig);
                         const romFormValuesTemp = {...romFormValues};
                         delete romFormValuesTemp[bodyPartId];
                         setRomFormValues(romFormValuesTemp);
