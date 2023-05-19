@@ -32,6 +32,7 @@ export interface IBodyPartROMConfig {
 
 export interface IBodyPartSpecialTestConfig {
     body_part: IBodyPart;
+    selected_sides: string[],
     selected_tests: any[];
     mode?: 'write' | 'read'
 }

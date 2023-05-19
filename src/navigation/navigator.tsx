@@ -87,8 +87,6 @@ import {
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
-import MedicalInterventionSpecialTestsScreen
-    from "../screens/chart-notes/medical-intervention-special-tests/MedicalInterventionSpecialTestsScreen";
 import MedicalInterventionExerciseLogUpdateScreen
     from "../screens/chart-notes/medical-intervention-exercise-log-update/MedicalInterventionExerciseLogUpdateScreen";
 import ClientAddScreen from "../screens/clients/client-add/ClientAddScreen";
@@ -567,7 +565,7 @@ const Navigator = (props: NavigatorProps) => {
                         />
                         <Route path={MEDICAL_INTERVENTION_SPECIAL_TESTS}
                                element={<ProtectedRoute>
-                                   <MedicalInterventionSpecialTestsScreen/>
+                                   <MedicalInterventionSpecialTestsV2Screen/>
                                </ProtectedRoute>
                                }
                         />

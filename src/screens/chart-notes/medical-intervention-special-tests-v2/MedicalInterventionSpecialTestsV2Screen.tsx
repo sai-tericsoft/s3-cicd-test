@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
-import {IBodyPart, IBodyPartROMConfig} from "../../../shared/models/static-data.model";
+import {IBodyPart, IBodyPartSpecialTestConfig} from "../../../shared/models/static-data.model";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
@@ -27,17 +27,17 @@ import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import FormikRadioButtonGroupComponent
     from "../../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
 
-interface MedicalInterventionRomConfigV2ScreenProps {
+interface MedicalInterventionSpecialTestV2ScreenProps {
 
 }
 
-const ROM_CONFIG_INITIAL_VALUES = {
+const SPECIAL_TEST_CONFIG_INITIAL_VALUES = {
     config: {}
 }
 
 const SPECIAL_TEST_APPLICABLE_BODY_SIDES = ['Left', 'Right', 'Central'];
 
-const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfigV2ScreenProps) => {
+const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecialTestV2ScreenProps) => {
 
     const dispatch = useDispatch();
     const {
@@ -47,8 +47,8 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     } = useSelector((state: IRootReducerState) => state.chartNotes);
     const {bodyPartList} = useSelector((state: IRootReducerState) => state.staticData);
     const {medicalRecordId, medicalInterventionId} = useParams();
-    const [globalRomConfig, setGlobalSpecialTestConfig] = useState<IBodyPartROMConfig[]>([]);
-    const [romFormValues, setRomFormValues] = useState<any>(ROM_CONFIG_INITIAL_VALUES);
+    const [globalSpecialTestConfig, setGlobalSpecialTestConfig] = useState<IBodyPartSpecialTestConfig[]>([]);
+    const [specialTestFormValues, setSpecialTestFormValues] = useState<any>(SPECIAL_TEST_CONFIG_INITIAL_VALUES);
     const [selectedBodyPartForSpecialTestSelection, setSelectedBodyPartForSpecialTestSelection] = useState<any>(undefined);
     const [mode] = useState<'read' | 'write'>('write');
     const [showSpecialTestForCommentsModal, setShowSpecialTestForCommentsModal] = useState<boolean>(false);
@@ -60,7 +60,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     const [selectedBodyPartToBeAdded, setSelectedBodyPartToBeAdded] = useState<any>(undefined);
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
-    const generateRomConfigForBodySide = useCallback((bodyPart: any, side: string) => {
+    const generateSpecialTestForBodySide = useCallback((bodyPart: any, side: string) => {
         return {
             key: bodyPart._id + side,
             title: (record: any) => {
@@ -99,11 +99,11 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                 direction={"row"}
                                 options={[
                                     {
-                                        title: '+ Ve',
+                                        title: '+ ve',
                                         code: 'positive'
                                     },
                                     {
-                                        title: '- Ve',
+                                        title: '- ve',
                                         code: 'negative'
                                     }
                                 ]}
@@ -115,7 +115,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         }
     }, []);
 
-    const generateROMConfigColumns = useCallback((bodyPart: IBodyPart, selectedBodySides: any) => {
+    const generateSpecialTestConfigColumns = useCallback((bodyPart: IBodyPart, selectedBodySides: any) => {
         const columns: any = [
             {
                 title: 'Test Name',
@@ -130,7 +130,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
             }
         ];
         selectedBodySides?.forEach((side: any) => {
-            columns.push(generateRomConfigForBodySide(bodyPart, side));
+            columns.push(generateSpecialTestForBodySide(bodyPart, side));
         });
         columns.push({
             title: 'Comments',
@@ -228,7 +228,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
             </Field>
         });
         return columns;
-    }, [mode, generateRomConfigForBodySide]);
+    }, [mode, generateSpecialTestForBodySide]);
 
     const generateSpecialTestConfigForAnInjury = useCallback((bodyPart: IBodyPart, selectedBodySides: any, special_test_config: any) => {
         console.log(special_test_config);
@@ -241,7 +241,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         } else {
             bodyPartConfig.special_tests_selected = [];
         }
-        bodyPartConfig.tableConfig = generateROMConfigColumns(bodyPartConfig, selectedBodySides);
+        bodyPartConfig.tableConfig = generateSpecialTestConfigColumns(bodyPartConfig, selectedBodySides);
         bodyPartConfig['special_test_config'] = {};
         bodyPartConfig.special_tests_selected?.forEach((special_test: any) => {
             const config = special_test?.config;
@@ -259,7 +259,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
             });
         });
         return bodyPartConfig;
-    }, [generateROMConfigColumns]);
+    }, [generateSpecialTestConfigColumns]);
 
     const buildSpecialTestConfig = useCallback((specialTestConfig: any) => {
         const config: any = {};
@@ -267,7 +267,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
             console.log(bodyPart);
             config[bodyPart?.body_part?._id] = generateSpecialTestConfigForAnInjury(bodyPart?.body_part, bodyPart?.selected_sides, bodyPart?.special_test_config);
         });
-        setRomFormValues(config);
+        setSpecialTestFormValues(config);
     }, [generateSpecialTestConfigForAnInjury]);
 
     const handleAddNewBodyPartOpenModal = useCallback(() => {
@@ -277,18 +277,18 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
 
     const handleAddNewBodyPart = useCallback(() => {
         setShowAddBodyPartModal(false);
-        const updatedGloablSpecialTestConfig: any = [...globalRomConfig, {
+        const updatedGloablSpecialTestConfig: any = [...globalSpecialTestConfig, {
             body_part: selectedBodyPartToBeAdded,
             special_test_config: [],
             selected_sides: SPECIAL_TEST_APPLICABLE_BODY_SIDES,
             mode: 'write'
         }];
         setGlobalSpecialTestConfig(updatedGloablSpecialTestConfig);
-        const romFormValuesCopy = _.cloneDeep(romFormValues);
-        romFormValuesCopy[selectedBodyPartToBeAdded._id] = generateSpecialTestConfigForAnInjury(selectedBodyPartToBeAdded, SPECIAL_TEST_APPLICABLE_BODY_SIDES, []);
-        setRomFormValues(romFormValuesCopy);
+        const specialTestFormValuesCopy = _.cloneDeep(specialTestFormValues);
+        specialTestFormValuesCopy[selectedBodyPartToBeAdded._id] = generateSpecialTestConfigForAnInjury(selectedBodyPartToBeAdded, SPECIAL_TEST_APPLICABLE_BODY_SIDES, []);
+        setSpecialTestFormValues(specialTestFormValuesCopy);
         setSelectedBodyPartToBeAdded(undefined);
-    }, [romFormValues, globalRomConfig, selectedBodyPartToBeAdded, generateSpecialTestConfigForAnInjury]);
+    }, [specialTestFormValues, globalSpecialTestConfig, selectedBodyPartToBeAdded, generateSpecialTestConfigForAnInjury]);
 
     useEffect(() => {
         if (medicalInterventionId && !medicalInterventionDetails) {
@@ -351,7 +351,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         buildSpecialTestConfig(specialTestConfig);
     }, [medicalInterventionDetails, buildSpecialTestConfig]);
 
-    const handleROMConfigSave = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
+    const handleSpecialTestConfigSave = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
         if (medicalInterventionId) {
             const config: any = [];
             Object.keys(values).forEach((bodyPartId: string) => {
@@ -401,11 +401,11 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                         CommonService._alert.showToast(response.message, 'success');
                         setIsBodyPartBeingDeleted(false);
                         // remove body part from global rom config and rom form values
-                        const specialTestConfig = globalRomConfig?.filter((item: any) => item?.body_part?._id !== bodyPartId);
+                        const specialTestConfig = globalSpecialTestConfig?.filter((item: any) => item?.body_part?._id !== bodyPartId);
                         setGlobalSpecialTestConfig(specialTestConfig);
-                        const romFormValuesTemp = {...romFormValues};
-                        delete romFormValuesTemp[bodyPartId];
-                        setRomFormValues(romFormValuesTemp);
+                        const specialTestFormValuesTemp = {...specialTestFormValues};
+                        delete specialTestFormValuesTemp[bodyPartId];
+                        setSpecialTestFormValues(specialTestFormValuesTemp);
                     })
                     .catch((error: any) => {
                         CommonService._alert.showToast(error.error || error.errors || 'Error deleting body part', 'error');
@@ -413,15 +413,15 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                     });
             });
         }
-    }, [globalRomConfig, romFormValues, medicalInterventionId]);
+    }, [globalSpecialTestConfig, specialTestFormValues, medicalInterventionId]);
 
     const openAddSpecialTestModal = useCallback((bodyPart: IBodyPart) => {
         setSelectedBodyPartForSpecialTestSelection({
             ...bodyPart,
-            tempSelectedSpecialTests: _.cloneDeep(Object.keys(romFormValues?.[bodyPart?._id]?.special_test_config)) || []
+            tempSelectedSpecialTests: _.cloneDeep(Object.keys(specialTestFormValues?.[bodyPart?._id]?.special_test_config)) || []
         });
         setIsAddSpecialTestModalOpen(true);
-    }, [romFormValues]);
+    }, [specialTestFormValues]);
 
     const closeAddSpecialTestModal = useCallback(() => {
         setSelectedBodyPartForSpecialTestSelection(undefined);
@@ -444,7 +444,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
 
     const addSpecialTestToBodyPart = useCallback((bodyPart: any, test: string) => {
         // add special test to body part
-        setRomFormValues((prevValues: any) => {
+        setSpecialTestFormValues((prevValues: any) => {
             const bodyPartConfig = prevValues?.[bodyPart?._id];
             bodyPartConfig.special_test_config[test] = {};
             return {
@@ -457,7 +457,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     }, []);
 
     const removeSpecialTestFromBodyPart = useCallback((bodyPart: any, test: string) => {
-        setRomFormValues((prevValues: any) => {
+        setSpecialTestFormValues((prevValues: any) => {
             const bodyPartConfig = prevValues?.[bodyPart?._id];
             delete bodyPartConfig?.special_test_config[test];
             return {
@@ -502,7 +502,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                 {
                     (isMedicalInterventionDetailsLoaded && medicalInterventionId) && <>
                         {
-                            (globalRomConfig?.length === 0) && <>
+                            (globalSpecialTestConfig?.length === 0) && <>
                                 <StatusCardComponent
                                     title={"There are no body parts listed under the Special Test. Please add a body part."}>
                                     <ButtonComponent
@@ -515,18 +515,18 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                             </>
                         }
                         {
-                            (globalRomConfig?.length > 0) && <>
+                            (globalSpecialTestConfig?.length > 0) && <>
                                 <Formik
-                                    initialValues={romFormValues}
+                                    initialValues={specialTestFormValues}
                                     enableReinitialize={true}
-                                    onSubmit={handleROMConfigSave}
+                                    onSubmit={handleSpecialTestConfigSave}
                                 >
                                     {(formik) => {
                                         const {validateForm, values, isValid, setFieldValue, isSubmitting} = formik;
                                         // eslint-disable-next-line react-hooks/rules-of-hooks
                                         useEffect(() => {
                                             validateForm();
-                                            setRomFormValues(values);
+                                            setSpecialTestFormValues(values);
                                         }, [validateForm, values]);
                                         return (
                                             <Form className="t-form" noValidate={true}>
@@ -755,7 +755,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                         key={index + item?.name}
                                         label={item?.name}
                                         checked={selectedBodyPartToBeAdded?._id === item?._id}
-                                        disabled={globalRomConfig.findIndex((bodyPart) => bodyPart.body_part._id === item._id) !== -1}
+                                        disabled={globalSpecialTestConfig.findIndex((bodyPart) => bodyPart.body_part._id === item._id) !== -1}
                                         onChange={() => {
                                             setSelectedBodyPartToBeAdded(item);
                                         }}/>
@@ -771,4 +771,4 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
 
 };
 
-export default MedicalInterventionRomConfigV2Screen;
+export default MedicalInterventionSpecialTestV2Screen;
