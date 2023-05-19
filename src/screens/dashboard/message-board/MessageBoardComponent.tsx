@@ -30,6 +30,8 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
     const [editableMessage, setEditableMessage] = useState<any | null>(null);
     const [mode, setMode] = useState<'view' | 'edit'>('view');
 
+    const {systemSettings} = useSelector((state: IRootReducerState) => state.settings);
+
     const handleOpenViewAllMessagesDrawer = useCallback(() => {
         setIsViewMessageDrawerOpen(true)
     }, []);
@@ -80,6 +82,9 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                                 </div>
                             </div>
                             <CardComponent color={'primary'} className={'view-message-board'}>
+                                {
+                                    (messageHistory?.length===0 ) && <div className={'message-text'}>{systemSettings?.default_message}</div>
+                                }
                                 {messageHistory?.map((message: any) => {
                                     return (<>
                                             <div className={'message-text'}>{message?.message}</div>
@@ -96,7 +101,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                     </div>
                     <CardComponent className={'birthday-board'}>
                         <div className={'today-birthday-text'}>
-                            Today's Birthday
+                            Today's Birthday(s)
                         </div>
                         <div className={'coming-soon-image-text-wrapper'}>
                             <div>
@@ -104,7 +109,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                                     <ImageConfig.ComingSoon/>
                                 </div>
                                 <div>
-                                    Coming Soon
+                                    Coming Soon!
                                 </div>
                             </div>
                         </div>

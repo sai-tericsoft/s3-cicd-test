@@ -1,51 +1,41 @@
 @import "src/assets/styles/common";
-
-.facility-opening-hours {
-  width: 550px;
-  display: inline-block;
-  border: 1px solid #F3F3F3;
-  border-radius: 4px;
-
-  .facility-hours-header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 56px;
-    background-color: #E1EBEA;
-  }
-  .week-days-heading{
-    margin-left: 40px;
-    font-weight: 700;
-    font-size: 1.1429rem;
-  }
-  .timing-heading{
-    margin-right: 140px;
-    font-weight: 700;
-    font-size: 1.1429rem;
-  }
-
-  .data-label-value {
-    flex-direction: row;
-    border-top: 1px solid #F3F3F3;
-    padding-top: 17px;
-    padding-left: 24px;
-
-    .data-label {
-      width: 133px;
-      padding-left: 20px;
-    }
-
-    .data-value {
-      width: 370px;
-      font-weight: $font-weight-normal;
-      align-items: center;
-      margin-left: 50px;
-      margin-right: 24px;
-      padding-left: 140px;
-
-    }
-  }
-}
+.service-category-details-screen {
+//.facility-opening-hours {
+//  width: 550px;
+//  display: inline-block;
+//  border: 1px solid #F3F3F3;
+//  border-radius: 4px;
+//
+//  .facility-hours-header{
+//    display: flex;
+//    justify-content: space-between;
+//    align-items: center;
+//    height: 56px;
+//    background-color: #E1EBEA;
+//  }
+//
+//  .data-label-value {
+//    flex-direction: row;
+//    border-top: 1px solid #F3F3F3;
+//    padding-top: 17px;
+//    padding-left: 24px;
+//
+//    .data-label {
+//      width: 133px;
+//      padding-left: 20px;
+//    }
+//
+//    .data-value {
+//      width: 370px;
+//      font-weight: $font-weight-normal;
+//      align-items: center;
+//      margin-left: 50px;
+//      margin-right: 24px;
+//      padding-left: 140px;
+//
+//    }
+//  }
+//}
 
 .facility-details-information {
   .data-label-value {
@@ -59,36 +49,99 @@
 //  color: #EAF3F2;
 //}
 
-.facility-opening-hours-closed-text {
-  width: 48px;
-  font-weight: $font-weight-bolder;
-  margin-left: 30px;
-  color: $warn-color;
+  .facility-opening-hours-closed-text {
+    width: 48px;
+    font-weight: $font-weight-bolder;
+    margin-left: 30px;
+    color: $warn-color;
+  }
+.operating-hours-wrapper{
+  height: 380px;
 }
-//
-//.therapy-and-performance-training-wrapper {
-//  display: inline-block;
-//  width: 100%;
-//
-//
-//  .data-label-value {
-//    flex-direction: row;
-//    margin-top: 23px;
-//    margin-bottom: 23px;
-//
-//    .data-label {
-//      width: 20%;
-//    }
-//
-//    .data-value {
-//      width: 80%;
-//      padding-left: 10px;
-//      font-weight: $font-weight-normal;
-//      margin-left: 20px;
-//    }
-//  }
-//
-//  .chip-component {
-//    margin-right: 10px;
-//  }
-//}
+  .facility-opening-hours-table-wrapper {
+    display: flex;
+
+    .weeks-days-table-header {
+      width: 554px;
+      height: 56px;
+      background: #E1EBEA;
+      .week-days-timing-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 18px;
+
+        .week-days-heading {
+          margin-left: 40px;
+          font-weight: 700;
+          font-size: 1.1429rem;
+          margin-top: 18px;
+        }
+
+        .timing-heading {
+          margin-right: 140px;
+          font-weight: 700;
+          font-size: 1.1429rem;
+          margin-top: 18px;
+        }
+      }
+    }
+    .weeks-days-table-container{
+      width: 554px;
+      border: 1px solid #F3F3F3;
+    .horizontal-line-wrapper{
+      margin-bottom: 0px;
+      border-bottom: 1px solid #F3F3F3;;
+
+    }
+      .data-label-value {
+        flex-direction: row;
+        padding-top: 17px;
+        padding-left: 24px;
+        .data-label {
+          width: 133px;
+          padding-left: 20px;
+          color: #212B36;
+          font-weight: 500;
+        }
+        .data-value {
+          width: 370px;
+          font-weight: $font-weight-normal;
+          align-items: center;
+          margin-left: 50px;
+          margin-right: 24px;
+          padding-left: 140px;
+
+        }
+      }
+    }
+  }
+
+  //
+  //.therapy-and-performance-training-wrapper {
+  //  display: inline-block;
+  //  width: 100%;
+  //
+  //
+  //  .data-label-value {
+  //    flex-direction: row;
+  //    margin-top: 23px;
+  //    margin-bottom: 23px;
+  //
+  //    .data-label {
+  //      width: 20%;
+  //    }
+  //
+  //    .data-value {
+  //      width: 80%;
+  //      padding-left: 10px;
+  //      font-weight: $font-weight-normal;
+  //      margin-left: 20px;
+  //    }
+  //  }
+  //
+  //  .chip-component {
+  //    margin-right: 10px;
+  //  }
+  //}
+}

@@ -39,7 +39,7 @@ import {
     getSocialMediaPlatformList,
     getSurgicalHistoryOptionsList,
     getSystemAutoLockDurationOptionsList,
-    getUserMentionsList
+    getUserMentionsList, getValidDaysList
 } from "./store/actions/static-data.action";
 import AppVersionComponent from "./shared/components/app-version/appVersionComponent";
 import {getAllProvidersList} from "./store/actions/user.action";
@@ -157,6 +157,7 @@ const App = (props: AppProps) => {
             dispatch(getRescheduledHoursList());
             dispatch(getRescheduledTimesList());
             dispatch(getUserMentionsList());
+            dispatch(getValidDaysList());
         }
     }, [token, dispatch])
 

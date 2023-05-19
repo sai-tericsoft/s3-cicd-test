@@ -29,7 +29,7 @@ import {
     GET_SOCIAL_MEDIA_PLATFORM_LIST,
     GET_SURGICAL_HISTORY_OPTIONS_LIST,
     GET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST,
-    GET_USER_MENTIONS_LIST,
+    GET_USER_MENTIONS_LIST, GET_VALID_DAYS_LIST,
     set8MinuteRuleChart,
     setAppointmentStatus,
     setAppointmentTypes,
@@ -58,7 +58,7 @@ import {
     setSocialMediaPlatformList,
     setSurgicalHistoryOptionsList,
     setSystemAutoLockDurationOptionsList,
-    setUserMentionsList
+    setUserMentionsList, setValidDaysList
 } from "../actions/static-data.action";
 import {CommonService} from "../../shared/services";
 
@@ -363,6 +363,17 @@ function* getMentionsList() {
     }
 }
 
+
+function* getValidDaysList() {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._staticData.GetValidDaysList);
+        yield put(setValidDaysList(resp?.data));
+    } catch (error: any) {
+        yield put(setValidDaysList([]));
+    }
+}
+
 export default function* staticDataSaga() {
     yield takeEvery(GET_CONSULTATION_DURATION_LIST, getConsultationDurationList);
     yield takeEvery(GET_GENDER_LIST, getGenderList);
@@ -394,4 +405,6 @@ export default function* staticDataSaga() {
     yield takeEvery(GET_RESCHEDULED_HOURS_LIST, getRescheduledHoursList);
     yield takeEvery(GET_RESCHEDULED_TIMES_LIST, getRescheduledTimesList);
     yield takeEvery(GET_USER_MENTIONS_LIST, getMentionsList);
+    yield takeEvery(GET_VALID_DAYS_LIST, getValidDaysList);
+
 }

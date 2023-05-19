@@ -86,7 +86,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             width: 155,
             render: (item: any) => {
                 return <ChipComponent label={item?.status}
-                                      className={item?.status === 'Open/Active' ? "active" : "inactive"}></ChipComponent>
+                                      className={item?.status === 'Open - Unresolved' ? "active" : "inactive"}></ChipComponent>
             }
         },
         {

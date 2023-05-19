@@ -1,0 +1,63 @@
+.all-message-history-component {
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #003C39;
+    height: 10px;
+  }
+
+  .message-history-board {
+    width: 487px;
+    height: 533px;
+    border: 1px solid #CECECE;
+    border-radius: 10px;
+    margin-top: 10px;
+    overflow: auto;
+
+
+    .time-stamp {
+      color: #7E7E7E;
+      font-weight: 600;
+      font-size: 0.85714rem;
+      text-align: center;
+      margin-top: 20px;
+
+    }
+
+    .history-message-wrapper {
+      width: 417px;
+      position: relative;
+      .card-content {
+        background: #FFFFFF;
+        border: 1px solid #DFDFDF;
+        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        position: absolute;
+        width: 120px;
+        height: 78px;
+        left: 180px;
+        z-index: 2;
+
+      }
+
+      .history-message {
+
+        display: inline-block;
+        white-space: pre-wrap;
+        color: #393939;
+        background-color: #EAF3F2;
+        margin-top: 20px;
+        margin-left: 17px;
+        line-height: 16px;
+        margin-bottom: 20px;
+        padding: 7px 25px;
+        border-radius: 20px;
+      }
+    }
+  }
+
+
+}

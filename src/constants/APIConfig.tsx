@@ -845,6 +845,14 @@ const APIConfig: IAPIConfig = {
     DASHBOARD_EDIT_MESSAGE:{
         URL:(messageId:string)=>ENV.API_URL + '/message/' + messageId,
         METHOD:'put'
+    },
+    SYSTEM_SETTING_NEW_MESSAGE:{
+        URL:ENV.API_URL + '/newMessage',
+        METHOD:'post'
+    },
+    GET_VALID_DAYS:{
+        URL:ENV.API_URL + '/validDays',
+        METHOD:'get'
     }
 }
 

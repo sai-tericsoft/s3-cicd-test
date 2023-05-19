@@ -14,7 +14,6 @@ import {IRootReducerState} from "../../store/reducers";
 import IconButtonComponent from "../../shared/components/icon-button/IconButtonComponent";
 import FullCalendarComponent from "../../shared/components/full-calendar/FullCalendarComponent";
 import DrawerComponent from "../../shared/components/drawer/DrawerComponent";
-import AutoCompleteComponent from "../../shared/components/form-controls/auto-complete/AutoCompleteComponent";
 import AppointmentDetailsComponent from "../../shared/components/appointment-details/AppointmentDetailsComponent";
 import BookAppointmentComponent from "../../shared/components/book-appointment/BookAppointmentComponent";
 import {ToggleButton, ToggleButtonGroup} from "@mui/material";
@@ -450,125 +449,144 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                         </div>
                         <div className="scheduling-filter-header-actions-wrapper">
                             <div className="scheduling-filter-header-action-item">
-                                {/*<SelectComponent size={'small'}*/}
-                                {/*                 label={'Service Category'}*/}
-                                {/*                 value={schedulingListFilterState?.category_id || ''}*/}
-                                {/*                 displayWith={item => item ? item?.name : ''}*/}
-                                {/*                 keyExtractor={item => item?._id}*/}
-                                {/*                 valueExtractor={item => item}*/}
-                                {/*                 options={serviceCategoryList || []}*/}
-                                {/*                 fullWidth={true}*/}
-                                {/*                 onUpdate={*/}
-                                {/*                     (value) => {*/}
-                                {/*                         setSchedulingListFilterState({*/}
-                                {/*                             ...schedulingListFilterState,*/}
-                                {/*                             category_id: value,*/}
-                                {/*                             service_id: undefined*/}
-                                {/*                         })*/}
-                                {/*                         if (value) {*/}
-                                {/*                             getServiceList(value?._id);*/}
-                                {/*                         }*/}
-                                {/*                     }*/}
-                                {/*                 }*/}
-                                {/*/>*/}
-                                <AutoCompleteComponent
-                                    size={'small'}
-                                    label={'Service Category'}
-                                    dataListKey={'data'}
-                                    value={schedulingListFilterState?.category_id}
-                                    displayWith={item => item ? item?.name : ''}
-                                    keyExtractor={item => item?._id}
-                                    valueExtractor={item => item}
-                                    freeSolo={true}
-                                    openOnFocus={true}
-                                    clearDefaultData={true}
-                                    searchMode={'serverSide'}
-                                    defaultData={serviceCategoryList || []}
-                                    extraPayload={{is_active: true}}
-                                    url={APIConfig.SERVICE_CATEGORY_LIST_LITE.URL}
-                                    method={APIConfig.SERVICE_CATEGORY_LIST_LITE.METHOD}
-                                    fullWidth={true}
-                                    onUpdate={
-                                        (value) => {
-                                            setSchedulingListFilterState({
-                                                ...schedulingListFilterState,
-                                                category_id: value,
-                                                service_id: undefined
-                                            })
-                                            if (value) {
-                                                getServiceList(value?._id);
-                                            }
-                                        }
-                                    }
+                                <SelectComponent size={'small'}
+                                                 label={'Service Category'}
+                                                 value={schedulingListFilterState?.category_id || ''}
+                                                 displayWith={item => item ? item?.name : ''}
+                                                 keyExtractor={item => item?._id}
+                                                 valueExtractor={item => item}
+                                                 options={serviceCategoryList || []}
+                                                 fullWidth={true}
+                                                 onUpdate={
+                                                     (value) => {
+                                                         setSchedulingListFilterState({
+                                                             ...schedulingListFilterState,
+                                                             category_id: value,
+                                                             service_id: undefined
+                                                         })
+                                                         if (value) {
+                                                             getServiceList(value?._id);
+                                                         }
+                                                     }
+                                                 }
                                 />
+                                {/*<AutoCompleteComponent*/}
+                                {/*    size={'small'}*/}
+                                {/*    label={'Service Category'}*/}
+                                {/*    dataListKey={'data'}*/}
+                                {/*    value={schedulingListFilterState?.category_id}*/}
+                                {/*    displayWith={item => item ? item?.name : ''}*/}
+                                {/*    keyExtractor={item => item?._id}*/}
+                                {/*    valueExtractor={item => item}*/}
+                                {/*    freeSolo={true}*/}
+                                {/*    openOnFocus={true}*/}
+                                {/*    clearDefaultData={true}*/}
+                                {/*    searchMode={'serverSide'}*/}
+                                {/*    defaultData={serviceCategoryList || []}*/}
+                                {/*    extraPayload={{is_active: true}}*/}
+                                {/*    url={APIConfig.SERVICE_CATEGORY_LIST_LITE.URL}*/}
+                                {/*    method={APIConfig.SERVICE_CATEGORY_LIST_LITE.METHOD}*/}
+                                {/*    fullWidth={true}*/}
+                                {/*    onUpdate={*/}
+                                {/*        (value) => {*/}
+                                {/*            setSchedulingListFilterState({*/}
+                                {/*                ...schedulingListFilterState,*/}
+                                {/*                category_id: value,*/}
+                                {/*                service_id: undefined*/}
+                                {/*            })*/}
+                                {/*            if (value) {*/}
+                                {/*                getServiceList(value?._id);*/}
+                                {/*            }*/}
+                                {/*        }*/}
+                                {/*    }*/}
+                                {/*/>*/}
                             </div>
                             <div className="scheduling-filter-header-action-item">
-                                {/*<SelectComponent size={'small'}*/}
-                                {/*                 label={'Service'}*/}
-                                {/*                 disabled={!schedulingListFilterState?.category_id}*/}
-                                {/*                 value={schedulingListFilterState?.service_id || ''}*/}
-                                {/*                 displayWith={item => item ? item?.name : ''}*/}
-                                {/*                 keyExtractor={item => item?._id}*/}
-                                {/*                 valueExtractor={item => item}*/}
-                                {/*                 options={serviceList || []}*/}
-                                {/*                 fullWidth={true}*/}
-                                {/*                 onUpdate={*/}
-                                {/*                     (value) => {*/}
-                                {/*                         setSchedulingListFilterState({*/}
-                                {/*                             ...schedulingListFilterState,*/}
-                                {/*                             service_id: value*/}
-                                {/*                         })*/}
+                                <SelectComponent size={'small'}
+                                                 label={'Service'}
+                                                 disabled={!schedulingListFilterState?.category_id}
+                                                 value={schedulingListFilterState?.service_id || ''}
+                                                 displayWith={item => item ? item?.name : ''}
+                                                 keyExtractor={item => item?._id}
+                                                 valueExtractor={item => item}
+                                                 options={serviceList || []}
+                                                 fullWidth={true}
+                                                 onUpdate={
+                                                     (value) => {
+                                                         setSchedulingListFilterState({
+                                                             ...schedulingListFilterState,
+                                                             service_id: value
+                                                         })
 
-                                {/*                     }*/}
-                                {/*                 }*/}
-                                {/*/>*/}
-                                <AutoCompleteComponent
-                                    size={'small'}
-                                    label={'Service'}
-                                    disabled={!schedulingListFilterState?.category_id}
-                                    value={schedulingListFilterState?.service_id}
-                                    dataListKey={'data'}
-                                    displayWith={item => item ? item?.name : ''}
-                                    keyExtractor={item => item?._id}
-                                    valueExtractor={item => item}
-                                    searchMode={'serverSide'}
-                                    freeSolo={true}
-                                    openOnFocus={true}
-                                    clearDefaultData={true}
-                                    defaultData={serviceList || []}
-                                    extraPayload={{is_active: true}}
-                                    url={APIConfig.SERVICE_LIST_LITE.URL(schedulingListFilterState?.category_id?._id)}
-                                    method={APIConfig.SERVICE_LIST_LITE.METHOD}
-                                    fullWidth={true}
-                                    onUpdate={
-                                        (value) => {
-                                            setSchedulingListFilterState({
-                                                ...schedulingListFilterState,
-                                                service_id: value
-                                            })
-
-                                        }
-                                    }
+                                                     }
+                                                 }
                                 />
+                                {/*<AutoCompleteComponent*/}
+                                {/*    size={'small'}*/}
+                                {/*    label={'Service'}*/}
+                                {/*    disabled={!schedulingListFilterState?.category_id}*/}
+                                {/*    value={schedulingListFilterState?.service_id}*/}
+                                {/*    dataListKey={'data'}*/}
+                                {/*    displayWith={item => item ? item?.name : ''}*/}
+                                {/*    keyExtractor={item => item?._id}*/}
+                                {/*    valueExtractor={item => item}*/}
+                                {/*    searchMode={'serverSide'}*/}
+                                {/*    freeSolo={true}*/}
+                                {/*    openOnFocus={true}*/}
+                                {/*    clearDefaultData={true}*/}
+                                {/*    defaultData={serviceList || []}*/}
+                                {/*    extraPayload={{is_active: true}}*/}
+                                {/*    url={APIConfig.SERVICE_LIST_LITE.URL(schedulingListFilterState?.category_id?._id)}*/}
+                                {/*    method={APIConfig.SERVICE_LIST_LITE.METHOD}*/}
+                                {/*    fullWidth={true}*/}
+                                {/*    onUpdate={*/}
+                                {/*        (value) => {*/}
+                                {/*            setSchedulingListFilterState({*/}
+                                {/*                ...schedulingListFilterState,*/}
+                                {/*                service_id: value*/}
+                                {/*            })*/}
+
+                                {/*        }*/}
+                                {/*    }*/}
+                                {/*/>*/}
                             </div>
                             <div className="scheduling-filter-header-action-item">
-                                <AutoCompleteComponent
+                                {/*<AutoCompleteComponent*/}
+                                {/*    size={'small'}*/}
+                                {/*    label={'Provider'}*/}
+                                {/*    value={schedulingListFilterState?.provider_id}*/}
+                                {/*    dataListKey={'data'}*/}
+                                {/*    displayWith={item => item ? item?.provider_name || (item?.first_name + ' ' + item?.last_name) : ''}*/}
+                                {/*    keyExtractor={item => item?.provider_id || item?._id}*/}
+                                {/*    valueExtractor={item => item}*/}
+                                {/*    defaultData={providerList || []}*/}
+                                {/*    searchMode={'serverSide'}*/}
+                                {/*    url={(!!schedulingListFilterState.service_id) ? APIConfig.SERVICE_PROVIDERS_LINKED_TO_SERVICE.URL(schedulingListFilterState.service_id._id) : APIConfig.USER_LIST_LITE.URL}*/}
+                                {/*    method={(!!schedulingListFilterState.service_id) ? APIConfig.SERVICE_PROVIDERS_LINKED_TO_SERVICE.METHOD : APIConfig.USER_LIST_LITE.METHOD}*/}
+                                {/*    fullWidth={true}*/}
+                                {/*    extraPayload={{role: 'provider', is_active: true}}*/}
+                                {/*    clearDefaultData={true}*/}
+                                {/*    freeSolo={true}*/}
+                                {/*    openOnFocus={true}*/}
+                                {/*    onUpdate={*/}
+                                {/*        (value) => {*/}
+                                {/*            setSchedulingListFilterState({*/}
+                                {/*                ...schedulingListFilterState,*/}
+                                {/*                provider_id: value*/}
+                                {/*            })*/}
+                                {/*        }*/}
+                                {/*    }*/}
+                                {/*/>*/}
+                                <SelectComponent
                                     size={'small'}
+                                    fullWidth={true}
                                     label={'Provider'}
                                     value={schedulingListFilterState?.provider_id}
-                                    dataListKey={'data'}
+                                    options={providerList || []}
+                                    disabled={!schedulingListFilterState?.service_id}
                                     displayWith={item => item ? item?.provider_name || (item?.first_name + ' ' + item?.last_name) : ''}
                                     keyExtractor={item => item?.provider_id || item?._id}
                                     valueExtractor={item => item}
-                                    defaultData={providerList || []}
-                                    searchMode={'serverSide'}
-                                    url={(!!schedulingListFilterState.service_id) ? APIConfig.SERVICE_PROVIDERS_LINKED_TO_SERVICE.URL(schedulingListFilterState.service_id._id) : APIConfig.USER_LIST_LITE.URL}
-                                    method={(!!schedulingListFilterState.service_id) ? APIConfig.SERVICE_PROVIDERS_LINKED_TO_SERVICE.METHOD : APIConfig.USER_LIST_LITE.METHOD}
-                                    fullWidth={true}
-                                    extraPayload={{role: 'provider', is_active: true}}
-                                    clearDefaultData={true}
-                                    freeSolo={true}
-                                    openOnFocus={true}
                                     onUpdate={
                                         (value) => {
                                             setSchedulingListFilterState({
@@ -580,14 +598,12 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                 />
                             </div>
                             <div className="scheduling-filter-header-action-item">
-                                <AutoCompleteComponent size={'small'}
+                                <SelectComponent size={'small'}
                                                        value={schedulingListFilterState?.status}
                                                        options={appointmentStatus || []}
                                                        displayWith={(option: any) => (option?.title || '')}
                                                        valueExtractor={(option: any) => option?.code}
                                                        label={'Status'}
-                                                       freeSolo={true}
-                                                       openOnFocus={true}
                                                        onUpdate={
                                                            (value) => {
                                                                setSchedulingListFilterState({
