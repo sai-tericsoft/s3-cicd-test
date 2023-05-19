@@ -113,8 +113,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                 </Field>;
             }
         }
-
-    }, [mode]);
+    }, []);
 
     const generateROMConfigColumns = useCallback((bodyPart: IBodyPart, selectedBodySides: any) => {
         const columns: any = [
@@ -455,7 +454,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                 }
             }
         });
-    }, [generateRomConfigForBodySide]);
+    }, []);
 
     const removeSpecialTestFromBodyPart = useCallback((bodyPart: any, test: string) => {
         setRomFormValues((prevValues: any) => {
