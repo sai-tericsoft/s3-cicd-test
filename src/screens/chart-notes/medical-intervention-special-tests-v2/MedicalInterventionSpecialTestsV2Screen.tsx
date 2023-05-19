@@ -26,7 +26,6 @@ import {RadioButtonComponent} from "../../../shared/components/form-controls/rad
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import FormikRadioButtonGroupComponent
     from "../../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface MedicalInterventionRomConfigV2ScreenProps {
 
@@ -63,7 +62,31 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     const [searchParams] = useSearchParams();
     const generateRomConfigForBodySide = useCallback((bodyPart: any, side: string) => {
         return {
-            title: side + ' Side',
+            key: bodyPart._id + side,
+            title: (record: any) => {
+                return <Field
+                    name={`${bodyPart._id}.special_test_config.${record}.${side}.side`}
+                    className="t-form-control">
+                    {
+                        (field: FieldProps) => (
+                            <>
+                                {side} Side <IconButtonComponent onClick={() => {
+                                const specialTestConfig = _.get(field.form.values, `${bodyPart._id}.special_test_config`);
+                                Object.keys(specialTestConfig).forEach((specialTest: any) => {
+                                    if (specialTestConfig[specialTest][side]) {
+                                        specialTestConfig[specialTest][side].result = undefined;
+                                    }
+                                });
+                                field.form.setFieldValue(`${bodyPart._id}.special_test_config`, specialTestConfig);
+                            }
+                            }>
+                                <ImageConfig.ReStartIcon/>
+                            </IconButtonComponent>
+                            </>
+                        )
+                    }
+                </Field>;
+            },
             align: 'center',
             render: (record: any) => {
                 return <Field
@@ -192,11 +215,9 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                         <>
                             <IconButtonComponent
                                 onClick={() => {
-                                    // delete this special test from the list
                                     const special_test_config = field.form?.values[bodyPart._id]?.special_test_config;
                                     const new_special_test_config = _.cloneDeep(special_test_config);
                                     delete new_special_test_config[record];
-                                    console.log(new_special_test_config);
                                     field.form?.setFieldValue(`${bodyPart._id}.special_test_config`, new_special_test_config);
                                 }}
                             >
@@ -510,7 +531,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                         }, [validateForm, values]);
                                         return (
                                             <Form className="t-form" noValidate={true}>
-                                                <FormDebuggerComponent form={formik}/>
+                                                {/*<FormDebuggerComponent form={formik}/>*/}
                                                 <div>
                                                     {
                                                         Object.keys(values)?.map((bodyPartId: any) => {

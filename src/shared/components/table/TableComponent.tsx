@@ -60,9 +60,16 @@ const TableComponent = (props: TableComponentProps) => {
             accessor: column?.dataIndex || column?.key,
             sticky: column?.fixed,
             sortable: column?.sortable,
-
             width: 150,
         };
+        console.log(column.title);
+        // if column.title is a component render component else render string
+        if (typeof column?.title === "function") {
+            console.log('iffff');
+            colObject['Header'] = (data: any) => column?.title(data);
+        } else {
+            colObject['Header'] = column?.title;
+        }
         if (column?.dataIndex) {
             colObject['accessor'] = column.dataIndex;
         }
@@ -226,7 +233,8 @@ const TableComponent = (props: TableComponentProps) => {
                                         <>
                                             {noDataImage ? noDataImage : ''}
                                         </>
-                                        <StatusCardComponent  id={"status_card"} title={noDataText ? noDataText : "No data found"}
+                                        <StatusCardComponent id={"status_card"}
+                                                             title={noDataText ? noDataText : "No data found"}
                                                              className={'table-data-not-found-card'}/>
                                     </div>
 
