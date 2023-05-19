@@ -63,7 +63,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     const [searchParams] = useSearchParams();
     const generateRomConfigForBodySide = useCallback((bodyPart: any, side: string) => {
         return {
-            title: side ,
+            title: side + ' Side',
             align: 'center',
             render: (record: any) => {
                 return <Field
@@ -210,21 +210,20 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         return columns;
     }, [mode, generateRomConfigForBodySide]);
 
-    const generateROMConfigForAnInjury = useCallback((bodyPart: IBodyPart, selectedBodySides: any, special_test_config: any) => {
+    const generateSpecialTestConfigForAnInjury = useCallback((bodyPart: IBodyPart, selectedBodySides: any, special_test_config: any) => {
         console.log(special_test_config);
         const bodyPartConfig: any = _.cloneDeep(bodyPart);
-        if (bodyPart?.special_tests && bodyPart?.special_tests?.length > 0) {
-            bodyPartConfig.special_tests = bodyPart?.special_tests?.map((special_test: any, index: number) => {
-                const movement_data = special_test_config?.find((test: any) => test?.name === special_test);
-                return {name: special_test, ...movement_data, comments: "", commentsTemp: ""};
+        if (special_test_config && special_test_config?.length > 0) {
+            bodyPartConfig.special_tests_selected = special_test_config?.map((special_test: any, index: number) => {
+                const special_test_data = special_test_config?.find((test: any) => test?.name === special_test);
+                return {name: special_test, ...special_test_data, comments: "", commentsTemp: ""};
             });
         } else {
-            bodyPartConfig.special_tests = [];
+            bodyPartConfig.special_tests_selected = [];
         }
-        bodyPartConfig.selected_sides = _.cloneDeep(selectedBodySides);
         bodyPartConfig.tableConfig = generateROMConfigColumns(bodyPartConfig, selectedBodySides);
         bodyPartConfig['special_test_config'] = {};
-        bodyPartConfig.special_tests?.forEach((special_test: any) => {
+        bodyPartConfig.special_tests_selected?.forEach((special_test: any) => {
             const config = special_test?.config;
             bodyPartConfig['special_test_config'][special_test.name] = {
                 comments: config?.comments,
@@ -245,10 +244,10 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     const buildSpecialTestConfig = useCallback((specialTestConfig: any) => {
         const config: any = {};
         specialTestConfig?.forEach((bodyPart: any) => {
-            config[bodyPart?.body_part?._id] = generateROMConfigForAnInjury(bodyPart?.body_part, bodyPart?.selected_sides, bodyPart?.special_test_config);
+            config[bodyPart?.body_part?._id] = generateSpecialTestConfigForAnInjury(bodyPart?.body_part, bodyPart?.selected_sides, bodyPart?.special_test_config);
         });
         setRomFormValues(config);
-    }, [generateROMConfigForAnInjury]);
+    }, [generateSpecialTestConfigForAnInjury]);
 
     const handleAddNewBodyPartOpenModal = useCallback(() => {
         setShowAddBodyPartModal(true);
@@ -265,10 +264,10 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         }];
         setGloablSpecialTestConfig(updatedGloablSpecialTestConfig);
         const romFormValuesCopy = _.cloneDeep(romFormValues);
-        romFormValuesCopy[selectedBodyPartToBeAdded._id] = generateROMConfigForAnInjury(selectedBodyPartToBeAdded, SPECIAL_TEST_APPLICABLE_BODY_SIDES, []);
+        romFormValuesCopy[selectedBodyPartToBeAdded._id] = generateSpecialTestConfigForAnInjury(selectedBodyPartToBeAdded, SPECIAL_TEST_APPLICABLE_BODY_SIDES, []);
         setRomFormValues(romFormValuesCopy);
         setSelectedBodyPartToBeAdded(undefined);
-    }, [romFormValues, globalRomConfig, selectedBodyPartToBeAdded, generateROMConfigForAnInjury]);
+    }, [romFormValues, globalRomConfig, selectedBodyPartToBeAdded, generateSpecialTestConfigForAnInjury]);
 
     useEffect(() => {
         if (medicalInterventionId && !medicalInterventionDetails) {
@@ -333,47 +332,35 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     const handleROMConfigSave = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
         if (medicalInterventionId) {
             const config: any = [];
-            console.log(values);
-            return;
-            // Object.keys(values).forEach((bodyPartId: string) => {
-            //     const bodyPartConfig = values[bodyPartId];
-            //     const bodyPartData: any = {
-            //         body_part_id: bodyPartId,
-            //         selected_sides: bodyPartConfig?.selected_sides,
-            //         special_test_config: []
-            //     };
-            //     bodyPartConfig?.movements?.forEach((movement: any) => {
-            //         const movementDataTemp: any = bodyPartConfig?.special_test_config?.[movement?.name];
-            //         const movementData: any = {
-            //             movement_name: movement?.name,
-            //             config: {}
-            //         };
-            //         bodyPartConfig?.selected_sides?.forEach((side: any) => {
-            //             const sideData = movementDataTemp?.[side];
-            //             if (sideData) {
-            //                 movementData.config[side] = {
-            //                     arom: sideData?.arom,
-            //                     prom: sideData?.prom,
-            //                     strength: sideData?.strength,
-            //                 }
-            //             }
-            //         });
-            //         movementData.config.comments = movementDataTemp?.comments;
-            //         movementData.config.commentsTemp = movementDataTemp?.commentsTemp;
-            //         bodyPartData.special_test_config.push(movementData);
-            //     });
-            //     config.push(bodyPartData);
-            // });
-            // setSubmitting(true);
-            // CommonService._chartNotes.SaveMedicalInterventionROMConfigAPICall(medicalInterventionId, {config})
-            //     .then((response: any) => {
-            //         CommonService._alert.showToast(response.message || 'Saved ROM information', 'success');
-            //     })
-            //     .catch((error: any) => {
-            //         CommonService.handleErrors(error.error || error.errors || 'Error saving ROM configuration', 'error');
-            //     }).finally(() => {
-            //     setSubmitting(false);
-            // });
+            Object.keys(values).forEach((bodyPartId: string) => {
+                const bodyPartConfig = values[bodyPartId];
+                const bodyPartData: any = {
+                    body_part_id: bodyPartId,
+                    special_tests: []
+                };
+                const special_test_config = bodyPartConfig?.special_test_config;
+                Object.keys(special_test_config).forEach((special_test_name: string) => {
+                    const specialTestConfig = special_test_config[special_test_name];
+                    bodyPartData.special_tests.push({
+                        name: special_test_name,
+                        config: specialTestConfig,
+                        comments: specialTestConfig?.comments,
+                        commentsTemp: specialTestConfig?.commentsTemp,
+                    });
+                });
+                config.push(bodyPartData);
+            });
+            setSubmitting(true);
+            console.log('config', config);
+            CommonService._chartNotes.SaveMedicalInterventionSpecialTestAPICall(medicalInterventionId, {config})
+                .then((response: any) => {
+                    CommonService._alert.showToast(response.message || 'Saved Special Test information', 'success');
+                })
+                .catch((error: any) => {
+                    CommonService.handleErrors(error.error || error.errors || 'Error saving Special Test configuration', 'error');
+                }).finally(() => {
+                setSubmitting(false);
+            });
         } else {
             CommonService._alert.showToast('Please select a medical intervention', 'error');
         }
@@ -387,7 +374,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                 confirmationSubTitle: "Are you sure you want to remove this body part?",
             }).then(() => {
                 setIsBodyPartBeingDeleted(true);
-                CommonService._chartNotes.DeleteBodyPartUnderMedicalInterventionROMConfigAPICall(medicalInterventionId, bodyPartId)
+                CommonService._chartNotes.DeleteBodyPartUnderMedicalInterventionSpecialTestAPICall(medicalInterventionId, bodyPartId)
                     .then((response: any) => {
                         CommonService._alert.showToast(response.message, 'success');
                         setIsBodyPartBeingDeleted(false);
@@ -583,12 +570,13 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                                                                 data={Object.keys(bodyPart?.special_test_config) || []}
                                                                                 bordered={true}
                                                                                 columns={bodyPart?.tableConfig}
+                                                                                noDataText={"No special test have been added"}
                                                                             />
                                                                         </div>
                                                                     </div>
                                                                     {
                                                                         bodyPart?.special_tests?.map((special_test: any) => {
-                                                                            if (showSpecialTestForCommentsModal && selectedBodyPartForComments?._id === bodyPartId && special_test.name === selectedSpecialTestForComments) {
+                                                                            if (showSpecialTestForCommentsModal && selectedBodyPartForComments?._id === bodyPartId && special_test === selectedSpecialTestForComments) {
                                                                                 return <ModalComponent
                                                                                     key={bodyPartId + special_test}
                                                                                     isOpen={showSpecialTestForCommentsModal}
@@ -698,8 +686,8 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                     </div>
                     <>
                         {
-                            selectedBodyPartForSpecialTestSelection?.special_tests?.map((test: any, index: number) => {
-                                const name = test.name;
+                            selectedBodyPartForSpecialTestSelection?.special_tests?.map((test: string) => {
+                                const name = test;
                                 return <CheckBoxComponent
                                     label={name}
                                     key={name}
