@@ -63,7 +63,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     const [searchParams] = useSearchParams();
     const generateRomConfigForBodySide = useCallback((bodyPart: any, side: string) => {
         return {
-            title: side,
+            title: side ,
             align: 'center',
             render: (record: any) => {
                 return <Field
@@ -433,58 +433,48 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         }
     }, [selectedBodyPartForSpecialTestSelection]);
 
-    const addBodySideToForm = useCallback((bodyPart: any, bodySide: string) => {
-        // add body side to rom form values and update table config under body part
+    const addSpecialTestToBodyPart = useCallback((bodyPart: any, test: string) => {
+        // add special test to body part
         setRomFormValues((prevValues: any) => {
             const bodyPartConfig = prevValues?.[bodyPart?._id];
-            const tableConfig = _.cloneDeep(bodyPartConfig?.tableConfig);
-            if (bodyPartConfig) {
-                const commentsColumn = tableConfig[tableConfig?.length - 1];
-                tableConfig[tableConfig?.length - 1] = generateRomConfigForBodySide(bodyPart, bodySide);
-                tableConfig.push(commentsColumn);
-            }
+            bodyPartConfig.special_test_config[test] = {};
             return {
                 ...prevValues,
                 [bodyPart?._id]: {
                     ...bodyPartConfig,
-                    selected_sides: [...bodyPartConfig?.selected_sides, bodySide],
-                    tableConfig
                 }
             }
         });
     }, [generateRomConfigForBodySide]);
 
-    const removeBodySideFromForm = useCallback((bodyPart: any, bodySide: string) => {
-        // remove body side from rom form values and update table config under body part
+    const removeSpecialTestFromBodyPart = useCallback((bodyPart: any, test: string) => {
         setRomFormValues((prevValues: any) => {
             const bodyPartConfig = prevValues?.[bodyPart?._id];
-            const tableConfig = _.cloneDeep(bodyPartConfig?.tableConfig);
-            const updatedTableConfig = tableConfig?.filter((column: any) => column?.title !== bodySide);
+            delete bodyPartConfig?.special_test_config[test];
             return {
                 ...prevValues,
                 [bodyPart?._id]: {
                     ...bodyPartConfig,
-                    selected_sides: bodyPartConfig?.selected_sides?.filter((item: string) => item !== bodySide),
-                    tableConfig: updatedTableConfig
                 }
             }
         });
     }, []);
 
     const handleSpecialTestSelectConfirm = useCallback(() => {
-        selectedBodyPartForSpecialTestSelection?.tempSelectedSides?.forEach((bodySide: string) => {
-            if (!selectedBodyPartForSpecialTestSelection?.selected_sides?.includes(bodySide)) {
-                addBodySideToForm(selectedBodyPartForSpecialTestSelection, bodySide);
+        const existingTests = Object.keys(selectedBodyPartForSpecialTestSelection?.special_test_config) || [];
+        selectedBodyPartForSpecialTestSelection?.tempSelectedSpecialTests?.forEach((test: string) => {
+            if (!existingTests?.includes(test)) {
+                addSpecialTestToBodyPart(selectedBodyPartForSpecialTestSelection, test);
             }
         });
-        selectedBodyPartForSpecialTestSelection.selected_sides.forEach((bodySide: string) => {
-            if (!selectedBodyPartForSpecialTestSelection?.tempSelectedSides?.includes(bodySide)) {
-                removeBodySideFromForm(selectedBodyPartForSpecialTestSelection, bodySide);
+        existingTests.forEach((test: string) => {
+            if (!selectedBodyPartForSpecialTestSelection?.tempSelectedSpecialTests?.includes(test)) {
+                removeSpecialTestFromBodyPart(selectedBodyPartForSpecialTestSelection, test);
             }
         });
         closeAddSpecialTestModal();
         setSelectedBodyPartForSpecialTestSelection(undefined);
-    }, [closeAddSpecialTestModal, selectedBodyPartForSpecialTestSelection, addBodySideToForm, removeBodySideFromForm]);
+    }, [closeAddSpecialTestModal, selectedBodyPartForSpecialTestSelection, addSpecialTestToBodyPart, removeSpecialTestFromBodyPart]);
 
     const handleSpecialTestAddSelectCancel = useCallback(() => {
         closeAddSpecialTestModal();
