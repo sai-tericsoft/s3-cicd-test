@@ -87,8 +87,6 @@ import {
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
-import MedicalInterventionSpecialTestsScreen
-    from "../screens/chart-notes/medical-intervention-special-tests/MedicalInterventionSpecialTestsScreen";
 import MedicalInterventionExerciseLogUpdateScreen
     from "../screens/chart-notes/medical-intervention-exercise-log-update/MedicalInterventionExerciseLogUpdateScreen";
 import ClientAddScreen from "../screens/clients/client-add/ClientAddScreen";
@@ -151,6 +149,8 @@ import CouponEditScreen from "../screens/admin/discount/coupon-edit/CouponEditSc
 import ReportAnIssueComponent from "../screens/help/report-an-issue/ReportAnIssueComponent";
 import DashboardScreen from "../screens/dashboard/dashboard-screen/DashboardScreen";
 import DashboardLayoutComponent from "../screens/dashboard/dashboard-layout/DashboardLayoutComponent";
+import MedicalInterventionSpecialTestsV2Screen
+    from "../screens/chart-notes/medical-intervention-special-tests-v2/MedicalInterventionSpecialTestsV2Screen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -342,7 +342,7 @@ const Navigator = (props: NavigatorProps) => {
                     />
                     <Route path={MEDICAL_INTERVENTION_SPECIAL_TESTS}
                            element={<ProtectedRoute>
-                               <MedicalInterventionSpecialTestsScreen/>
+                               <MedicalInterventionSpecialTestsV2Screen/>
                            </ProtectedRoute>
                            }
                     />
@@ -581,7 +581,7 @@ const Navigator = (props: NavigatorProps) => {
                         />
                         <Route path={MEDICAL_INTERVENTION_SPECIAL_TESTS}
                                element={<ProtectedRoute>
-                                   <MedicalInterventionSpecialTestsScreen/>
+                                   <MedicalInterventionSpecialTestsV2Screen/>
                                </ProtectedRoute>
                                }
                         />

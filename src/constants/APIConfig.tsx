@@ -425,6 +425,10 @@ const APIConfig: IAPIConfig = {
         URL: (medicalInterventionId: string, bodyPartId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/specialTest/' + bodyPartId,
         METHOD: "delete"
     },
+    SAVE_MEDICAL_INTERVENTION_SPECIAL_TEST_CONFIG: {
+        URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/specialTest',
+        METHOD: "post"
+    },
     CLIENT_MEDICAL_ATTACHMENT: {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/attachment',
         METHOD: 'get'
