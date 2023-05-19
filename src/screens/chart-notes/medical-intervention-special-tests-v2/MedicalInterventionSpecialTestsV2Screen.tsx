@@ -97,16 +97,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                             <FormikRadioButtonGroupComponent
                                 formikField={field}
                                 direction={"row"}
-                                options={[
-                                    {
-                                        title: '+ ve',
-                                        code: 'positive'
-                                    },
-                                    {
-                                        title: '- ve',
-                                        code: 'negative'
-                                    }
-                                ]}
+                                options={CommonService._staticData.SpecialTestResultOptions}
                             />
                         )
                     }

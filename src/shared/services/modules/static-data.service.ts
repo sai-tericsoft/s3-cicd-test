@@ -28,6 +28,17 @@ const discountType = [{
     code:"amount"
 }]
 
+const SpecialTestResultOptions = [
+    {
+        title: '+ ve',
+        code: '+ ve'
+    },
+    {
+        title: '- ve',
+        code: '- ve'
+    }
+];
+
 const unitsOfCare = [1, 2, 3, 4, 5, 6, 7, 8];
 
 const getConsultationDurationList = (payload: any) => {
@@ -192,6 +203,8 @@ const StaticDataService = {
     yesNoOptions,
     resultOptions,
     unitsOfCare,
+    discountType,
+    SpecialTestResultOptions,
     getConsultationDurationList,
     getGenderList,
     getPhoneTypeList,
@@ -218,7 +231,6 @@ const StaticDataService = {
     getSystemAutoLockDurationOptionsList,
     getFilesUneditableAfterOptionsList,
     getFQAList,
-    discountType,
     getPrimaryRemainderHoursList,
     getSecondaryRemainderHoursList,
     getRescheduledHoursList,

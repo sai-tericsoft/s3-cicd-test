@@ -53,7 +53,6 @@ const TableComponent = (props: TableComponentProps) => {
 
     const TransformColumn = useCallback((column: ITableColumn) => {
         const colObject: any = {
-            Header: column?.title || "  ",
             key: column?.key,
             id: column?.key,
             align: column?.align || "left",
@@ -62,13 +61,11 @@ const TableComponent = (props: TableComponentProps) => {
             sortable: column?.sortable,
             width: 150,
         };
-        console.log(column.title);
         // if column.title is a component render component else render string
         if (typeof column?.title === "function") {
-            console.log('iffff');
             colObject['Header'] = (data: any) => column?.title(data);
         } else {
-            colObject['Header'] = column?.title;
+            colObject['Header'] = column?.title || "  ";
         }
         if (column?.dataIndex) {
             colObject['accessor'] = column.dataIndex;
