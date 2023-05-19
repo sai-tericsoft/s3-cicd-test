@@ -203,7 +203,7 @@ export {
     DollarSymbol,
     PercentageSymbol,
     ComingSoon,
-    ReStartIcon
+    ReStartIcon,
     History,
     CopyIcon,
     HorizontalMore
