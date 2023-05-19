@@ -1,33 +1,274 @@
 import "./MedicalInterventionSpecialTestsV2Screen.scss";
-import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
+import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import MedicalRecordBasicDetailsCardComponent
     from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
+import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import React, {useCallback, useEffect, useState} from "react";
-import CardComponent from "../../../shared/components/card/CardComponent";
-import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import {ImageConfig} from "../../../constants";
-import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
-import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
-import {IBodyPartSpecialTestConfig} from "../../../shared/models/static-data.model";
+import {IBodyPart, IBodyPartROMConfig} from "../../../shared/models/static-data.model";
+import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
+import ButtonComponent from "../../../shared/components/button/ButtonComponent";
+import {ImageConfig} from "../../../constants";
+import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
+import TableComponent from "../../../shared/components/table/TableComponent";
+import CardComponent from "../../../shared/components/card/CardComponent";
+import {CommonService} from "../../../shared/services";
+import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
+import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
+import _ from "lodash";
+import ModalComponent from "../../../shared/components/modal/ModalComponent";
+import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
+import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
+import {RadioButtonComponent} from "../../../shared/components/form-controls/radio-button/RadioButtonComponent";
+import {setCurrentNavParams} from "../../../store/actions/navigation.action";
+import FormikRadioButtonGroupComponent
+    from "../../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
+import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
-interface MedicalInterventionSpecialTestsV2ScreenProps {
+interface MedicalInterventionRomConfigV2ScreenProps {
 
 }
 
-const MedicalInterventionSpecialTestsV2Screen = (props: MedicalInterventionSpecialTestsV2ScreenProps) => {
+const ROM_CONFIG_INITIAL_VALUES = {
+    config: {}
+}
 
-    const {medicalRecordId, medicalInterventionId} = useParams();
-    const [globalSpecialTestConfig, setGlobalSpecialTestConfig] = useState<IBodyPartSpecialTestConfig[]>([]);
+const SPECIAL_TEST_APPLICABLE_BODY_SIDES = ['Left', 'Right', 'Central'];
+
+const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfigV2ScreenProps) => {
+
     const dispatch = useDispatch();
-
     const {
         medicalInterventionDetails,
         isMedicalInterventionDetailsLoading,
         isMedicalInterventionDetailsLoaded,
     } = useSelector((state: IRootReducerState) => state.chartNotes);
+    const {bodyPartList} = useSelector((state: IRootReducerState) => state.staticData);
+    const {medicalRecordId, medicalInterventionId} = useParams();
+    const [globalRomConfig, setGloablSpecialTestConfig] = useState<IBodyPartROMConfig[]>([]);
+    const [romFormValues, setRomFormValues] = useState<any>(ROM_CONFIG_INITIAL_VALUES);
+    const [selectedBodyPartForSpecialTestSelection, setSelectedBodyPartForSpecialTestSelection] = useState<any>(undefined);
+    const [mode] = useState<'read' | 'write'>('write');
+    const [showSpecialTestForCommentsModal, setShowSpecialTestForCommentsModal] = useState<boolean>(false);
+    const [selectedBodyPartForComments, setSelectedBodyPartForComments] = useState<any>(undefined);
+    const [selectedSpecialTestForComments, setSelectedSpecialTestForComments] = useState<any>(undefined);
+    const [isBodyPartBeingDeleted, setIsBodyPartBeingDeleted] = useState<boolean>(false);
+    const [isAddSpecialTestModalOpen, setIsAddSpecialTestModalOpen] = useState<boolean>(false);
+    const [showAddBodyPartModal, setShowAddBodyPartModal] = useState<boolean>(false);
+    const [selectedBodyPartToBeAdded, setSelectedBodyPartToBeAdded] = useState<any>(undefined);
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const generateRomConfigForBodySide = useCallback((bodyPart: any, side: string) => {
+        return {
+            title: side,
+            align: 'center',
+            render: (record: any) => {
+                return <Field
+                    name={`${bodyPart._id}.special_test_config.${record}.${side}.result`}
+                    className="t-form-control">
+                    {
+                        (field: FieldProps) => (
+                            <FormikRadioButtonGroupComponent
+                                formikField={field}
+                                direction={"row"}
+                                options={[
+                                    {
+                                        title: '+ Ve',
+                                        code: 'positive'
+                                    },
+                                    {
+                                        title: '- Ve',
+                                        code: 'negative'
+                                    }
+                                ]}
+                            />
+                        )
+                    }
+                </Field>;
+            }
+        }
+
+    }, [mode]);
+
+    const generateROMConfigColumns = useCallback((bodyPart: IBodyPart, selectedBodySides: any) => {
+        const columns: any = [
+            {
+                title: 'Test Name',
+                key: 'name',
+                width: 200,
+                fixed: 'left',
+                render: (record: any) => {
+                    return <div className="movement-name">
+                        {record}
+                    </div>
+                }
+            }
+        ];
+        selectedBodySides?.forEach((side: any) => {
+            columns.push(generateRomConfigForBodySide(bodyPart, side));
+        });
+        columns.push({
+            title: 'Comments',
+            key: 'comments',
+            align: 'center',
+            width: 80,
+            render: (record: any, index: any) => <Field
+                name={`${bodyPart._id}.special_test_config.${record}.comments`}
+                className="t-form-control">
+                {
+                    (field: FieldProps) => (
+                        <>
+                            {
+                                mode === 'write' && <>
+                                    {
+                                        field.form?.values[bodyPart._id]?.special_test_config?.[record]?.comments && <>
+                                            <ToolTipComponent
+                                                tooltip={field.form?.values[bodyPart._id]?.special_test_config?.[record]?.comments}>
+                                                <div className="movement-comment">
+                                                    {field.form?.values[bodyPart._id]?.special_test_config?.[record]?.comments}
+                                                </div>
+                                            </ToolTipComponent>
+                                            &nbsp;
+                                            <IconButtonComponent
+                                                onClick={() => {
+                                                    setShowSpecialTestForCommentsModal(true);
+                                                    setSelectedBodyPartForComments(bodyPart);
+                                                    setSelectedSpecialTestForComments(record);
+                                                }}>
+                                                <ImageConfig.EditIcon/>
+                                            </IconButtonComponent>
+                                        </>
+                                    }
+                                    {
+                                        !field.form?.values[bodyPart._id]?.special_test_config?.[record]?.comments &&
+                                        <>
+                                            <ButtonComponent
+                                                variant={"text"}
+                                                prefixIcon={<ImageConfig.AddIcon/>}
+                                                disabled={
+                                                    !selectedBodySides?.some((side: any) => {
+                                                        return field.form?.values[bodyPart._id]?.special_test_config?.[record]?.[side]?.result;
+                                                    })
+                                                }
+                                                onClick={() => {
+                                                    setShowSpecialTestForCommentsModal(true);
+                                                    setSelectedBodyPartForComments(bodyPart);
+                                                    setSelectedSpecialTestForComments(record);
+                                                }}>
+                                                Add Comment
+                                            </ButtonComponent>
+                                        </>
+
+                                    }
+                                </>
+                            }
+                            {
+                                mode === 'read' &&
+                                <ToolTipComponent
+                                    tooltip={field.form?.values[bodyPart._id]?.special_test_config?.[record]?.comments}>
+                                    <div className="movement-comment">
+                                        {field.form?.values[bodyPart._id]?.special_test_config?.[record]?.comments || "N/A"}
+                                    </div>
+                                </ToolTipComponent>
+                            }
+                        </>
+                    )
+                }
+            </Field>
+        });
+        columns.push({
+            title: '',
+            key: 'actions',
+            align: 'center',
+            width: 80,
+            render: (record: any, index: any) => <Field
+                name={`${bodyPart._id}.special_test_config.${record}.actions`}
+                className="t-form-control">
+                {
+                    (field: FieldProps) => (
+                        <>
+                            <IconButtonComponent
+                                onClick={() => {
+                                    // delete this special test from the list
+                                    const special_test_config = field.form?.values[bodyPart._id]?.special_test_config;
+                                    const new_special_test_config = _.cloneDeep(special_test_config);
+                                    delete new_special_test_config[record];
+                                    console.log(new_special_test_config);
+                                    field.form?.setFieldValue(`${bodyPart._id}.special_test_config`, new_special_test_config);
+                                }}
+                            >
+                                <ImageConfig.DeleteIcon/>
+                            </IconButtonComponent>
+                        </>
+                    )
+                }
+            </Field>
+        });
+        return columns;
+    }, [mode, generateRomConfigForBodySide]);
+
+    const generateROMConfigForAnInjury = useCallback((bodyPart: IBodyPart, selectedBodySides: any, special_test_config: any) => {
+        console.log(special_test_config);
+        const bodyPartConfig: any = _.cloneDeep(bodyPart);
+        if (bodyPart?.special_tests && bodyPart?.special_tests?.length > 0) {
+            bodyPartConfig.special_tests = bodyPart?.special_tests?.map((special_test: any, index: number) => {
+                const movement_data = special_test_config?.find((test: any) => test?.name === special_test);
+                return {name: special_test, ...movement_data, comments: "", commentsTemp: ""};
+            });
+        } else {
+            bodyPartConfig.special_tests = [];
+        }
+        bodyPartConfig.selected_sides = _.cloneDeep(selectedBodySides);
+        bodyPartConfig.tableConfig = generateROMConfigColumns(bodyPartConfig, selectedBodySides);
+        bodyPartConfig['special_test_config'] = {};
+        bodyPartConfig.special_tests?.forEach((special_test: any) => {
+            const config = special_test?.config;
+            bodyPartConfig['special_test_config'][special_test.name] = {
+                comments: config?.comments,
+                commentsTemp: config?.commentsTemp || config?.comments,
+            };
+            selectedBodySides?.forEach((side: any) => {
+                if (special_test.config && Object.keys(special_test.config).includes(side)) {
+                    const configSideData = special_test?.config[side];
+                    bodyPartConfig['special_test_config'][special_test.name][side] = {
+                        result: configSideData?.result,
+                    }
+                }
+            });
+        });
+        return bodyPartConfig;
+    }, [generateROMConfigColumns]);
+
+    const buildSpecialTestConfig = useCallback((specialTestConfig: any) => {
+        const config: any = {};
+        specialTestConfig?.forEach((bodyPart: any) => {
+            config[bodyPart?.body_part?._id] = generateROMConfigForAnInjury(bodyPart?.body_part, bodyPart?.selected_sides, bodyPart?.special_test_config);
+        });
+        setRomFormValues(config);
+    }, [generateROMConfigForAnInjury]);
+
+    const handleAddNewBodyPartOpenModal = useCallback(() => {
+        setShowAddBodyPartModal(true);
+        setSelectedBodyPartToBeAdded(undefined);
+    }, []);
+
+    const handleAddNewBodyPart = useCallback(() => {
+        setShowAddBodyPartModal(false);
+        const updatedGloablSpecialTestConfig: any = [...globalRomConfig, {
+            body_part: selectedBodyPartToBeAdded,
+            special_test_config: [],
+            selected_sides: SPECIAL_TEST_APPLICABLE_BODY_SIDES,
+            mode: 'write'
+        }];
+        setGloablSpecialTestConfig(updatedGloablSpecialTestConfig);
+        const romFormValuesCopy = _.cloneDeep(romFormValues);
+        romFormValuesCopy[selectedBodyPartToBeAdded._id] = generateROMConfigForAnInjury(selectedBodyPartToBeAdded, SPECIAL_TEST_APPLICABLE_BODY_SIDES, []);
+        setRomFormValues(romFormValuesCopy);
+        setSelectedBodyPartToBeAdded(undefined);
+    }, [romFormValues, globalRomConfig, selectedBodyPartToBeAdded, generateROMConfigForAnInjury]);
 
     useEffect(() => {
         if (medicalInterventionId && !medicalInterventionDetails) {
@@ -35,58 +276,499 @@ const MedicalInterventionSpecialTestsV2Screen = (props: MedicalInterventionSpeci
         }
     }, [medicalInterventionId, medicalInterventionDetails, dispatch]);
 
-    const buildSpecialTestConfig = useCallback((medicalInterventionDetails: any) => {
-        console.log("build special test config", medicalInterventionDetails);
+    useEffect(() => {
+        if (medicalRecordId && medicalInterventionId) {
+            const referrer: any = searchParams.get("referrer");
+            dispatch(setCurrentNavParams("Save SOAP Note", null, () => {
+                if (referrer) {
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + '?referrer=' + referrer);
+                } else {
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+                }
+            }));
+
+        }
+    }, [navigate, dispatch, medicalRecordId, medicalInterventionId, searchParams]);
+
+
+    useEffect(() => {
         const specialTestConfig: any = [];
-        const is_special_test_configured = medicalInterventionDetails?.is_special_test_configured;
-        const special_tests = medicalInterventionDetails?.special_tests;
+        const special_test_config = medicalInterventionDetails?.special_test_config;
         const injury_details = medicalInterventionDetails?.medical_record_details?.injury_details;
-        if (is_special_test_configured) {
-            console.log('special test configured');
-            console.log('special_tests', special_tests);
-            specialTestConfig?.forEach((injury: any) => {
+        // if (medicalInterventionDetails?.is_special_test_configured) {
+        //     special_test_config?.forEach((injury: any) => {
+        //         if (!specialTestConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
+        //             specialTestConfig.push({
+        //                 body_part: injury?.body_part_details,
+        //                 special_test_config: injury?.special_test_config || [],
+        //                 selected_sides: ['Left', 'Right', 'Central'],
+        //                 mode: 'read'
+        //             });
+        //         } else {
+        //             const bodyPart = specialTestConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id);
+        //             bodyPart.selected_sides.push(injury.body_side);
+        //         }
+        //     });
+        // } else {
+        if (injury_details?.length > 0) {
+            injury_details?.forEach((injury: any) => {
                 if (!specialTestConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
                     specialTestConfig.push({
                         body_part: injury?.body_part_details,
-                        selected_tests: injury?.selected_tests || [],
-                        selected_sides: ['left', 'right', 'central'],
-                        mode: 'read'
+                        special_test_config: [],
+                        selected_sides: SPECIAL_TEST_APPLICABLE_BODY_SIDES,
+                        mode: 'write'
                     });
+                    // } else {
+                    //     const bodyPart = specialTestConfig.find((item: any) => item?.body_part?._id === injury?.body_part_id);
+                    //     bodyPart.selected_sides.push(injury.body_side);
                 }
             });
-        } else {
-            console.log('special test not configured');
-            console.log('injuries', injury_details);
-            if (injury_details?.length > 0) {
-                injury_details?.forEach((injury: any) => {
-                    if (!specialTestConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
-                        specialTestConfig.push({
-                            body_part: injury?.body_part_details,
-                            selected_tests: [],
-                            selected_sides: ['left', 'right', 'central'],
-                            mode: 'write'
-                        });
-                    }
-                });
-            }
         }
-        console.log('specialTestConfig', specialTestConfig);
-        setGlobalSpecialTestConfig(specialTestConfig);
-    }, []);
-
-    useEffect(() => {
-        if (medicalInterventionDetails) {
-            buildSpecialTestConfig(medicalInterventionDetails);
-        }
+        // }
+        setGloablSpecialTestConfig(specialTestConfig);
+        buildSpecialTestConfig(specialTestConfig);
     }, [medicalInterventionDetails, buildSpecialTestConfig]);
 
+    const handleROMConfigSave = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
+        if (medicalInterventionId) {
+            const config: any = [];
+            console.log(values);
+            return;
+            // Object.keys(values).forEach((bodyPartId: string) => {
+            //     const bodyPartConfig = values[bodyPartId];
+            //     const bodyPartData: any = {
+            //         body_part_id: bodyPartId,
+            //         selected_sides: bodyPartConfig?.selected_sides,
+            //         special_test_config: []
+            //     };
+            //     bodyPartConfig?.movements?.forEach((movement: any) => {
+            //         const movementDataTemp: any = bodyPartConfig?.special_test_config?.[movement?.name];
+            //         const movementData: any = {
+            //             movement_name: movement?.name,
+            //             config: {}
+            //         };
+            //         bodyPartConfig?.selected_sides?.forEach((side: any) => {
+            //             const sideData = movementDataTemp?.[side];
+            //             if (sideData) {
+            //                 movementData.config[side] = {
+            //                     arom: sideData?.arom,
+            //                     prom: sideData?.prom,
+            //                     strength: sideData?.strength,
+            //                 }
+            //             }
+            //         });
+            //         movementData.config.comments = movementDataTemp?.comments;
+            //         movementData.config.commentsTemp = movementDataTemp?.commentsTemp;
+            //         bodyPartData.special_test_config.push(movementData);
+            //     });
+            //     config.push(bodyPartData);
+            // });
+            // setSubmitting(true);
+            // CommonService._chartNotes.SaveMedicalInterventionROMConfigAPICall(medicalInterventionId, {config})
+            //     .then((response: any) => {
+            //         CommonService._alert.showToast(response.message || 'Saved ROM information', 'success');
+            //     })
+            //     .catch((error: any) => {
+            //         CommonService.handleErrors(error.error || error.errors || 'Error saving ROM configuration', 'error');
+            //     }).finally(() => {
+            //     setSubmitting(false);
+            // });
+        } else {
+            CommonService._alert.showToast('Please select a medical intervention', 'error');
+        }
+    }, [medicalInterventionId]);
+
+    const handleBodyPartDelete = useCallback((bodyPartId: string) => {
+        if (medicalInterventionId) {
+            CommonService.onConfirm({
+                image: ImageConfig.RemoveBodyPartConfirmationIcon,
+                confirmationTitle: "REMOVE BODY PART",
+                confirmationSubTitle: "Are you sure you want to remove this body part?",
+            }).then(() => {
+                setIsBodyPartBeingDeleted(true);
+                CommonService._chartNotes.DeleteBodyPartUnderMedicalInterventionROMConfigAPICall(medicalInterventionId, bodyPartId)
+                    .then((response: any) => {
+                        CommonService._alert.showToast(response.message, 'success');
+                        setIsBodyPartBeingDeleted(false);
+                        // remove body part from global rom config and rom form values
+                        const specialTestConfig = globalRomConfig?.filter((item: any) => item?.body_part?._id !== bodyPartId);
+                        setGloablSpecialTestConfig(specialTestConfig);
+                        const romFormValuesTemp = {...romFormValues};
+                        delete romFormValuesTemp[bodyPartId];
+                        setRomFormValues(romFormValuesTemp);
+                    })
+                    .catch((error: any) => {
+                        CommonService._alert.showToast(error.error || error.errors || 'Error deleting body part', 'error');
+                        setIsBodyPartBeingDeleted(false);
+                    });
+            });
+        }
+    }, [globalRomConfig, romFormValues, medicalInterventionId]);
+
+    const openAddSpecialTestModal = useCallback((bodyPart: IBodyPart) => {
+        setSelectedBodyPartForSpecialTestSelection({
+            ...bodyPart,
+            tempSelectedSpecialTests: _.cloneDeep(Object.keys(romFormValues?.[bodyPart?._id]?.special_test_config)) || []
+        });
+        setIsAddSpecialTestModalOpen(true);
+    }, [romFormValues]);
+
+    const closeAddSpecialTestModal = useCallback(() => {
+        setSelectedBodyPartForSpecialTestSelection(undefined);
+        setIsAddSpecialTestModalOpen(false);
+    }, []);
+
+    const handleBodySideSelect = useCallback((isSelected: boolean, specialTest: string) => {
+        if (isSelected) {
+            setSelectedBodyPartForSpecialTestSelection({
+                ...selectedBodyPartForSpecialTestSelection,
+                tempSelectedSpecialTests: [...selectedBodyPartForSpecialTestSelection?.tempSelectedSpecialTests, specialTest]
+            });
+        } else {
+            setSelectedBodyPartForSpecialTestSelection({
+                ...selectedBodyPartForSpecialTestSelection,
+                tempSelectedSpecialTests: selectedBodyPartForSpecialTestSelection?.tempSelectedSpecialTests?.filter((item: string) => item !== specialTest)
+            });
+        }
+    }, [selectedBodyPartForSpecialTestSelection]);
+
+    const addBodySideToForm = useCallback((bodyPart: any, bodySide: string) => {
+        // add body side to rom form values and update table config under body part
+        setRomFormValues((prevValues: any) => {
+            const bodyPartConfig = prevValues?.[bodyPart?._id];
+            const tableConfig = _.cloneDeep(bodyPartConfig?.tableConfig);
+            if (bodyPartConfig) {
+                const commentsColumn = tableConfig[tableConfig?.length - 1];
+                tableConfig[tableConfig?.length - 1] = generateRomConfigForBodySide(bodyPart, bodySide);
+                tableConfig.push(commentsColumn);
+            }
+            return {
+                ...prevValues,
+                [bodyPart?._id]: {
+                    ...bodyPartConfig,
+                    selected_sides: [...bodyPartConfig?.selected_sides, bodySide],
+                    tableConfig
+                }
+            }
+        });
+    }, [generateRomConfigForBodySide]);
+
+    const removeBodySideFromForm = useCallback((bodyPart: any, bodySide: string) => {
+        // remove body side from rom form values and update table config under body part
+        setRomFormValues((prevValues: any) => {
+            const bodyPartConfig = prevValues?.[bodyPart?._id];
+            const tableConfig = _.cloneDeep(bodyPartConfig?.tableConfig);
+            const updatedTableConfig = tableConfig?.filter((column: any) => column?.title !== bodySide);
+            return {
+                ...prevValues,
+                [bodyPart?._id]: {
+                    ...bodyPartConfig,
+                    selected_sides: bodyPartConfig?.selected_sides?.filter((item: string) => item !== bodySide),
+                    tableConfig: updatedTableConfig
+                }
+            }
+        });
+    }, []);
+
+    const handleSpecialTestSelectConfirm = useCallback(() => {
+        selectedBodyPartForSpecialTestSelection?.tempSelectedSides?.forEach((bodySide: string) => {
+            if (!selectedBodyPartForSpecialTestSelection?.selected_sides?.includes(bodySide)) {
+                addBodySideToForm(selectedBodyPartForSpecialTestSelection, bodySide);
+            }
+        });
+        selectedBodyPartForSpecialTestSelection.selected_sides.forEach((bodySide: string) => {
+            if (!selectedBodyPartForSpecialTestSelection?.tempSelectedSides?.includes(bodySide)) {
+                removeBodySideFromForm(selectedBodyPartForSpecialTestSelection, bodySide);
+            }
+        });
+        closeAddSpecialTestModal();
+        setSelectedBodyPartForSpecialTestSelection(undefined);
+    }, [closeAddSpecialTestModal, selectedBodyPartForSpecialTestSelection, addBodySideToForm, removeBodySideFromForm]);
+
+    const handleSpecialTestAddSelectCancel = useCallback(() => {
+        closeAddSpecialTestModal();
+    }, [closeAddSpecialTestModal]);
+
     return (
-        <div className={'medical-intervention-special-tests-v2-screen'}>
-            <FormControlLabelComponent label={'Special Test'} size={'lg'}/>
+        <div className={'medical-intervention-rom-config-v2-screen'}>
+            <PageHeaderComponent title={'Special Test'}/>
             <MedicalRecordBasicDetailsCardComponent/>
+            <>
+                {
+                    (isMedicalInterventionDetailsLoading) && <>
+                        <LoaderComponent/>
+                    </>
+                }
+                {
+                    (isMedicalInterventionDetailsLoaded && medicalInterventionId) && <>
+                        {
+                            (globalRomConfig?.length === 0) && <>
+                                <StatusCardComponent
+                                    title={"There are no body parts listed under the Special Test. Please add a body part."}>
+                                    <ButtonComponent
+                                        prefixIcon={<ImageConfig.AddIcon/>}
+                                        onClick={handleAddNewBodyPartOpenModal}
+                                    >
+                                        Add Body Part
+                                    </ButtonComponent>
+                                </StatusCardComponent>
+                            </>
+                        }
+                        {
+                            (globalRomConfig?.length > 0) && <>
+                                <Formik
+                                    initialValues={romFormValues}
+                                    enableReinitialize={true}
+                                    onSubmit={handleROMConfigSave}
+                                >
+                                    {(formik) => {
+                                        const {validateForm, values, isValid, setFieldValue, isSubmitting} = formik;
+                                        // eslint-disable-next-line react-hooks/rules-of-hooks
+                                        useEffect(() => {
+                                            validateForm();
+                                            setRomFormValues(values);
+                                        }, [validateForm, values]);
+                                        return (
+                                            <Form className="t-form" noValidate={true}>
+                                                <FormDebuggerComponent form={formik}/>
+                                                <div>
+                                                    {
+                                                        Object.keys(values)?.map((bodyPartId: any) => {
+                                                            const bodyPart = values[bodyPartId];
+                                                            return (
+                                                                <CardComponent title={"Body Part: " + bodyPart?.name}
+                                                                               className={'body-part-rom-config-card'}
+                                                                               key={bodyPartId}
+                                                                               actions={<>
+                                                                                   <>
+                                                                                       {
+                                                                                           (mode === 'read') && <>
+                                                                                               <ButtonComponent
+                                                                                                   size={"small"}
+                                                                                                   prefixIcon={
+                                                                                                       <ImageConfig.EditIcon/>}
+                                                                                                   // onClick={handleBodyPartEdit}
+                                                                                                   // disabled={isSubmitting || isBodyPartBeingDeleted}
+                                                                                               >
+                                                                                                   Edit
+                                                                                               </ButtonComponent>&nbsp;&nbsp;
+                                                                                           </>
+                                                                                       }
+                                                                                       {
+                                                                                           (mode === 'write') &&
+                                                                                           <>
+                                                                                               <ButtonComponent
+                                                                                                   size={"small"}
+                                                                                                   prefixIcon={
+                                                                                                       <ImageConfig.AddIcon/>}
+                                                                                                   onClick={() => {
+                                                                                                       openAddSpecialTestModal(bodyPart);
+                                                                                                   }
+                                                                                                   }
+                                                                                               >
+                                                                                                   Add Test
+                                                                                               </ButtonComponent>&nbsp;&nbsp;
+                                                                                           </>
+                                                                                       }
+                                                                                   </>
+                                                                                   <ButtonComponent
+                                                                                       size={"small"}
+                                                                                       color={"error"}
+                                                                                       variant={"outlined"}
+                                                                                       prefixIcon={
+                                                                                           <ImageConfig.DeleteIcon/>}
+                                                                                       onClick={() => {
+                                                                                           handleBodyPartDelete(bodyPartId);
+                                                                                       }}
+                                                                                       disabled={isSubmitting || isBodyPartBeingDeleted}
+                                                                                   >
+                                                                                       Delete
+                                                                                   </ButtonComponent>
+                                                                               </>}>
+                                                                    <div className={'body-part-rom-config'}>
+                                                                        <div
+                                                                            className={'rom-config-table-container'}>
+                                                                            <TableComponent
+                                                                                data={Object.keys(bodyPart?.special_test_config) || []}
+                                                                                bordered={true}
+                                                                                columns={bodyPart?.tableConfig}
+                                                                            />
+                                                                        </div>
+                                                                    </div>
+                                                                    {
+                                                                        bodyPart?.special_tests?.map((special_test: any) => {
+                                                                            if (showSpecialTestForCommentsModal && selectedBodyPartForComments?._id === bodyPartId && special_test.name === selectedSpecialTestForComments) {
+                                                                                return <ModalComponent
+                                                                                    key={bodyPartId + special_test}
+                                                                                    isOpen={showSpecialTestForCommentsModal}
+                                                                                    title={`${values?.[bodyPart._id]?.[selectedSpecialTestForComments]?.comments ? "Edit Comments" : "Comments:"}`}
+                                                                                    closeOnBackDropClick={true}
+                                                                                    className={"intervention-comments-modal"}
+                                                                                    modalFooter={<>
+                                                                                        <ButtonComponent
+                                                                                            variant={"outlined"}
+                                                                                            onClick={() => {
+                                                                                                const comment = values?.[bodyPart._id]?.special_test_config?.[selectedSpecialTestForComments]?.comments;
+                                                                                                setShowSpecialTestForCommentsModal(false);
+                                                                                                setFieldValue(`${bodyPart._id}.special_test_config.${selectedSpecialTestForComments}.commentsTemp`, comment);
+                                                                                                setSelectedBodyPartForComments(undefined);
+                                                                                                setSelectedSpecialTestForComments(undefined);
+                                                                                            }}>
+                                                                                            Cancel
+                                                                                        </ButtonComponent>&nbsp;
+                                                                                        <ButtonComponent
+                                                                                            onClick={() => {
+                                                                                                const newComment = values?.[bodyPart._id]?.special_test_config?.[selectedSpecialTestForComments]?.commentsTemp;
+                                                                                                setShowSpecialTestForCommentsModal(false);
+                                                                                                setFieldValue(`${bodyPart._id}.special_test_config.${selectedSpecialTestForComments}.comments`, newComment);
+                                                                                                setSelectedBodyPartForComments(undefined);
+                                                                                                setSelectedSpecialTestForComments(undefined);
+                                                                                            }}>
+                                                                                            {
+                                                                                                values?.[bodyPart._id]?.special_test_config?.[selectedSpecialTestForComments]?.comments ? "Save" : "Add"
+                                                                                            }
+                                                                                        </ButtonComponent>
+                                                                                    </>
+                                                                                    }>
+                                                                                    <Field
+                                                                                        name={`${bodyPart._id}.special_test_config.${selectedSpecialTestForComments}.commentsTemp`}
+                                                                                        className="t-form-control">
+                                                                                        {
+                                                                                            (field: FieldProps) => (
+                                                                                                <FormikTextAreaComponent
+                                                                                                    label={selectedSpecialTestForComments}
+                                                                                                    placeholder={"Enter your comments here..."}
+                                                                                                    formikField={field}
+                                                                                                    size={"small"}
+                                                                                                    autoFocus={true}
+                                                                                                    fullWidth={true}
+                                                                                                />
+                                                                                            )
+                                                                                        }
+                                                                                    </Field>
+                                                                                </ModalComponent>
+                                                                            } else {
+                                                                                return <></>
+                                                                            }
+                                                                        })
+                                                                    }
+                                                                </CardComponent>
+
+                                                            );
+                                                        })
+                                                    }
+                                                </div>
+                                                <ButtonComponent
+                                                    prefixIcon={<ImageConfig.AddIcon/>}
+                                                    onClick={handleAddNewBodyPartOpenModal}
+                                                >
+                                                    Add Body Part
+                                                </ButtonComponent>
+                                                <div className={"h-v-center"}>
+                                                    <ButtonComponent
+                                                        type={"submit"}
+                                                        className={'save-rom-config-button'}
+                                                        isLoading={isSubmitting}
+                                                        disabled={!isValid}
+                                                    >
+                                                        Save
+                                                    </ButtonComponent>
+                                                </div>
+                                            </Form>
+                                        );
+                                    }}
+                                </Formik>
+                            </>
+                        }
+                    </>
+                }
+            </>
+            <ModalComponent isOpen={isAddSpecialTestModalOpen}
+                            title={"Add Special Test:"}
+                            className={"intervention-body-side-selection-modal"}
+                            modalFooter={<>
+                                <ButtonComponent
+                                    onClick={handleSpecialTestAddSelectCancel}
+                                    variant={"outlined"}
+                                >
+                                    Cancel
+                                </ButtonComponent>&nbsp;&nbsp;
+                                <ButtonComponent
+                                    onClick={handleSpecialTestSelectConfirm}>
+                                    Add Test
+                                </ButtonComponent>
+                            </>}
+            >
+                <div className={'body-side-modal'}>
+                    <div>
+                        <div className={'body-side-modal-title'}>
+                            Body Part: {selectedBodyPartForSpecialTestSelection?.name}
+                        </div>
+                    </div>
+                    <>
+                        {
+                            selectedBodyPartForSpecialTestSelection?.special_tests?.map((test: any, index: number) => {
+                                const name = test.name;
+                                return <CheckBoxComponent
+                                    label={name}
+                                    key={name}
+                                    checked={selectedBodyPartForSpecialTestSelection?.tempSelectedSpecialTests?.includes(name)}
+                                    onChange={(isChecked) => {
+                                        handleBodySideSelect(isChecked, name);
+                                    }}
+                                />
+                            })
+                        }
+                    </>
+                </div>
+            </ModalComponent>
+            <ModalComponent
+                isOpen={showAddBodyPartModal}
+                title={"Add Body Part: "}
+                className={"intervention-rom-config-add-body-part-modal"}
+                modalFooter={<>
+                    <ButtonComponent variant={"outlined"}
+                                     onClick={() => {
+                                         setShowAddBodyPartModal(false);
+                                     }}
+                    >
+                        Cancel
+                    </ButtonComponent>&nbsp;
+                    <ButtonComponent onClick={handleAddNewBodyPart}
+                                     disabled={!selectedBodyPartToBeAdded}
+                    >
+                        Add
+                    </ButtonComponent>
+                </>}
+            >
+                <div className="ts-row">
+                    {
+
+                        bodyPartList.map((item: any, index: number) => {
+                            return <>{
+                                item?.movements?.length > 0 &&
+                                <div className="ts-col-md-6 ts-col-lg-3"
+                                     key={item._id}>
+                                    <RadioButtonComponent
+                                        name={"intervention-rom-config-add-body-part"}
+                                        key={index + item?.name}
+                                        label={item?.name}
+                                        checked={selectedBodyPartToBeAdded?._id === item?._id}
+                                        disabled={globalRomConfig.findIndex((bodyPart) => bodyPart.body_part._id === item._id) !== -1}
+                                        onChange={() => {
+                                            setSelectedBodyPartToBeAdded(item);
+                                        }}/>
+                                </div>
+                            }</>
+                        })
+                    }
+
+                </div>
+            </ModalComponent>
         </div>
     );
 
 };
 
-export default MedicalInterventionSpecialTestsV2Screen;
+export default MedicalInterventionRomConfigV2Screen;

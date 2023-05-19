@@ -45,9 +45,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     const {bodyPartList} = useSelector((state: IRootReducerState) => state.staticData);
     const {medicalRecordId, medicalInterventionId} = useParams();
     const [globalRomConfig, setGlobalRomConfig] = useState<IBodyPartROMConfig[]>([]);
-    const [
-        romFormValues, setRomFormValues
-    ] = useState<any>(ROM_CONFIG_INITIAL_VALUES);
+    const [romFormValues, setRomFormValues] = useState<any>(ROM_CONFIG_INITIAL_VALUES);
     const [selectedBodyPartForSideSelection, setSelectedBodyPartForSideSelection] = useState<any>(undefined);
     const [mode] = useState<'read' | 'write'>('write');
     const [showROMMovementCommentsModal, setShowROMMovementCommentsModal] = useState<boolean>(false);
