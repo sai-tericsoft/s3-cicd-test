@@ -43,7 +43,7 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
 
     const messageVal = CommonService.editMentionsFormat(appointmentSettingsReschedulingDetails?.sms?.content, mentionsList);
     const emailSubVal = CommonService.editMentionsFormat(appointmentSettingsReschedulingDetails?.email?.subject, mentionsList);
-    const emailContentValVal = CommonService.editMentionsFormat(appointmentSettingsReschedulingDetails?.email?.subject, mentionsList);
+    const emailContentVal = CommonService.editMentionsFormat(appointmentSettingsReschedulingDetails?.email?.content, mentionsList);
     const {reschedulingHoursList, reschedulingTimesList} = useSelector((state: IRootReducerState) => state.staticData);
     const [selectedHours, setSelectedHours] = useState<any>("");
     const [selectedTimes, setSelectedTimes] = useState<any>("");
@@ -52,9 +52,9 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
         setMessageValue(messageVal);
         setSelectedHours(allowReschedulingBefore?.toString())
         setSelectedTimes(maxRescheduling?.toString());
-        setEmailValue(emailSubVal);
-        setSubjectValue(emailContentValVal);
-    }, [appointmentSettingsReschedulingDetails, allowReschedulingBefore, emailContentValVal, emailSubVal, maxRescheduling, messageVal]);
+        setEmailValue(emailContentVal);
+        setSubjectValue(emailSubVal);
+    }, [appointmentSettingsReschedulingDetails, allowReschedulingBefore, emailContentVal, emailSubVal, maxRescheduling, messageVal]);
 
     const onTemplateSubmit = useCallback((type?: any, value?: any) => {
         let payload;
@@ -360,7 +360,7 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                                              onClick={() => {
                                                  setEmailMode('view');
                                                  setEmailValue(emailSubVal);
-                                                 setSubjectValue(emailContentValVal);
+                                                 setSubjectValue(emailContentVal);
                                              }}
                             >
                                 Cancel
@@ -369,7 +369,7 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                                 isLoading={isTemplateSaveInProgress}
                                 type="button"
                                 onClick={onTemplateSubmit}
-                                disabled={emailValue?.length === 0 || emailValue === emailContentValVal}
+                                disabled={emailValue?.length === 0 || emailValue === emailContentVal}
                             >
                                 Save
                             </ButtonComponent>

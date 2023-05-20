@@ -44,7 +44,7 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
 
     const messageVal = CommonService.editMentionsFormat(appointmentSettingsRemainderDetails?.sms?.content, mentionsList);
     const emailSubVal = CommonService.editMentionsFormat(appointmentSettingsRemainderDetails?.email?.subject, mentionsList);
-    const emailContentValVal = CommonService.editMentionsFormat(appointmentSettingsRemainderDetails?.email?.subject, mentionsList);
+    const emailContentVal = CommonService.editMentionsFormat(appointmentSettingsRemainderDetails?.email?.content, mentionsList);
     const {
         primaryRemainderHoursList,
         secondaryRemainderHoursList
@@ -52,11 +52,11 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
 
     useEffect(() => {
         setMessageValue(messageVal);
-        setEmailValue(emailSubVal);
+        setEmailValue(emailContentVal);
+        setSubjectValue(emailSubVal);
         setSelectedPrimaryHours(primaryReminderBefore?.toString())
         setSelectedSecondaryHours(secondaryReminderBefore?.toString())
-        setSubjectValue(emailContentValVal);
-    }, [appointmentSettingsRemainderDetails, emailContentValVal, emailSubVal, primaryReminderBefore, secondaryReminderBefore, messageVal]);
+    }, [appointmentSettingsRemainderDetails, emailContentVal, emailSubVal, primaryReminderBefore, secondaryReminderBefore, messageVal]);
 
     const onTemplateSubmit = useCallback((type?: any, value?: any) => {
         let payload;
@@ -356,7 +356,7 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
                                              onClick={() => {
                                                  setEmailMode('view');
                                                  setEmailValue(emailSubVal);
-                                                 setSubjectValue(emailContentValVal);
+                                                 setSubjectValue(emailContentVal);
                                              }}
                             >
                                 Cancel
@@ -364,7 +364,7 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
                             <ButtonComponent
                                 isLoading={isTemplateSaveInProgress}
                                 type="button"
-                                disabled={emailValue?.length === 0 || emailValue === emailContentValVal}
+                                disabled={emailValue?.length === 0 || emailValue === emailContentVal}
                                 onClick={onTemplateSubmit}
                             >
                                 Save

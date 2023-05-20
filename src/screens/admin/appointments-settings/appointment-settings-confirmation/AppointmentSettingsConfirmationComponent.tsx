@@ -30,12 +30,12 @@ const AppointmentSettingsConfirmationComponent = (props: AppointmentSettingsConf
 
     const messageVal = CommonService.editMentionsFormat(appointmentSettingsConfirmationDetails?.sms?.content, mentionsList);
     const emailSubVal = CommonService.editMentionsFormat(appointmentSettingsConfirmationDetails?.email?.subject, mentionsList);
-    const emailContentVal = CommonService.editMentionsFormat(appointmentSettingsConfirmationDetails?.email?.subject, mentionsList);
+    const emailContentVal = CommonService.editMentionsFormat(appointmentSettingsConfirmationDetails?.email?.content, mentionsList);
 
     useEffect(() => {
         setMessageValue(messageVal);
-        setEmailValue(emailSubVal);
-        setSubjectValue(emailContentVal);
+        setEmailValue(emailContentVal);
+        setSubjectValue(emailSubVal);
     }, [emailSubVal, messageVal, emailContentVal, appointmentSettingsConfirmationDetails]);
 
     const onTemplateSubmit = useCallback(() => {
