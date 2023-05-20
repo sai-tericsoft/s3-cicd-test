@@ -52,6 +52,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
     const [discountAmount, setDiscountAmount] = useState<number>(0);
     const [payableAmount, setPayableAmount] = useState<number>(0);
 
+
     const onCouponSelect = useCallback((value: any) => {
         setSelectedCoupon(value);
         if (value.discount_type === 'amount') {
