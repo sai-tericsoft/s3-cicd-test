@@ -31,9 +31,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
     const [mode, setMode] = useState<'view' | 'edit'>('view');
 
     const {systemSettings} = useSelector((state: IRootReducerState) => state.settings);
-    
-    console.log('systemSettings',systemSettings);
-    
+
     const handleOpenViewAllMessagesDrawer = useCallback(() => {
         setIsViewMessageDrawerOpen(true)
     }, []);
@@ -71,9 +69,8 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
 
     return (
         <div className={'message-board-component'}>
-            {isMessageHistoryLoading && <LoaderComponent/>}
-            {
-                isMessageHistoryLoaded &&
+            {isMessageHistoryLoading && <div><LoaderComponent/></div>}
+
                 <>
                     <div className={'message-board-wrapper'}>
                         <CardComponent className={'message-board'}>
@@ -83,22 +80,25 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                                     Message(s)
                                 </div>
                             </div>
-                            <CardComponent color={'primary'} className={'view-message-board'}>
-                                {
-                                    (messageHistory?.length===0 ) && <div className={'message-text'}>{systemSettings?.default_message}</div>
-                                }
-                                {messageHistory?.map((message: any) => {
-                                    return (<>
-                                            <div className={'message-text'}>{message?.message}</div>
-                                            <div
-                                                className={'time-stamp'}>{CommonService.transformTimeStamp(message?.created_at)}</div>
-                                            {messageHistory?.length > 1 &&
-                                                <HorizontalLineComponent/>
-                                            }
-                                        </>
-                                    )
-                                })}
-                            </CardComponent>
+                            {isMessageHistoryLoaded &&
+                                <CardComponent color={'primary'} className={'view-message-board'}>
+                                    {
+                                        (messageHistory?.length === 0) &&
+                                        <div className={'message-text'}>{systemSettings?.default_message}</div>
+                                    }
+                                    {messageHistory?.map((message: any) => {
+                                        return (<>
+                                                <div className={'message-text'}>{message?.message}</div>
+                                                <div
+                                                    className={'time-stamp'}>{CommonService.transformTimeStamp(message?.created_at)}</div>
+                                                {messageHistory?.length > 1 &&
+                                                    <HorizontalLineComponent/>
+                                                }
+                                            </>
+                                        )
+                                    })}
+                                </CardComponent>
+                            }
                         </CardComponent>
                     </div>
                     <CardComponent className={'birthday-board'}>
@@ -154,7 +154,6 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                     </DrawerComponent>
 
                 </>
-            }
         </div>
     );
 
