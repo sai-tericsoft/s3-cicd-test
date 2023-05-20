@@ -677,7 +677,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
             </>
             <ModalComponent isOpen={isAddSpecialTestModalOpen}
                             title={"Add Special Test:"}
-                            className={"intervention-body-side-selection-modal"}
+                            className={"intervention-special-test-selection-modal"}
                             modalFooter={<>
                                 <ButtonComponent
                                     onClick={handleSpecialTestAddSelectCancel}
@@ -693,7 +693,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
             >
                 <div className={'body-side-modal'}>
                     <div>
-                        <div className={'body-side-modal-title'}>
+                        <div className={'intervention-special-test-selection-modal-title'}>
                             Body Part: {selectedBodyPartForSpecialTestSelection?.name}
                         </div>
                     </div>
