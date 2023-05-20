@@ -143,8 +143,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
     const {onCancel, mode, onSave} = props;
     const {clientId} = useParams();
     const [clientBasicDetailsFormInitialValues, setClientBasicDetailsFormInitialValues] = useState<IClientBasicDetails>(_.cloneDeep(ClientBasicDetailsFormInitialValues));
-    const [isClientBasicDetailsSavingInProgress, setIsClientBasicDetailsSavingInProgress] = useState(false);
-    const [isSecondaryEmergencyFormVisible, setIsSecondaryEmergencyFormVisible] = useState(false);
+    const [isClientBasicDetailsSavingInProgress, setIsClientBasicDetailsSavingInProgress] = useState<boolean>(false);
     const dispatch = useDispatch();
 
     const {
@@ -210,7 +209,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                     phone_type: ""
                 }]
             }
-            if (clientBasicDetails.emergency_contact_info.secondary_emergency) {
+            if (Object.keys(clientBasicDetails.emergency_contact_info.secondary_emergency).length) {
                 clientBasicDetails.show_secondary_emergency_form = true;
                 if (!clientBasicDetails.emergency_contact_info.secondary_emergency.secondary_contact_info ||
                     (clientBasicDetails.emergency_contact_info.secondary_emergency.secondary_contact_info && clientBasicDetails.emergency_contact_info.secondary_emergency.secondary_contact_info?.length === 0)) {
@@ -245,9 +244,6 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
         }
     }, [clientId, dispatch]);
 
-    const handleSecondaryEmergencyFormVisibility = useCallback(() => {
-        setIsSecondaryEmergencyFormVisible(true)
-    }, []);
 
     return (
         <div className={'client-basic-details-form-component'}>
@@ -525,7 +521,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 })}
                                             </>
                                         )}/>
-                                    <HorizontalLineComponent />
+                                    <HorizontalLineComponent/>
                                     <FormControlLabelComponent label={'Primary Email :'}/>
                                     <div className="ts-row">
                                         <div className="ts-col-md-5">
@@ -862,34 +858,40 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 })}
                                             </>
                                         )}/>
-                                    {
-                                        !values.show_secondary_emergency_form && <div className={"h-v-center"}>
-                                            <ButtonComponent variant={"text"}
-                                                             prefixIcon={<ImageConfig.AddIcon/>}
-                                                             onClick={() => {
-                                                                 setFieldValue('show_secondary_emergency_form', true);
-                                                             }}
-                                            >
-                                                Add Secondary Contact
-                                            </ButtonComponent>
-                                        </div>
-                                    }
+                                    {/*{*/}
+                                    {/*    values.show_secondary_emergency_form && <div className={"h-v-center"}>*/}
+                                    {/*        <ButtonComponent variant={"contained"}*/}
+                                    {/*                         prefixIcon={<ImageConfig.AddIcon/>}*/}
+                                    {/*                         onClick={() => {*/}
+                                    {/*                             setFieldValue('show_secondary_emergency_form', true);*/}
+                                    {/*                         }}*/}
+                                    {/*        >*/}
+                                    {/*            Add Secondary Contact*/}
+                                    {/*        </ButtonComponent>*/}
+                                    {/*    </div>*/}
+                                    {/*}*/}
 
-                                    {!isSecondaryEmergencyFormVisible &&
+                                    {!values.show_secondary_emergency_form &&
                                         <div className={'display-flex justify-content-center flex-1'}>
                                             <ButtonComponent
-                                                onClick={handleSecondaryEmergencyFormVisibility}
+                                                onClick={() => {
+                                                    setFieldValue('show_secondary_emergency_form', true)
+                                                }}
                                                 prefixIcon={<ImageConfig.AddIcon/>}>
                                                 Add Another
                                                 Contact</ButtonComponent>
                                         </div>}
                                     <>
-                                        {isSecondaryEmergencyFormVisible &&
-                                            values.show_secondary_emergency_form && <>
+                                        {values.show_secondary_emergency_form &&
+                                            <>
                                                 <div className={'d-flex ts-justify-content-sm-between'}>
                                                     <FormControlLabelComponent label={"Secondary Emergency Contact"}/>
-                                                    <ButtonComponent className={'remove-contact-button'} variant={'outlined'} color={'error'}
-                                                                     onClick={() => setIsSecondaryEmergencyFormVisible(false)}>Remove
+                                                    <ButtonComponent className={'remove-contact-button'}
+                                                                     variant={'outlined'} color={'error'}
+                                                                     onClick={() => {
+                                                                         setFieldValue('show_secondary_emergency_form', false)
+                                                                     }}
+                                                    >Remove
                                                         Contact</ButtonComponent>
                                                 </div>
                                                 <div className="ts-row">
