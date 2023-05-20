@@ -1,12 +1,12 @@
 import "./MedicalInterventionExerciseLogUpdateScreen.scss";
-import React, {useCallback, useEffect, useMemo, useState} from "react";
-import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
+import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import {Field, FieldProps, Form, Formik, FormikHelpers, FormikProps} from "formik";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import _ from "lodash";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
-import {ImageConfig} from "../../../constants";
+import {ImageConfig, Misc} from "../../../constants";
 import {CommonService} from "../../../shared/services";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {useDispatch, useSelector} from "react-redux";
@@ -16,7 +16,6 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import {IService} from "../../../shared/models/service.model";
 import * as Yup from "yup";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import ExerciseLogAttachmentListComponent from "../exercise-log-attachment-list/ExerciseLogAttachmentListComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
@@ -25,11 +24,11 @@ import MedicalInterventionLinkedToComponent
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import {IRootReducerState} from "../../../store/reducers";
 import {getClientMedicalRecord} from "../../../store/actions/client.action";
-import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
+import {getInterventionAttachmentList, getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
 import moment from "moment-timezone";
 import InputComponent from "../../../shared/components/form-controls/input/InputComponent";
+import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 
-// import scrollToComponent from 'react-scroll-to-component';
 
 interface MedicalInterventionExerciseLogScreenProps {
 
@@ -50,7 +49,7 @@ const MedicalInterventionExerciseLogInitialValues = {
             ...MedicalInterventionExerciseLogRow,
             key: CommonService.getUUID(),
         }
-    ]
+    ],
 }
 
 const ExerciseLogRecordValidationSchema = Yup.object({
@@ -58,14 +57,18 @@ const ExerciseLogRecordValidationSchema = Yup.object({
     // no_of_reps: Yup.string().required(''),
     // time: Yup.string().required(''),
     // resistance: Yup.string().required(''),
-    name: Yup.string().required('Required'),
+    // name: Yup.string().required('Required'),
 })
 
 const MedicalInterventionExerciseLogFormValidationSchema = Yup.object({
-    exercise_records: Yup.array(ExerciseLogRecordValidationSchema)
+    exercise_records: Yup.array(ExerciseLogRecordValidationSchema),
 });
 
 const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionExerciseLogScreenProps) => {
+    const {
+        attachmentList,
+        isAttachmentListLoaded,
+    } = useSelector((state: IRootReducerState) => state.chartNotes);
 
     const [medicalInterventionExerciseLogValues, setMedicalInterventionExerciseLogValues] = useState<any>(_.cloneDeep(MedicalInterventionExerciseLogInitialValues));
     const dispatch = useDispatch();
@@ -75,6 +78,69 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
     const [isMedicalInterventionExerciseLogDetailsLoading, setIsMedicalInterventionExerciseLogDetailsLoading] = useState<boolean>(false);
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const location = useLocation();
+    const formRef = useRef<FormikProps<any>>(null);
+    const [selectedAttachment, setSelectedAttachment] = useState<any>(null);
+
+    //-----------------------------------ExerciseLogAttachmentStartsHere-------------------------------------
+    const [isAttachmentBeingUploaded, setIsAttachmentBeingUploaded] = React.useState<boolean>(false);
+    const [isAttachmentBeingDeleted, setIsAttachmentBeingDeleted] = React.useState<boolean>(false);
+
+    console.log(attachmentList);
+
+    useEffect(() => {
+        if (medicalInterventionId) {
+            dispatch(getInterventionAttachmentList(medicalInterventionId));
+        }
+    }, [medicalInterventionId, dispatch]);
+
+    const hiddenFileInput = React.useRef<any>(null);
+
+    const handleClick = useCallback(() => {
+        hiddenFileInput.current.click();
+    }, []);
+
+    // const handleRemoveAttachment = useCallback((attachment: any) => {
+    //     const filteredAttachment = attachments?.filter((item: any) => item?.lastModified !== attachment?.lastModified);
+    //     setAttachments(filteredAttachment)
+    // }, [attachments]);
+
+    const handleFileSubmit = useCallback(() => {
+        if (medicalInterventionId) {
+            setIsAttachmentBeingUploaded(true);
+            const formData = CommonService.getFormDataFromJSON({attachment: selectedAttachment});
+            CommonService._chartNotes.AddExerciseLogAttachment(medicalInterventionId, formData)
+                .then((response: any) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    dispatch(getInterventionAttachmentList(medicalInterventionId));
+                    setIsAttachmentBeingUploaded(false);
+                    setSelectedAttachment(null);
+                })
+                .catch((error: any) => {
+                    setIsAttachmentBeingUploaded(false);
+                    CommonService._alert.showToast(error[Misc.API_RESPONSE_MESSAGE_KEY], "error");
+                })
+        }
+    }, [dispatch, medicalInterventionId, selectedAttachment])
+
+    const removeAttachment = useCallback((item: any, medicalInterventionId: string) => {
+        CommonService.onConfirm({
+            confirmationTitle: 'Do you want to remove this attachment',
+            confirmationSubTitle: `Do you want to remove "${item.name}" this attachment"?`
+        }).then(() => {
+            setIsAttachmentBeingDeleted(true);
+            CommonService._chartNotes.RemoveExerciseLogAttachmentAPICall(medicalInterventionId, item._id, {})
+                .then((response) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    dispatch(getInterventionAttachmentList(medicalInterventionId));
+                    setIsAttachmentBeingDeleted(false);
+                }).catch((error: any) => {
+                setIsAttachmentBeingDeleted(false);
+                CommonService._alert.showToast(error.error || "Error deleting attachment", "error");
+            })
+        })
+    }, [dispatch]);
+
+    //--------------------------------ExerciseLogAttachmentEndsHere----------------------------------------------
 
     const {
         clientMedicalRecord,
@@ -268,6 +334,9 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
     ], []);
 
     const handleSubmit = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
+        if (selectedAttachment) {
+            handleFileSubmit();
+        }
         if (medicalInterventionId && medicalRecordId) {
             const payload: any = {
                 exercise_records: []
@@ -278,7 +347,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     ...record
                 });
             });
-            setSubmitting(true);
+            setSubmitting(true)
             CommonService._chartNotes.SaveMedicalInterventionExerciseLogAPICall(medicalInterventionId, payload)
                 .then((response: any) => {
                     CommonService._alert.showToast(response.message, 'success');
@@ -290,7 +359,8 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     setSubmitting(false);
                 });
         }
-    }, [medicalRecordId, navigate, medicalInterventionId]);
+    }, [medicalRecordId, navigate, medicalInterventionId, selectedAttachment, handleFileSubmit]);
+
 
     const {
         medicalInterventionDetails,
@@ -420,7 +490,69 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                 <InputComponent placeholder={'Provider'} fullWidth={true} label={'Provider'}
                                 value={CommonService.extractName(currentUser)} disabled={true}/>
             </div>
-            <ExerciseLogAttachmentListComponent/>
+
+            {/*------------------<ExerciseLogAttachmentListComponent/>-----------------------*/}
+            <div className={'exercise-log-attachment-list-component'}>
+                <div className={'exercise-log-attachment-add-component'}>
+                    <input
+                        type={"file"}
+                        ref={hiddenFileInput}
+                        accept={"application/pdf"}
+                        onChange={(event: any) => {
+                            const selectedAttachment = event.target.files[0];
+                            setSelectedAttachment(selectedAttachment)
+                        }}
+                        style={{display: 'none'}}/>
+                </div>
+                {
+                    medicalInterventionId && <>
+                        {
+                            isAttachmentListLoaded && <>
+                                <CardComponent title={'Attachments'}
+                                               actions={<ButtonComponent
+                                                   disabled={selectedAttachment}
+                                                   isLoading={isAttachmentBeingUploaded}
+                                                   onClick={handleClick}
+                                                   prefixIcon={<ImageConfig.AddIcon/>}>
+                                                   Attach Exercise Log</ButtonComponent>}>
+                                    <>
+
+                                        {(attachmentList.attachments.length > 0) &&
+                                            <>
+                                                {attachmentList?.attachments?.map((attachment: any) => {
+                                                    return <span className={'chip-wrapper'}>
+                                        <ChipComponent className={'chip chip-items'}
+                                                       disabled={isAttachmentBeingDeleted}
+                                                       label={attachment.name}
+                                                       prefixIcon={<ImageConfig.PDF_ICON/>}
+                                                       onDelete={() => removeAttachment(attachment, medicalInterventionId)}
+                                        />
+                                                </span>
+                                                })}
+                                            </>
+                                        }
+                                        {selectedAttachment &&
+                                            <span className={'chip-wrapper'}>
+                                        <ChipComponent className={'chip chip-items'}
+                                                       disabled={isAttachmentBeingDeleted}
+                                                       label={selectedAttachment.name}
+                                                       prefixIcon={<ImageConfig.PDF_ICON/>}
+                                                       onDelete={()=>setSelectedAttachment(null)}
+                                        />
+                                                </span>
+                                        }
+                                        {(!selectedAttachment && !attachmentList.attachments.length) &&
+                                            <StatusCardComponent title={'No Attachments'}/>
+                                        }
+                                    </>
+                                </CardComponent>
+                            </>
+                        }
+                    </>
+                }
+            </div>
+            {/*----------------------ExerciseLogAttachmentEndsHere---------------------------*/}
+
             <div id={'exercise-log-form'}>
                 {
                     isMedicalInterventionExerciseLogDetailsLoading && <LoaderComponent/>
@@ -430,6 +562,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     <Formik initialValues={medicalInterventionExerciseLogValues}
                             validationSchema={MedicalInterventionExerciseLogFormValidationSchema}
                             enableReinitialize={true}
+                            innerRef={formRef}
                             onSubmit={handleSubmit}>
                         {({values, validateForm, isSubmitting, setFieldValue, isValid}) => {
                             // eslint-disable-next-line react-hooks/rules-of-hooks
