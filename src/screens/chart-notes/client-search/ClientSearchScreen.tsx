@@ -3,7 +3,7 @@ import CardComponent from "../../../shared/components/card/CardComponent";
 import SearchComponent from "../../../shared/components/search/SearchComponent";
 import {IClientBasicDetails, IClientListFilterState} from "../../../shared/models/client.model";
 import React, {useCallback, useEffect, useState} from "react";
-import {APIConfig, ImageConfig} from "../../../constants";
+import {APIConfig} from "../../../constants";
 import {useDispatch} from "react-redux";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {ITableColumn} from "../../../shared/models/table.model";
@@ -22,6 +22,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
 
     const [clientListFilterState, setClientListFilterState] = useState<IClientListFilterState>({
         search: "",
+        is_chart_notes:true,
         sort: {}
     });
 
@@ -139,16 +140,16 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
                                      setClientListFilterState({...clientListFilterState, search: value})
                                  }}/>
             </CardComponent>
-            {
-                !clientListFilterState.search &&
-                <CardComponent className={"client-search-card"}>
-                    <div className={'client-search-logo-wrapper'}>
-                        <img src={ImageConfig.Search} alt="client-search"/>
-                        <div className={'client-search-label'}>Search for Clients</div>
-                    </div>
-                </CardComponent>
-            }
-            {clientListFilterState.search &&
+            {/*{*/}
+            {/*    !clientListFilterState.search &&*/}
+            {/*    <CardComponent className={"client-search-card"}>*/}
+            {/*        <div className={'client-search-logo-wrapper'}>*/}
+            {/*            <img src={ImageConfig.Search} alt="client-search"/>*/}
+            {/*            <div className={'client-search-label'}>Search for Clients</div>*/}
+            {/*        </div>*/}
+            {/*    </CardComponent>*/}
+            {/*}*/}
+
                 <div className="list-content-wrapper">
                     <TableWrapperComponent
                         id={"client_search"}
@@ -159,7 +160,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
                         onSort={handleClientSort}
                     />
                 </div>
-            }
+
         </div>
     );
 

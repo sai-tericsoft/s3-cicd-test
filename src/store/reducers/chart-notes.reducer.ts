@@ -149,7 +149,6 @@ const ChartNotesReducer = (state = initialData, action: IActionModel): IChartNot
             }
             return state;
         case SET_INTERVENTION_ATTACHMENT_LIST :
-            console.log(action.payload)
             state = {
                 ...state,
                 isAttachmentListLoading: false,

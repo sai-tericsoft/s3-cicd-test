@@ -35,6 +35,7 @@ export interface IClientListFilterState {
     sort: {
         [key: string]: string,
     }
+    is_chart_notes?:boolean
 }
 
 export interface IClientMedicalStatusFilterState {

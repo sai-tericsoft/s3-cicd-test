@@ -58,7 +58,6 @@ const AllMessageHistoryComponent = (props: AllMessageHistoryComponentProps) => {
             });
         });
     }, [dispatch])
-
     return (
         <div className={'all-message-history-component'}>
             <FormControlLabelComponent label={'Message History'} size={'lg'}/>
@@ -72,17 +71,18 @@ const AllMessageHistoryComponent = (props: AllMessageHistoryComponentProps) => {
                                     <span>{message?.message}</span>
                                 </span>
 
-                                <span><IconButtonComponent
+                                {
+                                   !message?.can_delete &&  <span><IconButtonComponent
                                     onClick={() => handleCopyMessage(message?._id, message?.message)}>
                                         <ImageConfig.CopyIcon/>
-                                    </IconButtonComponent></span>
+                                    </IconButtonComponent></span>}
                                 {copiedIndex === message?._id && <span>Copied!</span>}
                                 {
                                     message?.can_delete && <span>
                                         <IconButtonComponent onClick={() => toggleCard(message._id)}>
                                     <ImageConfig.HorizontalMore/>
                                     </IconButtonComponent>
-                                    <div>
+                                        <div>
                                             {openCardId === message._id && (
                                                 <div className="card-content">
                                                     <div

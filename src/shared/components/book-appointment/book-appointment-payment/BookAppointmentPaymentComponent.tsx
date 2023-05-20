@@ -38,7 +38,7 @@ const addAppointmentPaymentValidationSchema = Yup.object().shape({
         is: 'current',
         then: Yup.mixed().required('Payment mode is required')
     }),
-    available_coupons: Yup.string(),
+    available_coupons: Yup.mixed(),
     amount: Yup.number(),
     comments: Yup.string(),
 });

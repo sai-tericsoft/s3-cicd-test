@@ -17,7 +17,7 @@ interface AppointmentCancelComponentProps {
 const AppointmentCancelComponent = (props: AppointmentCancelComponentProps) => {
     const {onBack, onComplete, details} = props;
     const [isAPICallRunning, setIsAPIRunning] = useState<boolean>(false);
-    const [cancel, setCancel] = useState(false);
+    const [cancel, setCancel] = useState<boolean>(false);
     const [cancelMarked, setCancelMarked] = useState(false);
 
     const markCancel = useCallback(
@@ -36,7 +36,7 @@ const AppointmentCancelComponent = (props: AppointmentCancelComponentProps) => {
                     setIsAPIRunning(false)
                 })
         },
-        [ details],
+        [details],
     );
 
     return (
@@ -65,9 +65,10 @@ const AppointmentCancelComponent = (props: AppointmentCancelComponentProps) => {
                         Do you want to <b>cancel</b> the appointment with&nbsp;
                         <b>{details.provider_details?.first_name + ' ' + details.provider_details?.last_name}</b> on <b>{CommonService.convertDateFormat(details.appointment_date)}</b>?
                     </div>
-                    <CheckBoxComponent value={cancel} label={'Waive Cancellation Fee'} onChange={isChecked => {
-                        setCancel(isChecked);
-                    }}/>
+                    <CheckBoxComponent value={cancel} checked={cancel} label={'Waive Cancellation Fee'}
+                                       onChange={isChecked => {
+                                           setCancel(isChecked);
+                                       }}/>
                 </div>
                 <div className="action-buttons">
                     <ButtonComponent fullWidth={true} variant={'outlined'}
