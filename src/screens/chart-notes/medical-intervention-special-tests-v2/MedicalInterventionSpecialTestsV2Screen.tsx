@@ -63,6 +63,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
     const generateSpecialTestForBodySide = useCallback((bodyPart: any, side: string) => {
         return {
             key: bodyPart._id + side,
+            width: 176,
             title: (record: any) => {
                 return <Field
                     name={`${bodyPart._id}.special_test_config.${record}.${side}.side`}
@@ -111,7 +112,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
             {
                 title: 'Test Name',
                 key: 'name',
-                width: 200,
+                width: 204,
                 fixed: 'left',
                 render: (record: any) => {
                     return <div className="movement-name">
@@ -127,7 +128,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
             title: 'Comments',
             key: 'comments',
             align: 'center',
-            width: 80,
+            width: 316,
             render: (record: any, index: any) => <Field
                 name={`${bodyPart._id}.special_test_config.${record}.comments`}
                 className="t-form-control">
@@ -196,7 +197,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
             title: '',
             key: 'actions',
             align: 'center',
-            width: 80,
+            width: 72,
             render: (record: any, index: any) => <Field
                 name={`${bodyPart._id}.special_test_config.${record}.actions`}
                 className="t-form-control">
@@ -528,7 +529,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                                                             const bodyPart = values[bodyPartId];
                                                             return (
                                                                 <CardComponent title={"Body Part: " + bodyPart?.name}
-                                                                               className={'body-part-rom-config-card'}
+                                                                               className={'body-part-special-test-config-card'}
                                                                                key={bodyPartId}
                                                                                actions={<>
                                                                                    <>
@@ -583,6 +584,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                                                                                 data={Object.keys(bodyPart?.special_test_config) || []}
                                                                                 bordered={true}
                                                                                 columns={bodyPart?.tableConfig}
+
                                                                                 noDataText={"No special test have been added"}
                                                                             />
                                                                         </div>
