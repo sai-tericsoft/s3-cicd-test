@@ -37,13 +37,14 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
         dispatch(setCurrentNavParams("Help"));
     }, [dispatch]);
 
-    const onIssueSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
+    const onIssueSubmit = useCallback((values: any, {setErrors,resetForm}: FormikHelpers<any>) => {
         const formData = CommonService.getFormDataFromJSON(values);
         setIsIssueSubmitting(true);
         CommonService._staticData.ReportAnIssue(formData)
             .then((response) => {
                 setIsIssueSubmitting(false);
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                resetForm();
             }).catch((error: any) => {
             setIsIssueSubmitting(false);
             CommonService.handleErrors(setErrors, error, true);
