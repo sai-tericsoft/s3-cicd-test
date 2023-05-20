@@ -87,7 +87,7 @@ export const themeOptions: ThemeOptions = {
             contrastText: '#FFF'
         },
     },
-    typography: {fontFamily: 'Roboto'},
+    typography: {fontFamily: 'inter'},
 };
 const theme = createTheme(themeOptions);
 
