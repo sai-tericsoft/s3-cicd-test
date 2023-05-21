@@ -12,7 +12,6 @@ import MedicalRecordBasicDetailsCardComponent
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import {ImageConfig} from "../../../constants";
-import ChipComponent from "../../../shared/components/chip/ChipComponent";
 
 interface MedicalInterventionExerciseLogViewScreenProps {
 
@@ -131,7 +130,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
                             return (
                                 <div className="medical-intervention-exercise-log-attachments-view-wrapper">
                                     <div className={'medical-intervention-exercise-log-attachments-view'}>
-                                        <div><ImageConfig.documentIcon/></div>
+                                        <div><ImageConfig.DocumentIcon/></div>
                                         <div className={'attachment-chip-view'}>
                                             {attachment.name}
                                         </div>

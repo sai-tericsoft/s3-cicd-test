@@ -59,7 +59,7 @@ import {ReactComponent as History} from './../assets/icons/history_icon.svg';
 
 import {ReactComponent as CopyIcon} from './../assets/icons/copy_icon.svg';
 import {ReactComponent as HorizontalMore} from './../assets/icons/horizontal_more.svg';
-import {ReactComponent as documentIcon} from './../assets/icons/file-types/unknown_file_type.svg';
+import {ReactComponent as DocumentIcon} from './../assets/icons/file-types/unknown_file_type.svg';
 
 
 
@@ -209,5 +209,5 @@ export {
     History,
     CopyIcon,
     HorizontalMore,
-    documentIcon
+    DocumentIcon
 }
