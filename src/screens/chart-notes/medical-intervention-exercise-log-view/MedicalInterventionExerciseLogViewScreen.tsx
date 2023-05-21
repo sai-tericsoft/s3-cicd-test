@@ -7,8 +7,12 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import {IService} from "../../../shared/models/service.model";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {useDispatch} from "react-redux";
-import MedicalRecordBasicDetailsCardComponent from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
+import MedicalRecordBasicDetailsCardComponent
+    from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
+import CardComponent from "../../../shared/components/card/CardComponent";
+import {ImageConfig} from "../../../constants";
+import ChipComponent from "../../../shared/components/chip/ChipComponent";
 
 interface MedicalInterventionExerciseLogViewScreenProps {
 
@@ -43,7 +47,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
             key: 'no_of_sets',
             dataIndex: 'no_of_sets',
             width: 150,
-            render: (item:any) => {
+            render: (item: any) => {
                 return <div>{item?.no_of_sets || '-'}</div>
             }
         },
@@ -52,7 +56,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
             key: 'no_of_reps',
             dataIndex: 'no_of_reps',
             width: 150,
-            render: (item:any) => {
+            render: (item: any) => {
                 return <div>{item?.no_of_reps || '-'}</div>
             }
         },
@@ -61,7 +65,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
             key: 'time',
             dataIndex: 'time',
             width: 150,
-            render: (item:any) => {
+            render: (item: any) => {
                 return <div>{item?.time || '-'}</div>
             }
         },
@@ -70,7 +74,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
             key: 'resistance',
             dataIndex: 'resistance',
             width: 150,
-            render: (item:any) => {
+            render: (item: any) => {
                 return <div>{item?.resistance || '-'}</div>
             }
         },
@@ -118,6 +122,34 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
         <div className={'medical-intervention-exercise-log-view-screen'}>
             <PageHeaderComponent title={"View Exercise Record"}/>
             <MedicalRecordBasicDetailsCardComponent/>
+
+            {medicalInterventionExerciseLogDetails && medicalInterventionExerciseLogDetails.attachments.length > 0 &&
+                <CardComponent title={'Attachments'}>
+
+                    {
+                        medicalInterventionExerciseLogDetails.attachments.map((attachment: any) => {
+                            return (
+                                <div className="medical-intervention-exercise-log-attachments-view-wrapper">
+                                    <div className={'medical-intervention-exercise-log-attachments-view'}>
+                                        <div><ImageConfig.documentIcon/></div>
+                                        <div className={'attachment-chip-view'}>
+                                            {attachment.name}
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        })
+                    }
+
+                </CardComponent>
+            }
+
+            {medicalInterventionExerciseLogDetails && !medicalInterventionExerciseLogDetails.attachments.length &&
+                <CardComponent title={'Attachments'}>
+                    No attachments Found
+                </CardComponent>
+            }
+
             <div className={'medical-intervention-exercise-log-view-table-container'}>
                 <TableComponent data={medicalInterventionExerciseLogDetails?.exercise_records}
                                 loading={isMedicalInterventionExerciseLogDetailsLoading}
