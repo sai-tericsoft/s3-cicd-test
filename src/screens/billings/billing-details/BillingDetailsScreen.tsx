@@ -64,8 +64,6 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
         dispatch(getBillingFromAddress())
     }, [dispatch]);
 
-    console.log('bill', billingFromAddress);
-
     useEffect(() => {
         const type: BillingType = searchParams.get("type") as BillingType;
         if (type && BillingTypes.includes(type)) {
@@ -130,8 +128,8 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
         })
     }, [type, billingId]);
 
-    const handleBillingMarkAsPaidSuccess = useCallback((receiptId: string) => {
-        navigate(CommonService._routeConfig.BillingDetails(receiptId) + '?referrer=' + location.pathname + '&type=receipt');
+    const handleBillingMarkAsPaidSuccess = useCallback(() => {
+        navigate(CommonService._routeConfig.BillingList() + '?referrer=' + location.pathname + '&type=receipt');
     }, [navigate, location.pathname]);
 
     const handleBillingMarkAsPaid = useCallback(() => {
@@ -144,7 +142,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             .then((response: IAPIResponseType<any>) => {
                 setIsBillingBeingMarkedAsPaid(false);
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Payment marked as paid successfully", "success");
-                handleBillingMarkAsPaidSuccess(response?.data?.receipt_id);
+                handleBillingMarkAsPaidSuccess();
             })
             .catch((error: any) => {
                 CommonService._alert.showToast(error.error || error.errors || "Failed to mark payment as paid", "error");
