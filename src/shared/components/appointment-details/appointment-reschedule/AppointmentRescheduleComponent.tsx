@@ -201,7 +201,7 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                 CommonService._alert.showToast(response.message || 'Marked appointment as No Show')
             })
             .catch((error: any) => {
-                // CommonService.handleErrors(errors);
+                CommonService._alert.showToast(error.error || "Appointment rescheduling cannot be done within 24 hours", "error");
             })
             .finally(() => {
                 setIsAPICallRunning(false)
