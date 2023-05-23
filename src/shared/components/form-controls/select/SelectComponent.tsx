@@ -4,11 +4,14 @@ import {FormHelperText, InputLabel, MenuItem} from "@mui/material";
 import FormControl from '@mui/material/FormControl';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
 import {ISelectProps} from "../../../models/form-controls.model";
+import IconButtonComponent from "../../icon-button/IconButtonComponent";
+import {ImageConfig} from "../../../../constants";
 
 interface SelectComponentProps extends ISelectProps {
     value?: any;
     hasError?: boolean;
     errorMessage?: any;
+    endAdornment?: any;
 }
 
 const SelectComponent = (props: SelectComponentProps) => {
@@ -24,6 +27,7 @@ const SelectComponent = (props: SelectComponentProps) => {
         options,
         required,
         disabled,
+        endAdornment,
         id,
         ...otherProps
     } = props;
@@ -62,6 +66,17 @@ const SelectComponent = (props: SelectComponentProps) => {
     const valueExtractor = props.valueExtractor || defaultValueExtractor;
     const keyExtractor = props.keyExtractor || defaultKeyExtractor;
 
+    const handleClear = useCallback(() => {
+        setTmpValue('')
+        onUpdate && onUpdate('');
+    }, [])
+
+    const ClearOption = useCallback(() => (
+        <IconButtonComponent onClick={handleClear} className={'mrg-right-10'}>
+            <ImageConfig.CloseIcon/>
+        </IconButtonComponent>
+    ),[handleClear]);
+
     return (
         <FormControl className={'select-component ' + className + ' ' + (fullWidth ? "full-width" : "")}
                      error={hasError} fullWidth={fullWidth} size={size}
@@ -79,6 +94,7 @@ const SelectComponent = (props: SelectComponentProps) => {
                 variant={variant}
                 onChange={handleUpdate}
                 onBlur={handleOnBlur}
+                endAdornment={(tmpValue && tmpValue !== "") && <ClearOption/>}
                 id={id}
                 {...otherProps}
             >
@@ -86,11 +102,11 @@ const SelectComponent = (props: SelectComponentProps) => {
                     (options?.length > 0) ? (options?.map((item, index) => {
                         return <MenuItem
                             id={id + `_drop-down-option-${displayWith(item)}`}
-                            key={keyExtractor ? keyExtractor(item)  : `drop-down-option-${index}`}
+                            key={keyExtractor ? keyExtractor(item) : `drop-down-option-${index}`}
                             value={valueExtractor(item, index)}>
                             {displayWith(item)}
                         </MenuItem>;
-                    })):<MenuItem>No Data</MenuItem>
+                    })) : <MenuItem>No Data</MenuItem>
                 }
             </Select>
             <FormHelperText>
