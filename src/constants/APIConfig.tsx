@@ -425,6 +425,10 @@ const APIConfig: IAPIConfig = {
         URL: (medicalInterventionId: string, bodyPartId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/specialTest/' + bodyPartId,
         METHOD: "delete"
     },
+    SAVE_MEDICAL_INTERVENTION_SPECIAL_TEST_CONFIG: {
+        URL: (medicalInterventionId: string) => ENV.API_URL + '/intervention/' + medicalInterventionId + '/specialTest',
+        METHOD: "post"
+    },
     CLIENT_MEDICAL_ATTACHMENT: {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/attachment',
         METHOD: 'get'
@@ -841,6 +845,14 @@ const APIConfig: IAPIConfig = {
     DASHBOARD_EDIT_MESSAGE:{
         URL:(messageId:string)=>ENV.API_URL + '/message/' + messageId,
         METHOD:'put'
+    },
+    SYSTEM_SETTING_NEW_MESSAGE:{
+        URL:ENV.API_URL + '/newMessage',
+        METHOD:'post'
+    },
+    GET_VALID_DAYS:{
+        URL:ENV.API_URL + '/validDays',
+        METHOD:'get'
     }
 }
 

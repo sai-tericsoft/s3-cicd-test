@@ -174,6 +174,9 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                 .then((response) => {
                     patchDataToProgressReportForm(response?.data);
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    if (medicalRecordId) {
+                        navigate(CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId,progressReportId));
+                    }
                     setSubmitting(false);
                     if (cb) {
                         cb();
@@ -435,9 +438,9 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                             })
                                         }
                                         <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>
-                                            <ESignApprovalComponent isSigned={formik.values.is_signed}
+                                            <ESignApprovalComponent isSigned={false}
                                                                     isSigning={isSigningInProgress}
-                                                                    canSign={formik.values?.can_sign}
+                                                                    canSign={true}
                                                                     signedAt={formik.values.signed_on}
                                                                     onSign={() => {
                                                                         handleSign(formik.values, formik);

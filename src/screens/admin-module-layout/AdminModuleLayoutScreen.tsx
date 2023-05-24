@@ -25,7 +25,7 @@ const ADMIN_MENU_ITEMS = [
         path: ""
     },
     {
-        title: "Appointments",
+        title: "Appointment Settings",
         path: CommonService._routeConfig.appointmentSettingsLayout()
     },
     {

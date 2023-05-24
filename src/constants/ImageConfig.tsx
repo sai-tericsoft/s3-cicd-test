@@ -19,6 +19,7 @@ import {ReactComponent as VerifiedCross} from './../assets/icons/verified_cross.
 
 import {ReactComponent as CalendarIcon} from './../assets/icons/calander.svg';
 import {ReactComponent as TimerIcon} from './../assets/icons/timer.svg';
+import {ReactComponent as ReStartIcon} from './../assets/icons/restart.svg';
 
 import {ReactComponent as CallIcon} from './../assets/icons/call_black.svg';
 import {ReactComponent as PersonIcon} from './../assets/icons/person_black.svg';
@@ -54,6 +55,13 @@ import {ReactComponent as CircularShowMore} from './../assets/icons/circular_sho
 import {ReactComponent as CircularShowLess} from './../assets/icons/circular_show_less.svg';
 
 import {ReactComponent as ComingSoon} from './../assets/icons/coming_soon.svg';
+import {ReactComponent as History} from './../assets/icons/history_icon.svg';
+
+import {ReactComponent as CopyIcon} from './../assets/icons/copy_icon.svg';
+import {ReactComponent as HorizontalMore} from './../assets/icons/horizontal_more.svg';
+import {ReactComponent as DocumentIcon} from './../assets/icons/file-types/unknown_file_type.svg';
+
+
 
 //file types
 import PDFIcon from './../assets/icons/file-types/pdf.svg';
@@ -197,4 +205,9 @@ export {
     DollarSymbol,
     PercentageSymbol,
     ComingSoon,
+    ReStartIcon,
+    History,
+    CopyIcon,
+    HorizontalMore,
+    DocumentIcon
 }

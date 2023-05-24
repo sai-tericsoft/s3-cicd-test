@@ -87,8 +87,6 @@ import {
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
-import MedicalInterventionSpecialTestsScreen
-    from "../screens/chart-notes/medical-intervention-special-tests/MedicalInterventionSpecialTestsScreen";
 import MedicalInterventionExerciseLogUpdateScreen
     from "../screens/chart-notes/medical-intervention-exercise-log-update/MedicalInterventionExerciseLogUpdateScreen";
 import ClientAddScreen from "../screens/clients/client-add/ClientAddScreen";
@@ -151,6 +149,8 @@ import CouponEditScreen from "../screens/admin/discount/coupon-edit/CouponEditSc
 import ReportAnIssueComponent from "../screens/help/report-an-issue/ReportAnIssueComponent";
 import DashboardScreen from "../screens/dashboard/dashboard-screen/DashboardScreen";
 import DashboardLayoutComponent from "../screens/dashboard/dashboard-layout/DashboardLayoutComponent";
+import MedicalInterventionSpecialTestsV2Screen
+    from "../screens/chart-notes/medical-intervention-special-tests-v2/MedicalInterventionSpecialTestsV2Screen";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -201,7 +201,7 @@ const Navigator = (props: NavigatorProps) => {
         <>
             <Routes>
                 <Route element={<AppLayout/>}>
-                    <Route path ={DASHBOARD} element={<DashboardLayoutComponent/>}{...props}>
+                    <Route path={DASHBOARD} element={<DashboardLayoutComponent/>}{...props}>
                         <Route
                             path={DASHBOARD}
                             element={
@@ -342,7 +342,7 @@ const Navigator = (props: NavigatorProps) => {
                     />
                     <Route path={MEDICAL_INTERVENTION_SPECIAL_TESTS}
                            element={<ProtectedRoute>
-                               <MedicalInterventionSpecialTestsScreen/>
+                               <MedicalInterventionSpecialTestsV2Screen/>
                            </ProtectedRoute>
                            }
                     />
@@ -409,6 +409,21 @@ const Navigator = (props: NavigatorProps) => {
                            element={<ProtectedRoute>
                                <ViewExerciseRecordScreen/>
                            </ProtectedRoute>}/>
+                    <Route path={HELP} element={<HelpModuleLayoutScreen/>}{...props}>
+                        <Route
+                            index
+                            element={
+                                <Navigate to={FAQ}/>
+                            }
+                        />
+                        <Route path={FAQ} element={<ProtectedRoute>
+                            <FaqComponent/>
+                        </ProtectedRoute>}/>
+                        <Route path={REPORT_AN_ISSUE} element={<ProtectedRoute>
+                            <ReportAnIssueComponent/>
+                        </ProtectedRoute>}/>
+                    </Route>
+
                     <Route path={ADMIN} element={<AdminModuleLayoutScreen/>} {...props}>
                         <Route
                             index
@@ -456,6 +471,7 @@ const Navigator = (props: NavigatorProps) => {
                             }
                         />
                     </Route>
+
                     <Route
                         path={COUPON_DETAILS}
                         element={
@@ -565,7 +581,7 @@ const Navigator = (props: NavigatorProps) => {
                         />
                         <Route path={MEDICAL_INTERVENTION_SPECIAL_TESTS}
                                element={<ProtectedRoute>
-                                   <MedicalInterventionSpecialTestsScreen/>
+                                   <MedicalInterventionSpecialTestsV2Screen/>
                                </ProtectedRoute>
                                }
                         />
@@ -683,20 +699,7 @@ const Navigator = (props: NavigatorProps) => {
                     <Route path={CLIENT_BILLING_DETAILS} element={<ProtectedRoute>
                         <BillingListScreen/>
                     </ProtectedRoute>}/>
-                    <Route path ={HELP} element={<HelpModuleLayoutScreen/>}{...props}>
-                        <Route
-                            index
-                            element={
-                                <Navigate to={FAQ}/>
-                            }
-                        />
-                        <Route path={FAQ} element={<ProtectedRoute>
-                            <FaqComponent/>
-                        </ProtectedRoute>}/>
-                        <Route path={REPORT_AN_ISSUE} element={<ProtectedRoute>
-                            <ReportAnIssueComponent/>
-                        </ProtectedRoute>}/>
-                    </Route>
+
                 </Route>
 
 

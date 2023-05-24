@@ -52,6 +52,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
     const [discountAmount, setDiscountAmount] = useState<number>(0);
     const [payableAmount, setPayableAmount] = useState<number>(0);
 
+
     const onCouponSelect = useCallback((value: any) => {
         setSelectedCoupon(value);
         if (value.discount_type === 'amount') {
@@ -61,6 +62,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
         } else {
             let totalPayableAmount;
             const finalDiscountAmount = CommonService.calculateFinalAmountFromDiscountPercentage(value.percentage, details?.amount)
+            setDiscountAmount(finalDiscountAmount)
             if (finalDiscountAmount > value.max_discount_amount) {
                 totalPayableAmount = details?.amount - value.max_discount_amount
             } else {
@@ -217,19 +219,19 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                                             <div className="price-holder">
                                                 <div className="price-item">
                                                     <div className="price-item-text amount">Amount (Inc. tax)</div>
-                                                    <div className="price-item-amount">${details.amount}.00</div>
+                                                    <div className="price-item-amount">${CommonService.convertToDecimals(+details?.amount)}</div>
                                                 </div>
                                                 <div className="price-item">
                                                     <div className="price-item-text discount">Discount</div>
                                                     <div className="price-item-amount red">
-                                                        {selectedCoupon ? `- $ ${discountAmount}` : `$0` || 'N/A'}
+                                                        {selectedCoupon ? `- $ ${CommonService.convertToDecimals(discountAmount)}` : `$0` || 'N/A'}
                                                     </div>
                                                 </div>
                                                 <HorizontalLineComponent/>
                                                 <div className="price-item price-item-total">
                                                     <div className="price-item-text">Total Amount</div>
                                                     <div className="price-item-amount green">
-                                                        ${selectedCoupon ? payableAmount : details.amount}.00
+                                                        ${selectedCoupon ? CommonService.convertToDecimals(payableAmount) : CommonService.convertToDecimals(+details?.amount)}
                                                     </div>
                                                 </div>
                                             </div>

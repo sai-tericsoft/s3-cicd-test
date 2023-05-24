@@ -1,0 +1,23 @@
+.medical-intervention-rom-config-v2-screen {
+  .body-part-special-test-config-card {
+    .card-header {
+      .card-title {
+        text-transform: capitalize !important;
+      }
+    }
+
+    .card-body {
+      padding: 0 !important;
+    }
+  }
+
+  .rom-config-table-container {
+    .radio-component {
+      margin-right: 16px !important;
+
+      &:last-child {
+        margin-right: 0 !important;
+      }
+    }
+  }
+}

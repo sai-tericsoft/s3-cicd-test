@@ -28,6 +28,17 @@ const discountType = [{
     code:"amount"
 }]
 
+const SpecialTestResultOptions = [
+    {
+        title: '+ ve',
+        code: '+ ve'
+    },
+    {
+        title: '- ve',
+        code: '- ve'
+    }
+];
+
 const unitsOfCare = [1, 2, 3, 4, 5, 6, 7, 8];
 
 const getConsultationDurationList = (payload: any) => {
@@ -186,12 +197,20 @@ const ReportAnIssue = (payload: any) => {
     return ApiService[APIConfig.REPORT_AN_ISSUE.METHOD](APIConfig.REPORT_AN_ISSUE.URL, payload,{'Content-Type': 'multipart/form-data'})
 }
 
+const GetValidDaysList = (payload:any)=>{
+    // @ts-ignore
+    return ApiService[APIConfig.GET_VALID_DAYS.METHOD](APIConfig.GET_VALID_DAYS.URL, payload,{'Content-Type': 'multipart/form-data'})
+
+}
+
 const StaticDataService = {
     today,
     weekDays,
     yesNoOptions,
     resultOptions,
     unitsOfCare,
+    discountType,
+    SpecialTestResultOptions,
     getConsultationDurationList,
     getGenderList,
     getPhoneTypeList,
@@ -218,13 +237,13 @@ const StaticDataService = {
     getSystemAutoLockDurationOptionsList,
     getFilesUneditableAfterOptionsList,
     getFQAList,
-    discountType,
     getPrimaryRemainderHoursList,
     getSecondaryRemainderHoursList,
     getRescheduledHoursList,
     getRescheduledTimesList,
     getUserMentionsList,
-    ReportAnIssue
+    ReportAnIssue,
+    GetValidDaysList
 }
 
 export default StaticDataService;

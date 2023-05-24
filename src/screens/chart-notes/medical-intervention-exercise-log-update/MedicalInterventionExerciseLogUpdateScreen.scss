@@ -1,4 +1,15 @@
 .medical-intervention-exercise-log-screen {
+  .exercise-log-attachment-list-component {
+    .chip-wrapper {
+      margin-bottom: 20px;
+      margin-right: 12px;
+      .chip-items{
+        padding: 20px 12px;
+        margin-bottom: 20px;
+      }
+    }
+
+  }
   .input-component {
     margin-bottom: 0 !important;
   }

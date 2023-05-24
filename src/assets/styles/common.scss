@@ -436,10 +436,12 @@
     .drawer-body {
       .message-timestamp-wrapper {
         width: 422px;
-        .message-edit-delete-button-wrapper{
+
+        .message-edit-delete-button-wrapper {
           display: flex;
           align-items: center;
         }
+
         .card-component {
           width: 422px;
           margin-bottom: 0px;
@@ -450,6 +452,7 @@
             padding: 16px 12px 40px;
           }
         }
+
         .created-at-time-stamp {
           display: flex;
           justify-content: end;
@@ -482,6 +485,17 @@
 .intervention-comments-modal, .intervention-body-side-selection-modal {
   .modal-content-wrapper {
     width: 600px !important;
+  }
+}
+
+.intervention-special-test-selection-modal {
+  .modal-content-wrapper {
+    width: 900px !important;
+  }
+
+  .intervention-special-test-selection-modal-title {
+    font-weight: 700;
+    margin-top: 20px;
   }
 }
 

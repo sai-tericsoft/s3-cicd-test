@@ -71,7 +71,8 @@ const AllAddedICD11CodesComponent = (props: AllAddedIcd11CodesComponentProps) =>
             {isAddedICD11CodeListLoaded &&
                 <TableComponent columns={AddedICDCodesColumns}
                                 className={'added-icd-11-code-list'}
-                                bordered={true} data={addedICD11CodeList}/>
+                                bordered={true}
+                                data={addedICD11CodeList}/>
             }
         </div>
     );

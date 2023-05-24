@@ -61,6 +61,7 @@ const ICDTableColumns: any = [
         dataIndex: 'icd_code',
         key: 'icd_code',
         width: 150,
+        fixed:'left'
     },
     {
         title: 'Description',
@@ -100,23 +101,54 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
             width: 150,
         },
         {
-            title: ' Results',
+            title: 'Left Side',
             dataIndex: 'result',
             align: 'center',
             fixed: 'left',
-            key: 'result',
+            key: 'left_result',
             width: 150,
+            render: (item: any) => {
+                return <div className={'result'}>
+                    {item?.config?.Left?.result || "-"}
+                </div>
+            }
+        },
+        {
+            title: 'Right Side',
+            dataIndex: 'result',
+            align: 'center',
+            fixed: 'left',
+            key: 'right_result',
+            width: 150,
+            render: (item: any) => {
+                return <div className={'result'}>
+                    {item?.config?.Right?.result || "-"}
+                </div>
+            }
+        },
+        {
+            title: 'Central Side',
+            dataIndex: 'result',
+            align: 'center',
+            fixed: 'left',
+            key: 'central_result',
+            width: 150,
+            render: (item: any) => {
+                return <div className={'result'}>
+                    {item?.config?.Central?.result || "-"}
+                </div>
+            }
         },
         {
             title: 'Comments',
             dataIndex: 'comments',
-            key: 'name',
+            key: 'comments',
             width: 147,
             // align: 'center',
             // fixed: 'right',
             render: (item: any) => {
                 return <div className={'comments'}>
-                    {item?.comments || "N/A"}
+                    {item?.config?.comments || "N/A"}
                 </div>
             }
         }
