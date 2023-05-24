@@ -60,6 +60,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
         } else {
             let totalPayableAmount;
             const finalDiscountAmount = CommonService.calculateFinalAmountFromDiscountPercentage(value.percentage, booking?.amount)
+            setDiscountAmount(finalDiscountAmount);
             if (finalDiscountAmount > value.max_discount_amount) {
                 totalPayableAmount = booking?.amount - value.max_discount_amount
             } else {
@@ -217,12 +218,12 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                             <div className="price-holder">
                                                 <div className="price-item">
                                                     <div className="price-item-text">Amount (Inc. tax)</div>
-                                                    <div className="price-item-amount amount">${booking.amount}.00</div>
+                                                    <div className="price-item-amount amount">${CommonService.convertToDecimals(+booking?.amount)}</div>
                                                 </div>
                                                 <div className="price-item">
                                                     <div className="price-item-text discount">Discount</div>
                                                     <div className="price-item-amount red">
-                                                        {selectedCoupon ? `- $ ${discountAmount}` : `$0` || 'N/A'}
+                                                        {selectedCoupon ? `- $ ${CommonService.convertToDecimals(discountAmount)}` : `$0` || 'N/A'}
 
                                                     </div>
                                                 </div>
@@ -230,7 +231,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                                 <div className="price-item price-item-total">
                                                     <div className="price-item-text">Total Amount (Inc.tax)</div>
                                                     <div className="price-item-amount green">
-                                                        ${selectedCoupon ? payableAmount : booking.amount}.00
+                                                        ${selectedCoupon ? CommonService.convertToDecimals(payableAmount) : CommonService.convertToDecimals(+booking?.amount)}
                                                     </div>
                                                 </div>
                                             </div>
