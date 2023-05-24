@@ -49,7 +49,7 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
             width: 150,
             align: 'center',
             render: (item: any) => {
-                return <span>{item?.client_details?.primary_contact_info?.phone ? CommonService.formatPhoneNumber(item?.client_details?.primary_contact_info?.phone) : ''}</span>
+                return <span>{item?.client_details?.phone ? CommonService.formatPhoneNumber(item?.client_details?.phone) : ''}</span>
             }
         },
         {
@@ -60,7 +60,7 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
             align: 'center',
             render: (item: any) => {
                 return <span>
-                    {item?.service_details?.name}
+                    {item?.service_name}
                 </span>
             }
         },
@@ -72,7 +72,7 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
             width: 140,
             render: (item: any) => {
                 return <span>
-                    {item?.provider_details?.first_name + ' ' + item?.provider_details?.last_name}
+                    {CommonService.capitalizeFirstLetter(item?.provider_details?.first_name) + ' ' + CommonService.capitalizeFirstLetter(item?.provider_details?.last_name)}
                 </span>
             }
         },
