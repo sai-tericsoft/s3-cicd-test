@@ -166,6 +166,16 @@ const getTheDifferenceBetweenDates = (fromDate: string) => {
     return diff;
 }
 
+const convertNumberToTime = (number:any) => {
+    let hours = Math.floor(number / 30) % 12;
+    const minutes = Math.floor((number % 30) * 2);
+
+    const period = hours < 12 ? 'AM' : 'PM';
+    hours = hours === 0 ? 12 : hours;
+
+    return `${hours}:${minutes.toString().padStart(2, '0')} ${period}`;
+};
+
 
 const getFlatJsonFromNestedJSON = (jsonData: any, rootName: string = "", ignoreList: any[] = []): any => {
 
@@ -643,6 +653,7 @@ const CommonService = {
     calculateFinalAmountFromDiscountPercentage,
     generateUseCaseFromCaseDetails2,
     transformTimeStamp2,
+    convertNumberToTime,
 
     // createValidationsObject,
     // createYupSchema,
