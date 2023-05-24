@@ -438,9 +438,9 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                             })
                                         }
                                         <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>
-                                            <ESignApprovalComponent isSigned={formik.values.is_signed}
+                                            <ESignApprovalComponent isSigned={false}
                                                                     isSigning={isSigningInProgress}
-                                                                    canSign={formik.values?.can_sign}
+                                                                    canSign={true}
                                                                     signedAt={formik.values.signed_on}
                                                                     onSign={() => {
                                                                         handleSign(formik.values, formik);
