@@ -55,6 +55,8 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
     const [isInterventionIncompleteModalOpen, setIsInterventionIncompleteModalOpen] = useState<boolean>(false);
 
+    console.log('billingDetails?.appointment_details?.start_time', billingDetails?.appointment_details?.start_time);
+
     const {
         paymentModes
     } = useSelector((state: IRootReducerState) => state.staticData);
@@ -423,9 +425,9 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                     <div className={"billing-address-block__title"}>Billing To</div>
                                     &nbsp;&nbsp;
                                     {(billingDetails?.billing_address && type === 'invoice') &&
-                                    <LinkComponent onClick={openBillingAddressFormDrawer}>
-                                        (Edit Billing To)
-                                    </LinkComponent>}
+                                        <LinkComponent onClick={openBillingAddressFormDrawer}>
+                                            (Edit Billing To)
+                                        </LinkComponent>}
                                 </div>
                                 <div className={"billing-address-block__details"}>
                                     {
@@ -523,7 +525,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                     </div>
                                     <div className="ts-col-lg-3">
                                         <DataLabelValueComponent label={"Date and Time"}>
-                                            {CommonService.convertDateFormat2(billingDetails?.appointment_details?.appointment_date, "DD-MMM-YYYY, hh:mm A")}
+                                            {CommonService.convertDateFormat2(billingDetails?.appointment_details?.appointment_date, "DD-MMM-YYYY")},{CommonService.convertNumberToTime(billingDetails?.appointment_details?.start_time)}
                                         </DataLabelValueComponent>
                                     </div>
                                 </div>
@@ -592,7 +594,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                             <div
                                                 className="add-new-invoice__payment__block__row__value">{Misc.CURRENCY_SYMBOL}
                                                 {
-                                                 CommonService.convertToDecimals( parseInt(billingDetails?.total) - (billingDetails?.discount ? parseInt(billingDetails?.discount) : 0))
+                                                    CommonService.convertToDecimals(parseInt(billingDetails?.total) - (billingDetails?.discount ? parseInt(billingDetails?.discount) : 0))
                                                 }
                                             </div>
                                         </div>
