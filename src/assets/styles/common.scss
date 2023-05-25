@@ -369,8 +369,14 @@
 .link-provider-drawer-container {
   .link-provider-drawer {
     .link-provider-existing-list {
-      margin: 20px 0;
+      margin: 20px 0 10px 0;
       height: calc(100vh - 280px);
+      .table-container{
+        .t-table{
+          margin-bottom: 0px;
+          height: calc(100vh - 380px);
+        }
+      }
     }
   }
 }
