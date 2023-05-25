@@ -25,7 +25,7 @@ interface TransferMedicalRecordComponentProps {
 
 const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentProps) => {
 
-        const {medicalRecordId,onClose} = props;
+        const {medicalRecordId, onClose} = props;
         const [currentStep, setCurrentStep] = useState<"selectClient" | "selectInterventions" | "selectTargetMedicalRecord">("selectClient");
         const [clientSearchKey, setClientSearchKey] = useState<string>('');
         const {onMedicalRecordTransfer} = props;
@@ -174,17 +174,18 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
             }
         ], [selectedMedicalRecordToTransferUnder]);
 
+
         const handleTransferMedicalRecord = useCallback(() => {
             setIsMedicalRecordTransferUnderProgress(true);
             const payload = {
                 "is_transfer_record": shouldTransferEntireMedicalRecord,
-                "medical_record_id": medicalRecordId,
-                "transfer_records": selectedMedicalInterventions?.map((item: any) => {
+                "medical_record_id": shouldTransferEntireMedicalRecord ? medicalRecordId : selectedMedicalRecordToTransferUnder?._id,
+                "transfer_records": shouldTransferEntireMedicalRecord ? selectedMedicalInterventions?.map((item: any) => {
                     return {
                         "_id": item?._id,
                         "note_type_category": item?.note_type || item?.note_type_category,
                     }
-                }),
+                }):[],
             };
             CommonService._chartNotes.TransferMedicalRecordAPICall(selectedClient?._id, payload)
                 .then((response: IAPIResponseType<any>) => {
@@ -195,7 +196,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 CommonService._alert.showToast(error?.error || "Error while transferring Medical Record", 'error');
                 setIsMedicalRecordTransferUnderProgress(false);
             });
-        }, [onMedicalRecordTransfer, selectedClient, medicalRecordId, shouldTransferEntireMedicalRecord, selectedMedicalInterventions]);
+        }, [onMedicalRecordTransfer, selectedClient, medicalRecordId, shouldTransferEntireMedicalRecord, selectedMedicalInterventions, selectedMedicalRecordToTransferUnder]);
 
         const confirmTransferMedicalRecord = useCallback(() => {
             CommonService.onConfirm({
