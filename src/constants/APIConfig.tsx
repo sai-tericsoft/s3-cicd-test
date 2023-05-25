@@ -431,7 +431,7 @@ const APIConfig: IAPIConfig = {
     },
     CLIENT_MEDICAL_ATTACHMENT: {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/attachment',
-        METHOD: 'get'
+        METHOD: 'post'
     },
     CLIENT_MEDICAL_RECORD: {
         URL: (clientId: string) => ENV.API_URL + '/medicalRecord/' + clientId,
