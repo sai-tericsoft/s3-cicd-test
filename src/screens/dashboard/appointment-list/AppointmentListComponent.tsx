@@ -92,12 +92,14 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
             title: "",
             dataIndex: "actions",
             key: "actions",
-            width: 120,
+            width: 180,
             fixed: "right",
             render: (item: any) => {
                 if (item?.status === 'upcoming') {
                     return <LinkComponent
-                        route={CommonService._routeConfig.UpdateMedicalIntervention(item?.medical_record_id, item?._id)}>
+                        onClick={() => CommonService.ComingSoon()}
+                        // route={CommonService._routeConfig.UpdateMedicalIntervention(item?.medical_record_id, item?._id)}
+                    >
                         <ButtonComponent>Start Appointment</ButtonComponent></LinkComponent>
                 } else {
                     if (item?._id) {

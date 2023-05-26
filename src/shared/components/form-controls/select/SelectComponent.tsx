@@ -69,7 +69,7 @@ const SelectComponent = (props: SelectComponentProps) => {
     const handleClear = useCallback(() => {
         setTmpValue('')
         onUpdate && onUpdate('');
-    }, [])
+    }, [onUpdate])
 
     const ClearOption = useCallback(() => (
         <IconButtonComponent onClick={handleClear} className={'mrg-right-10'}>
