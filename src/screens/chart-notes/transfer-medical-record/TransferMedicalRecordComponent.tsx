@@ -180,7 +180,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
             const payload = {
                 "is_transfer_record": shouldTransferEntireMedicalRecord,
                 "medical_record_id": shouldTransferEntireMedicalRecord ? medicalRecordId : selectedMedicalRecordToTransferUnder?._id,
-                "transfer_records": shouldTransferEntireMedicalRecord ? selectedMedicalInterventions?.map((item: any) => {
+                "transfer_records": !shouldTransferEntireMedicalRecord ? selectedMedicalInterventions?.map((item: any) => {
                     return {
                         "_id": item?._id,
                         "note_type_category": item?.note_type || item?.note_type_category,
