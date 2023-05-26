@@ -45,8 +45,8 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
             title: "Provider Name",
             width: "90%",
             render:(item:any)=>{
-                return <>{item?.is_linked && item?.provider_name}</>
-                // return <>{item?.provider_name}</>
+                // return <>{item?.is_linked && item?.provider_name}</>
+                return <>{item?.provider_name}</>
             }
         },
         {
