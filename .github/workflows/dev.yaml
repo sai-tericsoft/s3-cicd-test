@@ -22,7 +22,7 @@ jobs:
       - name: Install yarn dependencies
         run: yarn install
       - name: Run build task
-        run: PUBLIC_URL="/dev" yarn build:dev
+        run:  yarn build:dev
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
