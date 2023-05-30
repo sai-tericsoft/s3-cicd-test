@@ -16,7 +16,6 @@ import LinkComponent from "../../../shared/components/link/LinkComponent";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
 import {ImageConfig, Misc} from "../../../constants";
 import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
-import {useNavigate} from "react-router-dom";
 
 interface TransferMedicalRecordComponentProps {
     onClose: () => void;

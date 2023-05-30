@@ -61,7 +61,7 @@ const ICDTableColumns: any = [
         dataIndex: 'icd_code',
         key: 'icd_code',
         width: 150,
-        fixed:'left'
+        fixed: 'left'
     },
     {
         title: 'Description',
@@ -327,7 +327,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                             return (
                                 <Form className="t-form" noValidate={true}>
                                     {medicalInterventionDetails?.status === 'draft' &&
-                                    <FormAutoSave formikCtx={formik} onUpdating={setIsFormBeingUpdated}/>}
+                                        <FormAutoSave formikCtx={formik} onUpdating={setIsFormBeingUpdated}/>}
                                     <div
                                         className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
                                         <FormControlLabelComponent label={"SOAP Note"} size={'lg'}
@@ -378,8 +378,6 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                     </Field>
                                                 } readonly={
                                                     <div className={'readonly-wrapper'}>
-                                                        <FormControlLabelComponent
-                                                            label={'Subjective'}/>
                                                         <div className={'readonly-text'}>
                                                             {medicalInterventionDetails?.subjective?.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
@@ -407,18 +405,20 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                        }
                                                                        }>Clear</div>}
                                                            readonly={<></>}/>}&nbsp;&nbsp;
-                                                       <Field name={'is_flagged'}>
-                                                           {
-                                                               (field: FieldProps) => (
-                                                                   <FormikCheckBoxComponent
-                                                                       label={'Flag Note'}
-                                                                       formikField={field}
-                                                                       required={false}
-                                                                       labelPlacement={"start"}
-                                                                   />
-                                                               )
-                                                           }
-                                                       </Field>
+                                                       {medicalInterventionDetails?.status === 'draft' &&
+                                                           <Field name={'is_flagged'}>
+                                                               {
+                                                                   (field: FieldProps) => (
+                                                                       <FormikCheckBoxComponent
+                                                                           label={'Flag Note'}
+                                                                           formikField={field}
+                                                                           required={false}
+                                                                           labelPlacement={"start"}
+                                                                       />
+                                                                   )
+                                                               }
+                                                           </Field>
+                                                       }
                                                    </>}
                                     >
                                         <div className="ts-row">
@@ -439,10 +439,14 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         }
                                                     </Field>
                                                 } readonly={
-                                                    <div className={'readonly-wrapper'}>
-                                                        <FormControlLabelComponent
-                                                            label={'Observation'}/>
-                                                        <div className={'readonly-text'}>
+                                                    <div
+                                                        className={medicalInterventionDetails?.status === 'draft' ? 'readonly-wrapper' : 'completed-wrapper'}>
+                                                        <div
+                                                            className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
+                                                            <FormControlLabelComponent
+                                                                label={'Observation'}/></div>
+                                                        <div
+                                                            className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
                                                             {medicalInterventionDetails?.objective?.observation.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) || "N/A"}
@@ -450,7 +454,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                     </div>
                                                 }
                                                 />
-                                                <div className="card-styling padding-card-5 range-of-motion-wrapper">
+                                                <div className={"card-styling padding-card-5 range-of-motion-wrapper"}>
                                                     <>
                                                         {
                                                             medicalRecordId && medicalInterventionId && <>
@@ -478,94 +482,105 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
 
                                                                     </>
                                                                 }
-                                                                {
-                                                                    medicalInterventionDetails?.rom_config?.length > 0 &&
-                                                                    <CardComponent className={'rom-header'}
-                                                                                   title={"Range of Motion and Strength"}
-                                                                                   actions={
-                                                                                       <DraftReadonlySwitcherComponent
-                                                                                           condition={true}
-                                                                                           draft={<>
-                                                                                               {
-                                                                                                   (medicalInterventionId && medicalRecordId) &&
-                                                                                                   <LinkComponent
-                                                                                                       route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId)}>
-                                                                                                       <ButtonComponent
-                                                                                                           size={"small"}
-                                                                                                           prefixIcon={(medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0) ?
-                                                                                                               <ImageConfig.EditIcon/> :
-                                                                                                               <ImageConfig.AddIcon/>}>
-                                                                                                           {medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0 ? 'Edit' : 'Add'}
-                                                                                                       </ButtonComponent>
-                                                                                                   </LinkComponent>
-                                                                                               }
-                                                                                           </>} readonly={<></>}
-                                                                                       />
-                                                                                   }
-                                                                    >
+                                                                <div className={'completed-wrapper'}>
+                                                                    {medicalInterventionDetails?.status === 'completed' &&
 
-                                                                        {
-                                                                            medicalInterventionDetails?.rom_config?.map((body_part: any) => {
-                                                                                return (
-                                                                                    <>
-                                                                                        <CardComponent
-                                                                                            className={'body-part-card'}
-                                                                                            size={'sm'}
-                                                                                            title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
-                                                                                        </CardComponent>
-                                                                                        {
-                                                                                            body_part?.rom_config?.length > 0 &&
-                                                                                            <TableComponent
-                                                                                                data={body_part?.rom_config?.filter((rom_config: any) => {
-                                                                                                    const bodyPartSides = body_part?.body_part_details?.sides;
-                                                                                                    const config = rom_config?.config;
-                                                                                                    if (config?.comments) {
-                                                                                                        return rom_config;
-                                                                                                    } else {
-                                                                                                        let romConfig = undefined;
-                                                                                                        bodyPartSides?.forEach((side: any) => {
-                                                                                                            const sideConfig = config[side];
-                                                                                                            if (sideConfig?.arom || sideConfig?.prom || sideConfig?.strength) {
-                                                                                                                romConfig = rom_config;
-                                                                                                            }
-                                                                                                        });
-                                                                                                        return romConfig;
-                                                                                                    }
-                                                                                                })}
-                                                                                                showExpandColumn={false}
-                                                                                                defaultExpandAllRows={true}
-                                                                                                canExpandRow={(row: any) => row?.config?.comments?.length > 0}
-                                                                                                expandRowRenderer={
-                                                                                                    (row: any) => {
-                                                                                                        return (
-                                                                                                            <div
-                                                                                                                key={row?.config?._id}
-                                                                                                                className={'comment-row'}>
+                                                                        <div
+                                                                            className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
+                                                                            <FormControlLabelComponent
+                                                                                label={"Range of Motion and Strength "}/>
+                                                                        </div>
+
+                                                                    }
+                                                                    {
+                                                                        medicalInterventionDetails?.rom_config?.length > 0 &&
+                                                                        <CardComponent className={'rom-header'}
+                                                                                       title={"Range of Motion and Strength"}
+                                                                                       actions={
+                                                                                           <DraftReadonlySwitcherComponent
+                                                                                               condition={true}
+                                                                                               draft={<>
+                                                                                                   {
+                                                                                                       (medicalInterventionId && medicalRecordId) && medicalInterventionDetails?.status === 'draft' &&
+                                                                                                       <LinkComponent
+                                                                                                           route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId)}>
+                                                                                                           <ButtonComponent
+                                                                                                               size={"small"}
+                                                                                                               prefixIcon={(medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0) ?
+                                                                                                                   <ImageConfig.EditIcon/> :
+                                                                                                                   <ImageConfig.AddIcon/>}>
+                                                                                                               {medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0 ? 'Edit' : 'Add'}
+                                                                                                           </ButtonComponent>
+                                                                                                       </LinkComponent>
+                                                                                                   }
+                                                                                               </>} readonly={<></>}
+                                                                                           />
+                                                                                       }
+                                                                        >
+
+                                                                            {
+                                                                                medicalInterventionDetails?.rom_config?.map((body_part: any) => {
+                                                                                    return (
+                                                                                        <>
+                                                                                            <CardComponent
+                                                                                                className={'body-part-card'}
+                                                                                                size={'sm'}
+                                                                                                title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
+                                                                                            </CardComponent>
+                                                                                            {
+                                                                                                body_part?.rom_config?.length > 0 &&
+                                                                                                <TableComponent
+                                                                                                    data={body_part?.rom_config?.filter((rom_config: any) => {
+                                                                                                        const bodyPartSides = body_part?.body_part_details?.sides;
+                                                                                                        const config = rom_config?.config;
+                                                                                                        if (config?.comments) {
+                                                                                                            return rom_config;
+                                                                                                        } else {
+                                                                                                            let romConfig = undefined;
+                                                                                                            bodyPartSides?.forEach((side: any) => {
+                                                                                                                const sideConfig = config[side];
+                                                                                                                if (sideConfig?.arom || sideConfig?.prom || sideConfig?.strength) {
+                                                                                                                    romConfig = rom_config;
+                                                                                                                }
+                                                                                                            });
+                                                                                                            return romConfig;
+                                                                                                        }
+                                                                                                    })}
+                                                                                                    showExpandColumn={false}
+                                                                                                    defaultExpandAllRows={true}
+                                                                                                    canExpandRow={(row: any) => row?.config?.comments?.length > 0}
+                                                                                                    expandRowRenderer={
+                                                                                                        (row: any) => {
+                                                                                                            return (
                                                                                                                 <div
-                                                                                                                    className={'comment-icon'}>
-                                                                                                                    <ImageConfig.CommentIcon/>
+                                                                                                                    key={row?.config?._id}
+                                                                                                                    className={'comment-row'}>
+                                                                                                                    <div
+                                                                                                                        className={'comment-icon'}>
+                                                                                                                        <ImageConfig.CommentIcon/>
+                                                                                                                    </div>
+                                                                                                                    <div
+                                                                                                                        className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
                                                                                                                 </div>
-                                                                                                                <div
-                                                                                                                    className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
-                                                                                                            </div>
-                                                                                                        )
+                                                                                                            )
+                                                                                                        }
                                                                                                     }
-                                                                                                }
-                                                                                                bordered={true}
-                                                                                                columns={getMedicalInterventionROMConfigColumns(body_part)}/>
-                                                                                        }
-                                                                                        {
-                                                                                            body_part?.rom_config?.length === 0 &&
-                                                                                            <StatusCardComponent
-                                                                                                title={"The following body part does not have any Range of Motion or Strength " +
-                                                                                                "                                                measurements. \n Please choose another body part."}/>
-                                                                                        }
-                                                                                    </>
-                                                                                )
-                                                                            })
-                                                                        }
-                                                                    </CardComponent>
-                                                                }
+                                                                                                    bordered={true}
+                                                                                                    columns={getMedicalInterventionROMConfigColumns(body_part)}/>
+                                                                                            }
+                                                                                            {
+                                                                                                body_part?.rom_config?.length === 0 &&
+                                                                                                <StatusCardComponent
+                                                                                                    title={"The following body part does not have any Range of Motion or Strength " +
+                                                                                                        "                                                measurements. \n Please choose another body part."}/>
+                                                                                            }
+                                                                                        </>
+                                                                                    )
+                                                                                })
+                                                                            }
+                                                                        </CardComponent>
+                                                                    }
+                                                                </div>
                                                             </>
                                                         }
                                                     </>
@@ -598,50 +613,61 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
 
                                                                 </>
                                                             }
-                                                            {
-                                                                medicalInterventionDetails?.special_tests?.length > 0 &&
-                                                                <div
-                                                                    className={"card-styling padding-card-5 mrg-bottom-20 " + ((medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0) ?
-                                                                        ' white-card-header ' : '')}>
-                                                                    <CardComponent title={"Special Test"}
-                                                                                   className={'special-test-header'}
-                                                                                   actions={
-                                                                                       <DraftReadonlySwitcherComponent
-                                                                                           condition={true}
-                                                                                           draft={<>
-                                                                                               {
-                                                                                                   (medicalInterventionId && medicalRecordId) &&
-                                                                                                   <LinkComponent
-                                                                                                       route={CommonService._routeConfig.MedicalInterventionSpecialTests(medicalRecordId, medicalInterventionId)}>
-                                                                                                       <ButtonComponent
-                                                                                                           size={"small"}
-                                                                                                           prefixIcon={(medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0) ?
-                                                                                                               <ImageConfig.EditIcon/> :
-                                                                                                               <ImageConfig.AddIcon/>}>
-                                                                                                           {medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0 ? 'Edit' : 'Add'}
-                                                                                                       </ButtonComponent>
-                                                                                                   </LinkComponent>
-                                                                                               }
-                                                                                           </>} readonly={<></>}/>
-                                                                                   }
-                                                                    >
+                                                            <div className={'completed-wrapper'}>
+                                                                {medicalInterventionDetails?.status === 'completed' &&
 
-                                                                        {medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.map((body_part: any) => {
-                                                                            return (<div className={''}>
-                                                                                <CardComponent
-                                                                                    className={'body-part-card'}
-                                                                                    size={'sm'}
-                                                                                    title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
-                                                                                </CardComponent>
-                                                                                <TableComponent
-                                                                                    data={body_part.special_tests}
-                                                                                    columns={SpecialTestsColumns}
-                                                                                    bordered={true}
-                                                                                />
-                                                                            </div>)
-                                                                        })}
-                                                                    </CardComponent>
-                                                                </div>}
+                                                                    <div
+                                                                        className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
+                                                                        <FormControlLabelComponent
+                                                                            label={"Special Tests "}/>
+                                                                    </div>
+
+                                                                }
+                                                                {
+                                                                    medicalInterventionDetails?.special_tests?.length > 0 &&
+                                                                    <div
+                                                                        className={"card-styling padding-card-5 mrg-bottom-20 " + ((medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0) ?
+                                                                            ' white-card-header ' : '')}>
+                                                                        <CardComponent title={"Special Test"}
+                                                                                       className={'special-test-header'}
+                                                                                       actions={
+                                                                                           <DraftReadonlySwitcherComponent
+                                                                                               condition={true}
+                                                                                               draft={<>
+                                                                                                   {
+                                                                                                       (medicalInterventionId && medicalRecordId) && medicalInterventionDetails?.status === 'draft' &&
+                                                                                                       <LinkComponent
+                                                                                                           route={CommonService._routeConfig.MedicalInterventionSpecialTests(medicalRecordId, medicalInterventionId)}>
+                                                                                                           <ButtonComponent
+                                                                                                               size={"small"}
+                                                                                                               prefixIcon={(medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0) ?
+                                                                                                                   <ImageConfig.EditIcon/> :
+                                                                                                                   <ImageConfig.AddIcon/>}>
+                                                                                                               {medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0 ? 'Edit' : 'Add'}
+                                                                                                           </ButtonComponent>
+                                                                                                       </LinkComponent>
+                                                                                                   }
+                                                                                               </>} readonly={<></>}/>
+                                                                                       }
+                                                                        >
+
+                                                                            {medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.map((body_part: any) => {
+                                                                                return (<div className={''}>
+                                                                                    <CardComponent
+                                                                                        className={'body-part-card'}
+                                                                                        size={'sm'}
+                                                                                        title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
+                                                                                    </CardComponent>
+                                                                                    <TableComponent
+                                                                                        data={body_part.special_tests}
+                                                                                        columns={SpecialTestsColumns}
+                                                                                        bordered={true}
+                                                                                    />
+                                                                                </div>)
+                                                                            })}
+                                                                        </CardComponent>
+                                                                    </div>}
+                                                            </div>
                                                         </>
                                                     }
                                                 </div>
@@ -661,10 +687,14 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         }
                                                     </Field>
                                                 } readonly={
-                                                    <div className={'readonly-wrapper'}>
-                                                        <FormControlLabelComponent
-                                                            label={'Palpation'}/>
-                                                        <div className={'readonly-text'}>
+                                                    <div
+                                                        className={medicalInterventionDetails?.status === 'draft' ? 'readonly-wrapper' : 'completed-wrapper'}>
+                                                        <div
+                                                            className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
+                                                            <FormControlLabelComponent
+                                                                label={'Palpation'}/></div>
+                                                        <div
+                                                            className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
                                                             {medicalInterventionDetails?.objective?.palpation.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) || "N/A"}
@@ -688,10 +718,14 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         }
                                                     </Field>
                                                 } readonly={
-                                                    <div className={'readonly-wrapper'}>
-                                                        <FormControlLabelComponent
-                                                            label={'Functional Tests'}/>
-                                                        <div className={'readonly-text'}>
+                                                    <div
+                                                        className={medicalInterventionDetails?.status === 'draft' ? 'readonly-wrapper' : 'completed-wrapper'}>
+                                                        <div
+                                                            className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
+                                                            <FormControlLabelComponent
+                                                                label={'Functional Tests'}/></div>
+                                                        <div
+                                                            className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
                                                             {medicalInterventionDetails?.objective?.functional_tests.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) || "N/A"}
@@ -716,10 +750,14 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         }
                                                     </Field>
                                                 } readonly={
-                                                    <div className={'readonly-wrapper'}>
-                                                        <FormControlLabelComponent
-                                                            label={'Treatment'}/>
-                                                        <div className={'readonly-text'}>
+                                                    <div
+                                                        className={medicalInterventionDetails?.status === 'draft' ? 'readonly-wrapper' : 'completed-wrapper'}>
+                                                        <div
+                                                            className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
+                                                            <FormControlLabelComponent
+                                                                label={'Treatment'}/></div>
+                                                        <div
+                                                            className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
                                                             {medicalInterventionDetails?.objective?.treatment.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) || "N/A"}
@@ -746,10 +784,14 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         }
                                                     </Field>
                                                 } readonly={
-                                                    <div className={'readonly-wrapper'}>
-                                                        <FormControlLabelComponent
-                                                            label={'Response to Treatment'}/>
-                                                        <div className={'readonly-text'}>
+                                                    <div
+                                                        className={medicalInterventionDetails?.status === 'draft' ? 'readonly-wrapper' : 'completed-wrapper'}>
+                                                        <div
+                                                            className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
+                                                            <FormControlLabelComponent
+                                                                label={'Response to Treatment'}/></div>
+                                                        <div
+                                                            className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
                                                             {medicalInterventionDetails?.objective?.treatment_response.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) || "N/A"}
@@ -804,19 +846,29 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
 
                                                                 </>
                                                             }
+                                                            <div className={'completed-wrapper'}>
+                                                                {medicalInterventionDetails?.status === 'completed' &&
+
+                                                                    <div
+                                                                        className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
+                                                                        <FormControlLabelComponent
+                                                                            label={"Medical Diagnosis/ICD-11 Codes"}/>
+                                                                    </div>
+
+                                                                }
                                                             {
                                                                 medicalInterventionDetails?.linked_icd_codes?.length > 0 &&
                                                                 <div className="icd-codes-wrapper">
                                                                     <div className="card-styling">
                                                                         <CardComponent size={'sm'}
-                                                                                       className={'icd-codes-header'}
+                                                                                       className={medicalInterventionDetails?.status==='completed'? 'icd-codes-header-wrapper' :'icd-codes-header'}
                                                                                        title={'Medical Diagnosis/ICD-11 Codes:'}
                                                                                        actions={
                                                                                            <DraftReadonlySwitcherComponent
                                                                                                condition={true}
                                                                                                draft={<>
                                                                                                    {
-                                                                                                       (medicalInterventionId && medicalRecordId) &&
+                                                                                                       (medicalInterventionId && medicalRecordId) && medicalInterventionDetails?.status === 'draft' &&
                                                                                                        <LinkComponent
                                                                                                            route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId)}>
                                                                                                            <ButtonComponent
@@ -838,6 +890,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                     </div>
                                                                 </div>
                                                             }
+                                                            </div>
                                                         </>
                                                     }
                                                 </div>
@@ -857,10 +910,14 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         }
                                                     </Field>
                                                 } readonly={
-                                                    <div className={'readonly-wrapper'}>
-                                                        <FormControlLabelComponent
-                                                            label={'Index of Suspicion'}/>
-                                                        <div className={'readonly-text'}>
+                                                    <div
+                                                        className={medicalInterventionDetails?.status === 'draft' ? 'readonly-wrapper' : 'completed-wrapper'}>
+                                                        <div
+                                                            className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
+                                                            <FormControlLabelComponent
+                                                                label={'Index of Suspicion'}/></div>
+                                                        <div
+                                                            className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
                                                             {medicalInterventionDetails?.objective?.suspicion_index?.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) || "N/A"}
@@ -884,10 +941,14 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         }
                                                     </Field>
                                                 } readonly={
-                                                    <div className={'readonly-wrapper'}>
-                                                        <FormControlLabelComponent
-                                                            label={'Surgery Procedure Complete'}/>
-                                                        <div className={'readonly-text'}>
+                                                    <div
+                                                        className={medicalInterventionDetails?.status === 'draft' ? 'readonly-wrapper' : 'completed-wrapper'}>
+                                                        <div
+                                                            className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
+                                                            <FormControlLabelComponent
+                                                                label={'Surgery Procedure Complete'}/></div>
+                                                        <div
+                                                            className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
                                                             {medicalInterventionDetails?.objective?.surgery_procedure?.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) || "N/A"}
@@ -930,10 +991,14 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         }
                                                     </Field>
                                                 } readonly={
-                                                    <div className={'readonly-wrapper'}>
-                                                        <FormControlLabelComponent
-                                                            label={'Plan'}/>
-                                                        <div className={'readonly-text'}>
+                                                    <div
+                                                        className={medicalInterventionDetails?.status === 'draft' ? 'readonly-wrapper' : 'completed-wrapper'}>
+                                                        <div
+                                                            className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
+                                                            <FormControlLabelComponent
+                                                                label={'Plan'}/></div>
+                                                        <div
+                                                            className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
                                                             {medicalInterventionDetails?.plan.plan?.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) || "N/A"}
@@ -957,10 +1022,14 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         }
                                                     </Field>
                                                 } readonly={
-                                                    <div className={'readonly-wrapper'}>
-                                                        <FormControlLabelComponent
-                                                            label={'MD Recommendations'}/>
-                                                        <div className={'readonly-text'}>
+                                                    <div
+                                                        className={medicalInterventionDetails?.status === 'draft' ? 'readonly-wrapper' : 'completed-wrapper'}>
+                                                        <div
+                                                            className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
+                                                            <FormControlLabelComponent
+                                                                label={'MD Recommendations'}/></div>
+                                                        <div
+                                                            className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
                                                             {medicalInterventionDetails?.plan.md_recommendations?.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) || "N/A"}
@@ -984,10 +1053,14 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         }
                                                     </Field>
                                                 } readonly={
-                                                    <div className={'readonly-wrapper'}>
-                                                        <FormControlLabelComponent
-                                                            label={'Education'}/>
-                                                        <div className={'readonly-text'}>
+                                                    <div
+                                                        className={medicalInterventionDetails?.status === 'draft' ? 'readonly-wrapper' : 'completed-wrapper'}>
+                                                        <div
+                                                            className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
+                                                            <FormControlLabelComponent
+                                                                label={'Education'}/></div>
+                                                        <div
+                                                            className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
                                                             {medicalInterventionDetails?.plan.education?.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) || "N/A"}
@@ -1013,10 +1086,15 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         }
                                                     </Field>
                                                 } readonly={
-                                                    <div className={'readonly-wrapper'}>
-                                                        <FormControlLabelComponent
-                                                            label={'Treatment Goals'}/>
-                                                        <div className={'readonly-text'}>
+                                                    <div
+                                                        className={medicalInterventionDetails?.status === 'draft' ? 'readonly-wrapper' : 'completed-wrapper'}>
+                                                        <div
+                                                            className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
+                                                            <FormControlLabelComponent
+                                                                label={'Treatment Goals'}/>
+                                                        </div>
+                                                        <div
+                                                            className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
                                                             {medicalInterventionDetails?.plan.treatment_goals?.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) || "N/A"}
