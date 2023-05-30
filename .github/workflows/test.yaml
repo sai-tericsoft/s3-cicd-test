@@ -25,7 +25,7 @@ jobs:
         run: yarn install
 
       - name: Run build task
-         run: PUBLIC_URL="/test" yarn build:test
+         run: yarn build:test
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
