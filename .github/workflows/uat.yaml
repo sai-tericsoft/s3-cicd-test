@@ -24,7 +24,7 @@ jobs:
         run: yarn install
 
       - name: Run build task
-        run:  yarn build:test
+        run:  yarn build:uat
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
