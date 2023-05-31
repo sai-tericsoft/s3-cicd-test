@@ -319,6 +319,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
 
     const clientListColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
         {
+            title:"Client Name",
             key: "name",
             dataIndex: "name",
             render: (item: any) => {
@@ -336,6 +337,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
 
     const providerListColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
         {
+            title:'Provider Name',
             key: "name",
             dataIndex: "name",
             render: (item: any) => {
@@ -775,7 +777,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                             <div className={'client-list-heading'}>Client List</div>
                             <TableComponent data={clientList} columns={clientListColumns}
                                             loading={isClientListLoading}
-                                            hideHeader={true}
+                                            hideHeader={false}
                                             onRowClick={(row: any) => {
                                                 formRef?.current?.setFieldValue('client_id', row._id);
                                                 setSelectedClient(row);
@@ -815,7 +817,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                             <TableComponent data={providerList}
                                             columns={providerListColumns}
                                             loading={isProviderListLoading}
-                                            hideHeader={true}
+                                            hideHeader={false}
                                             onRowClick={(row: any) => {
                                                 formRef?.current?.setFieldValue('provider_id', row._id);
                                                 setSelectedProvider(row);
