@@ -43,7 +43,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
         const [isMedicalRecordTransferUnderProgress, setIsMedicalRecordTransferUnderProgress] = useState<boolean>(false);
         const ClientListColumns: ITableColumn[] = useMemo(() => [
             {
-                title: 'Name',
+                title: 'Client Name',
                 key: 'name',
                 dataIndex: 'name',
                 render: (item: any) => {
@@ -334,7 +334,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                                                 columns={ClientListColumns}
                                                 loading={isClientListLoading}
                                                 bordered={true}
-                                                hideHeader={true}
+                                                hideHeader={false}
                                                 onRowClick={(row: any) => {
                                                     setSelectedClient(row);
                                                 }}
