@@ -126,31 +126,46 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
 
 
     const codeListColumns: ITableColumn[] = [
-        {
-            key: 'select',
-            title: '',
-            dataIndex: 'select',
-            width: 20,
-            fixed: 'left',
-            render: (item: any, record: any) => {
-                return <CheckBoxComponent label={""} checked={selectedICDCodes.includes(record?._id)}
-                                          onChange={(isChecked) => {
-                                              if (isChecked) {
-                                                  setSelectedICDCodes([...selectedICDCodes, record?._id]);
-                                              } else {
-                                                  setSelectedICDCodes(selectedICDCodes.filter((code) => code !== record?._id));
-                                              }
-                                          }}/>
-
-            }
-        },
+        // {
+        //     key: 'select',
+        //     title: '',
+        //     dataIndex: 'select',
+        //     width: 20,
+        //     fixed: 'left',
+        //     render: (item: any, record: any) => {
+        //         return <CheckBoxComponent label={""} checked={selectedICDCodes.includes(record?._id)}
+        //                                   onChange={(isChecked) => {
+        //                                       if (isChecked) {
+        //                                           setSelectedICDCodes([...selectedICDCodes, record?._id]);
+        //                                       } else {
+        //                                           setSelectedICDCodes(selectedICDCodes.filter((code) => code !== record?._id));
+        //                                       }
+        //                                   }}/>
+        //
+        //     }
+        // },
         {
             title: 'ICD-11 Codes',
             dataIndex: 'icd_code',
             key: 'icd_code',
             width: 180,
-            fixed: 'left',
-            align: 'left',
+            // fixed: 'left',
+            // align: 'left',
+
+            render: (item: any, record: any) => {
+                return <div className="icd-code-column">
+                    <CheckBoxComponent label={item} checked={selectedICDCodes.includes(record?._id)}
+                                       onChange={(isChecked) => {
+                                           if (isChecked) {
+                                               setSelectedICDCodes([...selectedICDCodes, record?._id]);
+                                           } else {
+                                               setSelectedICDCodes(selectedICDCodes.filter((code) => code !== record?._id));
+                                           }
+                                       }}/>
+                </div>
+
+            }
+
         },
         {
             title: 'Description',
@@ -183,13 +198,32 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
         }
     ];
     const favouriteICDCodesColumns: ITableColumn[] = [
+        // {
+        //     key: 'select',
+        //     title: '',
+        //     dataIndex: 'select',
+        //     width: 20,
+        //     render: (item: any, record: any) => {
+        //         return <CheckBoxComponent label={""} checked={selectedICDCodes.includes(record?.icd_code_id)}
+        //                                   onChange={(isChecked) => {
+        //                                       if (isChecked) {
+        //                                           setSelectedICDCodes([...selectedICDCodes, record?.icd_code_id]);
+        //                                       } else {
+        //                                           setSelectedICDCodes(selectedICDCodes.filter((code) => code !== record?.icd_code_id));
+        //                                       }
+        //                                   }}/>
+        //
+        //     }
+        //
+        // },
         {
-            key: 'select',
-            title: '',
-            dataIndex: 'select',
-            width: 20,
+            title: 'ICD-11 Codes',
+            dataIndex: 'icd_code',
+            key: 'icd_code',
+            width: 180,
+            fixed: 'left',
             render: (item: any, record: any) => {
-                return <CheckBoxComponent label={""} checked={selectedICDCodes.includes(record?.icd_code_id)}
+                return <CheckBoxComponent label={record?.icd_code_details?.icd_code} checked={selectedICDCodes.includes(record?.icd_code_id)}
                                           onChange={(isChecked) => {
                                               if (isChecked) {
                                                   setSelectedICDCodes([...selectedICDCodes, record?.icd_code_id]);
@@ -197,19 +231,8 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                                                   setSelectedICDCodes(selectedICDCodes.filter((code) => code !== record?.icd_code_id));
                                               }
                                           }}/>
-
             }
 
-        },
-        {
-            title: 'ICD-11 Codes',
-            dataIndex: 'icd_code',
-            key: 'icd_code',
-            width: 180,
-            fixed: 'left',
-            render: (_: any, item: any) => {
-                return <>{item?.icd_code_details?.icd_code}</>
-            }
         },
         {
             title: 'Description',
