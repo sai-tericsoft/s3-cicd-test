@@ -1,4 +1,4 @@
-name: Admin UAT CI&CD setup
+name: ADMIN UAT CI&CD setup
 on:
   release:
     types: [published]
@@ -12,26 +12,25 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: "16.x"
-
+          node-version: "14.x"
       - name: Yarn install cache
         uses: c-hive/gha-yarn-cache@v1
         with:  
-          node-version: '16.x' 
+          node-version: '14.x' 
           cache: 'yarn'  
 
       - name: Install yarn dependencies
         run: yarn install
-
       - name: Run build task
         run:  yarn build:uat
       - name: deploy to server
-          uses: AEnterprise/rsync-deploy@v1.0
-          env:
-            DEPLOY_KEY: ${{ secrets.KINERGY_UAT_PEM }}
-            ARGS: "-e -c -r --delete"
-            SERVER_PORT: 22
-            FOLDER: build/*
-            SERVER_IP: ${{ secrets.KINERGY_UAT_IP }}
-            USERNAME: ${{ secrets.USERNAME }}
-            SERVER_DESTINATION: ${{ secrets.DESTINATION_UAT }}
+        uses: AEnterprise/rsync-deploy@v1.0
+        env:
+          DEPLOY_KEY: ${{ secrets.KINERGY_UAT_PEM }}
+          ARGS: "-e -c -r --delete"
+          SERVER_PORT: 22
+          FOLDER: build/*
+          SERVER_IP: ${{ secrets.KINERGY_UAT_IP }}
+          USERNAME: ${{ secrets.USERNAME }}
+          SERVER_DESTINATION: ${{ secrets.DESTINATION_UAT }}
+          
