@@ -3,7 +3,7 @@ on:
   release:
     types: [published]
   
-jobs:
+obs:
   build:
     runs-on: ubuntu-latest
     steps:
@@ -12,15 +12,17 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: "14.x"
+          node-version: "16.x"
+
       - name: Yarn install cache
         uses: c-hive/gha-yarn-cache@v1
         with:  
-          node-version: '14.x' 
+          node-version: '16.x' 
           cache: 'yarn'  
 
       - name: Install yarn dependencies
         run: yarn install
+
       - name: Run build task
         run:  yarn build:uat
       - name: deploy to server
