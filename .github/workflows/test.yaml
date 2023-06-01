@@ -13,12 +13,12 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: "16.x"
+          node-version: "18.x"
 
       - name: Yarn install cache
         uses: c-hive/gha-yarn-cache@v1
         with:  
-          node-version: '16.x' 
+          node-version: '18.x' 
           cache: 'yarn'  
 
       - name: Install yarn dependencies

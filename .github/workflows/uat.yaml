@@ -1,7 +1,8 @@
 name: Customer UAT CI&CD setup
 
 on:
-  workflow_dispatch
+  release:
+    types: [published]
 
   
 jobs:
