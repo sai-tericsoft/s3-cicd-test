@@ -11,10 +11,11 @@ import TableWrapperComponent from "../../../shared/components/table-wrapper/Tabl
 
 interface ClientMedicalRecordsComponentProps {
     referrer?: any;
+    refreshToken?:any;
 }
 
 const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentProps) => {
-    const {referrer} = props
+    const {referrer,refreshToken} = props
     const {medicalRecordId} = useParams();
     const dispatch = useDispatch();
     // const {
@@ -182,6 +183,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                 url={APIConfig.MEDICAL_RECORD_CONSOLIDATED_INTERVENTIONS_AND_ATTACHMENTS.URL(medicalRecordId)}
                 method={APIConfig.MEDICAL_RECORD_CONSOLIDATED_INTERVENTIONS_AND_ATTACHMENTS.METHOD}
                 columns={MedicalInterventionListColumns}
+                refreshToken={refreshToken}
                 onSort={handleClientMedicalListSort}
                 extraPayload={medicalRecordListFilterState}
             />
