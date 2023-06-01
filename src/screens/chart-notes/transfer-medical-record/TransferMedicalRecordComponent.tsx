@@ -16,7 +16,6 @@ import LinkComponent from "../../../shared/components/link/LinkComponent";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
 import {ImageConfig, Misc} from "../../../constants";
 import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
-import {useNavigate} from "react-router-dom";
 
 interface TransferMedicalRecordComponentProps {
     onClose: () => void;
@@ -43,7 +42,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
         const [isMedicalRecordTransferUnderProgress, setIsMedicalRecordTransferUnderProgress] = useState<boolean>(false);
         const ClientListColumns: ITableColumn[] = useMemo(() => [
             {
-                title: 'Name',
+                title: 'Client Name',
                 key: 'name',
                 dataIndex: 'name',
                 render: (item: any) => {
@@ -334,7 +333,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                                                 columns={ClientListColumns}
                                                 loading={isClientListLoading}
                                                 bordered={true}
-                                                hideHeader={true}
+                                                hideHeader={false}
                                                 onRowClick={(row: any) => {
                                                     setSelectedClient(row);
                                                 }}

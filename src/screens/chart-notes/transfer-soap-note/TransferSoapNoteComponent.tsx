@@ -40,6 +40,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
 
     const clientListColumns: ITableColumn[] = [
         {
+            title:'Client Name',
             key: "name",
             dataIndex: "name",
             render: (item: any) => {
@@ -172,11 +173,11 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                     {
                         clientListSearch &&
                         <>
-                            <div className={'client-list-heading'}>Client List</div>
+                            <div className={'client-list-heading'}>Clients List</div>
                             <TableComponent data={clientList}
                                             columns={clientListColumns}
                                             loading={isClientListLoading}
-                                            hideHeader={true}
+                                            hideHeader={false}
                                             onRowClick={(row: any) => {
                                                 setSelectedClient(row);
                                             }}

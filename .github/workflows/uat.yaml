@@ -1,4 +1,4 @@
-name: ADMIN UAT CI&CD setup
+name: Admin UAT CI&CD setup
 on:
   release:
     types: [published]
@@ -12,33 +12,28 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: "14.x"
+          node-version: "16.x"
+
       - name: Yarn install cache
         uses: c-hive/gha-yarn-cache@v1
         with:  
-          node-version: '14.x' 
+          node-version: '16.x' 
           cache: 'yarn'  
 
       - name: Install yarn dependencies
         run: yarn install
+
       - name: Run build task
         run:  yarn build:uat
-      # - name: deploy to server
-      #   uses: AEnterprise/rsync-deploy@v1.0
-      #   env:
-      #     DEPLOY_KEY: ${{ secrets.KINERGY_UAT_PEM }}
-      #     ARGS: "-e -c -r --delete"
-      #     SERVER_PORT: 22
-      #     FOLDER: build/*
-      #     SERVER_IP: ${{ secrets.KINERGY_UAT_IP }}
-      #     USERNAME: ${{ secrets.USERNAME }}
-      #     SERVER_DESTINATION: ${{ secrets.DESTINATION_UAT }}
-      - name: rsync deployments
-        uses: burnett01/rsync-deployments@5.2.1
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          switches: -avzr --delete
-          path: build/*
-          remote_path: ${{ secrets.DESTINATION_UAT }}
-          remote_host: ${{ secrets.KINERGY_UAT_IP }}
-          remote_user: ${{ secrets.USERNAME }}
-          remote_key: ${{ secrets.KINERGY_UAT_PEM }}       
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_KIN }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_KIN}}
+          aws-region: ${{ secrets.AWS_REGION_KIN }}
+
+      - name: Deploy to S3
+        run: aws s3 sync build s3://${{ secrets.S3_BUCKET_UAT }} --delete
+      - name: Invalidate CloudFront
+        run: aws cloudfront create-invalidation --distribution-id ${{
+          secrets.CLOUDFRONT_DISTRIBUTION_ID_UAT }} --paths "/*"
