@@ -53,6 +53,7 @@ const MedicalInterventionFormInitialValues: any = {
         treatment_response: ""
     },
     is_discharge: true,
+    is_link_to_appointment:false,
 };
 
 interface ClientMedicalDetailsCardComponentProps {

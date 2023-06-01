@@ -78,6 +78,7 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
 
     const clientListColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
         {
+            title:"Client Name",
             key: "name",
             dataIndex: "name",
             render: (item: any) => {
@@ -109,7 +110,7 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
                             />
                         </div>
                         <div className="client-search-body">
-                            <div className="client-search-body-heading">Client List</div>
+                            <div className="client-search-body-heading">Clients List</div>
                             {isClientListLoading && <LoaderComponent/>}
                             {!isClientListLoading && !isClientListLoaded && clientList && clientList.length === 0 &&
                                 <div className={'text-center'}>
@@ -120,7 +121,7 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
                             {!isClientListLoading && isClientListLoaded && clientList && clientList.length > 0 && <>
                                 <TableComponent data={clientList} columns={clientListColumns}
                                                 loading={isClientListLoading}
-                                                hideHeader={true}
+                                                hideHeader={false}
                                                 onRowClick={(row: any) => {
                                                     setSelectedClient(row);
                                                 }}

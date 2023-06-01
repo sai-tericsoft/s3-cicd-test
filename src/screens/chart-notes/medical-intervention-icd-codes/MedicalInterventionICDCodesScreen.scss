@@ -1,5 +1,8 @@
 .medical-intervention-icd-codes-screen {
-.client-name-button-wrapper {
+  .ant-table-wrapper .ant-table-container table>thead>tr:first-child th:first-child{
+    padding-left: 43px !important;
+  }
+  .client-name-button-wrapper {
   display: flex;
   justify-content: space-between;
 

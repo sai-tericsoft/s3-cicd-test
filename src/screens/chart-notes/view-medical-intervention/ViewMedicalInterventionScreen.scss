@@ -1,11 +1,14 @@
 @import "src/assets/styles/common";
 
 .add-medical-intervention-screen {
-  .t-cell-description{
+
+  .t-cell-description {
     padding-left: 20px !important;
   }
+
   .readonly-wrapper {
     margin-bottom: 15px;
+
 
     .readonly-text {
       margin-bottom: 10px;
@@ -15,6 +18,31 @@
       margin-bottom: 5px;
     }
   }
+
+  .completed-wrapper {
+    display: flex;
+
+    .rom-header {
+      width: 100%;
+      margin-left: 60px;
+    }
+
+    .card-styling {
+      .special-test-header {
+        width: 900px;
+        margin-left: 30px;
+      }
+    }
+
+    .heading-wrapper {
+      width: 176px;
+    }
+
+    .completed-text {
+      margin-left: 30px;
+    }
+  }
+
   .intervention-clear-button {
     font-size: 16px;
     font-weight: bold;
@@ -23,8 +51,15 @@
     margin-right: 10px;
     margin-bottom: 5px;
   }
+
   .icd-codes-wrapper {
     margin-bottom: 20px;
+
+    .icd-codes-header-wrapper {
+      width: 900px;
+      margin-left: 30px;
+      border: 1px solid #212B36;
+    }
 
     .icd-codes-heading {
       background: $primary-color;
@@ -55,7 +90,7 @@
     }
 
     &.white-card-header {
-      &> .card-header {
+      & > .card-header {
         background: #FFFFFF;
       }
     }
@@ -102,6 +137,7 @@
       justify-content: center;
       align-items: center;
     }
+
     .spin-item {
       animation-name: spin;
       animation-duration: 1600ms;
@@ -115,10 +151,10 @@
 
     @keyframes spin {
       from {
-        transform:rotate(360deg);
+        transform: rotate(360deg);
       }
       to {
-        transform:rotate(0deg);
+        transform: rotate(0deg);
       }
     }
   }

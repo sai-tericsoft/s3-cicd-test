@@ -117,6 +117,10 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
         }
     }, [location, medicalInterventionExerciseLogDetails]);
 
+    const handleView = useCallback((attachment: any) => {
+        CommonService._communications.LightBoxSubject.next([attachment]);
+    }, []);
+
     return (
         <div className={'medical-intervention-exercise-log-view-screen'}>
             <PageHeaderComponent title={"View Exercise Record"}/>
@@ -129,7 +133,8 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
                         medicalInterventionExerciseLogDetails.attachments.map((attachment: any) => {
                             return (
                                 <div className="medical-intervention-exercise-log-attachments-view-wrapper">
-                                    <div className={'medical-intervention-exercise-log-attachments-view'}>
+                                    <div className={'medical-intervention-exercise-log-attachments-view'}
+                                         onClick={() => handleView(attachment)}>
                                         <div><ImageConfig.DocumentIcon/></div>
                                         <div className={'attachment-chip-view'}>
                                             {attachment.name}
