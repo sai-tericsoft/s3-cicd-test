@@ -25,13 +25,13 @@ jobs:
 
       - name: Run build task
         run:  yarn build:uat
-     - name: deploy to server
-        uses: AEnterprise/rsync-deploy@v1.0
-        env:
-          DEPLOY_KEY: ${{ secrets.KINERGY_UAT_PEM }}
-          ARGS: "-e -c -r --delete"
-          SERVER_PORT: 22
-          FOLDER: build/*
-          SERVER_IP: ${{ secrets.KINERGY_UAT_IP }}
-          USERNAME: ${{ secrets.USERNAME }}
-          SERVER_DESTINATION: ${{ secrets.DESTINATION_UAT }}
+      - name: deploy to server
+          uses: AEnterprise/rsync-deploy@v1.0
+          env:
+            DEPLOY_KEY: ${{ secrets.KINERGY_UAT_PEM }}
+            ARGS: "-e -c -r --delete"
+            SERVER_PORT: 22
+            FOLDER: build/*
+            SERVER_IP: ${{ secrets.KINERGY_UAT_IP }}
+            USERNAME: ${{ secrets.USERNAME }}
+            SERVER_DESTINATION: ${{ secrets.DESTINATION_UAT }}
