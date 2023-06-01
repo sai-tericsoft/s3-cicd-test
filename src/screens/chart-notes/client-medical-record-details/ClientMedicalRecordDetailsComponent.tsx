@@ -60,7 +60,8 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
     const [isBookAppointmentOpen, setIsBookAppointmentOpen] = useState<boolean>(false);
     const [selectedClient, setSelectedClient] = useState<any | null>(null);
     const [isBookingLoading, setIsBookingLoading] = useState<boolean>(false);
-    const [appointmentMode, setAppointmentMode] = useState<string>()
+    const [appointmentMode, setAppointmentMode] = useState<string>();
+    const [refreshToken, setRefreshToken] = useState<string>('');
 
     const {
         clientMedicalRecord,
@@ -259,7 +260,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
     return (
         <div className={'client-medical-record-details-component'}>
             <PageHeaderComponent title={"Medical Record Main Page"} className={'mrg-left-10'}/>
-            <MedicalRecordBasicDetailsCardComponent showAction={true}/>
+            <MedicalRecordBasicDetailsCardComponent showAction={true} setRefreshToken={setRefreshToken}/>
             <div className={'client-medical-records-header-button-wrapper'}>
                 {clientMedicalRecord?.status_details?.code === 'open' && <div>
                     <ButtonComponent onClick={() => {
@@ -291,7 +292,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
 
                 </TabsComponent>
                 <TabContentComponent value={"medicalRecord"} selectedTab={currentTab}>
-                    <MedicalInterventionListComponent referrer={referrer}/>
+                    <MedicalInterventionListComponent refreshToken={refreshToken} referrer={referrer}/>
                 </TabContentComponent>
                 <TabContentComponent value={"attachmentList"} selectedTab={currentTab}>
                     <MedicalRecordAttachmentListComponent referrer={referrer}/>

@@ -58,6 +58,7 @@ const MedicalInterventionFormInitialValues: any = {
 
 interface ClientMedicalDetailsCardComponentProps {
     showAction?: boolean
+    setRefreshToken?:any;
 }
 
 const NotifyAdminInitialValues: any = {
@@ -66,7 +67,7 @@ const NotifyAdminInitialValues: any = {
 
 const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardComponentProps) => {
 
-    const {showAction} = props;
+    const {showAction,setRefreshToken} = props;
     const {medicalRecordId} = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -461,6 +462,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                     <DrawerComponent isOpen={isTransferMedicalRecordDrawerOpen}
                                      onClose={setIsTransferMedicalRecordDrawerOpen.bind(null, false)}>
                         <TransferMedicalRecordComponent medicalRecordId={medicalRecordId}
+                                                        setRefreshToken={setRefreshToken}
                                                         onClose={setIsTransferMedicalRecordDrawerOpen.bind(null, false)}
                                                         onMedicalRecordTransfer={handleMedicalRecordTransfer}/>
                     </DrawerComponent>

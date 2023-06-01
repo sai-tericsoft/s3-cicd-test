@@ -21,11 +21,12 @@ interface TransferMedicalRecordComponentProps {
     onClose: () => void;
     onMedicalRecordTransfer: (data: any) => void;
     medicalRecordId: string;
+    setRefreshToken?:any;
 }
 
 const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentProps) => {
 
-        const {medicalRecordId, onClose} = props;
+        const {medicalRecordId, onClose,setRefreshToken} = props;
         const [currentStep, setCurrentStep] = useState<"selectClient" | "selectInterventions" | "selectTargetMedicalRecord">("selectClient");
         const [clientSearchKey, setClientSearchKey] = useState<string>('');
         const {onMedicalRecordTransfer} = props;
@@ -191,6 +192,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 .then((response: IAPIResponseType<any>) => {
                     onMedicalRecordTransfer(response?.data);
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully Medical Record transferred", 'success');
+                    setRefreshToken(Math.random().toString(36).substring(7));
                     setIsMedicalRecordTransferUnderProgress(false);
                 }).catch((error: any) => {
                 CommonService._alert.showToast(error?.error || "Error while transferring Medical Record", 'error');
