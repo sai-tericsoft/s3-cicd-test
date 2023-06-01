@@ -198,7 +198,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 CommonService._alert.showToast(error?.error || "Error while transferring Medical Record", 'error');
                 setIsMedicalRecordTransferUnderProgress(false);
             });
-        }, [onMedicalRecordTransfer, selectedClient, medicalRecordId, shouldTransferEntireMedicalRecord, selectedMedicalInterventions, selectedMedicalRecordToTransferUnder]);
+        }, [onMedicalRecordTransfer, setRefreshToken, selectedClient, medicalRecordId, shouldTransferEntireMedicalRecord, selectedMedicalInterventions, selectedMedicalRecordToTransferUnder]);
 
         const confirmTransferMedicalRecord = useCallback(() => {
             CommonService.onConfirm({
