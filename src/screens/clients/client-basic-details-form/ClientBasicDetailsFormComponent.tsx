@@ -414,7 +414,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                     </div>
                                 </CardComponent>
                                 <CardComponent title={"Contact Information"} size={"md"}>
-                                    <FormControlLabelComponent label={'Primary Phone :'}/>
+                                    <FormControlLabelComponent size={'sm'} label={'Primary Phone :'}/>
                                     <div className="ts-row">
                                         <div className="ts-col-md-5">
                                             <Field name={'primary_contact_info.phone_type'}>
@@ -460,7 +460,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                         </div>
                                     </div>
                                     {/*<HorizontalLineComponent className={'primary-phone-divider'}/>*/}
-                                    <FormControlLabelComponent label={'Alternate Phone :'}/>
+                                    <FormControlLabelComponent size={'sm'} label={'Alternate Phone :'}/>
                                     <FieldArray
                                         name="secondary_contact_info"
                                         render={(arrayHelpers) => (
@@ -522,7 +522,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                             </>
                                         )}/>
                                     <HorizontalLineComponent/>
-                                    <FormControlLabelComponent label={'Primary Email :'}/>
+                                    <FormControlLabelComponent size={'sm'} label={'Primary Email :'}/>
                                     <div className="ts-row">
                                         <div className="ts-col-md-5">
                                             <Field name={'primary_email'}>
@@ -552,7 +552,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                         </div>
                                     </div>
                                     {/*<HorizontalLineComponent className={'primary-phone-divider'}/>*/}
-                                    <FormControlLabelComponent label={'Alternate Email :'}/>
+                                    <FormControlLabelComponent size={'sm'} label={'Alternate Email :'}/>
                                     <FieldArray
                                         name="secondary_emails"
                                         render={(arrayHelpers) => (
@@ -694,7 +694,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                     </div>
                                 </CardComponent>
                                 <CardComponent title={"Emergency Contact Information"} size={"md"}>
-                                    <FormControlLabelComponent label={"Primary Emergency Contact"} size={'md'}/>
+                                    <FormControlLabelComponent  label={"Primary Emergency Contact"} size={'sm'}/>
                                     <div className="ts-row">
                                         <div className="ts-col-md-5">
                                             <Field name={'emergency_contact_info.primary_emergency.name'}>
@@ -749,7 +749,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                         </div>
                                         <div className="ts-col-md-2"></div>
                                     </div>
-                                    <FormControlLabelComponent label={'Primary Phone :'}/>
+                                    <FormControlLabelComponent size={'sm'} label={'Primary Phone :'}/>
                                     <div className="ts-row">
                                         <div className="ts-col-md-5">
                                             <Field
@@ -795,7 +795,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                         </div>
                                     </div>
                                     {/*<HorizontalLineComponent className={'primary-phone-divider'}/>*/}
-                                    <FormControlLabelComponent label={'Alternate Phone :'}/>
+                                    <FormControlLabelComponent size={'sm'} label={'Alternate Phone :'}/>
                                     <FieldArray
                                         name="emergency_contact_info.primary_emergency.secondary_contact_info"
                                         render={(arrayHelpers) => (
@@ -884,7 +884,8 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                     <>
                                         {values.show_secondary_emergency_form &&
                                             <>
-                                                <div className={'d-flex ts-justify-content-sm-between'}>
+                                                <HorizontalLineComponent className={'secondary-emergency-divider'}/>
+                                                <div className={'d-flex ts-align-items-center mrg-bottom-24'}>
                                                     <FormControlLabelComponent label={"Secondary Emergency Contact"}/>
                                                     <ButtonComponent className={'remove-contact-button'}
                                                                      variant={'outlined'} color={'error'}
@@ -1096,6 +1097,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                     <ButtonComponent
                                         id={"cancel_btn"}
                                         variant={"outlined"}
+                                        size={'large'}
                                         disabled={isClientBasicDetailsSavingInProgress}
                                         onClick={onCancel}
                                     >
@@ -1104,6 +1106,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                     &nbsp;
                                     <ButtonComponent
                                         id={"save_btn"}
+                                        size={'large'}
                                         isLoading={isClientBasicDetailsSavingInProgress}
                                         disabled={isClientBasicDetailsSavingInProgress}
                                         type={"submit"}

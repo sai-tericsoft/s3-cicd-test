@@ -1,3 +1,8 @@
-.pagination-component{
+.pagination-component {
   background-color: white;
+}
+
+.MuiTablePagination-displayedRows, .MuiTablePagination-select, .MuiTablePagination-selectLabel {
+  font-size: 14px !important;
+  align-items: center !important;
 }
