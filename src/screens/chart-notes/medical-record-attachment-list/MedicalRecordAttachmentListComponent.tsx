@@ -11,10 +11,11 @@ import {useCallback, useState} from "react";
 
 interface ClientMedicalAttachmentsComponentProps {
     referrer?: any;
+    refreshToken?:any;
 }
 
 const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsComponentProps) => {
-    const {referrer} = props;
+    const {referrer,refreshToken} = props;
     const {medicalRecordId} = useParams();
     const {refreshTokenForMedicalRecordAttachments} = useSelector((state: IRootReducerState) => state.chartNotes)
     const [medicalAttachmentListFilterState, setMedicalAttachmentListFilterState] = useState<any>({
@@ -118,7 +119,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
 
     return (
         <div className={'client-medical-attachments-component'}>
-            <TableWrapperComponent refreshToken={refreshTokenForMedicalRecordAttachments}
+            <TableWrapperComponent refreshToken={refreshTokenForMedicalRecordAttachments && refreshToken}
                                    url={APIConfig.CLIENT_MEDICAL_ATTACHMENT.URL(medicalRecordId)}
                                    method={APIConfig.CLIENT_MEDICAL_ATTACHMENT.METHOD}
                                    onSort={handleClientMedicalListSort}
