@@ -282,7 +282,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                 {
                                     mode === "edit" &&
                                     <div
-                                        className={"mrg-bottom-20 display-flex flex-direction-row-reverse"}>
+                                        className={"mrg-bottom-25 display-flex flex-direction-row-reverse"}>
                                         <div className={"display-flex align-items-center"}>
                                             <div>Status:</div>
                                             <Field name={'is_active'} className="t-form-control">
