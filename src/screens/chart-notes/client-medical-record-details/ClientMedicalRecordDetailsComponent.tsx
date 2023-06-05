@@ -295,7 +295,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                     <MedicalInterventionListComponent refreshToken={refreshToken} referrer={referrer}/>
                 </TabContentComponent>
                 <TabContentComponent value={"attachmentList"} selectedTab={currentTab}>
-                    <MedicalRecordAttachmentListComponent referrer={referrer}/>
+                    <MedicalRecordAttachmentListComponent refreshToken={refreshToken} referrer={referrer}/>
                 </TabContentComponent>
             </TabsWrapperComponent>
 
