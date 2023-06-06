@@ -61,7 +61,7 @@ const ICDTableColumns: any = [
         dataIndex: 'icd_code',
         key: 'icd_code',
         width: 150,
-        fixed:'left'
+        fixed: 'left'
     },
     {
         title: 'Description',
@@ -1181,7 +1181,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                     }}/>
                                         </div>
                                     </CardComponent>
-                                    {true && <div className="t-form-actions">
+                                    <div className="t-form-actions">
                                         <ButtonComponent variant={'outlined'} onClick={handleDiscardNote}
                                                          className={'mrg-right-10'}>
                                             Discard Note
@@ -1202,7 +1202,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                         >
                                             {isFormBeingUpdated ? "Typing..." : (medicalInterventionDetails?.is_signed ? "Finalize treatment" : formik.isSubmitting ? "Saving" : "Save")}
                                         </ButtonComponent>
-                                    </div>}
+                                    </div>
                                 </Form>
                             );
                         }}
