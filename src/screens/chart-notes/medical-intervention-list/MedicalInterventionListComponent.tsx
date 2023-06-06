@@ -68,7 +68,10 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                         } else {
                             route = CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, item?._id);
                         }
-                    } else if (item?.note_type?.toLowerCase() === "progress report") {
+                    }else if (item?.note_type?.toLowerCase() === 'surgery record') {
+                        route = CommonService._routeConfig.MedicalRecordSurgeryRecordDetails(medicalRecordId, item._id) + '?referrer=' + referrer;
+                    }
+                    else if (item?.note_type?.toLowerCase() === "progress report") {
                         route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId, item?._id);
                     } else {
                     }
