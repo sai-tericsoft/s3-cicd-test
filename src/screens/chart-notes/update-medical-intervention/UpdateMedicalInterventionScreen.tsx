@@ -1172,7 +1172,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                         </div>
                                         <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>
                                             <ESignApprovalComponent isSigned={medicalInterventionDetails?.is_signed}
-                                                                    isSigning={isSigningInProgress}
+                                                                    isSigning={isSigningInProgress || isFormBeingUpdated}
                                                                     isLoading={formik.isSubmitting}
                                                                     canSign={true}
                                                                     signedAt={medicalInterventionDetails?.signed_on}
