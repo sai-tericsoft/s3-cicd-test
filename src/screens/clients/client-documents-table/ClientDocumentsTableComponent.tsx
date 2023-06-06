@@ -66,7 +66,7 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
             title: "File Name",
             key: "file_name",
             dataIndex: "file_name",
-            sortable: true,
+            // sortable: true,
             width: 150,
             render: (item: any) => {
                 return <span>{item?.note_type}</span>
