@@ -127,10 +127,14 @@ const ClientAppointmentDetailsComponent = (props: ClientAppointmentDetailsCompon
 
                     <div className={'medical-record-document-attachment'}>
                         {
-                            appointmentDetails?.attachment &&
+                            appointmentDetails?.attachment?.length && appointmentDetails?.attachment &&
                             <AttachmentComponent
                                 attachment={appointmentDetails?.attachment}
                             />
+                        }
+                        {
+                            appointmentDetails?.attachment?.length === 0 &&
+                            <StatusCardComponent title={'No Attachments'}/>
                         }
                     </div>
                 </>
