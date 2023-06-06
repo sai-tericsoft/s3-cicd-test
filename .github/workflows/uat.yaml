@@ -1,10 +1,9 @@
-name: Customer UAT CI&CD setup
+name: ADMIN TEST CI&CD setup
 
 on:
-  release:
-    types: [published]
-
-  
+  push:
+    tags:
+      - "*"
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,6 +14,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "18.x"
+
       - name: Yarn install cache
         uses: c-hive/gha-yarn-cache@v1
         with:  
@@ -23,18 +23,18 @@ jobs:
 
       - name: Install yarn dependencies
         run: yarn install
+
       - name: Run build task
-        run:  yarn build:uat
-
-      - name: rsync deployments
-        uses: burnett01/rsync-deployments@5.2.1
+        run: yarn build:uat
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          switches: -avzr --delete
-          path: build/*
-          remote_path: ${{ secrets.DESTINATION_UAT }}
-          remote_host: ${{ secrets.KINERGY_UAT_IP }}
-          remote_user: ${{ secrets.USERNAME }}
-          remote_key: ${{ secrets.KINERGY_UAT_PEM }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_KIN }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_KIN }}
+          aws-region: ${{ secrets.AWS_REGION_KIN}}
 
-
-     
+      - name: Deploy to S3
+        run: aws s3 sync build s3://${{ secrets.S3_BUCKET_UAT }} --delete
+      - name: Invalidate CloudFront
+        run: aws cloudfront create-invalidation --distribution-id ${{
+          secrets.CLOUDFRONT_DISTRIBUTION_ID_UAT }} --paths "/*"
