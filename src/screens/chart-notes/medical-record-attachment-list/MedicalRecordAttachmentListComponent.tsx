@@ -31,9 +31,10 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             sortable: true,
             render: (item: any) => {
                 let route = '';
-                if (item.note_type_category.toLowerCase() === 'surgery record') {
-                    route = CommonService._routeConfig.MedicalRecordSurgeryRecordDetails(item.medical_record_id, item._id) + '?referrer=' + referrer;
-                } else if (item.note_type_category.toLowerCase() === 'dry needling') {
+                // if (item.note_type_category.toLowerCase() === 'surgery record') {
+                //     route = CommonService._routeConfig.MedicalRecordSurgeryRecordDetails(item.medical_record_id, item._id) + '?referrer=' + referrer;
+                // } else
+                if (item.note_type_category.toLowerCase() === 'dry needling') {
                     route = CommonService._routeConfig.MedicalInterventionDryNeedlingFileViewDetails(item.medical_record_id, item._id) + '?referrer=' + referrer;
                 } else if (item.note_type_category.toLowerCase() === 'concussion') {
                     route = CommonService._routeConfig.MedicalInterventionConcussionFileViewDetails(item.medical_record_id, item._id) + '?referrer=' + referrer;
