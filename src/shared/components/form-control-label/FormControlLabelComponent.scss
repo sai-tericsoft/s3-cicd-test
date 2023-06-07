@@ -4,7 +4,7 @@
   line-height: 19px;
   color: #212B36;
   font-size: 14px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 
   &.sm {
     font-size: 14px;
@@ -29,4 +29,12 @@
   .form-control-required {
 
   }
+}
+.MuiFormControlLabel-labelPlacementStart{
+  margin-left: 6px !important;
+  font-weight: 700 !important;
+}
+.MuiFormControlLabel-label{
+  font-weight: 500 !important;
+  color: #003E3B;
 }

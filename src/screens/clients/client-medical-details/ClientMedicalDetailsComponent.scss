@@ -1,6 +1,15 @@
 @import "src/assets/styles/common";
 
 .client-medical-details-component {
+  .other-illness-heading{
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 16px;
+    margin-bottom: 5px;
+  }
+  .other-illness-text{
+    margin-bottom: 5px;
+  }
   .musculoskeletal-history-block {
     margin-bottom: 20px;
     align-items: center;
