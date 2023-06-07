@@ -16,7 +16,7 @@
       letter-spacing: 0.5px;
       white-space: nowrap;
       overflow: hidden;
-      font-size: 1.4286rem;
+      font-size: 1.2857rem;
       text-overflow: ellipsis;
       text-transform: uppercase;
     }
@@ -38,14 +38,14 @@
         align-items: center;
 
         .profile-dp-icon {
-          height: 24px;
-          width: 24px;
+          height: 28px;
+          width: 28px;
           border-radius: 50%;
           overflow: hidden;
 
           svg {
-            height: 24px;
-            width: 24px;
+            height: 28px;
+            width: 28px;
           }
 
           img {
@@ -58,8 +58,9 @@
           display: flex;
           flex-direction: column;
           align-items: start;
-          margin: 0 5px;
+          margin: 0 10px;
           text-transform: capitalize;
+          font-weight: 500;
 
           .profile-dropdown-icon {
             position: relative;

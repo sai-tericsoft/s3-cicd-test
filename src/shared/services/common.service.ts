@@ -296,9 +296,6 @@ const getMinsAndSecondsFromSeconds = (numberOfSeconds: number) => {
     }
 }
 
-const getHoursAndMinutesFromMinutes = (minutes: number) => {
-    return moment().startOf('day').add(minutes, 'minutes').format('h:mm a');
-}
 
 const downloadFile = (url: string, fileName: any, type = 'pdf') => {
     switch (type) {
@@ -601,6 +598,10 @@ const calculateFinalAmountFromDiscountPercentage = (percentage: any, totalAmount
     return (parseFloat(percentage) / 100) * totalAmount;
 }
 
+const getHoursAndMinutesFromMinutes = (minutes: number) => {
+    return moment().startOf('day').add(minutes, 'minutes').format('h:mm A');
+}
+
 const CommonService = {
     LightenDarkenColor,
     getContrastYIQ,
@@ -630,7 +631,6 @@ const CommonService = {
     getArrayOfValuesOfOneKeyFromJSON,
     Capitalize,
     getObjectKeyValue,
-    getHoursAndMinutesFromMinutes,
     getSystemFormatTimeStamp,
     transformTimeStamp,
     getTheDifferenceBetweenDates,
@@ -654,6 +654,7 @@ const CommonService = {
     generateUseCaseFromCaseDetails2,
     transformTimeStamp2,
     convertNumberToTime,
+    getHoursAndMinutesFromMinutes,
 
     // createValidationsObject,
     // createYupSchema,

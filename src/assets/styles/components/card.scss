@@ -2,7 +2,7 @@
   background: #ffffff;
   border: 1px solid #F3F3F3;
   border-radius: 4px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 
   &.primary {
     background-color: #EAF3F2;
@@ -40,7 +40,8 @@
   }
 
   .card-body {
-    padding: 24px 35px;
+    padding: 24px;
+    padding-bottom: 0px;
   }
 
   &.sm {
@@ -68,7 +69,7 @@
     }
 
     .card-body {
-      padding: 15px 25px;
+      padding: 24px;
     }
   }
 
@@ -82,7 +83,7 @@
     }
 
     .card-body {
-      padding: 25px 35px;
+      padding: 24px;
     }
   }
 }
