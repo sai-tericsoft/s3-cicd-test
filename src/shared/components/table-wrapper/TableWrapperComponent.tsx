@@ -32,8 +32,10 @@ const TableWrapperComponent = (props: TableComponentProps) => {
     const pageSizeRef = useRef<number>(10);
     const isPaginated = props.isPaginated !== undefined ? props.isPaginated : true;
     const type = props.type || "custom";
+    const APICallSubscription = useRef<any>(null);
 
     const getListData = useCallback(() => {
+        const cancelTokenSource = CommonService.getCancelToken();
         const payload = _.cloneDeep({page: pageNumRef.current + 1, limit: pageSizeRef.current, ...extraPayload});
         console.log(payload);
         if (payload?.sort && payload?.sort?.key) { // TODO to make sort more consistent
@@ -45,10 +47,14 @@ const TableWrapperComponent = (props: TableComponentProps) => {
         }
         let apiCall;
         if (method === "post") {
-            apiCall = CommonService._api.post(url, payload);
+            apiCall = CommonService._api.post(url, payload, {cancelToken: cancelTokenSource.token});
         } else {
-            apiCall = CommonService._api.get(url, payload);
+            apiCall = CommonService._api.get(url, payload, {cancelToken: cancelTokenSource.token});
         }
+        if (APICallSubscription && APICallSubscription.current) {
+            APICallSubscription.current.cancel();
+        }
+        APICallSubscription.current = cancelTokenSource;
         setIsDataLoading(true);
         setIsDataLoaded(false);
         setIsDataLoadingFailed(false);

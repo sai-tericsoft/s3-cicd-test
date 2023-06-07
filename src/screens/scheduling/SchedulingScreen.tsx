@@ -833,7 +833,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                             </div>}
                         </> :
                         <>
-                            {schedulingListFilterState.search !== "" ? <TableWrapperComponent
+                            <TableWrapperComponent
                                 id={"appointment_search"}
                                 url={APIConfig.APPOINTMENT_LIST.URL}
                                 method={APIConfig.APPOINTMENT_LIST.METHOD}
@@ -852,25 +852,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                 }
                                 extraPayload={schedulingListModeFilterState}
                                 onSort={handleSchedulingSort}
-                            /> : <TableWrapperComponent
-                                id={"appointment_search"}
-                                url={APIConfig.APPOINTMENT_LIST.URL}
-                                method={APIConfig.APPOINTMENT_LIST.METHOD}
-                                columns={SchedulingListColumns}
-                                refreshToken={refreshToken}
-                                noDataText={(!!schedulingListModeFilterState.start_date || !!schedulingListModeFilterState.category_id || !!schedulingListModeFilterState.service_id || !!schedulingListModeFilterState.provider_id || !!schedulingListModeFilterState.status) &&
-                                (<div className={'no-appointment-text-wrapper'}>
-                                    <div className={'no-appointment-heading'}>No Appointment Available</div>
-                                    <div className={'no-appointment-description'}>Unfortunately, there are no
-                                        appointments
-                                        available for the selected date. Please
-                                        explore alternative dates to look out for the appointments.
-                                    </div>
-                                </div>)
-                                }
-                                extraPayload={schedulingListModeFilterState}
-                                onSort={handleSchedulingSort}
-                            />}
+                            />
                         </>
                     }
                 </div>
