@@ -4,7 +4,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 16px;
 
     .list-search-filters {
       display: flex;
@@ -31,7 +31,7 @@
   .list-content-wrapper {
     .t-table {
       min-height: 300px;
-      height: calc(100vh - 200px);
+      height: calc(100vh - 230px);
     }
   }
 }

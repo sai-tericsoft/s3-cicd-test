@@ -54,7 +54,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             <div className={'ts-col-lg-4'}>
                                 Smoke/Chew Tobacco?
                             </div>
-                            <div className={'ts-col-lg-3'}>
+                            <div className={'ts-col-lg-3 font-weight-bold text-primary'}>
                                 {clientMedicalDetails?.personal_habits?.["Smoke/Chew Tobacco?"]?.value || "N/A"}
                             </div>
                             <div className={'ts-col-lg-3'}>
@@ -65,7 +65,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             <div className={'ts-col-lg-4'}>
                                 Drink Alcohol?
                             </div>
-                            <div className={'ts-col-lg-3'}>
+                            <div className={'ts-col-lg-3 font-weight-bold text-primary'}>
                                 {clientMedicalDetails?.personal_habits?.["Drink Alcohol?"]?.value || "N/A"}
                             </div>
                             <div className={'ts-col-lg-3'}>
@@ -76,7 +76,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             <div className={'ts-col-lg-4'}>
                                 Drink Coffee?
                             </div>
-                            <div className={'ts-col-lg-3'}>
+                            <div className={'ts-col-lg-3 font-weight-bold text-primary'}>
                                 {clientMedicalDetails?.personal_habits?.["Drink Coffee?"]?.value || "N/A"}
                             </div>
                             <div className={'ts-col-lg-3'}>
@@ -87,7 +87,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             <div className={'ts-col-lg-4'}>
                                 Drink Soda/Pop?
                             </div>
-                            <div className={'ts-col-lg-3'}>
+                            <div className={'ts-col-lg-3 font-weight-bold text-primary'}>
                                 {clientMedicalDetails?.personal_habits?.["Drink Soda/Pop?"]?.value || "N/A"}
                             </div>
                             <div className={'ts-col-lg-3'}>
@@ -184,11 +184,12 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             </div>
                         }
 
-                        <FormControlLabelComponent label={"Other Illnesses/Conditions"} className={'mrg-bottom-10'}/>
-                        {(clientMedicalDetails?.medical_history?.comments &&
+                        {/*<FormControlLabelComponent label={"Other Illnesses/Conditions"} className={'mrg-bottom-10'}/>*/}
+                        <div className={'other-illness-heading'} >Other Illnesses/Conditions</div>
+                       <div className={'other-illness-text'}> {(clientMedicalDetails?.medical_history?.comments &&
                             clientMedicalDetails?.medical_history?.comments.split("\n").map((i: any, key: any) => {
                                 return <li key={key}>{i}</li>;
-                            })) || "N/A"}
+                            })) || "N/A"}</div>
                     </CardComponent>
                     {
                         clientBasicDetails?.gender === "female" && <>

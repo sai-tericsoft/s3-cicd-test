@@ -2,7 +2,12 @@
   background-color: white;
 }
 
-.MuiTablePagination-displayedRows, .MuiTablePagination-select, .MuiTablePagination-selectLabel {
+.MuiTablePagination-displayedRows,  .MuiTablePagination-selectLabel {
+
+  //margin-top: 2px !important;
   font-size: 14px !important;
-  align-items: center !important;
+}
+.MuiTablePagination-select{
+  font-size: 14px !important;
+  margin-top: 5px !important;
 }

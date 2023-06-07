@@ -1,5 +1,9 @@
 .client-basic-details-component {
   .contact-info-wrapper {
+    .phone-email-heading{
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
     .form-control-label-component {
       font-size: 1.1429rem;
     }
@@ -13,5 +17,6 @@
 
   .secondary-horizontal-line{
     //border-bottom: 4px solid #CECECE;
+    margin-top: 0px;
   }
 }

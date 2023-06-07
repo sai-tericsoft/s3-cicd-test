@@ -9,11 +9,11 @@
 
       .client-details-title {
         font-weight: $font-weight-bolder;
-        font-size: 20px;
+        font-size: 18px;
         line-height: 16px;
         letter-spacing: 0.5px;
         color: $text-light-2;
-        margin: 15px 0 20px;
+        margin: 15px 0 24px;
       }
 
       .client-details-basic-card-holder {
@@ -23,7 +23,7 @@
 
     .client-details-content-wrapper {
       flex: 1;
-      padding: 0 0 0 15px;
+      padding: 0 0 0 16px;
       overflow-x: hidden;
       overflow-y: hidden;
 
@@ -38,8 +38,9 @@
 
       .client-details-actions {
         display: flex;
-        margin: 5px 0 13px;
+        margin: 5px 0 16px;
         flex-direction: row-reverse;
+        margin-bottom: 12px;
       }
     }
   }

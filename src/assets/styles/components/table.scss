@@ -18,6 +18,7 @@
 
     .autoComplete-component-wrapper, .input-component {
       margin-bottom: 0 !important;
+      border-bottom: 1px solid #FEFEFE !important;
     }
 
     .MuiFormHelperText-root.Mui-error {
@@ -164,7 +165,7 @@
       &:last-child {
         .t-td {
           //padding-right: 20px;
-          border-bottom: none !important;
+          border-bottom: 1px solid #F3F3F3!important;
         }
       }
 
