@@ -17,13 +17,13 @@ import DrawerComponent from "../../shared/components/drawer/DrawerComponent";
 import AppointmentDetailsComponent from "../../shared/components/appointment-details/AppointmentDetailsComponent";
 import BookAppointmentComponent from "../../shared/components/book-appointment/BookAppointmentComponent";
 import {ToggleButton, ToggleButtonGroup} from "@mui/material";
-import TableWrapperComponent from "../../shared/components/table-wrapper/TableWrapperComponent";
 import CalendarAppointmentCard from "./calendar-appointment-card/CalendarAppointmentCard";
 import {IAPIResponseType} from "../../shared/models/api.model";
 import {IClientBasicDetails} from "../../shared/models/client.model";
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import ToolTipComponent from "../../shared/components/tool-tip/ToolTipComponent";
 import LoaderComponent from "../../shared/components/loader/LoaderComponent";
+import TableWrapperComponent from "../../shared/components/table-wrapper/TableWrapperComponent";
 
 interface SchedulingScreenProps {
 
@@ -133,7 +133,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
         sort: {}
     });
     const [viewMode, setViewMode] = useState<'list' | 'calendar'>('list');
-  console.log('schedulingListFilterState',schedulingListFilterState.search);
+
     const handleSchedulingSort = useCallback((key: string, order: string) => {
         setSchedulingListFilterState((oldState: any) => {
             const newState = {...oldState};
@@ -190,8 +190,8 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                     } else if (duration === '5day') {
                         endDate = startDate.clone().add(4, 'day');
                     } else if (duration === 'month') {
-                        // startDate.startOf('month');
-                        // endDate = startDate.clone().endOf('month');
+                        startDate.startOf('month');
+                        endDate = startDate.clone().endOf('month');
                     }
                 }
                 const start_date = startDate.format('YYYY-MM-DD');
@@ -202,23 +202,33 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
         [],
     );
 
-
     const [isBookAppointmentOpen, setIsBookAppointmentOpen] = useState(false);
     const [bookAppointmentPreFill, setBookAppointmentPreFill] = useState({});
     const [openedAppointmentDetails, setOpenedAppointmentDetails] = useState<any | null>(null);
     const [refreshToken, setRefreshToken] = useState('');
 
     const setViewModeHandler = useCallback((mode: 'list' | 'calendar') => {
+        console.log(mode);
         if (mode === 'calendar') {
             setSchedulingListFilterState((old: any) => {
                 const newState = {...old};
                 newState["duration"] = 'month';
+                newState["start_date"] = moment().startOf('month').format('YYYY-MM-DD');
+                newState["end_date"] = moment().endOf('month').format('YYYY-MM-DD');
                 return newState;
-            })
-            dateSwitcher('reset', 'month');
+            });
+        } else {
+            setSchedulingListFilterState((old: any) => {
+                const newState = {...old};
+                newState["start_date"] = moment().format('YYYY-MM-DD');
+                newState["end_date"] = moment().format('YYYY-MM-DD');
+                delete newState["duration"];
+                return newState;
+            });
         }
         setViewMode(mode);
-    }, [dateSwitcher]);
+    }, [dateSwitcher, setSchedulingListFilterState, setViewMode]);
+
 
     // const handleCalendarData = useCallback((date: any) => {
     //
@@ -289,6 +299,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
     const [calendarData, setCalendarData] = useState<any>(null)
     const [calendarDaysData, setCalendarDaysData] = useState<any>(null)
     const [isCalendarLoading, setIsCalendarLoading] = useState<boolean>(false)
+
     const getCalenderList = useCallback((payload: any) => {
         delete payload.sort;
         if (payload.provider_id) {
@@ -335,6 +346,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                 setIsCalendarLoading(false);
             })
     }, []);
+
     useEffect(() => {
         if (viewMode === 'calendar') {
             getCalenderList({...schedulingListFilterState});
@@ -639,195 +651,195 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                             </div>}
                         </div>
                     </div>
-                    {viewMode === 'calendar' && <>
-                        {isCalendarLoading && <div className="scheduling-calendar-loader">
-                            <LoaderComponent/>
-                        </div>}
-                        {schedulingListFilterState.duration === 'month' && <>
-                            <FullCalendarComponent
-                                minDate={moment(schedulingListFilterState.start_date).subtract(1, 'months').format('YYYY-MM-DD')}
-                                maxDate={moment(schedulingListFilterState.start_date).add(1, 'year').format('YYYY-MM-DD')}
-                                disabledDates={[]}
-                                canSelect={false}
-                                startDay={schedulingListFilterState.start_date}
-                                showControls={false}
-                                onDayRender={(day, dateMoment) => {
-                                    const date = dateMoment.format('YYYY-MM-DD');
-                                    return (<div key={'row-day-' + day}
-                                                 onClick={
-                                                     (event) => {
-                                                         // @ts-ignore
-                                                         if (event.target?.className.includes('calendar-appointments-holder')) {
-                                                             prepareNewAppointmentBooking({
-                                                                 ...schedulingListFilterState,
-                                                                 date
-                                                             });
+                    {viewMode === 'calendar' ? <>
+                            {isCalendarLoading && <div className="scheduling-calendar-loader">
+                                <LoaderComponent/>
+                            </div>}
+                            {schedulingListFilterState.duration === 'month' && <>
+                                <FullCalendarComponent
+                                    minDate={moment(schedulingListFilterState.start_date).subtract(1, 'months').format('YYYY-MM-DD')}
+                                    maxDate={moment(schedulingListFilterState.start_date).add(1, 'year').format('YYYY-MM-DD')}
+                                    disabledDates={[]}
+                                    canSelect={false}
+                                    startDay={schedulingListFilterState.start_date}
+                                    showControls={false}
+                                    onDayRender={(day, dateMoment) => {
+                                        const date = dateMoment.format('YYYY-MM-DD');
+                                        return (<div key={'row-day-' + day}
+                                                     onClick={
+                                                         (event) => {
+                                                             // @ts-ignore
+                                                             if (event.target?.className.includes('calendar-appointments-holder')) {
+                                                                 prepareNewAppointmentBooking({
+                                                                     ...schedulingListFilterState,
+                                                                     date
+                                                                 });
+                                                             }
+                                                             // @ts-ignore
+                                                             console.log(event.target.className, 'add new appointment', date);
                                                          }
-                                                         // @ts-ignore
-                                                         console.log(event.target.className, 'add new appointment', date);
                                                      }
-                                                 }
-                                                 className={'calendar-appointments-holder ' + ((calendarData && calendarData[date]?.appointments ? calendarData[date]?.appointments : []).length >= 9 ? ' fit-rows-min' : ((calendarData && calendarData[date]?.appointments ? calendarData[date]?.appointments : []).length >= 3 ? ' fit-rows' : ''))}>
-                                        {calendarData && calendarData[date] && <>
-                                            {(!!schedulingListFilterState.status || !!schedulingListFilterState.provider_id) ? (calendarData[date]?.appointments || [])
-                                                .map((value: any, index: number) => {
-                                                    return (
-                                                        <ToolTipComponent key={index} tooltip={
-                                                            <>
-                                                                <b>{value.client_details.first_name + ' ' + value.client_details.last_name || "No title"}</b><br/>
-                                                                {value.category_details.name + ' / ' + value.service_details.name + ' - ' + (value.provider_details.first_name + ' ' + value.provider_details.last_name) || "-"}
-                                                                <br/>
-                                                                {CommonService.getHoursAndMinutesFromMinutes(value.start_time) + ' - ' + CommonService.getHoursAndMinutesFromMinutes(value.end_time) || "-"}
-                                                                <br/>
-                                                                <i>{value.status || "-"}</i>
-                                                            </>
-                                                        }
-                                                                          backgroundColor={'#000000'}
-                                                                          textColor={'#FFFFFF'}>
-                                                            <div
-                                                                onClick={() => {
-                                                                    setOpenedAppointmentDetails(value);
-                                                                }}
-                                                                className={'appointment-mini-card ' + (value.status)}>
+                                                     className={'calendar-appointments-holder ' + ((calendarData && calendarData[date]?.appointments ? calendarData[date]?.appointments : []).length >= 9 ? ' fit-rows-min' : ((calendarData && calendarData[date]?.appointments ? calendarData[date]?.appointments : []).length >= 3 ? ' fit-rows' : ''))}>
+                                            {calendarData && calendarData[date] && <>
+                                                {(!!schedulingListFilterState.status || !!schedulingListFilterState.provider_id) ? (calendarData[date]?.appointments || [])
+                                                    .map((value: any, index: number) => {
+                                                        return (
+                                                            <ToolTipComponent key={index} tooltip={
+                                                                <>
+                                                                    <b>{value.client_details.first_name + ' ' + value.client_details.last_name || "No title"}</b><br/>
+                                                                    {value.category_details.name + ' / ' + value.service_details.name + ' - ' + (value.provider_details.first_name + ' ' + value.provider_details.last_name) || "-"}
+                                                                    <br/>
+                                                                    {CommonService.getHoursAndMinutesFromMinutes(value.start_time) + ' - ' + CommonService.getHoursAndMinutesFromMinutes(value.end_time) || "-"}
+                                                                    <br/>
+                                                                    <i>{value.status || "-"}</i>
+                                                                </>
+                                                            }
+                                                                              backgroundColor={'#000000'}
+                                                                              textColor={'#FFFFFF'}>
                                                                 <div
-                                                                    className="appointment-title">{value?.client_details?.first_name + ' ' + value?.client_details?.last_name}</div>
-                                                                <div
-                                                                    className="appointment-status">{value.status || '-'}</div>
-                                                            </div>
-                                                        </ToolTipComponent>
-                                                    )
-                                                }) : (!!schedulingListFilterState.service_id) ? (calendarData[date]?.meta?.providers || [])
-                                                .map((value: any, index: number) => {
-                                                    return (
-                                                        <ToolTipComponent key={index} tooltip={
-                                                            <>
-                                                                <b>{value.first_name + ' ' + value.last_name}</b><br/>
-                                                                <i>No of Appointments : {value?.count || 0}</i>
-                                                            </>
-                                                        }
-                                                                          backgroundColor={'#000000'}
-                                                                          textColor={'#FFFFFF'}>
-                                                            <div key={index} className={'appointment-count-card'}
-                                                                 onClick={() => {
-                                                                     setSchedulingListFilterState({
-                                                                         ...schedulingListFilterState,
-                                                                         provider_id: value
-                                                                     })
-                                                                 }}
-                                                            >
-                                                                <div className="appointment-count-card-wrapper"
-                                                                     style={{
-                                                                         color: '#000000',
-                                                                         background: ((serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id?._id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id?._id] : '#AAAAAA') + '30',
-                                                                         // opacity: 0.6,
-                                                                         borderColor: (serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id?._id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id?._id] : '#AAAAAA'
+                                                                    onClick={() => {
+                                                                        setOpenedAppointmentDetails(value);
+                                                                    }}
+                                                                    className={'appointment-mini-card ' + (value.status)}>
+                                                                    <div
+                                                                        className="appointment-title">{value?.client_details?.first_name + ' ' + value?.client_details?.last_name}</div>
+                                                                    <div
+                                                                        className="appointment-status">{value.status || '-'}</div>
+                                                                </div>
+                                                            </ToolTipComponent>
+                                                        )
+                                                    }) : (!!schedulingListFilterState.service_id) ? (calendarData[date]?.meta?.providers || [])
+                                                    .map((value: any, index: number) => {
+                                                        return (
+                                                            <ToolTipComponent key={index} tooltip={
+                                                                <>
+                                                                    <b>{value.first_name + ' ' + value.last_name}</b><br/>
+                                                                    <i>No of Appointments : {value?.count || 0}</i>
+                                                                </>
+                                                            }
+                                                                              backgroundColor={'#000000'}
+                                                                              textColor={'#FFFFFF'}>
+                                                                <div key={index} className={'appointment-count-card'}
+                                                                     onClick={() => {
+                                                                         setSchedulingListFilterState({
+                                                                             ...schedulingListFilterState,
+                                                                             provider_id: value
+                                                                         })
                                                                      }}
                                                                 >
-                                                                    <div
-                                                                        className="appointment-title">{CommonService.getNameInitials(value.first_name + ' ' + value.last_name)}</div>
-                                                                    <div
-                                                                        className="appointment-count">({value?.count || 0})
+                                                                    <div className="appointment-count-card-wrapper"
+                                                                         style={{
+                                                                             color: '#000000',
+                                                                             background: ((serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id?._id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id?._id] : '#AAAAAA') + '30',
+                                                                             // opacity: 0.6,
+                                                                             borderColor: (serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id?._id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id?._id] : '#AAAAAA'
+                                                                         }}
+                                                                    >
+                                                                        <div
+                                                                            className="appointment-title">{CommonService.getNameInitials(value.first_name + ' ' + value.last_name)}</div>
+                                                                        <div
+                                                                            className="appointment-count">({value?.count || 0})
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </ToolTipComponent>)
-                                                }) : (!!schedulingListFilterState.category_id) ? (calendarData[date]?.meta?.services || [])
-                                                .map((value: any, index: number) => {
-                                                    return (
-                                                        <ToolTipComponent key={index} tooltip={
-                                                            <>
-                                                                <b>{value.name || 'No Name'}</b><br/>
-                                                                <i>No of Appointments : {value?.count || 0}</i>
-                                                            </>
-                                                        }
-                                                                          backgroundColor={'#000000'}
-                                                                          textColor={'#FFFFFF'}>
-                                                            <div className={'appointment-count-card'}
-                                                                 onClick={() => {
-                                                                     setSchedulingListFilterState({
-                                                                         ...schedulingListFilterState,
-                                                                         service_id: value
-                                                                     })
-                                                                 }}
-                                                            >
-                                                                <div className="appointment-count-card-wrapper"
-                                                                     style={{
-                                                                         color: '#000000',
-                                                                         background: ((serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id?._id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id?._id] : '#AAAAAA') + '60',
-                                                                         // opacity: 0.6,
-                                                                         borderColor: (serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id?._id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id?._id] : '#AAAAAA'
+                                                            </ToolTipComponent>)
+                                                    }) : (!!schedulingListFilterState.category_id) ? (calendarData[date]?.meta?.services || [])
+                                                    .map((value: any, index: number) => {
+                                                        return (
+                                                            <ToolTipComponent key={index} tooltip={
+                                                                <>
+                                                                    <b>{value.name || 'No Name'}</b><br/>
+                                                                    <i>No of Appointments : {value?.count || 0}</i>
+                                                                </>
+                                                            }
+                                                                              backgroundColor={'#000000'}
+                                                                              textColor={'#FFFFFF'}>
+                                                                <div className={'appointment-count-card'}
+                                                                     onClick={() => {
+                                                                         setSchedulingListFilterState({
+                                                                             ...schedulingListFilterState,
+                                                                             service_id: value
+                                                                         })
                                                                      }}
                                                                 >
-                                                                    <div
-                                                                        className="appointment-title">{CommonService.getNameInitials(value.name)}</div>
-                                                                    <div
-                                                                        className="appointment-count">({value.count || 0})
+                                                                    <div className="appointment-count-card-wrapper"
+                                                                         style={{
+                                                                             color: '#000000',
+                                                                             background: ((serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id?._id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id?._id] : '#AAAAAA') + '60',
+                                                                             // opacity: 0.6,
+                                                                             borderColor: (serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id?._id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id?._id] : '#AAAAAA'
+                                                                         }}
+                                                                    >
+                                                                        <div
+                                                                            className="appointment-title">{CommonService.getNameInitials(value.name)}</div>
+                                                                        <div
+                                                                            className="appointment-count">({value.count || 0})
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </ToolTipComponent>
-                                                    )
-                                                }) : (calendarData[date]?.meta?.categories || [])
-                                                .map((value: any, index: number) => {
-                                                    return (
-                                                        <ToolTipComponent key={index} tooltip={
-                                                            <>
-                                                                <b>{value.name || 'No Name'}</b><br/>
-                                                                <i>No of Appointments : {value?.count || 0}</i>
-                                                            </>
-                                                        }
-                                                                          backgroundColor={'#000000'}
-                                                                          textColor={'#FFFFFF'}>
-                                                            <div key={index} className={'appointment-count-card '}
-                                                                 onClick={() => {
-                                                                     setSchedulingListFilterState({
-                                                                         ...schedulingListFilterState,
-                                                                         category_id: value,
-                                                                         service_id: undefined,
-                                                                         start_date: date,
-                                                                         end_date: date,
-                                                                         duration: 'day'
-                                                                     })
-                                                                     if (value) {
-                                                                         getServiceList(value?._id);
-                                                                     }
-                                                                 }}>
-                                                                <div className="appointment-count-card-wrapper"
-                                                                     style={{
-                                                                         color: CommonService.getContrastYIQ((serviceCategoryColorMap && serviceCategoryColorMap[value._id]) ? serviceCategoryColorMap[value._id] : '#AAAAAA'),
-                                                                         background: (serviceCategoryColorMap && serviceCategoryColorMap[value._id]) ? serviceCategoryColorMap[value._id] : '#AAAAAA'
+                                                            </ToolTipComponent>
+                                                        )
+                                                    }) : (calendarData[date]?.meta?.categories || [])
+                                                    .map((value: any, index: number) => {
+                                                        return (
+                                                            <ToolTipComponent key={index} tooltip={
+                                                                <>
+                                                                    <b>{value.name || 'No Name'}</b><br/>
+                                                                    <i>No of Appointments : {value?.count || 0}</i>
+                                                                </>
+                                                            }
+                                                                              backgroundColor={'#000000'}
+                                                                              textColor={'#FFFFFF'}>
+                                                                <div key={index} className={'appointment-count-card '}
+                                                                     onClick={() => {
+                                                                         setSchedulingListFilterState({
+                                                                             ...schedulingListFilterState,
+                                                                             category_id: value,
+                                                                             service_id: undefined,
+                                                                             start_date: date,
+                                                                             end_date: date,
+                                                                             duration: 'day'
+                                                                         })
+                                                                         if (value) {
+                                                                             getServiceList(value?._id);
+                                                                         }
                                                                      }}>
-                                                                    <div
-                                                                        className="appointment-title">{CommonService.getNameInitials(value.name)}</div>
-                                                                    <div
-                                                                        className="appointment-count">({value.count || 0})
+                                                                    <div className="appointment-count-card-wrapper"
+                                                                         style={{
+                                                                             color: CommonService.getContrastYIQ((serviceCategoryColorMap && serviceCategoryColorMap[value._id]) ? serviceCategoryColorMap[value._id] : '#AAAAAA'),
+                                                                             background: (serviceCategoryColorMap && serviceCategoryColorMap[value._id]) ? serviceCategoryColorMap[value._id] : '#AAAAAA'
+                                                                         }}>
+                                                                        <div
+                                                                            className="appointment-title">{CommonService.getNameInitials(value.name)}</div>
+                                                                        <div
+                                                                            className="appointment-count">({value.count || 0})
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </ToolTipComponent>
-                                                    )
-                                                })
-                                            }
-                                        </>}
-                                    </div>)
-                                }}
-                            />
-                            <div className="helper-tooltip"
-                                 onClick={setShowCategoryColors.bind(null, !showCategoryColors)}>
-                                {showCategoryColors && <div className="helper-tooltip-window">
-                                    {(serviceCategoryList || []).map((value, index) => {
-                                        return <div className={'helper-tooltip-window-item '} key={index}>
-                                            <div className={'helper-tooltip-window-item-color'}
-                                                 style={{background: value.color_code}}></div>
-                                            <div className={'helper-tooltip-window-item-text'}
-                                                 style={{color: value.color_code}}>{value.name}</div>
-                                        </div>
-                                    })}
-                                </div>}
-                                <QuestionMarkIcon/>
-                            </div>
-                        </>}
-                        {schedulingListFilterState.duration !== 'month' &&
+                                                            </ToolTipComponent>
+                                                        )
+                                                    })
+                                                }
+                                            </>}
+                                        </div>)
+                                    }}
+                                />
+                                <div className="helper-tooltip"
+                                     onClick={setShowCategoryColors.bind(null, !showCategoryColors)}>
+                                    {showCategoryColors && <div className="helper-tooltip-window">
+                                        {(serviceCategoryList || []).map((value, index) => {
+                                            return <div className={'helper-tooltip-window-item '} key={index}>
+                                                <div className={'helper-tooltip-window-item-color'}
+                                                     style={{background: value.color_code}}></div>
+                                                <div className={'helper-tooltip-window-item-text'}
+                                                     style={{color: value.color_code}}>{value.name}</div>
+                                            </div>
+                                        })}
+                                    </div>}
+                                    <QuestionMarkIcon/>
+                                </div>
+                            </>}
+                            {schedulingListFilterState.duration !== 'month' &&
                             <div className={'scheduling-calendar-day-wise-holder'}>
                                 <div className="scheduling-calendar-day-wise-time-wrapper">
                                     <div className="scheduling-calendar-day-wise-time-header"></div>
@@ -908,23 +920,24 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                     }
                                 </div>
                             </div>}
-                    </>}
-                    {(viewMode === 'list' && (schedulingListModeFilterState.start_date || schedulingListModeFilterState.last_date)) &&
-                                schedulingListFilterState.search !== "" ? <TableWrapperComponent
+                        </> :
+                        <>
+                            {schedulingListFilterState.search !== "" ? <TableWrapperComponent
                                 id={"appointment_search"}
                                 url={APIConfig.APPOINTMENT_LIST.URL}
                                 method={APIConfig.APPOINTMENT_LIST.METHOD}
                                 columns={SchedulingListColumns}
                                 refreshToken={refreshToken}
-                                noDataText={(!!schedulingListModeFilterState.start_date || !!schedulingListModeFilterState.category_id  || !!schedulingListModeFilterState.service_id || !!schedulingListModeFilterState.provider_id || !!schedulingListModeFilterState.status)&&
-                                    ( <div className={'no-appointment-text-wrapper'}>
-                                        <div><img src={ImageConfig.Search} alt="client-search"/></div>
-                                        <div className={'no-appointment-heading'}>No Client Found</div>
-                                        <div className={'no-appointment-description'}>
-                                            Oops! It seems like there are no appointments available for the client name you searched.<br/>
-                                            Please adjust filters or choose a different date range to refine your search.
-                                        </div>
-                                    </div>)
+                                noDataText={(!!schedulingListModeFilterState.start_date || !!schedulingListModeFilterState.category_id || !!schedulingListModeFilterState.service_id || !!schedulingListModeFilterState.provider_id || !!schedulingListModeFilterState.status) &&
+                                (<div className={'no-appointment-text-wrapper'}>
+                                    <div><img src={ImageConfig.Search} alt="client-search"/></div>
+                                    <div className={'no-appointment-heading'}>No Client Found</div>
+                                    <div className={'no-appointment-description'}>
+                                        Oops! It seems like there are no appointments available for the client name you
+                                        searched.<br/>
+                                        Please adjust filters or choose a different date range to refine your search.
+                                    </div>
+                                </div>)
                                 }
                                 extraPayload={schedulingListModeFilterState}
                                 onSort={handleSchedulingSort}
@@ -934,18 +947,21 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                 method={APIConfig.APPOINTMENT_LIST.METHOD}
                                 columns={SchedulingListColumns}
                                 refreshToken={refreshToken}
-                                noDataText={(!!schedulingListModeFilterState.start_date || !!schedulingListModeFilterState.category_id  || !!schedulingListModeFilterState.service_id || !!schedulingListModeFilterState.provider_id || !!schedulingListModeFilterState.status)&&
-                                    (<div className={'no-appointment-text-wrapper'}>
-                                        <div className={'no-appointment-heading'}>No Appointment Available</div>
-                                        <div className={'no-appointment-description'}>Unfortunately, there are no appointments available for the selected date. Please
-                                            explore alternative dates to look out for the appointments.
-                                        </div>
-                                    </div>)
+                                noDataText={(!!schedulingListModeFilterState.start_date || !!schedulingListModeFilterState.category_id || !!schedulingListModeFilterState.service_id || !!schedulingListModeFilterState.provider_id || !!schedulingListModeFilterState.status) &&
+                                (<div className={'no-appointment-text-wrapper'}>
+                                    <div className={'no-appointment-heading'}>No Appointment Available</div>
+                                    <div className={'no-appointment-description'}>Unfortunately, there are no
+                                        appointments
+                                        available for the selected date. Please
+                                        explore alternative dates to look out for the appointments.
+                                    </div>
+                                </div>)
                                 }
                                 extraPayload={schedulingListModeFilterState}
                                 onSort={handleSchedulingSort}
-                            />
-                       }
+                            />}
+                        </>
+                    }
                 </div>
             }
 

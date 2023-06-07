@@ -6,6 +6,7 @@ import 'react-calendar/dist/Calendar.css';
 import {IDateRangePickerProps} from "../../../models/form-controls.model";
 import {FormControl, FormHelperText} from "@mui/material";
 import EventIcon from '@mui/icons-material/Event';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface DateRangePickerComponentProps extends IDateRangePickerProps {
     name?: string;
@@ -71,10 +72,10 @@ const DateRangePickerComponent = (props: DateRangePickerComponentProps) => {
                     yearPlaceholder={"yyyy"}
                     monthPlaceholder={"mm"}
                     dayPlaceholder={"dd"}
-                    clearIcon={null}
+                    clearIcon={value && <CloseIcon/>}
                     closeCalendar={true}
                     openCalendarOnFocus={true}
-                    calendarIcon={<EventIcon/>}
+                    calendarIcon={!value && <EventIcon/>}
                 />
             </FormControl>
             <FormHelperText>

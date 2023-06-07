@@ -94,26 +94,32 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
 
 
     const onSubmitAppointmentPayment = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
-        const appointmentId = values.appointmentId;
-        delete values.appointmentId;
-        CommonService._appointment.appointmentPayment(appointmentId, {
-            ...values,
-            total: +values?.amount,
-            discount: 0,
-            coupon_id: selectedCoupon?._id
-        })
+        CommonService._appointment.addAppointment(booking)
             .then((response: IAPIResponseType<any>) => {
-                if (onComplete) {
-                    onComplete(response.data);
-                }
+                CommonService._appointment.appointmentPayment(response.data._id, {
+                    ...values,
+                    total: +values?.amount,
+                    discount: 0,
+                    coupon_id: selectedCoupon?._id
+                })
+                    .then((response: IAPIResponseType<any>) => {
+                        if (onComplete) {
+                            onComplete(response.data);
+                        }
+                    })
+                    .catch((error: any) => {
+                        CommonService.handleErrors(setErrors, error);
+                    })
+                    .finally(() => {
+                        setSubmitting(false);
+                    })
             })
             .catch((error: any) => {
-                CommonService.handleErrors(setErrors, error);
+                // CommonService.handleErrors(errors);
             })
             .finally(() => {
-                setSubmitting(false);
             })
-    }, [onComplete, selectedCoupon?._id]);
+    }, [onComplete, selectedCoupon?._id, booking]);
 
     const formRef = useRef<FormikProps<any>>(null)
 
@@ -140,7 +146,6 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                 initialValues={{
                     ...addAppointmentPaymentInitialValues,
                     amount: booking?.amount || 0,
-                    appointmentId: booking?._id
                 }}
                 onSubmit={onSubmitAppointmentPayment}
                 validateOnChange={false}
@@ -218,7 +223,8 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                             <div className="price-holder">
                                                 <div className="price-item">
                                                     <div className="price-item-text">Amount (Inc. tax)</div>
-                                                    <div className="price-item-amount amount">${CommonService.convertToDecimals(+booking?.amount)}</div>
+                                                    <div
+                                                        className="price-item-amount amount">${CommonService.convertToDecimals(+booking?.amount)}</div>
                                                 </div>
                                                 <div className="price-item">
                                                     <div className="price-item-text discount">Discount</div>

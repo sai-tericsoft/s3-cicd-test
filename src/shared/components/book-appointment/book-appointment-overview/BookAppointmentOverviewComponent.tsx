@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import "./BookAppointmentOverviewComponent.scss";
 import {CommonService} from "../../../services";
-import {IAPIResponseType} from "../../../models/api.model";
 import ChipComponent from "../../chip/ChipComponent";
 import {ImageConfig} from "../../../../constants";
 import ButtonComponent from "../../button/ButtonComponent";
@@ -19,7 +18,6 @@ interface BookAppointmentOverviewComponentProps {
 const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponentProps) => {
     const {onBack, onComplete, bookingDraft} = props;
     const {appointmentTypes} = useSelector((state: IRootReducerState) => state.staticData);
-    const [isBookingLoading, setIsBookingLoading] = useState<boolean>(false);
     // const [serviceDetails, setServiceDetails] = useState<any | null>(null);
     const [bookType, setBookType] = useState<any | null>(null);
 
@@ -52,7 +50,6 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
 
     const createBooking = useCallback(
         (booking: any) => {
-            setIsBookingLoading(true)
             //medical_record_id
             const payload: any = {
                 client_id: booking.client._id,
@@ -68,18 +65,21 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                 medical_record_id: booking.case._id,
 
             }
-            CommonService._appointment.addAppointment(payload)
-                .then((response: IAPIResponseType<any>) => {
-                    if (onComplete) {
-                        onComplete(response.data);
-                    }
-                })
-                .catch((error: any) => {
-                    // CommonService.handleErrors(errors);
-                })
-                .finally(() => {
-                    setIsBookingLoading(true)
-                })
+            if (onComplete) {
+                onComplete(payload);
+            }
+            // CommonService._appointment.addAppointment(payload)
+            //     .then((response: IAPIResponseType<any>) => {
+            //         if (onComplete) {
+            //             onComplete(response.data);
+            //         }
+            //     })
+            //     .catch((error: any) => {
+            //         // CommonService.handleErrors(errors);
+            //     })
+            //     .finally(() => {
+            //         setIsBookingLoading(true)
+            //     })
         },
         [onComplete],
     );
@@ -172,7 +172,6 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
             </div>
             <div className="client-search-btn">
                 <ButtonComponent fullWidth={true}
-                                 isLoading={isBookingLoading}
                                  onClick={event => {
                                      createBooking(bookingDraft);
                                  }}>Proceed to Payment</ButtonComponent>
