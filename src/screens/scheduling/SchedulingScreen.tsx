@@ -227,7 +227,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             });
         }
         setViewMode(mode);
-    }, [dateSwitcher, setSchedulingListFilterState, setViewMode]);
+    }, [setSchedulingListFilterState, setViewMode]);
 
     const [serviceCategoryList, setServiceCategoryList] = useState<any[] | null>(null);
     const [serviceCategoryColorMap, setServiceCategoryColorMap] = useState<any>({});
