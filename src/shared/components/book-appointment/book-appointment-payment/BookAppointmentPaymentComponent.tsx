@@ -94,30 +94,24 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
 
 
     const onSubmitAppointmentPayment = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
-        CommonService._appointment.addAppointment(booking)
+        const appointmentId = values.appointmentId;
+        delete values.appointmentId;
+        CommonService._appointment.appointmentPayment(appointmentId, {
+            ...values,
+            total: +values?.amount,
+            discount: 0,
+            coupon_id: selectedCoupon?._id
+        })
             .then((response: IAPIResponseType<any>) => {
-                CommonService._appointment.appointmentPayment(response.data._id, {
-                    ...values,
-                    total: +values?.amount,
-                    discount: 0,
-                    coupon_id: selectedCoupon?._id
-                })
-                    .then((response: IAPIResponseType<any>) => {
-                        if (onComplete) {
-                            onComplete(response.data);
-                        }
-                    })
-                    .catch((error: any) => {
-                        CommonService.handleErrors(setErrors, error);
-                    })
-                    .finally(() => {
-                        setSubmitting(false);
-                    })
+                if (onComplete) {
+                    onComplete(response.data);
+                }
             })
             .catch((error: any) => {
-                // CommonService.handleErrors(errors);
+                CommonService.handleErrors(setErrors, error);
             })
             .finally(() => {
+                setSubmitting(false);
             })
     }, [onComplete, selectedCoupon?._id, booking]);
 
@@ -146,6 +140,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                 initialValues={{
                     ...addAppointmentPaymentInitialValues,
                     amount: booking?.amount || 0,
+                    appointmentId: booking?._id
                 }}
                 onSubmit={onSubmitAppointmentPayment}
                 validateOnChange={false}

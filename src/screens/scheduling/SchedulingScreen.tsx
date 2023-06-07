@@ -375,26 +375,74 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
         [],
     );
 
-    const [schedulingListModeFilterState, setSchedulingListModeFilterState] = useState<any>({})
+    // const [schedulingListModeFilterState, setSchedulingListModeFilterState] = useState<any>({})
 
-    useEffect(() => {
-        if (schedulingListFilterState) {
-            const prePayload: any = {...schedulingListFilterState};
-            if (schedulingListFilterState.category_id) {
-                prePayload.category_id = schedulingListFilterState.category_id._id;
+    // useEffect(() => {
+    //     if (schedulingListFilterState) {
+    //         const prePayload: any = {...schedulingListFilterState};
+    //         if (schedulingListFilterState.category_id) {
+    //             prePayload.category_id = schedulingListFilterState.category_id._id;
+    //         }
+    //         if (schedulingListFilterState.service_id) {
+    //             prePayload.service_id = schedulingListFilterState.service_id._id;
+    //         }
+    //         if (schedulingListFilterState.provider_id) {
+    //             prePayload.provider_id = schedulingListFilterState.provider_id.provider_id || schedulingListFilterState.provider_id._id;
+    //         }
+    //         if (schedulingListFilterState.status) {
+    //             prePayload.status = schedulingListFilterState.status.code;
+    //         }
+    //         setSchedulingListModeFilterState(prePayload);
+    //     }
+    // }, [schedulingListFilterState]);
+
+    const handleFilters = useCallback((value: any, filterName: string) => {
+        if (filterName === 'serviceCategory') {
+            setSchedulingListFilterState((oldState: any) => {
+                const newState = {...oldState};
+                newState['category_id'] = value;
+                newState['service_id'] = undefined;
+                if (!value) {
+                    delete newState['category_id'];
+                }
+                return newState;
+            });
+            if (value) {
+                getServiceList(value);
             }
-            if (schedulingListFilterState.service_id) {
-                prePayload.service_id = schedulingListFilterState.service_id._id;
-            }
-            if (schedulingListFilterState.provider_id) {
-                prePayload.provider_id = schedulingListFilterState.provider_id.provider_id || schedulingListFilterState.provider_id._id;
-            }
-            if (schedulingListFilterState.status) {
-                prePayload.status = schedulingListFilterState.status.code;
-            }
-            setSchedulingListModeFilterState(prePayload);
         }
-    }, [schedulingListFilterState]);
+        if (filterName === 'service') {
+            setSchedulingListFilterState((oldState: any) => {
+                const newState = {...oldState};
+                newState['service_id'] = value;
+                if (!value) {
+                    delete newState['service_id'];
+                }
+                return newState;
+            });
+        }
+        if (filterName === 'provider') {
+            setSchedulingListFilterState((oldState: any) => {
+                const newState = {...oldState};
+                newState['provider_id'] = value.provider_id || value;
+
+                if (!value) {
+                    delete newState['provider_id'];
+                }
+                return newState;
+            });
+        }
+        if (filterName === 'status') {
+            setSchedulingListFilterState((oldState: any) => {
+                const newState = {...oldState};
+                newState['status'] = value;
+                if (!value) {
+                    delete newState['status'];
+                }
+                return newState;
+            });
+        }
+    }, []);
 
     return (
         <div className={'scheduling-list-component'}>
@@ -461,21 +509,11 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                  value={schedulingListFilterState?.category_id || ''}
                                                  displayWith={item => item ? item?.name : ''}
                                                  keyExtractor={item => item?._id}
-                                                 valueExtractor={item => item}
+                                                 valueExtractor={item => item?._id}
                                                  options={serviceCategoryList || []}
                                                  fullWidth={true}
-                                                 onUpdate={
-                                                     (value) => {
-                                                         setSchedulingListFilterState({
-                                                             ...schedulingListFilterState,
-                                                             category_id: value,
-                                                             service_id: undefined
-                                                         })
-                                                         if (value) {
-                                                             getServiceList(value?._id);
-                                                         }
-                                                     }
-                                                 }
+                                                 onUpdate={(value) => handleFilters(value, 'serviceCategory')}
+
                                 />
                             </div>
                             <div className="scheduling-filter-header-action-item">
@@ -485,18 +523,10 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                  value={schedulingListFilterState?.service_id || ''}
                                                  displayWith={item => item ? item?.name : ''}
                                                  keyExtractor={item => item?._id}
-                                                 valueExtractor={item => item}
+                                                 valueExtractor={item => item?._id}
                                                  options={serviceList || []}
                                                  fullWidth={true}
-                                                 onUpdate={
-                                                     (value) => {
-                                                         setSchedulingListFilterState({
-                                                             ...schedulingListFilterState,
-                                                             service_id: value
-                                                         })
-
-                                                     }
-                                                 }
+                                                 onUpdate={(value) => handleFilters(value, 'service')}
                                 />
                             </div>
                             <div className="scheduling-filter-header-action-item">
@@ -509,15 +539,8 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                     disabled={!schedulingListFilterState?.service_id}
                                     displayWith={item => item ? item?.provider_name || (item?.first_name + ' ' + item?.last_name) : ''}
                                     keyExtractor={item => item?.provider_id || item?._id}
-                                    valueExtractor={item => item}
-                                    onUpdate={
-                                        (value) => {
-                                            setSchedulingListFilterState({
-                                                ...schedulingListFilterState,
-                                                provider_id: value
-                                            })
-                                        }
-                                    }
+                                    valueExtractor={item => item?.provider_id || item?._id}
+                                    onUpdate={(value) => handleFilters(value, 'provider')}
                                 />
                             </div>
                             <div className="scheduling-filter-header-action-item">
@@ -527,14 +550,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                  displayWith={(option: any) => (option?.title || '')}
                                                  valueExtractor={(option: any) => option?.code || ''}
                                                  label={'Status'}
-                                                 onUpdate={
-                                                     (value) => {
-                                                         setSchedulingListFilterState({
-                                                             ...schedulingListFilterState,
-                                                             status: value
-                                                         })
-                                                     }
-                                                 }
+                                                 onUpdate={(value) => handleFilters(value, 'status')}
                                                  fullWidth={true}
                                 />
                             </div>
@@ -839,7 +855,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                 method={APIConfig.APPOINTMENT_LIST.METHOD}
                                 columns={SchedulingListColumns}
                                 refreshToken={refreshToken}
-                                noDataText={(!!schedulingListModeFilterState.start_date || !!schedulingListModeFilterState.category_id || !!schedulingListModeFilterState.service_id || !!schedulingListModeFilterState.provider_id || !!schedulingListModeFilterState.status) &&
+                                noDataText={(!!schedulingListFilterState.start_date || !!schedulingListFilterState.category_id || !!schedulingListFilterState.service_id || !!schedulingListFilterState.provider_id || !!schedulingListFilterState.status) &&
                                 (<div className={'no-appointment-text-wrapper'}>
                                     <div><img src={ImageConfig.Search} alt="client-search"/></div>
                                     <div className={'no-appointment-heading'}>No Client Found</div>
@@ -850,7 +866,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                     </div>
                                 </div>)
                                 }
-                                extraPayload={schedulingListModeFilterState}
+                                extraPayload={schedulingListFilterState}
                                 onSort={handleSchedulingSort}
                             />
                         </>

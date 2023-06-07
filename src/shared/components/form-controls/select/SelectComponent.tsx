@@ -36,6 +36,8 @@ const SelectComponent = (props: SelectComponentProps) => {
     const variant = props.variant || "outlined";
     const size = props.size || "medium";
 
+    console.log(tmpValue);
+
     const handleUpdate = useCallback((e: SelectChangeEvent) => {
         console.log(e);
         const selectedValue = e.target.value;
@@ -75,7 +77,7 @@ const SelectComponent = (props: SelectComponentProps) => {
         <IconButtonComponent onClick={handleClear} className={'mrg-right-10'}>
             <ImageConfig.CloseIcon/>
         </IconButtonComponent>
-    ),[handleClear]);
+    ), [handleClear]);
 
     return (
         <FormControl className={'select-component ' + className + ' ' + (fullWidth ? "full-width" : "")}
