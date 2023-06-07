@@ -113,7 +113,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
             .finally(() => {
                 setSubmitting(false);
             })
-    }, [onComplete, selectedCoupon?._id, booking]);
+    }, [onComplete, selectedCoupon?._id]);
 
     const formRef = useRef<FormikProps<any>>(null)
 

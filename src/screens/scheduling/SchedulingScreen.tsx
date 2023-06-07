@@ -442,7 +442,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                 return newState;
             });
         }
-    }, []);
+    }, [getServiceList]);
 
     return (
         <div className={'scheduling-list-component'}>
