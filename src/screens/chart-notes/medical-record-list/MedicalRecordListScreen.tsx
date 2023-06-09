@@ -94,7 +94,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: "last_provider",
             dataIndex: "last_provider",
             sortable: true,
-            width: 140,
+            width: 160,
         },
         {
             title: "",
@@ -221,6 +221,8 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                                         <TableWrapperComponent
                                             url={APIConfig.CLIENT_MEDICAL_INFO.URL(clientId)}
                                             method={APIConfig.CLIENT_MEDICAL_INFO.METHOD}
+                                            autoHeight={true}
+                                            isPaginated={true}
                                             columns={MedicalRecordListTableColumns}
                                             extraPayload={medicalRecordListStatusDateAndProviderFilterState}
                                             onSort={handleClientMedicalListSort}

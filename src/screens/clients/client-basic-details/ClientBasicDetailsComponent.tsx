@@ -109,7 +109,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                         <div className="ts-row">
                             {/*{clientBasicDetails?.secondary_contact_info?.length > 0 && (clientBasicDetails?.secondary_contact_info[0]?.phone !== "" || clientBasicDetails?.secondary_emails[0]?.email !== "")*/}
                             {/*    &&  <HorizontalLineComponent className={'alternate-heading-horizontal-line'}/>}*/}
-                            <div className="ts-col-8">
+                            <div className="ts-col-6">
                                 {
                                     clientBasicDetails?.secondary_contact_info?.length > 0 &&
                                     clientBasicDetails?.secondary_contact_info[0]?.phone !== "" &&
@@ -124,12 +124,12 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                             {
                                                 phone_number?.phone_type_details?.title && phone_number?.phone && <>
                                                     <div className={'ts-row'}>
-                                                        <div className={'ts-col-5'}>
+                                                        <div className={'ts-col-6'}>
                                                             <DataLabelValueComponent label={'Phone Type'}>
                                                                 {phone_number?.phone_type_details?.title || "N/A"}
                                                             </DataLabelValueComponent>
                                                         </div>
-                                                        <div className={'ts-col-7'}>
+                                                        <div className={'ts-col-4'}>
                                                             <DataLabelValueComponent label={'Phone Number'}>
                                                                 {CommonService.formatPhoneNumber(phone_number?.phone || 'N/A')}
                                                             </DataLabelValueComponent>
@@ -146,7 +146,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                 {clientBasicDetails?.secondary_emails?.length > 0 &&
                                     clientBasicDetails?.secondary_emails[0]?.email !== "" &&
                                     <>
-                                        {/*<FormControlLabelComponent size={'sm'} label={'Alternate Email:'}/>*/}
+                                        <FormControlLabelComponent size={'sm'} label={'Alternate Email:'}/>
                                         <div className={'phone-email-heading'}>Alternate Email:</div>
                                     </>
 
@@ -199,7 +199,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                         </div>
                         <div className={'ts-row'}>
                             <div className="ts-col-6">
-                                <FormControlLabelComponent label={'Primary:'}/>
+                                <div className={'phone-email-heading'}>Primary:</div>
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-6'}>
                                         <DataLabelValueComponent label={'Phone Type'}>
@@ -223,7 +223,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                             <div className="ts-col-6">
                                 {clientBasicDetails?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.length > 0 &&
                                     clientBasicDetails?.emergency_contact_info?.primary_emergency?.secondary_contact_info[0]?.phone !== "" &&
-                                    <FormControlLabelComponent label={'Alternate:'}/>
+                                    <div className={'phone-email-heading'}>Alternate:</div>
                                 }
                                 {
                                     clientBasicDetails?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.map((phone_number: any, index: number) => {
@@ -273,7 +273,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                         {
                             clientBasicDetails?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone_type_details?.title && clientBasicDetails?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone &&
                             <>
-                                <FormControlLabelComponent label={'Primary:'}/>
+                                <div className={'phone-email-heading'}>Primary:</div>
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-lg-3'}>
                                         <DataLabelValueComponent label={'Phone Type'}>
@@ -292,7 +292,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                             clientBasicDetails?.emergency_contact_info?.secondary_emergency?.secondary_contact_info[0]?.phone !== "" &&
                             <>
                                 {/*< HorizontalLineComponent className={'alternate-heading-horizontal-line'}/>*/}
-                                <FormControlLabelComponent label={'Alternate:'}/>
+                                <div className={'phone-email-heading'}>Alternate:</div>
                             </>
                         }
                         {
@@ -322,12 +322,12 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                         <div className={'ts-row'}>
                             <div className={'ts-col-lg-3'}>
                                 <DataLabelValueComponent label={'Occupation'}>
-                                    {clientBasicDetails?.work_info?.occupation || 'N/A'}
+                                   <div className={'mrg-bottom-24'}>{clientBasicDetails?.work_info?.occupation || 'N/A'}</div>
                                 </DataLabelValueComponent>
                             </div>
                             <div className={'ts-col-lg-3'}>
                                 <DataLabelValueComponent label={'Employment Status'}>
-                                    {clientBasicDetails?.work_info?.employment_status_details?.title || 'N/A'}<br/>
+                                    <div className={'mrg-bottom-24'}> {clientBasicDetails?.work_info?.employment_status_details?.title || 'N/A'}</div><br/>
                                 </DataLabelValueComponent>
                             </div>
                         </div>
