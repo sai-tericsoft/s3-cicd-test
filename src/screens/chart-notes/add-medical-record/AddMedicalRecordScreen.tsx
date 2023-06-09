@@ -314,11 +314,11 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
-                            <FormDebuggerComponent values={values} errors={errors}/>
+                            {/*<FormDebuggerComponent values={values} errors={errors}/>*/}
                             {
                                 !surgeryRecord && <div
                                     className={"mrg-bottom-20 display-flex ts-justify-content-sm-between"}>
-                                    <PageHeaderComponent title={'Add Medical Record'} className={'display-flex'}/>
+                                    <PageHeaderComponent title={'Add New Medical Record'} className={'display-flex'}/>
                                     <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}
                                                      onClick={handleSurgeryRecordDrawerOpen}
                                     >

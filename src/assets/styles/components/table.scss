@@ -3,7 +3,7 @@
 .t-table-wrapper {
   width: 100%;
   height: 100%;
-  //overflow: auto;
+  overflow: auto;
 
   .t-table {
     //border-radius: 4px;
@@ -14,6 +14,7 @@
 
     &:not(&.auto-height) {
       min-height: 400px;
+      background-color: #FFFFFF;
     }
 
     .autoComplete-component-wrapper, .input-component {
