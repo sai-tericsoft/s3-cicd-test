@@ -208,7 +208,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
     const [refreshToken, setRefreshToken] = useState('');
 
     const setViewModeHandler = useCallback((mode: 'list' | 'calendar') => {
-        console.log(mode);
+
         if (mode === 'calendar') {
             setSchedulingListFilterState((old: any) => {
                 const newState = {...old};
@@ -405,14 +405,21 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
         <div className={'scheduling-list-component'}>
             <div className="scheduling-header-wrapper">
                 <div className="scheduling-header-search-wrapper">
-                    <SearchComponent size={'small'}
-                                     className={'scheduling-list-input mrg-top-20'}
-                                     label={'Search for Client'}
-                                     value={schedulingListFilterState.search}
-                                     onSearchChange={(value) => {
-                                         setSchedulingListFilterState({...schedulingListFilterState, search: value})
-                                     }}/>
+                    {viewMode === "list" && <SearchComponent size={'small'}
+                                                             className={'scheduling-list-input mrg-top-20'}
+                                                             label={'Search for Client'}
+                                                             value={schedulingListFilterState.search}
+                                                             onSearchChange={(value) => {
+                                                                 setSchedulingListFilterState({
+                                                                     ...schedulingListFilterState,
+                                                                     search: value
+                                                                 })
+                                                             }}/>
+                    }
                 </div>
+                {
+                    viewMode === "calendar" && <div className={'mrg-top-80'}/>
+                }
                 <div className="scheduling-header-actions-wrapper">
                     <div className="scheduling-header-action-item">
                         <ToggleButtonGroup value={viewMode} color={"primary"} size={'small'}>
@@ -438,6 +445,9 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                     </div>
                 </div>
             </div>
+            {
+                viewMode === "calendar" && <div className={'mrg-bottom-20'}/>
+            }
             {
                 <div className={"list-content-wrapper view-" + viewMode}>
                     <div className='scheduling-filter-header-wrapper'>

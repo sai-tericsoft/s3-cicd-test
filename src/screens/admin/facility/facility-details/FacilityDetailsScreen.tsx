@@ -81,12 +81,12 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                         <div className={'ts-row'}>
                             <div className={'ts-col-lg-3'}>
                                 <DataLabelValueComponent label={"Facility Name"}>
-                                    {facilityDetails?.name || "-"}
+                                    {facilityDetails?.name || "N/A"}
                                 </DataLabelValueComponent>
                             </div>
                             <div className={'ts-col-lg-3'}>
                                 <DataLabelValueComponent label={"Facility Location"}>
-                                    {facilityDetails?.location_details?.title || "-"}
+                                    {facilityDetails?.location_details?.title || "N/A"}
                                 </DataLabelValueComponent>
                             </div>
                         </div>
@@ -98,12 +98,12 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-5'}>
                                         <DataLabelValueComponent label={'Phone Type'}>
-                                            {facilityDetails?.primary_contact_info?.phone_type_details.title || "-"}
+                                            {facilityDetails?.primary_contact_info?.phone_type_details.title || "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-lg-3'}>
                                         <DataLabelValueComponent label={'Phone Number'}>
-                                            {CommonService.formatPhoneNumber(facilityDetails?.primary_contact_info?.phone || "-")}
+                                            {CommonService.formatPhoneNumber(facilityDetails?.primary_contact_info?.phone || "N/A")}
                                         </DataLabelValueComponent>
                                     </div>
                                 </div>
@@ -113,7 +113,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-12'}>
                                         <DataLabelValueComponent label={'Email'}>
-                                            {facilityDetails?.primary_email || '-'}
+                                            {facilityDetails?.primary_email || 'N/A'}
                                         </DataLabelValueComponent>
                                     </div>
 
@@ -121,7 +121,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                             </div>
                         </div>
                         <div className={'ts-row'}>
-                            <HorizontalLineComponent/>
+                            {/*<HorizontalLineComponent/>*/}
                             <div className={'ts-col-7'}>
                                 <FormControlLabelComponent label={'Alternate Phone'}/>
 
@@ -131,12 +131,12 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                                             <div className={'ts-row'}>
                                                 <div className={'ts-col-5'}>
                                                     <DataLabelValueComponent label={'Phone Type'}>
-                                                        <div>{phone_number?.phone_type_details?.title || "-"}</div>
+                                                        <div>{phone_number?.phone_type_details?.title || "N/A"}</div>
                                                     </DataLabelValueComponent>
                                                 </div>
                                                 <div className={'ts-col-3'}>
                                                     <DataLabelValueComponent label={'Phone Number'}>
-                                                        {CommonService.formatPhoneNumber(phone_number?.phone || '-')}
+                                                        {CommonService.formatPhoneNumber(phone_number?.phone || 'N/A')}
                                                     </DataLabelValueComponent>
                                                 </div>
                                             </div>
@@ -151,7 +151,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                                 {facilityDetails.secondary_emails?.map((email: any, index: number) => {
                                     return (<div className={'ts-col-lg-3'} key={index}>
                                             <DataLabelValueComponent label={'Email '}>
-                                                <div>{email || '-'}</div>
+                                                <div>{email || 'N/A'}</div>
                                             </DataLabelValueComponent>
                                         </div>
                                     )
