@@ -114,7 +114,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                     clientBasicDetails?.secondary_contact_info?.length > 0 &&
                                     clientBasicDetails?.secondary_contact_info[0]?.phone !== "" &&
                                     <>
-                                        <FormControlLabelComponent size={'sm'}  label={'Alternate Phone:'}/>
+                                        <FormControlLabelComponent size={'sm'} label={'Alternate Phone:'}/>
                                         <div className={'phone-email-heading'}>Alternate Phone:</div>
                                     </>
                                 }
@@ -250,26 +250,29 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                 }
                             </div>
                         </div>
-                        <HorizontalLineComponent className={'secondary-horizontal-line'}/>
-                        <FormControlLabelComponent className={'secondary-emergency-contact'}
-                                                   label={'Secondary Emergency Contact'}/>
-                        <div className={'ts-row'}>
-                            <div className={'ts-col-lg-3'}>
-                                <DataLabelValueComponent label={'Full Name'}>
-                                    {clientBasicDetails?.emergency_contact_info?.secondary_emergency?.name || "N/A"}
-                                </DataLabelValueComponent>
+                        {clientBasicDetails?.emergency_contact_info?.secondary_emergency?.name && <>
+                            <HorizontalLineComponent className={'secondary-horizontal-line'}/>
+                            <FormControlLabelComponent className={'secondary-emergency-contact'}
+                                                       label={'Secondary Emergency Contact'}/>
+                            <div className={'ts-row'}>
+                                <div className={'ts-col-lg-3'}>
+                                    <DataLabelValueComponent label={'Full Name'}>
+                                        {clientBasicDetails?.emergency_contact_info?.secondary_emergency?.name || "N/A"}
+                                    </DataLabelValueComponent>
+                                </div>
+                                <div className={'ts-col-lg-3'}>
+                                    <DataLabelValueComponent label={'Relationship'}>
+                                        {clientBasicDetails?.emergency_contact_info?.secondary_emergency?.relationship_details?.title || "N/A"}
+                                    </DataLabelValueComponent>
+                                </div>
+                                <div className={'ts-col-lg-3'}>
+                                    <DataLabelValueComponent label={'Language'}>
+                                        {clientBasicDetails?.emergency_contact_info?.secondary_emergency?.language_details?.title || "N/A"}
+                                    </DataLabelValueComponent>
+                                </div>
                             </div>
-                            <div className={'ts-col-lg-3'}>
-                                <DataLabelValueComponent label={'Relationship'}>
-                                    {clientBasicDetails?.emergency_contact_info?.secondary_emergency?.relationship_details?.title || "N/A"}
-                                </DataLabelValueComponent>
-                            </div>
-                            <div className={'ts-col-lg-3'}>
-                                <DataLabelValueComponent label={'Language'}>
-                                    {clientBasicDetails?.emergency_contact_info?.secondary_emergency?.language_details?.title || "N/A"}
-                                </DataLabelValueComponent>
-                            </div>
-                        </div>
+                        </>
+                        }
                         {
                             clientBasicDetails?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone_type_details?.title && clientBasicDetails?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone &&
                             <>
@@ -318,16 +321,19 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                             })
                         }
                     </CardComponent>
-                    <CardComponent title={'Work Information'}>
+                    <CardComponent title={'Work Information'} className={'work-info-card'}>
                         <div className={'ts-row'}>
                             <div className={'ts-col-lg-3'}>
                                 <DataLabelValueComponent label={'Occupation'}>
-                                   <div className={'mrg-bottom-24'}>{clientBasicDetails?.work_info?.occupation || 'N/A'}</div>
+                                    <div
+                                        className={'mrg-bottom-24'}>{clientBasicDetails?.work_info?.occupation || 'N/A'}</div>
                                 </DataLabelValueComponent>
                             </div>
                             <div className={'ts-col-lg-3'}>
                                 <DataLabelValueComponent label={'Employment Status'}>
-                                    <div className={'mrg-bottom-24'}> {clientBasicDetails?.work_info?.employment_status_details?.title || 'N/A'}</div><br/>
+                                    <div
+                                        className={'mrg-bottom-24'}> {clientBasicDetails?.work_info?.employment_status_details?.title || 'N/A'}</div>
+                                    <br/>
                                 </DataLabelValueComponent>
                             </div>
                         </div>

@@ -28,8 +28,9 @@ const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
             key: 'staff',
             title: 'Staff',
             width: "150",
+            align:'center',
             render: (item: IClientActivityLog) => {
-                return <>{item?.updated_by?.name}</>
+                return <>{CommonService.capitalizeFirstLetter(item?.updated_by?.name)}</>
             }
         },
         {

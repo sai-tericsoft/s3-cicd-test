@@ -89,7 +89,7 @@ const FormQuestions = [
     {
         key: "Drink Alcohol?",
         title: "Drink Alcohol?",
-        placeholder: "Drinks/day",
+        placeholder: "Drinks/week",
         id: "alcohol"
     },
     {

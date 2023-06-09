@@ -28,15 +28,15 @@ interface ClientMedicalProviderInformationFormComponentProps {
     onSave: (clientMedicalProviderInformationDetails: any) => void;
 }
 
-const ClientMedicalProviderInformationValidationSchema = Yup.object({
-    medical_provider_info: Yup.object({
-        family_doctor_name: Yup.string().required('Name is required'),
-        md_phone: Yup.string().required('MD Phone is required'),
-        referring_doctor_name: Yup.string().required('Name is required'),
-        primary_phone: Yup.string().required('Primary Phone is required'),
-        last_examination_date: Yup.string().required('Last Examination Date is required'),
-    }),
-});
+// const ClientMedicalProviderInformationValidationSchema = Yup.object({
+//     medical_provider_info: Yup.object({
+//         family_doctor_name: Yup.string().required('Name is required'),
+//         md_phone: Yup.string().required('MD Phone is required'),
+//         referring_doctor_name: Yup.string().required('Name is required'),
+//         primary_phone: Yup.string().required('Primary Phone is required'),
+//         last_examination_date: Yup.string().required('Last Examination Date is required'),
+//     }),
+// });
 
 const ClientMedicalProviderInformationInitialValues: IClientMedicalProviderForm = {
     medical_provider_info: {
@@ -115,7 +115,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                     <FormControlLabelComponent className={'add-medical-provider-information-heading'} label={CommonService.capitalizeFirstLetter(mode) + " Medical Provider Information"}/>
                     <CardComponent title={"Medical Provider Information"}>
                         <Formik
-                            validationSchema={ClientMedicalProviderInformationValidationSchema}
+                            // validationSchema={ClientMedicalProviderInformationValidationSchema}
                             initialValues={clientMedicalProviderInformationInitialValues}
                             onSubmit={onSubmit}
                             validateOnChange={false}
@@ -138,7 +138,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                                             <FormikInputComponent
                                                                 label={"Full Name"}
                                                                 placeholder={"Full Name"}
-                                                                required={true}
+                                                                // required={true}
                                                                 formikField={field}
                                                                 fullWidth={true}
                                                             />
@@ -153,7 +153,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                                             <FormikPhoneInputComponent
                                                                 label={"MD Phone"}
                                                                 placeholder={"MD Phone"}
-                                                                required={true}
+                                                                // required={true}
                                                                 formikField={field}
                                                                 fullWidth={true}
                                                             />
@@ -171,7 +171,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                                             <FormikInputComponent
                                                                 label={"Full Name"}
                                                                 placeholder={"Full Name"}
-                                                                required={true}
+                                                                // required={true}
                                                                 formikField={field}
                                                                 fullWidth={true}
                                                             />
@@ -186,7 +186,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                                             <FormikPhoneInputComponent
                                                                 label={"MD Phone"}
                                                                 placeholder={"MD Phone"}
-                                                                required={true}
+                                                                // required={true}
                                                                 formikField={field}
                                                                 fullWidth={true}
                                                             />
@@ -204,7 +204,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                                             <FormikDatePickerComponent
                                                                 label={"Date"}
                                                                 placeholder={"Date"}
-                                                                required={true}
+                                                                // required={true}
                                                                 maxDate={CommonService._staticData.today}
                                                                 formikField={field}
                                                                 fullWidth={true}

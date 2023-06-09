@@ -30,6 +30,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
         isClientMedicalDetailsLoadingFailed
     } = useSelector((state: IRootReducerState) => state.client);
 
+
     return (
         <div className={'client-medical-details-component'}>
             {
@@ -69,7 +70,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                 {clientMedicalDetails?.personal_habits?.["Drink Alcohol?"]?.value || "N/A"}
                             </div>
                             <div className={'ts-col-lg-3'}>
-                                {clientMedicalDetails?.personal_habits?.["Drink Alcohol?"]?.text ? clientMedicalDetails?.personal_habits?.["Drink Alcohol?"]?.text + " Drinks/day" : "N/A"}
+                                {clientMedicalDetails?.personal_habits?.["Drink Alcohol?"]?.text ? clientMedicalDetails?.personal_habits?.["Drink Alcohol?"]?.text + " Drinks/week" : "N/A"}
                             </div>
                         </div>
                         <div className={'ts-row mrg-bottom-20'}>
@@ -108,7 +109,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             return <li key={key}>{i}</li>;
                         }) : <div className={'allergies-na'}>None Reported</div>}</div>
                     </CardComponent>
-                    <CardComponent title={'Medication/Supplements'} actions={<LinkComponent
+                    <CardComponent title={'Medications/Supplements'} actions={<LinkComponent
                         route={CommonService._client.NavigateToClientEdit(clientId, "medicalSupplements")}>
                         <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                             Edit
@@ -195,7 +196,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                         </>
                         }
                         {
-                           !clientMedicalDetails?.medical_history?.questions_details &&   clientMedicalDetails?.medical_history?.comments &&<div className={'allergies-na'}>None Reported</div>
+                            clientMedicalDetails?.medical_history?.questions_details?.length===0 &&   !clientMedicalDetails?.medical_history?.comments &&<div className={'allergies-na'}>None Reported</div>
                         }
                     </CardComponent>
                     {
@@ -259,11 +260,11 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             }
                             </div>}
                         {
-                            !clientMedicalDetails?.surgical_history?.questions_details && !clientMedicalDetails?.surgical_history?.comments &&
+                            clientMedicalDetails?.surgical_history?.questions_details?.length===0 && !clientMedicalDetails?.surgical_history?.comments &&
                             <div className={'allergies-na'}>None Reported</div>
                         }
                     </CardComponent>
-                    <CardComponent title={'Musculoskeletal History'} actions={<LinkComponent
+                    <CardComponent title={'Musculoskeletal History'} className={'musculoskeletal-card'} actions={<LinkComponent
                         route={CommonService._client.NavigateToClientEdit(clientId, "musculoskeletalHistory")}>
                         <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                             Edit
@@ -290,13 +291,17 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                         </div>
                                         <div className="ts-col-lg-6">
                                             {
-                                                (clientMedicalDetails?.musculoskeletal_history[question]?.text) ?
+                                                (clientMedicalDetails?.musculoskeletal_history[question]?.text) &&
                                                     <div className={'musculoskeletal-question'}>
                                                         {clientMedicalDetails?.musculoskeletal_history[question]?.text.split("\n").map((i: any, key: any) => {
                                                             return <div className={'mrg-bottom-15'} key={key}>{i}</div>
                                                         })}</div>
-                                                    : <div className={'musculoskeletal-question-na'}>None Reported</div>
                                             }
+                                            {
+                                                clientMedicalDetails?.musculoskeletal_history[question]?.value==='Yes' && !clientMedicalDetails?.musculoskeletal_history[question]?.text
+                                                && <div className={'allergies-na'}>None Reported</div>
+                                            }
+
                                         </div>
                                     </div>
                                     <HorizontalLineComponent/>

@@ -211,7 +211,6 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                                                         titleCase={true}
                                                         label={'Minimum Billing Amount'}
                                                         formikField={field}
-                                                        type={'number'}
                                                         fullWidth={true}
                                                         required={true}
                                                         placeholder={'Minimum Billing Amount'}
@@ -228,7 +227,6 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                                                         titleCase={true}
                                                         label={'Usage Limit Per User'}
                                                         formikField={field}
-                                                        type={'number'}
                                                         fullWidth={true}
                                                         required={true}
                                                         placeholder={'Minimum Billing Amount'}
@@ -320,7 +318,6 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                                                             label={'Max Discount Amount'}
                                                             placeholder={'Max Discount Amount'}
                                                             formikField={field}
-                                                            type={'number'}
                                                             required={true}
                                                             fullWidth={true}
                                                         />
@@ -342,7 +339,6 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                                                         <FormikInputComponent
                                                             titleCase={true}
                                                             label={'Amount'}
-                                                            type={'number'}
                                                             placeholder={'Amount'}
                                                             formikField={field}
                                                             required={true}
