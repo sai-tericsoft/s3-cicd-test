@@ -19,7 +19,7 @@ const Client8MinutesRuleChartComponent = (props: Client8MinutesRuleChartComponen
 
     const minutesChartColumn: ITableColumn[] = [
         {
-            title: 'Time',
+            title: 'Time Spent',
             dataIndex: 'time',
             key: 'time',
         },
