@@ -103,9 +103,10 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                        </ButtonComponent>
                                    </LinkComponent>
                                    }>
-                        {clientMedicalDetails?.allergies.split("\n").map((i: any, key: any) => {
+                        <div
+                            className={'allergies-na'}> {clientMedicalDetails?.allergies ? clientMedicalDetails?.allergies.split("\n").map((i: any, key: any) => {
                             return <li key={key}>{i}</li>;
-                        }) || "N/A"}
+                        }) : <div className={'allergies-na'}>None Reported</div>}</div>
                     </CardComponent>
                     <CardComponent title={'Medication/Supplements'} actions={<LinkComponent
                         route={CommonService._client.NavigateToClientEdit(clientId, "medicalSupplements")}>
@@ -136,7 +137,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             </div>
                             <div className={'ts-col-lg-3'}>
                                 <DataLabelValueComponent label={'MD Phone'}>
-                                    {CommonService.formatPhoneNumber(clientMedicalDetails?.medical_provider_info?.md_phone || "N/A")}
+                                    {clientMedicalDetails?.medical_provider_info?.primary_phone ? CommonService.formatPhoneNumber(clientMedicalDetails?.medical_provider_info?.md_phone) : "N/A"}
                                 </DataLabelValueComponent>
                             </div>
                         </div>
@@ -148,7 +149,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             </div>
                             <div className={'ts-col-lg-3'}>
                                 <DataLabelValueComponent label={'MD Phone'}>
-                                    {CommonService.formatPhoneNumber(clientMedicalDetails?.medical_provider_info?.primary_phone || "N/A")}
+                                    {clientMedicalDetails?.medical_provider_info?.primary_phone ? CommonService.formatPhoneNumber(clientMedicalDetails?.medical_provider_info?.primary_phone) : "N/A"}
                                 </DataLabelValueComponent>
                             </div>
                         </div>
@@ -170,26 +171,32 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                     }>
                         {
                             (clientMedicalDetails?.medical_history?.questions_details && clientMedicalDetails?.medical_history?.questions_details?.length > 0) &&
-                            <div className={"mrg-bottom-10"}>
-                                {
-                                    clientMedicalDetails?.medical_history?.questions_details?.map((question, index) => {
-                                        return <span key={question?._id + index}>
+                                <div className={"mrg-bottom-10"}>
+                                    {
+                                        clientMedicalDetails?.medical_history?.questions_details?.map((question, index) => {
+                                            return <span key={question?._id + index}>
                                                     <li>{question.title}</li>
-                                            {/*{(clientMedicalDetails?.medical_history?.questions_details && clientMedicalDetails?.medical_history?.questions_details?.length - 1 !== index) &&*/}
-                                            {/*    <span>, </span>*/}
-                                            {/*}*/}
+                                                {/*{(clientMedicalDetails?.medical_history?.questions_details && clientMedicalDetails?.medical_history?.questions_details?.length - 1 !== index) &&*/}
+                                                {/*    <span>, </span>*/}
+                                                {/*}*/}
                                                 </span>
-                                    })
-                                }
-                            </div>
+                                        })
+                                    }
+                                </div>
                         }
 
                         {/*<FormControlLabelComponent label={"Other Illnesses/Conditions"} className={'mrg-bottom-10'}/>*/}
-                        <div className={'other-illness-heading'} >Other Illnesses/Conditions</div>
-                       <div className={'other-illness-text'}> {(clientMedicalDetails?.medical_history?.comments &&
-                            clientMedicalDetails?.medical_history?.comments.split("\n").map((i: any, key: any) => {
-                                return <li key={key}>{i}</li>;
-                            })) || "N/A"}</div>
+                        {clientMedicalDetails?.medical_history?.comments && <>
+                            <div className={'other-illness-heading'}>Other Illnesses/Conditions</div>
+                            <div className={'other-illness-text'}> {(clientMedicalDetails?.medical_history?.comments &&
+                                clientMedicalDetails?.medical_history?.comments.split("\n").map((i: any, key: any) => {
+                                    return <li key={key}>{i}</li>;
+                                }))}</div>
+                        </>
+                        }
+                        {
+                           !clientMedicalDetails?.medical_history?.questions_details &&   clientMedicalDetails?.medical_history?.comments &&<div className={'allergies-na'}>None Reported</div>
+                        }
                     </CardComponent>
                     {
                         clientBasicDetails?.gender === "female" && <>
@@ -227,26 +234,33 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                     }>
                         {
                             (clientMedicalDetails?.surgical_history?.questions_details && clientMedicalDetails?.surgical_history?.questions_details?.length > 0) &&
-                            <div className={"mrg-bottom-10"}>
-                                {
-                                    clientMedicalDetails?.surgical_history?.questions_details?.map((question, index) => {
-                                        return <span key={question?._id + index}>
+                                <div className={"allergies-na"}>
+                                    {
+                                        clientMedicalDetails?.surgical_history?.questions_details?.map((question, index) => {
+                                            return <span key={question?._id + index}>
                                                     <li>{question.title}</li>
-                                            {/*{(clientMedicalDetails?.surgical_history?.questions_details && clientMedicalDetails?.surgical_history?.questions_details?.length - 1 !== index) &&*/}
-                                            {/*    <span> , </span>*/}
-                                            {/*}*/}
+                                                {/*{(clientMedicalDetails?.surgical_history?.questions_details && clientMedicalDetails?.surgical_history?.questions_details?.length - 1 !== index) &&*/}
+                                                {/*    <span> , </span>*/}
+                                                {/*}*/}
                                                 </span>
-                                    })
-                                }
-                            </div>
+                                        })
+                                    }
+                                </div>
                         }
-                        {clientMedicalDetails?.surgical_history?.comments && <>
-                            <FormControlLabelComponent label={"Other Surgeries/Conditions"} className={'mrg-bottom-10'}/>
-                            {clientMedicalDetails?.surgical_history?.comments.split("\n").map((i: any, key: any) => {
-                                return <li key={key}>{i}</li>;
-                            }) || "N/A"}
-                        </>
+                        {clientMedicalDetails?.surgical_history?.comments &&
+                            <div className={'other-illness-text'}> {clientMedicalDetails?.surgical_history?.comments && <>
+                                <FormControlLabelComponent label={"Other Surgeries/Conditions"}
+                                                           className={'mrg-bottom-10'}/>
+                                {clientMedicalDetails?.surgical_history?.comments.split("\n").map((i: any, key: any) => {
+                                    return <li key={key}>{i}</li>;
+                                }) || "N/A"}
+                            </>
 
+                            }
+                            </div>}
+                        {
+                            !clientMedicalDetails?.surgical_history?.questions_details && !clientMedicalDetails?.surgical_history?.comments &&
+                            <div className={'allergies-na'}>None Reported</div>
                         }
                     </CardComponent>
                     <CardComponent title={'Musculoskeletal History'} actions={<LinkComponent
@@ -256,11 +270,14 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                         </ButtonComponent>
                     </LinkComponent>
                     }>
-                        {
-                            (Object.keys(clientMedicalDetails?.musculoskeletal_history || {}).length === 0) && <>
-                                N/A
-                            </>
-                        }
+                        {(Object.keys(clientMedicalDetails?.musculoskeletal_history || {}).length === 0) && (Object.keys(clientMedicalDetails?.musculoskeletal_history || {}).length === 0) &&
+                            <div className={'allergies-na'}> {
+                                (Object.keys(clientMedicalDetails?.musculoskeletal_history || {}).length === 0) && <>
+                                    None Reported
+                                </>
+                            }
+
+                            </div>}
                         {
                             (Object.keys(clientMedicalDetails?.musculoskeletal_history || {})?.map((question, index) => {
                                 return <div key={question + index} className={"musculoskeletal-history-block"}>
@@ -276,9 +293,9 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                                 (clientMedicalDetails?.musculoskeletal_history[question]?.text) ?
                                                     <div className={'musculoskeletal-question'}>
                                                         {clientMedicalDetails?.musculoskeletal_history[question]?.text.split("\n").map((i: any, key: any) => {
-                                                            return <li key={key}>{i}</li>;
+                                                            return <div className={'mrg-bottom-15'} key={key}>{i}</div>
                                                         })}</div>
-                                                 : <div className={'musculoskeletal-question-na'}>N/A</div>
+                                                    : <div className={'musculoskeletal-question-na'}>None Reported</div>
                                             }
                                         </div>
                                     </div>
