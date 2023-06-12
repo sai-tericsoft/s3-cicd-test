@@ -1,5 +1,4 @@
 import "./ClientMedicalProviderInformationFormComponent.scss";
-import * as Yup from "yup";
 import {IClientMedicalProviderForm} from "../../../shared/models/client.model";
 import React, {useCallback, useEffect, useState} from "react";
 import _ from "lodash";

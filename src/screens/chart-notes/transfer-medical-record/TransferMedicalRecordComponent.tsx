@@ -83,6 +83,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 render: (item: any) => {
                     return <CheckBoxComponent
                         value={item?._id}
+                        label={item?.note_type}
                         disabled={shouldTransferEntireMedicalRecord}
                         checked={selectedMedicalInterventions?.findIndex((selectedItem: any) => selectedItem?._id === item?._id) > -1}
                         onChange={(isChecked) => {
@@ -90,14 +91,14 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                         }}
                     />
                 },
-                width: 50,
-            },
-            {
-                title: 'File',
-                key: 'note_type',
-                dataIndex: 'note_type',
                 width: 150,
             },
+            // {
+            //     title: 'File',
+            //     key: 'note_type',
+            //     dataIndex: 'note_type',
+            //     width: 150,
+            // },
             {
                 title: 'Date',
                 key: 'date',

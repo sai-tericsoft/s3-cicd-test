@@ -114,7 +114,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                     clientBasicDetails?.secondary_contact_info?.length > 0 &&
                                     clientBasicDetails?.secondary_contact_info[0]?.phone !== "" &&
                                     <>
-                                        <FormControlLabelComponent size={'sm'} label={'Alternate Phone:'}/>
+                                        {/*<FormControlLabelComponent size={'sm'} label={'Alternate Phone:'}/>*/}
                                         <div className={'phone-email-heading'}>Alternate Phone:</div>
                                     </>
                                 }
@@ -146,7 +146,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                 {clientBasicDetails?.secondary_emails?.length > 0 &&
                                     clientBasicDetails?.secondary_emails[0]?.email !== "" &&
                                     <>
-                                        <FormControlLabelComponent size={'sm'} label={'Alternate Email:'}/>
+                                        {/*<FormControlLabelComponent size={'sm'} label={'Alternate Email:'}/>*/}
                                         <div className={'phone-email-heading'}>Alternate Email:</div>
                                     </>
 

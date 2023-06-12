@@ -201,7 +201,14 @@ const Navigator = (props: NavigatorProps) => {
         <>
             <Routes>
                 <Route element={<AppLayout/>}>
+                    <Route
+                        index
+                        element={
+                            <Navigate to={DASHBOARD}/>
+                        }
+                    />
                     <Route path={DASHBOARD} element={<DashboardLayoutComponent/>}{...props}>
+
                         <Route
                             path={DASHBOARD}
                             element={
@@ -211,13 +218,6 @@ const Navigator = (props: NavigatorProps) => {
                             }
                         />
                     </Route>
-                    <Route
-                        index
-                        element={
-                            <Navigate to={CLIENT_LIST}/>
-                        }
-                    />
-
                     <Route
                         path={CLIENT_LIST}
                         element={

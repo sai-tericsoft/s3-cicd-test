@@ -129,6 +129,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         dispatch(getBillingFromAddress())
     }, [dispatch]);
 
+
     const productListTableColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
         {
             title: "S.No",
@@ -214,7 +215,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                         }}
                                         maxValue={quantity > 0 ? quantity : 0}
                                         disabled={!field.form.values?.products?.[index]?.product_id}
-                                        validationPattern={Patterns.POSITIVE_WHOLE_NUMBERS}
+                                        // validationPattern={Patterns.POSITIVE_WHOLE_NUMBERS}
                                         onChange={(value: any) => {
                                             field.form.setFieldValue(`products[${index}].amount`, field.form.values?.products?.[index]?.rate * value);
                                         }
@@ -316,6 +317,11 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             // setIsProviderListLoadingFailed(true);
         })
     }, [providerListSearch]);
+
+
+    useEffect(()=>{
+        getProviderList()
+    },[getProviderList]);
 
     const clientListColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
         {
@@ -811,7 +817,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                      }}
                     />
                     {
-                        providerListSearch &&
+
                         <>
                             <div className={'client-list-heading'}>Provider List</div>
                             <TableComponent data={providerList}

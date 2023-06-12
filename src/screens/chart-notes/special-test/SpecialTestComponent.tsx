@@ -144,7 +144,6 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                 is_tested: special_test_data?.is_tested
             };
         });
-        console.log(bodyPartConfig.special_tests);
         bodyPartConfig.tableConfig = generateSpecialTestColumns(bodyPartConfig);
         bodyPartConfig[bodyPart._id] = {};
         bodyPartConfig.special_tests?.forEach((special_test: any) => {

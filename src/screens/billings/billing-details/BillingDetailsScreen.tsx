@@ -55,8 +55,6 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
     const [isInterventionIncompleteModalOpen, setIsInterventionIncompleteModalOpen] = useState<boolean>(false);
 
-    console.log('billingDetails?.appointment_details?.start_time', billingDetails?.appointment_details?.start_time);
-
     const {
         paymentModes
     } = useSelector((state: IRootReducerState) => state.staticData);
