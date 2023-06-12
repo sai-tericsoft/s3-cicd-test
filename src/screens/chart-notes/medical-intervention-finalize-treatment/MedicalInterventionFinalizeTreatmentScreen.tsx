@@ -54,14 +54,15 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
     const CPTCodesColumns: ITableColumn[] = [
         {
             key: 'select',
-            title: '',
+            title: 'CPT Codes',
             dataIndex: 'select',
-            width: 90,
+            width: 390,
             render: (_: any, record: any) => <Field name={`${record._id}.is_selected`}>
                 {
                     (field: FieldProps) => (
                         <FormikCheckBoxComponent
                             formikField={field}
+                            label={record?.cpt_code}
                             size={'small'}
                             onChange={() => {
                                 field.form.setFieldValue(`${record?._id}.units_of_care`, "");
@@ -73,12 +74,12 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                 }
             </Field>
         },
-        {
-            key: 'cpt_code',
-            title: 'CPT Codes',
-            dataIndex: 'cpt_code',
-            width: 380,
-        },
+        // {
+        //     key: 'cpt_code',
+        //     title: 'CPT Codes',
+        //     dataIndex: 'cpt_code',
+        //     width: 380,
+        // },
         {
             key: 'units_of_care',
             title: 'Units of Care',

@@ -510,11 +510,11 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: 'Amount (Inc. Tax)',
             key: 'amount',
             dataIndex: 'amount',
-            width: 150,
+            width: 180,
             align: 'center',
             fixed: 'right',
             render: (item: any) => {
-                return <>{Misc.CURRENCY_SYMBOL} {item?.total} </>
+                return <>{Misc.CURRENCY_SYMBOL} {CommonService.convertToDecimals(+item?.total)} </>
             }
         },
         {

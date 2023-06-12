@@ -281,12 +281,12 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                         <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
                                         <span className={'client-name'}>
-                                               {clientMedicalRecord?.client_details?.first_name || "-"} {clientMedicalRecord?.client_details?.last_name || "-"}
+                                               {clientMedicalRecord?.client_details?.first_name || "N/A"} {clientMedicalRecord?.client_details?.last_name || "N/A"}
                                         </span>
                                         <ChipComponent
                                             className={medicalInterventionDetails?.status ? "active" : "inactive"}
                                             size={'small'}
-                                            label={medicalInterventionDetails?.status || "-"}/>
+                                            label={medicalInterventionDetails?.status || "N/A"}/>
                                     </span>
 
                             <div className="ts-row width-auto">
@@ -310,8 +310,8 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                             medicalRecordDetails={medicalInterventionDetails?.medical_record_details}/>
                         <DataLabelValueComponent label={'File Created On:'} direction={"row"}
                                                  className={'intervention-injury-details-wrapper'}>
-                            {(medicalInterventionDetails?.created_at ? moment(medicalInterventionDetails?.created_at).tz(moment.tz.guess()).format('DD-MMM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
-                            {medicalInterventionDetails?.created_by_details?.first_name ? medicalInterventionDetails?.created_by_details?.first_name + ' ' + medicalInterventionDetails?.created_by_details?.last_name : ' NA'}
+                            {(medicalInterventionDetails?.created_at ? moment(medicalInterventionDetails?.created_at).tz(moment.tz.guess()).format('DD-MMM-YYYY') : 'N/A')}&nbsp;-&nbsp;
+                            {medicalInterventionDetails?.created_by_details?.first_name ? medicalInterventionDetails?.created_by_details?.first_name + ' ' + medicalInterventionDetails?.created_by_details?.last_name : ' N/A'}
                         </DataLabelValueComponent>
                         <div className={'ts-row'}>
                             <div className={'ts-col-md-3'}>

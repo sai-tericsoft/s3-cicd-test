@@ -94,7 +94,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                     <CardComponent title={"Contact Information"}>
                         <div className={'ts-row'}>
                             <div className={" ts-col-7"}>
-                                <FormControlLabelComponent label={'Primary Phone'}/>
+                                <FormControlLabelComponent size={"sm"} label={'Primary Phone'}/>
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-5'}>
                                         <DataLabelValueComponent label={'Phone Type'}>
@@ -109,7 +109,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                                 </div>
                             </div>
                             <div className="ts-col-4">
-                                <FormControlLabelComponent label={'Primary Email:'}/>
+                                <FormControlLabelComponent size={"sm"} label={'Primary Email:'}/>
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-12'}>
                                         <DataLabelValueComponent label={'Email'}>
@@ -123,7 +123,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                         <div className={'ts-row'}>
                             {/*<HorizontalLineComponent/>*/}
                             <div className={'ts-col-7'}>
-                                <FormControlLabelComponent label={'Alternate Phone'}/>
+                                <FormControlLabelComponent size={"sm"} label={'Alternate Phone'}/>
 
                                 {facilityDetails.secondary_contact_info.map((phone_number: any, index: number) => {
                                     return (<div key={index}>
@@ -147,7 +147,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                                 }
                             </div>
                             <div className={'ts-col-4'}>
-                                <FormControlLabelComponent label={'Alternate Email:'}/>
+                                <FormControlLabelComponent size={"sm"} label={'Alternate Email:'}/>
                                 {facilityDetails.secondary_emails?.map((email: any, index: number) => {
                                     return (<div className={'ts-col-lg-3'} key={index}>
                                             <DataLabelValueComponent label={'Email '}>
@@ -163,8 +163,8 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                     <CardComponent title={"Address Information"}>
                         <div className={'facility-details-information'}>
                             <DataLabelValueComponent label={'Address'}>
-                                {facilityDetails?.address?.address_line},{facilityDetails?.address?.city}<br/>
-                                {facilityDetails.address?.zip_code},{facilityDetails?.address?.country}
+                                {facilityDetails?.address?.address_line}, {facilityDetails?.address?.city}<br/>
+                                {facilityDetails.address?.zip_code}, {facilityDetails?.address?.country}
                             </DataLabelValueComponent>
                         </div>
                     </CardComponent>
@@ -234,7 +234,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                                         {!(facilityDetails.timings?.sun?.start_time) &&
                                             <span className={'facility-opening-hours-closed-text'}>Closed</span>}
                                     </DataLabelValueComponent>
-                                    <HorizontalLineComponent/>
+                                    {/*<HorizontalLineComponent/>*/}
                                 </div>
                             </div>
                         </div>

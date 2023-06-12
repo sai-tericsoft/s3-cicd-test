@@ -175,48 +175,49 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
             }
         ];
         (body_part?.selected_sides || []).forEach((side: any) => {
-            ROMColumns.push({
-                title: side,
-                className: side,
-                fixed: 'left',
-                align: 'center',
-                children: [
-                    {
-                        title: 'AROM',
-                        dataIndex: 'arom',
-                        key: side + 'arom',
-                        align: 'center',
-                        fixed: 'left',
-                        width: 87,
-                        render: (item: any) => {
-                            return <div className={'movement-name'}>{item?.config[side]?.arom || '-'}</div>
+                ROMColumns.push({
+                    title: side,
+                    className: side,
+                    fixed: 'left',
+                    align: 'center',
+                    children: [
+                        {
+                            title: 'AROM',
+                            dataIndex: 'arom',
+                            key: side + 'arom',
+                            align: 'center',
+                            fixed: 'left',
+                            width: 87,
+                            render: (item: any) => {
+                                return <div className={'movement-name'}>{item?.config[side]?.arom || '-'}</div>
+                            }
+                        },
+                        {
+                            title: 'PROM',
+                            dataIndex: 'prom',
+                            key: side + 'prom',
+                            align: 'center',
+                            fixed: 'left',
+                            width: 87,
+                            render: (item: any) => {
+                                return <div className={'movement-name'}>{item?.config[side]?.prom || "-"}</div>
+                            }
+                        },
+                        {
+                            title: 'Strength',
+                            dataIndex: 'strength',
+                            key: side + 'strength',
+                            align: 'center',
+                            fixed: 'left',
+                            width: 107,
+                            render: (item: any) => {
+                                return <div className={'movement-name'}>{item?.config[side]?.strength || "-"}</div>
+                            }
                         }
-                    },
-                    {
-                        title: 'PROM',
-                        dataIndex: 'prom',
-                        key: side + 'prom',
-                        align: 'center',
-                        fixed: 'left',
-                        width: 87,
-                        render: (item: any) => {
-                            return <div className={'movement-name'}>{item?.config[side]?.prom || "-"}</div>
-                        }
-                    },
-                    {
-                        title: 'Strength',
-                        dataIndex: 'strength',
-                        key: side + 'strength',
-                        align: 'center',
-                        fixed: 'left',
-                        width: 107,
-                        render: (item: any) => {
-                            return <div className={'movement-name'}>{item?.config[side]?.strength || "-"}</div>
-                        }
-                    }
-                ]
+                    ]
+                });
             });
-        });
+
         ROMColumns.push({
             title: '',
             dataIndex: '',

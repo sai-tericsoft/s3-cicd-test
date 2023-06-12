@@ -33,28 +33,28 @@ const ClientPersonalHabitsFormValidationSchema = Yup.object({
             value: Yup.string().required('Smoke/Chew Tobacco is required'),
             text: Yup.string().when("value", {
                 is: "Yes",
-                then: Yup.string().required('Smoke/Chew Tobacco is required')
+                then: Yup.string().required('Quantity is required')
             })
         }),
         "Drink Alcohol?": Yup.object({
             value: Yup.string().required('Drink Alcohol is required'),
             text: Yup.string().when("value", {
                 is: "Yes",
-                then: Yup.string().required('Drink Alcohol is required')
+                then: Yup.string().required('Quantity is required')
             })
         }),
         "Drink Coffee?": Yup.object({
             value: Yup.string().required('Drink Coffee is required'),
             text: Yup.string().when("value", {
                 is: "Yes",
-                then: Yup.string().required('Drink Coffee is required')
+                then: Yup.string().required('Quantity is required')
             })
         }),
         "Drink Soda/Pop?": Yup.object({
             value: Yup.string().required('Drink Soda/Pop is required'),
             text: Yup.string().when("value", {
                 is: "Yes",
-                then: Yup.string().required('Drink Soda/Pop is required')
+                then: Yup.string().required('Quantity is required')
             })
         }),
     }),

@@ -27,7 +27,6 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import moment from "moment";
 import {useNavigate, useParams} from "react-router-dom";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
