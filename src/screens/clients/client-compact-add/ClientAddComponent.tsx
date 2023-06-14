@@ -103,6 +103,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                             <FormikInputComponent
                                                 titleCase={true}
                                                 label={'First Name'}
+                                                placeholder={'E.g. John'}
                                                 formikField={field}
                                                 required={true}
                                                 fullWidth={true}
@@ -116,6 +117,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                             <FormikInputComponent
                                                 titleCase={true}
                                                 label={'Last Name'}
+                                                placeholder={'E.g. Doe'}
                                                 formikField={field}
                                                 required={true}
                                                 fullWidth={true}
@@ -128,6 +130,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                         (field: FieldProps) => (
                                             <FormikInputComponent
                                                 label={'Email Address'}
+                                                placeholder={'example@email.com'}
                                                 formikField={field}
                                                 required={true}
                                                 fullWidth={true}
@@ -151,9 +154,8 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                     {
                                         (ENV.ENV_MODE === 'dev' || ENV.ENV_MODE === 'test') &&
                                         <div className={'note-wrapper'}>
-                                            <div className={'note-heading'}>Note :</div>
                                             <div className={'note-content'}>
-                                                The invite link will be sent to the entered email address of the client.
+                                                Note : The invite link will be sent to the entered email address of the client.
                                             </div>
                                         </div>
                                     }
@@ -173,6 +175,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                     </>
                                 }
                                 <ButtonComponent
+                                    className={'adding-client-cta'}
                                     type={"submit"}
                                     isLoading={isClientAddInProgress}
                                     disabled={!isValid || isClientAddInProgress}

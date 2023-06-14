@@ -66,7 +66,7 @@ const PhoneInputComponent = (props: PhoneInputComponentProps) => {
             <InputComponent
                 onChange={handleInput}
                 value={value}
-                placeholder={placeholder || '(xxx) xxx-xxxx'}
+                placeholder={placeholder || '(000) 000-0000'}
                 {...otherProps}/>
         </div>
     );

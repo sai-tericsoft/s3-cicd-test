@@ -48,11 +48,13 @@ const SearchComponent = (props: SearchComponentProps) => {
                 placeholder={placeholder}
                 suffix={
                     <>
-                        {searchText?.length === 0 && <IconButtonComponent
-                            size={"small"}
-                            position={"end"}>
+                        {searchText?.length === 0 &&
+                            // <IconButtonComponent
+                            // size={"small"}
+                            // position={"end"}>
                             <ImageConfig.SearchIcon/>
-                        </IconButtonComponent>}
+                        // </IconButtonComponent>
+                        }
                         {(searchText && searchText.length > 0) && <IconButtonComponent
                             size={"small"}
                             position={"end"}

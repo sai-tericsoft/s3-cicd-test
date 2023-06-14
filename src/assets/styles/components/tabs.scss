@@ -9,14 +9,21 @@
     //border-bottom: 1px solid #dfdfdf;
 
     .t-tab {
-      border: 1px solid #B3C5C4;
+      //
+      border: 1px solid #E7E7E7;
+      //border-bottom: 2px solid #E7E7E7;
       background: #FFFFFF;
       text-transform: unset !important;
       font-weight: $font-weight-normal;
       text-decoration: underline;
 
       //&:first-child {
-      //  border-left: none;
+      //  border-left: 2px solid #E7E7E7;
+      //}
+      //
+      //&:last-child {
+      //  border-right: 2px solid #E7E7E7;
+      //
       //}
     }
 
@@ -40,6 +47,7 @@
       font-weight: $font-weight-normal;
 
     }
+
 
     .t-tab.Mui-selected {
       font-weight: $font-weight-bolder;

@@ -2,7 +2,6 @@ import Drawer from '@mui/material/Drawer';
 import {ImageConfig} from "../../../constants";
 import * as React from "react";
 import {useCallback} from "react";
-import ToolTipComponent from "../tool-tip/ToolTipComponent";
 
 interface DrawerComponentProps {
     isOpen: boolean;
@@ -21,17 +20,17 @@ const DrawerComponent = (props: React.PropsWithChildren<DrawerComponentProps>) =
 
     const {isOpen, hideBackdrop, className, title, onClose, showClose, closeButtonId, children} = props;
     const direction = props.direction || "right";
-    const closeOnEsc = props.closeOnEsc  !== undefined ? props.closeOnEsc : true;
-    const closeOnBackDropClick = props.closeOnBackDropClick  !== undefined ? props.closeOnBackDropClick : true;
+    const closeOnEsc = props.closeOnEsc !== undefined ? props.closeOnEsc : true;
+    const closeOnBackDropClick = props.closeOnBackDropClick !== undefined ? props.closeOnBackDropClick : true;
 
     const handleOnClose = useCallback((event: any, reason: string) => {
         console.log(event, reason, closeOnBackDropClick, closeOnEsc);
 
-        if(reason === "backdropClick" && !closeOnBackDropClick){
+        if (reason === "backdropClick" && !closeOnBackDropClick) {
             return;
         }
 
-        if(reason === "escapeKeyDown" && !closeOnEsc){
+        if (reason === "escapeKeyDown" && !closeOnEsc) {
             return;
         }
 
@@ -56,14 +55,16 @@ const DrawerComponent = (props: React.PropsWithChildren<DrawerComponentProps>) =
                 {
                     (title || showClose) && <div className="drawer-header">
                         <div className="drawer-title">{title}</div>
-                        {showClose && <ToolTipComponent tooltip={"Close"} position={"left"}>
+                        {showClose &&
+                            // <ToolTipComponent tooltip={"Close"} position={"left"}>
                             <div className="drawer-close"
                                  id={closeButtonId}
                                  onClick={(event) => {
-                                handleOnClose(event, 'closeBtnClick');
-                            }
-                            }><ImageConfig.CloseIcon/></div>
-                        </ToolTipComponent>}
+                                     handleOnClose(event, 'closeBtnClick');
+                                 }
+                                 }><ImageConfig.CloseIcon/></div>
+                        }
+                        {/*</ToolTipComponent>}*/}
                     </div>
                 }
                 <div className="drawer-body">

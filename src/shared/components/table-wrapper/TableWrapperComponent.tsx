@@ -24,7 +24,7 @@ export interface TableComponentProps extends ITableComponentProps {
 const TableWrapperComponent = (props: TableComponentProps) => {
     const {refreshToken, moduleName, autoHeight, id, url, method, extraPayload, ...otherProps} = props;
     const [isDataLoading, setIsDataLoading] = useState<boolean>(false);
-    const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
+    // const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
     const [isDataLoadingFailed, setIsDataLoadingFailed] = useState<boolean>(false);
     const [data, setData] = useState<any>([]);
     const pageNumRef = useRef<number>(0);
@@ -56,7 +56,7 @@ const TableWrapperComponent = (props: TableComponentProps) => {
         }
         APICallSubscription.current = cancelTokenSource;
         setIsDataLoading(true);
-        setIsDataLoaded(false);
+        // setIsDataLoaded(false);
         setIsDataLoadingFailed(false);
         let listData: any[] = [];
         apiCall.then((response: IAPIResponseType<any>) => {
@@ -70,12 +70,12 @@ const TableWrapperComponent = (props: TableComponentProps) => {
             }
             setData(listData);
             setIsDataLoading(false);
-            setIsDataLoaded(true);
+            // setIsDataLoaded(true);
             setIsDataLoadingFailed(false);
         }).catch((error) => {
             setData(listData);
             setIsDataLoading(false);
-            setIsDataLoaded(false);
+            // setIsDataLoaded(false);
             setIsDataLoadingFailed(true);
         })
     }, [isPaginated, method, url, extraPayload]);
@@ -129,7 +129,7 @@ const TableWrapperComponent = (props: TableComponentProps) => {
                 />
             }
             {
-                (isDataLoaded && (data && data?.length) > 0 && isPaginated) && <PaginationComponent
+                (data  && isPaginated) && <PaginationComponent
                     paginationOptions={[10, 25, 100]}
                     totalResults={totalResultsRef.current}
                     limit={pageSizeRef.current}

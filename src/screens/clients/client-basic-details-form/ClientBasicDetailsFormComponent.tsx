@@ -37,17 +37,17 @@ interface ClientBasicDetailsFormComponentProps {
 const ClientBasicDetailsFormValidationSchema = Yup.object({
     first_name: Yup.string().required('First Name is required'),
     last_name: Yup.string().required('Last Name is required'),
-    dob: Yup.string().required('Date of Birth is required'),
+    dob: Yup.mixed().required('Date of Birth is required'),
     ssn: Yup.string().required('SSN is required'),
     gender: Yup.string().required('Gender is required'),
     work_info: Yup.object({
         occupation: Yup.string().required('Occupation is required'),
         employment_status: Yup.string().required('Employment Status is required'),
     }),
-    primary_email: Yup.string().required('Primary email is required'),
+    primary_email: Yup.string().required('Email is required'),
     primary_contact_info: Yup.object({
-        phone_type: Yup.string().required('Phone type is required'),
-        phone: Yup.string().required('Phone number is required'),
+        phone_type: Yup.string().required('Phone Type is required'),
+        phone: Yup.string().required('Phone Number is required'),
     }),
     emergency_contact_info: Yup.object({
         primary_emergency: Yup.object({
@@ -64,7 +64,7 @@ const ClientBasicDetailsFormValidationSchema = Yup.object({
         address_line: Yup.string().required('Address Line is required'),
         city: Yup.string().required('City is required'),
         country: Yup.string().required('Country is required'),
-        zip_code: Yup.string().required('Zip Code is required'),
+        zip_code: Yup.string().required('ZIP Code is required'),
         state: Yup.string().required('State is required'),
     })
 });
@@ -282,7 +282,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                 {
                                     mode === "edit" &&
                                     <div
-                                        className={"mrg-bottom-25 display-flex flex-direction-row-reverse"}>
+                                        className={"mrg-bottom-15 display-flex flex-direction-row-reverse"}>
                                         <div className={"display-flex align-items-center"}>
                                             <div>Status:</div>
                                             <Field name={'is_active'} className="t-form-control">
@@ -314,7 +314,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                     (field: FieldProps) => (
                                                         <FormikInputComponent
                                                             label={'First Name'}
-                                                            placeholder={'First Name'}
+                                                            placeholder={'E.g. John'}
                                                             type={"text"}
                                                             required={true}
                                                             titleCase={true}
@@ -331,7 +331,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                     (field: FieldProps) => (
                                                         <FormikInputComponent
                                                             label={'Last Name'}
-                                                            placeholder={'Last Name'}
+                                                            placeholder={'E.g. Doe'}
                                                             type={"text"}
                                                             required={true}
                                                             titleCase={true}
@@ -351,7 +351,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                     (field: FieldProps) => (
                                                         <FormikInputComponent
                                                             label={'Nickname/Preferred Name'}
-                                                            placeholder={'Nickname/Preferred Name'}
+                                                            placeholder={'Enter Nickname/Preferred Name'}
                                                             type={"text"}
                                                             formikField={field}
                                                             fullWidth={true}
@@ -366,7 +366,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                     (field: FieldProps) => (
                                                         <FormikDatePickerComponent
                                                             label={'Date of Birth'}
-                                                            placeholder={'Date of Birth'}
+                                                            placeholder={'MM-DD-YYYY'}
                                                             required={true}
                                                             maxDate={CommonService._staticData.today}
                                                             formikField={field}
@@ -400,7 +400,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                     (field: FieldProps) => (
                                                         <FormikInputComponent
                                                             label={'SSN'}
-                                                            placeholder={'SSN'}
+                                                            placeholder={'Enter SSN'}
                                                             type={"text"}
                                                             required={true}
                                                             formikField={field}
@@ -422,7 +422,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                     (field: FieldProps) => (
                                                         <FormikSelectComponent
                                                             options={phoneTypeList}
-                                                            label={'Phone Type (Primary)'}
+                                                            label={'Phone Type'}
                                                             required={true}
                                                             id={'primary_phone_type'}
                                                             formikField={field}
@@ -437,8 +437,8 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 {
                                                     (field: FieldProps) => (
                                                         <FormikPhoneInputComponent
-                                                            label={'Phone Number (Primary)'}
-                                                            placeholder={'Phone Number (Primary)'}
+                                                            label={'Phone Number'}
+                                                            // placeholder={'Phone Number (Primary)'}
                                                             required={true}
                                                             formikField={field}
                                                             id={'primary_phone_number'}
@@ -488,7 +488,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                         (field: FieldProps) => (
                                                                             <FormikPhoneInputComponent
                                                                                 label={'Phone Number'}
-                                                                                placeholder={'Phone Number'}
+                                                                                // placeholder={'Phone Number'}
                                                                                 formikField={field}
                                                                                 fullWidth={true}
                                                                             />
@@ -529,8 +529,8 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 {
                                                     (field: FieldProps) => (
                                                         <FormikInputComponent
-                                                            label={'Email (Primary)'}
-                                                            placeholder={'Email (Primary)'}
+                                                            label={'Email'}
+                                                            placeholder={'example@email.com'}
                                                             type={"email"}
                                                             required={true}
                                                             formikField={field}
@@ -566,7 +566,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                         (field: FieldProps) => (
                                                                             <FormikInputComponent
                                                                                 label={'Email'}
-                                                                                placeholder={'Email'}
+                                                                                placeholder={'example@email.com'}
                                                                                 type={"email"}
                                                                                 formikField={field}
                                                                                 fullWidth={true}
@@ -608,7 +608,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                     (field: FieldProps) => (
                                                         <FormikInputComponent
                                                             label={'Address Line'}
-                                                            placeholder={'Address Line'}
+                                                            placeholder={'Enter Address Line'}
                                                             type={"text"}
                                                             required={true}
                                                             formikField={field}
@@ -624,7 +624,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                     (field: FieldProps) => (
                                                         <FormikInputComponent
                                                             label={'City'}
-                                                            placeholder={'City'}
+                                                            placeholder={'Enter City'}
                                                             type={"text"}
                                                             required={true}
                                                             formikField={field}
@@ -643,7 +643,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                     (field: FieldProps) => (
                                                         <FormikInputComponent
                                                             label={'State'}
-                                                            placeholder={'State'}
+                                                            placeholder={'Enter State'}
                                                             type={"text"}
                                                             required={true}
                                                             formikField={field}
@@ -658,8 +658,8 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 {
                                                     (field: FieldProps) => (
                                                         <FormikInputComponent
-                                                            label={'Zip Code'}
-                                                            placeholder={'Zip Code'}
+                                                            label={'ZIP Code'}
+                                                            placeholder={'Enter ZIP Code'}
                                                             type={"text"}
                                                             required={true}
                                                             formikField={field}
@@ -678,7 +678,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                     (field: FieldProps) => (
                                                         <FormikInputComponent
                                                             label={'Country'}
-                                                            placeholder={'Country'}
+                                                            placeholder={'Enter Country'}
                                                             type={"text"}
                                                             required={true}
                                                             formikField={field}
@@ -702,7 +702,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                     (field: FieldProps) => (
                                                         <FormikInputComponent
                                                             label={'Full Name'}
-                                                            placeholder={'Full Name'}
+                                                            placeholder={'E.g. John Doe'}
                                                             type={"text"}
                                                             required={true}
                                                             formikField={field}
@@ -758,7 +758,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                     (field: FieldProps) => (
                                                         <FormikSelectComponent
                                                             options={phoneTypeList}
-                                                            label={'Phone Type (Primary)'}
+                                                            label={'Phone Type'}
                                                             required={true}
                                                             formikField={field}
                                                             fullWidth={true}
@@ -773,8 +773,8 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 {
                                                     (field: FieldProps) => (
                                                         <FormikPhoneInputComponent
-                                                            label={'Phone Number (Primary)'}
-                                                            placeholder={'Phone Number (Primary)'}
+                                                            label={'Phone Number'}
+                                                            // placeholder={'Phone Number'}
                                                             required={true}
                                                             formikField={field}
                                                             fullWidth={true}
@@ -825,7 +825,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                         (field: FieldProps) => (
                                                                             <FormikPhoneInputComponent
                                                                                 label={'Phone Number'}
-                                                                                placeholder={'Phone Number'}
+                                                                                // placeholder={'Phone Number'}
                                                                                 formikField={field}
                                                                                 fullWidth={true}
                                                                             />
@@ -902,7 +902,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                 (field: FieldProps) => (
                                                                     <FormikInputComponent
                                                                         label={'Full Name'}
-                                                                        placeholder={'Full Name'}
+                                                                        placeholder={'E.g John Doe'}
                                                                         type={"text"}
                                                                         formikField={field}
                                                                         fullWidth={true}
@@ -955,7 +955,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                 (field: FieldProps) => (
                                                                     <FormikSelectComponent
                                                                         options={phoneTypeList}
-                                                                        label={'Phone Type (Primary)'}
+                                                                        label={'Phone Type'}
                                                                         formikField={field}
                                                                         fullWidth={true}
                                                                     />
@@ -969,8 +969,8 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                             {
                                                                 (field: FieldProps) => (
                                                                     <FormikPhoneInputComponent
-                                                                        label={'Phone Number (Primary)'}
-                                                                        placeholder={'Phone Number (Primary)'}
+                                                                        label={'Phone Number'}
+                                                                        // placeholder={'Phone Number (Primary)'}
                                                                         formikField={field}
                                                                         fullWidth={true}
                                                                     />
@@ -1018,7 +1018,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                                     (field: FieldProps) => (
                                                                                         <FormikPhoneInputComponent
                                                                                             label={'Phone Number'}
-                                                                                            placeholder={'Phone Number'}
+                                                                                            // placeholder={'Phone Number'}
                                                                                             formikField={field}
                                                                                             fullWidth={true}
                                                                                         />
@@ -1065,7 +1065,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                     (field: FieldProps) => (
                                                         <FormikInputComponent
                                                             label={'Occupation'}
-                                                            placeholder={'Occupation'}
+                                                            placeholder={'Enter Occupation'}
                                                             type={"text"}
                                                             required={true}
                                                             formikField={field}

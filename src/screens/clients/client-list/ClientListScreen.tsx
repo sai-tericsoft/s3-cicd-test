@@ -35,7 +35,6 @@ const ClientListScreen = (props: ClientListScreenProps) => {
     }, [dispatch]);
 
     const handleClientSort = useCallback((key: string, order: string) => {
-        console.log(key, order);
         setClientListFilterState((oldState) => {
             const newState = {...oldState};
             newState["sort"] = {
@@ -66,9 +65,10 @@ const ClientListScreen = (props: ClientListScreenProps) => {
             <div className={'list-screen-header'}>
                 <div className={'list-search-filters'}>
                     <div className="ts-row">
-                        <div className="ts-col-md-6 ts-col-lg-3">
+                        <div className="ts-col-md-7 ts-col-lg-4">
                             <SearchComponent
-                                label={"Search for clients"}
+                                label={"Search"}
+                                placeholder={'Search using Client ID or Client Name'}
                                 value={clientListFilterState.search}
                                 onSearchChange={(value) => {
                                     setClientListFilterState({...clientListFilterState, search: value})

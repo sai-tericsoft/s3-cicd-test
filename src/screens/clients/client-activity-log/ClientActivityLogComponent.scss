@@ -1,8 +1,17 @@
-.client-activity-log-component{
-  .module-field-name{
+.client-activity-log-component {
+  .module-field-name {
     font-weight: 500;
   }
-  .t-cell-staff{
+
+  .t-cell-staff {
     text-align: center !important;
+  }
+
+  .t-table-wrapper {
+    .t-table {
+      &:not(&.auto-height) {
+        min-height: 500px;
+      }
+    }
   }
 }
