@@ -177,6 +177,8 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                             <ButtonComponent
                                                 id={"home_btn"}
                                                 variant={"outlined"}
+                                                className={'submit-cta'}
+                                                size={'large'}
                                                 onClick={onCancel}
                                                 disabled={isClientMusculoskeletalHistorySavingInProgress}
                                             >
@@ -184,6 +186,8 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
                                                 id={"save_next_btn"}
+                                                className={'submit-cta'}
+                                                size={'large'}
                                                 isLoading={isClientMusculoskeletalHistorySavingInProgress}
                                                 disabled={isClientMusculoskeletalHistorySavingInProgress || !isValid || CommonService.isEqual(values, clientMusculoskeletalHistoryFormInitialValues)}
                                                 type={"submit"}
@@ -193,6 +197,8 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                             {
                                                 mode === "edit" && <>
                                                     &nbsp;&nbsp;<ButtonComponent
+                                                    className={'submit-cta'}
+                                                    size={'large'}
                                                     id={"next_btn"}
                                                     disabled={isClientMusculoskeletalHistorySavingInProgress || !CommonService.isEqual(values, clientMusculoskeletalHistoryFormInitialValues)}
                                                     onClick={onNext}

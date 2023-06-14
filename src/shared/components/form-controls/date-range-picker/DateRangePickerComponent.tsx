@@ -31,7 +31,7 @@ const DateRangePickerComponent = (props: DateRangePickerComponentProps) => {
         fullWidth,
     } = props;
 
-    const [value, setValue] = useState([]);
+    const [value, setValue] = useState<any>([]);
 
     let {color, size, variant, rangeDivider, maxDate, format, onDateChange} = props;
     if (!variant) variant = "outlined";
@@ -47,6 +47,8 @@ const DateRangePickerComponent = (props: DateRangePickerComponentProps) => {
     useEffect(() => {
         setValue(props.value ? props.value : null);
     }, [props.value]);
+    
+    console.log('val',value);
 
     return (
         <div>

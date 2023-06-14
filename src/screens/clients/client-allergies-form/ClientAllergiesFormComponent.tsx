@@ -26,7 +26,7 @@ interface ClientAllergiesFormComponentProps {
 }
 
 const ClientAllergiesValidationSchema = Yup.object({
-    allergies: Yup.string().required('Allergies are required')
+    allergies: Yup.string().required('Input is required')
 })
 
 const ClientAllergiesFormInitialValues: IClientAllergiesForm = {
@@ -98,7 +98,7 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
                 ((mode === "edit" && isClientMedicalDetailsLoaded && clientMedicalDetails) || mode === "add") && <>
                     <FormControlLabelComponent className={'add-allergies-heading'} label={CommonService.capitalizeFirstLetter(mode) + " Allergies"}/>
                     <CardComponent title={'Allergies'}
-                                   description={"Please list all allergies for the client (ie. Medications, Food, Environmental, Insects, Adhesives, Etc.):"}>
+                                   description={"Please list all allergies for the client (i.e. Medications, Food, Environmental, Insects, Adhesives, etc.):"}>
                         <Formik initialValues={clientAllergiesFormInitialValues}
                                 validationSchema={ClientAllergiesValidationSchema}
                                 onSubmit={onSubmit}
@@ -122,7 +122,7 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
                                                         label={'Allergies'}
                                                         required={true}
                                                         fullWidth={true}
-                                                        placeholder={'Allergies'}/>
+                                                        placeholder={'Enter your comments here'}/>
                                                 )
                                             }
                                         </Field>
@@ -130,6 +130,7 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
                                             <ButtonComponent
                                                 id={"home"}
                                                 variant={"outlined"}
+                                                size={'large'}
                                                 disabled={isClientAllergiesSavingInProgress}
                                                 onClick={onCancel}
                                             >
@@ -137,6 +138,8 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
                                             </ButtonComponent>&nbsp;&nbsp;
                                             <ButtonComponent
                                                 id={"save_next_btn"}
+                                                size={'large'}
+                                                className={'submit-cta'}
                                                 isLoading={isClientAllergiesSavingInProgress}
                                                 disabled={isClientAllergiesSavingInProgress || !isValid || CommonService.isEqual(values, clientAllergiesFormInitialValues)}
                                                 type={"submit"}
@@ -146,6 +149,8 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
                                             {
                                                 mode === "edit" && <>
                                                     &nbsp;&nbsp;<ButtonComponent
+                                                        size={'large'}
+                                                        className={'submit-cta'}
                                                         id={"next_btn"}
                                                         disabled={isClientAllergiesSavingInProgress || !CommonService.isEqual(values, clientAllergiesFormInitialValues)}
                                                         onClick={onNext}
