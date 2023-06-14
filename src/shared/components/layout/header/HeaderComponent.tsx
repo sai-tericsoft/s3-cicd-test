@@ -77,7 +77,7 @@ const HeaderComponent = (props: HeaderComponentProps) => {
                             dispatch(logout());
                         }}>
                             <ListItemIcon>
-                                <Logout fontSize={"small"}/>
+                                <Logout fontSize={"medium"}/>
                             </ListItemIcon>
                             <ListItemText>Logout</ListItemText>
                         </div>

@@ -114,10 +114,10 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
                 url={APIConfig.CLIENT_LIST.URL}
                 method={APIConfig.CLIENT_LIST.METHOD}
                 columns={ClientListTableColumns}
-                noDataText={ (<div className={'no-appointment-text-wrapper'}>
+                noDataText={ (<div className={'no-client-text-wrapper'}>
                     <div><img src={ImageConfig.Search} alt="client-search"/></div>
-                    <div className={'no-appointment-heading'}>No Results Found</div>
-                    <div className={'no-appointment-description'}>
+                    <div className={'no-client-heading'}>No Results Found</div>
+                    <div className={'no-client-description'}>
                         Oops! It seems like there are no clients available for the name you have
                         searched.<br/>
                     </div>

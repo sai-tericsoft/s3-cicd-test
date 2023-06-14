@@ -244,6 +244,7 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                                             <ButtonComponent
                                                 id={"home_btn"}
                                                 variant={"outlined"}
+                                                size={'large'}
                                                 onClick={onCancel}
                                                 disabled={isClientPersonalHabitsSavingInProgress}
                                             >
@@ -251,6 +252,8 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
                                                 id={"save_next_btn"}
+                                                className={'submit-cta'}
+                                                size={'large'}
                                                 isLoading={isClientPersonalHabitsSavingInProgress}
                                                 disabled={isClientPersonalHabitsSavingInProgress || !isValid || CommonService.isEqual(values, clientPersonalHabitsFormInitialValues)}
                                                 type={"submit"}
@@ -261,6 +264,8 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                                                 mode === "edit" && <>
                                                     &nbsp;&nbsp;<ButtonComponent
                                                     id={"next_btn"}
+                                                    size={'large'}
+                                                    className={'submit-cta'}
                                                     disabled={isClientPersonalHabitsSavingInProgress || !CommonService.isEqual(values, clientPersonalHabitsFormInitialValues)}
                                                     onClick={onNext}
                                                 >

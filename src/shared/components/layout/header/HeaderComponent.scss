@@ -28,6 +28,9 @@
 
     .header-option {
       margin: 0 5px;
+      .MuiPopover-paper{
+        left:800px ;
+      }
 
       &:hover {
         cursor: pointer;

@@ -1,9 +1,17 @@
 
 .client-list-table-component {
-  .t-cell-client_id{
+  .t-cell-client_id {
     padding-left: 30px !important;
   }
-  .t-cell-actions{
+
+  .t-cell-actions {
     padding-right: 30px !important;
+  }
+
+  .no-client-text-wrapper {
+    .no-client-description {
+      font-size: 16px;
+      margin-top: 15px;
+    }
   }
 }

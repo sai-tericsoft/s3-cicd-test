@@ -217,6 +217,8 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                             <ButtonComponent
                                                 id={"home_btn"}
                                                 variant={"outlined"}
+                                                className={'submit-cta'}
+                                                size={'large'}
                                                 onClick={onCancel}
                                                 disabled={isClientMedicalProviderInformationSavingInProgress}
                                             >
@@ -224,6 +226,8 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
                                                 id={"save_next_btn"}
+                                                className={'submit-cta'}
+                                                size={'large'}
                                                 isLoading={isClientMedicalProviderInformationSavingInProgress}
                                                 disabled={isClientMedicalProviderInformationSavingInProgress || !isValid}
                                                 type={"submit"}

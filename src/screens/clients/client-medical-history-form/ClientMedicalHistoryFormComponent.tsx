@@ -38,7 +38,7 @@ const ClientMedicalHistoryValidationSchema = Yup.object({
         }),
         comments: Yup.string().when("isCustomOption", {
             is: true,
-            then: Yup.string().required('Comments is required'),
+            then: Yup.string().required('Input is required'),
             otherwise: Yup.string().nullable()
         })
     }),
@@ -196,7 +196,7 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                                                 </Field>
                                             </div>
                                         </div>
-                                        {values.medical_history?.isCustomOption && <div className="ts-row">
+                                        {values.medical_history?.isCustomOption && <div className="ts-row mrg-top-10">
                                             <div className="ts-col-12">
                                                 <Field name={`medical_history.comments`}>
                                                     {
@@ -218,6 +218,8 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                                             <ButtonComponent
                                                 id={"home_btn"}
                                                 variant={"outlined"}
+                                                className={'submit-cta'}
+                                                size={'large'}
                                                 onClick={onCancel}
                                                 disabled={isClientMedicalHistorySavingInProgress}
                                             >
@@ -225,6 +227,8 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
                                                 id={"save_next_btn"}
+                                                className={'submit-cta'}
+                                                size={'large'}
                                                 isLoading={isClientMedicalHistorySavingInProgress}
                                                 disabled={isClientMedicalHistorySavingInProgress || !isValid || CommonService.isEqual(values, clientMedicalHistoryInitialValues)}
                                                 type={"submit"}
@@ -235,6 +239,8 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                                                 mode === "edit" && <>
                                                     &nbsp;&nbsp;<ButtonComponent
                                                     id={"next_btn"}
+                                                    className={'submit-cta'}
+                                                    size={'large'}
                                                     disabled={isClientMedicalHistorySavingInProgress || !CommonService.isEqual(values, clientMedicalHistoryInitialValues)}
                                                     onClick={onNext}
                                                 >

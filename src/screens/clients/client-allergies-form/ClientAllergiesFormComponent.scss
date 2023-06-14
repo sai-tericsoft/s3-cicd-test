@@ -1,9 +1,17 @@
 .client-allergies-form-component{
   .add-allergies-heading{
     font-weight: 700;
-    font-size: 1.4286rem;
+    font-size: 1.2857rem;
     color: #00534F;
-    margin-left: 30px;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
+  }
+  .t-form {
+    .t-form-actions {
+      margin-top: 60px;
+      margin-bottom: 24px;
+      .submit-cta{
+        margin-left: 16px;
+      }
+    }
   }
 }

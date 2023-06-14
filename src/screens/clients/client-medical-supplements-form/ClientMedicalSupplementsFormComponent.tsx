@@ -28,8 +28,8 @@ interface ClientMedicalSupplementsFormComponentProps {
 
 const ClientMedicalSupplementsValidationSchema = Yup.object({
     medications: Yup.object({
-        prescription_medication: Yup.string().required('Prescription Medication is required'),
-        non_prescription_medication: Yup.string().required('Non Prescription Medication is required'),
+        prescription_medication: Yup.string().required('Input is required'),
+        non_prescription_medication: Yup.string().required('Input is required'),
     }),
 });
 
@@ -123,15 +123,15 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
                                 }, [validateForm, values]);
                                 return (
                                     <Form noValidate={true} className={"t-form"}>
-                                        <div className="ts-row">
-                                            <div className="ts-col-12">
+                                        <div>
+                                            <div>
                                                 <Field name={`medications.prescription_medication`}>
                                                     {
                                                         (field: FieldProps) => (
                                                             <FormikTextAreaComponent
                                                                 id={"prescription_input"}
                                                                 label={"Prescription Medications"}
-                                                                placeholder={"Prescription Medications"}
+                                                                placeholder={"Enter your comments"}
                                                                 required={true}
                                                                 formikField={field}
                                                                 fullWidth={true}
@@ -145,7 +145,7 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
                                                             <FormikTextAreaComponent
                                                                 id={"non_prescription_input"}
                                                                 label={"Non-Prescription Medications / Supplements"}
-                                                                placeholder={"Non-Prescription Medications / Supplements"}
+                                                                placeholder={"Enter your comments"}
                                                                 required={true}
                                                                 formikField={field}
                                                                 fullWidth={true}
@@ -159,6 +159,8 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
                                             <ButtonComponent
                                                 id={"home_btn"}
                                                 variant={"outlined"}
+                                                className={'submit-cta'}
+                                                size={'large'}
                                                 onClick={onCancel}
                                                 disabled={isClientMedicalSupplementsSavingInProgress}
                                             >
@@ -166,6 +168,8 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
                                                 id={"save_next_btn"}
+                                                className={'submit-cta'}
+                                                size={'large'}
                                                 isLoading={isClientMedicalSupplementsSavingInProgress}
                                                 disabled={isClientMedicalSupplementsSavingInProgress || !isValid || CommonService.isEqual(values, clientMedicalSupplementsInitialValues)}
                                                 type={"submit"}
@@ -175,6 +179,8 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
                                             {
                                                 mode === "edit" && <>
                                                     &nbsp;&nbsp;<ButtonComponent
+                                                    className={'submit-cta'}
+                                                    size={'large'}
                                                     id={"next_btn"}
                                                     disabled={isClientMedicalSupplementsSavingInProgress || !CommonService.isEqual(values, clientMedicalSupplementsInitialValues)}
                                                     onClick={onNext}
