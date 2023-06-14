@@ -38,6 +38,7 @@ const DatePickerComponent = (props: DatePickerComponentProps) => {
     let {placeholder, color, variant, mask, maxDate, onDateChange} = props;
     if (!placeholder) placeholder = label;
     if (!variant) variant = "outlined";
+    console.log('props',placeholder);
 
     const handleChange = useCallback((newValue: Date | null) => {
         setValue(newValue)

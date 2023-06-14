@@ -3,26 +3,26 @@
 .client-add-component {
 
   .t-form-controls {
-    height: calc(100vh - 220px);
+    height: calc(100vh - 230px);
   }
 
   .note-wrapper {
     width: 550px;
-    height: 70px;
+    height: 50px;
     background-color: #FFF3E9;
-    border-radius: 15px;
+    border-radius: 4px;
     display: flex;
     margin-bottom: 200px;
-
-    .note-heading {
-      width: 60px;
-      font-size: 1.1429rem;
-      padding: 18px 0px 0px 13px;
-    }
+    align-items: center;
+    padding: 24px;
 
     .note-content {
-      padding: 18px 13px;
-      font-size: 1.1429rem;
+      font-weight: 500;
+    }
+  }
+  .t-form-actions{
+    .adding-client-cta{
+      margin-left: 14px;
     }
   }
 }

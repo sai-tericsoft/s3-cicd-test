@@ -52,6 +52,7 @@ const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
                 url={APIConfig.CLIENT_ACTIVITY_LOG.URL(clientId)}
                 method={APIConfig.CLIENT_ACTIVITY_LOG.METHOD}
                 isPaginated={true}
+                fixedHeader={true}
                 columns={ClientActivityLogColumns}/>
         </div>
     );

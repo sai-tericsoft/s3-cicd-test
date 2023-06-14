@@ -14,7 +14,7 @@ interface PaginationComponentProps {
 
 const PaginationComponent = (props: PaginationComponentProps) => {
 
-    const {paginationOptions, page, limit, totalResults, onPageChange, onRowsPerPageChange,className} = props;
+    const {paginationOptions, page, limit, totalResults, onPageChange, onRowsPerPageChange, className} = props;
 
     const id = props.id || "table-pagination";
 
@@ -24,9 +24,11 @@ const PaginationComponent = (props: PaginationComponentProps) => {
             rowsPerPageOptions={paginationOptions}
             className={`pagination-component ${className}`}
             component="div"
-            labelDisplayedRows={( paginationInfo)=> {
+            labelDisplayedRows={(paginationInfo) => {
                 return <>
-                    <span id={`${id}_from`}>{paginationInfo.from}</span> - <span id={`${id}_to`}>{paginationInfo.to}</span> of <span id={`${id}_total_count`}>{paginationInfo.count !== -1 ? paginationInfo.count : 'more than' + paginationInfo.count}</span>
+                    <span id={`${id}_from`}>{paginationInfo.from}</span> - <span
+                    id={`${id}_to`}>{paginationInfo.to}</span> of <span
+                    id={`${id}_total_count`}>{paginationInfo.count !== -1 ? paginationInfo.count : 'more than' + paginationInfo.count}</span>
                 </>
             }}
             // showFirstButton={true}

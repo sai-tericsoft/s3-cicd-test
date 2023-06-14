@@ -4,8 +4,9 @@ import ChipComponent from "../../../shared/components/chip/ChipComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {CommonService} from "../../../shared/services";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
-import {APIConfig} from "../../../constants";
+import {APIConfig, ImageConfig} from "../../../constants";
 import {IClientBasicDetails, IClientListFilterState} from "../../../shared/models/client.model";
+import React from "react";
 
 interface ClientListTableComponentProps {
     moduleName: string;
@@ -23,7 +24,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             title: "Client ID",
             key: "client_id",
             dataIndex: "client_id",
-            width: 180,
+            width: 160,
             fixed: "left",
             render: (item: IClientBasicDetails) => {
                 if (item?._id) {
@@ -38,7 +39,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             key: "first_name",
             dataIndex: "first_name",
             sortable: true,
-            width: 200,
+            width: 150,
             render: (item: IClientBasicDetails) => {
                 return <span>{CommonService.extractName(item)}</span>
             }
@@ -70,7 +71,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             key: "last_provider",
             dataIndex: "last_provider",
             align: "center",
-            width: 190,
+            width: 140,
             render: (item: IClientBasicDetails) => {
                 return <span>
                     {CommonService.capitalizeFirstLetter(item?.last_provider)}
@@ -82,7 +83,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             dataIndex: "status",
             key: "status",
             align: "center",
-            width: 130,
+            width: 140,
             render: (item: IClientBasicDetails) => {
                 return <ChipComponent label={item?.is_active ? "Active" : "Inactive"}
                                       className={item?.is_active ? "active" : "inactive"}
@@ -113,6 +114,14 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
                 url={APIConfig.CLIENT_LIST.URL}
                 method={APIConfig.CLIENT_LIST.METHOD}
                 columns={ClientListTableColumns}
+                noDataText={ (<div className={'no-appointment-text-wrapper'}>
+                    <div><img src={ImageConfig.Search} alt="client-search"/></div>
+                    <div className={'no-appointment-heading'}>No Results Found</div>
+                    <div className={'no-appointment-description'}>
+                        Oops! It seems like there are no clients available for the name you have
+                        searched.<br/>
+                    </div>
+                </div>)}
                 refreshToken={refreshToken}
                 extraPayload={clientListFilterState}
                 onSort={onSort}
