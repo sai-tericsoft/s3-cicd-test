@@ -57,7 +57,7 @@ const ServiceAddFormInitialValues: IService = {
 
 const ConsultationDurationSlotValidationSchema = Yup.object({
     duration: Yup.number().required("Duration is required"),
-    price: Yup.number().required("Price is required"),
+    price: Yup.number().typeError('Price is required').required("Price is required"),
 });
 
 const InitialConsultationValidationSchema = Yup.object({
@@ -120,7 +120,10 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
     }, [navigate, serviceCategoryId]);
 
     return (
+
         <div className={'service-add-component'}>
+
+            <FormControlLabelComponent className={'page-normal-heading'} label={'ADD SERVICE'}/>
             <div className={'service-category-service-add-form'}>
                 {
                     !serviceCategoryId &&
@@ -181,7 +184,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                         name="initial_consultation"
                                         render={arrayHelpers => (
                                             <CardComponent title={"Initial Consultation Details"}
-                                                           className={"mrg-bottom-20"}
+                                                           className={"consultation-card-item"}
                                                            size={"md"}
                                                            actions={<>
                                                                <ButtonComponent size={"small"}
@@ -200,7 +203,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                         return (
                                                             <div key={index}>
                                                                 <div
-                                                                    className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
+                                                                    className={"display-flex align-items-center justify-content-space-between"}>
                                                                     <FormControlLabelComponent
                                                                         label={`Initial Consultation Details ${index + 1}`}/>
                                                                     <div>
@@ -326,7 +329,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                         name="followup_consultation"
                                         render={arrayHelpers => (
                                             <CardComponent title={"Follow Up Consultation Details"}
-                                                           className={"mrg-bottom-20"}
+                                                           className={"consultation-card-item"}
                                                            size={"md"}
                                                            actions={<>
                                                                <ButtonComponent size={"small"}
@@ -345,7 +348,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                         return (
                                                             <div key={index}>
                                                                 <div
-                                                                    className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
+                                                                    className={"display-flex align-items-center justify-content-space-between"}>
                                                                     <FormControlLabelComponent
                                                                         label={`Follow Up Consultation Details ${index + 1}`}/>
                                                                     <div>
@@ -467,7 +470,9 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                 </div>
                                             </CardComponent>
                                         )}/>
-                                    <CardComponent title={'Upload Image for Service*'}>
+                                    <CardComponent title={'Upload Image for Service*'}
+                                                   className={"pdd-bottom-25"}
+                                                   size={"md"}>
                                             {(!values.image) && <>
                                                 <FilePickerComponent maxFileCount={1}
                                                                      id={"sv_upload_btn"}
