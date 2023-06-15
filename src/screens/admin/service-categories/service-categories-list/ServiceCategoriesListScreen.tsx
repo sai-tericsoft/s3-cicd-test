@@ -84,37 +84,39 @@ const ServiceCategoriesListScreen = (props: ServiceCategoriesListScreenProps) =>
                 </div>
             </div>
             <div className="service-category-list-wrapper">
-                {
-                    isServiceCategoryListLoading && <LoaderComponent/>
-                }
-                {
-                    isServiceCategoryListLoadingFailed &&
-                    <StatusCardComponent title={"Failed to fetch service category list"}/>
-                }
-                {
-                    isServiceCategoryListLoaded && <>
-                        {serviceCategoryList?.length === 0 &&
+                <CardComponent>
+                    {
+                        isServiceCategoryListLoading && <LoaderComponent type={"spinner"}/>
+                    }
+                    {
+                        isServiceCategoryListLoadingFailed &&
+                        <StatusCardComponent title={"Failed to fetch service category list"}/>
+                    }
+                    {
+                        isServiceCategoryListLoaded && <>
+                            {serviceCategoryList?.length === 0 &&
                             <StatusCardComponent title={"Service category list is empty"}/>}
-                        {
-                            serviceCategoryList?.length !== 0 && <>
-                                <CardComponent>
-                                    <div className="service-category-list">
-                                        <div className="ts-row">
-                                            {
-                                                serviceCategoryList?.map((serviceCategory) => {
-                                                    return <div className="ts-col-lg-3">
-                                                        <ServiceCategoryCardComponent serviceCategory={serviceCategory}
-                                                                                      key={serviceCategory._id}/>
-                                                    </div>
-                                                })
-                                            }
+                            {
+                                serviceCategoryList?.length !== 0 && <>
+                                        <div className="service-category-list">
+                                            <div className="ts-row">
+                                                {
+                                                    serviceCategoryList?.map((serviceCategory) => {
+                                                        return <div className="ts-col-lg-3">
+                                                            <ServiceCategoryCardComponent serviceCategory={serviceCategory}
+                                                                                          key={serviceCategory._id}/>
+                                                        </div>
+                                                    })
+                                                }
+                                            </div>
                                         </div>
-                                    </div>
-                                </CardComponent>
-                            </>
-                        }
-                    </>
-                }
+                                </>
+                            }
+                        </>
+                    }
+
+                </CardComponent>
+
             </div>
             <DrawerComponent isOpen={isServiceCategoryAddFormOpened}
                              showClose={true}

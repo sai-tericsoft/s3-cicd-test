@@ -43,7 +43,7 @@
 
       .service-category-separator {
         height: 14px;
-        width: 1px;
+        width: 1px !important;
         background: $body-color;
         margin: 0 10px;
       }
