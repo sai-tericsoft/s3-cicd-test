@@ -138,12 +138,16 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
                                             <ButtonComponent
                                                 variant={"outlined"}
                                                 onClick={onCancel}
+                                                className={'submit-cta'}
+                                                size={'large'}
                                                 disabled={isClientMedicalFemaleOnlyFormSavingInProgress}
                                                 className={(isClientMedicalFemaleOnlyFormSavingInProgress ? 'mrg-right-15' : '')}
                                             >
                                                 Prev
                                             </ButtonComponent>
                                             <ButtonComponent
+                                                className={'submit-cta'}
+                                                size={'large'}
                                                 isLoading={isClientMedicalFemaleOnlyFormSavingInProgress}
                                                 disabled={isClientMedicalFemaleOnlyFormSavingInProgress || !isValid || CommonService.isEqual(values, clientMedicalFemaleOnlyInitialValues)}
                                                 type={"submit"}

@@ -59,15 +59,15 @@ const DefaultMessageComponent = (props: DefaultMessageComponentProps) => {
 
     return (
         <div className={'default-message-component'}>
-            <CardComponent title={'Message Board'} actions={<><ButtonComponent onClick={openHistoryDrawer} prefixIcon={<ImageConfig.History/>}>
+            <CardComponent title={'Message Board'} actions={<><ButtonComponent onClick={openHistoryDrawer} size={"small"} prefixIcon={<ImageConfig.History/>}>
                 History
             </ButtonComponent></>}>
                 <div className={'news-update-text'}>
                     Send the latest news, updates and software upgrades to the team.
                 </div>
                 <div>
-                    <AccordionComponent title={'Default Message'} isExpand={isExpanded} onChange={handleChange}>
-                        <div className={'enter-message-text'}>Please enter a default message that will be saved and
+                    <AccordionComponent  title={'Default Message'} isExpand={isExpanded} onChange={handleChange}>
+                        <div  className={'enter-message-text'}>Please enter a default message that will be saved and
                             shown to all system users by default on the message board.
                         </div>
                         <div>

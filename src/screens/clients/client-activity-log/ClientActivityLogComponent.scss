@@ -7,11 +7,4 @@
     text-align: center !important;
   }
 
-  .t-table-wrapper {
-    .t-table {
-      &:not(&.auto-height) {
-        min-height: 500px;
-      }
-    }
-  }
 }

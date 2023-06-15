@@ -84,7 +84,7 @@ const ServiceCategoriesListScreen = (props: ServiceCategoriesListScreenProps) =>
                 </div>
             </div>
             <div className="service-category-list-wrapper">
-                <CardComponent>
+                <CardComponent className={isServiceCategoryListLoading ? ' card-loading' : ''}>
                     {
                         isServiceCategoryListLoading && <LoaderComponent type={"spinner"}/>
                     }
@@ -95,21 +95,21 @@ const ServiceCategoriesListScreen = (props: ServiceCategoriesListScreenProps) =>
                     {
                         isServiceCategoryListLoaded && <>
                             {serviceCategoryList?.length === 0 &&
-                            <StatusCardComponent title={"Service category list is empty"}/>}
+                                <StatusCardComponent title={"Service category list is empty"}/>}
                             {
                                 serviceCategoryList?.length !== 0 && <>
-                                        <div className="service-category-list">
-                                            <div className="ts-row">
-                                                {
-                                                    serviceCategoryList?.map((serviceCategory) => {
-                                                        return <div className="ts-col-lg-3">
-                                                            <ServiceCategoryCardComponent serviceCategory={serviceCategory}
-                                                                                          key={serviceCategory._id}/>
-                                                        </div>
-                                                    })
-                                                }
-                                            </div>
+                                    <div className="service-category-list">
+                                        <div className="ts-row">
+                                            {
+                                                serviceCategoryList?.map((serviceCategory) => {
+                                                    return <div className="ts-col-lg-3">
+                                                        <ServiceCategoryCardComponent serviceCategory={serviceCategory}
+                                                                                      key={serviceCategory._id}/>
+                                                    </div>
+                                                })
+                                            }
                                         </div>
+                                    </div>
                                 </>
                             }
                         </>
