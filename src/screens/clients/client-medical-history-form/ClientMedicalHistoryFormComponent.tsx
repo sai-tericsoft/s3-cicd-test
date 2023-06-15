@@ -16,8 +16,6 @@ import {IMedicalHistoryOption} from "../../../shared/models/common.model";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
-import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import {getClientMedicalDetails} from "../../../store/actions/client.action";
 
 interface ClientMedicalHistoryFormComponentProps {
@@ -63,9 +61,6 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
 
     const {
         clientMedicalDetails,
-        isClientMedicalDetailsLoaded,
-        isClientMedicalDetailsLoading,
-        isClientMedicalDetailsLoadingFailed
     } = useSelector((state: IRootReducerState) => state.client);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
@@ -73,6 +68,9 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
         setIsClientMedicalHistorySavingInProgress(true);
         CommonService._client.ClientMedicalHistoryAddAPICall(clientId, payload)
             .then((response: IAPIResponseType<IClientMedicalHistoryForm>) => {
+                if (clientId) {
+                    dispatch(getClientMedicalDetails(clientId));
+                }
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsClientMedicalHistorySavingInProgress(false);
                 SetClientMedicalHistoryInitialValues(_.cloneDeep(values));
@@ -82,22 +80,16 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                 CommonService.handleErrors(setErrors, error, true);
                 setIsClientMedicalHistorySavingInProgress(false);
             })
-    }, [clientId, onSave, mode]);
+    }, [clientId, onSave, mode, dispatch]);
 
     useEffect(() => {
-        if (mode === "edit") {
-            if (clientMedicalDetails) {
-                if (clientMedicalDetails?.medical_history?.comments) {
-                    clientMedicalDetails.medical_history.isCustomOption = true;
-                }
-                SetClientMedicalHistoryInitialValues({
-                    medical_history: clientMedicalDetails.medical_history || []
-                });
-            } else {
-                if (clientId) {
-                    dispatch(getClientMedicalDetails(clientId));
-                }
+        if (clientMedicalDetails) {
+            if (clientMedicalDetails?.medical_history?.comments) {
+                clientMedicalDetails.medical_history.isCustomOption = true;
             }
+            SetClientMedicalHistoryInitialValues({
+                medical_history: clientMedicalDetails.medical_history || []
+            });
         }
     }, [mode, clientId, dispatch, clientMedicalDetails]);
 
@@ -115,24 +107,10 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
 
     return (
         <div className={'client-medical-history-form-component'}>
-            <>
-                {
-                    mode === "edit" && <>
-                        {
-                            isClientMedicalDetailsLoading && <div>
-                                <LoaderComponent/>
-                            </div>
-                        }
-                        {
-                            isClientMedicalDetailsLoadingFailed &&
-                            <StatusCardComponent title={"Failed to fetch medical Details"}/>
-                        }
-                    </>
-                }
-            </>
             {
-                ((mode === "edit" && isClientMedicalDetailsLoaded && clientMedicalDetails) || mode === "add") && <>
-                    <FormControlLabelComponent className={'add-medical-history-heading'} label={CommonService.capitalizeFirstLetter(mode) + " Medical History"}/>
+                ((mode === "edit" && clientMedicalDetails) || mode === "add") && <>
+                    <FormControlLabelComponent className={'add-medical-history-heading'}
+                                               label={CommonService.capitalizeFirstLetter(mode) + " Medical History"}/>
                     <CardComponent title={"Medical History"}
                                    description={"Has the client ever had or do they currently have: (Check all that apply)"}>
                         <Formik
@@ -218,13 +196,13 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                                             <ButtonComponent
                                                 id={"home_btn"}
                                                 variant={"outlined"}
-                                                className={'submit-cta'}
                                                 size={'large'}
                                                 onClick={onCancel}
                                                 disabled={isClientMedicalHistorySavingInProgress}
+                                                className={(isClientMedicalHistorySavingInProgress ? 'mrg-right-15' : '')}
                                             >
-                                                Home
-                                            </ButtonComponent>&nbsp;
+                                                Prev
+                                            </ButtonComponent>
                                             <ButtonComponent
                                                 id={"save_next_btn"}
                                                 className={'submit-cta'}
@@ -233,21 +211,18 @@ const ClientMedicalHistoryFormComponent = (props: ClientMedicalHistoryFormCompon
                                                 disabled={isClientMedicalHistorySavingInProgress || !isValid || CommonService.isEqual(values, clientMedicalHistoryInitialValues)}
                                                 type={"submit"}
                                             >
-                                                {isClientMedicalHistorySavingInProgress ? "Saving" : <>{mode === "add" ? "Save & Next" : "Save"}</>}
+                                                {isClientMedicalHistorySavingInProgress ? "Saving" : "Save"}
                                             </ButtonComponent>
-                                            {
-                                                mode === "edit" && <>
-                                                    &nbsp;&nbsp;<ButtonComponent
-                                                    id={"next_btn"}
-                                                    className={'submit-cta'}
-                                                    size={'large'}
-                                                    disabled={isClientMedicalHistorySavingInProgress || !CommonService.isEqual(values, clientMedicalHistoryInitialValues)}
-                                                    onClick={onNext}
-                                                >
-                                                    Next
-                                                </ButtonComponent>
-                                                </>
-                                            }
+                                            <ButtonComponent
+                                                id={"next_btn"}
+                                                className={'submit-cta'}
+                                                size={'large'}
+                                                disabled={isClientMedicalHistorySavingInProgress || !CommonService.isEqual(values, clientMedicalHistoryInitialValues)}
+                                                onClick={onNext}
+                                            >
+                                                Next
+                                            </ButtonComponent>
+
                                         </div>
                                     </Form>
                                 )

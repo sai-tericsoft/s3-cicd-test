@@ -77,6 +77,7 @@ const TableWrapperComponent = (props: TableComponentProps) => {
             setIsDataLoading(false);
             // setIsDataLoaded(false);
             setIsDataLoadingFailed(true);
+
         })
     }, [isPaginated, method, url, extraPayload]);
 

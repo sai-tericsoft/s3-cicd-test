@@ -12,10 +12,8 @@ import FormikTextAreaComponent from "../../../shared/components/form-controls/fo
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
-import {getClientMedicalDetails} from "../../../store/actions/client.action";
 import _ from "lodash";
-import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
+import {getClientMedicalDetails} from "../../../store/actions/client.action";
 
 interface ClientAllergiesFormComponentProps {
     clientId: string;
@@ -42,9 +40,6 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
 
     const {
         clientMedicalDetails,
-        isClientMedicalDetailsLoaded,
-        isClientMedicalDetailsLoading,
-        isClientMedicalDetailsLoadingFailed
     } = useSelector((state: IRootReducerState) => state.client);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
@@ -52,6 +47,9 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
         setIsClientAllergiesSavingSavingInProgress(true);
         CommonService._client.ClientAllergiesAddAPICall(clientId, payload)
             .then((response: IAPIResponseType<IClientAllergiesForm>) => {
+                if (clientId) {
+                    dispatch(getClientMedicalDetails(clientId));
+                }
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsClientAllergiesSavingSavingInProgress(false);
                 setClientAllergiesFormInitialValues(_.cloneDeep(values));
@@ -61,42 +59,22 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
                 CommonService.handleErrors(setErrors, error);
                 setIsClientAllergiesSavingSavingInProgress(false);
             })
-    }, [clientId, onSave, mode]);
+    }, [clientId, onSave, mode, dispatch]);
 
     useEffect(() => {
-        if (mode === "edit") {
-            if (clientMedicalDetails) {
-                setClientAllergiesFormInitialValues({
-                    allergies: clientMedicalDetails.allergies
-                });
-            } else {
-                if (clientId) {
-                    dispatch(getClientMedicalDetails(clientId));
-                }
-            }
+        if (clientMedicalDetails && clientMedicalDetails.allergies) {
+            setClientAllergiesFormInitialValues({
+                allergies: clientMedicalDetails?.allergies
+            });
         }
-    }, [mode, clientId, dispatch, clientMedicalDetails]);
+    }, [clientId, dispatch, clientMedicalDetails]);
 
     return (
         <div className={'client-allergies-form-component'}>
-            <>
-                {
-                    mode === "edit" && <>
-                        {
-                            isClientMedicalDetailsLoading && <div>
-                                <LoaderComponent/>
-                            </div>
-                        }
-                        {
-                            isClientMedicalDetailsLoadingFailed &&
-                            <StatusCardComponent title={"Failed to fetch medical Details"}/>
-                        }
-                    </>
-                }
-            </>
             {
-                ((mode === "edit" && isClientMedicalDetailsLoaded && clientMedicalDetails) || mode === "add") && <>
-                    <FormControlLabelComponent className={'add-allergies-heading'} label={CommonService.capitalizeFirstLetter(mode) + " Allergies"}/>
+                ((mode === "edit" && clientMedicalDetails) || mode === "add") && <>
+                    <FormControlLabelComponent className={'add-allergies-heading'}
+                                               label={CommonService.capitalizeFirstLetter(mode) + " Allergies"}/>
                     <CardComponent title={'Allergies'}
                                    description={"Please list all allergies for the client (i.e. Medications, Food, Environmental, Insects, Adhesives, etc.):"}>
                         <Formik initialValues={clientAllergiesFormInitialValues}
@@ -133,9 +111,10 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
                                                 size={'large'}
                                                 disabled={isClientAllergiesSavingInProgress}
                                                 onClick={onCancel}
+                                                className={(isClientAllergiesSavingInProgress ? 'mrg-right-15' : '')}
                                             >
-                                                Home
-                                            </ButtonComponent>&nbsp;&nbsp;
+                                                Prev
+                                            </ButtonComponent>
                                             <ButtonComponent
                                                 id={"save_next_btn"}
                                                 size={'large'}
@@ -144,21 +123,18 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
                                                 disabled={isClientAllergiesSavingInProgress || !isValid || CommonService.isEqual(values, clientAllergiesFormInitialValues)}
                                                 type={"submit"}
                                             >
-                                                {isClientAllergiesSavingInProgress ? "Saving" : <>{mode === "add" ? "Save & Next" : "Save"}</>}
+                                                {isClientAllergiesSavingInProgress ? "Saving" : "Save"}
                                             </ButtonComponent>
-                                            {
-                                                mode === "edit" && <>
-                                                    &nbsp;&nbsp;<ButtonComponent
-                                                        size={'large'}
-                                                        className={'submit-cta'}
-                                                        id={"next_btn"}
-                                                        disabled={isClientAllergiesSavingInProgress || !CommonService.isEqual(values, clientAllergiesFormInitialValues)}
-                                                        onClick={onNext}
-                                                    >
-                                                        Next
-                                                    </ButtonComponent>
-                                                </>
-                                            }
+                                            <ButtonComponent
+                                                size={'large'}
+                                                className={'submit-cta'}
+                                                id={"next_btn"}
+                                                disabled={isClientAllergiesSavingInProgress || !CommonService.isEqual(values, clientAllergiesFormInitialValues)}
+                                                onClick={onNext}
+                                            >
+                                                Next
+                                            </ButtonComponent>
+
                                         </div>
                                     </Form>
                                 )

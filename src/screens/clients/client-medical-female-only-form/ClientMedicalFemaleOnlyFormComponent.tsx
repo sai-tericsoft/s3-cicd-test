@@ -15,8 +15,6 @@ import FormControlLabelComponent from "../../../shared/components/form-control-l
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {getClientMedicalDetails} from "../../../store/actions/client.action";
-import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 
 interface ClientMedicalFemaleOnlyFormComponentProps {
     clientId: string;
@@ -59,10 +57,7 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
     const dispatch = useDispatch();
 
     const {
-        clientMedicalDetails,
-        isClientMedicalDetailsLoaded,
-        isClientMedicalDetailsLoading,
-        isClientMedicalDetailsLoadingFailed
+        clientMedicalDetails
     } = useSelector((state: IRootReducerState) => state.client);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
@@ -70,6 +65,9 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
         setIsClientMedicalFemaleOnlyFormSavingInProgress(true);
         CommonService._client.ClientMedicalFemaleOnlyAddAPICall(clientId, payload)
             .then((response: IAPIResponseType<IClientMedicalFemaleOnlyForm>) => {
+                if (clientId) {
+                    dispatch(getClientMedicalDetails(clientId));
+                }
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsClientMedicalFemaleOnlyFormSavingInProgress(false);
                 setClientMedicalFemaleOnlyInitialValues(_.cloneDeep(values));
@@ -79,42 +77,22 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
                 CommonService.handleErrors(setErrors, error);
                 setIsClientMedicalFemaleOnlyFormSavingInProgress(false);
             })
-    }, [clientId, onSave, mode]);
+    }, [clientId, onSave, mode, dispatch]);
 
     useEffect(() => {
-        if (mode === "edit") {
-            if (clientMedicalDetails) {
-                setClientMedicalFemaleOnlyInitialValues({
-                    females_only_questions: clientMedicalDetails.females_only_questions
-                });
-            } else {
-                if (clientId) {
-                    dispatch(getClientMedicalDetails(clientId));
-                }
-            }
+        if (clientMedicalDetails) {
+            setClientMedicalFemaleOnlyInitialValues({
+                females_only_questions: clientMedicalDetails.females_only_questions
+            });
         }
     }, [mode, clientId, dispatch, clientMedicalDetails]);
 
     return (
         <div className={'client-medical-female-only-form-component'}>
-            <>
-                {
-                    mode === "edit" && <>
-                        {
-                            isClientMedicalDetailsLoading && <div>
-                                <LoaderComponent/>
-                            </div>
-                        }
-                        {
-                            isClientMedicalDetailsLoadingFailed &&
-                            <StatusCardComponent title={"Failed to fetch medical Details"}/>
-                        }
-                    </>
-                }
-            </>
             {
-                ((mode === "edit" && isClientMedicalDetailsLoaded && clientMedicalDetails) || mode === "add") && <>
-                    <FormControlLabelComponent className={'add-females-only-heading'} label={CommonService.capitalizeFirstLetter(mode) + " Females Only"}/>
+                ((mode === "edit" && clientMedicalDetails) || mode === "add") && <>
+                    <FormControlLabelComponent className={'add-females-only-heading'}
+                                               label={CommonService.capitalizeFirstLetter(mode) + " Females Only"}/>
                     <CardComponent title={"Females Only"} description={"Is the client currently:"}>
                         <Formik
                             validationSchema={ClientMedicalFemaleOnlyValidationSchema}
@@ -161,26 +139,24 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
                                                 variant={"outlined"}
                                                 onClick={onCancel}
                                                 disabled={isClientMedicalFemaleOnlyFormSavingInProgress}
+                                                className={(isClientMedicalFemaleOnlyFormSavingInProgress ? 'mrg-right-15' : '')}
                                             >
-                                                Home
-                                            </ButtonComponent>&nbsp;
+                                                Prev
+                                            </ButtonComponent>
                                             <ButtonComponent
                                                 isLoading={isClientMedicalFemaleOnlyFormSavingInProgress}
                                                 disabled={isClientMedicalFemaleOnlyFormSavingInProgress || !isValid || CommonService.isEqual(values, clientMedicalFemaleOnlyInitialValues)}
                                                 type={"submit"}
                                             >
-                                                {isClientMedicalFemaleOnlyFormSavingInProgress ? "Saving" : <>{mode === "add" ? "Save & Next" : "Save"}</>}
+                                                {isClientMedicalFemaleOnlyFormSavingInProgress ? "Saving" : "Save"}
                                             </ButtonComponent>
-                                            {
-                                                mode === "edit" && <>
-                                                    &nbsp;&nbsp;<ButtonComponent
-                                                    disabled={isClientMedicalFemaleOnlyFormSavingInProgress || !CommonService.isEqual(values, clientMedicalFemaleOnlyInitialValues)}
-                                                    onClick={onNext}
-                                                >
-                                                    Next
-                                                </ButtonComponent>
-                                                </>
-                                            }
+                                            <ButtonComponent
+                                                disabled={isClientMedicalFemaleOnlyFormSavingInProgress || !CommonService.isEqual(values, clientMedicalFemaleOnlyInitialValues)}
+                                                onClick={onNext}
+                                            >
+                                                Next
+                                            </ButtonComponent>
+
                                         </div>
                                     </Form>
                                 )

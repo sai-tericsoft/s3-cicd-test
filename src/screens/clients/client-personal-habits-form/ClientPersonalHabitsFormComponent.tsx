@@ -95,7 +95,7 @@ const FormQuestions = [
     {
         key: "Drink Coffee?",
         title: "Drink Coffee?",
-        placeholder: "Cups/day", 
+        placeholder: "Cups/day",
         id: "coffee"
     },
     {
@@ -115,7 +115,6 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
 
     const {
         clientMedicalDetails,
-        isClientMedicalDetailsLoaded,
         isClientMedicalDetailsLoading,
         isClientMedicalDetailsLoadingFailed
     } = useSelector((state: IRootReducerState) => state.client);
@@ -125,6 +124,9 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
         setIsClientPersonalHabitsSavingInProgress(true);
         CommonService._client.ClientPersonalHabitsAddAPICall(clientId, payload)
             .then((response: IAPIResponseType<IClientPersonalHabitsForm>) => {
+                if (clientId) {
+                    dispatch(getClientMedicalDetails(clientId));
+                }
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsClientPersonalHabitsSavingInProgress(false);
                 setClientPersonalHabitsFormInitialValues(_.cloneDeep(values));
@@ -134,26 +136,22 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                 CommonService.handleErrors(setErrors, error, true);
                 setIsClientPersonalHabitsSavingInProgress(false);
             })
-    }, [clientId, onSave, mode]);
+    }, [clientId, onSave, mode, dispatch]);
 
     useEffect(() => {
-        if (mode === "edit") {
-            if (clientMedicalDetails) {
-                setClientPersonalHabitsFormInitialValues({
-                    personal_habits: clientMedicalDetails?.personal_habits
-                });
-            } else {
-                if (clientId) {
-                    dispatch(getClientMedicalDetails(clientId));
-                }
-            }
+        if (clientMedicalDetails && clientMedicalDetails.personal_habits) {
+            setClientPersonalHabitsFormInitialValues({
+                personal_habits: clientMedicalDetails?.personal_habits
+            });
+        } else {
+            dispatch(getClientMedicalDetails(clientId))
         }
-    }, [mode, clientId, dispatch, clientMedicalDetails]);
+    }, [clientId, dispatch, clientMedicalDetails]);
 
     return (
-        <div className={'client-personal-habits-form-component'}><>
+        <div className={'client-personal-habits-form-component'}>
             {
-                mode === "edit" && <>
+                mode === "add" && <>
                     {
                         isClientMedicalDetailsLoading && <div>
                             <LoaderComponent/>
@@ -165,10 +163,10 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                     }
                 </>
             }
-        </>
             {
-                ((mode === "edit" && isClientMedicalDetailsLoaded && clientMedicalDetails) || mode === "add") && <>
-                    <FormControlLabelComponent className={'add-personal-habits-heading'} label={CommonService.capitalizeFirstLetter(mode) + " Personal Habits"}/>
+                ((mode === "edit" && clientMedicalDetails) || mode === "add") && <>
+                    <FormControlLabelComponent className={'add-personal-habits-heading'}
+                                               label={CommonService.capitalizeFirstLetter(mode) + " Personal Habits"}/>
                     <CardComponent title={"Personal Habits"} description={"Has the client ever or do they currently:"}>
                         <Formik
                             validationSchema={ClientPersonalHabitsFormValidationSchema}
@@ -229,7 +227,7 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                                                                                 formikField={field}
                                                                                 size={"small"}
                                                                                 fullWidth={true}
-                                                                                
+
                                                                             />
                                                                         )
                                                                     }
@@ -246,10 +244,11 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                                                 variant={"outlined"}
                                                 size={'large'}
                                                 onClick={onCancel}
-                                                disabled={isClientPersonalHabitsSavingInProgress}
+                                                className={(isClientPersonalHabitsSavingInProgress ? 'mrg-right-15' : '')}
+                                                disabled={true}
                                             >
-                                                Home
-                                            </ButtonComponent>&nbsp;
+                                                Prev
+                                            </ButtonComponent>
                                             <ButtonComponent
                                                 id={"save_next_btn"}
                                                 className={'submit-cta'}
@@ -258,21 +257,19 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                                                 disabled={isClientPersonalHabitsSavingInProgress || !isValid || CommonService.isEqual(values, clientPersonalHabitsFormInitialValues)}
                                                 type={"submit"}
                                             >
-                                                {isClientPersonalHabitsSavingInProgress ? "Saving" : <>{mode === "add" ? "Save & Next" : "Save"}</>}
+                                                {isClientPersonalHabitsSavingInProgress ? "Saving" : "Save"}
                                             </ButtonComponent>
-                                            {
-                                                mode === "edit" && <>
-                                                    &nbsp;&nbsp;<ButtonComponent
-                                                    id={"next_btn"}
-                                                    size={'large'}
-                                                    className={'submit-cta'}
-                                                    disabled={isClientPersonalHabitsSavingInProgress || !CommonService.isEqual(values, clientPersonalHabitsFormInitialValues)}
-                                                    onClick={onNext}
-                                                >
-                                                    Next
-                                                </ButtonComponent>
-                                                </>
-                                            }
+
+                                            <ButtonComponent
+                                                id={"next_btn"}
+                                                size={'large'}
+                                                className={'submit-cta'}
+                                                disabled={isClientPersonalHabitsSavingInProgress || !CommonService.isEqual(values, clientPersonalHabitsFormInitialValues)}
+                                                onClick={onNext}
+                                            >
+                                                Next
+                                            </ButtonComponent>
+
                                         </div>
                                     </Form>
                                 )

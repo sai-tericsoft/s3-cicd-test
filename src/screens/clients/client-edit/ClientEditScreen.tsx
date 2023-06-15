@@ -20,6 +20,7 @@ import ClientMusculoskeletalHistoryFormComponent
     from "../client-musculoskeletal-history-form/ClientMusculoskeletalHistoryFormComponent";
 import ClientAccountDetailsFormComponent from "../client-account-details-form/ClientAccountDetailsFormComponent";
 import {IRootReducerState} from "../../../store/reducers";
+import {getClientMedicalDetails} from "../../../store/actions/client.action";
 
 interface ClientEditScreenProps {
 
@@ -40,20 +41,6 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
     } = useSelector((state: IRootReducerState) => state.client);
 
 
-    useEffect(() => {
-        dispatch(setCurrentNavParams('Edit Client', null, () => {
-            if (clientId) {
-                if (currentStep === "basicDetails") {
-                    navigate(CommonService._client.NavigateToClientDetails(clientId, "basicDetails"));
-                } else if (currentStep === "accountDetails") {
-                    navigate(CommonService._client.NavigateToClientDetails(clientId, "accountDetails"));
-                } else {
-                    navigate(CommonService._client.NavigateToClientDetails(clientId, "medicalHistoryQuestionnaire"));
-                }
-            }
-        }));
-    }, [dispatch, currentStep, clientId, navigate]);
-
     const handleClientDetailsSave = useCallback((data: any) => {
         if (clientId) {
             switch (currentStep) {
@@ -69,8 +56,8 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                 // case "medicalFemaleOnly":
                 // case "surgicalHistory":
                 // case "musculoskeletalHistory":
-                case "medicalProvider": {
-                    navigate(CommonService._client.NavigateToClientDetails(clientId, "medicalHistoryQuestionnaire"));
+                case "musculoskeletalHistory": {
+                    goBackToMedicalHistory();
                     break;
                 }
                 default: {
@@ -93,6 +80,10 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                     break;
                 }
                 case "medicalSupplements": {
+                    nextStep = 'medicalProvider';
+                    break;
+                }
+                case "medicalProvider": {
                     nextStep = 'medicalHistory';
                     break;
                 }
@@ -113,13 +104,10 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                     break;
                 }
                 case "musculoskeletalHistory": {
-                    nextStep = 'medicalProvider';
+                    goBackToMedicalHistory();
                     break;
                 }
-                case "medicalProvider": {
-                    nextStep = 'accountDetails';
-                    break;
-                }
+
                 case "accountDetails": {
                     navigate(CommonService._routeConfig.ClientList());
                     return;
@@ -133,9 +121,19 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
         setCurrentStep(nextStep);
         searchParams.set("currentStep", nextStep);
         setSearchParams(searchParams);
-    }, [currentStep, searchParams, setSearchParams, clientId, navigate, clientBasicDetails]);
+        if (clientId) {
+            dispatch(getClientMedicalDetails(clientId));
+        }
+    }, [currentStep, searchParams, setSearchParams, clientId, navigate, clientBasicDetails, dispatch]);
+
+    const goBackToMedicalHistory = useCallback(() => {
+        if (clientId) {
+            navigate(CommonService._client.NavigateToClientDetails(clientId, "medicalHistoryQuestionnaire"));
+        }
+    }, [clientId, navigate]);
 
     const handleClientDetailsCancel = useCallback(() => {
+        let prevStep = currentStep;
         if (clientId) {
             switch (currentStep) {
                 case "accountDetails":
@@ -143,23 +141,48 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                     navigate(CommonService._client.NavigateToClientDetails(clientId, currentStep));
                     break;
                 }
-                case "personalHabits":
-                case "allergies":
-                case "medicalHistory":
-                case 'medicalSupplements':
-                case "medicalFemaleOnly":
-                case "surgicalHistory":
-                case "musculoskeletalHistory":
-                case "medicalProvider": {
-                    navigate(CommonService._client.NavigateToClientDetails(clientId, "medicalHistoryQuestionnaire"));
+                case "personalHabits": {
+                    goBackToMedicalHistory();
                     break;
                 }
+                case "allergies": {
+                    prevStep = 'personalHabits';
+                    break;
+                }
+                case "medicalSupplements": {
+                    prevStep = 'allergies';
+                    break;
+                }
+                case "medicalProvider": {
+                    prevStep = 'medicalSupplements';
+                    break;
+                }
+                case "medicalHistory": {
+                    prevStep = 'medicalProvider';
+                    break;
+                }
+                case "medicalFemaleOnly": {
+                    prevStep = 'medicalHistory';
+                    break;
+                }
+                case "surgicalHistory": {
+                    prevStep = 'medicalHistory';
+                    break;
+                }
+                case "musculoskeletalHistory": {
+                    prevStep = 'surgicalHistory';
+                    break;
+                }
+
                 default: {
-                    navigate(CommonService._routeConfig.ClientList());
+                    navigate(CommonService._client.NavigateToClientDetails(clientId, "basicDetails"));
                 }
             }
+            setCurrentStep(prevStep);
+            searchParams.set("currentStep", prevStep);
+            setSearchParams(searchParams);
         }
-    }, [navigate, clientId, currentStep]);
+    }, [navigate, clientId, currentStep, setCurrentStep, setSearchParams, searchParams]);
 
     useEffect(() => {
         let currentStep: any = searchParams.get("currentStep");
@@ -171,7 +194,22 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
             currentStep = "basicDetails";
         }
         setCurrentStep(currentStep);
-    }, [searchParams]);
+    }, [searchParams, setCurrentStep]);
+
+    useEffect(() => {
+        dispatch(setCurrentNavParams('Edit Client', null, () => {
+            if (clientId) {
+                if (currentStep === "basicDetails") {
+                    navigate(CommonService._client.NavigateToClientDetails(clientId, "basicDetails"));
+                } else if (currentStep === "accountDetails") {
+                    navigate(CommonService._client.NavigateToClientDetails(clientId, "accountDetails"));
+                } else {
+                    goBackToMedicalHistory();
+                }
+            }
+        }));
+    }, [dispatch, currentStep, clientId, navigate]);
+
 
     return (
         <div className={'client-edit-screen'}>
@@ -236,6 +274,8 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                             onSave={handleClientDetailsSave}
                             onCancel={handleClientDetailsCancel}
                             clientId={clientId}
+                            onNext={handleClientDetailsNext}
+
                         />
                     }
                     {
@@ -244,7 +284,6 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                             onSave={handleClientDetailsSave}
                             onCancel={handleClientDetailsCancel}
                             clientId={clientId}
-                            onNext={handleClientDetailsNext}
                         />
                     }
                     {

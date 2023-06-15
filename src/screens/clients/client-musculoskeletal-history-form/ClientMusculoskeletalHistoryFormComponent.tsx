@@ -17,8 +17,6 @@ import {IRootReducerState} from "../../../store/reducers";
 import {IMusculoskeletalHistoryOption} from "../../../shared/models/common.model";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import {getClientMedicalDetails} from "../../../store/actions/client.action";
-import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 
 interface ClientMusculoskeletalFormComponentProps {
     clientId: string;
@@ -46,9 +44,6 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
 
     const {
         clientMedicalDetails,
-        isClientMedicalDetailsLoaded,
-        isClientMedicalDetailsLoading,
-        isClientMedicalDetailsLoadingFailed
     } = useSelector((state: IRootReducerState) => state.client);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
@@ -56,6 +51,9 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
         setIsClientMusculoskeletalHistorySavingInProgress(true);
         CommonService._client.ClientMusculoskeletalHistoryAddAPICall(clientId, payload)
             .then((response: IAPIResponseType<IClientMusculoskeletalHistoryForm>) => {
+                if (clientId) {
+                    dispatch(getClientMedicalDetails(clientId));
+                }
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsClientMusculoskeletalHistorySavingInProgress(false);
                 setClientMusculoskeletalHistoryFormInitialValues(_.cloneDeep(values));
@@ -65,43 +63,22 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                 CommonService.handleErrors(setErrors, error);
                 setIsClientMusculoskeletalHistorySavingInProgress(false);
             })
-    }, [clientId, onSave, mode]);
+    }, [clientId, onSave, mode, dispatch]);
 
     useEffect(() => {
-        if (mode === "edit") {
-            if (clientMedicalDetails) {
-                setClientMusculoskeletalHistoryFormInitialValues({
-                    musculoskeletal_history: clientMedicalDetails?.musculoskeletal_history
-                });
-            } else {
-                if (clientId) {
-                    dispatch(getClientMedicalDetails(clientId));
-                }
-            }
+        if (clientMedicalDetails) {
+            setClientMusculoskeletalHistoryFormInitialValues({
+                musculoskeletal_history: clientMedicalDetails?.musculoskeletal_history
+            });
         }
     }, [mode, clientId, dispatch, clientMedicalDetails]);
 
     return (
         <div className={'client-musculoskeletal-form-component'}>
-            <>
-                {
-                    mode === "edit" && <>
-                        {
-                            isClientMedicalDetailsLoading && <div>
-                                <LoaderComponent/>
-                            </div>
-                        }
-                        {
-                            isClientMedicalDetailsLoadingFailed &&
-                            <StatusCardComponent title={"Failed to fetch medical Details"}/>
-                        }
-                    </>
-                }
-            </>
             {
-                ((mode === "edit" && isClientMedicalDetailsLoaded && clientMedicalDetails) || mode === "add") && <>
+                ((mode === "edit" && clientMedicalDetails) || mode === "add") && <>
                     <FormControlLabelComponent className={'add-musculoskeletal-history-heading'}
-                        label={CommonService.capitalizeFirstLetter(mode) + " Musculoskeletal History"}/>
+                                               label={CommonService.capitalizeFirstLetter(mode) + " Musculoskeletal History"}/>
                     <CardComponent title={"Musculoskeletal History"} description={"Has the client ever:"}>
                         <Formik
                             validationSchema={ClientMusculoskeletalHistoryFormValidationSchema}
@@ -151,7 +128,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                         </div>
                                                         <div className={"ts-col-md-8"}>
                                                             {
-                                                                values.musculoskeletal_history[_id]?.value==="Yes" &&
+                                                                values.musculoskeletal_history[_id]?.value === "Yes" &&
                                                                 <Field name={`musculoskeletal_history.${_id}.text`}>
                                                                     {
                                                                         (field: FieldProps) => (
@@ -177,13 +154,13 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                             <ButtonComponent
                                                 id={"home_btn"}
                                                 variant={"outlined"}
-                                                className={'submit-cta'}
                                                 size={'large'}
                                                 onClick={onCancel}
                                                 disabled={isClientMusculoskeletalHistorySavingInProgress}
+                                                className={(isClientMusculoskeletalHistorySavingInProgress ? 'mrg-right-15' : '')}
                                             >
-                                                Home
-                                            </ButtonComponent>&nbsp;
+                                                Prev
+                                            </ButtonComponent>
                                             <ButtonComponent
                                                 id={"save_next_btn"}
                                                 className={'submit-cta'}
@@ -192,7 +169,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                 disabled={isClientMusculoskeletalHistorySavingInProgress || !isValid || CommonService.isEqual(values, clientMusculoskeletalHistoryFormInitialValues)}
                                                 type={"submit"}
                                             >
-                                                {isClientMusculoskeletalHistorySavingInProgress ? "Saving" : <>{mode === "add" ? <>{mode === "add" ? "Save & Next" : "Save"}</> : "Save"}</>}
+                                                {isClientMusculoskeletalHistorySavingInProgress ? "Saving" : "Save"}
                                             </ButtonComponent>
                                             {
                                                 mode === "edit" && <>
@@ -200,7 +177,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                     className={'submit-cta'}
                                                     size={'large'}
                                                     id={"next_btn"}
-                                                    disabled={isClientMusculoskeletalHistorySavingInProgress || !CommonService.isEqual(values, clientMusculoskeletalHistoryFormInitialValues)}
+                                                    disabled={true}
                                                     onClick={onNext}
                                                 >
                                                     Next

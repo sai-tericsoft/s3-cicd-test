@@ -20,6 +20,7 @@ import ClientMusculoskeletalHistoryFormComponent
     from "../client-musculoskeletal-history-form/ClientMusculoskeletalHistoryFormComponent";
 import ClientAccountDetailsFormComponent from "../client-account-details-form/ClientAccountDetailsFormComponent";
 import {IRootReducerState} from "../../../store/reducers";
+import {getClientMedicalDetails} from "../../../store/actions/client.action";
 
 interface ClientAddScreenProps {
 
@@ -43,6 +44,12 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
         }));
     }, [navigate, dispatch]);
 
+    const goBackToMedicalHistory = useCallback(() => {
+        if (clientId) {
+            navigate(CommonService._client.NavigateToClientDetails(clientId, "medicalHistoryQuestionnaire"));
+        }
+    }, [clientId, navigate]);
+
     const handleClientDetailsSave = useCallback((data: any) => {
         let nextStep = currentStep;
         let clientId = undefined;
@@ -54,59 +61,129 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                 searchParams.set("clientId", clientId.toString());
                 break;
             }
-            case "personalHabits": {
-                nextStep = 'allergies';
-                break;
-            }
-            case "allergies": {
-                nextStep = 'medicalSupplements';
-                break;
-            }
-            case "medicalSupplements": {
-                nextStep = 'medicalHistory';
-                break;
-            }
-            case "medicalHistory": {
-                if (clientBasicDetails?.gender === "female") {
-                    nextStep = 'medicalFemaleOnly';
-                } else {
-                    nextStep = 'surgicalHistory';
-                }
-                break;
-            }
-            case "medicalFemaleOnly": {
-                nextStep = 'surgicalHistory';
-                break;
-            }
-            case "surgicalHistory": {
-                nextStep = 'musculoskeletalHistory';
-                break;
-            }
             case "musculoskeletalHistory": {
-                nextStep = 'medicalProvider';
-                break;
-            }
-            case "medicalProvider": {
-                nextStep = 'accountDetails';
+                goBackToMedicalHistory();
                 break;
             }
             case "accountDetails": {
                 navigate(CommonService._routeConfig.ClientList());
-                return;
+                break;
             }
-            default: {
-                navigate(CommonService._routeConfig.ClientList());
-                return;
+        }
+
+    }, [currentStep, clientId, navigate]);
+
+    const handleClientDetailsCancel = useCallback(() => {
+        let prevStep = currentStep;
+        if (clientId) {
+            switch (currentStep) {
+                case "personalHabits": {
+                    navigate(CommonService._client.NavigateToClientDetails(clientId, "medicalHistoryQuestionnaire"));
+                    break;
+                }
+                case "allergies": {
+                    console.log('allergies');
+                    prevStep = 'personalHabits';
+                    break;
+                }
+                case "medicalSupplements": {
+                    prevStep = 'allergies';
+                    break;
+                }
+                case "medicalProvider": {
+                    prevStep = 'medicalSupplements';
+                    break;
+                }
+                case "medicalHistory": {
+                    prevStep = 'medicalProvider';
+                    break;
+                }
+                case "medicalFemaleOnly": {
+                    prevStep = 'medicalHistory';
+                    break;
+                }
+                case "surgicalHistory": {
+                    prevStep = 'medicalHistory';
+                    break;
+                }
+                case "musculoskeletalHistory": {
+                    prevStep = 'surgicalHistory';
+                    break;
+                }
+                case "accountDetails": {
+                    navigate(CommonService._routeConfig.ClientList());
+                    return;
+                }
+                default: {
+                    navigate(CommonService._routeConfig.ClientList());
+                    return;
+                }
+            }
+            setCurrentStep(prevStep);
+            searchParams.set("currentStep", prevStep);
+            setSearchParams(searchParams);
+        }
+    }, [navigate, clientId, currentStep, searchParams, setSearchParams]);
+
+    const handleClientDetailsNext = useCallback(() => {
+        let nextStep = currentStep;
+        if (clientId) {
+            switch (currentStep) {
+                case "personalHabits": {
+                    nextStep = 'allergies';
+                    break;
+                }
+                case "allergies": {
+                    nextStep = 'medicalSupplements';
+                    break;
+                }
+                case "medicalSupplements": {
+                    nextStep = 'medicalProvider';
+                    break;
+                }
+                case "medicalProvider": {
+                    nextStep = 'medicalHistory';
+                    break;
+                }
+                case "medicalHistory": {
+                    if (clientBasicDetails?.gender === "female") {
+                        nextStep = 'medicalFemaleOnly';
+                    } else {
+                        nextStep = 'surgicalHistory';
+                    }
+                    break;
+                }
+                case "medicalFemaleOnly": {
+                    nextStep = 'surgicalHistory';
+                    break;
+                }
+                case "surgicalHistory": {
+                    nextStep = 'musculoskeletalHistory';
+                    break;
+                }
+                case "musculoskeletalHistory": {
+                    goBackToMedicalHistory();
+                    break;
+                }
+
+                case "accountDetails": {
+                    navigate(CommonService._routeConfig.ClientList());
+                    return;
+                }
+                default: {
+                    navigate(CommonService._client.NavigateToClientDetails(clientId, "basicDetails"));
+                    return;
+                }
             }
         }
         setCurrentStep(nextStep);
         searchParams.set("currentStep", nextStep);
         setSearchParams(searchParams);
-    }, [currentStep, clientBasicDetails, navigate, searchParams, setSearchParams]);
+        if (clientId) {
+            dispatch(getClientMedicalDetails(clientId));
+        }
+    }, [currentStep, searchParams, setSearchParams, clientId, navigate, clientBasicDetails, dispatch]);
 
-    const handleClientDetailsCancel = useCallback(() => {
-        navigate(CommonService._routeConfig.ClientList());
-    }, [navigate]);
 
     useEffect(() => {
         let currentStep: any = searchParams.get("currentStep");
@@ -141,6 +218,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                             mode={mode}
                             onSave={handleClientDetailsSave}
                             onCancel={handleClientDetailsCancel}
+                            onNext={handleClientDetailsNext}
                             clientId={clientId}/>
                     }
                     {
@@ -148,6 +226,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                             mode={mode}
                             onSave={handleClientDetailsSave}
                             onCancel={handleClientDetailsCancel}
+                            onNext={handleClientDetailsNext}
                             clientId={clientId}/>
                     }
                     {
@@ -155,6 +234,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                             mode={mode}
                             onSave={handleClientDetailsSave}
                             onCancel={handleClientDetailsCancel}
+                            onNext={handleClientDetailsNext}
                             clientId={clientId}/>
                     }
                     {
@@ -162,6 +242,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                             mode={mode}
                             onSave={handleClientDetailsSave}
                             onCancel={handleClientDetailsCancel}
+                            onNext={handleClientDetailsNext}
                             clientId={clientId}/>
                     }
                     {
@@ -169,6 +250,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                             mode={mode}
                             onSave={handleClientDetailsSave}
                             onCancel={handleClientDetailsCancel}
+                            onNext={handleClientDetailsNext}
                             clientId={clientId}/>
                     }
                     {
@@ -176,6 +258,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                             mode={mode}
                             onSave={handleClientDetailsSave}
                             onCancel={handleClientDetailsCancel}
+                            onNext={handleClientDetailsNext}
                             clientId={clientId}/>
                     }
                     {
@@ -183,6 +266,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                             mode={mode}
                             onSave={handleClientDetailsSave}
                             onCancel={handleClientDetailsCancel}
+                            onNext={handleClientDetailsNext}
                             clientId={clientId}/>
                     }
                     {
@@ -190,6 +274,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                             clientId={clientId}
                             mode={mode}
                             onSave={handleClientDetailsSave}
+                            onNext={handleClientDetailsNext}
                             onCancel={handleClientDetailsCancel}
                         />
                     }

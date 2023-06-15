@@ -202,8 +202,8 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
 
     const patchClientBasicDetails = useCallback(() => {
         if (clientBasicDetails) {
-            if (!clientBasicDetails.emergency_contact_info.primary_emergency.secondary_contact_info ||
-                (clientBasicDetails.emergency_contact_info.primary_emergency.secondary_contact_info && clientBasicDetails.emergency_contact_info.primary_emergency.secondary_contact_info?.length === 0)) {
+            if (!clientBasicDetails.emergency_contact_info?.primary_emergency?.secondary_contact_info ||
+                (clientBasicDetails.emergency_contact_info?.primary_emergency?.secondary_contact_info && clientBasicDetails.emergency_contact_info?.primary_emergency?.secondary_contact_info?.length === 0)) {
                 clientBasicDetails.emergency_contact_info.primary_emergency.secondary_contact_info = [{
                     phone: "",
                     phone_type: ""
@@ -211,8 +211,8 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
             }
             if (Object.keys(clientBasicDetails.emergency_contact_info.secondary_emergency).length) {
                 clientBasicDetails.show_secondary_emergency_form = true;
-                if (!clientBasicDetails.emergency_contact_info.secondary_emergency.secondary_contact_info ||
-                    (clientBasicDetails.emergency_contact_info.secondary_emergency.secondary_contact_info && clientBasicDetails.emergency_contact_info.secondary_emergency.secondary_contact_info?.length === 0)) {
+                if (!clientBasicDetails.emergency_contact_info?.secondary_emergency?.secondary_contact_info ||
+                    (clientBasicDetails.emergency_contact_info?.secondary_emergency?.secondary_contact_info && clientBasicDetails.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.length === 0)) {
                     clientBasicDetails.emergency_contact_info.secondary_emergency.secondary_contact_info = [{
                         phone: "",
                         phone_type: ""
@@ -235,7 +235,9 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
     }, [clientBasicDetails])
 
     useEffect(() => {
-        patchClientBasicDetails();
+        if (clientBasicDetails) {
+            patchClientBasicDetails();
+        }
     }, [clientBasicDetails, patchClientBasicDetails]);
 
     useEffect(() => {
@@ -249,17 +251,13 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
         <div className={'client-basic-details-form-component'}>
             <>
                 {
-                    <>
-                        {
-                            isClientBasicDetailsLoading && <div>
-                                <LoaderComponent/>
-                            </div>
-                        }
-                        {
-                            isClientBasicDetailsLoadingFailed &&
-                            <StatusCardComponent title={"Failed to fetch client Details"}/>
-                        }
-                    </>
+                    isClientBasicDetailsLoading && <div>
+                        <LoaderComponent/>
+                    </div>
+                }
+                {
+                    isClientBasicDetailsLoadingFailed &&
+                    <StatusCardComponent title={"Failed to fetch client Details"}/>
                 }
             </>
             {
@@ -271,7 +269,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                     validateOnBlur={true}
                     enableReinitialize={true}
                     validateOnMount={true}>
-                    {({values, touched, errors, setFieldValue, validateForm}) => {
+                    {({values, touched, errors, setFieldValue, validateForm, isValid}) => {
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
                             validateForm();
@@ -694,7 +692,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                     </div>
                                 </CardComponent>
                                 <CardComponent title={"Emergency Contact Information"} size={"md"}>
-                                    <FormControlLabelComponent  label={"Primary Emergency Contact"} size={'sm'}/>
+                                    <FormControlLabelComponent label={"Primary Emergency Contact"} size={'sm'}/>
                                     <div className="ts-row">
                                         <div className="ts-col-md-5">
                                             <Field name={'emergency_contact_info.primary_emergency.name'}>
@@ -1108,7 +1106,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                         id={"save_btn"}
                                         size={'large'}
                                         isLoading={isClientBasicDetailsSavingInProgress}
-                                        disabled={isClientBasicDetailsSavingInProgress}
+                                        disabled={isClientBasicDetailsSavingInProgress || !isValid}
                                         type={"submit"}
                                     >
                                         {isClientBasicDetailsSavingInProgress ? "Saving" : "Save"}
