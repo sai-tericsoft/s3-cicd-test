@@ -20,10 +20,10 @@ const ADMIN_MENU_ITEMS = [
         title: "System Settings",
         path: CommonService._routeConfig.SystemSettings()
     },
-    {
-        title: "Forms",
-        path: ""
-    },
+    // {
+    //     title: "Forms",
+    //     path: ""
+    // },
     {
         title: "Appointment Settings",
         path: CommonService._routeConfig.appointmentSettingsLayout()
@@ -32,18 +32,18 @@ const ADMIN_MENU_ITEMS = [
         title: "Discounts",
         path: CommonService._routeConfig.DiscountList()
     },
-    {
-        title: "Referral Discounts",
-        path: ""
-    },
-    {
-        title: "User Management",
-        path: ""
-    },
-    {
-        title: "Access Management",
-        path: ""
-    }
+    // {
+    //     title: "Referral Discounts",
+    //     path: ""
+    // },
+    // {
+    //     title: "User Management",
+    //     path: ""
+    // },
+    // {
+    //     title: "Access Management",
+    //     path: ""
+    // }
 ]
 
 const AdminModuleLayoutScreen = (props: AdminModuleLayoutScreenProps) => {

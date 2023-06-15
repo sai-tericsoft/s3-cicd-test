@@ -22,9 +22,9 @@ import DefaultMessageComponent from "./default-message/DefaultMessageComponent";
 const SystemSettingsFormValidationSchema = Yup.object({
     other_settings: Yup.object({
         auto_lock_minutes: Yup.string()
-            .required("System Auto Lock is required"),
+            .required("Input is required"),
         uneditable_after_days: Yup.string()
-            .required("Files Uneditable After is required")
+            .required("Input is required")
     })
 });
 
@@ -112,12 +112,12 @@ const SystemSettingsScreen = (props: SystemSettingsScreenProps) => {
                                     <CardComponent title={"Other Settings"}>
                                         <div className="t-form-controls">
                                             <div className="ts-row">
-                                                <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-6">
+                                                <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-7">
                                                     <QuestionComponent title={"System Auto Lock"}
                                                                        description={"The length of time before the system auto-saves the work that has been done, and locks the system if there’s been a certain length of inactivity."}
                                                     ></QuestionComponent>
                                                 </div>
-                                                <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-2"}/>
+                                                <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-1"}/>
                                                 <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
                                                     <Field name={'other_settings.auto_lock_minutes'}
                                                            className="t-form-control">
@@ -137,12 +137,12 @@ const SystemSettingsScreen = (props: SystemSettingsScreenProps) => {
                                             </div>
                                             <HorizontalLineComponent/>
                                             <div className="ts-row">
-                                                <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-6">
+                                                <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-7">
                                                     <QuestionComponent title={"Files Uneditable after"}
                                                                        description={"Makes file uneditable after XX days."}
                                                     ></QuestionComponent>
                                                 </div>
-                                                <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-2"}/>
+                                                <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-1"}/>
                                                 <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
                                                     <Field name={'other_settings.uneditable_after_days'}
                                                            className="t-form-control">
