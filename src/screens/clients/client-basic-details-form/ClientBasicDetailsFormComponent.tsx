@@ -874,6 +874,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                     {!values.show_secondary_emergency_form &&
                                         <div className={'display-flex justify-content-center flex-1'}>
                                             <ButtonComponent
+                                                className={'add-another-contact-cta'}
                                                 onClick={() => {
                                                     setFieldValue('show_secondary_emergency_form', true)
                                                 }}

@@ -12,7 +12,6 @@ import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
 import HorizontalLineComponent
     from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
-import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 
 interface ClientMedicalDetailsComponentProps {
     clientId: string;
@@ -253,17 +252,17 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                 }
                             </div>
                         }
-                        {clientMedicalDetails?.surgical_history?.comments &&
+                        {clientMedicalDetails?.surgical_history?.comments && <>
                             <div className={'other-illness-text'}> {clientMedicalDetails?.surgical_history?.comments && <>
-                                <FormControlLabelComponent label={"Other Surgeries/Conditions"}
-                                                           className={'mrg-bottom-10'}/>
+                                <div className={'other-illness-heading'}>Other Illnesses/Conditions</div>
                                 {clientMedicalDetails?.surgical_history?.comments.split("\n").map((i: any, key: any) => {
                                     return <li key={key}>{i}</li>;
                                 }) || "N/A"}
                             </>
 
                             }
-                            </div>}
+                            </div>
+                        </>}
                         {
                             clientMedicalDetails?.surgical_history?.questions_details?.length === 0 && !clientMedicalDetails?.surgical_history?.comments &&
                             <div className={'allergies-na'}>None Reported</div>
