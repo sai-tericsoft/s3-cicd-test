@@ -185,7 +185,6 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                         render={arrayHelpers => (
                                             <CardComponent title={"Initial Consultation Details"}
                                                            className={"consultation-card-item"}
-                                                           size={"md"}
                                                            actions={<>
                                                                <ButtonComponent size={"small"}
                                                                                 prefixIcon={<ImageConfig.AddIcon/>}
@@ -330,7 +329,6 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                         render={arrayHelpers => (
                                             <CardComponent title={"Follow Up Consultation Details"}
                                                            className={"consultation-card-item"}
-                                                           size={"md"}
                                                            actions={<>
                                                                <ButtonComponent size={"small"}
                                                                                 prefixIcon={<ImageConfig.AddIcon/>}

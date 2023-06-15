@@ -4,6 +4,21 @@
     height: 16px;
   }
 }
-.MuiButton-contained{
+
+.button-medium {
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.button-large {
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.MuiButton-contained {
   box-shadow: none !important;
 }
