@@ -44,9 +44,9 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
         dispatch(getAllMessageHistory());
     }, [dispatch]);
 
-    const handleBackStep = useCallback(()=>{
+    const handleBackStep = useCallback(() => {
         setMode('view')
-    },[]);
+    }, []);
 
     const handleMessageDelete = useCallback((messageId: string) => {
         CommonService.onConfirm({
@@ -64,96 +64,105 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                 CommonService._alert.showToast(error.error, "error");
             });
         });
-    }, [dispatch,handleCloseAllMessagesDrawer])
+    }, [dispatch, handleCloseAllMessagesDrawer])
 
 
     return (
         <div className={'message-board-component'}>
             {isMessageHistoryLoading && <div><LoaderComponent/></div>}
 
-                <>
-                    <div className={'message-board-wrapper'}>
-                        <CardComponent className={'message-board'}>
-                            <div className={'message-board-view-all-messages-wrapper'}>
-                                <div className={'message-board-text'}>Message Board</div>
-                                <div className={'view-all-message'} onClick={handleOpenViewAllMessagesDrawer}>View All
-                                    Message(s)
+            <>
+                <div className={'ts-row'}>
+                    <div className={'ts-col-8'}>
+                        <div className={' message-board-wrapper'}>
+                            <CardComponent className={'message-board'}>
+                                <div className={'message-board-view-all-messages-wrapper'}>
+                                    <div className={'message-board-text'}>Message Board</div>
+                                    <div className={'view-all-message'} onClick={handleOpenViewAllMessagesDrawer}>View
+                                        All
+                                        Message(s)
+                                    </div>
+                                </div>
+                                {isMessageHistoryLoaded &&
+                                    <CardComponent color={'primary'} className={'view-message-board'}>
+                                        {
+                                            (messageHistory?.length === 0) &&
+                                            <div className={'message-text'}>{systemSettings?.default_message}</div>
+                                        }
+                                        {messageHistory?.map((message: any) => {
+                                            return (<>
+                                                    <div className={'message-text'}>{message?.message}</div>
+                                                    <div
+                                                        className={'time-stamp'}>{CommonService.transformTimeStamp(message?.created_at)}</div>
+                                                    {messageHistory?.length > 1 &&
+                                                        <HorizontalLineComponent/>
+                                                    }
+                                                </>
+                                            )
+                                        })}
+                                    </CardComponent>
+                                }
+                            </CardComponent>
+                        </div>
+                    </div>
+                    <div className={'ts-col-4'}>
+                        <CardComponent className={'birthday-board'}>
+                            <div className={'today-birthday-text'}>
+                                Today's Birthday(s)
+                            </div>
+                            <div className={'coming-soon-image-text-wrapper'}>
+                                <div>
+                                    <div className={'mrg-left-50'}>
+                                        <ImageConfig.ComingSoon/>
+                                    </div>
+                                    <div>
+                                        Coming Soon!
+                                    </div>
                                 </div>
                             </div>
-                            {isMessageHistoryLoaded &&
-                                <CardComponent color={'primary'} className={'view-message-board'}>
-                                    {
-                                        (messageHistory?.length === 0) &&
-                                        <div className={'message-text'}>{systemSettings?.default_message}</div>
-                                    }
-                                    {messageHistory?.map((message: any) => {
-                                        return (<>
-                                                <div className={'message-text'}>{message?.message}</div>
-                                                <div
-                                                    className={'time-stamp'}>{CommonService.transformTimeStamp(message?.created_at)}</div>
-                                                {messageHistory?.length > 1 &&
-                                                    <HorizontalLineComponent/>
-                                                }
-                                            </>
-                                        )
-                                    })}
-                                </CardComponent>
-                            }
                         </CardComponent>
                     </div>
-                    <CardComponent className={'birthday-board'}>
-                        <div className={'today-birthday-text'}>
-                            Today's Birthday(s)
-                        </div>
-                        <div className={'coming-soon-image-text-wrapper'}>
-                            <div>
-                                <div className={'mrg-left-50'}>
-                                    <ImageConfig.ComingSoon/>
-                                </div>
-                                <div>
-                                    Coming Soon!
-                                </div>
-                            </div>
-                        </div>
-                    </CardComponent>
-                    <DrawerComponent isOpen={isViewMessageDrawerOpen}
-                                     onClose={handleCloseAllMessagesDrawer}
-                                     showClose={true}
-                                     className={'t-view-all-message'}>
-                        {mode === 'view' &&
-                            <div>
-                                <FormControlLabelComponent label={'View All Message(s)'} size={'lg'}/>
-                                {messageHistory?.map((message: any) => {
-                                    return (<div className={'message-timestamp-wrapper'}>
-                                            <div className={'message-edit-delete-button-wrapper'}>
-                                                <div>
-                                                    <CardComponent color={'primary'}>
-                                                        <div>{message?.message}</div>
-                                                    </CardComponent>
-                                                </div>
-                                                <span><IconButtonComponent onClick={() => {
-                                                    setEditableMessage(message)
-                                                    setMode('edit');
-
-                                                }}><ImageConfig.EditIcon/></IconButtonComponent></span>
-                                                <span><IconButtonComponent
-                                                    onClick={() => handleMessageDelete(message?._id)}
-                                                    color={'error'}><ImageConfig.DeleteIcon/></IconButtonComponent></span>
+                </div>
+                <DrawerComponent isOpen={isViewMessageDrawerOpen}
+                                 onClose={handleCloseAllMessagesDrawer}
+                                 showClose={true}
+                                 className={'t-view-all-message'}>
+                    {mode === 'view' &&
+                        <div>
+                            <FormControlLabelComponent label={'View All Message(s)'} size={'lg'}/>
+                            {messageHistory?.map((message: any) => {
+                                return (<div className={'message-timestamp-wrapper'}>
+                                        <div className={'message-edit-delete-button-wrapper'}>
+                                            <div>
+                                                <CardComponent color={'primary'}>
+                                                    <div>{message?.message}</div>
+                                                </CardComponent>
                                             </div>
-                                            <div
-                                                className={'created-at-time-stamp'}>{CommonService.transformTimeStamp(message?.created_at)}</div>
+                                            <span><IconButtonComponent onClick={() => {
+                                                setEditableMessage(message)
+                                                setMode('edit');
+
+                                            }}><ImageConfig.EditIcon/></IconButtonComponent></span>
+                                            <span><IconButtonComponent
+                                                onClick={() => handleMessageDelete(message?._id)}
+                                                color={'error'}><ImageConfig.DeleteIcon/></IconButtonComponent></span>
                                         </div>
-                                    )
-                                })}
+                                        <div
+                                            className={'created-at-time-stamp'}>{CommonService.transformTimeStamp(message?.created_at)}</div>
+                                    </div>
+                                )
+                            })}
 
-                            </div>
-                        }
-                        {
-                            mode === 'edit' && <EditMessageComponent messageObject={editableMessage} onBack={()=>handleBackStep()} closeMessageDrawer={()=>handleCloseAllMessagesDrawer()}/>
-                        }
-                    </DrawerComponent>
+                        </div>
+                    }
+                    {
+                        mode === 'edit' &&
+                        <EditMessageComponent messageObject={editableMessage} onBack={() => handleBackStep()}
+                                              closeMessageDrawer={() => handleCloseAllMessagesDrawer()}/>
+                    }
+                </DrawerComponent>
 
-                </>
+            </>
         </div>
     );
 

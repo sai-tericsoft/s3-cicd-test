@@ -16,24 +16,20 @@ import AppointmentListComponent from "../appointment-list/AppointmentListCompone
 interface DashboardScreenProps {
 
 }
-const DashboardSteps: any[] = ["home"];
+
+const DashboardSteps: any[] = ["home", "draft"];
 
 const DashboardScreen = (props: DashboardScreenProps) => {
 
     const dispatch = useDispatch();
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
-    const [currentTab, setCurrentTab] = useState<any>("Home");
+    const [currentTab, setCurrentTab] = useState<any>("home");
     const [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {
         dispatch(setCurrentNavParams("Dashboard"));
     }, [dispatch]);
 
-    const handleTabChange = useCallback((e: any, value: any) => {
-        searchParams.set("activeTab", value);
-        setSearchParams(searchParams);
-        setCurrentTab(value);
-    }, [searchParams, setSearchParams]);
 
     useEffect(() => {
         let currentTab: any = searchParams.get("currentStep");
@@ -47,19 +43,31 @@ const DashboardScreen = (props: DashboardScreenProps) => {
         setCurrentTab(currentTab);
     }, [searchParams]);
 
+    const handleTabChange = useCallback((e: any, value: any) => {
+        searchParams.set("currentStep", value);
+        setSearchParams(searchParams);
+        setCurrentTab(value);
+    }, [searchParams, setSearchParams]);
+
     return (
         <div className={'DashboardScreen'}>
             <div className={'current-user-name'}>
                 Welcome {currentUser?.first_name} {currentUser?.last_name}!
             </div>
             <TabsWrapperComponent className={'basic-tabs-wrapper'}>
-                <BasicTabsComponent value={currentTab} onUpdate={handleTabChange} variant={"fullWidth"}
-                                    allowScrollButtonsMobile={false}>
-                    <TabComponent label={'Home'} value={"home"}/>
-                </BasicTabsComponent>
+                <div>
+                    <BasicTabsComponent value={currentTab} onUpdate={handleTabChange} variant={"fullWidth"}
+                                        allowScrollButtonsMobile={false}>
+                        <TabComponent label={'Home'} value={"home"}/>
+                        <TabComponent label={'Draft'} value={"draft"}/>
+                    </BasicTabsComponent>
+                </div>
                 <TabContentComponent value={"home"} selectedTab={currentTab}>
                     <MessageBoardComponent/>
                     <AppointmentListComponent/>
+                    {/*<DraftNoteListComponent/>*/}
+                </TabContentComponent>
+                <TabContentComponent value={"draft"} selectedTab={currentTab}>
                     <DraftNoteListComponent/>
                 </TabContentComponent>
             </TabsWrapperComponent>

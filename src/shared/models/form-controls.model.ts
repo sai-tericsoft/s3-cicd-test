@@ -159,6 +159,7 @@ export interface ISelectProps {
     size?: 'small' | 'medium';
     value?: any;
     variant?: 'filled' | 'outlined' | 'standard';
+    isClear?:boolean;
 }
 
 export interface IAutoCompleteProps {
