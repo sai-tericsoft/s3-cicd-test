@@ -138,7 +138,6 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
                                             <ButtonComponent
                                                 variant={"outlined"}
                                                 onClick={onCancel}
-                                                className={'submit-cta'}
                                                 size={'large'}
                                                 disabled={isClientMedicalFemaleOnlyFormSavingInProgress}
                                                 className={(isClientMedicalFemaleOnlyFormSavingInProgress ? 'mrg-right-15' : '')}
