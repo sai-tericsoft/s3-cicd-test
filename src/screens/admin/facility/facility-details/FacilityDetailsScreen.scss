@@ -51,9 +51,9 @@
   //}
 
   .facility-opening-hours-closed-text {
-    width: 48px;
+    //width: 48px;
     font-weight: $font-weight-bolder;
-    margin-left: 30px;
+    //margin-left: 30px;
     color: $warn-color;
   }
 
@@ -65,69 +65,109 @@
 
   .facility-opening-hours-table-wrapper {
     display: flex;
+    border: 1px solid #E7E7E7;
 
     .weeks-days-table-header {
-      width: 554px;
+      //width: 554px;
       height: 56px;
       background: #E1EBEA;
-
+      display: flex;
       .week-days-timing-wrapper {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
-        margin-bottom: 18px;
+        flex: 1;
+        //margin-bottom: 18px;
 
         .week-days-heading {
           margin-left: 40px;
           font-weight: 700;
           font-size: 1.1429rem;
-          margin-top: 18px;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          //margin-top: 18px;
+          //padding: 17px;
+          flex: 1;
         }
 
         .timing-heading {
-          margin-right: 140px;
+          //margin-right: 140px;
           font-weight: 700;
+          display: flex;
+          justify-content: center;
+          align-items: center;
           font-size: 1.1429rem;
-          margin-top: 18px;
+          flex: 2;
+          //margin-top: 18px;
+          //padding: 17px;
         }
       }
     }
 
     .weeks-days-table-container {
-      width: 554px;
-      border: 1px solid #CECECE;
+      //width: 554px;
+      border: 1px solid #e7e7e7;
 
       .horizontal-line-wrapper {
         margin-bottom: 0px;
+        margin-top: 0px;
+        border-bottom: 1px solid #e7e7e7;
 
       }
 
       .data-label-value {
         flex-direction: row;
         padding-top: 17px;
+        padding-bottom: 17px;
         padding-left: 24px;
+        margin-bottom: 0px;
+        display: flex;
 
         .data-label {
-          width: 133px;
-          padding-left: 20px;
+          //width: 133px;
+          //padding-left: 20px;
           color: #212B36;
           font-weight: 500;
+          flex: 1;
+          margin-left: 16px;
         }
 
         .data-value {
-          width: 370px;
+          //width: 370px;
+          flex: 2;
           font-weight: $font-weight-normal;
           align-items: center;
-          margin-left: 50px;
-          margin-right: 24px;
-          padding-left: 140px;
+          display: flex;
+          justify-content: center;
 
         }
       }
     }
+    .column-right,.column-left {
+      flex: 1;
+    }
     .column-right {
       .weeks-days-table-container {
         border-left: none;
+        border-right: none;
+        &:first-child {
+          border-top: none;
+        }
+        &:first-child {
+          border-bottom: none;
+        }
+      }
+    }
+    .column-left {
+      .weeks-days-table-container {
+        border-left: none;
+        &:first-child {
+          border-top: none;
+        }
+        &:last-child {
+          border-bottom: none;
+        }
       }
     }
   }
