@@ -160,11 +160,15 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
                                             <ButtonComponent
                                                 variant={"outlined"}
                                                 onClick={onCancel}
+                                                className={'submit-cta'}
+                                                size={'large'}
                                                 disabled={isClientMedicalFemaleOnlyFormSavingInProgress}
                                             >
                                                 Home
                                             </ButtonComponent>&nbsp;
                                             <ButtonComponent
+                                                className={'submit-cta'}
+                                                size={'large'}
                                                 isLoading={isClientMedicalFemaleOnlyFormSavingInProgress}
                                                 disabled={isClientMedicalFemaleOnlyFormSavingInProgress || !isValid || CommonService.isEqual(values, clientMedicalFemaleOnlyInitialValues)}
                                                 type={"submit"}
@@ -174,6 +178,8 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
                                             {
                                                 mode === "edit" && <>
                                                     &nbsp;&nbsp;<ButtonComponent
+                                                    className={'submit-cta'}
+                                                    size={'large'}
                                                     disabled={isClientMedicalFemaleOnlyFormSavingInProgress || !CommonService.isEqual(values, clientMedicalFemaleOnlyInitialValues)}
                                                     onClick={onNext}
                                                 >

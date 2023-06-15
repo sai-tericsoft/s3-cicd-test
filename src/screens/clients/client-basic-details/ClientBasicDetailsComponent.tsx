@@ -325,14 +325,12 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                         <div className={'ts-row'}>
                             <div className={'ts-col-lg-3'}>
                                 <DataLabelValueComponent label={'Occupation'}>
-                                    <div
-                                        className={'mrg-bottom-24'}>{clientBasicDetails?.work_info?.occupation || 'N/A'}</div>
+                                    <div>{clientBasicDetails?.work_info?.occupation || 'N/A'}</div>
                                 </DataLabelValueComponent>
                             </div>
                             <div className={'ts-col-lg-3'}>
                                 <DataLabelValueComponent label={'Employment Status'}>
-                                    <div
-                                        className={'mrg-bottom-24'}> {clientBasicDetails?.work_info?.employment_status_details?.title || 'N/A'}</div>
+                                    <div> {clientBasicDetails?.work_info?.employment_status_details?.title || 'N/A'}</div>
                                     <br/>
                                 </DataLabelValueComponent>
                             </div>
