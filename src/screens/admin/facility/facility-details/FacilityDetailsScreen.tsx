@@ -93,22 +93,22 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                     </CardComponent>
                     <CardComponent title={"Contact Information"}>
                         <div className={'ts-row'}>
-                            <div className={" ts-col-7"}>
+                            <div className={" ts-col-6"}>
                                 <FormControlLabelComponent size={"sm"} label={'Primary Phone'}/>
                                 <div className={'ts-row'}>
-                                    <div className={'ts-col-5'}>
+                                    <div className={'ts-col-6'}>
                                         <DataLabelValueComponent label={'Phone Type'}>
                                             {facilityDetails?.primary_contact_info?.phone_type_details.title || "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
-                                    <div className={'ts-col-lg-3'}>
+                                    <div className={'ts-col-lg-6'}>
                                         <DataLabelValueComponent label={'Phone Number'}>
                                             {CommonService.formatPhoneNumber(facilityDetails?.primary_contact_info?.phone || "N/A")}
                                         </DataLabelValueComponent>
                                     </div>
                                 </div>
                             </div>
-                            <div className="ts-col-4">
+                            <div className="ts-col-6">
                                 <FormControlLabelComponent size={"sm"} label={'Primary Email:'}/>
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-12'}>
@@ -122,19 +122,19 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                         </div>
                         <div className={'ts-row'}>
                             {/*<HorizontalLineComponent/>*/}
-                            <div className={'ts-col-7'}>
+                            <div className={'ts-col-6'}>
                                 <FormControlLabelComponent size={"sm"} label={'Alternate Phone'}/>
 
                                 {facilityDetails.secondary_contact_info.map((phone_number: any, index: number) => {
                                     return (<div key={index}>
 
                                             <div className={'ts-row'}>
-                                                <div className={'ts-col-5'}>
+                                                <div className={'ts-col-6'}>
                                                     <DataLabelValueComponent label={'Phone Type'}>
                                                         <div>{phone_number?.phone_type_details?.title || "N/A"}</div>
                                                     </DataLabelValueComponent>
                                                 </div>
-                                                <div className={'ts-col-3'}>
+                                                <div className={'ts-col-6'}>
                                                     <DataLabelValueComponent label={'Phone Number'}>
                                                         {CommonService.formatPhoneNumber(phone_number?.phone || 'N/A')}
                                                     </DataLabelValueComponent>
@@ -146,17 +146,20 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                                 })
                                 }
                             </div>
-                            <div className={'ts-col-4'}>
+                            <div className={'ts-col-6'}>
                                 <FormControlLabelComponent size={"sm"} label={'Alternate Email:'}/>
-                                {facilityDetails.secondary_emails?.map((email: any, index: number) => {
-                                    return (<div className={'ts-col-lg-3'} key={index}>
-                                            <DataLabelValueComponent label={'Email '}>
-                                                <div>{email || 'N/A'}</div>
-                                            </DataLabelValueComponent>
-                                        </div>
-                                    )
-                                })
-                                }
+                                <div className="ts-row">
+                                    {facilityDetails.secondary_emails?.map((email: any, index: number) => {
+                                        return (<div className={'ts-col-lg-3'} key={index}>
+                                                <DataLabelValueComponent label={'Email '}>
+                                                    <div>{email || 'N/A'}</div>
+                                                </DataLabelValueComponent>
+                                            </div>
+                                        )
+                                    })
+                                    }
+                                </div>
+
                             </div>
                         </div>
                     </CardComponent>
@@ -170,7 +173,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                     </CardComponent>
                     <CardComponent title={'Operating Hours'} className={'operating-hours-wrapper'}>
                         <div className={'facility-opening-hours-table-wrapper'}>
-                            <div>
+                            <div className={'column-left'}>
                                 <div className={'weeks-days-table-header'}>
                                     <div className={'week-days-timing-wrapper'}>
                                         <div className={'week-days-heading'}>Week Days</div>
@@ -208,7 +211,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                                     </DataLabelValueComponent>
                                 </div>
                             </div>
-                            <div>
+                            <div className={'column-right'}>
                                 <div className={'weeks-days-table-header'}>
                                     <div className={'week-days-timing-wrapper'}>
                                         <div className={'week-days-heading'}>Week Days</div>

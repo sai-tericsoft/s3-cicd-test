@@ -1,53 +1,54 @@
 @import "src/assets/styles/common";
-.service-category-details-screen {
-//.facility-opening-hours {
-//  width: 550px;
-//  display: inline-block;
-//  border: 1px solid #F3F3F3;
-//  border-radius: 4px;
-//
-//  .facility-hours-header{
-//    display: flex;
-//    justify-content: space-between;
-//    align-items: center;
-//    height: 56px;
-//    background-color: #E1EBEA;
-//  }
-//
-//  .data-label-value {
-//    flex-direction: row;
-//    border-top: 1px solid #F3F3F3;
-//    padding-top: 17px;
-//    padding-left: 24px;
-//
-//    .data-label {
-//      width: 133px;
-//      padding-left: 20px;
-//    }
-//
-//    .data-value {
-//      width: 370px;
-//      font-weight: $font-weight-normal;
-//      align-items: center;
-//      margin-left: 50px;
-//      margin-right: 24px;
-//      padding-left: 140px;
-//
-//    }
-//  }
-//}
 
-.facility-details-information {
-  .data-label-value {
-    .data-label {
-      margin-bottom: 6px;
+.service-category-details-screen {
+  //.facility-opening-hours {
+  //  width: 550px;
+  //  display: inline-block;
+  //  border: 1px solid #F3F3F3;
+  //  border-radius: 4px;
+  //
+  //  .facility-hours-header{
+  //    display: flex;
+  //    justify-content: space-between;
+  //    align-items: center;
+  //    height: 56px;
+  //    background-color: #E1EBEA;
+  //  }
+  //
+  //  .data-label-value {
+  //    flex-direction: row;
+  //    border-top: 1px solid #F3F3F3;
+  //    padding-top: 17px;
+  //    padding-left: 24px;
+  //
+  //    .data-label {
+  //      width: 133px;
+  //      padding-left: 20px;
+  //    }
+  //
+  //    .data-value {
+  //      width: 370px;
+  //      font-weight: $font-weight-normal;
+  //      align-items: center;
+  //      margin-left: 50px;
+  //      margin-right: 24px;
+  //      padding-left: 140px;
+  //
+  //    }
+  //  }
+  //}
+
+  .facility-details-information {
+    .data-label-value {
+      .data-label {
+        margin-bottom: 6px;
+      }
     }
   }
-}
 
-//.therapy-service-chip {
-//  color: #EAF3F2;
-//}
+  //.therapy-service-chip {
+  //  color: #EAF3F2;
+  //}
 
   .facility-opening-hours-closed-text {
     width: 48px;
@@ -55,9 +56,13 @@
     margin-left: 30px;
     color: $warn-color;
   }
-.operating-hours-wrapper{
-  height: 380px;
-}
+
+  .operating-hours-wrapper {
+    //height: 380px;
+    margin-bottom: 0px !important;
+    padding-bottom: 24px;
+  }
+
   .facility-opening-hours-table-wrapper {
     display: flex;
 
@@ -65,6 +70,7 @@
       width: 554px;
       height: 56px;
       background: #E1EBEA;
+
       .week-days-timing-wrapper {
         display: flex;
         justify-content: space-between;
@@ -86,23 +92,28 @@
         }
       }
     }
-    .weeks-days-table-container{
-      width: 554px;
-      border:1px solid #CECECE;
-    .horizontal-line-wrapper{
-      margin-bottom: 0px;
 
-    }
+    .weeks-days-table-container {
+      width: 554px;
+      border: 1px solid #CECECE;
+
+      .horizontal-line-wrapper {
+        margin-bottom: 0px;
+
+      }
+
       .data-label-value {
         flex-direction: row;
         padding-top: 17px;
         padding-left: 24px;
+
         .data-label {
           width: 133px;
           padding-left: 20px;
           color: #212B36;
           font-weight: 500;
         }
+
         .data-value {
           width: 370px;
           font-weight: $font-weight-normal;
@@ -112,6 +123,11 @@
           padding-left: 140px;
 
         }
+      }
+    }
+    .column-right {
+      .weeks-days-table-container {
+        border-left: none;
       }
     }
   }
