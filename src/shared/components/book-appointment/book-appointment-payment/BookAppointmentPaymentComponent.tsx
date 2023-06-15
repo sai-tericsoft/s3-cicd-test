@@ -200,6 +200,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                                             formikField={field}
                                                             size={"small"}
                                                             fullWidth={true}
+                                                            isClear={true}
                                                             label={'Available Coupons'}
                                                             options={availableCouponsList}
                                                             displayWith={(option: any) => option?.title}

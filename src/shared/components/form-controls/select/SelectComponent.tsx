@@ -35,8 +35,9 @@ const SelectComponent = (props: SelectComponentProps) => {
     const [tmpValue, setTmpValue] = useState(props.value);
     const variant = props.variant || "outlined";
     const size = props.size || "medium";
+    const isClear = props.isClear || false;
 
-    console.log(tmpValue);
+    console.log(isClear);
 
     const handleUpdate = useCallback((e: SelectChangeEvent) => {
         console.log(e);
@@ -96,7 +97,7 @@ const SelectComponent = (props: SelectComponentProps) => {
                 variant={variant}
                 onChange={handleUpdate}
                 onBlur={handleOnBlur}
-                endAdornment={(tmpValue && tmpValue !== "") && <ClearOption/>}
+                endAdornment={(tmpValue && tmpValue !== "" && isClear) ? <ClearOption /> : null}
                 id={id}
                 {...otherProps}
             >

@@ -79,6 +79,7 @@ const ClientListScreen = (props: ClientListScreenProps) => {
                             <SelectComponent
                                 label={"Status"}
                                 size={"small"}
+                                isClear={false}
                                 fullWidth={true}
                                 options={statusList}
                                 value={clientListFilterState.is_active}

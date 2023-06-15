@@ -201,6 +201,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                                                             formikField={field}
                                                             size={"small"}
                                                             fullWidth={true}
+                                                            isClear={true}
                                                             label={'Available Coupons'}
                                                             options={availableCouponsList}
                                                             displayWith={(option: any) => option?.title}

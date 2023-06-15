@@ -1,10 +1,10 @@
 .message-board-component{
-  display: flex;
-  justify-content: center;
+  //display: flex;
+  //justify-content: center;
   .message-board-wrapper{
-    margin-right: 24px;
+    //margin-right: 15px;
     .message-board{
-      width: 706px;
+      //width: 706px;
       height: 280px;
       .message-board-view-all-messages-wrapper{
         display: flex;
@@ -23,7 +23,7 @@
         }
       }
       .view-message-board{
-        width: 635px;
+        //width: 635px;
         height: 185px;
         margin-top: 15px;
         border-radius: 10px;
@@ -44,7 +44,7 @@
     }
   }
   .birthday-board{
-    width: 442px;
+    //width: 442px;
     height: 280px;
     .today-birthday-text{
       font-weight: 700;
