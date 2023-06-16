@@ -43,7 +43,7 @@ const ClientAccountDetailsFormInitialValues: IClientAccountDetails = {
 
 const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormComponentProps) => {
 
-    const {mode, onCancel, clientId, onSave} = props;
+    const {mode, clientId, onSave} = props;
     const [clientAccountDetailsFormInitialValues, setClientAccountDetailsFormInitialValues] = useState<IClientAccountDetails>(_.cloneDeep(ClientAccountDetailsFormInitialValues));
     const [isClientAccountDetailsFormSavingInProgress, setIsClientAccountDetailsFormSavingInProgress] = useState(false);
     const dispatch = useDispatch();
@@ -305,15 +305,6 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                         }
                                         <div className="t-form-actions">
                                             <ButtonComponent
-                                                id={"home_btn"}
-                                                size={'large'}
-                                                variant={"outlined"}
-                                                onClick={onCancel}
-                                                disabled={isClientAccountDetailsFormSavingInProgress}
-                                            >
-                                                Home
-                                            </ButtonComponent>&nbsp;
-                                            <ButtonComponent
                                                 id={"save_next_btn"}
                                                 isLoading={isClientAccountDetailsFormSavingInProgress}
                                                 size={'large'}
@@ -321,7 +312,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                                 disabled={isClientAccountDetailsFormSavingInProgress || !isValid}
                                                 type={"submit"}
                                             >
-                                                {isClientAccountDetailsFormSavingInProgress ? "Saving" : <>{mode === "add" ? "Save & Next" : "Save"}</>}
+                                                {isClientAccountDetailsFormSavingInProgress ? "Saving" : "Save"}
                                             </ButtonComponent>
                                         </div>
                                     </Form>

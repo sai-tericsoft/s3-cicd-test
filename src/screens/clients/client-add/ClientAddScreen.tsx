@@ -53,16 +53,17 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
     const handleClientDetailsSave = useCallback((data: any) => {
         let nextStep = currentStep;
         let clientId = undefined;
+        const updatedSearchParams = new URLSearchParams(searchParams); // Create a copy of the searchParams
         switch (currentStep) {
             case "basicDetails": {
                 clientId = data._id;
                 nextStep = 'personalHabits';
                 setClientId(clientId);
-                searchParams.set("clientId", clientId.toString());
+                updatedSearchParams.set("clientId", clientId.toString());
                 break;
             }
             case "musculoskeletalHistory": {
-                goBackToMedicalHistory();
+                nextStep = 'accountDetails';
                 break;
             }
             case "accountDetails": {
@@ -75,9 +76,9 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
             }
         }
         setCurrentStep(nextStep);
-        searchParams.set("currentStep", nextStep);
-        setSearchParams(searchParams);
-    }, [currentStep, clientBasicDetails, navigate,goBackToMedicalHistory, searchParams, setSearchParams]);
+        updatedSearchParams.set("currentStep", nextStep);
+        setSearchParams(updatedSearchParams); // Use the updatedSearchParams
+    }, [currentStep, navigate, searchParams, setSearchParams]);
 
 
     const handleClientDetailsCancel = useCallback(() => {
@@ -178,7 +179,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                     return;
                 }
                 default: {
-                    navigate(CommonService._client.NavigateToClientDetails(clientId, "basicDetails"));
+                    navigate(CommonService._routeConfig.ClientList());
                     return;
                 }
             }

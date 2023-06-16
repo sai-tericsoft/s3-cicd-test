@@ -1,12 +1,12 @@
 import "./FacilityListScreen.scss";
 import {ITableColumn} from "../../../../shared/models/table.model";
-import {APIConfig} from "../../../../constants";
+import {APIConfig, ImageConfig} from "../../../../constants";
 import TableWrapperComponent from "../../../../shared/components/table-wrapper/TableWrapperComponent";
 import {IFacility, IFacilityListFilterState} from "../../../../shared/models/facility.model";
 import ChipComponent from "../../../../shared/components/chip/ChipComponent";
 import LinkComponent from "../../../../shared/components/link/LinkComponent";
 import {CommonService} from "../../../../shared/services";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import {useDispatch} from "react-redux";
 import SearchComponent from "../../../../shared/components/search/SearchComponent";
@@ -110,6 +110,14 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
                                        rowKey={(item: IFacility) => item._id}
                                        isPaginated={true}
                                        autoHeight={false}
+                                       noDataText={ (<div className={'no-features-text-wrapper'}>
+                                           <div><img src={ImageConfig.Search} alt="client-search"/></div>
+                                           <div className={'no-feature-heading'}>No Results Found</div>
+                                           <div className={'no-features-description'}>
+                                               Oops! It seems like there are no facilities available for the name you have
+                                               searched.<br/>
+                                           </div>
+                                       </div>)}
                                        extraPayload={facilityListFilterState}
                                        columns={FacilityListColumns}
 

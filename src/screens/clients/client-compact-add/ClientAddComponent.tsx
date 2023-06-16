@@ -10,11 +10,8 @@ import {useNavigate} from "react-router-dom";
 import * as Yup from "yup";
 import FormikPhoneInputComponent
     from "../../../shared/components/form-controls/formik-phone-input/FormikPhoneInputComponent";
-import {setLoggedInUserData} from "../../../store/actions/account.action";
 import {useDispatch} from "react-redux";
-import {setMedicalHistoryOptionsList} from "../../../store/actions/static-data.action";
 import {
-    getClientMedicalDetails,
     setClientBasicDetails,
     setClientMedicalDetails
 } from "../../../store/actions/client.action";
