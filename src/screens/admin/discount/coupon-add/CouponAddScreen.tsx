@@ -14,7 +14,6 @@ import * as Yup from "yup";
 import {getAllServiceList} from "../../../../store/actions/service.action";
 import FormikCheckBoxComponent
     from "../../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
-import FormDebuggerComponent from "../../../../shared/components/form-debugger/FormDebuggerComponent";
 import FormikTextAreaComponent
     from "../../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import FormikRadioButtonGroupComponent
@@ -129,7 +128,7 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
-                            <FormDebuggerComponent values={values} errors={errors} showDebugger={true}/>
+                            {/*<FormDebuggerComponent values={values} errors={errors} showDebugger={true}/>*/}
                             <CardComponent title={'Coupon Details'}>
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-md-6'}>
@@ -255,7 +254,7 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                             <CardComponent title={'Discount Type'}>
                                 <div className={'d-flex ts-align-items-center'}>
                                     <div className={'select-discount-heading'}>
-                                        Select the type of discount you want to offer:*
+                                        Select the type of discount you want to offer: *
                                     </div>
                                     <div className={'mrg-bottom-20'}>
                                         <Field name={'discount_type'}>

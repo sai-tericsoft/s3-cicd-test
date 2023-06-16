@@ -8,6 +8,7 @@
   border: 1px solid $service-category-card-border-color;
   overflow: hidden;
   min-width: 204px;
+  border: 1px solid #E7E7E7;
 
 
   .service-category-poster {
@@ -16,6 +17,7 @@
     border-radius: 10px 10px 0 0;
     background-repeat: no-repeat;
     background-size: cover;
+    background-color: white;
   }
 
   .service-category-details {

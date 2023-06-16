@@ -206,7 +206,7 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                 }
             }
         }));
-    }, [searchParams, setCurrentStep, goBackToMedicalHistory]);
+    }, [clientId,dispatch,navigate,searchParams, setCurrentStep, goBackToMedicalHistory]);
 
 
 
@@ -222,7 +222,7 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                 }
             }
         }));
-    }, [dispatch, currentStep, clientId, navigate]);
+    }, [dispatch, currentStep, clientId, navigate,goBackToMedicalHistory]);
 
 
     return (

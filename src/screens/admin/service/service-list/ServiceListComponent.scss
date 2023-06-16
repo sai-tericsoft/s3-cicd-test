@@ -16,14 +16,17 @@
       color: $text-light-2;
     }
   }
-  .t-table-wrapper{
-    .t-table{
+
+  .t-table-wrapper {
+    .t-table {
       .t-th:first-child,
-        .t-td:first-child{
-          padding-left: 60px;
-
-
+      .t-td:first-child {
+        padding-left: 30px;
       }
+      .t-cell-viewDetails{
+        padding-left: 30px !important;
+      }
+
     }
   }
 }

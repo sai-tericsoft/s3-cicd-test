@@ -85,7 +85,7 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
     return (
         <div className={'appointment-settings-remainder-component'}>
 
-            <CardComponent title={"Appointment Reminder"}>
+            <CardComponent title={"Appointment Reminder"} className={'appointment-reminder'}>
                 <div className="t-form-controls">
                     <div className="ts-row">
                         <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-6">

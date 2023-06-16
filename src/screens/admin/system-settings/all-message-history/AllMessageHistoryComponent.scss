@@ -10,8 +10,7 @@
   }
 
   .message-history-board {
-    width: 487px;
-    height: 533px;
+    height: 640px;
     border: 1px solid #CECECE;
     border-radius: 10px;
     margin-top: 10px;
@@ -20,7 +19,7 @@
 
     .time-stamp {
       color: #7E7E7E;
-      font-weight: 600;
+      font-weight: 500;
       font-size: 0.85714rem;
       text-align: center;
       margin-top: 20px;
@@ -28,7 +27,6 @@
     }
 
     .history-message-wrapper {
-      width: 417px;
       position: relative;
       .card-content {
         background: #FFFFFF;
@@ -38,9 +36,12 @@
         position: absolute;
         width: 120px;
         height: 78px;
-        left: 180px;
+        //left: 180px;
         z-index: 2;
 
+      }
+      .copy-horizontal-icon{
+      margin-left: 8px;
       }
 
       .history-message {

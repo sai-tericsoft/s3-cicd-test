@@ -28,28 +28,28 @@ const DefaultMessageComponent = (props: DefaultMessageComponentProps) => {
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
     const [defaultMessageFormInitialValue] = useState<any>(_.cloneDeep(defaultMessageInitialValue));
     const [isSaving, setIsSaving] = useState<boolean>(false);
-    const [isHistoryDrawerOpen,setIsHistoryDrawerOpen]=useState<boolean>(false);
+    const [isHistoryDrawerOpen, setIsHistoryDrawerOpen] = useState<boolean>(false);
 
-    const openHistoryDrawer = useCallback(()=>{
+    const openHistoryDrawer = useCallback(() => {
         setIsHistoryDrawerOpen(true)
-    },[]);
+    }, []);
 
-    const closeHistoryDrawer = useCallback(()=>{
+    const closeHistoryDrawer = useCallback(() => {
         setIsHistoryDrawerOpen(false)
-    },[])
+    }, [])
 
     const handleChange = useCallback(() => {
         setIsExpanded(!isExpanded)
     }, [isExpanded]);
 
-    const onSubmit = useCallback((values: any, {setErrors,resetForm}: FormikHelpers<any>) => {
+    const onSubmit = useCallback((values: any, {setErrors, resetForm}: FormikHelpers<any>) => {
         setIsSaving(true);
         CommonService._systemSettings.SaveSystemSettingsAPICall(values)
             .then((response: IAPIResponseType<ISystemSettingsConfig>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsSaving(false);
                 setIsExpanded(false);
-               resetForm();
+                resetForm();
             })
             .catch((error: any) => {
                 CommonService.handleErrors(setErrors, error);
@@ -59,15 +59,17 @@ const DefaultMessageComponent = (props: DefaultMessageComponentProps) => {
 
     return (
         <div className={'default-message-component'}>
-            <CardComponent title={'Message Board'} actions={<><ButtonComponent onClick={openHistoryDrawer} size={"small"} prefixIcon={<ImageConfig.History/>}>
-                History
-            </ButtonComponent></>}>
+            <CardComponent title={'Message Board'}
+                           actions={<><ButtonComponent onClick={openHistoryDrawer} size={"small"}
+                                                       prefixIcon={<ImageConfig.History/>}>
+                               History
+                           </ButtonComponent></>}>
                 <div className={'news-update-text'}>
                     Send the latest news, updates and software upgrades to the team.
                 </div>
                 <div>
-                    <AccordionComponent  title={'Default Message'} isExpand={isExpanded} onChange={handleChange}>
-                        <div  className={'enter-message-text'}>Please enter a default message that will be saved and
+                    <AccordionComponent title={'Default Message'} isExpand={isExpanded} onChange={handleChange}>
+                        <div className={'enter-message-text'}>Please enter a default message that will be saved and
                             shown to all system users by default on the message board.
                         </div>
                         <div>
@@ -84,22 +86,24 @@ const DefaultMessageComponent = (props: DefaultMessageComponentProps) => {
                                     }, [validateForm, values]);
                                     return (
                                         <Form className={'t-form'} noValidate={true}>
-                                            <Field name={'default_message'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikTextAreaComponent
-                                                            label={''}
-                                                            placeholder={'Welcome to Kinergy!'}
-                                                            formikField={field}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
+                                            <div className={'default-message-box'}>
+                                                <Field name={'default_message'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikTextAreaComponent
+                                                                label={''}
+                                                                placeholder={'Welcome to Kinergy!'}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
                                             <div className="t-form-actions">
                                                 <ButtonComponent
                                                     onClick={() => resetForm()}
-                                                    className={'mrg-right-20'}
+                                                    className={'mrg-right-16'}
                                                     variant={'outlined'}
                                                     id={"cancel_btn"}
                                                 >
@@ -107,8 +111,10 @@ const DefaultMessageComponent = (props: DefaultMessageComponentProps) => {
                                                 </ButtonComponent>
                                                 <ButtonComponent
                                                     isLoading={isSaving}
+                                                    className={'submit-cta'}
                                                     type={"submit"}
                                                     id={"save_btn"}
+                                                    disabled={values?.default_message === ""}
                                                 >
                                                     {isSaving ? "Saving" : "Save"}
                                                 </ButtonComponent>
@@ -126,7 +132,7 @@ const DefaultMessageComponent = (props: DefaultMessageComponentProps) => {
             <DrawerComponent isOpen={isHistoryDrawerOpen}
                              showClose={true}
                              closeOnEsc={false}
-                             closeOnBackDropClick={false}
+                             closeOnBackDropClick={true}
                              closeButtonId={"sc_close_btn"}
                              onClose={closeHistoryDrawer}>
                 <AllMessageHistoryComponent/>

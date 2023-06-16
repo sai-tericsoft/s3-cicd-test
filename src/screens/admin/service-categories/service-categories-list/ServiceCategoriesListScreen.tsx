@@ -121,7 +121,7 @@ const ServiceCategoriesListScreen = (props: ServiceCategoriesListScreenProps) =>
             <DrawerComponent isOpen={isServiceCategoryAddFormOpened}
                              showClose={true}
                              closeOnEsc={false}
-                             closeOnBackDropClick={false}
+                             closeOnBackDropClick={true}
                              closeButtonId={"sc_close_btn"}
                              className={"t-side-bar-form service-category-add-form-drawer"}
                              onClose={closeServiceCategoryAddFormDrawer}>

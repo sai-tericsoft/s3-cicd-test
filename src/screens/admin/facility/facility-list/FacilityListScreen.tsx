@@ -24,7 +24,7 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
 
     const FacilityListColumns: ITableColumn[] = [
         {
-            title: "Facility",
+            title: "Facility Name",
             dataIndex: "name",
             width: 220,
             key: "name",
@@ -40,7 +40,10 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
             dataIndex: "location",
             width: 130,
             align: "center",
-            key: "location"
+            key: "location",
+            render:(item:any)=>{
+                return <>{CommonService.capitalizeFirstLetter(item?.location)}</>
+            }
         },
         {
             title: "Phone Number",
@@ -87,9 +90,10 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
             <div className="facility-list-header">
                 <div className="facility-list-filters">
                     <div className="ts-row">
-                        <div className="ts-col-lg-3">
+                        <div className="ts-col-lg-4">
                             <SearchComponent
-                                label={"Search for Facilities"}
+                                label={"Search"}
+                                placeholder={"Search using Facility Name"}
                                 value={facilityListFilterState.search}
                                 onSearchChange={(value) => {
                                     setFacilityListFilterState({...facilityListFilterState, search: value})
@@ -105,6 +109,7 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
                                        method={APIConfig.FACILITY_LIST.METHOD}
                                        rowKey={(item: IFacility) => item._id}
                                        isPaginated={true}
+                                       autoHeight={false}
                                        extraPayload={facilityListFilterState}
                                        columns={FacilityListColumns}
 

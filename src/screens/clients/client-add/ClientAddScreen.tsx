@@ -77,7 +77,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
         setCurrentStep(nextStep);
         searchParams.set("currentStep", nextStep);
         setSearchParams(searchParams);
-    }, [currentStep, clientBasicDetails, navigate, searchParams, setSearchParams]);
+    }, [currentStep, clientBasicDetails, navigate,goBackToMedicalHistory, searchParams, setSearchParams]);
 
 
     const handleClientDetailsCancel = useCallback(() => {
@@ -189,7 +189,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
         if (clientId) {
             dispatch(getClientMedicalDetails(clientId));
         }
-    }, [currentStep, searchParams, setSearchParams, clientId, navigate, clientBasicDetails, dispatch]);
+    }, [currentStep, searchParams,goBackToMedicalHistory, setSearchParams, clientId, navigate, clientBasicDetails, dispatch]);
 
 
     useEffect(() => {

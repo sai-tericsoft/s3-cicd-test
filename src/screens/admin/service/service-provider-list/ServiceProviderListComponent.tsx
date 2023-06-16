@@ -52,7 +52,7 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
         {
             key: 'action',
             title: 'Action',
-            width: 200,
+            width: 100,
             fixed:'right',
             align: 'center',
             render: (item: any) => {
@@ -146,6 +146,7 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
         <div className={'service-provider'}>
             <div  className={'add-provider'}>
                 <ButtonComponent
+                    className={'add-provider-cta'}
                     size={"small"}
                     prefixIcon={<ImageConfig.AddIcon/>}
                     onClick={openProviderLinkFormDrawer}
