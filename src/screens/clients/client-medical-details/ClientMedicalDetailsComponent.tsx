@@ -284,35 +284,38 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             }
 
                             </div>}
-                        {
-                            (Object.keys(clientMedicalDetails?.musculoskeletal_history || {})?.map((question, index) => {
-                                return <div key={question + index} className={"musculoskeletal-history-block"}>
-                                    <div className="ts-row">
-                                        <div className="ts-col-lg-4 font-weight-bold mrg-top-10 mrg-bottom-10">
-                                            {clientMedicalDetails?.musculoskeletal_history[question]?.title}
-                                        </div>
-                                        <div className="ts-col-lg-2 font-weight-bold text-primary mrg-top-10 mrg-bottom-10">
-                                            {clientMedicalDetails?.musculoskeletal_history[question]?.value}
-                                        </div>
-                                        <div className="ts-col-lg-6">
-                                            {
-                                                (clientMedicalDetails?.musculoskeletal_history[question]?.text) &&
-                                                <div className={'musculoskeletal-question'}>
-                                                    {clientMedicalDetails?.musculoskeletal_history[question]?.text.split("\n").map((i: any, key: any) => {
-                                                        return <div className={'mrg-bottom-15'} key={key}>{i}</div>
-                                                    })}</div>
-                                            }
-                                            {
-                                                clientMedicalDetails?.musculoskeletal_history[question]?.value === 'Yes' && !clientMedicalDetails?.musculoskeletal_history[question]?.text
-                                                && <div className={'allergies-na'}>None Reported</div>
-                                            }
+                        <div className={'musculoskeletal-card-body-table'}>
+                            {
+                                (Object.keys(clientMedicalDetails?.musculoskeletal_history || {})?.map((question, index) => {
+                                    return <div key={question + index} className={"musculoskeletal-history-block"}>
+                                        <div className="ts-row musculoskeletal-history-question-list">
+                                            <div className="ts-col-lg-4 font-weight-bold">
+                                                {clientMedicalDetails?.musculoskeletal_history[question]?.title}
+                                            </div>
+                                            <div
+                                                className="ts-col-lg-2 font-weight-bold text-primary">
+                                                {clientMedicalDetails?.musculoskeletal_history[question]?.value}
+                                            </div>
+                                            <div className="ts-col-lg-6 comments-section">
+                                                {
+                                                    (clientMedicalDetails?.musculoskeletal_history[question]?.text) &&
+                                                    <div className={'musculoskeletal-question'}>
+                                                        {clientMedicalDetails?.musculoskeletal_history[question]?.text.split("\n").map((i: any, key: any) => {
+                                                            return <div key={key}>{i}</div>
+                                                        })}</div>
+                                                }
+                                                {
+                                                    clientMedicalDetails?.musculoskeletal_history[question]?.value === 'Yes' && !clientMedicalDetails?.musculoskeletal_history[question]?.text
+                                                    && <div className={'allergies-na'}>None Reported</div>
+                                                }
 
+                                            </div>
                                         </div>
+                                        <HorizontalLineComponent className="mrg-bottom-0 mrg-top-0"/>
                                     </div>
-                                    <HorizontalLineComponent/>
-                                </div>
-                            }))
-                        }
+                                }))
+                            }
+                        </div>
                     </CardComponent>
                 </>
             }

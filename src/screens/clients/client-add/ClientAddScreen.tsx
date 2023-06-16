@@ -69,9 +69,16 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                 navigate(CommonService._routeConfig.ClientList());
                 break;
             }
+            default: {
+                // navigate(CommonService._routeConfig.ClientList());
+                return;
+            }
         }
+        setCurrentStep(nextStep);
+        searchParams.set("currentStep", nextStep);
+        setSearchParams(searchParams);
+    }, [currentStep, clientBasicDetails, navigate, searchParams, setSearchParams]);
 
-    }, [currentStep, clientId, navigate]);
 
     const handleClientDetailsCancel = useCallback(() => {
         let prevStep = currentStep;

@@ -1,16 +1,17 @@
 @import "src/assets/styles/common";
 
 .client-medical-details-component {
-  .other-illness-heading{
+  .other-illness-heading {
     font-size: 14px;
     font-weight: 600;
     margin-bottom: 5px;
   }
-  .other-illness-text{
+
+  .other-illness-text {
     margin-bottom: 24px;
   }
+
   .musculoskeletal-history-block {
-    margin-bottom: 20px;
     align-items: center;
 
     .data-label-value {
@@ -49,20 +50,29 @@
       }
     }
   }
-  .musculoskeletal-question{
+
+  .musculoskeletal-question {
     color: #6D6D6D;
+    word-break: break-all;
   }
-  .allergies-na{
+
+  .allergies-na {
     margin-bottom: 24px;
     padding-bottom: 0px;
   }
-  .musculoskeletal-question-na{
-    color: #6D6D6D;
-    padding-top: 10px;
-    margin-left: 30px;
+
+  .musculoskeletal-card-body-table {
+    border: 1px solid #CECECE;
+
+    .musculoskeletal-history-question-list {
+      margin: 15px;
+
+      .comments-section {
+        display: flex;
+        flex-wrap: wrap;
+      }
+    }
+
   }
-  //.musculoskeletal-card{
-  //  padding-bottom: 24px;
-  //}
 
 }

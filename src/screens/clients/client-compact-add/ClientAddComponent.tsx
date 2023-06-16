@@ -10,6 +10,14 @@ import {useNavigate} from "react-router-dom";
 import * as Yup from "yup";
 import FormikPhoneInputComponent
     from "../../../shared/components/form-controls/formik-phone-input/FormikPhoneInputComponent";
+import {setLoggedInUserData} from "../../../store/actions/account.action";
+import {useDispatch} from "react-redux";
+import {setMedicalHistoryOptionsList} from "../../../store/actions/static-data.action";
+import {
+    getClientMedicalDetails,
+    setClientBasicDetails,
+    setClientMedicalDetails
+} from "../../../store/actions/client.action";
 
 
 interface ClientAddComponentProps {
@@ -41,6 +49,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
     const navigate = useNavigate();
     const [addClientInitialValues] = useState<any>(clientAddInitialValues);
     const [isClientAddInProgress, setIsClientAddInProgress] = useState<boolean>(false);
+    const dispatch = useDispatch();
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         const payload = {...values};
@@ -49,6 +58,8 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
             .then((response: any) => {
                 console.log('response', response);
                 setIsClientAddInProgress(false);
+                dispatch(setClientBasicDetails(response.data));
+                dispatch(setClientMedicalDetails(undefined));
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 navigate(CommonService._routeConfig.ClientAdd(response.data._id));
             }).catch((error: any) => {
@@ -56,7 +67,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
             CommonService.handleErrors(setErrors, error, true);
         });
 
-    }, [navigate]);
+    }, [navigate, dispatch]);
 
     const handleInviteLink = useCallback((values: any, setErrors: any) => {
         CommonService.onConfirm({
@@ -155,7 +166,8 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                         (ENV.ENV_MODE === 'dev' || ENV.ENV_MODE === 'test') &&
                                         <div className={'note-wrapper'}>
                                             <div className={'note-content'}>
-                                                Note : The invite link will be sent to the entered email address of the client.
+                                                Note : The invite link will be sent to the entered email address of the
+                                                client.
                                             </div>
                                         </div>
                                     }

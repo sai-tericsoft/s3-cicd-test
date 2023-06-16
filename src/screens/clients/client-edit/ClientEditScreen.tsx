@@ -187,14 +187,28 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
     useEffect(() => {
         let currentStep: any = searchParams.get("currentStep");
         if (currentStep) {
-            if (!ClientAddSteps.includes(currentStep)) {
+            if (currentStep && !ClientAddSteps.includes(currentStep)) {
                 currentStep = "basicDetails";
             }
         } else {
             currentStep = "basicDetails";
         }
         setCurrentStep(currentStep);
-    }, [searchParams, setCurrentStep]);
+
+        dispatch(setCurrentNavParams('Edit Client', null, () => {
+            if (clientId) {
+                if (currentStep === "basicDetails") {
+                    navigate(CommonService._client.NavigateToClientDetails(clientId, "basicDetails"));
+                } else if (currentStep === "accountDetails") {
+                    navigate(CommonService._client.NavigateToClientDetails(clientId, "accountDetails"));
+                } else {
+                    goBackToMedicalHistory();
+                }
+            }
+        }));
+    }, [searchParams, setCurrentStep, goBackToMedicalHistory]);
+
+
 
     useEffect(() => {
         dispatch(setCurrentNavParams('Edit Client', null, () => {

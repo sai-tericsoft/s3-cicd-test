@@ -143,8 +143,6 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
             setClientPersonalHabitsFormInitialValues({
                 personal_habits: clientMedicalDetails?.personal_habits
             });
-        } else {
-            dispatch(getClientMedicalDetails(clientId))
         }
     }, [clientId, dispatch, clientMedicalDetails]);
 

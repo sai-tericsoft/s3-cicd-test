@@ -37,12 +37,9 @@ const SelectComponent = (props: SelectComponentProps) => {
     const size = props.size || "medium";
     const isClear = props.isClear || false;
 
-    console.log(isClear);
 
     const handleUpdate = useCallback((e: SelectChangeEvent) => {
-        console.log(e);
         const selectedValue = e.target.value;
-        console.log(selectedValue);
         setTmpValue(selectedValue);
         if (onUpdate) {
             onUpdate(selectedValue);
@@ -57,7 +54,6 @@ const SelectComponent = (props: SelectComponentProps) => {
 
     useEffect(() => {
         if (props.value) {
-            console.log(props.value);
             setTmpValue(props.value);
         }
     }, [props.value]);
