@@ -126,7 +126,7 @@ const DefaultMessageComponent = (props: DefaultMessageComponentProps) => {
             <DrawerComponent isOpen={isHistoryDrawerOpen}
                              showClose={true}
                              closeOnEsc={false}
-                             closeOnBackDropClick={false}
+                             closeOnBackDropClick={true}
                              closeButtonId={"sc_close_btn"}
                              onClose={closeHistoryDrawer}>
                 <AllMessageHistoryComponent/>
