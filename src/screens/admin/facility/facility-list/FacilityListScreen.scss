@@ -29,5 +29,15 @@
       display: flex;
       flex-wrap: wrap;
     }
+
+  .no-features-text-wrapper {
+    .no-features-description {
+      font-size: 16px;
+      margin-top: 15px;
+      }
+    .no-feature-heading{
+      margin-bottom: 5px;
+    }
+    }
   }
 }
