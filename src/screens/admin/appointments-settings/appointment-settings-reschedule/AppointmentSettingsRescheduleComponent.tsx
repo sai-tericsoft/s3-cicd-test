@@ -82,7 +82,7 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
     return (
         <div className={'appointment-settings-remainder-component'}>
 
-            <CardComponent title={"Appointment Reschedule"}>
+            <CardComponent title={"Appointment Reschedule"} className={'appointment-reschedule'}>
                 <div className="t-form-controls">
                     <div className="ts-row">
                         <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-6">
@@ -127,6 +127,9 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                             />
                         </div>
                     </div>
+                    {/*<ButtonComponent className={'ts-form-actions'}>*/}
+                    {/*    Save*/}
+                    {/*</ButtonComponent>*/}
 
                     <HorizontalLineComponent/>
                     {messageMode === 'view' &&

@@ -10,7 +10,6 @@ import {CommonService} from "../../../../shared/services";
 import {IAPIResponseType} from "../../../../shared/models/api.model";
 import {ISystemSettingsConfig} from "../../../../shared/models/account.model";
 import {Misc} from "../../../../constants";
-import FormControlLabelComponent from "../../../../shared/components/form-control-label/FormControlLabelComponent";
 import FormikSelectComponent from "../../../../shared/components/form-controls/formik-select/FormikSelectComponent";
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../../store/reducers";
@@ -82,9 +81,10 @@ const NewMessageComponent = (props: NewMessageComponentProps) => {
                                                 )
                                             }
                                         </Field>
-                                        <div className={'ts-row'}>
+                                        <div className={'ts-row days-select-wrapper'}>
                                             <div className={'ts-col-lg-8'}>
-                                            <FormControlLabelComponent label={'Number of days'}/>
+                                            {/*<FormControlLabelComponent label={'Number of days'}/>*/}
+                                                <div className={'no-of-days'}>Number of days</div>
                                                 <div className={'select-text'}>Select the number of days for which the message will be displayed.</div>
                                             </div>
                                             <div className={'ts-col-lg-4'}>
@@ -107,7 +107,6 @@ const NewMessageComponent = (props: NewMessageComponentProps) => {
                                         <div className="t-form-actions">
                                             <ButtonComponent
                                                 onClick={() => resetForm()}
-                                                className={'mrg-right-20'}
                                                 variant={'outlined'}
                                                 id={"cancel_btn"}
                                             >
@@ -115,7 +114,9 @@ const NewMessageComponent = (props: NewMessageComponentProps) => {
                                             </ButtonComponent>
                                             <ButtonComponent
                                                 isLoading={isSaving}
+                                                className={'submit-cta'}
                                                 type={"submit"}
+                                                disabled={values?.message===""}
                                                 id={"save_btn"}
                                             >
                                                 {isSaving ? "Saving" : "Save"}

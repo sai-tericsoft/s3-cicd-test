@@ -123,7 +123,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
 
         <div className={'service-add-component'}>
 
-            <FormControlLabelComponent className={'page-normal-heading'} label={'ADD SERVICE'}/>
+            <FormControlLabelComponent className={'page-normal-heading'} size={"lg"}  label={'ADD SERVICE'}/>
             <div className={'service-category-service-add-form'}>
                 {
                     !serviceCategoryId &&
@@ -147,7 +147,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                 <Form className="t-form" noValidate={true}>
                                     <CardComponent title={"Service Details"}>
                                         <div className={"ts-row"}>
-                                            <div className="ts-col-lg-10">
+                                            <div className="ts-col-lg-12">
                                                 <Field name={'name'}>
                                                     {
                                                         (field: FieldProps) => (
@@ -218,7 +218,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                     </div>
                                                                 </div>
                                                                 <div className={"ts-row"}>
-                                                                    <div className="ts-col-lg-10">
+                                                                    <div className="ts-col-lg-12">
                                                                         <Field
                                                                             name={`initial_consultation[${index}].title`}>
                                                                             {
@@ -362,7 +362,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                     </div>
                                                                 </div>
                                                                 <div className={"ts-row"}>
-                                                                    <div className="ts-col-lg-10">
+                                                                    <div className="ts-col-lg-12">
                                                                         <Field
                                                                             name={`followup_consultation[${index}].title`}>
                                                                             {
@@ -388,7 +388,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                 return (
                                                                                     <div key={iIndex}
                                                                                          className={"ts-row"}>
-                                                                                        <div className="ts-col-lg-5">
+                                                                                        <div className="ts-col-lg-6">
                                                                                             <Field
                                                                                                 name={`followup_consultation[${index}].consultation_details[${iIndex}].duration`}>
                                                                                                 {
@@ -426,7 +426,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                 }
                                                                                             </Field>
                                                                                         </div>
-                                                                                        <div className="ts-col-lg-2">
+                                                                                        <div className="ts-col-sm-1">
                                                                                             {
                                                                                                 iIndex === values?.followup_consultation[index].consultation_details.length - 1 &&
                                                                                                 <IconButtonComponent
@@ -468,7 +468,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                 </div>
                                             </CardComponent>
                                         )}/>
-                                    <CardComponent title={'Upload Image for Service*'}
+                                    <CardComponent title={'Upload Image for Service *'}
                                                    className={"pdd-bottom-25"}
                                                    size={"md"}>
                                             {(!values.image) && <>
@@ -480,7 +480,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                              setFieldValue('image', file);
                                                                          }
                                                                      }}
-                                                                     acceptedFilesText={"PNG, JPG and JPEG files are allowed"}
+                                                                     acceptedFilesText={"PNG, JPG and JPEG files are allowed upto 10MB"}
                                                                      acceptedFileTypes={["png", "jpg", "jpeg"]}
                                                 />
                                                 {
@@ -516,6 +516,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                         <ButtonComponent
                                             isLoading={isServiceAddInProgress}
                                             type={"submit"}
+                                            className={'submit-cta'}
                                             id={"sv_save_btn"}
                                         >
                                             {isServiceAddInProgress ? "Saving" : "Save"}

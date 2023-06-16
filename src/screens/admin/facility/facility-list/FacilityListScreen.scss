@@ -25,6 +25,7 @@
 
     //border: 1px solid #E7E7E7;
     margin-top: 15px !important;
+
     .facility-list {
       display: flex;
       flex-wrap: wrap;
@@ -38,6 +39,14 @@
     .no-feature-heading{
       margin-bottom: 5px;
     }
+    }
+  }
+
+  .t-table-component {
+    .t-table-wrapper {
+      .t-table {
+        min-height: 500px;
+      }
     }
   }
 }

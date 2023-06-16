@@ -57,7 +57,7 @@ const AppointmentSettingsCancellationComponent = (props: AppointmentSettingsCanc
 
     return (
         <div className={'appointment-settings-remainder-component'}>
-            <CardComponent title={"Appointment Cancellation"}>
+            <CardComponent title={"Appointment Cancellation"} className={'appointment-cancellation'}>
                 <div className="t-form-controls">
                     {messageMode === 'view' &&
                         <>

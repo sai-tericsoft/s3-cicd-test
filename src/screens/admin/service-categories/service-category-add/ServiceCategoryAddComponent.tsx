@@ -16,7 +16,6 @@ import FilePreviewThumbnailComponent
     from "../../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import FormikTextAreaComponent
     from "../../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
-import FormDebuggerComponent from "../../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface ServiceCategoryAddComponentProps {
     onAdd: (data: IServiceCategory) => void;
@@ -24,7 +23,7 @@ interface ServiceCategoryAddComponentProps {
 
 const serviceCategoryAddFormValidationSchema = Yup.object({
     name: Yup.string()
-        .required("Name is required"),
+        .required("Service Category Name is required"),
     description: Yup.string()
         .required("Description is required"),
     image: Yup.mixed()
@@ -79,14 +78,14 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
                         }, [validateForm, values]);
                         return (
                             <Form className="t-form" noValidate={true}>
-                                <FormDebuggerComponent values={values} errors={errors}/>
+                                {/*<FormDebuggerComponent values={values} errors={errors}/>*/}
                                 <div className="t-form-controls">
                                     <Field name={'name'} className="t-form-control">
                                         {
                                             (field: FieldProps) => (
                                                 <FormikInputComponent
-                                                    label={'Name'}
-                                                    placeholder={'Enter Name'}
+                                                    label={'Service Category Name'}
+                                                    placeholder={'Enter Service Category Name'}
                                                     type={"text"}
                                                     required={true}
                                                     formikField={field}
@@ -112,8 +111,8 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
                                         }
                                     </Field>
                                     <div className="mrg-bottom-20">
-                                        <FormControlLabelComponent label={"Upload Image for Service Category"}
-                                                                   required={true}/>
+                                        <FormControlLabelComponent size={"sm"} label={"Upload Image for Service Category *"}
+                                                                  />
                                         <>
                                             {
                                                 (!values.image) && <>
@@ -125,7 +124,7 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
                                                                                  setFieldValue('image', file);
                                                                              }
                                                                          }}
-                                                                         acceptedFilesText={"PNG, JPG and JPEG files are allowed"}
+                                                                         acceptedFilesText={"PNG, JPG and JPEG files are allowed upto 10MB"}
                                                                          acceptedFileTypes={["png", "jpg", "jpeg"]}
                                                     />
                                                     {

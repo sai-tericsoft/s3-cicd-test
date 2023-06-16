@@ -53,7 +53,7 @@ const AppointmentSettingsConfirmationComponent = (props: AppointmentSettingsConf
 
     return (
         <div className={'appointment-settings-remainder-component'}>
-            <CardComponent title={"Appointment Confirmation"}>
+            <CardComponent title={"Appointment Confirmation"} className={'appointment-confirmation-card'}>
                 <div className="t-form-controls">
                     {messageMode === 'view' &&
                         <>

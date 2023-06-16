@@ -34,7 +34,7 @@ const ServiceListComponent = (props: ServiceListComponentProps) => {
         {
             dataIndex: "status",
             key: "status",
-            width: 300,
+            width: 500,
             align:'center',
             title: "Status",
             render: ( item: any) => {
@@ -46,7 +46,7 @@ const ServiceListComponent = (props: ServiceListComponentProps) => {
             dataIndex: "viewDetails",
             key: "viewDetails",
             title: "",
-             fixed: "right",
+            fixed:'right',
             render: ( item: IService, index: number) => {
                 if (item._id){
                     return <LinkComponent id={"sv_view_details_" + index} route={CommonService._routeConfig.ServiceDetails(item._id)}>
@@ -81,7 +81,7 @@ const ServiceListComponent = (props: ServiceListComponentProps) => {
                     url={APIConfig.SERVICE_LIST.URL(serviceCategoryId)}
                     method={APIConfig.SERVICE_LIST.METHOD}
                     isPaginated={true}
-                    noDataText={"This service category has no services added to it."}
+                    noDataText={"There are currently no services added in this category."}
                     columns={ServiceListTableColumns}
                 />
             </div>

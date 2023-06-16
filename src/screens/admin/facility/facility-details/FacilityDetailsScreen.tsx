@@ -94,7 +94,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                     <CardComponent title={"Contact Information"}>
                         <div className={'ts-row'}>
                             <div className={" ts-col-6"}>
-                                <FormControlLabelComponent size={"sm"} label={'Primary Phone'}/>
+                                <FormControlLabelComponent size={"sm"} label={'Primary Phone:'}/>
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-6'}>
                                         <DataLabelValueComponent label={'Phone Type'}>
@@ -123,7 +123,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                         <div className={'ts-row'}>
                             {/*<HorizontalLineComponent/>*/}
                             <div className={'ts-col-6'}>
-                                <FormControlLabelComponent size={"sm"} label={'Alternate Phone'}/>
+                                <FormControlLabelComponent size={"sm"} label={'Alternate Phone:'}/>
 
                                 {facilityDetails.secondary_contact_info.map((phone_number: any, index: number) => {
                                     return (<div key={index}>

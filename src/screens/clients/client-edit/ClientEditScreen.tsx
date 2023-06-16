@@ -195,8 +195,20 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
             currentStep = "basicDetails";
         }
         setCurrentStep(currentStep);
-    }, [searchParams, setCurrentStep]);
 
+
+        dispatch(setCurrentNavParams('Edit Client', null, () => {
+            if (clientId) {
+                if (currentStep === "basicDetails") {
+                    navigate(CommonService._client.NavigateToClientDetails(clientId, "basicDetails"));
+                } else if (currentStep === "accountDetails") {
+                    navigate(CommonService._client.NavigateToClientDetails(clientId, "accountDetails"));
+                } else {
+                    goBackToMedicalHistory();
+                }
+            }
+        }));
+    }, [clientId,dispatch,navigate,searchParams, setCurrentStep, goBackToMedicalHistory]);
 
     useEffect(() => {
         dispatch(setCurrentNavParams('Edit Client', null, () => {
@@ -210,7 +222,8 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                 }
             }
         }));
-    }, [dispatch, currentStep, clientId, navigate, searchParams]);
+    }, [dispatch, currentStep, clientId, navigate,goBackToMedicalHistory]);
+
 
     return (
         <div className={'client-edit-screen'}>

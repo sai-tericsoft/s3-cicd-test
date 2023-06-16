@@ -138,7 +138,7 @@ const SystemSettingsScreen = (props: SystemSettingsScreenProps) => {
                                             <HorizontalLineComponent/>
                                             <div className="ts-row">
                                                 <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-7">
-                                                    <QuestionComponent title={"Files Uneditable after"}
+                                                    <QuestionComponent  title={"Files Uneditable after"}
                                                                        description={"Makes file uneditable after XX days."}
                                                     ></QuestionComponent>
                                                 </div>
@@ -161,16 +161,17 @@ const SystemSettingsScreen = (props: SystemSettingsScreenProps) => {
                                                 </div>
                                             </div>
                                         </div>
+                                        <div className="t-form-actions">
+                                            <ButtonComponent
+                                                isLoading={isSaving}
+                                                type={"submit"}
+                                                id={"save_btn"}
+                                                disabled={CommonService.isEqual(values, systemSettingsFormInitialValues)}
+                                            >
+                                                {isSaving ? "Saving" : "Save"}
+                                            </ButtonComponent>
+                                        </div>
                                     </CardComponent>
-                                    <div className="t-form-actions">
-                                        <ButtonComponent
-                                            isLoading={isSaving}
-                                            type={"submit"}
-                                            id={"save_btn"}
-                                        >
-                                            {isSaving ? "Saving" : "Save"}
-                                        </ButtonComponent>
-                                    </div>
                                 </Form>
                             )
                         }}

@@ -25,7 +25,7 @@ interface ServiceCategoryEditComponentProps {
 
 const serviceCategoryEditFormValidationSchema = Yup.object({
     name: Yup.string()
-        .required("Name is required"),
+        .required("Service Category Name is required"),
     description: Yup.string()
         .required("Description is required"),
     image: Yup.mixed()
@@ -124,7 +124,7 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                             (field: FieldProps) => (
                                                 <FormikInputComponent
                                                     label={'Name'}
-                                                    placeholder={'Enter Name'}
+                                                    placeholder={'Enter Service Category Name'}
                                                     type={"text"}
                                                     required={true}
                                                     formikField={field}
@@ -150,8 +150,7 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                         }
                                     </Field>
                                     <div className="mrg-bottom-20">
-                                        <FormControlLabelComponent label={"Upload Image for Service Category"}
-                                                                   required={true}/>
+                                        <FormControlLabelComponent size={"sm"} label={"Upload Image for Service Category *"}/>
                                         <>
                                             {
                                                 (!values.image) && <>
@@ -193,6 +192,7 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                     <ButtonComponent
                                         isLoading={isServiceCategoryEditInProgress}
                                         type={"submit"}
+                                        className={'submit-cta'}
                                         fullWidth={true}
                                         id={"sc_save_btn"}
                                     >

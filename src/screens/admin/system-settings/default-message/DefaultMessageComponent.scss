@@ -32,11 +32,17 @@
     padding: 0px !important;
     margin-bottom: 15px;
   }
+  .default-message-box{
+    margin-bottom: 24px;
+  }
 
   .t-form {
     .t-form-actions {
-      margin-top: 24px;
+      margin-top: 0px;
       margin-bottom: 0px;
+     .submit-cta{
+       margin-left: 16px;
+     }
     }
   }
 }

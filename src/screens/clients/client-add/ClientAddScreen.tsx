@@ -190,7 +190,8 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
         if (clientId) {
             dispatch(getClientMedicalDetails(clientId));
         }
-    }, [currentStep, searchParams, setSearchParams, clientId, navigate, clientBasicDetails, dispatch, goBackToMedicalHistory]);
+    }, [currentStep, searchParams,goBackToMedicalHistory, setSearchParams, clientId, navigate, clientBasicDetails, dispatch]);
+
 
     useEffect(() => {
         let currentStep: any = searchParams.get("currentStep");
