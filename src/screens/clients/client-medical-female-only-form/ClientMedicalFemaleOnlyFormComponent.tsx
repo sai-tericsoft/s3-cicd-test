@@ -154,6 +154,7 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
                                                 {isClientMedicalFemaleOnlyFormSavingInProgress ? "Saving" : "Save"}
                                             </ButtonComponent>
                                             <ButtonComponent
+                                                className={'submit-cta'}
                                                 disabled={isClientMedicalFemaleOnlyFormSavingInProgress || !CommonService.isEqual(values, clientMedicalFemaleOnlyInitialValues)}
                                                 onClick={onNext}
                                             >

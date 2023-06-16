@@ -17,7 +17,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {getClientMedicalDetails} from "../../../store/actions/client.action";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 
 interface ClientPersonalHabitsFormComponentProps {
     clientId: string;
@@ -116,7 +115,6 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
     const {
         clientMedicalDetails,
         isClientMedicalDetailsLoading,
-        isClientMedicalDetailsLoadingFailed
     } = useSelector((state: IRootReducerState) => state.client);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
@@ -154,10 +152,6 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                         isClientMedicalDetailsLoading && <div>
                             <LoaderComponent/>
                         </div>
-                    }
-                    {
-                        isClientMedicalDetailsLoadingFailed &&
-                        <StatusCardComponent title={"Failed to fetch medical Details"}/>
                     }
                 </>
             }

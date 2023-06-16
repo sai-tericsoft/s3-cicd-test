@@ -40,6 +40,11 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
         clientBasicDetails,
     } = useSelector((state: IRootReducerState) => state.client);
 
+    const goBackToMedicalHistory = useCallback(() => {
+        if (clientId) {
+            navigate(CommonService._client.NavigateToClientDetails(clientId, "medicalHistoryQuestionnaire"));
+        }
+    }, [clientId, navigate]);
 
     const handleClientDetailsSave = useCallback((data: any) => {
         if (clientId) {
@@ -65,7 +70,7 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                 }
             }
         }
-    }, [currentStep, clientId, navigate]);
+    }, [currentStep, clientId, navigate, goBackToMedicalHistory]);
 
     const handleClientDetailsNext = useCallback(() => {
         let nextStep = currentStep;
@@ -124,13 +129,9 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
         if (clientId) {
             dispatch(getClientMedicalDetails(clientId));
         }
-    }, [currentStep, searchParams, setSearchParams, clientId, navigate, clientBasicDetails, dispatch]);
+    }, [currentStep, searchParams, setSearchParams, clientId, navigate, clientBasicDetails, dispatch, goBackToMedicalHistory]);
 
-    const goBackToMedicalHistory = useCallback(() => {
-        if (clientId) {
-            navigate(CommonService._client.NavigateToClientDetails(clientId, "medicalHistoryQuestionnaire"));
-        }
-    }, [clientId, navigate]);
+
 
     const handleClientDetailsCancel = useCallback(() => {
         let prevStep = currentStep;
@@ -182,7 +183,7 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
             searchParams.set("currentStep", prevStep);
             setSearchParams(searchParams);
         }
-    }, [navigate, clientId, currentStep, setCurrentStep, setSearchParams, searchParams]);
+    }, [navigate, clientId, currentStep, setCurrentStep, setSearchParams, searchParams, goBackToMedicalHistory]);
 
     useEffect(() => {
         let currentStep: any = searchParams.get("currentStep");
@@ -206,7 +207,7 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                 }
             }
         }));
-    }, [searchParams, setCurrentStep, goBackToMedicalHistory]);
+    }, [searchParams, setCurrentStep, goBackToMedicalHistory,clientId, navigate, dispatch]);
 
 
 
@@ -222,7 +223,7 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                 }
             }
         }));
-    }, [dispatch, currentStep, clientId, navigate]);
+    }, [dispatch, currentStep, clientId, navigate, goBackToMedicalHistory]);
 
 
     return (
