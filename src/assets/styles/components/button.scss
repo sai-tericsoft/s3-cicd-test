@@ -1,5 +1,29 @@
 .MuiButton-root {
   text-transform: inherit !important;
+
+  &.MuiButton-sizeSmall {
+    height: 30.75px;
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  &.MuiButton-sizeMedium {
+    height: 36.5px;
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &.MuiButton-sizeLarge {
+    height: 42.25px;
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
 }
 
 button {
