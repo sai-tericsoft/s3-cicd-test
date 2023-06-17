@@ -202,7 +202,7 @@ const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComp
                                                 onClick={onCancel}
                                                 disabled={isClientSurgicalHistorySavingInProgress}
                                             >
-                                                Prev
+                                                Previous
                                             </ButtonComponent>
                                             <ButtonComponent
                                                 id={"save_next_btn"}

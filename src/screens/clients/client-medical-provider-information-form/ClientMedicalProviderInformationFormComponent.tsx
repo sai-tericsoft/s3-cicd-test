@@ -202,7 +202,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                                     disabled={isClientMedicalProviderInformationSavingInProgress}
                                                     className={(isClientMedicalProviderInformationSavingInProgress ? 'mrg-right-15' : '')}
                                                 >
-                                                    Prev
+                                                    Previous
                                                 </ButtonComponent>
                                                 <ButtonComponent
                                                     id={"save_next_btn"}

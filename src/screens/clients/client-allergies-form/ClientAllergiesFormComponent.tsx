@@ -113,7 +113,7 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
                                                 onClick={onCancel}
                                                 className={(isClientAllergiesSavingInProgress ? 'mrg-right-15' : '')}
                                             >
-                                                Prev
+                                                Previous
                                             </ButtonComponent>
                                             <ButtonComponent
                                                 id={"save_next_btn"}

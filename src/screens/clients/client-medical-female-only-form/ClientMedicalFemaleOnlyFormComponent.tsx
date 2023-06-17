@@ -142,7 +142,7 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
                                                 disabled={isClientMedicalFemaleOnlyFormSavingInProgress}
                                                 className={(isClientMedicalFemaleOnlyFormSavingInProgress ? 'mrg-right-15' : '')}
                                             >
-                                                Prev
+                                                Previous
                                             </ButtonComponent>
                                             <ButtonComponent
                                                 className={'submit-cta'}

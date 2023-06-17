@@ -239,7 +239,7 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                                                 className={(isClientPersonalHabitsSavingInProgress ? 'mrg-right-15' : '')}
                                                 disabled={true}
                                             >
-                                                Prev
+                                                Previous
                                             </ButtonComponent>
                                             <ButtonComponent
                                                 id={"save_next_btn"}

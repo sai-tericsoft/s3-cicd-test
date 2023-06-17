@@ -159,7 +159,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                 disabled={isClientMusculoskeletalHistorySavingInProgress}
                                                 className={(isClientMusculoskeletalHistorySavingInProgress ? 'mrg-right-15' : '')}
                                             >
-                                                Prev
+                                                Previous
                                             </ButtonComponent>
                                             <ButtonComponent
                                                 id={"save_next_btn"}
@@ -175,8 +175,8 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                 className={'submit-cta'}
                                                 size={'large'}
                                                 id={"next_btn"}
-                                                disabled={true}
                                                 onClick={onNext}
+                                                disabled={mode === 'add' ? isClientMusculoskeletalHistorySavingInProgress || !CommonService.isEqual(values, clientMusculoskeletalHistoryFormInitialValues) : true}
                                             >
                                                 Next
                                             </ButtonComponent>
