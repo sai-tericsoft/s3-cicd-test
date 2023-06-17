@@ -24,17 +24,18 @@ const DISCOUNT_LIST = "/admin/discount-list";
 const COUPON_DETAILS = "/coupon-details/:couponId";
 const COUPON_ADD = "/coupon/add";
 const COUPON_EDIT = "/coupon/:couponId/edit";
-
-const CLIENT_LIST = "/client-list";
-const CLIENT_ADD = "/client-add";
+const CLIENT = "client";
+const CLIENT_LIST = "/client/client-list";
+const CLIENT_ADD = "/client/client-add";
 const CLIENT_DETAILS = "/client/:clientId";
 const CLIENT_PROFILE_DETAILS = "client-profile-details";
 const CLIENT_BILLING_DETAILS = "client-billing-details";
 const CLIENT_DOCUMENTS = "client-documents";
 const CLIENT_DOCUMENTS_DETAILS = ":clientDocumentId/client-documents-view-details";
 const CLIENT_APPOINTMENTS = "client-appointments";
-const CLIENT_APPOINTMENT_DETAILS = '/client/:clientId/:clientAppointmentId/client-appointment-view-details';
-const CLIENT_EDIT = "/client-edit/:clientId";
+const CLIENT_APPOINTMENT_DETAILS = ':clientId/:clientAppointmentId/client-appointment-view-details';
+const CLIENT_EDIT = "/client/client-edit/:clientId";
+
 const CLIENT_SEARCH = '/chart-notes/client-list';
 const SCHEDULING_VIEW = '/scheduling';
 const CLIENT_MEDICAL_RECORD_DETAILS = '/chart-notes/:medicalRecordId/medical-record-details';
@@ -95,6 +96,7 @@ export {
     SERVICE_EDIT,
     FACILITY_LIST,
     FACILITY_DETAILS,
+    CLIENT,
     CLIENT_LIST,
     CLIENT_ADD,
     CLIENT_DETAILS,

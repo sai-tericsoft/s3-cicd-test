@@ -62,7 +62,7 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                 // case "surgicalHistory":
                 // case "musculoskeletalHistory":
                 case "musculoskeletalHistory": {
-                    goBackToMedicalHistory();
+                    navigate(CommonService._client.NavigateToClientDetails(clientId, "medicalHistoryQuestionnaire"));
                     break;
                 }
                 default: {
@@ -70,7 +70,7 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                 }
             }
         }
-    }, [currentStep, clientId, navigate, goBackToMedicalHistory]);
+    }, [currentStep, clientId, navigate]);
 
     const handleClientDetailsNext = useCallback(() => {
         let nextStep = currentStep;
@@ -131,8 +131,6 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
         }
     }, [currentStep, searchParams, setSearchParams, clientId, navigate, clientBasicDetails, dispatch, goBackToMedicalHistory]);
 
-
-
     const handleClientDetailsCancel = useCallback(() => {
         let prevStep = currentStep;
         if (clientId) {
@@ -140,10 +138,6 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                 case "accountDetails":
                 case "basicDetails": {
                     navigate(CommonService._client.NavigateToClientDetails(clientId, currentStep));
-                    break;
-                }
-                case "personalHabits": {
-                    goBackToMedicalHistory();
                     break;
                 }
                 case "allergies": {
@@ -167,7 +161,11 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                     break;
                 }
                 case "surgicalHistory": {
-                    prevStep = 'medicalHistory';
+                    if (clientBasicDetails?.gender === "female") {
+                        prevStep = 'medicalFemaleOnly';
+                    } else {
+                        prevStep = 'medicalHistory';
+                    }
                     break;
                 }
                 case "musculoskeletalHistory": {
@@ -183,7 +181,7 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
             searchParams.set("currentStep", prevStep);
             setSearchParams(searchParams);
         }
-    }, [navigate, clientId, currentStep, setCurrentStep, setSearchParams, searchParams, goBackToMedicalHistory]);
+    }, [navigate, clientId, currentStep, clientBasicDetails, setCurrentStep, setSearchParams, searchParams]);
 
     useEffect(() => {
         let currentStep: any = searchParams.get("currentStep");
@@ -195,34 +193,23 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
             currentStep = "basicDetails";
         }
         setCurrentStep(currentStep);
-
-
-        dispatch(setCurrentNavParams('Edit Client', null, () => {
-            if (clientId) {
-                if (currentStep === "basicDetails") {
-                    navigate(CommonService._client.NavigateToClientDetails(clientId, "basicDetails"));
-                } else if (currentStep === "accountDetails") {
-                    navigate(CommonService._client.NavigateToClientDetails(clientId, "accountDetails"));
-                } else {
-                    goBackToMedicalHistory();
-                }
-            }
-        }));
-    }, [clientId,dispatch,navigate,searchParams, setCurrentStep, goBackToMedicalHistory]);
+    }, [searchParams, setCurrentStep]);
 
     useEffect(() => {
-        dispatch(setCurrentNavParams('Edit Client', null, () => {
-            if (clientId) {
-                if (currentStep === "basicDetails") {
-                    navigate(CommonService._client.NavigateToClientDetails(clientId, "basicDetails"));
-                } else if (currentStep === "accountDetails") {
-                    navigate(CommonService._client.NavigateToClientDetails(clientId, "accountDetails"));
-                } else {
-                    navigate(CommonService._client.NavigateToClientDetails(clientId, "medicalHistoryQuestionnaire"));
+        dispatch(
+            setCurrentNavParams("Edit Client", null, () => {
+                if (clientId) {
+                    if (currentStep === "basicDetails") {
+                        navigate(CommonService._client.NavigateToClientDetails(clientId, "basicDetails"));
+                    } else if (currentStep === "accountDetails") {
+                        navigate(CommonService._client.NavigateToClientDetails(clientId, "accountDetails"));
+                    } else {
+                        navigate(CommonService._client.NavigateToClientDetails(clientId, "medicalHistoryQuestionnaire"));
+                    }
                 }
-            }
-        }));
-    }, [dispatch, currentStep, clientId, navigate,goBackToMedicalHistory]);
+            })
+        );
+    }, [dispatch, currentStep, clientId, navigate, goBackToMedicalHistory]);
 
 
     return (

@@ -37,7 +37,7 @@ const DateRangePickerComponent = (props: DateRangePickerComponentProps) => {
     if (!variant) variant = "outlined";
     if (!size) size = "small";
     if (!rangeDivider) rangeDivider = "-";
-    if (!format) format = "y/MM/dd";
+    if (!format) format = "MM-DD-YYYY";
 
     const handleChange = useCallback((newValue: any | null) => {
         setValue(newValue)
@@ -71,9 +71,9 @@ const DateRangePickerComponent = (props: DateRangePickerComponentProps) => {
                     readOnly={readOnly}
                     format={format}
                     rangeDivider={rangeDivider}
-                    yearPlaceholder={"yyyy"}
-                    monthPlaceholder={"mm"}
-                    dayPlaceholder={"dd"}
+                    yearPlaceholder={"YYYY"}
+                    monthPlaceholder={"MM"}
+                    dayPlaceholder={"DD"}
                     clearIcon={value && <CloseIcon/>}
                     closeCalendar={true}
                     openCalendarOnFocus={true}

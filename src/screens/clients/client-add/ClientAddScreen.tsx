@@ -44,12 +44,6 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
         }));
     }, [navigate, dispatch]);
 
-    const goBackToMedicalHistory = useCallback(() => {
-        if (clientId) {
-            navigate(CommonService._client.NavigateToClientDetails(clientId, "medicalHistoryQuestionnaire"));
-        }
-    }, [clientId, navigate]);
-
     const handleClientDetailsSave = useCallback((data: any) => {
         let nextStep = currentStep;
         let clientId = undefined;
@@ -66,10 +60,6 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                 nextStep = 'accountDetails';
                 break;
             }
-            case "accountDetails": {
-                navigate(CommonService._routeConfig.ClientList());
-                break;
-            }
             default: {
                 // navigate(CommonService._routeConfig.ClientList());
                 return;
@@ -78,7 +68,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
         setCurrentStep(nextStep);
         updatedSearchParams.set("currentStep", nextStep);
         setSearchParams(updatedSearchParams); // Use the updatedSearchParams
-    }, [currentStep, navigate, searchParams, setSearchParams]);
+    }, [currentStep, searchParams, setSearchParams]);
 
 
     const handleClientDetailsCancel = useCallback(() => {
@@ -111,7 +101,11 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                     break;
                 }
                 case "surgicalHistory": {
-                    prevStep = 'medicalHistory';
+                    if (clientBasicDetails?.gender === "female") {
+                        prevStep = 'medicalFemaleOnly';
+                    } else {
+                        prevStep = 'medicalHistory';
+                    }
                     break;
                 }
                 case "musculoskeletalHistory": {
@@ -131,7 +125,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
             searchParams.set("currentStep", prevStep);
             setSearchParams(searchParams);
         }
-    }, [navigate, clientId, currentStep, searchParams, setSearchParams]);
+    }, [navigate, clientBasicDetails, clientId, currentStep, searchParams, setSearchParams]);
 
     const handleClientDetailsNext = useCallback(() => {
         let nextStep = currentStep;
@@ -170,7 +164,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
                     break;
                 }
                 case "musculoskeletalHistory": {
-                    goBackToMedicalHistory();
+                    nextStep = 'accountDetails';
                     break;
                 }
 
@@ -190,7 +184,7 @@ const ClientAddScreen = (props: ClientAddScreenProps) => {
         if (clientId) {
             dispatch(getClientMedicalDetails(clientId));
         }
-    }, [currentStep, searchParams,goBackToMedicalHistory, setSearchParams, clientId, navigate, clientBasicDetails, dispatch]);
+    }, [currentStep, searchParams, setSearchParams, clientId, navigate, clientBasicDetails, dispatch]);
 
 
     useEffect(() => {

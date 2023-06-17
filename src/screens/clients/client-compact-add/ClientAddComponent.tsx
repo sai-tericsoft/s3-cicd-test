@@ -15,6 +15,7 @@ import {
     setClientBasicDetails,
     setClientMedicalDetails
 } from "../../../store/actions/client.action";
+import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 
 
 interface ClientAddComponentProps {
@@ -28,7 +29,8 @@ const clientAddInitialValues: any = {
     primary_contact_info: {
         phone: ''
     },
-    send_invite: true
+    send_invite: true,
+    is_onboarded: false
 }
 
 const clientAddsValidationSchema = Yup.object({
@@ -38,6 +40,7 @@ const clientAddsValidationSchema = Yup.object({
     primary_contact_info: Yup.object({
         phone: Yup.string().required('Phone Number is required'),
     }),
+    is_onboarded: Yup.boolean().required('Onboarded is required'),
 });
 
 const ClientAddComponent = (props: ClientAddComponentProps) => {
@@ -158,6 +161,20 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                         )
                                     }
                                 </Field>
+
+                                <Field name={'is_onboarded'}>
+                                    {
+                                        (field: FieldProps) => (
+                                            <FormikCheckBoxComponent
+                                                label={'Send an onboarding notification to the provided email address.'}
+                                                formikField={field}
+                                                required={false}
+                                                labelPlacement={"end"}
+                                            />
+                                        )
+                                    }
+                                </Field>
+
                                 <>
                                     {
                                         (ENV.ENV_MODE === 'dev' || ENV.ENV_MODE === 'test') &&
@@ -176,7 +193,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                         {(ENV.ENV_MODE === 'dev' || ENV.ENV_MODE === 'test') && <ButtonComponent
                                             onClick={() => handleInviteLink(values, setErrors)}
                                             variant={"outlined"}
-                                            disabled={!isValid}
+                                            disabled={!isValid || values.is_onboarded}
                                         >
                                             Send Invite Link
                                         </ButtonComponent>}

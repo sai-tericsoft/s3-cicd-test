@@ -176,7 +176,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                 size={'large'}
                                                 id={"next_btn"}
                                                 onClick={onNext}
-                                                disabled={mode === 'add' ? isClientMusculoskeletalHistorySavingInProgress || !CommonService.isEqual(values, clientMusculoskeletalHistoryFormInitialValues) : true}
+                                                disabled={mode === 'add' ? false : true}
                                             >
                                                 Next
                                             </ButtonComponent>
