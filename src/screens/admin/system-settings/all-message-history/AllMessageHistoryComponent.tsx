@@ -26,7 +26,7 @@ const AllMessageHistoryComponent = (props: AllMessageHistoryComponentProps) => {
         isMessageHistoryLoaded,
         isMessageHistoryFailed,
     } = useSelector((state: IRootReducerState) => state.dashboard);
-   
+
 
     useEffect(() => {
         dispatch(getAllMessageHistory());

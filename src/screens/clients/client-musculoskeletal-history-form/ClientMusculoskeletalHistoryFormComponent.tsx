@@ -171,15 +171,15 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                             >
                                                 {isClientMusculoskeletalHistorySavingInProgress ? "Saving" : "Save"}
                                             </ButtonComponent>
-                                            <ButtonComponent
-                                                className={'submit-cta'}
-                                                size={'large'}
-                                                id={"next_btn"}
-                                                onClick={onNext}
-                                                disabled={mode === 'add' ? false : true}
-                                            >
-                                                Next
-                                            </ButtonComponent>
+                                            {/*<ButtonComponent*/}
+                                            {/*    className={'submit-cta'}*/}
+                                            {/*    size={'large'}*/}
+                                            {/*    id={"next_btn"}*/}
+                                            {/*    onClick={onNext}*/}
+                                            {/*    disabled={mode === 'add' ? false : true}*/}
+                                            {/*>*/}
+                                            {/*    Next*/}
+                                            {/*</ButtonComponent>*/}
                                         </div>
                                     </Form>
                                 )
