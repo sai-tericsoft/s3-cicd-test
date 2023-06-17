@@ -5,17 +5,19 @@
   }
 
   .add-coupon-heading {
-    color: #6D6D6D;
-    font-size: 1.4286rem;
+    color: #00534F;
+    font-size: 1.2857rem;
     font-weight: 700;
     margin-bottom: 20px;
   }
 
   .t-form {
     .card-component {
-      margin-bottom: 0px;
+      margin-bottom: 24px;
     }
-
+   .services-name{
+     margin-left: 28px;
+   }
     .currency-field {
       display: flex;
       justify-content: center;
@@ -37,13 +39,22 @@
       margin-right: 30px;
       color: #07213C;
       font-weight: 500;
+      font-size: 1.1429rem;
     }
 
-    .coupon-valid-on-service-tex {
+    .coupon-valid-on-service-text {
       color: #6D6D6D;
-      margin-bottom: 27px;
-      margin-top: 24px;
+      margin-bottom: 24px;
       font-size: 1.1429rem;
+    }
+    .t-form-actions{
+      margin-bottom: 0px;
+      .submit-cta{
+        margin-left: 16px;
+      }
+    }
+    .coupon-valid-on-card{
+      padding-bottom: 16px;
     }
   }
 }

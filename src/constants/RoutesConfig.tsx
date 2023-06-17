@@ -28,7 +28,8 @@ const CLIENT = "client";
 const CLIENT_LIST = "/client/client-list";
 const CLIENT_ADD = "/client/client-add";
 const CLIENT_DETAILS = "/client/:clientId";
-const CLIENT_PROFILE_DETAILS = "client-profile-details";
+const
+    CLIENT_PROFILE_DETAILS = "client-profile-details";
 const CLIENT_BILLING_DETAILS = "client-billing-details";
 const CLIENT_DOCUMENTS = "client-documents";
 const CLIENT_DOCUMENTS_DETAILS = ":clientDocumentId/client-documents-view-details";

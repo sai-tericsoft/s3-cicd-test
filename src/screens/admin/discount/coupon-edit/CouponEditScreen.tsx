@@ -8,7 +8,7 @@ import {getAllServiceList} from "../../../../store/actions/service.action";
 import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import {CommonService} from "../../../../shared/services";
 import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers} from "formik";
-import {ImageConfig, Misc} from "../../../../constants";
+import {Misc} from "../../../../constants";
 import CardComponent from "../../../../shared/components/card/CardComponent";
 import FormikInputComponent from "../../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import FormikDatePickerComponent
@@ -22,7 +22,6 @@ import LinkComponent from "../../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 import {IRootReducerState} from "../../../../store/reducers";
 import {getCouponDetails} from "../../../../store/actions/discount.action";
-import PageHeaderComponent from "../../../../shared/components/page-header/PageHeaderComponent";
 import FormikSwitchComponent from "../../../../shared/components/form-controls/formik-switch/FormikSwitchComponent";
 
 interface CouponEditScreenProps {
@@ -44,11 +43,11 @@ const CouponEditInitialValues: any = {
 };
 const couponEditValidationSchema = Yup.object({
     title: Yup.string().required('Title is required and must have at least 3 characters'),
-    code: Yup.string().required('Coupon code is required'),
-    start_date: Yup.string().required('Start date is required'),
-    end_date: Yup.string().required('End date is required'),
-    min_billing_amount: Yup.number().required('Minimum billing amount is required'),
-    usage_limit: Yup.number().required('Usage limit is required'),
+    code: Yup.string().required('Coupon Code is required'),
+    start_date: Yup.string().required('Start Date is required'),
+    end_date: Yup.string().required('End Date is required'),
+    min_billing_amount: Yup.number().required('Minimum Billing Amount is required'),
+    usage_limit: Yup.number().required('Usage Limit is required'),
 
 });
 const CouponEditScreen = (props: CouponEditScreenProps) => {
@@ -164,7 +163,9 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                     return (
                         <Form className="t-form" noValidate={true}>
                             <div className={'d-flex ts-justify-content-sm-between'}>
-                                <PageHeaderComponent title={'Edit Coupon Details'}/>
+                                <div className={'edit-coupon-heading'}>
+                                    Edit Coupon Details
+                                </div>
                                 <div className={'d-flex  align-items-center'}>
                                     <div className={'status-heading'}>Status:</div>
                                     <Field name={'is_active'} className="t-form-control">
@@ -193,7 +194,7 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                                                         formikField={field}
                                                         fullWidth={true}
                                                         required={true}
-                                                        placeholder={'Title'}
+                                                        placeholder={'Enter Title'}
                                                     />
                                                 )
                                             }
@@ -210,7 +211,7 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                                                         fullWidth={true}
                                                         disabled={true}
                                                         required={true}
-                                                        placeholder={'Coupon Code'}
+                                                        placeholder={'Enter Coupon Code'}
                                                     />
                                                 )
                                             }
@@ -224,7 +225,7 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                                                 (field: FieldProps) => (
                                                     <FormikDatePickerComponent
                                                         label={'Start Date'}
-                                                        placeholder={'Start Date'}
+                                                        placeholder={'Enter Start Date'}
                                                         formikField={field}
                                                         required={true}
                                                         minDate={moment()}
@@ -240,7 +241,7 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                                                 (field: FieldProps) => (
                                                     <FormikDatePickerComponent
                                                         label={'End Date'}
-                                                        placeholder={'End Date'}
+                                                        placeholder={'Enter End Date'}
                                                         formikField={field}
                                                         required={true}
                                                         minDate={moment()}
@@ -252,10 +253,7 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                                     </div>
                                 </div>
                                 <div className={'ts-row'}>
-                                    <div className={'currency-field'}>
-                                        <ImageConfig.DollarSymbol/>
-                                    </div>
-                                    <div className={'minimum-billing-amount-wrapper'}>
+                                    <div className={'ts-col-lg-6'}>
                                         <Field name={'min_billing_amount'}>
                                             {
                                                 (field: FieldProps) => (
@@ -264,9 +262,10 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                                                         label={'Minimum Billing Amount'}
                                                         formikField={field}
                                                         type={'number'}
+                                                        prefix={'$'}
                                                         fullWidth={true}
                                                         required={true}
-                                                        placeholder={'Minimum Billing Amount'}
+                                                        placeholder={'Enter Minimum Billing Amount'}
                                                     />
                                                 )
                                             }
@@ -283,7 +282,7 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                                                         type={'number'}
                                                         fullWidth={true}
                                                         required={true}
-                                                        placeholder={'Minimum Billing Amount'}
+                                                        placeholder={'Enter Usage Limit Per User'}
                                                     />
                                                 )
                                             }
@@ -299,6 +298,7 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                                                         label={'Description'}
                                                         formikField={field}
                                                         fullWidth={true}
+                                                        placeholder={'Enter Description'}
                                                     />
                                                 )
                                             }
@@ -317,10 +317,7 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                                 </div>
                                 {couponDetails?.discount_type === "percentage" && <>
                                     <div className={'ts-row'}>
-                                        <div className={'currency-field'}>
-                                            <ImageConfig.PercentageSymbol/>
-                                        </div>
-                                        <div className="ts-col-lg-5">
+                                        <div className="ts-col-lg-6">
                                             <Field name={'percentage'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -328,7 +325,8 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                                                             titleCase={true}
                                                             label={'Percent'}
                                                             type={'number'}
-                                                            placeholder={'Percent'}
+                                                            prefix={'%'}
+                                                            placeholder={'Enter Percent'}
                                                             disabled={true}
                                                             formikField={field}
                                                             required={true}
@@ -340,19 +338,16 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                                         </div>
                                     </div>
                                     <div className={'ts-row'}>
-                                        <div className={'currency-field'}>
-                                            <ImageConfig.DollarSymbol/>
-                                        </div>
-                                        <div className="ts-col-lg-5">
+                                        <div className="ts-col-lg-6">
                                             <Field name={'max_discount_amount'}>
                                                 {
                                                     (field: FieldProps) => (
                                                         <FormikInputComponent
                                                             titleCase={true}
-                                                            label={'Max Discount Amount'}
-                                                            placeholder={'Max Discount Amount'}
+                                                            label={'Maximum Discount Amount'}
+                                                            placeholder={'Enter Maximum Discount Amount'}
                                                             formikField={field}
-                                                            type={'number'}
+                                                            prefix={'$'}
                                                             disabled={true}
                                                             required={true}
                                                             fullWidth={true}
@@ -365,19 +360,16 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                                 </>}
                                 {couponDetails?.discount_type === 'amount' && <>
                                     <div className={'ts-row'}>
-                                        <div className={'currency-field'}>
-                                            <ImageConfig.DollarSymbol/>
-                                        </div>
-                                        <div className="ts-col-lg-5">
+                                        <div className="ts-col-lg-6">
                                             <Field name={'amount'}>
                                                 {
                                                     (field: FieldProps) => (
                                                         <FormikInputComponent
                                                             titleCase={true}
                                                             label={'Amount'}
-                                                            type={'number'}
+                                                            prefix={'$'}
                                                             disabled={true}
-                                                            placeholder={'Amount'}
+                                                            placeholder={'Enter Amount'}
                                                             formikField={field}
                                                             required={true}
                                                             fullWidth={true}
@@ -389,7 +381,7 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                                     </div>
                                 </>}
                             </CardComponent>
-                            <CardComponent title={'Coupon Valid On'}>
+                            <CardComponent title={'Coupon Valid On'} className={'coupon-valid-on-card'}>
                                 <div className={'coupon-valid-on-service-text'}>
                                     Coupon will be valid on the following service(s):
                                 </div>
@@ -429,7 +421,7 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                                                                 {service_category?.services?.map((service: any, serviceIndex: any) => {
                                                                     return <div
                                                                         key={service._id}
-                                                                        className={'mrg-left-20'}>
+                                                                        className={'services-name'}>
                                                                         <Field
                                                                             name={`service_categories[${index}].services[${serviceIndex}.is_selected`}>
                                                                             {
@@ -488,6 +480,7 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                                 <ButtonComponent
                                     isLoading={isEditCouponInProgress}
                                     type={"submit"}
+                                    className={'submit-cta'}
                                     disabled={!isValid || isEditCouponInProgress}
                                 >
                                     {isEditCouponInProgress ? "Saving" : "Save"}

@@ -30,6 +30,10 @@
       display: flex;
       flex-wrap: wrap;
     }
+    .t-table{
+      margin-bottom: 0px;
+      height: calc(100vh - 220px);
+    }
 
   .no-features-text-wrapper {
     .no-features-description {

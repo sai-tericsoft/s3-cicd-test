@@ -74,7 +74,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             width: 140,
             render: (item: IClientBasicDetails) => {
                 return <span>
-                    {CommonService.capitalizeFirstLetter(item?.last_provider)}
+                    {CommonService.capitalizeFirstLetter(item?.last_provider) || '-'}
                 </span>
             }
         },

@@ -88,9 +88,10 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
             <div className={'list-screen-header'}>
                 <div className={'list-search-filters'}>
                     <div className="ts-row">
-                        <div className="ts-col-md-6 ts-col-lg-3">
+                        <div className="ts-col-md-6 ts-col-lg-5">
                             <SearchComponent
-                                label={"Search Coupon"}
+                                label={"Search"}
+                                placeholder={"Search using Title or Coupon Code"}
                                 value={discountListFilterState.search}
                                 onSearchChange={(value) => {
                                     setDiscountListFilterState({...discountListFilterState, search: value})
@@ -122,10 +123,12 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
                 </div>
             </div>
 
-            <TableWrapperComponent url={APIConfig.GET_COUPON_LIST.URL}
-                                   method={APIConfig.GET_COUPON_LIST.METHOD}
-                                   extraPayload={discountListFilterState}
-                                   columns={columns}/>
+            <div className={'coupon-list'}>
+                <TableWrapperComponent url={APIConfig.GET_COUPON_LIST.URL}
+                                       method={APIConfig.GET_COUPON_LIST.METHOD}
+                                       extraPayload={discountListFilterState}
+                                       columns={columns}/>
+            </div>
         </div>
     );
 
