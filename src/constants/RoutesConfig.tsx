@@ -28,7 +28,8 @@ const COUPON_EDIT = "/coupon/:couponId/edit";
 const CLIENT_LIST = "/client-list";
 const CLIENT_ADD = "/client-add";
 const CLIENT_DETAILS = "/client/:clientId";
-const CLIENT_PROFILE_DETAILS = "client-profile-details";
+const
+    CLIENT_PROFILE_DETAILS = "client-profile-details";
 const CLIENT_BILLING_DETAILS = "client-billing-details";
 const CLIENT_DOCUMENTS = "client-documents";
 const CLIENT_DOCUMENTS_DETAILS = ":clientDocumentId/client-documents-view-details";

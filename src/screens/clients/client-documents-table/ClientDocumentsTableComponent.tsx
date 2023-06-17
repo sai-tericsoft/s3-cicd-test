@@ -102,11 +102,11 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
                                 showArrow={true}
                             >
                                 <div className={"ellipses-for-table-data"}>
-                                    {item?.posted_by?.first_name} {item?.posted_by?.last_name}
+                                    {CommonService.capitalizeFirstLetter(item?.posted_by?.first_name)} {CommonService.capitalizeFirstLetter(item?.posted_by?.last_name)}
                                 </div>
                             </ToolTipComponent> :
                             <>
-                                {item?.posted_by?.first_name} {item?.posted_by?.last_name}
+                                {CommonService.capitalizeFirstLetter(item?.posted_by?.first_name)} {CommonService.capitalizeFirstLetter(item?.posted_by?.last_name)}
                             </>
                     }
                 </>
@@ -147,6 +147,7 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
     return (
         <div className={'client-documents-list-table-component'}>
             {clientDocumentFilters &&
+                <div className={'client-documents-list'}>
             <TableWrapperComponent
                 url={APIConfig.GET_CLIENT_DOCUMENTS.URL(clientId)}
                 method={APIConfig.GET_CLIENT_DOCUMENTS.METHOD}
@@ -156,6 +157,7 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
                 noDataText={'No Documents To Show'}
                 noDataImage={<ImageConfig.NoDataDocumentsIcon/>}
             />
+                </div>
             }
         </div>
     );

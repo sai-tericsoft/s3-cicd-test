@@ -302,7 +302,7 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
                 />
                 <FormHelperText>
                     {hasError && <> {errorMessage} </>}
-                    {isDropDownDataLoaded && dropDownData && !value && dropDownData.length === 0 && <> Data is empty </>}
+                    {/*{isDropDownDataLoaded && dropDownData && !value && dropDownData.length === 0 && <> Data is empty </>}*/}
                     {/*{isDropDownDataLoading && <> Data is loading </>}*/}
                     {isDropDownDataLoadingFailed && <> Data failed to load </>}
                 </FormHelperText>

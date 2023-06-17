@@ -28,14 +28,14 @@ const AllMessageHistoryComponent = (props: AllMessageHistoryComponentProps) => {
     } = useSelector((state: IRootReducerState) => state.dashboard);
     const [openCardId, setOpenCardId] = useState<string | null>(null);
 
-
-    const toggleCard = useCallback((id: string) => {
-        if (openCardId === id) {
-            setOpenCardId(null); // Close the card if it is already open
-        } else {
-            setOpenCardId(id); // Open the card for the clicked item
-        }
-    }, [openCardId]);
+    //
+    // const toggleCard = useCallback((id: string) => {
+    //     if (openCardId === id) {
+    //         setOpenCardId(null); // Close the card if it is already open
+    //     } else {
+    //         setOpenCardId(id); // Open the card for the clicked item
+    //     }
+    // }, [openCardId]);
 
     useEffect(() => {
         dispatch(getAllMessageHistory());

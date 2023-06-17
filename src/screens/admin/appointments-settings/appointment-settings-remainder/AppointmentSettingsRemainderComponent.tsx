@@ -41,6 +41,8 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
     const [emailValue, setEmailValue] = useState("");
     const [selectedPrimaryHours, setSelectedPrimaryHours] = useState<any>("");
     const [selectedSecondaryHours, setSelectedSecondaryHours] = useState<any>("");
+    const [selectedSecondaryHoursTemp, setSelectedSecondaryHoursTemp] = useState<any>("");
+
 
     const messageVal = CommonService.editMentionsFormat(appointmentSettingsRemainderDetails?.sms?.content, mentionsList);
     const emailSubVal = CommonService.editMentionsFormat(appointmentSettingsRemainderDetails?.email?.subject, mentionsList);
@@ -81,6 +83,9 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
         onSubmit(payload)
     }, [selectedPrimaryHours, selectedSecondaryHours, emailValue, messageValue, subjectValue, mentionsList, onSubmit]);
 
+    useEffect(() => {
+        setSelectedSecondaryHoursTemp(selectedSecondaryHours);
+    }, [selectedSecondaryHours]);
 
     return (
         <div className={'appointment-settings-remainder-component'}>
@@ -104,7 +109,7 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
                                 fullWidth={true}
                                 onUpdate={(value) => {
                                     setSelectedPrimaryHours(value)
-                                    onTemplateSubmit('primary_reminder_before', value);
+                                    // onTemplateSubmit('primary_reminder_before', value);
                                 }}
                             />
                         </div>
@@ -127,10 +132,20 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
                                 valueExtractor={(item) => item.code}
                                 onUpdate={(value) => {
                                     setSelectedSecondaryHours(value)
-                                    onTemplateSubmit('secondary_reminder_before', value);
+                                    // onTemplateSubmit('secondary_reminder_before', value);
                                 }}
                             />
                         </div>
+                    </div>
+                    <div className={'display-flex ts-justify-content-center'}>
+                        <ButtonComponent
+                            onClick={() => {
+                                setSelectedSecondaryHours(selectedSecondaryHoursTemp);
+                                onTemplateSubmit('secondary_reminder_before', selectedSecondaryHoursTemp);
+                            }}
+                        >
+                            Save
+                        </ButtonComponent>
                     </div>
 
                     <HorizontalLineComponent/>
