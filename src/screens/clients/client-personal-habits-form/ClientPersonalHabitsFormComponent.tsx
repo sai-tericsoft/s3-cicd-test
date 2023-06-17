@@ -231,16 +231,16 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                                             })
                                         }
                                         <div className="t-form-actions">
-                                            <ButtonComponent
-                                                id={"home_btn"}
-                                                variant={"outlined"}
-                                                size={'large'}
-                                                onClick={onCancel}
-                                                className={(isClientPersonalHabitsSavingInProgress ? 'mrg-right-15' : '')}
-                                                disabled={true}
-                                            >
-                                                Prev
-                                            </ButtonComponent>
+                                            {/*<ButtonComponent*/}
+                                            {/*    id={"home_btn"}*/}
+                                            {/*    variant={"outlined"}*/}
+                                            {/*    size={'large'}*/}
+                                            {/*    onClick={onCancel}*/}
+                                            {/*    className={(isClientPersonalHabitsSavingInProgress ? 'mrg-right-15' : '')}*/}
+                                            {/*    disabled={true}*/}
+                                            {/*>*/}
+                                            {/*    Previous*/}
+                                            {/*</ButtonComponent>*/}
                                             <ButtonComponent
                                                 id={"save_next_btn"}
                                                 className={'submit-cta'}
@@ -256,7 +256,7 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                                                 id={"next_btn"}
                                                 size={'large'}
                                                 className={'submit-cta'}
-                                                disabled={isClientPersonalHabitsSavingInProgress || !CommonService.isEqual(values, clientPersonalHabitsFormInitialValues)}
+                                                disabled={isClientPersonalHabitsSavingInProgress || !isValid || !CommonService.isEqual(values, clientPersonalHabitsFormInitialValues)}
                                                 onClick={onNext}
                                             >
                                                 Next

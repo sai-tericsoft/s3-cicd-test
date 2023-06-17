@@ -5,8 +5,8 @@ import '@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import {IDateRangePickerProps} from "../../../models/form-controls.model";
 import {FormControl, FormHelperText} from "@mui/material";
-import EventIcon from '@mui/icons-material/Event';
 import CloseIcon from '@mui/icons-material/Close';
+import {EventIcon} from "../../../../constants/ImageConfig";
 
 interface DateRangePickerComponentProps extends IDateRangePickerProps {
     name?: string;
@@ -36,8 +36,8 @@ const DateRangePickerComponent = (props: DateRangePickerComponentProps) => {
     let {color, size, variant, rangeDivider, maxDate, format, onDateChange} = props;
     if (!variant) variant = "outlined";
     if (!size) size = "small";
-    if (!rangeDivider) rangeDivider = "-";
-    if (!format) format = "y/MM/dd";
+    if (!rangeDivider) rangeDivider = "to";
+    if (!format) format = "MM-dd-yyyy";
 
     const handleChange = useCallback((newValue: any | null) => {
         setValue(newValue)
@@ -47,8 +47,7 @@ const DateRangePickerComponent = (props: DateRangePickerComponentProps) => {
     useEffect(() => {
         setValue(props.value ? props.value : null);
     }, [props.value]);
-    
-    console.log('val',value);
+
 
     return (
         <div>
@@ -70,14 +69,14 @@ const DateRangePickerComponent = (props: DateRangePickerComponentProps) => {
                     value={value}
                     readOnly={readOnly}
                     format={format}
-                    rangeDivider={rangeDivider}
-                    yearPlaceholder={"yyyy"}
-                    monthPlaceholder={"mm"}
-                    dayPlaceholder={"dd"}
-                    clearIcon={value && <CloseIcon/>}
+                    rangeDivider={<div> &nbsp; to &nbsp; </div>}
+                    calendarIcon={!value && <EventIcon/>}
+                    yearPlaceholder={"YYYY"}
+                    monthPlaceholder={"MM"}
+                    dayPlaceholder={"DD"}
+                    clearIcon={<CloseIcon/>}
                     closeCalendar={true}
                     openCalendarOnFocus={true}
-                    calendarIcon={!value && <EventIcon/>}
                 />
             </FormControl>
             <FormHelperText>

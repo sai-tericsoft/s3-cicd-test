@@ -142,7 +142,7 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
                                                 disabled={isClientMedicalFemaleOnlyFormSavingInProgress}
                                                 className={(isClientMedicalFemaleOnlyFormSavingInProgress ? 'mrg-right-15' : '')}
                                             >
-                                                Prev
+                                                Previous
                                             </ButtonComponent>
                                             <ButtonComponent
                                                 className={'submit-cta'}
@@ -155,7 +155,7 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
                                             </ButtonComponent>
                                             <ButtonComponent
                                                 className={'submit-cta'}
-                                                disabled={isClientMedicalFemaleOnlyFormSavingInProgress || !CommonService.isEqual(values, clientMedicalFemaleOnlyInitialValues)}
+                                                disabled={isClientMedicalFemaleOnlyFormSavingInProgress || !isValid || !CommonService.isEqual(values, clientMedicalFemaleOnlyInitialValues)}
                                                 onClick={onNext}
                                             >
                                                 Next

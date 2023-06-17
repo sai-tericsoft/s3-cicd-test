@@ -1,8 +1,7 @@
 import {
     ADMIN,
-    CHART_NOTES_LIST,
+    CHART_NOTES_LIST, CLIENT,
     CLIENT_ADD,
-    CLIENT_LIST,
     COMING_SOON_ROUTE,
     COUPON_ADD,
     DASHBOARD,
@@ -92,7 +91,7 @@ const DiscountList = () => {
 }
 
 const ClientList = () => {
-    return CLIENT_LIST;
+    return CLIENT;
 }
 
 const ClientAdd = (clientId: string) => {
@@ -129,7 +128,7 @@ const ClientAppointmentViewDetails = (clientId: any, clientAppointmentId: string
 }
 
 const ClientEdit = (clientId: string) => {
-    return '/client-edit/' + clientId;
+    return '/client/client-edit/' + clientId;
 }
 
 const ClientSearch = () => {

@@ -35,6 +35,7 @@ import {
     BILLING_DETAILS,
     BILLING_LIST,
     CHART_NOTES_LIST,
+    CLIENT,
     CLIENT_ADD,
     CLIENT_APPOINTMENT_DETAILS,
     CLIENT_APPOINTMENTS,
@@ -49,11 +50,18 @@ import {
     CLIENT_SEARCH,
     COMING_SOON_ROUTE,
     CONCUSSION_FILE_VIEW_DETAILS,
+    COUPON_ADD,
+    COUPON_DETAILS,
+    COUPON_EDIT,
+    DASHBOARD,
     DESIGN_SYSTEM_ROUTE,
+    DISCOUNT_LIST,
     DRY_NEEDLING_FILE_VIEW_DETAILS,
     EDIT_INVENTORY_PRODUCT,
     FACILITY_DETAILS,
     FACILITY_LIST,
+    FAQ,
+    HELP,
     INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST,
     INVENTORY,
     INVENTORY_LIST,
@@ -72,6 +80,7 @@ import {
     MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
     NOT_FOUND_ROUTE,
     PROGRESS_REPORT_VIEW_DETAILS,
+    REPORT_AN_ISSUE,
     SCHEDULING_VIEW,
     SERVICE_ADD,
     SERVICE_CATEGORY_DETAILS,
@@ -81,9 +90,7 @@ import {
     SYSTEM_SETTINGS,
     TEST_ROUTE,
     UPDATE_MEDICAL_INTERVENTION,
-    HELP, FAQ,
-    DISCOUNT_LIST, COUPON_DETAILS, COUPON_ADD, COUPON_EDIT, REPORT_AN_ISSUE,
-    VIEW_MEDICAL_INTERVENTION, DASHBOARD
+    VIEW_MEDICAL_INTERVENTION,
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
@@ -151,6 +158,7 @@ import DashboardScreen from "../screens/dashboard/dashboard-screen/DashboardScre
 import DashboardLayoutComponent from "../screens/dashboard/dashboard-layout/DashboardLayoutComponent";
 import MedicalInterventionSpecialTestsV2Screen
     from "../screens/chart-notes/medical-intervention-special-tests-v2/MedicalInterventionSpecialTestsV2Screen";
+import ClientsMainLayoutComponent from "../screens/clients/clients-main-layout/ClientsMainLayoutComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -218,87 +226,102 @@ const Navigator = (props: NavigatorProps) => {
                             }
                         />
                     </Route>
+
+
                     <Route
-                        path={CLIENT_LIST}
-                        element={
-                            <ProtectedRoute>
-                                <ClientListScreen/>
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route
-                        path={CLIENT_EDIT}
-                        element={
-                            <ProtectedRoute>
-                                <ClientEditScreen/>
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route path={CLIENT_DETAILS} element={<ClientDetailsScreen/>} {...props}>
+                        path={CLIENT}
+                        element={<ClientsMainLayoutComponent/>}{...props}>
                         <Route
                             index
                             element={
-                                <Navigate to={CLIENT_PROFILE_DETAILS}/>
-                            }
-                        />
-                        <Route
-                            path={CLIENT_PROFILE_DETAILS}
-                            element={
-                                <ProtectedRoute>
-                                    <ClientProfileLayoutComponent/>
-                                </ProtectedRoute>
-                            }
-                        />
-                        <Route
-                            path={CLIENT_DOCUMENTS}
-                            element={
-                                <ProtectedRoute>
-                                    <ClientDocumentsComponent/>
-                                </ProtectedRoute>
-                            }
-                        />
-                        <Route
-                            path={CLIENT_DOCUMENTS_DETAILS}
-                            element={
-                                <ProtectedRoute>
-                                    <ViewMedicalRecordDocumentScreen/>
-                                </ProtectedRoute>
-                            }
-                        />
-                        <Route
-                            path={CLIENT_APPOINTMENTS}
-                            element={
-                                <ProtectedRoute>
-                                    <ClientAppointmentsComponent/>
-                                </ProtectedRoute>
-                            }
-                        />
+                                <Navigate to={CLIENT_LIST}/>
+                            }/>
 
                         <Route
-                            path={CLIENT_BILLING_DETAILS}
+                            path={CLIENT_LIST}
                             element={
                                 <ProtectedRoute>
-                                    <BillingListScreen/>
+                                    <ClientListScreen/>
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path={CLIENT_EDIT}
+                            element={
+                                <ProtectedRoute>
+                                    <ClientEditScreen/>
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route path={CLIENT_DETAILS} element={<ClientDetailsScreen/>} {...props}>
+
+                            <Route
+                                index
+                                element={
+                                    <Navigate to={CLIENT_PROFILE_DETAILS}/>
+                                }
+                            />
+                            <Route
+                                path={CLIENT_PROFILE_DETAILS}
+                                element={
+                                    <ProtectedRoute>
+                                        <ClientProfileLayoutComponent/>
+                                    </ProtectedRoute>
+                                }
+                            />
+                            <Route
+                                path={CLIENT_DOCUMENTS}
+                                element={
+                                    <ProtectedRoute>
+                                        <ClientDocumentsComponent/>
+                                    </ProtectedRoute>
+                                }
+                            />
+                            <Route
+                                path={CLIENT_DOCUMENTS_DETAILS}
+                                element={
+                                    <ProtectedRoute>
+                                        <ViewMedicalRecordDocumentScreen/>
+                                    </ProtectedRoute>
+                                }
+                            />
+                            <Route
+                                path={CLIENT_APPOINTMENTS}
+                                element={
+                                    <ProtectedRoute>
+                                        <ClientAppointmentsComponent/>
+                                    </ProtectedRoute>
+                                }
+                            />
+
+                            <Route
+                                path={CLIENT_BILLING_DETAILS}
+                                element={
+                                    <ProtectedRoute>
+                                        <BillingListScreen/>
+                                    </ProtectedRoute>
+                                }
+                            />
+
+                        </Route>
+                        <Route path={CLIENT_APPOINTMENT_DETAILS}
+                               element={
+                                   <ProtectedRoute>
+                                       <ClientAppointmentDetailsComponent/>
+                                   </ProtectedRoute>
+                               }
+                        />
+                        <Route
+                            path={CLIENT_ADD + '/:clientId'}
+                            element={
+                                <ProtectedRoute>
+                                    <ClientAddScreen/>
                                 </ProtectedRoute>
                             }
                         />
 
                     </Route>
-                    <Route path={CLIENT_APPOINTMENT_DETAILS}
-                           element={
-                               <ProtectedRoute>
-                                   <ClientAppointmentDetailsComponent/>
-                               </ProtectedRoute>
-                           }
-                    />
-                    <Route
-                        path={CLIENT_ADD + '/:clientId'}
-                        element={
-                            <ProtectedRoute>
-                                <ClientAddScreen/>
-                            </ProtectedRoute>
-                        }
-                    />
+
 
                     <Route path={CLIENT_SEARCH}
                            element={<ProtectedRoute>

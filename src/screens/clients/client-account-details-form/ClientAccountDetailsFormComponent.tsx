@@ -19,6 +19,7 @@ import {IClientAccountDetails} from "../../../shared/models/client.model";
 import {getClientAccountDetails} from "../../../store/actions/client.action";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
+import {useNavigate} from "react-router-dom";
 
 interface ClientAccountDetailsFormComponentProps {
     clientId: string;
@@ -47,6 +48,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
     const [clientAccountDetailsFormInitialValues, setClientAccountDetailsFormInitialValues] = useState<IClientAccountDetails>(_.cloneDeep(ClientAccountDetailsFormInitialValues));
     const [isClientAccountDetailsFormSavingInProgress, setIsClientAccountDetailsFormSavingInProgress] = useState(false);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const {
         communicationModeTypeList,
@@ -74,12 +76,15 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
         apiCall.then((response: IAPIResponseType<IClientAccountDetails>) => {
             CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
             setIsClientAccountDetailsFormSavingInProgress(false);
-            onSave(response);
+            onSave(response.data);
+            if(mode === 'add') {
+                navigate(CommonService._routeConfig.ClientList());
+            }
         }).catch((error: any) => {
             CommonService.handleErrors(setErrors, error);
             setIsClientAccountDetailsFormSavingInProgress(false);
         })
-    }, [clientId, onSave, mode]);
+    }, [clientId, onSave, mode, navigate]);
 
     useEffect(() => {
         if (mode === "edit") {

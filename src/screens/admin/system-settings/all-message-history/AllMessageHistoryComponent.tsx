@@ -26,7 +26,7 @@ const AllMessageHistoryComponent = (props: AllMessageHistoryComponentProps) => {
         isMessageHistoryLoaded,
         isMessageHistoryFailed,
     } = useSelector((state: IRootReducerState) => state.dashboard);
-    const [openCardId, setOpenCardId] = useState<string | null>(null);
+
 
     //
     // const toggleCard = useCallback((id: string) => {
@@ -36,6 +36,7 @@ const AllMessageHistoryComponent = (props: AllMessageHistoryComponentProps) => {
     //         setOpenCardId(id); // Open the card for the clicked item
     //     }
     // }, [openCardId]);
+
 
     useEffect(() => {
         dispatch(getAllMessageHistory());
