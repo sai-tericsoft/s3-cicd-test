@@ -171,7 +171,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                                     <RadioButtonComponent checked={values.payment_type === 'current'}
                                                                           onChange={value => {
                                                                               setFieldValue('payment_type', 'current')
-                                                                          }}
+                                                                             }}
                                                                           name={'payment-type'}/>
                                                 </div>
                                                 <div className="option-item-text">Pay Now</div>
@@ -225,7 +225,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                                 <div className="price-item">
                                                     <div className="price-item-text discount">Discount</div>
                                                     <div className="price-item-amount red">
-                                                        {selectedCoupon ? `- $ ${CommonService.convertToDecimals(discountAmount)}` : `$0` || 'N/A'}
+                                                        {selectedCoupon ? `- $ ${CommonService.convertToDecimals(discountAmount)}` : `-$0` || 'N/A'}
 
                                                     </div>
                                                 </div>
@@ -268,7 +268,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                         </>}
 
                                     </div>
-                                    <div className="client-search-btn mrg-top-45">
+                                    <div className="client-search-btn mrg-top-15">
                                         <ButtonComponent disabled={!isValid} type={'submit'} fullWidth={true}
                                         >Submit</ButtonComponent>
                                     </div>
