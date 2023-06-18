@@ -39,7 +39,7 @@ const ServiceListComponent = (props: ServiceListComponentProps) => {
             title: "Status",
             render: ( item: any) => {
                 return <ChipComponent label={item?.is_active ? "Active" : "Inactive"}
-                                      color={item?.is_active ? "success" : "error"}></ChipComponent>
+                                      className={item?.is_active ? "active" : "inactive"}/>
             }
         },
         {

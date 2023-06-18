@@ -1,6 +1,7 @@
 @import "src/assets/styles/common";
 
 .client-details-screen {
+  height: calc(100vh - 144px);
 
   .client-details-layout {
     display: flex;
@@ -30,7 +31,7 @@
       .t-tab-panel {
         //flex: 1 1;
         overflow: auto;
-        height: calc(100vh - 230px);
+        height: calc(100vh - 180px);
       }
 
       .client-details-tab {

@@ -112,7 +112,7 @@
     .block-body {
       display: flex;
       flex-direction: row;
-      padding-bottom:24px ;
+      padding-bottom:15px ;
       .block-content {
         flex-direction: row;
         display: flex;
@@ -134,7 +134,7 @@
     }
   }
   .details-box {
-    margin: 10px 0;
+    //margin: 10px 0;
     border: 1px solid #E7E8EA;
     .details-header {
       background: #F2F6F6;

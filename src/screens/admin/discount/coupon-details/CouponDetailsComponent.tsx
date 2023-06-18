@@ -51,7 +51,7 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
             render: (item: any) => {
                 return <div>{item?.services?.length > 0 && item?.services?.map((service: any) => {
                     return <>
-                    <div className={'mrg-bottom-5 mrg-top-5'}>{service?.name || "-"}</div>
+                    <div className={'mrg-bottom-5 mrg-top-5'}>{service?.name || "N/A"}</div>
                     </>
                 })}</div>
             }
@@ -134,7 +134,7 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
                         <div className={'ts-row'}>
                             <div className={'ts-col-md-4 ts-col-lg'}>
                                 <DataLabelValueComponent label={'Discount Type'}>
-                                    {couponDetails?.discount_type || "N/A"}
+                                    {CommonService.capitalizeFirstLetter(couponDetails?.discount_type)|| "N/A"}
                                 </DataLabelValueComponent>
                             </div>
                             <div className={'ts-col-md-4 ts-col-lg'}>
@@ -159,13 +159,15 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
                             </div>
                         </div>
                     </CardComponent>
-                    <CardComponent>
-                        <FormControlLabelComponent label={"Coupon Valid On :"} size={'lg'}/>
-                        <div className={'coupon-valid-on-table-wrapper'}>
+                    <CardComponent className={'coupon-valid-on-card'}>
+                        <FormControlLabelComponent label={"Coupon Valid On :"} size={'md'}/>
+                        <div className={'ts-row'}>
+                            <div className={'ts-col-lg-12'}>
                             <TableComponent columns={couponValidOnColumn}
                                             data={couponDetails?.linked_services}
                                             autoHeight={true}
                                             />
+                            </div>
                         </div>
                     </CardComponent>
                 </>

@@ -44,12 +44,13 @@ const ClientDocumentsComponent = (props: ClientDocumentsComponentProps) => {
 
     return (
         <div className={'client-document-list-screen'}>
-            <div className="ts-row pdd-top-6">
-                <div className="ts-col-md-6 ts-col-lg-3">
+            <div className="ts-row">
+                <div className="ts-col-md-6 ts-col-lg-5">
                     <AutoCompleteComponent
                         size={'small'}
-                        label={'Posted By'}
+                        label={'Search '}
                         value={clientDocumentListFilterState?.posted_by}
+                        placeholder={'Search using Posted by'}
                         dataListKey={'data'}
                         displayWith={item => item ? (item?.first_name + ' ' + item?.last_name) : ''}
                         keyExtractor={item => item?._id}

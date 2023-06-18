@@ -10,6 +10,12 @@
   }
 
   .t-form {
+    .edit-coupon-heading{
+      color: #00534F;
+    }
+    .services-name{
+      margin-left: 28px;
+    }
     .card-component {
       margin-bottom: 0px;
     }
@@ -38,12 +44,12 @@
       margin-right: 10px;
       color: #07213C;
       font-weight: 500;
+      font-size: 1.1429rem;
     }
 
     .coupon-valid-on-service-text {
       color: #6D6D6D;
-      margin-bottom: 27px;
-      margin-top: 24px;
+      margin-bottom: 24px;
       font-size: 1.1429rem;
     }
 
@@ -57,6 +63,15 @@
         color: #07213C;
         font-size:1.1429rem;
       }
+    }
+    .t-form-actions{
+      margin-bottom: 0px;
+      .submit-cta{
+        margin-left: 16px;
+      }
+    }
+    .coupon-valid-on-card{
+      padding-bottom: 16px;
     }
   }
 }

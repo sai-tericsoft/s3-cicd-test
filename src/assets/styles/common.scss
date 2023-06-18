@@ -380,6 +380,18 @@
     }
   }
 }
+  .coupon-list{
+    .t-table{
+      margin-bottom: 0px;
+      height: calc(100vh - 220px);
+    }
+}
+  .client-documents-list,.client-appointment-list-table-component{
+    .t-table{
+      margin-bottom: 0px;
+      height: calc(100vh - 220px);
+    }
+  }
 
 .chip {
   text-transform: capitalize;

@@ -15,23 +15,26 @@
       }
     }
   }
-  .coupon-valid-on-table-wrapper{
-    width: 700px;
-    .table-component {
-      .t-table-wrapper {
-        .t-table {
-          .t-tr{
-            height: fit-content;
-          }
-          .t-cell{
-            height: 80px;
-          }
-          .t-cell-service {
-            padding-left: 20px;
-          }
-        }
-      }
-    }
+  .coupon-valid-on-card{
+    padding-bottom: 24px;
   }
+  //.coupon-valid-on-table-wrapper{
+  //  width: 700px;
+  //  .table-component {
+  //    .t-table-wrapper {
+  //      .t-table {
+  //        .t-tr{
+  //          height: fit-content;
+  //        }
+  //        .t-cell{
+  //          height: 56px;
+  //        }
+  //        .t-cell-service {
+  //          padding-left: 20px;
+  //        }
+  //      }
+  //    }
+  //  }
+  //}
 
 }

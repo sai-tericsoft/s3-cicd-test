@@ -72,7 +72,7 @@ const ClientAppointmentsTableComponent = (props: ClientAppointmentsTableComponen
             title: "Appointment Type",
             key: "appointment_type",
             dataIndex: "appointment_type",
-            width: 150,
+            width: 170,
             align: "center",
             render: (item: any) => {
                 return <span>{item?.appointment_type}</span>
