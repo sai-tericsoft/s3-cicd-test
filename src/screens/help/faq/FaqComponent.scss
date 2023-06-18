@@ -9,6 +9,9 @@
     height: 450px;
     .card-component {
       margin-bottom: 0px;
+      .card-body{
+        padding: 24px;
+      }
     }
 
     .faq-block-wrapper {

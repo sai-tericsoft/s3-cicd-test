@@ -153,12 +153,15 @@
       .option-item {
         flex: 0;
         margin-left: 8px;
+        .css-j204z7-MuiFormControlLabel-root{
+          margin-right:0px;
+        }
       }
 
       .option-item-text {
         font-weight: 400;
-        font-size: 16px;
-        justify-content: space-between;
+        font-size: 14px;
+        //justify-content: space-between;
         color: #000000;
       }
     }
