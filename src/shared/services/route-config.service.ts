@@ -256,7 +256,7 @@ const ReportAnIssue = () => {
 }
 
 const CouponViewDetails = (couponId: string) => {
-    return "/coupon-details/" + couponId;
+    return "/admin/coupon-details/" + couponId;
 }
 
 const CouponAdd = () => {
@@ -264,7 +264,7 @@ const CouponAdd = () => {
 }
 
 const CouponEdit = (couponId: string) => {
-    return "/coupon/" + couponId + "/edit";
+    return "/admin/coupon/" + couponId + "/edit";
 }
 
 const RouteConfigService = {

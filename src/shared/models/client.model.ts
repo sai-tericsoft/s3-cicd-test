@@ -31,7 +31,7 @@ export type IClientFormSteps =
 
 export interface IClientListFilterState {
     search: string;
-    is_active?: boolean;
+    is_active?: string;
     sort: {
         [key: string]: string,
     }

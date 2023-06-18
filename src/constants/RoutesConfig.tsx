@@ -21,9 +21,9 @@ const FACILITY_LIST = "/admin/facility-list";
 const FACILITY_DETAILS = "/admin/facility-details";
 
 const DISCOUNT_LIST = "/admin/discount-list";
-const COUPON_DETAILS = "/coupon-details/:couponId";
-const COUPON_ADD = "/coupon/add";
-const COUPON_EDIT = "/coupon/:couponId/edit";
+const COUPON_DETAILS = "/admin/coupon-details/:couponId";
+const COUPON_ADD = "/admin/coupon/add";
+const COUPON_EDIT = "/admin/coupon/:couponId/edit";
 const CLIENT = "client";
 const CLIENT_LIST = "/client/client-list";
 const CLIENT_ADD = "/client/client-add";

@@ -25,7 +25,7 @@ const ClientListScreen = (props: ClientListScreenProps) => {
     const {statusList} = useSelector((store: IRootReducerState) => store.staticData);
     const [clientListFilterState, setClientListFilterState] = useState<IClientListFilterState>({
         search: "",
-        is_active: undefined,
+        is_active: "all",
         sort: {}
     });
     const [isClientAddDrawerOpen, setIsClientAddDrawerOpen] = useState<boolean>(false);

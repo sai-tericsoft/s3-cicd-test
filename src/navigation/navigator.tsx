@@ -493,32 +493,35 @@ const Navigator = (props: NavigatorProps) => {
                                 </ProtectedRoute>
                             }
                         />
+
+                        <Route
+                            path={COUPON_DETAILS}
+                            element={
+                                <ProtectedRoute>
+                                    <CouponDetailsComponent/>
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path={COUPON_ADD}
+                            element={
+                                <ProtectedRoute>
+                                    <CouponAddScreen/>
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path={COUPON_EDIT}
+                            element={
+                                <ProtectedRoute>
+                                    <CouponEditScreen/>
+                                </ProtectedRoute>
+                            }
+                        />
+
                     </Route>
 
-                    <Route
-                        path={COUPON_DETAILS}
-                        element={
-                            <ProtectedRoute>
-                                <CouponDetailsComponent/>
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route
-                        path={COUPON_ADD}
-                        element={
-                            <ProtectedRoute>
-                                <CouponAddScreen/>
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route
-                        path={COUPON_EDIT}
-                        element={
-                            <ProtectedRoute>
-                                <CouponEditScreen/>
-                            </ProtectedRoute>
-                        }
-                    />
+
                     <Route
                         path={SERVICE_CATEGORY_DETAILS + '/:serviceCategoryId'}
                         element={
