@@ -90,7 +90,7 @@ const ClientBasicDetailsEditAPICall = (clientId: string, payload: any) => {
 //     return ApiService[APIConfig.CLIENT_BASIC_DETAILS_EDIT.METHOD](APIConfig.CLIENT_BASIC_DETAILS_EDIT.URL(clientId), payload);
 // }
 const NavigateToClientDetails = (clientId: string, step: IClientDetailsSteps) => {
-    return RouteConfigService.ClientDetails(clientId) + "?currentStep=" + step;
+    return RouteConfigService.ClientProfileDetails(clientId) + "?currentStep=" + step;
 }
 
 const NavigateToClientEdit = (clientId: string, step: IClientFormSteps) => {

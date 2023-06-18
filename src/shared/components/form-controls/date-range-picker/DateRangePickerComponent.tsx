@@ -70,11 +70,11 @@ const DateRangePickerComponent = (props: DateRangePickerComponentProps) => {
                     readOnly={readOnly}
                     format={format}
                     rangeDivider={<div> &nbsp; to &nbsp; </div>}
-                    calendarIcon={!value && <EventIcon/>}
+                    calendarIcon={!value?.every((item: any)=> item) && <EventIcon/>}
                     yearPlaceholder={"YYYY"}
                     monthPlaceholder={"MM"}
                     dayPlaceholder={"DD"}
-                    clearIcon={<CloseIcon/>}
+                    clearIcon={value && value?.some((item: any)=> item) && <CloseIcon/>}
                     closeCalendar={true}
                     openCalendarOnFocus={true}
                 />
