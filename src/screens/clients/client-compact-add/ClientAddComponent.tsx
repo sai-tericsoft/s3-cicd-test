@@ -29,7 +29,7 @@ const clientAddInitialValues: any = {
     primary_contact_info: {
         phone: ''
     },
-    send_invite: true,
+    send_invite: false,
     is_onboarded: false
 }
 
@@ -70,6 +70,10 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
     }, [navigate, dispatch]);
 
     const handleInviteLink = useCallback((values: any, setErrors: any) => {
+        const payload = {
+            ...values,
+            send_invite: true
+        };
         CommonService.onConfirm({
             image: ImageConfig.DeleteAttachmentConfirmationIcon,
             confirmationTitle: 'SEND INVITE LINK',
@@ -77,7 +81,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
             ${values.first_name} ${values.last_name} having email ${values.primary_email}?`
             ,
         }).then(() => {
-            CommonService._client.ClientBasicDetailsAddAPICall(values)
+            CommonService._client.ClientBasicDetailsAddAPICall(payload)
                 .then((response: any) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     onAdd();

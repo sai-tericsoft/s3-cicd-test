@@ -55,14 +55,14 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             }
         },
         {
-            title: "Last Appointment",
-            key: "last_appointment_date",
-            dataIndex: "lastAppointmentDate",
+            title: "Last Intervention",
+            key: "last_completed_intervention_date",
+            dataIndex: "last_completed_intervention_date",
             width: 200,
             align: "center",
             render: (item: IClientBasicDetails) => {
                 return <span>
-                    {item?.last_appointment_date ? CommonService.getSystemFormatTimeStamp(item?.last_appointment_date) : "-"}
+                    {item?.last_completed_intervention_date ? CommonService.getSystemFormatTimeStamp(item?.last_completed_intervention_date) : "-"}
                 </span>
             }
         },
@@ -74,7 +74,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             width: 140,
             render: (item: IClientBasicDetails) => {
                 return <span>
-                    {CommonService.capitalizeFirstLetter(item?.last_provider) || '-'}
+                    {CommonService.capitalizeFirstLetter(item?.last_provider?.first_name)|| '-'} {CommonService.capitalizeFirstLetter(item?.last_provider?.last_name)}
                 </span>
             }
         },

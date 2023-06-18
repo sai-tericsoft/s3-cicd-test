@@ -61,8 +61,8 @@ export interface IClientBasicDetails {
     emergency_contact_info: IEmergencyContactInfo;
     work_info: IWorkInfo;
     address: IAddress;
-    last_appointment_date?: string;
-    last_provider?: string;
+    last_completed_intervention_date?: string;
+    last_provider?: any;
     created_at?: string;
     send_invite?: boolean;
 }
