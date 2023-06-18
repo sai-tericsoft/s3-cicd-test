@@ -107,7 +107,7 @@ const FormQuestions = [
 
 const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormComponentProps) => {
 
-    const {mode, onCancel, onNext, clientId, onSave} = props;
+    const {mode, onNext, clientId, onSave} = props;
     const [clientPersonalHabitsFormInitialValues, setClientPersonalHabitsFormInitialValues] = useState<IClientPersonalHabitsForm>(_.cloneDeep(ClientPersonalHabitsFormInitialValues));
     const [isClientPersonalHabitsSavingInProgress, setIsClientPersonalHabitsSavingInProgress] = useState(false);
     const dispatch = useDispatch();

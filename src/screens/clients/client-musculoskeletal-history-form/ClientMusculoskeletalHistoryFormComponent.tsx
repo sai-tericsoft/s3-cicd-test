@@ -36,7 +36,7 @@ const ClientMusculoskeletalHistoryFormInitialValues: IClientMusculoskeletalHisto
 
 const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalFormComponentProps) => {
 
-    const {mode, onCancel, onNext, clientId, onSave} = props;
+    const {mode, onCancel, clientId, onSave} = props;
     const [clientMusculoskeletalHistoryFormInitialValues, setClientMusculoskeletalHistoryFormInitialValues] = useState<IClientMusculoskeletalHistoryForm>(_.cloneDeep(ClientMusculoskeletalHistoryFormInitialValues));
     const [isClientMusculoskeletalHistorySavingInProgress, setIsClientMusculoskeletalHistorySavingInProgress] = useState(false);
     const {musculoskeletalHistoryOptionsList} = useSelector((state: IRootReducerState) => state.staticData);
