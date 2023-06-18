@@ -209,7 +209,7 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                 }
             })
         );
-    }, [dispatch, currentStep, clientId, navigate, goBackToMedicalHistory]);
+    }, [dispatch, currentStep, clientId, navigate]);
 
 
     return (
