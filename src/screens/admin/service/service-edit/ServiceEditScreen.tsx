@@ -333,6 +333,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                                             required={true}
                                                                                                             keyExtractor={item => item.id}
                                                                                                             label={"Duration"}
+                                                                                                            selectedValues={values?.initial_consultation[index].consultation_details?.map((item: any) => item.duration)}
                                                                                                             options={consultationDurationList}
                                                                                                             id={"sv_ic_cd_duration_" + index}
                                                                                                         />
@@ -477,6 +478,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                                             required={true}
                                                                                                             keyExtractor={item => item.id}
                                                                                                             label={"Duration"}
+                                                                                                            selectedValues={values?.followup_consultation[index].consultation_details?.map((item: any) => item.duration)}
                                                                                                             options={consultationDurationList}
                                                                                                             id={"sv_fc_cd_duration_" + index}
                                                                                                         />
