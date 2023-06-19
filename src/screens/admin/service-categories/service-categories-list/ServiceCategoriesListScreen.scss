@@ -18,29 +18,20 @@
     }
   }
 
-  .service-category-list-wrapper {
-    padding-top: 6px;
-    display: flex;
+  .service-category-list-card {
+    max-height: 500px;
 
-    .card-loading {
-      display: flex;
-      width: 100%;
-      min-height: 630px;
-      justify-content: center;
-      align-items: center;
-    }
+    .service-category-list-wrapper {
+      padding-top: 6px;
 
-    .card-component{
-      display: flex;
-    }
+      .service-category-list {
+        display: flex;
+        flex-wrap: wrap;
+        padding-bottom: 5px;
 
-    .service-category-list {
-      display: flex;
-      flex-wrap: wrap;
-      padding-bottom: 5px;
-
-      .ts-row {
-        flex: 1;
+        .ts-row {
+          flex: 1;
+        }
       }
     }
   }

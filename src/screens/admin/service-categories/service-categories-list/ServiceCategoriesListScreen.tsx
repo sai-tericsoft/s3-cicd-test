@@ -13,6 +13,7 @@ import DrawerComponent from "../../../../shared/components/drawer/DrawerComponen
 import ServiceCategoryAddComponent from "../service-category-add/ServiceCategoryAddComponent";
 import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../../shared/components/status-card/StatusCardComponent";
+import CardComponent from "../../../../shared/components/card/CardComponent";
 
 interface ServiceCategoriesListScreenProps {
 
@@ -82,41 +83,43 @@ const ServiceCategoriesListScreen = (props: ServiceCategoriesListScreenProps) =>
                     </ButtonComponent>
                 </div>
             </div>
-            <div className="service-category-list-wrapper">
-                <div className={isServiceCategoryListLoading ? ' card-loading' : ''}>
-                    {
-                        isServiceCategoryListLoading && <LoaderComponent type={"spinner"}/>
-                    }
-                    {
-                        isServiceCategoryListLoadingFailed &&
-                        <StatusCardComponent title={"Failed to fetch service category list"}/>
-                    }
-                    {
-                        isServiceCategoryListLoaded && <>
-                            {serviceCategoryList?.length === 0 &&
-                                <StatusCardComponent title={"Service category list is empty"}/>}
-                            {
-                                serviceCategoryList?.length !== 0 && <>
-                                    <div className="service-category-list">
-                                        <div className="ts-row">
-                                            {
-                                                serviceCategoryList?.map((serviceCategory) => {
-                                                    return <div className="ts-col-lg-3">
-                                                        <ServiceCategoryCardComponent serviceCategory={serviceCategory}
-                                                                                      key={serviceCategory._id}/>
-                                                    </div>
-                                                })
-                                            }
+            <CardComponent className="service-category-list-card">
+                <div className="service-category-list-wrapper">
+                    <div className={isServiceCategoryListLoading ? ' card-loading' : ''}>
+                        {
+                            isServiceCategoryListLoading && <LoaderComponent type={"spinner"}/>
+                        }
+                        {
+                            isServiceCategoryListLoadingFailed &&
+                            <StatusCardComponent title={"Failed to fetch service category list"}/>
+                        }
+                        {
+                            isServiceCategoryListLoaded && <>
+                                {serviceCategoryList?.length === 0 &&
+                                    <StatusCardComponent title={"Service category list is empty"}/>}
+                                {
+                                    serviceCategoryList?.length !== 0 && <>
+                                        <div className="service-category-list">
+                                            <div className="ts-row">
+                                                {
+                                                    serviceCategoryList?.map((serviceCategory) => {
+                                                        return <div className="ts-col-lg-3">
+                                                            <ServiceCategoryCardComponent serviceCategory={serviceCategory}
+                                                                                          key={serviceCategory._id}/>
+                                                        </div>
+                                                    })
+                                                }
+                                            </div>
                                         </div>
-                                    </div>
-                                </>
-                            }
-                        </>
-                    }
+                                    </>
+                                }
+                            </>
+                        }
+
+                    </div>
 
                 </div>
-
-            </div>
+            </CardComponent>
             <DrawerComponent isOpen={isServiceCategoryAddFormOpened}
                              showClose={true}
                              closeOnEsc={false}

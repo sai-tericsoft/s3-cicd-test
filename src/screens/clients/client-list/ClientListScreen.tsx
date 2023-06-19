@@ -27,7 +27,6 @@ const ClientListScreen = (props: ClientListScreenProps) => {
         search: "",
         is_active: "all",
         sort: {},
-        page: 1
     });
     const [isClientAddDrawerOpen, setIsClientAddDrawerOpen] = useState<boolean>(false);
 
@@ -76,7 +75,7 @@ const ClientListScreen = (props: ClientListScreenProps) => {
                                         return {
                                             ...prevState,
                                             search: value,
-                                            page: 1 // Reset the page number to 1
+                                            page: value ? 1 : prevState.page  // Reset the page number to 1
                                         };
                                     });
                                 }}

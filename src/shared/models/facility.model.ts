@@ -20,5 +20,5 @@ export interface PrimaryContactInfo {
 
 export interface IFacilityListFilterState {
     search: string;
-    page: number;
+    page?: number;
 }

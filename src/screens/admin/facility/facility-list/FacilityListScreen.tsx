@@ -20,7 +20,6 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
     const dispatch = useDispatch();
     const [facilityListFilterState, setFacilityListFilterState] = useState<IFacilityListFilterState>({
         search: "",
-        page: 1
     });
 
     const FacilityListColumns: ITableColumn[] = [
