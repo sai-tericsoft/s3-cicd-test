@@ -270,13 +270,12 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                         <FormikInputComponent
                                                                                                             label={'Price'}
                                                                                                             placeholder={'Price'}
-                                                                                                            type={"number"}
                                                                                                             required={true}
                                                                                                             prefix={Misc.CURRENCY_SYMBOL}
                                                                                                             formikField={field}
                                                                                                             fullWidth={true}
                                                                                                             id={"sv_ic_cd_price" + index}
-                                                                                                            validationPattern={Patterns.POSITIVE_INTEGERS_PARTIAL}
+                                                                                                            // validationPattern={Patterns.POSITIVE_INTEGERS_PARTIAL}
                                                                                                         />
                                                                                                     )
                                                                                                 }
@@ -414,13 +413,13 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                         <FormikInputComponent
                                                                                                             label={'Price'}
                                                                                                             placeholder={'Price'}
-                                                                                                            type={"number"}
+                                                                                                            // type={"number"}
                                                                                                             required={true}
                                                                                                             prefix={Misc.CURRENCY_SYMBOL}
                                                                                                             formikField={field}
                                                                                                             fullWidth={true}
                                                                                                             id={"sv_fc_cd_price_" + index}
-                                                                                                            validationPattern={Patterns.POSITIVE_INTEGERS_PARTIAL}
+                                                                                                            // validationPattern={Patterns.POSITIVE_INTEGERS_PARTIAL}
                                                                                                         />
                                                                                                     )
                                                                                                 }

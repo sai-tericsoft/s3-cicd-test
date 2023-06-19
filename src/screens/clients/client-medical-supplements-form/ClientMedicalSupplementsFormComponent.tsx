@@ -24,12 +24,12 @@ interface ClientMedicalSupplementsFormComponentProps {
 }
 
 
-const ClientMedicalSupplementsValidationSchema = Yup.object({
-    medications: Yup.object({
-        prescription_medication: Yup.string().required('Input is required'),
-        non_prescription_medication: Yup.string().required('Input is required'),
-    }),
-});
+// const ClientMedicalSupplementsValidationSchema = Yup.object({
+//     medications: Yup.object({
+//         prescription_medication: Yup.string().required('Input is required'),
+//         non_prescription_medication: Yup.string().required('Input is required'),
+//     }),
+// });
 
 const ClientMedicalSupplementsInitialValues: IClientMedicalSupplementsForm = {
     medications: {
@@ -87,7 +87,7 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
                     <CardComponent title={"Medications/Supplements"}
                                    description={"Please list all prescription and non-prescription medications for the client:"}>
                         <Formik
-                            validationSchema={ClientMedicalSupplementsValidationSchema}
+                            // validationSchema={ClientMedicalSupplementsValidationSchema}
                             initialValues={clientMedicalSupplementsInitialValues}
                             onSubmit={onSubmit}
                             validateOnChange={false}
@@ -109,7 +109,7 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
                                                             id={"prescription_input"}
                                                             label={"Prescription Medications"}
                                                             placeholder={"Enter your comments"}
-                                                            required={true}
+                                                            // required={true}
                                                             formikField={field}
                                                             fullWidth={true}
                                                         />
@@ -123,7 +123,7 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
                                                             id={"non_prescription_input"}
                                                             label={"Non-Prescription Medications / Supplements"}
                                                             placeholder={"Enter your comments"}
-                                                            required={true}
+                                                            // required={true}
                                                             formikField={field}
                                                             fullWidth={true}
                                                         />
