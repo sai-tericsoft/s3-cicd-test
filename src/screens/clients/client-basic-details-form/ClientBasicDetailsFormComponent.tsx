@@ -27,6 +27,7 @@ import HorizontalLineComponent
     from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 import FormikPhoneInputComponent
     from "../../../shared/components/form-controls/formik-phone-input/FormikPhoneInputComponent";
+import LinkComponent from "../../../shared/components/link/LinkComponent";
 
 interface ClientBasicDetailsFormComponentProps {
     mode: "add" | "edit";
@@ -1093,15 +1094,17 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                     </div>
                                 </CardComponent>
                                 <div className="t-form-actions">
-                                    <ButtonComponent
-                                        id={"cancel_btn"}
-                                        variant={"outlined"}
-                                        size={'large'}
-                                        disabled={isClientBasicDetailsSavingInProgress}
-                                        onClick={onCancel}
-                                    >
-                                        Cancel
-                                    </ButtonComponent>
+                                    <LinkComponent route={CommonService._routeConfig.ClientList()}>
+                                        <ButtonComponent
+                                            id={"cancel_btn"}
+                                            variant={"outlined"}
+                                            size={'large'}
+                                            disabled={isClientBasicDetailsSavingInProgress}
+                                            onClick={onCancel}
+                                        >
+                                            Cancel
+                                        </ButtonComponent>
+                                    </LinkComponent>
                                     &nbsp;
                                     <ButtonComponent
                                         id={"save_btn"}
