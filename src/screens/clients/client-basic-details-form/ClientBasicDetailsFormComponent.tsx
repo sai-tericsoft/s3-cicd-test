@@ -310,7 +310,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
 
                                 <CardComponent title={"Personal Details"} size={"md"}>
                                     <div className="ts-row">
-                                        <div className="ts-col-md-5">
+                                        <div className="ts-col">
                                             <Field name={'first_name'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -327,7 +327,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 }
                                             </Field>
                                         </div>
-                                        <div className="ts-col-md-5">
+                                        <div className="ts-col">
                                             <Field name={'last_name'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -344,10 +344,10 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 }
                                             </Field>
                                         </div>
-                                        <div className="ts-col-md-2"></div>
+                                        <div className="ts-col-1"></div>
                                     </div>
                                     <div className="ts-row">
-                                        <div className="ts-col-md-5">
+                                        <div className="ts-col">
                                             <Field name={'nick_name'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -362,7 +362,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 }
                                             </Field>
                                         </div>
-                                        <div className="ts-col-md-5">
+                                        <div className="ts-col">
                                             <Field name={'dob'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -378,10 +378,10 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 }
                                             </Field>
                                         </div>
-                                        <div className="ts-col-md-2"></div>
+                                        <div className="ts-col-1"></div>
                                     </div>
                                     <div className="ts-row">
-                                        <div className="ts-col-md-5">
+                                        <div className="ts-col">
                                             <Field name={'gender'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -396,7 +396,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 }
                                             </Field>
                                         </div>
-                                        <div className="ts-col-md-5">
+                                        <div className="ts-col">
                                             <Field name={'ssn'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -412,13 +412,13 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 }
                                             </Field>
                                         </div>
-                                        <div className="ts-col-md-2"></div>
+                                        <div className="ts-col-1"></div>
                                     </div>
                                 </CardComponent>
                                 <CardComponent title={"Contact Information"} size={"md"}>
                                     <FormControlLabelComponent size={'sm'} label={'Primary Phone :'}/>
                                     <div className="ts-row">
-                                        <div className="ts-col-md-5">
+                                        <div className="ts-col">
                                             <Field name={'primary_contact_info.phone_type'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -434,7 +434,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 }
                                             </Field>
                                         </div>
-                                        <div className="ts-col-md-5">
+                                        <div className="ts-col">
                                             <Field name={'primary_contact_info.phone'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -450,7 +450,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 }
                                             </Field>
                                         </div>
-                                        <div className="ts-col-md-2">
+                                        <div className="ts-col-1">
                                             <IconButtonComponent className={"form-helper-icon"}>
                                                 <ToolTipComponent
                                                     showArrow={true}
@@ -470,7 +470,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 {values?.secondary_contact_info && values?.secondary_contact_info?.map((item: any, index: any) => {
                                                     return (
                                                         <div className="ts-row" key={index}>
-                                                            <div className="ts-col-md-5">
+                                                            <div className="ts-col">
                                                                 <Field name={`secondary_contact_info[${index}].phone_type`}>
                                                                     {
                                                                         (field: FieldProps) => (
@@ -484,7 +484,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                     }
                                                                 </Field>
                                                             </div>
-                                                            <div className="ts-col-md-5">
+                                                            <div className="ts-col">
                                                                 <Field name={`secondary_contact_info[${index}].phone`}>
                                                                     {
                                                                         (field: FieldProps) => (
@@ -498,25 +498,27 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                     }
                                                                 </Field>
                                                             </div>
-                                                            <div className="ts-col-md-2">
-                                                                <IconButtonComponent className={"form-helper-icon"}
-                                                                                     onClick={() => {
-                                                                                         arrayHelpers.push({
-                                                                                             phone_type: undefined,
-                                                                                             phone: undefined
-                                                                                         });
-                                                                                     }}
-                                                                >
-                                                                    <ImageConfig.AddCircleIcon/>
-                                                                </IconButtonComponent>
-                                                                {index > 0 &&
+                                                            <div className="ts-col-1">
+                                                                <div className="d-flex">
                                                                     <IconButtonComponent className={"form-helper-icon"}
                                                                                          onClick={() => {
-                                                                                             arrayHelpers.remove(index);
+                                                                                             arrayHelpers.push({
+                                                                                                 phone_type: undefined,
+                                                                                                 phone: undefined
+                                                                                             });
                                                                                          }}
                                                                     >
-                                                                        <ImageConfig.DeleteIcon/>
-                                                                    </IconButtonComponent>}
+                                                                        <ImageConfig.AddCircleIcon/>
+                                                                    </IconButtonComponent>
+                                                                    {index > 0 &&
+                                                                        <IconButtonComponent className={"form-helper-icon"}
+                                                                                             onClick={() => {
+                                                                                                 arrayHelpers.remove(index);
+                                                                                             }}
+                                                                        >
+                                                                            <ImageConfig.DeleteIcon/>
+                                                                        </IconButtonComponent>}
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     )
@@ -526,7 +528,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                     <HorizontalLineComponent/>
                                     <FormControlLabelComponent size={'sm'} label={'Primary Email :'}/>
                                     <div className="ts-row">
-                                        <div className="ts-col-md-5">
+                                        <div className="ts-col">
                                             <Field name={'primary_email'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -542,7 +544,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 }
                                             </Field>
                                         </div>
-                                        <div className="ts-col-md-2">
+                                        <div className="ts-col-1">
                                             <IconButtonComponent className={"form-helper-icon"}>
                                                 <ToolTipComponent
                                                     showArrow={true}
@@ -552,6 +554,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 </ToolTipComponent>
                                             </IconButtonComponent>
                                         </div>
+                                        <div className="ts-col"/>
                                     </div>
                                     {/*<HorizontalLineComponent className={'primary-phone-divider'}/>*/}
                                     <FormControlLabelComponent size={'sm'} label={'Alternate Email :'}/>
@@ -562,7 +565,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 {values?.secondary_emails && values?.secondary_emails?.map((item: any, index: any) => {
                                                     return (
                                                         <div className="ts-row" key={index}>
-                                                            <div className="ts-col-md-5">
+                                                            <div className="ts-col">
                                                                 <Field name={`secondary_emails[${index}].email`}>
                                                                     {
                                                                         (field: FieldProps) => (
@@ -577,25 +580,28 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                     }
                                                                 </Field>
                                                             </div>
-                                                            <div className="ts-col-md-2">
-                                                                <IconButtonComponent className={"form-helper-icon"}
-                                                                                     onClick={() => {
-                                                                                         arrayHelpers.push({
-                                                                                             email: undefined,
-                                                                                         });
-                                                                                     }}
-                                                                >
-                                                                    <ImageConfig.AddCircleIcon/>
-                                                                </IconButtonComponent>
-                                                                {index > 0 &&
+                                                            <div className="ts-col-1">
+                                                                <div className="d-flex">
                                                                     <IconButtonComponent className={"form-helper-icon"}
                                                                                          onClick={() => {
-                                                                                             arrayHelpers.remove(index);
+                                                                                             arrayHelpers.push({
+                                                                                                 email: undefined,
+                                                                                             });
                                                                                          }}
                                                                     >
-                                                                        <ImageConfig.DeleteIcon/>
-                                                                    </IconButtonComponent>}
+                                                                        <ImageConfig.AddCircleIcon/>
+                                                                    </IconButtonComponent>
+                                                                    {index > 0 &&
+                                                                        <IconButtonComponent className={"form-helper-icon"}
+                                                                                             onClick={() => {
+                                                                                                 arrayHelpers.remove(index);
+                                                                                             }}
+                                                                        >
+                                                                            <ImageConfig.DeleteIcon/>
+                                                                        </IconButtonComponent>}
+                                                                </div>
                                                             </div>
+                                                            <div className="ts-col" />
                                                         </div>
                                                     )
                                                 })}
@@ -604,7 +610,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                 </CardComponent>
                                 <CardComponent title={"Address Information"} size={"md"}>
                                     <div className="ts-row">
-                                        <div className="ts-col-md-5">
+                                        <div className="ts-col">
                                             <Field name={'address.address_line'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -620,7 +626,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 }
                                             </Field>
                                         </div>
-                                        <div className="ts-col-md-5">
+                                        <div className="ts-col">
                                             <Field name={'address.city'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -636,10 +642,10 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 }
                                             </Field>
                                         </div>
-                                        <div className="ts-col-md-2"></div>
+                                        <div className="ts-col-1"></div>
                                     </div>
                                     <div className="ts-row">
-                                        <div className="ts-col-md-5">
+                                        <div className="ts-col">
                                             <Field name={'address.state'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -655,7 +661,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 }
                                             </Field>
                                         </div>
-                                        <div className="ts-col-md-5">
+                                        <div className="ts-col">
                                             <Field name={'address.zip_code'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -671,10 +677,10 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 }
                                             </Field>
                                         </div>
-                                        <div className="ts-col-md-2"></div>
+                                        <div className="ts-col-1"></div>
                                     </div>
                                     <div className="ts-row">
-                                        <div className="ts-col-md-5">
+                                        <div className="ts-col">
                                             <Field name={'address.country'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -690,15 +696,15 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 }
                                             </Field>
                                         </div>
-                                        <div className="ts-col-md-5">
+                                        <div className="ts-col">
                                         </div>
-                                        <div className="ts-col-md-2"></div>
+                                        <div className="ts-col-1"></div>
                                     </div>
                                 </CardComponent>
                                 <CardComponent title={"Emergency Contact Information"} size={"md"}>
                                     <FormControlLabelComponent label={"Primary Emergency Contact"} size={'sm'}/>
                                     <div className="ts-row">
-                                        <div className="ts-col-md-5">
+                                        <div className="ts-col">
                                             <Field name={'emergency_contact_info.primary_emergency.name'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -714,7 +720,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 }
                                             </Field>
                                         </div>
-                                        <div className="ts-col-md-5">
+                                        <div className="ts-col">
                                             <Field name={'emergency_contact_info.primary_emergency.relationship'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -729,10 +735,10 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 }
                                             </Field>
                                         </div>
-                                        <div className="ts-col-md-2"></div>
+                                        <div className="ts-col-1"></div>
                                     </div>
                                     <div className="ts-row">
-                                        <div className="ts-col-md-5">
+                                        <div className="ts-col">
                                             <Field name={'emergency_contact_info.primary_emergency.language'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -747,13 +753,13 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 }
                                             </Field>
                                         </div>
-                                        <div className="ts-col-md-5">
+                                        <div className="ts-col">
                                         </div>
-                                        <div className="ts-col-md-2"></div>
+                                        <div className="ts-col-1"></div>
                                     </div>
                                     <FormControlLabelComponent size={'sm'} label={'Primary Phone :'}/>
                                     <div className="ts-row">
-                                        <div className="ts-col-md-5">
+                                        <div className="ts-col">
                                             <Field
                                                 name={'emergency_contact_info.primary_emergency.primary_contact_info.phone_type'}>
                                                 {
@@ -769,7 +775,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 }
                                             </Field>
                                         </div>
-                                        <div className="ts-col-md-5">
+                                        <div className="ts-col">
                                             <Field
                                                 name={'emergency_contact_info.primary_emergency.primary_contact_info.phone'}>
                                                 {
@@ -785,7 +791,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 }
                                             </Field>
                                         </div>
-                                        <div className="ts-col-md-2">
+                                        <div className="ts-col-1">
                                             <IconButtonComponent className={"form-helper-icon"}>
                                                 <ToolTipComponent
                                                     showArrow={true}
@@ -805,7 +811,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 {values?.emergency_contact_info?.primary_emergency?.secondary_contact_info && values?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.map((item: any, index: any) => {
                                                     return (
                                                         <div className="ts-row" key={index}>
-                                                            <div className="ts-col-md-5">
+                                                            <div className="ts-col">
                                                                 <Field
                                                                     name={`emergency_contact_info.primary_emergency.secondary_contact_info[${index}].phone_type`}>
                                                                     {
@@ -820,7 +826,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                     }
                                                                 </Field>
                                                             </div>
-                                                            <div className="ts-col-md-5">
+                                                            <div className="ts-col">
                                                                 <Field
                                                                     name={`emergency_contact_info.primary_emergency.secondary_contact_info[${index}].phone`}>
                                                                     {
@@ -835,25 +841,27 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                     }
                                                                 </Field>
                                                             </div>
-                                                            <div className="ts-col-md-2">
-                                                                <IconButtonComponent className={"form-helper-icon"}
-                                                                                     onClick={() => {
-                                                                                         arrayHelpers.push({
-                                                                                             phone_type: undefined,
-                                                                                             phone: undefined
-                                                                                         });
-                                                                                     }}
-                                                                >
-                                                                    <ImageConfig.AddCircleIcon/>
-                                                                </IconButtonComponent>
-                                                                {index > 0 &&
+                                                            <div className="ts-col-1">
+                                                                <div className="d-flex">
                                                                     <IconButtonComponent className={"form-helper-icon"}
                                                                                          onClick={() => {
-                                                                                             arrayHelpers.remove(index);
+                                                                                             arrayHelpers.push({
+                                                                                                 phone_type: undefined,
+                                                                                                 phone: undefined
+                                                                                             });
                                                                                          }}
                                                                     >
-                                                                        <ImageConfig.DeleteIcon/>
-                                                                    </IconButtonComponent>}
+                                                                        <ImageConfig.AddCircleIcon/>
+                                                                    </IconButtonComponent>
+                                                                    {index > 0 &&
+                                                                        <IconButtonComponent className={"form-helper-icon"}
+                                                                                             onClick={() => {
+                                                                                                 arrayHelpers.remove(index);
+                                                                                             }}
+                                                                        >
+                                                                            <ImageConfig.DeleteIcon/>
+                                                                        </IconButtonComponent>}
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     )
@@ -899,7 +907,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                         Contact</ButtonComponent>
                                                 </div>
                                                 <div className="ts-row">
-                                                    <div className="ts-col-md-5">
+                                                    <div className="ts-col">
                                                         <Field name={'emergency_contact_info.secondary_emergency.name'}>
                                                             {
                                                                 (field: FieldProps) => (
@@ -914,7 +922,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                             }
                                                         </Field>
                                                     </div>
-                                                    <div className="ts-col-md-5">
+                                                    <div className="ts-col">
                                                         <Field
                                                             name={'emergency_contact_info.secondary_emergency.relationship'}>
                                                             {
@@ -929,10 +937,10 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                             }
                                                         </Field>
                                                     </div>
-                                                    <div className="ts-col-md-2"></div>
+                                                    <div className="ts-col-1"></div>
                                                 </div>
                                                 <div className="ts-row">
-                                                    <div className="ts-col-md-5">
+                                                    <div className="ts-col">
                                                         <Field name={'emergency_contact_info.secondary_emergency.language'}>
                                                             {
                                                                 (field: FieldProps) => (
@@ -946,12 +954,12 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                             }
                                                         </Field>
                                                     </div>
-                                                    <div className="ts-col-md-5">
+                                                    <div className="ts-col">
                                                     </div>
-                                                    <div className="ts-col-md-2"></div>
+                                                    <div className="ts-col-1"></div>
                                                 </div>
                                                 <div className="ts-row">
-                                                    <div className="ts-col-md-5">
+                                                    <div className="ts-col">
                                                         <Field
                                                             name={'emergency_contact_info.secondary_emergency.primary_contact_info.phone_type'}>
                                                             {
@@ -966,7 +974,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                             }
                                                         </Field>
                                                     </div>
-                                                    <div className="ts-col-md-5">
+                                                    <div className="ts-col">
                                                         <Field
                                                             name={'emergency_contact_info.secondary_emergency.primary_contact_info.phone'}>
                                                             {
@@ -981,7 +989,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                             }
                                                         </Field>
                                                     </div>
-                                                    <div className="ts-col-md-2">
+                                                    <div className="ts-col-1">
                                                         <IconButtonComponent className={"form-helper-icon"}>
                                                             <ToolTipComponent
                                                                 showArrow={true}
@@ -999,7 +1007,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                             {values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info && values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.map((item: any, index: any) => {
                                                                 return (
                                                                     <div className="ts-row" key={index}>
-                                                                        <div className="ts-col-md-5">
+                                                                        <div className="ts-col">
                                                                             <Field
                                                                                 name={`emergency_contact_info.secondary_emergency.secondary_contact_info[${index}].phone_type`}>
                                                                                 {
@@ -1014,7 +1022,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                                 }
                                                                             </Field>
                                                                         </div>
-                                                                        <div className="ts-col-md-5">
+                                                                        <div className="ts-col">
                                                                             <Field
                                                                                 name={`emergency_contact_info.secondary_emergency.secondary_contact_info[${index}].phone`}>
                                                                                 {
@@ -1029,27 +1037,29 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                                 }
                                                                             </Field>
                                                                         </div>
-                                                                        <div className="ts-col-md-2">
-                                                                            <IconButtonComponent
-                                                                                className={"form-helper-icon"}
-                                                                                onClick={() => {
-                                                                                    arrayHelpers.push({
-                                                                                        phone_type: undefined,
-                                                                                        phone: undefined
-                                                                                    });
-                                                                                }}
-                                                                            >
-                                                                                <ImageConfig.AddCircleIcon/>
-                                                                            </IconButtonComponent>
-                                                                            {index > 0 &&
+                                                                        <div className="ts-col-1">
+                                                                            <div className="d-flex">
                                                                                 <IconButtonComponent
                                                                                     className={"form-helper-icon"}
                                                                                     onClick={() => {
-                                                                                        arrayHelpers.remove(index);
+                                                                                        arrayHelpers.push({
+                                                                                            phone_type: undefined,
+                                                                                            phone: undefined
+                                                                                        });
                                                                                     }}
                                                                                 >
-                                                                                    <ImageConfig.DeleteIcon/>
-                                                                                </IconButtonComponent>}
+                                                                                    <ImageConfig.AddCircleIcon/>
+                                                                                </IconButtonComponent>
+                                                                                {index > 0 &&
+                                                                                    <IconButtonComponent
+                                                                                        className={"form-helper-icon"}
+                                                                                        onClick={() => {
+                                                                                            arrayHelpers.remove(index);
+                                                                                        }}
+                                                                                    >
+                                                                                        <ImageConfig.DeleteIcon/>
+                                                                                    </IconButtonComponent>}
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 )
@@ -1062,7 +1072,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                 </CardComponent>
                                 <CardComponent title={"Work Information"} size={"md"}>
                                     <div className="ts-row">
-                                        <div className="ts-col-md-5">
+                                        <div className="ts-col">
                                             <Field name={'work_info.occupation'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -1078,7 +1088,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 }
                                             </Field>
                                         </div>
-                                        <div className="ts-col-md-5">
+                                        <div className="ts-col">
                                             <Field name={'work_info.employment_status'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -1093,7 +1103,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 }
                                             </Field>
                                         </div>
-                                        <div className="ts-col-md-2"></div>
+                                        <div className="ts-col-1"></div>
                                     </div>
                                 </CardComponent>
                                 <div className="t-form-actions">

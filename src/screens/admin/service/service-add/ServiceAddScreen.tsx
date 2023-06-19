@@ -245,7 +245,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                 return (
                                                                                     <div key={iIndex}
                                                                                          className={"ts-row"}>
-                                                                                        <div className="ts-col-lg-5">
+                                                                                        <div className="ts-col">
                                                                                             <Field
                                                                                                 name={`initial_consultation[${index}].consultation_details[${iIndex}].duration`}>
                                                                                                 {
@@ -264,7 +264,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                 }
                                                                                             </Field>
                                                                                         </div>
-                                                                                        <div className="ts-col-lg-5">
+                                                                                        <div className="ts-col">
                                                                                             <Field
                                                                                                 name={`initial_consultation[${index}].consultation_details[${iIndex}].price`}>
                                                                                                 {
@@ -283,23 +283,22 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                 }
                                                                                             </Field>
                                                                                         </div>
-                                                                                        <div className="ts-col-lg-2">
-                                                                                            {
-                                                                                                iIndex === values?.initial_consultation[index].consultation_details.length - 1 &&
-                                                                                                <IconButtonComponent
-                                                                                                    onClick={() => {
-                                                                                                        push(_.cloneDeep(CONSULTATION_DURATION_SLOT))
-                                                                                                    }}
-                                                                                                    id={"sv_ic_cd_add"}
-                                                                                                    disabled={!ConsultationDurationSlotValidationSchema.isValidSync(values?.initial_consultation[index]?.consultation_details[iIndex])}
-                                                                                                >
-                                                                                                    <ImageConfig.AddCircleIcon/>
-                                                                                                </IconButtonComponent>
-                                                                                            }
-                                                                                            {
-                                                                                                iIndex > 0 &&
-                                                                                                <>
-                                                                                                    &nbsp;
+                                                                                        <div className="ts-col-1">
+                                                                                            <div className="d-flex">
+                                                                                                {
+                                                                                                    iIndex === values?.initial_consultation[index].consultation_details.length - 1 &&
+                                                                                                    <IconButtonComponent
+                                                                                                        onClick={() => {
+                                                                                                            push(_.cloneDeep(CONSULTATION_DURATION_SLOT))
+                                                                                                        }}
+                                                                                                        id={"sv_ic_cd_add"}
+                                                                                                        disabled={!ConsultationDurationSlotValidationSchema.isValidSync(values?.initial_consultation[index]?.consultation_details[iIndex])}
+                                                                                                    >
+                                                                                                        <ImageConfig.AddCircleIcon/>
+                                                                                                    </IconButtonComponent>
+                                                                                                }
+                                                                                                {
+                                                                                                    iIndex > 0 &&
                                                                                                     <IconButtonComponent
                                                                                                         onClick={() => {
                                                                                                             remove(iIndex);
@@ -308,8 +307,8 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                     >
                                                                                                         <ImageConfig.DeleteIcon/>
                                                                                                     </IconButtonComponent>
-                                                                                                </>
-                                                                                            }
+                                                                                                }
+                                                                                            </div>
                                                                                         </div>
                                                                                     </div>
                                                                                 )
@@ -389,7 +388,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                 return (
                                                                                     <div key={iIndex}
                                                                                          className={"ts-row"}>
-                                                                                        <div className="ts-col-lg-6">
+                                                                                        <div className="ts-col">
                                                                                             <Field
                                                                                                 name={`followup_consultation[${index}].consultation_details[${iIndex}].duration`}>
                                                                                                 {
@@ -408,7 +407,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                 }
                                                                                             </Field>
                                                                                         </div>
-                                                                                        <div className="ts-col-lg-5">
+                                                                                        <div className="ts-col">
                                                                                             <Field
                                                                                                 name={`followup_consultation[${index}].consultation_details[${iIndex}].price`}>
                                                                                                 {
@@ -428,23 +427,23 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                 }
                                                                                             </Field>
                                                                                         </div>
-                                                                                        <div className="ts-col-sm-1">
-                                                                                            {
-                                                                                                iIndex === values?.followup_consultation[index].consultation_details.length - 1 &&
-                                                                                                <IconButtonComponent
-                                                                                                    onClick={() => {
-                                                                                                        push(_.cloneDeep(CONSULTATION_DURATION_SLOT));
-                                                                                                    }}
-                                                                                                    id={"sv_fc_cd_add"}
-                                                                                                    disabled={!ConsultationDurationSlotValidationSchema.isValidSync(values?.followup_consultation[index]?.consultation_details[iIndex])}
-                                                                                                >
-                                                                                                    <ImageConfig.AddCircleIcon/>
-                                                                                                </IconButtonComponent>
-                                                                                            }
-                                                                                            {
-                                                                                                iIndex > 0 &&
-                                                                                                <>
-                                                                                                    &nbsp;
+                                                                                        <div className="ts-col-1">
+                                                                                            <div
+                                                                                                className="d-flex t-cell-align-center">
+                                                                                                {
+                                                                                                    iIndex === values?.followup_consultation[index].consultation_details.length - 1 &&
+                                                                                                    <IconButtonComponent
+                                                                                                        onClick={() => {
+                                                                                                            push(_.cloneDeep(CONSULTATION_DURATION_SLOT));
+                                                                                                        }}
+                                                                                                        id={"sv_fc_cd_add"}
+                                                                                                        disabled={!ConsultationDurationSlotValidationSchema.isValidSync(values?.followup_consultation[index]?.consultation_details[iIndex])}
+                                                                                                    >
+                                                                                                        <ImageConfig.AddCircleIcon/>
+                                                                                                    </IconButtonComponent>
+                                                                                                }
+                                                                                                {
+                                                                                                    iIndex > 0 &&
                                                                                                     <IconButtonComponent
                                                                                                         onClick={() => {
                                                                                                             remove(iIndex);
@@ -453,8 +452,8 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                     >
                                                                                                         <ImageConfig.DeleteIcon/>
                                                                                                     </IconButtonComponent>
-                                                                                                </>
-                                                                                            }
+                                                                                                }
+                                                                                            </div>
                                                                                         </div>
                                                                                     </div>
                                                                                 )

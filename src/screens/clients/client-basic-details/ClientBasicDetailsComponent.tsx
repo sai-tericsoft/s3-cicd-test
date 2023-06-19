@@ -172,8 +172,12 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                     </CardComponent>
                     <CardComponent title={'Address Information'}>
                         <DataLabelValueComponent label={'Address'}>
-                            {clientBasicDetails?.address?.address_line}, {clientBasicDetails?.address?.city}, {clientBasicDetails?.address?.zip_code}, <br/>
-                            {clientBasicDetails?.address?.state}, {clientBasicDetails?.address?.country}
+                            {Object.keys(clientBasicDetails?.address).length ? (
+                                <>
+                                    {clientBasicDetails.address.address_line}, {clientBasicDetails.address.city}, {clientBasicDetails.address.zip_code}, <br/>
+                                    {clientBasicDetails.address.state}, {clientBasicDetails.address.country}
+                                </>
+                            ) : 'N/A'}
                         </DataLabelValueComponent>
                     </CardComponent>
                     <CardComponent title={'Emergency Contact Information'}>
