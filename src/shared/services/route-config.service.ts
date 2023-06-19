@@ -1,7 +1,7 @@
 import {
     ADMIN,
     CHART_NOTES_LIST, CLIENT,
-    CLIENT_ADD,
+    CLIENT_ADD, CLIENT_LIST,
     COMING_SOON_ROUTE,
     COUPON_ADD,
     DASHBOARD,
@@ -91,7 +91,7 @@ const DiscountList = () => {
 }
 
 const ClientList = () => {
-    return CLIENT;
+    return CLIENT_LIST;
 }
 
 const ClientAdd = (clientId: string) => {

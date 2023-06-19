@@ -63,14 +63,14 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             }
         },
         {
-            title: "Last Appointment",
+            title: "Last Intervention",
             key: "last_appointment_date",
             dataIndex: "lastAppointmentDate",
             width: 150,
             align: "center",
             render: (item: IClientBasicDetails) => {
                 return <span>
-                    {item?.last_appointment_date ? CommonService.getSystemFormatTimeStamp(item?.last_appointment_date) : "-"}
+                    {item?.last_completed_intervention_date ? CommonService.getSystemFormatTimeStamp(item?.last_completed_intervention_date) : "-"}
                 </span>
             }
         },
@@ -82,7 +82,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             align: "center",
             render: (item: IClientBasicDetails) => {
                 return <span>
-                    {CommonService.capitalizeFirstLetter(item?.last_provider)}
+                    {CommonService.capitalizeFirstLetter(item?.last_provider?.first_name || '-')}   {CommonService.capitalizeFirstLetter(item?.last_provider?.last_name)}
                 </span>
             }
         },
