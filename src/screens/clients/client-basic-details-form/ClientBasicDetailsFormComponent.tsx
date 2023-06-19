@@ -284,8 +284,10 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                 {
                                     mode === "edit" &&
                                     <div
-                                        className={"mrg-bottom-15 display-flex flex-direction-row-reverse"}>
+                                        className={"display-flex ts-justify-content-between mrg-bottom-15 align-items-center"}>
+                                        <div className={'edit-client-heading'}>Edit Client</div>
                                         <div className={"display-flex align-items-center"}>
+
                                             <div>Status:</div>
                                             <Field name={'is_active'} className="t-form-control">
                                                 {
@@ -302,12 +304,13 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                         </div>
                                     </div>
                                 }
+
+
                                 {
                                     mode === 'add' &&
                                     <div className={'add-client-heading'}>Add Client</div>
 
                                 }
-
                                 <CardComponent title={"Personal Details"} size={"md"}>
                                     <div className="ts-row">
                                         <div className="ts-col">
