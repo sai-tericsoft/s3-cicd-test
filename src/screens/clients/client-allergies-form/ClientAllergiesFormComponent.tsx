@@ -23,9 +23,9 @@ interface ClientAllergiesFormComponentProps {
     onSave: (clientAllergies: any) => void;
 }
 
-const ClientAllergiesValidationSchema = Yup.object({
-    allergies: Yup.string().required('Input is required')
-})
+// const ClientAllergiesValidationSchema = Yup.object({
+//     allergies: Yup.string().required('Input is required')
+// })
 
 const ClientAllergiesFormInitialValues: IClientAllergiesForm = {
     allergies: ''
@@ -78,7 +78,7 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
                     <CardComponent title={'Allergies'}
                                    description={"Please list all allergies for the client (i.e. Medications, Food, Environmental, Insects, Adhesives, etc.):"}>
                         <Formik initialValues={clientAllergiesFormInitialValues}
-                                validationSchema={ClientAllergiesValidationSchema}
+                                // validationSchema={ClientAllergiesValidationSchema}
                                 onSubmit={onSubmit}
                                 validateOnChange={false}
                                 validateOnBlur={true}
@@ -98,7 +98,7 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
                                                         id={'allergies_input'}
                                                         formikField={field}
                                                         label={'Allergies'}
-                                                        required={true}
+                                                        // required={true}
                                                         fullWidth={true}
                                                         placeholder={'Enter your comments here'}/>
                                                 )

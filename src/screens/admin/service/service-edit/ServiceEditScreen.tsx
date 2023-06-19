@@ -70,7 +70,7 @@ const serviceEditFormValidationSchema = Yup.object({
             consultation_details: Yup.array(Yup.object({
                 duration: Yup.number().required("Duration is required"),
                 price: Yup.string()
-                    .matches(Patterns.POSITIVE_INTEGERS, "Price per hour must be a number")
+                    // .matches(Patterns.POSITIVE_INTEGERS, "Price per hour must be a number")
                     .required("Price is required"),
             })),
         })
@@ -80,7 +80,7 @@ const serviceEditFormValidationSchema = Yup.object({
             consultation_details: Yup.array(Yup.object({
                 duration: Yup.number().required("Duration is required"),
                 price: Yup.string()
-                    .matches(Patterns.POSITIVE_INTEGERS, "Price per hour must be a number")
+                    // .matches(Patterns.POSITIVE_INTEGERS, "Price per hour must be a number")
                     .required("Price is required"),
             })),
         })
@@ -348,13 +348,13 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                                         <FormikInputComponent
                                                                                                             label={'Price'}
                                                                                                             placeholder={'Price'}
-                                                                                                            type={"number"}
+                                                                                                            // type={"number"}
                                                                                                             required={true}
                                                                                                             prefix={Misc.CURRENCY_SYMBOL}
                                                                                                             formikField={field}
                                                                                                             fullWidth={true}
                                                                                                             id={"sv_ic_cd_price" + index}
-                                                                                                            validationPattern={Patterns.POSITIVE_INTEGERS_PARTIAL}
+                                                                                                            // validationPattern={Patterns.POSITIVE_INTEGERS_PARTIAL}
                                                                                                         />
                                                                                                     )
                                                                                                 }
@@ -492,13 +492,13 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                                         <FormikInputComponent
                                                                                                             label={'Price'}
                                                                                                             placeholder={'Price'}
-                                                                                                            type={"number"}
+                                                                                                            // type={"number"}
                                                                                                             required={true}
                                                                                                             prefix={Misc.CURRENCY_SYMBOL}
                                                                                                             formikField={field}
                                                                                                             fullWidth={true}
                                                                                                             id={"sv_fc_cd_price_" + index}
-                                                                                                            validationPattern={Patterns.POSITIVE_INTEGERS_PARTIAL}
+                                                                                                            // validationPattern={Patterns.POSITIVE_INTEGERS_PARTIAL}
                                                                                                         />
                                                                                                     )
                                                                                                 }
