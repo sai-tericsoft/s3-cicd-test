@@ -170,7 +170,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                     {
                                         (field: FieldProps) => (
                                             <FormikCheckBoxComponent
-                                                label={'Send an onboarding notification to the provided email address.'}
+                                                label={'Do not send the customer portal link to the client being onboarded.'}
                                                 formikField={field}
                                                 required={false}
                                                 labelPlacement={"end"}
@@ -179,39 +179,41 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                     }
                                 </Field>
 
-                                <>
-                                    {
-                                        (ENV.ENV_MODE === 'dev' || ENV.ENV_MODE === 'test') &&
-                                        <div className={'note-wrapper'}>
-                                            <div className={'note-content'}>
-                                                Note : The invite link will be sent to the entered email address of the
-                                                client.
-                                            </div>
-                                        </div>
-                                    }
-                                </>
+                                {/*<>*/}
+                                {/*    {*/}
+                                {/*        (ENV.ENV_MODE === 'dev' || ENV.ENV_MODE === 'test') &&*/}
+                                {/*        <div className={'note-wrapper'}>*/}
+                                {/*            <div className={'note-content'}>*/}
+                                {/*                Note : The invite link will be sent to the entered email address of the*/}
+                                {/*                client.*/}
+                                {/*            </div>*/}
+                                {/*        </div>*/}
+                                {/*    }*/}
+                                {/*</>*/}
                             </div>
                             <div className={'t-form-actions'}>
-                                {
-                                    <>
-                                        {(ENV.ENV_MODE === 'dev' || ENV.ENV_MODE === 'test') && <ButtonComponent
-                                            onClick={() => handleInviteLink(values, setErrors)}
-                                            variant={"outlined"}
-                                            disabled={!isValid || values.is_onboarded}
-                                        >
-                                            Send Invite Link
-                                        </ButtonComponent>}
-                                        &nbsp;
-                                    </>
-                                }
                                 <ButtonComponent
-                                    className={'adding-client-cta'}
+                                    variant={"outlined"}
                                     type={"submit"}
                                     isLoading={isClientAddInProgress}
                                     disabled={!isValid || isClientAddInProgress}
                                 >
                                     Proceed with Adding Client
-                                </ButtonComponent>
+                                </ButtonComponent>&nbsp;
+                                {
+                                    <>
+                                        {(ENV.ENV_MODE === 'dev' || ENV.ENV_MODE === 'test') && <ButtonComponent
+                                            onClick={() => handleInviteLink(values, setErrors)}
+                                            variant={"contained"}
+                                            className={'adding-client-cta'}
+                                            disabled={!isValid || values.is_onboarded}
+                                        >
+                                            Send Invite Link
+                                        </ButtonComponent>}
+
+                                    </>
+                                }
+
                             </div>
                         </Form>
                     )

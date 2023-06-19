@@ -9,11 +9,11 @@ interface SideMenuComponentProps {
 }
 
 const menuList: IMenuItem[] = [
-    {
-        path: CommonService._routeConfig.Dashboard(),
-        title: 'Dashboard',
-        icon: ImageConfig.DashboardIcon
-    },
+    // {
+    //     path: CommonService._routeConfig.Dashboard(),
+    //     title: 'Dashboard',
+    //     icon: ImageConfig.DashboardIcon
+    // },
     {
         path: CommonService._routeConfig.ClientList(),
         title: 'Clients',
@@ -24,31 +24,31 @@ const menuList: IMenuItem[] = [
         title: 'Admin',
         icon: ImageConfig.AdminIcon
     },
-    {
-        path: CommonService._routeConfig.ClientSearch(),
-        title: 'Chart Notes',
-        icon: ImageConfig.ChartNotes
-    },
-    {
-        path: CommonService._routeConfig.SchedulingView(),
-        title: 'Scheduling',
-        icon: ImageConfig.EventIcon
-    },
-    {
-        path:CommonService._routeConfig.BillingList(),
-        title:'Billing',
-        icon:ImageConfig.BillingIcon
-    },
-    {
-        path: CommonService._routeConfig.InventoryList(),
-        title: 'Inventory',
-        icon: ImageConfig.InventoryIcon
-    },
-    {
-        path:CommonService._routeConfig.FrequentlyAskedQuestions(),
-        title:"Help",
-        icon:ImageConfig.HelpIcon
-    }
+    // {
+    //     path: CommonService._routeConfig.ClientSearch(),
+    //     title: 'Chart Notes',
+    //     icon: ImageConfig.ChartNotes
+    // },
+    // {
+    //     path: CommonService._routeConfig.SchedulingView(),
+    //     title: 'Scheduling',
+    //     icon: ImageConfig.EventIcon
+    // },
+    // {
+    //     path:CommonService._routeConfig.BillingList(),
+    //     title:'Billing',
+    //     icon:ImageConfig.BillingIcon
+    // },
+    // {
+    //     path: CommonService._routeConfig.InventoryList(),
+    //     title: 'Inventory',
+    //     icon: ImageConfig.InventoryIcon
+    // },
+    // {
+    //     path:CommonService._routeConfig.FrequentlyAskedQuestions(),
+    //     title:"Help",
+    //     icon:ImageConfig.HelpIcon
+    // }
 ]
 
 const SideMenuComponent = (props: SideMenuComponentProps) => {
