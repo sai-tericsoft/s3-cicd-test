@@ -2,7 +2,6 @@ import "./ClientAllergiesFormComponent.scss";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
-import * as Yup from "yup";
 import React, {useCallback, useEffect, useState} from "react";
 import {IClientAllergiesForm} from "../../../shared/models/client.model";
 import {CommonService} from "../../../shared/services";

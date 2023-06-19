@@ -5,7 +5,6 @@ import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import {IServiceCategory} from "../../../../shared/models/service-category.model";
 import {CommonService} from "../../../../shared/services";
 import {IAPIResponseType} from "../../../../shared/models/api.model";
-import CardComponent from "../../../../shared/components/card/CardComponent";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../../constants";
 import ServiceCategoryCardComponent
@@ -84,7 +83,7 @@ const ServiceCategoriesListScreen = (props: ServiceCategoriesListScreenProps) =>
                 </div>
             </div>
             <div className="service-category-list-wrapper">
-                <CardComponent className={isServiceCategoryListLoading ? ' card-loading' : ''}>
+                <div className={isServiceCategoryListLoading ? ' card-loading' : ''}>
                     {
                         isServiceCategoryListLoading && <LoaderComponent type={"spinner"}/>
                     }
@@ -115,7 +114,7 @@ const ServiceCategoriesListScreen = (props: ServiceCategoriesListScreenProps) =>
                         </>
                     }
 
-                </CardComponent>
+                </div>
 
             </div>
             <DrawerComponent isOpen={isServiceCategoryAddFormOpened}
