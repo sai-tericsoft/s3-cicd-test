@@ -18,6 +18,7 @@ interface ClientListTableComponentProps {
 const ClientListTableComponent = (props: ClientListTableComponentProps) => {
 
     const {clientListFilterState, moduleName, onSort, refreshToken} = props;
+    console.log('cc',clientListFilterState.search);
 
     const ClientListTableColumns: ITableColumn[] = [
         {
@@ -115,11 +116,10 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
                 method={APIConfig.CLIENT_LIST.METHOD}
                 columns={ClientListTableColumns}
                 noDataText={ (<div className={'no-client-text-wrapper'}>
-                    <div><img src={ImageConfig.Search} alt="client-search"/></div>
-                    <div className={'no-client-heading'}>No Results Found</div>
+                    <div>{clientListFilterState.search?<img src={ImageConfig.Search} alt="client-search"/>:''}</div>
+                    <div className={'no-client-heading'}>{clientListFilterState.search? 'No Results Found':''}</div>
                     <div className={'no-client-description'}>
-                        Oops! It seems like there are no clients available for the name you have
-                        searched.<br/>
+                        {clientListFilterState.search ? 'Oops! It seems like there are no clients available for the name you have searched.' : 'Currently, there is no client added.'}
                     </div>
                 </div>)}
                 refreshToken={refreshToken}

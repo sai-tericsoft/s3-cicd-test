@@ -117,12 +117,10 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
                                        isPaginated={true}
                                        autoHeight={false}
                                        noDataText={(<div className={'no-features-text-wrapper'}>
-                                           <div><img src={ImageConfig.Search} alt="client-search"/></div>
-                                           <div className={'no-feature-heading'}>No Results Found</div>
+                                           <div>{facilityListFilterState.search ?<img src={ImageConfig.Search} alt="client-search"/>:''}</div>
+                                           <div className={'no-feature-heading'}>{facilityListFilterState.search ? 'No Results Found' : ''}</div>
                                            <div className={'no-features-description'}>
-                                               Oops! It seems like there are no facilities available for the name you
-                                               have
-                                               searched.<br/>
+                                               {facilityListFilterState.search ? 'Oops! It seems like there are no facilities available for the name you have searched' : 'Currently, there is no facility added.'}<br/>
                                            </div>
                                        </div>)}
                                        extraPayload={facilityListFilterState}
