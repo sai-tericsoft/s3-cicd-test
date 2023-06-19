@@ -20,6 +20,7 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
     const dispatch = useDispatch();
     const [facilityListFilterState, setFacilityListFilterState] = useState<IFacilityListFilterState>({
         search: "",
+        page: 1
     });
 
     const FacilityListColumns: ITableColumn[] = [
@@ -41,7 +42,7 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
             width: 130,
             align: "center",
             key: "location",
-            render:(item:any)=>{
+            render: (item: any) => {
                 return <>{CommonService.capitalizeFirstLetter(item?.location)}</>
             }
         },
@@ -96,7 +97,13 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
                                 placeholder={"Search using Facility Name"}
                                 value={facilityListFilterState.search}
                                 onSearchChange={(value) => {
-                                    setFacilityListFilterState({...facilityListFilterState, search: value})
+                                    setFacilityListFilterState((prevState:any) => {
+                                        return {
+                                            ...prevState,
+                                            search: value,
+                                            page: 1 // Reset the page number to 1
+                                        };
+                                    });
                                 }}
                             />
                         </div>
@@ -110,11 +117,12 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
                                        rowKey={(item: IFacility) => item._id}
                                        isPaginated={true}
                                        autoHeight={false}
-                                       noDataText={ (<div className={'no-features-text-wrapper'}>
+                                       noDataText={(<div className={'no-features-text-wrapper'}>
                                            <div><img src={ImageConfig.Search} alt="client-search"/></div>
                                            <div className={'no-feature-heading'}>No Results Found</div>
                                            <div className={'no-features-description'}>
-                                               Oops! It seems like there are no facilities available for the name you have
+                                               Oops! It seems like there are no facilities available for the name you
+                                               have
                                                searched.<br/>
                                            </div>
                                        </div>)}

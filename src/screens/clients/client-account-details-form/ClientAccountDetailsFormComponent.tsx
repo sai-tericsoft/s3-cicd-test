@@ -45,13 +45,26 @@ const ClientAccountDetailsFormInitialValues: IClientAccountDetails = {
     }
 };
 
-const ClientAccountDetailsValidationSchema  = Yup.object({
-    referral_details:Yup.object({
-        source_info_name: Yup.string().required('Full Name is required'),
-        source_info_phone:Yup.string().required('Phone Number is required'),
-        source_info_email: Yup.string().email('Invalid email')
+const ClientAccountDetailsValidationSchema = Yup.object({
+    referral_details: Yup.object({
+        source_info_name: Yup.string().when('source', {
+            is: 'friends_family_colleague',
+            then: Yup.string().required('Full Name is required'),
+            otherwise: Yup.string()
+        }),
+        source_info_phone: Yup.string().when('source', {
+            is: 'friends_family_colleague',
+            then: Yup.string().required('Phone Number is required'),
+            otherwise: Yup.string()
+        }),
+        source_info_email: Yup.string().when('source', {
+            is: 'friends_family_colleague',
+            then: Yup.string().email('Invalid email').required('Email is required'),
+            otherwise: Yup.string().email('Invalid email')
+        })
     }),
 });
+
 
 const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormComponentProps) => {
 
@@ -88,7 +101,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
             CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
             setIsClientAccountDetailsFormSavingInProgress(false);
             onSave(response.data);
-            if(mode === 'add') {
+            if (mode === 'add') {
                 navigate(CommonService._routeConfig.ClientList());
             }
         }).catch((error: any) => {
@@ -112,7 +125,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
     return (
         <div className={'client-medical-provider-information-form-component'}>
             <FormControlLabelComponent className={'add-communication-referral-heading'}
-                label={CommonService.capitalizeFirstLetter(mode) + " Communication and Referral Details"}/>
+                                       label={CommonService.capitalizeFirstLetter(mode) + " Communication and Referral Details"}/>
             <>
                 {
                     mode === "edit" && <>
@@ -132,7 +145,6 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                 ((mode === "edit" && isClientAccountDetailsLoaded && clientAccountDetails) || mode === "add") && <>
                     <CardComponent title={"Communication and Referral Details"}>
                         <Formik
-
                             initialValues={clientAccountDetailsFormInitialValues}
                             validationSchema={ClientAccountDetailsValidationSchema}
                             onSubmit={onSubmit}

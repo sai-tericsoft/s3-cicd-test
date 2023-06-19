@@ -32,7 +32,7 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
 
     const mode = "edit";
     const navigate = useNavigate();
-    const {clientId} = useParams();
+    const {clientId}: any = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
     const [currentStep, setCurrentStep] = useState<IClientFormSteps>(ClientAddSteps[0]);
     const dispatch = useDispatch();
@@ -193,7 +193,8 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
             currentStep = "basicDetails";
         }
         setCurrentStep(currentStep);
-    }, [searchParams]);
+        dispatch(getClientMedicalDetails(clientId));
+    }, [searchParams, clientId, dispatch]);
 
     useEffect(() => {
         dispatch(setCurrentNavParams('Edit Client', null, () => {

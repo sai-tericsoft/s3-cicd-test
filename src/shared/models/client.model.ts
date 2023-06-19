@@ -36,6 +36,7 @@ export interface IClientListFilterState {
         [key: string]: string,
     }
     is_chart_notes?:boolean
+    page: number;
 }
 
 export interface IClientMedicalStatusFilterState {

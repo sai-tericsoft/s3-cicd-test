@@ -21,6 +21,7 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
     const [discountListFilterState, setDiscountListFilterState] = useState<any>({
         search: "",
         is_active: undefined,
+        page: 1
     });
     const {statusList} = useSelector((store: IRootReducerState) => store.staticData);
 
@@ -94,7 +95,13 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
                                 placeholder={"Search using Title or Coupon Code"}
                                 value={discountListFilterState.search}
                                 onSearchChange={(value) => {
-                                    setDiscountListFilterState({...discountListFilterState, search: value})
+                                    setDiscountListFilterState((prevState:any) => {
+                                        return {
+                                            ...prevState,
+                                            search: value,
+                                            page: 1 // Reset the page number to 1
+                                        };
+                                    });
                                 }}
                             />
                         </div>

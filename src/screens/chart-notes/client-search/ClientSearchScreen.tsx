@@ -22,8 +22,9 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
 
     const [clientListFilterState, setClientListFilterState] = useState<IClientListFilterState>({
         search: "",
-        is_chart_notes:true,
-        sort: {}
+        is_chart_notes: true,
+        sort: {},
+        page: 1
     });
 
     const ClientListTableColumns: ITableColumn[] = [
@@ -46,7 +47,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             key: "name",
             dataIndex: "first_name",
             sortable: true,
-            align:'center',
+            align: 'center',
             width: 250,
             render: (item: IClientBasicDetails) => {
                 return <span>{CommonService.extractName(item)}</span>
@@ -82,7 +83,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             align: "center",
             render: (item: IClientBasicDetails) => {
                 return <span>
-                    {CommonService.capitalizeFirstLetter(item?.last_provider?.first_name || '-')}   {CommonService.capitalizeFirstLetter(item?.last_provider?.last_name)}
+                    {CommonService.capitalizeFirstLetter(item?.last_provider?.first_name || '-')} {CommonService.capitalizeFirstLetter(item?.last_provider?.last_name)}
                 </span>
             }
         },
@@ -137,8 +138,15 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
                                  label={'Search for Client'}
                                  value={clientListFilterState.search}
                                  onSearchChange={(value) => {
-                                     setClientListFilterState({...clientListFilterState, search: value})
-                                 }}/>
+                                     setClientListFilterState((prevState) => {
+                                         return {
+                                             ...prevState,
+                                             search: value,
+                                             page: 1 // Reset the page number to 1
+                                         };
+                                     });
+                                 }}
+                />
             </CardComponent>
             {/*{*/}
             {/*    !clientListFilterState.search &&*/}
@@ -150,16 +158,16 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             {/*    </CardComponent>*/}
             {/*}*/}
 
-                <div className="list-content-wrapper">
-                    <TableWrapperComponent
-                        id={"client_search"}
-                        url={APIConfig.CLIENT_LIST.URL}
-                        method={APIConfig.CLIENT_LIST.METHOD}
-                        columns={ClientListTableColumns}
-                        extraPayload={clientListFilterState}
-                        onSort={handleClientSort}
-                    />
-                </div>
+            <div className="list-content-wrapper">
+                <TableWrapperComponent
+                    id={"client_search"}
+                    url={APIConfig.CLIENT_LIST.URL}
+                    method={APIConfig.CLIENT_LIST.METHOD}
+                    columns={ClientListTableColumns}
+                    extraPayload={clientListFilterState}
+                    onSort={handleClientSort}
+                />
+            </div>
 
         </div>
     );

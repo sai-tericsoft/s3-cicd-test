@@ -26,7 +26,8 @@ const ClientListScreen = (props: ClientListScreenProps) => {
     const [clientListFilterState, setClientListFilterState] = useState<IClientListFilterState>({
         search: "",
         is_active: "all",
-        sort: {}
+        sort: {},
+        page: 1
     });
     const [isClientAddDrawerOpen, setIsClientAddDrawerOpen] = useState<boolean>(false);
 
@@ -71,7 +72,13 @@ const ClientListScreen = (props: ClientListScreenProps) => {
                                 placeholder={'Search using Client ID or Client Name'}
                                 value={clientListFilterState.search}
                                 onSearchChange={(value) => {
-                                    setClientListFilterState({...clientListFilterState, search: value})
+                                    setClientListFilterState((prevState) => {
+                                        return {
+                                            ...prevState,
+                                            search: value,
+                                            page: 1 // Reset the page number to 1
+                                        };
+                                    });
                                 }}
                             />
                         </div>
