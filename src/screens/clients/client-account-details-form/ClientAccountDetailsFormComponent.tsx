@@ -20,6 +20,9 @@ import {getClientAccountDetails} from "../../../store/actions/client.action";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import {useNavigate} from "react-router-dom";
+import FormikPhoneInputComponent
+    from "../../../shared/components/form-controls/formik-phone-input/FormikPhoneInputComponent";
+import * as Yup from "yup";
 
 interface ClientAccountDetailsFormComponentProps {
     clientId: string;
@@ -41,6 +44,14 @@ const ClientAccountDetailsFormInitialValues: IClientAccountDetails = {
         source_info_relationship: "",
     }
 };
+
+const ClientAccountDetailsValidationSchema  = Yup.object({
+    referral_details:Yup.object({
+        source_info_name: Yup.string().required('Full Name is required'),
+        source_info_phone:Yup.string().required('Phone Number is required'),
+        source_info_email: Yup.string().email('Invalid email')
+    }),
+});
 
 const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormComponentProps) => {
 
@@ -123,6 +134,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                         <Formik
 
                             initialValues={clientAccountDetailsFormInitialValues}
+                            validationSchema={ClientAccountDetailsValidationSchema}
                             onSubmit={onSubmit}
                             validateOnChange={false}
                             validateOnBlur={true}
@@ -214,6 +226,8 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                                                 (field: FieldProps) => (
                                                                     <FormikInputComponent
                                                                         label={"Full Name"}
+                                                                        placeholder={"E.g. John Doe"}
+                                                                        required={true}
                                                                         formikField={field}
                                                                         fullWidth={true}
                                                                     />
@@ -225,9 +239,10 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                                         <Field name={`referral_details.source_info_phone`}>
                                                             {
                                                                 (field: FieldProps) => (
-                                                                    <FormikInputComponent
-                                                                        label={"Phone Number"}
+                                                                    <FormikPhoneInputComponent
+                                                                        label={'Phone Number'}
                                                                         formikField={field}
+                                                                        required={true}
                                                                         fullWidth={true}
                                                                     />
                                                                 )
@@ -241,8 +256,8 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                                             {
                                                                 (field: FieldProps) => (
                                                                     <FormikInputComponent
-                                                                        label={"Email"}
-                                                                        type={"email"}
+                                                                        label={'Email Address'}
+                                                                        placeholder={'example@email.com'}
                                                                         formikField={field}
                                                                         fullWidth={true}
                                                                     />
@@ -256,7 +271,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                                                 (field: FieldProps) => (
                                                                     <FormikSelectComponent
                                                                         options={relationshipList}
-                                                                        label={"Select"}
+                                                                        label={"Relationship"}
                                                                         formikField={field}
                                                                         fullWidth={true}
                                                                     />

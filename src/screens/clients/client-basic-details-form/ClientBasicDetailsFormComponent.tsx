@@ -39,7 +39,10 @@ const ClientBasicDetailsFormValidationSchema = Yup.object({
     first_name: Yup.string().required('First Name is required'),
     last_name: Yup.string().required('Last Name is required'),
     dob: Yup.mixed().required('Date of Birth is required'),
-    ssn: Yup.string().required('SSN is required'),
+    ssn: Yup.string()
+        .required('SSN Number is required')
+        .min(9, 'Enter valid SSN Number')
+        .max(9, 'SSN cannot be more than 9-digits'),
     gender: Yup.string().required('Gender is required'),
     work_info: Yup.object({
         occupation: Yup.string().required('Occupation is required'),
