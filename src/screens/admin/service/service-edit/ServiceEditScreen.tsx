@@ -280,11 +280,12 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                         return (
                                                             <div key={index}>
                                                                 <div
-                                                                    className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
+                                                                    className={"display-flex ts-align-items-center"}>
                                                                     <FormControlLabelComponent
                                                                         label={`Initial Consultation Details ${index + 1}`}/>
                                                                     <div>
-                                                                        {(index > 0) && <ButtonComponent
+                                                                        {(index > 0) && <ButtonComponent className={'mrg-bottom-25 mrg-left-20'}
+                                                                                                         color={'error'}
                                                                             prefixIcon={<ImageConfig.CloseIcon/>}
                                                                             onClick={() => {
                                                                                 arrayHelpers.remove(index);

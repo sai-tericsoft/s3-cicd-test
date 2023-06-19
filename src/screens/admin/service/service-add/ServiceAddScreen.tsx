@@ -346,11 +346,13 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                         return (
                                                             <div key={index}>
                                                                 <div
-                                                                    className={"display-flex align-items-center justify-content-space-between"}>
+                                                                    className={"display-flex align-items-center"}>
                                                                     <FormControlLabelComponent
                                                                         label={`Follow Up Consultation Details ${index + 1}`}/>
                                                                     <div>
                                                                         {(index > 0) && <ButtonComponent
+                                                                            className={'mrg-bottom-25 mrg-left-20'}
+                                                                            color={'error'}
                                                                             prefixIcon={<ImageConfig.CloseIcon/>}
                                                                             onClick={() => {
                                                                                 arrayHelpers.remove(index);
