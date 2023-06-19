@@ -1,7 +1,6 @@
 import "./ClientAccountDetailsComponent.scss";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
-import QuestionComponent from "../../../shared/components/question/QuestionComponent";
 import HorizontalLineComponent
     from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
@@ -54,48 +53,53 @@ const ClientAccountDetailsComponent = (props: ClientAccountDetailsComponentProps
                                    }
                     >
                         <FormControlLabelComponent label={"Communication Preferences"}/>
-                        <QuestionComponent title={"Appointment Reminders"}
-                                           description={clientAccountDetails?.communication_preferences?.appointment_reminders_details?.title || "N/A"}/>
-                        <QuestionComponent title={"Appointment Confirmations"}
-                                           description={clientAccountDetails?.communication_preferences?.appointment_confirmations_details?.title || "N/A"}/>
+                        <DataLabelValueComponent label={"Appointment Reminders"}>
+                            {clientAccountDetails?.communication_preferences?.appointment_reminders_details?.title || "N/A"}
+                        </DataLabelValueComponent>
+
+                        <DataLabelValueComponent label={"Appointment Confirmations"}>
+                            {clientAccountDetails?.communication_preferences?.appointment_confirmations_details?.title || "N/A"}
+                        </DataLabelValueComponent>
+
                         <HorizontalLineComponent/>
                         <FormControlLabelComponent label={"Referral Details"}/>
-                        <QuestionComponent title={"How did you find us?"}
-                                           description={clientAccountDetails?.referral_details.source_details?.title || "N/A"}/>
-                        {
-                            clientAccountDetails?.referral_details.source_details?.code === "friends_family_colleague" && <>
-                                <div className="ts-row">
-                                    <div className="ts-col-3">
-                                        <DataLabelValueComponent
-                                            label={"Name"}> {clientAccountDetails?.referral_details?.source_info_name || "N/A"} </DataLabelValueComponent>
+                        <DataLabelValueComponent
+                            label={"How did you find us?"}>{clientAccountDetails?.referral_details.source_details?.title || "N/A"}
+                        </DataLabelValueComponent>
+                            {
+                                clientAccountDetails?.referral_details.source_details?.code === "friends_family_colleague" && <>
+                                    <div className="ts-row">
+                                        <div className="ts-col-3">
+                                            <DataLabelValueComponent
+                                                label={"Name"}> {clientAccountDetails?.referral_details?.source_info_name || "N/A"} </DataLabelValueComponent>
+                                        </div>
+                                        <div className="ts-col-3">
+                                            <DataLabelValueComponent
+                                                label={"Phone Number"}> {clientAccountDetails?.referral_details?.source_info_phone || "N/A"} </DataLabelValueComponent>
+                                        </div>
+                                        <div className="ts-col-3">
+                                            <DataLabelValueComponent
+                                                label={"Email"}> {clientAccountDetails?.referral_details?.source_info_email || "N/A"} </DataLabelValueComponent>
+                                        </div>
+                                        <div className="ts-col-3">
+                                            <DataLabelValueComponent
+                                                label={"Relationship"}> {clientAccountDetails?.referral_details.source_info_relationship_details?.title || "N/A"} </DataLabelValueComponent>
+                                        </div>
                                     </div>
-                                    <div className="ts-col-3">
-                                        <DataLabelValueComponent
-                                            label={"Phone Number"}> {clientAccountDetails?.referral_details?.source_info_phone || "N/A"} </DataLabelValueComponent>
-                                    </div>
-                                    <div className="ts-col-3">
-                                        <DataLabelValueComponent
-                                            label={"Email"}> {clientAccountDetails?.referral_details?.source_info_email || "N/A"} </DataLabelValueComponent>
-                                    </div>
-                                    <div className="ts-col-3">
-                                        <DataLabelValueComponent
-                                            label={"Relationship"}> {clientAccountDetails?.referral_details.source_info_relationship_details?.title || "N/A"} </DataLabelValueComponent>
-                                    </div>
-                                </div>
-                            </>
-                        }
-                        {
-                            clientAccountDetails?.referral_details.source_details?.code === "social_media" && <>
-                                <DataLabelValueComponent
-                                    label={"Platform"}> {clientAccountDetails?.referral_details.source_info_name_details?.title || "N/A"} </DataLabelValueComponent>
-                            </>
-                        }
-                        {
-                            clientAccountDetails?.referral_details.source_details?.code === "other" && <>
-                                <DataLabelValueComponent
-                                    label={"Other"}> {clientAccountDetails?.referral_details?.source_info_name || "N/A"} </DataLabelValueComponent>
-                            </>
-                        }
+                                </>
+                            }
+                            {
+                                clientAccountDetails?.referral_details.source_details?.code === "social_media" && <>
+                                    <DataLabelValueComponent
+                                        label={"Platform"}> {clientAccountDetails?.referral_details.source_info_name_details?.title || "N/A"} </DataLabelValueComponent>
+                                </>
+                            }
+                            {
+                                clientAccountDetails?.referral_details.source_details?.code === "other" && <>
+                                    <DataLabelValueComponent
+                                        label={"Other"}> {clientAccountDetails?.referral_details?.source_info_name || "N/A"} </DataLabelValueComponent>
+                                </>
+                            }
                     </CardComponent>
                 </>
             }
