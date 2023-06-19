@@ -123,7 +123,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
 
         <div className={'service-add-component'}>
 
-            <FormControlLabelComponent className={'page-normal-heading'} size={"lg"}  label={'ADD SERVICE'}/>
+            <FormControlLabelComponent className={'page-normal-heading'} size={"lg"} label={'ADD SERVICE'}/>
             <div className={'service-category-service-add-form'}>
                 {
                     !serviceCategoryId &&
@@ -141,6 +141,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                         {({values, touched, errors, setFieldValue, validateForm}) => {
                             // eslint-disable-next-line react-hooks/rules-of-hooks
                             useEffect(() => {
+                                console.log(values)
                                 validateForm();
                             }, [validateForm, values]);
                             return (
@@ -255,6 +256,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                             required={true}
                                                                                                             keyExtractor={item => item.id}
                                                                                                             label={"Duration"}
+                                                                                                            selectedValues={values?.initial_consultation[index].consultation_details?.map((item: any) => item.duration)}
                                                                                                             options={consultationDurationList}
                                                                                                             id={"sv_ic_cd_duration_" + index}
                                                                                                         />
@@ -398,6 +400,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                             required={true}
                                                                                                             keyExtractor={item => item.id}
                                                                                                             label={"Duration"}
+                                                                                                            selectedValues={values?.followup_consultation[index].consultation_details?.map((item: any) => item.duration)}
                                                                                                             options={consultationDurationList}
                                                                                                             id={"sv_fc_cd_duration_" + index}
                                                                                                         />
@@ -470,35 +473,35 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                     <CardComponent title={'Upload Image for Service *'}
                                                    className={"pdd-bottom-25"}
                                                    size={"md"}>
-                                            {(!values.image) && <>
-                                                <FilePickerComponent maxFileCount={1}
-                                                                     id={"sv_upload_btn"}
-                                                                     onFilesDrop={(acceptedFiles, rejectedFiles) => {
-                                                                         if (acceptedFiles && acceptedFiles.length > 0) {
-                                                                             const file = acceptedFiles[0];
-                                                                             setFieldValue('image', file);
-                                                                         }
-                                                                     }}
-                                                                     acceptedFilesText={"PNG, JPG and JPEG files are allowed upto 10MB"}
-                                                                     acceptedFileTypes={["png", "jpg", "jpeg"]}
-                                                />
-                                                {
-                                                    (_.get(touched, "image") && !!(_.get(errors, "image"))) &&
-                                                    <ErrorComponent
-                                                        errorText={(_.get(errors, "image"))}/>
-                                                }
-                                            </>
-                                            }
+                                        {(!values.image) && <>
+                                            <FilePickerComponent maxFileCount={1}
+                                                                 id={"sv_upload_btn"}
+                                                                 onFilesDrop={(acceptedFiles, rejectedFiles) => {
+                                                                     if (acceptedFiles && acceptedFiles.length > 0) {
+                                                                         const file = acceptedFiles[0];
+                                                                         setFieldValue('image', file);
+                                                                     }
+                                                                 }}
+                                                                 acceptedFilesText={"PNG, JPG and JPEG files are allowed upto 10MB"}
+                                                                 acceptedFileTypes={["png", "jpg", "jpeg"]}
+                                            />
                                             {
-                                                (values.image) && <>
-                                                    <FilePreviewThumbnailComponent
-                                                        file={values.image}
-                                                        removeButtonId={"sv_delete_img"}
-                                                        onRemove={() => {
-                                                            setFieldValue('image', '');
-                                                        }}/>
-                                                </>
+                                                (_.get(touched, "image") && !!(_.get(errors, "image"))) &&
+                                                <ErrorComponent
+                                                    errorText={(_.get(errors, "image"))}/>
                                             }
+                                        </>
+                                        }
+                                        {
+                                            (values.image) && <>
+                                                <FilePreviewThumbnailComponent
+                                                    file={values.image}
+                                                    removeButtonId={"sv_delete_img"}
+                                                    onRemove={() => {
+                                                        setFieldValue('image', '');
+                                                    }}/>
+                                            </>
+                                        }
                                     </CardComponent>
                                     <div className="t-form-actions">
                                         <LinkComponent

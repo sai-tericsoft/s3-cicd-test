@@ -28,6 +28,7 @@ const SelectComponent = (props: SelectComponentProps) => {
         required,
         disabled,
         endAdornment,
+        selectedValues,
         id,
         ...otherProps
     } = props;
@@ -93,7 +94,7 @@ const SelectComponent = (props: SelectComponentProps) => {
                 variant={variant}
                 onChange={handleUpdate}
                 onBlur={handleOnBlur}
-                endAdornment={(tmpValue && tmpValue !== "" && isClear) ? <ClearOption /> : null}
+                endAdornment={(tmpValue && tmpValue !== "" && isClear) ? <ClearOption/> : null}
                 id={id}
                 {...otherProps}
             >
@@ -101,6 +102,7 @@ const SelectComponent = (props: SelectComponentProps) => {
                     (options?.length > 0) ? (options?.map((item, index) => {
                         return <MenuItem
                             id={id + `_drop-down-option-${displayWith(item)}`}
+                            disabled={selectedValues && selectedValues?.length > 0 && selectedValues?.includes(item?.code)}
                             key={keyExtractor ? keyExtractor(item) : `drop-down-option-${index}`}
                             value={valueExtractor(item, index)}>
                             {displayWith(item)}
