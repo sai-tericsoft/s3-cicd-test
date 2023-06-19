@@ -58,6 +58,7 @@ export interface ISurgicalHistoryOption {
 export interface IMusculoskeletalHistoryOption {
     _id: string;
     title: string;
+    placeholder: string;
 }
 
 export interface IReferralType {

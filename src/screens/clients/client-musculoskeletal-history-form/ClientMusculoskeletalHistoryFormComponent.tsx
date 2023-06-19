@@ -97,7 +97,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                     <Form noValidate={true} className={"t-form"}>
                                         {
                                             musculoskeletalHistoryOptionsList?.map((question: IMusculoskeletalHistoryOption) => {
-                                                const {_id, title} = question;
+                                                const {_id, title, placeholder} = question;
                                                 return <>
                                                     <div className="ts-row mrg-top-10 mrg-bottom-10"
                                                          key={_id}>
@@ -134,8 +134,8 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                                         (field: FieldProps) => (
                                                                             <FormikTextAreaComponent
                                                                                 id={"musculos_input"}
-                                                                                label={"Please provide pertinent information here (date of injury, date of surgery, side of body, injury type, etc)."}
-                                                                                placeholder={"Please provide pertinent information here (date of injury, date of surgery, side of body, injury type, etc)."}
+                                                                                label={placeholder}
+                                                                                placeholder={placeholder}
                                                                                 formikField={field}
                                                                                 size={"small"}
                                                                                 rows={2}
