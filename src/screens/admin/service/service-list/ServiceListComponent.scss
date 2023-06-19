@@ -19,6 +19,9 @@
 
   .t-table-wrapper {
     .t-table {
+      .table-no-data-wrapper{
+        min-height: 300px !important;
+      }
       .t-th:first-child,
       .t-td:first-child {
         padding-left: 30px;

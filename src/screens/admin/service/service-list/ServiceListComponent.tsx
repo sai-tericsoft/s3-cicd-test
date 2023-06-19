@@ -81,7 +81,7 @@ const ServiceListComponent = (props: ServiceListComponentProps) => {
                     url={APIConfig.SERVICE_LIST.URL(serviceCategoryId)}
                     method={APIConfig.SERVICE_LIST.METHOD}
                     isPaginated={true}
-                    noDataText={"There are currently no services added in this category."}
+                    noDataText={"Currently, there is no service added in this category.."}
                     columns={ServiceListTableColumns}
                 />
             </div>
