@@ -1,20 +1,26 @@
 .service-consultation-details-component {
-  .card-component{
+  .card-component {
     &.sm {
       .card-body {
         padding: 0;
       }
     }
-    .card-header{
-      .card-title-description-wrapper{
-        .card-title{
+
+    .card-header {
+      .card-title-description-wrapper {
+        .card-title {
           font-weight: 700;
           text-decoration: underline;
         }
       }
-      .card-title{
+
+      .card-title {
         margin-left: 30px;
       }
     }
+  }
+
+  .t-table-wrapper .t-table:not(.t-table-wrapper .t-table.auto-height) {
+    min-height: auto !important;
   }
 }

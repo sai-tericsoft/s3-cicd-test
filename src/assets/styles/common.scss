@@ -370,8 +370,9 @@
     .link-provider-existing-list {
       margin: 20px 0 10px 0;
       height: calc(100vh - 280px);
-      .table-container{
-        .t-table{
+
+      .table-container {
+        .t-table {
           margin-bottom: 0px;
           height: calc(100vh - 380px);
         }
@@ -379,18 +380,20 @@
     }
   }
 }
-  .coupon-list{
-    .t-table{
-      margin-bottom: 0px;
-      height: calc(100vh - 220px);
-    }
-}
-  .client-documents-list,.client-appointment-list-table-component{
-    .t-table{
-      margin-bottom: 0px;
-      height: calc(100vh - 220px);
-    }
+
+.coupon-list {
+  .t-table {
+    margin-bottom: 0px;
+    height: calc(100vh - 220px);
   }
+}
+
+.client-documents-list, .client-appointment-list-table-component {
+  .t-table {
+    margin-bottom: 0px;
+    height: calc(100vh - 220px);
+  }
+}
 
 .chip {
   text-transform: capitalize;
@@ -618,6 +621,7 @@
       align-items: center;
       text-transform: uppercase;
       cursor: pointer;
+      font-weight: 500;
 
       svg {
         height: 16px;
