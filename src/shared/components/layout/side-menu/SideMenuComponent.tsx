@@ -9,11 +9,11 @@ interface SideMenuComponentProps {
 }
 
 const menuList: IMenuItem[] = [
-    // {
-    //     path: CommonService._routeConfig.Dashboard(),
-    //     title: 'Dashboard',
-    //     icon: ImageConfig.DashboardIcon
-    // },
+    {
+        path: CommonService._routeConfig.Dashboard(),
+        title: 'Dashboard',
+        icon: ImageConfig.DashboardIcon
+    },
     {
         path: CommonService._routeConfig.ClientList(),
         title: 'Clients',
@@ -44,11 +44,11 @@ const menuList: IMenuItem[] = [
     //     title: 'Inventory',
     //     icon: ImageConfig.InventoryIcon
     // },
-    // {
-    //     path:CommonService._routeConfig.FrequentlyAskedQuestions(),
-    //     title:"Help",
-    //     icon:ImageConfig.HelpIcon
-    // }
+    {
+        path:CommonService._routeConfig.FrequentlyAskedQuestions(),
+        title:"Help",
+        icon:ImageConfig.HelpIcon
+    }
 ]
 
 const SideMenuComponent = (props: SideMenuComponentProps) => {
