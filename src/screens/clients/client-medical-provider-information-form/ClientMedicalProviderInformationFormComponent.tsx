@@ -5,7 +5,6 @@ import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {Misc} from "../../../constants";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
@@ -66,7 +65,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                     if (clientId) {
                         dispatch(getClientMedicalDetails(clientId));
                     }
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     setIsClientMedicalProviderInformationSavingInProgress(false);
                     setClientMedicalProviderInformationInitialValues(_.cloneDeep(values));
                     onSave(response);
@@ -116,7 +115,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                                             (field: FieldProps) => (
                                                                 <FormikInputComponent
                                                                     label={"Full Name"}
-                                                                    placeholder={"Full Name"}
+                                                                    placeholder={'E.g. John Doe'}
                                                                     // required={true}
                                                                     formikField={field}
                                                                     fullWidth={true}
@@ -131,7 +130,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                                             (field: FieldProps) => (
                                                                 <FormikPhoneInputComponent
                                                                     label={"MD Phone"}
-                                                                    placeholder={"MD Phone"}
+                                                                    // placeholder={"MD Phone"}
                                                                     // required={true}
                                                                     formikField={field}
                                                                     fullWidth={true}
@@ -149,7 +148,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                                             (field: FieldProps) => (
                                                                 <FormikInputComponent
                                                                     label={"Full Name"}
-                                                                    placeholder={"Full Name"}
+                                                                    placeholder={'E.g. John'}
                                                                     // required={true}
                                                                     formikField={field}
                                                                     fullWidth={true}
@@ -164,7 +163,6 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                                             (field: FieldProps) => (
                                                                 <FormikPhoneInputComponent
                                                                     label={"MD Phone"}
-                                                                    placeholder={"MD Phone"}
                                                                     // required={true}
                                                                     formikField={field}
                                                                     fullWidth={true}

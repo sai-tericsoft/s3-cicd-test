@@ -60,7 +60,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                 setIsClientAddInProgress(false);
                 dispatch(setClientBasicDetails(response.data));
                 dispatch(setClientMedicalDetails(undefined));
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 navigate(CommonService._routeConfig.ClientAdd(response.data._id));
             }).catch((error: any) => {
             setIsClientAddInProgress(false);
@@ -78,8 +78,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
             image: ImageConfig.DeleteAttachmentConfirmationIcon,
             confirmationTitle: 'SEND INVITE LINK',
             confirmationSubTitle: `Are you sure you want to send invite link to 
-            ${values.first_name} ${values.last_name} having email ${values.primary_email}?`
-            ,
+            ${values.first_name} ${values.last_name} having email ${values.primary_email}?`,
         }).then(() => {
             CommonService._client.ClientBasicDetailsAddAPICall(payload)
                 .then((response: any) => {

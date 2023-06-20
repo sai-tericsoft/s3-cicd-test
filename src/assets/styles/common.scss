@@ -516,6 +516,11 @@
 .confirmation-modal {
   .modal-content-wrapper {
     width: 444px !important;
+    .modal-footer{
+      .confirm-cta{
+        margin-left: 16px !important;
+      }
+    }
   }
 }
 

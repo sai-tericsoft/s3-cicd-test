@@ -5,7 +5,6 @@ import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {Misc} from "../../../constants";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
@@ -58,7 +57,7 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
                 if (clientId) {
                     dispatch(getClientMedicalDetails(clientId));
                 }
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsClientMedicalSupplementsSavingInProgress(false);
                 setClientMedicalSupplementsInitialValues(_.cloneDeep(values));
                 onSave(response);

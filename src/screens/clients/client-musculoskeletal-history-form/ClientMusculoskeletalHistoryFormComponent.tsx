@@ -6,7 +6,6 @@ import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {Misc} from "../../../constants";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import FormikRadioButtonGroupComponent
     from "../../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
@@ -54,7 +53,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                 if (clientId) {
                     dispatch(getClientMedicalDetails(clientId));
                 }
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsClientMusculoskeletalHistorySavingInProgress(false);
                 setClientMusculoskeletalHistoryFormInitialValues(_.cloneDeep(values));
                 onSave(response);

@@ -65,10 +65,10 @@ const InitialConsultationValidationSchema = Yup.object({
     consultation_details: Yup.array(ConsultationDurationSlotValidationSchema),
 })
 
-const FollowupConsultationValidationSchema = Yup.object({
-    title: Yup.string().nullable(),
-    consultation_details: Yup.array(ConsultationDurationSlotValidationSchema),
-})
+// const FollowupConsultationValidationSchema = Yup.object({
+//     title: Yup.string().nullable(),
+//     consultation_details: Yup.array(ConsultationDurationSlotValidationSchema),
+// })
 
 const serviceAddFormValidationSchema = Yup.object({
     name: Yup.string()
@@ -78,7 +78,7 @@ const serviceAddFormValidationSchema = Yup.object({
     image: Yup.mixed()
         .required('Image field is required'),
     initial_consultation: Yup.array(InitialConsultationValidationSchema),
-    followup_consultation: Yup.array(FollowupConsultationValidationSchema),
+    // followup_consultation: Yup.array(FollowupConsultationValidationSchema),
 });
 
 const ServiceAddScreen = (props: ServiceAddComponentProps) => {
@@ -398,7 +398,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                         <FormikSelectComponent
                                                                                                             formikField={field}
                                                                                                             fullWidth={true}
-                                                                                                            required={true}
+                                                                                                            // required={true}
                                                                                                             keyExtractor={item => item.id}
                                                                                                             label={"Duration"}
                                                                                                             selectedValues={values?.followup_consultation[index].consultation_details?.map((item: any) => item.duration)}
@@ -418,7 +418,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                             label={'Price'}
                                                                                                             placeholder={'Price'}
                                                                                                             // type={"number"}
-                                                                                                            required={true}
+                                                                                                            // required={true}
                                                                                                             prefix={Misc.CURRENCY_SYMBOL}
                                                                                                             formikField={field}
                                                                                                             fullWidth={true}
