@@ -4,7 +4,6 @@ import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {Misc} from "../../../constants";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
@@ -98,7 +97,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
             apiCall = CommonService._client.ClientAccountDetailsEditAPICall(clientId, payload);
         }
         apiCall.then((response: IAPIResponseType<IClientAccountDetails>) => {
-            CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+            // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
             setIsClientAccountDetailsFormSavingInProgress(false);
             onSave(response.data);
             if (mode === 'add') {

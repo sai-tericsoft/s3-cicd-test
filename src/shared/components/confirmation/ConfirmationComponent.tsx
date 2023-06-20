@@ -77,7 +77,7 @@ const ConfirmationComponent = (props: ConfirmationComponentProps) => {
                     color={config?.yes?.color || 'primary'}
                     variant={config?.yes?.variant || "contained"}
                     id={"yes-btn"}
-                    className={"pdd-left-60 pdd-right-60"}
+                    className={"confirm-cta pdd-left-60 pdd-right-60"}
                 >
                     {config?.yes?.text || 'Yes'}
                 </ButtonComponent>

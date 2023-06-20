@@ -6,7 +6,6 @@ import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {Misc} from "../../../constants";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import FormikRadioButtonGroupComponent
@@ -125,7 +124,7 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                 if (clientId) {
                     dispatch(getClientMedicalDetails(clientId));
                 }
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsClientPersonalHabitsSavingInProgress(false);
                 setClientPersonalHabitsFormInitialValues(_.cloneDeep(values));
                 onSave(response);

@@ -60,8 +60,7 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
     return (
         <div className="service-category-add-component">
             <div className="service-category-add-form-container">
-                <FormControlLabelComponent label={"Add New Service Category"}
-                                           size={"lg"}/>
+                <div className={'service-category-add-heading'}>Add New Service Category</div>
                 <Formik
                     validationSchema={serviceCategoryAddFormValidationSchema}
                     initialValues={serviceCategoryAddFormInitialValues}
@@ -80,22 +79,24 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
                             <Form className="t-form" noValidate={true}>
                                 {/*<FormDebuggerComponent values={values} errors={errors}/>*/}
                                 <div className="t-form-controls">
-                                    <Field name={'name'} className="t-form-control">
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikInputComponent
-                                                    label={'Service Category Name'}
-                                                    placeholder={'Enter Service Category Name'}
-                                                    type={"text"}
-                                                    required={true}
-                                                    formikField={field}
-                                                    fullWidth={true}
-                                                    titleCase={true}
-                                                    id={"sc_name_input"}
-                                                />
-                                            )
-                                        }
-                                    </Field>
+                                    <div className={'mrg-top-5'}>
+                                        <Field name={'name'} className="t-form-control">
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikInputComponent
+                                                        label={'Service Category Name'}
+                                                        placeholder={'Enter Service Category Name'}
+                                                        type={"text"}
+                                                        required={true}
+                                                        formikField={field}
+                                                        fullWidth={true}
+                                                        titleCase={true}
+                                                        id={"sc_name_input"}
+                                                    />
+                                                )
+                                            }
+                                        </Field>
+                                    </div>
                                     <Field name={'description'} className="t-form-control">
                                         {
                                             (field: FieldProps) => (
@@ -111,8 +112,9 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
                                         }
                                     </Field>
                                     <div className="mrg-bottom-20">
-                                        <FormControlLabelComponent size={"sm"} label={"Upload Image for Service Category *"}
-                                                                  />
+                                        <FormControlLabelComponent size={"sm"}
+                                                                   label={"Upload Image for Service Category *"}
+                                        />
                                         <>
                                             {
                                                 (!values.image) && <>

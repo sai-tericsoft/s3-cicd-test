@@ -6,7 +6,6 @@ import React, {useCallback, useEffect, useState} from "react";
 import {IClientAllergiesForm} from "../../../shared/models/client.model";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {Misc} from "../../../constants";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {useDispatch, useSelector} from "react-redux";
@@ -49,7 +48,7 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
                 if (clientId) {
                     dispatch(getClientMedicalDetails(clientId));
                 }
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsClientAllergiesSavingSavingInProgress(false);
                 setClientAllergiesFormInitialValues(_.cloneDeep(values));
                 onSave(response);

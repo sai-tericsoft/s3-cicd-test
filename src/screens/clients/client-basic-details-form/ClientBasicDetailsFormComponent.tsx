@@ -5,7 +5,7 @@ import _ from "lodash";
 import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {ImageConfig, Misc, Patterns} from "../../../constants";
+import {ImageConfig, Patterns} from "../../../constants";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
@@ -176,7 +176,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
             if (mode === 'add' || mode === 'edit') {
                 CommonService._client.ClientBasicDetailsEditAPICall(clientId, payload)
                     .then((response: IAPIResponseType<IClientBasicDetails>) => {
-                        CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                        // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                         setIsClientBasicDetailsSavingInProgress(false);
                         dispatch(setClientBasicDetails(response.data));
                         onSave(response.data);
