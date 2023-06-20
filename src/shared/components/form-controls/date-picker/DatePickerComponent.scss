@@ -4,4 +4,15 @@
   &.full-width {
     width: 100%;
   }
+
 }
+
+  .MuiCalendarPicker-root {
+    .MuiYearPicker-root {
+      transform: rotate(180deg);
+
+      .PrivatePickersYear-root {
+        transform: rotate(180deg);
+      }
+    }
+  }

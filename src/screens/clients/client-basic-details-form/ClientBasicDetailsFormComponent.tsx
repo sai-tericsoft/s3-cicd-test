@@ -1127,7 +1127,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                         id={"save_btn"}
                                         size={'large'}
                                         isLoading={isClientBasicDetailsSavingInProgress}
-                                        disabled={isClientBasicDetailsSavingInProgress || !isValid}
+                                        disabled={isClientBasicDetailsSavingInProgress || !isValid || CommonService.isEqual(values, clientBasicDetailsFormInitialValues)}
                                         type={"submit"}
                                     >
                                         {isClientBasicDetailsSavingInProgress ? "Saving" : "Save"}
