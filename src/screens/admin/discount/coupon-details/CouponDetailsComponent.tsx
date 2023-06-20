@@ -77,7 +77,7 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
                 isCouponDetailsLoading && <LoaderComponent/>
             }
             {
-                isCouponDetailsLoadingFailed && <StatusCardComponent title={'Error in fetching coupon details'}/>
+                isCouponDetailsLoadingFailed && <StatusCardComponent title={'Unable to load data. Please wait a moment and try again.'}/>
             }
             {
                 isCouponDetailsLoaded && <>

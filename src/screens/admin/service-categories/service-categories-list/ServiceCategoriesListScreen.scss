@@ -24,6 +24,10 @@
     .service-category-list-wrapper {
       padding-top: 6px;
 
+      .loading-and-failed-message-wrapper {
+        min-height: 600px;
+      }
+
       .service-category-list {
         display: flex;
         flex-wrap: wrap;

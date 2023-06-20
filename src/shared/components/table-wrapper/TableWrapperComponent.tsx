@@ -36,7 +36,7 @@ const TableWrapperComponent = (props: TableComponentProps) => {
 
     const getListData = useCallback(() => {
         const cancelTokenSource = CommonService.getCancelToken();
-        const payload = _.cloneDeep({page: pageNumRef.current + 1, limit: pageSizeRef.current, ...extraPayload});
+        const payload = _.cloneDeep({limit: pageSizeRef.current, ...extraPayload, page: pageNumRef.current + 1});
         console.log(payload);
         if (payload?.sort && payload?.sort?.key) { // TODO to make sort more consistent
             payload.sort[payload.sort.key] = payload?.sort?.order;
@@ -82,8 +82,11 @@ const TableWrapperComponent = (props: TableComponentProps) => {
     }, [isPaginated, method, url, extraPayload]);
 
     useEffect(() => {
+        if (extraPayload?.page) {
+            pageNumRef.current = extraPayload.page - 1;
+        }
         getListData();
-    }, [getListData, refreshToken]);
+    }, [getListData, refreshToken, extraPayload]);
 
     const handlePageNumberChange = useCallback((event: unknown, newPage: number) => {
         pageNumRef.current = newPage;
@@ -130,7 +133,7 @@ const TableWrapperComponent = (props: TableComponentProps) => {
                 />
             }
             {
-                (data  && isPaginated) && <PaginationComponent
+                (data && isPaginated) && <PaginationComponent
                     paginationOptions={[10, 25, 100]}
                     totalResults={totalResultsRef.current}
                     limit={pageSizeRef.current}

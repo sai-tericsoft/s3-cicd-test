@@ -186,7 +186,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                     isServiceDetailsLoading && <LoaderComponent/>
                 }
                 {
-                    isServiceDetailsLoadingFailed && <StatusCardComponent title={"Failed to fetch service details"}/>
+                    isServiceDetailsLoadingFailed && <StatusCardComponent title={"Unable to load data. Please wait a moment and try again."}/>
                 }
                 {
                     (isServiceDetailsLoaded && serviceId) && <Formik

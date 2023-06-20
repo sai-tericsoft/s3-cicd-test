@@ -85,13 +85,16 @@ const ServiceCategoriesListScreen = (props: ServiceCategoriesListScreenProps) =>
             </div>
             <CardComponent className="service-category-list-card">
                 <div className="service-category-list-wrapper">
-                    <div className="h-v-center">
+                    <div>
                         {
-                            isServiceCategoryListLoading && <LoaderComponent type={"spinner"}/>
+                            isServiceCategoryListLoading &&
+                            <div className="h-v-center loading-and-failed-message-wrapper"><LoaderComponent
+                                type={"spinner"}/></div>
                         }
                         {
                             isServiceCategoryListLoadingFailed &&
-                            <StatusCardComponent title={"Failed to fetch service category list"}/>
+                            <StatusCardComponent  className="h-v-center loading-and-failed-message-wrapper"
+                                title={"Unable to load data. Please wait a moment and try again."}/>
                         }
                     </div>
                     {

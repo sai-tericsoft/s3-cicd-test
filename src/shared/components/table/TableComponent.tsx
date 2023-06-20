@@ -247,7 +247,8 @@ const TableComponent = (props: TableComponentProps) => {
                         }
                         {
                             (errored && !loading) &&
-                            <StatusCardComponent title={"Error loading data"} className={'table-loading-error-card'}/>
+                            <StatusCardComponent title={"Unable to load data. Please wait a moment and try again. "}
+                            />
                         }
                     </div>
                 </div>
