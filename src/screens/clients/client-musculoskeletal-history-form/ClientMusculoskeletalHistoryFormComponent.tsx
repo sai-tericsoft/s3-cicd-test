@@ -101,7 +101,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                 return <>
                                                     <div className="ts-row mrg-top-10 mrg-bottom-10"
                                                          key={_id}>
-                                                        <div className="ts-col-md-4">
+                                                        <div className="ts-col-md-3">
                                                             <div className={"mrg-bottom-10"}>
                                                                 {title}
                                                             </div>
@@ -126,7 +126,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                                 }
                                                             </Field>
                                                         </div>
-                                                        <div className={"ts-col-md-8"}>
+                                                        <div className={"ts-col-md-9"}>
                                                             {
                                                                 values.musculoskeletal_history[_id]?.value === "Yes" &&
                                                                 <Field name={`musculoskeletal_history.${_id}.text`}>

@@ -18,7 +18,6 @@ interface ClientListTableComponentProps {
 const ClientListTableComponent = (props: ClientListTableComponentProps) => {
 
     const {clientListFilterState, moduleName, onSort, refreshToken} = props;
-    console.log('cc',clientListFilterState.search);
 
     const ClientListTableColumns: ITableColumn[] = [
         {
