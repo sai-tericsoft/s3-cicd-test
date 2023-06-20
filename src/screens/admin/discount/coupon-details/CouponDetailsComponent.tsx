@@ -112,7 +112,7 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
                             </div>
                             <div className={'ts-col-md-4 ts-col-lg'}>
                                 <DataLabelValueComponent label={'Minimum Billing Amount'}>
-                                    {CommonService.convertToDecimals(couponDetails?.min_billing_amount) || "N/A"}
+                                    {CommonService.convertToDecimals(+couponDetails?.min_billing_amount) || "N/A"}
                                 </DataLabelValueComponent>
                             </div>
                             <div className={'ts-col-md-4 ts-col-lg'}>
@@ -145,7 +145,7 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
                             <div className={'ts-col-md-4 ts-col-lg'}>
                                 <DataLabelValueComponent label={'Maximum Discount Amount'}>
 
-                                    {CommonService.convertToDecimals(couponDetails?.max_discount_amount) || "N/A"}
+                                    {CommonService.convertToDecimals(+couponDetails?.max_discount_amount) || "N/A"}
                                 </DataLabelValueComponent>
                             </div>
                             <div className={'ts-col-md-4 ts-col-lg'}/>
