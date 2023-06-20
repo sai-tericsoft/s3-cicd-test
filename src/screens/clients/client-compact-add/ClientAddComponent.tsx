@@ -199,19 +199,15 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                 >
                                     Proceed with Adding Client
                                 </ButtonComponent>&nbsp;
-                                {
-                                    <>
-                                        {(ENV.ENV_MODE === 'dev' || ENV.ENV_MODE === 'test') && <ButtonComponent
-                                            onClick={() => handleInviteLink(values, setErrors)}
-                                            variant={"contained"}
-                                            className={'adding-client-cta'}
-                                            disabled={!isValid || values.is_onboarded}
-                                        >
-                                            Send Invite Link
-                                        </ButtonComponent>}
+                                <ButtonComponent
+                                    onClick={() => handleInviteLink(values, setErrors)}
+                                    variant={"contained"}
+                                    className={'adding-client-cta'}
+                                    disabled={!isValid || values.is_onboarded}
+                                >
+                                    Send Invite Link
+                                </ButtonComponent>
 
-                                    </>
-                                }
 
                             </div>
                         </Form>
