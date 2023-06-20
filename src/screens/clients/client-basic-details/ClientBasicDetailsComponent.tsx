@@ -212,7 +212,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                     </div>
                                     <div className={'ts-col-6'}>
                                         <DataLabelValueComponent label={'Phone Number'}>
-                                            {CommonService.formatPhoneNumber(clientBasicDetails?.emergency_contact_info?.primary_emergency?.primary_contact_info?.phone || "N/A")}
+                                            {CommonService.formatPhoneNumber(clientBasicDetails?.emergency_contact_info?.primary_emergency?.primary_contact_info?.phone || 'N/A')}
                                         </DataLabelValueComponent>
                                     </div>
                                 </div>

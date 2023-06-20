@@ -59,7 +59,7 @@ const ClientAccountDetailsValidationSchema = Yup.object({
         }),
         source_info_email: Yup.string().when('source', {
             is: 'friends_family_colleague',
-            then: Yup.string().email('Invalid email').required('Email is required'),
+            then: Yup.string().email('Invalid email'),
             otherwise: Yup.string().email('Invalid email')
         })
     }),
