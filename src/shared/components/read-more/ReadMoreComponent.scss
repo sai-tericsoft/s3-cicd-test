@@ -1,0 +1,12 @@
+@import "src/assets/styles/common";
+
+.read-more-component {
+  display: inline;
+  width: 100%;
+
+  .read-or-hide {
+    cursor: pointer;
+    font-weight: 500;
+    color: $primary-color;
+  }
+}

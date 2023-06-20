@@ -85,7 +85,7 @@ const ServiceCategoriesListScreen = (props: ServiceCategoriesListScreenProps) =>
             </div>
             <CardComponent className="service-category-list-card">
                 <div className="service-category-list-wrapper">
-                    <div className={isServiceCategoryListLoading ? ' card-loading' : ''}>
+                    <div className="h-v-center">
                         {
                             isServiceCategoryListLoading && <LoaderComponent type={"spinner"}/>
                         }
@@ -93,30 +93,29 @@ const ServiceCategoriesListScreen = (props: ServiceCategoriesListScreenProps) =>
                             isServiceCategoryListLoadingFailed &&
                             <StatusCardComponent title={"Failed to fetch service category list"}/>
                         }
-                        {
-                            isServiceCategoryListLoaded && <>
-                                {serviceCategoryList?.length === 0 &&
-                                    <StatusCardComponent title={"Service category list is empty"}/>}
-                                {
-                                    serviceCategoryList?.length !== 0 && <>
-                                        <div className="service-category-list">
-                                            <div className="ts-row">
-                                                {
-                                                    serviceCategoryList?.map((serviceCategory) => {
-                                                        return <div className="ts-col-lg-3">
-                                                            <ServiceCategoryCardComponent serviceCategory={serviceCategory}
-                                                                                          key={serviceCategory._id}/>
-                                                        </div>
-                                                    })
-                                                }
-                                            </div>
-                                        </div>
-                                    </>
-                                }
-                            </>
-                        }
-
                     </div>
+                    {
+                        isServiceCategoryListLoaded && <>
+                            {serviceCategoryList?.length === 0 &&
+                                <StatusCardComponent title={"Currently, there is no service category added."}/>}
+                            {
+                                serviceCategoryList?.length !== 0 && <>
+                                    <div className="service-category-list">
+                                        <div className="ts-row">
+                                            {
+                                                serviceCategoryList?.map((serviceCategory) => {
+                                                    return <div className="ts-col-lg-3">
+                                                        <ServiceCategoryCardComponent serviceCategory={serviceCategory}
+                                                                                      key={serviceCategory._id}/>
+                                                    </div>
+                                                })
+                                            }
+                                        </div>
+                                    </div>
+                                </>
+                            }
+                        </>
+                    }
 
                 </div>
             </CardComponent>

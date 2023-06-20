@@ -170,7 +170,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                     {
                                         (field: FieldProps) => (
                                             <FormikCheckBoxComponent
-                                                label={'Do not send the customer portal link to the client being onboarded.'}
+                                                label={'Send an onboarding notification to the provided email address.'}
                                                 formikField={field}
                                                 required={false}
                                                 labelPlacement={"end"}

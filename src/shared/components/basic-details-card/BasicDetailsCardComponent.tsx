@@ -1,6 +1,7 @@
 import "./BasicDetailsCardComponent.scss";
 import AvatarComponent from "../avatar/AvatarComponent";
 import ChipComponent from "../chip/ChipComponent";
+import ReadMoreComponent from "../read-more/ReadMoreComponent";
 
 interface BasicDetailsCardComponentProps {
     legend?: string;
@@ -31,12 +32,13 @@ const BasicDetailsCardComponent = (props: BasicDetailsCardComponentProps) => {
                             <div className="basic-details-card-name" id={"card-title"}>{title}</div>
                             <div
                                 className="basic-details-card-status" id={"card-status"}>
-                                <ChipComponent label={status ? "Active" : "Inactive"} className={status ? "active" : "inactive"}/>
+                                <ChipComponent label={status ? "Active" : "Inactive"}
+                                               className={status ? "active" : "inactive"}/>
                             </div>
                         </div>
                     </div>
                     <div className="basic-details-card-description" id={"card-sub-title"}>
-                        {subTitle || "-"}
+                        <ReadMoreComponent>{subTitle || "-"}</ReadMoreComponent>
                     </div>
                 </div>
                 <div className="basic-details-card-actions">
