@@ -21,8 +21,12 @@
     }
   }
   .t-form-actions{
+    margin-bottom: 0px !important;
     .adding-client-cta{
       margin-left: 14px;
     }
+  }
+  .MuiFormControlLabel-label{
+    color: #000000;
   }
 }

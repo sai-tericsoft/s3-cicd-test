@@ -55,7 +55,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                             </div>
                             <div className="ts-col-md-6 ts-col-lg-3">
                                 <DataLabelValueComponent label={'Date of Birth'}>
-                                    {moment(clientBasicDetails?.dob).format('DD-MMM-YYYY') || "N/A"}
+                                    {(clientBasicDetails?.dob===undefined || !clientBasicDetails?.dob) ? "N/A" :moment(clientBasicDetails?.dob).format('DD-MMM-YYYY') }
                                 </DataLabelValueComponent>
                             </div>
                             <div className="ts-col-md-6 ts-col-lg-3">

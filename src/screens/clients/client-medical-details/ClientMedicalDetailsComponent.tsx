@@ -306,7 +306,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                                 }
                                                 {
                                                     clientMedicalDetails?.musculoskeletal_history[question]?.value === 'Yes' && !clientMedicalDetails?.musculoskeletal_history[question]?.text
-                                                    && <div className={'allergies-na'}>None Reported</div>
+                                                    && <div className={'musculoskeletal-na'}>None Reported</div>
                                                 }
 
                                             </div>

@@ -5,7 +5,7 @@ import _ from "lodash";
 import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {ImageConfig, Misc} from "../../../constants";
+import {ImageConfig, Misc, Patterns} from "../../../constants";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
@@ -406,8 +406,9 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                         <FormikInputComponent
                                                             label={'SSN'}
                                                             placeholder={'Enter SSN'}
-                                                            type={"text"}
                                                             required={true}
+                                                           type={'text'}
+                                                            validationPattern={Patterns.NINE_DIGITS_ONLY}
                                                             formikField={field}
                                                             fullWidth={true}
                                                         />
@@ -1126,6 +1127,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                     <ButtonComponent
                                         id={"save_btn"}
                                         size={'large'}
+                                        className={'submit-cta'}
                                         isLoading={isClientBasicDetailsSavingInProgress}
                                         disabled={isClientBasicDetailsSavingInProgress || !isValid || CommonService.isEqual(values, clientBasicDetailsFormInitialValues)}
                                         type={"submit"}

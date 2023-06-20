@@ -482,6 +482,15 @@ const formatPhoneNumber = (phone: string) => {
     return phone
 }
 
+const  validateDecimal = (input:any) =>{
+    const regex = /^\d*\.?\d{0,2}$/; // Regular expression to allow up to two decimal places
+    const inputValue = input.value;
+
+    if (!regex.test(inputValue)) {
+        input.value = inputValue.slice(0, -1); // Remove the last character (the extra decimal)
+    }
+}
+
 const extractName = (data: any) => {
     return (data?.first_name || data?.last_name ? data?.last_name + ', ' + data?.first_name : '-');
 };
@@ -655,7 +664,7 @@ const CommonService = {
     transformTimeStamp2,
     convertNumberToTime,
     getHoursAndMinutesFromMinutes,
-
+    validateDecimal,
     // createValidationsObject,
     // createYupSchema,
 

@@ -14,7 +14,7 @@ import FilePreviewThumbnailComponent
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 import {CommonService} from "../../../../shared/services";
 import {IAPIResponseType} from "../../../../shared/models/api.model";
-import {ImageConfig, Misc} from "../../../../constants";
+import {ImageConfig, Misc, Patterns} from "../../../../constants";
 import CardComponent from "../../../../shared/components/card/CardComponent";
 import FormikSelectComponent from "../../../../shared/components/form-controls/formik-select/FormikSelectComponent";
 import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
@@ -277,7 +277,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                             formikField={field}
                                                                                                             fullWidth={true}
                                                                                                             id={"sv_ic_cd_price" + index}
-                                                                                                            // validationPattern={Patterns.POSITIVE_INTEGERS_PARTIAL}
+                                                                                                            validationPattern={Patterns.POSITIVE_INTEGERS_WITH_DECIMALS}
                                                                                                         />
                                                                                                     )
                                                                                                 }
@@ -422,6 +422,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                             prefix={Misc.CURRENCY_SYMBOL}
                                                                                                             formikField={field}
                                                                                                             fullWidth={true}
+                                                                                                            validationPattern={Patterns.POSITIVE_INTEGERS_WITH_DECIMALS}
                                                                                                             id={"sv_fc_cd_price_" + index}
                                                                                                             // validationPattern={Patterns.POSITIVE_INTEGERS_PARTIAL}
                                                                                                         />
