@@ -78,7 +78,7 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
                                                 (field: FieldProps) => (
                                                     <FormikTextAreaComponent
                                                         label={'Enter your issue here'}
-                                                        placeholder={'Enter your issue here '}
+                                                        placeholder={' '}
                                                         formikField={field}
                                                         fullWidth={true}
                                                     />
@@ -107,7 +107,7 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
                                                                              }
                                                                          }}
                                                                          acceptedFileTypes={["pdf", "png", "jpg", "jpeg"]}
-                                                                         acceptedFilesText={"PNG, JPG, JPEG, PDF, files are allowed"}
+                                                                         acceptedFilesText={"PNG, JPG, JPEG, PDF files are allowed upto 5MB"}
                                                     />
                                                     {
                                                         (_.get(touched, "attachment") && !!(_.get(errors, "attachment"))) &&

@@ -59,7 +59,7 @@ const DashboardScreen = (props: DashboardScreenProps) => {
                     <BasicTabsComponent value={currentTab} onUpdate={handleTabChange} variant={"fullWidth"}
                                         allowScrollButtonsMobile={false}>
                         <TabComponent label={'Home'} value={"home"}/>
-                        <TabComponent label={'Draft'} value={"draft"}/>
+                        <TabComponent label={'Draft Notes'} value={"draft"}/>
                     </BasicTabsComponent>
                 </div>
                 <TabContentComponent value={"home"} selectedTab={currentTab}>

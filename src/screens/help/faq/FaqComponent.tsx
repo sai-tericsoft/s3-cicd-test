@@ -10,6 +10,7 @@ import HorizontalLineComponent
 import FaqAccordionComponent from "../faq-accordion/Faq-AccordionComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
+import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 
 interface FaqComponentProps {
 
@@ -21,15 +22,17 @@ const FaqComponent = (props: FaqComponentProps) => {
     const {faqList, isFaqListLoading, isFaqListLoaded} = useSelector((state: IRootReducerState) => state.staticData);
 
     useEffect(() => {
+        dispatch(setCurrentNavParams('Help'))
         dispatch(getFAQList());
     }, [dispatch]);
+
 
     return (
         <div className={'faq-component'}>
             {isFaqListLoading && <LoaderComponent/>}
             {
-                isFaqListLoaded && <>
-                    {faqList.length ? <div className={'faq-question-wrapper'}>
+                isFaqListLoaded && <div className={'ts-row'}>
+                    {faqList.length ? <div className={'ts-col-12 faq-question-wrapper'}>
                         <CardComponent>
                             <div className={'faq-block-wrapper'}>
                                 {faqList.map((faq: any, index) => {
@@ -52,7 +55,7 @@ const FaqComponent = (props: FaqComponentProps) => {
                                         <div className={'mrg-top-15 mrg-right-10 ts-align-items-center'}>
                                             <ImageConfig.CallIcon/>
                                         </div>
-                                        <div className={"contact-number-wrapper"}>(545)-654-5654</div>
+                                        <div className={"contact-number-wrapper"}>(545) 654-5654</div>
                                     </div>
                                 </div>
                                 <div className={'help-text'}>
@@ -67,7 +70,7 @@ const FaqComponent = (props: FaqComponentProps) => {
                     </div>}
 
 
-                </>
+                </div>
             }
 
 

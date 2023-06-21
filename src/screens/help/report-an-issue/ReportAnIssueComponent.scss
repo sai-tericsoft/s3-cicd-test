@@ -1,25 +1,37 @@
 .report-an-issue-component{
+  .card-component{
+      margin-bottom: 0px !important;
+  }
   .t-form {
     .ts-row {
       .issue-heading {
         margin-left: 13px;
+        margin-bottom: 15px !important;
       }
+      .input-component{
+        margin-bottom: 0px !important;
+      }
+
 
         .alert-error {
           display: flex;
           flex-direction: row-reverse;
           color: #FF6767;
           font-weight: 500;
-          font-size: 1.1429rem;
+          font-size: 0.85714rem;
           float: end;
           margin-left: 200px;
+          margin-top: 8px;
+          margin-bottom: 24px;
         }
         .no-alert {
           display: flex;
           flex-direction: row-reverse;
           color: #83909D;
           font-weight: 500;
-          font-size: 1.1429rem;
+          font-size: 0.85714rem;
+          margin-top: 8px;
+          margin-bottom: 24px;
 
       }
     }
