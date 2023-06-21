@@ -123,6 +123,7 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
                                            fixedHeader={true}
                                            autoHeight={true}
                                            refreshToken={refreshToken}
+                                           noDataText={'Currently, there are no appointments scheduled for today.'}
                                            url={APIConfig.DASHBOARD_APPOINTMENT_LIST.URL}
                                            isPaginated={false}
                                            method={APIConfig.DASHBOARD_APPOINTMENT_LIST.METHOD}

@@ -301,7 +301,9 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                                     (clientMedicalDetails?.musculoskeletal_history[question]?.text) &&
                                                     <div className={'musculoskeletal-question'}>
                                                         {clientMedicalDetails?.musculoskeletal_history[question]?.text.split("\n").map((i: any, key: any) => {
-                                                            return <div key={key}>{i}</div>
+                                                            return <ul>
+                                                                <li key={key}>{i}</li>
+                                                            </ul>
                                                         })}</div>
                                                 }
                                                 {

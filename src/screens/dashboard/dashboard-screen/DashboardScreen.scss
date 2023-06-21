@@ -1,8 +1,23 @@
 .DashboardScreen{
-  .current-user-name{
-    font-weight: 700;
-    font-size: 1.7143rem;
-    line-height: 28px;
-    text-transform: capitalize;
+  .name-date-wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .current-user-name{
+      font-weight: 700;
+      font-size: 1.7143rem;
+      line-height: 28px;
+      text-transform: capitalize;
+    }
+    .today-date{
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 21px;
+      color: #8B8E90;
+    }
+  }
+
+  .t-tabs-wrapper {
+    height: calc(100vh - 180px);
   }
 }
