@@ -5,8 +5,6 @@
 
 
   .faq-question-wrapper {
-    width: 941px;
-    height: 450px;
     .card-component {
       margin-bottom: 0px;
       .card-body{
@@ -23,7 +21,7 @@
 
 
     .contact-info-wrapper {
-      background-color: #E0F0F0;
+      background-color: #EAF3F2;
       height: 80px;
       border-radius: 8px;
       margin-top: 24px;
@@ -37,10 +35,15 @@
       .contact-number-wrapper {
         display: flex;
         justify-content: space-between;
+        .card-component{
+          .card-body{
+            padding-bottom: 0px;
+          }
+        }
 
         .contact-text {
-          font-weight: 700;
-          font-size: 1.2857rem;
+          font-weight: 500;
+          font-size: 16px;
           margin: 17px 0 5px 24px;
         }
 
@@ -53,8 +56,8 @@
           align-items: center;
 
           .contact-number-wrapper {
-            font-weight: 700;
-            font-size: 1.2857rem;
+            font-weight: 500;
+            font-size: 16px;
             margin: 17px 24px 5px 0;
             align-items: center;
             //padding-top: 5px;
@@ -65,7 +68,7 @@
 
       .help-text {
         margin-left: 24px;
-        color: #484848;
+        color: #6D6D6D;
         opacity: 0.5;
       }
     }

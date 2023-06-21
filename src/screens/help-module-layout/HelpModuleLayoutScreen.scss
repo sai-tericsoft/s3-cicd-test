@@ -2,13 +2,14 @@
 
 .help-module-layout {
   display: flex;
+  margin-top: 4px;
 
   .help-module-layout-left-bar {
     .help-module-layout-title {
       font-weight: $font-weight-bolder;
       letter-spacing: 0.5px;
       color: #6D6D6D;
-      font-size: 20px;
+      font-size: 18px;
       margin-bottom: 24px;
     }
   }

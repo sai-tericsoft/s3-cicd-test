@@ -2,7 +2,7 @@ import "./ClientProfileLayoutComponent.scss";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {CommonService} from "../../../shared/services";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import {ENV, ImageConfig, Misc} from "../../../constants";
+import { ImageConfig, Misc} from "../../../constants";
 import TabsWrapperComponent, {
     TabComponent,
     TabContentComponent,
@@ -118,8 +118,7 @@ const ClientProfileLayoutComponent = (props: ClientProfileLayoutComponentProps) 
                             </LinkComponent>
                         </>
                     }
-                    <>
-                        {(ENV.ENV_MODE === 'dev' || ENV.ENV_MODE === 'test') && <>
+
                             <ButtonComponent variant={'outlined'}
                                              className={`${currentTab === "basicDetails" && 'mrg-right-10'}`}
                                              prefixIcon={<ImageConfig.SendIcon/>}
@@ -127,8 +126,6 @@ const ClientProfileLayoutComponent = (props: ClientProfileLayoutComponentProps) 
                             >
                                 Resend Link
                             </ButtonComponent>
-                        </>}
-                    </>
                 </div>
                 <TabsWrapperComponent>
                     <div className={'tabs-wrapper'}>

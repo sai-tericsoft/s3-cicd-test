@@ -29,11 +29,11 @@ const menuList: IMenuItem[] = [
     //     title: 'Chart Notes',
     //     icon: ImageConfig.ChartNotes
     // },
-    // {
-    //     path: CommonService._routeConfig.SchedulingView(),
-    //     title: 'Scheduling',
-    //     icon: ImageConfig.EventIcon
-    // },
+    {
+        path: CommonService._routeConfig.SchedulingView(),
+        title: 'Scheduling',
+        icon: ImageConfig.EventIcon
+    },
     // {
     //     path:CommonService._routeConfig.BillingList(),
     //     title:'Billing',
