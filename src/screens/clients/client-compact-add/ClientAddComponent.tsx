@@ -5,7 +5,7 @@ import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {CommonService} from "../../../shared/services";
-import {ENV, ImageConfig, Misc} from "../../../constants";
+import { ImageConfig, Misc} from "../../../constants";
 import {useNavigate} from "react-router-dom";
 import * as Yup from "yup";
 import FormikPhoneInputComponent

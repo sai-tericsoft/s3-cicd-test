@@ -75,16 +75,16 @@ const serviceEditFormValidationSchema = Yup.object({
             })),
         })
     ),
-    followup_consultation: Yup.array(Yup.object({
-            title: Yup.string().nullable(),
-            consultation_details: Yup.array(Yup.object({
-                duration: Yup.number().required("Duration is required"),
-                price: Yup.string()
-                    // .matches(Patterns.POSITIVE_INTEGERS, "Price per hour must be a number")
-                    .required("Price is required"),
-            })),
-        })
-    ),
+    // followup_consultation: Yup.array(Yup.object({
+    //         title: Yup.string().nullable(),
+    //         consultation_details: Yup.array(Yup.object({
+    //             duration: Yup.number().required("Duration is required"),
+    //             price: Yup.string()
+    //                 // .matches(Patterns.POSITIVE_INTEGERS, "Price per hour must be a number")
+    //                 .required("Price is required"),
+    //         })),
+    //     })
+    // ),
 });
 
 const ServiceEditScreen = (props: ServiceEditComponentProps) => {
@@ -476,7 +476,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                                         <FormikSelectComponent
                                                                                                             formikField={field}
                                                                                                             fullWidth={true}
-                                                                                                            required={true}
+                                                                                                            // required={true}
                                                                                                             keyExtractor={item => item.id}
                                                                                                             label={"Duration"}
                                                                                                             selectedValues={values?.followup_consultation[index].consultation_details?.map((item: any) => item.duration)}
@@ -496,7 +496,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                                             label={'Price'}
                                                                                                             placeholder={'Price'}
                                                                                                             // type={"number"}
-                                                                                                            required={true}
+                                                                                                            // required={true}
                                                                                                             prefix={Misc.CURRENCY_SYMBOL}
                                                                                                             formikField={field}
                                                                                                             fullWidth={true}

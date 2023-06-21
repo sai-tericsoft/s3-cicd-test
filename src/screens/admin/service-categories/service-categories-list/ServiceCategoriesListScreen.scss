@@ -1,6 +1,9 @@
 @import "src/assets/styles/common";
 
 .service-category-list-screen {
+  .card-component{
+      margin-bottom: 0px !important;
+  }
 
   .service-category-list-header {
     display: flex;
@@ -15,6 +18,7 @@
     .service-category-list-options {
       flex: 0;
       white-space: nowrap;
+      margin-bottom: 5px !important;
     }
   }
 
