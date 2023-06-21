@@ -461,7 +461,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                     }
                 </div>
                 {
-                    viewMode === "calendar" && <div className={'mrg-top-80'}/>
+                    viewMode === "calendar" && <div/>
                 }
                 <div className="scheduling-header-actions-wrapper">
                     <div className="scheduling-header-action-item">
