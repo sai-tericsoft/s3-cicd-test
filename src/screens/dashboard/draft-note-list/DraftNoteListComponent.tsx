@@ -69,7 +69,7 @@ const DraftNoteListComponent = (props: DraftNoteListComponentProps) => {
         {
             key:'action',
             fixed:'right',
-            width: 100,
+            width: 130,
             render:(item:any)=>{
                 return <><LinkComponent route={CommonService._routeConfig.UpdateMedicalIntervention(item?.medical_record_id, item?._id)}>
                     View Details
@@ -88,8 +88,9 @@ const DraftNoteListComponent = (props: DraftNoteListComponentProps) => {
                     <TableWrapperComponent columns={draftNoteListColumn}
                                            fixedHeader={true}
                                            autoHeight={true}
+                                           isPaginated={true}
+                                           noDataText={'Currently, there are no pending draft notes'}
                                            url={APIConfig.DASHBOARD_DRAFT_NOTE_LIST.URL}
-                                           isPaginated={false}
                                            method={APIConfig.DASHBOARD_DRAFT_NOTE_LIST.METHOD}
                     />
                 </div>

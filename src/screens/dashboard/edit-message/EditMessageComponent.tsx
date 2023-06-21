@@ -6,7 +6,6 @@ import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import {CommonService} from "../../../shared/services";
-import {Misc} from "../../../constants";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {getAllMessageHistory} from "../../../store/actions/dashboard.action";
 import {useDispatch} from "react-redux";
@@ -36,7 +35,7 @@ const EditMessageComponent = (props: EditMessageComponentProps) => {
         const payload={...values}
         CommonService._dashboardService.editDashboardMessage(messageObject?._id,payload)
             .then((response: IAPIResponseType<any>)=>{
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Message Edited successfully", "success");
+                // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Message Edited successfully", "success");
                 dispatch(getAllMessageHistory());
                 onBack();
                 closeMessageDrawer();
@@ -47,7 +46,7 @@ const EditMessageComponent = (props: EditMessageComponentProps) => {
 
     return (
         <div className={'edit-message-component'}>
-            <FormControlLabelComponent label={'Edit Message'} size={'lg'}/>
+            <FormControlLabelComponent label={'Edit Message'} className={'flex-0'} size={'lg'}/>
             <Formik initialValues={editMessageInitialValue}
                 onSubmit={handleMessageSubmit}
                     validateOnChange={false}
@@ -75,12 +74,12 @@ const EditMessageComponent = (props: EditMessageComponentProps) => {
                                     </Field>
                                 </div>
                             </div>
-                            <div className={'ts-action display-flex ts-justify-content-center'}>
+                            <div className={'t-form-actions'}>
                                 <ButtonComponent id={"cancel_btn"} variant={'outlined'} onClick={onBack}>
                                     Cancel
                                 </ButtonComponent>
                                 &nbsp;
-                                <ButtonComponent id={"save_btn"} variant={'contained'} color={'primary'}
+                                <ButtonComponent className={'submit-cta'} id={"save_btn"} variant={'contained'} color={'primary'}
                                                  disabled={!isValid} type={'submit'}>
                                     Save
                                 </ButtonComponent>

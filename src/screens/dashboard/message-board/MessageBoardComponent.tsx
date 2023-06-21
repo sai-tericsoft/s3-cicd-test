@@ -37,7 +37,8 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
     }, []);
 
     const handleCloseAllMessagesDrawer = useCallback(() => {
-        setIsViewMessageDrawerOpen(false)
+        setIsViewMessageDrawerOpen(false);
+        setMode("view")
     }, []);
 
     useEffect(() => {
@@ -80,7 +81,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                                     <div className={'message-board-text'}>Message Board</div>
                                     <div className={'view-all-message'} onClick={handleOpenViewAllMessagesDrawer}>View
                                         All
-                                        Message(s)
+                                        Messages
                                     </div>
                                 </div>
                                 {isMessageHistoryLoaded &&
@@ -129,7 +130,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                                  className={'t-view-all-message'}>
                     {mode === 'view' &&
                         <div>
-                            <FormControlLabelComponent label={'View All Message(s)'} size={'lg'}/>
+                            <FormControlLabelComponent label={'View All Messages'} size={'lg'}/>
                             {messageHistory?.map((message: any) => {
                                 return (<div className={'message-timestamp-wrapper'}>
                                         <div className={'message-edit-delete-button-wrapper'}>
@@ -138,7 +139,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                                                     <div>{message?.message}</div>
                                                 </CardComponent>
                                             </div>
-                                            <span><IconButtonComponent onClick={() => {
+                                            <span className={'mrg-left-10'}><IconButtonComponent onClick={() => {
                                                 setEditableMessage(message)
                                                 setMode('edit');
 

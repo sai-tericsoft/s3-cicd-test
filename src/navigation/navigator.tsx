@@ -212,7 +212,7 @@ const Navigator = (props: NavigatorProps) => {
                     <Route
                         index
                         element={
-                            <Navigate to={CLIENT_LIST}/>
+                            <Navigate to={DASHBOARD}/>
                         }
                     />
                     <Route path={DASHBOARD} element={<DashboardLayoutComponent/>}{...props}>
