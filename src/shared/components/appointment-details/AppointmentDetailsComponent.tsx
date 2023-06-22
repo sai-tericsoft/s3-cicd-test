@@ -204,7 +204,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                     <div
                                         className="content-title">{moment(Math.floor(details.start_time / 60) + ':' + details.start_time % 60, 'hh:mm').format('hh:mm A')}</div>
                                 </div>
-                                <div className="block-content mrg-left-60">
+                                <div className="block-content mrg-left-40">
                                     {details?.status === 'scheduled' && <MenuDropdownComponent menuBase={
                                         <ButtonComponent size={'large'} className={'select-dropdown'} variant={'outlined'} fullWidth={true}>
                                             Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>

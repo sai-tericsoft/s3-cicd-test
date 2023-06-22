@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from "react";
 import "./BookAppointmentFormComponent.scss";
-import {APIConfig, ImageConfig} from "../../../../constants";
+import {APIConfig} from "../../../../constants";
 import {Field, FieldProps, Form, Formik, FormikHelpers, FormikProps} from "formik";
 import * as Yup from "yup";
 import FormikAutoCompleteComponent from "../../form-controls/formik-auto-complete/FormikAutoCompleteComponent";
@@ -11,7 +11,6 @@ import ButtonComponent from "../../button/ButtonComponent";
 import {CommonService} from "../../../services";
 import {IAPIResponseType} from "../../../models/api.model";
 import moment from "moment/moment";
-import ToolTipComponent from "../../tool-tip/ToolTipComponent";
 
 interface BookAppointmentFormComponentProps {
     onClose?: () => void,
@@ -50,7 +49,7 @@ const addAppointmentValidationSchema = Yup.object().shape({
 });
 
 const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) => {
-    const {onClose, onComplete, preFillData, client, isLoading} = props;
+    const {onComplete, preFillData, client, isLoading} = props;
 
     const {appointmentTypes} = useSelector((state: IRootReducerState) => state.staticData);
     const [clientCasesList, setClientCasesList] = useState<any[] | null>(null);
@@ -370,16 +369,16 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
         <div className={`book-appointment-form-component`}>
             <div className="drawer-header">
                 {/*<div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>*/}
-                <ToolTipComponent tooltip={"Close"} position={"left"}>
-                    <div className="drawer-close"
-                         id={'book-appointment-close-btn'}
-                         onClick={(event) => {
-                             if (onClose) {
-                                 onClose();
-                             }
-                         }
-                         }><ImageConfig.CloseIcon/></div>
-                </ToolTipComponent>
+                {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
+                {/*    <div className="drawer-close"*/}
+                {/*         id={'book-appointment-close-btn'}*/}
+                {/*         onClick={(event) => {*/}
+                {/*             if (onClose) {*/}
+                {/*                 onClose();*/}
+                {/*             }*/}
+                {/*         }*/}
+                {/*         }><ImageConfig.CloseIcon/></div>*/}
+                {/*</ToolTipComponent>*/}
             </div>
             <div className="book-appointment-heading">Book Appointment</div>
             <div className={'appointment-form-wrapper'}>

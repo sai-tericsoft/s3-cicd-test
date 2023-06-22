@@ -10,7 +10,6 @@ import ButtonComponent from "../../button/ButtonComponent";
 import {CommonService} from "../../../services";
 import {IAPIResponseType} from "../../../models/api.model";
 import moment from "moment/moment";
-import ToolTipComponent from "../../tool-tip/ToolTipComponent";
 import InputComponent from "../../form-controls/input/InputComponent";
 
 interface AppointmentRescheduleComponentProps {
@@ -213,7 +212,7 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
             {step === 'form' && <>
                 <div className="drawer-header">
                     <div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>
-                    <ToolTipComponent tooltip={"Close"} position={"left"}>
+                    {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
                         <div className="drawer-close"
                              id={'book-appointment-close-btn'}
                              onClick={(event) => {
@@ -222,7 +221,7 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                                  }
                              }
                              }><ImageConfig.CloseIcon/></div>
-                    </ToolTipComponent>
+                    {/*</ToolTipComponent>*/}
                 </div>
                 <div className="reschedule-appointment-heading">Reschedule Appointment</div>
                 <div className={'appointment-form-wrapper'}>
