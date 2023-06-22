@@ -17,7 +17,7 @@ interface BookAppointmentOverviewComponentProps {
 }
 
 const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponentProps) => {
-    const {onBack, onComplete, bookingDraft} = props;
+    const { onComplete, bookingDraft} = props;
     const {appointmentTypes} = useSelector((state: IRootReducerState) => state.staticData);
     // const [serviceDetails, setServiceDetails] = useState<any | null>(null);
     const [bookType, setBookType] = useState<any | null>(null);
@@ -86,7 +86,7 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
     return (
         <div className={'book-appointment-overview-component'}>
             <div className="drawer-header">
-                <div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>
+                {/*<div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>*/}
                 <div className="appointment-details-title">Appointment Details</div>
                 {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
                 {/*    <div className="drawer-close"*/}

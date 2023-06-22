@@ -902,6 +902,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             </DrawerComponent>
 
             <DrawerComponent isOpen={isBookAppointmentOpen}
+                             showClose={true}
                              onClose={setIsBookAppointmentOpen.bind(null, false)}
                              className={'book-appointment-component-drawer'}>
                 <BookAppointmentComponent
