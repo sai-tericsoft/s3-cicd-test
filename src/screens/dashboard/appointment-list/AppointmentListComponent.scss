@@ -1,6 +1,6 @@
 .appointment-list-component {
   .appointment-list-wrapper {
-    overflow: scroll;
+    overflow: auto;
     padding-bottom: 24px;
 
     .t-cell-time {
