@@ -838,21 +838,33 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + '/todayAppointments',
         METHOD: 'get'
     },
-    DASHBOARD_DELETE_MESSAGE:{
-        URL:(messageId:string)=>ENV.API_URL + '/message/' + messageId,
+    DASHBOARD_DELETE_MESSAGE: {
+        URL: (messageId: string) => ENV.API_URL + '/message/' + messageId,
         METHOD: 'delete'
     },
-    DASHBOARD_EDIT_MESSAGE:{
-        URL:(messageId:string)=>ENV.API_URL + '/message/' + messageId,
-        METHOD:'put'
+    DASHBOARD_EDIT_MESSAGE: {
+        URL: (messageId: string) => ENV.API_URL + '/message/' + messageId,
+        METHOD: 'put'
     },
-    SYSTEM_SETTING_NEW_MESSAGE:{
-        URL:ENV.API_URL + '/newMessage',
-        METHOD:'post'
+    SYSTEM_SETTING_NEW_MESSAGE: {
+        URL: ENV.API_URL + '/newMessage',
+        METHOD: 'post'
     },
-    GET_VALID_DAYS:{
-        URL:ENV.API_URL + '/validDays',
-        METHOD:'get'
+    GET_VALID_DAYS: {
+        URL: ENV.API_URL + '/validDays',
+        METHOD: 'get'
+    },
+    USER_ADD: {
+        URL: ENV.API_URL + '/useradd',
+        METHOD: 'post'
+    },
+    USER_DETAILS: {
+        URL: (userId:any) => ENV.API_URL + '/user/' + userId,
+        METHOD: 'get'
+    },
+    FACILITY_LIST_LITE: {
+        URL: ENV.API_URL + "/facility/lite",
+        METHOD: "get"
     }
 }
 

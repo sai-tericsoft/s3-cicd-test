@@ -36,10 +36,10 @@ const ADMIN_MENU_ITEMS = [
     //     title: "Referral Discounts",
     //     path: ""
     // },
-    // {
-    //     title: "User Management",
-    //     path: ""
-    // },
+    {
+        title: "User Management",
+        path: CommonService._routeConfig.UserList()
+    },
     // {
     //     title: "Access Management",
     //     path: ""

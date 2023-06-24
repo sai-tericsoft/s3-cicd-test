@@ -19,7 +19,7 @@ import {
     getCommunicationModeTypeList,
     getConcussionFileTypes,
     getConsultationDurationList,
-    getEmploymentStatusList,
+    getEmploymentStatusList, getFacilityListLite,
     getFilesUneditableAfterOptionsList,
     getGenderList,
     getInjuryTypeList,
@@ -158,6 +158,7 @@ const App = (props: AppProps) => {
             dispatch(getRescheduledTimesList());
             dispatch(getUserMentionsList());
             dispatch(getValidDaysList());
+            dispatch(getFacilityListLite());
         }
     }, [token, dispatch])
 

@@ -166,7 +166,7 @@ const getTheDifferenceBetweenDates = (fromDate: string) => {
     return diff;
 }
 
-const convertNumberToTime = (number:any) => {
+const convertNumberToTime = (number: any) => {
     let hours = Math.floor(number / 30) % 12;
     const minutes = Math.floor((number % 30) * 2);
 
@@ -475,14 +475,17 @@ const isEqual = (a: any, b: any) => {
 }
 
 const formatPhoneNumber = (phone: string) => {
-    const x = phone.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+    if (typeof phone !== 'string') {
+        return '';
+    }
+    const x = phone?.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
     if (x) {
         phone = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
     }
     return phone
 }
 
-const  validateDecimal = (input:any) =>{
+const validateDecimal = (input: any) => {
     const regex = /^\d*\.?\d{0,2}$/; // Regular expression to allow up to two decimal places
     const inputValue = input.value;
 
@@ -592,10 +595,10 @@ const editMentionsFormat = (value: string, mentionsData: any) => {
 }
 
 const convertToDecimals = (value: number | string) => {
-    if( typeof(value) !== "number" ){
+    if (typeof (value) !== "number") {
         return
     }
-    if(typeof(value) === 'string'){
+    if (typeof (value) === 'string') {
         let tempValue = +(value)
         return tempValue.toFixed(2)
     }
@@ -686,6 +689,6 @@ const CommonService = {
     _systemSettings: SystemSettingsService,
     _billingsService: BillingsService,
     _discountService: DiscountService,
-    _dashboardService:DashboardService,
+    _dashboardService: DashboardService,
 }
 export default CommonService;

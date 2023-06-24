@@ -87,9 +87,13 @@ import {
     SERVICE_CATEGORY_LIST,
     SERVICE_DETAILS,
     SERVICE_EDIT,
+    SETTINGS,
     SYSTEM_SETTINGS,
     TEST_ROUTE,
     UPDATE_MEDICAL_INTERVENTION,
+    USER_ADD,
+    USER_LIST,
+    USER_PERSONAL_DETAILS,
     VIEW_MEDICAL_INTERVENTION,
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
@@ -159,6 +163,10 @@ import DashboardLayoutComponent from "../screens/dashboard/dashboard-layout/Dash
 import MedicalInterventionSpecialTestsV2Screen
     from "../screens/chart-notes/medical-intervention-special-tests-v2/MedicalInterventionSpecialTestsV2Screen";
 import ClientsMainLayoutComponent from "../screens/clients/clients-main-layout/ClientsMainLayoutComponent";
+import UserListComponent from "../screens/admin/users/user-list/UserListComponent";
+import UserAddComponent from "../screens/admin/users/user-add/UserAddComponent";
+import SettingMainLayoutComponent from "../screens/settings/setting-main-layout/SettingMainLayoutComponent";
+import UserDetailsLayoutComponent from "../screens/settings/user-details-layout/UserDetailsLayoutComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -204,7 +212,6 @@ export interface NavigatorProps {
 }
 
 const Navigator = (props: NavigatorProps) => {
-
     return (
         <>
             <Routes>
@@ -494,6 +501,33 @@ const Navigator = (props: NavigatorProps) => {
                             }
                         />
 
+                        <Route
+                            path={USER_LIST}
+                            element={
+                                <ProtectedRoute>
+                                    <UserListComponent/>
+                                </ProtectedRoute>
+                            }
+                        />
+
+                    </Route>
+
+                    <Route path={SETTINGS} element={<SettingMainLayoutComponent/>} {...props}>
+                        <Route
+                            index
+                            element={
+                                <Navigate to={USER_PERSONAL_DETAILS}/>
+                            }
+                        />
+
+                        <Route
+                            path={USER_PERSONAL_DETAILS}
+                            element={
+                                <ProtectedRoute>
+                                    <UserDetailsLayoutComponent/>
+                                </ProtectedRoute>
+                            }
+                        />
                     </Route>
 
                     <Route
@@ -517,6 +551,15 @@ const Navigator = (props: NavigatorProps) => {
                         element={
                             <ProtectedRoute>
                                 <CouponEditScreen/>
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path={USER_ADD}
+                        element={
+                            <ProtectedRoute>
+                                <UserAddComponent/>
                             </ProtectedRoute>
                         }
                     />

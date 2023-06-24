@@ -6,6 +6,12 @@ const getUserList = (payload: any) => {
     return ApiService[APIConfig.USER_LIST.METHOD](APIConfig.USER_LIST.URL, payload);
 }
 
+const getUserAdd = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.USER_ADD.METHOD](APIConfig.USER_ADD.URL, payload);
+}
+
+
 const getUserListLite = (payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.USER_LIST_LITE.METHOD](APIConfig.USER_LIST_LITE.URL, payload);
@@ -21,11 +27,18 @@ const getUserAvailableTimesList = (providerId: string, date: string) => {
     return ApiService[APIConfig.USER_AVAILABLE_TIMES_LIST.METHOD](APIConfig.USER_AVAILABLE_TIMES_LIST.URL(providerId, date));
 }
 
+const getUserBasicDetails = (userId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.USER_DETAILS.METHOD](APIConfig.USER_DETAILS.URL(clientId), payload);
+}
+
 const UserService = {
     getUserList,
     getUserListLite,
     getUserAvailableDatesList,
-    getUserAvailableTimesList
+    getUserAvailableTimesList,
+    getUserAdd,
+    getUserBasicDetails
 }
 
 export default UserService;

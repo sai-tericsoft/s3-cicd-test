@@ -388,6 +388,13 @@
   }
 }
 
+.user-list {
+  .t-table {
+    margin-bottom: 0px;
+    height: calc(100vh - 220px);
+  }
+}
+
 .client-documents-list, .client-appointment-list-table-component {
   .t-table {
     margin-bottom: 0px;
@@ -516,8 +523,9 @@
 .confirmation-modal {
   .modal-content-wrapper {
     width: 444px !important;
-    .modal-footer{
-      .confirm-cta{
+
+    .modal-footer {
+      .confirm-cta {
         margin-left: 16px !important;
       }
     }
@@ -873,4 +881,11 @@
   font-weight: 700;
   font-size: 1.2857rem;
   color: $primary-color;
+}
+
+.add-heading {
+  color: #00534F;
+  font-size: 1.2857rem;
+  font-weight: 700;
+  margin-bottom: 20px;
 }

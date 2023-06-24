@@ -1,7 +1,8 @@
 import {
     ADMIN,
     CHART_NOTES_LIST,
-    CLIENT_ADD, CLIENT_LIST,
+    CLIENT_ADD,
+    CLIENT_LIST,
     COMING_SOON_ROUTE,
     COUPON_ADD,
     DASHBOARD,
@@ -18,8 +19,8 @@ import {
     SERVICE_CATEGORY_DETAILS,
     SERVICE_CATEGORY_LIST,
     SERVICE_DETAILS,
-    SERVICE_EDIT,
-    TEST_ROUTE,
+    SERVICE_EDIT, SETTINGS,
+    TEST_ROUTE, USER_ADD, USER_LIST, USER_PERSONAL_DETAILS,
 } from "../../constants/RoutesConfig";
 
 const DefaultRoute = () => {
@@ -88,6 +89,10 @@ const FacilityDetails = (facilityId: string) => {
 
 const DiscountList = () => {
     return DISCOUNT_LIST;
+}
+
+const UserList = () => {
+    return USER_LIST;
 }
 
 const ClientList = () => {
@@ -259,13 +264,26 @@ const CouponViewDetails = (couponId: string) => {
     return "/admin/coupon-details/" + couponId;
 }
 
+const CouponEdit = (couponId: string) => {
+    return "/admin/coupon/" + couponId + "/edit";
+}
+
 const CouponAdd = () => {
     return COUPON_ADD;
 }
 
-const CouponEdit = (couponId: string) => {
-    return "/admin/coupon/" + couponId + "/edit";
+const UserAdd = () => {
+    return USER_ADD;
 }
+
+const UserSettings = () => {
+    return SETTINGS;
+}
+
+const UserPersonalDetails = () => {
+    return USER_PERSONAL_DETAILS;
+}
+
 
 const RouteConfigService = {
     DefaultRoute,
@@ -328,7 +346,11 @@ const RouteConfigService = {
     CouponAdd,
     CouponEdit,
     appointmentSettingsLayout,
-    ReportAnIssue
+    ReportAnIssue,
+    UserList,
+    UserAdd,
+    UserSettings,
+    UserPersonalDetails
 }
 
 export default RouteConfigService;

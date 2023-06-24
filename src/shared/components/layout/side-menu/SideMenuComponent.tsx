@@ -34,20 +34,15 @@ const menuList: IMenuItem[] = [
         title: 'Scheduling',
         icon: ImageConfig.EventIcon
     },
-    // {
-    //     path:CommonService._routeConfig.BillingList(),
-    //     title:'Billing',
-    //     icon:ImageConfig.BillingIcon
-    // },
-    // {
-    //     path: CommonService._routeConfig.InventoryList(),
-    //     title: 'Inventory',
-    //     icon: ImageConfig.InventoryIcon
-    // },
     {
-        path:CommonService._routeConfig.FrequentlyAskedQuestions(),
-        title:"Help",
-        icon:ImageConfig.HelpIcon
+        path: CommonService._routeConfig.FrequentlyAskedQuestions(),
+        title: "Help",
+        icon: ImageConfig.HelpIcon
+    },
+    {
+        path: CommonService._routeConfig.UserSettings(),
+        title: "Settings",
+        icon: ImageConfig.HelpIcon
     }
 ]
 

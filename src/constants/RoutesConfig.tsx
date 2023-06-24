@@ -20,6 +20,8 @@ const SERVICE_CATEGORY_DETAILS = "/admin/service-category-details";
 const FACILITY_LIST = "/admin/facility-list";
 const FACILITY_DETAILS = "/admin/facility-details";
 
+const USER_LIST = "/admin/user-list";
+const USER_ADD = "/admin/user-add";
 const DISCOUNT_LIST = "/admin/discount-list";
 const COUPON_DETAILS = "/admin/coupon-details/:couponId";
 const COUPON_ADD = "/admin/coupon/add";
@@ -28,8 +30,7 @@ const CLIENT = "client";
 const CLIENT_LIST = "/client/client-list";
 const CLIENT_ADD = "/client/client-add";
 const CLIENT_DETAILS = "/client/:clientId";
-const
-    CLIENT_PROFILE_DETAILS = "client-profile-details";
+const CLIENT_PROFILE_DETAILS = "client-profile-details";
 const CLIENT_BILLING_DETAILS = "client-billing-details";
 const CLIENT_DOCUMENTS = "client-documents";
 const CLIENT_DOCUMENTS_DETAILS = ":clientDocumentId/client-documents-view-details";
@@ -76,6 +77,9 @@ const BILLING_DETAILS = "/billing/billing-details/:billingId";
 const HELP = "/help";
 const FAQ = "/help/faq";
 const REPORT_AN_ISSUE = "/help/report-an-issue";
+
+const SETTINGS = "/settings"
+const USER_PERSONAL_DETAILS = "/settings/user-personal-details"
 
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
@@ -147,4 +151,8 @@ export {
     COUPON_ADD,
     COUPON_EDIT,
     APPOINTMENT_SETTINGS,
+    USER_LIST,
+    USER_ADD,
+    SETTINGS,
+    USER_PERSONAL_DETAILS
 };

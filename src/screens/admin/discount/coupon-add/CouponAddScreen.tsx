@@ -116,7 +116,7 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
 
     return (
         <div className={'coupon-add-screen'}>
-            <div className={'add-coupon-heading'}>
+            <div className={'add-heading '}>
                 Add Coupon
             </div>
             <Formik initialValues={addCouponInitialValues}

@@ -5,8 +5,9 @@ import {
     GET_COMMUNICATION_MODE_TYPE_LIST,
     GET_CONCUSSION_FILE_TYPES,
     GET_CONSULTATION_DURATION_LIST,
-    GET_EMPLOYMENT_STATUS_LIST, GET_FAQ_LIST, GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST,
-
+    GET_EMPLOYMENT_STATUS_LIST,
+    GET_FAQ_LIST,
+    GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST,
     GET_GENDER_LIST,
     GET_INJURY_TYPE_LIST,
     GET_LANGUAGE_LIST,
@@ -24,7 +25,9 @@ import {
     GET_SOCIAL_MEDIA_PLATFORM_LIST,
     GET_SURGICAL_HISTORY_OPTIONS_LIST,
     GET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST,
-    GET_USER_MENTIONS_LIST, GET_VALID_DAYS_LIST,
+    GET_FACILITY_LIST_LITE,
+    GET_USER_MENTIONS_LIST,
+    GET_VALID_DAYS_LIST,
     SET_8_MINUTE_RULE_CHART,
     SET_APPOINTMENT_STATUS,
     SET_APPOINTMENT_TYPES,
@@ -33,8 +36,9 @@ import {
     SET_COMMUNICATION_MODE_TYPE_LIST,
     SET_CONCUSSION_FILE_TYPES,
     SET_CONSULTATION_DURATION_LIST,
-    SET_EMPLOYMENT_STATUS_LIST, SET_FAQ_LIST, SET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST,
-
+    SET_EMPLOYMENT_STATUS_LIST,
+    SET_FAQ_LIST,
+    SET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST,
     SET_GENDER_LIST,
     SET_INJURY_TYPE_LIST,
     SET_LANGUAGE_LIST,
@@ -53,7 +57,9 @@ import {
     SET_SOCIAL_MEDIA_PLATFORM_LIST,
     SET_SURGICAL_HISTORY_OPTIONS_LIST,
     SET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST,
-    SET_USER_MENTIONS_LIST, SET_VALID_DAYS_LIST,
+    SET_FACILITY_LIST_LITE,
+    SET_USER_MENTIONS_LIST,
+    SET_VALID_DAYS_LIST,
 } from "../actions/static-data.action";
 import {IActionModel} from "../../shared/models/action.model";
 import {ICommonType} from "../../shared/models/static-data.model";
@@ -160,6 +166,10 @@ export interface IStaticDataReducerState {
     isValidDaysListLoading: boolean,
     isValidDaysListLoaded: boolean,
     validDaysList: any[],
+
+    facilityListLite: any[],
+    isFacilityListLiteLoading: boolean,
+    isFacilityListLiteLoaded: boolean,
 }
 
 const initialData: IStaticDataReducerState = {
@@ -272,6 +282,10 @@ const initialData: IStaticDataReducerState = {
     isValidDaysListLoading: false,
     isValidDaysListLoaded: false,
     validDaysList: [],
+
+    facilityListLite: [],
+    isFacilityListLiteLoading: false,
+    isFacilityListLiteLoaded: false,
 };
 
 const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDataReducerState => {
@@ -719,6 +733,22 @@ const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDa
                 isValidDaysListLoading: false,
                 isValidDaysListLoaded: true,
                 validDaysList: action.payload.validDaysList
+            }
+            return state;
+
+        case GET_FACILITY_LIST_LITE:
+            state = {
+                ...state,
+                isFacilityListLiteLoading: true,
+                isFacilityListLiteLoaded: false
+            }
+            return state;
+        case SET_FACILITY_LIST_LITE:
+            state = {
+                ...state,
+                isFacilityListLiteLoading: false,
+                isFacilityListLiteLoaded: true,
+                facilityListLite: action.payload.facilityListLiteData
             }
             return state;
         default:

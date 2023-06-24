@@ -115,6 +115,9 @@ export const SET_USER_MENTIONS_LIST = 'SET_USER_MENTIONS_LIST';
 export const GET_VALID_DAYS_LIST = 'GET_VALID_DAYS_LIST';
 export const SET_VALID_DAYS_LIST = 'SET_VALID_DAYS_LIST';
 
+export const GET_FACILITY_LIST_LITE = 'GET_FACILITY_LIST_LITE';
+export const SET_FACILITY_LIST_LITE = 'SET_FACILITY_LIST_LITE';
+
 export const getConsultationDurationList = () => {
     return {type: GET_CONSULTATION_DURATION_LIST};
 };
@@ -488,4 +491,16 @@ export const setValidDaysList = (validDaysList: any[]) => {
             validDaysList
         }
     }
+}
+
+export const getFacilityListLite = () => {
+    return {type: GET_FACILITY_LIST_LITE};
+}
+
+export const setFacilityListLite = (facilityListLiteData: any[]) => {
+    return {
+        type: SET_FACILITY_LIST_LITE, payload: {
+            facilityListLiteData
+        }
+    };
 }

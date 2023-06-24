@@ -200,7 +200,11 @@ const ReportAnIssue = (payload: any) => {
 const GetValidDaysList = (payload:any)=>{
     // @ts-ignore
     return ApiService[APIConfig.GET_VALID_DAYS.METHOD](APIConfig.GET_VALID_DAYS.URL, payload,{'Content-Type': 'multipart/form-data'})
+}
 
+const FacilityListLite = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.FACILITY_LIST_LITE.METHOD](APIConfig.FACILITY_LIST_LITE.URL, payload);
 }
 
 const StaticDataService = {
@@ -243,7 +247,8 @@ const StaticDataService = {
     getRescheduledTimesList,
     getUserMentionsList,
     ReportAnIssue,
-    GetValidDaysList
+    GetValidDaysList,
+    FacilityListLite
 }
 
 export default StaticDataService;

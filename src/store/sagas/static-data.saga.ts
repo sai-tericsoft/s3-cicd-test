@@ -9,7 +9,7 @@ import {
     GET_COMMUNICATION_MODE_TYPE_LIST,
     GET_CONCUSSION_FILE_TYPES,
     GET_CONSULTATION_DURATION_LIST,
-    GET_EMPLOYMENT_STATUS_LIST, GET_FAQ_LIST,
+    GET_EMPLOYMENT_STATUS_LIST, GET_FACILITY_LIST_LITE, GET_FAQ_LIST,
     GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST,
     GET_GENDER_LIST,
     GET_INJURY_TYPE_LIST,
@@ -38,7 +38,7 @@ import {
     setCommunicationModeTypeList,
     setConcussionFileTypes,
     setConsultationDurationList,
-    setEmploymentStatusList, setFAQList,
+    setEmploymentStatusList, setFacilityListLite, setFAQList,
     setFilesUneditableAfterOptionsList,
     setGenderList,
     setInjuryTypeList,
@@ -374,6 +374,17 @@ function* getValidDaysList() {
     }
 }
 
+function* getFacilityListLite() {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._staticData.FacilityListLite);
+        yield put(setFacilityListLite(resp?.data));
+    } catch (error: any) {
+        yield put(setFacilityListLite([]));
+    }
+}
+
+
 export default function* staticDataSaga() {
     yield takeEvery(GET_CONSULTATION_DURATION_LIST, getConsultationDurationList);
     yield takeEvery(GET_GENDER_LIST, getGenderList);
@@ -406,5 +417,6 @@ export default function* staticDataSaga() {
     yield takeEvery(GET_RESCHEDULED_TIMES_LIST, getRescheduledTimesList);
     yield takeEvery(GET_USER_MENTIONS_LIST, getMentionsList);
     yield takeEvery(GET_VALID_DAYS_LIST, getValidDaysList);
+    yield takeEvery(GET_FACILITY_LIST_LITE, getFacilityListLite);
 
 }
