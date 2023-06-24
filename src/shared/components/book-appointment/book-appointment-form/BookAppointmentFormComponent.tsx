@@ -39,13 +39,13 @@ const addAppointmentValidationSchema = Yup.object().shape({
     service: Yup.mixed().required("Service is required"),
     provider: Yup.mixed().required("Provider is required"),
     duration: Yup.mixed().required("Duration is required"),
-    appointment_type: Yup.string().required("Appointment type is required"),
+    appointment_type: Yup.string().required("Appointment Type is required"),
     case: Yup.mixed().when("appointment_type", {
         is: 'follow',
         then: Yup.mixed().required('Case is required')
     }),
-    date: Yup.mixed().required("Appointment date is required"),
-    time: Yup.mixed().required("Appointment time is required"),
+    date: Yup.mixed().required("Appointment Date is required"),
+    time: Yup.mixed().required("Appointment Time is required"),
 });
 
 const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) => {

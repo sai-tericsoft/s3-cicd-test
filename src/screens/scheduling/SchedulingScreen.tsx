@@ -450,7 +450,8 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                 <div className="scheduling-header-search-wrapper">
                     {viewMode === "list" && <SearchComponent size={'small'}
                                                              className={'scheduling-list-input mrg-top-20'}
-                                                             label={'Search for Client'}
+                                                             label={'Search'}
+                                                             placeholder={'Search using Client Name'}
                                                              value={schedulingListFilterState.search}
                                                              onSearchChange={(value) => {
                                                                  setSchedulingListFilterState({
@@ -650,8 +651,8 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                         return (
                                                             <ToolTipComponent key={index} tooltip={
                                                                 <>
-                                                                    <b>{value.first_name + ' ' + value.last_name}</b><br/>
-                                                                    <i>No of Appointments : {value?.count || 0}</i>
+                                                                    <b>{CommonService.capitalizeFirstLetter(value.first_name) + ' ' + CommonService.capitalizeFirstLetter(value.last_name)}</b><br/>
+                                                                    <div className={'mrg-top-5'}>No of Appointments : {value?.count || 0}</div>
                                                                 </>
                                                             }
                                                                               backgroundColor={'#000000'}

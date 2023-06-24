@@ -100,7 +100,7 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                 {/*</ToolTipComponent>*/}
             </div>
             <div className="details-header">
-                <div className="block-body pdd-top-15">
+                <div className="block-body">
                     <div className="block-content">
                         <ImageConfig.CalendarIcon/>
                         <div

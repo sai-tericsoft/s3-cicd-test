@@ -66,7 +66,7 @@
 
     .t-table-wrapper {
       .t-table {
-        min-height: 390px !important;
+        min-height: 404px !important;
         .t-cell-time{
           padding-left: 30px !important;
         }
@@ -74,7 +74,7 @@
           padding-right: 30px !important;
         }
         .table-no-data-wrapper {
-          min-height: 390px !important;
+          min-height: 360px !important;
         }
       }
 
@@ -84,6 +84,7 @@
       height: calc(100% - 80px) !important;
       display: flex;
       flex-direction: column;
+      padding-bottom: 24px;
     }
 
     .no-appointment-text-wrapper {
@@ -106,9 +107,11 @@
       height: auto;
       justify-content: space-between;
       align-content: center;
-      padding: 15px 15px 11px 15px;;
+
+      padding: 10px 20px 16px 20px;
+      position: sticky;
+      top: -20px;
       //position: sticky;
-      //top: -20px;
       background-color: #FFFFFF;
       //z-index: 2;
 
@@ -168,8 +171,8 @@
     }
 
     .helper-tooltip {
-      width: 45px;
-      height: 45px;
+      width: 32px;
+      height: 32px;
       position: absolute;
       right: 30px;
       border-radius: 50%;
@@ -188,7 +191,7 @@
       svg {
         color: #FFF;
         width: auto;
-        height: 32px;
+        height: 24px;
       }
 
       .helper-tooltip-window {
@@ -196,7 +199,7 @@
         bottom: 45px;
         right: 45px;
         background: #FFFFFF;
-        border: 1px solid #BABABA;
+        border: 1px solid #E7E7E7;
         border-radius: 8px;
         display: flex;
         flex-direction: row;
@@ -204,7 +207,7 @@
         width: 30vw;
         min-width: 300px;
         padding: 10px;
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.10);
 
         .helper-tooltip-window-item {
           display: flex;
@@ -259,6 +262,7 @@
           min-height: 62px;
           max-height: 62px;
           font-weight: 500;
+          //margin-top: 16px;
           border-top: 1px solid transparent;
           font-size: 14px;
           color: #212B36;

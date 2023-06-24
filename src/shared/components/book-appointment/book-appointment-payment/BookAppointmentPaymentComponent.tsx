@@ -34,7 +34,7 @@ const addAppointmentPaymentValidationSchema = Yup.object().shape({
     payment_type: Yup.string().required('Payment type is required'),
     mode: Yup.mixed().when("payment_type", {
         is: 'current',
-        then: Yup.mixed().required('Payment mode is required')
+        then: Yup.mixed().required('Payment Mode is required')
     }),
     available_coupons: Yup.mixed(),
     amount: Yup.number(),
@@ -223,7 +223,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                                 <div className="price-item">
                                                     <div className="price-item-text discount">Discount</div>
                                                     <div className="price-item-amount red">
-                                                        {selectedCoupon ? `- $ ${CommonService.convertToDecimals(discountAmount)}` : `-$0` || 'N/A'}
+                                                        {selectedCoupon ? `- $-${CommonService.convertToDecimals(discountAmount)}` : <div className={'zero-discount'}>$0</div> || 'N/A'}
 
                                                     </div>
                                                 </div>
@@ -266,7 +266,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                         </>}
 
                                     </div>
-                                    <div className="client-search-btn mrg-top-15">
+                                    <div className="client-search-btn mrg-top-5">
                                         <ButtonComponent disabled={!isValid} type={'submit'} fullWidth={true}
                                         >Submit</ButtonComponent>
                                     </div>
