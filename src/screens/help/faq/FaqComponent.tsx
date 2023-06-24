@@ -35,18 +35,20 @@ const FaqComponent = (props: FaqComponentProps) => {
                     {faqList.length ? <div className={'ts-col-12 faq-question-wrapper'}>
                         <CardComponent>
                             <div className={'faq-block-wrapper'}>
-                                {faqList.map((faq: any, index) => {
-                                    return (
-                                        <>
-                                            <FaqAccordionComponent title={faq.question}>
-                                                {faq.answer}
-                                            </FaqAccordionComponent>
-                                            <HorizontalLineComponent/>
+                                <div className={'faq-block-content'}>
+                                    {faqList.map((faq: any, index) => {
+                                        return (
+                                            <>
+                                                <FaqAccordionComponent title={faq.question}>
+                                                    {faq.answer}
+                                                </FaqAccordionComponent>
+                                                <HorizontalLineComponent/>
 
 
-                                        </>
-                                    )
-                                })}
+                                            </>
+                                        )
+                                    })}
+                                </div>
                             </div>
                             <div className={'contact-info-wrapper'}>
                                 <div className={'contact-number-wrapper'}>

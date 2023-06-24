@@ -3,40 +3,45 @@
 .faq-component {
   margin-top: 50px;
 
+  display: flex;
+  flex-direction: column;
 
   .faq-question-wrapper {
     .card-component {
       margin-bottom: 0px;
-      height: calc(100vh - 250px);
-      .card-body{
+      min-height: calc(100vh - 220px);
+
+      .card-body {
         padding: 24px;
       }
     }
 
     .faq-block-wrapper {
       overflow: hidden;
-      overflow-y: scroll;
-      //height: 450px;
-      height: calc(100vh - 48vh)
-    }
+      max-height: 100vh;
 
+      .faq-block-content {
+        overflow-y: auto;
+        min-height: calc(100vh - 48vh);
+      }
+    }
 
     .contact-info-wrapper {
       background-color: #EAF3F2;
       height: 80px;
       border-radius: 8px;
-
+      margin-top: auto;
 
       .card-component {
         margin: 0px;
-
       }
 
       .contact-number-wrapper {
         display: flex;
         justify-content: space-between;
-        .card-component{
-          .card-body{
+
+        .card-component {
+          .card-body {
             padding-bottom: 0px;
           }
         }
@@ -60,8 +65,6 @@
             font-size: 16px;
             margin: 17px 24px 5px 0;
             align-items: center;
-            //padding-top: 5px;
-
           }
         }
       }
@@ -74,5 +77,4 @@
       }
     }
   }
-
 }
