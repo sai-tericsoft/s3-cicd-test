@@ -625,7 +625,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                             <ToolTipComponent key={index} tooltip={
                                                                 <>
                                                                     <b>{value.client_details.first_name + ' ' + value.client_details.last_name || "No title"}</b><br/>
-                                                                    {value.category_details.name + ' / ' + value.service_details.name + ' - ' + (value.provider_details.first_name + ' ' + value.provider_details.last_name) || "-"}
+                                                                    {value.category_ƒ.name + ' / ' + value.service_details.name + ' - ' + (value.provider_details.first_name + ' ' + value.provider_details.last_name) || "-"}
                                                                     <br/>
                                                                     {CommonService.getHoursAndMinutesFromMinutes(value.start_time) + ' - ' + CommonService.getHoursAndMinutesFromMinutes(value.end_time) || "-"}
                                                                     <br/>

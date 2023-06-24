@@ -62,7 +62,7 @@
     background: $white;
     border: 1px solid #F3F3F3;
     border-radius: 4px;
-    padding-top: 15px;
+    //padding-top: 15px;
 
     .t-table-wrapper {
       .t-table {
@@ -104,14 +104,16 @@
     .scheduling-filter-header-wrapper {
       display: flex;
       flex-direction: row;
-      height: 55px;
+      height: auto;
       justify-content: space-between;
       align-content: center;
+
       padding: 10px 20px 16px 20px;
       position: sticky;
       top: -20px;
+      //position: sticky;
       background-color: #FFFFFF;
-      z-index: 2;
+      //z-index: 2;
 
       .scheduling-filter-header-date-wrapper {
         flex: 1;
@@ -126,7 +128,7 @@
           font-weight: 600;
           font-size: 18px;
           color: $body-color;
-          margin-bottom: 4px;
+          //margin-bottom: 4px;
         }
 
         .filter-header-date-controls {
