@@ -28,8 +28,8 @@
         height: 185px;
         margin-top: 15px;
         border-radius: 10px;
-        overflow: hidden;
-        overflow-y: scroll;
+        overflow: auto;
+        //overflow-y: scroll;
 
         .message-text{
           color: #6D6D6D;
