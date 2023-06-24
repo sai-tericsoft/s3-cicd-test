@@ -112,8 +112,8 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
                     <div className={'client-search-wrapper'}>
                         <div className="client-search-input">
                             <SearchComponent value={clientSearch}
-                                             label={""}
-                                             placeholder={'Search Client (Name or Phone Number or Client ID)'}
+                                             label={"Search Client"}
+                                             placeholder={'Search using Client or Client ID'}
                                              onSearchChange={(value) => {
                                                  setClientSearch(value);
                                                  setSelectedClient(null)
@@ -175,7 +175,7 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
                              style={{backgroundImage: 'url(' + ImageConfig.AppointmentConfirm + ')'}}>
                             <ImageConfig.VerifiedCheck width={24}/>
                         </div>
-                        <div className="booking-confirmation-status-text">Booking Confirmed</div>
+                        <div className="booking-confirmation-status-text">Booking Confirmed!</div>
                     </div>
                     <div className="booking-confirmation-action">
                         <ButtonComponent fullWidth={true}

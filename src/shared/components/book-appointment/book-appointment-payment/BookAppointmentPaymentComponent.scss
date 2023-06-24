@@ -6,8 +6,9 @@
   flex-direction: column;
   .t-appointment-drawer-form-controls{
     .add-gift-card-msg{
-      margin-top: 24px;
-      margin-bottom: 12px;
+      margin-top: 30px;
+      font-weight: 500;
+      margin-bottom: 16px;
     }
   }
 
@@ -18,6 +19,8 @@
     .checkout-summary{
       font-size: 16px;
       font-weight: 700;
+      margin-top:6px ;
+      margin-bottom: 16px !important;
     }
   }
 
@@ -38,21 +41,19 @@
   }
   .secure-checkout-title {
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 700;
     line-height: 24px;
     padding-left: 4px;
-    margin-bottom: 14px;
   }
 
   .payment-block {
     padding: 10px;
-    margin: 10px 0;
+    margin: 15px 0 20px;
     background: #F9F9FB;
     border-radius: 5px;
 
     &.blue-card {
       background: #E0F0F0;
-      margin-bottom: 24px;
     }
 
     &.payment-block-time {
@@ -76,7 +77,6 @@
       font-size: 16px;
       line-height: 19px;
       color: #212B36;
-      padding-left: 16px;
     }
 
     .block-body {
@@ -98,10 +98,9 @@
     }
 
     .payment-price {
-      font-weight: 700;
-      font-size: 32px;
+      font-weight: 500;
+      font-size: 26px;
       color: #212B36;
-      padding-left: 24px;
       padding-bottom: 0px;
     }
 
@@ -154,13 +153,13 @@
       .option-item {
         flex: 0;
         margin-left: 8px;
-        .css-j204z7-MuiFormControlLabel-root{
+        .MuiFormControlLabel-root{
           margin-right:0px;
         }
       }
 
       .option-item-text {
-        font-weight: 400;
+        font-weight: 500;
         font-size: 14px;
         //justify-content: space-between;
         color: #000000;
@@ -193,27 +192,33 @@
 
       .price-item-text {
         flex: 1;
-        font-size: 1.1429rem;
+        font-size: 16px;
+        font-weight: 500;
       }
 
       &.price-item-total {
         margin-bottom: 26px;
 
         .price-item-text, .price-item-amount {
-          font-weight: 400;
-          font-size: 1.1429rem;
+          font-weight: 500;
+          font-size: 16px;
           color: #191919;
-          padding: 10px 0;
+          padding-top: 10px;
+          padding-bottom: 0px;
         }
       }
 
       .price-item-amount {
         &.green {
-          color: #40B95B !important;
+          color: #000000 !important;
+          font-weight: 500;
         }
 
         &.red {
-          color: #ED2B2D !important;
+          color: #37A850 !important;
+          .zero-discount{
+            color: #000000;
+          }
         }
       }
 
