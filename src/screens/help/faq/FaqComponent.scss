@@ -7,6 +7,7 @@
   .faq-question-wrapper {
     .card-component {
       margin-bottom: 0px;
+      height: calc(100vh - 250px);
       .card-body{
         padding: 24px;
       }
@@ -15,8 +16,8 @@
     .faq-block-wrapper {
       overflow: hidden;
       overflow-y: scroll;
-      height: 450px;
-
+      //height: 450px;
+      height: calc(100vh - 48vh)
     }
 
 
@@ -24,7 +25,6 @@
       background-color: #EAF3F2;
       height: 80px;
       border-radius: 8px;
-      margin-top: 24px;
 
 
       .card-component {
@@ -70,6 +70,7 @@
         margin-left: 24px;
         color: #6D6D6D;
         opacity: 0.5;
+        padding-bottom: 10px;
       }
     }
   }
