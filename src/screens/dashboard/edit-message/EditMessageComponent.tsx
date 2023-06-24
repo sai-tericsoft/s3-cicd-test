@@ -61,7 +61,7 @@ const EditMessageComponent = (props: EditMessageComponentProps) => {
                     return (
                         <Form className={'t-form'} noValidate={true}>
                             <div className={'ts-row ts-justify-content-center'}>
-                                <div className={'ts-col-lg-12'}>
+                                <div className={'ts-col-lg-12 message-container'}>
                                     <Field name={'message'}>
                                         {
                                             (field: FieldProps) => (
