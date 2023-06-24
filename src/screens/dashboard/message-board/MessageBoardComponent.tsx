@@ -79,16 +79,18 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                             <CardComponent className={'message-board'}>
                                 <div className={'message-board-view-all-messages-wrapper'}>
                                     <div className={'message-board-text'}>Message Board</div>
-                                    <div className={'view-all-message'} onClick={handleOpenViewAllMessagesDrawer}>View
-                                        All
-                                        Messages
+
+                                    {(messageHistory && messageHistory?.length > 0) && <div className={'view-all-message'} onClick={handleOpenViewAllMessagesDrawer}>
+                                         <div>View All Messages</div>
                                     </div>
+                                    }
                                 </div>
                                 {isMessageHistoryLoaded &&
                                     <CardComponent color={'primary'} className={'view-message-board'}>
                                         {
-                                            (messageHistory?.length === 0) &&
-                                            <div className={'message-text'}>{systemSettings?.default_message}</div>
+                                            (messageHistory?.length === 0) && <>
+                                                <div className={'message-text'}>{systemSettings?.default_message}</div>
+                                            </>
                                         }
                                         {messageHistory?.map((message: any) => {
                                             return (<>

@@ -12,29 +12,30 @@ import {useDispatch} from "react-redux";
 
 interface EditMessageComponentProps {
     messageObject: any;
-    onBack:()=>void;
-    closeMessageDrawer:()=>void;
+    onBack: () => void;
+    closeMessageDrawer: () => void;
 }
 
-const EditMessageInitialValue : any ={
-    message:''
+const EditMessageInitialValue: any = {
+    message: ''
 }
 
 const EditMessageComponent = (props: EditMessageComponentProps) => {
-    const dispatch =useDispatch();
-    const {messageObject,onBack,closeMessageDrawer} = props;
-    const[editMessageInitialValue,setEditMessageInitialValue] = useState<any>(_.cloneDeep(EditMessageInitialValue));
+    const dispatch = useDispatch();
+    const {messageObject, onBack, closeMessageDrawer} = props;
+    const [editMessageInitialValue, setEditMessageInitialValue] = useState<any>(_.cloneDeep(EditMessageInitialValue));
 
-    useEffect(()=>{
+    useEffect(() => {
         setEditMessageInitialValue({
-            message:messageObject?.message
+            message: messageObject?.message
         })
-    },[messageObject]);
+    }, [messageObject]);
 
-    const handleMessageSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>)=>{
-        const payload={...values}
-        CommonService._dashboardService.editDashboardMessage(messageObject?._id,payload)
-            .then((response: IAPIResponseType<any>)=>{
+
+    const handleMessageSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
+        const payload = {...values}
+        CommonService._dashboardService.editDashboardMessage(messageObject?._id, payload)
+            .then((response: IAPIResponseType<any>) => {
                 // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Message Edited successfully", "success");
                 dispatch(getAllMessageHistory());
                 onBack();
@@ -42,13 +43,13 @@ const EditMessageComponent = (props: EditMessageComponentProps) => {
             }).catch((error: any) => {
             CommonService.handleErrors(setErrors, error, true);
         })
-    },[messageObject,dispatch,onBack,closeMessageDrawer])
+    }, [messageObject, dispatch, onBack, closeMessageDrawer]);
 
     return (
         <div className={'edit-message-component'}>
             <FormControlLabelComponent label={'Edit Message'} className={'flex-0'} size={'lg'}/>
             <Formik initialValues={editMessageInitialValue}
-                onSubmit={handleMessageSubmit}
+                    onSubmit={handleMessageSubmit}
                     validateOnChange={false}
                     validateOnBlur={true}
                     enableReinitialize={true}
@@ -66,9 +67,9 @@ const EditMessageComponent = (props: EditMessageComponentProps) => {
                                         {
                                             (field: FieldProps) => (
                                                 <FormikTextAreaComponent formikField={field}
-                                                                      label={''}
-                                                                      fullWidth={true}
-                                                                      placeholder={'Enter your message'}/>
+                                                                         label={''}
+                                                                         fullWidth={true}
+                                                                         placeholder={'Enter your message'}/>
                                             )
                                         }
                                     </Field>
@@ -79,7 +80,8 @@ const EditMessageComponent = (props: EditMessageComponentProps) => {
                                     Cancel
                                 </ButtonComponent>
                                 &nbsp;
-                                <ButtonComponent className={'submit-cta'} id={"save_btn"} variant={'contained'} color={'primary'}
+                                <ButtonComponent className={'submit-cta'} id={"save_btn"} variant={'contained'}
+                                                 color={'primary'}
                                                  disabled={!isValid} type={'submit'}>
                                     Save
                                 </ButtonComponent>
