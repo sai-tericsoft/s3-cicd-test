@@ -9,7 +9,9 @@ import {
     GET_COMMUNICATION_MODE_TYPE_LIST,
     GET_CONCUSSION_FILE_TYPES,
     GET_CONSULTATION_DURATION_LIST,
-    GET_EMPLOYMENT_STATUS_LIST, GET_FACILITY_LIST_LITE, GET_FAQ_LIST,
+    GET_EMPLOYMENT_STATUS_LIST,
+    GET_FACILITY_LIST_LITE,
+    GET_FAQ_LIST,
     GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST,
     GET_GENDER_LIST,
     GET_INJURY_TYPE_LIST,
@@ -25,11 +27,13 @@ import {
     GET_RELATIONSHIP_LIST,
     GET_RESCHEDULED_HOURS_LIST,
     GET_RESCHEDULED_TIMES_LIST,
+    GET_ROLE_LIST,
     GET_SECONDARY_REMAINDER_HOURS_LIST,
     GET_SOCIAL_MEDIA_PLATFORM_LIST,
     GET_SURGICAL_HISTORY_OPTIONS_LIST,
     GET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST,
-    GET_USER_MENTIONS_LIST, GET_VALID_DAYS_LIST,
+    GET_USER_MENTIONS_LIST,
+    GET_VALID_DAYS_LIST,
     set8MinuteRuleChart,
     setAppointmentStatus,
     setAppointmentTypes,
@@ -38,7 +42,9 @@ import {
     setCommunicationModeTypeList,
     setConcussionFileTypes,
     setConsultationDurationList,
-    setEmploymentStatusList, setFacilityListLite, setFAQList,
+    setEmploymentStatusList,
+    setFacilityListLite,
+    setFAQList,
     setFilesUneditableAfterOptionsList,
     setGenderList,
     setInjuryTypeList,
@@ -54,11 +60,13 @@ import {
     setRelationShipList,
     setRescheduledHoursList,
     setRescheduledTimesList,
+    setRoleList,
     setSecondaryRemainderHoursList,
     setSocialMediaPlatformList,
     setSurgicalHistoryOptionsList,
     setSystemAutoLockDurationOptionsList,
-    setUserMentionsList, setValidDaysList
+    setUserMentionsList,
+    setValidDaysList
 } from "../actions/static-data.action";
 import {CommonService} from "../../shared/services";
 
@@ -313,6 +321,7 @@ function* getFaqList() {
         yield put(setFAQList([]));
     }
 }
+
 function* getPrimaryRemainderHoursList() {
     try {
         // @ts-ignore
@@ -384,6 +393,15 @@ function* getFacilityListLite() {
     }
 }
 
+function* getRoleList() {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._staticData.getRoleList);
+        yield put(setRoleList(resp?.data));
+    } catch (error: any) {
+        yield put(setRoleList([]));
+    }
+}
 
 export default function* staticDataSaga() {
     yield takeEvery(GET_CONSULTATION_DURATION_LIST, getConsultationDurationList);
@@ -418,5 +436,5 @@ export default function* staticDataSaga() {
     yield takeEvery(GET_USER_MENTIONS_LIST, getMentionsList);
     yield takeEvery(GET_VALID_DAYS_LIST, getValidDaysList);
     yield takeEvery(GET_FACILITY_LIST_LITE, getFacilityListLite);
-
+    yield takeEvery(GET_ROLE_LIST, getRoleList);
 }

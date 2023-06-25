@@ -6,6 +6,7 @@ import {
     GET_CONCUSSION_FILE_TYPES,
     GET_CONSULTATION_DURATION_LIST,
     GET_EMPLOYMENT_STATUS_LIST,
+    GET_FACILITY_LIST_LITE,
     GET_FAQ_LIST,
     GET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST,
     GET_GENDER_LIST,
@@ -21,11 +22,11 @@ import {
     GET_RELATIONSHIP_LIST,
     GET_RESCHEDULED_HOURS_LIST,
     GET_RESCHEDULED_TIMES_LIST,
+    GET_ROLE_LIST,
     GET_SECONDARY_REMAINDER_HOURS_LIST,
     GET_SOCIAL_MEDIA_PLATFORM_LIST,
     GET_SURGICAL_HISTORY_OPTIONS_LIST,
     GET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST,
-    GET_FACILITY_LIST_LITE,
     GET_USER_MENTIONS_LIST,
     GET_VALID_DAYS_LIST,
     SET_8_MINUTE_RULE_CHART,
@@ -37,6 +38,7 @@ import {
     SET_CONCUSSION_FILE_TYPES,
     SET_CONSULTATION_DURATION_LIST,
     SET_EMPLOYMENT_STATUS_LIST,
+    SET_FACILITY_LIST_LITE,
     SET_FAQ_LIST,
     SET_FILES_UNEDITABLE_AFTER_OPTIONS_LIST,
     SET_GENDER_LIST,
@@ -53,11 +55,11 @@ import {
     SET_RELATIONSHIP_LIST,
     SET_RESCHEDULED_HOURS_LIST,
     SET_RESCHEDULED_TIMES_LIST,
+    SET_ROLE_LIST,
     SET_SECONDARY_REMAINDER_HOURS_LIST,
     SET_SOCIAL_MEDIA_PLATFORM_LIST,
     SET_SURGICAL_HISTORY_OPTIONS_LIST,
     SET_SYSTEM_AUTO_LOCK_DURATION_OPTIONS_LIST,
-    SET_FACILITY_LIST_LITE,
     SET_USER_MENTIONS_LIST,
     SET_VALID_DAYS_LIST,
 } from "../actions/static-data.action";
@@ -170,6 +172,10 @@ export interface IStaticDataReducerState {
     facilityListLite: any[],
     isFacilityListLiteLoading: boolean,
     isFacilityListLiteLoaded: boolean,
+
+    isRoleListLoading: boolean,
+    isRoleListLoaded: boolean,
+    roleList: any[],
 }
 
 const initialData: IStaticDataReducerState = {
@@ -286,6 +292,10 @@ const initialData: IStaticDataReducerState = {
     facilityListLite: [],
     isFacilityListLiteLoading: false,
     isFacilityListLiteLoaded: false,
+
+    isRoleListLoading: false,
+    isRoleListLoaded: false,
+    roleList: [],
 };
 
 const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDataReducerState => {
@@ -750,6 +760,21 @@ const StaticDataReducer = (state = initialData, action: IActionModel): IStaticDa
                 isFacilityListLiteLoaded: true,
                 facilityListLite: action.payload.facilityListLiteData
             }
+            return state;
+        case GET_ROLE_LIST:
+            state = {
+                ...state,
+                isRoleListLoading: true,
+                isRoleListLoaded: false,
+            };
+            return state;
+        case SET_ROLE_LIST:
+            state = {
+                ...state,
+                isRoleListLoading: false,
+                isRoleListLoaded: true,
+                roleList: action.payload.roleList
+            };
             return state;
         default:
             return state;

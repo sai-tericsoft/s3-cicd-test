@@ -207,6 +207,11 @@ const FacilityListLite = (payload: any) => {
     return ApiService[APIConfig.FACILITY_LIST_LITE.METHOD](APIConfig.FACILITY_LIST_LITE.URL, payload);
 }
 
+const getRoleList = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.ROLE_LIST.METHOD](APIConfig.ROLE_LIST.URL, payload);
+}
+
 const StaticDataService = {
     today,
     weekDays,
@@ -248,7 +253,8 @@ const StaticDataService = {
     getUserMentionsList,
     ReportAnIssue,
     GetValidDaysList,
-    FacilityListLite
+    FacilityListLite,
+    getRoleList
 }
 
 export default StaticDataService;

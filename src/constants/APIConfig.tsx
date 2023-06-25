@@ -17,6 +17,10 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + "/gender",
         METHOD: "get"
     },
+    ROLE_LIST: {
+        URL: ENV.API_URL + "/roles",
+        METHOD: "get"
+    },
     LANGUAGE_LIST: {
         URL: ENV.API_URL + "/language",
         METHOD: "get"

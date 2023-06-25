@@ -1,0 +1,35 @@
+.user-basic-details-edit-component{
+  .t-form{
+    .edit-user-heading{
+      font-weight: 700;
+      font-size: 1.2857rem;
+      color: #00534F;
+      margin-bottom: 15px;
+    }
+    .primary-phone-divider{
+      border:1px solid #CECECE;
+    }
+    .alternate-phone-divider{
+      border:2px solid #CECECE;
+    }
+    .remove-contact-button{
+      margin-bottom: 24px;
+      margin-left: 20px;
+      align-items: center;
+    }
+    .secondary-emergency-divider{
+      border:2px solid #CECECE;
+    }
+    .t-form-actions{
+      margin-top: 30px;
+      margin-bottom: 0px;
+      .submit-cta{
+        margin-left: 16px;
+      }
+    }
+    .add-another-contact-cta{
+      margin-bottom: 24px;
+    }
+  }
+
+}

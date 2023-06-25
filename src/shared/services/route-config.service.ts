@@ -13,14 +13,19 @@ import {
     INVENTORY,
     LOGIN_ROUTE,
     NOT_FOUND_ROUTE,
+    PERSONAL_DETAILS,
     REPORT_AN_ISSUE,
     SCHEDULING_VIEW,
     SERVICE_ADD,
     SERVICE_CATEGORY_DETAILS,
     SERVICE_CATEGORY_LIST,
     SERVICE_DETAILS,
-    SERVICE_EDIT, SETTINGS,
-    TEST_ROUTE, USER_ADD, USER_LIST, USER_PERSONAL_DETAILS,
+    SERVICE_EDIT,
+    SETTINGS,
+    TEST_ROUTE,
+    USER_ADD,
+    USER_LIST,
+    USER_PERSONAL_DETAILS,
 } from "../../constants/RoutesConfig";
 
 const DefaultRoute = () => {
@@ -280,8 +285,16 @@ const UserSettings = () => {
     return SETTINGS;
 }
 
+const PersonalDetails = () => {
+    return PERSONAL_DETAILS;
+}
+
 const UserPersonalDetails = () => {
     return USER_PERSONAL_DETAILS;
+}
+
+const UserPersonalDetailsEdit = (userId: string) => {
+    return '/admin/user-edit/' + userId;
 }
 
 
@@ -350,7 +363,9 @@ const RouteConfigService = {
     UserList,
     UserAdd,
     UserSettings,
-    UserPersonalDetails
+    UserPersonalDetails,
+    PersonalDetails,
+    UserPersonalDetailsEdit
 }
 
 export default RouteConfigService;

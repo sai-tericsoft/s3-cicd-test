@@ -16,6 +16,12 @@ export interface IGender {
     title: string;
 }
 
+export interface IRole {
+    _id: string;
+    code: string;
+    title: string;
+}
+
 export interface IPhoneType {
     _id: string;
     code: string;

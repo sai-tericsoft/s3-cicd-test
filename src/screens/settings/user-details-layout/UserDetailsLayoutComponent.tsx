@@ -26,7 +26,7 @@ const UserDetailsLayoutComponent = (props: UserDetailsLayoutComponentProps) => {
     const USER_MENU_ITEMS = [
         {
             title: "Personal Details",
-            path: CommonService._routeConfig.UserPersonalDetails() + '?userId=' + userId
+            path: userId ? CommonService._routeConfig.UserPersonalDetails() + '?userId=' + userId : CommonService._routeConfig.PersonalDetails()
         },
         {
             title: "Available Hours & Service",
@@ -56,7 +56,7 @@ const UserDetailsLayoutComponent = (props: UserDetailsLayoutComponentProps) => {
         } else {
             dispatch(getUserBasicDetails(currentUser._id));
             dispatch(setCurrentNavParams('Settings'))
-            setUserId(currentUser._id);
+            // setUserId(currentUser._id);
         }
     }, [searchParams, dispatch, currentUser]);
 

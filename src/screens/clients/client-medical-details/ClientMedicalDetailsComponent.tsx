@@ -253,7 +253,8 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             </div>
                         }
                         {clientMedicalDetails?.surgical_history?.comments && <>
-                            <div className={'other-illness-text'}> {clientMedicalDetails?.surgical_history?.comments && <>
+                            <div
+                                className={'other-illness-text'}> {clientMedicalDetails?.surgical_history?.comments && <>
                                 <div className={'other-illness-heading'}>Other Illnesses/Conditions</div>
                                 {clientMedicalDetails?.surgical_history?.comments.split("\n").map((i: any, key: any) => {
                                     return <li key={key}>{i}</li>;
@@ -277,13 +278,13 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                    </LinkComponent>
                                    }>
                         {(Object.keys(clientMedicalDetails?.musculoskeletal_history || {}).length === 0) && (Object.keys(clientMedicalDetails?.musculoskeletal_history || {}).length === 0) &&
-                            <div className={'allergies-na'}> {
-                                (Object.keys(clientMedicalDetails?.musculoskeletal_history || {}).length === 0) && <>
-                                    None Reported
-                                </>
-                            }
+                        <div className={'allergies-na'}> {
+                            (Object.keys(clientMedicalDetails?.musculoskeletal_history || {}).length === 0) && <>
+                                None Reported
+                            </>
+                        }
 
-                            </div>}
+                        </div>}
                         <div className={'musculoskeletal-card-body-table'}>
                             {
                                 (Object.keys(clientMedicalDetails?.musculoskeletal_history || {})?.map((question, index) => {

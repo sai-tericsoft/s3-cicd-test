@@ -79,7 +79,12 @@ const FAQ = "/help/faq";
 const REPORT_AN_ISSUE = "/help/report-an-issue";
 
 const SETTINGS = "/settings"
-const USER_PERSONAL_DETAILS = "/settings/personal-details"
+const PERSONAL_DETAILS = "/settings/personal-details"
+const PERSONAL_DETAILS_EDIT = "/settings/details-edit"
+
+
+const USER_PERSONAL_DETAILS = "/admin/user-details"
+const USER_PERSONAL_DETAILS_EDIT = "/admin/user-edit"
 
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
@@ -154,5 +159,8 @@ export {
     USER_LIST,
     USER_ADD,
     SETTINGS,
-    USER_PERSONAL_DETAILS
+    PERSONAL_DETAILS,
+    PERSONAL_DETAILS_EDIT,
+    USER_PERSONAL_DETAILS,
+    USER_PERSONAL_DETAILS_EDIT
 };

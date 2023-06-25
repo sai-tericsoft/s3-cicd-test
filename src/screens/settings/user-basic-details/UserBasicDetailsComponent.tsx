@@ -46,7 +46,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                 {
                     (isUserBasicDetailsLoaded && userBasicDetails) && <>
                         <CardComponent title={'Basic Details'} actions={<LinkComponent
-                            route={CommonService._client.NavigateToClientEdit('', "personalHabits")}>
+                            route={CommonService._user.NavigateToUserEdit(userBasicDetails._id, "basic_details")}>
                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                 Edit
                             </ButtonComponent>
@@ -128,7 +128,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                             </div>
                         </CardComponent>
                         <CardComponent title={'About'} actions={<LinkComponent
-                            route={CommonService._client.NavigateToClientEdit('', "personalHabits")}>
+                            route={CommonService._user.NavigateToUserEdit(userBasicDetails._id, "about")}>
                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                 Edit
                             </ButtonComponent>
@@ -186,7 +186,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                             </div>
                         </CardComponent>
                         <CardComponent title={'Contact Information'} actions={<LinkComponent
-                            route={CommonService._client.NavigateToClientEdit('', "personalHabits")}>
+                            route={CommonService._user.NavigateToUserEdit(userBasicDetails._id, "contact_information")}>
                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                 Edit
                             </ButtonComponent>
@@ -287,7 +287,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
 
                         </CardComponent>
                         <CardComponent title={'Address Information'} actions={<LinkComponent
-                            route={CommonService._client.NavigateToClientEdit('', "personalHabits")}>
+                            route={CommonService._user.NavigateToUserEdit(userBasicDetails._id, "address")}>
                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                 Edit
                             </ButtonComponent>
@@ -303,7 +303,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                             </DataLabelValueComponent>
                         </CardComponent>
                         <CardComponent title={'Emergency Contact Information'} actions={<LinkComponent
-                            route={CommonService._client.NavigateToClientEdit('', "personalHabits")}>
+                            route={CommonService._user.NavigateToUserEdit(userBasicDetails._id, "emergency_contact_info")}>
                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                 Edit
                             </ButtonComponent>
@@ -454,7 +454,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                             }
                         </CardComponent>
                         <CardComponent title={'Professional Details'} actions={<LinkComponent
-                            route={CommonService._client.NavigateToClientEdit('', "personalHabits")}>
+                            route={CommonService._user.NavigateToUserEdit(userBasicDetails._id, "professional_details")}>
                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                 Edit
                             </ButtonComponent>
@@ -504,7 +504,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                         </CardComponent>
 
                         <CardComponent title={'Education Details'} actions={<LinkComponent
-                            route={CommonService._client.NavigateToClientEdit('', "personalHabits")}>
+                            route={CommonService._user.NavigateToUserEdit(userBasicDetails._id, "education_details")}>
                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                 Edit
                             </ButtonComponent>

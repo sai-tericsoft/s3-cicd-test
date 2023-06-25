@@ -19,7 +19,8 @@ import {
     getCommunicationModeTypeList,
     getConcussionFileTypes,
     getConsultationDurationList,
-    getEmploymentStatusList, getFacilityListLite,
+    getEmploymentStatusList,
+    getFacilityListLite,
     getFilesUneditableAfterOptionsList,
     getGenderList,
     getInjuryTypeList,
@@ -35,11 +36,13 @@ import {
     getRelationShipList,
     getRescheduledHoursList,
     getRescheduledTimesList,
+    getRoleList,
     getSecondaryRemainderHoursList,
     getSocialMediaPlatformList,
     getSurgicalHistoryOptionsList,
     getSystemAutoLockDurationOptionsList,
-    getUserMentionsList, getValidDaysList
+    getUserMentionsList,
+    getValidDaysList
 } from "./store/actions/static-data.action";
 import AppVersionComponent from "./shared/components/app-version/appVersionComponent";
 import {getAllProvidersList} from "./store/actions/user.action";
@@ -159,6 +162,7 @@ const App = (props: AppProps) => {
             dispatch(getUserMentionsList());
             dispatch(getValidDaysList());
             dispatch(getFacilityListLite());
+            dispatch(getRoleList());
         }
     }, [token, dispatch])
 

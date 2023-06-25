@@ -16,7 +16,7 @@ import {
     IPhoneType,
     IProgressReportStat,
     IReferralType,
-    IRelationship,
+    IRelationship, IRole,
     ISocialMediaPlatform,
     ISurgicalHistoryOption,
     ISystemAutoLockDurationOption
@@ -118,6 +118,9 @@ export const SET_VALID_DAYS_LIST = 'SET_VALID_DAYS_LIST';
 export const GET_FACILITY_LIST_LITE = 'GET_FACILITY_LIST_LITE';
 export const SET_FACILITY_LIST_LITE = 'SET_FACILITY_LIST_LITE';
 
+export const GET_ROLE_LIST = 'GET_ROLE_LIST';
+export const SET_ROLE_LIST = 'SET_ROLE_LIST';
+
 export const getConsultationDurationList = () => {
     return {type: GET_CONSULTATION_DURATION_LIST};
 };
@@ -141,7 +144,6 @@ export const setGenderList = (genderList: IGender[]) => {
         }
     };
 };
-
 
 export const getPhoneTypeList = () => {
     return {type: GET_PHONE_TYPE_LIST};
@@ -504,3 +506,15 @@ export const setFacilityListLite = (facilityListLiteData: any[]) => {
         }
     };
 }
+
+export const getRoleList = () => {
+    return {type: GET_ROLE_LIST};
+};
+
+export const setRoleList = (roleList: IRole[]) => {
+    return {
+        type: SET_ROLE_LIST, payload: {
+            roleList
+        }
+    };
+};

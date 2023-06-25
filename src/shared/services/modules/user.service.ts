@@ -1,5 +1,7 @@
 import {ApiService} from "../index";
 import {APIConfig} from "../../../constants";
+import {IClientFormSteps} from "../../models/client.model";
+import RouteConfigService from "../route-config.service";
 
 const getUserList = (payload: any) => {
     // @ts-ignore
@@ -32,13 +34,18 @@ const getUserBasicDetails = (userId: string) => {
     return ApiService[APIConfig.USER_DETAILS.METHOD](APIConfig.USER_DETAILS.URL(userId));
 }
 
+const NavigateToUserEdit = (userId: string, step: any) => {
+    return RouteConfigService.UserPersonalDetailsEdit(userId) + "?currentStep=" + step;
+}
+
 const UserService = {
     getUserList,
     getUserListLite,
     getUserAvailableDatesList,
     getUserAvailableTimesList,
     getUserAdd,
-    getUserBasicDetails
+    getUserBasicDetails,
+    NavigateToUserEdit
 }
 
 export default UserService;
