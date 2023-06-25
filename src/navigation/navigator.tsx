@@ -165,8 +165,8 @@ import MedicalInterventionSpecialTestsV2Screen
 import ClientsMainLayoutComponent from "../screens/clients/clients-main-layout/ClientsMainLayoutComponent";
 import UserListComponent from "../screens/admin/users/user-list/UserListComponent";
 import UserAddComponent from "../screens/admin/users/user-add/UserAddComponent";
-import SettingMainLayoutComponent from "../screens/settings/setting-main-layout/SettingMainLayoutComponent";
 import UserDetailsLayoutComponent from "../screens/settings/user-details-layout/UserDetailsLayoutComponent";
+import UserBasicDetailsComponent from "../screens/settings/user-basic-details/UserBasicDetailsComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -261,7 +261,6 @@ const Navigator = (props: NavigatorProps) => {
                             }
                         />
                         <Route path={CLIENT_DETAILS} element={<ClientDetailsScreen/>} {...props}>
-
                             <Route
                                 index
                                 element={
@@ -512,7 +511,7 @@ const Navigator = (props: NavigatorProps) => {
 
                     </Route>
 
-                    <Route path={SETTINGS} element={<SettingMainLayoutComponent/>} {...props}>
+                    <Route path={SETTINGS} element={<UserDetailsLayoutComponent/>} {...props}>
                         <Route
                             index
                             element={
@@ -524,7 +523,7 @@ const Navigator = (props: NavigatorProps) => {
                             path={USER_PERSONAL_DETAILS}
                             element={
                                 <ProtectedRoute>
-                                    <UserDetailsLayoutComponent/>
+                                    <UserBasicDetailsComponent/>
                                 </ProtectedRoute>
                             }
                         />
@@ -538,6 +537,16 @@ const Navigator = (props: NavigatorProps) => {
                             </ProtectedRoute>
                         }
                     />
+
+                    <Route
+                        path={USER_PERSONAL_DETAILS}
+                        element={
+                            <ProtectedRoute>
+                                <UserBasicDetailsComponent/>
+                            </ProtectedRoute>
+                        }
+                    />
+
                     <Route
                         path={COUPON_ADD}
                         element={

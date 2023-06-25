@@ -79,7 +79,8 @@ const UserListComponent = (props: UserListComponentProps) => {
                 align: "center",
                 render: (item: any) => {
                     if (item?._id) {
-                        return <LinkComponent route={CommonService._routeConfig.ClientDetails(item?._id)}>
+                        return <LinkComponent
+                            route={CommonService._routeConfig.UserPersonalDetails() + '?userId=' + item?._id}>
                             View Details
                         </LinkComponent>
                     }

@@ -18,7 +18,6 @@ function* getAllProvidersList() {
 }
 
 function* getUserBasicDetails(action: any) {
-    console.log(action);
     try {
         // @ts-ignore
         const resp = yield call(CommonService._user.getUserBasicDetails, action.payload.userId);

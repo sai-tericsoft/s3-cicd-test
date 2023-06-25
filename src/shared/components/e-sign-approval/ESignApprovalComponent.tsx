@@ -13,12 +13,13 @@ interface ESignApprovalComponentProps {
     isSigning?: boolean;
     onSign?: () => void;
     signedAt?: string;
+    signature_url?: string;
 }
 
 const ESignApprovalComponent = (props: ESignApprovalComponentProps) => {
 
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
-    const {isSigned, isLoading, onSign, isSigning, canSign, signedAt} = props;
+    const {isSigned, isLoading, onSign, isSigning, canSign, signedAt, signature_url} = props;
 
     const handleOnSign = useCallback(() => {
         if (onSign) {
@@ -30,7 +31,7 @@ const ESignApprovalComponent = (props: ESignApprovalComponentProps) => {
         <div className={'e-sign-approval-component'}>
             <div className="e-sign-image-action-wrapper">
                 <div className={`e-sign-image-container ${isSigned ? "signed" : "unsigned"}`}>
-                    <img src={currentUser?.signature_url} alt="Signature"/>
+                    <img src={signature_url ? signature_url : currentUser?.signature_url} alt="Signature"/>
                 </div>
                 {
                     !isSigned && <div className="e-sign-action-container">

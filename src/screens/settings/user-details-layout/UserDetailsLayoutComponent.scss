@@ -1,23 +1,23 @@
 @import "src/assets/styles/common";
 
-.user-details-layout {
-  display: flex;
+.user-details-screen {
+  width: 100%;
 
-  .user-details-left-bar {
+  .user-details-layout {
+    display: flex;
 
-    .user-details-title {
-      font-weight: $font-weight-bolder;
-      font-size: 18px;
-      line-height: 16px;
-      letter-spacing: 0.5px;
-      color: $text-light-2;
-      margin: 15px 0 24px;
-    }
+    .user-details-left-bar {
 
-    .user-details-basic-card-holder {
-      margin-bottom: 6px;
+      .user-details-title {
+        font-weight: $font-weight-bolder;
+        font-size: 18px;
+        line-height: 16px;
+        letter-spacing: 0.5px;
+        color: $text-light-2;
+        margin: 15px 0 24px;
+      }
+
       .user-basic-detail-card {
-        width: 216px;
         background-color: #FFFFFF;
         border-radius: 8px;
         border: 1px solid #E7E7E7;
@@ -45,6 +45,7 @@
         .user-details-wrapper {
           padding-left: 14px;
           padding-right: 14px;
+          margin-bottom: 14px;
           height: auto;
 
           .user-name {
@@ -59,17 +60,23 @@
             text-overflow: ellipsis
 
           }
+          .user-status {
+            margin-top: 6px;
+            text-align: center;
+            font-weight: 700;
+            margin-left: 60px;
+          }
         }
 
 
       }
     }
-  }
 
-  .user-details-content-wrapper {
-    flex: 1;
-    padding: 0 0 0 16px;
-    overflow-x: hidden;
-    overflow-y: hidden;
+    .user-details-content-wrapper {
+      flex: 1;
+      padding: 0 0 0 16px;
+      overflow-x: hidden;
+      overflow-y: hidden;
+    }
   }
 }

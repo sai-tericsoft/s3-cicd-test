@@ -27,9 +27,9 @@ const getUserAvailableTimesList = (providerId: string, date: string) => {
     return ApiService[APIConfig.USER_AVAILABLE_TIMES_LIST.METHOD](APIConfig.USER_AVAILABLE_TIMES_LIST.URL(providerId, date));
 }
 
-const getUserBasicDetails = (userId: string, payload: any) => {
+const getUserBasicDetails = (userId: string) => {
     // @ts-ignore
-    return ApiService[APIConfig.USER_DETAILS.METHOD](APIConfig.USER_DETAILS.URL(clientId), payload);
+    return ApiService[APIConfig.USER_DETAILS.METHOD](APIConfig.USER_DETAILS.URL(userId));
 }
 
 const UserService = {

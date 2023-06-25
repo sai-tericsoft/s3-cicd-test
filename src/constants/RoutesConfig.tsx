@@ -79,7 +79,7 @@ const FAQ = "/help/faq";
 const REPORT_AN_ISSUE = "/help/report-an-issue";
 
 const SETTINGS = "/settings"
-const USER_PERSONAL_DETAILS = "/settings/user-personal-details"
+const USER_PERSONAL_DETAILS = "/settings/personal-details"
 
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 

@@ -40,7 +40,7 @@ const menuList: IMenuItem[] = [
         icon: ImageConfig.HelpIcon
     },
     {
-        path: CommonService._routeConfig.UserSettings(),
+        path: CommonService._routeConfig.UserPersonalDetails(),
         title: "Settings",
         icon: ImageConfig.HelpIcon
     }
