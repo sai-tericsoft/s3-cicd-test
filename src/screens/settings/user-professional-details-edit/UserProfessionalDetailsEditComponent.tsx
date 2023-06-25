@@ -37,7 +37,7 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
                                                              onClick={() => {
                                                                  arrayHelpers.remove(index);
                                                              }}
-                                            >Remove Contact</ButtonComponent>}
+                                            >Remove</ButtonComponent>}
                                         </div>
                                         <div className="ts-row">
                                             <div className="ts-col">

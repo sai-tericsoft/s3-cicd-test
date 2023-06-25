@@ -38,7 +38,7 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
                                                              onClick={() => {
                                                                  arrayHelpers.remove(index);
                                                              }}
-                                            >Remove Contact</ButtonComponent>}
+                                            >Remove</ButtonComponent>}
                                         </div>
                                         <div className="ts-row">
                                             <div className="ts-col">
@@ -140,7 +140,7 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
                                                     });
                                                 }}
                                                 prefixIcon={<ImageConfig.AddIcon/>}>
-                                                Add Another Experience</ButtonComponent>
+                                                Add Another Education</ButtonComponent>
                                         </div>}
                                     </>
                                 )

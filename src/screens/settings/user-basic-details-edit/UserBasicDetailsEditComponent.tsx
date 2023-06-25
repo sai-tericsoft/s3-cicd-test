@@ -10,7 +10,6 @@ import {CommonService} from "../../../shared/services";
 import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
-import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import UserPersonalDetailsEditComponent from "../user-personal-details-edit/UserPersonalDetailsEditComponent";
 import UserContactInformationEditComponent from "../user-contact-information-edit/UserContactInformationEditComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
@@ -20,6 +19,7 @@ import UserEmergencyContactDetailsEditComponent
 import UserEducationDetailsEditComponent from "../user-education-details-edit/UserEducationDetailsEditComponent";
 import UserProfessionalDetailsEditComponent
     from "../user-professional-details-edit/UserProfessionalDetailsEditComponent";
+import UserAboutEditComponent from "../user-about-edit/UserAboutEditComponent";
 
 interface UserBasicDetailsEditComponentProps {
 
@@ -80,6 +80,16 @@ const UserBasicDetailsFormInitialValues: any = {
         npi_number: "",
         role: "",
         assigned_facilities: []
+    },
+    about: {
+        summary: "",
+        specialities: [],
+        languages: {
+            name: "",
+            read: "",
+            write: "",
+            speak: ""
+        }
     },
     contact_information: {
         primary_email: "",
@@ -193,6 +203,11 @@ const UserBasicDetailsEditComponent = (props: UserBasicDetailsEditComponentProps
                 secondary_contact_info: userBasicDetails?.secondary_contact_info || [],
             }
 
+            userBasicDetails.about = {
+                summary: userBasicDetails?.summary,
+                specialities: userBasicDetails?.specialities || [],
+                languages: userBasicDetails?.languages || [],
+            }
 
             if (!userBasicDetails.emergency_contact_info?.primary_emergency?.secondary_contact_info ||
                 (userBasicDetails.emergency_contact_info?.primary_emergency?.secondary_contact_info && userBasicDetails.emergency_contact_info?.primary_emergency?.secondary_contact_info?.length === 0)) {
@@ -236,13 +251,13 @@ const UserBasicDetailsEditComponent = (props: UserBasicDetailsEditComponentProps
         console.log(values);
     }, []);
 
-    useEffect(() => {
-        dispatch(setCurrentNavParams('Edit User', null, () => {
-            if (userId) {
-                navigate(CommonService._client.NavigateToClientDetails(userId, "basicDetails"));
-            }
-        }));
-    }, [dispatch, currentStep, userId, navigate]);
+    // useEffect(() => {
+    //     dispatch(setCurrentNavParams('Edit User', null, () => {
+    //         if (userId) {
+    //             navigate(CommonService._client.NavigateToClientDetails(userId, "basicDetails"));
+    //         }
+    //     }));
+    // }, [dispatch, currentStep, userId, navigate]);
 
     useEffect(() => {
         let currentStep: any = searchParams.get("currentStep");
@@ -283,6 +298,12 @@ const UserBasicDetailsEditComponent = (props: UserBasicDetailsEditComponentProps
                             {currentStep === 'basic_details' &&
                             <>
                                 <UserPersonalDetailsEditComponent/>
+                            </>
+                            }
+
+                            {currentStep === 'about' &&
+                            <>
+                                <UserAboutEditComponent values={values}/>
                             </>
                             }
 
