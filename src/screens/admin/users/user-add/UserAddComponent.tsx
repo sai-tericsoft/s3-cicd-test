@@ -11,11 +11,13 @@ import _ from "lodash";
 import {Misc} from "../../../../constants";
 import FormikPhoneInputComponent
     from "../../../../shared/components/form-controls/formik-phone-input/FormikPhoneInputComponent";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../../store/reducers";
 import FormikAutoCompleteComponent
     from "../../../../shared/components/form-controls/formik-auto-complete/FormikAutoCompleteComponent";
 import FormikSelectComponent from "../../../../shared/components/form-controls/formik-select/FormikSelectComponent";
+import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
+import {useNavigate} from "react-router-dom";
 
 interface UserAddComponentProps {
 
@@ -43,6 +45,8 @@ const userAddValidationSchema = Yup.object({
 
 const UserAddComponent = (props: UserAddComponentProps) => {
     const [addUserInitialValues] = useState<any>(_.cloneDeep(UserAddInitialValues));
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const {
         facilityListLite,
@@ -66,6 +70,11 @@ const UserAddComponent = (props: UserAddComponentProps) => {
         });
     }, []);
 
+    useEffect(() => {
+        dispatch(setCurrentNavParams('User List', null, () => {
+            navigate(CommonService._routeConfig.UserList());
+        }));
+    }, [dispatch, navigate]);
     return (
         <div className={'user-add-component'}>
             <div className={'add-heading'}>
@@ -191,7 +200,7 @@ const UserAddComponent = (props: UserAddComponentProps) => {
                             </CardComponent>
                             <div className="t-form-actions">
                                 {
-                                    <LinkComponent route={CommonService._routeConfig.DiscountList()}>
+                                    <LinkComponent route={CommonService._routeConfig.UserList()}>
                                         <ButtonComponent
                                             variant={"outlined"}
                                             disabled={isSubmitting}
