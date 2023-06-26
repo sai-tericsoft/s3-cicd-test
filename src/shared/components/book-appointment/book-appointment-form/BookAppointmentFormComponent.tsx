@@ -377,7 +377,9 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                 {/*                 onClose();*/}
                 {/*             }*/}
                 {/*         }*/}
-                {/*         }><ImageConfig.CloseIcon/></div>*/}
+                {/*         }>*/}
+                        {/*<ImageConfig.CloseIcon/>*/}
+                    {/*</div>*/}
                 {/*</ToolTipComponent>*/}
             </div>
             <div className="book-appointment-heading">Book Appointment</div>
