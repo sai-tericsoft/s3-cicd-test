@@ -1,5 +1,5 @@
 import "./UserBasicDetailsEditComponent.scss";
-import {useLocation, useNavigate, useSearchParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import React, {useCallback, useEffect, useState} from "react";
@@ -16,6 +16,7 @@ import UserProfessionalDetailsEditComponent
     from "../user-professional-details-edit/UserProfessionalDetailsEditComponent";
 import UserEmergencyContactDetailsEditComponent
     from "../user-emergency-contact-details-edit/UserEmergencyContactDetailsEditComponent";
+import {getUserBasicDetails} from "../../../store/actions/user.action";
 
 interface UserBasicDetailsEditComponentProps {
 
@@ -28,6 +29,7 @@ const UserBasicDetailsEditComponent = (props: UserBasicDetailsEditComponentProps
     const [currentStep, setCurrentStep] = useState<string>('');
     const location: any = useLocation();
     const path = location.pathname;
+    const {userId} = useParams()
 
     const {
         isUserBasicDetailsLoaded,
@@ -37,6 +39,12 @@ const UserBasicDetailsEditComponent = (props: UserBasicDetailsEditComponentProps
     } = useSelector((state: IRootReducerState) => state.user);
 
     useEffect(() => {
+        if (userId) {
+            dispatch(getUserBasicDetails(userId));
+        }
+    }, [userId,dispatch])
+
+    useEffect(() => {
         dispatch(setCurrentNavParams('Edit User', null, () => {
             if (path.includes('settings')) {
                 navigate(CommonService._routeConfig.PersonalDetails());
@@ -44,7 +52,7 @@ const UserBasicDetailsEditComponent = (props: UserBasicDetailsEditComponentProps
                 navigate(CommonService._routeConfig.UserPersonalDetails() + '?userId=' + userBasicDetails?._id)
             }
         }));
-    }, [dispatch, userBasicDetails, navigate,path]);
+    }, [dispatch, userBasicDetails, navigate, path]);
 
     useEffect(() => {
         let currentStep: any = searchParams.get("currentStep");
@@ -187,101 +195,6 @@ const UserBasicDetailsEditComponent = (props: UserBasicDetailsEditComponentProps
                         <UserEducationDetailsEditComponent handlePrevious={handlePrevious}/>
                     </>
                 }
-
-
-                {/*<> <Formik*/}
-                {/*    validationSchema={UserBasicDetailsFormValidationSchema}*/}
-                {/*    initialValues={clientBasicDetailsFormInitialValues}*/}
-                {/*    onSubmit={onSubmit}*/}
-                {/*    validateOnChange={false}*/}
-                {/*    validateOnBlur={true}*/}
-                {/*    enableReinitialize={true}*/}
-                {/*    validateOnMount={true}>*/}
-                {/*    {({values, touched, errors, setFieldValue, validateForm, isSubmitting, isValid}) => {*/}
-                {/*        // eslint-disable-next-line react-hooks/rules-of-hooks*/}
-                {/*        useEffect(() => {*/}
-                {/*            validateForm();*/}
-                {/*        }, [validateForm, values]);*/}
-                {/*        return (*/}
-                {/*            <Form noValidate={true} className={"t-form"}>*/}
-                {/*                <FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
-
-                {/*                {currentStep === 'about' &&*/}
-                {/*                <>*/}
-                {/*                    <UserAboutEditComponent values={values}/>*/}
-                {/*                </>*/}
-                {/*                }*/}
-
-                {/*                {currentStep === 'contact_information' && <>*/}
-                {/*                    <UserContactInformationEditComponent*/}
-                {/*                        contactInformation={values.contact_information}/>*/}
-                {/*                </>*/}
-                {/*                }*/}
-
-                {/*                {*/}
-                {/*                    currentStep === 'address' && <>*/}
-                {/*                        <UserAddressDetailsEditComponent/>*/}
-                {/*                    </>*/}
-                {/*                }*/}
-
-                {/*                {*/}
-                {/*                    currentStep === 'emergency_contact_info' && <>*/}
-                {/*                        <UserEmergencyContactDetailsEditComponent values={values}*/}
-                {/*                                                                  setFieldValue={setFieldValue}/>*/}
-                {/*                    </>*/}
-                {/*                }*/}
-                {/*                {*/}
-                {/*                    currentStep === 'professional_details' && <>*/}
-                {/*                        <UserProfessionalDetailsEditComponent values={values}/>*/}
-                {/*                    </>*/}
-                {/*                }*/}
-                {/*                {*/}
-                {/*                    currentStep === 'education_details' && <>*/}
-                {/*                        <UserEducationDetailsEditComponent values={values}/>*/}
-                {/*                    </>*/}
-                {/*                }*/}
-
-                {/*                <div className="t-form-actions">*/}
-                {/*                    {currentStep !== 'personal_details' && <ButtonComponent*/}
-                {/*                        id={"save_btn"}*/}
-                {/*                        size={'large'}*/}
-                {/*                        className={'submit-cta'}*/}
-                {/*                        variant={"outlined"}*/}
-                {/*                        isLoading={isSubmitting}*/}
-                {/*                        disabled={isSubmitting}*/}
-                {/*                        type={"button"}*/}
-                {/*                        onClick={handlePrevious}*/}
-                {/*                    >*/}
-                {/*                        Previous*/}
-                {/*                    </ButtonComponent>}*/}
-                {/*                    <ButtonComponent*/}
-                {/*                        id={"save_btn"}*/}
-                {/*                        size={'large'}*/}
-                {/*                        className={'submit-cta'}*/}
-                {/*                        isLoading={isSubmitting}*/}
-                {/*                        disabled={isSubmitting || !!errors[currentStep] || CommonService.isEqual(values, clientBasicDetailsFormInitialValues[currentStep])}*/}
-                {/*                        type={"submit"}*/}
-                {/*                    >*/}
-                {/*                        {isSubmitting ? "Saving" : "Save"}*/}
-                {/*                    </ButtonComponent>*/}
-                {/*                    {*/}
-                {/*                        currentStep !== 'education_details' && <ButtonComponent*/}
-                {/*                            id={"cancel_btn"}*/}
-                {/*                            variant={"outlined"}*/}
-                {/*                            size={'large'}*/}
-                {/*                            className={'submit-cta'}*/}
-                {/*                            disabled={isSubmitting}*/}
-                {/*                            onClick={handleNext}*/}
-                {/*                        >*/}
-                {/*                            Next*/}
-                {/*                        </ButtonComponent>*/}
-                {/*                    }*/}
-                {/*                </div>*/}
-                {/*            </Form>*/}
-                {/*        )*/}
-                {/*    }}*/}
-                {/*</Formik>*/}
-                {/*</>*/}
             </>
             }
         </div>

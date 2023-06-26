@@ -218,16 +218,24 @@ export interface NavigatorProps {
 }
 
 const Navigator = (props: NavigatorProps) => {
+    const {currentUser}: any = useSelector((state: IRootReducerState) => state.account);
+
     return (
         <>
             <Routes>
                 <Route element={<AppLayout/>}>
-                    <Route
+                    {currentUser?.is_new_user === true ? <Route
                         index
                         element={
                             <Navigate to={CLIENT_LIST}/>
                         }
-                    />
+                    /> : <Route index
+                                element={
+                                    <Navigate
+                                        to={PERSONAL_DETAILS_EDIT + '/' + currentUser?._id + '?currentStep=personal_details'}/>
+                                }
+                    />}
+
                     <Route path={DASHBOARD} element={<DashboardLayoutComponent/>}{...props}>
 
                         <Route
@@ -239,7 +247,6 @@ const Navigator = (props: NavigatorProps) => {
                             }
                         />
                     </Route>
-
 
                     <Route
                         path={CLIENT}

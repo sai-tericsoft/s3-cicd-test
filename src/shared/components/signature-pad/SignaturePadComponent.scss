@@ -1,0 +1,45 @@
+.signature-pad-component {
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  margin: 0 0 20px;
+
+  .signature-pad-container {
+
+    .signature-pad-options {
+      display: flex;
+      flex-direction: row-reverse;
+      margin-bottom: 5px;
+    }
+
+    .signature-pad {
+      border: 1px solid #ABB6BE;
+      border-radius: 5px;
+      position: relative;
+
+      .signature-pad-canvas {
+        width: 100%;
+        height: 90px;
+      }
+    }
+
+    .signature-pad-helper-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 30px;
+      opacity: 0.3;
+    }
+
+  }
+
+  .signature-pad-image-preview {
+    margin-top: 5px;
+    border: 1px solid #cbcbcb;
+  }
+
+
+}

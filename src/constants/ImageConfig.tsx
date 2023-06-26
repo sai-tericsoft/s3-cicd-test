@@ -80,6 +80,7 @@ import {ReactComponent as InventoryIcon} from './../assets/icons/side-menu/inven
 import {ReactComponent as SchedulingIcon} from './../assets/icons/side-menu/scheduling.svg';
 import {ReactComponent as ChartNotes} from '../assets/icons/side-menu/chart_notes.svg';
 import {ReactComponent as EventIcon} from '../assets/icons/side-menu/event_black.svg';
+import {ReactComponent as SettingIcon} from '../assets/icons/side-menu/settings.svg';
 
 // general
 import {ReactComponent as HelpQuestion} from './../assets/icons/help_black.svg';
@@ -209,5 +210,6 @@ export {
     History,
     CopyIcon,
     HorizontalMore,
-    DocumentIcon
+    DocumentIcon,
+    SettingIcon
 }
