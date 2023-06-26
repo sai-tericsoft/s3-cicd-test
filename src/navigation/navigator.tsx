@@ -532,16 +532,16 @@ const Navigator = (props: NavigatorProps) => {
                             }
                         />
 
-                        <Route
-                            path={PERSONAL_DETAILS_EDIT + '/:userId'}
-                            element={
-                                <ProtectedRoute>
-                                    <UserBasicDetailsEditComponent/>
-                                </ProtectedRoute>
-                            }
-                        />
-
                     </Route>
+
+                    <Route
+                        path={PERSONAL_DETAILS_EDIT + '/:userId'}
+                        element={
+                            <ProtectedRoute>
+                                <UserBasicDetailsEditComponent/>
+                            </ProtectedRoute>
+                        }
+                    />
 
 
                     <Route

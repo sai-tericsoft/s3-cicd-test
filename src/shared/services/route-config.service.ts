@@ -289,6 +289,10 @@ const PersonalDetails = () => {
     return PERSONAL_DETAILS;
 }
 
+const PersonalDetailsEdit = (userId: string) => {
+    return '/settings/details-edit/' + userId;
+}
+
 const UserPersonalDetails = () => {
     return USER_PERSONAL_DETAILS;
 }
@@ -365,7 +369,8 @@ const RouteConfigService = {
     UserSettings,
     UserPersonalDetails,
     PersonalDetails,
-    UserPersonalDetailsEdit
+    UserPersonalDetailsEdit,
+    PersonalDetailsEdit
 }
 
 export default RouteConfigService;

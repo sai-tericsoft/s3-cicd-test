@@ -1,7 +1,7 @@
 import "./UserBasicDetailsComponent.scss";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
-import React from "react";
+import React, {useEffect} from "react";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
@@ -16,6 +16,8 @@ import ESignApprovalComponent from "../../../shared/components/e-sign-approval/E
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
+import {useLocation, useNavigate} from "react-router-dom";
+import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 
 interface UserBasicDetailsComponentProps {
 
@@ -23,6 +25,10 @@ interface UserBasicDetailsComponentProps {
 
 const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
     const [isSSNMasked, setIsSSNMasked] = React.useState<boolean>(true);
+    const location: any = useLocation();
+    const path = location.pathname;
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const {
         isUserBasicDetailsLoaded,
@@ -30,6 +36,14 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
         isUserBasicDetailsLoadingFailed,
         userBasicDetails,
     } = useSelector((state: IRootReducerState) => state.user);
+
+    useEffect(() => {
+        if (path.includes('admin')) {
+            dispatch(setCurrentNavParams('User List', null, () => {
+                navigate(CommonService._routeConfig.UserList());
+            }));
+        }
+    }, [dispatch, userBasicDetails, navigate]);
 
     return (
         <div className={'user-basic-details-component'}>
@@ -46,7 +60,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                 {
                     (isUserBasicDetailsLoaded && userBasicDetails) && <>
                         <CardComponent title={'Basic Details'} actions={<LinkComponent
-                            route={CommonService._user.NavigateToUserEdit(userBasicDetails._id, "personal_details")}>
+                            route={path === '/settings/personal-details' ? CommonService._user.NavigateToSettingEdit(userBasicDetails._id, "personal_details") : CommonService._user.NavigateToUserEdit(userBasicDetails._id, "personal_details")}>
                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                 Edit
                             </ButtonComponent>
@@ -105,7 +119,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                             <div className="ts-row">
                                 <div className="ts-col-md-6 ts-col-lg-6">
                                     <DataLabelValueComponent label={'Assigned Facilities'}>
-                                        {userBasicDetails.assigned_facilities.map((facility: any) => {
+                                        {userBasicDetails?.assigned_facilities?.map((facility: any) => {
                                             return <div className="d-flex">
                                                 <div>{facility.name}</div>
                                                 &nbsp; - &nbsp;
@@ -127,13 +141,14 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
 
                             </div>
                         </CardComponent>
-                        <CardComponent title={'About'} actions={<LinkComponent
-                            route={CommonService._user.NavigateToUserEdit(userBasicDetails._id, "about")}>
-                            <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
-                                Edit
-                            </ButtonComponent>
-                        </LinkComponent>
-                        }>
+                        <CardComponent title={'About'}
+                                       actions={<LinkComponent
+                                           route={path === '/settings/personal-details' ? CommonService._user.NavigateToSettingEdit(userBasicDetails._id, "about") : CommonService._user.NavigateToUserEdit(userBasicDetails._id, "about")}>
+                                           <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
+                                               Edit
+                                           </ButtonComponent>
+                                       </LinkComponent>
+                                       }>
                             <div className="ts-row">
                                 <div className="ts-col-12">
                                     <DataLabelValueComponent label={'Summary'}>
@@ -143,7 +158,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                             </div>
                             <div className="ts-row">
                                 <div className="ts-col-12 font-weight-bold mrg-bottom-20">Specialities</div>
-                                {userBasicDetails.specialities.map((speciality: any, index: any) => {
+                                {userBasicDetails?.specialities?.map((speciality: any, index: any) => {
                                     return <div className="ts-col-md-6 ts-col-lg-3">
                                         <DataLabelValueComponent label={`speciality ${index + 1}`}>
                                             {speciality || 'N/A'}
@@ -155,7 +170,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                             <HorizontalLineComponent className="user-details-horizontal-line"/>
                             <div className="ts-row">
                                 <div className="ts-col-12 font-weight-bold mrg-bottom-20">Languages</div>
-                                {userBasicDetails.languages.map((language: any, index: any) => {
+                                {userBasicDetails?.languages?.map((language: any, index: any) => {
                                     return <>
                                         <div className="ts-col-md-6 ts-col-lg-3">
                                             <DataLabelValueComponent label={`Language ${index + 1}`}>
@@ -185,13 +200,14 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                 }
                             </div>
                         </CardComponent>
-                        <CardComponent title={'Contact Information'} actions={<LinkComponent
-                            route={CommonService._user.NavigateToUserEdit(userBasicDetails._id, "contact_information")}>
-                            <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
-                                Edit
-                            </ButtonComponent>
-                        </LinkComponent>
-                        }>
+                        <CardComponent title={'Contact Information'}
+                                       actions={<LinkComponent
+                                           route={path === '/settings/personal-details' ? CommonService._user.NavigateToSettingEdit(userBasicDetails._id, "contact_information") : CommonService._user.NavigateToUserEdit(userBasicDetails._id, "contact_information")}>
+                                           <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
+                                               Edit
+                                           </ButtonComponent>
+                                       </LinkComponent>
+                                       }>
                             <div className="ts-row">
                                 <div className="ts-col-6">
                                     {/*<FormControlLabelComponent size={'sm'} label={'Primary Phone:'}/>*/}

@@ -37,6 +37,14 @@ const NavigateToUserEdit = (userId: string, step: any) => {
     return RouteConfigService.UserPersonalDetailsEdit(userId) + "?currentStep=" + step;
 }
 
+const NavigateToSettingEdit = (userId: string, step: any) => {
+    return RouteConfigService.PersonalDetailsEdit(userId) + "?currentStep=" + step;
+}
+
+const userEdit = (userId: string, payload: any) => {
+    return ApiService[APIConfig.USER_EDIT.METHOD](APIConfig.USER_EDIT.URL(userId), payload);
+}
+
 const UserService = {
     getUserList,
     getUserListLite,
@@ -44,7 +52,9 @@ const UserService = {
     getUserAvailableTimesList,
     getUserAdd,
     getUserBasicDetails,
-    NavigateToUserEdit
+    NavigateToUserEdit,
+    userEdit,
+    NavigateToSettingEdit
 }
 
 export default UserService;

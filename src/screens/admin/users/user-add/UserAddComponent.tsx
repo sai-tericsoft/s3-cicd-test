@@ -15,6 +15,7 @@ import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../../store/reducers";
 import FormikAutoCompleteComponent
     from "../../../../shared/components/form-controls/formik-auto-complete/FormikAutoCompleteComponent";
+import FormikSelectComponent from "../../../../shared/components/form-controls/formik-select/FormikSelectComponent";
 
 interface UserAddComponentProps {
 
@@ -27,7 +28,7 @@ const UserAddInitialValues: any = {
     primary_contact_info: {
         phone: ''
     },
-    facilityIds: []
+    assigned_facilities: []
 };
 
 
@@ -42,11 +43,19 @@ const userAddValidationSchema = Yup.object({
 
 const UserAddComponent = (props: UserAddComponentProps) => {
     const [addUserInitialValues] = useState<any>(_.cloneDeep(UserAddInitialValues));
-    const {facilityListLite} = useSelector((state: IRootReducerState) => state.staticData);
+
+    const {
+        facilityListLite,
+        roleList
+    } = useSelector((state: IRootReducerState) => state.staticData);
+    const {currentUser}: any = useSelector((state: IRootReducerState) => state.account);
 
 
     const onUserAdd = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
         const payload = _.cloneDeep(values);
+        if (payload?.assigned_facilities?.length) {
+            payload.assigned_facilities = payload.assigned_facilities.map((item: any) => item._id,);
+        }
         setSubmitting(true);
         CommonService._user.getUserAdd(payload)
             .then((response: any) => {
@@ -147,7 +156,22 @@ const UserAddComponent = (props: UserAddComponentProps) => {
                                 </div>
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-md-6'}>
-                                        <Field name={'facilityIds'}>
+                                        <Field name={'role'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikSelectComponent
+                                                        options={roleList}
+                                                        label={'Role'}
+                                                        required={true}
+                                                        formikField={field}
+                                                        fullWidth={true}
+                                                    />
+                                                )
+                                            }
+                                        </Field>
+                                    </div>
+                                    <div className={'ts-col-md-6'}>
+                                        <Field name={'assigned_facilities'}>
                                             {
                                                 (field: FieldProps) => (
                                                     <FormikAutoCompleteComponent

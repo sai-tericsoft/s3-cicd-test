@@ -54,7 +54,7 @@ const UserDetailsLayoutComponent = (props: UserDetailsLayoutComponentProps) => {
             dispatch(getUserBasicDetails(userId));
             dispatch(setCurrentNavParams('Admin'))
         } else {
-            dispatch(getUserBasicDetails(currentUser._id));
+            dispatch(getUserBasicDetails(currentUser?._id));
             dispatch(setCurrentNavParams('Settings'))
             // setUserId(currentUser._id);
         }

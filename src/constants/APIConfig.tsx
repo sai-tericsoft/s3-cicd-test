@@ -859,11 +859,15 @@ const APIConfig: IAPIConfig = {
         METHOD: 'get'
     },
     USER_ADD: {
-        URL: ENV.API_URL + '/useradd',
+        URL: ENV.API_URL + '/user',
         METHOD: 'post'
     },
+    USER_EDIT: {
+        URL: (userId: any) => ENV.API_URL + '/user/' + userId,
+        METHOD: "put"
+    },
     USER_DETAILS: {
-        URL: (userId:any) => ENV.API_URL + '/user/' + userId,
+        URL: (userId: any) => ENV.API_URL + '/user/' + userId,
         METHOD: 'get'
     },
     FACILITY_LIST_LITE: {
