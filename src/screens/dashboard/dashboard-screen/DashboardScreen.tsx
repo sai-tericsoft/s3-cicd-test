@@ -12,6 +12,7 @@ import {useSearchParams} from "react-router-dom";
 import MessageBoardComponent from "../message-board/MessageBoardComponent";
 import DraftNoteListComponent from "../draft-note-list/DraftNoteListComponent";
 import AppointmentListComponent from "../appointment-list/AppointmentListComponent";
+import moment from "moment";
 
 interface DashboardScreenProps {
 
@@ -51,8 +52,13 @@ const DashboardScreen = (props: DashboardScreenProps) => {
 
     return (
         <div className={'DashboardScreen'}>
+            <div className={'name-date-wrapper'}>
             <div className={'current-user-name'}>
                 Welcome {currentUser?.first_name} {currentUser?.last_name}!
+            </div>
+                <div className={'today-date'}>
+                    Today's Date: {moment().format('DD-MM-YYYY')}
+                </div>
             </div>
             <TabsWrapperComponent className={'basic-tabs-wrapper'}>
                 <div>

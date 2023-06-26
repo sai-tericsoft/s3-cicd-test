@@ -32,6 +32,8 @@
 
     .client-search-input {
       flex: 0;
+      margin-top: 16px;
+      margin-bottom: 4px;
     }
 
     .client-search-body {
@@ -39,14 +41,22 @@
 
       .client-search-body-heading {
         font-weight: 700;
-        font-size: 16px;
-        margin-bottom: 15px;
-        color: #6D6D6D;
+        font-size: 18px;
+        margin-bottom: 16px;
+        color: #000000;
       }
 
       .t-table-wrapper {
+        width: 100%;
+        .t-table {
+          min-height: calc(100vh - 300px);
+          .table-no-data-wrapper {
+            min-height: calc(100vh - 300px) !important;
+          }
+        }
         overflow: auto;
-        max-height: calc(100vh - 200px);
+        max-height: calc(100vh - 300px);
+
       }
     }
 
@@ -79,10 +89,10 @@
         padding-top: 20px;
       }
       .booking-confirmation-status-text {
-        font-weight: 400;
-        font-size: 32px;
+        font-weight: 500;
+        font-size: 24px;
         line-height: 38px;
-        margin-top: 40px;
+        margin-top: 30px;
         color: #000000;
       }
     }

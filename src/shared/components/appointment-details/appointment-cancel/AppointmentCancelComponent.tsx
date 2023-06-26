@@ -43,8 +43,8 @@ const AppointmentCancelComponent = (props: AppointmentCancelComponentProps) => {
         <div className={'appointment-details-cancel-component'}>
             {!cancelMarked && <>
                 <div className="drawer-header">
-                    <div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>
-                    <div className="drawer-title">Cancel Appointment</div>
+                    {/*<div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>*/}
+                    {/*<div className="drawer-title">Cancel Appointment</div>*/}
                     {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
                     {/*    <div className="drawer-close"*/}
                     {/*         id={'appintment-details-close-btn'}*/}

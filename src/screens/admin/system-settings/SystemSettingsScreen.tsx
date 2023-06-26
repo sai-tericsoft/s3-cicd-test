@@ -84,11 +84,13 @@ const SystemSettingsScreen = (props: SystemSettingsScreenProps) => {
             dispatch(getSystemSettings());
         }
     }, [dispatch]);
+    
+    console.log('s',systemSettings);
 
     return (
         <div className={'system-settings-screen'}>
             <div>
-                <DefaultMessageComponent/>
+                <DefaultMessageComponent defaultMessage={systemSettings}/>
                 {
                     isSystemSettingsLoading && <LoaderComponent/>
                 }
