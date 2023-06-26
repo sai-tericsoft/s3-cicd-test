@@ -9,7 +9,7 @@
   .faq-question-wrapper {
     .card-component {
       margin-bottom: 0px;
-      //height: calc(100vh - 220px);
+      height: calc(100vh - 195px);
 
       .card-body {
         padding: 24px;
@@ -18,8 +18,7 @@
 
     .faq-block-wrapper {
       overflow: auto;
-     min-height: 58vh;
-
+     min-height: 55vh;
       .faq-block-content {
         overflow: auto;
        height: calc(100vh - 40vh);
