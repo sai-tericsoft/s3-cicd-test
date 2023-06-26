@@ -49,8 +49,8 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
         if (userBasicDetails.summary || userBasicDetails?.specialities || userBasicDetails?.languages) {
             const about = {
                 summary: userBasicDetails?.summary,
-                specialities: userBasicDetails?.specialities || formInitialValues.specialities,
-                languages: userBasicDetails?.languages || formInitialValues.languages,
+                specialities: userBasicDetails?.specialities.length ? userBasicDetails?.specialities : formInitialValues.specialities,
+                languages: userBasicDetails?.languages.length ? userBasicDetails?.languages : formInitialValues.languages,
             }
             setInitialValues(about)
         }
@@ -73,7 +73,7 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
             console.log('errors', error);
             setSubmitting(false);
         })
-    }, [userBasicDetails,dispatch]);
+    }, [userBasicDetails, dispatch]);
 
     return (
         <div className={'user-about-edit-component'}>

@@ -45,14 +45,14 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
 
     useEffect(() => {
         if (userBasicDetails) {
-            const professional_details = userBasicDetails.professional_details || formInitialValues.professional_details
-            setInitialValues({professional_details});
+            const professional_details = userBasicDetails.professional_details.length ? userBasicDetails.professional_details : formInitialValues.professional_details
+            console.log(professional_details);
+            setInitialValues({professional_details: professional_details});
         }
     }, [userBasicDetails]);
 
 
     const onSubmit = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
-        console.log(values);
         const payload = {...values}
         if (payload.professional_details.length) {
             payload.professional_details = payload.professional_details.map((item: any) => ({

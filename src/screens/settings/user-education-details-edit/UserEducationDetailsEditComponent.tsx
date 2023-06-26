@@ -43,7 +43,7 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
 
     useEffect(() => {
         if (userBasicDetails) {
-            const education_details = userBasicDetails.education_details || formInitialValues.education_details
+            const education_details = userBasicDetails.education_details.length ? userBasicDetails.education_details : formInitialValues.education_details
             setInitialValues({education_details});
         }
     }, [userBasicDetails]);
