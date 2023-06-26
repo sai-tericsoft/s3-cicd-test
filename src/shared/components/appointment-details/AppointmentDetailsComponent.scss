@@ -38,8 +38,8 @@
     }
 
     .appointment-details-heading {
-      font-size: 1.2857rem;
-      font-weight: 500;
+      font-size: 18px;
+      font-weight: 700;
       margin-bottom: 24px;
     }
 
@@ -128,12 +128,12 @@
     border: 1px solid #E7E8EA;
 
     .details-header {
-      background: #F2F6F6;
-      padding: 12px;
+      background: #EAF3F2;
+      padding: 12px 24px;
       font-weight: 500;
       display: flex;
       justify-content: space-between;
-      padding-left: 17px;
+
 
       .form-heading {
         margin-right: 210px;
@@ -145,6 +145,7 @@
 
     .details-body-block {
       border-top: 1px solid #E7E8EA;
+      padding: 16px 0px;
 
       .details-body-item {
         display: flex;
