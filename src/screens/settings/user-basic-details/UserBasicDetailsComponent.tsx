@@ -46,7 +46,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                 {
                     (isUserBasicDetailsLoaded && userBasicDetails) && <>
                         <CardComponent title={'Basic Details'} actions={<LinkComponent
-                            route={CommonService._user.NavigateToUserEdit(userBasicDetails._id, "basic_details")}>
+                            route={CommonService._user.NavigateToUserEdit(userBasicDetails._id, "personal_details")}>
                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                 Edit
                             </ButtonComponent>

@@ -1,6 +1,5 @@
 import {ApiService} from "../index";
 import {APIConfig} from "../../../constants";
-import {IClientFormSteps} from "../../models/client.model";
 import RouteConfigService from "../route-config.service";
 
 const getUserList = (payload: any) => {

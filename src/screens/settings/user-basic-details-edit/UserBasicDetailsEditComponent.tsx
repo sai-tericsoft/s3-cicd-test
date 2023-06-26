@@ -1,7 +1,7 @@
 import "./UserBasicDetailsEditComponent.scss";
 import * as Yup from "yup";
-import {useNavigate, useParams, useSearchParams} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import {useSearchParams} from "react-router-dom";
+import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import React, {useCallback, useEffect, useState} from "react";
 import _ from "lodash";
@@ -168,11 +168,11 @@ const UserBasicDetailsFormInitialValues: any = {
 };
 
 const UserBasicDetailsEditComponent = (props: UserBasicDetailsEditComponentProps) => {
-    const {userId} = useParams();
-    const dispatch = useDispatch();
+    // const {userId} = useParams();
+    // const dispatch = useDispatch();
     const [clientBasicDetailsFormInitialValues, setUserBasicDetailsFormInitialValues] = useState<any>(_.cloneDeep(UserBasicDetailsFormInitialValues));
-    const navigate = useNavigate();
-    const [searchParams] = useSearchParams();
+    // const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
     const [currentStep, setCurrentStep] = useState<string>('');
 
     const {
@@ -264,6 +264,83 @@ const UserBasicDetailsEditComponent = (props: UserBasicDetailsEditComponentProps
         setCurrentStep(currentStep);
     }, [searchParams]);
 
+    const handleNext = useCallback(() => {
+        let nextStep = currentStep;
+        switch (currentStep) {
+            case "personal_details": {
+                nextStep = 'about';
+                break;
+            }
+            case "about": {
+                nextStep = 'contact_information';
+                break;
+            }
+            case "contact_information": {
+                nextStep = 'address';
+                break;
+            }
+            case "address": {
+                nextStep = 'emergency_contact_info';
+                break;
+            }
+            case "emergency_contact_info": {
+                nextStep = 'professional_details';
+                break;
+            }
+            case "professional_details": {
+                nextStep = 'education_details';
+                break;
+            }
+            default: {
+                // navigate(CommonService._routeConfig.NavigateToClientDetails(clientId, "basicDetails"));
+                return;
+            }
+        }
+
+        setCurrentStep(nextStep);
+        searchParams.set("currentStep", nextStep);
+        setSearchParams(searchParams);
+
+    }, [currentStep,searchParams,setSearchParams])
+
+    const handlePrevious = useCallback(() => {
+            let nextStep = currentStep;
+            switch (currentStep) {
+                case "about": {
+                    nextStep = 'personal_details';
+                    break;
+                }
+                case "contact_information": {
+                    nextStep = 'about';
+                    break;
+                }
+                case "address": {
+                    nextStep = 'contact_information';
+                    break;
+                }
+                case "emergency_contact_info": {
+                    nextStep = 'address';
+                    break;
+                }
+                case "professional_details": {
+                    nextStep = 'emergency_contact_info';
+                    break;
+                }
+                case "education_details": {
+                    nextStep = 'professional_details';
+                    break;
+                }
+                default: {
+                    // navigate(CommonService._routeConfig.NavigateToClientDetails(clientId, "basicDetails"));
+                    return;
+                }
+            }
+            setCurrentStep(nextStep);
+            searchParams.set("currentStep", nextStep);
+            setSearchParams(searchParams);
+        },
+        [currentStep,searchParams,setSearchParams])
+
 
     return (
         <div className={'user-basic-details-edit-component'}>
@@ -295,7 +372,7 @@ const UserBasicDetailsEditComponent = (props: UserBasicDetailsEditComponentProps
                     return (
                         <Form noValidate={true} className={"t-form"}>
                             <FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>
-                            {currentStep === 'basic_details' &&
+                            {currentStep === 'personal_details' &&
                             <>
                                 <UserPersonalDetailsEditComponent/>
                             </>
@@ -308,7 +385,8 @@ const UserBasicDetailsEditComponent = (props: UserBasicDetailsEditComponentProps
                             }
 
                             {currentStep === 'contact_information' && <>
-                                <UserContactInformationEditComponent contactInformation={values.contact_information}/>
+                                <UserContactInformationEditComponent
+                                    contactInformation={values.contact_information}/>
                             </>
                             }
 
@@ -344,6 +422,7 @@ const UserBasicDetailsEditComponent = (props: UserBasicDetailsEditComponentProps
                                     isLoading={isSubmitting}
                                     disabled={isSubmitting}
                                     type={"button"}
+                                    onClick={handlePrevious}
                                 >
                                     Previous
                                 </ButtonComponent>}
@@ -352,7 +431,7 @@ const UserBasicDetailsEditComponent = (props: UserBasicDetailsEditComponentProps
                                     size={'large'}
                                     className={'submit-cta'}
                                     isLoading={isSubmitting}
-                                    disabled={isSubmitting || !!errors[currentStep] || CommonService.isEqual(values, clientBasicDetailsFormInitialValues.currentStep)}
+                                    disabled={isSubmitting || !!errors[currentStep] || CommonService.isEqual(values, clientBasicDetailsFormInitialValues[currentStep])}
                                     type={"submit"}
                                 >
                                     {isSubmitting ? "Saving" : "Save"}
@@ -364,9 +443,7 @@ const UserBasicDetailsEditComponent = (props: UserBasicDetailsEditComponentProps
                                         size={'large'}
                                         className={'submit-cta'}
                                         disabled={isSubmitting}
-                                        onClick={() => {
-                                            console.log('cancel')
-                                        }}
+                                        onClick={handleNext}
                                     >
                                         Next
                                     </ButtonComponent>
