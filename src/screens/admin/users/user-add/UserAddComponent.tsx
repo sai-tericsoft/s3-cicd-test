@@ -48,7 +48,6 @@ const UserAddComponent = (props: UserAddComponentProps) => {
         facilityListLite,
         roleList
     } = useSelector((state: IRootReducerState) => state.staticData);
-    const {currentUser}: any = useSelector((state: IRootReducerState) => state.account);
 
 
     const onUserAdd = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
