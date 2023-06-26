@@ -1,28 +1,27 @@
 import "./UserBasicDetailsEditComponent.scss";
-import * as Yup from "yup";
 import {useLocation, useNavigate, useSearchParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import React, {useCallback, useEffect, useState} from "react";
-import _ from "lodash";
-import {FormikHelpers} from "formik";
 import {CommonService} from "../../../shared/services";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import UserAboutEditComponent from "../user-about-edit/UserAboutEditComponent";
-import {IAPIResponseType} from "../../../shared/models/api.model";
-import {setUserBasicDetails} from "../../../store/actions/user.action";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import UserPersonalDetailsEditComponent from "../user-personal-details-edit/UserPersonalDetailsEditComponent";
 import UserAddressDetailsEditComponent from "../user-address-details-edit/UserAddressDetailsEditComponent";
 import UserContactInformationEditComponent from "../user-contact-information-edit/UserContactInformationEditComponent";
+import UserEducationDetailsEditComponent from "../user-education-details-edit/UserEducationDetailsEditComponent";
+import UserProfessionalDetailsEditComponent
+    from "../user-professional-details-edit/UserProfessionalDetailsEditComponent";
+import UserEmergencyContactDetailsEditComponent
+    from "../user-emergency-contact-details-edit/UserEmergencyContactDetailsEditComponent";
 
 interface UserBasicDetailsEditComponentProps {
 
 }
 
 const UserBasicDetailsEditComponent = (props: UserBasicDetailsEditComponentProps) => {
-    // const {userId} = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
@@ -37,58 +36,6 @@ const UserBasicDetailsEditComponent = (props: UserBasicDetailsEditComponentProps
         userBasicDetails,
     } = useSelector((state: IRootReducerState) => state.user);
 
-    const onSubmit = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
-        console.log(values);
-        let payload = {
-            ...values,
-            ...values.personal_details,
-            ...values.about,
-            ...values.contact_information,
-        };
-        payload['dob'] = CommonService.convertDateFormat(payload['dob']);
-
-        if (payload?.assigned_facilities?.length) {
-            payload.assigned_facilities = payload.assigned_facilities.map((item: any) => item._id,);
-        }
-
-        if (payload.education_details.length) {
-            payload.education_details = payload.education_details.map((item: any) => ({
-                ...item,
-                start_date: CommonService.convertDateFormat(item?.start_date),
-                end_date: CommonService.convertDateFormat(item?.end_date),
-            }));
-        }
-
-        if (payload.professional_details.length) {
-            payload.professional_details = payload.professional_details.map((item: any) => ({
-                ...item,
-                start_date: CommonService.convertDateFormat(item?.start_date),
-                end_date: CommonService.convertDateFormat(item?.end_date),
-            }));
-        }
-
-        payload = {
-            ...CommonService.removeKeysFromJSON(_.cloneDeep(payload), ['language_details', 'phone_type_details', 'relationship_details', 'gender_details', 'employment_status_details']),
-        }
-
-        delete payload.about;
-        delete payload.personal_details;
-        delete payload.contact_information;
-        delete payload.assigned_facility_details;
-        console.log(payload);
-        setSubmitting(true);
-        CommonService._user.userEdit(userBasicDetails._id, payload)
-            .then((response: IAPIResponseType<any>) => {
-                // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                setSubmitting(false);
-                dispatch(setUserBasicDetails(response.data));
-            }).catch((error: any) => {
-            CommonService.handleErrors(setErrors, error, true);
-            console.log('errors', error);
-            setSubmitting(false);
-        })
-    }, [userBasicDetails]);
-
     useEffect(() => {
         dispatch(setCurrentNavParams('Edit User', null, () => {
             if (path.includes('settings')) {
@@ -97,7 +44,7 @@ const UserBasicDetailsEditComponent = (props: UserBasicDetailsEditComponentProps
                 navigate(CommonService._routeConfig.UserPersonalDetails() + '?userId=' + userBasicDetails?._id)
             }
         }));
-    }, [dispatch, userBasicDetails, navigate]);
+    }, [dispatch, userBasicDetails, navigate,path]);
 
     useEffect(() => {
         let currentStep: any = searchParams.get("currentStep");
@@ -205,39 +152,41 @@ const UserBasicDetailsEditComponent = (props: UserBasicDetailsEditComponentProps
 
                 {currentStep === 'about' &&
                 <>
-                    <UserAboutEditComponent handleNext={handleNext}/>
+                    <UserAboutEditComponent handleNext={handleNext} handlePrevious={handlePrevious}/>
                 </>
                 }
 
 
                 {currentStep === 'contact_information' && <>
                     <UserContactInformationEditComponent
+                        handlePrevious={handlePrevious}
                         handleNext={handleNext}/>
                 </>
                 }
 
                 {
                     currentStep === 'address' && <>
-                        <UserAddressDetailsEditComponent handleNext={handleNext}/>
+                        <UserAddressDetailsEditComponent handleNext={handleNext} handlePrevious={handlePrevious}/>
                     </>
                 }
 
-                {/*{*/}
-                {/*    currentStep === 'emergency_contact_info' && <>*/}
-                {/*        <UserEmergencyContactDetailsEditComponent values={values}*/}
-                {/*                                                  setFieldValue={setFieldValue}/>*/}
-                {/*    </>*/}
-                {/*}*/}
-                {/*{*/}
-                {/*    currentStep === 'professional_details' && <>*/}
-                {/*        <UserProfessionalDetailsEditComponent values={values}/>*/}
-                {/*    </>*/}
-                {/*}*/}
-                {/*{*/}
-                {/*    currentStep === 'education_details' && <>*/}
-                {/*        <UserEducationDetailsEditComponent values={values}/>*/}
-                {/*    </>*/}
-                {/*}*/}
+                {
+                    currentStep === 'emergency_contact_info' && <>
+                        <UserEmergencyContactDetailsEditComponent handlePrevious={handlePrevious}
+                                                                  handleNext={handleNext}
+                        />
+                    </>
+                }
+                {
+                    currentStep === 'professional_details' && <>
+                        <UserProfessionalDetailsEditComponent handlePrevious={handlePrevious} handleNext={handleNext}/>
+                    </>
+                }
+                {
+                    currentStep === 'education_details' && <>
+                        <UserEducationDetailsEditComponent handlePrevious={handlePrevious}/>
+                    </>
+                }
 
 
                 {/*<> <Formik*/}

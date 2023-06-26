@@ -19,22 +19,23 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import {setUserBasicDetails} from "../../../store/actions/user.action";
 
 interface UserAboutEditComponentProps {
-    handleNext: any
+    handleNext: () => void
+    handlePrevious: () => void
 }
 
 const formInitialValues: any = {
     summary: "",
     specialities: [""],
-    languages: {
+    languages: [{
         name: "",
         read: "",
         write: "",
         speak: ""
-    }
+    }]
 }
 
 const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
-    const {handleNext} = props;
+    const {handleNext, handlePrevious} = props;
     const dispatch = useDispatch();
     const [initialValues, setInitialValues] = useState<any>(_.cloneDeep(formInitialValues));
     const {languageList} = useSelector(
@@ -72,7 +73,7 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
             console.log('errors', error);
             setSubmitting(false);
         })
-    }, [userBasicDetails]);
+    }, [userBasicDetails,dispatch]);
 
     return (
         <div className={'user-about-edit-component'}>
@@ -96,7 +97,7 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
                                 <FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-md-12'}>
-                                        <Field name={'about.summary'}>
+                                        <Field name={'summary'}>
                                             {(field: FieldProps) => (
                                                 <FormikTextAreaComponent
                                                     label={'Profile Summary'}
@@ -110,14 +111,14 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
                                 </div>
                                 <FormControlLabelComponent label={'Specialities'}/>
                                 <FieldArray
-                                    name="about.specialities"
+                                    name="specialities"
                                     render={(arrayHelpers) => (
                                         <>
-                                            {values.specialities && values?.about.specialities?.map((item: any, index: any) => {
+                                            {values.specialities && values?.specialities?.map((item: any, index: any) => {
                                                 return (
                                                     <div className="ts-row" key={index}>
                                                         <div className="ts-col">
-                                                            <Field name={`about.specialities.${index}`}>
+                                                            <Field name={`specialities.${index}`}>
                                                                 {(field: FieldProps) => (
                                                                     <FormikInputComponent
                                                                         label={`Specialty ${index + 1}`}
@@ -159,13 +160,13 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
                                 <FormControlLabelComponent label={'Languages'}/>
 
                                 <FieldArray
-                                    name="about.languages"
+                                    name="languages"
                                     render={(arrayHelpers) => (
-                                        <>{values.languages && values?.languages.map((item: any, index: any) => {
+                                        <>{values?.languages && values?.languages.map((item: any, index: any) => {
                                             return (
                                                 <div className="ts-row" key={index}>
                                                     <div className="ts-col">
-                                                        <Field name={`about.languages.${index}.name`}>
+                                                        <Field name={`languages.${index}.name`}>
                                                             {(field: FieldProps) => (
                                                                 <FormikSelectComponent
                                                                     options={languageList}
@@ -180,7 +181,7 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
                                                     <div className="ts-col">
                                                         <div className="language-select ts-row">
                                                             <div className="ts-col">
-                                                                <Field name={`about.languages.${index}.read`}>
+                                                                <Field name={`languages.${index}.read`}>
                                                                     {(field: FieldProps) => (
                                                                         <FormikCheckBoxComponent
                                                                             label={'Read'}
@@ -192,7 +193,7 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
                                                                 </Field>
                                                             </div>
                                                             <div className="ts-col">
-                                                                <Field name={`about.languages.${index}.write`}>
+                                                                <Field name={`languages.${index}.write`}>
                                                                     {(field: FieldProps) => (
                                                                         <FormikCheckBoxComponent
                                                                             label={'Write'}
@@ -204,7 +205,7 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
                                                                 </Field>
                                                             </div>
                                                             <div className="ts-col">
-                                                                <Field name={`about.languages.${index}.speak`}>
+                                                                <Field name={`languages.${index}.speak`}>
                                                                     {(field: FieldProps) => (
                                                                         <FormikCheckBoxComponent
                                                                             label={'Speak'}
@@ -243,6 +244,16 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
                                     )}
                                 />
                                 <div className="t-form-actions">
+                                    <ButtonComponent
+                                        id={"cancel_btn"}
+                                        variant={"outlined"}
+                                        size={'large'}
+                                        className={'submit-cta'}
+                                        disabled={isSubmitting}
+                                        onClick={handlePrevious}
+                                    >
+                                        Previous
+                                    </ButtonComponent>
                                     <ButtonComponent
                                         id={"save_btn"}
                                         size={'large'}

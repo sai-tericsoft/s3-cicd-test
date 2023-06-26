@@ -20,7 +20,7 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import {setUserBasicDetails} from "../../../store/actions/user.action";
 
 interface UserPersonalDetailsEditComponentProps {
-    handleNext: any
+    handleNext: () => void
 }
 
 const formValidationSchema = Yup.object({
@@ -93,7 +93,7 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
             console.log('errors', error);
             setSubmitting(false);
         })
-    }, [userBasicDetails]);
+    }, [userBasicDetails,dispatch]);
 
     return (
         <div className={'user-personal-details-edit-component'}>

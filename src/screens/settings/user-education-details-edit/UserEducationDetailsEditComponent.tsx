@@ -17,8 +17,7 @@ import {setUserBasicDetails} from "../../../store/actions/user.action";
 import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface UserEducationDetailsEditComponentProps {
-    handleNext: any
-
+    handlePrevious: () => void
 }
 
 const formInitialValues: any = {
@@ -35,7 +34,7 @@ const formInitialValues: any = {
 
 const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditComponentProps) => {
     const [initialValues, setInitialValues] = useState<any>(_.cloneDeep(formInitialValues));
-    const {handleNext} = props
+    const {handlePrevious} = props
     const dispatch = useDispatch();
 
     const {
@@ -69,7 +68,7 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
             console.log('errors', error);
             setSubmitting(false);
         })
-    }, [userBasicDetails]);
+    }, [userBasicDetails,dispatch]);
 
 
     return (
@@ -226,6 +225,16 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
 
                                 <div className="t-form-actions">
                                     <ButtonComponent
+                                        id={"cancel_btn"}
+                                        variant={"outlined"}
+                                        size={'large'}
+                                        className={'submit-cta'}
+                                        disabled={isSubmitting}
+                                        onClick={handlePrevious}
+                                    >
+                                        Previous
+                                    </ButtonComponent>
+                                    <ButtonComponent
                                         id={"save_btn"}
                                         size={'large'}
                                         className={'submit-cta'}
@@ -234,16 +243,6 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
                                         type={"submit"}
                                     >
                                         {isSubmitting ? "Saving" : "Save"}
-                                    </ButtonComponent>
-                                    <ButtonComponent
-                                        id={"cancel_btn"}
-                                        variant={"outlined"}
-                                        size={'large'}
-                                        className={'submit-cta'}
-                                        disabled={isSubmitting}
-                                        onClick={handleNext}
-                                    >
-                                        Next
                                     </ButtonComponent>
                                 </div>
                             </Form>

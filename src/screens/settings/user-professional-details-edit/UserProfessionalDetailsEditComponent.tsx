@@ -17,7 +17,8 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import {setUserBasicDetails} from "../../../store/actions/user.action";
 
 interface UserProfessionalDetailsEditComponentProps {
-    handleNext: any
+    handleNext: () => void
+    handlePrevious: () => void
 }
 
 const formInitialValues: any = {
@@ -35,7 +36,7 @@ const formInitialValues: any = {
 
 const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEditComponentProps) => {
     const [initialValues, setInitialValues] = useState<any>(_.cloneDeep(formInitialValues));
-    const {handleNext} = props
+    const {handleNext, handlePrevious} = props
     const dispatch = useDispatch();
 
     const {
@@ -71,7 +72,7 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
             console.log('errors', error);
             setSubmitting(false);
         })
-    }, [userBasicDetails]);
+    }, [userBasicDetails,dispatch]);
 
 
     return (
@@ -228,6 +229,16 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
                                 />
 
                                 <div className="t-form-actions">
+                                    <ButtonComponent
+                                        id={"cancel_btn"}
+                                        variant={"outlined"}
+                                        size={'large'}
+                                        className={'submit-cta'}
+                                        disabled={isSubmitting}
+                                        onClick={handlePrevious}
+                                    >
+                                        Previous
+                                    </ButtonComponent>
                                     <ButtonComponent
                                         id={"save_btn"}
                                         size={'large'}

@@ -23,7 +23,8 @@ import {setUserBasicDetails} from "../../../store/actions/user.action";
 import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface UserEmergencyContactDetailsEditComponentProps {
-    handleNext: any;
+    handleNext: () => void
+    handlePrevious: () => void
 }
 
 const formValidationSchema = Yup.object({
@@ -77,7 +78,7 @@ const formInitialValues: any = {
 }
 
 const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDetailsEditComponentProps) => {
-    const {handleNext} = props
+    const {handleNext,handlePrevious} = props
     const {
         phoneTypeList,
         languageList,
@@ -137,7 +138,7 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
             console.log('errors', error);
             setSubmitting(false);
         })
-    }, [userBasicDetails]);
+    }, [userBasicDetails,dispatch]);
 
 
     return (
@@ -519,6 +520,16 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                                 </>
 
                                 <div className="t-form-actions">
+                                    <ButtonComponent
+                                        id={"cancel_btn"}
+                                        variant={"outlined"}
+                                        size={'large'}
+                                        className={'submit-cta'}
+                                        disabled={isSubmitting}
+                                        onClick={handlePrevious}
+                                    >
+                                        Previous
+                                    </ButtonComponent>
                                     <ButtonComponent
                                         id={"save_btn"}
                                         size={'large'}

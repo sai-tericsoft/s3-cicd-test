@@ -23,7 +23,8 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import {setUserBasicDetails} from "../../../store/actions/user.action";
 
 interface UserContactInformationEditComponentProps {
-    handleNext: any;
+    handleNext: () => void
+    handlePrevious: () => void
 }
 
 const formValidationSchema = Yup.object({
@@ -54,7 +55,7 @@ const formInitialValues: any = {
 
 const UserContactInformationEditComponent = (props: UserContactInformationEditComponentProps) => {
     const [initialValues, setInitialValues] = useState<any>(_.cloneDeep(formInitialValues));
-    const {handleNext} = props
+    const {handleNext, handlePrevious} = props
     const dispatch = useDispatch();
 
     const {
@@ -98,7 +99,7 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
             console.log('errors', error);
             setSubmitting(false);
         })
-    }, [userBasicDetails]);
+    }, [userBasicDetails,dispatch]);
 
     return (
         <div className={'user-contact-information-edit-component'}>
@@ -318,6 +319,16 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
                                     )}/>
 
                                 <div className="t-form-actions">
+                                    <ButtonComponent
+                                        id={"cancel_btn"}
+                                        variant={"outlined"}
+                                        size={'large'}
+                                        className={'submit-cta'}
+                                        disabled={isSubmitting}
+                                        onClick={handlePrevious}
+                                    >
+                                        Previous
+                                    </ButtonComponent>
                                     <ButtonComponent
                                         id={"save_btn"}
                                         size={'large'}
