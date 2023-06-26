@@ -42,10 +42,11 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
     } = useSelector((state: IRootReducerState) => state.user);
 
     useEffect(() => {
-        if (userBasicDetails.education_details) {
-            setInitialValues(userBasicDetails.education_details);
+        if (userBasicDetails) {
+            const education_details = userBasicDetails.education_details || formInitialValues.education_details
+            setInitialValues({education_details});
         }
-    }, [userBasicDetails])
+    }, [userBasicDetails]);
 
     const onSubmit = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
         console.log(values);
@@ -68,7 +69,7 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
             console.log('errors', error);
             setSubmitting(false);
         })
-    }, [userBasicDetails,dispatch]);
+    }, [userBasicDetails, dispatch]);
 
 
     return (
@@ -87,6 +88,7 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
                             validateForm();
+                            console.log(values);
                         }, [validateForm, values]);
                         return (
                             <Form noValidate={true} className={"t-form"}>

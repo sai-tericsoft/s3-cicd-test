@@ -44,10 +44,11 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
     } = useSelector((state: IRootReducerState) => state.user);
 
     useEffect(() => {
-        if (userBasicDetails.professional_details) {
-            setInitialValues(userBasicDetails.professional_details)
+        if (userBasicDetails) {
+            const professional_details = userBasicDetails.professional_details || formInitialValues.professional_details
+            setInitialValues({professional_details});
         }
-    }, [userBasicDetails])
+    }, [userBasicDetails]);
 
 
     const onSubmit = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
@@ -72,7 +73,7 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
             console.log('errors', error);
             setSubmitting(false);
         })
-    }, [userBasicDetails,dispatch]);
+    }, [userBasicDetails, dispatch]);
 
 
     return (
