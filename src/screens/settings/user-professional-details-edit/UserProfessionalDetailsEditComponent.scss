@@ -6,4 +6,11 @@
     text-transform: uppercase;
     margin-bottom: 24px;
   }
+  .t-form-actions{
+    margin-top: 60px !important;
+    margin-bottom: 24px !important;
+    .submit-cta{
+      margin-left: 16px;
+    }
+  }
 }
