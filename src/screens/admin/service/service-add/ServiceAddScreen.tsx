@@ -157,7 +157,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                 placeholder={'Service Name'}
                                                                 type={"text"}
                                                                 formikField={field}
-                                                                // titleCase={true}
+                                                                titleCase={true}
                                                                 required={true}
                                                                 fullWidth={true}
                                                                 id={"sv_name_input"}

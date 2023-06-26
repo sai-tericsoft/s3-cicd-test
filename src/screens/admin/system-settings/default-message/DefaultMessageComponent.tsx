@@ -16,7 +16,7 @@ import DrawerComponent from "../../../../shared/components/drawer/DrawerComponen
 import AllMessageHistoryComponent from "../all-message-history/AllMessageHistoryComponent";
 
 interface DefaultMessageComponentProps {
-    defaultMessage?:any;
+
 }
 
 const defaultMessageInitialValue: any = {
@@ -25,9 +25,8 @@ const defaultMessageInitialValue: any = {
 
 const DefaultMessageComponent = (props: DefaultMessageComponentProps) => {
 
-     const {defaultMessage} = props;
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
-    const [defaultMessageFormInitialValue,setDefaultMessageFormInitialValue] = useState<any>(_.cloneDeep(defaultMessageInitialValue));
+    const [defaultMessageFormInitialValue] = useState<any>(_.cloneDeep(defaultMessageInitialValue));
     const [isSaving, setIsSaving] = useState<boolean>(false);
     const [isHistoryDrawerOpen, setIsHistoryDrawerOpen] = useState<boolean>(false);
 
@@ -42,11 +41,6 @@ const DefaultMessageComponent = (props: DefaultMessageComponentProps) => {
     const handleChange = useCallback(() => {
         setIsExpanded(!isExpanded)
     }, [isExpanded]);
-
-    useEffect(()=>{
-        setDefaultMessageFormInitialValue({default_message:defaultMessage?.default_message
-    })
-    },[defaultMessage])
 
     const onSubmit = useCallback((values: any, {setErrors, resetForm}: FormikHelpers<any>) => {
         setIsSaving(true);
@@ -97,8 +91,8 @@ const DefaultMessageComponent = (props: DefaultMessageComponentProps) => {
                                                     {
                                                         (field: FieldProps) => (
                                                             <FormikTextAreaComponent
-                                                                label={'Enter your message here'}
-                                                                placeholder={' '}
+                                                                label={''}
+                                                                placeholder={'Welcome to Kinergy!'}
                                                                 formikField={field}
                                                                 fullWidth={true}
                                                             />

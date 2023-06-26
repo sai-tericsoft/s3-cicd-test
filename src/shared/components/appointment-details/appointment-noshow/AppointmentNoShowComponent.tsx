@@ -43,8 +43,8 @@ const AppointmentNoShowComponent = (props: AppointmentNoShowComponentProps) => {
         <div className={'appointment-details-no-show-component'}>
             {!noShowMarked && <>
                 <div className="drawer-header">
-                    {/*<div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>*/}
-                    {/*<div className="drawer-title">Mark as No Show</div>*/}
+                    <div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>
+                    <div className="drawer-title">Mark as No Show</div>
                     {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
                     {/*    <div className="drawer-close"*/}
                     {/*         id={'appintment-details-close-btn'}*/}

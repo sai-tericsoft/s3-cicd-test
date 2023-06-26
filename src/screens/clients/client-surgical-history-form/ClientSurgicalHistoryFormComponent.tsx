@@ -135,7 +135,7 @@ const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComp
                                                             {(field: FieldProps) => (
                                                                 <CheckBoxComponent
                                                                     id={'cb_' + option?.title}
-                                                                    label={option?.title + '?'}
+                                                                    label={option?.title + ' ?'}
                                                                     required={true}
                                                                     checked={field.field?.value?.indexOf(option._id) > -1}
                                                                     onChange={() => {

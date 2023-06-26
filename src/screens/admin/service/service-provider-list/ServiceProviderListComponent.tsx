@@ -69,28 +69,32 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
     const LinkedClientListColumns: ITableColumn[] = [
         {
             key: 'select',
-            title: 'Provider Name',
-            dataIndex: 'provider_name',
-            width:500,
+            title: '',
+            dataIndex: 'select',
+            width: 40,
             fixed: 'left',
             render: (item: any) => {
-                const label = `${CommonService.capitalizeFirstLetter(item?.first_name)} ${CommonService.capitalizeFirstLetter(item?.last_name)}`;
-                return (
-                    <CheckBoxComponent
-                        label={label}
-                        checked={selectedProvider.includes(item?._id)}
-                        onChange={(isChecked) => {
-                            if (isChecked) {
-                                setSelectedProvider([...selectedProvider, item?._id]);
-                            } else {
-                                setSelectedProvider(selectedProvider.filter((id:any) => id !== item?._id));
-                            }
-                        }}
-                    />
-                );
+                return <CheckBoxComponent label={""} checked={selectedProvider.includes(item?._id)}
+                                          onChange={(isChecked) => {
+                                              if (isChecked) {
+
+                                                  setSelectedProvider([...selectedProvider, item?._id]);
+                                              } else {
+                                                  setSelectedProvider(selectedProvider.filter((id:any) => id !== item?._id));
+                                              }
+                                          }}/>
+
             }
         },
-
+        {
+            key: 'providerName',
+            dataIndex: 'provider_name',
+            title: "Provider Name",
+            width: "100%",
+            render:(item:any)=>{
+                return <>{item?.first_name} {item?.last_name}</>
+            }
+        },
     ];
     console.log(selectedProvider)
 

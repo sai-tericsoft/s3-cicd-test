@@ -17,8 +17,8 @@
     }
 
     .appointment-details-title {
-      font-weight: 700;
-      font-size:1.2857rem;
+      font-weight: 500;
+      font-size:1.4286rem;
       line-height: 24px
     }
   }
@@ -112,8 +112,7 @@
     .block-body {
       display: flex;
       flex-direction: row;
-      padding-bottom:12px ;
-      padding-top: 4px;
+      padding-bottom:15px ;
       .block-content {
         flex-direction: row;
         display: flex;
@@ -126,7 +125,7 @@
 
         .content-title {
           margin-left: 10px;
-          font-weight: 500;
+          font-weight: 700;
           font-size: 16px;
           line-height: 20px;
           color: #83909D;
@@ -138,13 +137,13 @@
     //margin: 10px 0;
     border: 1px solid #E7E8EA;
     .details-header {
-      background: #EAF3F2;
-      padding: 12px 24px;
+      background: #F2F6F6;
+      padding: 12px;
+      padding-left: 30px;
       font-weight: 500;
     }
     .details-body-block {
       border-top: 1px solid #E7E8EA;
-      padding: 16px 0;
       .details-body-item {
         display: flex;
         flex-direction: row;
@@ -167,9 +166,6 @@
           //display: flex;
           //align-items: center;
           color: #212B36;
-          .d-inline{
-            margin-top: 2px !important;
-          }
           &.green {color: #37A850 !important}
           &.red {color: #CB6100 !important}
         }

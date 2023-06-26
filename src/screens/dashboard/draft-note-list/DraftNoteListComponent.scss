@@ -1,26 +1,13 @@
 .draft-note-list-component{
-
-  .card-component{
-    padding-bottom: 24px !important;
-    margin-bottom: 0px !important;
-  }
   .draft-note-list-wrapper{
-    .t-cell-first_name{
-      padding-left: 30px !important;
-    }
-    .t-cell-action{
-      padding-right: 30px !important;
-    }
-    .t-table {
-      min-height: 200px !important;
-      height: calc(100vh - 383px) !important;
-    }
+    height:calc(100vh - 331px);
+    overflow: scroll;
   }
   .draft-note-heading{
     font-weight: 700;
     font-size: 1.1429rem;
     color: #212B36;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
   }
   .provider-name{
     text-transform: capitalize;

@@ -19,7 +19,6 @@
           color: #212B36;
           text-decoration: underline;
           cursor: pointer;
-          font-weight: 500;
 
         }
       }
@@ -28,8 +27,8 @@
         height: 185px;
         margin-top: 15px;
         border-radius: 10px;
-        overflow: auto;
-        //overflow-y: scroll;
+        overflow: hidden;
+        overflow-y: scroll;
 
         .message-text{
           color: #6D6D6D;
@@ -40,7 +39,6 @@
           display: flex;
           justify-content: end;
           font-size: 0.85714rem;
-          font-weight: 500;
         }
       }
     }
@@ -56,10 +54,10 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-top: 75px;
+      margin-top: 50px;
       color: #8B8E90;
-      font-weight: 500;
-      font-size: 1.2857rem;
+      font-weight: 700;
+      font-size: 1.4286rem;
     }
   }
 }

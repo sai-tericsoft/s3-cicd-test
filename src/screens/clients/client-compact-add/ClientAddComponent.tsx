@@ -72,8 +72,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
     const handleInviteLink = useCallback((values: any, setErrors: any) => {
         const payload = {
             ...values,
-            send_invite: true,
-            // is_onboarded: false
+            send_invite: true
         };
         CommonService.onConfirm({
             image: ImageConfig.DeleteAttachmentConfirmationIcon,

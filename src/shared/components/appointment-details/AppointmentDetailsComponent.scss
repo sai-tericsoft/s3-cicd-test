@@ -1,23 +1,22 @@
 @import "src/assets/styles/common";
 
 .appointment-details-component-drawer {
-  //.drawer-container {
-  //  display: flex;
-  //  flex-direction: column;
-  //  flex: 1;
-  //
-  //  .drawer-body {
-  //    display: flex;
-  //    flex: 1;
-  //  }
-  //}
+  .drawer-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    .drawer-body {
+      display: flex;
+      flex: 1;
+    }
+  }
 }
 
 .appointment-details-component {
   display: flex;
-  //flex: 1;
+  flex: 1;
   flex-direction: column;
-  width: 500px;
 
   .modal-title {
     font-weight: 700;
@@ -38,8 +37,8 @@
     }
 
     .appointment-details-heading {
-      font-size: 18px;
-      font-weight: 700;
+      font-size: 1.4286rem;
+      font-weight: 500;
       margin-bottom: 24px;
     }
 
@@ -128,12 +127,12 @@
     border: 1px solid #E7E8EA;
 
     .details-header {
-      background: #EAF3F2;
-      padding: 12px 24px;
+      background: #F2F6F6;
+      padding: 12px;
       font-weight: 500;
       display: flex;
       justify-content: space-between;
-
+      padding-left: 17px;
 
       .form-heading {
         margin-right: 210px;
@@ -145,7 +144,6 @@
 
     .details-body-block {
       border-top: 1px solid #E7E8EA;
-      padding: 16px 0px;
 
       .details-body-item {
         display: flex;
@@ -192,14 +190,15 @@
     }
   }
   .details-box-bottom {
-  margin-bottom: 58px;
+  margin-bottom: 50px;
     border: 1px solid #E7E8EA;
     .details-header {
       background: #F2F6F6;
-      padding: 12px 12px 24px;
+      padding: 12px;
       font-weight: 500;
       display: flex;
       justify-content: space-between;
+      padding-left: 24px;
 
       .form-heading {
         margin-right: 210px;

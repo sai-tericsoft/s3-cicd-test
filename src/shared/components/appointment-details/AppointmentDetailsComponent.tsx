@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import "./AppointmentDetailsComponent.scss";
 import {CommonService} from "../../services";
 import {IAPIResponseType} from "../../models/api.model";
+import ToolTipComponent from "../tool-tip/ToolTipComponent";
 import {ImageConfig} from "../../../constants";
 import moment from "moment";
 import ButtonComponent from "../button/ButtonComponent";
@@ -133,16 +134,16 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                 {
                     step === 'details' && <div className={'appointment-details-wrapper'}>
                         <div className="drawer-header">
-                            {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
-                            {/*    <div className="drawer-close"*/}
-                            {/*         id={'book-appointment-close-btn'}*/}
-                            {/*         onClick={(event) => {*/}
-                            {/*             if (onClose) {*/}
-                            {/*                 onClose();*/}
-                            {/*             }*/}
-                            {/*         }*/}
-                            {/*         }><ImageConfig.CloseIcon/></div>*/}
-                            {/*</ToolTipComponent>*/}
+                            <ToolTipComponent tooltip={"Close"} position={"left"}>
+                                <div className="drawer-close"
+                                     id={'book-appointment-close-btn'}
+                                     onClick={(event) => {
+                                         if (onClose) {
+                                             onClose();
+                                         }
+                                     }
+                                     }><ImageConfig.CloseIcon/></div>
+                            </ToolTipComponent>
                         </div>
                         <div className="appointment-details-heading">Appointment Details</div>
 
@@ -203,7 +204,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                     <div
                                         className="content-title">{moment(Math.floor(details.start_time / 60) + ':' + details.start_time % 60, 'hh:mm').format('hh:mm A')}</div>
                                 </div>
-                                <div className="block-content mrg-left-40">
+                                <div className="block-content mrg-left-60">
                                     {details?.status === 'scheduled' && <MenuDropdownComponent menuBase={
                                         <ButtonComponent size={'large'} className={'select-dropdown'} variant={'outlined'} fullWidth={true}>
                                             Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>

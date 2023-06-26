@@ -1,5 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from "react";
 import "./BookAppointmentPaymentComponent.scss";
+import {ImageConfig} from "../../../../constants";
 import ButtonComponent from "../../button/ButtonComponent";
 import {RadioButtonComponent} from "../../form-controls/radio-button/RadioButtonComponent";
 import {Field, FieldProps, Form, Formik, FormikHelpers, FormikProps} from "formik";
@@ -11,6 +12,7 @@ import {IRootReducerState} from "../../../../store/reducers";
 import FormikTextAreaComponent from "../../form-controls/formik-text-area/FormikTextAreaComponent";
 import {CommonService} from "../../../services";
 import {IAPIResponseType} from "../../../models/api.model";
+import ToolTipComponent from "../../tool-tip/ToolTipComponent";
 import HorizontalLineComponent from "../../horizontal-line/horizontal-line/HorizontalLineComponent";
 
 
@@ -34,7 +36,7 @@ const addAppointmentPaymentValidationSchema = Yup.object().shape({
     payment_type: Yup.string().required('Payment type is required'),
     mode: Yup.mixed().when("payment_type", {
         is: 'current',
-        then: Yup.mixed().required('Payment Mode is required')
+        then: Yup.mixed().required('Payment mode is required')
     }),
     available_coupons: Yup.mixed(),
     amount: Yup.number(),
@@ -42,7 +44,7 @@ const addAppointmentPaymentValidationSchema = Yup.object().shape({
 });
 
 const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentProps) => {
-    const { onComplete, booking} = props;
+    const {onClose, onComplete, booking, onBack} = props;
     const {paymentModes} = useSelector((state: IRootReducerState) => state.staticData);
     const [availableCouponsList, setAvailableCouponsList] = useState<any[]>([]);
     const [selectedCoupon, setSelectedCoupon] = useState<any>(undefined);
@@ -118,18 +120,18 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
     return (
         <div className={'book-appointment-payment-component'}>
             <div className="drawer-header">
-                {/*<div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>*/}
-                {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
-                {/*    <div className="drawer-close"*/}
-                {/*         id={'book-appointment-close-btn'}*/}
-                {/*         onClick={(event) => {*/}
-                {/*             if (onClose) {*/}
-                {/*                 onClose();*/}
-                {/*             }*/}
-                {/*         }}>*/}
-                {/*        <ImageConfig.CloseIcon/>*/}
-                {/*    </div>*/}
-                {/*</ToolTipComponent>*/}
+                <div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>
+                <ToolTipComponent tooltip={"Close"} position={"left"}>
+                    <div className="drawer-close"
+                         id={'book-appointment-close-btn'}
+                         onClick={(event) => {
+                             if (onClose) {
+                                 onClose();
+                             }
+                         }}>
+                        <ImageConfig.CloseIcon/>
+                    </div>
+                </ToolTipComponent>
             </div>
             <div className="secure-checkout-title">Secure Checkout</div>
             <Formik
@@ -223,7 +225,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                                 <div className="price-item">
                                                     <div className="price-item-text discount">Discount</div>
                                                     <div className="price-item-amount red">
-                                                        {selectedCoupon ? `- $ ${CommonService.convertToDecimals(discountAmount)}` : <div className={'zero-discount'}>$0</div> || 'N/A'}
+                                                        {selectedCoupon ? `- $ ${CommonService.convertToDecimals(discountAmount)}` : `-$0` || 'N/A'}
 
                                                     </div>
                                                 </div>
@@ -266,7 +268,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                         </>}
 
                                     </div>
-                                    <div className="client-search-btn mrg-top-5">
+                                    <div className="client-search-btn mrg-top-15">
                                         <ButtonComponent disabled={!isValid} type={'submit'} fullWidth={true}
                                         >Submit</ButtonComponent>
                                     </div>

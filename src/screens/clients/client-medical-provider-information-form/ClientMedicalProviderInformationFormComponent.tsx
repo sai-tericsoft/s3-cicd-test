@@ -216,7 +216,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                                     className={'submit-cta'}
                                                     size={'large'}
                                                     id={"next_btn"}
-                                                    disabled={isClientMedicalProviderInformationSavingInProgress  }
+                                                    disabled={isClientMedicalProviderInformationSavingInProgress || !CommonService.isEqual(values, clientMedicalProviderInformationInitialValues)}
                                                     onClick={onNext}
                                                 >
                                                     Next

@@ -1,46 +1,42 @@
 @import "src/assets/styles/common";
 
 .faq-component {
-  margin-top: 46px;
+  margin-top: 50px;
 
-  display: flex;
-  flex-direction: column;
 
   .faq-question-wrapper {
     .card-component {
       margin-bottom: 0px;
-      height: calc(100vh - 170px);
-
-      .card-body {
+      .card-body{
         padding: 24px;
       }
     }
 
     .faq-block-wrapper {
-      overflow: auto;
-     min-height: 55vh;
-      .faq-block-content {
-        overflow: auto;
-       height: calc(100vh - 40vh);
-      }
+      overflow: hidden;
+      overflow-y: scroll;
+      height: 450px;
+
     }
+
 
     .contact-info-wrapper {
       background-color: #EAF3F2;
       height: 80px;
       border-radius: 8px;
-      margin-top: auto;
+      margin-top: 24px;
+
 
       .card-component {
         margin: 0px;
+
       }
 
       .contact-number-wrapper {
         display: flex;
         justify-content: space-between;
-
-        .card-component {
-          .card-body {
+        .card-component{
+          .card-body{
             padding-bottom: 0px;
           }
         }
@@ -64,6 +60,8 @@
             font-size: 16px;
             margin: 17px 24px 5px 0;
             align-items: center;
+            //padding-top: 5px;
+
           }
         }
       }
@@ -72,8 +70,8 @@
         margin-left: 24px;
         color: #6D6D6D;
         opacity: 0.5;
-        padding-bottom: 10px;
       }
     }
   }
+
 }

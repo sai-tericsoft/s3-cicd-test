@@ -16,7 +16,6 @@ const FormikTextAreaComponent = (props: FormikTextAreaComponentProps) => {
         formikField,
         onChange,
         textAreaProps,
-        ref,
         ...otherProps
     } = props;
 
@@ -47,7 +46,6 @@ const FormikTextAreaComponent = (props: FormikTextAreaComponentProps) => {
             textAreaProps={{
                 onBlur: onInputBlur,
             }}
-            ref={ref}
             onChange={textChangeHandler}
             hasError={hasError}
             errorMessage={hasError && (_.get(errors, name))}

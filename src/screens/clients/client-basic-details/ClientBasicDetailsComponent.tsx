@@ -174,7 +174,8 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                         <DataLabelValueComponent label={'Address'}>
                             {Object.keys(clientBasicDetails?.address).length ? (
                                 <>
-                                    {clientBasicDetails.address.address_line}, {clientBasicDetails.address.city}, {clientBasicDetails.address.state}, {clientBasicDetails.address.country},{clientBasicDetails.address.zip_code}
+                                    {clientBasicDetails.address.address_line}, {clientBasicDetails.address.city}, {clientBasicDetails.address.zip_code}, <br/>
+                                    {clientBasicDetails.address.state}, {clientBasicDetails.address.country}
                                 </>
                             ) : 'N/A'}
                         </DataLabelValueComponent>

@@ -166,8 +166,8 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                     <CardComponent title={"Address Information"}>
                         <div className={'facility-details-information'}>
                             <DataLabelValueComponent label={'Address'}>
-                                {facilityDetails?.address?.address_line}, {facilityDetails?.address?.city},
-                                 {facilityDetails?.address?.country},{facilityDetails.address?.zip_code}
+                                {facilityDetails?.address?.address_line}, {facilityDetails?.address?.city}<br/>
+                                {facilityDetails.address?.zip_code}, {facilityDetails?.address?.country}
                             </DataLabelValueComponent>
                         </div>
                     </CardComponent>
@@ -176,7 +176,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                             <div className={'column-left'}>
                                 <div className={'weeks-days-table-header'}>
                                     <div className={'week-days-timing-wrapper'}>
-                                        <div className={'week-days-heading'}>Day of the Week</div>
+                                        <div className={'week-days-heading'}>Week Days</div>
                                         <div className={'timing-heading'}>Timings</div>
                                     </div>
                                 </div>
@@ -214,7 +214,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                             <div className={'column-right'}>
                                 <div className={'weeks-days-table-header'}>
                                     <div className={'week-days-timing-wrapper'}>
-                                        <div className={'week-days-heading'}>Day of the Week</div>
+                                        <div className={'week-days-heading'}>Week Days</div>
                                         <div className={'timing-heading'}>Timings</div>
                                     </div>
                                 </div>

@@ -37,8 +37,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
     }, []);
 
     const handleCloseAllMessagesDrawer = useCallback(() => {
-        setIsViewMessageDrawerOpen(false);
-        setMode("view")
+        setIsViewMessageDrawerOpen(false)
     }, []);
 
     useEffect(() => {
@@ -79,18 +78,16 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                             <CardComponent className={'message-board'}>
                                 <div className={'message-board-view-all-messages-wrapper'}>
                                     <div className={'message-board-text'}>Message Board</div>
-
-                                    {(messageHistory && messageHistory?.length > 0) && <div className={'view-all-message'} onClick={handleOpenViewAllMessagesDrawer}>
-                                         <div>View All Messages</div>
+                                    <div className={'view-all-message'} onClick={handleOpenViewAllMessagesDrawer}>View
+                                        All
+                                        Message(s)
                                     </div>
-                                    }
                                 </div>
                                 {isMessageHistoryLoaded &&
                                     <CardComponent color={'primary'} className={'view-message-board'}>
                                         {
-                                            (messageHistory?.length === 0) && <>
-                                                <div className={'message-text'}>{systemSettings?.default_message}</div>
-                                            </>
+                                            (messageHistory?.length === 0) &&
+                                            <div className={'message-text'}>{systemSettings?.default_message}</div>
                                         }
                                         {messageHistory?.map((message: any) => {
                                             return (<>
@@ -132,7 +129,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                                  className={'t-view-all-message'}>
                     {mode === 'view' &&
                         <div>
-                            <FormControlLabelComponent label={'View All Messages'} size={'lg'}/>
+                            <FormControlLabelComponent label={'View All Message(s)'} size={'lg'}/>
                             {messageHistory?.map((message: any) => {
                                 return (<div className={'message-timestamp-wrapper'}>
                                         <div className={'message-edit-delete-button-wrapper'}>
@@ -141,7 +138,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                                                     <div>{message?.message}</div>
                                                 </CardComponent>
                                             </div>
-                                            <span className={'mrg-left-10'}><IconButtonComponent onClick={() => {
+                                            <span><IconButtonComponent onClick={() => {
                                                 setEditableMessage(message)
                                                 setMode('edit');
 

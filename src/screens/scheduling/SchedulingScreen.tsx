@@ -450,8 +450,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                 <div className="scheduling-header-search-wrapper">
                     {viewMode === "list" && <SearchComponent size={'small'}
                                                              className={'scheduling-list-input mrg-top-20'}
-                                                             label={'Search'}
-                                                             placeholder={'Search using Client Name'}
+                                                             label={'Search for Client'}
                                                              value={schedulingListFilterState.search}
                                                              onSearchChange={(value) => {
                                                                  setSchedulingListFilterState({
@@ -462,7 +461,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                     }
                 </div>
                 {
-                    viewMode === "calendar" && <div/>
+                    viewMode === "calendar" && <div className={'mrg-top-80'}/>
                 }
                 <div className="scheduling-header-actions-wrapper">
                     <div className="scheduling-header-action-item">
@@ -514,7 +513,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                             </div>
                         </div>
                         <div className="scheduling-filter-header-actions-wrapper">
-                            <div className="ts-col-5 scheduling-filter-header-action-item">
+                            <div className="scheduling-filter-header-action-item">
                                 <SelectComponent size={'small'}
                                                  label={'Service Category'}
                                                  value={schedulingListFilterState?.category_id || ''}
@@ -625,7 +624,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                             <ToolTipComponent key={index} tooltip={
                                                                 <>
                                                                     <b>{value.client_details.first_name + ' ' + value.client_details.last_name || "No title"}</b><br/>
-                                                                    {value.category_ƒ.name + ' / ' + value.service_details.name + ' - ' + (value.provider_details.first_name + ' ' + value.provider_details.last_name) || "-"}
+                                                                    {value.category_details.name + ' / ' + value.service_details.name + ' - ' + (value.provider_details.first_name + ' ' + value.provider_details.last_name) || "-"}
                                                                     <br/>
                                                                     {CommonService.getHoursAndMinutesFromMinutes(value.start_time) + ' - ' + CommonService.getHoursAndMinutesFromMinutes(value.end_time) || "-"}
                                                                     <br/>
@@ -651,8 +650,8 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                         return (
                                                             <ToolTipComponent key={index} tooltip={
                                                                 <>
-                                                                    <b>{CommonService.capitalizeFirstLetter(value.first_name) + ' ' + CommonService.capitalizeFirstLetter(value.last_name)}</b><br/>
-                                                                    <div className={'mrg-top-5'}>No of Appointments : {value?.count || 0}</div>
+                                                                    <b>{value.first_name + ' ' + value.last_name}</b><br/>
+                                                                    <i>No of Appointments : {value?.count || 0}</i>
                                                                 </>
                                                             }
                                                                               backgroundColor={'#000000'}
@@ -839,6 +838,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                                         description={
                                                                                             appointment.category_details.name + ' / ' + appointment.service_details.name + ' - ' + (appointment.provider_details.first_name + ' ' + appointment.provider_details.last_name)
                                                                                         }
+                                                                                        // style={{height: appointment.end_time - appointment.start_time}}
                                                                                         status={appointment.status}
                                                                                     />
                                                                                 </div>
@@ -884,9 +884,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                 </div>
             }
 
-            <DrawerComponent isOpen={!!openedAppointmentDetails}
-                             onClose={setOpenedAppointmentDetails.bind(null, null)}
-                             showClose={true}
+            <DrawerComponent isOpen={!!openedAppointmentDetails} onClose={setOpenedAppointmentDetails.bind(null, null)}
                              className={'book-appointment-component-drawer'}>
 
                 <AppointmentDetailsComponent
@@ -904,7 +902,6 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             </DrawerComponent>
 
             <DrawerComponent isOpen={isBookAppointmentOpen}
-                             showClose={true}
                              onClose={setIsBookAppointmentOpen.bind(null, false)}
                              className={'book-appointment-component-drawer'}>
                 <BookAppointmentComponent
