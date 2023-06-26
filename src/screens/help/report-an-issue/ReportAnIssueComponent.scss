@@ -2,7 +2,15 @@
   .card-component{
       margin-bottom: 0px !important;
   }
+
   .t-form {
+    .report-an-issue-wrapper{
+      margin-top: 47px;
+    }
+    .t-form-actions{
+      margin-top: 60px !important;
+      margin-bottom: 24px !important;
+    }
     .ts-row {
       .issue-heading {
         margin-left: 13px;
@@ -11,11 +19,16 @@
       .attachment-heading{
         margin-bottom: 15px !important;
       }
+      .thumbnail-wrapper{
+        margin-left: -10px !important;
+      }
       .input-component{
         margin-bottom: 0px !important;
       }
 
-
+        .MuiTextField-root{
+          margin-bottom: 0px !important;
+        }
         .alert-error {
           display: flex;
           flex-direction: row-reverse;
@@ -24,7 +37,7 @@
           font-size: 0.85714rem;
           float: end;
           margin-left: 200px;
-          margin-top: 8px;
+          margin-top: -12px;
           margin-bottom: 24px;
         }
         .no-alert {

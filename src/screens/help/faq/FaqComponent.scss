@@ -1,7 +1,7 @@
 @import "src/assets/styles/common";
 
 .faq-component {
-  margin-top: 50px;
+  margin-top: 46px;
 
   display: flex;
   flex-direction: column;
@@ -9,7 +9,7 @@
   .faq-question-wrapper {
     .card-component {
       margin-bottom: 0px;
-      min-height: calc(100vh - 202px);
+      //height: calc(100vh - 220px);
 
       .card-body {
         padding: 24px;
@@ -17,12 +17,12 @@
     }
 
     .faq-block-wrapper {
-      overflow: hidden;
-      max-height: 100vh;
+      overflow: auto;
+     min-height: 60vh;
 
       .faq-block-content {
         overflow: auto;
-        min-height: calc(100vh - 38vh);
+       height: calc(100vh - 40vh);
       }
     }
 

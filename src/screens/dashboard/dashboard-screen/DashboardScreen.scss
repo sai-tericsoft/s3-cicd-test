@@ -1,4 +1,7 @@
 .DashboardScreen{
+  .t-tabs-wrapper .t-tab-panel{
+    padding: 24px 0 6px 0 !important;
+  }
   .name-date-wrapper{
     display: flex;
     justify-content: space-between;
@@ -13,7 +16,7 @@
       font-weight: 500;
       font-size: 16px;
       line-height: 21px;
-      color: #8B8E90;
+      color: #00534F;
     }
   }
 
