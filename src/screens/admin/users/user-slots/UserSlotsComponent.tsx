@@ -30,7 +30,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
         if (userId) {
             dispatch(getUserBasicDetails(userId))
         }
-    }, [dispatch])
+    }, [dispatch, userId])
 
     const handleTabChange = useCallback(() => {
 

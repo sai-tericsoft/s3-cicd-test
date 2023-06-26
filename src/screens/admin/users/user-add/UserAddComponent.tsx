@@ -70,7 +70,7 @@ const UserAddComponent = (props: UserAddComponentProps) => {
             setSubmitting(false);
             CommonService.handleErrors(setErrors, error, true);
         });
-    }, []);
+    }, [navigate]);
 
     useEffect(() => {
         dispatch(setCurrentNavParams('User List', null, () => {

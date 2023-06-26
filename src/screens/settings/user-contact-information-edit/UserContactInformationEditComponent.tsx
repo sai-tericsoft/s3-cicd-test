@@ -16,7 +16,6 @@ import HorizontalLineComponent
 import React, {useCallback, useEffect, useState} from "react";
 import * as Yup from "yup";
 import _ from "lodash";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import {CommonService} from "../../../shared/services";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {IAPIResponseType} from "../../../shared/models/api.model";
