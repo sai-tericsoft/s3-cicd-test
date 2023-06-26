@@ -1,11 +1,13 @@
 .user-basic-details-edit-component{
+  .edit-user-heading{
+    color: #00534F;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
   .t-form{
-    .edit-user-heading{
-      font-weight: 700;
-      font-size: 1.2857rem;
-      color: #00534F;
-      margin-bottom: 15px;
-    }
     .primary-phone-divider{
       border:1px solid #CECECE;
     }
@@ -21,8 +23,8 @@
       border:2px solid #CECECE;
     }
     .t-form-actions{
-      margin-top: 30px;
-      margin-bottom: 0px;
+      margin-top: 60px !important;
+      margin-bottom: 24px !important;
       .submit-cta{
         margin-left: 16px;
       }
