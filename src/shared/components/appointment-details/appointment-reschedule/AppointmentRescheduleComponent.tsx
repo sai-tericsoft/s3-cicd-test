@@ -33,7 +33,7 @@ const addAppointmentRescheduleValidationSchema = Yup.object().shape({
 });
 
 const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentProps) => {
-    const {onClose, onBack, onComplete, details} = props;
+    const {onClose, onComplete, details} = props;
 
     const {appointmentTypes} = useSelector((state: IRootReducerState) => state.staticData);
     const [bookType, setBookType] = useState<any | null>(null);
@@ -211,16 +211,16 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
         <div className={`book-appointment-reschedule-component`}>
             {step === 'form' && <>
                 <div className="drawer-header">
-                    <div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>
+                    {/*<div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>*/}
                     {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
-                        <div className="drawer-close"
-                             id={'book-appointment-close-btn'}
-                             onClick={(event) => {
-                                 if (onClose) {
-                                     onClose();
-                                 }
-                             }
-                             }><ImageConfig.CloseIcon/></div>
+                    {/*    <div className="drawer-close"*/}
+                    {/*         id={'book-appointment-close-btn'}*/}
+                    {/*         onClick={(event) => {*/}
+                    {/*             if (onClose) {*/}
+                    {/*                 onClose();*/}
+                    {/*             }*/}
+                    {/*         }*/}
+                    {/*         }><ImageConfig.CloseIcon/></div>*/}
                     {/*</ToolTipComponent>*/}
                 </div>
                 <div className="reschedule-appointment-heading">Reschedule Appointment</div>
