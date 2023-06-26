@@ -20,7 +20,6 @@ import _ from "lodash";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {setUserBasicDetails} from "../../../store/actions/user.action";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface UserEmergencyContactDetailsEditComponentProps {
     handleNext: () => void
@@ -92,7 +91,6 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
         userBasicDetails,
     } = useSelector((state: IRootReducerState) => state.user);
 
-    console.log('userDetails', userBasicDetails);
 
     useEffect(() => {
         if (userBasicDetails) {
