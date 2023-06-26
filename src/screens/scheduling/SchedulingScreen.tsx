@@ -514,7 +514,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                             </div>
                         </div>
                         <div className="scheduling-filter-header-actions-wrapper">
-                            <div className="scheduling-filter-header-action-item">
+                            <div className="ts-col-5 scheduling-filter-header-action-item">
                                 <SelectComponent size={'small'}
                                                  label={'Service Category'}
                                                  value={schedulingListFilterState?.category_id || ''}
@@ -839,7 +839,6 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                                         description={
                                                                                             appointment.category_details.name + ' / ' + appointment.service_details.name + ' - ' + (appointment.provider_details.first_name + ' ' + appointment.provider_details.last_name)
                                                                                         }
-                                                                                        // style={{height: appointment.end_time - appointment.start_time}}
                                                                                         status={appointment.status}
                                                                                     />
                                                                                 </div>
