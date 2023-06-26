@@ -41,6 +41,7 @@ const userAddValidationSchema = Yup.object({
     primary_contact_info: Yup.object({
         phone: Yup.string().required('Phone Number is required'),
     }),
+    assigned_facilities: Yup.array().min(1, 'at least one facility should select')
 });
 
 const UserAddComponent = (props: UserAddComponentProps) => {
@@ -64,6 +65,7 @@ const UserAddComponent = (props: UserAddComponentProps) => {
             .then((response: any) => {
                 setSubmitting(false);
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                navigate(CommonService._routeConfig.UserSlots(response.data._id));
             }).catch((error: any) => {
             setSubmitting(false);
             CommonService.handleErrors(setErrors, error, true);
@@ -197,30 +199,31 @@ const UserAddComponent = (props: UserAddComponentProps) => {
                                         </Field>
                                     </div>
                                 </div>
+                                <div className="t-form-actions">
+                                    {
+                                        <LinkComponent route={CommonService._routeConfig.UserList()}>
+                                            <ButtonComponent
+                                                variant={"outlined"}
+                                                disabled={isSubmitting}
+                                                id={"medical_record_add_cancel_btn"}
+                                            >
+                                                Cancel
+                                            </ButtonComponent>
+                                        </LinkComponent>
+                                    }
+                                    &nbsp;
+                                    <ButtonComponent
+                                        isLoading={isSubmitting}
+                                        type={"submit"}
+                                        className={'submit-cta'}
+                                        disabled={!isValid || isSubmitting}
+                                        id={"medical_record_add_save_btn"}
+                                    >
+                                        {isSubmitting ? "Saving" : "Save & Next"}
+                                    </ButtonComponent>
+                                </div>
+
                             </CardComponent>
-                            <div className="t-form-actions">
-                                {
-                                    <LinkComponent route={CommonService._routeConfig.UserList()}>
-                                        <ButtonComponent
-                                            variant={"outlined"}
-                                            disabled={isSubmitting}
-                                            id={"medical_record_add_cancel_btn"}
-                                        >
-                                            Cancel
-                                        </ButtonComponent>
-                                    </LinkComponent>
-                                }
-                                &nbsp;
-                                <ButtonComponent
-                                    isLoading={isSubmitting}
-                                    type={"submit"}
-                                    className={'submit-cta'}
-                                    disabled={!isValid || isSubmitting}
-                                    id={"medical_record_add_save_btn"}
-                                >
-                                    {isSubmitting ? "Saving" : "Save & Next"}
-                                </ButtonComponent>
-                            </div>
                         </Form>
                     )
                 }}

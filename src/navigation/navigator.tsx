@@ -97,6 +97,7 @@ import {
     USER_LIST,
     USER_PERSONAL_DETAILS,
     USER_PERSONAL_DETAILS_EDIT,
+    USER_SLOTS,
     VIEW_MEDICAL_INTERVENTION,
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
@@ -171,6 +172,7 @@ import UserAddComponent from "../screens/admin/users/user-add/UserAddComponent";
 import UserDetailsLayoutComponent from "../screens/settings/user-details-layout/UserDetailsLayoutComponent";
 import UserBasicDetailsComponent from "../screens/settings/user-basic-details/UserBasicDetailsComponent";
 import UserBasicDetailsEditComponent from "../screens/settings/user-basic-details-edit/UserBasicDetailsEditComponent";
+import UserSlotsComponent from "../screens/admin/users/user-slots/UserSlotsComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -601,6 +603,15 @@ const Navigator = (props: NavigatorProps) => {
                         element={
                             <ProtectedRoute>
                                 <UserAddComponent/>
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path={USER_SLOTS + ':userId'}
+                        element={
+                            <ProtectedRoute>
+                                <UserSlotsComponent/>
                             </ProtectedRoute>
                         }
                     />

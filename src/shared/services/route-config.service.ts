@@ -25,7 +25,7 @@ import {
     TEST_ROUTE,
     USER_ADD,
     USER_LIST,
-    USER_PERSONAL_DETAILS,
+    USER_PERSONAL_DETAILS, USER_SLOTS,
 } from "../../constants/RoutesConfig";
 
 const DefaultRoute = () => {
@@ -94,10 +94,6 @@ const FacilityDetails = (facilityId: string) => {
 
 const DiscountList = () => {
     return DISCOUNT_LIST;
-}
-
-const UserList = () => {
-    return USER_LIST;
 }
 
 const ClientList = () => {
@@ -281,10 +277,16 @@ const UserAdd = () => {
     return USER_ADD;
 }
 
+const UserSlots = (userId: string) => {
+    return USER_SLOTS + userId;
+}
+
 const UserSettings = () => {
     return SETTINGS;
 }
-
+const UserList = () => {
+    return USER_LIST;
+}
 const PersonalDetails = () => {
     return PERSONAL_DETAILS;
 }
@@ -370,7 +372,8 @@ const RouteConfigService = {
     UserPersonalDetails,
     PersonalDetails,
     UserPersonalDetailsEdit,
-    PersonalDetailsEdit
+    PersonalDetailsEdit,
+    UserSlots
 }
 
 export default RouteConfigService;
