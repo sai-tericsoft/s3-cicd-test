@@ -126,7 +126,7 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
                                 <FormControlLabelComponent size={'sm'} label={'Primary Phone :'}/>
                                 <div className="ts-row">
                                     <div className="ts-col">
-                                        <Field name={'contact_information.primary_contact_info.phone_type'}>
+                                        <Field name={'primary_contact_info.phone_type'}>
                                             {
                                                 (field: FieldProps) => (
                                                     <FormikSelectComponent
@@ -142,7 +142,7 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
                                         </Field>
                                     </div>
                                     <div className="ts-col">
-                                        <Field name={'contact_information.primary_contact_info.phone'}>
+                                        <Field name={'primary_contact_info.phone'}>
                                             {
                                                 (field: FieldProps) => (
                                                     <FormikPhoneInputComponent
@@ -171,7 +171,7 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
                                 {/*<HorizontalLineComponent className={'primary-phone-divider'}/>*/}
                                 <FormControlLabelComponent size={'sm'} label={'Alternate Phone :'}/>
                                 <FieldArray
-                                    name="contact_information.secondary_contact_info"
+                                    name="secondary_contact_info"
                                     render={(arrayHelpers) => (
                                         <>
                                             {values?.secondary_contact_info && values?.secondary_contact_info?.map((item: any, index: any) => {
@@ -179,7 +179,7 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
                                                     <div className="ts-row" key={index}>
                                                         <div className="ts-col">
                                                             <Field
-                                                                name={`contact_information.secondary_contact_info[${index}].phone_type`}>
+                                                                name={`secondary_contact_info[${index}].phone_type`}>
                                                                 {
                                                                     (field: FieldProps) => (
                                                                         <FormikSelectComponent
@@ -194,7 +194,7 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
                                                         </div>
                                                         <div className="ts-col">
                                                             <Field
-                                                                name={`contact_information.secondary_contact_info[${index}].phone`}>
+                                                                name={`secondary_contact_info[${index}].phone`}>
                                                                 {
                                                                     (field: FieldProps) => (
                                                                         <FormikPhoneInputComponent
@@ -238,7 +238,7 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
                                 <FormControlLabelComponent size={'sm'} label={'Primary Email :'}/>
                                 <div className="ts-row">
                                     <div className="ts-col">
-                                        <Field name={'contact_information.primary_email'}>
+                                        <Field name={'primary_email'}>
                                             {
                                                 (field: FieldProps) => (
                                                     <FormikInputComponent
@@ -268,7 +268,7 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
                                 {/*<HorizontalLineComponent className={'primary-phone-divider'}/>*/}
                                 <FormControlLabelComponent size={'sm'} label={'Alternate Email :'}/>
                                 <FieldArray
-                                    name="contact_information.secondary_emails"
+                                    name="secondary_emails"
                                     render={(arrayHelpers) => (
                                         <>
                                             {values?.secondary_emails && values?.secondary_emails?.map((item: any, index: any) => {
@@ -276,7 +276,7 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
                                                     <div className="ts-row" key={index}>
                                                         <div className="ts-col">
                                                             <Field
-                                                                name={`contact_information.secondary_emails[${index}].email`}>
+                                                                name={`secondary_emails[${index}].email`}>
                                                                 {
                                                                     (field: FieldProps) => (
                                                                         <FormikInputComponent
