@@ -2,7 +2,6 @@ import React, {useCallback, useEffect, useState} from "react";
 import "./AppointmentDetailsComponent.scss";
 import {CommonService} from "../../services";
 import {IAPIResponseType} from "../../models/api.model";
-import ToolTipComponent from "../tool-tip/ToolTipComponent";
 import {ImageConfig} from "../../../constants";
 import moment from "moment";
 import ButtonComponent from "../button/ButtonComponent";
@@ -134,16 +133,16 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                 {
                     step === 'details' && <div className={'appointment-details-wrapper'}>
                         <div className="drawer-header">
-                            <ToolTipComponent tooltip={"Close"} position={"left"}>
-                                <div className="drawer-close"
-                                     id={'book-appointment-close-btn'}
-                                     onClick={(event) => {
-                                         if (onClose) {
-                                             onClose();
-                                         }
-                                     }
-                                     }><ImageConfig.CloseIcon/></div>
-                            </ToolTipComponent>
+                            {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
+                            {/*    <div className="drawer-close"*/}
+                            {/*         id={'book-appointment-close-btn'}*/}
+                            {/*         onClick={(event) => {*/}
+                            {/*             if (onClose) {*/}
+                            {/*                 onClose();*/}
+                            {/*             }*/}
+                            {/*         }*/}
+                            {/*         }><ImageConfig.CloseIcon/></div>*/}
+                            {/*</ToolTipComponent>*/}
                         </div>
                         <div className="appointment-details-heading">Appointment Details</div>
 
