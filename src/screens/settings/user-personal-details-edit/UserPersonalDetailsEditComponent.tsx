@@ -28,11 +28,11 @@ const formValidationSchema = Yup.object({
     last_name: Yup.string().required('Last Name is required'),
     dob: Yup.mixed().required('Date of Birth is required'),
     ssn: Yup.string()
-        .required('SSN Number is required')
+        // .required('SSN Number is required')
         .min(9, 'Enter valid SSN Number')
         .max(9, 'SSN cannot be more than 9-digits'),
     gender: Yup.string().required('Gender is required'),
-    npi_number: Yup.string().required('NPI number is required'),
+    // npi_number: Yup.string().required('NPI number is required'),
     assigned_facilities: Yup.array().required('Gender is required'),
 });
 
@@ -240,7 +240,6 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                                     <FormikInputComponent
                                                         label={'SSN'}
                                                         placeholder={'Enter SSN'}
-                                                        required={true}
                                                         type={'text'}
                                                         validationPattern={Patterns.NINE_DIGITS_ONLY}
                                                         formikField={field}

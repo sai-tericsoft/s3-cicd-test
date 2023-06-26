@@ -102,7 +102,7 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
 
     return (
         <div className={'user-contact-information-edit-component'}>
-            <div className={'edit-user-heading'}>Edit Personal Details</div>
+            <div className={'edit-user-heading'}>Edit Contact Information</div>
             <CardComponent title={"Contact Information"} size={"md"}>
 
                 <Formik
@@ -120,7 +120,7 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
                         }, [validateForm, values]);
                         return (
                             <Form noValidate={true} className={"t-form"}>
-                                <FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>
+                                {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
 
                                 <FormControlLabelComponent size={'sm'} label={'Primary Phone :'}/>
                                 <div className="ts-row">
