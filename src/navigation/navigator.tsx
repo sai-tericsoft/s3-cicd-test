@@ -168,10 +168,10 @@ import MedicalInterventionSpecialTestsV2Screen
     from "../screens/chart-notes/medical-intervention-special-tests-v2/MedicalInterventionSpecialTestsV2Screen";
 import ClientsMainLayoutComponent from "../screens/clients/clients-main-layout/ClientsMainLayoutComponent";
 import UserListComponent from "../screens/admin/users/user-list/UserListComponent";
-import UserAddComponent from "../screens/admin/users/user-add/UserAddComponent";
 import UserDetailsLayoutComponent from "../screens/settings/user-details-layout/UserDetailsLayoutComponent";
 import UserBasicDetailsComponent from "../screens/settings/user-basic-details/UserBasicDetailsComponent";
 import UserBasicDetailsEditComponent from "../screens/settings/user-basic-details-edit/UserBasicDetailsEditComponent";
+import UserAddComponent from "../screens/admin/users/user-add/UserAddComponent";
 import UserSlotsComponent from "../screens/admin/users/user-slots/UserSlotsComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {

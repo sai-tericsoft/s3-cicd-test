@@ -1,5 +1,5 @@
 import "./UserDetailsLayoutComponent.scss";
-import {Outlet, useLocation, useSearchParams} from "react-router-dom";
+import {Outlet, useLocation, useParams, useSearchParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {CommonService} from "../../../shared/services";
 import {IRootReducerState} from "../../../store/reducers";
@@ -22,11 +22,12 @@ const UserDetailsLayoutComponent = (props: UserDetailsLayoutComponentProps) => {
     const location: any = useLocation();
     const {currentUser}: any = useSelector((state: IRootReducerState) => state.account);
     const [userId, setUserId] = useState<string>("")
+    const path = location.pathname;
 
     const USER_MENU_ITEMS = [
         {
             title: "Personal Details",
-            path: userId ? CommonService._routeConfig.UserPersonalDetails() + '?userId=' + userId : CommonService._routeConfig.PersonalDetails()
+            path: (userId && path.includes('admin')) ? CommonService._routeConfig.UserPersonalDetails() + '?userId=' + userId : CommonService._routeConfig.PersonalDetails()
         },
         {
             title: "Available Hours & Service",
