@@ -79,13 +79,16 @@ const HELP = "/help";
 const FAQ = "/help/faq";
 const REPORT_AN_ISSUE = "/help/report-an-issue";
 
-const SETTINGS = "/settings"
-const PERSONAL_DETAILS = "/settings/personal-details"
-const PERSONAL_DETAILS_EDIT = "/settings/details-edit"
+const SETTINGS = "/settings";
+const PERSONAL_DETAILS = "/settings/personal-details";
+const PERSONAL_DETAILS_EDIT = "/settings/details-edit";
+const ACCOUNT_DETAILS = "/settings/account-details";
 
 
 const USER_PERSONAL_DETAILS = "/admin/user-details"
-const USER_PERSONAL_DETAILS_EDIT = "/admin/user-edit"
+const USER_PERSONAL_DETAILS_EDIT = "/admin/user-edit";
+
+const USER_ACCOUNT_DETAILS_EDIT = "/admin/account-details-edit";
 
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
@@ -164,5 +167,8 @@ export {
     PERSONAL_DETAILS_EDIT,
     USER_PERSONAL_DETAILS,
     USER_PERSONAL_DETAILS_EDIT,
-    USER_SLOTS
+    USER_SLOTS,
+    ACCOUNT_DETAILS,
+    USER_ACCOUNT_DETAILS_EDIT,
+
 };

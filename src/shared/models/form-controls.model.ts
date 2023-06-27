@@ -137,6 +137,7 @@ export interface ITextAreaProps {
     size?: 'medium' | 'small';
     value?: any;
     prefix?: any;
+    ref?:any
     variant?: "outlined" | "filled" | "standard";
 }
 

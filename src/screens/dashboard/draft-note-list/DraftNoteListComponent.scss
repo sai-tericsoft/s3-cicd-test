@@ -1,6 +1,21 @@
-.draft-note-list-component {
+
+.draft-note-list-component{
+
   .card-component{
-    padding-bottom: 24px;
+    padding-bottom: 24px !important;
+    margin-bottom: 0px !important;
+  }
+  .draft-note-list-wrapper{
+    .t-cell-first_name{
+      padding-left: 30px !important;
+    }
+    .t-cell-action{
+      padding-right: 30px !important;
+    }
+    .t-table {
+      min-height: 200px !important;
+      height: calc(100vh - 383px) !important;
+    }
   }
   .draft-note-list-wrapper {
     .t-table-wrapper {
@@ -15,7 +30,7 @@
     font-weight: 700;
     font-size: 1.1429rem;
     color: #212B36;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
   }
 
   .provider-name {

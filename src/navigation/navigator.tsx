@@ -26,6 +26,7 @@ import ClientEditScreen from "../screens/clients/client-edit/ClientEditScreen";
 import ClientSearchScreen from "../screens/chart-notes/client-search/ClientSearchScreen";
 import AddMedicalRecordScreen from "../screens/chart-notes/add-medical-record/AddMedicalRecordScreen";
 import {
+    ACCOUNT_DETAILS,
     ADD_INVENTORY_PRODUCT,
     ADD_MEDICAL_RECORD,
     ADD_NEW_RECEIPT,
@@ -92,7 +93,7 @@ import {
     SETTINGS,
     SYSTEM_SETTINGS,
     TEST_ROUTE,
-    UPDATE_MEDICAL_INTERVENTION,
+    UPDATE_MEDICAL_INTERVENTION, USER_ACCOUNT_DETAILS_EDIT,
     USER_ADD,
     USER_LIST,
     USER_PERSONAL_DETAILS,
@@ -173,6 +174,9 @@ import UserBasicDetailsComponent from "../screens/settings/user-basic-details/Us
 import UserBasicDetailsEditComponent from "../screens/settings/user-basic-details-edit/UserBasicDetailsEditComponent";
 import UserAddComponent from "../screens/admin/users/user-add/UserAddComponent";
 import UserSlotsComponent from "../screens/admin/users/user-slots/UserSlotsComponent";
+import UserAccountDetailsComponent from "../screens/settings/user-account-details/UserAccountDetailsComponent";
+import CommunicationPreferencesEditComponent
+    from "../screens/settings/communication-preferences-edit/CommunicationPreferencesEditComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -227,7 +231,7 @@ const Navigator = (props: NavigatorProps) => {
                     {currentUser?.is_new_user !== true ? <Route
                         index
                         element={
-                            <Navigate to={CLIENT_LIST}/>
+                            <Navigate to={DASHBOARD}/>
                         }
                     /> : <Route index
                                 element={
@@ -540,6 +544,11 @@ const Navigator = (props: NavigatorProps) => {
                                 </ProtectedRoute>
                             }
                         />
+                        <Route path={ACCOUNT_DETAILS} element={
+                            <ProtectedRoute>
+                                <UserAccountDetailsComponent/>
+                            </ProtectedRoute>
+                        }/>
 
                     </Route>
 
@@ -548,6 +557,14 @@ const Navigator = (props: NavigatorProps) => {
                         element={
                             <ProtectedRoute>
                                 <UserBasicDetailsEditComponent/>
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path={USER_ACCOUNT_DETAILS_EDIT + '/:userId'}
+                        element={
+                            <ProtectedRoute>
+                                <CommunicationPreferencesEditComponent/>
                             </ProtectedRoute>
                         }
                     />

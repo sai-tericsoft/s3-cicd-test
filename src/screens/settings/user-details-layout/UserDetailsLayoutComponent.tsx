@@ -35,7 +35,7 @@ const UserDetailsLayoutComponent = (props: UserDetailsLayoutComponentProps) => {
         },
         {
             title: "Account Details",
-            path: ""
+            path:  CommonService._routeConfig.UserAccountDetails()
         }
     ];
 

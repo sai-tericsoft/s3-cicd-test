@@ -36,7 +36,7 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
             key: "first_name",
             dataIndex: "first_name",
             // sortable: true,
-            width: 150,
+            width: 120,
             render: (item: any) => {
                 return <>{CommonService.extractName(item?.client_details)}</>
             }
@@ -81,7 +81,7 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
             dataIndex: "status",
             key: "status",
             align: 'center',
-            width: 90,
+            width: 100,
             render: (item: any) => {
                 return <ChipComponent label={item?.status}
                                       className={item?.status}
@@ -92,8 +92,8 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
             title: "",
             dataIndex: "actions",
             key: "actions",
-            width: 180,
-            fixed: "right",
+            width: 89,
+            // fixed: "right",
             render: (item: any) => {
                 if (item?.status === 'upcoming') {
                     return <LinkComponent
@@ -123,6 +123,7 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
                                            fixedHeader={true}
                                            autoHeight={true}
                                            refreshToken={refreshToken}
+                                           noDataText={'Currently, there are no appointments scheduled for today.'}
                                            url={APIConfig.DASHBOARD_APPOINTMENT_LIST.URL}
                                            isPaginated={false}
                                            method={APIConfig.DASHBOARD_APPOINTMENT_LIST.METHOD}
