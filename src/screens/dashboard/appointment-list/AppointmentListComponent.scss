@@ -1,12 +1,31 @@
-.appointment-list-component{
-  .appointment-list-wrapper{
-    height:calc(100vh - 331px);
-    overflow: scroll;
+.appointment-list-component {
+  .appointment-list-wrapper {
+    overflow: auto;
+    padding-bottom: 24px;
+
+    .t-cell-time {
+      padding-left: 30px !important;
+    }
+
+    //.t-cell-actions {
+    //  padding-right: 15px !important;
+    //}
+
+    .t-table-wrapper {
+      .t-table {
+        min-height: 287px !important;
+        .table-no-data-wrapper {
+          min-height: 300px !important;
+        }
+      }
+    }
+
   }
-  .appointment-list-heading{
+
+  .appointment-list-heading {
     font-weight: 700;
     font-size: 1.1429rem;
     color: #212B36;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
   }
 }

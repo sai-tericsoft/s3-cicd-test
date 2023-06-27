@@ -102,7 +102,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                          key={_id}>
                                                         <div className="ts-col-md-3">
                                                             <div className={"mrg-bottom-10"}>
-                                                                {title + ' ?'}
+                                                                {title + '?'}
                                                             </div>
                                                             <Field name={`musculoskeletal_history.${_id}.value`}>
                                                                 {
