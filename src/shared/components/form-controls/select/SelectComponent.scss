@@ -3,9 +3,17 @@
   min-width: 70px;
   background-color: #FFFFFF !important;
   padding-bottom: 0px !important;
+  border-radius: 8px !important;
 
   &.full-width {
     width: 100%;
+  }
+  .MuiFormHelperText-root {
+    margin-bottom: -4px !important;
+    border-radius: 8px !important;
+  }
+  .MuiOutlinedInput-root {
+    border-radius: 8px !important;
   }
 }
 

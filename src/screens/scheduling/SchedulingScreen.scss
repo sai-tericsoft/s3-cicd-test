@@ -29,10 +29,13 @@
 
       .scheduling-header-action-item {
         margin-left: 10px;
-
+        .MuiToggleButtonGroup-root{
+          border-radius: 8px !important;
+        }
         .MuiToggleButton-primary {
           color: $white;
           background: $primary-color;
+
         }
       }
     }
@@ -108,7 +111,7 @@
       justify-content: space-between;
       align-content: center;
 
-      padding: 10px 20px 16px 20px;
+      padding: 17px 20px 16px 20px;
       position: sticky;
       top: -30px;
       position: sticky;
@@ -117,7 +120,7 @@
 
       .scheduling-filter-header-date-wrapper {
         flex: 1;
-        max-width: 40%;
+        max-width: 20%;
         display: flex;
         justify-content: flex-start;
         align-items: center;
@@ -507,6 +510,10 @@
       overflow: hidden;
       //text-overflow: ellipsis;
     }
+  }
+  .MuiToggleButtonGroup-root {
+    border-radius: 8px !important;
+    border: 1px solid red !important;
   }
 }
 

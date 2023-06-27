@@ -129,7 +129,7 @@ const AllMessageHistoryComponent = (props: AllMessageHistoryComponentProps) => {
                                                                 <div className={'h-v-center mrg-top-10 cursor-pointer'}
                                                                      onClick={() => handleMessageDelete(message?._id)}>
                                                                     <span><ImageConfig.DeleteIcon/></span>
-                                                                    <span className={'mrg-left-10'}>Delete</span>
+                                                                    <span className={'mrg-left-10 delete-text'}>Delete</span>
 
                                                                 </div>
                                                             </div>
@@ -144,8 +144,9 @@ const AllMessageHistoryComponent = (props: AllMessageHistoryComponentProps) => {
                             })
                         }
                         {
-                            messageHistory?.length === 0 && <FormControlLabelComponent label={'No New Message'}
-                                                                                       className={'d-flex ts-justify-content-center ts-align-items-center mrg-top-100'}/>
+                            messageHistory?.length === 0 && <div className={'no-message-text-wrapper'}>
+                                No new message have been added yet.
+                            </div>
                         }
                     </div>
                 </>}
