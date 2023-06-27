@@ -109,8 +109,8 @@ const DefaultMessageComponent = (props: DefaultMessageComponentProps) => {
                                             <div className="t-form-actions">
                                                 <ButtonComponent
                                                     onClick={() => resetForm()}
-                                                    className={'mrg-right-16'}
                                                     variant={'outlined'}
+                                                    className={isSaving? 'mrg-right-15':''}
                                                     id={"cancel_btn"}
                                                 >
                                                     Cancel
@@ -120,7 +120,7 @@ const DefaultMessageComponent = (props: DefaultMessageComponentProps) => {
                                                     className={'submit-cta'}
                                                     type={"submit"}
                                                     id={"save_btn"}
-                                                    disabled={values?.default_message === ""}
+                                                    disabled={values?.default_message === "" || CommonService.isEqual(values,defaultMessageInitialValue)}
                                                 >
                                                     {isSaving ? "Saving" : "Save"}
                                                 </ButtonComponent>
