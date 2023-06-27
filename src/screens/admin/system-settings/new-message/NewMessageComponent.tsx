@@ -109,6 +109,7 @@ const NewMessageComponent = (props: NewMessageComponentProps) => {
                                                 onClick={() => resetForm()}
                                                 variant={'outlined'}
                                                 id={"cancel_btn"}
+                                                className={isSaving?'mrg-right-15':''}
                                             >
                                                 Cancel
                                             </ButtonComponent>

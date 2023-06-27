@@ -2,7 +2,6 @@ import React, {useCallback, useEffect, useRef, useState} from "react";
 import "./AppointmentPaymentComponent.scss";
 import {CommonService} from "../../../services";
 import {IAPIResponseType} from "../../../models/api.model";
-import {ImageConfig} from "../../../../constants";
 import ButtonComponent from "../../button/ButtonComponent";
 import * as Yup from "yup";
 import {useSelector} from "react-redux";
@@ -12,7 +11,6 @@ import {RadioButtonComponent} from "../../form-controls/radio-button/RadioButton
 import FormControlLabelComponent from "../../form-control-label/FormControlLabelComponent";
 import FormikSelectComponent from "../../form-controls/formik-select/FormikSelectComponent";
 import FormikTextAreaComponent from "../../form-controls/formik-text-area/FormikTextAreaComponent";
-import ToolTipComponent from "../../tool-tip/ToolTipComponent";
 import HorizontalLineComponent from "../../horizontal-line/horizontal-line/HorizontalLineComponent";
 
 
@@ -45,7 +43,7 @@ const addAppointmentPaymentValidationSchema = Yup.object().shape({
 
 const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) => {
 
-    const {onBack, onComplete, details, onClose} = props;
+    const { onComplete, details} = props;
     const {paymentModes} = useSelector((state: IRootReducerState) => state.staticData);
     const [availableCouponsList, setAvailableCouponsList] = useState<any[]>([]);
     const [selectedCoupon, setSelectedCoupon] = useState<any>(undefined);
@@ -122,17 +120,17 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
     return (
         <div className={'appointment-payment-component'}>
             <div className="drawer-header">
-                <div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>
-                <ToolTipComponent tooltip={"Close"} position={"left"}>
-                    <div className="drawer-close"
-                         id={'appointment-close-btn'}
-                         onClick={(event) => {
-                             if (onClose) {
-                                 onClose();
-                             }
-                         }
-                         }><ImageConfig.CloseIcon/></div>
-                </ToolTipComponent>
+                {/*<div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>*/}
+                {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
+                {/*    <div className="drawer-close"*/}
+                {/*         id={'appointment-close-btn'}*/}
+                {/*         onClick={(event) => {*/}
+                {/*             if (onClose) {*/}
+                {/*                 onClose();*/}
+                {/*             }*/}
+                {/*         }*/}
+                {/*         }><ImageConfig.CloseIcon/></div>*/}
+                {/*</ToolTipComponent>*/}
             </div>
             <div className="secure-checkout-heading">Secure Checkout</div>
             <Formik
@@ -159,7 +157,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                                 <>
                                     <div className={"t-appointment-drawer-form-controls height-100"}>
                                         <div
-                                            className={'payment-block payment-block-time green-card pdd-15 pdd-left-30 mrg-bottom-24'}>
+                                            className={'payment-block payment-block-time green-card pdd-15'}>
                                             <div className="block-heading">
                                                 Total Amount
                                             </div>
@@ -193,6 +191,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
 
                                         {values.payment_type === 'current' && <>
                                             <FormControlLabelComponent
+                                                className={'add-gift-card-msg'}
                                                 label={"Add a gift card or promotion code or voucher"}/>
                                             <Field name={'available_coupons'}>
                                                 {
@@ -216,7 +215,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                                                 }
                                             </Field>
                                             <FormControlLabelComponent
-                                                label={"Checkout Summary"} className={'mrg-bottom-5'}/>
+                                                label={"Checkout Summary"} className={'checkout-summary'}/>
                                             <div className="price-holder">
                                                 <div className="price-item">
                                                     <div className="price-item-text amount">Amount (Inc. tax)</div>
@@ -225,7 +224,9 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                                                 <div className="price-item">
                                                     <div className="price-item-text discount">Discount</div>
                                                     <div className="price-item-amount red">
-                                                        {selectedCoupon ? `- $ ${CommonService.convertToDecimals(discountAmount)}` : `$0` || 'N/A'}
+                                                        {/*{selectedCoupon ? `- $ ${CommonService.convertToDecimals(discountAmount)}` : `$0` || 'N/A'}*/}
+                                                        {selectedCoupon ? `- $ ${CommonService.convertToDecimals(discountAmount)}` : <div className={'zero-discount'}>$0</div> || 'N/A'}
+
                                                     </div>
                                                 </div>
                                                 <HorizontalLineComponent/>

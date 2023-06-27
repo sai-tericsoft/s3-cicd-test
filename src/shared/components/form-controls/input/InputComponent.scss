@@ -1,6 +1,10 @@
 .input-component {
   margin-bottom: 20px !important;
   background-color: #FFFFFF !important;
+  border-radius: 8px !important;
+ .MuiOutlinedInput-root{
+   border-radius: 8px !important;
+ }
 
   &.full-width {
     width: 100%;

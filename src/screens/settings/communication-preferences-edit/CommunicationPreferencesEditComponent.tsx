@@ -26,6 +26,7 @@ const formInitialValues: any = {
 ;
 
 
+
 const CommunicationPreferencesEditComponent = (props: CommunicationPreferencesComponentProps) => {
 
     const dispatch = useDispatch();
@@ -58,6 +59,7 @@ const CommunicationPreferencesEditComponent = (props: CommunicationPreferencesCo
     }, [userBasicDetails]);
 
 
+
     const onSubmit = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
         setSubmitting(true);
 
@@ -77,6 +79,7 @@ const CommunicationPreferencesEditComponent = (props: CommunicationPreferencesCo
             });
     }, [userBasicDetails, navigate]);
 
+
     return (
         <div className={'communication-preferences-component'}>
             <div className={'edit-user-heading'}>Edit Communication Preferences</div>
@@ -92,7 +95,6 @@ const CommunicationPreferencesEditComponent = (props: CommunicationPreferencesCo
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
                             validateForm();
-                            console.log(values);
                         }, [validateForm, values]);
                         return (
                             <Form noValidate={true} className={"t-form"}>

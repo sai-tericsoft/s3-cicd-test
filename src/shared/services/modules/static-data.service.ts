@@ -4,6 +4,7 @@ import moment from "moment";
 
 const today = moment();
 const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
 const yesNoOptions = [{
     title: "Yes",
     code: true
@@ -254,7 +255,7 @@ const StaticDataService = {
     ReportAnIssue,
     GetValidDaysList,
     FacilityListLite,
-    getRoleList
+    getRoleList,
 }
 
 export default StaticDataService;

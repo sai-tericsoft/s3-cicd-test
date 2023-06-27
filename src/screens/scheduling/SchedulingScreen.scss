@@ -4,13 +4,19 @@
   //height: calc(100vh - 100px);
   .scheduling-header-wrapper {
     display: flex;
-    flex-direction: row;
+    //flex-direction: row;
     justify-content: space-between;
     align-content: center;
 
     .scheduling-header-search-wrapper {
       flex: 1;
       max-width: 40%;
+      .search-component{
+        .input-component{
+          margin-bottom: 16px !important;
+          margin-top: 0px !important;
+        }
+      }
     }
 
     .scheduling-header-actions-wrapper {
@@ -18,13 +24,18 @@
       flex-direction: row;
       justify-content: center;
       align-items: center;
+      margin-bottom: 16px;
+      margin-top: 0px;
 
       .scheduling-header-action-item {
         margin-left: 10px;
-
+        .MuiToggleButtonGroup-root{
+          border-radius: 8px !important;
+        }
         .MuiToggleButton-primary {
           color: $white;
           background: $primary-color;
+
         }
       }
     }
@@ -54,21 +65,40 @@
     background: $white;
     border: 1px solid #F3F3F3;
     border-radius: 4px;
-    padding-top: 15px;
+    //padding-top: 15px;
+
+    .t-table-wrapper {
+      .t-table {
+        min-height: 404px !important;
+        .t-cell-time{
+          padding-left: 30px !important;
+        }
+        .t-cell-actions{
+          padding-right: 30px !important;
+        }
+        .table-no-data-wrapper {
+          min-height: 360px !important;
+        }
+      }
+
+    }
 
     &.view-calendar {
-      height: calc(100% - 80px);
+      height: calc(100% - 80px) !important;
       display: flex;
       flex-direction: column;
+      padding-bottom: 24px;
     }
-    .no-appointment-text-wrapper{
-      .no-appointment-heading{
+
+    .no-appointment-text-wrapper {
+      .no-appointment-heading {
         font-weight: 500;
         font-size: 1.5714rem;
         color: #8B8E90;
         margin-bottom: 15px;
       }
-      .no-appointment-description{
+
+      .no-appointment-description {
         font-size: 16px;
         color: #8B8E90;
       }
@@ -77,34 +107,36 @@
     .scheduling-filter-header-wrapper {
       display: flex;
       flex-direction: row;
-      height: 76px;
+      height: auto;
       justify-content: space-between;
       align-content: center;
-      padding: 0 15px;
+
+      padding: 17px 20px 16px 20px;
       position: sticky;
-      top: -20px;
+      top: -30px;
+      position: sticky;
       background-color: #FFFFFF;
       z-index: 2;
 
       .scheduling-filter-header-date-wrapper {
         flex: 1;
-        max-width: 40%;
+        max-width: 20%;
         display: flex;
         justify-content: flex-start;
         align-items: center;
         align-self: center;
-        margin-bottom: 20px;
+        //margin-bottom: 20px;
 
         .filter-header-date-text {
-          font-weight: 700;
-          font-size: 20px;
+          font-weight: 600;
+          font-size: 18px;
           color: $body-color;
-          margin-bottom: 4px;
+          //margin-bottom: 4px;
         }
 
         .filter-header-date-controls {
           display: flex;
-          margin-left: 20px;
+          margin-left: 12px;
           justify-content: center;
           align-content: center;
 
@@ -128,6 +160,9 @@
         .scheduling-filter-header-action-item {
           margin-left: 10px;
           flex: 1;
+          .select-component{
+            margin-bottom: 0px !important;
+          }
 
           .MuiToggleButton-primary {
             color: $white;
@@ -139,8 +174,8 @@
     }
 
     .helper-tooltip {
-      width: 45px;
-      height: 45px;
+      width: 32px;
+      height: 32px;
       position: absolute;
       right: 30px;
       border-radius: 50%;
@@ -159,7 +194,7 @@
       svg {
         color: #FFF;
         width: auto;
-        height: 32px;
+        height: 24px;
       }
 
       .helper-tooltip-window {
@@ -167,7 +202,7 @@
         bottom: 45px;
         right: 45px;
         background: #FFFFFF;
-        border: 1px solid #BABABA;
+        border: 1px solid #E7E7E7;
         border-radius: 8px;
         display: flex;
         flex-direction: row;
@@ -175,7 +210,7 @@
         width: 30vw;
         min-width: 300px;
         padding: 10px;
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.10);
 
         .helper-tooltip-window-item {
           display: flex;
@@ -230,6 +265,7 @@
           min-height: 62px;
           max-height: 62px;
           font-weight: 500;
+          //margin-top: 16px;
           border-top: 1px solid transparent;
           font-size: 14px;
           color: #212B36;
@@ -310,6 +346,7 @@
             min-height: 62px;
             max-height: 62px;
             position: relative;
+
             &:hover {
               background-color: #f0f5f5;
             }
@@ -349,9 +386,11 @@
 .calendar-appointments-holder {
   overflow: hidden;
   min-height: calc(100% - 20px);
+
   &:hover {
     cursor: pointer;
   }
+
   //width: 100%;
 
   .appointment-count-card {
@@ -471,6 +510,10 @@
       overflow: hidden;
       //text-overflow: ellipsis;
     }
+  }
+  .MuiToggleButtonGroup-root {
+    border-radius: 8px !important;
+    border: 1px solid red !important;
   }
 }
 

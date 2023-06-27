@@ -28,6 +28,7 @@ const UserAccountDetailsComponent = (props: UserAccountDetailsComponentProps) =>
     } = useSelector((state: IRootReducerState) => state.user);
 
 
+
     return (
         <div className={'user-account-details-component'}>
             <div>
@@ -55,6 +56,7 @@ const UserAccountDetailsComponent = (props: UserAccountDetailsComponentProps) =>
                         </CardComponent>
                         <CardComponent title={'Communication Preferences'} actions={<LinkComponent
                             route={path === '/settings/account-details' ? CommonService._user.NavigateToAccountDetailsEdit(userBasicDetails._id, "communication_preferences") : CommonService._routeConfig.UserAccountDetails() }>
+
                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                 Edit
                             </ButtonComponent>

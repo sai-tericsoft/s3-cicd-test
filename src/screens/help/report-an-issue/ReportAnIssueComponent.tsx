@@ -68,7 +68,7 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
-                            <CardComponent className={'mrg-top-45'}>
+                            <CardComponent className={'report-an-issue-wrapper'}>
                                 <div className={'ts-row'}>
 
                                     <FormControlLabelComponent className={'issue-heading'} label={'Issue'}/>
@@ -95,7 +95,7 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
                                                 : {(values.issue.length)}/1000</div>}
                                     </div>
                                     <div className={'ts-col-md-12'}>
-                                        <FormControlLabelComponent label={"Attachment (if any)"}/>
+                                        <FormControlLabelComponent className={'attachment-heading'}  label={"Attachment (if any)"}/>
                                         <>
                                             {
                                                 (!values.attachment) && <>
@@ -117,7 +117,7 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
                                                 </>
                                             }
                                         </>
-                                        <div className={'ts-col-md-4'}>
+                                        <div className={'ts-col-md-6 thumbnail-wrapper'}>
                                             {
                                                 (values.attachment) && <>
                                                     <FilePreviewThumbnailComponent

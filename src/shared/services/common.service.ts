@@ -631,6 +631,25 @@ const areArraysEqual = (arr1: any[], arr2: any[]) => {
     return true;
 }
 
+
+const StartTimingsList = Array.from(Array(24).keys()).map((item: number) => {
+    return {code: item * 60, title: moment().hour(item).minute(0).format('HH:mm')}
+});
+
+const EndTimingsList = (time: any) => {
+    const startTime = Math.floor(time / 60); // Convert selected start time to hours
+
+    return Array.from(Array(24 - startTime + 1).keys()).map((item: number) => {
+        const hour = startTime + item;
+        const endTime = moment().hour(hour).minute(0);
+        return {
+            code: item * 60 >= time, // Change the comparison operator to include the start time
+            title: endTime.format('HH:mm'),
+        };
+    });
+};
+
+
 const CommonService = {
     LightenDarkenColor,
     getContrastYIQ,
@@ -686,6 +705,8 @@ const CommonService = {
     getHoursAndMinutesFromMinutes,
     validateDecimal,
     areArraysEqual,
+    StartTimingsList,
+    EndTimingsList,
     // createValidationsObject,
     // createYupSchema,
 

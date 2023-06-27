@@ -4,6 +4,13 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  .t-appointment-drawer-form-controls{
+    .add-gift-card-msg{
+      margin-top: 21px;
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+  }
 
   .secure-checkout-heading{
     font-weight: 700;
@@ -16,6 +23,12 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    .checkout-summary{
+      font-size: 16px;
+      font-weight: 700;
+      margin-top:6px ;
+      margin-bottom: 16px !important;
+    }
   }
 
   .form-control-label-component {
@@ -41,7 +54,7 @@
 
   .payment-block {
     padding: 10px;
-    margin: 10px 0 24px;
+    margin:20px 0px;
     background: #F9F9FB;
     border-radius: 5px;
 
@@ -92,9 +105,10 @@
     }
 
     .payment-price {
-      font-weight: 700;
-      font-size: 32px;
+      font-weight: 500;
+      font-size: 26px;
       color: #212B36;
+      padding-bottom: 0px;
     }
 
     .block-content {
@@ -145,11 +159,15 @@
 
       .option-item {
         flex: 0;
+        margin-left: 8px;
+        .MuiFormControlLabel-root{
+          margin-right:0px;
+        }
       }
 
       .option-item-text {
-        font-weight: 400;
-        font-size: 16px;
+        font-weight: 500;
+        font-size: 14px;
         flex: 1;
         color: #000000;
       }
@@ -164,48 +182,49 @@
       display: flex;
       flex-direction: row;
 
-      .price-item-text {
-        .price-item-amount {
-          font-weight: 400;
-          font-size: 14px;
-          color: #191919;
-          padding: 10px 0;
+      .price-item-text, .price-item-amount {
+        font-weight: 400;
+        font-size: 1.1429rem;
+        color: #191919;
+        padding-bottom: 10px;
+        &.discount{
+          color: #919191;
         }
         &.amount{
-          padding-top: 11px;
-        }
-        &.discount{
-          padding-top: 11px;
-          padding-bottom: 10px;
+          color: #919191
         }
       }
 
       .price-item-text {
         flex: 1;
+        font-size: 16px;
+        font-weight: 500;
       }
 
       &.price-item-total {
-        margin-bottom: 10px;
+        margin-bottom: 18px;
 
         .price-item-text, .price-item-amount {
           font-weight: 500;
           font-size: 16px;
           color: #191919;
-          padding: 10px 0;
+          padding-top: 10px;
+          padding-bottom: 0px;
         }
-
       }
 
       .price-item-amount {
         &.green {
-          color: #40B95B !important;
+          color: #000000 !important;
+          font-weight: 500;
+          font-size: 18px;
         }
 
         &.red {
-          color: #ED2B2D !important;
-          padding-top: 11px;
-          padding-bottom: 10px;
-
+          color: #37A850 !important;
+          .zero-discount{
+            color: #000000;
+          }
         }
       }
 
@@ -216,7 +235,7 @@
     margin: 5px 0;
   }
   .client-search-btn{
-    margin:25px 0 5px;
+    margin-top:5px;
   }
 
 }

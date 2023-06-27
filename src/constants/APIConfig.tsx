@@ -815,6 +815,10 @@ const APIConfig: IAPIConfig = {
         METHOD: 'put'
     },
     ALL_SERVICE_LIST: {
+        URL: ENV.API_URL + '/allCategoryServices',
+        METHOD: 'get'
+    },
+    ALL_SERVICE_LIST_LITE: {
         URL: ENV.API_URL + '/allServices',
         METHOD: 'get'
     },
@@ -877,6 +881,10 @@ const APIConfig: IAPIConfig = {
     USER_PASSWORD_EDIT:{
         URL:ENV.API_URL + "/changePassword",
         METHOD:"post"
+    },
+    ADD_USER_SLOTS: {
+        URL: (userId: any, facilityId: any) => ENV.API_URL + '/user/' + userId + '/facility/' + facilityId + '/globalSlots',
+        METHOD: "post"
     }
 }
 
