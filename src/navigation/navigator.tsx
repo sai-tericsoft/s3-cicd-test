@@ -95,7 +95,7 @@ import {
     TEST_ROUTE,
     UPDATE_MEDICAL_INTERVENTION, USER_ACCOUNT_DETAILS_EDIT,
     USER_ADD,
-    USER_LIST,
+    USER_LIST, USER_PASSWORD_EDIT,
     USER_PERSONAL_DETAILS,
     USER_PERSONAL_DETAILS_EDIT,
     USER_SLOTS,
@@ -177,6 +177,8 @@ import UserSlotsComponent from "../screens/admin/users/user-slots/UserSlotsCompo
 import UserAccountDetailsComponent from "../screens/settings/user-account-details/UserAccountDetailsComponent";
 import CommunicationPreferencesEditComponent
     from "../screens/settings/communication-preferences-edit/CommunicationPreferencesEditComponent";
+import UserPasswordChangeEditComponent
+    from "../screens/settings/user-password-change-edit/UserPasswordChangeEditComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -558,6 +560,14 @@ const Navigator = (props: NavigatorProps) => {
                         element={
                             <ProtectedRoute>
                                 <CommunicationPreferencesEditComponent/>
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path={USER_PASSWORD_EDIT + '/:userId'}
+                        element={
+                            <ProtectedRoute>
+                                <UserPasswordChangeEditComponent/>
                             </ProtectedRoute>
                         }
                     />

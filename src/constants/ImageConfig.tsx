@@ -12,6 +12,8 @@ import {ReactComponent as EditIcon} from '../assets/icons/edit.svg';
 import {ReactComponent as UploadIcon} from '../assets/icons/upload.svg';
 import {ReactComponent as SelectDropDownIcon} from './../assets/icons/select_dropdown.svg';
 import {ReactComponent as EyeIcon} from './../assets/icons/eye.svg';
+import {ReactComponent as CloseEyeIcon} from './../assets/icons/close_eye.svg';
+
 import {ReactComponent as PrintIcon} from './../assets/icons/print.svg';
 
 import {ReactComponent as VerifiedCheck} from './../assets/icons/verified_black.svg';
@@ -209,5 +211,6 @@ export {
     History,
     CopyIcon,
     HorizontalMore,
-    DocumentIcon
+    DocumentIcon,
+    CloseEyeIcon
 }

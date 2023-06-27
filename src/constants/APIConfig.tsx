@@ -873,6 +873,10 @@ const APIConfig: IAPIConfig = {
     FACILITY_LIST_LITE: {
         URL: ENV.API_URL + "/facility/lite",
         METHOD: "get"
+    },
+    USER_PASSWORD_EDIT:{
+        URL:ENV.API_URL + "/changePassword",
+        METHOD:"post"
     }
 }
 

@@ -3,6 +3,7 @@ import InputComponent from "../input/InputComponent";
 import {useCallback, useState} from "react";
 import {IPasswordFieldProps} from "../../../models/form-controls.model";
 import ButtonComponent from "../../button/ButtonComponent";
+import {ImageConfig} from "../../../../constants";
 
 export interface PasswordInputComponentProps extends IPasswordFieldProps {
     name: string;
@@ -33,7 +34,7 @@ const PasswordInputComponent = (props: PasswordInputComponentProps) => {
                 <ButtonComponent variant={"text"}
                                  color={"inherit"}
                                  onClick={handleClickShowPassword}>
-                    {inputType === "text" ? "Hide" : "Show"}
+                    {inputType === "text" ? <ImageConfig.CloseEyeIcon/> : <ImageConfig.EyeIcon/>}
                 </ButtonComponent>
             }
             {...otherProps}

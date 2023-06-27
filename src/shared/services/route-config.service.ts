@@ -311,6 +311,10 @@ const UserAccountDetailsEdit = (userId:string)=>{
     return '/admin/account-details-edit/' + userId;
 }
 
+const UserPasswordEdit =(userId:string)=>{
+    return '/admin/password-edit/' + userId;
+}
+
 
 const RouteConfigService = {
     DefaultRoute,
@@ -383,7 +387,8 @@ const RouteConfigService = {
     PersonalDetailsEdit,
     UserSlots,
     UserAccountDetails,
-    UserAccountDetailsEdit
+    UserAccountDetailsEdit,
+    UserPasswordEdit
 
 }
 

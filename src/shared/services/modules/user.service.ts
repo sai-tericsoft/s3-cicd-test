@@ -45,8 +45,18 @@ const NavigateToAccountDetailsEdit = (userId: string, step: any) => {
     return RouteConfigService.UserAccountDetailsEdit(userId) + "?currentStep=" + step;
 }
 
+const NavigateToPasswordEdit = (userId: string, step: any) => {
+    return RouteConfigService.UserPasswordEdit(userId) + "?currentStep=" + step;
+
+}
+
 const userEdit = (userId: string, payload: any) => {
     return ApiService[APIConfig.USER_EDIT.METHOD](APIConfig.USER_EDIT.URL(userId), payload);
+}
+
+const userPasswordEdit = (payload:any)=>{
+    return ApiService[APIConfig.USER_PASSWORD_EDIT.METHOD](APIConfig.USER_PASSWORD_EDIT.URL, payload);
+
 }
 
 const UserService = {
@@ -60,6 +70,8 @@ const UserService = {
     userEdit,
     NavigateToSettingEdit,
     NavigateToAccountDetailsEdit,
+    NavigateToPasswordEdit,
+    userPasswordEdit
 }
 
 export default UserService;

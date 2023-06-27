@@ -18,13 +18,12 @@ interface CommunicationPreferencesComponentProps {
 
 }
 
-const formInitialValues: any = [
-    {
+const formInitialValues: any = {
         communication_preferences: {
-            appointment_reminders:''
+            appointment_reminders: ''
         }
     }
-];
+;
 
 
 const CommunicationPreferencesEditComponent = (props: CommunicationPreferencesComponentProps) => {
@@ -51,12 +50,13 @@ const CommunicationPreferencesEditComponent = (props: CommunicationPreferencesCo
     useEffect(() => {
         if (userBasicDetails) {
             setInitialValues({
-                communication_preferences:{
-                    appointment_reminders: userBasicDetails?.communication_preferences?.appointment_reminders
+                communication_preferences: {
+                    appointment_reminders: userBasicDetails.communication_preferences.appointment_reminders
                 }
-            })
+            });
         }
-    }, [userBasicDetails])
+    }, [userBasicDetails]);
+
 
     const onSubmit = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
         setSubmitting(true);
@@ -75,7 +75,7 @@ const CommunicationPreferencesEditComponent = (props: CommunicationPreferencesCo
                 CommonService.handleErrors(setErrors, error, true);
                 setSubmitting(false);
             });
-    }, [userBasicDetails,navigate]);
+    }, [userBasicDetails, navigate]);
 
     return (
         <div className={'communication-preferences-component'}>
@@ -92,6 +92,7 @@ const CommunicationPreferencesEditComponent = (props: CommunicationPreferencesCo
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
                             validateForm();
+                            console.log(values);
                         }, [validateForm, values]);
                         return (
                             <Form noValidate={true} className={"t-form"}>
@@ -108,8 +109,9 @@ const CommunicationPreferencesEditComponent = (props: CommunicationPreferencesCo
                                             {(field: FieldProps) => (
                                                 <FormikSelectComponent
                                                     options={communicationModeTypeList}
-                                                    displayWith={(item:any) => item.title}
-                                                    valueExtractor={(item:any) => item.code}
+                                                    displayWith={(item: any) => item.title}
+                                                    valueExtractor={(item: any) => item.code}
+                                                    keyExtractor={(item: any) => item._id}
                                                     required={true}
                                                     label={'Select'}
                                                     formikField={field}
