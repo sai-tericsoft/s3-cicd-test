@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getUserBasicDetails} from "../../../../store/actions/user.action";
-import {useParams, useSearchParams} from "react-router-dom";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {IRootReducerState} from "../../../../store/reducers";
 import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../../shared/components/status-card/StatusCardComponent";
@@ -138,6 +138,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
         const [currentTab, setCurrentTab] = useState<any>(userBasicDetails?.assigned_facility_details[0]?._id || '');
         const [searchParams, setSearchParams] = useSearchParams();
         const [facilityId, setFacilityId] = useState<any>("")
+        const navigate = useNavigate();
 
         useEffect(() => {
             if (userId) {
@@ -209,17 +210,17 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                         });
 
                         // Update day_scheduled_slots object
+                        if (!payload.day_scheduled_slots) {
+                            payload.day_scheduled_slots = {};
+                        }
+
                         if (!payload.day_scheduled_slots[dayId]) {
                             payload.day_scheduled_slots[dayId] = [];
                         }
                         payload.day_scheduled_slots[dayId].push(...slots);
                     });
-
-
+                    delete payload.scheduled_slots;
                 }
-
-                console.log(payload);
-                return;
 
                 setSubmitting(true);
 
@@ -228,6 +229,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                     .addUserSlots(userId, facilityId, payload)
                     .then((response) => {
                         setSubmitting(false);
+                        navigate(CommonService._routeConfig.UserList());
                         CommonService._alert.showToast(
                             response[Misc.API_RESPONSE_MESSAGE_KEY],
                             'success'
