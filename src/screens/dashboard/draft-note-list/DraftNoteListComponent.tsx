@@ -30,7 +30,7 @@ const DraftNoteListComponent = (props: DraftNoteListComponentProps) => {
             dataIndex: 'case_details',
             width:280,
             render: (item: any) => {
-                return <>   {CommonService.generateUseCaseFromCaseDetails(item?.case_details).length > 50 ?
+                return <>   {CommonService.generateUseCaseFromCaseDetails(item?.case_details)?.length > 50 ?
                     <ToolTipComponent
                         tooltip={item?.case_details && CommonService.generateUseCaseFromCaseDetails2(item?.case_details)}
                         position={"top"}
@@ -53,7 +53,7 @@ const DraftNoteListComponent = (props: DraftNoteListComponentProps) => {
             width:206,
             align:'center',
             render:(item:any)=>{
-                return <>{CommonService.convertDateFormat2(item?.intervention_date)}</>
+                return <>{CommonService.convertDateFormat2(item?.intervention_date) || "N/A"}</>
             }
         },
         {
@@ -63,7 +63,7 @@ const DraftNoteListComponent = (props: DraftNoteListComponentProps) => {
             align: 'center',
             width: 180,
             render:(item:any)=>{
-              return <div className={'provider-name'}>{item?.provider_details?.first_name} {item?.provider_details?.last_name}</div>
+              return <div className={'provider-name'}>{item?.provider_details?.first_name || 'N/A'} {item?.provider_details?.last_name}</div>
             }
         },
         {
@@ -88,8 +88,9 @@ const DraftNoteListComponent = (props: DraftNoteListComponentProps) => {
                     <TableWrapperComponent columns={draftNoteListColumn}
                                            fixedHeader={true}
                                            autoHeight={true}
+                                           noDataText={'No Draft Notes'}
                                            url={APIConfig.DASHBOARD_DRAFT_NOTE_LIST.URL}
-                                           isPaginated={false}
+                                           isPaginated={true}
                                            method={APIConfig.DASHBOARD_DRAFT_NOTE_LIST.METHOD}
                     />
                 </div>

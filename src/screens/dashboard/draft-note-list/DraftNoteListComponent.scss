@@ -1,15 +1,24 @@
-.draft-note-list-component{
-  .draft-note-list-wrapper{
-    height:calc(100vh - 331px);
-    overflow: scroll;
+.draft-note-list-component {
+  .card-component{
+    padding-bottom: 24px;
   }
-  .draft-note-heading{
+  .draft-note-list-wrapper {
+    .t-table-wrapper {
+      .t-table {
+        height: calc(100vh - 350px);
+        overflow: scroll;
+      }
+    }
+  }
+
+  .draft-note-heading {
     font-weight: 700;
     font-size: 1.1429rem;
     color: #212B36;
     margin-bottom: 24px;
   }
-  .provider-name{
+
+  .provider-name {
     text-transform: capitalize;
   }
 }

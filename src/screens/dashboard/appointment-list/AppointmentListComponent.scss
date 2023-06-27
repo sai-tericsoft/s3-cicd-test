@@ -2,6 +2,9 @@
   .appointment-list-wrapper{
     height:calc(100vh - 331px);
     overflow: scroll;
+    .t-table-wrapper .t-table .table-no-data-wrapper{
+      min-height: 380px !important;
+    }
   }
   .appointment-list-heading{
     font-weight: 700;
@@ -9,4 +12,5 @@
     color: #212B36;
     margin-bottom: 24px;
   }
+
 }
