@@ -466,7 +466,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                 }
                 <div className="scheduling-header-actions-wrapper">
                     <div className="scheduling-header-action-item">
-                        <ToggleButtonGroup value={viewMode} color={"primary"} size={'small'}>
+                        <ToggleButtonGroup className={'toggle-btn-group'} value={viewMode} color={"primary"} size={'small'}>
                             <ToggleButton value="calendar" onClick={setViewModeHandler.bind(null, 'calendar')}
                                           color={viewMode === 'calendar' ? 'primary' : 'standard'} type={'button'}
                                           aria-label="calender view">
@@ -514,7 +514,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                             </div>
                         </div>
                         <div className="scheduling-filter-header-actions-wrapper">
-                            <div className="ts-col-5 scheduling-filter-header-action-item">
+                            <div className="scheduling-filter-header-action-item">
                                 <SelectComponent size={'small'}
                                                  label={'Service Category'}
                                                  value={schedulingListFilterState?.category_id || ''}

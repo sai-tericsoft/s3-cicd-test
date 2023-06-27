@@ -92,13 +92,13 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                                                 <div className={'message-text'}>{systemSettings?.default_message}</div>
                                             </>
                                         }
-                                        {messageHistory?.map((message: any) => {
+                                        {messageHistory?.map((message: any,index:number) => {
                                             return (<>
                                                     <div className={'message-text'}>{message?.message}</div>
                                                     <div
                                                         className={'time-stamp'}>{CommonService.transformTimeStamp(message?.created_at)}</div>
-                                                    {messageHistory?.length > 1 &&
-                                                        <HorizontalLineComponent/>
+                                                    {(index!==messageHistory.length - 1) ?
+                                                        <HorizontalLineComponent/> : <div className={'mrg-bottom-10'}/>
                                                     }
                                                 </>
                                             )
