@@ -224,7 +224,7 @@ const Navigator = (props: NavigatorProps) => {
         <>
             <Routes>
                 <Route element={<AppLayout/>}>
-                    {currentUser?.is_new_user === true ? <Route
+                    {currentUser?.is_new_user !== true ? <Route
                         index
                         element={
                             <Navigate to={CLIENT_LIST}/>
