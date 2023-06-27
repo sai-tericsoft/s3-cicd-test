@@ -51,6 +51,7 @@ import {debounceTime, fromEvent} from "rxjs";
 import SystemLockComponent from "./shared/components/system-lock/SystemLockComponent";
 import {getSystemSettings} from "./store/actions/settings.action";
 import {getAppointmentSettings} from "./store/actions/appointment.action";
+import {getAllServiceListLite} from "./store/actions/service.action";
 
 interface AppProps {
     setCurrentUser?: any;
@@ -163,6 +164,7 @@ const App = (props: AppProps) => {
             dispatch(getValidDaysList());
             dispatch(getFacilityListLite());
             dispatch(getRoleList());
+            dispatch(getAllServiceListLite());
         }
     }, [token, dispatch])
 

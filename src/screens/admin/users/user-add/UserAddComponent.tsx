@@ -65,7 +65,7 @@ const UserAddComponent = (props: UserAddComponentProps) => {
             .then((response: any) => {
                 setSubmitting(false);
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                navigate(CommonService._routeConfig.UserSlots(response.data._id));
+                navigate(CommonService._routeConfig.UserSlots(response.data._id) + '?currentStepId=' + response.data.assigned_facility_details[0]?._id);
             }).catch((error: any) => {
             setSubmitting(false);
             CommonService.handleErrors(setErrors, error, true);

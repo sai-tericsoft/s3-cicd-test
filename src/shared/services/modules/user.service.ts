@@ -49,6 +49,12 @@ const userEdit = (userId: string, payload: any) => {
     return ApiService[APIConfig.USER_EDIT.METHOD](APIConfig.USER_EDIT.URL(userId), payload);
 }
 
+const addUserSlots = (userId: string, facilityId: string, payload: any) => {
+    return ApiService[APIConfig.ADD_USER_SLOTS.METHOD](APIConfig.ADD_USER_SLOTS.URL(userId,facilityId), payload);
+}
+
+
+
 const UserService = {
     getUserList,
     getUserListLite,
@@ -60,6 +66,7 @@ const UserService = {
     userEdit,
     NavigateToSettingEdit,
     NavigateToAccountDetailsEdit,
+    addUserSlots
 }
 
 export default UserService;
