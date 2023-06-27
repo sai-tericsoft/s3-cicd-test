@@ -169,10 +169,10 @@ import MedicalInterventionSpecialTestsV2Screen
     from "../screens/chart-notes/medical-intervention-special-tests-v2/MedicalInterventionSpecialTestsV2Screen";
 import ClientsMainLayoutComponent from "../screens/clients/clients-main-layout/ClientsMainLayoutComponent";
 import UserListComponent from "../screens/admin/users/user-list/UserListComponent";
-import UserAddComponent from "../screens/admin/users/user-add/UserAddComponent";
 import UserDetailsLayoutComponent from "../screens/settings/user-details-layout/UserDetailsLayoutComponent";
 import UserBasicDetailsComponent from "../screens/settings/user-basic-details/UserBasicDetailsComponent";
 import UserBasicDetailsEditComponent from "../screens/settings/user-basic-details-edit/UserBasicDetailsEditComponent";
+import UserAddComponent from "../screens/admin/users/user-add/UserAddComponent";
 import UserSlotsComponent from "../screens/admin/users/user-slots/UserSlotsComponent";
 import UserAccountDetailsComponent from "../screens/settings/user-account-details/UserAccountDetailsComponent";
 import CommunicationPreferencesEditComponent
@@ -224,16 +224,24 @@ export interface NavigatorProps {
 }
 
 const Navigator = (props: NavigatorProps) => {
+    const {currentUser}: any = useSelector((state: IRootReducerState) => state.account);
+
     return (
         <>
             <Routes>
                 <Route element={<AppLayout/>}>
-                    <Route
+                    {currentUser?.is_new_user !== true ? <Route
                         index
                         element={
                             <Navigate to={CLIENT_LIST}/>
                         }
-                    />
+                    /> : <Route index
+                                element={
+                                    <Navigate
+                                        to={PERSONAL_DETAILS_EDIT + '/' + currentUser?._id + '?currentStep=personal_details'}/>
+                                }
+                    />}
+
                     <Route path={DASHBOARD} element={<DashboardLayoutComponent/>}{...props}>
 
                         <Route
@@ -245,7 +253,6 @@ const Navigator = (props: NavigatorProps) => {
                             }
                         />
                     </Route>
-
 
                     <Route
                         path={CLIENT}

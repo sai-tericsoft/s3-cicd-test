@@ -614,6 +614,23 @@ const getHoursAndMinutesFromMinutes = (minutes: number) => {
     return moment().startOf('day').add(minutes, 'minutes').format('h:mm A');
 }
 
+const areArraysEqual = (arr1: any[], arr2: any[]) => {
+    // Check if arrays have the same length
+    if (arr1.length !== arr2.length) {
+        return false;
+    }
+
+    // Check if all elements in the same index are equal
+    for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) {
+            return false;
+        }
+    }
+
+    // Arrays are equal
+    return true;
+}
+
 const CommonService = {
     LightenDarkenColor,
     getContrastYIQ,
@@ -668,6 +685,7 @@ const CommonService = {
     convertNumberToTime,
     getHoursAndMinutesFromMinutes,
     validateDecimal,
+    areArraysEqual,
     // createValidationsObject,
     // createYupSchema,
 

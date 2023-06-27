@@ -18,6 +18,9 @@ import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import _ from "lodash";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {setUserBasicDetails} from "../../../store/actions/user.action";
+import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
+import ErrorComponent from "../../../shared/components/error/ErrorComponent";
+import SignaturePadComponent from "../../../shared/components/signature-pad/SignaturePadComponent";
 
 interface UserPersonalDetailsEditComponentProps {
     handleNext: () => void
@@ -34,6 +37,7 @@ const formValidationSchema = Yup.object({
     gender: Yup.string().required('Gender is required'),
     // npi_number: Yup.string().required('NPI number is required'),
     assigned_facilities: Yup.array().required('Gender is required'),
+    signature: Yup.string().required()
 });
 
 const formInitialValues: any = {
@@ -46,7 +50,9 @@ const formInitialValues: any = {
     npi_number: "",
     role: "",
     assigned_facilities: [],
-    license_number: ""
+    license_number: "",
+    signature: ""
+
 }
 
 const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponentProps) => {
@@ -75,6 +81,7 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                 ssn: userBasicDetails?.ssn,
                 npi_number: userBasicDetails?.npi_number,
                 role: userBasicDetails?.role,
+                signature: userBasicDetails?.signature,
                 assigned_facilities: userBasicDetails?.assigned_facility_details,
             }
             setInitialValues(personal_details)
@@ -83,7 +90,19 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
 
     const onSubmit = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
         setSubmitting(true);
-        CommonService._user.userEdit(userBasicDetails._id, values)
+        const payload = {...values}
+        if (payload.signature === initialValues.signature) {
+            delete payload.signature
+        }
+        if (payload?.assigned_facilities?.length) {
+            payload.assigned_facilities = payload.assigned_facilities.map((item: any) => item._id);
+            const facilityIdsArray = initialValues.assigned_facilities.map((item: any) => item._id);
+            if (CommonService.areArraysEqual(facilityIdsArray, payload.assigned_facilities)) {
+                delete payload.assigned_facilities
+            }
+        }
+
+        CommonService._user.userEdit(userBasicDetails._id, payload)
             .then((response: IAPIResponseType<any>) => {
                 // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setSubmitting(false);
@@ -93,7 +112,7 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
             console.log('errors', error);
             setSubmitting(false);
         })
-    }, [userBasicDetails,dispatch]);
+    }, [userBasicDetails, dispatch, initialValues]);
 
     return (
         <div className={'user-personal-details-edit-component'}>
@@ -286,6 +305,26 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                         </Field>
                                     </div>
                                 </div>
+
+                                <div className="ts-row">
+                                    <div className="ts-col-12">
+                                        <FormControlLabelComponent
+                                            className={"font-weight-thin"}
+                                            label={"Signature"}
+                                            required={true}/>
+                                        <SignaturePadComponent
+                                            image={values?.signature}
+                                            onSign={(signImage) => {
+                                                setFieldValue('signature', signImage);
+                                            }}/>
+                                    </div>
+                                    {
+                                        (_.get(touched, "signature") && !!(_.get(errors, "signature"))) &&
+                                        <ErrorComponent
+                                            errorText={(_.get(errors, "signature"))}/>
+                                    }
+                                </div>
+
                                 <div className="t-form-actions">
                                     <ButtonComponent
                                         id={"save_btn"}
