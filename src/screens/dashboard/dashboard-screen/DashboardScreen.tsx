@@ -56,8 +56,9 @@ const DashboardScreen = (props: DashboardScreenProps) => {
             <div className={'current-user-name'}>
                 Welcome {currentUser?.first_name} {currentUser?.last_name}!
             </div>
-                <div className={'today-date'}>
-                    Today's Date: {moment().format('DD-MM-YYYY')}
+                <div className={'today-date-wrapper'}>
+                   <span> Today's Date: </span>
+                    <span className={'date'}>{moment().format('DD-MM-YYYY')}</span>
                 </div>
             </div>
             <TabsWrapperComponent className={'basic-tabs-wrapper'}>

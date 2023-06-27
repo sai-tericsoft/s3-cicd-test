@@ -10,7 +10,7 @@
   }
 
   .message-history-board {
-    height: 640px;
+    height: calc(100vh - 150px);
     border: 1px solid #CECECE;
     border-radius: 10px;
     margin-top: 10px;
@@ -27,8 +27,8 @@
     }
 
     .history-message-wrapper {
-
       position: relative;
+
       .card-content {
         background: #FFFFFF;
         border: 1px solid #DFDFDF;
@@ -39,10 +39,10 @@
         height: 78px;
         //left: 180px;
         z-index: 2;
-
       }
-      .copy-horizontal-icon{
-      margin-left: 8px;
+
+      .copy-horizontal-icon {
+        margin-left: 8px;
       }
 
       display: flex;
@@ -65,5 +65,17 @@
     }
   }
 
+  .no-message-text-wrapper {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: calc(100vh - 500px);
+    color: #8B8E90;
+
+  }
 
 }

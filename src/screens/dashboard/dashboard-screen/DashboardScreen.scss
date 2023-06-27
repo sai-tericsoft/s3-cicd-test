@@ -12,11 +12,14 @@
       line-height: 28px;
       text-transform: capitalize;
     }
-    .today-date{
+    .today-date-wrapper{
       font-weight: 500;
       font-size: 16px;
       line-height: 21px;
       color: #00534F;
+      .date{
+        font-weight: 600;
+      }
     }
   }
 
