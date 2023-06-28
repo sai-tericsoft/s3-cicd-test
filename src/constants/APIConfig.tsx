@@ -878,6 +878,10 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + "/facility/lite",
         METHOD: "get"
     },
+    USER_PASSWORD_EDIT:{
+        URL:ENV.API_URL + "/changePassword",
+        METHOD:"post"
+    },
     ADD_USER_SLOTS: {
         URL: (userId: any, facilityId: any) => ENV.API_URL + '/user/' + userId + '/facility/' + facilityId + '/globalSlots',
         METHOD: "post"

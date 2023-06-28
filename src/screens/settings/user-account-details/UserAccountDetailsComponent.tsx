@@ -26,8 +26,7 @@ const UserAccountDetailsComponent = (props: UserAccountDetailsComponentProps) =>
         isUserBasicDetailsLoadingFailed,
         userBasicDetails,
     } = useSelector((state: IRootReducerState) => state.user);
-    
-    console.log('userBasicDetails',userBasicDetails);
+
 
 
     return (
@@ -45,7 +44,7 @@ const UserAccountDetailsComponent = (props: UserAccountDetailsComponentProps) =>
                 {
                     (isUserBasicDetailsLoaded && userBasicDetails) && <>
                         <CardComponent title={'Password'} actions={<LinkComponent
-                            route={''}>
+                            route={path === '/settings/account-details'? CommonService._user.NavigateToPasswordEdit(userBasicDetails._id ,"reset_password"):CommonService._routeConfig.UserAccountDetails() }>
                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                 Edit
                             </ButtonComponent>
@@ -56,7 +55,8 @@ const UserAccountDetailsComponent = (props: UserAccountDetailsComponentProps) =>
 
                         </CardComponent>
                         <CardComponent title={'Communication Preferences'} actions={<LinkComponent
-                            route={path === '/settings/account-details' ? CommonService._user.NavigateToAccountDetailsEdit(userBasicDetails._id, "communication_preferences") : '' }>
+                            route={path === '/settings/account-details' ? CommonService._user.NavigateToAccountDetailsEdit(userBasicDetails._id, "communication_preferences") : CommonService._routeConfig.UserAccountDetails() }>
+
                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                 Edit
                             </ButtonComponent>
