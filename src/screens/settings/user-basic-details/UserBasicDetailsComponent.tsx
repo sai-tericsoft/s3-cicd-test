@@ -215,7 +215,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                     <div className={'ts-row'}>
                                         <div className={'ts-col-6'}>
                                             <DataLabelValueComponent label={'Phone Type'}>
-                                                {userBasicDetails?.primary_contact_info?.phone_type_details?.title || "N/A"}
+                                                {userBasicDetails?.primary_contact_info?.phone_type || "N/A"}
                                             </DataLabelValueComponent>
                                         </div>
                                         <div className={'ts-col-4'}>
@@ -351,7 +351,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                     <div className={'ts-row'}>
                                         <div className={'ts-col-6'}>
                                             <DataLabelValueComponent label={'Phone Type'}>
-                                                {userBasicDetails?.emergency_contact_info?.primary_emergency?.primary_contact_info?.phone_type_details?.title || 'N/A'}
+                                                {userBasicDetails?.emergency_contact_info?.primary_emergency?.primary_contact_info?.phone_type|| 'N/A'}
                                             </DataLabelValueComponent>
                                         </div>
                                         <div className={'ts-col-6'}>

@@ -103,7 +103,7 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
                                                     <>
                                                         <div className="d-flex ts-align-items-center mrg-bottom-24">
                                                             <FormControlLabelComponent
-                                                                label={`Experience ${index + 1}:`}/>
+                                                                label={`Education ${index + 1}:`}/>
                                                             {values?.education_details.length > 1 &&
                                                             <ButtonComponent className={'remove-contact-button'}
                                                                              prefixIcon={<ImageConfig.CloseIcon/>}
@@ -120,8 +120,8 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
                                                                     {
                                                                         (field: FieldProps) => (
                                                                             <FormikInputComponent
-                                                                                label={'Company Name'}
-                                                                                placeholder={'Enter Company Name'}
+                                                                                label={'Institution Name'}
+                                                                                placeholder={'Enter Institution Name'}
                                                                                 type={"text"}
                                                                                 titleCase={true}
                                                                                 formikField={field}
@@ -137,8 +137,8 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
                                                                     {
                                                                         (field: FieldProps) => (
                                                                             <FormikInputComponent
-                                                                                label={'Company Location'}
-                                                                                placeholder={'Enter Company Location'}
+                                                                                label={'Institution Location'}
+                                                                                placeholder={'Enter Institution Location'}
                                                                                 type={"text"}
                                                                                 titleCase={true}
                                                                                 formikField={field}
@@ -155,8 +155,8 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
                                                                     {
                                                                         (field: FieldProps) => (
                                                                             <FormikInputComponent
-                                                                                label={'Position Title'}
-                                                                                placeholder={'Enter Position Title'}
+                                                                                label={'Degree Title'}
+                                                                                placeholder={'Enter Degree Title'}
                                                                                 type={"text"}
                                                                                 titleCase={true}
                                                                                 formikField={field}
@@ -207,9 +207,9 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
                                                                 className={'add-another-contact-cta'}
                                                                 onClick={() => {
                                                                     arrayHelpers.push({
-                                                                        company_name: "",
-                                                                        company_location: "",
-                                                                        position: "",
+                                                                        institution_name: "",
+                                                                        institution_location: "",
+                                                                        degree: "",
                                                                         start_date: "",
                                                                         end_date: ""
                                                                     });
