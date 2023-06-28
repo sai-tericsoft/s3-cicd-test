@@ -229,7 +229,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                     .addUserSlots(userId, facilityId, payload)
                     .then((response) => {
                         setSubmitting(false);
-                        navigate(CommonService._routeConfig.UserList());
+                        // navigate(CommonService._routeConfig.UserList());
                         CommonService._alert.showToast(
                             response[Misc.API_RESPONSE_MESSAGE_KEY],
                             'success'
