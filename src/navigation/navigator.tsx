@@ -27,6 +27,7 @@ import ClientSearchScreen from "../screens/chart-notes/client-search/ClientSearc
 import AddMedicalRecordScreen from "../screens/chart-notes/add-medical-record/AddMedicalRecordScreen";
 import {
     ACCOUNT_DETAILS,
+    ACCOUNT_DETAILS_EDIT,
     ADD_INVENTORY_PRODUCT,
     ADD_MEDICAL_RECORD,
     ADD_NEW_RECEIPT,
@@ -93,9 +94,11 @@ import {
     SETTINGS,
     SYSTEM_SETTINGS,
     TEST_ROUTE,
-    UPDATE_MEDICAL_INTERVENTION, USER_ACCOUNT_DETAILS_EDIT,
+    UPDATE_MEDICAL_INTERVENTION,
+    USER_ACCOUNT_DETAILS,
+    USER_ACCOUNT_DETAILS_EDIT,
     USER_ADD,
-    USER_LIST, USER_PASSWORD_EDIT,
+    USER_LIST,
     USER_PERSONAL_DETAILS,
     USER_PERSONAL_DETAILS_EDIT,
     USER_SLOTS,
@@ -175,10 +178,8 @@ import UserBasicDetailsEditComponent from "../screens/settings/user-basic-detail
 import UserAddComponent from "../screens/admin/users/user-add/UserAddComponent";
 import UserSlotsComponent from "../screens/admin/users/user-slots/UserSlotsComponent";
 import UserAccountDetailsComponent from "../screens/settings/user-account-details/UserAccountDetailsComponent";
-import CommunicationPreferencesEditComponent
-    from "../screens/settings/communication-preferences-edit/CommunicationPreferencesEditComponent";
-import UserPasswordChangeEditComponent
-    from "../screens/settings/user-password-change-edit/UserPasswordChangeEditComponent";
+import UserAccountDetailsEditComponent
+    from "../screens/settings/user-account-details-edit/UserAccountDetailsEditComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -546,6 +547,7 @@ const Navigator = (props: NavigatorProps) => {
                                 </ProtectedRoute>
                             }
                         />
+
                         <Route path={ACCOUNT_DETAILS} element={
                             <ProtectedRoute>
                                 <UserAccountDetailsComponent/>
@@ -563,18 +565,10 @@ const Navigator = (props: NavigatorProps) => {
                         }
                     />
                     <Route
-                        path={USER_ACCOUNT_DETAILS_EDIT + '/:userId'}
+                        path={ACCOUNT_DETAILS_EDIT + '/:userId'}
                         element={
                             <ProtectedRoute>
-                                <CommunicationPreferencesEditComponent/>
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route
-                        path={USER_PASSWORD_EDIT + '/:userId'}
-                        element={
-                            <ProtectedRoute>
-                                <UserPasswordChangeEditComponent/>
+                                <UserAccountDetailsEditComponent/>
                             </ProtectedRoute>
                         }
                     />
@@ -604,6 +598,15 @@ const Navigator = (props: NavigatorProps) => {
                                 </ProtectedRoute>
                             }
                         />
+
+                        <Route
+                            path={USER_ACCOUNT_DETAILS}
+                            element={
+                                <ProtectedRoute>
+                                    <UserAccountDetailsComponent/>
+                                </ProtectedRoute>
+                            }
+                        />
                     </Route>
 
                     <Route
@@ -614,6 +617,16 @@ const Navigator = (props: NavigatorProps) => {
                             </ProtectedRoute>
                         }
                     />
+
+                    <Route
+                        path={USER_ACCOUNT_DETAILS_EDIT + '/:userId'}
+                        element={
+                            <ProtectedRoute>
+                                <UserAccountDetailsEditComponent/>
+                            </ProtectedRoute>
+                        }
+                    />
+
 
                     <Route
                         path={COUPON_ADD}

@@ -83,13 +83,13 @@ const SETTINGS = "/settings";
 const PERSONAL_DETAILS = "/settings/personal-details";
 const PERSONAL_DETAILS_EDIT = "/settings/details-edit";
 const ACCOUNT_DETAILS = "/settings/account-details";
+const ACCOUNT_DETAILS_EDIT = "/settings/account-details-edit";
 
 
 const USER_PERSONAL_DETAILS = "/admin/user-details"
 const USER_PERSONAL_DETAILS_EDIT = "/admin/user-edit";
-
+const USER_ACCOUNT_DETAILS = "/admin/account-details";
 const USER_ACCOUNT_DETAILS_EDIT = "/admin/account-details-edit";
-const USER_PASSWORD_EDIT = "/admin/password-edit";
 
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
@@ -171,6 +171,7 @@ export {
     USER_SLOTS,
     ACCOUNT_DETAILS,
     USER_ACCOUNT_DETAILS_EDIT,
-    USER_PASSWORD_EDIT
+    USER_ACCOUNT_DETAILS,
+    ACCOUNT_DETAILS_EDIT
 
 };

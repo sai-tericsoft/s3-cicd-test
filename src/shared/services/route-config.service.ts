@@ -1,4 +1,5 @@
 import {
+    ACCOUNT_DETAILS,
     ADMIN,
     CHART_NOTES_LIST,
     CLIENT_ADD,
@@ -23,6 +24,7 @@ import {
     SERVICE_EDIT,
     SETTINGS,
     TEST_ROUTE,
+    USER_ACCOUNT_DETAILS,
     USER_ADD,
     USER_LIST,
     USER_PERSONAL_DETAILS,
@@ -301,7 +303,11 @@ const UserPersonalDetails = () => {
 }
 
 const UserAccountDetails = () => {
-    return '/settings/account-details'
+    return USER_ACCOUNT_DETAILS;
+}
+
+const PersonalAccountDetails = () => {
+    return ACCOUNT_DETAILS
 }
 
 const UserPersonalDetailsEdit = (userId: string) => {
@@ -312,8 +318,8 @@ const UserAccountDetailsEdit = (userId: string) => {
     return '/admin/account-details-edit/' + userId;
 }
 
-const UserPasswordEdit = (userId: string) => {
-    return '/admin/password-edit/' + userId;
+const PersonalAccountDetailsEdit = (userId: string) => {
+    return '/settings/account-details-edit/' + userId;
 }
 
 const RouteConfigService = {
@@ -388,7 +394,8 @@ const RouteConfigService = {
     UserSlots,
     UserAccountDetails,
     UserAccountDetailsEdit,
-    UserPasswordEdit
+    PersonalAccountDetails,
+    PersonalAccountDetailsEdit
 
 }
 

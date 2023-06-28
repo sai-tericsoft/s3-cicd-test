@@ -35,7 +35,7 @@ const UserDetailsLayoutComponent = (props: UserDetailsLayoutComponentProps) => {
         },
         {
             title: "Account Details",
-            path:  CommonService._routeConfig.UserAccountDetails()
+            path: (userId && path.includes('admin')) ? CommonService._routeConfig.UserAccountDetails() + '?userId=' + userId : CommonService._routeConfig.PersonalAccountDetails()
         }
     ];
 

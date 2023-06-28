@@ -3,14 +3,15 @@ import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {CommonService} from "../../../shared/services";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
-import React from "react";
+import React, {useEffect} from "react";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
+import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 
 interface UserAccountDetailsComponentProps {
 
@@ -20,6 +21,9 @@ const UserAccountDetailsComponent = (props: UserAccountDetailsComponentProps) =>
 
     const location: any = useLocation();
     const path = location.pathname;
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const {
         isUserBasicDetailsLoaded,
         isUserBasicDetailsLoading,
@@ -27,7 +31,13 @@ const UserAccountDetailsComponent = (props: UserAccountDetailsComponentProps) =>
         userBasicDetails,
     } = useSelector((state: IRootReducerState) => state.user);
 
-
+    useEffect(() => {
+        if (path.includes('admin')) {
+            dispatch(setCurrentNavParams('User List', null, () => {
+                navigate(CommonService._routeConfig.UserList());
+            }));
+        }
+    }, [dispatch, userBasicDetails, navigate, path]);
 
     return (
         <div className={'user-account-details-component'}>
@@ -44,7 +54,7 @@ const UserAccountDetailsComponent = (props: UserAccountDetailsComponentProps) =>
                 {
                     (isUserBasicDetailsLoaded && userBasicDetails) && <>
                         <CardComponent title={'Password'} actions={<LinkComponent
-                            route={path === '/settings/account-details'? CommonService._user.NavigateToPasswordEdit(userBasicDetails._id ,"reset_password"):CommonService._routeConfig.UserAccountDetails() }>
+                            route={path === '/settings/account-details' ? CommonService._user.NavigateToSettingsAccountDetailsEdit(userBasicDetails._id, "reset_password") : CommonService._user.NavigateToUserAccountDetailsEdit(userBasicDetails._id, "reset_password")}>
                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                 Edit
                             </ButtonComponent>
@@ -55,7 +65,7 @@ const UserAccountDetailsComponent = (props: UserAccountDetailsComponentProps) =>
 
                         </CardComponent>
                         <CardComponent title={'Communication Preferences'} actions={<LinkComponent
-                            route={path === '/settings/account-details' ? CommonService._user.NavigateToAccountDetailsEdit(userBasicDetails._id, "communication_preferences") : CommonService._routeConfig.UserAccountDetails() }>
+                            route={path === '/settings/account-details' ? CommonService._user.NavigateToSettingsAccountDetailsEdit(userBasicDetails._id, "communication_preferences") : CommonService._user.NavigateToUserAccountDetailsEdit(userBasicDetails._id, "communication_preferences")}>
 
                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                 Edit

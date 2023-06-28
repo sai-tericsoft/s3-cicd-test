@@ -11,7 +11,7 @@ import FormikSelectComponent from "../../../shared/components/form-controls/form
 import QuestionComponent from "../../../shared/components/question/QuestionComponent";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface CommunicationPreferencesComponentProps {
@@ -26,11 +26,12 @@ const formInitialValues: any = {
 ;
 
 
-
 const CommunicationPreferencesEditComponent = (props: CommunicationPreferencesComponentProps) => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location: any = useLocation();
+    const path = location.pathname;
 
     const [initialValues, setInitialValues] = useState<any>(_.cloneDeep(formInitialValues));
 
@@ -59,7 +60,6 @@ const CommunicationPreferencesEditComponent = (props: CommunicationPreferencesCo
     }, [userBasicDetails]);
 
 
-
     const onSubmit = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
         setSubmitting(true);
 
@@ -71,7 +71,11 @@ const CommunicationPreferencesEditComponent = (props: CommunicationPreferencesCo
         CommonService._user.userEdit(userBasicDetails._id, payload)
             .then((response: IAPIResponseType<any>) => {
                 setSubmitting(false);
-                navigate(CommonService._routeConfig.UserAccountDetails());
+                if (path.includes('admin')) {
+                    navigate(CommonService._routeConfig.UserAccountDetails());
+                } else {
+                    navigate(CommonService._routeConfig.PersonalAccountDetails());
+                }
             })
             .catch((error: any) => {
                 CommonService.handleErrors(setErrors, error, true);

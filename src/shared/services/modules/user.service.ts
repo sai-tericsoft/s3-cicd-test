@@ -41,13 +41,12 @@ const NavigateToSettingEdit = (userId: string, step: any) => {
     return RouteConfigService.PersonalDetailsEdit(userId) + "?currentStep=" + step;
 }
 
-const NavigateToAccountDetailsEdit = (userId: string, step: any) => {
-    return RouteConfigService.UserAccountDetailsEdit(userId) + "?currentStep=" + step;
+const NavigateToSettingsAccountDetailsEdit = (userId: string, step: any) => {
+    return RouteConfigService.PersonalAccountDetailsEdit(userId) + "?currentStep=" + step;
 }
 
-const NavigateToPasswordEdit = (userId: string, step: any) => {
-    return RouteConfigService.UserPasswordEdit(userId) + "?currentStep=" + step;
-
+const NavigateToUserAccountDetailsEdit = (userId: string, step: any) => {
+    return RouteConfigService.UserAccountDetailsEdit(userId) + "?currentStep=" + step;
 }
 
 const userEdit = (userId: string, payload: any) => {
@@ -74,8 +73,8 @@ const UserService = {
     NavigateToUserEdit,
     userEdit,
     NavigateToSettingEdit,
-    NavigateToAccountDetailsEdit,
-    NavigateToPasswordEdit,
+    NavigateToSettingsAccountDetailsEdit,
+    NavigateToUserAccountDetailsEdit,
     userPasswordEdit,
     addUserSlots
 }

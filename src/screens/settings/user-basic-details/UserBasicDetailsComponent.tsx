@@ -43,7 +43,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                 navigate(CommonService._routeConfig.UserList());
             }));
         }
-    }, [dispatch, userBasicDetails, navigate,path]);
+    }, [dispatch, userBasicDetails, navigate, path]);
 
     return (
         <div className={'user-basic-details-component'}>

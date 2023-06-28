@@ -1,10 +1,8 @@
 import "./UserPasswordChangeEditComponent.scss";
 import React, {useCallback, useEffect, useState} from "react";
 import CardComponent from "../../../shared/components/card/CardComponent";
-import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {CommonService} from "../../../shared/services";
-import {useDispatch} from "react-redux";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
@@ -35,24 +33,23 @@ const validationSchema = Yup.object().shape({
 
 
 const UserPasswordChangeEditComponent = (props: UserPasswordChangeEditComponentProps) => {
-
-    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location: any = useLocation();
+    const path = location.pathname;
 
     const [initialValues] = useState<any>(_.cloneDeep(formInitialValues));
 
-    useEffect(() => {
-        dispatch(setCurrentNavParams('Back', null, () => {
-            navigate(CommonService._routeConfig.UserAccountDetails());
-        }));
-    }, [navigate, dispatch]);
 
     const onSubmit = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
         setSubmitting(true)
         CommonService._user.userPasswordEdit({...values})
             .then((response: IAPIResponseType<any>) => {
                 setSubmitting(false);
-                navigate(CommonService._routeConfig.UserAccountDetails());
+                if (path.includes('admin')) {
+                    navigate(CommonService._routeConfig.UserAccountDetails());
+                } else {
+                    navigate(CommonService._routeConfig.PersonalAccountDetails());
+                }
             })
             .catch((error: any) => {
                 CommonService.handleErrors(setErrors, error, true);
@@ -131,8 +128,10 @@ const UserPasswordChangeEditComponent = (props: UserPasswordChangeEditComponentP
                                     <div className={'ts-col-6 password-validation-wrapper'}>
                                         <div>
                                             <div className={'password-header'}>Choose a Password</div>
-                                            <div className={'password-message-text'}>To create a new password, you have to meet all the following requirements:</div>
-                                        <PasswordValidationComponent password={values.new_password}/>
+                                            <div className={'password-message-text'}>To create a new password, you have
+                                                to meet all the following requirements:
+                                            </div>
+                                            <PasswordValidationComponent password={values.new_password}/>
                                         </div>
                                     </div>
                                 </div>
