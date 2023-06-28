@@ -157,7 +157,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
             setSearchParams(searchParams);
             setCurrentTab(value);
             setFacilityId(value);
-        }, []);
+        }, [searchParams, setSearchParams]);
 
         const onSlotAdd = useCallback(
             (values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
@@ -240,7 +240,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                         CommonService.handleErrors(setErrors, error, true);
                     });
             },
-            []
+            [facilityId, navigate, userId]
         );
 
         return (

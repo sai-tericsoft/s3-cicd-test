@@ -1,5 +1,5 @@
 import "./UserDetailsLayoutComponent.scss";
-import {Outlet, useLocation, useParams, useSearchParams} from "react-router-dom";
+import {Outlet, useLocation, useSearchParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {CommonService} from "../../../shared/services";
 import {IRootReducerState} from "../../../store/reducers";
