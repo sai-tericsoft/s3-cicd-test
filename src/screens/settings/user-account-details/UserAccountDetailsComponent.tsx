@@ -6,8 +6,6 @@ import {ImageConfig} from "../../../constants";
 import React, {useEffect} from "react";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
-import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {useLocation, useNavigate} from "react-router-dom";
@@ -26,8 +24,6 @@ const UserAccountDetailsComponent = (props: UserAccountDetailsComponentProps) =>
 
     const {
         isUserBasicDetailsLoaded,
-        isUserBasicDetailsLoading,
-        isUserBasicDetailsLoadingFailed,
         userBasicDetails,
     } = useSelector((state: IRootReducerState) => state.user);
 
@@ -42,15 +38,15 @@ const UserAccountDetailsComponent = (props: UserAccountDetailsComponentProps) =>
     return (
         <div className={'user-account-details-component'}>
             <div>
-                {
-                    isUserBasicDetailsLoading && <div>
-                        <LoaderComponent/>
-                    </div>
-                }
-                {
-                    isUserBasicDetailsLoadingFailed &&
-                    <StatusCardComponent title={"Failed to fetch client Details"}/>
-                }
+                {/*{*/}
+                {/*    isUserBasicDetailsLoading && <div>*/}
+                {/*        <LoaderComponent/>*/}
+                {/*    </div>*/}
+                {/*}*/}
+                {/*{*/}
+                {/*    isUserBasicDetailsLoadingFailed &&*/}
+                {/*    <StatusCardComponent title={"Failed to fetch client Details"}/>*/}
+                {/*}*/}
                 {
                     (isUserBasicDetailsLoaded && userBasicDetails) && <>
                         <CardComponent title={'Password'} actions={<LinkComponent

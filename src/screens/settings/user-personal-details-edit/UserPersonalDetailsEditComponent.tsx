@@ -82,6 +82,7 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                 npi_number: userBasicDetails?.npi_number,
                 role: userBasicDetails?.role,
                 signature: userBasicDetails?.signature,
+                license_number: userBasicDetails?.license_number,
                 assigned_facilities: userBasicDetails?.assigned_facility_details,
             }
             setInitialValues(personal_details)

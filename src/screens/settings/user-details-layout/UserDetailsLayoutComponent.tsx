@@ -28,22 +28,6 @@ const UserDetailsLayoutComponent = (props: UserDetailsLayoutComponentProps) => {
     const path = location.pathname;
     const navigate = useNavigate();
 
-    const USER_MENU_ITEMS = [
-        {
-            title: "Personal Details",
-            path: (userId && path.includes('admin')) ? CommonService._routeConfig.UserPersonalDetails() + '?userId=' + userId : CommonService._routeConfig.PersonalDetails()
-        },
-        // {
-        //     title: "Available Hours & Service",
-        //     path: (userId && path.includes('admin')) ? CommonService._routeConfig.UserSlotsDetails() + '?userId=' + userId : CommonService._routeConfig.PersonalSlotsDetails()
-        // },
-        {
-            title: "Account Details",
-            path: (userId && path.includes('admin')) ? CommonService._routeConfig.UserAccountDetails() + '?userId=' + userId : CommonService._routeConfig.PersonalAccountDetails()
-        }
-    ];
-
-    const title = (location.state && location.state.title) ? location.state.title : USER_MENU_ITEMS[0].title;
     const {
         isUserBasicDetailsLoaded,
         isUserBasicDetailsLoading,
@@ -51,18 +35,36 @@ const UserDetailsLayoutComponent = (props: UserDetailsLayoutComponentProps) => {
         userBasicDetails,
     } = useSelector((state: IRootReducerState) => state.user);
 
+
+    const USER_MENU_ITEMS = [
+        {
+            title: "Personal Details",
+            path: (userId && path.includes('admin')) ? CommonService._routeConfig.UserPersonalDetails() + '?userId=' + userId : CommonService._routeConfig.PersonalDetails()
+        },
+        {
+            title: "Available Hours & Service",
+            path: (userId && path.includes('admin')) ? CommonService._routeConfig.UserSlotsDetails() + '?currentStepId=' + userBasicDetails?.assigned_facility_details[0]?._id : CommonService._routeConfig.PersonalSlotsDetails() + '?currentStepId=' + userBasicDetails?.assigned_facility_details[0]?._id
+        },
+        {
+            title: "Account Details",
+            path: (userId && path.includes('admin')) ? CommonService._routeConfig.UserAccountDetails() : CommonService._routeConfig.PersonalAccountDetails()
+        }
+    ];
+
+    const title = (location.state && location.state.title) ? location.state.title : USER_MENU_ITEMS[0].title;
+
     const [isUserActive, setIsUserActive] = useState(userBasicDetails?.is_active)
 
     useEffect(() => {
         const userId: any = searchParams.get("userId");
         if (userId) {
             setUserId(userId);
+            console.log('calling admin')
             dispatch(getUserBasicDetails(userId));
             dispatch(setCurrentNavParams('Admin'))
         } else {
             dispatch(getUserBasicDetails(currentUser?._id));
             dispatch(setCurrentNavParams('Settings'))
-            // setUserId(currentUser._id);
         }
     }, [searchParams, dispatch, currentUser]);
 
@@ -91,7 +93,7 @@ const UserDetailsLayoutComponent = (props: UserDetailsLayoutComponentProps) => {
                 CommonService._alert.showToast(error.error || "Error deleting provider", "error");
             })
         })
-    }, [dispatch, userId, userBasicDetails]);
+    }, [userId, navigate]);
 
 
     return (
@@ -161,7 +163,10 @@ const UserDetailsLayoutComponent = (props: UserDetailsLayoutComponentProps) => {
                                         }
 
                                     </div>
-                                    <Outlet/>
+                                    <div
+                                        className={path.includes('admin') ? 'user-details-wrapper' : 'user-details-wrapper mrg-top-55'}>
+                                        <Outlet/>
+                                    </div>
                                 </div>
                             </div>
                         </>

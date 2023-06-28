@@ -40,7 +40,7 @@ const formInitialValues: any = {
 
 const UserAddressDetailsEditComponent = (props: UserAddressDetailsEditComponentProps) => {
     const [initialValues, setInitialValues] = useState<any>(_.cloneDeep(formInitialValues));
-    const {handleNext,handlePrevious} = props
+    const {handleNext, handlePrevious} = props
     const dispatch = useDispatch();
 
     const {
@@ -49,7 +49,7 @@ const UserAddressDetailsEditComponent = (props: UserAddressDetailsEditComponentP
 
     useEffect(() => {
         if (userBasicDetails.address) {
-            setInitialValues(userBasicDetails.address)
+            setInitialValues({address: userBasicDetails.address})
         }
     }, [userBasicDetails])
 
@@ -65,7 +65,7 @@ const UserAddressDetailsEditComponent = (props: UserAddressDetailsEditComponentP
             console.log('errors', error);
             setSubmitting(false);
         })
-    }, [userBasicDetails,dispatch]);
+    }, [userBasicDetails, dispatch]);
 
     return (
         <div className={'user-address-details-edit-component'}>

@@ -68,9 +68,9 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
     useEffect(() => {
         const contact_information = {
             primary_email: userBasicDetails?.primary_email,
-            secondary_emails: userBasicDetails?.secondary_emails || [],
+            secondary_emails: userBasicDetails.secondary_emails.length ? userBasicDetails?.secondary_emails : formInitialValues.secondary_emails,
             primary_contact_info: userBasicDetails?.primary_contact_info,
-            secondary_contact_info: userBasicDetails?.secondary_contact_info || [],
+            secondary_contact_info: userBasicDetails?.secondary_contact_info.length ? userBasicDetails?.secondary_contact_info : formInitialValues.secondary_contact_info,
         }
         setInitialValues(contact_information)
     }, [userBasicDetails]);
@@ -98,7 +98,7 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
             console.log('errors', error);
             setSubmitting(false);
         })
-    }, [userBasicDetails,dispatch]);
+    }, [userBasicDetails, dispatch]);
 
     return (
         <div className={'user-contact-information-edit-component'}>

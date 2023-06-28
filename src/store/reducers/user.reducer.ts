@@ -3,8 +3,10 @@ import {IUser} from "../../shared/models/user.model";
 import {
     GET_ALL_PROVIDERS_LIST,
     GET_USER_BASIC_DETAILS,
+    GET_USER_SLOTS,
     SET_ALL_PROVIDERS_LIST,
     SET_USER_BASIC_DETAILS,
+    SET_USER_SLOTS,
 } from "../actions/user.action";
 
 export interface IUserReducerState {
@@ -16,6 +18,11 @@ export interface IUserReducerState {
     isUserBasicDetailsLoading: boolean,
     isUserBasicDetailsLoaded: boolean,
     isUserBasicDetailsLoadingFailed: boolean,
+
+    userSlots?: any
+    isUserSlotsLoading: boolean,
+    isUserSlotsLoaded: boolean,
+    isUserSlotsLoadingFailed: boolean,
 }
 
 
@@ -28,6 +35,11 @@ const initialData: IUserReducerState = {
     isUserBasicDetailsLoading: false,
     isUserBasicDetailsLoaded: false,
     isUserBasicDetailsLoadingFailed: false,
+
+    userSlots: [],
+    isUserSlotsLoading: false,
+    isUserSlotsLoaded: false,
+    isUserSlotsLoadingFailed: false,
 };
 
 const UserReducer = (state = initialData, action: IActionModel): IUserReducerState => {
@@ -63,6 +75,25 @@ const UserReducer = (state = initialData, action: IActionModel): IUserReducerSta
                 isUserBasicDetailsLoaded: !!action.payload.userBasicDetails,
                 isUserBasicDetailsLoadingFailed: !action.payload.userBasicDetails,
                 userBasicDetails: action.payload.userBasicDetails
+            };
+            return state;
+
+        case GET_USER_SLOTS:
+            state = {
+                ...state,
+                userSlots: undefined,
+                isUserSlotsLoading: true,
+                isUserSlotsLoaded: false,
+                isUserSlotsLoadingFailed: false,
+            };
+            return state;
+        case SET_USER_SLOTS:
+            state = {
+                ...state,
+                isUserSlotsLoading: false,
+                isUserSlotsLoaded: !!action.payload.userSlots,
+                isUserSlotsLoadingFailed: !action.payload.userSlots,
+                userSlots: action.payload.userSlots
             };
             return state;
         default:

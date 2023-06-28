@@ -86,6 +86,10 @@
         margin-bottom: 20px;
         margin-right: 10px;
       }
+      .user-details-wrapper{
+        overflow: auto;
+        height: calc(100vh - 180px);
+      }
     }
   }
 }

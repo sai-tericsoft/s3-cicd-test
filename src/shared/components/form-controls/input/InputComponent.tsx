@@ -86,6 +86,7 @@ const InputComponent = (props: InputComponentProps) => {
                      fullWidth={fullWidth}>
             <TextField type={type === "password" ? "password" : "text"}
                        id={id}
+                       autoComplete="off"
                        fullWidth={fullWidth}
                        placeholder={placeholder}
                        required={required}

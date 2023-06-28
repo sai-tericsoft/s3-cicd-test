@@ -69,6 +69,10 @@ const toggleDeleteUser = (userId: string, payload: any) => {
     return ApiService[APIConfig.TOGGLE_USER.METHOD](APIConfig.TOGGLE_USER.URL(userId), payload);
 }
 
+const slotDetailsAPICall = (userId: string, facilityId: string, payload: any) => {
+    return ApiService[APIConfig.VIEW_USER_SLOTS.METHOD](APIConfig.VIEW_USER_SLOTS.URL(userId, facilityId), payload);
+}
+
 
 const UserService = {
     getUserList,
@@ -85,7 +89,8 @@ const UserService = {
     userPasswordEdit,
     addUserSlots,
     deleteUser,
-    toggleDeleteUser
+    toggleDeleteUser,
+    slotDetailsAPICall,
 }
 
 export default UserService;

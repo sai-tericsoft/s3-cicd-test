@@ -1,4 +1,21 @@
 import "./UserSlotsDetailsComponent.scss";
+import {useLocation, useNavigate, useSearchParams} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {IRootReducerState} from "../../../store/reducers";
+import React, {useCallback, useEffect, useState} from "react";
+import {setCurrentNavParams} from "../../../store/actions/navigation.action";
+import {CommonService} from "../../../shared/services";
+import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
+import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
+import TabsWrapperComponent, {
+    TabComponent,
+    TabContentComponent,
+    TabsComponent
+} from "../../../shared/components/tabs/TabsComponent";
+import CardComponent from "../../../shared/components/card/CardComponent";
+import {getUserSlots} from "../../../store/actions/user.action";
+import HorizontalLineComponent
+    from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 
 interface UserSlotsDetailsComponentProps {
 
@@ -6,9 +23,153 @@ interface UserSlotsDetailsComponentProps {
 
 const UserSlotsDetailsComponent = (props: UserSlotsDetailsComponentProps) => {
 
+    const {
+        isUserBasicDetailsLoaded,
+        userBasicDetails,
+
+        userSlots,
+        isUserSlotsLoading,
+        isUserSlotsLoaded,
+        isUserSlotsLoadingFailed,
+
+    } = useSelector((state: IRootReducerState) => state.user);
+
+
+    const location: any = useLocation();
+    const path = location.pathname;
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [currentTab, setCurrentTab] = useState<any>(userBasicDetails?.assigned_facility_details[0]?._id || '');
+    const [searchParams, setSearchParams] = useSearchParams();
+
+
+    useEffect(() => {
+        if (path.includes('admin')) {
+            dispatch(setCurrentNavParams('User List', null, () => {
+                navigate(CommonService._routeConfig.UserList());
+            }));
+        }
+    }, [dispatch, userBasicDetails, navigate, path]);
+
+    useEffect(() => {
+        const currentTab: any = searchParams.get("currentStepId");
+        setCurrentTab(currentTab);
+    }, [searchParams]);
+
+    useEffect(() => {
+        if (currentTab) {
+            dispatch(getUserSlots(userBasicDetails._id, currentTab));
+        }
+    }, [currentTab, dispatch, userBasicDetails._id]);
+
+    const handleTabChange = useCallback((e: any, value: any) => {
+        searchParams.set("currentStepId", value);
+        setSearchParams(searchParams);
+        setCurrentTab(value);
+        dispatch(getUserSlots(userBasicDetails._id, value))
+    }, [searchParams, setSearchParams, dispatch, userBasicDetails]);
+
     return (
         <div className={'user-slots-details-component'}>
-            <div>UserSlotsDetailsComponent</div>
+            {/*<>*/}
+            {/*    {isUserBasicDetailsLoading && (*/}
+            {/*        <div>*/}
+            {/*            <LoaderComponent/>*/}
+            {/*        </div>*/}
+            {/*    )}*/}
+            {/*    {isUserBasicDetailsLoadingFailed && (*/}
+            {/*        <StatusCardComponent title={"Failed to fetch client Details"}/>*/}
+            {/*    )}*/}
+            {/*</>*/}
+            {isUserBasicDetailsLoaded && <>
+                <TabsWrapperComponent>
+                    <div className="tabs-wrapper">
+                        <TabsComponent
+                            value={currentTab}
+                            allowScrollButtonsMobile={false}
+                            variant={"fullWidth"}
+                            onUpdate={handleTabChange}
+                        >
+                            {userBasicDetails.assigned_facility_details.map((facility: any, index: any) => (
+                                <TabComponent className={'client-details-tab'} label={facility.name}
+                                              value={facility._id}/>
+                            ))}
+                        </TabsComponent>
+                    </div>
+
+                    {userBasicDetails?.assigned_facility_details.map((facility: any, index: any) => (
+                        <TabContentComponent
+                            key={facility._id}
+                            value={facility._id}
+                            selectedTab={currentTab}
+                        >
+                            <CardComponent title={'Available Hours and Service'}>
+                                <>
+                                    {isUserSlotsLoading && (
+                                        <div>
+                                            <LoaderComponent/>
+                                        </div>
+                                    )}
+                                    {isUserSlotsLoadingFailed && (
+                                        <StatusCardComponent title={"Failed to fetch client Details"}/>
+                                    )}
+
+                                    {isUserSlotsLoaded &&
+                                    <div className='slots-timings-table-view-wrapper'>
+                                        {userSlots.is_same_slots && <>
+
+                                        </>
+
+                                        }
+                                        {!userSlots.is_same_slots &&
+                                        <>
+                                            {
+                                                userSlots.day_scheduled_slots.length && userSlots.day_scheduled_slots.map((slot: any) => {
+                                                    return (
+                                                        <div className='ts-row slots-timings-row-wrapper'>
+                                                            <div className="ts-col-2">{slot.day_name}</div>
+
+                                                            <div className="ts-col-10">
+                                                                <>
+                                                                    {slot.slot_timings.length &&
+                                                                    slot.slot_timings.map((slot_timing: any) => {
+                                                                        return (<div className='ts-row slots-timings-sub-row-wrapper'>
+                                                                                <div className='ts-col-3'>
+                                                                                    {CommonService.getHoursAndMinutesFromMinutes(slot_timing.start_time)} - {CommonService.getHoursAndMinutesFromMinutes(slot_timing.end_time)}
+                                                                                </div>
+                                                                                <div
+                                                                                    className='ts-col-5'>{slot_timing?.service_details?.name}</div>
+                                                                            </div>
+                                                                        )
+
+                                                                    })}
+
+
+                                                                </>
+
+                                                            </div>
+                                                            {index !== userSlots.day_scheduled_slots.length - 1 &&
+                                                            <HorizontalLineComponent/>}
+
+                                                        </div>
+                                                    )
+
+                                                })
+
+                                            }
+
+                                        </>
+                                        }
+
+                                    </div>
+                                    }
+                                </>
+                            </CardComponent>
+                        </TabContentComponent>
+                    ))}
+                </TabsWrapperComponent>
+            </>
+            }
         </div>
     );
 

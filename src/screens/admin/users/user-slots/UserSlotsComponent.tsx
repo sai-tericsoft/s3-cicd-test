@@ -163,6 +163,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                 const payload = {...values};
                 console.log(payload);
                 if (payload.is_same_slots) {
+                    delete payload.scheduled_slots;
                     payload.all_scheduled_slots.forEach((slot: any, index: any) => {
                         if (!payload?.service_slots) {
                             payload.service_slots = {};

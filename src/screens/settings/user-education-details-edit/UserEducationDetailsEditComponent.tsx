@@ -15,6 +15,7 @@ import {IRootReducerState} from "../../../store/reducers";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {setUserBasicDetails} from "../../../store/actions/user.action";
 import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
+import {useLocation, useNavigate} from "react-router-dom";
 
 interface UserEducationDetailsEditComponentProps {
     handlePrevious: () => void
@@ -36,6 +37,10 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
     const [initialValues, setInitialValues] = useState<any>(_.cloneDeep(formInitialValues));
     const {handlePrevious} = props
     const dispatch = useDispatch();
+    const location: any = useLocation();
+    const path = location.pathname;
+    const navigate = useNavigate();
+
 
     const {
         userBasicDetails,
@@ -64,12 +69,17 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
                 // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setSubmitting(false);
                 dispatch(setUserBasicDetails(response.data));
+                if (path.includes('settings')) {
+                    navigate(CommonService._routeConfig.PersonalDetails());
+                } else {
+                    navigate(CommonService._routeConfig.UserPersonalDetails() + '?userId=' + userBasicDetails?._id)
+                }
             }).catch((error: any) => {
             CommonService.handleErrors(setErrors, error, true);
             console.log('errors', error);
             setSubmitting(false);
         })
-    }, [userBasicDetails, dispatch]);
+    }, [userBasicDetails, dispatch, navigate, path]);
 
 
     return (

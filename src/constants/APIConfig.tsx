@@ -895,6 +895,11 @@ const APIConfig: IAPIConfig = {
     TOGGLE_USER: {
         URL: (userId: any) => ENV.API_URL + '/user/' + userId + '/toggleStatus',
         METHOD: 'patch',
+    },
+
+    VIEW_USER_SLOTS: {
+        URL: (userId: any, facilityId: any) => ENV.API_URL + '/user/' + userId + '/facility/' + facilityId + '/globalSlots',
+        METHOD: "get"
     }
 
 

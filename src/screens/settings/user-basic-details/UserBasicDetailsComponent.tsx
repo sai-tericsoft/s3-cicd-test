@@ -2,8 +2,6 @@ import "./UserBasicDetailsComponent.scss";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import React, {useEffect} from "react";
-import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import moment from "moment";
@@ -32,8 +30,6 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
 
     const {
         isUserBasicDetailsLoaded,
-        isUserBasicDetailsLoading,
-        isUserBasicDetailsLoadingFailed,
         userBasicDetails,
     } = useSelector((state: IRootReducerState) => state.user);
 
@@ -43,20 +39,20 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                 navigate(CommonService._routeConfig.UserList());
             }));
         }
-    }, [dispatch, userBasicDetails, navigate, path]);
+    }, [dispatch, navigate, path]);
 
     return (
         <div className={'user-basic-details-component'}>
             <div className={'client-basic-details-component'}>
-                {
-                    isUserBasicDetailsLoading && <div>
-                        <LoaderComponent/>
-                    </div>
-                }
-                {
-                    isUserBasicDetailsLoadingFailed &&
-                    <StatusCardComponent title={"Failed to fetch client Details"}/>
-                }
+                {/*{*/}
+                {/*    isUserBasicDetailsLoading && <div>*/}
+                {/*        <LoaderComponent/>*/}
+                {/*    </div>*/}
+                {/*}*/}
+                {/*{*/}
+                {/*    isUserBasicDetailsLoadingFailed &&*/}
+                {/*    <StatusCardComponent title={"Failed to fetch client Details"}/>*/}
+                {/*}*/}
                 {
                     (isUserBasicDetailsLoaded && userBasicDetails) && <>
                         <CardComponent title={'Basic Details'} actions={<LinkComponent
@@ -119,7 +115,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                             <div className="ts-row">
                                 <div className="ts-col-md-6 ts-col-lg-6">
                                     <DataLabelValueComponent label={'Assigned Facilities'}>
-                                        {userBasicDetails?.assigned_facilities?.map((facility: any) => {
+                                        {userBasicDetails?.assigned_facility_details?.map((facility: any) => {
                                             return <div className="d-flex">
                                                 <div>{facility.name}</div>
                                                 &nbsp; - &nbsp;
@@ -351,7 +347,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                     <div className={'ts-row'}>
                                         <div className={'ts-col-6'}>
                                             <DataLabelValueComponent label={'Phone Type'}>
-                                                {userBasicDetails?.emergency_contact_info?.primary_emergency?.primary_contact_info?.phone_type|| 'N/A'}
+                                                {userBasicDetails?.emergency_contact_info?.primary_emergency?.primary_contact_info?.phone_type || 'N/A'}
                                             </DataLabelValueComponent>
                                         </div>
                                         <div className={'ts-col-6'}>
