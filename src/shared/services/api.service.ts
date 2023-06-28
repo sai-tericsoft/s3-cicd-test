@@ -1,10 +1,7 @@
-import axios, {
-    AxiosRequestConfig,
-    AxiosResponse,
-} from 'axios';
+import axios, {AxiosRequestConfig, AxiosResponse,} from 'axios';
 import Communications from "./communications.service";
 import {ENV, Misc} from "../../constants";
-import { IAPIResponseType, IAxiosOptions } from "../models/api.model";
+import {IAPIResponseType, IAxiosOptions} from "../models/api.model";
 import localStorageService from "./local-storage.service";
 
 export const defaultHeaders = {
@@ -40,6 +37,18 @@ const ApiService = {
             onUploadProgress: uploadProgressHandler.bind(null, progressCallback)
         };
         let request = axios.post(url, payload, axiosOptions);
+        return getRequestPromise(request);
+    },
+    patch: (url: string, payload = {},
+            headers = {}, options: IAxiosOptions = {},
+            progressCallback: (progress: number) => void = (progress) => {
+            }): Promise<IAPIResponseType<any>> => {
+        const axiosOptions: AxiosRequestConfig = {
+            headers: getHeaders(headers),
+            ...options,
+            onUploadProgress: uploadProgressHandler.bind(null, progressCallback)
+        };
+        let request = axios.patch(url, payload, axiosOptions);
         return getRequestPromise(request);
     },
     put: (url: string, payload = {},

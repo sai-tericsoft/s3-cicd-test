@@ -1,5 +1,5 @@
 import "./UserListComponent.scss";
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../../store/reducers";
 import {ITableColumn} from "../../../../shared/models/table.model";
@@ -21,7 +21,8 @@ const UserListComponent = (props: UserListComponentProps) => {
         const [userListFilterState, setUserListFilterState] = useState<any>({
             search: "",
             is_active: undefined,
-            page: 1
+            sort: {},
+            role: 'provider'
         });
         const {statusList} = useSelector((store: IRootReducerState) => store.staticData);
 
@@ -88,6 +89,17 @@ const UserListComponent = (props: UserListComponentProps) => {
             }
         ];
 
+        const handleUserSort = useCallback((key: string, order: string) => {
+            setUserListFilterState((oldState: any) => {
+                const newState = {...oldState};
+                newState["sort"] = {
+                    key,
+                    order
+                }
+                return newState;
+            });
+        }, []);
+
         return (
             <div className={'user-list-component list-screen'}>
                 <div className={'list-screen-header'}>
@@ -103,7 +115,7 @@ const UserListComponent = (props: UserListComponentProps) => {
                                             return {
                                                 ...prevState,
                                                 search: value,
-                                                page: 1 // Reset the page number to 1
+                                                page: value ? 1 : prevState.page  // Reset the page number to 1
                                             };
                                         });
                                     }}
@@ -138,6 +150,7 @@ const UserListComponent = (props: UserListComponentProps) => {
                     <TableWrapperComponent url={APIConfig.USER_LIST.URL}
                                            method={APIConfig.USER_LIST.METHOD}
                                            extraPayload={userListFilterState}
+                                           onSort={handleUserSort}
                                            columns={columns}/>
                 </div>
             </div>

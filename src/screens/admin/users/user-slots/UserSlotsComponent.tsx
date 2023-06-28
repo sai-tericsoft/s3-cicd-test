@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getUserBasicDetails} from "../../../../store/actions/user.action";
-import {useNavigate, useParams, useSearchParams} from "react-router-dom";
+import {useParams, useSearchParams} from "react-router-dom";
 import {IRootReducerState} from "../../../../store/reducers";
 import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../../shared/components/status-card/StatusCardComponent";
@@ -138,7 +138,6 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
         const [currentTab, setCurrentTab] = useState<any>(userBasicDetails?.assigned_facility_details[0]?._id || '');
         const [searchParams, setSearchParams] = useSearchParams();
         const [facilityId, setFacilityId] = useState<any>("")
-        const navigate = useNavigate();
 
         useEffect(() => {
             if (userId) {
@@ -240,7 +239,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                         CommonService.handleErrors(setErrors, error, true);
                     });
             },
-            [facilityId, navigate, userId]
+            [facilityId, userId]
         );
 
         return (

@@ -134,7 +134,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                     <div className="font-weight-bold mrg-bottom-20">Signature</div>
                                     <div className="mrg-bottom-20">
                                         <ESignApprovalComponent isSigned={true}
-                                                                signature_url={userBasicDetails?.signature_url}
+                                                                signature_url={userBasicDetails?.signature}
                                                                 signedAt={CommonService.convertDateFormat(userBasicDetails?.created_at)}/>
                                     </div>
                                 </div>

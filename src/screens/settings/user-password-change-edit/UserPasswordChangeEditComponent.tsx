@@ -55,7 +55,7 @@ const UserPasswordChangeEditComponent = (props: UserPasswordChangeEditComponentP
                 CommonService.handleErrors(setErrors, error, true);
                 setSubmitting(false);
             });
-    }, [navigate]);
+    }, [navigate,path]);
 
     return (
         <div className={'user-password-change-edit-component'}>

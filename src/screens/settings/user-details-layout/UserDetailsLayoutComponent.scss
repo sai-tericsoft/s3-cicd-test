@@ -60,6 +60,7 @@
             text-overflow: ellipsis
 
           }
+
           .user-status {
             margin-top: 6px;
             text-align: center;
@@ -77,6 +78,14 @@
       padding: 0 0 0 16px;
       overflow-x: hidden;
       overflow-y: hidden;
+
+      .user-details-action-buttons {
+        display: flex;
+        justify-content: end;
+        column-gap: 10px;
+        margin-bottom: 20px;
+        margin-right: 10px;
+      }
     }
   }
 }

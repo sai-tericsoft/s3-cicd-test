@@ -84,9 +84,11 @@ const PERSONAL_DETAILS = "/settings/personal-details";
 const PERSONAL_DETAILS_EDIT = "/settings/details-edit";
 const ACCOUNT_DETAILS = "/settings/account-details";
 const ACCOUNT_DETAILS_EDIT = "/settings/account-details-edit";
+const PERSONAL_SLOTS_DETAILS = "/settings/personal-slots-details"
 
 
 const USER_PERSONAL_DETAILS = "/admin/user-details"
+const USER_SLOTS_DETAILS = "/admin/user-slots-details"
 const USER_PERSONAL_DETAILS_EDIT = "/admin/user-edit";
 const USER_ACCOUNT_DETAILS = "/admin/account-details";
 const USER_ACCOUNT_DETAILS_EDIT = "/admin/account-details-edit";
@@ -172,6 +174,8 @@ export {
     ACCOUNT_DETAILS,
     USER_ACCOUNT_DETAILS_EDIT,
     USER_ACCOUNT_DETAILS,
-    ACCOUNT_DETAILS_EDIT
+    ACCOUNT_DETAILS_EDIT,
+    USER_SLOTS_DETAILS,
+    PERSONAL_SLOTS_DETAILS
 
 };

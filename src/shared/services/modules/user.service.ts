@@ -55,11 +55,18 @@ const userEdit = (userId: string, payload: any) => {
 
 const userPasswordEdit = (payload: any) => {
     return ApiService[APIConfig.USER_PASSWORD_EDIT.METHOD](APIConfig.USER_PASSWORD_EDIT.URL, payload);
-
 }
 
 const addUserSlots = (userId: string, facilityId: string, payload: any) => {
     return ApiService[APIConfig.ADD_USER_SLOTS.METHOD](APIConfig.ADD_USER_SLOTS.URL(userId, facilityId), payload);
+}
+
+const deleteUser = (userId: string, payload: any) => {
+    return ApiService[APIConfig.DELETE_USER.METHOD](APIConfig.DELETE_USER.URL(userId), payload);
+}
+
+const toggleDeleteUser = (userId: string, payload: any) => {
+    return ApiService[APIConfig.TOGGLE_USER.METHOD](APIConfig.TOGGLE_USER.URL(userId), payload);
 }
 
 
@@ -76,7 +83,9 @@ const UserService = {
     NavigateToSettingsAccountDetailsEdit,
     NavigateToUserAccountDetailsEdit,
     userPasswordEdit,
-    addUserSlots
+    addUserSlots,
+    deleteUser,
+    toggleDeleteUser
 }
 
 export default UserService;

@@ -3,7 +3,7 @@ import ENV from "./ENV";
 interface IAPIConfig {
     [k: string]: {
         URL: string | Function | any,
-        METHOD: "get" | "post" | "delete" | "put"
+        METHOD: "get" | "post" | "delete" | "put" | "patch",
     }
 }
 
@@ -307,8 +307,8 @@ const APIConfig: IAPIConfig = {
 
     // user start
     USER_LIST: {
-        URL: ENV.API_URL + "/user",
-        METHOD: "get"
+        URL: ENV.API_URL + "/user/list",
+        METHOD: "post"
     },
     USER_LIST_LITE: {
         URL: ENV.API_URL + "/user/lite",
@@ -878,14 +878,26 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + "/facility/lite",
         METHOD: "get"
     },
-    USER_PASSWORD_EDIT:{
-        URL:ENV.API_URL + "/changePassword",
-        METHOD:"post"
+    USER_PASSWORD_EDIT: {
+        URL: ENV.API_URL + "/changePassword",
+        METHOD: "post"
     },
     ADD_USER_SLOTS: {
         URL: (userId: any, facilityId: any) => ENV.API_URL + '/user/' + userId + '/facility/' + facilityId + '/globalSlots',
         METHOD: "post"
+    },
+
+    DELETE_USER: {
+        URL: (userId: any) => ENV.API_URL + '/user/' + userId,
+        METHOD: 'delete',
+    },
+
+    TOGGLE_USER: {
+        URL: (userId: any) => ENV.API_URL + '/user/' + userId + '/toggleStatus',
+        METHOD: 'patch',
     }
+
+
 }
 
 export default APIConfig;

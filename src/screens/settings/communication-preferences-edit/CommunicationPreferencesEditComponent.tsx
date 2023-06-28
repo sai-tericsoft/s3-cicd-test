@@ -81,7 +81,7 @@ const CommunicationPreferencesEditComponent = (props: CommunicationPreferencesCo
                 CommonService.handleErrors(setErrors, error, true);
                 setSubmitting(false);
             });
-    }, [userBasicDetails, navigate]);
+    }, [userBasicDetails, navigate, path]);
 
 
     return (

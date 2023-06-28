@@ -14,7 +14,7 @@ import {
     INVENTORY,
     LOGIN_ROUTE,
     NOT_FOUND_ROUTE,
-    PERSONAL_DETAILS,
+    PERSONAL_DETAILS, PERSONAL_SLOTS_DETAILS,
     REPORT_AN_ISSUE,
     SCHEDULING_VIEW,
     SERVICE_ADD,
@@ -28,7 +28,7 @@ import {
     USER_ADD,
     USER_LIST,
     USER_PERSONAL_DETAILS,
-    USER_SLOTS,
+    USER_SLOTS, USER_SLOTS_DETAILS,
 } from "../../constants/RoutesConfig";
 
 const DefaultRoute = () => {
@@ -302,6 +302,15 @@ const UserPersonalDetails = () => {
     return USER_PERSONAL_DETAILS;
 }
 
+const UserSlotsDetails = () => {
+    return USER_SLOTS_DETAILS;
+}
+
+const PersonalSlotsDetails = () => {
+    return PERSONAL_SLOTS_DETAILS;
+}
+
+
 const UserAccountDetails = () => {
     return USER_ACCOUNT_DETAILS;
 }
@@ -395,7 +404,9 @@ const RouteConfigService = {
     UserAccountDetails,
     UserAccountDetailsEdit,
     PersonalAccountDetails,
-    PersonalAccountDetailsEdit
+    PersonalAccountDetailsEdit,
+    UserSlotsDetails,
+    PersonalSlotsDetails
 
 }
 
