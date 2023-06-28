@@ -54,15 +54,14 @@ const userEdit = (userId: string, payload: any) => {
     return ApiService[APIConfig.USER_EDIT.METHOD](APIConfig.USER_EDIT.URL(userId), payload);
 }
 
-const userPasswordEdit = (payload:any)=>{
+const userPasswordEdit = (payload: any) => {
     return ApiService[APIConfig.USER_PASSWORD_EDIT.METHOD](APIConfig.USER_PASSWORD_EDIT.URL, payload);
 
 }
 
 const addUserSlots = (userId: string, facilityId: string, payload: any) => {
-    return ApiService[APIConfig.ADD_USER_SLOTS.METHOD](APIConfig.ADD_USER_SLOTS.URL(userId,facilityId), payload);
+    return ApiService[APIConfig.ADD_USER_SLOTS.METHOD](APIConfig.ADD_USER_SLOTS.URL(userId, facilityId), payload);
 }
-
 
 
 const UserService = {
@@ -77,7 +76,7 @@ const UserService = {
     NavigateToSettingEdit,
     NavigateToAccountDetailsEdit,
     NavigateToPasswordEdit,
-    userPasswordEdit
+    userPasswordEdit,
     addUserSlots
 }
 

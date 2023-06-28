@@ -25,7 +25,8 @@ import {
     TEST_ROUTE,
     USER_ADD,
     USER_LIST,
-    USER_PERSONAL_DETAILS, USER_SLOTS,
+    USER_PERSONAL_DETAILS,
+    USER_SLOTS,
 } from "../../constants/RoutesConfig";
 
 const DefaultRoute = () => {
@@ -307,11 +308,11 @@ const UserPersonalDetailsEdit = (userId: string) => {
     return '/admin/user-edit/' + userId;
 }
 
-const UserAccountDetailsEdit = (userId:string)=>{
+const UserAccountDetailsEdit = (userId: string) => {
     return '/admin/account-details-edit/' + userId;
 }
 
-const UserPasswordEdit =(userId:string)=>{
+const UserPasswordEdit = (userId: string) => {
     return '/admin/password-edit/' + userId;
 }
 
@@ -388,7 +389,6 @@ const RouteConfigService = {
     UserAccountDetails,
     UserAccountDetailsEdit,
     UserPasswordEdit
-    UserAccountDetailsEdit
 
 }
 
