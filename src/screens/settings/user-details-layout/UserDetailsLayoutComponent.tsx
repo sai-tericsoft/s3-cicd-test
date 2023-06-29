@@ -3,7 +3,7 @@ import {Outlet, useLocation, useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {CommonService} from "../../../shared/services";
 import {IRootReducerState} from "../../../store/reducers";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import SubMenuListComponent from "../../../shared/components/sub-menu-list/SubMenuListComponent";
@@ -28,7 +28,6 @@ const UserDetailsLayoutComponent = (props: UserDetailsLayoutComponentProps) => {
     const navigate = useNavigate();
     const {userId} = useParams();
 
-
     const {
         isUserBasicDetailsLoaded,
         isUserBasicDetailsLoading,
@@ -36,38 +35,36 @@ const UserDetailsLayoutComponent = (props: UserDetailsLayoutComponentProps) => {
         userBasicDetails,
     } = useSelector((state: IRootReducerState) => state.user);
 
-
-    const USER_MENU_ITEMS = [
-        {
-            title: "Personal Details",
-            path: (userId && path.includes('admin')) ? CommonService._routeConfig.UserPersonalDetails(userId) : CommonService._routeConfig.PersonalDetails()
-        },
-        {
-            title: "Available Hours & Service",
-            path: (userId && path.includes('admin')) ? CommonService._routeConfig.UserSlotsDetails(userId) + '?currentStepId=' + userBasicDetails?.assigned_facilities[0] : CommonService._routeConfig.PersonalSlotsDetails() + '?currentStepId=' + userBasicDetails?.assigned_facilities[0]
-        },
-        {
-            title: "Account Details",
-            path: (userId && path.includes('admin')) ? CommonService._routeConfig.UserAccountDetails(userId) : CommonService._routeConfig.PersonalAccountDetails()
-        }
-    ];
+    const USER_MENU_ITEMS = useMemo(() => {
+        return [
+            {
+                title: "Personal Details",
+                path: (userId && path.includes('admin')) ? CommonService._routeConfig.UserPersonalDetails(userId) : CommonService._routeConfig.PersonalDetails()
+            },
+            {
+                title: "Available Hours & Service",
+                path: (userId && path.includes('admin')) ? CommonService._routeConfig.UserSlotsDetails(userId) + '?currentStepId=' + userBasicDetails?.assigned_facilities[0] : CommonService._routeConfig.PersonalSlotsDetails() + '?currentStepId=' + userBasicDetails?.assigned_facilities[0]
+            },
+            {
+                title: "Account Details",
+                path: (userId && path.includes('admin')) ? CommonService._routeConfig.UserAccountDetails(userId) : CommonService._routeConfig.PersonalAccountDetails()
+            }
+        ];
+    }, [userId, path, userBasicDetails]);
 
     const title = (location.state && location.state.title) ? location.state.title : USER_MENU_ITEMS[0].title;
 
     const [isUserActive, setIsUserActive] = useState(userBasicDetails?.is_active)
 
     useEffect(() => {
-        if (path.includes('admin')) {
-            console.log('admin')
-            if (userId) {
-                dispatch(getUserBasicDetails(userId));
-            }
+        if (userId) {
+            dispatch(getUserBasicDetails(userId));
             dispatch(setCurrentNavParams('Admin'))
         } else {
             dispatch(getUserBasicDetails(currentUser?._id));
             dispatch(setCurrentNavParams('Settings'))
         }
-    }, [dispatch, currentUser, path, userId]);
+    }, [dispatch, currentUser, userId]);
 
 
     const toggleUserStatus = useCallback(() => {
