@@ -5,7 +5,7 @@ import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {CommonService} from "../../../shared/services";
 import _ from "lodash";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import FormikSelectComponent from "../../../shared/components/form-controls/formik-select/FormikSelectComponent";
 import QuestionComponent from "../../../shared/components/question/QuestionComponent";
@@ -73,7 +73,7 @@ const CommunicationPreferencesEditComponent = (props: CommunicationPreferencesCo
                 CommonService.handleErrors(setErrors, error, true);
                 setSubmitting(false);
             });
-    }, [userBasicDetails, navigate, path, userBasicDetails]);
+    }, [userBasicDetails, navigate, path]);
 
 
     return (

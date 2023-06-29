@@ -135,7 +135,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
             userBasicDetails,
         } = useSelector((state: IRootReducerState) => state.user);
         const {serviceListLite} = useSelector((state: IRootReducerState) => state.service)
-        const [currentTab, setCurrentTab] = useState<any>(userBasicDetails?.assigned_facility_details[0]?._id || '');
+        const [currentTab, setCurrentTab] = useState<any>(userBasicDetails?.assigned_facilities || '');
         const [searchParams, setSearchParams] = useSearchParams();
         const [facilityId, setFacilityId] = useState<any>("")
 

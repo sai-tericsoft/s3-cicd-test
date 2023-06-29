@@ -33,6 +33,7 @@ import {
     ADD_NEW_RECEIPT,
     ADMIN,
     APPOINTMENT_SETTINGS,
+    BASIC_DETAILS,
     BILLING,
     BILLING_DETAILS,
     BILLING_LIST,
@@ -184,6 +185,7 @@ import UserAccountDetailsComponent from "../screens/settings/user-account-detail
 import UserAccountDetailsEditComponent
     from "../screens/settings/user-account-details-edit/UserAccountDetailsEditComponent";
 import UserSlotsDetailsComponent from "../screens/settings/user-slots-details/UserSlotsDetailsComponent";
+import SettingMainLayoutComponent from "../screens/settings/setting-main-layout/SettingMainLayoutComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -556,56 +558,62 @@ const Navigator = (props: NavigatorProps) => {
                     }
                     />
 
-                    <Route path={SETTINGS} element={<UserDetailsLayoutComponent/>} {...props}>
-                        <Route
-                            index
-                            element={
-                                <Navigate to={PERSONAL_DETAILS}/>
-                            }
-                        />
+                    <Route path={SETTINGS} element={<SettingMainLayoutComponent/>} {...props}>
+
+                        <Route path={PERSONAL_DETAILS} element={<UserDetailsLayoutComponent/>} {...props}>
+
+                            <Route
+                                index
+                                element={
+                                    <Navigate to={BASIC_DETAILS}/>
+                                }
+                            />
+
+                            <Route
+                                path={BASIC_DETAILS}
+                                element={
+                                    <ProtectedRoute>
+                                        <UserBasicDetailsComponent/>
+                                    </ProtectedRoute>
+                                }
+                            />
+
+                            <Route
+                                path={PERSONAL_SLOTS_DETAILS}
+                                element={
+                                    <ProtectedRoute>
+                                        <UserSlotsDetailsComponent/>
+                                    </ProtectedRoute>
+                                }
+                            />
+
+                            <Route path={ACCOUNT_DETAILS} element={
+                                <ProtectedRoute>
+                                    <UserAccountDetailsComponent/>
+                                </ProtectedRoute>
+                            }/>
+
+
+                        </Route>
 
                         <Route
-                            path={PERSONAL_DETAILS}
+                            path={PERSONAL_DETAILS_EDIT + '/:userId'}
                             element={
                                 <ProtectedRoute>
-                                    <UserBasicDetailsComponent/>
+                                    <UserBasicDetailsEditComponent/>
                                 </ProtectedRoute>
                             }
                         />
-
                         <Route
-                            path={PERSONAL_SLOTS_DETAILS}
+                            path={ACCOUNT_DETAILS_EDIT + '/:userId'}
                             element={
                                 <ProtectedRoute>
-                                    <UserSlotsDetailsComponent/>
+                                    <UserAccountDetailsEditComponent/>
                                 </ProtectedRoute>
                             }
                         />
-
-                        <Route path={ACCOUNT_DETAILS} element={
-                            <ProtectedRoute>
-                                <UserAccountDetailsComponent/>
-                            </ProtectedRoute>
-                        }/>
 
                     </Route>
-
-                    <Route
-                        path={PERSONAL_DETAILS_EDIT + '/:userId'}
-                        element={
-                            <ProtectedRoute>
-                                <UserBasicDetailsEditComponent/>
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route
-                        path={ACCOUNT_DETAILS_EDIT + '/:userId'}
-                        element={
-                            <ProtectedRoute>
-                                <UserAccountDetailsEditComponent/>
-                            </ProtectedRoute>
-                        }
-                    />
 
 
                     <Route

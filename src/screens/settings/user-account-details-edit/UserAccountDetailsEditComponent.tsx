@@ -3,7 +3,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {IRootReducerState} from "../../../store/reducers";
-import {getUserBasicDetails} from "../../../store/actions/user.action";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {CommonService} from "../../../shared/services";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
@@ -11,6 +10,7 @@ import StatusCardComponent from "../../../shared/components/status-card/StatusCa
 import CommunicationPreferencesEditComponent
     from "../communication-preferences-edit/CommunicationPreferencesEditComponent";
 import UserPasswordChangeEditComponent from "../user-password-change-edit/UserPasswordChangeEditComponent";
+import {getUserBasicDetails} from "../../../store/actions/user.action";
 
 interface UserAccountDetailsEditComponentProps {
 
@@ -23,6 +23,7 @@ const UserAccountDetailsEditComponent = (props: UserAccountDetailsEditComponentP
     const [currentStep, setCurrentStep] = useState<string>('');
     const location: any = useLocation();
     const path = location.pathname;
+    const {userId} = useParams()
 
     const {
         isUserBasicDetailsLoaded,
@@ -30,6 +31,12 @@ const UserAccountDetailsEditComponent = (props: UserAccountDetailsEditComponentP
         isUserBasicDetailsLoadingFailed,
         userBasicDetails,
     } = useSelector((state: IRootReducerState) => state.user);
+
+    useEffect(() => {
+        if (userId) {
+            dispatch(getUserBasicDetails(userId));
+        }
+    }, [dispatch, userId])
 
     useEffect(() => {
         dispatch(setCurrentNavParams('Edit User', null, () => {

@@ -1,5 +1,4 @@
 import {
-    ACCOUNT_DETAILS,
     ADMIN,
     CHART_NOTES_LIST,
     CLIENT_ADD,
@@ -14,8 +13,6 @@ import {
     INVENTORY,
     LOGIN_ROUTE,
     NOT_FOUND_ROUTE,
-    PERSONAL_DETAILS,
-    PERSONAL_SLOTS_DETAILS,
     REPORT_AN_ISSUE,
     SCHEDULING_VIEW,
     SERVICE_ADD,
@@ -23,7 +20,6 @@ import {
     SERVICE_CATEGORY_LIST,
     SERVICE_DETAILS,
     SERVICE_EDIT,
-    SETTINGS,
     TEST_ROUTE,
     USER_ADD,
     USER_LIST,
@@ -283,26 +279,26 @@ const UserSlots = (userId: string) => {
     return USER_SLOTS + userId;
 }
 
-const UserSettings = () => {
-    return SETTINGS;
-}
 const UserList = () => {
     return USER_LIST;
 }
 const PersonalDetails = () => {
-    return PERSONAL_DETAILS;
+    return '/settings/personal/details';
+}
+
+const PersonalSlotsDetails = () => {
+    return '/settings/personal/slots-details';
+}
+const PersonalAccountDetails = () => {
+    return '/settings/personal/account-details';
 }
 
 const PersonalDetailsEdit = (userId: string) => {
     return '/settings/details-edit/' + userId;
 }
 
-const PersonalSlotsDetails = () => {
-    return PERSONAL_SLOTS_DETAILS;
-}
-
-const PersonalAccountDetails = () => {
-    return ACCOUNT_DETAILS
+const PersonalAccountDetailsEdit = (userId: string) => {
+    return '/settings/account-details-edit/' + userId;
 }
 
 const UserPersonalDetails = (userId: string) => {
@@ -317,16 +313,12 @@ const UserAccountDetails = (userId: string) => {
     return '/admin/user/' + userId + '/user-account-details';
 }
 
-const UserPersonalDetailsEdit = () => {
-    return '/admin/user-details-edit';
+const UserPersonalDetailsEdit = (userId: any) => {
+    return '/admin/user-details-edit/' + userId;
 }
 
-const UserAccountDetailsEdit = () => {
-    return '/admin/user-account-details-edit';
-}
-
-const PersonalAccountDetailsEdit = (userId: string) => {
-    return '/settings/account-details-edit/' + userId;
+const UserAccountDetailsEdit = (userId: any) => {
+    return '/admin/user-account-details-edit' + userId;
 }
 
 const RouteConfigService = {
@@ -393,7 +385,6 @@ const RouteConfigService = {
     ReportAnIssue,
     UserList,
     UserAdd,
-    UserSettings,
     UserPersonalDetails,
     PersonalDetails,
     UserPersonalDetailsEdit,

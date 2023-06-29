@@ -39,7 +39,7 @@ const UserSlotsDetailsComponent = (props: UserSlotsDetailsComponentProps) => {
     const path = location.pathname;
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [currentTab, setCurrentTab] = useState<any>(userBasicDetails?.assigned_facility_details[0]?._id || '');
+    const [currentTab, setCurrentTab] = useState<string>(userBasicDetails?.assigned_facilities[0] || '');
     const [searchParams, setSearchParams] = useSearchParams();
 
 
@@ -60,7 +60,7 @@ const UserSlotsDetailsComponent = (props: UserSlotsDetailsComponentProps) => {
         if (currentTab) {
             dispatch(getUserSlots(userBasicDetails._id, currentTab));
         }
-    }, [currentTab, dispatch, userBasicDetails._id]);
+    }, [dispatch, userBasicDetails._id, currentTab]);
 
     const handleTabChange = useCallback((e: any, value: any) => {
         searchParams.set("currentStepId", value);
@@ -133,7 +133,8 @@ const UserSlotsDetailsComponent = (props: UserSlotsDetailsComponentProps) => {
                                                                 <>
                                                                     {slot.slot_timings.length &&
                                                                     slot.slot_timings.map((slot_timing: any) => {
-                                                                        return (<div className='ts-row slots-timings-sub-row-wrapper'>
+                                                                        return (<div
+                                                                                className='ts-row slots-timings-sub-row-wrapper'>
                                                                                 <div className='ts-col-3'>
                                                                                     {CommonService.getHoursAndMinutesFromMinutes(slot_timing.start_time)} - {CommonService.getHoursAndMinutesFromMinutes(slot_timing.end_time)}
                                                                                 </div>
