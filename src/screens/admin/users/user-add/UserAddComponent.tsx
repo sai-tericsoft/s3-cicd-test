@@ -18,6 +18,7 @@ import FormikAutoCompleteComponent
 import FormikSelectComponent from "../../../../shared/components/form-controls/formik-select/FormikSelectComponent";
 import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import {useNavigate} from "react-router-dom";
+import FormDebuggerComponent from "../../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface UserAddComponentProps {
 
@@ -30,8 +31,8 @@ const UserAddInitialValues: any = {
     primary_contact_info: {
         phone: ''
     },
+    role: "",
     assigned_facilities: [],
-    role:[]
 };
 
 
@@ -43,7 +44,7 @@ const userAddValidationSchema = Yup.object({
         phone: Yup.string().required('Phone Number is required'),
     }),
     assigned_facilities: Yup.array().min(1, 'At least one facility must be assigned'),
-    role: Yup.array().min(1, 'Role is required'),
+    role: Yup.string().required('Role is required'),
 });
 
 const UserAddComponent = (props: UserAddComponentProps) => {
@@ -98,7 +99,7 @@ const UserAddComponent = (props: UserAddComponentProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
-                            {/*<FormDebuggerComponent values={values} errors={errors} showDebugger={true}/>*/}
+                            <FormDebuggerComponent values={values} errors={errors} showDebugger={true}/>
                             <CardComponent title={'Basic Details'}>
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-md-6'}>

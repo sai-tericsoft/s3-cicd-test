@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {getUserBasicDetails} from "../../../../store/actions/user.action";
+import {getUserBasicDetails, getUserSlots} from "../../../../store/actions/user.action";
 import {useParams, useSearchParams} from "react-router-dom";
 import {IRootReducerState} from "../../../../store/reducers";
 import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
@@ -162,11 +162,11 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                 const allSlots = _.cloneDeep(InitialValue.scheduled_slots);
                 const dayScheduledSlots = {
                     is_same_slots: false,
-                    scheduled_slots: userSlots.day_scheduled_slots.map((slot: any) => ({
+                    scheduled_slots: userSlots?.day_scheduled_slots?.map((slot: any) => ({
                         day: slot.day,
                         dayName: slot.day_name,
                         is_selected: true,
-                        slot_timings: slot.slot_timings.map((timing: any) => ({
+                        slot_timings: slot.slot_timings?.map((timing: any) => ({
                             start_time: timing.start_time,
                             end_time: timing.end_time,
                             service_id: timing.service_id
@@ -176,9 +176,9 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
 
                 console.log(dayScheduledSlots);
 
-                const updatedSlots = allSlots.map((slot: any) => {
+                const updatedSlots = allSlots?.map((slot: any) => {
                     console.log(slot);
-                    const matchingSlot = dayScheduledSlots.scheduled_slots.find((daySlot: any) => daySlot.dayName === slot.dayName);
+                    const matchingSlot = dayScheduledSlots?.scheduled_slots?.find((daySlot: any) => daySlot.dayName === slot.dayName);
                     console.log(matchingSlot)
                     if (matchingSlot) {
                         return matchingSlot;
@@ -197,6 +197,12 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
 
             }
         }, [userSlots]);
+
+        useEffect(() => {
+            if (currentTab && userBasicDetails) {
+                dispatch(getUserSlots(userBasicDetails?._id, currentTab));
+            }
+        }, [dispatch, userBasicDetails, currentTab]);
 
 
         useEffect(() => {
@@ -240,7 +246,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                         const {dayId, slot_timings} = day;
 
                         // Convert slot_timings to the desired format
-                        const slots = slot_timings.map((slot: any) => ({
+                        const slots = slot_timings?.map((slot: any) => ({
                             start_time: slot.start_time,
                             end_time: slot.end_time,
                             service_id: slot.service_id,
@@ -318,14 +324,14 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                                 variant={"fullWidth"}
                                 onUpdate={handleTabChange}
                             >
-                                {userBasicDetails.assigned_facility_details.map((facility: any, index: any) => (
+                                {userBasicDetails.assigned_facility_details?.map((facility: any, index: any) => (
                                     <TabComponent className={'client-details-tab'} label={`facility${index + 1}`}
                                                   value={facility._id}/>
                                 ))}
                             </TabsComponent>
                         </div>
 
-                        {userBasicDetails?.assigned_facility_details.map((facility: any, index: any) => (
+                        {userBasicDetails?.assigned_facility_details?.map((facility: any, index: any) => (
                             <TabContentComponent
                                 key={facility._id}
                                 value={facility._id}
