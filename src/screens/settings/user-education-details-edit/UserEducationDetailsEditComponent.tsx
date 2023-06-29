@@ -72,7 +72,7 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
                 if (path.includes('settings')) {
                     navigate(CommonService._routeConfig.PersonalDetails());
                 } else {
-                    navigate(CommonService._routeConfig.UserPersonalDetails() + '?userId=' + userBasicDetails?._id)
+                    navigate(CommonService._routeConfig.UserPersonalDetails(userBasicDetails._id) + '?userId=' + userBasicDetails?._id)
                 }
             }).catch((error: any) => {
             CommonService.handleErrors(setErrors, error, true);

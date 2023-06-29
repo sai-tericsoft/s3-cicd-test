@@ -96,6 +96,7 @@ import {
     SYSTEM_SETTINGS,
     TEST_ROUTE,
     UPDATE_MEDICAL_INTERVENTION,
+    USER,
     USER_ACCOUNT_DETAILS,
     USER_ACCOUNT_DETAILS_EDIT,
     USER_ADD,
@@ -532,7 +533,28 @@ const Navigator = (props: NavigatorProps) => {
                             }
                         />
 
+
                     </Route>
+
+                    <Route path={USER} element={<UserDetailsLayoutComponent/>} {...props}>
+                        <Route index element={<Navigate to={USER_PERSONAL_DETAILS}/>}/>
+                        <Route path={USER_PERSONAL_DETAILS}
+                               element={<ProtectedRoute><UserBasicDetailsComponent/></ProtectedRoute>}/>
+                        <Route path={USER_SLOTS_DETAILS}
+                               element={<ProtectedRoute><UserSlotsDetailsComponent/></ProtectedRoute>}/>
+                        <Route path={USER_ACCOUNT_DETAILS}
+                               element={<ProtectedRoute><UserAccountDetailsComponent/></ProtectedRoute>}/>
+                    </Route>
+
+                    <Route path={USER_PERSONAL_DETAILS_EDIT} element={
+                        <ProtectedRoute>
+                            <UserBasicDetailsEditComponent/>
+                        </ProtectedRoute>}/>
+                    <Route path={USER_ACCOUNT_DETAILS_EDIT} element={<ProtectedRoute>
+                        <UserAccountDetailsEditComponent/>
+                    </ProtectedRoute>
+                    }
+                    />
 
                     <Route path={SETTINGS} element={<UserDetailsLayoutComponent/>} {...props}>
                         <Route
@@ -599,7 +621,7 @@ const Navigator = (props: NavigatorProps) => {
                         <Route
                             index
                             element={
-                                <Navigate to={USER_PERSONAL_DETAILS}/>
+                                <Navigate to={USER_PERSONAL_DETAILS + '/userId'}/>
                             }
                         />
                         <Route

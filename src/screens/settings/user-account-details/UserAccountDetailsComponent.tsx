@@ -50,7 +50,7 @@ const UserAccountDetailsComponent = (props: UserAccountDetailsComponentProps) =>
                 {
                     (isUserBasicDetailsLoaded && userBasicDetails) && <>
                         <CardComponent title={'Password'} actions={<LinkComponent
-                            route={path === '/settings/account-details' ? CommonService._user.NavigateToSettingsAccountDetailsEdit(userBasicDetails._id, "reset_password") : CommonService._user.NavigateToUserAccountDetailsEdit(userBasicDetails._id, "reset_password")}>
+                            route={path === '/settings/account-details' ? CommonService._user.NavigateToSettingsAccountDetailsEdit(userBasicDetails._id, "reset_password") : CommonService._user.NavigateToUserAccountDetailsEdit("reset_password")}>
                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                 Edit
                             </ButtonComponent>
@@ -61,7 +61,7 @@ const UserAccountDetailsComponent = (props: UserAccountDetailsComponentProps) =>
 
                         </CardComponent>
                         <CardComponent title={'Communication Preferences'} actions={<LinkComponent
-                            route={path === '/settings/account-details' ? CommonService._user.NavigateToSettingsAccountDetailsEdit(userBasicDetails._id, "communication_preferences") : CommonService._user.NavigateToUserAccountDetailsEdit(userBasicDetails._id, "communication_preferences")}>
+                            route={path === '/settings/account-details' ? CommonService._user.NavigateToSettingsAccountDetailsEdit(userBasicDetails._id, "communication_preferences") : CommonService._user.NavigateToUserAccountDetailsEdit("communication_preferences")}>
 
                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                 Edit

@@ -11,6 +11,8 @@ import * as Yup from "yup";
 import FormikPasswordInputComponent
     from "../../../shared/components/form-controls/formik-password-input/FormikPasswordInputComponent";
 import PasswordValidationComponent from "../../../shared/components/password-validation/PasswordValidationComponent";
+import {useSelector} from "react-redux";
+import {IRootReducerState} from "../../../store/reducers";
 
 interface UserPasswordChangeEditComponentProps {
 
@@ -36,7 +38,9 @@ const UserPasswordChangeEditComponent = (props: UserPasswordChangeEditComponentP
     const navigate = useNavigate();
     const location: any = useLocation();
     const path = location.pathname;
-
+    const {
+        userBasicDetails,
+    } = useSelector((state: IRootReducerState) => state.user);
     const [initialValues] = useState<any>(_.cloneDeep(formInitialValues));
 
 
@@ -46,7 +50,7 @@ const UserPasswordChangeEditComponent = (props: UserPasswordChangeEditComponentP
             .then((response: IAPIResponseType<any>) => {
                 setSubmitting(false);
                 if (path.includes('admin')) {
-                    navigate(CommonService._routeConfig.UserAccountDetails());
+                    navigate(CommonService._routeConfig.UserAccountDetails(userBasicDetails._id));
                 } else {
                     navigate(CommonService._routeConfig.PersonalAccountDetails());
                 }
@@ -55,7 +59,7 @@ const UserPasswordChangeEditComponent = (props: UserPasswordChangeEditComponentP
                 CommonService.handleErrors(setErrors, error, true);
                 setSubmitting(false);
             });
-    }, [navigate,path]);
+    }, [navigate, path]);
 
     return (
         <div className={'user-password-change-edit-component'}>

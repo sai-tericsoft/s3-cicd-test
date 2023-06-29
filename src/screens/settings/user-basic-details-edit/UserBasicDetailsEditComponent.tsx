@@ -29,7 +29,6 @@ const UserBasicDetailsEditComponent = (props: UserBasicDetailsEditComponentProps
     const [currentStep, setCurrentStep] = useState<string>('');
     const location: any = useLocation();
     const path = location.pathname;
-    const {userId} = useParams()
 
     const {
         isUserBasicDetailsLoaded,
@@ -38,18 +37,18 @@ const UserBasicDetailsEditComponent = (props: UserBasicDetailsEditComponentProps
         userBasicDetails,
     } = useSelector((state: IRootReducerState) => state.user);
 
-    useEffect(() => {
-        if (userId) {
-            dispatch(getUserBasicDetails(userId));
-        }
-    }, [userId,dispatch])
+    // useEffect(() => {
+    //     if (userId) {
+    //         dispatch(getUserBasicDetails(userId));
+    //     }
+    // }, [userId, dispatch])
 
     useEffect(() => {
         dispatch(setCurrentNavParams('Edit User', null, () => {
             if (path.includes('settings')) {
                 navigate(CommonService._routeConfig.PersonalDetails());
             } else {
-                navigate(CommonService._routeConfig.UserPersonalDetails() + '?userId=' + userBasicDetails?._id)
+                navigate(CommonService._routeConfig.UserPersonalDetails(userBasicDetails?._id))
             }
         }));
     }, [dispatch, userBasicDetails, navigate, path]);

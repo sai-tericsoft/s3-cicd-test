@@ -10,7 +10,6 @@ import {IRootReducerState} from "../../../store/reducers";
 import FormikSelectComponent from "../../../shared/components/form-controls/formik-select/FormikSelectComponent";
 import QuestionComponent from "../../../shared/components/question/QuestionComponent";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {useLocation, useNavigate} from "react-router-dom";
 import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
@@ -28,7 +27,6 @@ const formInitialValues: any = {
 
 const CommunicationPreferencesEditComponent = (props: CommunicationPreferencesComponentProps) => {
 
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const location: any = useLocation();
     const path = location.pathname;
@@ -41,12 +39,6 @@ const CommunicationPreferencesEditComponent = (props: CommunicationPreferencesCo
     const {
         communicationModeTypeList,
     } = useSelector((state: IRootReducerState) => state.staticData);
-
-    useEffect(() => {
-        dispatch(setCurrentNavParams('Back', null, () => {
-            navigate(CommonService._routeConfig.UserAccountDetails());
-        }));
-    }, [navigate, dispatch]);
 
 
     useEffect(() => {
@@ -72,7 +64,7 @@ const CommunicationPreferencesEditComponent = (props: CommunicationPreferencesCo
             .then((response: IAPIResponseType<any>) => {
                 setSubmitting(false);
                 if (path.includes('admin')) {
-                    navigate(CommonService._routeConfig.UserAccountDetails());
+                    navigate(CommonService._routeConfig.UserAccountDetails(userBasicDetails._id));
                 } else {
                     navigate(CommonService._routeConfig.PersonalAccountDetails());
                 }
@@ -81,7 +73,7 @@ const CommunicationPreferencesEditComponent = (props: CommunicationPreferencesCo
                 CommonService.handleErrors(setErrors, error, true);
                 setSubmitting(false);
             });
-    }, [userBasicDetails, navigate, path]);
+    }, [userBasicDetails, navigate, path, userBasicDetails]);
 
 
     return (

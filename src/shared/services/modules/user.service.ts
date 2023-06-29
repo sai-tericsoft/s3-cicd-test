@@ -33,8 +33,8 @@ const getUserBasicDetails = (userId: string) => {
     return ApiService[APIConfig.USER_DETAILS.METHOD](APIConfig.USER_DETAILS.URL(userId));
 }
 
-const NavigateToUserEdit = (userId: string, step: any) => {
-    return RouteConfigService.UserPersonalDetailsEdit(userId) + "?currentStep=" + step;
+const NavigateToUserEdit = (step: any) => {
+    return RouteConfigService.UserPersonalDetailsEdit() + "?currentStep=" + step;
 }
 
 const NavigateToSettingEdit = (userId: string, step: any) => {
@@ -45,8 +45,8 @@ const NavigateToSettingsAccountDetailsEdit = (userId: string, step: any) => {
     return RouteConfigService.PersonalAccountDetailsEdit(userId) + "?currentStep=" + step;
 }
 
-const NavigateToUserAccountDetailsEdit = (userId: string, step: any) => {
-    return RouteConfigService.UserAccountDetailsEdit(userId) + "?currentStep=" + step;
+const NavigateToUserAccountDetailsEdit = (step: any) => {
+    return RouteConfigService.UserAccountDetailsEdit() + "?currentStep=" + step;
 }
 
 const userEdit = (userId: string, payload: any) => {

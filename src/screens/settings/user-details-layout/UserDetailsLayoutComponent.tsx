@@ -1,5 +1,5 @@
 import "./UserDetailsLayoutComponent.scss";
-import {Outlet, useLocation, useNavigate, useSearchParams} from "react-router-dom";
+import {Outlet, useLocation, useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {CommonService} from "../../../shared/services";
 import {IRootReducerState} from "../../../store/reducers";
@@ -20,13 +20,14 @@ interface UserDetailsLayoutComponentProps {
 }
 
 const UserDetailsLayoutComponent = (props: UserDetailsLayoutComponentProps) => {
-    const [searchParams] = useSearchParams();
+
     const dispatch = useDispatch();
     const location: any = useLocation();
     const {currentUser}: any = useSelector((state: IRootReducerState) => state.account);
-    const [userId, setUserId] = useState<string>("")
     const path = location.pathname;
     const navigate = useNavigate();
+    const {userId} = useParams();
+
 
     const {
         isUserBasicDetailsLoaded,
@@ -39,15 +40,15 @@ const UserDetailsLayoutComponent = (props: UserDetailsLayoutComponentProps) => {
     const USER_MENU_ITEMS = [
         {
             title: "Personal Details",
-            path: (userId && path.includes('admin')) ? CommonService._routeConfig.UserPersonalDetails() + '?userId=' + userId : CommonService._routeConfig.PersonalDetails()
+            path: (userId && path.includes('admin')) ? CommonService._routeConfig.UserPersonalDetails(userId) : CommonService._routeConfig.PersonalDetails()
         },
         {
             title: "Available Hours & Service",
-            path: (userId && path.includes('admin')) ? CommonService._routeConfig.UserSlotsDetails() + '?currentStepId=' + userBasicDetails?.assigned_facility_details[0]?._id : CommonService._routeConfig.PersonalSlotsDetails() + '?currentStepId=' + userBasicDetails?.assigned_facility_details[0]?._id
+            path: (userId && path.includes('admin')) ? CommonService._routeConfig.UserSlotsDetails(userId) + '?currentStepId=' + userBasicDetails?.assigned_facility_details[0]?._id : CommonService._routeConfig.PersonalSlotsDetails() + '?currentStepId=' + userBasicDetails?.assigned_facility_details[0]?._id
         },
         {
             title: "Account Details",
-            path: (userId && path.includes('admin')) ? CommonService._routeConfig.UserAccountDetails() : CommonService._routeConfig.PersonalAccountDetails()
+            path: (userId && path.includes('admin')) ? CommonService._routeConfig.UserAccountDetails(userId) : CommonService._routeConfig.PersonalAccountDetails()
         }
     ];
 
@@ -56,27 +57,31 @@ const UserDetailsLayoutComponent = (props: UserDetailsLayoutComponentProps) => {
     const [isUserActive, setIsUserActive] = useState(userBasicDetails?.is_active)
 
     useEffect(() => {
-        const userId: any = searchParams.get("userId");
-        if (userId) {
-            setUserId(userId);
-            console.log('calling admin')
-            dispatch(getUserBasicDetails(userId));
+        if (path.includes('admin')) {
+            console.log('admin')
+            if (userId) {
+                dispatch(getUserBasicDetails(userId));
+            }
             dispatch(setCurrentNavParams('Admin'))
         } else {
+            console.log('Settings')
             dispatch(getUserBasicDetails(currentUser?._id));
             dispatch(setCurrentNavParams('Settings'))
         }
-    }, [searchParams, dispatch, currentUser]);
+    }, [dispatch, currentUser]);
+
 
     const toggleUserStatus = useCallback(() => {
         setIsUserActive(!userBasicDetails.is_active)
-        CommonService._user.toggleDeleteUser(userId, {is_active: !userBasicDetails.is_active})
-            .then((response: any) => {
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                dispatch(getUserBasicDetails(userId));
-            }).catch((error: any) => {
-            CommonService._alert.showToast(error.error || "Error deleting provider", "error");
-        })
+        if (userId) {
+            CommonService._user.toggleDeleteUser(userId, {is_active: !userBasicDetails.is_active})
+                .then((response: any) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    dispatch(getUserBasicDetails(userId));
+                }).catch((error: any) => {
+                CommonService._alert.showToast(error.error || "Error deleting provider", "error");
+            })
+        }
     }, [dispatch, userId, userBasicDetails]);
 
     const deleteUser = useCallback(() => {
@@ -85,13 +90,15 @@ const UserDetailsLayoutComponent = (props: UserDetailsLayoutComponentProps) => {
             image: ImageConfig.RemoveImage,
             confirmationSubTitle: "Are you sure you want to permanently delete this user? This action cannot be undone."
         }).then(() => {
-            CommonService._user.deleteUser(userId, {})
-                .then((response: any) => {
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                    navigate(CommonService._routeConfig.UserList());
-                }).catch((error: any) => {
-                CommonService._alert.showToast(error.error || "Error deleting provider", "error");
-            })
+            if (userId) {
+                CommonService._user.deleteUser(userId, {})
+                    .then((response: any) => {
+                        CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                        navigate(CommonService._routeConfig.UserList());
+                    }).catch((error: any) => {
+                    CommonService._alert.showToast(error.error || "Error deleting provider", "error");
+                })
+            }
         })
     }, [userId, navigate]);
 
