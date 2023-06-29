@@ -39,7 +39,7 @@ const InitialValue: any = {
     ],
     scheduled_slots: [
         {
-            dayId: 1,
+            day: 1,
             dayName: 'Monday',
             is_selected: false,
             slot_timings: [
@@ -51,7 +51,7 @@ const InitialValue: any = {
             ]
         },
         {
-            dayId: 2,
+            day: 2,
             dayName: 'Tuesday',
             is_selected: false,
             slot_timings: [
@@ -63,7 +63,7 @@ const InitialValue: any = {
             ]
         },
         {
-            dayId: 3,
+            day: 3,
             dayName: 'Wednesday',
             is_selected: false,
             slot_timings: [
@@ -75,7 +75,7 @@ const InitialValue: any = {
             ]
         },
         {
-            dayId: 4,
+            day: 4,
             dayName: 'Thursday',
             is_selected: false,
             slot_timings: [
@@ -87,7 +87,7 @@ const InitialValue: any = {
             ]
         },
         {
-            dayId: 5,
+            day: 5,
             dayName: 'Friday',
             is_selected: false,
             slot_timings: [
@@ -99,7 +99,7 @@ const InitialValue: any = {
             ]
         },
         {
-            dayId: 6,
+            day: 6,
             dayName: 'Saturday',
             is_selected: false,
             slot_timings: [
@@ -111,7 +111,7 @@ const InitialValue: any = {
             ]
         },
         {
-            dayId: 7,
+            day: 7,
             dayName: 'Sunday',
             is_selected: false,
             slot_timings: [
@@ -152,21 +152,52 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
         }, [dispatch, userId]);
 
         useEffect(() => {
-            if (userSlots.is_same_slots) {
+            if (userSlots?.is_same_slots) {
                 const allScheduledSlots = {
                     all_scheduled_slots: userSlots?.all_scheduled_slots
-                }
-
-                setFormInitialValues(allScheduledSlots)
+                };
+                setFormInitialValues(allScheduledSlots);
 
             } else {
+                const allSlots = _.cloneDeep(InitialValue.scheduled_slots);
                 const dayScheduledSlots = {
-                    scheduled_slots: userSlots?.scheduled_slots,
-                    is_same_slots: userSlots?.is_same_slots
-                }
-                setFormInitialValues(dayScheduledSlots)
+                    is_same_slots: false,
+                    scheduled_slots: userSlots.day_scheduled_slots.map((slot: any) => ({
+                        day: slot.day,
+                        dayName: slot.day_name,
+                        is_selected: true,
+                        slot_timings: slot.slot_timings.map((timing: any) => ({
+                            start_time: timing.start_time,
+                            end_time: timing.end_time,
+                            service_id: timing.service_id
+                        }))
+                    }))
+                };
+
+                console.log(dayScheduledSlots);
+
+                const updatedSlots = allSlots.map((slot: any) => {
+                    console.log(slot);
+                    const matchingSlot = dayScheduledSlots.scheduled_slots.find((daySlot: any) => daySlot.dayName === slot.dayName);
+                    console.log(matchingSlot)
+                    if (matchingSlot) {
+                        return matchingSlot;
+                    } else {
+                        return slot;
+                    }
+                });
+
+                console.log(updatedSlots);
+                const updatedFormInitialValues = {
+                    is_same_slots: dayScheduledSlots.is_same_slots,
+                    scheduled_slots: updatedSlots
+                };
+
+                setFormInitialValues(updatedFormInitialValues);
+
             }
         }, [userSlots]);
+
 
         useEffect(() => {
             let currentTab: any = searchParams.get("currentStepId");
@@ -445,14 +476,13 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                                                     </div>
 
                                                     {!values.is_same_slots && <div className="mrg-top-20">
-                                                        {/*<FieldArray*/}
-                                                        {/*    name="day_scheduled_slots"*/}
-                                                        {/*    render={(arrayHelpers) => (*/}
                                                         <>
                                                             {values?.scheduled_slots?.map((item: any, index: any) => {
                                                                 return (
                                                                     <div className={'ts-row '}>
-                                                                        {facility.dayId === item.item && <>
+                                                                        {facility.timings.find((timing: any) => {
+                                                                            return timing.day_name === item.dayName
+                                                                        }) && <>
 
                                                                             <div className={'ts-col-2'}>
                                                                                 <Field
@@ -579,10 +609,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                                                             })
                                                             }
                                                         </>
-                                                        {/*    )}*/}
-                                                        {/*/>*/}
                                                     </div>}
-
 
                                                     <div className="t-form-actions">
                                                         <ButtonComponent
