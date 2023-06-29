@@ -1,6 +1,6 @@
 import "./SignaturePadComponent.scss";
 import SignatureCanvas from 'react-signature-canvas';
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import React, {useCallback, useRef, useState} from "react";
 import LinkComponent from "../link/LinkComponent";
 
 interface SignaturePadComponentProps {
@@ -26,14 +26,14 @@ const SignaturePadComponent = (props: SignaturePadComponentProps) => {
         setIsDrawing(false);
     }, [onSign]);
 
-    useEffect(() => {
-        if (image) {
-            setSignImage(image);
-            if (sigCanvasRef.current) {
-                sigCanvasRef.current.fromDataURL(image);
-            }
-        }
-    }, [image]);
+    // useEffect(() => {
+    //     if (image) {
+    //         setSignImage(image);
+    //         if (sigCanvasRef.current) {
+    //             sigCanvasRef.current.fromDataURL(image);
+    //         }
+    //     }
+    // }, [image]);
 
 
     const handleClearSign = useCallback(() => {

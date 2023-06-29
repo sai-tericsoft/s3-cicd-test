@@ -637,40 +637,40 @@ const Navigator = (props: NavigatorProps) => {
                         }
                     />
 
-                    <Route path={ADMIN} element={<UserDetailsLayoutComponent/>} {...props}>
-                        <Route
-                            index
-                            element={
-                                <Navigate to={USER_PERSONAL_DETAILS + '/userId'}/>
-                            }
-                        />
-                        <Route
-                            path={USER_PERSONAL_DETAILS}
-                            element={
-                                <ProtectedRoute>
-                                    <UserBasicDetailsComponent/>
-                                </ProtectedRoute>
-                            }
-                        />
+                    {/*<Route path={ADMIN} element={<UserDetailsLayoutComponent/>} {...props}>*/}
+                    {/*    <Route*/}
+                    {/*        index*/}
+                    {/*        element={*/}
+                    {/*            <Navigate to={USER_PERSONAL_DETAILS + '/userId'}/>*/}
+                    {/*        }*/}
+                    {/*    />*/}
+                    {/*    <Route*/}
+                    {/*        path={USER_PERSONAL_DETAILS}*/}
+                    {/*        element={*/}
+                    {/*            <ProtectedRoute>*/}
+                    {/*                <UserBasicDetailsComponent/>*/}
+                    {/*            </ProtectedRoute>*/}
+                    {/*        }*/}
+                    {/*    />*/}
 
-                        <Route
-                            path={USER_SLOTS_DETAILS}
-                            element={
-                                <ProtectedRoute>
-                                    <UserSlotsDetailsComponent/>
-                                </ProtectedRoute>
-                            }
-                        />
+                    {/*    <Route*/}
+                    {/*        path={USER_SLOTS_DETAILS}*/}
+                    {/*        element={*/}
+                    {/*            <ProtectedRoute>*/}
+                    {/*                <UserSlotsDetailsComponent/>*/}
+                    {/*            </ProtectedRoute>*/}
+                    {/*        }*/}
+                    {/*    />*/}
 
-                        <Route
-                            path={USER_ACCOUNT_DETAILS}
-                            element={
-                                <ProtectedRoute>
-                                    <UserAccountDetailsComponent/>
-                                </ProtectedRoute>
-                            }
-                        />
-                    </Route>
+                    {/*    <Route*/}
+                    {/*        path={USER_ACCOUNT_DETAILS}*/}
+                    {/*        element={*/}
+                    {/*            <ProtectedRoute>*/}
+                    {/*                <UserAccountDetailsComponent/>*/}
+                    {/*            </ProtectedRoute>*/}
+                    {/*        }*/}
+                    {/*    />*/}
+                    {/*</Route>*/}
 
                     <Route
                         path={USER_PERSONAL_DETAILS_EDIT + '/:userId'}

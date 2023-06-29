@@ -613,8 +613,8 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
 
                                                     <div className="t-form-actions">
                                                         <ButtonComponent
-                                                            type='submit'
-                                                        >
+                                                            isLoading={isSubmitting}
+                                                            type='submit'>
                                                             Save details
                                                         </ButtonComponent>
                                                     </div>

@@ -14,10 +14,11 @@ import {CommonService} from "../../../shared/services";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 import {ImageConfig, Misc} from "../../../constants";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
-import {useSearchParams} from "react-router-dom";
+import {useLocation, useNavigate, useSearchParams} from "react-router-dom";
 import _ from "lodash";
+import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 
 interface UserSlotsEditComponentProps {
 
@@ -126,6 +127,10 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [facilityId, setFacilityId] = useState<any>("");
     const [formInitialValues, setFormInitialValues] = useState(_.cloneDeep(InitialValue))
+    const location: any = useLocation();
+    const path = location.pathname;
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const {
         userBasicDetails,
@@ -194,6 +199,16 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
         setCurrentTab(value);
         setFacilityId(value);
     }, [searchParams, setSearchParams]);
+
+    useEffect(() => {
+        dispatch(setCurrentNavParams('Edit User', null, () => {
+            if (path.includes('settings')) {
+                navigate(CommonService._routeConfig.PersonalSlotsDetails() + '?currentStepId=' + facilityId)
+            } else {
+                navigate(CommonService._routeConfig.UserSlotsDetails(userBasicDetails?._id) + '?currentStepId=' + facilityId)
+            }
+        }));
+    }, [dispatch, userBasicDetails, navigate, path, facilityId]);
 
 
     const onSlotAdd = useCallback(
@@ -577,8 +592,8 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
 
                                                 <div className="t-form-actions">
                                                     <ButtonComponent
-                                                        type='submit'
-                                                    >
+                                                        isLoading={isSubmitting}
+                                                        type='submit'>
                                                         Save details
                                                     </ButtonComponent>
                                                 </div>

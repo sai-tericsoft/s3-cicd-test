@@ -321,7 +321,7 @@ const UserPersonalDetailsEdit = (userId: any) => {
 }
 
 const UserAccountDetailsEdit = (userId: any) => {
-    return '/admin/user-account-details-edit' + userId;
+    return '/admin/user-account-details-edit/' + userId;
 }
 
 const UserSlotsEdit = (userId: any) => {
