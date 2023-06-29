@@ -16,6 +16,9 @@ import CardComponent from "../../../shared/components/card/CardComponent";
 import {getUserSlots} from "../../../store/actions/user.action";
 import HorizontalLineComponent
     from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
+import LinkComponent from "../../../shared/components/link/LinkComponent";
+import ButtonComponent from "../../../shared/components/button/ButtonComponent";
+import {ImageConfig} from "../../../constants";
 
 interface UserSlotsDetailsComponentProps {
 
@@ -103,7 +106,13 @@ const UserSlotsDetailsComponent = (props: UserSlotsDetailsComponentProps) => {
                             value={facility._id}
                             selectedTab={currentTab}
                         >
-                            <CardComponent title={'Available Hours and Service'}>
+                            <CardComponent title={'Available Hours and Service'} actions={<LinkComponent
+                                route={path.includes('settings') ? CommonService._user.NavigateToSettingsSlotsEdit(userBasicDetails._id, currentTab) : CommonService._user.NavigateToUserSlotsEdit(userBasicDetails._id, currentTab)}>
+                                <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
+                                    Edit
+                                </ButtonComponent>
+                            </LinkComponent>
+                            }>
                                 <>
                                     {isUserSlotsLoading && (
                                         <div>

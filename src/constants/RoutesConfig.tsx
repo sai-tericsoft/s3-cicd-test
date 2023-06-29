@@ -86,6 +86,7 @@ const ACCOUNT_DETAILS = "account-details";
 const PERSONAL_SLOTS_DETAILS = "slots-details"
 const ACCOUNT_DETAILS_EDIT = "/settings/account-details-edit";
 const PERSONAL_DETAILS_EDIT = "/settings/details-edit";
+const PERSONAL_SLOTS_EDIT = "/settings/slots-edit";
 
 
 const USER = '/admin/user/:userId'
@@ -95,6 +96,7 @@ const USER_ACCOUNT_DETAILS = "user-account-details";
 
 const USER_PERSONAL_DETAILS_EDIT = "/admin/user-details-edit";
 const USER_ACCOUNT_DETAILS_EDIT = "/admin/user-account-details-edit";
+const USER_SLOTS_EDIT = "/admin/user-slots-edit";
 
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
@@ -181,6 +183,8 @@ export {
     ACCOUNT_DETAILS_EDIT,
     USER_SLOTS_DETAILS,
     PERSONAL_SLOTS_DETAILS,
-    BASIC_DETAILS
+    BASIC_DETAILS,
+    PERSONAL_SLOTS_EDIT,
+    USER_SLOTS_EDIT
 
 };

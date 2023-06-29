@@ -285,7 +285,6 @@ const UserList = () => {
 const PersonalDetails = () => {
     return '/settings/personal/details';
 }
-
 const PersonalSlotsDetails = () => {
     return '/settings/personal/slots-details';
 }
@@ -299,6 +298,10 @@ const PersonalDetailsEdit = (userId: string) => {
 
 const PersonalAccountDetailsEdit = (userId: string) => {
     return '/settings/account-details-edit/' + userId;
+}
+
+const PersonalSlotsEdit = (userId: string) => {
+    return '/settings/slots-edit/' + userId;
 }
 
 const UserPersonalDetails = (userId: string) => {
@@ -319,6 +322,10 @@ const UserPersonalDetailsEdit = (userId: any) => {
 
 const UserAccountDetailsEdit = (userId: any) => {
     return '/admin/user-account-details-edit' + userId;
+}
+
+const UserSlotsEdit = (userId: any) => {
+    return '/admin/user-slots-edit/' + userId;
 }
 
 const RouteConfigService = {
@@ -395,7 +402,9 @@ const RouteConfigService = {
     PersonalAccountDetails,
     PersonalAccountDetailsEdit,
     UserSlotsDetails,
-    PersonalSlotsDetails
+    PersonalSlotsDetails,
+    PersonalSlotsEdit,
+    UserSlotsEdit
 
 }
 

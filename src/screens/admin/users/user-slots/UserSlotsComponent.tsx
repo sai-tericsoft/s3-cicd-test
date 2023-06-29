@@ -23,6 +23,7 @@ import ButtonComponent from "../../../../shared/components/button/ButtonComponen
 
 import './UserSlotsComponent.scss';
 import FormDebuggerComponent from "../../../../shared/components/form-debugger/FormDebuggerComponent";
+import _ from "lodash";
 
 interface UserSlotsComponentProps {
 }
@@ -133,17 +134,39 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
             isUserBasicDetailsLoading,
             isUserBasicDetailsLoadingFailed,
             userBasicDetails,
+            userSlots,
+            isUserSlotsLoading,
+            isUserSlotsLoaded,
+            isUserSlotsLoadingFailed,
         } = useSelector((state: IRootReducerState) => state.user);
         const {serviceListLite} = useSelector((state: IRootReducerState) => state.service)
         const [currentTab, setCurrentTab] = useState<any>(userBasicDetails?.assigned_facilities || '');
         const [searchParams, setSearchParams] = useSearchParams();
         const [facilityId, setFacilityId] = useState<any>("")
+        const [formInitialValues, setFormInitialValues] = useState(_.cloneDeep(InitialValue))
 
         useEffect(() => {
             if (userId) {
                 dispatch(getUserBasicDetails(userId));
             }
         }, [dispatch, userId]);
+
+        useEffect(() => {
+            if (userSlots.is_same_slots) {
+                const allScheduledSlots = {
+                    all_scheduled_slots: userSlots?.all_scheduled_slots
+                }
+
+                setFormInitialValues(allScheduledSlots)
+
+            } else {
+                const dayScheduledSlots = {
+                    scheduled_slots: userSlots?.scheduled_slots,
+                    is_same_slots: userSlots?.is_same_slots
+                }
+                setFormInitialValues(dayScheduledSlots)
+            }
+        }, [userSlots]);
 
         useEffect(() => {
             let currentTab: any = searchParams.get("currentStepId");
@@ -246,14 +269,14 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
         return (
             <div className="user-slots-component">
                 <>
-                    {isUserBasicDetailsLoading && (
-                        <div>
-                            <LoaderComponent/>
-                        </div>
-                    )}
-                    {isUserBasicDetailsLoadingFailed && (
-                        <StatusCardComponent title={"Failed to fetch client Details"}/>
-                    )}
+                    {isUserBasicDetailsLoading &&
+                    <div>
+                        <LoaderComponent/>
+                    </div>
+                    }
+                    {isUserBasicDetailsLoadingFailed &&
+                    <StatusCardComponent title={"Failed to fetch Details"}/>
+                    }
                 </>
                 {isUserBasicDetailsLoaded && <>
                     <TabsWrapperComponent>
@@ -279,12 +302,22 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                             >
                                 <CardComponent title={'Available Hours and Service'}>
                                     <FormControlLabelComponent label={facility.name}/>
-                                    <Formik initialValues={InitialValue}
-                                            onSubmit={onSlotAdd}
-                                            validateOnChange={false}
-                                            validateOnBlur={true}
-                                            enableReinitialize={true}
-                                            validateOnMount={true}>
+                                    <>
+                                        {isUserSlotsLoading && (
+                                            <div>
+                                                <LoaderComponent/>
+                                            </div>
+                                        )}
+                                        {isUserSlotsLoadingFailed && (
+                                            <StatusCardComponent title={"Failed to fetch Details"}/>
+                                        )}
+                                    </>
+                                    {isUserSlotsLoaded && <Formik initialValues={formInitialValues}
+                                                                  onSubmit={onSlotAdd}
+                                                                  validateOnChange={false}
+                                                                  validateOnBlur={true}
+                                                                  enableReinitialize={true}
+                                                                  validateOnMount={true}>
                                         {({
                                               values,
                                               isValid,
@@ -419,124 +452,128 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                                                             {values?.scheduled_slots?.map((item: any, index: any) => {
                                                                 return (
                                                                     <div className={'ts-row '}>
-                                                                        <div className={'ts-col-2'}>
-                                                                            <Field
-                                                                                name={`scheduled_slots[${index}].is_selected`}>
-                                                                                {
-                                                                                    (field: FieldProps) => (
-                                                                                        <FormikCheckBoxComponent
-                                                                                            formikField={field}
-                                                                                            label={item.dayName}/>
-                                                                                    )
-                                                                                }
-                                                                            </Field>
-                                                                        </div>
+                                                                        {facility.dayId === item.item && <>
 
-                                                                        <div className={'ts-col-10'}>
-                                                                            <FieldArray
-                                                                                name={`scheduled_slots[${index}].slot_timings`}
-                                                                                render={(arrayHelpers) => (
-                                                                                    <>
-                                                                                        {item?.slot_timings?.map((item: any, slotIndex: any) => {
-                                                                                            return (
-                                                                                                <div
-                                                                                                    className={'ts-row'}>
+                                                                            <div className={'ts-col-2'}>
+                                                                                <Field
+                                                                                    name={`scheduled_slots[${index}].is_selected`}>
+                                                                                    {
+                                                                                        (field: FieldProps) => (
+                                                                                            <FormikCheckBoxComponent
+                                                                                                formikField={field}
+                                                                                                label={item.dayName}/>
+                                                                                        )
+                                                                                    }
+                                                                                </Field>
+                                                                            </div>
+
+                                                                            <div className={'ts-col-10'}>
+                                                                                <FieldArray
+                                                                                    name={`scheduled_slots[${index}].slot_timings`}
+                                                                                    render={(arrayHelpers) => (
+                                                                                        <>
+                                                                                            {item?.slot_timings?.map((item: any, slotIndex: any) => {
+                                                                                                return (
                                                                                                     <div
-                                                                                                        className={'ts-col'}>
-                                                                                                        <Field
-                                                                                                            name={`scheduled_slots[${index}].slot_timings[${slotIndex}].start_time`}>
-                                                                                                            {
-                                                                                                                (field: FieldProps) => (
-                                                                                                                    <FormikSelectComponent
-                                                                                                                        options={CommonService.StartTimingsList}
-                                                                                                                        displayWith={(item) => item.title}
-                                                                                                                        valueExtractor={(item) => item.code}
-                                                                                                                        selectedValues={values?.scheduled_slots[index].slot_timings[slotIndex].start_time}
-                                                                                                                        label={'From'}
-                                                                                                                        disabled={!(values?.scheduled_slots[index].is_selected)}
-                                                                                                                        required={true}
-                                                                                                                        formikField={field}
-                                                                                                                        fullWidth={true}
-                                                                                                                    />
-                                                                                                                )
-                                                                                                            }
-                                                                                                        </Field>
-                                                                                                    </div>
-                                                                                                    <div
-                                                                                                        className={'ts-col'}>
-                                                                                                        <Field
-                                                                                                            name={`scheduled_slots[${index}].slot_timings[${slotIndex}].end_time`}>
-                                                                                                            {
-                                                                                                                (field: FieldProps) => (
-                                                                                                                    <FormikSelectComponent
-                                                                                                                        options={CommonService.StartTimingsList}
-                                                                                                                        displayWith={(item) => item.title}
-                                                                                                                        valueExtractor={(item) => item.code}
-                                                                                                                        label={'To'}
-                                                                                                                        selectedValues={values?.scheduled_slots[index].slot_timings[slotIndex].end_time}
-                                                                                                                        disabled={!(values?.scheduled_slots[index].is_selected)}
-                                                                                                                        required={true}
-                                                                                                                        formikField={field}
-                                                                                                                        fullWidth={true}
-                                                                                                                    />
-                                                                                                                )
-                                                                                                            }
-                                                                                                        </Field>
-                                                                                                    </div>
-                                                                                                    <div
-                                                                                                        className={'ts-col-4'}>
-                                                                                                        <Field
-                                                                                                            name={`scheduled_slots[${index}].slot_timings[${slotIndex}].service_id`}>
-                                                                                                            {
-                                                                                                                (field: FieldProps) => (
-                                                                                                                    <FormikSelectComponent
-                                                                                                                        options={serviceListLite}
-                                                                                                                        displayWith={(item) => item?.name}
-                                                                                                                        valueExtractor={(item) => item?._id}
-                                                                                                                        label={'Service Name'}
-                                                                                                                        disabled={!(values?.scheduled_slots[index].is_selected)}
-                                                                                                                        formikField={field}
-                                                                                                                        fullWidth={true}
-                                                                                                                    />
-                                                                                                                )
-                                                                                                            }
-                                                                                                        </Field>
-                                                                                                    </div>
-                                                                                                    <div
-                                                                                                        className="ts-col-1">
+                                                                                                        className={'ts-row'}>
                                                                                                         <div
-                                                                                                            className="d-flex">
-                                                                                                            <IconButtonComponent
-                                                                                                                className={"form-helper-icon"}
-                                                                                                                disabled={!(values?.scheduled_slots[index].is_selected)}
-                                                                                                                onClick={() => {
-                                                                                                                    arrayHelpers.push({
-                                                                                                                        start_time: "",
-                                                                                                                        end_time: "",
-                                                                                                                        service_id: ""
-                                                                                                                    });
-                                                                                                                }}
-                                                                                                            >
-                                                                                                                <ImageConfig.AddCircleIcon/>
-                                                                                                            </IconButtonComponent>
-                                                                                                            {slotIndex > 0 &&
-                                                                                                            <IconButtonComponent
-                                                                                                                className={"form-helper-icon"}
-                                                                                                                onClick={() => {
-                                                                                                                    arrayHelpers.remove(slotIndex);
-                                                                                                                }}
-                                                                                                            >
-                                                                                                                <ImageConfig.DeleteIcon/>
-                                                                                                            </IconButtonComponent>}
+                                                                                                            className={'ts-col'}>
+                                                                                                            <Field
+                                                                                                                name={`scheduled_slots[${index}].slot_timings[${slotIndex}].start_time`}>
+                                                                                                                {
+                                                                                                                    (field: FieldProps) => (
+                                                                                                                        <FormikSelectComponent
+                                                                                                                            options={CommonService.StartTimingsList}
+                                                                                                                            displayWith={(item) => item.title}
+                                                                                                                            valueExtractor={(item) => item.code}
+                                                                                                                            selectedValues={values?.scheduled_slots[index].slot_timings[slotIndex].start_time}
+                                                                                                                            label={'From'}
+                                                                                                                            disabled={!(values?.scheduled_slots[index].is_selected)}
+                                                                                                                            required={true}
+                                                                                                                            formikField={field}
+                                                                                                                            fullWidth={true}
+                                                                                                                        />
+                                                                                                                    )
+                                                                                                                }
+                                                                                                            </Field>
                                                                                                         </div>
-                                                                                                    </div>
-                                                                                                </div>)
-                                                                                        })
-                                                                                        }
-                                                                                    </>)}
-                                                                            />
-                                                                        </div>
+                                                                                                        <div
+                                                                                                            className={'ts-col'}>
+                                                                                                            <Field
+                                                                                                                name={`scheduled_slots[${index}].slot_timings[${slotIndex}].end_time`}>
+                                                                                                                {
+                                                                                                                    (field: FieldProps) => (
+                                                                                                                        <FormikSelectComponent
+                                                                                                                            options={CommonService.StartTimingsList}
+                                                                                                                            displayWith={(item) => item.title}
+                                                                                                                            valueExtractor={(item) => item.code}
+                                                                                                                            label={'To'}
+                                                                                                                            selectedValues={values?.scheduled_slots[index].slot_timings[slotIndex].end_time}
+                                                                                                                            disabled={!(values?.scheduled_slots[index].is_selected)}
+                                                                                                                            required={true}
+                                                                                                                            formikField={field}
+                                                                                                                            fullWidth={true}
+                                                                                                                        />
+                                                                                                                    )
+                                                                                                                }
+                                                                                                            </Field>
+                                                                                                        </div>
+                                                                                                        <div
+                                                                                                            className={'ts-col-4'}>
+                                                                                                            <Field
+                                                                                                                name={`scheduled_slots[${index}].slot_timings[${slotIndex}].service_id`}>
+                                                                                                                {
+                                                                                                                    (field: FieldProps) => (
+                                                                                                                        <FormikSelectComponent
+                                                                                                                            options={serviceListLite}
+                                                                                                                            displayWith={(item) => item?.name}
+                                                                                                                            valueExtractor={(item) => item?._id}
+                                                                                                                            label={'Service Name'}
+                                                                                                                            disabled={!(values?.scheduled_slots[index].is_selected)}
+                                                                                                                            formikField={field}
+                                                                                                                            fullWidth={true}
+                                                                                                                        />
+                                                                                                                    )
+                                                                                                                }
+                                                                                                            </Field>
+                                                                                                        </div>
+                                                                                                        <div
+                                                                                                            className="ts-col-1">
+                                                                                                            <div
+                                                                                                                className="d-flex">
+                                                                                                                <IconButtonComponent
+                                                                                                                    className={"form-helper-icon"}
+                                                                                                                    disabled={!(values?.scheduled_slots[index].is_selected)}
+                                                                                                                    onClick={() => {
+                                                                                                                        arrayHelpers.push({
+                                                                                                                            start_time: "",
+                                                                                                                            end_time: "",
+                                                                                                                            service_id: ""
+                                                                                                                        });
+                                                                                                                    }}
+                                                                                                                >
+                                                                                                                    <ImageConfig.AddCircleIcon/>
+                                                                                                                </IconButtonComponent>
+                                                                                                                {slotIndex > 0 &&
+                                                                                                                <IconButtonComponent
+                                                                                                                    className={"form-helper-icon"}
+                                                                                                                    onClick={() => {
+                                                                                                                        arrayHelpers.remove(slotIndex);
+                                                                                                                    }}
+                                                                                                                >
+                                                                                                                    <ImageConfig.DeleteIcon/>
+                                                                                                                </IconButtonComponent>}
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>)
+                                                                                            })
+                                                                                            }
+                                                                                        </>)}
+                                                                                />
+                                                                            </div>
 
+                                                                        </>
+                                                                        }
                                                                     </div>
                                                                 )
                                                             })
@@ -558,7 +595,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                                             )
                                         }}
 
-                                    </Formik>
+                                    </Formik>}
 
                                 </CardComponent>
                             </TabContentComponent>

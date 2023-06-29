@@ -85,6 +85,7 @@ import {
     PERSONAL_DETAILS,
     PERSONAL_DETAILS_EDIT,
     PERSONAL_SLOTS_DETAILS,
+    PERSONAL_SLOTS_EDIT,
     PROGRESS_REPORT_VIEW_DETAILS,
     REPORT_AN_ISSUE,
     SCHEDULING_VIEW,
@@ -106,6 +107,7 @@ import {
     USER_PERSONAL_DETAILS_EDIT,
     USER_SLOTS,
     USER_SLOTS_DETAILS,
+    USER_SLOTS_EDIT,
     VIEW_MEDICAL_INTERVENTION,
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
@@ -186,6 +188,7 @@ import UserAccountDetailsEditComponent
     from "../screens/settings/user-account-details-edit/UserAccountDetailsEditComponent";
 import UserSlotsDetailsComponent from "../screens/settings/user-slots-details/UserSlotsDetailsComponent";
 import SettingMainLayoutComponent from "../screens/settings/setting-main-layout/SettingMainLayoutComponent";
+import UserSlotsEditComponent from "../screens/settings/user-slots-edit/UserSlotsEditComponent";
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
@@ -613,6 +616,15 @@ const Navigator = (props: NavigatorProps) => {
                             }
                         />
 
+                        <Route
+                            path={PERSONAL_SLOTS_EDIT + '/:userId'}
+                            element={
+                                <ProtectedRoute>
+                                    <UserSlotsEditComponent/>
+                                </ProtectedRoute>
+                            }
+                        />
+
                     </Route>
 
 
@@ -674,6 +686,15 @@ const Navigator = (props: NavigatorProps) => {
                         element={
                             <ProtectedRoute>
                                 <UserAccountDetailsEditComponent/>
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path={USER_SLOTS_EDIT + '/:userId'}
+                        element={
+                            <ProtectedRoute>
+                                <UserSlotsEditComponent/>
                             </ProtectedRoute>
                         }
                     />

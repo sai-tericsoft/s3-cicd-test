@@ -49,6 +49,14 @@ const NavigateToUserAccountDetailsEdit = (userId: string, step: any) => {
     return RouteConfigService.UserAccountDetailsEdit(userId) + "?currentStep=" + step;
 }
 
+const NavigateToSettingsSlotsEdit = (userId: string, step: any) => {
+    return RouteConfigService.PersonalSlotsEdit(userId) + "?currentStepId=" + step;
+}
+
+const NavigateToUserSlotsEdit = (userId: string, step: any) => {
+    return RouteConfigService.UserSlotsEdit(userId) + "?currentStepId=" + step;
+}
+
 const userEdit = (userId: string, payload: any) => {
     return ApiService[APIConfig.USER_EDIT.METHOD](APIConfig.USER_EDIT.URL(userId), payload);
 }
@@ -91,6 +99,8 @@ const UserService = {
     deleteUser,
     toggleDeleteUser,
     slotDetailsAPICall,
+    NavigateToSettingsSlotsEdit,
+    NavigateToUserSlotsEdit
 }
 
 export default UserService;
