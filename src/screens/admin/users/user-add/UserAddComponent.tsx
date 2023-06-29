@@ -30,7 +30,8 @@ const UserAddInitialValues: any = {
     primary_contact_info: {
         phone: ''
     },
-    assigned_facilities: []
+    assigned_facilities: [],
+    role:[]
 };
 
 
@@ -41,7 +42,8 @@ const userAddValidationSchema = Yup.object({
     primary_contact_info: Yup.object({
         phone: Yup.string().required('Phone Number is required'),
     }),
-    assigned_facilities: Yup.array().min(1, 'at least one facility should select')
+    assigned_facilities: Yup.array().min(1, 'At least one facility must be assigned'),
+    role: Yup.array().min(1, 'Role is required'),
 });
 
 const UserAddComponent = (props: UserAddComponentProps) => {
@@ -186,7 +188,7 @@ const UserAddComponent = (props: UserAddComponentProps) => {
                                                 (field: FieldProps) => (
                                                     <FormikAutoCompleteComponent
                                                         options={facilityListLite}
-                                                        label={'Assigned Facilities'}
+                                                        label={'Select Facility'}
                                                         formikField={field}
                                                         required={true}
                                                         fullWidth={true}
@@ -219,7 +221,7 @@ const UserAddComponent = (props: UserAddComponentProps) => {
                                         disabled={!isValid || isSubmitting}
                                         id={"medical_record_add_save_btn"}
                                     >
-                                        {isSubmitting ? "Saving" : "Save & Next"}
+                                        {isSubmitting ? "Saving" : "Save"}
                                     </ButtonComponent>
                                 </div>
 
