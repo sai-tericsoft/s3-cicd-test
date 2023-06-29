@@ -11,7 +11,7 @@ interface SignaturePadComponentProps {
 
 const SignaturePadComponent = (props: SignaturePadComponentProps) => {
 
-    const {showPreview, onSign, image} = props;
+    const {showPreview, onSign} = props;
     const sigCanvasRef = useRef<any>();
     const [isDrawing, setIsDrawing] = useState(false);
     const [signImage, setSignImage] = useState<any>(null);

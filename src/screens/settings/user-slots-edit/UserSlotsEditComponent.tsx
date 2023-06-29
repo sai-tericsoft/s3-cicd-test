@@ -35,6 +35,18 @@ const InitialValue: any = {
     ],
     scheduled_slots: [
         {
+            day: 0,
+            dayName: 'Sunday',
+            is_selected: false,
+            slot_timings: [
+                {
+                    start_time: "",
+                    end_time: "",
+                    service_id: ""
+                }
+            ]
+        },
+        {
             day: 1,
             dayName: 'Monday',
             is_selected: false,
@@ -97,18 +109,6 @@ const InitialValue: any = {
         {
             day: 6,
             dayName: 'Saturday',
-            is_selected: false,
-            slot_timings: [
-                {
-                    start_time: "",
-                    end_time: "",
-                    service_id: ""
-                }
-            ]
-        },
-        {
-            day: 7,
-            dayName: 'Sunday',
             is_selected: false,
             slot_timings: [
                 {
