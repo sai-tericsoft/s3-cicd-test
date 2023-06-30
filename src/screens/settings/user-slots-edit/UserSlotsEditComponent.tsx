@@ -152,7 +152,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                 // };
 
                 const allScheduledSlots = {
-                    is_same_slots: false,
+                    is_same_slots: true,
                     all_scheduled_slots: userSlots?.all_scheduled_slots?.map((slot: any) => ({
                         start_time: slot.start_time,
                         end_time: slot.end_time,
