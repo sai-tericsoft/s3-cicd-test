@@ -43,7 +43,7 @@ const UserDetailsLayoutComponent = (props: UserDetailsLayoutComponentProps) => {
             },
             {
                 title: "Available Hours & Service",
-                path: (userId && path.includes('admin')) ? CommonService._routeConfig.UserSlotsDetails(userId) + '?currentStepId=' + userBasicDetails?.assigned_facilities[0] : CommonService._routeConfig.PersonalSlotsDetails() + '?currentStepId=' + userBasicDetails?.assigned_facilities[0]
+                path: (userId && path.includes('admin')) ? CommonService._routeConfig.UserSlotsDetails(userId, userBasicDetails?.assigned_facilities[0]) : CommonService._routeConfig.PersonalSlotsDetails(userBasicDetails?.assigned_facilities[0])
             },
             {
                 title: "Account Details",

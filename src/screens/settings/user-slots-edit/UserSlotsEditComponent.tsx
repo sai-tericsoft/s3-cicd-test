@@ -224,9 +224,9 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
     useEffect(() => {
         dispatch(setCurrentNavParams('Edit User', null, () => {
             if (path.includes('settings')) {
-                navigate(CommonService._routeConfig.PersonalSlotsDetails() + '?currentStepId=' + facilityId)
+                navigate(CommonService._routeConfig.PersonalSlotsDetails(facilityId))
             } else {
-                navigate(CommonService._routeConfig.UserSlotsDetails(userBasicDetails?._id) + '?currentStepId=' + facilityId)
+                navigate(CommonService._routeConfig.UserSlotsDetails(userBasicDetails?._id, facilityId))
             }
         }));
     }, [dispatch, userBasicDetails, navigate, path, facilityId]);

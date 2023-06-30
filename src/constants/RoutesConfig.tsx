@@ -80,10 +80,9 @@ const FAQ = "/help/faq";
 const REPORT_AN_ISSUE = "/help/report-an-issue";
 
 const SETTINGS = "/settings";
-const PERSONAL_DETAILS = "/settings/personal";
-const BASIC_DETAILS = "details";
-const ACCOUNT_DETAILS = "account-details";
-const PERSONAL_SLOTS_DETAILS = "slots-details"
+const BASIC_DETAILS = "/settings/personal-details";
+const ACCOUNT_DETAILS = "/settings/account-details";
+const PERSONAL_SLOTS_DETAILS = "/settings/slots-details"
 const ACCOUNT_DETAILS_EDIT = "/settings/account-details-edit";
 const PERSONAL_DETAILS_EDIT = "/settings/details-edit";
 const PERSONAL_SLOTS_EDIT = "/settings/slots-edit";
@@ -171,7 +170,6 @@ export {
     USER_LIST,
     USER_ADD,
     SETTINGS,
-    PERSONAL_DETAILS,
     PERSONAL_DETAILS_EDIT,
     USER_PERSONAL_DETAILS,
     USER_PERSONAL_DETAILS_EDIT,
@@ -185,6 +183,6 @@ export {
     PERSONAL_SLOTS_DETAILS,
     BASIC_DETAILS,
     PERSONAL_SLOTS_EDIT,
-    USER_SLOTS_EDIT
+    USER_SLOTS_EDIT,
 
 };

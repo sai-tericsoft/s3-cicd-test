@@ -20,6 +20,7 @@ import {
     SERVICE_CATEGORY_LIST,
     SERVICE_DETAILS,
     SERVICE_EDIT,
+    SETTINGS,
     TEST_ROUTE,
     USER_ADD,
     USER_LIST,
@@ -282,14 +283,18 @@ const UserSlots = (userId: string) => {
 const UserList = () => {
     return USER_LIST;
 }
-const PersonalDetails = () => {
-    return '/settings/personal/details';
+const Settings = () => {
+    return SETTINGS;
 }
-const PersonalSlotsDetails = () => {
-    return '/settings/personal/slots-details';
+
+const PersonalDetails = () => {
+    return '/settings/personal-details';
+}
+const PersonalSlotsDetails = (currentStepId: string) => {
+    return '/settings/slots-details/' + currentStepId;
 }
 const PersonalAccountDetails = () => {
-    return '/settings/personal/account-details';
+    return '/settings/account-details';
 }
 
 const PersonalDetailsEdit = (userId: string) => {
@@ -308,8 +313,8 @@ const UserPersonalDetails = (userId: string) => {
     return '/admin/user/' + userId + '/user-details';
 }
 
-const UserSlotsDetails = (userId: string) => {
-    return '/admin/user/' + userId + '/user-slots-details';
+const UserSlotsDetails = (userId: string, facilityId: string) => {
+    return '/admin/user/' + userId + '/user-slots-details/' + facilityId;
 }
 
 const UserAccountDetails = (userId: string) => {
@@ -404,7 +409,8 @@ const RouteConfigService = {
     UserSlotsDetails,
     PersonalSlotsDetails,
     PersonalSlotsEdit,
-    UserSlotsEdit
+    UserSlotsEdit,
+    Settings
 
 }
 

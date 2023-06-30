@@ -56,7 +56,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                 {
                     (isUserBasicDetailsLoaded && userBasicDetails) && <>
                         <CardComponent title={'Basic Details'} actions={<LinkComponent
-                            route={path.includes('settings') ? CommonService._user.NavigateToSettingEdit(userBasicDetails._id, 'personal_details') : CommonService._user.NavigateToUserEdit(userBasicDetails._id,"personal_details")}>
+                            route={path.includes('settings') ? CommonService._user.NavigateToSettingEdit(userBasicDetails._id, 'personal_details') : CommonService._user.NavigateToUserEdit(userBasicDetails._id, "personal_details")}>
                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                 Edit
                             </ButtonComponent>
@@ -139,7 +139,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                         </CardComponent>
                         <CardComponent title={'About'}
                                        actions={<LinkComponent
-                                           route={path.includes('settings') ? CommonService._user.NavigateToSettingEdit(userBasicDetails._id, "about") : CommonService._user.NavigateToUserEdit(userBasicDetails._id,"about")}>
+                                           route={path.includes('settings') ? CommonService._user.NavigateToSettingEdit(userBasicDetails._id, "about") : CommonService._user.NavigateToUserEdit(userBasicDetails._id, "about")}>
                                            <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                                Edit
                                            </ButtonComponent>
@@ -198,7 +198,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                         </CardComponent>
                         <CardComponent title={'Contact Information'}
                                        actions={<LinkComponent
-                                           route={path.includes('settings') ? CommonService._user.NavigateToSettingEdit(userBasicDetails._id, "contact_information") : CommonService._user.NavigateToUserEdit(userBasicDetails._id,"contact_information")}>
+                                           route={path.includes('settings') ? CommonService._user.NavigateToSettingEdit(userBasicDetails._id, "contact_information") : CommonService._user.NavigateToUserEdit(userBasicDetails._id, "contact_information")}>
                                            <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                                Edit
                                            </ButtonComponent>
@@ -299,7 +299,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
 
                         </CardComponent>
                         <CardComponent title={'Address Information'} actions={<LinkComponent
-                            route={path.includes('settings') ? CommonService._user.NavigateToSettingEdit(userBasicDetails._id, "address") : CommonService._user.NavigateToUserEdit(userBasicDetails._id,"address")}>
+                            route={path.includes('settings') ? CommonService._user.NavigateToSettingEdit(userBasicDetails._id, "address") : CommonService._user.NavigateToUserEdit(userBasicDetails._id, "address")}>
                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                 Edit
                             </ButtonComponent>
@@ -315,7 +315,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                             </DataLabelValueComponent>
                         </CardComponent>
                         <CardComponent title={'Emergency Contact Information'} actions={<LinkComponent
-                            route={path.includes('settings') ? CommonService._user.NavigateToSettingEdit(userBasicDetails._id, "emergency_contact_info") : CommonService._user.NavigateToUserEdit(userBasicDetails._id,"emergency_contact_info")}>
+                            route={path.includes('settings') ? CommonService._user.NavigateToSettingEdit(userBasicDetails._id, "emergency_contact_info") : CommonService._user.NavigateToUserEdit(userBasicDetails._id, "emergency_contact_info")}>
                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                 Edit
                             </ButtonComponent>
@@ -418,13 +418,13 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                             </>
                             }
                             {
-                                userBasicDetails?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone_type_details?.title && userBasicDetails?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone &&
+                                userBasicDetails?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone_type && userBasicDetails?.emergency_contact_info?.secondary_emergency?.phone &&
                                 <>
                                     <div className={'phone-email-heading'}>Primary:</div>
                                     <div className={'ts-row'}>
                                         <div className={'ts-col-lg-3'}>
                                             <DataLabelValueComponent label={'Phone Type'}>
-                                                {userBasicDetails?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone_type_details?.title || "N/A"}
+                                                {userBasicDetails?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone_type || "N/A"}
                                             </DataLabelValueComponent>
                                         </div>
                                         <div className={'ts-col-lg-3'}>
@@ -446,11 +446,11 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                 userBasicDetails?.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.map((phone_number: any, index: number) => {
                                     return <>
                                         {
-                                            phone_number?.phone_type_details?.title && phone_number?.phone && <>
+                                            phone_number?.phone_type && phone_number?.phone && <>
                                                 <div className={'ts-row'}>
                                                     <div className={'ts-col-lg-3'}>
                                                         <DataLabelValueComponent label={'Phone Type'}>
-                                                            {phone_number?.phone_type_details?.title || "N/A"}
+                                                            {phone_number?.phone_type || "N/A"}
                                                         </DataLabelValueComponent>
                                                     </div>
                                                     <div className={'ts-col-lg-3'}>
@@ -466,7 +466,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                             }
                         </CardComponent>
                         <CardComponent title={'Professional Details'} actions={<LinkComponent
-                            route={path.includes('settings') ? CommonService._user.NavigateToSettingEdit(userBasicDetails._id, "professional_details") : CommonService._user.NavigateToUserEdit(userBasicDetails._id,"professional_details")}>
+                            route={path.includes('settings') ? CommonService._user.NavigateToSettingEdit(userBasicDetails._id, "professional_details") : CommonService._user.NavigateToUserEdit(userBasicDetails._id, "professional_details")}>
                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                 Edit
                             </ButtonComponent>
@@ -516,7 +516,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                         </CardComponent>
 
                         <CardComponent title={'Education Details'} actions={<LinkComponent
-                            route={path.includes('settings') ? CommonService._user.NavigateToSettingEdit(userBasicDetails._id, "education_details") : CommonService._user.NavigateToUserEdit(userBasicDetails._id,"education_details")}>
+                            route={path.includes('settings') ? CommonService._user.NavigateToSettingEdit(userBasicDetails._id, "education_details") : CommonService._user.NavigateToUserEdit(userBasicDetails._id, "education_details")}>
                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                 Edit
                             </ButtonComponent>

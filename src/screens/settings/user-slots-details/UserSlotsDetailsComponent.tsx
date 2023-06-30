@@ -1,5 +1,5 @@
 import "./UserSlotsDetailsComponent.scss";
-import {useLocation, useNavigate, useSearchParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import React, {useCallback, useEffect, useState} from "react";
@@ -43,7 +43,7 @@ const UserSlotsDetailsComponent = (props: UserSlotsDetailsComponentProps) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [currentTab, setCurrentTab] = useState<string>(userBasicDetails?.assigned_facilities[0] || '');
-    const [searchParams, setSearchParams] = useSearchParams();
+    const {facilityId} = useParams()
 
 
     useEffect(() => {
@@ -55,9 +55,10 @@ const UserSlotsDetailsComponent = (props: UserSlotsDetailsComponentProps) => {
     }, [dispatch, userBasicDetails, navigate, path]);
 
     useEffect(() => {
-        const currentTab: any = searchParams.get("currentStepId");
-        setCurrentTab(currentTab);
-    }, [searchParams]);
+        if (facilityId) {
+            setCurrentTab(facilityId);
+        }
+    }, [facilityId]);
 
     useEffect(() => {
         if (currentTab && userBasicDetails._id) {
@@ -66,11 +67,9 @@ const UserSlotsDetailsComponent = (props: UserSlotsDetailsComponentProps) => {
     }, [dispatch, userBasicDetails._id, currentTab]);
 
     const handleTabChange = useCallback((e: any, value: any) => {
-        searchParams.set("currentStepId", value);
-        setSearchParams(searchParams);
         setCurrentTab(value);
         dispatch(getUserSlots(userBasicDetails._id, value))
-    }, [searchParams, setSearchParams, dispatch, userBasicDetails]);
+    }, [dispatch, userBasicDetails]);
 
     return (
         <div className={'user-slots-details-component'}>
@@ -125,7 +124,8 @@ const UserSlotsDetailsComponent = (props: UserSlotsDetailsComponentProps) => {
 
                                     {isUserSlotsLoaded &&
                                     <>
-                                        {userSlots.is_same_slots && <div className='same-for-all-details-title'>Same for all days</div>}
+                                        {userSlots.is_same_slots &&
+                                        <div className='same-for-all-details-title'>Same for all days</div>}
                                         <div className='slots-timings-table-view-wrapper'>
                                             {userSlots.is_same_slots && <>
 
@@ -158,7 +158,7 @@ const UserSlotsDetailsComponent = (props: UserSlotsDetailsComponentProps) => {
                                             {!userSlots.is_same_slots &&
                                             <>
                                                 {
-                                                    userSlots?.day_scheduled_slots?.length && userSlots.day_scheduled_slots.map((slot: any,index:number) => {
+                                                    userSlots?.day_scheduled_slots?.length && userSlots.day_scheduled_slots.map((slot: any, index: number) => {
                                                         return (
                                                             <div className='ts-row slots-timings-row-wrapper'>
                                                                 <div className="ts-col-2">{slot.day_name}</div>
@@ -166,16 +166,17 @@ const UserSlotsDetailsComponent = (props: UserSlotsDetailsComponentProps) => {
                                                                 <div className="ts-col-10">
                                                                     <>
                                                                         {slot.slot_timings.length &&
-                                                                        slot.slot_timings.map((slot_timing: any,index:number) => {
-                                                                            console.log('slot',slot_timing);
+                                                                        slot.slot_timings.map((slot_timing: any, index: number) => {
+                                                                            console.log('slot', slot_timing);
                                                                             return (<div
-                                                                                    className='ts-row slots-timings-sub-row-wrapper'>
-                                                                                    <div className='ts-col-3 '>
-                                                                                        {CommonService.getHoursAndMinutesFromMinutes(slot_timing.start_time)} - {CommonService.getHoursAndMinutesFromMinutes(slot_timing.end_time)}
-                                                                                    </div>
-                                                                                    <div
-                                                                                        className='ts-col-5'>{slot_timing?.service_details?.name}</div>
-                                                                                </div>)})}
+                                                                                className='ts-row slots-timings-sub-row-wrapper'>
+                                                                                <div className='ts-col-3 '>
+                                                                                    {CommonService.getHoursAndMinutesFromMinutes(slot_timing.start_time)} - {CommonService.getHoursAndMinutesFromMinutes(slot_timing.end_time)}
+                                                                                </div>
+                                                                                <div
+                                                                                    className='ts-col-5'>{slot_timing?.service_details?.name}</div>
+                                                                            </div>)
+                                                                        })}
                                                                     </>
 
                                                                 </div>
