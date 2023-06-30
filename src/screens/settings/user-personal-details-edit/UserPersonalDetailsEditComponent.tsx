@@ -21,6 +21,7 @@ import {setUserBasicDetails} from "../../../store/actions/user.action";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import ErrorComponent from "../../../shared/components/error/ErrorComponent";
 import SignaturePadComponent from "../../../shared/components/signature-pad/SignaturePadComponent";
+import ESignApprovalComponent from "../../../shared/components/e-sign-approval/ESignApprovalComponent";
 
 interface UserPersonalDetailsEditComponentProps {
     handleNext: () => void
@@ -307,7 +308,7 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                     </div>
                                 </div>
 
-                                <div className="ts-row">
+                                {values?.signature && <div className="ts-row">
                                     <div className="ts-col-12">
                                         <FormControlLabelComponent
                                             className={"font-weight-thin"}
@@ -324,7 +325,13 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                         <ErrorComponent
                                             errorText={(_.get(errors, "signature"))}/>
                                     }
-                                </div>
+                                </div>}
+
+                                {!values?.signature && <div className="ts-row">
+                                    <ESignApprovalComponent isSigned={true}
+                                                            signature_url={userBasicDetails?.signature}
+                                    />
+                                </div>}
 
                                 <div className="t-form-actions">
                                     <ButtonComponent

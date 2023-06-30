@@ -152,6 +152,13 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
         }, [dispatch, userId]);
 
         useEffect(() => {
+            if (currentTab && userId) {
+                dispatch(getUserSlots(userId, currentTab));
+            }
+        }, [dispatch, userId, currentTab]);
+
+
+        useEffect(() => {
             if (userSlots?.is_same_slots) {
                 const allScheduledSlots = {
                     all_scheduled_slots: userSlots?.all_scheduled_slots
@@ -197,12 +204,6 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
 
             }
         }, [userSlots]);
-
-        useEffect(() => {
-            if (currentTab && userBasicDetails) {
-                dispatch(getUserSlots(userBasicDetails?._id, currentTab));
-            }
-        }, [dispatch, userBasicDetails, currentTab]);
 
 
         useEffect(() => {

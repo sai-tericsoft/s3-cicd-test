@@ -41,9 +41,9 @@ const ESignApprovalComponent = (props: ESignApprovalComponentProps) => {
                     </div>
                 }
             </div>
-            <div className="e-sign-time-stamp">
-                Electronically Signed On : <> {signedAt && CommonService.transformTimeStamp(signedAt)} </>
-            </div>
+            {signedAt && <div className="e-sign-time-stamp">
+                Electronically Signed On : <> {CommonService.transformTimeStamp(signedAt)} </>
+            </div>}
             {
                 isLoading && <div className={'e-sign-loading'}>
                     <LoaderComponent size={"sm"} type={"spinner"}/>
