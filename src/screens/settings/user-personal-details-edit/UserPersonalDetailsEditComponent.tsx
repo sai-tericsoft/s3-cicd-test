@@ -22,6 +22,7 @@ import FormControlLabelComponent from "../../../shared/components/form-control-l
 import ErrorComponent from "../../../shared/components/error/ErrorComponent";
 import SignaturePadComponent from "../../../shared/components/signature-pad/SignaturePadComponent";
 import ESignApprovalComponent from "../../../shared/components/e-sign-approval/ESignApprovalComponent";
+import LinkComponent from "../../../shared/components/link/LinkComponent";
 
 interface UserPersonalDetailsEditComponentProps {
     handleNext: () => void
@@ -308,8 +309,8 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                     </div>
                                 </div>
 
-                                {values?.signature && <div className="ts-row">
-                                    <div className="ts-col-12">
+                                {!(values?.signature && userBasicDetails?.signature) && <div className="ts-row">
+                                    <div className="ts-col-4">
                                         <FormControlLabelComponent
                                             className={"font-weight-thin"}
                                             label={"Signature"}
@@ -327,10 +328,19 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                     }
                                 </div>}
 
-                                {!values?.signature && <div className="ts-row">
-                                    <ESignApprovalComponent isSigned={true}
-                                                            signature_url={userBasicDetails?.signature}
-                                    />
+                                {(values?.signature && userBasicDetails?.signature) && <div className="ts-row">
+                                    <div className="ts-col-4">
+                                        <ESignApprovalComponent isSigned={true}
+                                                                signature_url={values?.signature}
+                                        /> <br/>
+                                        <LinkComponent onClick={() => {
+                                            setFieldValue('signature', "");
+                                            dispatch(setUserBasicDetails({...userBasicDetails, signature: ""}))
+                                        }
+                                        }>
+                                            Remove Signature
+                                        </LinkComponent>
+                                    </div>
                                 </div>}
 
                                 <div className="t-form-actions">
