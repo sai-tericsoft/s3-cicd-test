@@ -60,7 +60,7 @@ const UserSlotsDetailsComponent = (props: UserSlotsDetailsComponentProps) => {
     }, [searchParams]);
 
     useEffect(() => {
-        if (currentTab) {
+        if (currentTab && userBasicDetails._id) {
             dispatch(getUserSlots(userBasicDetails._id, currentTab));
         }
     }, [dispatch, userBasicDetails._id, currentTab]);
@@ -133,7 +133,7 @@ const UserSlotsDetailsComponent = (props: UserSlotsDetailsComponentProps) => {
                                         {!userSlots.is_same_slots &&
                                         <>
                                             {
-                                                userSlots.day_scheduled_slots.length && userSlots.day_scheduled_slots.map((slot: any) => {
+                                                userSlots?.day_scheduled_slots?.length && userSlots.day_scheduled_slots.map((slot: any) => {
                                                     return (
                                                         <div className='ts-row slots-timings-row-wrapper'>
                                                             <div className="ts-col-2">{slot.day_name}</div>

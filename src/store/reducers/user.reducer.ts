@@ -36,7 +36,7 @@ const initialData: IUserReducerState = {
     isUserBasicDetailsLoaded: false,
     isUserBasicDetailsLoadingFailed: false,
 
-    userSlots: [],
+    userSlots: {},
     isUserSlotsLoading: false,
     isUserSlotsLoaded: false,
     isUserSlotsLoadingFailed: false,

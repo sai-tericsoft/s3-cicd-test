@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {getUserBasicDetails} from "../../../../store/actions/user.action";
+import {getUserBasicDetails, getUserSlots} from "../../../../store/actions/user.action";
 import {useParams, useSearchParams} from "react-router-dom";
 import {IRootReducerState} from "../../../../store/reducers";
 import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
@@ -134,10 +134,10 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
             isUserBasicDetailsLoading,
             isUserBasicDetailsLoadingFailed,
             userBasicDetails,
-            // userSlots,
-            // isUserSlotsLoading,
-            // isUserSlotsLoaded,
-            // isUserSlotsLoadingFailed,
+            userSlots,
+            isUserSlotsLoading,
+            isUserSlotsLoaded,
+            isUserSlotsLoadingFailed,
         } = useSelector((state: IRootReducerState) => state.user);
         const {serviceListLite} = useSelector((state: IRootReducerState) => state.service)
         const [currentTab, setCurrentTab] = useState<any>(userBasicDetails?.assigned_facilities || '');
@@ -151,59 +151,59 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
             }
         }, [dispatch, userId]);
 
-        // useEffect(() => {
-        //     if (currentTab && userId) {
-        //         dispatch(getUserSlots(userId, currentTab));
-        //     }
-        // }, [dispatch, userId, currentTab]);
+        useEffect(() => {
+            if (currentTab && userId) {
+                dispatch(getUserSlots(userId, currentTab));
+            }
+        }, [dispatch, userId, currentTab]);
 
 
-        // useEffect(() => {
-        //     if (userSlots?.is_same_slots) {
-        //         const allScheduledSlots = {
-        //             all_scheduled_slots: userSlots?.all_scheduled_slots
-        //         };
-        //         setFormInitialValues(allScheduledSlots);
-        //
-        //     } else {
-        //         const allSlots = _.cloneDeep(InitialValue.scheduled_slots);
-        //         const dayScheduledSlots = {
-        //             is_same_slots: false,
-        //             scheduled_slots: userSlots?.day_scheduled_slots?.map((slot: any) => ({
-        //                 day: slot.day,
-        //                 dayName: slot.day_name,
-        //                 is_selected: true,
-        //                 slot_timings: slot.slot_timings?.map((timing: any) => ({
-        //                     start_time: timing.start_time,
-        //                     end_time: timing.end_time,
-        //                     service_id: timing.service_id
-        //                 }))
-        //             }))
-        //         };
-        //
-        //         console.log(dayScheduledSlots);
-        //
-        //         const updatedSlots = allSlots?.map((slot: any) => {
-        //             console.log(slot);
-        //             const matchingSlot = dayScheduledSlots?.scheduled_slots?.find((daySlot: any) => daySlot.dayName === slot.dayName);
-        //             console.log(matchingSlot)
-        //             if (matchingSlot) {
-        //                 return matchingSlot;
-        //             } else {
-        //                 return slot;
-        //             }
-        //         });
-        //
-        //         console.log(updatedSlots);
-        //         const updatedFormInitialValues = {
-        //             is_same_slots: dayScheduledSlots.is_same_slots,
-        //             scheduled_slots: updatedSlots
-        //         };
-        //
-        //         setFormInitialValues(updatedFormInitialValues);
-        //
-        //     }
-        // }, [userSlots]);
+        useEffect(() => {
+            console.log(userSlots);
+            if (userSlots && Object.keys(userSlots).length) {
+                if (userSlots?.is_same_slots) {
+                    const allScheduledSlots = {
+                        all_scheduled_slots: userSlots?.all_scheduled_slots
+                    };
+                    setFormInitialValues(allScheduledSlots);
+
+                } else {
+                    const allSlots = _.cloneDeep(InitialValue.scheduled_slots);
+                    const dayScheduledSlots = {
+                        is_same_slots: false,
+                        scheduled_slots: userSlots?.day_scheduled_slots?.map((slot: any) => ({
+                            day: parseInt(slot.day),
+                            dayName: slot.day_name,
+                            is_selected: true,
+                            slot_timings: slot.slot_timings?.map((timing: any) => ({
+                                start_time: timing.start_time,
+                                end_time: timing.end_time,
+                                service_id: timing.service_id
+                            }))
+                        }))
+                    };
+
+                    const updatedSlots = allSlots?.map((slot: any) => {
+                        console.log(slot);
+                        const matchingSlot = dayScheduledSlots?.scheduled_slots?.find((daySlot: any) => daySlot.dayName === slot.dayName);
+                        console.log(matchingSlot)
+                        if (matchingSlot) {
+                            return matchingSlot;
+                        } else {
+                            return slot;
+                        }
+                    });
+
+                    const updatedFormInitialValues = {
+                        is_same_slots: dayScheduledSlots.is_same_slots,
+                        scheduled_slots: updatedSlots
+                    };
+
+                    setFormInitialValues(updatedFormInitialValues);
+
+                }
+            }
+        }, [userSlots]);
 
 
         useEffect(() => {
@@ -222,7 +222,6 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
         const onSlotAdd = useCallback(
             (values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
                 const payload = {...values};
-                console.log(payload);
                 if (payload.is_same_slots) {
                     delete payload.scheduled_slots;
                     payload.all_scheduled_slots.forEach((slot: any, index: any) => {
@@ -243,11 +242,11 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                         (slot: any) => slot.is_selected
                     );
 
-                    payload.scheduled_slots.forEach((day: any) => {
-                        const {dayId, slot_timings} = day;
+                    payload.scheduled_slots.forEach((day_slots: any) => {
+                        const {day, slot_timings} = day_slots;
 
                         // Convert slot_timings to the desired format
-                        const slots = slot_timings?.map((slot: any) => ({
+                        const slots = slot_timings.map((slot: any) => ({
                             start_time: slot.start_time,
                             end_time: slot.end_time,
                             service_id: slot.service_id,
@@ -257,14 +256,14 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                         if (!payload.day_slots) {
                             payload.day_slots = {};
                         }
-                        if (!payload.day_slots[dayId]) {
-                            payload.day_slots[dayId] = {};
+                        if (!payload.day_slots[day]) {
+                            payload.day_slots[day] = {};
                         }
                         slots.forEach((slot: any) => {
-                            if (!payload.day_slots[dayId][slot.service_id]) {
-                                payload.day_slots[dayId][slot.service_id] = [];
+                            if (!payload.day_slots[day][slot.service_id]) {
+                                payload.day_slots[day][slot.service_id] = [];
                             }
-                            payload.day_slots[dayId][slot.service_id].push({
+                            payload.day_slots[day][slot.service_id].push({
                                 start_time: slot.start_time,
                                 end_time: slot.end_time,
                             });
@@ -275,13 +274,14 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                             payload.day_scheduled_slots = {};
                         }
 
-                        if (!payload.day_scheduled_slots[dayId]) {
-                            payload.day_scheduled_slots[dayId] = [];
+                        if (!payload.day_scheduled_slots[day]) {
+                            payload.day_scheduled_slots[day] = [];
                         }
-                        payload.day_scheduled_slots[dayId].push(...slots);
+                        payload.day_scheduled_slots[day].push(...slots);
                     });
                     delete payload.scheduled_slots;
                 }
+                console.log(payload);
 
                 setSubmitting(true);
 
@@ -340,12 +340,22 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                             >
                                 <CardComponent title={'Available Hours and Service'}>
                                     <FormControlLabelComponent label={facility.name}/>
-                                    <Formik initialValues={formInitialValues}
-                                            onSubmit={onSlotAdd}
-                                            validateOnChange={false}
-                                            validateOnBlur={true}
-                                            enableReinitialize={true}
-                                            validateOnMount={true}>
+                                    <>
+                                        {isUserSlotsLoading && (
+                                            <div>
+                                                <LoaderComponent/>
+                                            </div>
+                                        )}
+                                        {isUserSlotsLoadingFailed && (
+                                            <StatusCardComponent title={"Failed to fetch Details"}/>
+                                        )}
+                                    </>
+                                    {isUserSlotsLoaded && <Formik initialValues={formInitialValues}
+                                                                  onSubmit={onSlotAdd}
+                                                                  validateOnChange={false}
+                                                                  validateOnBlur={true}
+                                                                  enableReinitialize={true}
+                                                                  validateOnMount={true}>
                                         {({
                                               values,
                                               isValid,
@@ -619,7 +629,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                                             )
                                         }}
 
-                                    </Formik>
+                                    </Formik>}
 
                                 </CardComponent>
                             </TabContentComponent>
