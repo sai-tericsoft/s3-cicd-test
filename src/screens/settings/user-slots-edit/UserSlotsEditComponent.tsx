@@ -19,7 +19,9 @@ import {IRootReducerState} from "../../../store/reducers";
 import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import _ from "lodash";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
-import {getUserSlots} from "../../../store/actions/user.action";
+import {getUserBasicDetails, getUserSlots} from "../../../store/actions/user.action";
+import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
+import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 
 interface UserSlotsEditComponentProps {
 
@@ -138,6 +140,8 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
         userBasicDetails,
         userSlots,
         isUserSlotsLoaded,
+        isUserSlotsLoadingFailed,
+        isUserSlotsLoading
     } = useSelector((state: IRootReducerState) => state.user);
 
     useEffect(() => {
@@ -191,9 +195,14 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
         const currentTab = searchParams.get("currentStepId");
         setCurrentTab(currentTab);
         setFacilityId(currentTab);
+        if (userId) {
+            dispatch(getUserBasicDetails(userId));
+        }
+
         if (currentTab && userId) {
             dispatch(getUserSlots(userId, currentTab));
         }
+
     }, [searchParams, userId, dispatch]);
 
     const handleTabChange = useCallback((e: any, value: any) => {
@@ -302,6 +311,16 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
 
     return (
         <div className="user-slots-component">
+            <>
+                {isUserSlotsLoading && (
+                    <div>
+                        <LoaderComponent/>
+                    </div>
+                )}
+                {isUserSlotsLoadingFailed && (
+                    <StatusCardComponent title={"Failed to fetch Details"}/>
+                )}
+            </>
             {isUserSlotsLoaded && <>
                 <TabsWrapperComponent>
                     <div className="tabs-wrapper">
