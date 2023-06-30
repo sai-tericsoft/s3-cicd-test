@@ -219,7 +219,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
         setCurrentTab(value);
         setFacilityId(value);
         dispatch(setUserSlots(InitialValue))
-    }, [searchParams, setSearchParams]);
+    }, [searchParams, setSearchParams, dispatch]);
 
     useEffect(() => {
         dispatch(setCurrentNavParams('Edit User', null, () => {
