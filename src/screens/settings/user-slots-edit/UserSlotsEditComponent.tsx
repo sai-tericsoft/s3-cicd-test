@@ -19,7 +19,7 @@ import {IRootReducerState} from "../../../store/reducers";
 import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import _ from "lodash";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
-import {getUserBasicDetails, getUserSlots} from "../../../store/actions/user.action";
+import {getUserBasicDetails, getUserSlots, setUserSlots} from "../../../store/actions/user.action";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 
@@ -147,10 +147,6 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
     useEffect(() => {
         if (userSlots && Object.keys(userSlots).length) {
             if (userSlots?.is_same_slots) {
-                // const allScheduledSlots = {
-                //     all_scheduled_slots: userSlots?.all_scheduled_slots
-                // };
-
                 const allScheduledSlots = {
                     is_same_slots: true,
                     all_scheduled_slots: userSlots?.all_scheduled_slots?.map((slot: any) => ({
@@ -192,7 +188,6 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                     }
                 });
 
-                console.log(updatedSlots);
                 const updatedFormInitialValues = {
                     is_same_slots: dayScheduledSlots.is_same_slots,
                     scheduled_slots: updatedSlots,
@@ -223,6 +218,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
         setSearchParams(newSearchParams.toString());
         setCurrentTab(value);
         setFacilityId(value);
+        dispatch(setUserSlots(InitialValue))
     }, [searchParams, setSearchParams]);
 
     useEffect(() => {
@@ -234,7 +230,6 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
             }
         }));
     }, [dispatch, userBasicDetails, navigate, path, facilityId]);
-
 
     const onSlotAdd = useCallback(
         (values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
@@ -343,7 +338,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                             onUpdate={handleTabChange}
                         >
                             {userBasicDetails?.assigned_facility_details?.map((facility: any, index: any) => (
-                                <TabComponent className={'client-details-tab'} label={`facility${index + 1}`}
+                                <TabComponent className={'client-details-tab'} label={facility.name}
                                               value={facility._id}/>
                             ))}
                         </TabsComponent>
