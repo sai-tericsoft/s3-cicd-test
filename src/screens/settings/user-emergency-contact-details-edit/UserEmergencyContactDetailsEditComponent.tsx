@@ -93,6 +93,7 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
 
 
     useEffect(() => {
+        console.log('useEffect call')
         if (userBasicDetails) {
             if (!userBasicDetails.emergency_contact_info?.primary_emergency?.secondary_contact_info ||
                 (userBasicDetails.emergency_contact_info?.primary_emergency?.secondary_contact_info && userBasicDetails.emergency_contact_info?.primary_emergency?.secondary_contact_info?.length === 0)) {
@@ -122,7 +123,10 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                     email: "",
                 }];
             }
-            setInitialValues({emergency_contact_info: userBasicDetails.emergency_contact_info})
+            setInitialValues({
+                show_secondary_emergency_form: userBasicDetails.show_secondary_emergency_form,
+                emergency_contact_info: userBasicDetails.emergency_contact_info
+            })
         }
     }, [userBasicDetails])
 
@@ -133,10 +137,6 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                 // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setSubmitting(false);
                 dispatch(setUserBasicDetails(response.data));
-                if (Object.keys(userBasicDetails.emergency_contact_info.secondary_emergency).length) {
-                    const show_secondary_emergency_form = true;
-                    setInitialValues({emergency_contact_info: show_secondary_emergency_form})
-                }
             }).catch((error: any) => {
             CommonService.handleErrors(setErrors, error, true);
             console.log('errors', error);
@@ -164,7 +164,7 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                             validateForm();
                         }, [validateForm, values]);
                         return (
-                            <Form noValidate={true} className={"t-form"}>
+                            <Form noValidate={true} className={"t-form"} autoComplete="off">
                                 {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
 
                                 <FormControlLabelComponent label={"Primary Emergency Contact"} size={'sm'}/>

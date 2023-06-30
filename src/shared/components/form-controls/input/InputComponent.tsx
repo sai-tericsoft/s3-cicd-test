@@ -87,6 +87,7 @@ const InputComponent = (props: InputComponentProps) => {
             <TextField type={type === "password" ? "password" : "text"}
                        id={id}
                        autoComplete="off"
+                       spellCheck={false}
                        fullWidth={fullWidth}
                        placeholder={placeholder}
                        required={required}
@@ -98,13 +99,15 @@ const InputComponent = (props: InputComponentProps) => {
                        variant={variant}
                        disabled={disabled}
                        InputProps={{
+                           // autoComplete:"off",
                            startAdornment: prefix && <InputAdornment position="start">{prefix}</InputAdornment>,
                            endAdornment: suffix && <InputAdornment position="end">{suffix}</InputAdornment>,
                        }}
                        inputProps={{
                            ...inputProps,
                            max: props.max,
-                           readOnly: readOnly
+                           readOnly: readOnly,
+                           // autocomplete: "new-password",
                        }}
                        onChange={(event) => {
                            handleOnChange(event);

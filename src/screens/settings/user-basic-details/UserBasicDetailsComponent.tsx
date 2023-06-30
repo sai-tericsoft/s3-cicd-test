@@ -250,11 +250,11 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                         userBasicDetails?.secondary_contact_info?.map((phone_number: any, index: number) => {
                                             return <>
                                                 {
-                                                    phone_number?.phone_type_details?.title && phone_number?.phone && <>
+                                                    phone_number?.phone_type && phone_number?.phone && <>
                                                         <div className={'ts-row'}>
                                                             <div className={'ts-col-6'}>
                                                                 <DataLabelValueComponent label={'Phone Type'}>
-                                                                    {phone_number?.phone_type_details?.title || "N/A"}
+                                                                    {phone_number?.phone_type || "N/A"}
                                                                 </DataLabelValueComponent>
                                                             </div>
                                                             <div className={'ts-col-4'}>
@@ -374,11 +374,11 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                             return <>
 
                                                 {
-                                                    phone_number?.phone_type_details?.title && phone_number?.phone && <>
+                                                    phone_number?.phone_type && phone_number?.phone && <>
                                                         <div className={'ts-row'}>
                                                             <div className={'ts-col-6'}>
                                                                 <DataLabelValueComponent label={'Phone Type'}>
-                                                                    {phone_number?.phone_type_details?.title || "N/A"}
+                                                                    {phone_number?.phone_type || "N/A"}
                                                                 </DataLabelValueComponent>
                                                             </div>
                                                             <div className={'ts-col-6'}>

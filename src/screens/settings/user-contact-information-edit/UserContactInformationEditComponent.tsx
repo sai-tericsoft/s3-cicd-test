@@ -27,11 +27,15 @@ interface UserContactInformationEditComponentProps {
 }
 
 const formValidationSchema = Yup.object({
-    primary_email: Yup.string().required('Email is required'),
+    primary_email: Yup.string().required('Email is required').email('Invalid email'),
     primary_contact_info: Yup.object({
         phone_type: Yup.string().required('Phone Type is required'),
         phone: Yup.string().required('Phone Number is required'),
     }),
+    secondary_emails: Yup.array(Yup.object({
+            email: Yup.string().email('Invalid email')
+        })
+    ),
 });
 
 const formInitialValues: any = {

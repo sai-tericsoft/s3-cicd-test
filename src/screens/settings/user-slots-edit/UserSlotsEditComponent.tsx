@@ -149,7 +149,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
             const allSlots = _.cloneDeep(InitialValue.scheduled_slots);
             const dayScheduledSlots = {
                 is_same_slots: false,
-                scheduled_slots: userSlots.day_scheduled_slots?.map((slot: any) => ({
+                scheduled_slots: userSlots?.day_scheduled_slots?.map((slot: any) => ({
                     day: slot.day,
                     dayName: slot.day_name,
                     is_selected: true,
@@ -184,7 +184,6 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
 
         }
     }, [userSlots]);
-
 
     useEffect(() => {
         let currentTab = searchParams.get("currentStepId");
