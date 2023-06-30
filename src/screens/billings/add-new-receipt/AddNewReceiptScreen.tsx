@@ -135,7 +135,8 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             title: "S.No",
             dataIndex: "sno",
             key: "sno",
-            width: 80,
+            width: 95,
+            fixed: 'left',
             align: 'center',
             render: (record: any, index: number) => {
                 return index + 1;
@@ -145,7 +146,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             title: "Item(s)",
             dataIndex: "item",
             key: "item",
-            width: 550,
+            width: 580,
             render: (record: any, index: number) => <Field name={`products[${index}].product`}
                                                            className="t-form-control">
                 {
@@ -156,6 +157,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                         const selectedProducts = _.get(field.form?.values, `products`).map((item: any) => item.product);
                         const showAvailableQuantity = (quantity !== undefined && (units === undefined || units === '' || units === null || units === 0 || isNaN(units)));
                         return <>
+                            <span className={'ts-col-8'}>
                             <FormikAutoCompleteComponent
                                 required={true}
                                 url={APIConfig.GET_INVENTORY_LIST_LITE.URL}
@@ -175,6 +177,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                     field.form.setFieldValue(`products[${index}].showQuantity`, false);
                                 }}
                             />
+                            </span>
 
                             <span
                                 className={`product-available-quantity
@@ -263,6 +266,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             title: "",
             dataIndex: "actions",
             key: "actions",
+            fixed: 'right',
             width: 70,
             render: (record: any, index: number) => <Field name={`products[${index}].units`} className="t-form-control">
                 {
@@ -319,13 +323,13 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
     }, [providerListSearch]);
 
 
-    useEffect(()=>{
+    useEffect(() => {
         getProviderList()
-    },[getProviderList]);
+    }, [getProviderList]);
 
     const clientListColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
         {
-            title:"Client Name",
+            title: "Client Name",
             key: "name",
             dataIndex: "name",
             render: (item: any) => {
@@ -343,7 +347,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
 
     const providerListColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
         {
-            title:'Provider Name',
+            title: 'Provider Name',
             key: "name",
             dataIndex: "name",
             render: (item: any) => {
@@ -478,6 +482,10 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         closeBillingAddressFormDrawer();
     }, [closeBillingAddressFormDrawer]);
 
+    useEffect(() => {
+        getClientList();
+    }, [getClientList])
+
     return (
         <div className={'add-new-receipt-screen'}>
             <PageHeaderComponent title={'Add Receipt'}/>
@@ -521,10 +529,13 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                 <div className={"billing-address-block__title"}>Billing From</div>
                                             </div>
                                             <div className={"billing-address-block__details"}>
-                                                <div className={"billing-address-block__detail__row name"}>{billingFromAddress?.name}</div>
-                                                <div className={"billing-address-block__detail__row"}> {billingFromAddress?.address_line} </div>
+                                                <div
+                                                    className={"billing-address-block__detail__row name"}>{billingFromAddress?.name}</div>
+                                                <div
+                                                    className={"billing-address-block__detail__row"}> {billingFromAddress?.address_line} </div>
                                                 <div className={"billing-address-block__detail__row"}>
-                                                    <span> {billingFromAddress?.city} </span>, <span>{billingFromAddress?.state}</span>&nbsp;<span>{billingFromAddress?.zip_code}</span>
+                                                    <span> {billingFromAddress?.city} </span>, <span>{billingFromAddress?.state}</span>&nbsp;
+                                                    <span>{billingFromAddress?.zip_code}</span>
                                                 </div>
                                                 <div
                                                     className={"billing-address-block__detail__row"}> {billingFromAddress?.phone} </div>
@@ -577,7 +588,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                        }
                                                    </>}>
                                         {
-                                            !selectedClient && <div className="h-v-center">
+                                            !selectedClient && <div className="h-v-center add-client-btn">
                                                 <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}
                                                                  onClick={openClientSelectionDrawer}
                                                 >
@@ -625,7 +636,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                    </>}
                                     >
                                         {
-                                            !selectedProvider && <div className="h-v-center">
+                                            !selectedProvider && <div className="h-v-center add-client-btn">
                                                 <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}
                                                                  onClick={openProviderSelectionDrawer}
                                                 >
@@ -741,14 +752,16 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="t-form-actions">
+                                    <div className="t-form-actions mrg-bottom-0">
                                         <ButtonComponent variant={"outlined"}
+                                                         className={isSubmitting ? 'mrg-right-15' : ''}
                                                          onClick={handleAddReceiptCancel}
                                         >
                                             Cancel
                                         </ButtonComponent>&nbsp;&nbsp;
                                         <ButtonComponent
                                             type="submit"
+                                            className={'mrg-left-15'}
                                             disabled={isSubmitting || !isValid}
                                             isLoading={isSubmitting}
                                         >
@@ -762,7 +775,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 }}
             </Formik>
             <DrawerComponent isOpen={isClientSelectionDrawerOpened}
-                             closeOnBackDropClick={false}
+                             closeOnBackDropClick={true}
                              closeOnEsc={false}
                              onClose={closeClientSelectionDrawer}
                              showClose={true}
@@ -774,11 +787,11 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                      placeholder={'Search for Clients'}
                                      onSearchChange={(value) => {
                                          setClientListSearch(value);
-                                         getClientList();
+                                         // getClientList();
                                      }}
                     />
                     {
-                        clientListSearch &&
+                        // clientListSearch &&
                         <>
                             <div className={'client-list-heading'}>Client List</div>
                             <TableComponent data={clientList} columns={clientListColumns}
@@ -853,7 +866,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                             className={'payment-mode-modal'}
                             modalFooter={<>
                                 <ButtonComponent variant={'outlined'}
-                                                 className={'mrg-right-10'}
+                                                 className={'mrg-right-15'}
                                                  onClick={() => {
                                                      setIsPaymentModeModalOpen(false);
                                                      setSelectedPaymentMode(undefined);

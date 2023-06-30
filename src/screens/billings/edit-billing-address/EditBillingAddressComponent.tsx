@@ -165,7 +165,7 @@ const EditBillingAddressComponent = (props: EditBillingAddressComponentProps) =>
                                     }
                                 </Field>
                             </div>
-                            <div className="t-form-actions">
+                            <div className="t-form-actions mrg-bottom-0">
                                 <ButtonComponent variant={"outlined"}
                                                  onClick={onCancel}>
                                     Cancel

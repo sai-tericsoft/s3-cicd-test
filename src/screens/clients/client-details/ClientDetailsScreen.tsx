@@ -44,10 +44,10 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
         //     title: "Appointments",
         //     path: clientId ? CommonService._routeConfig.ClientAppointments(clientId) : ""
         // },
-        // {
-        //     title: "Billing",
-        //     path: clientId ? CommonService._routeConfig.ClientBillingDetails(clientId) : ""
-        // }
+        {
+            title: "Billing",
+            path: clientId ? CommonService._routeConfig.ClientBillingDetails(clientId) : ""
+        }
     ];
     const title = (location.state && location.state.title) ? location.state.title : CLIENT_MENU_ITEMS[0].title;
     const {

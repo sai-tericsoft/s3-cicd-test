@@ -109,9 +109,9 @@
       }
     }
 
-    .card-component {
-      margin-bottom: 0px !important;
-    }
+    //.card-component {
+    //  margin-bottom: 0px !important;
+    //}
 
     .add-new-invoice__comments__payment__block__wrapper {
       background: #EAF3F2;
@@ -132,10 +132,12 @@
           }
 
           &.mode_of_payment {
+            margin-bottom: 11px;
             .data-value {
               font-weight: $font-weight-bolder;
               font-size: 1.7143rem;
               margin-left: 10px;
+
             }
           }
 

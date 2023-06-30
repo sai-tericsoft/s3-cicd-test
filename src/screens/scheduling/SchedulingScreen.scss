@@ -69,7 +69,8 @@
 
     .t-table-wrapper {
       .t-table {
-        min-height: 404px !important;
+        //min-height: 404px !important;
+        height: calc(100vh - 300px);
         .t-cell-time{
           padding-left: 30px !important;
         }

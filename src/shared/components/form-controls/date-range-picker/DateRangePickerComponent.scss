@@ -5,10 +5,11 @@
     width: 100%;
   }
   .react-daterange-picker__wrapper {
-    padding: 3px;
-    border-radius: 5px;
+    padding: 1px;
+    border-radius: 8px;
     color: rgba(0, 0, 0, 0.6);
     border: thin solid #c7c1c1;
+    background-color: #FFFFFF;
 
     &:hover {
       border: thin solid #000;

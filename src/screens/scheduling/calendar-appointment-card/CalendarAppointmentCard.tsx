@@ -1,6 +1,7 @@
 import "./CalendarAppointmentCard.scss";
 import React from "react";
 import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
+import {CommonService} from "../../../shared/services";
 
 interface CalendarAppointmentCardProps {
     style?: React.CSSProperties;
@@ -13,15 +14,15 @@ interface CalendarAppointmentCardProps {
 const CalendarAppointmentCard = (props: CalendarAppointmentCardProps) => {
     const {style, description,timeSlot, status, title} = props;
 
-
+ console.log('title',title);
     return (
         <ToolTipComponent backgroundColor="#000000" textColor="#ffffff"
             tooltip={
                 <>
-                    <b>{title || "No title"}</b><br/>
+                    <b>{CommonService.capitalizeFirstLetter(title)|| "No title"}</b><br/>
                     {description || "-"} <br/>
                     {timeSlot || "-"} <br/>
-                    <i>{status || "-"}</i>
+                    <>{CommonService.capitalizeFirstLetter(status) || "-"}</>
                 </>
             }
             // tooltip={
@@ -33,10 +34,10 @@ const CalendarAppointmentCard = (props: CalendarAppointmentCardProps) => {
                  className={"calendar-appointment-card-component card-appointment-with-status " + status}>
                 <div className="card-appointment-header">
                     <div className="card-appointment-title">
-                        {title || "No title"}
+                        {CommonService.capitalizeFirstLetter(title) || "No title"}
                     </div>
                     <div className="card-appointment-status">
-                        {status || "-"}
+                        {CommonService.capitalizeFirstLetter(status) || "-"}
                     </div>
                 </div>
                 <div className="card-appointment-description">

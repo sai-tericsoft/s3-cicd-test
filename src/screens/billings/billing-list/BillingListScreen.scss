@@ -1,4 +1,14 @@
 .payment-list-component {
+  .t-tabs-wrapper {
+    height: calc(100vh - 180px);
+  }
+  .t-table-wrapper .t-table {
+    height: calc(100vh - 300px) !important;;
+    .table-no-data-wrapper {
+      min-height: calc(100vh - 350px) !important;
+    }
+  }
+
   .payment-details-tab {
     font-size: 1rem;
   }
