@@ -10,13 +10,18 @@
     margin-bottom: 24px;
 
     .slots-timings-row-wrapper {
-      padding: 20px 10px;
+      padding: 10px;
       color: #212B36;
       font-weight: 500;
       font-size: 14px;
+      .horizontal-line-wrapper{
+        margin-bottom: 0px !important;
+        color: #F3F3F3;
+        opacity: 0.3;
+      }
 
       .slots-timings-sub-row-wrapper {
-        //margin-bottom: 10px;
+        margin-bottom: 10px;
       }
     }
   }
