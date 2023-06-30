@@ -42,6 +42,7 @@ const TextAreaComponent = (props: TextAreaComponentProps) => {
         <FormControl className={'input-component ' + className + ' ' + (fullWidth ? "full-width" : "")}
                      error={hasError}>
             <TextField id={id}
+                       autoComplete="off"
                        fullWidth={fullWidth}
                        placeholder={placeholder}
                        required={required}
