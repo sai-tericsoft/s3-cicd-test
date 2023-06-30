@@ -157,7 +157,8 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                         start_time: slot.start_time,
                         end_time: slot.end_time,
                         service_id: slot.service_id
-                    }))
+                    })),
+                    scheduled_slots: InitialValue.scheduled_slots
                 };
 
                 setFormInitialValues(allScheduledSlots);
@@ -194,7 +195,8 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                 console.log(updatedSlots);
                 const updatedFormInitialValues = {
                     is_same_slots: dayScheduledSlots.is_same_slots,
-                    scheduled_slots: updatedSlots
+                    scheduled_slots: updatedSlots,
+                    all_scheduled_slots: InitialValue.all_scheduled_slots
                 };
                 setFormInitialValues(updatedFormInitialValues);
             }

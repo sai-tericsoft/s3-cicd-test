@@ -158,55 +158,64 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
         }, [dispatch, userId, currentTab]);
 
 
-        useEffect(() => {
-            console.log(userSlots);
-            if (userSlots && Object.keys(userSlots).length) {
-                if (userSlots?.is_same_slots) {
-                    const allScheduledSlots = {
-                        all_scheduled_slots: userSlots?.all_scheduled_slots
-                    };
-                    setFormInitialValues(allScheduledSlots);
+    useEffect(() => {
+        if (userSlots && Object.keys(userSlots).length) {
+            if (userSlots?.is_same_slots) {
+                const allScheduledSlots = {
+                    is_same_slots: true,
+                    all_scheduled_slots: userSlots?.all_scheduled_slots?.map((slot: any) => ({
+                        start_time: slot.start_time,
+                        end_time: slot.end_time,
+                        service_id: slot.service_id
+                    })),
+                    scheduled_slots: InitialValue.scheduled_slots
+                };
 
-                } else {
-                    const allSlots = _.cloneDeep(InitialValue.scheduled_slots);
-                    const dayScheduledSlots = {
-                        is_same_slots: false,
-                        scheduled_slots: userSlots?.day_scheduled_slots?.map((slot: any) => ({
-                            day: parseInt(slot.day),
-                            dayName: slot.day_name,
-                            is_selected: true,
-                            slot_timings: slot.slot_timings?.map((timing: any) => ({
-                                start_time: timing.start_time,
-                                end_time: timing.end_time,
-                                service_id: timing.service_id
-                            }))
+                setFormInitialValues(allScheduledSlots);
+
+            } else {
+                const allSlots = _.cloneDeep(InitialValue.scheduled_slots);
+                const dayScheduledSlots = {
+                    is_same_slots: false,
+                    scheduled_slots: userSlots?.day_scheduled_slots?.map((slot: any) => ({
+                        day: parseInt(slot.day),
+                        dayName: slot.day_name,
+                        is_selected: true,
+                        slot_timings: slot.slot_timings?.map((timing: any) => ({
+                            start_time: timing.start_time,
+                            end_time: timing.end_time,
+                            service_id: timing.service_id
                         }))
-                    };
+                    }))
+                };
 
-                    const updatedSlots = allSlots?.map((slot: any) => {
-                        console.log(slot);
-                        const matchingSlot = dayScheduledSlots?.scheduled_slots?.find((daySlot: any) => daySlot.dayName === slot.dayName);
-                        console.log(matchingSlot)
-                        if (matchingSlot) {
-                            return matchingSlot;
-                        } else {
-                            return slot;
-                        }
-                    });
+                console.log(dayScheduledSlots);
 
-                    const updatedFormInitialValues = {
-                        is_same_slots: dayScheduledSlots.is_same_slots,
-                        scheduled_slots: updatedSlots
-                    };
+                const updatedSlots = allSlots?.map((slot: any) => {
+                    console.log(slot);
+                    const matchingSlot = dayScheduledSlots?.scheduled_slots?.find((daySlot: any) => daySlot.dayName === slot.dayName);
+                    console.log(matchingSlot)
+                    if (matchingSlot) {
+                        return matchingSlot;
+                    } else {
+                        return slot;
+                    }
+                });
 
-                    setFormInitialValues(updatedFormInitialValues);
-
-                }
+                console.log(updatedSlots);
+                const updatedFormInitialValues = {
+                    is_same_slots: dayScheduledSlots.is_same_slots,
+                    scheduled_slots: updatedSlots,
+                    all_scheduled_slots: InitialValue.all_scheduled_slots
+                };
+                setFormInitialValues(updatedFormInitialValues);
             }
-        }, [userSlots]);
+        }
+    }, [userSlots]);
 
 
-        useEffect(() => {
+
+    useEffect(() => {
             let currentTab: any = searchParams.get("currentStepId");
             setCurrentTab(currentTab);
             setFacilityId(currentTab);
