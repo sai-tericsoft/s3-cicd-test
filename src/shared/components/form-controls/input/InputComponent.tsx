@@ -99,7 +99,7 @@ const InputComponent = (props: InputComponentProps) => {
                        variant={variant}
                        disabled={disabled}
                        InputProps={{
-                           // autoComplete:"off",
+                           autoComplete: "off",
                            startAdornment: prefix && <InputAdornment position="start">{prefix}</InputAdornment>,
                            endAdornment: suffix && <InputAdornment position="end">{suffix}</InputAdornment>,
                        }}
@@ -107,7 +107,7 @@ const InputComponent = (props: InputComponentProps) => {
                            ...inputProps,
                            max: props.max,
                            readOnly: readOnly,
-                           // autocomplete: "new-password",
+                           autocomplete: "off",
                        }}
                        onChange={(event) => {
                            handleOnChange(event);
