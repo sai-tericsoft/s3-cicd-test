@@ -124,54 +124,80 @@ const UserSlotsDetailsComponent = (props: UserSlotsDetailsComponentProps) => {
                                     )}
 
                                     {isUserSlotsLoaded &&
-                                    <div className='slots-timings-table-view-wrapper'>
-                                        {userSlots.is_same_slots && <>
+                                    <>
+                                        {userSlots.is_same_slots && <div className='same-for-all-details-title'>Same for all days</div>}
+                                        <div className='slots-timings-table-view-wrapper'>
+                                            {userSlots.is_same_slots && <>
 
-                                        </>
-
-                                        }
-                                        {!userSlots.is_same_slots &&
-                                        <>
-                                            {
-                                                userSlots?.day_scheduled_slots?.length && userSlots.day_scheduled_slots.map((slot: any) => {
-                                                    return (
-                                                        <div className='ts-row slots-timings-row-wrapper'>
-                                                            <div className="ts-col-2">{slot.day_name}</div>
-
-                                                            <div className="ts-col-10">
-                                                                <>
-                                                                    {slot.slot_timings.length &&
-                                                                    slot.slot_timings.map((slot_timing: any) => {
-                                                                        return (<div
-                                                                                className='ts-row slots-timings-sub-row-wrapper'>
-                                                                                <div className='ts-col-3'>
-                                                                                    {CommonService.getHoursAndMinutesFromMinutes(slot_timing.start_time)} - {CommonService.getHoursAndMinutesFromMinutes(slot_timing.end_time)}
-                                                                                </div>
-                                                                                <div
-                                                                                    className='ts-col-5'>{slot_timing?.service_details?.name}</div>
-                                                                            </div>
-                                                                        )
-
-                                                                    })}
-
-
-                                                                </>
+                                                {
+                                                    userSlots?.all_scheduled_slots?.length && userSlots?.all_scheduled_slots.map((slot: any) => {
+                                                        return (
+                                                            <div className='ts-row slots-timings-row-wrapper'>
+                                                                <div className="ts-col-10">
+                                                                    <div
+                                                                        className='ts-row slots-timings-sub-row-wrapper'>
+                                                                        <div className='ts-col-3'>
+                                                                            {CommonService.getHoursAndMinutesFromMinutes(slot.start_time)} - {CommonService.getHoursAndMinutesFromMinutes(slot.end_time)}
+                                                                        </div>
+                                                                        <div
+                                                                            className='ts-col-5'>{slot?.service_details?.name}</div>
+                                                                    </div>
+                                                                </div>
+                                                                {index !== userSlots.all_scheduled_slots?.length - 1 &&
+                                                                <HorizontalLineComponent/>}
 
                                                             </div>
-                                                            {index !== userSlots.day_scheduled_slots.length - 1 &&
-                                                            <HorizontalLineComponent/>}
+                                                        )
+                                                    })
 
-                                                        </div>
-                                                    )
+                                                }
 
-                                                })
+                                            </>
 
                                             }
+                                            {!userSlots.is_same_slots &&
+                                            <>
+                                                {
+                                                    userSlots?.day_scheduled_slots?.length && userSlots.day_scheduled_slots.map((slot: any) => {
+                                                        return (
+                                                            <div className='ts-row slots-timings-row-wrapper'>
+                                                                <div className="ts-col-2">{slot.day_name}</div>
 
-                                        </>
-                                        }
+                                                                <div className="ts-col-10">
+                                                                    <>
+                                                                        {slot.slot_timings.length &&
+                                                                        slot.slot_timings.map((slot_timing: any) => {
+                                                                            return (<div
+                                                                                    className='ts-row slots-timings-sub-row-wrapper'>
+                                                                                    <div className='ts-col-3'>
+                                                                                        {CommonService.getHoursAndMinutesFromMinutes(slot_timing.start_time)} - {CommonService.getHoursAndMinutesFromMinutes(slot_timing.end_time)}
+                                                                                    </div>
+                                                                                    <div
+                                                                                        className='ts-col-5'>{slot_timing?.service_details?.name}</div>
+                                                                                </div>
+                                                                            )
 
-                                    </div>
+                                                                        })}
+
+
+                                                                    </>
+
+                                                                </div>
+                                                                {index !== userSlots.all_scheduled_slots?.length - 1 &&
+                                                                <HorizontalLineComponent/>}
+
+                                                            </div>
+                                                        )
+
+                                                    })
+
+                                                }
+
+                                            </>
+                                            }
+
+                                        </div>
+                                    </>
                                     }
                                 </>
                             </CardComponent>

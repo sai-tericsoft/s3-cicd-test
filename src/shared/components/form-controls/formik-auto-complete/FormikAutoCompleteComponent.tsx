@@ -35,6 +35,7 @@ const FormikAutoCompleteComponent = (props: FormikAutoCompleteComponentProps) =>
        setFieldTouched(name);
     }, [name, setFieldTouched]);
 
+
     return (
             <AutoCompleteDropdownComponent
                 onUpdate={(value: any) => {handleValueChange(value)}}

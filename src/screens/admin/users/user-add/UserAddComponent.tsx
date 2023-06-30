@@ -18,7 +18,6 @@ import FormikAutoCompleteComponent
 import FormikSelectComponent from "../../../../shared/components/form-controls/formik-select/FormikSelectComponent";
 import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import {useNavigate} from "react-router-dom";
-import FormDebuggerComponent from "../../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface UserAddComponentProps {
 
@@ -57,6 +56,7 @@ const UserAddComponent = (props: UserAddComponentProps) => {
         roleList
     } = useSelector((state: IRootReducerState) => state.staticData);
 
+    console.log(facilityListLite);
 
     const onUserAdd = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
         const payload = _.cloneDeep(values);
@@ -99,7 +99,7 @@ const UserAddComponent = (props: UserAddComponentProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
-                            <FormDebuggerComponent values={values} errors={errors} showDebugger={true}/>
+                            {/*<FormDebuggerComponent values={values} errors={errors} showDebugger={true}/>*/}
                             <CardComponent title={'Basic Details'}>
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-md-6'}>
@@ -195,6 +195,7 @@ const UserAddComponent = (props: UserAddComponentProps) => {
                                                         fullWidth={true}
                                                         multiple={true}
                                                         keyExtractor={item => item.id}
+                                                        valueExtractor={item => item.id}
                                                         displayWith={(item: any) => item?.name || ''}
                                                     />
                                                 )

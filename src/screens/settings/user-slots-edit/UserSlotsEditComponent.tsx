@@ -147,9 +147,19 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
     useEffect(() => {
         if (userSlots && Object.keys(userSlots).length) {
             if (userSlots?.is_same_slots) {
+                // const allScheduledSlots = {
+                //     all_scheduled_slots: userSlots?.all_scheduled_slots
+                // };
+
                 const allScheduledSlots = {
-                    all_scheduled_slots: userSlots?.all_scheduled_slots
+                    is_same_slots: false,
+                    all_scheduled_slots: userSlots?.all_scheduled_slots?.map((slot: any) => ({
+                        start_time: slot.start_time,
+                        end_time: slot.end_time,
+                        service_id: slot.service_id
+                    }))
                 };
+
                 setFormInitialValues(allScheduledSlots);
 
             } else {

@@ -87,6 +87,9 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
         const valueExtractor = props.valueExtractor || defaultValueExtractor;
         const keyExtractor = props.keyExtractor || defaultKeyExtractor;
 
+        console.log(options);
+
+
         const defaultRenderOption = useCallback((props: React.HTMLAttributes<HTMLLIElement>,
                                                  option: any,
                                                  state: AutocompleteRenderOptionState,) => (<MenuItem
