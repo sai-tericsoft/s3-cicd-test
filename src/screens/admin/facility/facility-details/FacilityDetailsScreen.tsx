@@ -233,8 +233,8 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                                     </DataLabelValueComponent>
                                     <HorizontalLineComponent/>
                                     <DataLabelValueComponent direction={'row'} label={"Sunday"}>
-                                        {facilityDetails.timings[7]?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[7]?.start_time) + " - "}{facilityDetails.timings[7]?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[7]?.end_time)}
-                                        {!(facilityDetails.timings[7]?.start_time) &&
+                                        {facilityDetails.timings[0]?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[0]?.start_time) + " - "}{facilityDetails.timings[0]?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[0]?.end_time)}
+                                        {!(facilityDetails.timings[0]?.start_time) &&
                                             <span className={'facility-opening-hours-closed-text'}>Closed</span>}
                                     </DataLabelValueComponent>
                                     {/*<HorizontalLineComponent/>*/}
