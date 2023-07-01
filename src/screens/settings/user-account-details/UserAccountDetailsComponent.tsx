@@ -68,7 +68,7 @@ const UserAccountDetailsComponent = (props: UserAccountDetailsComponentProps) =>
                             </ButtonComponent>
                         </LinkComponent>}>
                             <DataLabelValueComponent label={'Appointment Reminders'}>
-                                {userBasicDetails?.communication_preferences?.appointment_reminders}
+                                {userBasicDetails?.communication_preferences?.appointment_reminders_details?.title}
                             </DataLabelValueComponent>
 
                         </CardComponent>
