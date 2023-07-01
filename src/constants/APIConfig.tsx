@@ -854,6 +854,14 @@ const APIConfig: IAPIConfig = {
         URL: (messageId: string) => ENV.API_URL + '/message/' + messageId,
         METHOD: 'put'
     },
+    TODAY_BIRTHDAY_LIST: {
+        URL: () => ENV.API_URL + '/todayBirthdays',
+        METHOD: 'get'
+    },
+    SEND_BIRTHDAY_WISHES: {
+        URL: () => ENV.API_URL + '/todayBirthdays',
+        METHOD: 'get'
+    },
     SYSTEM_SETTING_NEW_MESSAGE: {
         URL: ENV.API_URL + '/newMessage',
         METHOD: 'post'
