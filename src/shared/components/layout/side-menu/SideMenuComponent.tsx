@@ -35,7 +35,7 @@ const menuList: IMenuItem[] = [
     //     icon: ImageConfig.EventIcon
     // },
     {
-        path: CommonService._routeConfig.FrequentlyAskedQuestions(),
+        path: CommonService._routeConfig.Help(),
         title: "Help",
         icon: ImageConfig.HelpIcon
     },
