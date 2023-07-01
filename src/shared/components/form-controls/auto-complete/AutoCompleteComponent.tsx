@@ -87,7 +87,7 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
         const valueExtractor = props.valueExtractor || defaultValueExtractor;
         const keyExtractor = props.keyExtractor || defaultKeyExtractor;
 
-        console.log(options);
+        console.log('dropDownData', dropDownData);
 
 
         const defaultRenderOption = useCallback((props: React.HTMLAttributes<HTMLLIElement>,
@@ -112,6 +112,12 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
                 setDropDownData([...defaultData || []]);
             }
         }, [clearLocalListData, defaultData])
+
+        useEffect(() => {
+            if (options?.length) {
+                setDropDownData([...options || []]);
+            }
+        }, [options])
 
 
         const handleChange = useCallback((event: any, value: any) => {

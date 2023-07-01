@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getUserBasicDetails, getUserSlots} from "../../../../store/actions/user.action";
-import {useParams, useSearchParams} from "react-router-dom";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {IRootReducerState} from "../../../../store/reducers";
 import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../../shared/components/status-card/StatusCardComponent";
@@ -24,6 +24,7 @@ import ButtonComponent from "../../../../shared/components/button/ButtonComponen
 import './UserSlotsComponent.scss';
 import FormDebuggerComponent from "../../../../shared/components/form-debugger/FormDebuggerComponent";
 import _ from "lodash";
+import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 
 interface UserSlotsComponentProps {
 }
@@ -144,6 +145,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
         const [searchParams, setSearchParams] = useSearchParams();
         const [facilityId, setFacilityId] = useState<any>("")
         const [formInitialValues, setFormInitialValues] = useState(_.cloneDeep(InitialValue))
+        const navigate = useNavigate();
 
         useEffect(() => {
             if (userId) {
@@ -152,70 +154,75 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
         }, [dispatch, userId]);
 
         useEffect(() => {
+            dispatch(setCurrentNavParams('User Slots', null, () => {
+                navigate(CommonService._routeConfig.UserList());
+            }));
+        }, [dispatch, navigate]);
+
+        useEffect(() => {
             if (currentTab && userId) {
                 dispatch(getUserSlots(userId, currentTab));
             }
         }, [dispatch, userId, currentTab]);
 
 
-    useEffect(() => {
-        if (userSlots && Object.keys(userSlots).length) {
-            if (userSlots?.is_same_slots) {
-                const allScheduledSlots = {
-                    is_same_slots: true,
-                    all_scheduled_slots: userSlots?.all_scheduled_slots?.map((slot: any) => ({
-                        start_time: slot.start_time,
-                        end_time: slot.end_time,
-                        service_id: slot.service_id
-                    })),
-                    scheduled_slots: InitialValue.scheduled_slots
-                };
+        useEffect(() => {
+            if (userSlots && Object.keys(userSlots).length) {
+                if (userSlots?.is_same_slots) {
+                    const allScheduledSlots = {
+                        is_same_slots: true,
+                        all_scheduled_slots: userSlots?.all_scheduled_slots?.map((slot: any) => ({
+                            start_time: slot.start_time,
+                            end_time: slot.end_time,
+                            service_id: slot.service_id
+                        })),
+                        scheduled_slots: InitialValue.scheduled_slots
+                    };
 
-                setFormInitialValues(allScheduledSlots);
+                    setFormInitialValues(allScheduledSlots);
 
-            } else {
-                const allSlots = _.cloneDeep(InitialValue.scheduled_slots);
-                const dayScheduledSlots = {
-                    is_same_slots: false,
-                    scheduled_slots: userSlots?.day_scheduled_slots?.map((slot: any) => ({
-                        day: parseInt(slot.day),
-                        dayName: slot.day_name,
-                        is_selected: true,
-                        slot_timings: slot.slot_timings?.map((timing: any) => ({
-                            start_time: timing.start_time,
-                            end_time: timing.end_time,
-                            service_id: timing.service_id
+                } else {
+                    const allSlots = _.cloneDeep(InitialValue.scheduled_slots);
+                    const dayScheduledSlots = {
+                        is_same_slots: false,
+                        scheduled_slots: userSlots?.day_scheduled_slots?.map((slot: any) => ({
+                            day: parseInt(slot.day),
+                            dayName: slot.day_name,
+                            is_selected: true,
+                            slot_timings: slot.slot_timings?.map((timing: any) => ({
+                                start_time: timing.start_time,
+                                end_time: timing.end_time,
+                                service_id: timing.service_id
+                            }))
                         }))
-                    }))
-                };
+                    };
 
-                console.log(dayScheduledSlots);
+                    console.log(dayScheduledSlots);
 
-                const updatedSlots = allSlots?.map((slot: any) => {
-                    console.log(slot);
-                    const matchingSlot = dayScheduledSlots?.scheduled_slots?.find((daySlot: any) => daySlot.dayName === slot.dayName);
-                    console.log(matchingSlot)
-                    if (matchingSlot) {
-                        return matchingSlot;
-                    } else {
-                        return slot;
-                    }
-                });
+                    const updatedSlots = allSlots?.map((slot: any) => {
+                        console.log(slot);
+                        const matchingSlot = dayScheduledSlots?.scheduled_slots?.find((daySlot: any) => daySlot.dayName === slot.dayName);
+                        console.log(matchingSlot)
+                        if (matchingSlot) {
+                            return matchingSlot;
+                        } else {
+                            return slot;
+                        }
+                    });
 
-                console.log(updatedSlots);
-                const updatedFormInitialValues = {
-                    is_same_slots: dayScheduledSlots.is_same_slots,
-                    scheduled_slots: updatedSlots,
-                    all_scheduled_slots: InitialValue.all_scheduled_slots
-                };
-                setFormInitialValues(updatedFormInitialValues);
+                    console.log(updatedSlots);
+                    const updatedFormInitialValues = {
+                        is_same_slots: dayScheduledSlots.is_same_slots,
+                        scheduled_slots: updatedSlots,
+                        all_scheduled_slots: InitialValue.all_scheduled_slots
+                    };
+                    setFormInitialValues(updatedFormInitialValues);
+                }
             }
-        }
-    }, [userSlots]);
+        }, [userSlots]);
 
 
-
-    useEffect(() => {
+        useEffect(() => {
             let currentTab: any = searchParams.get("currentStepId");
             setCurrentTab(currentTab);
             setFacilityId(currentTab);
@@ -335,7 +342,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                                 onUpdate={handleTabChange}
                             >
                                 {userBasicDetails.assigned_facility_details?.map((facility: any, index: any) => (
-                                    <TabComponent className={'client-details-tab'} label={`facility${index + 1}`}
+                                    <TabComponent className={'client-details-tab'} label={facility.name}
                                                   value={facility._id}/>
                                 ))}
                             </TabsComponent>
@@ -644,6 +651,10 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                             </TabContentComponent>
                         ))}
                     </TabsWrapperComponent>
+
+                    {/*<ButtonComponent>*/}
+                    {/*    Submit*/}
+                    {/*</ButtonComponent>*/}
                 </>
                 }
             </div>

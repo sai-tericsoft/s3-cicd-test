@@ -53,6 +53,7 @@ const UserAddComponent = (props: UserAddComponentProps) => {
 
     const {
         facilityListLite,
+        isFacilityListLiteLoading,
         roleList
     } = useSelector((state: IRootReducerState) => state.staticData);
 
@@ -80,6 +81,7 @@ const UserAddComponent = (props: UserAddComponentProps) => {
             navigate(CommonService._routeConfig.UserList());
         }));
     }, [dispatch, navigate]);
+
     return (
         <div className={'user-add-component'}>
             <div className={'add-heading'}>
@@ -189,6 +191,7 @@ const UserAddComponent = (props: UserAddComponentProps) => {
                                                 (field: FieldProps) => (
                                                     <FormikAutoCompleteComponent
                                                         options={facilityListLite}
+                                                        isDataLoading={isFacilityListLiteLoading}
                                                         label={'Select Facility'}
                                                         formikField={field}
                                                         required={true}
