@@ -13,6 +13,7 @@ import IconButtonComponent from "../../../shared/components/icon-button/IconButt
 import {getAllMessageHistory} from "../../../store/actions/dashboard.action";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import EditMessageComponent from "../edit-message/EditMessageComponent";
+import AvatarComponent from "../../../shared/components/avatar/AvatarComponent";
 
 interface MessageBoardComponentProps {
 
@@ -29,6 +30,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
     const [isViewMessageDrawerOpen, setIsViewMessageDrawerOpen] = useState<boolean>(false)
     const [editableMessage, setEditableMessage] = useState<any | null>(null);
     const [mode, setMode] = useState<'view' | 'edit'>('view');
+    const [birthdayListData, setBirthdayListData] = useState<any>([])
 
     const {systemSettings} = useSelector((state: IRootReducerState) => state.settings);
 
@@ -65,8 +67,31 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                 CommonService._alert.showToast(error.error, "error");
             });
         });
-    }, [dispatch, handleCloseAllMessagesDrawer])
+    }, [dispatch, handleCloseAllMessagesDrawer]);
 
+    const getBirthdayList = useCallback(() => {
+        CommonService._dashboardService.todayBirthdayList()
+            .then((response: any) => {
+                setBirthdayListData(response.data)
+            }).catch((error: any) => {
+            CommonService._alert.showToast(error.error, "error");
+        })
+    }, []);
+
+    useEffect(() => {
+        getBirthdayList()
+    }, [getBirthdayList]);
+
+    const handleSendWishes = useCallback((id:string)=>{
+        CommonService._dashboardService.sendBirthdayWishes(id)
+            .then((response:any)=>{
+                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+            }).catch((error:any)=>{
+            CommonService._alert.showToast(error.error, "error");
+        })
+    },[])
+
+    console.log('birth', birthdayListData);
 
     return (
         <div className={'message-board-component'}>
@@ -74,15 +99,16 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
 
             <>
                 <div className={'ts-row'}>
-                    <div className={'ts-col-8'}>
+                    <div className={'ts-col-7'}>
                         <div className={' message-board-wrapper'}>
                             <CardComponent className={'message-board'}>
                                 <div className={'message-board-view-all-messages-wrapper'}>
                                     <div className={'message-board-text'}>Message Board</div>
 
-                                    {(messageHistory && messageHistory?.length > 0) && <div className={'view-all-message'} onClick={handleOpenViewAllMessagesDrawer}>
-                                         <div>View All Messages</div>
-                                    </div>
+                                    {(messageHistory && messageHistory?.length > 0) &&
+                                        <div className={'view-all-message'} onClick={handleOpenViewAllMessagesDrawer}>
+                                            <div>View All Messages</div>
+                                        </div>
                                     }
                                 </div>
                                 {isMessageHistoryLoaded &&
@@ -92,12 +118,12 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                                                 <div className={'message-text'}>{systemSettings?.default_message}</div>
                                             </>
                                         }
-                                        {messageHistory?.map((message: any,index:number) => {
+                                        {messageHistory?.map((message: any, index: number) => {
                                             return (<>
                                                     <div className={'message-text'}>{message?.message}</div>
                                                     <div
                                                         className={'time-stamp'}>{CommonService.transformTimeStamp(message?.created_at)}</div>
-                                                    {(index!==messageHistory.length - 1) ?
+                                                    {(index !== messageHistory.length - 1) ?
                                                         <HorizontalLineComponent/> : <div className={'mrg-bottom-10'}/>
                                                     }
                                                 </>
@@ -108,21 +134,42 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                             </CardComponent>
                         </div>
                     </div>
-                    <div className={'ts-col-4'}>
+                    <div className={'ts-col-5'}>
                         <CardComponent className={'birthday-board'}>
                             <div className={'today-birthday-text'}>
-                                Today's Birthday(s)
+                                <div className={'mrg-right-5'}> Today's Birthday(s)</div>
+                                <div className={'mrg-top-5'}><ImageConfig.CAKE_ICON/></div>
                             </div>
-                            <div className={'coming-soon-image-text-wrapper'}>
-                                <div>
-                                    <div className={'mrg-left-50'}>
-                                        <ImageConfig.ComingSoon/>
-                                    </div>
+                            {
+                                birthdayListData.length===0 && <div className={'coming-soon-image-text-wrapper'}>
                                     <div>
-                                        Coming Soon!
+                                        <div className={'mrg-left-50'}>
+                                            <ImageConfig.ComingSoon/>
+                                        </div>
+                                        <div>
+                                            Coming Soon!
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
+                            {
+                                birthdayListData.length > 0 && birthdayListData?.map((birthday: any) => {
+                                    return <div className={'ts-row'}>
+                                        <div className={' ts-col-9 birthday-detail-wrapper'}>
+                                            <div className={'avatar-container'}>
+                                                <AvatarComponent title={birthday?.first_name + " " + birthday?.last_name}/>
+                                            </div>
+                                            <div
+                                                className={'client-name'}>{CommonService.capitalizeFirstLetter(birthday?.first_name)} {CommonService.capitalizeFirstLetter(birthday?.last_name)} (ID:{birthday?.client_id})
+                                            </div>
+                                        </div>
+                                        <div className={'ts-col-2 icon-wrapper'} onClick={()=>handleSendWishes(birthday?._id)}>
+                                            <ImageConfig.FORWARD_ICON/>
+                                        </div>
+                                    </div>
+                                })
+                            }
+
                         </CardComponent>
                     </div>
                 </div>

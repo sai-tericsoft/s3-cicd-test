@@ -16,10 +16,22 @@ const editDashboardMessage =(messageId:string,payload:any)=>{
     return ApiService[APIConfig.DASHBOARD_EDIT_MESSAGE.METHOD](APIConfig.DASHBOARD_EDIT_MESSAGE.URL(messageId),payload);
 }
 
+const todayBirthdayList = ()=>{
+    // @ts-ignore
+    return ApiService[APIConfig.TODAY_BIRTHDAY_LIST.METHOD](APIConfig.TODAY_BIRTHDAY_LIST.URL);
+}
+
+const sendBirthdayWishes = (clientId:any)=>{
+    // @ts-ignore
+    return ApiService[APIConfig.SEND_BIRTHDAY_WISHES.METHOD](APIConfig.SEND_BIRTHDAY_WISHES.URL(clientId));
+}
+
 const DashboardService = {
     dashboardMessageHistory,
     deleteDashboardMessage,
-    editDashboardMessage
+    editDashboardMessage,
+    todayBirthdayList,
+    sendBirthdayWishes,
 }
 
 export default DashboardService;
