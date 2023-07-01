@@ -10,11 +10,12 @@ import {IService} from "../../../../shared/models/service.model";
 
 interface ServiceListComponentProps {
     serviceCategoryId: string;
+    refreshToken:any;
 }
 
 const ServiceListComponent = (props: ServiceListComponentProps) => {
 
-    const {serviceCategoryId} = props;
+    const {serviceCategoryId,refreshToken} = props;
 
     const ServiceListTableColumns: ITableColumn[] = [
         {
@@ -81,6 +82,7 @@ const ServiceListComponent = (props: ServiceListComponentProps) => {
                     url={APIConfig.SERVICE_LIST.URL(serviceCategoryId)}
                     method={APIConfig.SERVICE_LIST.METHOD}
                     isPaginated={true}
+                    refreshToken={refreshToken}
                     noDataText={"Currently, there is no service added in this category.."}
                     columns={ServiceListTableColumns}
                 />
