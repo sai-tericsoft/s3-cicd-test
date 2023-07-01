@@ -94,7 +94,7 @@ const CommunicationPreferencesEditComponent = (props: CommunicationPreferencesCo
                         }, [validateForm, values]);
                         return (
                             <Form noValidate={true} className={"t-form"}>
-                                <FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>
+                                {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-6'}>
                                         <QuestionComponent title={'Appointment Reminders'}
