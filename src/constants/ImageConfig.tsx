@@ -31,7 +31,7 @@ import {ReactComponent as MedicalServicesIcon} from './../assets/icons/medical_s
 import {ReactComponent as AttachMoneyIcon} from './../assets/icons/attach_money.svg';
 import {ReactComponent as CancelIcon} from './../assets/icons/cancel.svg';
 import {ReactComponent as ConfirmIcon} from './../assets/confirmation/confirm.svg';
-import {ReactComponent as Forward_Icon} from './../assets/icons/forward_icon.svg';
+import {ReactComponent as FORWARD_ICON} from './../assets/icons/forward_icon.svg';
 
 
 import {ReactComponent as CircleCheck} from './../assets/icons/check_circle.svg';
@@ -60,7 +60,7 @@ import {ReactComponent as CircularShowLess} from './../assets/icons/circular_sho
 
 import {ReactComponent as ComingSoon} from './../assets/icons/coming_soon.svg';
 import {ReactComponent as History} from './../assets/icons/history_icon.svg';
-import {ReactComponent as Cake_Icon} from '../assets/icons/cake_black.svg';
+import {ReactComponent as CAKE_ICON} from '../assets/icons/cake_black.svg';
 
 import {ReactComponent as CopyIcon} from './../assets/icons/copy_icon.svg';
 import {ReactComponent as HorizontalMore} from './../assets/icons/horizontal_more.svg';
@@ -218,6 +218,6 @@ export {
     DocumentIcon,
     CloseEyeIcon,
     SettingIcon,
-    Cake_Icon,
-    Forward_Icon
+    CAKE_ICON,
+    FORWARD_ICON
 }

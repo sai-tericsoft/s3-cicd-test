@@ -19,24 +19,6 @@ interface MessageBoardComponentProps {
 
 }
 
-const data = [
-    {
-        first_name: 'John',
-        last_name:'Cena',
-        client_id: '32'
-    },
-    {
-        first_name: 'John',
-        last_name:'Wick',
-        client_id: '33'
-    },
-    {
-        first_name: 'John',
-        last_name:'Jordan',
-        client_id: '34'
-    },
-]
-
 const MessageBoardComponent = (props: MessageBoardComponentProps) => {
 
     const dispatch = useDispatch();
@@ -48,7 +30,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
     const [isViewMessageDrawerOpen, setIsViewMessageDrawerOpen] = useState<boolean>(false)
     const [editableMessage, setEditableMessage] = useState<any | null>(null);
     const [mode, setMode] = useState<'view' | 'edit'>('view');
-    const [birthdayListData, setBirthdayListData] = useState<any>(data)
+    const [birthdayListData, setBirthdayListData] = useState<any>([])
 
     const {systemSettings} = useSelector((state: IRootReducerState) => state.settings);
 
@@ -117,7 +99,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
 
             <>
                 <div className={'ts-row'}>
-                    <div className={'ts-col-8'}>
+                    <div className={'ts-col-7'}>
                         <div className={' message-board-wrapper'}>
                             <CardComponent className={'message-board'}>
                                 <div className={'message-board-view-all-messages-wrapper'}>
@@ -152,11 +134,11 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                             </CardComponent>
                         </div>
                     </div>
-                    <div className={'ts-col-4'}>
+                    <div className={'ts-col-5'}>
                         <CardComponent className={'birthday-board'}>
                             <div className={'today-birthday-text'}>
                                 <div className={'mrg-right-5'}> Today's Birthday(s)</div>
-                                <div className={'mrg-top-5'}><ImageConfig.Cake_Icon/></div>
+                                <div className={'mrg-top-5'}><ImageConfig.CAKE_ICON/></div>
                             </div>
                             {
                                 birthdayListData.length===0 && <div className={'coming-soon-image-text-wrapper'}>
@@ -173,7 +155,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                             {
                                 birthdayListData.length > 0 && birthdayListData?.map((birthday: any) => {
                                     return <div className={'ts-row'}>
-                                        <div className={' ts-col-8 birthday-detail-wrapper'}>
+                                        <div className={' ts-col-9 birthday-detail-wrapper'}>
                                             <div className={'avatar-container'}>
                                                 <AvatarComponent title={birthday?.first_name + " " + birthday?.last_name}/>
                                             </div>
@@ -181,8 +163,8 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                                                 className={'client-name'}>{CommonService.capitalizeFirstLetter(birthday?.first_name)} {CommonService.capitalizeFirstLetter(birthday?.last_name)} (ID:{birthday?.client_id})
                                             </div>
                                         </div>
-                                        <div className={'ts-col-2 icon-wrapper'} onClick={()=>handleSendWishes(birthday?.client_id)}>
-                                            <ImageConfig.Forward_Icon/>
+                                        <div className={'ts-col-2 icon-wrapper'} onClick={()=>handleSendWishes(birthday?._id)}>
+                                            <ImageConfig.FORWARD_ICON/>
                                         </div>
                                     </div>
                                 })

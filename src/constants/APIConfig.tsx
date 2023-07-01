@@ -855,12 +855,12 @@ const APIConfig: IAPIConfig = {
         METHOD: 'put'
     },
     TODAY_BIRTHDAY_LIST: {
-        URL: () => ENV.API_URL + '/todayBirthdays',
+        URL:  ENV.API_URL + '/todayBirthdays',
         METHOD: 'get'
     },
     SEND_BIRTHDAY_WISHES: {
-        URL: () => ENV.API_URL + '/todayBirthdays',
-        METHOD: 'get'
+        URL: (clientId:string) => ENV.API_URL + '/client/'+ clientId + '/sendWishes',
+        METHOD: 'post'
     },
     SYSTEM_SETTING_NEW_MESSAGE: {
         URL: ENV.API_URL + '/newMessage',
