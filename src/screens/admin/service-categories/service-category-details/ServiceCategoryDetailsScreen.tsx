@@ -29,6 +29,8 @@ const ServiceCategoryDetailsScreen = (props: ServiceCategoryDetailsScreenProps) 
     const [isServiceCategoryDetailsLoaded, setIsServiceCategoryDetailsLoaded] = useState<boolean>(false);
     const [isServiceCategoryDetailsLoadingFailed, setIsServiceCategoryDetailsLoadingFailed] = useState<boolean>(false);
     const [isServiceCategoryEditFormOpened, setIsServiceCategoryEditFormOpened] = useState<boolean>(false);
+    const [refreshToken, setRefreshToken] = useState<string>('');
+
 
     const fetchServiceCategoryDetails = useCallback((serviceCategoryId: string) => {
         setIsServiceCategoryDetailsLoading(true);
@@ -63,6 +65,7 @@ const ServiceCategoryDetailsScreen = (props: ServiceCategoryDetailsScreenProps) 
 
     const closeServiceCategoryEditFormDrawer = useCallback(() => {
         setIsServiceCategoryEditFormOpened(false);
+        setRefreshToken(Math.random().toString(36).substring(7));
     }, []);
 
     const handleServiceCategoryEdit = useCallback((serviceCategory: IServiceCategory) => {
@@ -100,7 +103,7 @@ const ServiceCategoryDetailsScreen = (props: ServiceCategoryDetailsScreenProps) 
                     </div>
                     {
                         serviceCategoryId && <div className="service-category-service-list">
-                            <ServiceListComponent serviceCategoryId={serviceCategoryId}/>
+                            <ServiceListComponent refreshToken={refreshToken} serviceCategoryId={serviceCategoryId}/>
                         </div>
                     }
                 </>
