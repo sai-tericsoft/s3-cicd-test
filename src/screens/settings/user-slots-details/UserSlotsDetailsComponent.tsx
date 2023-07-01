@@ -193,7 +193,7 @@ const UserSlotsDetailsComponent = (props: UserSlotsDetailsComponentProps) => {
                                             </>
                                             }
 
-                                            {(userSlots?.all_scheduled_slots?.length || !userSlots?.day_scheduled_slots?.length) && <>
+                                            {(userSlots && !userSlots?.all_scheduled_slots?.length && !userSlots?.day_scheduled_slots?.length) && <>
                                                 <StatusCardComponent title={'No Slots Found'}/>
                                             </>
 

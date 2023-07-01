@@ -652,9 +652,11 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                         ))}
                     </TabsWrapperComponent>
 
-                    <ButtonComponent onClick={() => navigate(CommonService._routeConfig.UserList())}>
-                        Go Back
-                    </ButtonComponent>
+                    <div className="h-v-center">
+                        <ButtonComponent onClick={() => navigate(CommonService._routeConfig.UserList())}>
+                            Go Back
+                        </ButtonComponent>
+                    </div>
                 </>
                 }
             </div>

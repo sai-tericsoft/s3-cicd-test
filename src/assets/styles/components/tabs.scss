@@ -1,7 +1,7 @@
 @import "../variables";
 
 .t-tabs-wrapper {
-  height: calc(100vh - 100px);
+  height: auto;
   display: flex;
   flex-direction: column;
 
@@ -40,6 +40,7 @@
       }
     }
   }
+
   .t-basic-tabs {
     //border-bottom: 1px solid #dfdfdf;
 
@@ -63,7 +64,7 @@
   }
 
   .t-tab-panel {
-    padding: 24px 0 12px 0!important;
+    padding: 24px 0 12px 0 !important;
   }
 
   .MuiTabs-indicator {
