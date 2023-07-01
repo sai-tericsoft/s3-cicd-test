@@ -20,6 +20,7 @@ import _ from "lodash";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {setUserBasicDetails} from "../../../store/actions/user.action";
+import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface UserEmergencyContactDetailsEditComponentProps {
     handleNext: () => void
@@ -102,6 +103,13 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                     phone_type: ""
                 }]
             }
+            if (!userBasicDetails.emergency_contact_info?.secondary_emergency?.secondary_contact_info ||
+                (userBasicDetails.emergency_contact_info?.secondary_emergency?.secondary_contact_info && userBasicDetails.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.length === 0)) {
+                userBasicDetails.emergency_contact_info.secondary_emergency.secondary_contact_info = [{
+                    phone: "",
+                    phone_type: ""
+                }]
+            }
             if (Object.keys(userBasicDetails.emergency_contact_info.secondary_emergency).length) {
                 userBasicDetails.show_secondary_emergency_form = true;
                 if (!userBasicDetails.emergency_contact_info?.secondary_emergency?.secondary_contact_info ||
@@ -162,10 +170,11 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
                             validateForm();
+                            console.log(values?.emergency_contact_info?.secondary_emergency);
                         }, [validateForm, values]);
                         return (
                             <Form noValidate={true} className={"t-form"} autoComplete="off">
-                                {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
+                                <FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>
 
                                 <FormControlLabelComponent label={"Primary Emergency Contact"} size={'sm'}/>
                                 <div className="ts-row">
@@ -412,6 +421,7 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                                             </div>
                                             <div className="ts-col-1"></div>
                                         </div>
+                                        <FormControlLabelComponent size={'sm'} label={'Primary Phone :'}/>
                                         <div className="ts-row">
                                             <div className="ts-col">
                                                 <Field
@@ -454,11 +464,13 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                                                 </IconButtonComponent>
                                             </div>
                                         </div>
+                                        <FormControlLabelComponent size={'sm'} label={'Alternate Phone :'}/>
                                         <FieldArray
                                             name="emergency_contact_info.secondary_emergency.secondary_contact_info"
                                             render={(arrayHelpers) => (
                                                 <>
                                                     {values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info && values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.map((item: any, index: any) => {
+                                                        console.log(values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info);
                                                         return (
                                                             <div className="ts-row" key={index}>
                                                                 <div className="ts-col">

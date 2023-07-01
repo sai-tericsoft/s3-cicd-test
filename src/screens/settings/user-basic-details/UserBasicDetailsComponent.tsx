@@ -128,11 +128,11 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                             <div className="ts-row">
                                 <div className="ts-col-md-6 ts-col-lg-6">
                                     <div className="font-weight-bold mrg-bottom-20">Signature</div>
-                                    <div className="mrg-bottom-20">
+                                    {userBasicDetails?.signature ? <div className="mrg-bottom-20">
                                         <ESignApprovalComponent isSigned={true}
                                                                 signature_url={userBasicDetails?.signature}
-                                                                signedAt={CommonService.convertDateFormat(userBasicDetails?.created_at)}/>
-                                    </div>
+                                                                signedAt={CommonService.convertDateFormat(userBasicDetails?.updated_at)}/>
+                                    </div> : <div>N/A</div>}
                                 </div>
 
                             </div>
@@ -418,7 +418,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                             </>
                             }
                             {
-                                userBasicDetails?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone_type && userBasicDetails?.emergency_contact_info?.secondary_emergency?.phone &&
+                                userBasicDetails?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone_type && userBasicDetails?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone &&
                                 <>
                                     <div className={'phone-email-heading'}>Primary:</div>
                                     <div className={'ts-row'}>

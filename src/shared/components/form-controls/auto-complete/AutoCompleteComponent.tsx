@@ -87,8 +87,6 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
         const valueExtractor = props.valueExtractor || defaultValueExtractor;
         const keyExtractor = props.keyExtractor || defaultKeyExtractor;
 
-        console.log('dropDownData', dropDownData);
-
 
         const defaultRenderOption = useCallback((props: React.HTMLAttributes<HTMLLIElement>,
                                                  option: any,

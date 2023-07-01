@@ -57,8 +57,6 @@ const UserAddComponent = (props: UserAddComponentProps) => {
         roleList
     } = useSelector((state: IRootReducerState) => state.staticData);
 
-    console.log(facilityListLite);
-
     const onUserAdd = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
         const payload = _.cloneDeep(values);
         if (payload?.assigned_facilities?.length) {
