@@ -9,6 +9,7 @@ import {
     DISCOUNT_LIST,
     FACILITY_DETAILS,
     FACILITY_LIST,
+    HELP,
     FAQ,
     INVENTORY,
     LOGIN_ROUTE,
@@ -252,6 +253,10 @@ const BillingDetails = (billingId: string) => {
     return "/billing/billing-details/" + billingId;
 }
 
+const Help=()=>{
+    return HELP;
+}
+
 const FrequentlyAskedQuestions = () => {
     return FAQ;
 }
@@ -394,6 +399,7 @@ const RouteConfigService = {
     CouponAdd,
     CouponEdit,
     appointmentSettingsLayout,
+    Help,
     ReportAnIssue,
     UserList,
     UserAdd,
