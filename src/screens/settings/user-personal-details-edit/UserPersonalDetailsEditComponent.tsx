@@ -300,7 +300,8 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                                         required={true}
                                                         fullWidth={true}
                                                         multiple={true}
-                                                        keyExtractor={item => item.id}
+                                                        valueExtractor={item => item._id || ""}
+                                                        keyExtractor={item => item._id}
                                                         displayWith={(item: any) => item?.name || ''}
                                                     />
                                                 )

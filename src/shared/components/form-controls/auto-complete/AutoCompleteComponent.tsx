@@ -79,7 +79,7 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
         const [dropDownData, setDropDownData] = useState(options);
         const APICallSubscription = useRef<any>(null);
         const [openPopup, setOpenPopup] = useState<boolean>(false);
-        const [formControlValue, setFormControlValue] = useState<any | undefined>(props.value || undefined);
+        const [formControlValue, setFormControlValue] = useState<any>(props.multiple ? props.value || [] : props.value || undefined);
         const defaultDisplayWith = useCallback((item: any) => item?.title || '', []);
         const defaultKeyExtractor = useCallback((item: any, index?: number) => item?._id || index, []);
         const defaultValueExtractor = useCallback((item: any) => item?.code || '', []);
@@ -111,11 +111,19 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
             }
         }, [clearLocalListData, defaultData])
 
+
         useEffect(() => {
             if (options?.length) {
-                setDropDownData([...options || []]);
+                if (formControlValue?.length && multiple) {
+                    const finalOptions = options.filter((option) => {
+                        return !formControlValue.some((value: any) => valueExtractor(value) === valueExtractor(option));
+                    });
+                    setDropDownData([...finalOptions || []]);
+                } else {
+                    setDropDownData([...options || []]);
+                }
             }
-        }, [options])
+        }, [options, formControlValue, valueExtractor, multiple]);
 
 
         const handleChange = useCallback((event: any, value: any) => {
@@ -218,7 +226,6 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
         }, [defaultData, clearDefaultData, url, dataListKey, method, extraPayload]);
 
         const handleInputChange = useCallback((event: any, value: any) => {
-            console.log(event, value);
             if (value) {
                 const sanitizedSearchValue = value.trim();
                 if (!event || (sanitizedSearchValue?.length === 0 || event?.type === "click")) {
