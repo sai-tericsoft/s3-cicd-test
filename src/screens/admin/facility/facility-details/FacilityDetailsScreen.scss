@@ -72,6 +72,7 @@
       height: 56px;
       background: #E1EBEA;
       display: flex;
+
       .week-days-timing-wrapper {
         display: flex;
         justify-content: center;
@@ -107,12 +108,18 @@
 
     .weeks-days-table-container {
       //width: 554px;
-      border: 1px solid #e7e7e7;
+
+      border-bottom: 1px solid rgb(231, 231, 231);
+
+      &.right-container {
+        border-left: 1px solid rgb(231, 231, 231) !important;
+      }
+
 
       .horizontal-line-wrapper {
         margin-bottom: 0px;
         margin-top: 0px;
-        border-bottom: 1px solid #e7e7e7;
+        //border-bottom: 1px solid #e7e7e7;
 
       }
 
@@ -144,27 +151,34 @@
         }
       }
     }
-    .column-right,.column-left {
+
+    .column-right, .column-left {
       flex: 1;
     }
+
     .column-right {
       .weeks-days-table-container {
         border-left: none;
         border-right: none;
+
         &:first-child {
           border-top: none;
         }
+
         &:first-child {
           border-bottom: none;
         }
       }
     }
+
     .column-left {
       .weeks-days-table-container {
         border-left: none;
+
         &:first-child {
           border-top: none;
         }
+
         &:last-child {
           border-bottom: none;
         }
