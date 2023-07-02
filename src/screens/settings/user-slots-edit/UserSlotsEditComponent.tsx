@@ -138,6 +138,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
 
     const {
         userBasicDetails,
+        isUserBasicDetailsLoaded,
         userSlots,
         isUserSlotsLoaded,
         isUserSlotsLoadingFailed,
@@ -230,6 +231,15 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
             }
         }));
     }, [dispatch, userBasicDetails, navigate, path, facilityId]);
+
+
+    const handleGoBack = useCallback(() => {
+        if (path.includes('settings')) {
+            navigate(CommonService._routeConfig.PersonalSlotsDetails(facilityId))
+        } else {
+            navigate(CommonService._routeConfig.UserSlotsDetails(userBasicDetails?._id, facilityId))
+        }
+    }, [userBasicDetails, navigate, path, facilityId])
 
     const onSlotAdd = useCallback(
         (values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
@@ -328,7 +338,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                     <StatusCardComponent title={"Failed to fetch Details"}/>
                 )}
             </>
-            {isUserSlotsLoaded && <>
+            {(isUserSlotsLoaded && isUserBasicDetailsLoaded) && <>
                 <TabsWrapperComponent>
                     <div className="tabs-wrapper">
                         <TabsComponent
@@ -637,6 +647,11 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                         </TabContentComponent>
                     ))}
                 </TabsWrapperComponent>
+                <div className="h-v-center">
+                    <ButtonComponent onClick={handleGoBack}>
+                        Go Back
+                    </ButtonComponent>
+                </div>
             </>
             }
         </div>

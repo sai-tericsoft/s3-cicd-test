@@ -16,6 +16,7 @@ import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
 import {useLocation, useNavigate} from "react-router-dom";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
+import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 
 interface UserBasicDetailsComponentProps {
 
@@ -154,19 +155,19 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                             </div>
                             <div className="ts-row">
                                 <div className="ts-col-12 font-weight-bold mrg-bottom-20">Specialities</div>
-                                {userBasicDetails?.specialities?.map((speciality: any, index: any) => {
+                                {userBasicDetails?.specialities?.length ? userBasicDetails?.specialities?.map((speciality: any, index: any) => {
                                     return <div className="ts-col-md-6 ts-col-lg-3">
                                         <DataLabelValueComponent label={`speciality ${index + 1}`}>
                                             {speciality || 'N/A'}
                                         </DataLabelValueComponent>
                                     </div>
-                                })
+                                }) : <div className='ts-col-md-6 ts-col-lg-3'>N/A</div>
                                 }
                             </div>
                             <HorizontalLineComponent className="user-details-horizontal-line"/>
                             <div className="ts-row">
                                 <div className="ts-col-12 font-weight-bold mrg-bottom-20">Languages</div>
-                                {userBasicDetails?.languages?.map((language: any, index: any) => {
+                                {userBasicDetails?.languages?.length ? userBasicDetails?.languages?.map((language: any, index: any) => {
                                     return <>
                                         <div className="ts-col-md-6 ts-col-lg-3">
                                             <DataLabelValueComponent label={`Language ${index + 1}`}>
@@ -192,7 +193,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                             </DataLabelValueComponent>
                                         </div>
                                     </>
-                                })
+                                }) : <div className='ts-col-md-6 ts-col-lg-3 mrg-bottom-20'>N/A</div>
                                 }
                             </div>
                         </CardComponent>
@@ -352,7 +353,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                         </div>
                                         <div className={'ts-col-6'}>
                                             <DataLabelValueComponent label={'Phone Number'}>
-                                                {CommonService.formatPhoneNumber(userBasicDetails?.emergency_contact_info?.primary_emergency?.primary_contact_info?.phone || 'N/A')}
+                                                {CommonService.formatPhoneNumber(userBasicDetails?.emergency_contact_info?.primary_emergency?.primary_contact_info?.phone) || 'N/A'}
                                             </DataLabelValueComponent>
                                         </div>
                                     </div>
@@ -383,7 +384,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                                             </div>
                                                             <div className={'ts-col-6'}>
                                                                 <DataLabelValueComponent label={'Phone Number'}>
-                                                                    {CommonService.formatPhoneNumber(phone_number?.phone || "N/A")}
+                                                                    {CommonService.formatPhoneNumber(phone_number?.phone) || "N/A"}
                                                                 </DataLabelValueComponent>
                                                             </div>
                                                         </div>
@@ -429,7 +430,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                         </div>
                                         <div className={'ts-col-lg-3'}>
                                             <DataLabelValueComponent label={'Phone Number'}>
-                                                {CommonService.formatPhoneNumber(userBasicDetails?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone || "N/A")}
+                                                {CommonService.formatPhoneNumber(userBasicDetails?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone) || "N/A"}
                                             </DataLabelValueComponent>
                                         </div>
                                     </div>
@@ -455,7 +456,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                                     </div>
                                                     <div className={'ts-col-lg-3'}>
                                                         <DataLabelValueComponent label={'Phone Number'}>
-                                                            {CommonService.formatPhoneNumber(phone_number?.phone || "N/A")}
+                                                            {CommonService.formatPhoneNumber(phone_number?.phone) || "N/A"}
                                                         </DataLabelValueComponent>
                                                     </div>
                                                 </div>
@@ -472,7 +473,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                             </ButtonComponent>
                         </LinkComponent>
                         }>
-                            {userBasicDetails.professional_details.map((professional_details: any, index: any) => {
+                            {userBasicDetails?.professional_details?.length ? userBasicDetails.professional_details.map((professional_details: any, index: any) => {
                                 return <>
                                     <div className={'ts-row'}>
                                         <div
@@ -511,7 +512,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                     {index !== userBasicDetails.professional_details.length - 1 &&
                                     <HorizontalLineComponent/>}
                                 </>
-                            })
+                            }) : <StatusCardComponent title={'Professional Details Not Available'}/>
                             }
                         </CardComponent>
 
@@ -522,46 +523,47 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                             </ButtonComponent>
                         </LinkComponent>
                         }>
-                            {userBasicDetails.education_details.map((education_details: any, index: any) => {
-                                return <>
-                                    <div className={'ts-row'}>
-                                        <div
-                                            className="ts-col-12 font-weight-bold mrg-bottom-20">Experience {index + 1}:
-                                        </div>
-                                        <div className="ts-col">
-                                            <DataLabelValueComponent label={'Institution Name'}>
-                                                {education_details.institution_name || 'N/A'}
-                                            </DataLabelValueComponent>
-                                        </div>
+                            {userBasicDetails?.education_details?.length ? userBasicDetails.education_details.map((education_details: any, index: any) => {
+                                    return <>
+                                        <div className={'ts-row'}>
+                                            <div
+                                                className="ts-col-12 font-weight-bold mrg-bottom-20">Experience {index + 1}:
+                                            </div>
+                                            <div className="ts-col">
+                                                <DataLabelValueComponent label={'Institution Name'}>
+                                                    {education_details.institution_name || 'N/A'}
+                                                </DataLabelValueComponent>
+                                            </div>
 
-                                        <div className="ts-col">
-                                            <DataLabelValueComponent label={'Location'}>
-                                                {education_details?.institution_location || 'N/A'}
-                                            </DataLabelValueComponent>
-                                        </div>
+                                            <div className="ts-col">
+                                                <DataLabelValueComponent label={'Location'}>
+                                                    {education_details?.institution_location || 'N/A'}
+                                                </DataLabelValueComponent>
+                                            </div>
 
-                                        <div className="ts-col">
-                                            <DataLabelValueComponent label={'Degree'}>
-                                                {education_details?.degree || 'N/A'}
-                                            </DataLabelValueComponent>
-                                        </div>
+                                            <div className="ts-col">
+                                                <DataLabelValueComponent label={'Degree'}>
+                                                    {education_details?.degree || 'N/A'}
+                                                </DataLabelValueComponent>
+                                            </div>
 
-                                        <div className="ts-col">
-                                            <DataLabelValueComponent label={'Start Date'}>
-                                                {education_details?.start_date || 'N/A'}
-                                            </DataLabelValueComponent>
-                                        </div>
+                                            <div className="ts-col">
+                                                <DataLabelValueComponent label={'Start Date'}>
+                                                    {education_details?.start_date || 'N/A'}
+                                                </DataLabelValueComponent>
+                                            </div>
 
-                                        <div className="ts-col">
-                                            <DataLabelValueComponent label={'End Date'}>
-                                                {education_details?.end_date || 'N/A'}
-                                            </DataLabelValueComponent>
+                                            <div className="ts-col">
+                                                <DataLabelValueComponent label={'End Date'}>
+                                                    {education_details?.end_date || 'N/A'}
+                                                </DataLabelValueComponent>
+                                            </div>
                                         </div>
-                                    </div>
-                                    {index !== userBasicDetails.education_details.length - 1 &&
-                                    <HorizontalLineComponent/>}
-                                </>
-                            })
+                                        {index !== userBasicDetails.education_details.length - 1 &&
+                                        <HorizontalLineComponent/>}
+                                    </>
+                                })
+                                : <StatusCardComponent title={'Education Details Not Available'}/>
                             }
                         </CardComponent>
                     </>

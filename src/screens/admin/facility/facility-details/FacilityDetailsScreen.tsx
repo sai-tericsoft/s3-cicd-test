@@ -167,7 +167,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                         <div className={'facility-details-information'}>
                             <DataLabelValueComponent label={'Address'}>
                                 {facilityDetails?.address?.address_line}, {facilityDetails?.address?.city},
-                                 {facilityDetails?.address?.country},{facilityDetails.address?.zip_code}
+                                {facilityDetails?.address?.country},{facilityDetails.address?.zip_code}
                             </DataLabelValueComponent>
                         </div>
                     </CardComponent>
@@ -182,31 +182,31 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                                 </div>
                                 <div className={'weeks-days-table-container'}>
                                     <DataLabelValueComponent direction={'row'} label={"Monday"}>
-                                        {facilityDetails.timings[1]?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[1]?.start_time) + " - "}{facilityDetails.timings[1]?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[1]?.end_time)}
-                                        {!(facilityDetails.timings[1]?.start_time) &&
-                                            <span className={'facility-opening-hours-closed-text'}>Closed</span>}
+                                        {facilityDetails.timings[0]?.timings?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[0]?.timings?.start_time) + " - "}{facilityDetails.timings[0]?.timings?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[0]?.timings?.end_time)}
+                                        {!(facilityDetails.timings[0]?.timings?.start_time) &&
+                                        <span className={'facility-opening-hours-closed-text'}>Closed</span>}
                                     </DataLabelValueComponent>
                                     <HorizontalLineComponent/>
 
                                     <DataLabelValueComponent direction={'row'} label={"Tuesday"}>
-                                        {facilityDetails.timings[2]?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[2]?.start_time) + " - "}{facilityDetails.timings[2]?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[2]?.end_time)}
-                                        {!(facilityDetails.timings[2]?.start_time) &&
-                                            <span className={'facility-opening-hours-closed-text'}>Closed</span>}
+                                        {facilityDetails.timings[1]?.timings?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[1]?.timings?.start_time) + " - "}{facilityDetails.timings[1]?.timings?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[1]?.timings?.end_time)}
+                                        {!(facilityDetails.timings[1]?.timings?.start_time) &&
+                                        <span className={'facility-opening-hours-closed-text'}>Closed</span>}
 
                                     </DataLabelValueComponent>
-                                    <HorizontalLineComponent />
+                                    <HorizontalLineComponent/>
 
                                     <DataLabelValueComponent direction={'row'} label={"Wednesday"}>
-                                        {facilityDetails.timings[3]?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[3]?.start_time) + " - "}{facilityDetails.timings[3]?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[3]?.end_time)}
-                                        {!(facilityDetails.timings[3]?.start_time) &&
-                                            <span className={'facility-opening-hours-closed-text'}>Closed</span>}
+                                        {facilityDetails.timings[2]?.timings?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[2]?.timings?.start_time) + " - "}{facilityDetails.timings[2]?.timings?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[2]?.timings?.end_time)}
+                                        {!(facilityDetails.timings[2]?.timings?.start_time) &&
+                                        <span className={'facility-opening-hours-closed-text'}>Closed</span>}
                                     </DataLabelValueComponent>
-                                    <HorizontalLineComponent />
+                                    <HorizontalLineComponent/>
 
                                     <DataLabelValueComponent direction={'row'} label={"Thursday"}>
-                                        {facilityDetails.timings[4]?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[4]?.start_time) + " - "}{facilityDetails.timings[4]?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[4]?.end_time)}
-                                        {!(facilityDetails.timings[4]?.start_time) &&
-                                            <span className={'facility-opening-hours-closed-text'}>Closed</span>}
+                                        {facilityDetails.timings[3]?.timings?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[3]?.timings?.start_time) + " - "}{facilityDetails.timings[3]?.timings?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[3]?.timings?.end_time)}
+                                        {!(facilityDetails.timings[3]?.timings?.start_time) &&
+                                        <span className={'facility-opening-hours-closed-text'}>Closed</span>}
 
                                     </DataLabelValueComponent>
                                 </div>
@@ -220,22 +220,22 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                                 </div>
                                 <div className={'weeks-days-table-container'}>
                                     <DataLabelValueComponent direction={'row'} label={"Friday"}>
-                                        {facilityDetails.timings[5]?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[5]?.start_time) + " - "}{facilityDetails.timings[5]?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[5]?.end_time)}
-                                        {!(facilityDetails.timings[5]?.start_time) &&
-                                            <span className={'facility-opening-hours-closed-text'}>Closed</span>}
+                                        {facilityDetails.timings[4]?.timings?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[4]?.timings?.start_time) + " - "}{facilityDetails.timings[4]?.timings?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[4]?.timings?.end_time)}
+                                        {!(facilityDetails.timings[4]?.timings?.start_time) &&
+                                        <span className={'facility-opening-hours-closed-text'}>Closed</span>}
                                     </DataLabelValueComponent>
                                     <HorizontalLineComponent/>
                                     <DataLabelValueComponent direction={'row'} label={"Saturday"}>
-                                        {facilityDetails.timings[6]?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[6]?.start_time) + " - "}{facilityDetails.timings[6]?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[6]?.end_time)}
-                                        {!(facilityDetails.timings[6]?.start_time) &&
-                                            <span className={'facility-opening-hours-closed-text'}>Closed</span>}
+                                        {facilityDetails.timings[5]?.timings?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[5]?.timings?.start_time) + " - "}{facilityDetails.timings[5]?.timings?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[5]?.timings?.end_time)}
+                                        {!(facilityDetails.timings[5]?.timings?.start_time) &&
+                                        <span className={'facility-opening-hours-closed-text'}>Closed</span>}
 
                                     </DataLabelValueComponent>
                                     <HorizontalLineComponent/>
                                     <DataLabelValueComponent direction={'row'} label={"Sunday"}>
-                                        {facilityDetails.timings[0]?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[0]?.start_time) + " - "}{facilityDetails.timings[0]?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[0]?.end_time)}
-                                        {!(facilityDetails.timings[0]?.start_time) &&
-                                            <span className={'facility-opening-hours-closed-text'}>Closed</span>}
+                                        {facilityDetails.timings[6]?.timings?.start_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[6]?.timings?.start_time) + " - "}{facilityDetails.timings[6]?.timings?.end_time && CommonService.getHoursAndMinutesFromMinutes(facilityDetails.timings[6]?.timings?.end_time)}
+                                        {!(facilityDetails.timings[6]?.timings?.start_time) &&
+                                        <span className={'facility-opening-hours-closed-text'}>Closed</span>}
                                     </DataLabelValueComponent>
                                     {/*<HorizontalLineComponent/>*/}
                                 </div>

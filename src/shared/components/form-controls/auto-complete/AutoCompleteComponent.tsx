@@ -114,16 +114,14 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
 
         useEffect(() => {
             if (options?.length) {
-                if (formControlValue?.length && multiple) {
-                    const finalOptions = options.filter((option) => {
-                        return !formControlValue.some((value: any) => valueExtractor(value) === valueExtractor(option));
-                    });
+                if (formControlValue?.length > 0 && multiple) {
+                    const finalOptions = options.filter((option) => !formControlValue.some((elem: any) => (valueExtractor(elem) === valueExtractor(option)) && displayWith(option) === displayWith(elem)));
                     setDropDownData([...finalOptions || []]);
                 } else {
                     setDropDownData([...options || []]);
                 }
             }
-        }, [options, formControlValue, valueExtractor, multiple]);
+        }, [options, formControlValue, valueExtractor, multiple, displayWith]);
 
 
         const handleChange = useCallback((event: any, value: any) => {
