@@ -29,8 +29,10 @@
 
       .scheduling-header-action-item {
         margin-left: 10px;
-        .MuiToggleButtonGroup-root{
-          border-radius: 8px !important;
+        .left-toggle-btn {
+          .MuiToggleButtonGroup-root .MuiToggleButtonGroup-grouped {
+            border-radius: 8px !important;
+          }
         }
         .MuiToggleButton-primary {
           color: $white;
