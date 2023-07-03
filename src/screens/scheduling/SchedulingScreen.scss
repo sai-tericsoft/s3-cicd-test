@@ -29,8 +29,10 @@
 
       .scheduling-header-action-item {
         margin-left: 10px;
-        .MuiToggleButtonGroup-root{
-          border-radius: 8px !important;
+        .left-toggle-btn {
+          .MuiToggleButtonGroup-root .MuiToggleButtonGroup-grouped {
+            border-radius: 8px !important;
+          }
         }
         .MuiToggleButton-primary {
           color: $white;
@@ -69,7 +71,8 @@
 
     .t-table-wrapper {
       .t-table {
-        min-height: 404px !important;
+        //min-height: 404px !important;
+        height: calc(100vh - 300px);
         .t-cell-time{
           padding-left: 30px !important;
         }

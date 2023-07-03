@@ -18,10 +18,11 @@
 
     .faq-block-wrapper {
       overflow: auto;
-     min-height: 55vh;
+     height: calc(100vh - 40vh);
+
       .faq-block-content {
         overflow: auto;
-       height: calc(100vh - 43vh);
+        height: calc(100vh - 43vh);
       }
     }
 

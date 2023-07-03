@@ -117,8 +117,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: 'Appointment ID',
             key: 'appointment_id',
             dataIndex: 'appointment_id',
-            fixed: 'left',
-            width: 150,
+            // fixed: 'left',
+            width: 140,
             align: 'center',
             render: (item: any) => {
                 return <LinkComponent
@@ -211,7 +211,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: '',
             key: 'action',
             fixed: 'right',
-            width: 100,
+            width: 120,
             dataIndex: 'action',
             render: (item: any) => {
                 return <LinkComponent
@@ -394,6 +394,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             key: 'receipt_no',
             align: 'center',
             fixed: 'left',
+            width: 136,
             dataIndex: 'receipt_number',
             render: (item: any) => {
 
@@ -476,6 +477,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: '',
             key: 'action',
             fixed: 'right',
+            width: 118,
             dataIndex: 'action',
             render: (item: any) => {
                 return <LinkComponent
@@ -491,7 +493,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: 'Appointment Date',
             key: 'date',
             dataIndex: 'date',
-            width: 180,
+            width: 187,
             align: 'center',
             fixed: 'left',
             render: (item: any) => {
@@ -510,7 +512,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: 'Amount (Inc. Tax)',
             key: 'amount',
             dataIndex: 'amount',
-            width: 180,
+            width: 280,
             align: 'center',
             fixed: 'right',
             render: (item: any) => {
@@ -521,8 +523,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: '',
             key: 'action',
             dataIndex: 'action',
-            width: 140,
-            align: 'center',
+            width: 65,
+            // align: 'center',
             fixed: 'right',
             render: (item: any) => {
                 return <IconButtonComponent onClick={() => removePaymentFromSelectedMarkAsPaidList(item)}>
@@ -781,7 +783,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                             title={'Outstanding Balance'}
                             modalFooter={<div className="mrg-top-20">
                                 <ButtonComponent variant={'outlined'}
-                                                 className={'mrg-right-10'}
+                                                 className={'mrg-right-15'}
                                                  onClick={closeMarkAsPaidModal}
                                 >
                                     Cancel
@@ -829,7 +831,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                         direction={"row"}
                         label={"Total Amount (Inc.Tax)"}>
                         <span className="mrg-left-5">
-                            {Misc.CURRENCY_SYMBOL} {selectedPayments.reduce((acc: any, payment: any) => acc + parseInt(payment?.total), 0)}
+                            {Misc.CURRENCY_SYMBOL} {CommonService.convertToDecimals(selectedPayments.reduce((acc: any, payment: any) => acc + parseInt(payment?.total), 0))}
                         </span>
                     </DataLabelValueComponent>
                 </div>
