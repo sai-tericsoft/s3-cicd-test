@@ -9,6 +9,7 @@ import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {getAllMessageHistory} from "../../../store/actions/dashboard.action";
 import {useDispatch} from "react-redux";
+import {Misc} from "../../../constants";
 
 interface EditMessageComponentProps {
     messageObject: any;
@@ -36,7 +37,7 @@ const EditMessageComponent = (props: EditMessageComponentProps) => {
         const payload = {...values}
         CommonService._dashboardService.editDashboardMessage(messageObject?._id, payload)
             .then((response: IAPIResponseType<any>) => {
-                // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Message Edited successfully", "success");
+                CommonService._alert.showToast( "Message updated successfully!", "success");
                 dispatch(getAllMessageHistory());
                 onBack();
                 closeMessageDrawer();

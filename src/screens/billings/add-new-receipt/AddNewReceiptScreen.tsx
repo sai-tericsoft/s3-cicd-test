@@ -669,6 +669,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                     <div className="products-block">
                                         <div className="products-block-wrapper">
                                             <TableComponent columns={productListTableColumns}
+                                                            autoHeight={true}
                                                             data={addNewReceiptFormInitialValues.products}/>
                                             <div className={'products-block-add-more'}>
                                                 <ButtonComponent

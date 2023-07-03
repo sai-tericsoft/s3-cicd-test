@@ -652,15 +652,16 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 <div className={'list-search-filters'}>
                     <div className="ts-row">
                         <div className="ts-col-md-12 ts-col-lg-6 d-flex ts-justify-content-start">
-                            {!clientId && <>
+                            {!clientId && <div className={'ts-col-7 mrg-right-10'}>
                                 <SearchComponent
-                                    label={"Search for clients"}
+                                    label={"Search"}
+                                    placeholder={"Search using Client Name"}
                                     value={clientListFilterState.search}
                                     onSearchChange={(value) => {
                                         setClientListFilterState({...clientListFilterState, search: value})
                                     }}
                                 />&nbsp;&nbsp;
-                            </>
+                            </div>
 
                             }
                             <DateRangePickerComponent
@@ -754,7 +755,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                onUpdate={handleTabChange}>
                     <TabComponent
                         className={'payment-details-tab'}
-                        label={`Pending Payments(${(billingStatsCount?.count !== undefined) ? billingStatsCount?.count : '-'})`}
+                        label={`Pending Payments (${(billingStatsCount?.count !== undefined) ? billingStatsCount?.count : '-'})`}
                         value={'pendingPayments'}/>
                     <TabComponent className={'payment-details-tab'} label={'Completed Payments'}
                                   value={'completedPayments'}/>
@@ -764,6 +765,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                            extraPayload={
                                                clientListFilterState
                                            }
+                                           noDataText={'Currently there is no pending payments.'}
                                            method={APIConfig.PENDING_PAYMENT_LIST.METHOD}
                                            columns={clientId ? clientPendingPaymentColumn : pendingPaymentColumn}
                                            moduleName={PENDING_PAYMENTS_MODULE}
