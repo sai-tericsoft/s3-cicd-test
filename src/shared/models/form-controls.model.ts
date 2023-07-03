@@ -161,7 +161,7 @@ export interface ISelectProps {
     value?: any;
     variant?: 'filled' | 'outlined' | 'standard';
     isClear?:boolean;
-    selectedValues?:any[];
+    selectedValues?:any;
 }
 
 export interface IAutoCompleteProps {

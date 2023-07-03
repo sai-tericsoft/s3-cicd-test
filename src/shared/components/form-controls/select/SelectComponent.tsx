@@ -102,7 +102,7 @@ const SelectComponent = (props: SelectComponentProps) => {
                     (options?.length > 0) ? (options?.map((item, index) => {
                         return <MenuItem
                             id={id + `_drop-down-option-${displayWith(item)}`}
-                            disabled={selectedValues && selectedValues?.length > 0 && selectedValues?.includes(item?.code)}
+                            disabled={selectedValues && selectedValues?.length > 0 && selectedValues?.includes(valueExtractor(item, index))}
                             key={keyExtractor ? keyExtractor(item) : `drop-down-option-${index}`}
                             value={valueExtractor(item, index)}>
                             {displayWith(item)}
