@@ -238,17 +238,19 @@ const Navigator = (props: NavigatorProps) => {
         <>
             <Routes>
                 <Route element={<AppLayout/>}>
-                    {currentUser?.is_new_user !== true ? <Route
-                        index
-                        element={
-                            <Navigate to={DASHBOARD}/>
-                        }
-                    /> : <Route index
-                                element={
-                                    <Navigate
-                                        to={PERSONAL_DETAILS_EDIT + '/' + currentUser?._id + '?currentStep=personal_details'}/>
-                                }
-                    />}
+                    {currentUser?.is_new_user === true ?
+                        <Route index
+                               element={
+                                   <Navigate
+                                       to={PERSONAL_DETAILS_EDIT + '/' + currentUser?._id + '?currentStep=personal_details'}/>
+                               }
+                        />
+                        : <Route
+                            index
+                            element={
+                                <Navigate to={DASHBOARD}/>
+                            }
+                        />}
 
                     <Route path={DASHBOARD} element={<DashboardLayoutComponent/>}{...props}>
                         <Route
