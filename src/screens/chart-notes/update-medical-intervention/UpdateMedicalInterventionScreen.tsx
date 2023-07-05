@@ -1171,7 +1171,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                 />
                                             </div>
                                         </div>
-                                        <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>
+                                        <div className={"display-flex flex-direction-row-reverse mrg-top-20 mrg-bottom-25"}>
                                             <ESignApprovalComponent isSigned={medicalInterventionDetails?.is_signed}
                                                                     isSigning={isSigningInProgress || isFormBeingUpdated}
                                                                     isLoading={formik.isSubmitting}
@@ -1183,8 +1183,9 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                         </div>
                                     </CardComponent>
                                     <div className="t-form-actions">
-                                        <ButtonComponent variant={'outlined'} onClick={handleDiscardNote}
-                                                         className={'mrg-right-10'}>
+                                        <ButtonComponent variant={'outlined'}
+                                                         onClick={handleDiscardNote}
+                                                         className={formik.isSubmitting ?'mrg-right-15':""}>
                                             Discard Note
                                         </ButtonComponent>
                                         <ButtonComponent
@@ -1197,6 +1198,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                 }
                                             }}
                                             isLoading={formik.isSubmitting}
+                                            className={'mrg-left-15'}
                                             type={medicalInterventionDetails?.is_signed ? "button" : "submit"}
                                             id={"medical_intervention_add_save_btn"}
                                             disabled={isFormBeingUpdated}

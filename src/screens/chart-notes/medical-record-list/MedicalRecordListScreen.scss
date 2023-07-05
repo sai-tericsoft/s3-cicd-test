@@ -49,8 +49,14 @@
     }
 
     .client-details-tab-wrapper {
-      //overflow-x: clip;
-      //flex: 1;
+      .t-table-wrapper {
+        .t-table {
+           height: calc(100vh - 330px);
+          .table-no-data-wrapper {
+            min-height: calc(100vh - 390px);
+          }
+        }
+      }
     }
   }
 

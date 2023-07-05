@@ -4,6 +4,16 @@
   .client-search-input {
     background-color: #FFFFFF;;
   }
+  .list-content-wrapper{
+    .table-no-data-wrapper{
+      min-height: calc(100vh - 320px)
+    }
+    .t-table-wrapper{
+      .t-table{
+        min-height: calc(100vh - 320px) !important;
+      }
+    }
+  }
 
   .client-search-card{
     .client-search-logo-wrapper{

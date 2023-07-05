@@ -23,7 +23,6 @@ import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import MedicalRecordBasicDetailsCardComponent
     from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import FormikSelectComponent from "../../../shared/components/form-controls/formik-select/FormikSelectComponent";
 
 interface MedicalInterventionFinalizeTreatmentScreenProps {
@@ -57,6 +56,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
             title: 'CPT Codes',
             dataIndex: 'select',
             width: 390,
+            fixed:'left',
             render: (_: any, record: any) => <Field name={`${record._id}.is_selected`}>
                 {
                     (field: FieldProps) => (
@@ -85,6 +85,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
             title: 'Units of Care',
             dataIndex: 'units_of_care',
             width: 130,
+            align:"center",
             render: (_: any, record: any) => renderUnitsOfCareInput(record)
         },
         {
@@ -92,6 +93,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
             title: 'Minutes',
             dataIndex: 'minutes',
             width: 120,
+            align:"center",
             render: (_: any, record: any) => renderMinutesInput(record)
         },
         {
@@ -99,6 +101,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
             title: 'Notes',
             dataIndex: 'notes',
             width: 300,
+            align:"center",
             render: (_: any, record: any) => renderNotesInput(record)
         }
     ];
@@ -260,8 +263,8 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                             }, [validateForm, values]);
                             return (
                                 <Form className="t-form" noValidate={true}>
-                                    <FormDebuggerComponent values={values} errors={errors}/>
-                                    <CardComponent>
+                                    {/*<FormDebuggerComponent values={values} errors={errors}/>*/}
+                                    <CardComponent className={'finalize-treatment-wrapper'}>
                                         <div className="ts-row align-items-center">
                                             <div className="ts-col ts-col-6">
                                                 <SearchComponent label={'Search CPT Code'}
@@ -299,6 +302,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                     <LinkComponent
                                                         route={CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId)}>
                                                         <ButtonComponent variant={"outlined"}
+                                                                         className={isSubmitting? 'mrg-right-15':''}
                                                                          disabled={isSubmitting || isInterventionCheckingOut}>
                                                             Home
                                                         </ButtonComponent>&nbsp;&nbsp;
@@ -306,7 +310,9 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                 </>
                                             }
                                         </>
-                                        <ButtonComponent type={"submit"} isLoading={isSubmitting}
+                                        <ButtonComponent type={"submit"}
+                                                         className={'mrg-left-15'}
+                                                         isLoading={isSubmitting}
                                                          disabled={
                                                              isSubmitting || isInterventionCheckingOut || !Object.keys(values).some((cptCodeId) => {
                                                                  const cptDetails = values[cptCodeId];
@@ -330,7 +336,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                     <DrawerComponent isOpen={isEightMinuteRuleChartDrawerOpen}
                                      showClose={true}
                                      closeOnEsc={false}
-                                     closeOnBackDropClick={false}
+                                     closeOnBackDropClick={true}
                                      onClose={() => setEightMinuteRuleChartDrawerOpen(false)}>
                         <Client8MinutesRuleChartComponent/>
                     </DrawerComponent>

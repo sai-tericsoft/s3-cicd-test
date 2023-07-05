@@ -9,7 +9,6 @@ import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {getAllMessageHistory} from "../../../store/actions/dashboard.action";
 import {useDispatch} from "react-redux";
-import {Misc} from "../../../constants";
 
 interface EditMessageComponentProps {
     messageObject: any;

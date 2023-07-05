@@ -1,13 +1,20 @@
 @import "src/assets/styles/common";
 
 .add-new-receipt-screen {
+  .add-receipt-title {
+    color: #00534F;
+    font-size: 1.2857rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+
+  }
 
   .t-form {
     background-color: #ffffff;
     padding: 24px;
     border: 1px solid #ECECEC;
 
-    .add-client-btn{
+    .add-client-btn {
       margin-bottom: 24px;
     }
 
@@ -121,6 +128,7 @@
         min-height: 52px;
       }
     }
+
     .t-th.t-cell.t-cell-item {
       padding-left: 17px !important;
     }
@@ -141,6 +149,7 @@
 
 .client-search-table-wrapper, .provider-search-table-wrapper {
   height: calc(100vh - 315px);
+
   .client-list-heading {
     font-weight: $font-weight-bolder;
     line-height: 19px;

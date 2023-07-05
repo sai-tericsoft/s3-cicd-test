@@ -488,7 +488,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
 
     return (
         <div className={'add-new-receipt-screen'}>
-            <PageHeaderComponent title={'Add Receipt'}/>
+            <div className={'add-receipt-title'}>Add Receipt</div>
             <Formik
                 validationSchema={AddNewReceiptFormValidationSchema}
                 initialValues={addNewReceiptFormInitialValues}

@@ -18,7 +18,6 @@ import * as Yup from "yup";
 import HorizontalLineComponent
     from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 import _ from "lodash";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import moment from "moment";
 
@@ -139,7 +138,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                         }, [validateForm, values]);
                         return (
                             <Form className="t-form" noValidate={true}>
-                                <FormDebuggerComponent values={values} />
+                                {/*<FormDebuggerComponent values={values} />*/}
                                 <div>
                                     <Field name={'onset_date'}>
                                         {

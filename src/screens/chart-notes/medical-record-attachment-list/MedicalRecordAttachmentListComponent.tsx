@@ -26,8 +26,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             title: 'Date of Attachment',
             key: 'created_at',
             dataIndex: 'date_of_attachment',
-            fixed: 'left',
-            width: 250,
+            width: 150,
             sortable: true,
             render: (item: any) => {
                 let route = '';
@@ -52,7 +51,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             title: 'File',
             key: 'file',
             dataIndex: 'file',
-            width: 200,
+            width: 180,
             render: (item: any) => {
                 return <>{item?.note_type}</>
             }
@@ -61,7 +60,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             title: 'Last Updated',
             key: 'last_updated',
             dataIndex: 'last_updated',
-            width: 360,
+            width: 180,
             align: 'center',
             sortable: true,
             render: (item: any) => {
@@ -74,7 +73,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             title: 'Posted By',
             key: 'posted_by',
             dataIndex: 'posted_by',
-            width: 380,
+            width: 160,
             sortable: true,
             render: (item: any) => {
                 return <>{CommonService.capitalizeFirstLetter(item?.posted_by?.first_name)} {CommonService.capitalizeFirstLetter(item?.posted_by?.last_name)}</>
@@ -83,7 +82,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
         {
             title: '',
             key: 'actions',
-            width: 130,
+            width: 120,
             fixed: 'right',
             render: (item: any) => {
                 let route = '';
