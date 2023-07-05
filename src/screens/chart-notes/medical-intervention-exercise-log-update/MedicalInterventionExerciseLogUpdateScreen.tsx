@@ -73,7 +73,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
     const [medicalInterventionExerciseLogValues, setMedicalInterventionExerciseLogValues] = useState<any>(_.cloneDeep(MedicalInterventionExerciseLogInitialValues));
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {medicalRecordId, medicalInterventionId} = useParams();
+    const {medicalRecordId, medicalInterventionId, mode} = useParams();
     const [medicalInterventionExerciseLogDetails, setMedicalInterventionExerciseLogDetails] = useState<any>(undefined);
     const [isMedicalInterventionExerciseLogDetailsLoading, setIsMedicalInterventionExerciseLogDetailsLoading] = useState<boolean>(false);
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
@@ -352,7 +352,11 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                 .then((response: any) => {
                     CommonService._alert.showToast(response.message, 'success');
                     setSubmitting(false);
-                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+                    if (mode === 'add' || mode === 'soapNoteEdit') {
+                        navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+                    } else {
+                        navigate(CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, medicalInterventionId));
+                    }
                 })
                 .catch((error: any) => {
                     CommonService._alert.showToast(error.error || error.errors || 'Error saving Exercise log', 'error');
@@ -373,7 +377,11 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     navigate(CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId));
 
                 } else {
-                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+                    if (mode === 'add' || mode === 'soapNoteEdit') {
+                        navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+                    } else {
+                        navigate(CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, medicalInterventionId));
+                    }
                 }
             }));
         }
@@ -452,7 +460,8 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
     return (
         <div className={'medical-intervention-exercise-log-screen'}>
 
-            <PageHeaderComponent title={'Add Exercise Log'} actions={
+            <PageHeaderComponent
+                title={mode === 'add' ? 'Add Exercise Log' : 'Edit Exercise Log'} actions={
                 <div className="last-updated-status">
                     <div className="last-updated-status-text">Last Updated On:&nbsp;</div>
                     <div
@@ -518,9 +527,9 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                     <>
 
                                         {(attachmentList.attachments.length > 0) &&
-                                            <>
-                                                {attachmentList?.attachments?.map((attachment: any) => {
-                                                    return <span className={'chip-wrapper'}>
+                                        <>
+                                            {attachmentList?.attachments?.map((attachment: any) => {
+                                                return <span className={'chip-wrapper'}>
                                         <ChipComponent className={'chip chip-items'}
                                                        disabled={isAttachmentBeingDeleted}
                                                        label={attachment.name}
@@ -528,21 +537,21 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                                        onDelete={() => removeAttachment(attachment, medicalInterventionId)}
                                         />
                                                 </span>
-                                                })}
-                                            </>
+                                            })}
+                                        </>
                                         }
                                         {selectedAttachment &&
-                                            <span className={'chip-wrapper'}>
+                                        <span className={'chip-wrapper'}>
                                         <ChipComponent className={'chip chip-items'}
                                                        disabled={isAttachmentBeingDeleted}
                                                        label={selectedAttachment.name}
                                                        prefixIcon={<ImageConfig.PDF_ICON/>}
-                                                       onDelete={()=>setSelectedAttachment(null)}
+                                                       onDelete={() => setSelectedAttachment(null)}
                                         />
                                                 </span>
                                         }
                                         {(!selectedAttachment && !attachmentList.attachments.length) &&
-                                            <StatusCardComponent title={'No Attachments'}/>
+                                        <StatusCardComponent title={'No Attachments'}/>
                                         }
                                     </>
                                 </CardComponent>
@@ -610,10 +619,14 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                     </div>
                                     <div className="t-form-actions">
                                         {(medicalRecordId && medicalInterventionId) && <LinkComponent
-                                            route={CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId)}>
+                                            route={(mode === 'add' || mode === 'soapNoteEdit') ?
+                                                CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) :
+                                                CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, medicalInterventionId)
+                                            }
+                                        >
                                             <ButtonComponent variant={"outlined"}
                                                              disabled={isSubmitting}
-                                                             isLoading={isSubmitting}>
+                                                             >
                                                 Cancel
                                             </ButtonComponent>
                                         </LinkComponent>}

@@ -18,3 +18,17 @@
     }
   }
 }
+
+.client-name-button-wrapper {
+  display: flex;
+  justify-content: space-between;
+
+  .client-name-wrapper {
+    font-size: 1.4286rem;
+    font-weight: 700;
+
+    .client-name {
+      padding-right: 10px;
+    }
+  }
+}

@@ -9,8 +9,8 @@ import {
     DISCOUNT_LIST,
     FACILITY_DETAILS,
     FACILITY_LIST,
-    HELP,
     FAQ,
+    HELP,
     INVENTORY,
     LOGIN_ROUTE,
     NOT_FOUND_ROUTE,
@@ -149,7 +149,7 @@ const AddMedicalRecord = (clientId: string) => {
     return "/chart-notes/" + clientId + '/add-medical-record';
 }
 
-const UpdateMedicalIntervention = (medicalRecordId: string, medicalInterventionId: string, referrer?: any) => {
+const UpdateMedicalIntervention = (medicalRecordId: string, medicalInterventionId: string) => {
     return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/update-medical-intervention';
 }
 
@@ -176,8 +176,8 @@ const MedicalInterventionICDCodes = (medicalRecordId: string, medicalInterventio
     return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/icd-codes'; // todo: why is this not referred from constants
 }
 
-const MedicalInterventionExerciseLogUpdate = (medicalRecordId: string, medicalInterventionId: string) => {
-    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/exercise-log-update';
+const MedicalInterventionExerciseLogUpdate = (medicalRecordId: string, medicalInterventionId: string, mode: string) => {
+    return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/exercise-log-update/' + mode;
 }
 
 const MedicalInterventionExerciseLogView = (medicalRecordId: string, medicalInterventionId: string) => {
@@ -253,7 +253,7 @@ const BillingDetails = (billingId: string) => {
     return "/billing/billing-details/" + billingId;
 }
 
-const Help=()=>{
+const Help = () => {
     return HELP;
 }
 

@@ -327,7 +327,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                             return (
                                 <Form className="t-form" noValidate={true}>
                                     {medicalInterventionDetails?.status === 'draft' &&
-                                        <FormAutoSave formikCtx={formik} onUpdating={setIsFormBeingUpdated}/>}
+                                    <FormAutoSave formikCtx={formik} onUpdating={setIsFormBeingUpdated}/>}
                                     <div
                                         className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
                                         <FormControlLabelComponent label={"SOAP Note"} size={'lg'}
@@ -335,7 +335,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                         {
                                             (medicalInterventionId && medicalRecordId && medicalInterventionDetails?.status === 'draft') &&
                                             <LinkComponent
-                                                route={CommonService._routeConfig.MedicalInterventionExerciseLogUpdate(medicalRecordId, medicalInterventionId)}>
+                                                route={CommonService._routeConfig.MedicalInterventionExerciseLogUpdate(medicalRecordId, medicalInterventionId, (medicalInterventionDetails?.is_exercise_log_added ? "soapNoteEdit" : "add"))}>
                                                 <ButtonComponent
                                                     prefixIcon={medicalInterventionDetails?.is_exercise_log_added ?
                                                         <ImageConfig.EditIcon/> : <ImageConfig.AddIcon/>}
@@ -406,18 +406,18 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                        }>Clear</div>}
                                                            readonly={<></>}/>}&nbsp;&nbsp;
                                                        {medicalInterventionDetails?.status === 'draft' &&
-                                                           <Field name={'is_flagged'}>
-                                                               {
-                                                                   (field: FieldProps) => (
-                                                                       <FormikCheckBoxComponent
-                                                                           label={'Flag Note'}
-                                                                           formikField={field}
-                                                                           required={false}
-                                                                           labelPlacement={"start"}
-                                                                       />
-                                                                   )
-                                                               }
-                                                           </Field>
+                                                       <Field name={'is_flagged'}>
+                                                           {
+                                                               (field: FieldProps) => (
+                                                                   <FormikCheckBoxComponent
+                                                                       label={'Flag Note'}
+                                                                       formikField={field}
+                                                                       required={false}
+                                                                       labelPlacement={"start"}
+                                                                   />
+                                                               )
+                                                           }
+                                                       </Field>
                                                        }
                                                    </>}
                                     >
@@ -485,11 +485,11 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                 <div className={'completed-wrapper'}>
                                                                     {medicalInterventionDetails?.status === 'completed' &&
 
-                                                                        <div
-                                                                            className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
-                                                                            <FormControlLabelComponent
-                                                                                label={"Range of Motion and Strength "}/>
-                                                                        </div>
+                                                                    <div
+                                                                        className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
+                                                                        <FormControlLabelComponent
+                                                                            label={"Range of Motion and Strength "}/>
+                                                                    </div>
 
                                                                     }
                                                                     {
@@ -572,7 +572,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                                                 body_part?.rom_config?.length === 0 &&
                                                                                                 <StatusCardComponent
                                                                                                     title={"The following body part does not have any Range of Motion or Strength " +
-                                                                                                        "                                                measurements. \n Please choose another body part."}/>
+                                                                                                    "                                                measurements. \n Please choose another body part."}/>
                                                                                             }
                                                                                         </>
                                                                                     )
@@ -616,11 +616,11 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                             <div className={'completed-wrapper'}>
                                                                 {medicalInterventionDetails?.status === 'completed' &&
 
-                                                                    <div
-                                                                        className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
-                                                                        <FormControlLabelComponent
-                                                                            label={"Special Tests "}/>
-                                                                    </div>
+                                                                <div
+                                                                    className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
+                                                                    <FormControlLabelComponent
+                                                                        label={"Special Tests "}/>
+                                                                </div>
 
                                                                 }
                                                                 {
@@ -849,47 +849,48 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                             <div className={'completed-wrapper'}>
                                                                 {medicalInterventionDetails?.status === 'completed' &&
 
-                                                                    <div
-                                                                        className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
-                                                                        <FormControlLabelComponent
-                                                                            label={"Medical Diagnosis/ICD-11 Codes"}/>
-                                                                    </div>
+                                                                <div
+                                                                    className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
+                                                                    <FormControlLabelComponent
+                                                                        label={"Medical Diagnosis/ICD-11 Codes"}/>
+                                                                </div>
 
                                                                 }
-                                                            {
-                                                                medicalInterventionDetails?.linked_icd_codes?.length > 0 &&
-                                                                <div className="icd-codes-wrapper">
-                                                                    <div className="card-styling">
-                                                                        <CardComponent size={'sm'}
-                                                                                       className={medicalInterventionDetails?.status==='completed'? 'icd-codes-header-wrapper' :'icd-codes-header'}
-                                                                                       title={'Medical Diagnosis/ICD-11 Codes:'}
-                                                                                       actions={
-                                                                                           <DraftReadonlySwitcherComponent
-                                                                                               condition={true}
-                                                                                               draft={<>
-                                                                                                   {
-                                                                                                       (medicalInterventionId && medicalRecordId) && medicalInterventionDetails?.status === 'draft' &&
-                                                                                                       <LinkComponent
-                                                                                                           route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId)}>
-                                                                                                           <ButtonComponent
-                                                                                                               size={"small"}
-                                                                                                               prefixIcon={(medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0) ?
-                                                                                                                   <ImageConfig.EditIcon/> :
-                                                                                                                   <ImageConfig.AddIcon/>}>
-                                                                                                               {medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0 ? 'Edit' : 'Add'}
-                                                                                                           </ButtonComponent>
-                                                                                                       </LinkComponent>
-                                                                                                   }
-                                                                                               </>} readonly={<></>}/>
-                                                                                       }>
-                                                                            <TableComponent
-                                                                                data={medicalInterventionDetails?.linked_icd_codes}
-                                                                                bordered={true}
-                                                                                columns={ICDTableColumns}/>
-                                                                        </CardComponent>
+                                                                {
+                                                                    medicalInterventionDetails?.linked_icd_codes?.length > 0 &&
+                                                                    <div className="icd-codes-wrapper">
+                                                                        <div className="card-styling">
+                                                                            <CardComponent size={'sm'}
+                                                                                           className={medicalInterventionDetails?.status === 'completed' ? 'icd-codes-header-wrapper' : 'icd-codes-header'}
+                                                                                           title={'Medical Diagnosis/ICD-11 Codes:'}
+                                                                                           actions={
+                                                                                               <DraftReadonlySwitcherComponent
+                                                                                                   condition={true}
+                                                                                                   draft={<>
+                                                                                                       {
+                                                                                                           (medicalInterventionId && medicalRecordId) && medicalInterventionDetails?.status === 'draft' &&
+                                                                                                           <LinkComponent
+                                                                                                               route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId)}>
+                                                                                                               <ButtonComponent
+                                                                                                                   size={"small"}
+                                                                                                                   prefixIcon={(medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0) ?
+                                                                                                                       <ImageConfig.EditIcon/> :
+                                                                                                                       <ImageConfig.AddIcon/>}>
+                                                                                                                   {medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0 ? 'Edit' : 'Add'}
+                                                                                                               </ButtonComponent>
+                                                                                                           </LinkComponent>
+                                                                                                       }
+                                                                                                   </>}
+                                                                                                   readonly={<></>}/>
+                                                                                           }>
+                                                                                <TableComponent
+                                                                                    data={medicalInterventionDetails?.linked_icd_codes}
+                                                                                    bordered={true}
+                                                                                    columns={ICDTableColumns}/>
+                                                                            </CardComponent>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            }
+                                                                }
                                                             </div>
                                                         </>
                                                     }
