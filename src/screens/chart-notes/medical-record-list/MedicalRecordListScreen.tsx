@@ -183,7 +183,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                                     </div>
                                     <div className="client-details-filters-options">
                                         <div className="client-details-filters ts-row">
-                                            <div className="ts-col-md-6 ts-col-lg-3">
+                                            <div className="ts-col-md-6 ts-col-lg-4">
                                                 <SelectComponent options={caseStatusList}
                                                                  label={'Status'}
                                                                  fullWidth={true}

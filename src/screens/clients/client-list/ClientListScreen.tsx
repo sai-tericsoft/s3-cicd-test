@@ -68,7 +68,7 @@ const ClientListScreen = (props: ClientListScreenProps) => {
                         <div className="ts-col-md-7 ts-col-lg-4">
                             <SearchComponent
                                 label={"Search"}
-                                placeholder={'Search using Client ID or Client Name'}
+                                placeholder={'Search using ID/Name/Phone'}
                                 value={clientListFilterState.search}
                                 onSearchChange={(value) => {
                                     setClientListFilterState((prevState) => {

@@ -32,7 +32,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             title: "Client ID",
             key: "client_id",
             dataIndex: "client_id",
-            width: 120,
+            width: 160,
             fixed: "left",
             render: (item: IClientBasicDetails) => {
                 if (item?._id) {
@@ -47,8 +47,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             key: "name",
             dataIndex: "first_name",
             sortable: true,
-            align: 'center',
-            width: 250,
+            width: 150,
             render: (item: IClientBasicDetails) => {
                 return <span>{CommonService.extractName(item)}</span>
             }
@@ -57,7 +56,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             title: "Phone",
             key: "primary_contact_info",
             dataIndex: "primary_contact_info",
-            width: 100,
+            width: 150,
             align: "center",
             render: (item: IClientBasicDetails) => {
                 return <span>{item?.primary_contact_info?.phone}</span>
@@ -67,7 +66,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             title: "Last Intervention",
             key: "last_appointment_date",
             dataIndex: "lastAppointmentDate",
-            width: 150,
+            width: 200,
             align: "center",
             render: (item: IClientBasicDetails) => {
                 return <span>
@@ -92,7 +91,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             dataIndex: "status",
             key: "status",
             align: "center",
-            width: 90,
+            width: 140,
             render: (item: IClientBasicDetails) => {
                 return <ChipComponent label={item?.is_active ? "Active" : "Inactive"}
                                       className={item?.is_active ? "active" : "inactive"}
@@ -132,10 +131,11 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
 
     return (
         <div className={'client-search-component'}>
-            <CardComponent color={"primary"} size={'md'}>
+            <CardComponent color={"primary"} className={'search-wrapper'} size={'md'}>
                 <SearchComponent size={'medium'}
                                  className={'client-search-input mrg-top-20'}
-                                 label={'Search for Client'}
+                                 label={'Search'}
+                                 placeholder={'Search using ID/Name/Phone'}
                                  value={clientListFilterState.search}
                                  onSearchChange={(value) => {
                                      setClientListFilterState((prevState) => {

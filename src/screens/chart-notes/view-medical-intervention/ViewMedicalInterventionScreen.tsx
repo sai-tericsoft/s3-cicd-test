@@ -444,6 +444,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
                                                             <FormControlLabelComponent
+                                                                size={'sm'}
                                                                 label={'Observation'}/></div>
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
@@ -474,25 +475,27 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                 {/*{*/}
 
                                                                 {  medicalInterventionDetails?.rom_config?.length === 0 &&
-                                                                    <>
+                                                                    <div className={'display-flex'}>
                                                                         <FormControlLabelComponent
-                                                                            label={"Range of Motion and Strength :"}/>
-                                                                        <div className={'readonly-text'}>
+                                                                            size={'sm'}
+                                                                            label={"Range of Motion and Strength"}/>
+                                                                        <div className={'not-texted-text'}>
                                                                             Not Tested
                                                                         </div>
 
-                                                                    </>
+                                                                    </div>
                                                                 }
                                                                 <div className={'completed-wrapper'}>
-                                                                    {/*{medicalInterventionDetails?.status === 'completed' &&*/}
+                                                                    {medicalInterventionDetails?.status === 'completed' && medicalInterventionDetails?.rom_config?.length > 0 &&
 
-                                                                    {/*    <div*/}
-                                                                    {/*        className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>*/}
-                                                                    {/*        <FormControlLabelComponent*/}
-                                                                    {/*            label={"Range of Motion and Strength "}/>*/}
-                                                                    {/*    </div>*/}
+                                                                        <div
+                                                                            className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
+                                                                            <FormControlLabelComponent
+                                                                                size={'sm'}
+                                                                                label={"Range of Motion and Strength "}/>
+                                                                        </div>
 
-                                                                    {/*}*/}
+                                                                    }
                                                                     {
                                                                         medicalInterventionDetails?.rom_config?.length > 0 &&
                                                                         <CardComponent className={'rom-header'}
@@ -603,27 +606,29 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                             {/*        </ButtonComponent>*/}
                                                             {/*    </LinkComponent>*/}
                                                             {/*}*/}
-                                                            {/*{*/}
+                                                            {/*/!*{*!/*/}
                                                             {   medicalInterventionDetails?.special_tests?.length === 0 &&
-                                                                <>
+                                                                <div className={'display-flex '}>
                                                                     <FormControlLabelComponent
-                                                                        label={"Special Tests :"}/>
-                                                                    <div className={'readonly-text'}>
+                                                                        size={'sm'}
+                                                                        label={"Special Tests"}/>
+                                                                    <div className={'not-texted-text'}>
                                                                         Not Tested
                                                                     </div>
 
-                                                                </>
+                                                                </div>
                                                             }
                                                             <div className={'completed-wrapper'}>
-                                                                {/*{medicalInterventionDetails?.status === 'completed' &&*/}
+                                                                {medicalInterventionDetails?.status === 'completed' && medicalInterventionDetails?.special_tests?.length> 0 &&
 
-                                                                {/*    <div*/}
-                                                                {/*        className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>*/}
-                                                                {/*        <FormControlLabelComponent*/}
-                                                                {/*            label={"Special Tests "}/>*/}
-                                                                {/*    </div>*/}
+                                                                    <div
+                                                                        className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
+                                                                        <FormControlLabelComponent
+                                                                            size={'sm'}
+                                                                            label={"Special Tests "}/>
+                                                                    </div>
 
-                                                                {/*}*/}
+                                                                }
                                                                 {
                                                                     medicalInterventionDetails?.special_tests?.length > 0 &&
                                                                     <div
@@ -693,6 +698,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
                                                             <FormControlLabelComponent
+                                                                size={'sm'}
                                                                 label={'Palpation'}/></div>
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
@@ -724,6 +730,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
                                                             <FormControlLabelComponent
+                                                                size={'sm'}
                                                                 label={'Functional Tests'}/></div>
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
@@ -756,6 +763,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
                                                             <FormControlLabelComponent
+                                                                size={'sm'}
                                                                 label={'Treatment'}/></div>
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
@@ -790,6 +798,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
                                                             <FormControlLabelComponent
+                                                                size={'sm'}
                                                                 label={'Response to Treatment'}/></div>
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
@@ -838,31 +847,33 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                             {/*}*/}
                                                             {/*{*/}
                                                             { medicalInterventionDetails?.linked_icd_codes?.length === 0 &&
-                                                                <>
+                                                                <div className={'display-flex'}>
                                                                     <FormControlLabelComponent
-                                                                        label={"Add Medical Diagnosis / ICD-11 Codes :"}/>
-                                                                    <div className={'readonly-text'}>
+                                                                        size={'sm'}
+                                                                        label={"Add Medical Diagnosis / ICD-11 Codes "}/>
+                                                                    <div className={'not-texted-text'}>
                                                                         Not Added
                                                                     </div>
 
-                                                                </>
+                                                                </div>
                                                             }
                                                             <div className={'completed-wrapper'}>
-                                                                {/*{medicalInterventionDetails?.status === 'completed' &&*/}
+                                                                {medicalInterventionDetails?.status === 'completed' &&medicalInterventionDetails?.linked_icd_codes?.length > 0 &&
 
-                                                                {/*    <div*/}
-                                                                {/*        className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>*/}
-                                                                {/*        <FormControlLabelComponent*/}
-                                                                {/*            label={"Medical Diagnosis/ICD-11 Codes"}/>*/}
-                                                                {/*    </div>*/}
+                                                                    <div
+                                                                        className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
+                                                                        <FormControlLabelComponent
+                                                                            size={'sm'}
+                                                                            label={"Medical Diagnosis/ICD-11 Codes"}/>
+                                                                    </div>
 
-                                                                {/*}*/}
+                                                                }
                                                             {
                                                                 medicalInterventionDetails?.linked_icd_codes?.length > 0 &&
                                                                 <div className="icd-codes-wrapper">
                                                                     <div className="card-styling">
                                                                         <CardComponent size={'sm'}
-                                                                                       className={medicalInterventionDetails?.status==='completed'? 'icd-codes-header-wrapper' :'icd-codes-header'}
+                                                                                       className={medicalInterventionDetails?.status==='completed'? 'icd-codes-header':''}
                                                                                        title={'Medical Diagnosis/ICD-11 Codes:'}
                                                                                        actions={
                                                                                            <DraftReadonlySwitcherComponent
@@ -916,6 +927,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
                                                             <FormControlLabelComponent
+                                                                size={'sm'}
                                                                 label={'Index of Suspicion'}/></div>
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
@@ -947,6 +959,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
                                                             <FormControlLabelComponent
+                                                                size={'sm'}
                                                                 label={'Surgery Procedure Complete'}/></div>
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
@@ -997,6 +1010,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
                                                             <FormControlLabelComponent
+                                                                size={'sm'}
                                                                 label={'Plan'}/></div>
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
@@ -1028,6 +1042,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
                                                             <FormControlLabelComponent
+                                                                size={'sm'}
                                                                 label={'MD Recommendations'}/></div>
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
@@ -1059,6 +1074,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
                                                             <FormControlLabelComponent
+                                                                size={'sm'}
                                                                 label={'Education'}/></div>
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
@@ -1092,6 +1108,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
                                                             <FormControlLabelComponent
+                                                                size={'sm'}
                                                                 label={'Treatment Goals'}/>
                                                         </div>
                                                         <div
