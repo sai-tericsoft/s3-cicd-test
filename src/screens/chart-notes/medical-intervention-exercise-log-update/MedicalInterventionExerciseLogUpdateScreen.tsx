@@ -363,7 +363,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     setSubmitting(false);
                 });
         }
-    }, [medicalRecordId, navigate, medicalInterventionId, selectedAttachment, handleFileSubmit]);
+    }, [medicalRecordId, navigate, medicalInterventionId, selectedAttachment, handleFileSubmit,mode]);
 
 
     const {
@@ -385,7 +385,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                 }
             }));
         }
-    }, [dispatch, navigate, medicalInterventionDetails, medicalRecordId, medicalInterventionId]);
+    }, [dispatch, navigate, medicalInterventionDetails, medicalRecordId, medicalInterventionId,mode]);
 
     useEffect(() => {
         if (medicalRecordId) {
