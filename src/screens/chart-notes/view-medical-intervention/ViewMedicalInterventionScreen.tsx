@@ -156,13 +156,13 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
         const ROMColumns: any[] = [
             {
                 title: '',
-                fixed: 'left',
+                // fixed: 'left',
                 children: [
                     {
                         title: 'Movement',
                         key: 'movement',
                         width: 180,
-                        fixed: 'left',
+                        // fixed: 'left',
                         render: (record: any) => {
                             return <div className="movement-name">
                                 {record?.movement_name}
@@ -176,7 +176,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
             ROMColumns.push({
                 title: side,
                 className: side,
-                fixed: 'left',
+                // fixed: 'left',
                 align: 'center',
                 children: [
                     {
@@ -184,7 +184,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                         dataIndex: 'arom',
                         key: side + 'arom',
                         align: 'center',
-                        fixed: 'left',
+                        // fixed: 'left',
                         width: 87,
                         render: (item: any) => {
                             return <div className={'movement-name'}>{item?.config[side]?.arom || '-'}</div>
@@ -195,7 +195,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                         dataIndex: 'prom',
                         key: side + 'prom',
                         align: 'center',
-                        fixed: 'left',
+                        // fixed: 'left',
                         width: 87,
                         render: (item: any) => {
                             return <div className={'movement-name'}>{item?.config[side]?.prom || "-"}</div>
@@ -206,7 +206,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                         dataIndex: 'strength',
                         key: side + 'strength',
                         align: 'center',
-                        fixed: 'left',
+                        // fixed: 'left',
                         width: 107,
                         render: (item: any) => {
                             return <div className={'movement-name'}>{item?.config[side]?.strength || "-"}</div>
@@ -215,11 +215,18 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                 ]
             });
         });
-        ROMColumns.push({
-            title: '',
-            dataIndex: '',
-            key: 'dummy',
-        })
+        ROMColumns.push(
+            {
+                title: 'Comments',
+                dataIndex: 'comments',
+                key: 'comments',
+                width: 147,
+                render: (item: any) => {
+                    return <div
+                        className={'comment-text'}>{item?.config?.comments ? CommonService.capitalizeFirstLetter(item?.config?.comments) : "-"}</div>
+                }
+            }
+        )
         return ROMColumns;
     }, []);
 
@@ -327,7 +334,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                             return (
                                 <Form className="t-form" noValidate={true}>
                                     {medicalInterventionDetails?.status === 'draft' &&
-                                        <FormAutoSave formikCtx={formik} onUpdating={setIsFormBeingUpdated}/>}
+                                    <FormAutoSave formikCtx={formik} onUpdating={setIsFormBeingUpdated}/>}
                                     <div
                                         className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
                                         <FormControlLabelComponent label={"SOAP Note"} size={'lg'}
@@ -335,7 +342,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                         {
                                             (medicalInterventionId && medicalRecordId && medicalInterventionDetails?.status === 'draft') &&
                                             <LinkComponent
-                                                route={CommonService._routeConfig.MedicalInterventionExerciseLogUpdate(medicalRecordId, medicalInterventionId)}>
+                                                route={CommonService._routeConfig.MedicalInterventionExerciseLogUpdate(medicalRecordId, medicalInterventionId, (medicalInterventionDetails?.is_exercise_log_added ? "soapNoteEdit" : "add"))}>
                                                 <ButtonComponent
                                                     prefixIcon={medicalInterventionDetails?.is_exercise_log_added ?
                                                         <ImageConfig.EditIcon/> : <ImageConfig.AddIcon/>}
@@ -406,18 +413,18 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                        }>Clear</div>}
                                                            readonly={<></>}/>}&nbsp;&nbsp;
                                                        {medicalInterventionDetails?.status === 'draft' &&
-                                                           <Field name={'is_flagged'}>
-                                                               {
-                                                                   (field: FieldProps) => (
-                                                                       <FormikCheckBoxComponent
-                                                                           label={'Flag Note'}
-                                                                           formikField={field}
-                                                                           required={false}
-                                                                           labelPlacement={"start"}
-                                                                       />
-                                                                   )
-                                                               }
-                                                           </Field>
+                                                       <Field name={'is_flagged'}>
+                                                           {
+                                                               (field: FieldProps) => (
+                                                                   <FormikCheckBoxComponent
+                                                                       label={'Flag Note'}
+                                                                       formikField={field}
+                                                                       required={false}
+                                                                       labelPlacement={"start"}
+                                                                   />
+                                                               )
+                                                           }
+                                                       </Field>
                                                        }
                                                    </>}
                                     >
@@ -474,6 +481,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                 {/*}*/}
                                                                 {/*{*/}
 
+
                                                                 {  medicalInterventionDetails?.rom_config?.length === 0 &&
                                                                     <div className={'display-flex'}>
                                                                         <FormControlLabelComponent
@@ -484,6 +492,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                         </div>
 
                                                                     </div>
+
                                                                 }
                                                                 <div className={'completed-wrapper'}>
                                                                     {medicalInterventionDetails?.status === 'completed' && medicalInterventionDetails?.rom_config?.length > 0 &&
@@ -553,22 +562,22 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                                                     showExpandColumn={false}
                                                                                                     defaultExpandAllRows={true}
                                                                                                     canExpandRow={(row: any) => row?.config?.comments?.length > 0}
-                                                                                                    expandRowRenderer={
-                                                                                                        (row: any) => {
-                                                                                                            return (
-                                                                                                                <div
-                                                                                                                    key={row?.config?._id}
-                                                                                                                    className={'comment-row'}>
-                                                                                                                    <div
-                                                                                                                        className={'comment-icon'}>
-                                                                                                                        <ImageConfig.CommentIcon/>
-                                                                                                                    </div>
-                                                                                                                    <div
-                                                                                                                        className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
-                                                                                                                </div>
-                                                                                                            )
-                                                                                                        }
-                                                                                                    }
+                                                                                                    // expandRowRenderer={
+                                                                                                    //     (row: any) => {
+                                                                                                    //         return (
+                                                                                                    //             <div
+                                                                                                    //                 key={row?.config?._id}
+                                                                                                    //                 className={'comment-row'}>
+                                                                                                    //                 <div
+                                                                                                    //                     className={'comment-icon'}>
+                                                                                                    //                     <ImageConfig.CommentIcon/>
+                                                                                                    //                 </div>
+                                                                                                    //                 <div
+                                                                                                    //                     className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
+                                                                                                    //             </div>
+                                                                                                    //         )
+                                                                                                    //     }
+                                                                                                    // }
                                                                                                     bordered={true}
                                                                                                     columns={getMedicalInterventionROMConfigColumns(body_part)}/>
                                                                                             }
@@ -576,7 +585,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                                                 body_part?.rom_config?.length === 0 &&
                                                                                                 <StatusCardComponent
                                                                                                     title={"The following body part does not have any Range of Motion or Strength " +
-                                                                                                        "                                                measurements. \n Please choose another body part."}/>
+                                                                                                    "                                                measurements. \n Please choose another body part."}/>
                                                                                             }
                                                                                         </>
                                                                                     )
@@ -617,6 +626,9 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                     </div>
 
                                                                 </div>
+
+                                                            {/*{*/}
+
                                                             }
                                                             <div className={'completed-wrapper'}>
                                                                 {medicalInterventionDetails?.status === 'completed' && medicalInterventionDetails?.special_tests?.length> 0 &&
@@ -627,6 +639,12 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                             size={'sm'}
                                                                             label={"Special Tests "}/>
                                                                     </div>
+
+                                                                {/*    <div*/}
+                                                                {/*        className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>*/}
+                                                                {/*        <FormControlLabelComponent*/}
+                                                                {/*            label={"Special Tests "}/>*/}
+                                                                {/*    </div>*/}
 
                                                                 }
                                                                 {
@@ -657,7 +675,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                                        }
                                                                         >
 
-                                                                            {medicalInterventionDetails?.special_tests.length >0 ? medicalInterventionDetails?.special_tests.map((body_part: any) => {
+                                                                            {medicalInterventionDetails?.special_tests.length > 0 ? medicalInterventionDetails?.special_tests.map((body_part: any) => {
                                                                                 return (<div className={''}>
                                                                                     <CardComponent
                                                                                         className={'body-part-card'}
@@ -670,7 +688,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                                         bordered={true}
                                                                                     />
                                                                                 </div>)
-                                                                            }): 'Not Tested'}
+                                                                            }) : 'Not Tested'}
                                                                         </CardComponent>
                                                                     </div>}
                                                             </div>
@@ -702,7 +720,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                 label={'Palpation'}/></div>
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
-                                                            {medicalInterventionDetails?.objective?.palpation ?medicalInterventionDetails?.objective?.palpation.split("\n").map((i: any, key: any) => {
+                                                            {medicalInterventionDetails?.objective?.palpation ? medicalInterventionDetails?.objective?.palpation.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) : "N/A"}
                                                         </div>
@@ -734,7 +752,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                 label={'Functional Tests'}/></div>
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
-                                                            {medicalInterventionDetails?.objective?.functional_tests ?medicalInterventionDetails?.objective?.functional_tests.split("\n").map((i: any, key: any) => {
+                                                            {medicalInterventionDetails?.objective?.functional_tests ? medicalInterventionDetails?.objective?.functional_tests.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) : "N/A"}
                                                         </div>
@@ -767,7 +785,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                 label={'Treatment'}/></div>
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
-                                                            {medicalInterventionDetails?.objective?.treatment ?medicalInterventionDetails?.objective?.treatment.split("\n").map((i: any, key: any) => {
+                                                            {medicalInterventionDetails?.objective?.treatment ? medicalInterventionDetails?.objective?.treatment.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) : "N/A"}
 
@@ -802,7 +820,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                 label={'Response to Treatment'}/></div>
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
-                                                            {medicalInterventionDetails?.objective?.treatment_response ?medicalInterventionDetails?.objective?.treatment_response.split("\n").map((i: any, key: any) => {
+                                                            {medicalInterventionDetails?.objective?.treatment_response ? medicalInterventionDetails?.objective?.treatment_response.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) : "N/A"}
                                                         </div>
@@ -846,6 +864,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                             {/*    </LinkComponent>*/}
                                                             {/*}*/}
                                                             {/*{*/}
+
                                                             { medicalInterventionDetails?.linked_icd_codes?.length === 0 &&
                                                                 <div className={'display-flex'}>
                                                                     <FormControlLabelComponent
@@ -856,6 +875,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                     </div>
 
                                                                 </div>
+
                                                             }
                                                             <div className={'completed-wrapper'}>
                                                                 {medicalInterventionDetails?.status === 'completed' &&medicalInterventionDetails?.linked_icd_codes?.length > 0 &&
@@ -866,6 +886,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                             size={'sm'}
                                                                             label={"Medical Diagnosis/ICD-11 Codes"}/>
                                                                     </div>
+
 
                                                                 }
                                                             {
@@ -899,9 +920,9 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                                 bordered={true}
                                                                                 columns={ICDTableColumns}/>
                                                                         </CardComponent>
-                                                                    </div>
-                                                                </div>
-                                                            }
+                                                                {/*}*/}
+                                                    
+                                                                }
                                                             </div>
                                                         </>
                                                     }
@@ -931,7 +952,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                 label={'Index of Suspicion'}/></div>
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
-                                                            {medicalInterventionDetails?.objective?.suspicion_index ?medicalInterventionDetails?.objective?.suspicion_index?.split("\n").map((i: any, key: any) => {
+                                                            {medicalInterventionDetails?.objective?.suspicion_index ? medicalInterventionDetails?.objective?.suspicion_index?.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) : "N/A"}
                                                         </div>
@@ -963,7 +984,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                 label={'Surgery Procedure Complete'}/></div>
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
-                                                            {medicalInterventionDetails?.objective?.surgery_procedure ?medicalInterventionDetails?.objective?.surgery_procedure?.split("\n").map((i: any, key: any) => {
+                                                            {medicalInterventionDetails?.objective?.surgery_procedure ? medicalInterventionDetails?.objective?.surgery_procedure?.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) : "N/A"}
                                                         </div>
@@ -1046,7 +1067,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                 label={'MD Recommendations'}/></div>
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
-                                                            {medicalInterventionDetails?.plan.md_recommendations ?medicalInterventionDetails?.plan.md_recommendations?.split("\n").map((i: any, key: any) => {
+                                                            {medicalInterventionDetails?.plan.md_recommendations ? medicalInterventionDetails?.plan.md_recommendations?.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) : "N/A"}
                                                         </div>
@@ -1122,7 +1143,8 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                 />
                                             </div>
                                         </div>
-                                        <div className={"display-flex flex-direction-row-reverse mrg-top-20 mrg-bottom-25"}>
+                                        <div
+                                            className={"display-flex flex-direction-row-reverse mrg-top-20 mrg-bottom-25"}>
                                             <ESignApprovalComponent isSigned={medicalInterventionDetails?.is_signed}
                                                                     isSigning={isSigningInProgress}
                                                                     isLoading={isFormBeingUpdated || formik.isSubmitting}

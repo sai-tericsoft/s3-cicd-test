@@ -202,7 +202,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
             CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, payload)
                 .then((response: IAPIResponseType<any>) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, response?.data._id));
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, response?.data._id) + '?mode=add');
                     setIsMedicalInterventionBeingAdded(false);
                     setSelectedAppointment(null);
                 })
@@ -381,7 +381,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                         required={true}
                         label={"Select Appointment"}
                         value={selectedAppointment}
-                        displayWith={(item: any) => item?.appointment_type + ' ' + '('+(moment(item.appointment_date).format('DD-MMM-YYYY'))+')'}
+                        displayWith={(item: any) => item?.appointment_type + ' ('+(moment(item.appointment_date).format('DD-MMM-YYYY'))+')'}
                         valueExtractor={(item: any) => item?._id}
                         onUpdate={(value: any) => {
                             console.log(value);

@@ -7,11 +7,16 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import {IService} from "../../../shared/models/service.model";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {useDispatch} from "react-redux";
-import MedicalRecordBasicDetailsCardComponent
-    from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import {ImageConfig} from "../../../constants";
+import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
+import ChipComponent from "../../../shared/components/chip/ChipComponent";
+import ButtonComponent from "../../../shared/components/button/ButtonComponent";
+import MedicalInterventionLinkedToComponent
+    from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
+import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
+import LinkComponent from "../../../shared/components/link/LinkComponent";
 
 interface MedicalInterventionExerciseLogViewScreenProps {
 
@@ -27,6 +32,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
     const [medicalInterventionExerciseLogDetails, setMedicalInterventionExerciseLogDetails] = useState<any>(undefined);
     const [isMedicalInterventionExerciseLogDetailsLoading, setIsMedicalInterventionExerciseLogDetailsLoading] = useState<boolean>(false);
     const location = useLocation();
+
 
     const medicalInterventionExerciseLogColumns = [
         {
@@ -123,41 +129,99 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
 
     return (
         <div className={'medical-intervention-exercise-log-view-screen'}>
-            <PageHeaderComponent title={"View Exercise Record"}/>
-            <MedicalRecordBasicDetailsCardComponent/>
+            <PageHeaderComponent title={"View Exercise Log"}/>
+
+            {
+                isMedicalInterventionExerciseLogDetailsLoading && <div>
+                    <LoaderComponent/>
+                </div>
+            }
+
+            {
+                (medicalInterventionExerciseLogDetails && medicalInterventionExerciseLogDetails?.medical_record_details) && <>
+                    <CardComponent color={'primary'}>
+                        <div className={'client-name-button-wrapper'}>
+                                    <span className={'client-name-wrapper'}>
+                                        <span className={'client-name'}>
+                                                {medicalInterventionExerciseLogDetails?.medical_record_details?.client_details?.first_name || "N/A"} {medicalInterventionExerciseLogDetails?.medical_record_details?.client_details?.last_name || "N/A"}
+                                        </span>
+                                        <ChipComponent
+                                            className={medicalInterventionExerciseLogDetails?.medical_record_details?.status === "open" ? "active" : "inactive"}
+                                            size={'small'}
+                                            label={medicalInterventionExerciseLogDetails?.medical_record_details?.status_details?.title || "N/A"}/>
+                                    </span>
+                            <div className="ts-row width-auto">
+                                {
+                                    medicalInterventionExerciseLogDetails?.medical_record_details?.status === 'open' && <>
+                                        {
+                                            (medicalInterventionId && medicalRecordId) &&
+                                            <LinkComponent
+                                                route={CommonService._routeConfig.MedicalInterventionExerciseLogUpdate(medicalRecordId, medicalInterventionId, 'edit')}>
+                                                <ButtonComponent
+                                                    prefixIcon={<ImageConfig.EditIcon/>}
+                                                >
+                                                    Edit Exercise Log
+                                                </ButtonComponent>
+                                            </LinkComponent>
+                                        }
+                                    </>
+                                }
+                            </div>
+                        </div>
+                        <MedicalInterventionLinkedToComponent
+                            medicalRecordDetails={medicalInterventionExerciseLogDetails?.medical_record_details}/>
+                        <div className={'ts-row'}>
+                            <div className={'ts-col-2'}>
+                                <DataLabelValueComponent label={'Date of Intervention'}>
+                                    {medicalInterventionExerciseLogDetails?.intervention_date ? CommonService.getSystemFormatTimeStamp(medicalInterventionExerciseLogDetails?.intervention_date) : "N/A"}
+                                </DataLabelValueComponent>
+                            </div>
+                            <div className={'ts-col-2'}>
+                                <DataLabelValueComponent className={'provider-details'}
+                                                         label={'Provider'}>
+                                    {medicalInterventionExerciseLogDetails?.provider_details?.first_name || "N/A"} {medicalInterventionExerciseLogDetails?.provider_details?.last_name || "N/A"}
+                                </DataLabelValueComponent>
+                            </div>
+                        </div>
+
+                    </CardComponent>
+                </>
+            }
 
             {medicalInterventionExerciseLogDetails && medicalInterventionExerciseLogDetails.attachments.length > 0 &&
-                <CardComponent title={'Attachments'}>
+            <CardComponent title={'Attachments'}>
 
-                    {
-                        medicalInterventionExerciseLogDetails.attachments.map((attachment: any) => {
-                            return (
-                                <div className="medical-intervention-exercise-log-attachments-view-wrapper">
-                                    <div className={'medical-intervention-exercise-log-attachments-view'}
-                                         onClick={() => handleView(attachment)}>
-                                        <div><ImageConfig.DocumentIcon/></div>
-                                        <div className={'attachment-chip-view'}>
-                                            {attachment.name}
-                                        </div>
+                {
+                    medicalInterventionExerciseLogDetails.attachments.map((attachment: any) => {
+                        return (
+                            <div className="medical-intervention-exercise-log-attachments-view-wrapper">
+                                <div className={'medical-intervention-exercise-log-attachments-view'}
+                                     onClick={() => handleView(attachment)}>
+                                    <div><ImageConfig.DocumentIcon/></div>
+                                    <div className={'attachment-chip-view'}>
+                                        {attachment.name}
                                     </div>
                                 </div>
-                            )
-                        })
-                    }
+                            </div>
+                        )
+                    })
+                }
 
-                </CardComponent>
+            </CardComponent>
             }
+
 
             {medicalInterventionExerciseLogDetails && !medicalInterventionExerciseLogDetails.attachments.length &&<div className={'no-appointment-text-wrapper'}>
                 <CardComponent title={'Attachments'} >
                     No attachments Found
                 </CardComponent>
             </div>
+
             }
 
             <div className={'medical-intervention-exercise-log-view-table-container'}>
                 <TableComponent data={medicalInterventionExerciseLogDetails?.exercise_records}
-                                loading={isMedicalInterventionExerciseLogDetailsLoading}
+                    // loading={isMedicalInterventionExerciseLogDetailsLoading}
                                 columns={medicalInterventionExerciseLogColumns}/>
             </div>
         </div>

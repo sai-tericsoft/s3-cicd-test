@@ -54,7 +54,8 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
     const {appointmentTypes} = useSelector((state: IRootReducerState) => state.staticData);
     const [clientCasesList, setClientCasesList] = useState<any[] | null>(null);
     const [serviceCategoryList, setServiceCategoryList] = useState<any[] | null>(null);
-    const [servicesList, setServicesList] = useState<any[] | null>(null);
+    const [servicesList, setServicesList] = useState<any[]>([]);
+    const [servicesWithoutProviderList, setServicesWithoutProviderList] = useState<any[] | null>(null);
     const [durationList, setDurationList] = useState<any | null>(null);
     const [availableDates, setAvailableDates] = useState<any[] | null>(null);
     const [availableRawTimes, setAvailableRawTimes] = useState<any[] | null>(null);
@@ -198,6 +199,11 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
             CommonService._service.ServiceListLiteAPICall(categoryId, {is_active: true})
                 .then((response: IAPIResponseType<any>) => {
                     setServicesList(response.data || []);
+                    console.log(response.data);
+                    const servicesWithoutProviderList = response.data.filter((service: any) => {
+                        return !service.is_providers_linked
+                    });
+                    setServicesWithoutProviderList(servicesWithoutProviderList)
                 })
                 .catch((error: any) => {
                     setServicesList([]);
@@ -378,8 +384,8 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                 {/*             }*/}
                 {/*         }*/}
                 {/*         }>*/}
-                        {/*<ImageConfig.CloseIcon/>*/}
-                    {/*</div>*/}
+                {/*<ImageConfig.CloseIcon/>*/}
+                {/*</div>*/}
                 {/*</ToolTipComponent>*/}
             </div>
             <div className="book-appointment-heading">Book Appointment</div>
@@ -463,6 +469,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                         options={servicesList || []}
                                                         displayWith={(option: any) => (option?.name || '')}
                                                         valueExtractor={(option: any) => option}
+                                                        selectedValues={servicesWithoutProviderList}
                                                         keyExtractor={item => item._id}
                                                         label={'Service'}
                                                         fullWidth={true}
