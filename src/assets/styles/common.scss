@@ -432,6 +432,11 @@
 }
 
 .t-surgery-record-drawer {
+
+  .t-form-actions{
+    margin-bottom: 0px;
+  }
+
   .drawer-container {
     height: 100%;
     display: flex;
@@ -456,7 +461,7 @@
   .drawer-container {
     .drawer-body {
       .message-timestamp-wrapper {
-        width: 400px;
+        width: 410px;
 
         .message-edit-delete-button-wrapper {
           display: flex;
@@ -464,7 +469,7 @@
         }
 
         .card-component {
-          width: 400px;
+          width: 410px;
           margin-bottom: 0px;
 
           .card-body {

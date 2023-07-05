@@ -1,8 +1,12 @@
-.add-progress-report-container{
-
-.t-form{
-  .t-form-actions{
-    margin: 30px 0 4px;
+.add-basic-progress-report-component {
+  .add-progress-report-container {
+    .t-form {
+      .t-form-controls {
+        height: calc(100vh - 230px);
+      }
+      .t-form-actions {
+        margin: 30px 0 4px;
+      }
+    }
   }
-}
 }

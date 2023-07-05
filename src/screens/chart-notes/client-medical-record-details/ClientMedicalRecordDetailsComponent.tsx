@@ -259,7 +259,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
 
     return (
         <div className={'client-medical-record-details-component'}>
-            <PageHeaderComponent title={"Medical Record Main Page"} className={'mrg-left-10'}/>
+            <PageHeaderComponent title={"Medical Record Main Page"}/>
             <MedicalRecordBasicDetailsCardComponent showAction={true} setRefreshToken={setRefreshToken}/>
             <div className={'client-medical-records-header-button-wrapper'}>
                 {clientMedicalRecord?.status_details?.code === 'open' && <div>
@@ -381,7 +381,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                         required={true}
                         label={"Select Appointment"}
                         value={selectedAppointment}
-                        displayWith={(item: any) => item?.appointment_type + ' ' + (moment(item.appointment_date).format('DD-MMM-YYYY'))}
+                        displayWith={(item: any) => item?.appointment_type + ' ' + '('+(moment(item.appointment_date).format('DD-MMM-YYYY'))+')'}
                         valueExtractor={(item: any) => item?._id}
                         onUpdate={(value: any) => {
                             console.log(value);

@@ -28,14 +28,14 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
             title: "Client Profile",
             path: clientId ? CommonService._routeConfig.ClientProfileDetails(clientId) : ""
         },
-        // {
-        //     title: "Chart Notes",
-        //     path: clientId ? CommonService._routeConfig.MedicalRecordList(clientId) + '?referrer=' + location.pathname : ""
-        // },
-        // {
-        //     title: "Documents",
-        //     path: clientId ? CommonService._routeConfig.ClientDocuments(clientId) : ""
-        // },
+        {
+            title: "Chart Notes",
+            path: clientId ? CommonService._routeConfig.MedicalRecordList(clientId) + '?referrer=' + location.pathname : ""
+        },
+        {
+            title: "Documents",
+            path: clientId ? CommonService._routeConfig.ClientDocuments(clientId) : ""
+        },
         // {
         //     title: "Insurance",
         //     path: ""
@@ -44,10 +44,10 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
         //     title: "Appointments",
         //     path: clientId ? CommonService._routeConfig.ClientAppointments(clientId) : ""
         // },
-        {
-            title: "Billing",
-            path: clientId ? CommonService._routeConfig.ClientBillingDetails(clientId) : ""
-        }
+        // {
+        //     title: "Billing",
+        //     path: clientId ? CommonService._routeConfig.ClientBillingDetails(clientId) : ""
+        // }
     ];
     const title = (location.state && location.state.title) ? location.state.title : CLIENT_MENU_ITEMS[0].title;
     const {

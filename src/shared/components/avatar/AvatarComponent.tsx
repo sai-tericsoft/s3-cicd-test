@@ -9,7 +9,7 @@ interface AvatarComponentProps {
     size?: "md" | "xl";
 }
 
-const AVATAR_MAX_CHAR_LIMIT = 3;
+const AVATAR_MAX_CHAR_LIMIT = 2;
 
 const AvatarComponent = (props: AvatarComponentProps) => {
 
