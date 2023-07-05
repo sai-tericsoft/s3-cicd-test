@@ -24,21 +24,21 @@ const menuList: IMenuItem[] = [
         title: 'Admin',
         icon: ImageConfig.AdminIcon
     },
-    // {
-    //     path: CommonService._routeConfig.ClientSearch(),
-    //     title: 'Chart Notes',
-    //     icon: ImageConfig.ChartNotes
-    // },
+    {
+        path: CommonService._routeConfig.ClientSearch(),
+        title: 'Chart Notes',
+        icon: ImageConfig.ChartNotes
+    },
      {
         path: CommonService._routeConfig.SchedulingView(),
         title: 'Scheduling',
         icon: ImageConfig.EventIcon
     },
-    {
-        path:CommonService._routeConfig.BillingList(),
-        title:'Billing',
-        icon:ImageConfig.BillingIcon
-    },
+    // {
+    //     path:CommonService._routeConfig.BillingList(),
+    //     title:'Billing',
+    //     icon:ImageConfig.BillingIcon
+    // },
 
     {
         path: CommonService._routeConfig.Help(),

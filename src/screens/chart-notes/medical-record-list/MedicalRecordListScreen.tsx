@@ -218,16 +218,11 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                                     </div>
 
                                     <div className="client-details-tab-wrapper">
-                                        <TableWrapperComponent
-                                            url={APIConfig.CLIENT_MEDICAL_INFO.URL(clientId)}
-                                            method={APIConfig.CLIENT_MEDICAL_INFO.METHOD}
-                                            autoHeight={true}
-                                            isPaginated={true}
-                                            columns={MedicalRecordListTableColumns}
-                                            extraPayload={medicalRecordListStatusDateAndProviderFilterState}
-                                            onSort={handleClientMedicalListSort}
-                                            id={"client_medical_records_list"}
-                                        />
+                                       <TableWrapperComponent url={APIConfig.CLIENT_MEDICAL_INFO.URL(clientId)}
+                                                              method={APIConfig.CLIENT_MEDICAL_INFO.METHOD}
+                                                              extraPayload={medicalRecordListStatusDateAndProviderFilterState}
+                                                              onSort={handleClientMedicalListSort}
+                                                              columns={MedicalRecordListTableColumns}/>
                                     </div>
                                 </div>
                             </>

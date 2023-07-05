@@ -27,7 +27,6 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import moment from "moment";
 import {useNavigate, useParams} from "react-router-dom";
-import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
@@ -200,7 +199,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                             }, [validateForm, values]);
                             return (
                                 <Form className="t-form" noValidate={true}>
-                                    <FormControlLabelComponent label={"Surgery Record"}/>
+                                    <FormControlLabelComponent label={"Surgery Record"} size={'lg'}/>
                                     <div className={"t-surgery-record-drawer-form-controls"}>
                                         <Field name={'surgery_date'}>
                                             {
@@ -316,8 +315,9 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                             {/*<FormDebuggerComponent values={values} errors={errors}/>*/}
                             {
                                 !surgeryRecord && <div
-                                    className={"mrg-bottom-20 display-flex ts-justify-content-sm-between"}>
-                                    <PageHeaderComponent title={'Add New Medical Record'} className={'display-flex'}/>
+                                    className={"add-new-medical-record-wrapper"}>
+                                    {/*<PageHeaderComponent title={''} className={'display-flex'}/>*/}
+                                <div className={"add-new-medical-record-title"}>Add New Medical Record</div>
                                     <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}
                                                      onClick={handleSurgeryRecordDrawerOpen}
                                     >
@@ -671,6 +671,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                 <LinkComponent route={CommonService._routeConfig.MedicalRecordList(clientId)}>
                                     <ButtonComponent // TODO: Add CTA to take back to the previous screen
                                         variant={"outlined"}
+                                        className={isMedicalRecordAddInProgress ? 'mrg-right-15': ''}
                                         disabled={isMedicalRecordAddInProgress}
                                         id={"medical_record_add_cancel_btn"}
                                     >
@@ -682,6 +683,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                 <ButtonComponent
                                     isLoading={isMedicalRecordAddInProgress}
                                     type={"submit"}
+                                    className={'mrg-left-15'}
                                     id={"medical_record_add_save_btn"}
                                 >
                                     {isMedicalRecordAddInProgress ? "Saving" : "Save"}

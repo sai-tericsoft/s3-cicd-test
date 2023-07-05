@@ -145,7 +145,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
         {
             title: '',
             key: 'actions',
-            width: 130,
+            width: 120,
             fixed: 'right',
             render: (item: any) => {
                 let route = '';

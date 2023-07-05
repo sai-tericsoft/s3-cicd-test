@@ -60,7 +60,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
         }).then(() => {
             CommonService._dashboardService.deleteDashboardMessage(messageId, {})
                 .then((response: any) => {
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    CommonService._alert.showToast('Message deleted successfully!', "success");
                     handleCloseAllMessagesDrawer();
                     dispatch(getAllMessageHistory());
                 }).catch((error: any) => {
@@ -82,16 +82,14 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
         getBirthdayList()
     }, [getBirthdayList]);
 
-    const handleSendWishes = useCallback((id:string)=>{
+    const handleSendWishes = useCallback((id: string) => {
         CommonService._dashboardService.sendBirthdayWishes(id)
-            .then((response:any)=>{
+            .then((response: any) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-            }).catch((error:any)=>{
+            }).catch((error: any) => {
             CommonService._alert.showToast(error.error, "error");
         })
-    },[])
-
-    console.log('birth', birthdayListData);
+    }, [])
 
     return (
         <div className={'message-board-component'}>
@@ -137,17 +135,16 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                     <div className={'ts-col-5'}>
                         <CardComponent className={'birthday-board'}>
                             <div className={'today-birthday-text'}>
-                                <div className={'mrg-right-5'}> Today's Birthday(s)</div>
+                                <div className={'birthday-heading'}> Today's Birthday(s)</div>
                                 <div className={'mrg-top-5'}><ImageConfig.CAKE_ICON/></div>
                             </div>
                             {
-                                birthdayListData.length===0 && <div className={'coming-soon-image-text-wrapper'}>
-                                    <div>
-                                        <div className={'mrg-left-50'}>
-                                            <ImageConfig.ComingSoon/>
+                                birthdayListData.length === 0 && <div className={'coming-soon-image-text-wrapper'}>
+                                    <div className={'text-align-center'}>
+                                        <div className={'mrg-left-10 text-align-center'}>
+                                            Sorry, no birthday to
                                         </div>
-                                        <div>
-                                            Coming Soon!
+                                        <div className={'mrg-left-30'}>celebrate today.
                                         </div>
                                     </div>
                                 </div>
@@ -155,15 +152,17 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                             {
                                 birthdayListData.length > 0 && birthdayListData?.map((birthday: any) => {
                                     return <div className={'ts-row'}>
-                                        <div className={' ts-col-9 birthday-detail-wrapper'}>
+                                        <div className={' ts-col-10 birthday-detail-wrapper'}>
                                             <div className={'avatar-container'}>
-                                                <AvatarComponent title={birthday?.first_name + " " + birthday?.last_name}/>
+                                                <AvatarComponent className={'avatar-name'}
+                                                                 title={birthday?.first_name + " " + birthday?.last_name}/>
                                             </div>
                                             <div
                                                 className={'client-name'}>{CommonService.capitalizeFirstLetter(birthday?.first_name)} {CommonService.capitalizeFirstLetter(birthday?.last_name)} (ID:{birthday?.client_id})
                                             </div>
                                         </div>
-                                        <div className={'ts-col-2 icon-wrapper'} onClick={()=>handleSendWishes(birthday?._id)}>
+                                        <div className={'ts-col-1 icon-wrapper'}
+                                             onClick={() => handleSendWishes(birthday?._id)}>
                                             <ImageConfig.FORWARD_ICON/>
                                         </div>
                                     </div>

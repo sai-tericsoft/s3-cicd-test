@@ -86,7 +86,7 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                     return (
                         <Form className="t-form" noValidate={true}>
                             <FormControlLabelComponent label={"Add Surgery Record"} size={'lg'}/>
-                            <div className={"t-surgery-record-drawer-form-controls"}>
+                            <div className={'t-form-controls'}>
                                 <Field name={'surgery_date'}>
                                     {
                                         (field: FieldProps) => (
@@ -167,7 +167,7 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
 
                             <div className="t-form-actions">
                                 <ButtonComponent
-                                    className={'mrg-right-10'}
+                                    className={isSurgeryRecordAddInProgress ? 'mrg-right-15':''}
                                     variant={"outlined"}
                                     id={"medical_intervention_add_cancel_btn"}
                                     onClick={onCancel}
@@ -175,6 +175,7 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                                     Cancel
                                 </ButtonComponent>
                                 <ButtonComponent type={'submit'}
+                                                 className={'mrg-left-15'}
                                                  isLoading={isSurgeryRecordAddInProgress}
                                                  disabled={!isValid || isSurgeryRecordAddInProgress}>
                                     Save

@@ -1,5 +1,8 @@
 .client-8-minutes-rule-chart-component {
-  .t-cell {
-    text-align: center !important;
+ .t-cell-time{
+   padding-left: 30px !important;
+ }
+  .t-cell-units{
+    padding-right: 20px !important;
   }
 }

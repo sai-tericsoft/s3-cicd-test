@@ -27,7 +27,9 @@ const Client8MinutesRuleChartComponent = (props: Client8MinutesRuleChartComponen
             title: '# of Billable Unit(s)',
             dataIndex: 'units',
             key: 'units',
-            align: 'center'
+            align: 'center',
+            width:'180',
+            fixed:'right',
         },
     ];
 

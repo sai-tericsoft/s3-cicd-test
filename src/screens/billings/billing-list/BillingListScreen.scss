@@ -1,12 +1,17 @@
 .payment-list-component {
   .t-tabs-wrapper {
-    height: calc(100vh - 180px);
+    height: calc(100vh - 190px);
   }
+
   .t-table-wrapper .t-table {
-    height: calc(100vh - 300px) !important;;
+    height: calc(100vh - 310px) !important;;
+
     .table-no-data-wrapper {
-      min-height: calc(100vh - 350px) !important;
+      min-height: calc(100vh - 380px) !important;
     }
+  }
+  .search-component{
+    margin-left: -10px !important;
   }
 
   .payment-details-tab {

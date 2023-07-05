@@ -87,7 +87,7 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                     <div className={"ts-row"}>
                         <div className="ts-col-12">
                             <DataLabelValueComponent label={"Comments"}>
-                                {attachmentDetails.comments ? attachmentDetails.comments : "-"}
+                                {attachmentDetails.comments ? attachmentDetails.comments : "N/A"}
                             </DataLabelValueComponent>
                         </div>
                     </div>

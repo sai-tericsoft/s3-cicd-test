@@ -18,10 +18,10 @@
 
 }
 .edit-medical-record-component{
-  .drawer-container{
-    padding-bottom: 20px;
-  }
   .t-form{
+    .t-form-controls {
+      height: calc(100vh - 210px);
+    }
     .t-form-actions {
       margin-top: 10px;
       margin-bottom: 0px;
