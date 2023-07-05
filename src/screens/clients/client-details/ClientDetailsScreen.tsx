@@ -28,14 +28,14 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
             title: "Client Profile",
             path: clientId ? CommonService._routeConfig.ClientProfileDetails(clientId) : ""
         },
-        // {
-        //     title: "Chart Notes",
-        //     path: clientId ? CommonService._routeConfig.MedicalRecordList(clientId) + '?referrer=' + location.pathname : ""
-        // },
-        // {
-        //     title: "Documents",
-        //     path: clientId ? CommonService._routeConfig.ClientDocuments(clientId) : ""
-        // },
+        {
+            title: "Chart Notes",
+            path: clientId ? CommonService._routeConfig.MedicalRecordList(clientId) + '?referrer=' + location.pathname : ""
+        },
+        {
+            title: "Documents",
+            path: clientId ? CommonService._routeConfig.ClientDocuments(clientId) : ""
+        },
         // {
         //     title: "Insurance",
         //     path: ""
