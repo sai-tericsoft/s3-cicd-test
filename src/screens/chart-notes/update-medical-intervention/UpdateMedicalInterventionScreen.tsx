@@ -284,6 +284,8 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
             setAddMedicalInterventionFormInitialValues(medicalInterventionDetails);
         }
     }, [medicalInterventionDetails]);
+    
+    console.log('medicalInterventionDetails',medicalInterventionDetails);
 
     useEffect(() => {
         if (medicalRecordId) {

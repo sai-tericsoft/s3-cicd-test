@@ -24,7 +24,6 @@ const DrawerComponent = (props: React.PropsWithChildren<DrawerComponentProps>) =
     const closeOnBackDropClick = props.closeOnBackDropClick !== undefined ? props.closeOnBackDropClick : true;
 
     const handleOnClose = useCallback((event: any, reason: string) => {
-        console.log(event, reason, closeOnBackDropClick, closeOnEsc);
 
         if (reason === "backdropClick" && !closeOnBackDropClick) {
             return;
@@ -61,8 +60,7 @@ const DrawerComponent = (props: React.PropsWithChildren<DrawerComponentProps>) =
                                  id={closeButtonId}
                                  onClick={(event) => {
                                      handleOnClose(event, 'closeBtnClick');
-                                 }
-                                 }><ImageConfig.CloseIcon/></div>
+                                 }}><ImageConfig.CloseIcon/></div>
                         }
                         {/*</ToolTipComponent>}*/}
                     </div>

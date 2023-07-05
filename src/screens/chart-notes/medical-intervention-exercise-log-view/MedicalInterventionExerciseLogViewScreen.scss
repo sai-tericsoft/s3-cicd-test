@@ -1,20 +1,30 @@
-.medical-intervention-exercise-log-attachments-view-wrapper {
-  flex-wrap: wrap;
-  display: flex;
+.medical-intervention-exercise-log-view-screen {
 
-  .medical-intervention-exercise-log-attachments-view {
-    background: #F0F5F4;
-    border-radius: 4px;
-    padding: 10px;
-    margin: 10px 0;
+  .no-appointment-text-wrapper {
+    .card-component {
+      .card-body {
+        padding-bottom: 24px !important;
+      }
+    }
+  }
+  .medical-intervention-exercise-log-attachments-view-wrapper {
+    flex-wrap: wrap;
     display: flex;
-    align-items: center;
-    width: fit-content;
-    max-width: 100%;
-    cursor: pointer;
 
-    .attachment-chip-view {
-      margin-left: 10px;
+    .medical-intervention-exercise-log-attachments-view {
+      background: #F0F5F4;
+      border-radius: 4px;
+      padding: 10px;
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+      width: fit-content;
+      max-width: 100%;
+      cursor: pointer;
+
+      .attachment-chip-view {
+        margin-left: 10px;
+      }
     }
   }
 }

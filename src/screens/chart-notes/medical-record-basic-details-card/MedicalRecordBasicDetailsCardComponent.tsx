@@ -30,7 +30,6 @@ import FormControlLabelComponent from "../../../shared/components/form-control-l
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import _ from "lodash";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
 const MedicalInterventionFormInitialValues: any = {
     intervention_date: new Date(),
@@ -489,7 +488,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                 }, [values, validateForm]);
                                 return (
                                     <Form className={'t-form'} noValidate={true}>
-                                        <FormDebuggerComponent values={values} showDebugger={false}/>
+                                        {/*<FormDebuggerComponent values={values} showDebugger={false}/>*/}
                                         <div className={'ts-row ts-justify-content-center'}>
                                             <div className={'ts-col-lg-12'}>
                                                 <Field name={'message'}>
@@ -506,6 +505,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                         </div>
                                         <div className={'ts-action display-flex ts-justify-content-center'}>
                                             <ButtonComponent variant={'outlined'}
+                                                             className={isNotifyAdminProgressIsLoading ? "mrg-right-15":''}
                                                              onClick={() => {
                                                                  handleNotifyAdminModalClose();
                                                                  resetForm(); // TODO : check if this is required compare with Inventory stock update form
@@ -515,6 +515,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                             &nbsp;&nbsp;
                                             <ButtonComponent variant={'contained'} color={'primary'}
                                                              isLoading={isNotifyAdminProgressIsLoading}
+                                                             className={'mrg-left-15'}
                                                              disabled={!isValid || isNotifyAdminProgressIsLoading}
                                                              type={'submit'}>
                                                 Notify

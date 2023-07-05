@@ -210,10 +210,13 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
             </CardComponent>
             }
 
-            {medicalInterventionExerciseLogDetails && !medicalInterventionExerciseLogDetails.attachments.length &&
-            <CardComponent title={'Attachments'}>
-                No attachments Found
-            </CardComponent>
+
+            {medicalInterventionExerciseLogDetails && !medicalInterventionExerciseLogDetails.attachments.length &&<div className={'no-appointment-text-wrapper'}>
+                <CardComponent title={'Attachments'} >
+                    No attachments Found
+                </CardComponent>
+            </div>
+
             }
 
             <div className={'medical-intervention-exercise-log-view-table-container'}>

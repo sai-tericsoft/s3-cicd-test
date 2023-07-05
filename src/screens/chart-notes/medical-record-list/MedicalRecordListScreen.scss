@@ -5,13 +5,15 @@
   .client-details-header {
     display: flex;
     align-items: center;
-    margin: 5px 0 25px;
+    margin: 5px 0 16px;
     height: 30px;
 
     .client-details-title {
       font-weight: $font-weight-bolder;
-      font-size: 20px;
+      font-size: 1.2857rem;
       line-height: 16px;
+      margin-bottom: 24px;
+      margin-top: 16px;
       letter-spacing: 0.5px;
       color: $text-light-2;
       width: 233px; // TODO refactor
@@ -49,11 +51,14 @@
     }
 
     .client-details-tab-wrapper {
+      .table-component{
+        height: auto;
+      }
       .t-table-wrapper {
         .t-table {
-           height: calc(100vh - 330px);
+          height: calc(100vh - 230px);
           .table-no-data-wrapper {
-            min-height: calc(100vh - 390px);
+            min-height: calc(100vh - 230px);
           }
         }
       }

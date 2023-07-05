@@ -1,22 +1,35 @@
 
 .client-search-component {
 
-  .client-search-input {
-    background-color: #FFFFFF;;
-  }
-  .list-content-wrapper{
-    .table-no-data-wrapper{
-      min-height: calc(100vh - 320px)
-    }
-    .t-table-wrapper{
-      .t-table{
-        min-height: calc(100vh - 320px) !important;
+  .card-component {
+    &.md {
+      .card-body {
+        padding-top: 0px !important;
       }
     }
   }
 
-  .client-search-card{
-    .client-search-logo-wrapper{
+  .client-search-input {
+    background-color: #FFFFFF;;
+  }
+
+  .list-content-wrapper {
+    .t-cell-client_id{
+      padding-left: 30px !important;
+    }
+    .table-no-data-wrapper {
+      min-height: calc(100vh - 293px)
+    }
+
+    .t-table-wrapper {
+      .t-table {
+        min-height: calc(100vh - 293px) !important;
+      }
+    }
+  }
+
+  .client-search-card {
+    .client-search-logo-wrapper {
       display: flex;
       justify-content: center;
       align-items: center;
