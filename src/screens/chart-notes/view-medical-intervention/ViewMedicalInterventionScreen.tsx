@@ -616,7 +616,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                             {/*    </LinkComponent>*/}
                                                             {/*}*/}
                                                             {/*/!*{*!/*/}
-                                                            {   medicalInterventionDetails?.special_tests?.length === 0 &&
+                                                            {medicalInterventionDetails?.special_tests?.length === 0 &&
                                                                 <div className={'display-flex '}>
                                                                     <FormControlLabelComponent
                                                                         size={'sm'}
@@ -626,8 +626,9 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                     </div>
 
                                                                 </div>
+                                                            }
 
-                                                            {/*{*/}
+                                                            {
 
                                                             }
                                                             <div className={'completed-wrapper'}>
@@ -640,11 +641,11 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                             label={"Special Tests "}/>
                                                                     </div>
 
-                                                                {/*    <div*/}
-                                                                {/*        className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>*/}
-                                                                {/*        <FormControlLabelComponent*/}
-                                                                {/*            label={"Special Tests "}/>*/}
-                                                                {/*    </div>*/}
+                                                                    // <div
+                                                                    //     className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
+                                                                    //     <FormControlLabelComponent
+                                                                    //         label={"Special Tests "}/>
+                                                                    // </div>
 
                                                                 }
                                                                 {
@@ -920,11 +921,14 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                                 bordered={true}
                                                                                 columns={ICDTableColumns}/>
                                                                         </CardComponent>
-                                                                {/*}*/}
+                                                                    </div>
+                                                                </div>
                                                     
                                                                 }
                                                             </div>
                                                         </>
+
+
                                                     }
                                                 </div>
                                                 <DraftReadonlySwitcherComponent
