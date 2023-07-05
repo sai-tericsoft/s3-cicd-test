@@ -156,13 +156,13 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
         const ROMColumns: any[] = [
             {
                 title: '',
-                fixed: 'left',
+                // fixed: 'left',
                 children: [
                     {
                         title: 'Movement',
                         key: 'movement',
                         width: 180,
-                        fixed: 'left',
+                        // fixed: 'left',
                         render: (record: any) => {
                             return <div className="movement-name">
                                 {record?.movement_name}
@@ -176,7 +176,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
             ROMColumns.push({
                 title: side,
                 className: side,
-                fixed: 'left',
+                // fixed: 'left',
                 align: 'center',
                 children: [
                     {
@@ -184,7 +184,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                         dataIndex: 'arom',
                         key: side + 'arom',
                         align: 'center',
-                        fixed: 'left',
+                        // fixed: 'left',
                         width: 87,
                         render: (item: any) => {
                             return <div className={'movement-name'}>{item?.config[side]?.arom || '-'}</div>
@@ -195,7 +195,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                         dataIndex: 'prom',
                         key: side + 'prom',
                         align: 'center',
-                        fixed: 'left',
+                        // fixed: 'left',
                         width: 87,
                         render: (item: any) => {
                             return <div className={'movement-name'}>{item?.config[side]?.prom || "-"}</div>
@@ -206,7 +206,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                         dataIndex: 'strength',
                         key: side + 'strength',
                         align: 'center',
-                        fixed: 'left',
+                        // fixed: 'left',
                         width: 107,
                         render: (item: any) => {
                             return <div className={'movement-name'}>{item?.config[side]?.strength || "-"}</div>
@@ -215,11 +215,18 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                 ]
             });
         });
-        ROMColumns.push({
-            title: '',
-            dataIndex: '',
-            key: 'dummy',
-        })
+        ROMColumns.push(
+            {
+                title: 'Comments',
+                dataIndex: 'comments',
+                key: 'comments',
+                width: 147,
+                render: (item: any) => {
+                    return <div
+                        className={'comment-text'}>{item?.config?.comments ? CommonService.capitalizeFirstLetter(item?.config?.comments) : "-"}</div>
+                }
+            }
+        )
         return ROMColumns;
     }, []);
 
@@ -550,22 +557,22 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                                                     showExpandColumn={false}
                                                                                                     defaultExpandAllRows={true}
                                                                                                     canExpandRow={(row: any) => row?.config?.comments?.length > 0}
-                                                                                                    expandRowRenderer={
-                                                                                                        (row: any) => {
-                                                                                                            return (
-                                                                                                                <div
-                                                                                                                    key={row?.config?._id}
-                                                                                                                    className={'comment-row'}>
-                                                                                                                    <div
-                                                                                                                        className={'comment-icon'}>
-                                                                                                                        <ImageConfig.CommentIcon/>
-                                                                                                                    </div>
-                                                                                                                    <div
-                                                                                                                        className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
-                                                                                                                </div>
-                                                                                                            )
-                                                                                                        }
-                                                                                                    }
+                                                                                                    // expandRowRenderer={
+                                                                                                    //     (row: any) => {
+                                                                                                    //         return (
+                                                                                                    //             <div
+                                                                                                    //                 key={row?.config?._id}
+                                                                                                    //                 className={'comment-row'}>
+                                                                                                    //                 <div
+                                                                                                    //                     className={'comment-icon'}>
+                                                                                                    //                     <ImageConfig.CommentIcon/>
+                                                                                                    //                 </div>
+                                                                                                    //                 <div
+                                                                                                    //                     className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
+                                                                                                    //             </div>
+                                                                                                    //         )
+                                                                                                    //     }
+                                                                                                    // }
                                                                                                     bordered={true}
                                                                                                     columns={getMedicalInterventionROMConfigColumns(body_part)}/>
                                                                                             }

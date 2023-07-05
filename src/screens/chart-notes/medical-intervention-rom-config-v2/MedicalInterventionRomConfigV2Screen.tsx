@@ -61,12 +61,12 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         return {
             title: side,
             align: 'center',
-            fixed: 'left',
+            // fixed: 'left',
             children: [
                 {
                     title: 'AROM',
                     key: side + 'arom',
-                    fixed: 'left',
+                    // fixed: 'left',
                     align: 'center',
                     width: 80,
                     render: (record: any) => {
@@ -90,7 +90,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                 {
                     title: 'PROM',
                     key: side + 'prom',
-                    fixed: 'left',
+                    // fixed: 'left',
                     align: 'center',
                     width: 80,
                     render: (record: any) => {
@@ -114,7 +114,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                 {
                     title: 'Strength',
                     key: side + 'strength',
-                    fixed: 'left',
+                    // fixed: 'left',
                     align: 'center',
                     width: 80,
                     render: (record: any) => {
@@ -167,7 +167,8 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
             title: 'Comments',
             key: 'comments',
             align: 'center',
-            width: 80,
+            fixed: 'right',
+            width: 300,
             render: (record: any, index: any) => <Field
                 name={`${bodyPart._id}.rom_config.${record?.name}.comments`}
                 className="t-form-control">
