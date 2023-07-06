@@ -1,19 +1,13 @@
-<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="mode_edit_black_24dp 1" clip-path="url(#clip0_13739_75803)">
-<g id="Group">
-<g id="Group_2">
-<g id="Group_3">
-<path id="Vector" d="M2.5 17.5057H5.625L14.8417 8.28906L11.7167 5.16406L2.5 14.3807V17.5057ZM4.16667 15.0724L11.7167 7.5224L12.4833 8.28906L4.93333 15.8391H4.16667V15.0724Z" fill="white"/>
-</g>
-<g id="Group_4">
-<path id="Vector_2" d="M15.3094 2.74375C14.9844 2.41875 14.4594 2.41875 14.1344 2.74375L12.6094 4.26875L15.7344 7.39375L17.2594 5.86875C17.5844 5.54375 17.5844 5.01875 17.2594 4.69375L15.3094 2.74375Z" fill="white"/>
-</g>
-</g>
-</g>
-</g>
-<defs>
-<clipPath id="clip0_13739_75803">
-<rect width="20" height="20" fill="white"/>
-</clipPath>
-</defs>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clip-path="url(#clip0_2383_7846)">
+        <path d="M3 21H6.75L17.81 9.94L14.06 6.19L3 17.25V21ZM5 18.08L14.06 9.02L14.98 9.94L5.92 19H5V18.08Z"
+              fill="currentColor"/>
+        <path d="M18.3689 3.29C17.9789 2.9 17.3489 2.9 16.9589 3.29L15.1289 5.12L18.8789 8.87L20.7089 7.04C21.0989 6.65 21.0989 6.02 20.7089 5.63L18.3689 3.29Z"
+              fill="currentColor"/>
+    </g>
+    <defs>
+        <clipPath id="clip0_2383_7846">
+            <rect width="24" height="24" fill="currentColor"/>
+        </clipPath>
+    </defs>
 </svg>
