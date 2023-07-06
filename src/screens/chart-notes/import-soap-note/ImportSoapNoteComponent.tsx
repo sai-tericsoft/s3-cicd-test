@@ -1,5 +1,4 @@
 import "./ImportSoapNoteComponent.scss";
-import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import {useCallback, useEffect, useState} from "react";
 import {CommonService} from "../../../shared/services";
 import {useParams} from "react-router-dom";
@@ -10,6 +9,7 @@ import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import InputComponent from "../../../shared/components/form-controls/input/InputComponent";
 import {ImageConfig, Misc} from "../../../constants";
+import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 
 interface ImportSoapNoteComponentProps {
     medicalRecordDetails: any;
@@ -129,7 +129,7 @@ const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
 
     return (
         <div className={'import-soap-note-component'}>
-            <PageHeaderComponent title={'Import SOAP Note'}/>
+            <FormControlLabelComponent label={'Import SOAP Note'} size={'lg'}/>
             <InputComponent value={CommonService.generateInterventionNameFromMedicalRecord(medicalRecordDetails)}
                             disabled={true} label={'Intervention Linked To'} fullWidth={true}/>
             <div className={'import-soap-note-table-wrapper'}>

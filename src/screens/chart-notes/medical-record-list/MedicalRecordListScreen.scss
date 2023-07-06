@@ -1,7 +1,8 @@
 @import "src/assets/styles/common";
 
 .chart-notes-details-screen {
-
+.client-details-wrapper {
+  width: 100%;
   .client-details-header {
     display: flex;
     align-items: center;
@@ -41,22 +42,26 @@
 
   .client-details-layout {
     display: flex;
+    width: 100%;
 
     .client-details-basic-card-holder {
       margin-bottom: 6px;
-      padding: 0 15px 0 0;
+      padding: 0 20px 0 0;
       flex: 0;
-
-
     }
 
     .client-details-tab-wrapper {
-      .table-component{
+      width: 100%;
+      overflow-x: auto;
+
+      .table-component {
         height: auto;
       }
+
       .t-table-wrapper {
         .t-table {
           height: calc(100vh - 230px);
+
           .table-no-data-wrapper {
             min-height: calc(100vh - 230px);
           }
@@ -74,5 +79,5 @@
       color: #FA9C2F;
     }
   }
-
+}
 }

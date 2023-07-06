@@ -551,7 +551,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                                 </span>
                                         }
                                         {(!selectedAttachment && !attachmentList.attachments.length) &&
-                                        <StatusCardComponent title={'No Attachments'}/>
+                                        <StatusCardComponent title={'No Attachments'} className={'mrg-bottom-25'}/>
                                         }
                                     </>
                                 </CardComponent>

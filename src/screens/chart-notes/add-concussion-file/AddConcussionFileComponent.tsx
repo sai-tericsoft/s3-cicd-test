@@ -196,7 +196,7 @@ const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
                                             </>
                                         </div>
                                     </div>
-                                    <div className="t-form-actions">
+                                    <div className="t-form-actions mrg-top-70 ">
                                         <ButtonComponent
                                             isLoading={isConcussionFileAddFileAddInProgress}
                                             type={"submit"}

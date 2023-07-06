@@ -1,6 +1,6 @@
 import "./TransferSoapNoteComponent.scss";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import SearchComponent from "../../../shared/components/search/SearchComponent";
 import {ITableColumn} from "../../../shared/models/table.model";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
@@ -13,6 +13,7 @@ import AvatarComponent from "../../../shared/components/avatar/AvatarComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {ImageConfig, Misc} from "../../../constants";
 import {useNavigate} from "react-router-dom";
+import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 
 interface TransferSoapNoteComponentProps {
     medicalRecordId: string;
@@ -40,7 +41,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
 
     const clientListColumns: ITableColumn[] = [
         {
-            title:'Client Name',
+            title: 'Client Name',
             key: "name",
             dataIndex: "name",
             render: (item: any) => {
@@ -114,6 +115,10 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
         })
     }, [clientListSearch]);
 
+    useEffect(()=>{
+        getClientList();
+    },[getClientList])
+
     const getMedicalRecordList = useCallback(() => {
         setIsMedicalRecordListLoading(true);
         // setIsMedicalRecordListLoaded(false);
@@ -143,13 +148,14 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
             confirmationSubTitle: `Are you sure you want to transfer this SOAP to: ${CommonService.extractName(selectedClient)}`,
         }).then(() => {
             setIsSoapNoteTransferUnderProgress(true);
-            CommonService._chartNotes.TransferSoapNoteAPICall(medicalInterventionId, {medical_record_id:selectedMedicalRecord?._id
-        })
+            CommonService._chartNotes.TransferSoapNoteAPICall(medicalInterventionId, {
+                medical_record_id: selectedMedicalRecord?._id
+            })
                 .then((response: any) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     onTransferSoapNote();
                     setIsSoapNoteTransferUnderProgress(false);
-                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(selectedMedicalRecord?._id,medicalInterventionId));
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(selectedMedicalRecord?._id, medicalInterventionId));
                 }).catch((error: any) => {
                 CommonService._alert.showToast(error.error, "error");
                 setIsSoapNoteTransferUnderProgress(false);
@@ -161,29 +167,28 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
         <div className={'transfer-soap-note-component'}>
             <div>
                 {currentStep === "selectClient" && <div className={'client-search-table-wrapper'}>
-                    <PageHeaderComponent title={'Transfer SOAP to'}/>
-                    <SearchComponent label={'Search for Clients'}
+                    <FormControlLabelComponent label={'Transfer SOAP to'} size={'lg'}/>
+                    <SearchComponent label={'Search'}
                                      value={clientListSearch}
-                                     placeholder={'Search for Clients'}
+                                     placeholder={'Search using Client Name'}
                                      onSearchChange={(value) => {
                                          setClientListSearch(value);
-                                         getClientList();
                                      }}
                     />
                     {
-                        clientListSearch &&
                         <>
                             <div className={'client-list-heading'}>Clients List</div>
-                            <TableComponent data={clientList}
-                                            columns={clientListColumns}
-                                            loading={isClientListLoading}
-                                            hideHeader={false}
-                                            onRowClick={(row: any) => {
-                                                setSelectedClient(row);
-                                            }}
-                            />
+                            <div className={'mrg-bottom-40'}>
+                                <TableComponent data={clientList}
+                                                columns={clientListColumns}
+                                                loading={isClientListLoading}
+                                                hideHeader={false}
+                                                onRowClick={(row: any) => {
+                                                    setSelectedClient(row);
+                                                }}
+                                />
+                            </div>
                             <ButtonComponent fullWidth={true}
-                                             className={'mrg-top-30'}
                                              onClick={() => handleClientSelectionConfirmation()}
                                              disabled={!selectedClient}>
                                 Next
@@ -224,22 +229,24 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                                     />
                                 </div>
                             </div>
-                                <div className="t-form-actions display-flex ts-justify-content-center mrg-top-50">
-                                    <ButtonComponent
-                                        variant={"outlined"}
-                                        id={"medical_intervention_add_cancel_btn"}
-                                        onClick={() => setCurrentStep("selectClient")}
-                                    >
-                                        Back
-                                    </ButtonComponent>
-                                    &nbsp;
+                            <div className="t-form-actions display-flex ts-justify-content-center mrg-top-30">
                                 <ButtonComponent
-                                                 onClick={handleTransferSoapNote}
-                                                 isLoading={isSoapNoteTransferUnderProgress}
-                                                 disabled={!selectedMedicalRecord || isSoapNoteTransferUnderProgress}>
+                                    variant={"outlined"}
+                                    className={isSoapNoteTransferUnderProgress ? 'mrg-right-15':''}
+                                    id={"medical_intervention_add_cancel_btn"}
+                                    onClick={() => setCurrentStep("selectClient")}
+                                >
+                                    Back
+                                </ButtonComponent>
+                                &nbsp;
+                                <ButtonComponent
+                                    onClick={handleTransferSoapNote}
+                                    className={'mrg-left-15'}
+                                    isLoading={isSoapNoteTransferUnderProgress}
+                                    disabled={!selectedMedicalRecord || isSoapNoteTransferUnderProgress}>
                                     Transfer
                                 </ButtonComponent>
-                                </div>
+                            </div>
 
                         </div>
                     </>
