@@ -17,6 +17,7 @@ import MedicalInterventionLinkedToComponent
     from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
+import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 
 interface MedicalInterventionExerciseLogViewScreenProps {
 
@@ -212,8 +213,8 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
 
 
             {medicalInterventionExerciseLogDetails && !medicalInterventionExerciseLogDetails.attachments.length &&<div className={'no-appointment-text-wrapper'}>
-                <CardComponent title={'Attachments'} >
-                    No attachments Found
+                <CardComponent title={'Attachments'}  >
+                    <StatusCardComponent title={'No Attachments'}/>
                 </CardComponent>
             </div>
 

@@ -21,12 +21,12 @@ interface TransferMedicalRecordComponentProps {
     onClose: () => void;
     onMedicalRecordTransfer: (data: any) => void;
     medicalRecordId: string;
-    setRefreshToken?:any;
+    setRefreshToken?: any;
 }
 
 const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentProps) => {
 
-        const {medicalRecordId, onClose,setRefreshToken} = props;
+        const {medicalRecordId, onClose, setRefreshToken} = props;
         const [currentStep, setCurrentStep] = useState<"selectClient" | "selectInterventions" | "selectTargetMedicalRecord">("selectClient");
         const [clientSearchKey, setClientSearchKey] = useState<string>('');
         const {onMedicalRecordTransfer} = props;
@@ -187,7 +187,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                         "_id": item?._id,
                         "note_type_category": item?.note_type || item?.note_type_category,
                     }
-                }):[],
+                }) : [],
             };
             CommonService._chartNotes.TransferMedicalRecordAPICall(selectedClient?._id, payload)
                 .then((response: IAPIResponseType<any>) => {
@@ -358,6 +358,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                         </CardComponent>
                         <div className={"select-intervention-choice-wrapper"}>
                             <FormControlLabelComponent className={"select-intervention-choice-label"}
+                                                       size={'sm'}
                                                        label={"Want to transfer complete medical record?"}/>
                             <RadioButtonGroupComponent
                                 options={CommonService._staticData.yesNoOptions}
@@ -375,10 +376,12 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                                 }
                             />
                         </div>
-                        <TableComponent data={medicalInterventionList}
-                                        columns={MedicalInterventionListColumns}
-                                        loading={isMedicalInterventionListLoading}
-                        />
+                        <div className={'mrg-bottom-10'}>
+                            <TableComponent data={medicalInterventionList}
+                                            columns={MedicalInterventionListColumns}
+                                            loading={isMedicalInterventionListLoading}
+                            />
+                        </div>
                     </div>
                 }
                 {

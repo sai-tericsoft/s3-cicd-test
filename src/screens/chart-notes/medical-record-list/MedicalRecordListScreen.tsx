@@ -176,14 +176,14 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                             <StatusCardComponent title={"Failed to fetch client Details"}/>
                         }
                         {
-                            (isClientBasicDetailsLoaded && clientBasicDetails) && <>
+                            (isClientBasicDetailsLoaded && clientBasicDetails) && <div className={'client-details-wrapper '}>
                                 <div className="client-details-header">
                                     <div className="client-details-title">
                                         Medical Record List
                                     </div>
                                     <div className="client-details-filters-options">
                                         <div className="client-details-filters ts-row">
-                                            <div className="ts-col-md-6 ts-col-lg-4">
+                                            <div className="ts-col-md-6 ts-col-lg-4 mrg-left-5">
                                                 <SelectComponent options={caseStatusList}
                                                                  label={'Status'}
                                                                  fullWidth={true}
@@ -225,7 +225,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                                                               columns={MedicalRecordListTableColumns}/>
                                     </div>
                                 </div>
-                            </>
+                            </div>
                         }
                     </>
                 }
