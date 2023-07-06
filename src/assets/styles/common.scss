@@ -401,6 +401,62 @@
     height: calc(100vh - 220px);
   }
 }
+.confirm-popup-component {
+  border-radius: 10px;
+  width: 520px;
+  height: 330px;
+  text-align: center;
+  overflow: hidden;
+
+  .confirm-popup-image {
+    margin: 10px 0 20px;
+    padding-top: 40px;
+    display: flex;
+    justify-content: center;
+
+    .lottie-file-wrapper {
+      width: 75px;
+      height: 75px;
+    }
+  }
+
+  .confirm-popup-meta {
+    text-align: center;
+    color: #07213C;
+    padding-top: 10px;
+
+    .confirm-popup-title {
+      font-weight: $font-weight-medium;
+      font-size: 2rem;
+      line-height: 40px;
+    }
+
+    .confirm-popup-sub-title {
+      font-size: $font-weight-normal;
+      font-size: 14px;
+      color: #83909D;
+      margin: 10px 10px 30px 10px;
+    }
+
+    .confirm-popup-description {
+      font-size: 14px;
+      margin: 10px 30px;
+      color: #83909D;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      line-height: 20px;
+    }
+
+    .confirm-popup-continue-and-cancel-cta {
+      margin: 30px 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+}
 
 .chip {
   text-transform: capitalize;

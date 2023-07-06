@@ -76,7 +76,8 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
             // is_onboarded: false
         };
         CommonService.onConfirm({
-            image: ImageConfig.DeleteAttachmentConfirmationIcon,
+            image: ImageConfig.PopupLottie,
+            showLottie:true,
             confirmationTitle: 'SEND INVITE LINK',
             confirmationSubTitle: `Are you sure you want to send invite link to 
             ${values.first_name} ${values.last_name} having email ${values.primary_email}?`,

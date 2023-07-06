@@ -11,6 +11,7 @@ export interface IConfirmationConfig {
     confirmationTitle?: string;
     confirmationDescription?: string;
     image?: any;
+    showLottie?: boolean;
     confirmationSubTitle?: string;
     closeOnEsc?: boolean;
     closeOnBackdropClick?: boolean;

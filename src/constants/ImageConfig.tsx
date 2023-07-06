@@ -2,6 +2,8 @@ import Logo from './../assets/icons/logo.svg';
 import BillingLogo from './../assets/images/logo.png';
 import LogoSM from './../assets/icons/logo-sm.svg';
 import Confirm from './../assets/confirmation/confirm.png';
+import PopupLottie from '../assets/images/popup.json';
+import ConfirmationLottie from '../assets/images/red_exclamation.json'
 import {ReactComponent as userIcon} from './../assets/icons/user_icon.svg';
 import {ReactComponent as LockIcon} from '../assets/icons/header/lock.svg';
 import {ReactComponent as ProfileIcon} from '../assets/icons/header/profile.svg';
@@ -219,5 +221,7 @@ export {
     CloseEyeIcon,
     SettingIcon,
     CAKE_ICON,
-    FORWARD_ICON
+    FORWARD_ICON,
+    PopupLottie,
+    ConfirmationLottie
 }
