@@ -164,6 +164,14 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                                     columns={viewExerciseRecordColumn}
                                                     autoHeight={true}
                                     />
+
+                                    {item && item.comments &&
+                                    item.comments.length > 0 &&
+                                    <CardComponent title={'Comments'} className='mrg-top-20'>
+                                        <div className='pdd-bottom-20'>{item.comments}</div>
+                                    </CardComponent>
+                                    }
+
                                     <div className={'horizontal-line'}></div>
                                 </>
                             })}

@@ -24,6 +24,7 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import ToolTipComponent from "../../shared/components/tool-tip/ToolTipComponent";
 import LoaderComponent from "../../shared/components/loader/LoaderComponent";
 import TableWrapperComponent from "../../shared/components/table-wrapper/TableWrapperComponent";
+import DateRangePickerComponent from "../../shared/components/form-controls/date-range-picker/DateRangePickerComponent";
 
 interface SchedulingScreenProps {
 
@@ -128,8 +129,8 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
     const {appointmentStatus} = useSelector((state: IRootReducerState) => state.staticData);
     const [schedulingListFilterState, setSchedulingListFilterState] = useState<any>({
         search: "",
-        start_date: moment().format('YYYY-MM-DD'),
-        end_date: moment().format('YYYY-MM-DD'),
+        // start_date: moment().format('YYYY-MM-DD'),
+        // end_date: moment().format('YYYY-MM-DD'),
         sort: {}
     });
     const [viewMode, setViewMode] = useState<'list' | 'calendar'>('list');
@@ -220,8 +221,9 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
         } else {
             setSchedulingListFilterState((old: any) => {
                 const newState = {...old};
-                newState["start_date"] = moment().format('YYYY-MM-DD');
-                newState["end_date"] = moment().format('YYYY-MM-DD');
+                delete newState["start_date"]
+                delete newState["end_date"]
+                delete newState["date_range"]
                 delete newState["duration"];
                 return newState;
             });
@@ -442,6 +444,22 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                 return newState;
             });
         }
+        if (filterName === 'dateRange') {
+            setSchedulingListFilterState((oldState: any) => {
+                const newState = {...oldState};
+                if (value) {
+                    newState['start_date'] = moment(value[0])?.format('YYYY-MM-DD');
+                    newState['end_date'] = moment(value[1])?.format('YYYY-MM-DD');
+                    // newState['date_range'] = value;
+                } else {
+                    delete newState['date_range'];
+                    delete newState['start_date'];
+                    delete newState['end_date'];
+                }
+
+                return newState;
+            });
+        }
     }, [getServiceList]);
 
     return (
@@ -467,7 +485,8 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                 <div className="scheduling-header-actions-wrapper">
                     <div className="scheduling-header-action-item">
                         <ToggleButtonGroup value={viewMode} color={"primary"} size={'small'}>
-                            <ToggleButton className={'left-toggle-btn'} value="calendar" onClick={setViewModeHandler.bind(null, 'calendar')}
+                            <ToggleButton className={'left-toggle-btn'} value="calendar"
+                                          onClick={setViewModeHandler.bind(null, 'calendar')}
                                           color={viewMode === 'calendar' ? 'primary' : 'standard'} type={'button'}
                                           aria-label="calender view">
                                 <ImageConfig.SchedulingIcon/>
@@ -495,6 +514,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             {
                 <div className={"list-content-wrapper view-" + viewMode}>
                     <div className='scheduling-filter-header-wrapper'>
+                        {viewMode === 'calendar' &&
                         <div className="scheduling-filter-header-date-wrapper">
                             <div
                                 className="filter-header-date-text">{CommonService.convertDateFormat(schedulingListFilterState.start_date, (viewMode === 'calendar' && schedulingListFilterState.duration === 'month') ? ('MMMM YYYY') : 'MMMM DD YYYY')}</div>
@@ -513,6 +533,16 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                 </div>
                             </div>
                         </div>
+                        }
+                        {viewMode === 'list' &&
+                        <DateRangePickerComponent
+                            label={"Select Date Range"}
+                            value={schedulingListFilterState.date_range}
+                            onDateChange={(value: any) => {
+                                handleFilters(value, 'dateRange')
+                            }}
+                        />
+                        }
                         <div className="scheduling-filter-header-actions-wrapper">
                             <div className="scheduling-filter-header-action-item">
                                 <SelectComponent size={'small'}
@@ -652,7 +682,8 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                             <ToolTipComponent key={index} tooltip={
                                                                 <>
                                                                     <b>{CommonService.capitalizeFirstLetter(value.first_name) + ' ' + CommonService.capitalizeFirstLetter(value.last_name)}</b><br/>
-                                                                    <div className={'mrg-top-5'}>No of Appointments : {value?.count || 0}</div>
+                                                                    <div className={'mrg-top-5'}>No of Appointments
+                                                                        : {value?.count || 0}</div>
                                                                 </>
                                                             }
                                                                               backgroundColor={'#000000'}

@@ -177,7 +177,8 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
     const getServiceCategoriesList = useCallback(
         () => {
             setServiceCategoryList([]);
-            CommonService._serviceCategory.ServiceCategoryListLiteAPICall({is_active: true})
+            const payload = {is_active_services: true, is_active: true}
+            CommonService._serviceCategory.ServiceCategoryListLiteAPICall(payload)
                 .then((response: IAPIResponseType<any>) => {
                     setServiceCategoryList(response.data || []);
                 })
@@ -464,7 +465,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
 
                                                     <FormikSelectComponent
                                                         formikField={field}
-                                                        required={true}
+                                                        required={servicesList.length === 0 ? false : true}
                                                         disabled={isServiceListLoading || !values?.service_category || (servicesList || []).length === 0}
                                                         options={servicesList || []}
                                                         displayWith={(option: any) => (option?.name || '')}
@@ -486,6 +487,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                 )
                                             }
                                         </Field>
+
                                         <Field name={'appointment_type'}>
                                             {
                                                 (field: FieldProps) => (

@@ -225,6 +225,14 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
                     // loading={isMedicalInterventionExerciseLogDetailsLoading}
                                 columns={medicalInterventionExerciseLogColumns}/>
             </div>
+
+            {medicalInterventionExerciseLogDetails && medicalInterventionExerciseLogDetails.comments &&
+            medicalInterventionExerciseLogDetails.comments.length > 0 &&
+            <CardComponent title={'Comments'} className='mrg-top-20'>
+                <div className='pdd-bottom-20'>{medicalInterventionExerciseLogDetails.comments}</div>
+            </CardComponent>
+            }
+
         </div>
     );
 

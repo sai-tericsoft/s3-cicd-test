@@ -285,7 +285,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
         }
     }, [medicalInterventionDetails]);
 
-    console.log('medicalInterventionDetails', medicalInterventionDetails);
+
 
     useEffect(() => {
         if (medicalRecordId) {
