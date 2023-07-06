@@ -13,7 +13,7 @@
   }
   .client-search-table-wrapper{
     .t-table-wrapper {
-      height: calc(100vh - 290px);
+      height: calc(100vh - 320px);
     }
   }
   .card-content-wrapper {
@@ -69,4 +69,5 @@
       margin-top: 40px;
     }
   }
+  height: calc(100vh - 200px);
 }

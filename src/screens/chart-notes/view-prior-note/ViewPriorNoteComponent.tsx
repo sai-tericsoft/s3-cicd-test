@@ -1,13 +1,13 @@
 import "./ViewPriorNoteComponent.scss";
 import InputComponent from "../../../shared/components/form-controls/input/InputComponent";
 import {CommonService} from "../../../shared/services";
-import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import {ITableColumn} from "../../../shared/models/table.model";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {useLocation} from "react-router-dom";
+import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 
 interface ViewPriorNoteComponentProps {
     medicalRecordDetails: any;
@@ -60,7 +60,7 @@ const {
 
     return (
         <div className={'view-prior-note-component'}>
-            <PageHeaderComponent title={'View Prior Note'}/>
+            <FormControlLabelComponent label={'View Prior Note'} size={'lg'}/>
             <InputComponent label={'Intervention Linked To'}
                             placeholder={'Intervention Linked To'}
                             value={CommonService.generateInterventionNameFromMedicalRecord(medicalRecordDetails)}
