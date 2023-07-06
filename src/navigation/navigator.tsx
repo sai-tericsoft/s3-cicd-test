@@ -188,6 +188,7 @@ import UserAccountDetailsEditComponent
 import UserSlotsDetailsComponent from "../screens/settings/user-slots-details/UserSlotsDetailsComponent";
 import UserSlotsEditComponent from "../screens/settings/user-slots-edit/UserSlotsEditComponent";
 
+
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
 
     const {children} = props;
@@ -901,8 +902,6 @@ const Navigator = (props: NavigatorProps) => {
                     </ProtectedRoute>}/>
 
                 </Route>
-
-
                 <Route path={COMING_SOON_ROUTE} element={<ComingSoonScreen/>}/>
                 <Route element={<AuthLayout/>}>
                     <Route index

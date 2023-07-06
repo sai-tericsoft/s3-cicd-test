@@ -28,6 +28,7 @@ import {getInterventionAttachmentList, getMedicalInterventionDetails} from "../.
 import moment from "moment-timezone";
 import InputComponent from "../../../shared/components/form-controls/input/InputComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
+import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 
 
 interface MedicalInterventionExerciseLogScreenProps {
@@ -50,6 +51,7 @@ const MedicalInterventionExerciseLogInitialValues = {
             key: CommonService.getUUID(),
         }
     ],
+    comments: '',
 }
 
 const ExerciseLogRecordValidationSchema = Yup.object({
@@ -339,7 +341,8 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
         }
         if (medicalInterventionId && medicalRecordId) {
             const payload: any = {
-                exercise_records: []
+                exercise_records: [],
+                comments: values.comments
             };
             values.exercise_records.forEach((record: any, index: number) => {
                 payload.exercise_records.push({
@@ -363,7 +366,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     setSubmitting(false);
                 });
         }
-    }, [medicalRecordId, navigate, medicalInterventionId, selectedAttachment, handleFileSubmit,mode]);
+    }, [medicalRecordId, navigate, medicalInterventionId, selectedAttachment, handleFileSubmit, mode]);
 
 
     const {
@@ -385,7 +388,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                 }
             }));
         }
-    }, [dispatch, navigate, medicalInterventionDetails, medicalRecordId, medicalInterventionId,mode]);
+    }, [dispatch, navigate, medicalInterventionDetails, medicalRecordId, medicalInterventionId, mode]);
 
     useEffect(() => {
         if (medicalRecordId) {
@@ -421,6 +424,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
         const exercise_records = medicalInterventionExerciseLogDetails?.exercise_records;
         if (exercise_records && exercise_records?.length > 0) {
             setMedicalInterventionExerciseLogValues({
+                comments: medicalInterventionExerciseLogDetails.comments,
                 exercise_records: _.cloneDeep(exercise_records.map((item: any) => {
                     return {
                         ...item,
@@ -599,7 +603,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                             bordered={true}
                                             rowKey={(record: any, index: any) => index}
                                             columns={medicalInterventionExerciseLogColumns}/>
-                                        <div className={"h-v-center mrg-top-20"}>
+                                        <div className={"h-v-center mrg-top-20 mrg-bottom-20"}>
                                             <ButtonComponent
                                                 size={"large"}
                                                 prefixIcon={<ImageConfig.AddIcon/>}
@@ -616,6 +620,21 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                                 Add Exercise Row
                                             </ButtonComponent>
                                         </div>
+
+                                        <CardComponent title={'Comments (if any)'} className='mrg-top-20 pdd-bottom-20'>
+                                            <Field name={'comments'} className="t-form-control">
+                                                {
+                                                    (field: FieldProps) => (
+                                                        <FormikTextAreaComponent
+                                                            label={'Comments'}
+                                                            placeholder={'Enter Comments'}
+                                                            formikField={field}
+                                                            fullWidth={true}
+                                                        />
+                                                    )
+                                                }
+                                            </Field>
+                                        </CardComponent>
                                     </div>
                                     <div className="t-form-actions">
                                         {(medicalRecordId && medicalInterventionId) && <LinkComponent
@@ -626,7 +645,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                         >
                                             <ButtonComponent variant={"outlined"}
                                                              disabled={isSubmitting}
-                                                             >
+                                            >
                                                 Cancel
                                             </ButtonComponent>
                                         </LinkComponent>}
