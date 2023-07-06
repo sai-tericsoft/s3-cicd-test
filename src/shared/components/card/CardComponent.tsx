@@ -7,16 +7,17 @@ interface CardComponentProps {
     className?: string;
     size?: "sm" | "md" | "lg" | "xl";
     actions?: React.ReactNode;
+    id?: string
 }
 
 const CardComponent = (props: React.PropsWithChildren<CardComponentProps>) => {
 
-    const {title, description, actions, className, children} = props;
+    const {title, description, actions, className, children, id} = props;
     const size = props.size || "lg";
     const color = props.color || 'default';
 
     return (
-        <div className={`card-component ${className} ${size} ${color}`}>
+        <div className={`card-component ${className} ${size} ${color}`} id={id}>
             {(title || actions) && <div className="card-header">
                 <div className="card-title-description-wrapper">
                     <div className="card-title">

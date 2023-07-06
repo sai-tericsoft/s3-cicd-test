@@ -285,6 +285,26 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
         }
     }, [medicalInterventionDetails]);
 
+    useEffect(() => {
+        if (isMedicalInterventionDetailsLoaded && medicalInterventionDetails?.created_at) {
+            const last_position: any = searchParams.get("last_position");
+            if (last_position) {
+                const ele = document.getElementById(last_position);
+                const scroller = document.getElementById('page-content-holder');
+                if (ele && scroller) {
+                    setTimeout(() => {
+                        const rect = ele.getBoundingClientRect();
+                        const containerRect = scroller.getBoundingClientRect();
+                        const targetScrollTop = scroller.scrollTop + rect.top - containerRect.top;
+                        const maxScrollTop = scroller.scrollHeight - scroller.clientHeight;
+                        const scrollPosition = Math.min(targetScrollTop, maxScrollTop);
+                        scroller.scrollTo({top: scrollPosition, behavior: 'smooth'});
+                    }, 100);
+                }
+            }
+        }
+    }, [isMedicalInterventionDetailsLoaded, medicalInterventionDetails, searchParams]);
+
 
     useEffect(() => {
         if (medicalRecordId) {
@@ -501,14 +521,15 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                     </div>
                                                 }
                                                 />
-                                                <div className="card-styling padding-card-5 range-of-motion-wrapper">
+                                                <div className="card-styling padding-card-5 range-of-motion-wrapper"
+                                                     id={'range-of-motion-wrapper'}>
                                                     <>
                                                         {
                                                             medicalRecordId && medicalInterventionId && <>
                                                                 {
                                                                     medicalInterventionDetails?.rom_config?.length === 0 &&
                                                                     <LinkComponent
-                                                                        route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId) + '?referrer=' + referrer}>
+                                                                        route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId) + '?referrer=' + referrer + '&last_position=range-of-motion-wrapper'}>
                                                                         <ButtonComponent
                                                                             fullWidth={true}
                                                                             variant={'outlined'}
@@ -530,7 +551,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                                                {
                                                                                                    (medicalInterventionId && medicalRecordId) &&
                                                                                                    <LinkComponent
-                                                                                                       route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId)}>
+                                                                                                       route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId) + '?last_position=range-of-motion-wrapper'}>
                                                                                                        <ButtonComponent
                                                                                                            size={"small"}
                                                                                                            prefixIcon={(medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0) ?
@@ -611,13 +632,13 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                         }
                                                     </>
                                                 </div>
-                                                <div className="special-test-wrapper">
+                                                <div className="special-test-wrapper" id={'special-test-wrapper'}>
                                                     {
                                                         medicalRecordId && medicalInterventionId && <>
                                                             {
                                                                 medicalInterventionDetails?.special_tests?.length === 0 &&
                                                                 <LinkComponent
-                                                                    route={CommonService._routeConfig.MedicalInterventionSpecialTests(medicalRecordId, medicalInterventionId)}>
+                                                                    route={CommonService._routeConfig.MedicalInterventionSpecialTests(medicalRecordId, medicalInterventionId) + '?last_position=special-test-wrapper'}>
                                                                     <ButtonComponent
                                                                         fullWidth={true}
                                                                         variant={'outlined'}
@@ -642,7 +663,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                                                {
                                                                                                    (medicalInterventionId && medicalRecordId) &&
                                                                                                    <LinkComponent
-                                                                                                       route={CommonService._routeConfig.MedicalInterventionSpecialTests(medicalRecordId, medicalInterventionId)}>
+                                                                                                       route={CommonService._routeConfig.MedicalInterventionSpecialTests(medicalRecordId, medicalInterventionId) + '?last_position=special-test-wrapper'}>
                                                                                                        <ButtonComponent
                                                                                                            size={"small"}
                                                                                                            prefixIcon={(medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0) ?
@@ -843,7 +864,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                             </div>
                                         </div>
                                     </CardComponent>
-                                    <CardComponent title={'A - Assessment'}
+                                    <CardComponent title={'A - Assessment'} id={'icd_codes'}
                                         //                actions={
                                         //     search.showClear && <DraftReadonlySwitcherComponent
                                         //         condition={true}
@@ -865,7 +886,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                             {
                                                                 medicalInterventionDetails?.linked_icd_codes?.length === 0 &&
                                                                 <LinkComponent
-                                                                    route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId) + '?referrer=' + referrer}>
+                                                                    route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId) + '?referrer=' + referrer + '&last_position=icd_codes'}>
                                                                     <ButtonComponent
                                                                         fullWidth={true}
                                                                         variant={'outlined'}
@@ -890,7 +911,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                                                    {
                                                                                                        (medicalInterventionId && medicalRecordId) &&
                                                                                                        <LinkComponent
-                                                                                                           route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId)}>
+                                                                                                           route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId) + '?referrer=' + referrer + '&last_position=icd_codes'}>
                                                                                                            <ButtonComponent
                                                                                                                size={"small"}
                                                                                                                prefixIcon={(medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0) ?

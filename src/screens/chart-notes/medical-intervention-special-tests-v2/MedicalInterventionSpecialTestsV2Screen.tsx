@@ -60,6 +60,8 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
     const [selectedBodyPartToBeAdded, setSelectedBodyPartToBeAdded] = useState<any>(undefined);
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
+    const last_position: any = searchParams.get("last_position");
+
     const generateSpecialTestForBodySide = useCallback((bodyPart: any, side: string) => {
         return {
             key: bodyPart._id + side,
@@ -293,14 +295,14 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
             const referrer: any = searchParams.get("referrer");
             dispatch(setCurrentNavParams("Save SOAP Note", null, () => {
                 if (referrer) {
-                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + '?referrer=' + referrer);
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + '?referrer=' + referrer + `&last_position=${last_position}`);
                 } else {
-                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`);
                 }
             }));
 
         }
-    }, [navigate, dispatch, medicalRecordId, medicalInterventionId, searchParams]);
+    }, [navigate, dispatch, medicalRecordId, medicalInterventionId, searchParams, last_position]);
 
 
     useEffect(() => {
@@ -369,7 +371,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
             CommonService._chartNotes.SaveMedicalInterventionSpecialTestAPICall(medicalInterventionId, {config})
                 .then((response: any) => {
                     CommonService._alert.showToast(response.message || 'Saved Special Test information', 'success');
-                    medicalRecordId && navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId,medicalInterventionId))
+                    medicalRecordId && navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`)
                 })
                 .catch((error: any) => {
                     CommonService.handleErrors(error.error || error.errors || 'Error saving Special Test configuration', 'error');
@@ -379,7 +381,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
         } else {
             CommonService._alert.showToast('Please select a medical intervention', 'error');
         }
-    }, [medicalInterventionId,medicalRecordId,navigate]);
+    }, [medicalInterventionId, medicalRecordId, navigate, last_position]);
 
     const handleBodyPartDelete = useCallback((bodyPartId: string) => {
         if (medicalInterventionId) {

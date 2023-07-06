@@ -57,6 +57,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     const [selectedBodyPartToBeAdded, setSelectedBodyPartToBeAdded] = useState<any>(undefined);
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
+    const last_position: any = searchParams.get("last_position");
     const generateRomConfigForBodySide = useCallback((bodyPart: any, side: string) => {
         return {
             title: side,
@@ -305,14 +306,14 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
             const referrer: any = searchParams.get("referrer");
             dispatch(setCurrentNavParams("Save SOAP Note", null, () => {
                 if (referrer) {
-                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + '?referrer=' + referrer);
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + '?referrer=' + referrer + `&last_position=${last_position}`);
                 } else {
-                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`);
                 }
             }));
 
         }
-    }, [navigate, dispatch, medicalRecordId, medicalInterventionId, searchParams]);
+    }, [navigate, dispatch, medicalRecordId, medicalInterventionId, searchParams, last_position]);
 
 
     useEffect(() => {
@@ -390,7 +391,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
             CommonService._chartNotes.SaveMedicalInterventionROMConfigAPICall(medicalInterventionId, {config})
                 .then((response: any) => {
                     CommonService._alert.showToast(response.message || 'Saved ROM information', 'success');
-                    (medicalRecordId && medicalInterventionId)&& navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId,medicalInterventionId));
+                    (medicalRecordId && medicalInterventionId) && navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`);
 
                 })
                 .catch((error: any) => {
@@ -401,7 +402,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         } else {
             CommonService._alert.showToast('Please select a medical intervention', 'error');
         }
-    }, [medicalInterventionId,medicalRecordId,navigate]);
+    }, [medicalInterventionId, medicalRecordId, navigate,last_position]);
 
     const handleBodyPartDelete = useCallback((bodyPartId: string) => {
         if (medicalInterventionId) {
