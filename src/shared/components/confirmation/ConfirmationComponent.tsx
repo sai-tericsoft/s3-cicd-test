@@ -5,6 +5,7 @@ import {Communications} from "../../services";
 import {IConfirmationConfig} from "../../models/confirmation.model";
 import ModalComponent from "../modal/ModalComponent";
 import ButtonComponent from "../button/ButtonComponent";
+import LottieFileGenerationComponent from "../lottie-file-generation/LottieFileGenerationComponent";
 
 interface ConfirmationComponentProps {
 
@@ -87,9 +88,18 @@ const ConfirmationComponent = (props: ConfirmationComponentProps) => {
                 <div className="confirmation-dialog-sub-title-and-description">
                     {config?.image && <div className="confirmation-dialog-image-container">
                         <div className={"confirmation-dialog-image"}>
-                            {(typeof (config.image) === 'string') &&
-                                <img src={config.image} alt={config?.confirmationTitle}/>}
-                            {(typeof (config.image) !== 'string') && <config.image/>}
+                            {
+                                config.showLottie ? <LottieFileGenerationComponent
+                                    loop={true}
+                                    autoplay={true}
+                                    animationData={config.image}/> : <div>
+
+                                    {(typeof (config.image) === 'string') &&
+                                        <img src={config.image} alt={config?.confirmationTitle}/>}
+                                    {(typeof (config.image) !== 'string') && <config.image/>}
+                                </div>
+                            }
+
                         </div>
                     </div>}
                     <div className={"confirmation-dialog-title"}>

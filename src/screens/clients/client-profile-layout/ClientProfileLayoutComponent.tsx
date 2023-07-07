@@ -86,7 +86,8 @@ const ClientProfileLayoutComponent = (props: ClientProfileLayoutComponentProps) 
     const handleResendLink = useCallback((clientBasicDetails: any) => {
         if (clientId) {
             CommonService.onConfirm({
-                image: ImageConfig.DeleteAttachmentConfirmationIcon,
+                image: ImageConfig.PopupLottie,
+                showLottie:true,
                 confirmationTitle: 'RESEND INVITE LINK',
                 confirmationSubTitle: `Are you sure you want to resend the invite link ${clientBasicDetails?.first_name} ${clientBasicDetails?.last_name} 
             having email ${clientBasicDetails.primary_email}?`,

@@ -39,6 +39,8 @@ import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import _ from "lodash";
+import LottieFileGenerationComponent
+    from "../../../shared/components/lottie-file-generation/LottieFileGenerationComponent";
 
 interface MedicalInterventionDetailsCardComponentProps {
     showAction?: boolean,
@@ -435,9 +437,12 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
             {/*Notify admin for medical record modal start*/}
             <ModalComponent isOpen={isNotifyModalOpen} closeOnBackDropClick={true}
                             className={'notify-admin-modal'}>
-                <div className={'display-flex ts-justify-content-center mrg-bottom-20'}>
-                    <ImageConfig.ConfirmIcon/>
-                </div>
+                {/*<div className={'display-flex ts-justify-content-center mrg-bottom-20'}>*/}
+                   <LottieFileGenerationComponent loop={true}
+                                                  animationData={ImageConfig.PopupLottie}
+                                                  autoplay={true}
+                                                  />
+                {/*</div>*/}
                 <FormControlLabelComponent label={'NOTIFY ADMIN'}
                                            className={'display-flex ts-justify-content-center '}/>
                 <Formik initialValues={notifyAdminFormInitialValues}

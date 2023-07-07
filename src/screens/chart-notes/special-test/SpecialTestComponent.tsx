@@ -167,7 +167,8 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
 
     const handleBodyPartDelete = useCallback(() => {
         CommonService.onConfirm({
-            image: ImageConfig.RemoveBodyPartConfirmationIcon,
+            image: ImageConfig.ConfirmationLottie,
+            showLottie:true,
             confirmationTitle: "REMOVE BODY PART",
             confirmationSubTitle: "Are you sure you want to remove this body part?",
         }).then(() => {
