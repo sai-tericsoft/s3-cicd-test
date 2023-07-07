@@ -112,8 +112,8 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
                     <div className={'client-search-wrapper'}>
                         <div className="client-search-input">
                             <SearchComponent value={clientSearch}
-                                             label={"Search Client"}
-                                             placeholder={'Search using Client or Client ID'}
+                                             label={"Search"}
+                                             placeholder={'Search using Client Name or Client ID'}
                                              onSearchChange={(value) => {
                                                  setClientSearch(value);
                                                  setSelectedClient(null)

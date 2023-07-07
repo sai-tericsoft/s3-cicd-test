@@ -413,8 +413,8 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                             {
                                                 (field: FieldProps) => (
                                                     <FormikAutoCompleteComponent
-                                                        label={'Search Client (Name or Phone Number)'}
-                                                        placeholder={'Search Client (Name or Phone Number)'}
+                                                        label={'Search'}
+                                                        placeholder={'Search using Name/ID '}
                                                         formikField={field}
                                                         dataListKey={'data'}
                                                         displayWith={item => item ? item?.first_name + ' ' + item?.last_name + ' (ID: ' + item.client_id + ')' : ''}

@@ -287,6 +287,8 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
             setIsSigningInProgress(false);
         });
     }, [onSubmit]);
+    console.log('medicalInterventionDetails1',medicalInterventionDetails);
+
 
     return (
         <div className={'add-medical-intervention-screen'}>
@@ -627,10 +629,6 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
 
                                                                 </div>
                                                             }
-
-                                                            {
-
-                                                            }
                                                             <div className={'completed-wrapper'}>
                                                                 {medicalInterventionDetails?.status === 'completed' && medicalInterventionDetails?.special_tests?.length> 0 &&
 
@@ -640,12 +638,6 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                             size={'sm'}
                                                                             label={"Special Tests "}/>
                                                                     </div>
-
-                                                                    // <div
-                                                                    //     className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
-                                                                    //     <FormControlLabelComponent
-                                                                    //         label={"Special Tests "}/>
-                                                                    // </div>
 
                                                                 }
                                                                 {

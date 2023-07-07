@@ -1,6 +1,11 @@
 @import "src/assets/styles/common";
 
 .client-medical-details-card-component {
+  .card-component{
+    &.primary{
+      margin-bottom: 25px !important;
+    }
+  }
 
   .show-more-less {
     color: #83909D;

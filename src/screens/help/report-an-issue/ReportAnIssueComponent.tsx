@@ -26,7 +26,7 @@ const ReportAnIssueInitialValues: any = {
 }
 
 const ReportAnIssueValidationSchema = Yup.object().shape({
-    issue: Yup.string().max(1000, ' '),
+    issue: Yup.string().max(3000, ' '),
 });
 
 const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
@@ -88,11 +88,11 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
 
                                     </div>
                                     <div className={'ts-col-md-12'}>
-                                        {(values.issue.length) >= 1000 ?
+                                        {(values.issue.length) >= 3000 ?
                                             <div className={'alert-error'}> Characters Limit
-                                                : {(values.issue.length)}/1000</div> :
+                                                : {(values.issue.length)}/3000</div> :
                                             <div className={'no-alert'}> Characters Limit
-                                                : {(values.issue.length)}/1000</div>}
+                                                : {(values.issue.length)}/3000</div>}
                                     </div>
                                     <div className={'ts-col-md-12'}>
                                         <FormControlLabelComponent className={'attachment-heading'}  label={"Attachment (if any)"}/>

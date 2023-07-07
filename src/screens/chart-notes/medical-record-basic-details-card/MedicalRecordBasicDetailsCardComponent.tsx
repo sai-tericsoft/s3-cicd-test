@@ -30,6 +30,8 @@ import FormControlLabelComponent from "../../../shared/components/form-control-l
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import _ from "lodash";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
+import LottieFileGenerationComponent
+    from "../../../shared/components/lottie-file-generation/LottieFileGenerationComponent";
 
 const MedicalInterventionFormInitialValues: any = {
     intervention_date: new Date(),
@@ -471,7 +473,9 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                     <ModalComponent isOpen={isNotifyModalOpen} closeOnBackDropClick={true}
                                     className={'notify-admin-modal'}>
                         <div className={'display-flex ts-justify-content-center mrg-bottom-20'}>
-                            <ImageConfig.ConfirmIcon/>
+                            <LottieFileGenerationComponent autoplay={true}
+                                                           loop={true}
+                                                           animationData={ImageConfig.PopupLottie}/>
                         </div>
                         <FormControlLabelComponent label={'NOTIFY ADMIN'}
                                                    className={'display-flex ts-justify-content-center '}/>

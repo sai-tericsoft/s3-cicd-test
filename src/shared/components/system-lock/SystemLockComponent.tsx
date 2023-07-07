@@ -14,6 +14,7 @@ import {ILoginResponse} from "../../models/account.model";
 import {Field, FieldProps, Form, Formik} from "formik";
 import FormikPasswordInputComponent from "../form-controls/formik-password-input/FormikPasswordInputComponent";
 import * as Yup from "yup";
+import LottieFileGenerationComponent from "../lottie-file-generation/LottieFileGenerationComponent";
 
 const resumeSessionFormValidationSchema = Yup.object({
     password: Yup.string()
@@ -92,7 +93,9 @@ const SystemLockComponent = (props: SystemLockLockComponentProps) => {
                 {
                     currentStep === "prompt" && <div className={"t-form"}>
                         <div className={"system-lock-icon"}>
-                            <ImageConfig.LockIcon/>
+                          <LottieFileGenerationComponent loop={true}
+                                                         autoplay={true}
+                                                         animationData={ImageConfig.LockLottie}/>
                         </div>
                         <div className={"system-lock-title"}>
                             {account.systemLockReason === 'auto' ? "You still there?" : "System Locked!"}
