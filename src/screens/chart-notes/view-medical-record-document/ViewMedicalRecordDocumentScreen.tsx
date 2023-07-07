@@ -90,7 +90,8 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
 
         const handleMedicalRecordDocumentDelete = useCallback(() => {
             CommonService.onConfirm({
-                image: ImageConfig.DeleteAttachmentConfirmationIcon,
+                image: ImageConfig.PopupLottie,
+                showLottie:true,
                 confirmationTitle: "DELETE ATTACHMENT",
                 confirmationSubTitle: "Are you sure you want to delete this attachment\n" +
                     "from this file?"

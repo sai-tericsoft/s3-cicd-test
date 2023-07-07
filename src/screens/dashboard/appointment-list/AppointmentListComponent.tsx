@@ -92,7 +92,8 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
             title: "",
             dataIndex: "actions",
             key: "actions",
-            width: 89,
+            width: 120,
+            align:'center',
             // fixed: "right",
             render: (item: any) => {
                 if (item?.status === 'upcoming') {
