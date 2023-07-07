@@ -32,6 +32,7 @@ import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import EditProgressReportCardComponent from "../edit-progress-report-card/EditProgressReportCardComponent";
 import moment from "moment-timezone";
 import AllAddedICD11CodesComponent from "../all-added-icd-11-codes/AllAddedICD11CodesComponent";
+import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 
 interface ProgressRecordAdvancedDetailsUpdateScreenProps {
 
@@ -42,6 +43,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
     const {medicalRecordId, progressReportId, mode} = useParams();
 
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
+    const [isFullCardOpen, setIsFullCardOpen] = useState<boolean>(false);
 
     const {
         isProgressReportStatListLoading,
@@ -55,12 +57,17 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
     } = useSelector((state: IRootReducerState) => state.chartNotes);
 
     const {
+        addedICD11CodeList,
+        isAddedICD11CodeListLoading,
+        isAddedICD11CodeListLoaded,
+        isAddedICD11CodeListLoadingFailed
+    } = useSelector((state: IRootReducerState) => state.chartNotes);
+    const {
         clientMedicalRecord,
     } = useSelector((state: IRootReducerState) => state.client);
     const [showProgressStatCommentsModal, setShowProgressStatCommentsModal] = useState<boolean>(false);
     const [selectedProgressStatComments, setSelectedProgressStatComments] = useState<any>(undefined);
     const [isEditProgressReportDrawerOpen, setIsEditProgressReportDrawerOpen] = useState<boolean>(false);
-    const [isICDDrawerOpen, setIsICDDrawerOpen] = useState<boolean>(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [isSigningInProgress, setIsSigningInProgress] = useState<boolean>(false);
@@ -235,9 +242,6 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
         }
     }, [patchDataToProgressReportForm, clientMedicalRecordProgressReportDetails]);
 
-    const handleICDCodeDrawer = useCallback(() => {
-        setIsICDDrawerOpen(true);
-    }, []);
 
     return (
         <div className={'progress-record-advanced-details-update-screen'}>
@@ -269,9 +273,9 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                     </span>
                             <div className="ts-row width-auto">
                                 <div className="">
-                                    <ButtonComponent className={'mrg-right-10'} onClick={handleICDCodeDrawer}
-                                                     variant={'outlined'}>View ICD-11 Code
-                                        (s)</ButtonComponent>
+                                    {/*<ButtonComponent className={'mrg-right-10'} onClick={handleICDCodeDrawer}*/}
+                                    {/*                 variant={'outlined'}>View ICD-11 Code*/}
+                                    {/*    (s)</ButtonComponent>*/}
                                     <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
                                                      onClick={openEditProgressReportDrawer}>
                                         Edit Details
@@ -302,6 +306,41 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                 </DataLabelValueComponent>
                             </div>
                         </div>
+
+                        {isFullCardOpen && <>
+                            {
+                                isAddedICD11CodeListLoading && <LoaderComponent/>
+                            }
+                            {
+                                isAddedICD11CodeListLoadingFailed &&
+                                <StatusCardComponent title={'Failed to fetch ICD-11 code list'}/>
+                            }
+                            {isAddedICD11CodeListLoaded &&
+                            <DataLabelValueComponent label={'ICD-11 Code(s)'}>
+                                <>
+                                    {addedICD11CodeList.map((icdCode: any) => (
+                                        <div key={icdCode.icd_code} className='d-flex ts-align-items-center mrg-top-5'>
+                                            <div className='width-5 mrg-right-10'>{icdCode.icd_code}</div>
+                                            <div>:</div>
+                                            <div className='mrg-left-10'>{icdCode.description}</div>
+                                        </div>
+                                    ))}
+                                </>
+                            </DataLabelValueComponent>
+
+                            }
+                        </>
+                        }
+                        {addedICD11CodeList.length > 0 && <div className={'ts-row'}>
+                            <div className={'ts-col-md-4 ts-col-lg'}/>
+                            <div className={'ts-col-md-4 ts-col-lg'}/>
+                            <div className={'show-more-less'}
+                                 onClick={() => setIsFullCardOpen(!isFullCardOpen)}>
+                                {isFullCardOpen ? 'Less' : 'More'} Details &nbsp;&nbsp;
+                                {isFullCardOpen ? <ImageConfig.UpArrowIcon/> : <ImageConfig.DownArrowIcon/>}
+                            </div>
+                        </div>}
+
                     </CardComponent>
                     <DrawerComponent isOpen={isEditProgressReportDrawerOpen}
                                      showClose={true}
@@ -476,16 +515,6 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                     }}
                 </Formik>
             }
-            <DrawerComponent isOpen={isICDDrawerOpen}
-                             showClose={true}
-                             closeOnEsc={false}
-                             closeOnBackDropClick={false}
-                             onClose={() => setIsICDDrawerOpen(false)}>
-                {
-                    medicalRecordId &&
-                    <AllAddedICD11CodesComponent medicalRecordId={medicalRecordId}/>
-                }
-            </DrawerComponent>
         </div>
     );
 
