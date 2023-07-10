@@ -18,17 +18,19 @@ interface MedicalRecordAttachmentBasicDetailsCardComponentProps {
     medicalRecordDetails: any;
     onEdit?: () => void;
     showEdit?: boolean;
+    onDelete?:() => void;
 }
 
 const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAttachmentBasicDetailsCardComponentProps) => {
 
-    const {pageTitle, medicalRecordDetails, attachmentDetails, attachmentType, onEdit, showEdit} = props;
+    const {pageTitle, medicalRecordDetails, attachmentDetails, attachmentType, onEdit,onDelete, showEdit} = props;
 
     const handleEdit = useCallback(() => {
         if (onEdit) {
             onEdit();
         }
     }, [onEdit]);
+
 
     return (
         <div className={"medical-record-attachment-basic-details-card-component"}>
@@ -54,6 +56,18 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                             </div>
                         </div>
                         <div className={"medical-record-attachment-basic-details-actions"}>
+                            {
+                                pageTitle==="View Document" && <>
+                                <ButtonComponent
+                                    className={'mrg-right-10'}
+                                    onClick={onDelete}
+                                    variant={'outlined'}
+                                    color={'error'}
+                                    prefixIcon={<ImageConfig.DeleteIcon/>}>
+                                    Delete Document
+                                </ButtonComponent>
+                                </>
+                            }
                             {showEdit && <ButtonComponent
                                 prefixIcon={<ImageConfig.EditIcon/>}
                                 onClick={handleEdit}
