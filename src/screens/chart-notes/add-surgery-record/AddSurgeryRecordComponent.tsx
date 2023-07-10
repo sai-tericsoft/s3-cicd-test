@@ -18,6 +18,8 @@ import {Misc} from "../../../constants";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import InputComponent from "../../../shared/components/form-controls/input/InputComponent";
 import moment from "moment";
+import _ from "lodash";
+import ErrorComponent from "../../../shared/components/error/ErrorComponent";
 
 interface AddSurgeryRecordComponentProps {
     medicalRecordId: string;
@@ -78,7 +80,7 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                 validateOnBlur={true}
                 enableReinitialize={true}
                 validateOnMount={true}>
-                {({values, isValid, errors, setFieldValue, validateForm}) => {
+                {({values, isValid, errors,touched, setFieldValue, validateForm}) => {
                     // eslint-disable-next-line react-hooks/rules-of-hooks
                     useEffect(() => {
                         validateForm();
@@ -134,35 +136,69 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                                 <div className={'attachment-heading'}>
                                     Attachment
                                 </div>
-                                <FieldArray
-                                    name="documents"
-                                    render={arrayHelpers => (
-                                        <>
-                                            {values?.documents && values?.documents?.map((item: any, index: any) => {
-                                                return (
-                                                    <FilePreviewThumbnailComponent file={item}
-                                                                                   variant={"compact"}
-                                                                                   key={item.name + index}
-                                                                                   onRemove={() => {
-                                                                                       arrayHelpers.remove(index);
-                                                                                   }}
-                                                    />
-                                                )
-                                            })}
+                                {/*<FieldArray*/}
+                                {/*    name="documents"*/}
+                                {/*    render={arrayHelpers => (*/}
+                                {/*        <>*/}
+                                {/*            {values?.documents && values?.documents?.map((item: any, index: any) => {*/}
+                                {/*                return (*/}
+                                {/*                    <FilePreviewThumbnailComponent file={item}*/}
+                                {/*                                                   variant={"compact"}*/}
+                                {/*                                                   key={item.name + index}*/}
+                                {/*                                                   onRemove={() => {*/}
+                                {/*                                                       arrayHelpers.remove(index);*/}
+                                {/*                                                   }}*/}
+                                {/*                    />*/}
+                                {/*                )*/}
+                                {/*            })}*/}
+                                {/*        </>*/}
+                                {/*    )}/>*/}
+                                {/*<FilePickerComponent*/}
+                                {/*    maxFileCount={1}*/}
+                                {/*    id={"sv_upload_btn"}*/}
+                                {/*    onFilesDrop={(acceptedFiles, rejectedFiles) => {*/}
+                                {/*        if (acceptedFiles && acceptedFiles.length > 0) {*/}
+                                {/*            const file = acceptedFiles[0];*/}
+                                {/*            setFieldValue(`documents[${values?.documents?.length || 0}]`, file);*/}
+                                {/*        }*/}
+                                {/*    }}*/}
+                                {/*    acceptedFilesText={"PDF files are allowed"}*/}
+                                {/*    acceptedFileTypes={["pdf"]}*/}
+                                {/*/>*/}
+                                <>
+                                    {
+                                        (!values.attachment) && <>
+                                            <FilePickerComponent maxFileCount={1}
+                                                                 onFilesDrop={(acceptedFiles, rejectedFiles) => {
+                                                                     if (acceptedFiles && acceptedFiles.length > 0) {
+                                                                         const file = acceptedFiles[0];
+                                                                         setFieldValue('attachment', file);
+                                                                     }
+                                                                 }}
+                                                                 acceptedFileTypes={["mp4", "pdf", "png", "jpg", "jpeg", "avi"]}
+                                                                 acceptedFilesText={"PNG, JPG, JPEG, PDF, MP4 and AVI files are allowed upto 100MB"}
+                                            />
+                                            {
+                                                (_.get(touched, "attachment") && !!(_.get(errors, "attachment"))) &&
+                                                <ErrorComponent
+                                                    errorText={(_.get(errors, "attachment"))}/>
+                                            }
                                         </>
-                                    )}/>
-                                <FilePickerComponent
-                                    maxFileCount={1}
-                                    id={"sv_upload_btn"}
-                                    onFilesDrop={(acceptedFiles, rejectedFiles) => {
-                                        if (acceptedFiles && acceptedFiles.length > 0) {
-                                            const file = acceptedFiles[0];
-                                            setFieldValue(`documents[${values?.documents?.length || 0}]`, file);
-                                        }
-                                    }}
-                                    acceptedFilesText={"PDF files are allowed"}
-                                    acceptedFileTypes={["pdf"]}
-                                />
+                                    }
+                                </>
+                                <>
+                                    {
+                                        (values.attachment) && <>
+                                            <FilePreviewThumbnailComponent
+
+                                                file={values.attachment}
+                                                onRemove={() => {
+                                                    setFieldValue('attachment', undefined);
+                                                }}
+                                            />
+                                        </>
+                                    }
+                                </>
                             </div>
 
                             <div className="t-form-actions">
