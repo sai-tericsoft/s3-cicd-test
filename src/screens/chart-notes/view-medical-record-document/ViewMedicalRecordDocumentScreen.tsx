@@ -23,7 +23,7 @@ interface ViewMedicalRecordDocumentScreenProps {
 
 const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenProps) => {
 
-        const {medicalRecordId, medicalRecordDocumentId} = useParams();
+        const {medicalRecordId, medicalRecordDocumentId,clientId} = useParams();
         const [searchParams] = useSearchParams();
         const [module, setModule] = useState<any>('');
         const dispatch = useDispatch();
@@ -91,7 +91,7 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
         const handleMedicalRecordDocumentDelete = useCallback(() => {
             CommonService.onConfirm({
                 image: ImageConfig.PopupLottie,
-                showLottie:true,
+                showLottie: true,
                 confirmationTitle: "DELETE ATTACHMENT",
                 confirmationSubTitle: "Are you sure you want to delete this attachment\n" +
                     "from this file?"
@@ -151,6 +151,32 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
             }
         }, [getMedicalRecordDocumentDetails, medicalRecordDocumentId]);
 
+        const handleDocumentDelete = useCallback(() => {
+            CommonService.onConfirm({
+                image: ImageConfig.PopupLottie,
+                showLottie: true,
+                confirmationTitle: "DELETE DOCUMENT",
+                confirmationSubTitle: "Are you sure you want to delete this document\n" +
+                    "from this file?"
+            }).then(() => {
+                if (medicalRecordDocumentId) {
+                    CommonService._chartNotes.DeleteDocument(medicalRecordDocumentId)
+                .then((response: any) => {
+                            CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Document deleted successfully", "success");
+                                const referrer: any = searchParams.get("referrer");
+                                const module_name: any = searchParams.get("module_name");
+                                setModule(module_name);
+                                    if (module_name === "client_module") {
+                                            navigate(referrer);
+                                        }
+
+                        }).catch((error: any) => {
+                        CommonService._alert.showToast(error?.error || "Error deleting document", "success");
+                    })
+                }
+            })
+        }, [medicalRecordDocumentId])
+
         return (
             <div className={'view-medical-record-details-screen'}>
                 {
@@ -169,6 +195,7 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                             attachmentType={"medicalRecordDocument"}
                             showEdit={module === 'client_documents' ? false : true}
                             onEdit={openEditMedicalRecordDocumentDrawer}
+                            onDelete={handleDocumentDelete}
                         />
                         <div className={'medical-record-document-attachment'}>
                             {

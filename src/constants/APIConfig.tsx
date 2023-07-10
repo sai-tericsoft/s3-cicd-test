@@ -834,6 +834,10 @@ const APIConfig: IAPIConfig = {
         URL: (interventionId: string) => ENV.API_URL + '/intervention/' + interventionId,
         METHOD: 'delete'
     },
+    DELETE_DOCUMENT:{
+        URL:(documentId:string)=> ENV.API_URL + '/document/'+ documentId,
+        METHOD:'delete'
+    },
     DASHBOARD_MESSAGE_HISTORY: {
         URL: ENV.API_URL + '/messageHistory',
         METHOD: 'get'

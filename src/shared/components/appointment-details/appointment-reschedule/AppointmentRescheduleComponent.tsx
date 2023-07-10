@@ -343,7 +343,8 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
             {step === 'overview' && <>
                 <div className="drawer-header">
                     {/*<div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>*/}
-                    <div className="drawer-title">Reschedule Appointment</div>
+                    {/*<div className="drawer-title">Reschedule Appointment</div>*/}
+                    {/*<FormControlLabelComponent label={'Reschedule Appointment'} size={'lg'}/>*/}
                     {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
                     {/*    <div className="drawer-close"*/}
                     {/*         id={'appintment-details-close-btn'}*/}

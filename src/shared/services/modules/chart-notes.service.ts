@@ -301,6 +301,11 @@ const DiscardSoapNote = (interventionId:string , payload:any)=>{
     return ApiService[APIConfig.DISCARD_SOAP_NOTE.METHOD](APIConfig.DISCARD_SOAP_NOTE.URL(interventionId),payload);
 }
 
+const DeleteDocument = (documentId:string)=>{
+// @ts-ignore
+    return ApiService[APIConfig.DELETE_DOCUMENT.METHOD](APIConfig.DELETE_DOCUMENT.URL(documentId))
+}
+
 const ChartNotesService = {
     MedicalRecordAddAPICall,
     MedicalRecordEditAPICall,
@@ -363,7 +368,8 @@ const ChartNotesService = {
     GetAllAddedICD11CodeList,
     SaveMedicalInterventionROMConfigAPICall,
     DiscardSoapNote,
-    SaveMedicalInterventionSpecialTestAPICall
+    SaveMedicalInterventionSpecialTestAPICall,
+    DeleteDocument
 }
 
 export default ChartNotesService;
