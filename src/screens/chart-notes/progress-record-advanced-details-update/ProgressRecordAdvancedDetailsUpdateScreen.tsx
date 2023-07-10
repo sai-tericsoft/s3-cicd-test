@@ -31,7 +31,6 @@ import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import EditProgressReportCardComponent from "../edit-progress-report-card/EditProgressReportCardComponent";
 import moment from "moment-timezone";
-import AllAddedICD11CodesComponent from "../all-added-icd-11-codes/AllAddedICD11CodesComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 
 interface ProgressRecordAdvancedDetailsUpdateScreenProps {
@@ -331,7 +330,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                             }
                         </>
                         }
-                        {addedICD11CodeList.length > 0 && <div className={'ts-row'}>
+                        {addedICD11CodeList?.length > 0 && <div className={'ts-row'}>
                             <div className={'ts-col-md-4 ts-col-lg'}/>
                             <div className={'ts-col-md-4 ts-col-lg'}/>
                             <div className={'show-more-less'}

@@ -137,4 +137,10 @@ export interface IFilesUneditableAfterOption {
     code: number;
 }
 
+export interface IBufferTimeOption {
+    _id: string;
+    title: string;
+    code: number;
+}
+
 export type BillingType = 'invoice' | 'receipt';

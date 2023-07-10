@@ -155,7 +155,8 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                 </>}
                                 {details?.status === 'upcoming' && <>
                                     <div className="info-text">
-                                        Check-In Time : {CommonService.getHoursAndMinutesFromMinutes(details?.start_time)}
+                                        Check-In Time
+                                        : {CommonService.getHoursAndMinutesFromMinutes(details?.start_time)}
                                     </div>
                                 </>}
                                 {details?.status === 'engaged' && <>
@@ -205,7 +206,8 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                 </div>
                                 <div className="block-content mrg-left-40">
                                     {details?.status === 'scheduled' && <MenuDropdownComponent menuBase={
-                                        <ButtonComponent size={'large'} className={'select-dropdown'} variant={'outlined'} fullWidth={true}>
+                                        <ButtonComponent size={'large'} className={'select-dropdown'}
+                                                         variant={'outlined'} fullWidth={true}>
                                             Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
                                         </ButtonComponent>
                                     } menuOptions={
@@ -225,24 +227,30 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                 <div className="details-body">
                                     <div className="details-body-block">
                                         <div className="details-body-item">
-                                            <div className="item-heading"><ImageConfig.PersonIcon/>&nbsp;&nbsp;Client Name</div>
+                                            <div className="item-heading"><ImageConfig.PersonIcon/>&nbsp;&nbsp;Client
+                                                Name
+                                            </div>
                                             <div
                                                 className="item-value">{details?.client_details?.first_name + ' ' + details?.client_details?.last_name}</div>
                                         </div>
                                         <div className="details-body-item">
-                                            <div className="item-heading"><ImageConfig.CallIcon/>&nbsp;&nbsp;Phone Number</div>
+                                            <div className="item-heading"><ImageConfig.CallIcon/>&nbsp;&nbsp;Phone
+                                                Number
+                                            </div>
                                             <div
                                                 className="item-value">{details?.client_details?.primary_contact_info?.phone ? CommonService.formatPhoneNumber(details?.client_details?.primary_contact_info?.phone) : 'N/A'}</div>
                                         </div>
                                         <div className="details-body-item">
-                                            <div className="item-heading"><ImageConfig.EmailIcon/>&nbsp;&nbsp;Email</div>
+                                            <div className="item-heading"><ImageConfig.EmailIcon/>&nbsp;&nbsp;Email
+                                            </div>
                                             <div
                                                 className="item-value">{details?.client_details?.primary_email || 'N/A'}</div>
                                         </div>
                                     </div>
                                     <div className="details-body-block">
                                         <div className="details-body-item">
-                                            <div className="item-heading"><ImageConfig.AssignmentIcon/>&nbsp;&nbsp;Provider Name
+                                            <div className="item-heading">
+                                                <ImageConfig.AssignmentIcon/>&nbsp;&nbsp;Provider Name
                                             </div>
                                             <div
                                                 className="item-value">
@@ -250,7 +258,8 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                                     {details?.provider_details?.first_name + ' ' + details?.provider_details?.last_name}
                                                 </div>
                                                 <div className="d-inline">
-                                                    <ChipComponent color={'success'} label={bookType?.title}/>&nbsp;&nbsp;
+                                                    <ChipComponent color={'success'}
+                                                                   label={bookType?.title}/>&nbsp;&nbsp;
                                                     <ChipComponent color={'success'} label={details.duration + ' min'}/>
                                                 </div>
                                             </div>
@@ -258,7 +267,8 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                     </div>
                                     <div className="details-body-block">
                                         <div className="details-body-item">
-                                            <div className="item-heading"><ImageConfig.MedicalServicesIcon/>&nbsp;&nbsp;Service
+                                            <div className="item-heading">
+                                                <ImageConfig.MedicalServicesIcon/>&nbsp;&nbsp;Service
                                             </div>
                                             <div
                                                 className="item-value">{details?.category_details?.name || 'N/A'} / {details?.service_details?.name || 'N/A'}</div>
@@ -266,12 +276,14 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                     </div>
                                     <div className="details-body-block">
                                         <div className="details-body-item">
-                                            <div className="item-heading"><ImageConfig.AttachMoneyIcon/>&nbsp;&nbsp;Payment Status
+                                            <div className="item-heading">
+                                                <ImageConfig.AttachMoneyIcon/>&nbsp;&nbsp;Payment Status
                                             </div>
                                             <div className={"item-value"}>
                                                 <ChipComponent size={'small'}
                                                                prefixIcon={details?.payment_status === 'paid' ?
-                                                                   <ImageConfig.CircleCheck/> : <ImageConfig.CancelIcon/>}
+                                                                   <ImageConfig.CircleCheck/> :
+                                                                   <ImageConfig.CancelIcon/>}
                                                                label={details?.payment_status === 'paid' ? 'Paid' : 'Unpaid'}
                                                                className={details?.payment_status === 'paid' ? 'paid' : 'unpaid'}/>
                                             </div>
@@ -291,28 +303,28 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                 </div>
                             </div>
                         </div>
-                            <div className="details-box-bottom">
-                                <div className="details-header">
-                                    <div className={'form-heading'}>
-                                        Forms
-                                    </div>
-                                    <div className={'status-heading'}>
-                                        Status
-                                    </div>
+                        <div className="details-box-bottom">
+                            <div className="details-header">
+                                <div className={'form-heading'}>
+                                    Forms
                                 </div>
-                                <div className="details-body">
-                                    <div className="details-body-block-bottom">
-                                        {formStatus && formStatus.map((value, index) => {
-                                            return (<div key={'item-' + index} className="details-body-item">
-                                                <div className="item-heading">{value.name}</div>
-                                                <div
-                                                    className={"item-value " + ((value.status === 'Completed' || value.status === 'completed') ? 'green' : 'red')}>{value.status}
-                                                </div>
-                                            </div>)
-                                        })}
-                                    </div>
+                                <div className={'status-heading'}>
+                                    Status
                                 </div>
                             </div>
+                            <div className="details-body">
+                                <div className="details-body-block-bottom">
+                                    {formStatus && formStatus.map((value, index) => {
+                                        return (<div key={'item-' + index} className="details-body-item">
+                                            <div className="item-heading">{value.name}</div>
+                                            <div
+                                                className={"item-value " + ((value.status === 'Completed' || value.status === 'completed') ? 'green' : 'red')}>{value.status}
+                                            </div>
+                                        </div>)
+                                    })}
+                                </div>
+                            </div>
+                        </div>
 
 
                         <div className="client-search-btn">
@@ -327,7 +339,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                         }
                                     }
                                 }
-                            >Check In</ButtonComponent>
+                            >{details.payment_status === 'unpaid' ? 'Update Payment Status' : 'Check In'}</ButtonComponent>
                             }
                         </div>
 

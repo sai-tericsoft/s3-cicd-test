@@ -30,6 +30,7 @@ export interface ISystemSettingsConfig {
     other_settings: {
         auto_lock_minutes?: number,
         uneditable_after_days?: number
+        buffer_time?: any
     },
     default_message?:string
 }

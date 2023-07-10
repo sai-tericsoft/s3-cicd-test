@@ -403,7 +403,7 @@ const APIConfig: IAPIConfig = {
     },
     CLIENT_MEDICAL_INFO: {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medicalRecord',
-        METHOD: "get"
+        METHOD: "post"
     },
     CLIENT_MEDICAL_DETAIL: {
         URL: (medicalId: string) => ENV.API_URL + '/medicalRecord/' + medicalId,
@@ -912,7 +912,11 @@ const APIConfig: IAPIConfig = {
     VIEW_USER_SLOTS: {
         URL: (userId: any, facilityId: any) => ENV.API_URL + '/user/' + userId + '/facility/' + facilityId + '/globalSlots',
         METHOD: "get"
-    }
+    },
+    PROVIDERS_LINKED_TO_FACILITY: {
+        URL: (providerId: string) => ENV.API_URL + '/facility/' + providerId,
+        METHOD: "get"
+    },
 
 
 }
