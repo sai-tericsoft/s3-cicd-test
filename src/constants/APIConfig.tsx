@@ -613,7 +613,7 @@ const APIConfig: IAPIConfig = {
     },
     MEDICAL_RECORD_CONSOLIDATED_INTERVENTIONS_AND_ATTACHMENTS: {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/record',
-        METHOD: 'get'
+        METHOD: 'post'
     },
     GET_MEDICAL_RECORD_SOAP_NOTE_LIST: {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/intervention',
