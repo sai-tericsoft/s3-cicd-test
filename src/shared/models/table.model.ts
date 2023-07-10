@@ -1,4 +1,5 @@
 import {TableRowSelection} from "antd/lib/table/interface";
+import React from "react";
 
 export interface ITableColumn {
     dataIndex?: string;
@@ -36,6 +37,8 @@ export interface ITableComponentProps {
         order: string;
     },
     autoHeight?: boolean;
+    showFooter?: boolean;
+    footer?: React.ReactNode;
 }
 
 

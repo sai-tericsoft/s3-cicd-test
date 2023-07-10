@@ -443,7 +443,7 @@ const APIConfig: IAPIConfig = {
     },
     CLIENT_MEDICAL_INTERVENTION_LIST: {
         URL: (medicalRecordId: string) => ENV.API_URL + "/medicalRecord/" + medicalRecordId + "/record",
-        METHOD: "get"
+        METHOD: "post"
     },
     MEDICAL_RECORD_STATS: {
         URL: (medicalRecordId: string) => ENV.API_URL + "/medicalRecord/" + medicalRecordId + "/statistics",

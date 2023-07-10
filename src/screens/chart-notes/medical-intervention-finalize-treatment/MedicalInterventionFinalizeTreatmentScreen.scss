@@ -1,20 +1,45 @@
 .medical-intervention-finalize-treatment-screen {
- .ant-table-tbody {
-   .t-cell-select {
-     padding-left: 30px !important;
-   }
- }
-  .ant-table-thead{
-    .t-cell-select{
+  .ant-table-tbody {
+    .t-cell-select {
       padding-left: 30px !important;
     }
   }
-  .finalize-treatment-wrapper{
+
+  .ant-table-thead {
+    .t-cell-select {
+      padding-left: 30px !important;
+    }
+  }
+
+  .ant-table-footer {
+    .cpt-code-list-footer {
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .total-heading {
+        margin-left: 50px;
+      }
+
+      .total-minutes-wrapper {
+        border: 1px solid #ABB6BE;
+        padding: 7px 0;
+        width: 110px;
+        border-radius: 10px;
+        margin-left: 30px;
+        text-align: center;
+      }
+    }
+
+  }
+
+  .finalize-treatment-wrapper {
     padding-bottom: 24px;
   }
 
-    .input-component {
-      margin-bottom: 0 !important;
+  .input-component {
+    margin-bottom: 0 !important;
   }
 
   .select-component {

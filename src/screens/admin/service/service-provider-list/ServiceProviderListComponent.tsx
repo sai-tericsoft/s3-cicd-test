@@ -78,12 +78,8 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
                 return (
                     <CheckBoxComponent
                         label={label}
-                        checked={selectedProvider.includes(item?._id) || serviceProviderList.map((provider: any) => {
-                            return provider?.provider_id
-                        }).includes(item?._id)}
-                        disabled={serviceProviderList.map((provider: any) => {
-                            return provider?.provider_id
-                        }).includes(item?._id)}
+                        checked={selectedProvider.includes(item?._id) || item?.is_linked}
+                        disabled={item?.is_linked}
                         onChange={(isChecked) => {
                             if (isChecked) {
                                 setSelectedProvider([...selectedProvider, item?._id]);

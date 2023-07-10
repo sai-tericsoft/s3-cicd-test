@@ -11,8 +11,9 @@ interface TableV2ComponentProps extends ITableComponentProps {
     data: any[];
     loading?: boolean;
     errored?: boolean;
-    noDataText?:string;
-
+    noDataText?: string;
+    showFooter?: boolean;
+    footer?: React.ReactNode;
 }
 
 const TableV2Component = (props: TableV2ComponentProps) => {
@@ -32,11 +33,13 @@ const TableV2Component = (props: TableV2ComponentProps) => {
         showExpandColumn,
         canExpandRow,
         expandRowRenderer,
-        hideHeader
+        hideHeader,
+        footer
     } = props;
 
     const [tableColumns, setTableColumns] = useState<any>(props.columns);
     const size = props.size || "large";
+    const showFooter = props.showFooter || false;
 
     const defaultRowKey = useCallback((item: any, index?: number) => item?._id || index, []);
 
@@ -93,7 +96,8 @@ const TableV2Component = (props: TableV2ComponentProps) => {
                                         errored && <StatusCardComponent title={"Error Loading Data"}/>
                                     }
                                     {
-                                        !errored && <StatusCardComponent title={noDataText ? noDataText : "No data found"}/>
+                                        !errored &&
+                                        <StatusCardComponent title={noDataText ? noDataText : "No data found"}/>
                                     }
                                 </> : <></>
                             }
@@ -120,6 +124,7 @@ const TableV2Component = (props: TableV2ComponentProps) => {
                 showSorterTooltip={false}
                 onChange={handleTableChange}
                 pagination={false}
+                footer={showFooter ? () => footer : undefined}
             />
         </div>
     );

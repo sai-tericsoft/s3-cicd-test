@@ -17,6 +17,7 @@ export interface ILoggedInUser {
     role: string;
     is_active: boolean;
     signature_url: string;
+    signature: string;
     auto_lock_minutes: number;
     uneditable_after_days: string;
 }

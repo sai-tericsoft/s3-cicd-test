@@ -28,6 +28,7 @@ import FilePickerComponent from "../../../shared/components/file-picker/FilePick
 import * as Yup from "yup";
 import AttachmentComponent from "../../../shared/attachment/AttachmentComponent";
 import InputComponent from "../../../shared/components/form-controls/input/InputComponent";
+import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 
 interface SurgeryRecordViewScreenProps {
 
@@ -83,6 +84,8 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const {medicalRecordId, surgeryRecordId} = useParams();
     const [isBodyPartsModalOpen, setIsBodyPartsModalOpen] = React.useState<boolean>(false);
+    const [surgeryRecordDetails, setSurgeryRecordDetails] = useState<any | null>(null);
+    const [isSurgeryRecordDetailsLoading, setIsSurgeryRecordDetailsLoading] = React.useState<boolean>(false);
 
     const {
         clientMedicalRecord,
@@ -124,14 +127,16 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
     }, []);
 
 
-    const [surgeryRecordDetails, setSurgeryRecordDetails] = useState<any | null>(null)
     const getSurgeryRecord = useCallback(
         (surgeryRecordId: string) => {
+            setIsSurgeryRecordDetailsLoading(true);
             CommonService._chartNotes.FetchSurgeryRecordAPICall(surgeryRecordId, {})
                 .then((response: IAPIResponseType<any>) => {
                     setSurgeryRecordDetails(response.data);
+                    setIsSurgeryRecordDetailsLoading(false);
                 })
                 .catch((error: any) => {
+                    setIsSurgeryRecordDetailsLoading(false);
                     CommonService._alert.showToast(error, "error");
                     setSurgeryRecordDetails(null);
                 });
@@ -209,69 +214,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
     }, [surgeryRecordId, getSurgeryRecord]);
     return (
         <div className={'medical-intervention-surgery-record-screen'}>
-            <DrawerComponent isOpen={showAddAttachment} showClose={true}
-                             onClose={setShowAddAttachment.bind(null, false)}>
-                <div className={'edit-medical-record-component'}>
-                    <Formik
-                        validationSchema={addSurgeryRecordAttachmentValidationSchema}
-                        initialValues={addSurgeryRecordAttachmentFormInitialValues}
-                        onSubmit={onAttachmentSubmit}
-                        validateOnChange={false}
-                        validateOnBlur={true}
-                        enableReinitialize={true}
-                        validateOnMount={true}>
-                        {({values, isValid, errors, setFieldValue, validateForm}) => {
-                            // eslint-disable-next-line react-hooks/rules-of-hooks
-                            useEffect(() => {
-                                validateForm();
-                            }, [validateForm, values]);
-                            return (
-                                <Form className="t-form" noValidate={true}>
-                                    <FormControlLabelComponent label={"Add Surgery Attachment"}/>
-                                    <div className={"t-surgery-record-drawer-form-controls"}>
-                                        <FieldArray
-                                            name="attachment"
-                                            render={arrayHelpers => (
-                                                <>
-                                                    {values?.attachment && values?.attachment?.map((item: any, index: any) => {
-                                                        return (
-                                                            <FilePreviewThumbnailComponent file={item}
-                                                                                           variant={"compact"}
-                                                                                           key={item.name + index}
-                                                                                           onRemove={() => {
-                                                                                               arrayHelpers.remove(index);
-                                                                                           }}
-                                                            />
-                                                        )
-                                                    })}
-                                                </>
-                                            )}/>
-                                        <FilePickerComponent
-                                            maxFileCount={1}
-                                            id={"sv_upload_btn"}
-                                            onFilesDrop={(acceptedFiles, rejectedFiles) => {
-                                                if (acceptedFiles && acceptedFiles.length > 0) {
-                                                    const file = acceptedFiles[0];
-                                                    setFieldValue(`attachment[${values?.attachment?.length || 0}]`, file);
-                                                }
-                                            }}
-                                            acceptedFilesText={"PDF files are allowed"}
-                                            acceptedFileTypes={["pdf"]}
-                                        />
-                                    </div>
-                                    <div className="t-form-actions mrg-top-20">
-                                        <ButtonComponent fullWidth={true} type={'submit'}
-                                                         isLoading={isAttachAddInProgress}
-                                                         disabled={!isValid || isAttachAddInProgress}>
-                                            Save
-                                        </ButtonComponent>
-                                    </div>
-                                </Form>)
-                        }
-                        }
-                    </Formik>
-                </div>
-            </DrawerComponent>
+
             {surgeryRecordDetails && <DrawerComponent isOpen={isEditSurgeryRecordDrawerOpen} showClose={true}
                                                       onClose={setIsEditSurgeryRecordDrawerOpen.bind(null, false)}>
                 <div className={'edit-medical-record-component'}>
@@ -365,6 +308,11 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                 </div>
             </ModalComponent>
             {
+                isSurgeryRecordDetailsLoading && <div>
+                    <LoaderComponent/>
+                </div>
+            }
+            {
                 (isClientMedicalRecordLoaded && clientMedicalRecord) && <>
                     <CardComponent color={'primary'}>
                         <div className={'client-name-button-wrapper'}>
@@ -442,6 +390,70 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                     })}
                 </div>
             </div>
+
+            <DrawerComponent isOpen={showAddAttachment} showClose={true}
+                             onClose={setShowAddAttachment.bind(null, false)}>
+                <div className={'edit-medical-record-component'}>
+                    <Formik
+                        validationSchema={addSurgeryRecordAttachmentValidationSchema}
+                        initialValues={addSurgeryRecordAttachmentFormInitialValues}
+                        onSubmit={onAttachmentSubmit}
+                        validateOnChange={false}
+                        validateOnBlur={true}
+                        enableReinitialize={true}
+                        validateOnMount={true}>
+                        {({values, isValid, errors, setFieldValue, validateForm}) => {
+                            // eslint-disable-next-line react-hooks/rules-of-hooks
+                            useEffect(() => {
+                                validateForm();
+                            }, [validateForm, values]);
+                            return (
+                                <Form className="t-form" noValidate={true}>
+                                    <FormControlLabelComponent label={"Add Surgery Attachment"}/>
+                                    <div className={"t-surgery-record-drawer-form-controls"}>
+                                        <FieldArray
+                                            name="attachment"
+                                            render={arrayHelpers => (
+                                                <>
+                                                    {values?.attachment && values?.attachment?.map((item: any, index: any) => {
+                                                        return (
+                                                            <FilePreviewThumbnailComponent file={item}
+                                                                                           variant={"compact"}
+                                                                                           key={item.name + index}
+                                                                                           onRemove={() => {
+                                                                                               arrayHelpers.remove(index);
+                                                                                           }}
+                                                            />
+                                                        )
+                                                    })}
+                                                </>
+                                            )}/>
+                                        <FilePickerComponent
+                                            maxFileCount={1}
+                                            id={"sv_upload_btn"}
+                                            onFilesDrop={(acceptedFiles, rejectedFiles) => {
+                                                if (acceptedFiles && acceptedFiles.length > 0) {
+                                                    const file = acceptedFiles[0];
+                                                    setFieldValue(`attachment[${values?.attachment?.length || 0}]`, file);
+                                                }
+                                            }}
+                                            acceptedFilesText={"PDF files are allowed"}
+                                            acceptedFileTypes={["pdf"]}
+                                        />
+                                    </div>
+                                    <div className="t-form-actions mrg-top-20">
+                                        <ButtonComponent fullWidth={true} type={'submit'}
+                                                         isLoading={isAttachAddInProgress}
+                                                         disabled={!isValid || isAttachAddInProgress}>
+                                            Save
+                                        </ButtonComponent>
+                                    </div>
+                                </Form>)
+                        }
+                        }
+                    </Formik>
+                </div>
+            </DrawerComponent>
 
         </div>
     );
