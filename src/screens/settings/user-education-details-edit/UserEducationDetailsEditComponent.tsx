@@ -14,7 +14,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {setUserBasicDetails} from "../../../store/actions/user.action";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import {useLocation, useNavigate} from "react-router-dom";
 
 interface UserEducationDetailsEditComponentProps {
@@ -102,7 +101,7 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
                         }, [validateForm, values]);
                         return (
                             <Form noValidate={true} className={"t-form"}>
-                                <FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>
+                                {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
 
                                 <FieldArray
                                     name="education_details"
@@ -133,7 +132,7 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
                                                                                 label={'Institution Name'}
                                                                                 placeholder={'Enter Institution Name'}
                                                                                 type={"text"}
-                                                                                titleCase={true}
+                                                                                // titleCase={true}
                                                                                 formikField={field}
                                                                                 fullWidth={true}
                                                                             />
@@ -150,7 +149,7 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
                                                                                 label={'Institution Location'}
                                                                                 placeholder={'Enter Institution Location'}
                                                                                 type={"text"}
-                                                                                titleCase={true}
+                                                                                // titleCase={true}
                                                                                 formikField={field}
                                                                                 fullWidth={true}
                                                                             />
@@ -168,7 +167,7 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
                                                                                 label={'Degree Title'}
                                                                                 placeholder={'Enter Degree Title'}
                                                                                 type={"text"}
-                                                                                titleCase={true}
+                                                                                // titleCase={true}
                                                                                 formikField={field}
                                                                                 fullWidth={true}
                                                                             />

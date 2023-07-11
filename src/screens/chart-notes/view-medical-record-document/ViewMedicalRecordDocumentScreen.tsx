@@ -175,7 +175,9 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                     })
                 }
             })
-        }, [medicalRecordDocumentId, navigate, searchParams])
+
+        }, [medicalRecordDocumentId,navigate,searchParams])
+
 
         return (
             <div className={'view-medical-record-details-screen'}>

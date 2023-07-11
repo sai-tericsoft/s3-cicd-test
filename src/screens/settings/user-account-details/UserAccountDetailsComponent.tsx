@@ -60,18 +60,18 @@ const UserAccountDetailsComponent = (props: UserAccountDetailsComponentProps) =>
                             </DataLabelValueComponent>
 
                         </CardComponent>
-                        <CardComponent title={'Communication Preferences'} actions={<LinkComponent
-                            route={path.includes('settings') ? CommonService._user.NavigateToSettingsAccountDetailsEdit(userBasicDetails._id, "communication_preferences") : CommonService._user.NavigateToUserAccountDetailsEdit(userBasicDetails._id, "communication_preferences")}>
+                        {/*<CardComponent title={'Communication Preferences'} actions={<LinkComponent*/}
+                        {/*    route={path.includes('settings') ? CommonService._user.NavigateToSettingsAccountDetailsEdit(userBasicDetails._id, "communication_preferences") : CommonService._user.NavigateToUserAccountDetailsEdit(userBasicDetails._id, "communication_preferences")}>*/}
 
-                            <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
-                                Edit
-                            </ButtonComponent>
-                        </LinkComponent>}>
-                            <DataLabelValueComponent label={'Appointment Reminders'}>
-                                {userBasicDetails?.communication_preferences?.appointment_reminders_details?.title || 'N/A'}
-                            </DataLabelValueComponent>
+                        {/*    <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>*/}
+                        {/*        Edit*/}
+                        {/*    </ButtonComponent>*/}
+                        {/*</LinkComponent>}>*/}
+                        {/*    <DataLabelValueComponent label={'Appointment Reminders'}>*/}
+                        {/*        {userBasicDetails?.communication_preferences?.appointment_reminders_details?.title || 'N/A'}*/}
+                        {/*    </DataLabelValueComponent>*/}
 
-                        </CardComponent>
+                        {/*</CardComponent>*/}
                     </>
                 }
             </div>

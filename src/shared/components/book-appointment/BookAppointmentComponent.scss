@@ -48,14 +48,14 @@
 
       .t-table-wrapper {
         width: 100%;
-        .t-table {
-          min-height: calc(100vh - 300px);
-          .table-no-data-wrapper {
-            min-height: calc(100vh - 300px) !important;
-          }
-        }
+        //.t-table {
+        //  min-height: calc(100vh - 100px);
+        //  .table-no-data-wrapper {
+        //    min-height: calc(100vh - 200px) !important;
+        //  }
+        //}
         overflow: auto;
-        max-height: calc(100vh - 300px);
+        //max-height: calc(100vh - 200px);
 
       }
     }

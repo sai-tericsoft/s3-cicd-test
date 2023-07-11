@@ -294,10 +294,10 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                                                     (field: FieldProps) => (
                                                         <FormikInputComponent
                                                             titleCase={true}
-                                                            label={'Percent'}
+                                                            label={'Discount Percentage'}
                                                             type={'number'}
                                                             prefix={'%'}
-                                                            placeholder={'Enter Percent'}
+                                                            placeholder={'Enter Percentage'}
                                                             formikField={field}
                                                             required={true}
                                                             fullWidth={true}
@@ -335,7 +335,7 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                                                     (field: FieldProps) => (
                                                         <FormikInputComponent
                                                             titleCase={true}
-                                                            label={'Amount'}
+                                                            label={'Discount Amount'}
                                                             placeholder={'Enter Amount'}
                                                             formikField={field}
                                                             prefix={'$'}

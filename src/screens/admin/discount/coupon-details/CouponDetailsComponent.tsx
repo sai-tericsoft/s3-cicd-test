@@ -2,7 +2,7 @@ import "./CouponDetailsComponent.scss";
 import {useNavigate, useParams} from "react-router-dom";
 import ChipComponent from "../../../../shared/components/chip/ChipComponent";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
-import {ImageConfig} from "../../../../constants";
+import {ImageConfig, Misc} from "../../../../constants";
 import DataLabelValueComponent from "../../../../shared/components/data-label-value/DataLabelValueComponent";
 import CardComponent from "../../../../shared/components/card/CardComponent";
 import React, {useEffect, useMemo} from "react";
@@ -51,7 +51,7 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
             render: (item: any) => {
                 return <div>{item?.services?.length > 0 && item?.services?.map((service: any) => {
                     return <>
-                    <div className={'mrg-bottom-5 mrg-top-5'}>{service?.name || "N/A"}</div>
+                        <div className={'mrg-bottom-5 mrg-top-5'}>{service?.name || "N/A"}</div>
                     </>
                 })}</div>
             }
@@ -77,7 +77,8 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
                 isCouponDetailsLoading && <LoaderComponent/>
             }
             {
-                isCouponDetailsLoadingFailed && <StatusCardComponent title={'Unable to load data. Please wait a moment and try again.'}/>
+                isCouponDetailsLoadingFailed &&
+                <StatusCardComponent title={'Unable to load data. Please wait a moment and try again.'}/>
             }
             {
                 isCouponDetailsLoaded && <>
@@ -111,16 +112,6 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
                                 </DataLabelValueComponent>
                             </div>
                             <div className={'ts-col-md-4 ts-col-lg'}>
-                                <DataLabelValueComponent label={'Minimum Billing Amount'}>
-                                    {CommonService.convertToDecimals(+couponDetails?.min_billing_amount) || "N/A"}
-                                </DataLabelValueComponent>
-                            </div>
-                            <div className={'ts-col-md-4 ts-col-lg'}>
-                                <DataLabelValueComponent label={'Usage Limit Per User'}>
-                                    {couponDetails?.usage_limit || "N/A"}
-                                </DataLabelValueComponent>
-                            </div>
-                            <div className={'ts-col-md-4 ts-col-lg'}>
                                 <DataLabelValueComponent label={'Start Date'}>
                                     {CommonService.convertDateFormat2(couponDetails?.start_date) || "N/A"}
                                 </DataLabelValueComponent>
@@ -130,26 +121,46 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
                                     {CommonService.convertDateFormat2(couponDetails?.end_date) || "N/A"}
                                 </DataLabelValueComponent>
                             </div>
+                            <div className={'ts-col-md-4 ts-col-lg'}>
+                                <DataLabelValueComponent label={'Minimum Billing Amount'}>
+                                    {CommonService.convertToDecimals(+couponDetails?.min_billing_amount) || "N/A"}
+                                </DataLabelValueComponent>
+                            </div>
                         </div>
                         <div className={'ts-row'}>
                             <div className={'ts-col-md-4 ts-col-lg'}>
+                                <DataLabelValueComponent label={'Usage Limit Per User'}>
+                                    {couponDetails?.usage_limit || "N/A"}
+                                </DataLabelValueComponent>
+                            </div>
+                            <div className={'ts-col-md-4 ts-col-lg'}>
                                 <DataLabelValueComponent label={'Discount Type'}>
-                                    {CommonService.capitalizeFirstLetter(couponDetails?.discount_type)|| "N/A"}
+                                    {CommonService.capitalizeFirstLetter(couponDetails?.discount_type) || "N/A"}
                                 </DataLabelValueComponent>
                             </div>
-                            <div className={'ts-col-md-4 ts-col-lg'}>
-                                <DataLabelValueComponent label={'Percentage'}>
-                                    {couponDetails?.percentage || "N/A"}
-                                </DataLabelValueComponent>
-                            </div>
-                            <div className={'ts-col-md-4 ts-col-lg'}>
-                                <DataLabelValueComponent label={'Maximum Discount Amount'}>
-
-                                    {CommonService.convertToDecimals(+couponDetails?.max_discount_amount) || "N/A"}
-                                </DataLabelValueComponent>
-                            </div>
-                            <div className={'ts-col-md-4 ts-col-lg'}/>
-                            <div className={'ts-col-md-4 ts-col-lg'}/>
+                            {couponDetails?.discount_type === "percentage" && <>
+                                <div className={'ts-col-md-4 ts-col-lg'}>
+                                    <DataLabelValueComponent label={'Percentage'}>
+                                        {couponDetails?.percentage+'%' || "N/A"}
+                                    </DataLabelValueComponent>
+                                </div>
+                                <div className={'ts-col-md-4 ts-col-lg'}>
+                                    <DataLabelValueComponent label={'Maximum Discount Amount'}>
+                                        {couponDetails?.max_discount_amount ? <>{Misc.CURRENCY_SYMBOL} {CommonService.convertToDecimals(+couponDetails?.max_discount_amount)}</> : "N/A"}
+                                    </DataLabelValueComponent>
+                                </div>
+                            </>}
+                            {
+                                couponDetails?.discount_type === 'amount' && <>
+                                    <div className={'ts-col-md-4 ts-col-lg'}>
+                                        <DataLabelValueComponent label={'Discount Amount'}>
+                                            {couponDetails?.discount_amount ? <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(+couponDetails?.discount_amount)}</> : "N/A"}
+                                        </DataLabelValueComponent>
+                                    </div>
+                                    <div className={'ts-col-md-4 ts-col-lg'}/>
+                                    {/*<div className={'ts-col-md-4 ts-col-lg'}/>*/}
+                                </>
+                            }
                         </div>
                         <div className={'ts-row'}>
                             <div className={'ts-col-md-4 ts-col-lg'}>
@@ -163,10 +174,10 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
                         <FormControlLabelComponent label={"Coupon Valid On :"} size={'md'}/>
                         <div className={'ts-row'}>
                             <div className={'ts-col-lg-12'}>
-                            <TableComponent columns={couponValidOnColumn}
-                                            data={couponDetails?.linked_services}
-                                            autoHeight={true}
-                                            />
+                                <TableComponent columns={couponValidOnColumn}
+                                                data={couponDetails?.linked_services}
+                                                autoHeight={true}
+                                />
                             </div>
                         </div>
                     </CardComponent>
