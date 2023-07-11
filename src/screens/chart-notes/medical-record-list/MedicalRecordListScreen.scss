@@ -60,10 +60,10 @@
 
       .t-table-wrapper {
         .t-table {
-          height: calc(100vh - 230px);
+          height: calc(100vh - 218px);
 
           .table-no-data-wrapper {
-            min-height: calc(100vh - 230px);
+            min-height: calc(100vh - 280px);
           }
         }
       }
@@ -77,6 +77,9 @@
 
     &.medium {
       color: #FA9C2F;
+    }
+    .alert-days{
+      font-weight: 700;
     }
   }
 }

@@ -488,11 +488,10 @@
 }
 
 .t-surgery-record-drawer {
-
+  height: calc(100vh - 210px);
   .t-form-actions{
     margin-bottom: 0px;
   }
-
   .drawer-container {
     height: 100%;
     display: flex;
@@ -508,6 +507,9 @@
         overflow: auto;
         flex: 1;
         padding-top: 6px;
+        .file-picker-wrapper{
+          margin-bottom: 90px;
+        }
       }
     }
   }

@@ -71,8 +71,8 @@ const MedicalInterventionLinkedToComponent = (props: MedicalInterventionLinkedTo
 
         return (
             <div className={'medical-intervention-linked-to-component'}>
-                <DataLabelValueComponent label={label ? label : 'Intervention Linked to:'} direction={"row"}
-                                         className={'medical-recod-injury-details-wrapper'}>
+                <DataLabelValueComponent label={label ? label : 'Intervention linked to: '} direction={"row"}
+                                         className={'medical-record-injury-details-wrapper'}>
                     <div className={'medical-record-injury-details'} ref={interventionDivRef}>
                         {medicalRecordDetails?.intervention_linked_to}
                         {medicalRecordDetails?.created_at && CommonService.convertDateFormat2(medicalRecordDetails?.created_at)}{" "}

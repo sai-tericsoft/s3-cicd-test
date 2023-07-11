@@ -139,11 +139,11 @@
   .range-of-motion-wrapper, .special-test-wrapper, .icd-codes-wrapper {
     margin-bottom: 20px;
     .rom-header, .special-test-header, .icd-codes-header {
+      width: 100%;
       & > .card-header {
         background: #FFFFFF !important;
         padding: 16px;
       }
-
       //& > .card-component {
       border: 1px solid #ABB6BE;
       border-radius: 5px;
