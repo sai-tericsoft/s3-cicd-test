@@ -28,6 +28,7 @@ const addAppointmentFormInitialValues: any = {
     duration: '',
     case: '',
     provider: '',
+    facility: '',
     date: '',
     time: '',
 };
@@ -38,6 +39,7 @@ const addAppointmentValidationSchema = Yup.object().shape({
     service_category: Yup.mixed().required("Service Category is required"),
     service: Yup.mixed().required("Service is required"),
     provider: Yup.mixed().required("Provider is required"),
+    facility: Yup.mixed().required("Facility is required"),
     duration: Yup.mixed().required("Duration is required"),
     appointment_type: Yup.string().required("Appointment Type is required"),
     case: Yup.mixed().when("appointment_type", {
@@ -67,8 +69,8 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
     const [isProviderListLoading, setIsProviderListLoading] = useState<boolean>(false);
     const [isServiceListLoading, setIsServiceListLoading] = useState<boolean>(false);
 
-    console.log(preFillData);
-    console.log(client);
+    const [isFacilityListLoading, setIsFacilityListLoading] = useState<boolean>(false);
+    const [facilityList, setFacilityList] = useState<any[]>([]);
 
     const getClientCasesList = useCallback(
         (clientId: string) => {
@@ -232,6 +234,24 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
         [],
     );
 
+    const getProviderFacilityList = useCallback(
+        (providerId: string) => {
+            setIsFacilityListLoading(true);
+            setFacilityList([]);
+            CommonService._facility.providerFacilityList(providerId, {})
+                .then((response: IAPIResponseType<any>) => {
+                    setFacilityList(response.data || []);
+                })
+                .catch((error: any) => {
+                    setFacilityList([]);
+                })
+                .finally(() => {
+                    setIsFacilityListLoading(false);
+                })
+        },
+        [],
+    );
+
     useEffect(() => {
         if (client) {
             getClientCasesList(client._id);
@@ -306,7 +326,6 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
         }
     }, [preFillData, serviceCategoryList])
 
-
     useEffect(() => {
         if (preFillData && formRef.current) {
             const currentService = formRef.current.values.service;
@@ -323,7 +342,6 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
             }
         }
     }, [preFillData, servicesList, getServicesInfo])
-
 
     useEffect(() => {
         if (preFillData && formRef.current) {
@@ -355,7 +373,6 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
         }
     }, [preFillData, availableDates])
 
-
     useEffect(() => {
         console.log('prefill data changed', preFillData)
         if (preFillData && formRef.current) {
@@ -368,9 +385,10 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
             if (preFillData.provider_id) {
                 getAvailableDatesList(preFillData.provider_id);
                 getAvailableTimesList(preFillData.provider_id, preFillData.date);
+                getProviderFacilityList(preFillData.provider_id)
             }
         }
-    }, [preFillData, getServicesList, getServiceProviderList, getAvailableDatesList, getAvailableTimesList])
+    }, [preFillData, getServicesList, getServiceProviderList, getAvailableDatesList, getAvailableTimesList, getProviderFacilityList])
 
     return (
         <div className={`book-appointment-form-component`}>
@@ -559,9 +577,27 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                             if (value) {
                                                                 setAvailableRawTimes([]);
                                                                 getAvailableDatesList(value.provider_id);
+                                                                getProviderFacilityList(value.provider_id);
                                                             }
                                                         }}
                                                         label={'Provider'}
+                                                        fullWidth={true}
+                                                    />
+                                                )
+                                            }
+                                        </Field>
+
+                                        <Field name={'facility'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikSelectComponent
+                                                        formikField={field}
+                                                        required={true}
+                                                        disabled={isFacilityListLoading}
+                                                        options={facilityList || []}
+                                                        displayWith={(option: any) => option?.name || 'No Facility'}
+                                                        valueExtractor={(option: any) => option}
+                                                        label={'Facility'}
                                                         fullWidth={true}
                                                     />
                                                 )

@@ -47,25 +47,22 @@ const PhoneInputComponent = (props: PhoneInputComponentProps) => {
     }, []);
 
     const handleInput = useCallback((value: string) => {
-        // this is where we'll call our future formatPhoneNumber function that we haven't written yet.
-        const formattedPhoneNumber = formatPhoneNumber(value);
-        // const formattedPhoneNumber = value;
-        // we'll set the input value using our setInputValue
-        onChange && onChange(formattedPhoneNumber);
-    }, [onChange, formatPhoneNumber]);
+        const phoneNumber = value.replace(/[^\d]/g, '');
+        onChange && onChange(phoneNumber);
+    }, [onChange]);
 
     useEffect(() => {
         if (value) {
-            const formattedPhoneNumber = formatPhoneNumber(value);
-            onChange && onChange(formattedPhoneNumber);
+            const phoneNumber = value.replace(/[^\d]/g, '');
+            onChange && onChange(phoneNumber);
         }
-    }, [onChange, formatPhoneNumber, value]);
+    }, [onChange, value]);
 
     return (
         <div className="phone-input-component">
             <InputComponent
                 onChange={handleInput}
-                value={value}
+                value={value && formatPhoneNumber(value)}
                 placeholder={placeholder || '(000) 000-0000'}
                 {...otherProps}/>
         </div>

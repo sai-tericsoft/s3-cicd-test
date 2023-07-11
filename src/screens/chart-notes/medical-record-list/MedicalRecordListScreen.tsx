@@ -17,6 +17,7 @@ import TableWrapperComponent from "../../../shared/components/table-wrapper/Tabl
 import {APIConfig, ImageConfig} from "../../../constants";
 import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
+import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
 
 interface ClientBasicDetailsComponentProps {
 
@@ -33,7 +34,13 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             render: (item: any) => {
                 return <span className={`medical-record-alert ${item?.alert_type}`}>
                     {
-                        (item?.alert_type === "high" || item?.alert_type === "medium") && <ImageConfig.AlertIcon/>
+                        (item?.alert_type === "high" || item?.alert_type === "medium") &&
+                        <ToolTipComponent
+                            showArrow={true}
+                            position={"right"}
+                            tooltip={`with in ${item.diff_days}, this medical record will reach its 90-day deadline date.`}>
+                            <ImageConfig.AlertIcon/>
+                        </ToolTipComponent>
                     }
                 </span>
             }
@@ -176,7 +183,8 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                             <StatusCardComponent title={"Failed to fetch client Details"}/>
                         }
                         {
-                            (isClientBasicDetailsLoaded && clientBasicDetails) && <div className={'client-details-wrapper '}>
+                            (isClientBasicDetailsLoaded && clientBasicDetails) &&
+                            <div className={'client-details-wrapper '}>
                                 <div className="client-details-header">
                                     <div className="client-details-title">
                                         Medical Record List
@@ -218,11 +226,11 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                                     </div>
 
                                     <div className="client-details-tab-wrapper">
-                                       <TableWrapperComponent url={APIConfig.CLIENT_MEDICAL_INFO.URL(clientId)}
-                                                              method={APIConfig.CLIENT_MEDICAL_INFO.METHOD}
-                                                              extraPayload={medicalRecordListStatusDateAndProviderFilterState}
-                                                              onSort={handleClientMedicalListSort}
-                                                              columns={MedicalRecordListTableColumns}/>
+                                        <TableWrapperComponent url={APIConfig.CLIENT_MEDICAL_INFO.URL(clientId)}
+                                                               method={APIConfig.CLIENT_MEDICAL_INFO.METHOD}
+                                                               extraPayload={medicalRecordListStatusDateAndProviderFilterState}
+                                                               onSort={handleClientMedicalListSort}
+                                                               columns={MedicalRecordListTableColumns}/>
                                     </div>
                                 </div>
                             </div>

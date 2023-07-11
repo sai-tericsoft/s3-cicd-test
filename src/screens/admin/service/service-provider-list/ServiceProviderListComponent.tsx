@@ -44,7 +44,7 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
             dataIndex: 'provider_name',
             title: "Provider Name",
             width: "90%",
-            render:(item:any)=>{
+            render: (item: any) => {
                 // return <>{item?.is_linked && item?.provider_name}</>
                 return <>{item?.provider_name}</>
             }
@@ -53,7 +53,7 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
             key: 'action',
             title: 'Action',
             width: 100,
-            fixed:'right',
+            fixed: 'right',
             align: 'center',
             render: (item: any) => {
                 return <IconButtonComponent onClick={() => {
@@ -71,19 +71,20 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
             key: 'select',
             title: 'Provider Name',
             dataIndex: 'provider_name',
-            width:500,
+            width: 500,
             fixed: 'left',
             render: (item: any) => {
                 const label = `${CommonService.capitalizeFirstLetter(item?.first_name)} ${CommonService.capitalizeFirstLetter(item?.last_name)}`;
                 return (
                     <CheckBoxComponent
                         label={label}
-                        checked={selectedProvider.includes(item?._id)}
+                        checked={selectedProvider.includes(item?._id) || item?.is_linked}
+                        disabled={item?.is_linked}
                         onChange={(isChecked) => {
                             if (isChecked) {
                                 setSelectedProvider([...selectedProvider, item?._id]);
                             } else {
-                                setSelectedProvider(selectedProvider.filter((id:any) => id !== item?._id));
+                                setSelectedProvider(selectedProvider.filter((id: any) => id !== item?._id));
                             }
                         }}
                     />
@@ -119,9 +120,9 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
     }, []);
 
     const handleProviderLinking = useCallback(() => {
-        const provider_ids = selectedProvider.map((item:any) => item);
+        const provider_ids = selectedProvider.map((item: any) => item);
         setIsLinkProviderInProgress(true);
-        CommonService._service.ServiceProviderLinkAPICall(serviceId, {provider_ids,is_linked:true})
+        CommonService._service.ServiceProviderLinkAPICall(serviceId, {provider_ids, is_linked: true})
             .then((response) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 dispatch(getServiceProviderList(serviceId));
@@ -140,7 +141,7 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
 
     return (
         <div className={'service-provider'}>
-            <div  className={'add-provider'}>
+            <div className={'add-provider'}>
                 <ButtonComponent
                     className={'add-provider-cta'}
                     size={"small"}
@@ -198,17 +199,17 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
                         {/*    loading={isServiceProviderListLoading}*/}
                         {/*/>*/}
                         <div className={'table-container'}>
-                        <TableWrapperComponent url={APIConfig.AVAILABLE_SERVICE_PROVIDERS_TO_LINK.URL(serviceId)}
-                                               method={APIConfig.AVAILABLE_SERVICE_PROVIDERS_TO_LINK.METHOD}
-                                               extraPayload={providerListFilterState}
-                                               isPaginated={false}
-                                               columns={LinkedClientListColumns}/>
+                            <TableWrapperComponent url={APIConfig.AVAILABLE_SERVICE_PROVIDERS_TO_LINK.URL(serviceId)}
+                                                   method={APIConfig.AVAILABLE_SERVICE_PROVIDERS_TO_LINK.METHOD}
+                                                   extraPayload={providerListFilterState}
+                                                   isPaginated={false}
+                                                   columns={LinkedClientListColumns}/>
                         </div>
                     </div>
                     <div className={"link-provider-actions"}>
                         <ButtonComponent fullWidth={true}
                                          isLoading={isLinkProviderInProgress}
-                                         disabled={ selectedProvider.length === 0}
+                                         disabled={selectedProvider.length === 0}
                                          onClick={handleProviderLinking}
                                          id={"pv_save_btn"}
                         >

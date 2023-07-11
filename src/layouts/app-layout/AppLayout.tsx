@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Outlet} from "react-router-dom";
 import BrandingComponent from "../../shared/components/layout/branding/BrandingComponent";
 import SideMenuComponent from "../../shared/components/layout/side-menu/SideMenuComponent";
@@ -16,38 +16,38 @@ const AppLayout = (props: AppLayoutProps) => {
         (state: IRootReducerState) => state.navigation
     );
     const dispatch = useDispatch();
-    const [scrollPosition, setScrollPosition] = useState(0);
+    // const [scrollPosition, setScrollPosition] = useState(0);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setScrollPosition(window.pageYOffset);
-        };
-
-        window.addEventListener("scroll", handleScroll);
-
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, []);
-
-    useEffect(() => {
-        const handleBeforeUnload = () => {
-            localStorage.setItem("scrollPosition", scrollPosition.toString());
-        };
-
-        window.addEventListener("beforeunload", handleBeforeUnload);
-
-        return () => {
-            window.removeEventListener("beforeunload", handleBeforeUnload);
-        };
-    }, [scrollPosition]);
-
-    useEffect(() => {
-        const storedScrollPosition = localStorage.getItem("scrollPosition");
-        if (storedScrollPosition) {
-            setScrollPosition(parseInt(storedScrollPosition));
-        }
-    }, []);
+    // useEffect(() => {
+    //     const handleScroll = () => {
+    //         setScrollPosition(window.pageYOffset);
+    //     };
+    //
+    //     window.addEventListener("scroll", handleScroll);
+    //
+    //     return () => {
+    //         window.removeEventListener("scroll", handleScroll);
+    //     };
+    // }, []);
+    //
+    // useEffect(() => {
+    //     const handleBeforeUnload = () => {
+    //         localStorage.setItem("scrollPosition", scrollPosition.toString());
+    //     };
+    //
+    //     window.addEventListener("beforeunload", handleBeforeUnload);
+    //
+    //     return () => {
+    //         window.removeEventListener("beforeunload", handleBeforeUnload);
+    //     };
+    // }, [scrollPosition]);
+    //
+    // useEffect(() => {
+    //     const storedScrollPosition = localStorage.getItem("scrollPosition");
+    //     if (storedScrollPosition) {
+    //         setScrollPosition(parseInt(storedScrollPosition));
+    //     }
+    // }, []);
 
     return (
         <div className="app-layout">

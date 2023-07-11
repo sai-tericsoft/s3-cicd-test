@@ -31,7 +31,7 @@ const ESignApprovalComponent = (props: ESignApprovalComponentProps) => {
         <div className={'e-sign-approval-component'}>
             <div className="e-sign-image-action-wrapper">
                 <div className={`e-sign-image-container ${isSigned ? "signed" : "unsigned"}`}>
-                    <img src={signature_url ? signature_url : currentUser?.signature_url} alt="Signature"/>
+                    <img src={signature_url ? signature_url : currentUser?.signature} alt="Signature"/>
                 </div>
                 {
                     !isSigned && <div className="e-sign-action-container">

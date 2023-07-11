@@ -47,6 +47,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
     const {
         clientMedicalRecord,
     } = useSelector((state: IRootReducerState) => state.client);
+    const last_position: any = searchParams.get("last_position");
 
     const [selectedICDCodes, setSelectedICDCodes] = useState<any[]>([]);
     const [searchICDCodes, setSearchICDCodes] = useState<any>({
@@ -81,7 +82,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                 // if (medicalInterventionDetails?.status === 'completed') {
                 //     navigate(CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId));
                 // } else {
-                navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+                navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`);
                 // }
             })
             .catch((error: any) => {
@@ -90,7 +91,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             .finally(() => {
                 setIsSubmitting(false);
             })
-    }, [medicalInterventionId, medicalRecordId, navigate])
+    }, [medicalInterventionId, medicalRecordId, navigate, last_position])
 
     useEffect(() => {
         let currentTab: any = searchParams.get("currentStep");
@@ -115,14 +116,14 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             const referrer: any = searchParams.get("referrer");
             dispatch(setCurrentNavParams("ICD codes", null, () => {
                 if (referrer) {
-                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + '?referrer=' + referrer);
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + '?referrer=' + referrer + `&last_position=${last_position}`);
                 } else {
-                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`);
                 }
             }));
 
         }
-    }, [navigate, dispatch, medicalRecordId, medicalInterventionId, searchParams]);
+    }, [navigate, dispatch, medicalRecordId, medicalInterventionId, searchParams,last_position]);
 
 
     const codeListColumns: ITableColumn[] = [
@@ -223,7 +224,8 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             width: 180,
             fixed: 'left',
             render: (item: any, record: any) => {
-                return <CheckBoxComponent label={record?.icd_code_details?.icd_code} checked={selectedICDCodes.includes(record?.icd_code_id)}
+                return <CheckBoxComponent label={record?.icd_code_details?.icd_code}
+                                          checked={selectedICDCodes.includes(record?.icd_code_id)}
                                           onChange={(isChecked) => {
                                               if (isChecked) {
                                                   setSelectedICDCodes([...selectedICDCodes, record?.icd_code_id]);
@@ -372,7 +374,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                 </TabContentComponent>
                 <div className="text-center">
                     {(medicalRecordId && medicalInterventionId) && <LinkComponent
-                        route={CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId)}>
+                        route={CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`}>
                         <ButtonComponent variant={"outlined"}
                                          disabled={isSubmitting}
                         >

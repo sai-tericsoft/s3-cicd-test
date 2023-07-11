@@ -2,8 +2,8 @@ import "./MedicalRecordProgressReportViewDetailsScreen.scss";
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
-import React, {useCallback, useEffect, useState} from "react";
-import {getProgressReportViewDetails} from "../../../store/actions/chart-notes.action";
+import React, {useEffect, useState} from "react";
+import {getAllAddedICD11Code, getProgressReportViewDetails} from "../../../store/actions/chart-notes.action";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
@@ -22,8 +22,6 @@ import MedicalInterventionLinkedToComponent
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import moment from "moment-timezone";
-import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
-import AllAddedICD11CodesComponent from "../all-added-icd-11-codes/AllAddedICD11CodesComponent";
 
 interface ProgressReportViewDetailsComponentProps {
 
@@ -73,8 +71,8 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
     const {
         clientMedicalRecord,
     } = useSelector((state: IRootReducerState) => state.client);
-    const [isICDDrawerOpen, setIsICDDrawerOpen] = useState<boolean>(false);
     const [searchParams] = useSearchParams();
+    const [isFullCardOpen, setIsFullCardOpen] = useState<boolean>(false);
 
     const {
         isProgressReportDetailsLoaded,
@@ -82,6 +80,19 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
         isProgressReportDetailsLoadingFailed,
         progressReportDetails
     } = useSelector((state: IRootReducerState) => state.chartNotes);
+
+    const {
+        addedICD11CodeList,
+        isAddedICD11CodeListLoading,
+        isAddedICD11CodeListLoaded,
+        isAddedICD11CodeListLoadingFailed
+    } = useSelector((state: IRootReducerState) => state.chartNotes);
+
+    useEffect(() => {
+        if (medicalRecordId) {
+            dispatch(getAllAddedICD11Code(medicalRecordId))
+        }
+    }, [dispatch, medicalRecordId]);
 
     useEffect(() => {
         if (progressReportId) {
@@ -115,10 +126,6 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
     }, [searchParams, navigate, dispatch, medicalRecordId]);
 
 
-    const handleICDCodeDrawer = useCallback(() => {
-        setIsICDDrawerOpen(true);
-    }, []);
-
     return (
         <div className={'progress-report-view-details-screen'}>
             <PageHeaderComponent title={"View Progress Report"} actions={
@@ -142,14 +149,14 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                             size={'small'}
                                             label={progressReportDetails?.status || "-"}/>
                                     </span>
-                        <div className="ts-row width-auto">
-                            <div className="">
-                                <ButtonComponent className={'mrg-right-10'} onClick={handleICDCodeDrawer}
-                                                 variant={'outlined'}>View ICD-11 Code
-                                    (s)</ButtonComponent>
+                        {/*<div className="ts-row width-auto">*/}
+                        {/*    <div className="">*/}
+                        {/*        <ButtonComponent className={'mrg-right-10'} onClick={handleICDCodeDrawer}*/}
+                        {/*                         variant={'outlined'}>View ICD-11 Code*/}
+                        {/*            (s)</ButtonComponent>*/}
 
-                            </div>
-                        </div>
+                        {/*    </div>*/}
+                        {/*</div>*/}
                     </div>
                     <MedicalInterventionLinkedToComponent medicalRecordDetails={clientMedicalRecord}/>
                     <div className={'ts-row'}>
@@ -174,6 +181,40 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                             </DataLabelValueComponent>
                         </div>
                     </div>
+
+                    {isFullCardOpen && <>
+                        {
+                            isAddedICD11CodeListLoading && <LoaderComponent/>
+                        }
+                        {
+                            isAddedICD11CodeListLoadingFailed &&
+                            <StatusCardComponent title={'Failed to fetch ICD-11 code list'}/>
+                        }
+                        {isAddedICD11CodeListLoaded &&
+                        <DataLabelValueComponent label={'ICD-11 Code(s)'}>
+                            <>
+                                {addedICD11CodeList.map((icdCode: any) => (
+                                    <div key={icdCode.icd_code} className='d-flex ts-align-items-center mrg-top-5'>
+                                        <div className='width-5 mrg-right-10'>{icdCode.icd_code}</div>
+                                        <div>:</div>
+                                        <div className='mrg-left-10'>{icdCode.description}</div>
+                                    </div>
+                                ))}
+                            </>
+                        </DataLabelValueComponent>
+
+                        }
+                    </>
+                    }
+                    {addedICD11CodeList?.length > 0 && <div className={'ts-row'}>
+                        <div className={'ts-col-md-4 ts-col-lg'}/>
+                        <div className={'ts-col-md-4 ts-col-lg'}/>
+                        <div className={'show-more-less'}
+                             onClick={() => setIsFullCardOpen(!isFullCardOpen)}>
+                            {isFullCardOpen ? 'Less' : 'More'} Details &nbsp;&nbsp;
+                            {isFullCardOpen ? <ImageConfig.UpArrowIcon/> : <ImageConfig.DownArrowIcon/>}
+                        </div>
+                    </div>}
                 </CardComponent>
             }
             {
@@ -247,16 +288,6 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                 </>
 
             </div>
-            <DrawerComponent isOpen={isICDDrawerOpen}
-                             showClose={true}
-                             closeOnEsc={false}
-                             closeOnBackDropClick={false}
-                             onClose={() => setIsICDDrawerOpen(false)}>
-                {
-                    medicalRecordId &&
-                    <AllAddedICD11CodesComponent medicalRecordId={medicalRecordId}/>
-                }
-            </DrawerComponent>
         </div>
     );
 

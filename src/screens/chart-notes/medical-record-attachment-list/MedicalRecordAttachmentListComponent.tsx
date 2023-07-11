@@ -52,6 +52,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             key: 'file',
             dataIndex: 'file',
             width: 180,
+            sortable: true,
             render: (item: any) => {
                 return <>{item?.note_type}</>
             }

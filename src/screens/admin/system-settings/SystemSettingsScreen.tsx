@@ -24,7 +24,9 @@ const SystemSettingsFormValidationSchema = Yup.object({
         auto_lock_minutes: Yup.string()
             .required("Input is required"),
         uneditable_after_days: Yup.string()
-            .required("Input is required")
+            .required("Input is required"),
+        buffer_time: Yup.string()
+            .required("Input is required"),
     })
 });
 
@@ -32,7 +34,8 @@ const SystemSettingsFormValidationSchema = Yup.object({
 const SystemSettingsFormInitialValues = {
     other_settings: {
         auto_lock_minutes: 10,
-        uneditable_after_days: 7
+        uneditable_after_days: 7,
+        buffer_time: 15
     }
 }
 
@@ -73,7 +76,8 @@ const SystemSettingsScreen = (props: SystemSettingsScreenProps) => {
             setSystemSettingsFormInitialValues({
                 other_settings: {
                     auto_lock_minutes: systemSettings?.other_settings?.auto_lock_minutes,
-                    uneditable_after_days: systemSettings?.other_settings?.uneditable_after_days
+                    uneditable_after_days: systemSettings?.other_settings?.uneditable_after_days,
+                    buffer_time: systemSettings?.other_settings?.buffer_time
                 }
             });
         }
@@ -84,8 +88,8 @@ const SystemSettingsScreen = (props: SystemSettingsScreenProps) => {
             dispatch(getSystemSettings());
         }
     }, [dispatch]);
-    
-    console.log('s',systemSettings);
+
+    console.log('s', systemSettings);
 
     return (
         <div className={'system-settings-screen'}>
@@ -140,7 +144,7 @@ const SystemSettingsScreen = (props: SystemSettingsScreenProps) => {
                                             <HorizontalLineComponent/>
                                             <div className="ts-row">
                                                 <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-7">
-                                                    <QuestionComponent  title={"Files Uneditable after"}
+                                                    <QuestionComponent title={"Files Uneditable after"}
                                                                        description={"Makes file uneditable after XX days."}
                                                     ></QuestionComponent>
                                                 </div>
@@ -153,6 +157,32 @@ const SystemSettingsScreen = (props: SystemSettingsScreenProps) => {
                                                                 <FormikSelectComponent
                                                                     label={'Select'}
                                                                     options={filesUneditableAfterOptionList}
+                                                                    required={true}
+                                                                    formikField={field}
+                                                                    fullWidth={true}
+                                                                />
+                                                            )
+                                                        }
+                                                    </Field>
+                                                </div>
+                                            </div>
+
+                                            <HorizontalLineComponent/>
+                                            <div className="ts-row">
+                                                <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-7">
+                                                    <QuestionComponent title={"Scheduling Buffer Time"}
+                                                                       description={"The buffer time to be considered while generating appointment time slots for each provider."}
+                                                    ></QuestionComponent>
+                                                </div>
+                                                <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-1"}/>
+                                                <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
+                                                    <Field name={'other_settings.buffer_time'}
+                                                           className="t-form-control">
+                                                        {
+                                                            (field: FieldProps) => (
+                                                                <FormikSelectComponent
+                                                                    label={'Select'}
+                                                                    options={systemAutoLockDurationOptionList}
                                                                     required={true}
                                                                     formikField={field}
                                                                     fullWidth={true}

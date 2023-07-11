@@ -45,7 +45,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
         isMedicalInterventionDetailsLoaded,
     } = useSelector((state: IRootReducerState) => state.chartNotes);
     const [linkedCPTCodes, setLinkedCPTCodes] = useState<any[]>([]);
-
+    const [totalMinutes, setTotalMinutes] = useState<number>(0);
     const [extraPayload, setExtraPayload] = useState<any>({
         search: ''
     });
@@ -56,7 +56,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
             title: 'CPT Codes',
             dataIndex: 'select',
             width: 390,
-            fixed:'left',
+            fixed: 'left',
             render: (_: any, record: any) => <Field name={`${record._id}.is_selected`}>
                 {
                     (field: FieldProps) => (
@@ -64,10 +64,17 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                             formikField={field}
                             label={record?.cpt_code}
                             size={'small'}
-                            onChange={() => {
+                            onChange={(isChecked) => {
                                 field.form.setFieldValue(`${record?._id}.units_of_care`, "");
                                 field.form.setFieldValue(`${record?._id}.minutes`, "");
                                 field.form.setFieldValue(`${record?._id}.notes`, "");
+
+                                const minutes = parseInt(field.form.values[record._id]?.minutes || "0");
+                                console.log(minutes)
+                                if (!isChecked) {
+                                    console.log(minutes)
+                                    setTotalMinutes(prevTotalMinutes => prevTotalMinutes - minutes);
+                                }
                             }}
                         />
                     )
@@ -85,7 +92,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
             title: 'Units of Care',
             dataIndex: 'units_of_care',
             width: 130,
-            align:"center",
+            align: "center",
             render: (_: any, record: any) => renderUnitsOfCareInput(record)
         },
         {
@@ -93,7 +100,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
             title: 'Minutes',
             dataIndex: 'minutes',
             width: 120,
-            align:"center",
+            align: "center",
             render: (_: any, record: any) => renderMinutesInput(record)
         },
         {
@@ -101,10 +108,11 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
             title: 'Notes',
             dataIndex: 'notes',
             width: 300,
-            align:"center",
+            align: "center",
             render: (_: any, record: any) => renderNotesInput(record)
         }
     ];
+
 
     const renderUnitsOfCareInput = useCallback((record: any) => {
         return <Field name={`${record._id}.units_of_care`}>
@@ -136,6 +144,13 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                         className={!field.form.values[record._id]?.is_selected ? 'display-none' : ''}
                         disabled={!field.form.values[record._id]?.is_selected}
                         formikField={field}
+                        onBlur={() => {
+                            const minutes = parseInt(field.form.values[record._id]?.minutes || "0");
+                            console.log(minutes);
+                            if (field.form.values[record._id]?.is_selected) {
+                                setTotalMinutes(prevTotalMinutes => prevTotalMinutes + minutes);
+                            }
+                        }}
                     />
                 )
             }
@@ -271,7 +286,10 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                                  placeholder={'Search CPT Code'}
                                                                  value={extraPayload.search}
                                                                  onSearchChange={(value) => {
-                                                                     setExtraPayload((ov: any) => ({...ov, search: value}))
+                                                                     setExtraPayload((ov: any) => ({
+                                                                         ...ov,
+                                                                         search: value
+                                                                     }))
                                                                  }}
                                                 />
                                             </div>
@@ -292,6 +310,14 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                                    isPaginated={true}
                                                                    extraPayload={extraPayload}
                                                                    type={"ant"}
+                                                                   showFooter={true}
+                                                                   footer={
+                                                                       <div className='cpt-code-list-footer'>
+                                                                           <div className="total-heading">Total Number of Minutes</div>
+                                                                           <div className="total-minutes-wrapper">{totalMinutes}</div>
+
+                                                                       </div>
+                                                                   }
                                                                    columns={CPTCodesColumns}/>
                                         </div>
                                     </CardComponent>
@@ -302,7 +328,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                     <LinkComponent
                                                         route={CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId)}>
                                                         <ButtonComponent variant={"outlined"}
-                                                                         className={isSubmitting? 'mrg-right-15':''}
+                                                                         className={isSubmitting ? 'mrg-right-15' : ''}
                                                                          disabled={isSubmitting || isInterventionCheckingOut}>
                                                             Home
                                                         </ButtonComponent>&nbsp;&nbsp;

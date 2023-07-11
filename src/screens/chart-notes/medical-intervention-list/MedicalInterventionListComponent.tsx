@@ -11,11 +11,11 @@ import TableWrapperComponent from "../../../shared/components/table-wrapper/Tabl
 
 interface ClientMedicalRecordsComponentProps {
     referrer?: any;
-    refreshToken?:any;
+    refreshToken?: any;
 }
 
 const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentProps) => {
-    const {referrer,refreshToken} = props
+    const {referrer, refreshToken} = props
     const {medicalRecordId} = useParams();
     const dispatch = useDispatch();
     // const {
@@ -51,8 +51,8 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
         },
         {
             title: 'Date of Intervention',
-            key: 'intervention_date',
-            dataIndex: 'intervention_date',
+            key: 'record_date',
+            dataIndex: 'record_date',
             width: 200,
             align: 'left',
             fixed: 'left',
@@ -62,21 +62,20 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                 if (medicalRecordId) {
                     if (item?.note_type?.toLowerCase() === 'exercise log') {
                         route = CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, item?.intervention_id);
-                    } else if (["soap note", "discharge summary"].includes(item?.note_type?.toLowerCase())) {
+                    } else if (["interventions"].includes(item?.note_type_category?.toLowerCase())) {
                         if (item?.status?.toLowerCase() === 'completed') {
                             route = CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, item?._id);
                         } else {
                             route = CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, item?._id);
                         }
-                    }else if (item?.note_type?.toLowerCase() === 'surgery record') {
+                    } else if (item?.note_type_category?.toLowerCase() === 'surgery record') {
                         route = CommonService._routeConfig.MedicalRecordSurgeryRecordDetails(medicalRecordId, item._id) + '?referrer=' + referrer;
-                    }
-                    else if (item?.note_type?.toLowerCase() === "progress report") {
+                    } else if (item?.note_type_category?.toLowerCase() === "progress report") {
                         route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId, item?._id);
                     } else {
                     }
                     return <LinkComponent route={route}>
-                        {item?.intervention_date ? CommonService.getSystemFormatTimeStamp(item?.intervention_date) : "N/A"}
+                        {item?.record_date ? CommonService.getSystemFormatTimeStamp(item?.record_date) : "N/A"}
                     </LinkComponent>
                 }
             }
@@ -87,7 +86,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             width: 150,
             align: 'center',
             dataIndex: 'note_type',
-            // sortable: true,
+            sortable: true,
         },
         {
             title: 'Exercise Log',
@@ -151,13 +150,17 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                 let route = '';
                 if (medicalRecordId) {
                     if (item?.note_type?.toLowerCase() === 'exercise log') {
-                        route = CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, item?.intervention_id) + '?referrer=' + referrer;
-                    } else if (["soap note", "discharge summary"].includes(item?.note_type?.toLowerCase())) {
+                        route = CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, item?.intervention_id);
+                    } else if (["interventions"].includes(item?.note_type_category?.toLowerCase())) {
                         if (item?.status?.toLowerCase() === 'completed') {
-                            route = CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, item?._id) + '?referrer=' + referrer;
+                            route = CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, item?._id);
                         } else {
-                            route = CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, item?._id) + '?referrer=' + referrer;
+                            route = CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, item?._id);
                         }
+                    } else if (item?.note_type_category?.toLowerCase() === 'surgery record') {
+                        route = CommonService._routeConfig.MedicalRecordSurgeryRecordDetails(medicalRecordId, item._id) + '?referrer=' + referrer;
+                    } else if (item?.note_type_category?.toLowerCase() === "progress report") {
+                        route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId, item?._id);
                     } else {
                     }
                     return <LinkComponent route={route}>
