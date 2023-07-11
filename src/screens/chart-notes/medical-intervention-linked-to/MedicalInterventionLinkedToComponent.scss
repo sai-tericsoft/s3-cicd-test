@@ -1,7 +1,9 @@
 @import "src/assets/styles/common";
 
 .medical-intervention-linked-to-component {
-
+  .data-label-value.row .data-label{
+    margin-left: 0px !important;
+  }
   .medical-record-injury-details-wrapper {
 
     .data-label {

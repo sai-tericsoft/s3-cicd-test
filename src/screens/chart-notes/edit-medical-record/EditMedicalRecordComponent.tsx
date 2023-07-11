@@ -18,7 +18,6 @@ import * as Yup from "yup";
 import HorizontalLineComponent
     from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 import _ from "lodash";
-import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import moment from "moment";
 
 interface EditMedicalRecordComponentProps {
@@ -55,24 +54,24 @@ const InjuryDetailsRecordValidationSchema = Yup.object().shape({
     body_part_details: Yup.mixed().nullable(),
     body_side: Yup.mixed().nullable().when("body_part_details", {
         is: (value: IBodyPart) => value && value?.sides?.length > 0,
-        then: Yup.string().required('Body Part is required'),
+        then: Yup.string().required('Body Side is required'),
         otherwise: Yup.string().nullable()
     }),
     injury_type_id: Yup.mixed().required("Injury Type is required"),
 });
 
 const MedicalRecordValidationSchema = Yup.object({
-    onset_date: Yup.mixed().required("Onset date is required"),
+    onset_date: Yup.mixed().required("Date of Onset is required"),
     injury_details: Yup.array().of(InjuryDetailsRecordValidationSchema),
     case_physician: Yup.object({
         is_case_physician: Yup.boolean(),
         name: Yup.string().when("is_case_physician", {
             is: true,
-            then: Yup.string().required("Case Physician is required"),
+            then: Yup.string().required("Case Physician Name is required"),
         }),
         is_treated_script_received: Yup.mixed().when("is_case_physician", {
             is: true,
-            then: Yup.mixed().required("Treated Script Received is required"),
+            then: Yup.mixed().required("Input is required"),
         })
     }),
 });
@@ -161,6 +160,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                             (field: FieldProps) => (
                                                 <FormikTextAreaComponent
                                                     label={'Injury Description'}
+                                                    placeholder={'Enter Injury Description'}
                                                     formikField={field}
                                                     fullWidth={true}
                                                 />
@@ -174,6 +174,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                             (field: FieldProps) => (
                                                 <FormikTextAreaComponent
                                                     label={'Restrictions/Limitations'}
+                                                    placeholder={'Enter Restrictions/Limitations'}
                                                     formikField={field}
                                                     fullWidth={true}
                                                 />
@@ -208,7 +209,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                 {
                                     values?.case_physician?.is_case_physician && <>
                                         <div>
-                                            <PageHeaderComponent title={'MD Appointment Details'}/>
+                                           <FormControlLabelComponent label={'MD Appointment Details'} size={"md"} className={'mrg-top-15'}/>
                                             <Field name={'case_physician.name'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -256,7 +257,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                     </>
                                 }
 
-                                <FormControlLabelComponent label={'Injury Details'} size={'md'}/>
+                                <FormControlLabelComponent label={'Injury Details'} size={'md'} className={'mrg-top-15 mrg-bottom-15'}/>
                                 <FieldArray
                                     name="injury_details"
                                     render={arrayHelpers => (

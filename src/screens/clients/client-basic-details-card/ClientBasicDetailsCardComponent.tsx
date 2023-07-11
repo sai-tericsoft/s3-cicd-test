@@ -22,7 +22,7 @@ const ClientBasicDetailsCardComponent = (props: ClientBasicDetailsCardComponentP
             <div className={'client-basic-detail-card'}>
                 <div className={'client-basic-detail-card-upper-portion'}>
                     <div className={'client-image-wrapper'}>
-                        <AvatarComponent title={clientBasicDetails?.first_name + " " + clientBasicDetails?.last_name}/>
+                        <AvatarComponent className={'avatar-name'} title={clientBasicDetails?.first_name + " " + clientBasicDetails?.last_name}/>
                     </div>
                 </div>
                 <div className={'client-details-wrapper'}>

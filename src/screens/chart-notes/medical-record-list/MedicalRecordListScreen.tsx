@@ -38,7 +38,9 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                         <ToolTipComponent
                             showArrow={true}
                             position={"right"}
-                            tooltip={`with in ${item.diff_days}, this medical record will reach its 90-day deadline date.`}>
+                            // tooltip={`Within ${item.diff_days} days, this medical record will reach its 90-day deadline date.`}>
+                            tooltip={<div>Within <b> {item.diff_days} days</b>, this medical record will reach its
+                                90-day deadline date.</div>}>
                             <ImageConfig.AlertIcon/>
                         </ToolTipComponent>
                     }
@@ -66,12 +68,12 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: "body_part",
             align: 'center',
             dataIndex: "body_part",
-            width: 200,
+            width: 150,
             render: (item: any) => {
                 if (item?.injury_details?.length === 1) {
                     return <>{item?.injury_details[0]?.body_part_details?.name}</>
                 } else {
-                    return <>{item?.injury_details[0]?.body_part_details?.name} ( + {item?.injury_details?.length} )</>
+                    return <>{item?.injury_details[0]?.body_part_details?.name} (+{item?.injury_details?.length})</>
                 }
             }
         },
@@ -86,11 +88,11 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             }
         },
         {
-            title: "Current Status",
+            title: "Case Status",
             dataIndex: "status",
             key: "status",
             align: 'center',
-            width: 155,
+            width: 175,
             render: (item: any) => {
                 return <ChipComponent label={item?.status}
                                       className={item?.status === 'Open - Unresolved' ? "active" : "inactive"}></ChipComponent>
@@ -124,7 +126,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
     const navigate = useNavigate();
     const {caseStatusList} = useSelector((state: IRootReducerState) => state.staticData);
     const [medicalRecordListStatusDateAndProviderFilterState, setMedicalRecordListStatusDateAndProviderFilterState] = useState<any>({
-        status: undefined,
+        status: "all",
         sort: {}
     })
     const {
@@ -195,11 +197,14 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                                                 <SelectComponent options={caseStatusList}
                                                                  label={'Status'}
                                                                  fullWidth={true}
+                                                                 value={medicalRecordListStatusDateAndProviderFilterState?.status}
+                                                                 keyExtractor={(item) => item.code}
                                                                  size={'small'}
                                                                  onUpdate={(value) => {
+                                                                     delete medicalRecordListStatusDateAndProviderFilterState.status;
                                                                      setMedicalRecordListStatusDateAndProviderFilterState({
-                                                                         ...caseStatusList,
-                                                                         status: value
+                                                                         ...medicalRecordListStatusDateAndProviderFilterState,
+                                                                         ...(value !== '' ? {status: value} : {})
                                                                      })
                                                                  }}
                                                 />
@@ -230,6 +235,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                                                                method={APIConfig.CLIENT_MEDICAL_INFO.METHOD}
                                                                extraPayload={medicalRecordListStatusDateAndProviderFilterState}
                                                                onSort={handleClientMedicalListSort}
+                                                               noDataText={(medicalRecordListStatusDateAndProviderFilterState?.status === "open" || medicalRecordListStatusDateAndProviderFilterState?.status === "closed") ? " No medical record was found for the applied status filter.":"Currently, there is no medical record added"}
                                                                columns={MedicalRecordListTableColumns}/>
                                     </div>
                                 </div>
