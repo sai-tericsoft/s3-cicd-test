@@ -311,7 +311,7 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                 </div>
 
                                 {!(values?.signature && userBasicDetails?.signature) && <div className="ts-row">
-                                    <div className="ts-col-4">
+                                    <div className="ts-col-12">
                                         <FormControlLabelComponent
                                             className={"font-weight-thin"}
                                             label={"Signature"}

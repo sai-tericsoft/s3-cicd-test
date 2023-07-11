@@ -309,7 +309,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                             <DataLabelValueComponent label={'Address'}>
                                 {Object.keys(userBasicDetails?.address).length ? (
                                     <>
-                                        {userBasicDetails.address.address_line}, {userBasicDetails.address.city}, {userBasicDetails.address.zip_code}, <br/>
+                                        {userBasicDetails.address.address_line}, {userBasicDetails.address.city}, {userBasicDetails.address.zip_code},
                                         {userBasicDetails.address.state}, {userBasicDetails.address.country}
                                     </>
                                 ) : 'N/A'}
@@ -499,13 +499,16 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
 
                                         <div className="ts-col">
                                             <DataLabelValueComponent label={'Start Date'}>
-                                                {professional_details?.start_date || 'N/A'}
+                                                {/*{professional_details?.start_date || 'N/A'}*/}
+                                                {
+                                                    professional_details?.start_date==="Invalid date" ? "N/A":moment(professional_details?.start_date).format('DD-MMM-YYYY')
+                                                }
                                             </DataLabelValueComponent>
                                         </div>
 
                                         <div className="ts-col">
                                             <DataLabelValueComponent label={'End Date'}>
-                                                {professional_details?.end_date || 'N/A'}
+                                                {professional_details?.end_date==="Invalid date"? 'N/A' : moment(professional_details?.end_date).format('DD-MMM-YYYY') }
                                             </DataLabelValueComponent>
                                         </div>
                                     </div>
@@ -549,13 +552,13 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
 
                                             <div className="ts-col">
                                                 <DataLabelValueComponent label={'Start Date'}>
-                                                    {education_details?.start_date || 'N/A'}
+                                                    {education_details?.start_date==='Invalid date' ? 'N/A' : moment(education_details?.start_date).format('DD-MMM-YYYY')}
                                                 </DataLabelValueComponent>
                                             </div>
 
                                             <div className="ts-col">
                                                 <DataLabelValueComponent label={'End Date'}>
-                                                    {education_details?.end_date || 'N/A'}
+                                                    {education_details?.end_date==='Invalid date'? 'N/A' :moment(education_details?.end_date).format('DD-MMM-YYYY')}
                                                 </DataLabelValueComponent>
                                             </div>
                                         </div>

@@ -1,6 +1,6 @@
 import "./AddSurgeryRecordComponent.scss";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
-import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers} from "formik";
+import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import React, {useCallback, useEffect, useState} from "react";
 import FormikDatePickerComponent
     from "../../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";

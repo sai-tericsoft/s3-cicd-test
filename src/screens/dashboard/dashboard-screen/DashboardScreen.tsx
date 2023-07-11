@@ -58,7 +58,7 @@ const DashboardScreen = (props: DashboardScreenProps) => {
             </div>
                 <div className={'today-date-wrapper'}>
                    <span> Today's Date: </span>
-                    <span className={'date'}>{moment().format('MMMM,dddd DD,YYYY')}</span>
+                    <span className={'date'}>{moment().format('dddd, MMMM DD, YYYY')}</span>
                 </div>
             </div>
             <TabsWrapperComponent className={'basic-tabs-wrapper'}>

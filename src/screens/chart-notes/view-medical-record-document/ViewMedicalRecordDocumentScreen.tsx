@@ -23,7 +23,7 @@ interface ViewMedicalRecordDocumentScreenProps {
 
 const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenProps) => {
 
-        const {medicalRecordId, medicalRecordDocumentId,clientId} = useParams();
+        const {medicalRecordId, medicalRecordDocumentId} = useParams();
         const [searchParams] = useSearchParams();
         const [module, setModule] = useState<any>('');
         const dispatch = useDispatch();
@@ -175,7 +175,7 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                     })
                 }
             })
-        }, [medicalRecordDocumentId])
+        }, [medicalRecordDocumentId,navigate,searchParams])
 
         return (
             <div className={'view-medical-record-details-screen'}>
