@@ -26,7 +26,7 @@ export interface IInputFieldProps {
     size?: 'small' | 'medium';
     max?: number;
     maxValue?: number;
-    autoFocus?:boolean;
+    autoFocus?: boolean;
 }
 
 
@@ -137,7 +137,7 @@ export interface ITextAreaProps {
     size?: 'medium' | 'small';
     value?: any;
     prefix?: any;
-    ref?:any
+    ref?: any
     variant?: "outlined" | "filled" | "standard";
 }
 
@@ -160,8 +160,8 @@ export interface ISelectProps {
     size?: 'small' | 'medium';
     value?: any;
     variant?: 'filled' | 'outlined' | 'standard';
-    isClear?:boolean;
-    selectedValues?:any;
+    isClear?: boolean;
+    selectedValues?: any;
 }
 
 export interface IAutoCompleteProps {
@@ -228,6 +228,7 @@ export interface IDatePickerProps {
     label?: string;
     mask?: string;
     onBlur?: () => void;
+    enableDates?: any;
 }
 
 

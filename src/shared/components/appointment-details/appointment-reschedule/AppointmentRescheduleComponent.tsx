@@ -11,6 +11,7 @@ import {CommonService} from "../../../services";
 import {IAPIResponseType} from "../../../models/api.model";
 import moment from "moment/moment";
 import InputComponent from "../../form-controls/input/InputComponent";
+import FormikDatePickerComponent from "../../form-controls/formik-date-picker/FormikDatePickerComponent";
 
 interface AppointmentRescheduleComponentProps {
     onClose?: () => void,
@@ -21,6 +22,7 @@ interface AppointmentRescheduleComponentProps {
 
 const addAppointmentRescheduleInitialValues: any = {
     provider: '',
+    facility: '',
     date: '',
     time: '',
 };
@@ -28,6 +30,7 @@ const addAppointmentRescheduleInitialValues: any = {
 
 const addAppointmentRescheduleValidationSchema = Yup.object().shape({
     provider: Yup.mixed().required("Provider is required"),
+    facility: Yup.mixed().required("Facility is required"),
     date: Yup.mixed().required("Appointment date is required"),
     time: Yup.mixed().required("Appointment time is required"),
 });
@@ -45,8 +48,11 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
     const [isTimesListLoading, setIsTimesListLoading] = useState<boolean>(false);
     const [isProviderListLoading, setIsProviderListLoading] = useState<boolean>(false);
     const [isAPICallRunning, setIsAPICallRunning] = useState<boolean>(false);
-    const [step, setStep] = useState<'form' | 'overview' | 'confirm'>('form')
-    const [reschedule, setReschedule] = useState<any | null>(null)
+    const [step, setStep] = useState<'form' | 'overview' | 'confirm'>('form');
+    const [reschedule, setReschedule] = useState<any | null>(null);
+    const formRef = useRef<FormikProps<any>>(null);
+    const [isFacilityListLoading, setIsFacilityListLoading] = useState<boolean>(false);
+    const [facilityList, setFacilityList] = useState<any[]>([]);
 
 
     useEffect(() => {
@@ -55,11 +61,17 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
             setBookType(type);
         }
     }, [appointmentTypes, details]);
+
+
     const getAvailableDatesList = useCallback(
-        (providerId: string) => {
+        (providerId: string, serviceId: string, facilityId: string) => {
             setIsDatesListLoading(true);
             setAvailableDates([]);
-            CommonService._user.getUserAvailableDatesList(providerId)
+            const payload = {
+                service_id: serviceId,
+                facility_id: facilityId
+            }
+            CommonService._user.getUserAvailableDatesList(providerId, payload)
                 .then((response: IAPIResponseType<any>) => {
                     setAvailableDates(response.data || []);
                 })
@@ -68,6 +80,36 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                 })
                 .finally(() => {
                     setIsDatesListLoading(false);
+                })
+        },
+        [],
+    );
+
+    const getProviderFacilityList = useCallback(
+        (serviceId: string, providerId: string) => {
+            setIsFacilityListLoading(true);
+            setFacilityList([]);
+            CommonService._facility.providerFacilityList(serviceId, providerId, {})
+                .then((response: IAPIResponseType<any>) => {
+                    setFacilityList(response.data || []);
+
+                    const data = response.data
+
+                    const facility = data.find((v: any) => v._id === details.facility_id)
+
+                    if (facility) {
+                        console.log(facility, data);
+                        formRef.current?.setFieldValue('facility', facility);
+                        setAvailableRawTimes([]);
+                        setAvailableDates([]);
+                        getAvailableDatesList(providerId,serviceId, facility._id);
+                    }
+                })
+                .catch((error: any) => {
+                    setFacilityList([]);
+                })
+                .finally(() => {
+                    setIsFacilityListLoading(false);
                 })
         },
         [],
@@ -115,10 +157,16 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
     );
 
     const getAvailableTimesList = useCallback(
-        (providerId: string, date: string) => {
+        (providerId: string, date: any, serviceId: string, facilityId: string, duration: string) => {
             setIsTimesListLoading(true);
             setAvailableRawTimes([]);
-            CommonService._user.getUserAvailableTimesList(providerId, date)
+            const payload = {
+                available_on: CommonService.convertDateFormat(date, 'YYYY-MM-DD'),
+                service_id: serviceId,
+                facility_id: facilityId,
+                duration: duration
+            }
+            CommonService._user.getUserAvailableTimesList(providerId, payload)
                 .then((response: IAPIResponseType<any>) => {
                     setAvailableRawTimes(response.data || []);
                 })
@@ -131,6 +179,7 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
         },
         [],
     );
+
     useEffect(() => {
         if (availableRawTimes && details) {
             generateTimeSlots(availableRawTimes, details.duration);
@@ -146,14 +195,14 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
             setServiceProvidersList([]);
             CommonService._service.ServiceProviderListAPICall(serviceId, {})
                 .then((response: IAPIResponseType<any>) => {
-                    const data = response.data || [];
+                    const data = response.data;
                     setServiceProvidersList(data);
-                    const provider = data.find((v: any) => v.provider_id === details.provider_id)
+                    const provider = data.find((v: any) => v._id === details.provider_id)
                     if (provider) {
                         console.log(provider, data);
                         formRef.current?.setFieldValue('provider', provider);
                         setAvailableRawTimes([]);
-                        getAvailableDatesList(provider.provider_id);
+                        getProviderFacilityList(serviceId, provider._id);
                     }
                 })
                 .catch((error: any) => {
@@ -163,7 +212,7 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                     setIsProviderListLoading(false);
                 })
         },
-        [getAvailableDatesList],
+        [getProviderFacilityList],
     );
 
     const onSubmitAppointment = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
@@ -174,7 +223,6 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
         [],
     );
 
-    const formRef = useRef<FormikProps<any>>(null)
 
     useEffect(() => {
         if (details) {
@@ -185,12 +233,14 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
     }, [details, getServiceProviderList]);
 
     const onReschedule = useCallback((rawPayload: any) => {
+        console.log(rawPayload);
         setIsAPICallRunning(true)
         const payload = {
             "appointment_date": CommonService.convertDateFormat(rawPayload.date),
             "start_time": rawPayload.time.start_min,
             "end_time": rawPayload.time.end_min,
-            "provider_id": rawPayload.provider.provider_id
+            "provider_id": rawPayload.provider._id,
+            "facility_id": rawPayload.facility._id
         }
         console.log(payload, rawPayload);
         //medical_record_id
@@ -228,7 +278,7 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                     <Formik
                         innerRef={formRef}
                         validationSchema={addAppointmentRescheduleValidationSchema}
-                        initialValues={{...addAppointmentRescheduleInitialValues, provider: details?.provider_details}}
+                        initialValues={addAppointmentRescheduleInitialValues}
                         onSubmit={onSubmitAppointment}
                         validateOnChange={false}
                         validateOnBlur={true}
@@ -272,11 +322,37 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                                                             valueExtractor={(option: any) => option}
                                                             onUpdate={value => {
                                                                 if (value) {
-                                                                    setAvailableRawTimes([]);
-                                                                    getAvailableDatesList(value.provider_id);
+                                                                    getProviderFacilityList(details.service_id, value?._id);
                                                                 }
                                                             }}
                                                             label={'Provider'}
+                                                            fullWidth={true}
+                                                        />
+                                                    )
+                                                }
+                                            </Field>
+
+                                            <Field name={'facility'}>
+                                                {
+                                                    (field: FieldProps) => (
+                                                        <FormikSelectComponent
+                                                            formikField={field}
+                                                            required={true}
+                                                            disabled={isFacilityListLoading || !values.provider}
+                                                            options={facilityList || []}
+                                                            displayWith={(option: any) => option?.name || 'No Facility'}
+                                                            valueExtractor={(option: any) => option}
+                                                            label={'Facility'}
+                                                            onUpdate={value => {
+                                                                if (value) {
+                                                                    console.log(value);
+                                                                    console.log(values);
+
+                                                                    setAvailableRawTimes([]);
+                                                                    setAvailableDates([]);
+                                                                    getAvailableDatesList(values?.provider?._id, details.service_id, value._id);
+                                                                }
+                                                            }}
                                                             fullWidth={true}
                                                         />
                                                     )
@@ -289,20 +365,20 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                                                     <Field name={'date'}>
                                                         {
                                                             (field: FieldProps) => (
-                                                                <FormikSelectComponent
+                                                                <FormikDatePickerComponent
+                                                                    label={'Date'}
+                                                                    placeholder={'Date'}
+                                                                    disabled={isDatesListLoading || !values?.facility}
                                                                     formikField={field}
                                                                     required={true}
-                                                                    disabled={isDatesListLoading}
-                                                                    options={availableDates || []}
-                                                                    displayWith={(option: any) => CommonService.convertDateFormat(option)}
-                                                                    valueExtractor={(option: any) => option}
-                                                                    label={'Date'}
-                                                                    onUpdate={value => {
+                                                                    fullWidth={true}
+                                                                    enableDates={availableDates || []}
+                                                                    onUpdate={(value: any) => {
+                                                                        console.log(value);
                                                                         if (value) {
-                                                                            getAvailableTimesList(values.provider?.provider_id, value);
+                                                                            getAvailableTimesList(values.provider?._id, value, details.service_id, values.facility?._id, details.duration);
                                                                         }
                                                                     }}
-                                                                    fullWidth={true}
                                                                 />
                                                             )
                                                         }

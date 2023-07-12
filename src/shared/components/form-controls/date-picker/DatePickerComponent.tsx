@@ -6,6 +6,7 @@ import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {FormHelperText} from "@mui/material";
 import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import {IDatePickerProps} from "../../../models/form-controls.model";
+import moment from "moment";
 
 interface DatePickerComponentProps extends IDatePickerProps {
     name: string;
@@ -13,6 +14,7 @@ interface DatePickerComponentProps extends IDatePickerProps {
     hasError?: boolean;
     errorMessage?: any;
     value?: any;
+    enableDates?: any
 }
 
 const DatePickerComponent = (props: DatePickerComponentProps) => {
@@ -28,7 +30,8 @@ const DatePickerComponent = (props: DatePickerComponentProps) => {
         hasError,
         errorMessage,
         onBlur,
-        fullWidth
+        fullWidth,
+        enableDates
     } = props;
 
     const [value, setValue] = useState<Date | any>(undefined);
@@ -53,6 +56,17 @@ const DatePickerComponent = (props: DatePickerComponentProps) => {
         }
     }, [onBlur]);
 
+    const shouldDisableDate = useCallback(
+        (date: any) => {
+            if (enableDates) {
+                const formattedDate = moment(date).format('YYYY-MM-DD');
+                return !enableDates.includes(formattedDate);
+            }
+            return false;
+        },
+        [enableDates]
+    );
+
     return (
         <FormControl variant={variant}
                      className="date-picker-component-wrapper"
@@ -72,6 +86,7 @@ const DatePickerComponent = (props: DatePickerComponentProps) => {
                     onClose={() => setOpen(false)}
                     disabled={disabled}
                     onChange={handleChange}
+                    shouldDisableDate={shouldDisableDate}
                     slotProps={{
                         textField: {
                             required: required,
@@ -80,7 +95,8 @@ const DatePickerComponent = (props: DatePickerComponentProps) => {
                             name: name,
                             id: id,
                             color: color,
-                            onBlur: handleOnBlur
+                            onBlur: handleOnBlur,
+                            onClick: () => setOpen(true)
                         },
                     }}
                 />

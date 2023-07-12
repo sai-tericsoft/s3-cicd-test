@@ -319,7 +319,7 @@ const APIConfig: IAPIConfig = {
         METHOD: "get"
     },
     USER_AVAILABLE_TIMES_LIST: {
-        URL: (userId: string, date: string) => ENV.API_URL + "/user/" + userId + "/availableTimings?available_on=" + date,
+        URL: (userId: string, date: string) => ENV.API_URL + "/user/" + userId + "/availableTimings",
         METHOD: "get"
     },
     // user end
@@ -914,7 +914,7 @@ const APIConfig: IAPIConfig = {
         METHOD: "get"
     },
     PROVIDERS_LINKED_TO_FACILITY: {
-        URL: (providerId: string) => ENV.API_URL + '/facility/' + providerId,
+        URL: (serviceId: string, providerId: string) => ENV.API_URL + '/service/' + serviceId + '/provider/' + providerId + '/facilities',
         METHOD: "get"
     },
     CHECK_SLOTS_EXISTS_TO_BLOCK: {

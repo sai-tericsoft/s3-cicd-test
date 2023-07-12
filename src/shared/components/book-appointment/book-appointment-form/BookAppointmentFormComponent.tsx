@@ -11,6 +11,7 @@ import ButtonComponent from "../../button/ButtonComponent";
 import {CommonService} from "../../../services";
 import {IAPIResponseType} from "../../../models/api.model";
 import moment from "moment/moment";
+import FormikDatePickerComponent from "../../form-controls/formik-date-picker/FormikDatePickerComponent";
 
 interface BookAppointmentFormComponentProps {
     onClose?: () => void,
@@ -91,10 +92,14 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
     );
 
     const getAvailableDatesList = useCallback(
-        (providerId: string) => {
+        (providerId: string, serviceId: string, facilityId: string) => {
             setIsDatesListLoading(true);
             setAvailableDates([]);
-            CommonService._user.getUserAvailableDatesList(providerId)
+            const payload = {
+                service_id: serviceId,
+                facility_id: facilityId
+            }
+            CommonService._user.getUserAvailableDatesList(providerId, payload)
                 .then((response: IAPIResponseType<any>) => {
                     setAvailableDates(response.data || []);
                 })
@@ -151,10 +156,16 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
     );
 
     const getAvailableTimesList = useCallback(
-        (providerId: string, date: string) => {
+        (providerId: string, date: any, serviceId: string, facilityId: string, duration: string) => {
             setIsTimesListLoading(true);
             setAvailableRawTimes([]);
-            CommonService._user.getUserAvailableTimesList(providerId, date)
+            const payload = {
+                available_on: CommonService.convertDateFormat(date, 'YYYY-MM-DD'),
+                service_id: serviceId,
+                facility_id: facilityId,
+                duration: duration
+            }
+            CommonService._user.getUserAvailableTimesList(providerId, payload)
                 .then((response: IAPIResponseType<any>) => {
                     setAvailableRawTimes(response.data || []);
                 })
@@ -235,10 +246,11 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
     );
 
     const getProviderFacilityList = useCallback(
-        (providerId: string) => {
+        (serviceId: string, providerId: string) => {
+            console.log(serviceId, providerId);
             setIsFacilityListLoading(true);
             setFacilityList([]);
-            CommonService._facility.providerFacilityList(providerId, {})
+            CommonService._facility.providerFacilityList(serviceId, providerId, {})
                 .then((response: IAPIResponseType<any>) => {
                     setFacilityList(response.data || []);
                 })
@@ -383,9 +395,13 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                 getServiceProviderList(preFillData.service_id);
             }
             if (preFillData.provider_id) {
-                getAvailableDatesList(preFillData.provider_id);
-                getAvailableTimesList(preFillData.provider_id, preFillData.date);
-                getProviderFacilityList(preFillData.provider_id)
+                getProviderFacilityList(preFillData.service_id, preFillData.provider_id)
+            }
+            if (preFillData.facility_id) {
+                getAvailableDatesList(preFillData.provider_id, preFillData.service_id, preFillData.facility_id);
+            }
+            if (preFillData.date) {
+                getAvailableTimesList(preFillData.provider_id, preFillData.date, preFillData.service_id, preFillData.facility_id, preFillData.duration);
             }
         }
     }, [preFillData, getServicesList, getServiceProviderList, getAvailableDatesList, getAvailableTimesList, getProviderFacilityList])
@@ -575,9 +591,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                         valueExtractor={(option: any) => option}
                                                         onUpdate={value => {
                                                             if (value) {
-                                                                setAvailableRawTimes([]);
-                                                                getAvailableDatesList(value.provider_id);
-                                                                getProviderFacilityList(value.provider_id);
+                                                                getProviderFacilityList(values.service._id, value._id);
                                                             }
                                                         }}
                                                         label={'Provider'}
@@ -593,11 +607,18 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                     <FormikSelectComponent
                                                         formikField={field}
                                                         required={true}
-                                                        disabled={isFacilityListLoading}
+                                                        disabled={isFacilityListLoading || !values.provider}
                                                         options={facilityList || []}
                                                         displayWith={(option: any) => option?.name || 'No Facility'}
                                                         valueExtractor={(option: any) => option}
                                                         label={'Facility'}
+                                                        onUpdate={value => {
+                                                            if (value) {
+                                                                setAvailableRawTimes([]);
+                                                                setAvailableDates([]);
+                                                                getAvailableDatesList(values.provider._id, values.service._id, value._id);
+                                                            }
+                                                        }}
                                                         fullWidth={true}
                                                     />
                                                 )
@@ -610,20 +631,36 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                 <Field name={'date'}>
                                                     {
                                                         (field: FieldProps) => (
-                                                            <FormikSelectComponent
+                                                            // <FormikSelectComponent
+                                                            //     formikField={field}
+                                                            //     required={true}
+                                                            //     disabled={isDatesListLoading || !values?.facility}
+                                                            //     options={availableDates || []}
+                                                            //     displayWith={(option: any) => CommonService.convertDateFormat(option)}
+                                                            //     valueExtractor={(option: any) => option}
+                                                            //     label={'Date'}
+                                                            //     onUpdate={value => {
+                                                            //         if (value) {
+                                                            //             getAvailableTimesList(values.provider?.provider_id, value);
+                                                            //         }
+                                                            //     }}
+                                                            //     fullWidth={true}
+                                                            // />
+
+                                                            <FormikDatePickerComponent
+                                                                label={'Date'}
+                                                                placeholder={'Date'}
+                                                                disabled={isDatesListLoading || !values?.facility}
                                                                 formikField={field}
                                                                 required={true}
-                                                                disabled={isDatesListLoading || !values?.provider}
-                                                                options={availableDates || []}
-                                                                displayWith={(option: any) => CommonService.convertDateFormat(option)}
-                                                                valueExtractor={(option: any) => option}
-                                                                label={'Date'}
-                                                                onUpdate={value => {
+                                                                fullWidth={true}
+                                                                enableDates={availableDates || []}
+                                                                onUpdate={(value: any) => {
+                                                                    console.log(value);
                                                                     if (value) {
-                                                                        getAvailableTimesList(values.provider?.provider_id, value);
+                                                                        getAvailableTimesList(values.provider?._id, value, values.service?._id, values.facility?._id, values.duration.duration);
                                                                     }
                                                                 }}
-                                                                fullWidth={true}
                                                             />
                                                         )
                                                     }

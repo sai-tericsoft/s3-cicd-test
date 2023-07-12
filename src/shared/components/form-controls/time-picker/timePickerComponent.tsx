@@ -106,7 +106,8 @@ const TimePickerComponent = (props: TimePickerComponentProps) => {
                                     name: name,
                                     id: id,
                                     color: color,
-                                    onBlur: handleOnBlur
+                                    onBlur: handleOnBlur,
+                                    onClick: () => setOpen(true)
                                 },
                             }}
                         />

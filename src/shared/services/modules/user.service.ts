@@ -17,14 +17,15 @@ const getUserListLite = (payload: any) => {
     return ApiService[APIConfig.USER_LIST_LITE.METHOD](APIConfig.USER_LIST_LITE.URL, payload);
 }
 
-const getUserAvailableDatesList = (providerId: string) => {
+const getUserAvailableDatesList = (providerId: string, payload: any) => {
     // @ts-ignore
-    return ApiService[APIConfig.USER_AVAILABLE_DATES_LIST.METHOD](APIConfig.USER_AVAILABLE_DATES_LIST.URL(providerId));
+    return ApiService[APIConfig.USER_AVAILABLE_DATES_LIST.METHOD](APIConfig.USER_AVAILABLE_DATES_LIST.URL(providerId) + "?service_id=" + payload.service_id + "&facility_id=" + payload.facility_id);
 }
 
-const getUserAvailableTimesList = (providerId: string, date: string) => {
+const getUserAvailableTimesList = (providerId: string, payload: any) => {
+    console.log(payload);
     // @ts-ignore
-    return ApiService[APIConfig.USER_AVAILABLE_TIMES_LIST.METHOD](APIConfig.USER_AVAILABLE_TIMES_LIST.URL(providerId, date));
+    return ApiService[APIConfig.USER_AVAILABLE_TIMES_LIST.METHOD](APIConfig.USER_AVAILABLE_TIMES_LIST.URL(providerId) + "?available_on=" + payload.available_on + "&service_id=" + payload.service_id + "&facility_id=" + payload.facility_id + "&duration=" + +payload.duration);
 }
 
 const getUserBasicDetails = (userId: string) => {

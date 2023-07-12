@@ -1,6 +1,6 @@
 import "./BlockCalendarComponent.scss";
 import * as Yup from "yup";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
@@ -16,7 +16,14 @@ import FormikTimePickerComponent
     from "../../../shared/components/form-controls/formik-time-picker/formikTimePickerComponent";
 import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import {IServiceCategory} from "../../../shared/models/service-category.model";
-import {Misc} from "../../../constants";
+import {ImageConfig, Misc} from "../../../constants";
+import ModalComponent from "../../../shared/components/modal/ModalComponent";
+import {useDispatch, useSelector} from "react-redux";
+import {IRootReducerState} from "../../../store/reducers";
+import {getAppointmentListLite} from "../../../store/actions/appointment.action";
+import TableComponent from "../../../shared/components/table/TableComponent";
+import {ITableColumn} from "../../../shared/models/table.model";
+import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
 
 interface BlockCalenderComponentProps {
 
@@ -74,7 +81,110 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
     const [blockCalenderInitialValues] = useState<any>(initialValues);
     const [blockCalenderFormDetails, setBlockCalenderFormDetails] = useState<any>(undefined)
     const [providerList, setProviderList] = useState<any[] | null>(null);
-    const [isBlockCalendarIsProgress, setIsBlockCalendarIsProgress] = useState<boolean>()
+    const [isBlockCalendarIsProgress, setIsBlockCalendarIsProgress] = useState<boolean>();
+    const [showAppointmentsModel, setIsShowAppointmentModel] = useState<any>(false);
+    // const [appointmentList,setAppointmentList] = useState<any>()
+    const dispatch = useDispatch();
+
+    const {
+        appointmentListLite,
+    } = useSelector((state: IRootReducerState) => state.appointments);
+
+    const getAppointmentLite = useCallback(() => {
+        const payload = {client_id: 2};
+        dispatch(getAppointmentListLite(payload));
+    }, [dispatch]);
+
+
+    const appointmentColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
+
+        {
+            title: "Appointment ID",
+            key: "appointment_id",
+            dataIndex: "appointment_id",
+            width: 150,
+            render: (item: any) => {
+                return <># {item?.appointment_id}</>
+            }
+
+        },
+        {
+            title: "Client Name",
+            key: "first_name",
+            dataIndex: "first_name",
+            width: 150,
+            render: (item: any) => {
+                return <>{CommonService.extractName(item?.client_details)}</>
+            }
+
+        },
+        {
+            title: "Phone Number",
+            key: "primary_contact_info",
+            dataIndex: "primary_contact_info",
+            width: 150,
+            align: 'center',
+            render: (item: any) => {
+                return <span>{item?.client_details?.primary_contact_info?.phone ? CommonService.formatPhoneNumber(item?.client_details?.primary_contact_info?.phone) : ''}</span>
+            }
+        },
+
+        {
+            title: 'Provider',
+            key: 'provider',
+            dataIndex: 'first_name',
+            width: 150,
+            align: 'center',
+            render: (item: any) => {
+                return <>
+                    {
+                        (item?.provider_details.first_name + ' ' + item?.provider_details?.last_name).length > 20 ?
+                            <ToolTipComponent
+                                tooltip={(item?.provider_details.first_name + ' ' + item?.provider_details?.last_name)}
+                                position={"top"}
+                                showArrow={true}
+                            >
+                                <div className={"ellipses-for-table-data"}>
+                                    {item?.provider_details?.first_name} {item?.provider_details?.last_name}
+                                </div>
+                            </ToolTipComponent> :
+                            <>
+                                {item?.provider_details?.first_name} {item?.provider_details?.last_name}
+                            </>
+                    }
+                </>
+            }
+        },
+        {
+            title: "Appointment Type",
+            key: "appointment_type",
+            dataIndex: "appointment_type",
+            width: 170,
+            align: "center",
+            render: (item: any) => {
+                return <span>{item?.appointment_type}</span>
+            }
+        },
+        {
+            title: "Appointment Date/Time",
+            key: "appointment_date",
+            dataIndex: "appointmentDate",
+            width: 200,
+            align: "center",
+            render: (item: any) => {
+                return <span>
+                    {item?.appointment_date ? CommonService.getSystemFormatTimeStamp(item?.appointment_date, true) : "-"}
+                </span>
+            }
+        },
+
+    ], []);
+
+
+    useEffect(() => {
+        getAppointmentLite();
+    }, [getAppointmentLite]);
+
     const getProvidersList = useCallback(
         () => {
             setProviderList([]);
@@ -92,6 +202,33 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
     useEffect(() => {
         getProvidersList()
     }, [getProvidersList]);
+
+    const BlockCalender = useCallback(() => {
+        setIsBlockCalendarIsProgress(true);
+        const payload = {...blockCalenderFormDetails}
+        delete payload.provider;
+        CommonService._appointment.BlockCalender(blockCalenderFormDetails.provider, payload)
+            .then((response: IAPIResponseType<IServiceCategory>) => {
+                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                setIsBlockCalendarIsProgress(false);
+            })
+            .catch((error: any) => {
+                CommonService._alert.showToast(error?.error || "", "error");
+                setIsBlockCalendarIsProgress(false);
+            })
+    }, [blockCalenderFormDetails]);
+
+
+    const handleBlockCalenderConfirmation = useCallback(() => {
+        CommonService.onConfirm({
+            image: ImageConfig.PopupLottie,
+            showLottie: true,
+            confirmationTitle: 'SEND INVITE LINK',
+            confirmationSubTitle: "",
+        }).then(() => {
+            BlockCalender();
+        })
+    }, [BlockCalender]);
 
 
     const onSubmit = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
@@ -112,8 +249,16 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
         }
         setBlockCalenderFormDetails(payload);
         delete payload.provider;
+        setIsShowAppointmentModel(true);
         CommonService._appointment.checkAppointmentExistsToBlock(values.provider, payload)
             .then((response: IAPIResponseType<IServiceCategory>) => {
+                if (response.data.appointmentList.length) {
+                    setIsShowAppointmentModel(true);
+                    // setAppointmentList(response.data.appointmentList)
+
+                } else {
+                    handleBlockCalenderConfirmation();
+                }
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setSubmitting(false);
             })
@@ -121,22 +266,8 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                 CommonService.handleErrors(setErrors, error, true);
                 setSubmitting(false);
             })
-    }, []);
+    }, [handleBlockCalenderConfirmation]);
 
-    const BlockCalender = useCallback(() => {
-        setIsBlockCalendarIsProgress(true);
-        const payload = {... blockCalenderFormDetails}
-        delete payload.provider;
-        CommonService._appointment.BlockCalender(blockCalenderFormDetails.provider, payload)
-            .then((response: IAPIResponseType<IServiceCategory>) => {
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                setIsBlockCalendarIsProgress(false);
-            })
-            .catch((error: any) => {
-                CommonService._alert.showToast(error?.error || "", "error");
-                setIsBlockCalendarIsProgress(false);
-            })
-    }, []);
 
 
     return (
@@ -302,6 +433,37 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                     )
                 }}
             </Formik>
+
+            <ModalComponent
+                isOpen={showAppointmentsModel}
+                modalFooter={<>
+                    <ButtonComponent variant={'outlined'}
+                                     className={'mrg-right-15'}
+                    >
+                        Cancel
+                    </ButtonComponent>
+                    <ButtonComponent variant={'contained'}
+                                     color={'primary'}
+                                     onClick={() => {
+                                     }
+                                     }
+                    >
+                        Proceed
+                    </ButtonComponent>
+                </>
+                }
+            >
+
+                <div>
+                    <TableComponent
+                        data={appointmentListLite}
+                        bordered={true}
+                        autoHeight={true}
+                        columns={appointmentColumns}/>
+
+                </div>
+
+            </ModalComponent>
         </div>
     );
 
