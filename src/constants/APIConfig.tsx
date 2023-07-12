@@ -834,9 +834,9 @@ const APIConfig: IAPIConfig = {
         URL: (interventionId: string) => ENV.API_URL + '/intervention/' + interventionId,
         METHOD: 'delete'
     },
-    DELETE_DOCUMENT:{
-        URL:(documentId:string)=> ENV.API_URL + '/document/'+ documentId,
-        METHOD:'delete'
+    DELETE_DOCUMENT: {
+        URL: (documentId: string) => ENV.API_URL + '/document/' + documentId,
+        METHOD: 'delete'
     },
     DASHBOARD_MESSAGE_HISTORY: {
         URL: ENV.API_URL + '/messageHistory',
@@ -859,11 +859,11 @@ const APIConfig: IAPIConfig = {
         METHOD: 'put'
     },
     TODAY_BIRTHDAY_LIST: {
-        URL:  ENV.API_URL + '/todayBirthdays',
+        URL: ENV.API_URL + '/todayBirthdays',
         METHOD: 'get'
     },
     SEND_BIRTHDAY_WISHES: {
-        URL: (clientId:string) => ENV.API_URL + '/client/'+ clientId + '/sendWishes',
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/sendWishes',
         METHOD: 'post'
     },
     SYSTEM_SETTING_NEW_MESSAGE: {
@@ -917,6 +917,14 @@ const APIConfig: IAPIConfig = {
         URL: (providerId: string) => ENV.API_URL + '/facility/' + providerId,
         METHOD: "get"
     },
+    CHECK_SLOTS_EXISTS_TO_BLOCK: {
+        URL: (providerId: string) => ENV.API_URL + '/user/' + providerId + '/checkExists',
+        METHOD: "post"
+    },
+    BLOCK_SLOTS: {
+        URL: (providerId: string) => ENV.API_URL + '/user/' + providerId + '/blockSlots',
+        METHOD: "post"
+    }
 
 
 }

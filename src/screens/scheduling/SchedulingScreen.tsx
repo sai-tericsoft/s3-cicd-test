@@ -25,6 +25,7 @@ import ToolTipComponent from "../../shared/components/tool-tip/ToolTipComponent"
 import LoaderComponent from "../../shared/components/loader/LoaderComponent";
 import TableWrapperComponent from "../../shared/components/table-wrapper/TableWrapperComponent";
 import DateRangePickerComponent from "../../shared/components/form-controls/date-range-picker/DateRangePickerComponent";
+import BlockCalendarComponent from "./block-calendar/BlockCalendarComponent";
 
 interface SchedulingScreenProps {
 
@@ -206,6 +207,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
     const [isBookAppointmentOpen, setIsBookAppointmentOpen] = useState(false);
     const [bookAppointmentPreFill, setBookAppointmentPreFill] = useState({});
     const [openedAppointmentDetails, setOpenedAppointmentDetails] = useState<any | null>(null);
+    const [openBlockCalenderDrawer, setOpenBlockCalenderDrawer] = useState<boolean>(false);
     const [refreshToken, setRefreshToken] = useState('');
 
     const setViewModeHandler = useCallback((mode: 'list' | 'calendar') => {
@@ -498,10 +500,13 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                             </ToggleButton>
                         </ToggleButtonGroup>
                     </div>
-                    {/*<div className="scheduling-header-action-item">*/}
-                    {/*    <ButtonComponent variant={'outlined'} prefixIcon={<ImageConfig.BlockIcon/>}>Block*/}
-                    {/*        Calender</ButtonComponent>*/}
-                    {/*</div>*/}
+                    <div className="scheduling-header-action-item">
+                        <ButtonComponent
+                            variant={'outlined'}
+                            onClick={() => setOpenBlockCalenderDrawer(true)}
+                            prefixIcon={<ImageConfig.BlockIcon/>}>
+                            Block Calender</ButtonComponent>
+                    </div>
                     <div className="scheduling-header-action-item">
                         <ButtonComponent onClick={setIsBookAppointmentOpen.bind(null, true)}
                                          prefixIcon={<ImageConfig.AddIcon/>}>Book Appointment</ButtonComponent>
@@ -958,6 +963,14 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                         }
                     }
                 />
+            </DrawerComponent>
+
+
+            <DrawerComponent isOpen={openBlockCalenderDrawer}
+                             showClose={true}
+                             onClose={() => setOpenBlockCalenderDrawer(false)}
+                             className={'block-calendar-component-drawer'}>
+                <BlockCalendarComponent />
             </DrawerComponent>
 
         </div>

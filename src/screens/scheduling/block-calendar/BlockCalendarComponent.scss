@@ -1,0 +1,13 @@
+.block-calender-component {
+
+  .t-form-controls {
+    height: calc(100vh - 230px);
+  }
+
+  .t-form-actions{
+    margin-bottom: 0px !important;
+    .adding-client-cta{
+      margin-left: 14px;
+    }
+  }
+}

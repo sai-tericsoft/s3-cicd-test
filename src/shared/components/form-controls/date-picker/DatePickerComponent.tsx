@@ -5,7 +5,6 @@ import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {FormHelperText} from "@mui/material";
 import {DatePicker} from '@mui/x-date-pickers/DatePicker';
-import TextField from "@mui/material/TextField";
 import {IDatePickerProps} from "../../../models/form-controls.model";
 
 interface DatePickerComponentProps extends IDatePickerProps {
@@ -28,14 +27,14 @@ const DatePickerComponent = (props: DatePickerComponentProps) => {
         minDate,
         hasError,
         errorMessage,
-        size,
+        onBlur,
         fullWidth
     } = props;
 
     const [value, setValue] = useState<Date | any>(undefined);
     const [open, setOpen] = useState<boolean>(false);
 
-    let {placeholder, color, variant, mask, maxDate, onDateChange} = props;
+    let {placeholder, color, variant, maxDate, onDateChange} = props;
     if (!placeholder) placeholder = label;
     if (!variant) variant = "outlined";
 
@@ -48,6 +47,12 @@ const DatePickerComponent = (props: DatePickerComponentProps) => {
         setValue(props.value ? new Date(props.value) : null);
     }, [props.value]);
 
+    const handleOnBlur = useCallback(() => {
+        if (onBlur) {
+            onBlur();
+        }
+    }, [onBlur]);
+
     return (
         <FormControl variant={variant}
                      className="date-picker-component-wrapper"
@@ -57,7 +62,6 @@ const DatePickerComponent = (props: DatePickerComponentProps) => {
             <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                     label={label}
-                    mask={mask}
                     minDate={minDate && minDate.toDate()}
                     maxDate={maxDate && maxDate.toDate()}
                     readOnly={readOnly}
@@ -68,17 +72,17 @@ const DatePickerComponent = (props: DatePickerComponentProps) => {
                     onClose={() => setOpen(false)}
                     disabled={disabled}
                     onChange={handleChange}
-                    renderInput={(params: any) => <TextField
-                        required={required}
-                        id={id}
-                        size={size}
-                        name={name}
-                        onClick={(e) => !disabled && setOpen(true)}
-                        color={color}
-                        placeholder={placeholder}
-                        {...params}
-                        error={hasError} // to be added to show error in date picker
-                    />}
+                    slotProps={{
+                        textField: {
+                            required: required,
+                            placeholder: placeholder,
+                            error: hasError,
+                            name: name,
+                            id: id,
+                            color: color,
+                            onBlur: handleOnBlur
+                        },
+                    }}
                 />
             </LocalizationProvider>
             <FormHelperText>

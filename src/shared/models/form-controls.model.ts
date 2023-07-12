@@ -226,7 +226,8 @@ export interface IDatePickerProps {
     maxDate?: Moment;
     onUpdate?: Function;
     label?: string;
-    mask?: string
+    mask?: string;
+    onBlur?: () => void;
 }
 
 
@@ -263,4 +264,26 @@ export interface IPhoneInputProps {
     readOnly?: boolean;
     required?: boolean;
     value?: any;
+}
+
+export interface ITimePickerProps {
+    autoFocus?: boolean;
+    className?: string;
+    errorMessage?: any;
+    hasError?: boolean;
+    name?: string;
+    readOnly?: boolean;
+    value?: any;
+    id?: string;
+    label: string;
+    placeholder?: string;
+    required?: boolean;
+    disabled?: boolean;
+    readonly?: boolean;
+    variant?: "filled" | "standard" | "outlined" | undefined;
+    color?: "error" | "primary" | "secondary" | "info" | "success" | "warning" | undefined;
+    onChange?: Function;
+    size?: "small" | "medium" | undefined;
+    fullWidth?: boolean;
+    onBlur?: () => void;
 }

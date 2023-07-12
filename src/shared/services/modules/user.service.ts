@@ -12,7 +12,6 @@ const getUserAdd = (payload: any) => {
     return ApiService[APIConfig.USER_ADD.METHOD](APIConfig.USER_ADD.URL, payload);
 }
 
-
 const getUserListLite = (payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.USER_LIST_LITE.METHOD](APIConfig.USER_LIST_LITE.URL, payload);

@@ -5,7 +5,7 @@ import DatePickerComponent from "../date-picker/DatePickerComponent";
 import {FieldProps} from "formik";
 import {IDatePickerProps} from "../../../models/form-controls.model";
 
-interface FormikDatePickerComponentProps extends IDatePickerProps{
+interface FormikDatePickerComponentProps extends IDatePickerProps {
     formikField: FieldProps;
 }
 
@@ -31,12 +31,17 @@ const FormikDatePickerComponent = (props: FormikDatePickerComponentProps) => {
             }
         }, [setFieldValue, setFieldTouched, name, onUpdate]);
 
+        const onBlur = useCallback(() => {
+            setFieldTouched(name);
+        }, [name, setFieldTouched]);
+
         return (
             <DatePickerComponent
                 name={name}
                 value={value}
                 onDateChange={dateChangeHandler}
                 hasError={hasError}
+                onBlur={onBlur}
                 errorMessage={hasError && _.get(errors, name)}
                 {...otherProps}
             />

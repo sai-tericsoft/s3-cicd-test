@@ -36,7 +36,6 @@ const DesignSystemScreen = (props: DesignSystemScreenProps) => {
     });
 
     const onSubmit = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
-        console.log(values);
         setSubmitting(true);
         setTimeout(() => {
             setSubmitting(false);
