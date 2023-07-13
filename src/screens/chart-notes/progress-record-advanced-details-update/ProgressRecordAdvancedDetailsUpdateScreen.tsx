@@ -6,7 +6,7 @@ import FormikTextAreaComponent from "../../../shared/components/form-controls/fo
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {useDispatch, useSelector} from "react-redux";
 import {CommonService} from "../../../shared/services";
-import {ImageConfig, Misc} from "../../../constants";
+import {ImageConfig} from "../../../constants";
 import {useNavigate, useParams} from "react-router-dom";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
@@ -84,7 +84,10 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
             dataIndex: "name",
             key: "name",
             fixed: "left",
-            width: 150
+            width: 150,
+            render:(_: any, item: any)=>{
+                return <div className={'name'}>{item?.name}:</div>
+            }
         },
         {
             title: "Results",
@@ -179,7 +182,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
             CommonService._chartNotes.UpdateProgressReportUnderMedicalRecordAPICall(progressReportId, payload)
                 .then((response) => {
                     patchDataToProgressReportForm(response?.data);
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     if (medicalRecordId) {
                         navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=attachmentList');
                     }
@@ -188,7 +191,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                         cb();
                     } else {
                         if (medicalRecordId) {
-                             navigate(CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId,progressReportId));
+                            navigate(CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId, progressReportId));
                         }
                     }
                 }).catch((error: any) => {
@@ -199,7 +202,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                 }
             });
         }
-    }, [patchDataToProgressReportForm, medicalRecordId, progressReportId,navigate]);
+    }, [patchDataToProgressReportForm, medicalRecordId, progressReportId, navigate]);
 
     useEffect(() => {
         dispatch(setCurrentNavParams("Update Progress Report Details", null, () => {
@@ -247,11 +250,11 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
             <PageHeaderComponent title={mode === 'add' ? "Add Therapy Progress Report" : "Edit Therapy Progress Report"}
                                  actions={
                                      <div className="last-updated-status">
-                                         <div className="last-updated-status-text">Last Updated On:&nbsp;</div>
+                                         <div className="last-updated-status-text">Last updated on:&nbsp;</div>
                                          <div
                                              className="last-updated-status-bold">
-                                             {(clientMedicalRecordProgressReportDetails?.updated_at ? moment(clientMedicalRecordProgressReportDetails.updated_at).tz(moment.tz.guess()).format('DD-MM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
-                                             {clientMedicalRecordProgressReportDetails?.last_updated_by_details?.first_name ? clientMedicalRecordProgressReportDetails?.last_updated_by_details?.first_name + ' ' + clientMedicalRecordProgressReportDetails?.last_updated_by_details?.last_name : ' NA'}
+                                             {(clientMedicalRecordProgressReportDetails?.updated_at ? moment(clientMedicalRecordProgressReportDetails.updated_at).tz(moment.tz.guess()).format('DD-MMMM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
+                                             {clientMedicalRecordProgressReportDetails?.last_updated_by_details?.first_name ? clientMedicalRecordProgressReportDetails?.last_updated_by_details?.first_name + ' ' + clientMedicalRecordProgressReportDetails?.last_updated_by_details?.last_name : ' N/A'}
                                          </div>
                                      </div>}/>
             {
@@ -266,7 +269,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                                 {clientMedicalRecordProgressReportDetails?.medical_record_details?.client_details?.first_name || "-"} {clientMedicalRecordProgressReportDetails?.medical_record_details?.client_details?.last_name || "-"}
                                         </span>
                                         <ChipComponent
-                                            className={clientMedicalRecordProgressReportDetails?.status ? "active" : "inactive"}
+                                            className={clientMedicalRecordProgressReportDetails?.status==="completed" ? "active" : "draft"}
                                             size={'small'}
                                             label={clientMedicalRecordProgressReportDetails?.status || "-"}/>
                                     </span>
@@ -315,17 +318,17 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                 <StatusCardComponent title={'Failed to fetch ICD-11 code list'}/>
                             }
                             {isAddedICD11CodeListLoaded &&
-                            <DataLabelValueComponent label={'ICD-11 Code(s)'}>
-                                <>
-                                    {addedICD11CodeList.map((icdCode: any) => (
-                                        <div key={icdCode.icd_code} className='d-flex ts-align-items-center mrg-top-5'>
-                                            <div className='width-5 mrg-right-10'>{icdCode.icd_code}</div>
-                                            <div>:</div>
-                                            <div className='mrg-left-10'>{icdCode.description}</div>
-                                        </div>
-                                    ))}
-                                </>
-                            </DataLabelValueComponent>
+                                <DataLabelValueComponent label={'Medical Diagnosis/ICD-11 Codes:'}>
+                                    <>
+                                        {addedICD11CodeList.map((icdCode: any) => (
+                                            <div key={icdCode.icd_code} className='d-flex ts-align-items-center mrg-top-5'>
+                                                <div className='width-5 mrg-right-10'>{icdCode.icd_code}</div>
+                                                <div>:</div>
+                                                <div className='mrg-left-10'>{icdCode.description}</div>
+                                            </div>
+                                        ))}
+                                    </>
+                                </DataLabelValueComponent>
 
                             }
                         </>
@@ -364,55 +367,57 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
                             // if (values.synopsis || values.impression || values.plan) {
-                                if (formRef.current) {
-                                    formRef.current.setFieldValue('can_sign', true);
+                            if (formRef.current) {
+                                formRef.current.setFieldValue('can_sign', true);
                                 // }
                             }
                         }, [values]);
                         return (
                             <Form noValidate={true} className={'t-form'}>
-                                <CardComponent title={'Synopsis'}>
-                                    <Field name={'synopsis'}>
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikTextAreaComponent formikField={field}
-                                                                         label={''}
-                                                                         placeholder={'Please enter your note here...'}
-                                                                         required={false}
-                                                                         fullWidth={true}/>
-                                            )
-                                        }
-                                    </Field>
-                                </CardComponent>
-                                <CardComponent title={'Impression'}>
-                                    <Field name={'impression'}>
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikTextAreaComponent formikField={field}
-                                                                         label={''}
-                                                                         placeholder={'Please enter your note here...'}
-                                                                         required={false}
-                                                                         fullWidth={true}/>
-                                            )
-                                        }
-                                    </Field>
-                                </CardComponent>
-                                <CardComponent title={'Plan'}>
-                                    <Field name={'plan'}>
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikTextAreaComponent formikField={field}
-                                                                         label={''}
-                                                                         placeholder={'Please enter your note here...'}
-                                                                         required={false}
-                                                                         fullWidth={true}/>
-                                            )
-                                        }
-                                    </Field>
-                                </CardComponent>
+                                <div className={'progress-report-form-wrapper'}>
+                                    <CardComponent title={'Synopsis'}>
+                                        <Field name={'synopsis'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikTextAreaComponent formikField={field}
+                                                                             label={''}
+                                                                             placeholder={'Please enter your note here...'}
+                                                                             required={false}
+                                                                             fullWidth={true}/>
+                                                )
+                                            }
+                                        </Field>
+                                    </CardComponent>
+                                    <CardComponent title={'Impression'}>
+                                        <Field name={'impression'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikTextAreaComponent formikField={field}
+                                                                             label={''}
+                                                                             placeholder={'Please enter your note here...'}
+                                                                             required={false}
+                                                                             fullWidth={true}/>
+                                                )
+                                            }
+                                        </Field>
+                                    </CardComponent>
+                                    <CardComponent title={'Plan'}>
+                                        <Field name={'plan'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikTextAreaComponent formikField={field}
+                                                                             label={''}
+                                                                             placeholder={'Please enter your note here...'}
+                                                                             required={false}
+                                                                             fullWidth={true}/>
+                                                )
+                                            }
+                                        </Field>
+                                    </CardComponent>
+                                </div>
 
                                 <div className={'progress-stats-table'}>
-                                    <CardComponent title={'Progress Overview:'}>
+                                    <CardComponent title={'Progress Overview'}>
                                         <TableV2Component data={progressReportStatList}
                                                           bordered={true}
                                                           hideHeader={true}
@@ -440,6 +445,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                                                 Cancel
                                                             </ButtonComponent>&nbsp;
                                                             <ButtonComponent
+                                                                className={'mrg-left-15'}
                                                                 onClick={() => {
                                                                     const newComment = formik.values?.progress_stats?.[selectedProgressStatComments?._id]?.commentTemp;
                                                                     setShowProgressStatCommentsModal(false);
@@ -460,7 +466,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                                                 (field: FieldProps) => (
                                                                     <FormikTextAreaComponent
                                                                         label={selectedProgressStatComments?.name}
-                                                                        placeholder={"Enter your comments here..."}
+                                                                        placeholder={"Please enter your comments here..."}
                                                                         formikField={field}
                                                                         size={"small"}
                                                                         autoFocus={true}
@@ -475,7 +481,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                                 }
                                             })
                                         }
-                                        <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>
+                                        <div className={"display-flex flex-direction-row-reverse mrg-top-50 mrg-right-25"}>
                                             <ESignApprovalComponent isSigned={false}
                                                                     isSigning={isSigningInProgress}
                                                                     canSign={true}
@@ -486,13 +492,14 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                         </div>
                                     </CardComponent>
                                 </div>
-                                <div className="t-form-actions">
+                                <div className="t-form-actions mrg-bottom-0">
                                     {
                                         medicalRecordId && <>
                                             <LinkComponent
                                                 route={CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId)}>
                                                 <ButtonComponent
                                                     variant={"outlined"}
+                                                    size={'large'}
                                                     id={"progress_report_update_cancel_btn"}
                                                     disabled={formik.isSubmitting}>
                                                     Cancel

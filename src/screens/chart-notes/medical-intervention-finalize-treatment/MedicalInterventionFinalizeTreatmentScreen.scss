@@ -1,4 +1,7 @@
 .medical-intervention-finalize-treatment-screen {
+  .t-form-actions{
+    margin-bottom: 0px;
+  }
   .ant-table-tbody {
     .t-cell-select {
       padding-left: 30px !important;
@@ -11,6 +14,7 @@
     }
   }
 
+
   .ant-table-footer {
     .cpt-code-list-footer {
       font-weight: bold;
@@ -19,14 +23,15 @@
       justify-content: center;
 
       .total-heading {
-        margin-left: 50px;
+        margin-left: 65px;
       }
 
       .total-minutes-wrapper {
         border: 1px solid #ABB6BE;
         padding: 7px 0;
-        width: 110px;
+        width: 115px;
         border-radius: 10px;
+        background: #FFFFFF;
         margin-left: 30px;
         text-align: center;
       }

@@ -232,7 +232,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                             options={CommonService._staticData.yesNoOptions}
                                                             displayWith={(option) => option.title}
                                                             valueExtractor={(option) => option.code}
-                                                            label={'Treated Script Received'}
+                                                            label={'Treatment Script Received?'}
                                                             formikField={field}
                                                             required={true}
                                                             fullWidth={true}
@@ -246,7 +246,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                 {
                                                     (field: FieldProps) => (
                                                         <FormikDatePickerComponent
-                                                            label={'Next MD appointment'}
+                                                            label={'Next MD Appointment'}
                                                             formikField={field}
                                                             fullWidth={true}
                                                         />

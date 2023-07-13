@@ -9,7 +9,6 @@ import FormikDatePickerComponent
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {CommonService} from "../../../shared/services";
-import {Misc} from "../../../constants";
 import * as Yup from "yup";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {useNavigate} from "react-router-dom";
@@ -25,7 +24,6 @@ interface AddBasicProgressReportComponentProps {
 
 const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentProps) => {
 
-    const {onCancel} = props;
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const [isProgressReportAddInProgress, setIsProgressReportAddInProgress] = useState<boolean>(false);
     const [addProgressReportBasicInitialValues, setAddProgressReportBasicInitialValues] = useState<any>({
@@ -55,7 +53,7 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
             CommonService._chartNotes.AddProgressReportUnderMedicalRecordAPICall(clientMedicalRecord?._id, payload)
                 .then((response: IAPIResponseType<any>) => {
                     setIsProgressReportAddInProgress(false);
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     navigate(CommonService._routeConfig.MedicalRecordProgressReportAdvancedDetailsUpdate(clientMedicalRecord?._id, response.data._id, 'add'));
                 }).catch((error: any) => {
                 CommonService.handleErrors(setErrors, error, true);
@@ -88,7 +86,7 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
                                                 (field: FieldProps) => (
                                                     <FormikInputComponent
                                                         titleCase={true}
-                                                        label={'Intervention Linked To'}
+                                                        label={'Intervention Linked to'}
                                                         disabled={true}
                                                         formikField={field}
                                                         required={true}
@@ -135,6 +133,7 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
                                                     <FormikInputComponent
                                                         titleCase={true}
                                                         label={'Physician Name'}
+                                                        placeholder={'Enter Physician Name'}
                                                         formikField={field}
                                                         required={true}
                                                         fullWidth={true}
@@ -144,16 +143,17 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
                                         </Field>
                                     </div>
                                     <div className="t-form-actions">
-                                        <ButtonComponent
-                                            variant={"outlined"}
-                                            id={"medical_intervention_add_cancel_btn"}
-                                            onClick={onCancel}
-                                        >
-                                            Cancel
-                                        </ButtonComponent>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        {/*<ButtonComponent*/}
+                                        {/*    variant={"outlined"}*/}
+                                        {/*    id={"medical_intervention_add_cancel_btn"}*/}
+                                        {/*    onClick={onCancel}*/}
+                                        {/*>*/}
+                                        {/*    Cancel*/}
+                                        {/*</ButtonComponent>*/}
+                                        {/*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
                                         <ButtonComponent
                                             type={"submit"}
+                                            fullWidth={true}
                                             isLoading={isProgressReportAddInProgress}
                                             disabled={!isValid || isProgressReportAddInProgress}
                                             id={"medical_intervention_add_save_btn"}

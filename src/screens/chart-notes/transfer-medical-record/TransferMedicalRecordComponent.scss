@@ -1,8 +1,7 @@
 @import "src/assets/styles/common";
 
 .transfer-medical-record-component {
-  height: calc(100vh - 230px);
-
+  height: calc(100vh - 50px);
   .back-cross-btn-wrapper {
     display: flex;
     justify-content: space-between;
@@ -48,54 +47,88 @@
       color: #6D6D6D;
       border: 1px solid #F3F3F3;
     }
+    .client-list-heading{
+      margin-bottom: 16px;
+    }
 
     .t-table-wrapper {
-      height: calc(100vh - 300px);
+      height: calc(100vh - 290px);
+      .t-table{
+        height: calc(100vh - 290px);
+        .table-no-data-wrapper{
+          min-height: 400px;
+        }
+      }
     }
   }
 
   .select-interventions-wrapper {
     .card-component {
-      margin-bottom: 10px;
-
+      margin-bottom: 16px;
+    }
+    .medical-intervention-list-wrapper{
+      .t-table-wrapper{
+        .t-table{
+          height: calc(100vh - 350px);
+          .table-no-data-wrapper{
+            min-height: 400px;
+          }
+        }
+      }
     }
 
     .select-intervention-choice-wrapper {
       display: flex;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 16px;
 
       .select-intervention-choice-label {
-        margin-bottom: 0 !important;
+        margin-bottom: 0px !important;
         margin-right: 20px;
       }
     }
 
-    .t-table-wrapper {
-      height: calc(100vh - 360px);
-    }
+    //.t-table-wrapper {
+    //  height: calc(100vh - 330px);
+    //}
   }
 
   .select-interventions-wrapper, .select-medical-record-wrapper {
     .client-mini-card {
       display: flex;
       align-items: center;
-
+    .avatar-component{
+      background: #FEF0BF;
+      font-size: 18px;
+      color: #212B36;
+    }
       .client-name {
         margin-left: 20px;
         font-weight: $font-weight-bold;
+        font-size: 16px;
+      }
+    }
+  }
+  .case-list-table{
+    .t-table-wrapper{
+      .t-table{
+        height: calc(100vh - 310px);
+        .table-no-data-wrapper{
+          min-height: 400px;
+        }
       }
     }
   }
 
-  .select-medical-record-wrapper {
-    .t-table-wrapper {
-      height: calc(100vh - 320px);
-    }
-  }
+  //.select-medical-record-wrapper {
+  //  .t-table-wrapper {
+  //    height: calc(100vh - 200px);
+  //  }
+  //}
 
   .t-form-actions {
     margin-top: 20px;
+    //margin-bottom: 25px;
 
   }
 }

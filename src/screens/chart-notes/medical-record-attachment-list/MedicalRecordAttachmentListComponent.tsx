@@ -48,7 +48,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             }
         },
         {
-            title: 'File',
+            title: 'File Type',
             key: 'file',
             dataIndex: 'file',
             width: 180,
@@ -124,6 +124,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
                                    url={APIConfig.CLIENT_MEDICAL_ATTACHMENT.URL(medicalRecordId)}
                                    method={APIConfig.CLIENT_MEDICAL_ATTACHMENT.METHOD}
                                    onSort={handleClientMedicalListSort}
+                                   noDataText={'Currently, there is no attachment added to this medical record.'}
                                    extraPayload={medicalAttachmentListFilterState}
                                    columns={attachmentRecord}/>
         </div>

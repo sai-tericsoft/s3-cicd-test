@@ -47,7 +47,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             width: 150,
             align: "center",
             render: (item: any) => {
-                return <div>{item?.result || '-'}</div>
+                return <div>{item?.result || 'N/A'}</div>
             }
         },
         {
@@ -58,7 +58,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             width: 600,
             render: (item: any) => {
                 return <div className={'comment'}>{item?.comment ||
-                <div className={'display-flex ts-justify-content-center'}>-</div>}</div>
+                <div className={'display-flex ts-justify-content-center'}>N/A</div>}</div>
             }
         }
     ];
@@ -125,16 +125,17 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
         }
     }, [searchParams, navigate, dispatch, medicalRecordId]);
 
+    console.log('progressReportDetails',progressReportDetails);
 
     return (
         <div className={'progress-report-view-details-screen'}>
             <PageHeaderComponent title={"View Progress Report"} actions={
                 <div className="last-updated-status">
-                    <div className="last-updated-status-text">Last Updated On:&nbsp;</div>
+                    <div className="last-updated-status-text">Last updated on:&nbsp;</div>
                     <div
                         className="last-updated-status-bold">
-                        {(progressReportDetails?.updated_at ? moment(progressReportDetails.updated_at).tz(moment.tz.guess()).format('DD-MM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
-                        {progressReportDetails?.last_updated_by_details?.first_name ? progressReportDetails?.last_updated_by_details?.first_name + ' ' + progressReportDetails?.last_updated_by_details?.last_name : ' NA'}
+                        {(progressReportDetails?.updated_at ? moment(progressReportDetails.updated_at).tz(moment.tz.guess()).format('DD-MMMM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
+                        {progressReportDetails?.last_updated_by_details?.first_name ? progressReportDetails?.last_updated_by_details?.first_name + ' ' + progressReportDetails?.last_updated_by_details?.last_name : ' N/A'}
                     </div>
                 </div>}/>
             {
@@ -145,7 +146,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                                 {progressReportDetails?.medical_record_details?.client_details?.first_name || "-"} {progressReportDetails?.medical_record_details?.client_details?.last_name || "-"}
                                         </span>
                                         <ChipComponent
-                                            className={progressReportDetails?.status ? "active" : "inactive"}
+                                            className={progressReportDetails?.status==='completed' ? "active" : "draft"}
                                             size={'small'}
                                             label={progressReportDetails?.status || "-"}/>
                                     </span>
@@ -191,7 +192,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                             <StatusCardComponent title={'Failed to fetch ICD-11 code list'}/>
                         }
                         {isAddedICD11CodeListLoaded &&
-                        <DataLabelValueComponent label={'ICD-11 Code(s)'}>
+                        <DataLabelValueComponent label={'Medical Diagnosis/ICD-11 Codes:'}>
                             <>
                                 {addedICD11CodeList.map((icdCode: any) => (
                                     <div key={icdCode.icd_code} className='d-flex ts-align-items-center mrg-top-5'>
@@ -245,28 +246,29 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                             {
                                 (isProgressReportDetailsLoaded && progressReportDetails) && <>
                                     <div className={'progress-report-view-details-component__header'}>
-                                        {progressReportDetails?.synopsis &&
-                                        <CardComponent title={'Synopsis'}>
-                                            {progressReportDetails?.synopsis.split("\n").map((i: any, key: any) => {
+                                        <div className={'progress-report-view-details-wrapper'}>
+                                        <CardComponent title={'Synopsis'} >
+                                            {progressReportDetails?.synopsis ?progressReportDetails?.synopsis.split("\n").map((i: any, key: any) => {
                                                 return <div key={key}>{i}</div>;
-                                            }) || "N/A"}
+                                            }) : "N/A"}
                                         </CardComponent>
-                                        }
-                                        {progressReportDetails?.impression && <CardComponent title={'Impression'}>
-                                            {progressReportDetails?.impression.split("\n").map((i: any, key: any) => {
+
+                                         <CardComponent title={'Impression'}>
+                                            {progressReportDetails?.impression ? progressReportDetails?.impression.split("\n").map((i: any, key: any) => {
                                                 return <div key={key}>{i}</div>;
-                                            }) || "N/A"}
-                                        </CardComponent>}
-                                        {progressReportDetails?.plan && <CardComponent title={'Plan'}>
-                                            {progressReportDetails?.plan.split("\n").map((i: any, key: any) => {
+                                            }) : "N/A"}
+                                        </CardComponent>
+                                         <CardComponent title={'Plan'}>
+                                            {progressReportDetails?.plan ? progressReportDetails?.plan.split("\n").map((i: any, key: any) => {
                                                 return <div key={key}>{i}</div>;
-                                            }) || "N/A"}
-                                        </CardComponent>}
+                                            }) : "N/A"}
+                                        </CardComponent>
+                                        </div>
                                         {
                                             progressReportDetails?.progress_stats?.length > 0 &&
 
                                             <div className={'progress-stats-table'}>
-                                                <CardComponent title={'Progress Overview:'}>
+                                                <CardComponent title={'Progress Overview'}>
                                                     <TableComponent data={progressReportDetails?.progress_stats}
                                                                     className={'progress-report-view-details-table'}
                                                                     columns={progressStatsColumn}
@@ -278,7 +280,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                         }
                                         <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>
                                             <ESignApprovalComponent isSigned={true}
-                                                                    signedAt={CommonService.convertDateFormat(progressReportDetails?.created_at)}/>
+                                                                    signedAt={progressReportDetails?.signed_on}/>
                                         </div>
                                     </div>
                                 </>

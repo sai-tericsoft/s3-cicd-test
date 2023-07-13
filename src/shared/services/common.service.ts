@@ -154,9 +154,9 @@ const generateUseCaseFromCaseDetails2 = (case_details: any) => {
 }
 
 const generateInterventionNameFromMedicalRecord = (medicalRecordDetails: any) => {
-    return `${medicalRecordDetails?.injury_details?.map((bodyPart: any, index: number) => {
+    return `${CommonService.convertDateFormat2(medicalRecordDetails?.created_at)} - ${medicalRecordDetails?.injury_details?.map((bodyPart: any, index: number) => {
         return (bodyPart?.body_part_details?.name + (index === medicalRecordDetails?.injury_details?.length - 1 ? '' : '/'))
-    })} - ${CommonService.convertDateFormat2(medicalRecordDetails?.created_at)}`
+    })}  `
 }
 
 const getTheDifferenceBetweenDates = (fromDate: string) => {
