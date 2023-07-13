@@ -46,7 +46,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             width: 55,
             fixed: 'left',
             render: (item: any) => {
-                return <div className={'flag-wrapper'}>{item?.is_flagged && <ImageConfig.FlagIcon/>}</div>
+                return <div className={'flag-wrapper'}>{item?.is_flagged === "true" && <ImageConfig.FlagIcon/>}</div>
             }
         },
         {
@@ -96,13 +96,13 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             dataIndex: 'is_exercise_log_added',
             render: (item: any) => {
                 return <>
-                    {medicalRecordId && item?.is_exercise_log_added && <LinkComponent
+                    {medicalRecordId && item?.is_exercise_log_added === "true" && <LinkComponent
                         route={CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, item?._id)}>
                         View Log
                     </LinkComponent>
                     }
                     {
-                        medicalRecordId && !item?.is_exercise_log_added && <div>N/A</div>
+                        medicalRecordId && !(item?.is_exercise_log_added === "true") && <div>N/A</div>
                     }
                 </>
             }

@@ -288,3 +288,15 @@ export interface ITimePickerProps {
     fullWidth?: boolean;
     onBlur?: () => void;
 }
+
+export interface IColorPickerProps {
+    value?: any;
+    name: string;
+    handleChange?: Function;
+    label?: string;
+    required?: boolean;
+    errorMessage?: any;
+    hasError?: boolean;
+    className?: any;
+    disabled?: boolean;
+}
