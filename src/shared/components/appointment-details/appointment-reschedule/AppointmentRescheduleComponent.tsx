@@ -233,7 +233,6 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
     }, [details, getServiceProviderList]);
 
     const onReschedule = useCallback((rawPayload: any) => {
-        console.log(rawPayload);
         setIsAPICallRunning(true)
         const payload = {
             "appointment_date": CommonService.convertDateFormat(rawPayload.date),
@@ -242,7 +241,6 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
             "provider_id": rawPayload.provider._id,
             "facility_id": rawPayload.facility._id
         }
-        console.log(payload, rawPayload);
         //medical_record_id
         CommonService._appointment.appointmentReschedule(details._id, payload)
             .then((response: IAPIResponseType<any>) => {

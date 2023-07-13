@@ -19,7 +19,7 @@ import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import {IProgressReportStat} from "../../../shared/models/common.model";
 import _ from "lodash";
 import ESignApprovalComponent from "../../../shared/components/e-sign-approval/ESignApprovalComponent";
-import {getMedicalRecordProgressReportDetails,} from "../../../store/actions/chart-notes.action";
+import {getAllAddedICD11Code, getMedicalRecordProgressReportDetails,} from "../../../store/actions/chart-notes.action";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import TableV2Component from "../../../shared/components/table-v2/TableV2Component";
@@ -142,6 +142,12 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
         }
     ];
 
+    useEffect(() => {
+        if (medicalRecordId) {
+            dispatch(getAllAddedICD11Code(medicalRecordId))
+        }
+    }, [dispatch, medicalRecordId]);
+
     const openEditProgressReportDrawer = useCallback(() => {
         setIsEditProgressReportDrawerOpen(true);
     }, []);
@@ -188,7 +194,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                         cb();
                     } else {
                         if (medicalRecordId) {
-                             navigate(CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId,progressReportId));
+                            navigate(CommonService._routeConfig.MedicalRecordProgressReportViewDetails(medicalRecordId, progressReportId));
                         }
                     }
                 }).catch((error: any) => {
@@ -199,7 +205,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                 }
             });
         }
-    }, [patchDataToProgressReportForm, medicalRecordId, progressReportId,navigate]);
+    }, [patchDataToProgressReportForm, medicalRecordId, progressReportId, navigate]);
 
     useEffect(() => {
         dispatch(setCurrentNavParams("Update Progress Report Details", null, () => {
@@ -364,8 +370,8 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
                             // if (values.synopsis || values.impression || values.plan) {
-                                if (formRef.current) {
-                                    formRef.current.setFieldValue('can_sign', true);
+                            if (formRef.current) {
+                                formRef.current.setFieldValue('can_sign', true);
                                 // }
                             }
                         }, [values]);
