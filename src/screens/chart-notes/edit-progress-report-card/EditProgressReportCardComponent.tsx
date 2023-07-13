@@ -20,7 +20,7 @@ onSave?: () => void;
 
 const EditProgressReportCardComponent = (props: EditProgressReportCardComponentProps) => {
 
-    const {onCancel,onSave} = props;
+    const {onSave} = props;
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const {
         clientMedicalRecordProgressReportDetails
@@ -65,7 +65,7 @@ const EditProgressReportCardComponent = (props: EditProgressReportCardComponentP
 
     return (
         <div className={'edit-progress-report-card-component'}>
-            <FormControlLabelComponent size={'lg'} label={'Add Progress Report'}/>
+            <FormControlLabelComponent size={'lg'} label={'Edit Progress Report'}/>
             <div className={'add-progress-report-container'}>
                 <Formik initialValues={addProgressReportBasicInitialValues}
                         onSubmit={onSubmit}
@@ -86,7 +86,7 @@ const EditProgressReportCardComponent = (props: EditProgressReportCardComponentP
                                                 (field: FieldProps) => (
                                                     <FormikInputComponent
                                                         titleCase={true}
-                                                        label={'Intervention Linked To'}
+                                                        label={'Intervention Linked to'}
                                                         disabled={true}
                                                         formikField={field}
                                                         required={true}
@@ -133,6 +133,7 @@ const EditProgressReportCardComponent = (props: EditProgressReportCardComponentP
                                                     <FormikInputComponent
                                                         titleCase={true}
                                                         label={'Physician Name'}
+                                                        placeholder={'Enter Physician Name'}
                                                         formikField={field}
                                                         required={true}
                                                         fullWidth={true}
@@ -142,16 +143,17 @@ const EditProgressReportCardComponent = (props: EditProgressReportCardComponentP
                                         </Field>
                                     </div>
                                     <div className="t-form-actions">
-                                        <ButtonComponent
-                                            variant={"outlined"}
-                                            id={"medical_intervention_add_cancel_btn"}
-                                            onClick={onCancel}
-                                        >
-                                            Cancel
-                                        </ButtonComponent>
-                                        &nbsp;
+                                        {/*<ButtonComponent*/}
+                                        {/*    variant={"outlined"}*/}
+                                        {/*    id={"medical_intervention_add_cancel_btn"}*/}
+                                        {/*    onClick={onCancel}*/}
+                                        {/*>*/}
+                                        {/*    Cancel*/}
+                                        {/*</ButtonComponent>*/}
+                                        {/*&nbsp;*/}
                                         <ButtonComponent
                                             type={"submit"}
+                                            fullWidth={true}
                                             isLoading={isProgressReportEditInProgress}
                                             disabled={!isValid || isProgressReportEditInProgress}
                                             id={"medical_intervention_add_save_btn"}

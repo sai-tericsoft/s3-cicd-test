@@ -140,7 +140,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                 (field: FieldProps) => (
                     <FormikInputComponent
                         size={'small'}
-                        validationPattern={Patterns.POSITIVE_INTEGERS}
+                        validationPattern={Patterns.THREE_DIGITS_ONLY}
                         className={!field.form.values[record._id]?.is_selected ? 'display-none' : ''}
                         disabled={!field.form.values[record._id]?.is_selected}
                         formikField={field}
@@ -228,7 +228,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
             setSubmitting(true);
             CommonService._chartNotes.SaveMedicalInterventionCPTCodesAPICall(medicalInterventionId, payload)
                 .then((response: any) => {
-                    CommonService._alert.showToast(response.message, 'success');
+                    // CommonService._alert.showToast(response.message, 'success');
                     setSubmitting(false);
                     setLinkedCPTCodes(payload.cpt_codes);
                     handleInterventionCheckout();
@@ -280,8 +280,8 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                 <Form className="t-form" noValidate={true}>
                                     {/*<FormDebuggerComponent values={values} errors={errors}/>*/}
                                     <CardComponent className={'finalize-treatment-wrapper'}>
-                                        <div className="ts-row align-items-center">
-                                            <div className="ts-col ts-col-6">
+                                        <div className="ts-row display-flex align-items-center">
+                                            <div className="ts-col ts-col-6 mrg-bottom-15">
                                                 <SearchComponent label={'Search CPT Code'}
                                                                  placeholder={'Search CPT Code'}
                                                                  value={extraPayload.search}
@@ -313,7 +313,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                                    showFooter={true}
                                                                    footer={
                                                                        <div className='cpt-code-list-footer'>
-                                                                           <div className="total-heading">Total Number of Minutes</div>
+                                                                           <div className="total-heading">Total number of minutes</div>
                                                                            <div className="total-minutes-wrapper">{totalMinutes}</div>
 
                                                                        </div>
@@ -328,6 +328,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                     <LinkComponent
                                                         route={CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId)}>
                                                         <ButtonComponent variant={"outlined"}
+                                                                         size={'large'}
                                                                          className={isSubmitting ? 'mrg-right-15' : ''}
                                                                          disabled={isSubmitting || isInterventionCheckingOut}>
                                                             Home
@@ -338,6 +339,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                         </>
                                         <ButtonComponent type={"submit"}
                                                          className={'mrg-left-15'}
+                                                         size={'large'}
                                                          isLoading={isSubmitting}
                                                          disabled={
                                                              isSubmitting || isInterventionCheckingOut || !Object.keys(values).some((cptCodeId) => {

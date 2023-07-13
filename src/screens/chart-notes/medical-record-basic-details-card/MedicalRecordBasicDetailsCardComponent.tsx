@@ -184,10 +184,10 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
         if (medicalRecordId) {
             CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, MedicalInterventionFormInitialValues)
                 .then((response) => {
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully created discharging intervention", "success");
+                    CommonService._alert.showToast( "Case has been discharged successfully", "success");
                     navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, response.data._id));
                 }).catch((error) => {
-                CommonService._alert.showToast(error?.error || "Error discharging the case", "error");
+                CommonService._alert.showToast( "Existing notes must be completed for case discharge.", "error");
             });
         }
     }, [medicalRecordId, navigate]);
@@ -197,7 +197,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
         if (medicalRecordId) {
             CommonService._chartNotes.MedicalRecordNotifyAdminAPICall(medicalRecordId, values)
                 .then((response) => {
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully Notify the admin", "success");
+                    CommonService._alert.showToast( "Admin has been notified.", "success");
                     setIsNotifyAdminProgressIsLoading(false);
                     setIsNotifyAdminProgressIsLoading(false);
                     handleNotifyAdminModalClose();
@@ -325,7 +325,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                             <MenuDropdownComponent menuBase={
                                                 <ButtonComponent variant={'outlined'}
                                                                  suffixIcon={<ImageConfig.SelectDropDownIcon/>}
-                                                                 fullWidth={true}>
+                                                                 >
                                                     Select Action
                                                 </ButtonComponent>
                                             } menuOptions={medicalRecordMenuOptions}/>
@@ -436,6 +436,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                     {/*Medical record statistics  modal start*/}
                     <ModalComponent isOpen={isMedicalRecordStatsModalOpen}
                                     title={"Case Statistics"}
+                                    className={'case-statistics-modal'}
                                     onClose={closeMedicalRecordStatsModal}
                                     modalFooter={<>
                                         <ButtonComponent onClick={closeMedicalRecordStatsModal}>Close</ButtonComponent>

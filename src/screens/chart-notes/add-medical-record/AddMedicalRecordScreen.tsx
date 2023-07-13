@@ -15,7 +15,6 @@ import FormikTextAreaComponent from "../../../shared/components/form-controls/fo
 import {CommonService} from "../../../shared/services";
 import {IRootReducerState} from "../../../store/reducers";
 import {IBodyPart} from "../../../shared/models/common.model";
-import {IUser} from "../../../shared/models/user.model";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import FilePreviewThumbnailComponent
@@ -67,7 +66,7 @@ const surgeryDetailsInitValues = {
 }
 
 const surgeryRecordValidationSchema = Yup.object().shape({
-    surgery_date: Yup.string().required("Surgery date is required"),
+    surgery_date: Yup.mixed().required("Date of Surgery is required"),
     reported_by: Yup.mixed().required("Reported by is required"),
 });
 
@@ -83,7 +82,7 @@ const InjuryDetailsValidationSchema = Yup.object().shape({
 });
 
 const MedicalRecordAddFormValidationSchema = Yup.object({
-    onset_date: Yup.string().required("Date of Onset is required"),
+    onset_date: Yup.mixed().required("Date of Onset is required"),
     injury_details: Yup.array().of(InjuryDetailsValidationSchema),
     appointment_id: Yup.string().required("Appointment is required"),
     case_physician: Yup.object({
@@ -103,8 +102,8 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
     const {clientId} = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const {injuryTypeList, bodyPartList} = useSelector((state: IRootReducerState) => state.staticData);
-    const {allProvidersList} = useSelector((state: IRootReducerState) => state.user);
     const [addMedicalRecordFormInitialValues] = useState<any>(_.cloneDeep(MedicalRecordAddFormInitialValues));  // TODO type properly
     const [isMedicalRecordAddInProgress, setIsMedicalRecordAddInProgress] = useState<boolean>(false);
     const [isSurgeryRecordDrawerOpen, setIsSurgeryRecordDrawerOpen] = useState<boolean>(false);
@@ -219,11 +218,10 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                         <Field name={'reported_by'}>
                                             {
                                                 (field: FieldProps) => (
-                                                    <FormikSelectComponent
-                                                        options={allProvidersList}
-                                                        displayWith={(option: IUser) => (option?.first_name || option?.last_name) ? option?.first_name + " " + option?.last_name : "-"}
-                                                        valueExtractor={(option: IUser) => option}
-                                                        label={'Reported By'}
+                                                    <FormikInputComponent
+                                                        value={CommonService.extractName(currentUser)}
+                                                        label={'Reported by'}
+                                                        disabled={true}
                                                         formikField={field}
                                                         required={true}
                                                         fullWidth={true}
@@ -256,6 +254,9 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                 )
                                             }
                                         </Field>
+                                        <div className={'attachment-heading'}>
+                                            Attachment
+                                        </div>
                                         {/*<FieldArray*/}
                                         {/*    name="documents"*/}
                                         {/*    render={arrayHelpers => (*/}
@@ -306,8 +307,8 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                                              setFieldValue('attachment', file);
                                                                          }
                                                                      }}
-                                                                     acceptedFileTypes={["mp4", "pdf", "png", "jpg", "jpeg", "avi"]}
-                                                                     acceptedFilesText={"PNG, JPG, JPEG, PDF, MP4 and AVI files are allowed upto 100MB"}
+                                                                     acceptedFileTypes={["png", "jpg", "jpeg"]}
+                                                                     acceptedFilesText={"PNG, JPG and JPEG files are allowed upto 100MB"}
                                                 />
                                                 {
                                                     (_.get(touched, "attachment") && !!(_.get(errors, "attachment"))) &&
@@ -554,7 +555,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                             {
                                                                 (field: FieldProps) => (
                                                                     <FormikDatePickerComponent
-                                                                        label={'Next MD appointment'}
+                                                                        label={'Next MD Appointment'}
                                                                         formikField={field}
                                                                         fullWidth={true}
                                                                     />

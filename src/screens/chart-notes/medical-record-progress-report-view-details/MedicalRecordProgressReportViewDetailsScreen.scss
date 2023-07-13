@@ -1,11 +1,41 @@
 .progress-report-view-details-screen {
+  .show-more-less {
+    color: #83909D;
+    cursor: pointer;
+    float: right;
+    padding-bottom: 20px;
+    padding-right: 10px;
+
+    .show-more-less-action {
+      margin: 10px;
+      cursor: pointer;
+
+    }
+  }
+
   .t-body {
     border: 1px solid #D9E2E2;
   }
+
   .progress-report-view-details-container {
     .progress-report-view-details-component__header {
-      .progress-stats-table {
+      .progress-report-view-details-wrapper {
         .card-component {
+          padding-bottom: 24px;
+        }
+      }
+
+      .progress-stats-table {
+        .t-table-wrapper{
+          .t-table{
+            min-height: 340px;
+
+          }
+        }
+        .card-component {
+          padding: 0;
+          border-bottom: none;
+
           .card-body {
             padding: 0;
           }
@@ -39,6 +69,7 @@
     .client-name-wrapper {
       font-size: 1.4286rem;
       font-weight: 700;
+      margin-bottom: 12px;
 
       .client-name {
         padding-right: 10px;

@@ -516,6 +516,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                     </IconButtonComponent>
                                                                     {index > 0 &&
                                                                         <IconButtonComponent className={"form-helper-icon"}
+                                                                                             color={"error"}
                                                                                              onClick={() => {
                                                                                                  arrayHelpers.remove(index);
                                                                                              }}
@@ -597,6 +598,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                     </IconButtonComponent>
                                                                     {index > 0 &&
                                                                         <IconButtonComponent className={"form-helper-icon"}
+                                                                                             color={"error"}
                                                                                              onClick={() => {
                                                                                                  arrayHelpers.remove(index);
                                                                                              }}
@@ -859,6 +861,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                     </IconButtonComponent>
                                                                     {index > 0 &&
                                                                         <IconButtonComponent className={"form-helper-icon"}
+                                                                                             color={"error"}
                                                                                              onClick={() => {
                                                                                                  arrayHelpers.remove(index);
                                                                                              }}
@@ -1058,6 +1061,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                                 {index > 0 &&
                                                                                     <IconButtonComponent
                                                                                         className={"form-helper-icon"}
+                                                                                        color={"error"}
                                                                                         onClick={() => {
                                                                                             arrayHelpers.remove(index);
                                                                                         }}

@@ -5,6 +5,7 @@ const POSITIVE_WHOLE_NUMBERS = /^\d+?$/;
 const NEGATIVE_WHOLE_NUMBERS = /^-?(\d+)?$/;
 const FLOATING_WHOLE_NUMBERS = /^[+-]?\d+(\.\d+)?$/;
 const NINE_DIGITS_ONLY = /^\d{0,9}$/;
+const THREE_DIGITS_ONLY = /^\d{0,3}$/;
 
 const Patterns = {
     POSITIVE_INTEGERS,
@@ -13,7 +14,8 @@ const Patterns = {
     NEGATIVE_WHOLE_NUMBERS,
     FLOATING_WHOLE_NUMBERS,
     POSITIVE_INTEGERS_WITH_DECIMALS,
-    NINE_DIGITS_ONLY
+    NINE_DIGITS_ONLY,
+    THREE_DIGITS_ONLY
 }
 
 export default Patterns;

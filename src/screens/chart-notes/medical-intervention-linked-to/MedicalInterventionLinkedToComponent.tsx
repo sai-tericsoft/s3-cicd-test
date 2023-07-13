@@ -33,7 +33,7 @@ const MedicalInterventionLinkedToComponent = (props: MedicalInterventionLinkedTo
                 dataIndex: "body_part",
                 key: "body_part",
                 fixed: "left",
-                width: 151,
+                width: 251,
                 render: (item: any) => {
                     return <>{item?.body_part_details?.name}</>
                 }
@@ -71,7 +71,7 @@ const MedicalInterventionLinkedToComponent = (props: MedicalInterventionLinkedTo
 
         return (
             <div className={'medical-intervention-linked-to-component'}>
-                <DataLabelValueComponent label={label ? label : 'Intervention linked to: '} direction={"row"}
+                <DataLabelValueComponent label={label ? label : 'Intervention Linked to: '} direction={"row"}
                                          className={'medical-record-injury-details-wrapper'}>
                     <div className={'medical-record-injury-details'} ref={interventionDivRef}>
                         {medicalRecordDetails?.intervention_linked_to}

@@ -1,10 +1,33 @@
 .progress-record-advanced-details-update-screen {
+  .show-more-less {
+    color: #83909D;
+    cursor: pointer;
+    float: right;
+    padding-bottom: 20px;
+    padding-right: 10px;
+
+    .show-more-less-action {
+      margin: 10px;
+      cursor: pointer;
+
+    }
+  }
+  .progress-report-form-wrapper{
+    .card-component{
+      padding-bottom: 4px;
+    }
+  }
   .t-cell-comments, .t-cell-results {
     text-align: center !important;
   }
 
   .progress-stats-table {
+    .name{
+      font-weight: 700;
+      margin-left: 5px;
+    }
     .card-component {
+      padding-bottom: 24px;
       .card-body {
         padding: 0;
       }
@@ -12,10 +35,19 @@
     .progress-stats-comment{
      display: flex;
       justify-content: center;
+
       .comment-edit-wrapper{
         display: flex;
         justify-content: space-between;
         flex: 1 1;
+        align-items: center;
+        .edit-icon{
+          height: 34px;
+          width: 34px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
       }
       .add-comment-heading{
         color: #00534F;

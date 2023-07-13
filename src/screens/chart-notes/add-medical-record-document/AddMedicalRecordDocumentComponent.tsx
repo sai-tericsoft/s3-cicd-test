@@ -23,7 +23,7 @@ import FormikSelectComponent from "../../../shared/components/form-controls/form
 import moment from "moment";
 
 const AddMedicalRecordDocumentFormValidationSchema = Yup.object({
-    document_date: Yup.string()
+    document_date: Yup.mixed()
         .required("Date of Document is required"),
     document_type_id: Yup.string()
         .required("Document Type is required"),
@@ -48,7 +48,7 @@ interface AddMedicalRecordDocumentComponentProps {
 
 const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentComponentProps) => {
 
-    const {onAdd,onCancel, medicalRecordId, medicalRecordDetails} = props;
+    const {onAdd, medicalRecordId, medicalRecordDetails} = props;
     const {medicalRecordDocumentTypes} = useSelector((state: IRootReducerState) => state.staticData);
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const [addMedicalRecordDocumentFormInitialValues] = useState<IMedicalRecordDocumentAddForm>(_.cloneDeep(AddMedicalRecordDocumentFormInitialValues));
@@ -94,16 +94,16 @@ const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentCompon
                             <Form className="t-form" noValidate={true}>
                                 <div className="t-form-controls">
                                     <InputComponent className="t-form-control"
-                                                    label={'Intervention Linked To'}
-                                                    placeholder={'Intervention Linked To'}
+                                                    label={'Intervention Linked to'}
+                                                    placeholder={'Intervention Linked to'}
                                                     value={CommonService.generateInterventionNameFromMedicalRecord(medicalRecordDetails)}
                                                     required={true}
                                                     fullWidth={true}
                                                     disabled={true}
                                     />
                                     <InputComponent className="t-form-control"
-                                                    label={'Attached By'}
-                                                    placeholder={'Attached By'}
+                                                    label={'Attached by'}
+                                                    placeholder={'Attached by'}
                                                     value={currentUser?.first_name + " " + currentUser?.last_name}
                                                     required={true}
                                                     fullWidth={true}
@@ -190,17 +190,18 @@ const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentCompon
                                     </div>
                                 </div>
                                 <div className="t-form-actions">
-                                    <ButtonComponent className={'mrg-right-15'}
-                                        variant={"outlined"}
-                                        id={"medical_intervention_add_cancel_btn"}
-                                        onClick={onCancel}
-                                    >
-                                        Cancel
-                                    </ButtonComponent>
+                                    {/*<ButtonComponent className={'mrg-right-15'}*/}
+                                    {/*    variant={"outlined"}*/}
+                                    {/*    id={"medical_intervention_add_cancel_btn"}*/}
+                                    {/*    onClick={onCancel}*/}
+                                    {/*>*/}
+                                    {/*    Cancel*/}
+                                    {/*</ButtonComponent>*/}
                                     &nbsp;
                                     <ButtonComponent
                                         isLoading={isMedicalRecordDocumentFileAddInProgress}
                                         type={"submit"}
+                                        fullWidth={true}
                                         disabled={!isValid || isMedicalRecordDocumentFileAddInProgress}
                                     >
                                         {isMedicalRecordDocumentFileAddInProgress ? "Saving" : "Save"}

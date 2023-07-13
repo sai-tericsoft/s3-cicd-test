@@ -37,13 +37,13 @@ const addSurgeryRecordFormInitialValues: any = {
 
 
 const addSurgeryRecordValidationSchema = Yup.object().shape({
-    surgery_date: Yup.string().required("Surgery date is required"),
+    surgery_date: Yup.mixed().required("Date of Surgery is required"),
 });
 
 
 const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
 
-    const {medicalRecordDetails, onSave, onCancel} = props;
+    const {medicalRecordDetails, onSave} = props;
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const [isSurgeryRecordAddInProgress, setIsSurgeryRecordAddInProgress] = useState<boolean>(false);
 
@@ -104,8 +104,7 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                                     }
                                 </Field>
                                 <InputComponent className="t-form-control"
-                                                label={'Reported By'}
-                                                placeholder={'Reported By'}
+                                                label={'Reported by'}
                                                 value={CommonService.extractName(currentUser)}
                                                 fullWidth={true}
                                                 disabled={true}
@@ -116,6 +115,7 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                                             <FormikInputComponent
                                                 titleCase={true}
                                                 label={'Name of Surgeon'}
+                                                placeholder={'Enter Name of Surgeon'}
                                                 formikField={field}
                                                 fullWidth={true}
                                             />
@@ -126,7 +126,8 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                                     {
                                         (field: FieldProps) => (
                                             <FormikTextAreaComponent
-                                                label={'Brief Surgical Details'}
+                                                label={'Brief Details'}
+                                                placeholder={'Enter Details'}
                                                 formikField={field}
                                                 fullWidth={true}
                                             />
@@ -175,8 +176,8 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                                                                          setFieldValue('attachment', file);
                                                                      }
                                                                  }}
-                                                                 acceptedFileTypes={["mp4", "pdf", "png", "jpg", "jpeg", "avi"]}
-                                                                 acceptedFilesText={"PNG, JPG, JPEG, PDF, MP4 and AVI files are allowed upto 100MB"}
+                                                                 acceptedFileTypes={[ "png", "jpg", "jpeg"]}
+                                                                 acceptedFilesText={"PNG, JPG and JPEG files are allowed upto 100MB"}
                                             />
                                             {
                                                 (_.get(touched, "attachment") && !!(_.get(errors, "attachment"))) &&
@@ -202,16 +203,16 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                             </div>
 
                             <div className="t-form-actions">
-                                <ButtonComponent
-                                    className={isSurgeryRecordAddInProgress ? 'mrg-right-15':''}
-                                    variant={"outlined"}
-                                    id={"medical_intervention_add_cancel_btn"}
-                                    onClick={onCancel}
-                                >
-                                    Cancel
-                                </ButtonComponent>
+                                {/*<ButtonComponent*/}
+                                {/*    className={isSurgeryRecordAddInProgress ? 'mrg-right-15':''}*/}
+                                {/*    variant={"outlined"}*/}
+                                {/*    id={"medical_intervention_add_cancel_btn"}*/}
+                                {/*    onClick={onCancel}*/}
+                                {/*>*/}
+                                {/*    Cancel*/}
+                                {/*</ButtonComponent>*/}
                                 <ButtonComponent type={'submit'}
-                                                 className={'mrg-left-15'}
+                                                 fullWidth={true}
                                                  isLoading={isSurgeryRecordAddInProgress}
                                                  disabled={!isValid || isSurgeryRecordAddInProgress}>
                                     Save

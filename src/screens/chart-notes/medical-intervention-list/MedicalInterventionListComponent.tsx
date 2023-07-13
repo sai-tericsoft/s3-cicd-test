@@ -128,7 +128,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             sortable: true,
             render: (item: any) => {
                 return <ChipComponent label={item?.status}
-                                      className={item?.status === 'completed' ? "completed" : "draft"}/>
+                                      className={item?.status === 'completed' ? "active" : "draft"}/>
             }
         },
         {
@@ -190,6 +190,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                 method={APIConfig.MEDICAL_RECORD_CONSOLIDATED_INTERVENTIONS_AND_ATTACHMENTS.METHOD}
                 columns={MedicalInterventionListColumns}
                 refreshToken={refreshToken}
+                noDataText={'Currently, there is no note added to this medical record.'}
                 onSort={handleClientMedicalListSort}
                 extraPayload={medicalRecordListFilterState}
             />

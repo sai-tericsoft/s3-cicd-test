@@ -1,5 +1,5 @@
 import "./TransferMedicalRecordComponent.scss";
-import React, {useCallback, useMemo, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import SearchComponent from "../../../shared/components/search/SearchComponent";
@@ -14,8 +14,7 @@ import RadioButtonGroupComponent, {
 import CardComponent from "../../../shared/components/card/CardComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
-import {ImageConfig, Misc} from "../../../constants";
-import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
+import {ImageConfig} from "../../../constants";
 
 interface TransferMedicalRecordComponentProps {
     onClose: () => void;
@@ -77,7 +76,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
 
         const MedicalInterventionListColumns: ITableColumn[] = useMemo(() => [
             {
-                title: "",
+                title: "File Name",
                 key: 'select',
                 dataIndex: 'select',
                 render: (item: any) => {
@@ -91,14 +90,8 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                         }}
                     />
                 },
-                width: 150,
+                width: 200,
             },
-            // {
-            //     title: 'File',
-            //     key: 'note_type',
-            //     dataIndex: 'note_type',
-            //     width: 150,
-            // },
             {
                 title: 'Date',
                 key: 'date',
@@ -107,11 +100,12 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 render: (item: any) => {
                     return CommonService.getSystemFormatTimeStamp(item?.created_at);
                 },
-                width: 200,
+                width: 100,
             },
             {
                 title: '',
                 key: 'view_details',
+                width: 100,
                 render: (item: any) => {
                     let route = '';
                     if (medicalRecordId) {
@@ -143,14 +137,15 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
 
         const MedicalRecordListColumns: ITableColumn[] = useMemo(() => [
             {
-                title: '',
+                title: 'Case',
                 key: 'select',
                 dataIndex: 'select',
-                width: 5,
+                width: 255,
                 render: (item: any) => {
                     return <RadioButtonComponent
                         name={'medical-intervention'}
                         value={item?._id}
+                        label={CommonService.generateInterventionNameFromMedicalRecord(item)}
                         checked={selectedMedicalRecordToTransferUnder?._id === item?._id}
                         onChange={() => {
                             setSelectedMedicalRecordToTransferUnder(item);
@@ -158,17 +153,19 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                     />
                 }
             },
-            {
-                title: 'Case',
-                key: 'case',
-                dataIndex: 'case',
-                render: (item: any) => {
-                    return CommonService.generateInterventionNameFromMedicalRecord(item);
-                }
-            },
+            // {
+            //     title: 'Case',
+            //     key: 'case',
+            //     dataIndex: 'case',
+            //     render: (item: any) => {
+            //         return CommonService.generateInterventionNameFromMedicalRecord(item);
+            //     }
+            // },
             {
                 title: 'Date',
                 key: 'date',
+                width: 50,
+                align:"center",
                 dataIndex: 'date',
                 render: (item: any) => {
                     return CommonService.getSystemFormatTimeStamp(item?.onset_date);
@@ -192,7 +189,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
             CommonService._chartNotes.TransferMedicalRecordAPICall(selectedClient?._id, payload)
                 .then((response: IAPIResponseType<any>) => {
                     onMedicalRecordTransfer(response?.data);
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully Medical Record transferred", 'success');
+                    CommonService._alert.showToast("File(s) have been transferred successfully.", 'success');
                     setRefreshToken(Math.random().toString(36).substring(7));
                     setIsMedicalRecordTransferUnderProgress(false);
                 }).catch((error: any) => {
@@ -226,6 +223,9 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 setIsClientListLoading(false);
             });
         }, []);
+        useEffect(() => {
+            getClientList()
+        }, [getClientList])
 
         const getClientMedicalInterventionList = useCallback(() => {
             setIsMedicalInterventionListLoading(true);
@@ -293,64 +293,66 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                     (currentStep === "selectInterventions" || currentStep === 'selectTargetMedicalRecord') &&
                     <div className={'back-cross-btn-wrapper'}>
                         <div className="back-btn" onClick={handleBack}><ImageConfig.LeftArrow/></div>
-                        <ToolTipComponent tooltip={"Close"} position={"left"}>
-                            <div className="drawer-close"
-                                 id={'book-appointment-close-btn'}
-                                 onClick={(event) => {
-                                     if (onClose) {
-                                         onClose();
-                                     }
+                        {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
+                        <div className="drawer-close"
+                             id={'book-appointment-close-btn'}
+                             onClick={(event) => {
+                                 if (onClose) {
+                                     onClose();
                                  }
-                                 }><ImageConfig.CloseIcon/></div>
-                        </ToolTipComponent>
+                             }
+                             }><ImageConfig.CloseIcon/></div>
+                        {/*</ToolTipComponent>*/}
                     </div>
                 }
                 {
                     currentStep === "selectClient" &&
                     <div className={'cross-btn'}>
-                        <ToolTipComponent tooltip={"Close"} position={"left"}>
-                            <div className="drawer-close"
-                                 id={'book-appointment-close-btn'}
-                                 onClick={(event) => {
-                                     if (onClose) {
-                                         onClose();
-                                     }
+                        {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
+                        <div className="drawer-close"
+                             id={'book-appointment-close-btn'}
+                             onClick={(event) => {
+                                 if (onClose) {
+                                     onClose();
                                  }
-                                 }><ImageConfig.CloseIcon/></div>
-                        </ToolTipComponent>
+                             }
+                             }><ImageConfig.CloseIcon/></div>
+                        {/*</ToolTipComponent>*/}
                     </div>
                 }
-                <FormControlLabelComponent label={"Transfer File to"} size={"lg"}/>
+                <FormControlLabelComponent label={"Transfer File to"} className={'mrg-top-12'} size={"lg"}/>
                 {
                     currentStep === "selectClient" && <div className={"select-client-wrapper"}>
-                        <SearchComponent label={"Search for Client"} value={clientSearchKey}
+                        <SearchComponent label={"Search "}
+                                         placeholder={"Search using Name/ID"}
+                                         value={clientSearchKey}
                                          onSearchChange={(value) => {
                                              setSelectedClient(undefined);
                                              getClientList(value);
                                          }}/>
-                        {
-                            clientSearchKey.length > 0 && <>
-                                <FormControlLabelComponent label={"Client List"}/>
-                                <TableComponent data={clientList}
-                                                className={'client-list-table'}
-                                                columns={ClientListColumns}
-                                                loading={isClientListLoading}
-                                                bordered={true}
-                                                hideHeader={false}
-                                                onRowClick={(row: any) => {
-                                                    setSelectedClient(row);
-                                                }}
-                                />
-                            </>
-                        }
+                        <>
+                            <FormControlLabelComponent label={"Client List"} className={"client-list-heading"}/>
+                            <TableComponent data={clientList}
+                                            className={'client-list-table'}
+                                            columns={ClientListColumns}
+                                            loading={isClientListLoading}
+                                            noDataText={"No clients available for the name/ID you have searched."}
+                                            bordered={true}
+                                            hideHeader={false}
+                                            onRowClick={(row: any) => {
+                                                setSelectedClient(row);
+                                            }}
+                            />
+                        </>
+
                     </div>
                 }
                 {
                     currentStep === "selectInterventions" &&
                     <div className="select-interventions-wrapper">
-                        <CardComponent color={"primary"} size={"sm"}>
+                        <CardComponent color={"primary"} size={"sm"} className={'mini-card-wrapper'}>
                             <div className="client-mini-card">
-                                <AvatarComponent title={CommonService.extractName(selectedClient)}/>
+                                <AvatarComponent title={CommonService.extractName(selectedClient)} className={'avatar'}/>
                                 <div className="client-name">
                                     {CommonService.extractName(selectedClient)}
                                 </div>
@@ -376,7 +378,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                                 }
                             />
                         </div>
-                        <div className={'mrg-bottom-10'}>
+                        <div className={'medical-intervention-list-wrapper'}>
                             <TableComponent data={medicalInterventionList}
                                             columns={MedicalInterventionListColumns}
                                             loading={isMedicalInterventionListLoading}
@@ -394,11 +396,14 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                                 </div>
                             </div>
                         </CardComponent>
-                        <TableComponent data={medicalRecordList}
-                                        columns={MedicalRecordListColumns}
-                                        loading={isMedicalRecordListLoading}
-                                        hideHeader={true}
-                        />
+                        <div className={'case-list-table'}>
+                            <TableComponent data={medicalRecordList}
+                                            noDataText={'Currently, there are no open cases for this client.'}
+                                            columns={MedicalRecordListColumns}
+                                            loading={isMedicalRecordListLoading}
+                                // hideHeader={true}
+                            />
+                        </div>
                     </div>
                 }
                 {(currentStep === 'selectInterventions' || currentStep === 'selectTargetMedicalRecord') &&
@@ -421,7 +426,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                     </ButtonComponent>
                 }
                 {
-                    currentStep === "selectClient" && clientSearchKey?.length > 0 && <div className="t-form-actions">
+                    currentStep === "selectClient" && <div className="t-form-actions">
                         <ButtonComponent fullWidth={true}
                                          disabled={(currentStep === "selectClient" && !selectedClient)}
                                          isLoading={isMedicalRecordTransferUnderProgress}

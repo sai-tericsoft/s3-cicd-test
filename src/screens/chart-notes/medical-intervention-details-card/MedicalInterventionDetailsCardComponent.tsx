@@ -9,13 +9,12 @@ import StatusCardComponent from "../../../shared/components/status-card/StatusCa
 import {useNavigate, useParams} from "react-router-dom";
 import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import {CommonService} from "../../../shared/services";
-import {ImageConfig, Misc} from "../../../constants";
+import {ImageConfig} from "../../../constants";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import EditMedicalRecordComponent from "../edit-medical-record/EditMedicalRecordComponent";
 import {ListItem} from "@mui/material";
 import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
 import AddSurgeryRecordComponent from "../add-surgery-record/AddSurgeryRecordComponent";
-import moment from "moment-timezone";
 import AddDryNeedlingFileComponent from "../add-dry-needling-file/AddDryNeedlingFileComponent";
 
 import ViewPriorNoteComponent from "../view-prior-note/ViewPriorNoteComponent";
@@ -208,7 +207,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
         if (medicalInterventionId) {
             CommonService._chartNotes.MedicalInterventionNotifyAdminAPICall(medicalInterventionId, values)
                 .then((response) => {
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully Notify the admin", "success");
+                    CommonService._alert.showToast( "Admin has been notified.", "success");
                     setIsNotifyAdminProgressIsLoading(false);
                     handleNotifyAdminModalClose();
                     resetForm();
@@ -286,7 +285,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                                {clientMedicalRecord?.client_details?.first_name || "N/A"} {clientMedicalRecord?.client_details?.last_name || "N/A"}
                                         </span>
                                         <ChipComponent
-                                            className={medicalInterventionDetails?.status==='completed' ? "completed" : "draft"}
+                                            className={medicalInterventionDetails?.status==='completed' ? "active" : "draft"}
                                             size={'small'}
                                             label={medicalInterventionDetails?.status || "N/A"}/>
                                     </span>
@@ -300,7 +299,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                 </div>
                                 {showAction && <div className="ts-col">
                                     <MenuDropdownComponent menuBase={
-                                        <ButtonComponent size={'large'} variant={'outlined'} fullWidth={true}>
+                                        <ButtonComponent  variant={'outlined'} fullWidth={true}>
                                             Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
                                         </ButtonComponent>
                                     } menuOptions={medicalInterventionDropDownOptions}
@@ -310,11 +309,11 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                         </div>
                         <MedicalInterventionLinkedToComponent
                             medicalRecordDetails={medicalInterventionDetails?.medical_record_details}/>
-                        <DataLabelValueComponent label={'File Created On:'} direction={"row"}
-                                                 className={'intervention-injury-details-wrapper'}>
-                            {(medicalInterventionDetails?.created_at ? moment(medicalInterventionDetails?.created_at).tz(moment.tz.guess()).format('DD-MMM-YYYY') : 'N/A')}&nbsp;-&nbsp;
-                            {medicalInterventionDetails?.created_by_details?.first_name ? medicalInterventionDetails?.created_by_details?.first_name + ' ' + medicalInterventionDetails?.created_by_details?.last_name : ' N/A'}
-                        </DataLabelValueComponent>
+                        {/*<DataLabelValueComponent label={'File Created On:'} direction={"row"}*/}
+                        {/*                         className={'intervention-injury-details-wrapper'}>*/}
+                        {/*    {(medicalInterventionDetails?.created_at ? moment(medicalInterventionDetails?.created_at).tz(moment.tz.guess()).format('DD-MMM-YYYY') : 'N/A')}&nbsp;-&nbsp;*/}
+                        {/*    {medicalInterventionDetails?.created_by_details?.first_name ? medicalInterventionDetails?.created_by_details?.first_name + ' ' + medicalInterventionDetails?.created_by_details?.last_name : ' N/A'}*/}
+                        {/*</DataLabelValueComponent>*/}
                         <div className={'ts-row'}>
                             <div className={'ts-col-md-3'}>
                                 <DataLabelValueComponent label={'Date of Intervention'}>
