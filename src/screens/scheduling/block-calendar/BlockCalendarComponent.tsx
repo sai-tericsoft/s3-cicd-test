@@ -97,7 +97,6 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
 
 
     const appointmentColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
-
         {
             title: "Appointment ID",
             key: "appointment_id",
@@ -180,7 +179,6 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
 
     ], []);
 
-
     useEffect(() => {
         getAppointmentLite();
     }, [getAppointmentLite]);
@@ -207,6 +205,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
         setIsBlockCalendarIsProgress(true);
         const payload = {...blockCalenderFormDetails}
         delete payload.provider;
+        console.log(isBlockCalendarIsProgress);
         CommonService._appointment.BlockCalender(blockCalenderFormDetails.provider, payload)
             .then((response: IAPIResponseType<IServiceCategory>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
@@ -216,7 +215,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                 CommonService._alert.showToast(error?.error || "", "error");
                 setIsBlockCalendarIsProgress(false);
             })
-    }, [blockCalenderFormDetails]);
+    }, [blockCalenderFormDetails, isBlockCalendarIsProgress]);
 
 
     const handleBlockCalenderConfirmation = useCallback(() => {
@@ -229,7 +228,6 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
             BlockCalender();
         })
     }, [BlockCalender]);
-
 
     const onSubmit = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
         setSubmitting(true);
@@ -267,8 +265,6 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                 setSubmitting(false);
             })
     }, [handleBlockCalenderConfirmation]);
-
-
 
     return (
         <div className={'block-calender-component'}>

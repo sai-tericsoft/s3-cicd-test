@@ -102,7 +102,7 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                         formRef.current?.setFieldValue('facility', facility);
                         setAvailableRawTimes([]);
                         setAvailableDates([]);
-                        getAvailableDatesList(providerId,serviceId, facility._id);
+                        getAvailableDatesList(providerId, serviceId, facility._id);
                     }
                 })
                 .catch((error: any) => {
@@ -112,7 +112,7 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                     setIsFacilityListLoading(false);
                 })
         },
-        [],
+        [details, getAvailableDatesList],
     );
 
     const breakupTimeSlots = useCallback(
