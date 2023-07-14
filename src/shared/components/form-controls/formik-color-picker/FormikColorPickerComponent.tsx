@@ -3,7 +3,6 @@ import {FieldProps} from "formik";
 import _ from "lodash";
 import {useCallback} from "react";
 import {IColorPickerProps} from "../../../models/form-controls.model";
-import TextAreaComponent from "../text-area/TextAreaComponent";
 import ColorPickerComponent from "../color-picker/ColorPickerComponent";
 
 interface FormikColorPickerComponentProps extends IColorPickerProps{
@@ -20,7 +19,7 @@ const FormikColorPickerComponent = (props: FormikColorPickerComponentProps) => {
 
     const {field, form} = formikField;
     const {name, value} = field;
-    const {setFieldTouched, touched, handleBlur, errors, setFieldValue} = form;
+    const {setFieldTouched, touched, errors, setFieldValue} = form;
     const hasError = _.get(touched, name) && !!(_.get(errors, name));
 
     const colorChangeHandler = useCallback((text: string) => {

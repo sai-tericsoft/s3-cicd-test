@@ -173,7 +173,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                 CommonService._alert.showToast(error?.error || "", "error");
                 setIsBlockCalendarIsProgress(false);
             })
-    }, [blockCalenderFormDetails, isBlockCalendarIsProgress, onAddSuccess]);
+    }, [blockCalenderFormDetails, onAddSuccess]);
 
     const handleBlockCalenderConfirmation = useCallback(() => {
         CommonService.onConfirm({
@@ -203,7 +203,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
         }).then(() => {
             BlockCalender();
         })
-    }, [BlockCalender, blockCalenderFormDetails]);
+    }, [BlockCalender, blockCalenderFormDetails, isBlockCalendarIsProgress]);
 
 
     const handleAppointmentsPopup = useCallback(() => {
@@ -432,7 +432,8 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                 }
             >
 
-                <div className='text-center font-weight-bold mrg-bottom-15'>The following clients will be notified of your unavailability and will be asked to reschedule their
+                <div className='text-center font-weight-bold mrg-bottom-15'>The following clients will be notified of
+                    your unavailability and will be asked to reschedule their
                     appointments.
                 </div>
                 <div>
