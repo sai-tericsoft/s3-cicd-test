@@ -918,8 +918,8 @@ const APIConfig: IAPIConfig = {
         METHOD: "get"
     },
     CHECK_SLOTS_EXISTS_TO_BLOCK: {
-        URL: (providerId: string) => ENV.API_URL + '/user/' + providerId + '/checkExists',
-        METHOD: "post"
+        URL: ENV.API_URL + '/appointment/lite',
+        METHOD: "get"
     },
     BLOCK_SLOTS: {
         URL: (providerId: string) => ENV.API_URL + '/user/' + providerId + '/blockSlots',

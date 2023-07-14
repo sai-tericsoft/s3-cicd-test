@@ -970,7 +970,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                              showClose={true}
                              onClose={() => setOpenBlockCalenderDrawer(false)}
                              className={'block-calendar-component-drawer'}>
-                <BlockCalendarComponent />
+                <BlockCalendarComponent onAddSuccess={() => setOpenBlockCalenderDrawer(false)}/>
             </DrawerComponent>
 
         </div>

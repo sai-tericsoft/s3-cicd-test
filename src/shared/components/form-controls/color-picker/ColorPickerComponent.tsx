@@ -16,8 +16,6 @@ const ColorPickerComponent = (props: ColorPickerComponentProps) => {
     const [displayColorPicker, setDisplayColorPicker] = useState(false);
     const [color, setColor] = useState<any>(value);
 
-    console.log(props);
-
     const handleClick = () => {
         setDisplayColorPicker(!displayColorPicker);
     };

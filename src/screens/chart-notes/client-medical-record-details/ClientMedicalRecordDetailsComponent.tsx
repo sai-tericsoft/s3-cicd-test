@@ -77,7 +77,11 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
 
     const getAppointmentLite = useCallback(() => {
         if (clientMedicalRecord && clientMedicalRecord.client_id) {
-            const payload = {client_id: clientMedicalRecord.client_id, medicalRecordId: medicalRecordId};
+            const payload = {
+                client_id: clientMedicalRecord.client_id,
+                medicalRecordId: medicalRecordId,
+                is_intervention_linked: true
+            };
             dispatch(getAppointmentListLite(payload));
         }
     }, [clientMedicalRecord, dispatch, medicalRecordId])
@@ -381,7 +385,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                         required={true}
                         label={"Select Appointment"}
                         value={selectedAppointment}
-                        displayWith={(item: any) => item?.appointment_type + ' ('+(moment(item.appointment_date).format('DD-MMM-YYYY'))+')'}
+                        displayWith={(item: any) => item?.appointment_type + ' (' + (moment(item.appointment_date).format('DD-MMM-YYYY')) + ')'}
                         valueExtractor={(item: any) => item?._id}
                         onUpdate={(value: any) => {
                             console.log(value);

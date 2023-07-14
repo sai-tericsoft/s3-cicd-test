@@ -68,6 +68,7 @@ const ConfirmationComponent = (props: ConfirmationComponentProps) => {
                         variant={config?.no?.variant || "outlined"}
                         id={"no-btn"}
                         className={"pdd-left-60 pdd-right-60"}
+                        disabled={config?.yes?.isLoading}
                     >
                         {config?.no?.text || 'No'}
                     </ButtonComponent>&nbsp;&nbsp;&nbsp;
@@ -78,6 +79,7 @@ const ConfirmationComponent = (props: ConfirmationComponentProps) => {
                     color={config?.yes?.color || 'primary'}
                     variant={config?.yes?.variant || "contained"}
                     id={"yes-btn"}
+                    isLoading={config?.yes?.isLoading}
                     className={"confirm-cta pdd-left-60 pdd-right-60"}
                 >
                     {config?.yes?.text || 'Yes'}
@@ -95,7 +97,7 @@ const ConfirmationComponent = (props: ConfirmationComponentProps) => {
                                     animationData={config.image}/> : <div>
 
                                     {(typeof (config.image) === 'string') &&
-                                        <img src={config.image} alt={config?.confirmationTitle}/>}
+                                    <img src={config.image} alt={config?.confirmationTitle}/>}
                                     {(typeof (config.image) !== 'string') && <config.image/>}
                                 </div>
                             }
