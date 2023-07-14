@@ -291,7 +291,6 @@ export interface ITimePickerProps {
 
 export interface IColorPickerProps {
     value?: any;
-    name: string;
     handleChange?: Function;
     label?: string;
     required?: boolean;

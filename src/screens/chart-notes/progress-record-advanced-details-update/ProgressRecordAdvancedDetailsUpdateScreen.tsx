@@ -85,7 +85,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
             key: "name",
             fixed: "left",
             width: 150,
-            render:(_: any, item: any)=>{
+            render: (_: any, item: any) => {
                 return <div className={'name'}>{item?.name}:</div>
             }
         },
@@ -275,7 +275,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                                 {clientMedicalRecordProgressReportDetails?.medical_record_details?.client_details?.first_name || "-"} {clientMedicalRecordProgressReportDetails?.medical_record_details?.client_details?.last_name || "-"}
                                         </span>
                                         <ChipComponent
-                                            className={clientMedicalRecordProgressReportDetails?.status==="completed" ? "active" : "draft"}
+                                            className={clientMedicalRecordProgressReportDetails?.status === "completed" ? "active" : "draft"}
                                             size={'small'}
                                             label={clientMedicalRecordProgressReportDetails?.status || "-"}/>
                                     </span>
@@ -324,22 +324,25 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                 <StatusCardComponent title={'Failed to fetch ICD-11 code list'}/>
                             }
                             {isAddedICD11CodeListLoaded &&
-                                <DataLabelValueComponent label={'Medical Diagnosis/ICD-11 Codes:'}>
+                            <DataLabelValueComponent label={'Medical Diagnosis/ICD-11 Codes:'}>
+                                {addedICD11CodeList?.length > 0 ?
                                     <>
                                         {addedICD11CodeList.map((icdCode: any) => (
-                                            <div key={icdCode.icd_code} className='d-flex ts-align-items-center mrg-top-5'>
+                                            <div key={icdCode.icd_code}
+                                                 className='d-flex ts-align-items-center mrg-top-5'>
                                                 <div className='width-5 mrg-right-10'>{icdCode.icd_code}</div>
                                                 <div>:</div>
                                                 <div className='mrg-left-10'>{icdCode.description}</div>
                                             </div>
                                         ))}
-                                    </>
-                                </DataLabelValueComponent>
+                                    </> : <div>N/A</div>
+                                }
+                            </DataLabelValueComponent>
 
                             }
                         </>
                         }
-                        {addedICD11CodeList?.length > 0 && <div className={'ts-row'}>
+                        <div className={'ts-row'}>
                             <div className={'ts-col-md-4 ts-col-lg'}/>
                             <div className={'ts-col-md-4 ts-col-lg'}/>
                             <div className={'show-more-less'}
@@ -347,7 +350,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                 {isFullCardOpen ? 'Less' : 'More'} Details &nbsp;&nbsp;
                                 {isFullCardOpen ? <ImageConfig.UpArrowIcon/> : <ImageConfig.DownArrowIcon/>}
                             </div>
-                        </div>}
+                        </div>
 
                     </CardComponent>
                     <DrawerComponent isOpen={isEditProgressReportDrawerOpen}
@@ -487,7 +490,8 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                                 }
                                             })
                                         }
-                                        <div className={"display-flex flex-direction-row-reverse mrg-top-50 mrg-right-25"}>
+                                        <div
+                                            className={"display-flex flex-direction-row-reverse mrg-top-50 mrg-right-25"}>
                                             <ESignApprovalComponent isSigned={false}
                                                                     isSigning={isSigningInProgress}
                                                                     canSign={true}

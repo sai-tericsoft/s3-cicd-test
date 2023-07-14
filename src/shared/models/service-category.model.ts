@@ -16,6 +16,9 @@ export interface IServiceCategoryAddForm {
     name: string;
     description: string;
     image: any;
+    bg_color_code?: any;
+    text_color_code?: any;
+
 }
 
 export interface IServiceCategoryEditForm {

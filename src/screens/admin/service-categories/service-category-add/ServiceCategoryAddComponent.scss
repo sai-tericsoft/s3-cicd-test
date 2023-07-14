@@ -1,9 +1,30 @@
-.service-category-add-component{
-  .service-category-add-form-container{
-    .service-category-add-heading{
+.service-category-add-component {
+  .service-category-add-form-container {
+    .service-category-add-heading {
       font-size: 18px;
       margin-bottom: 18px;
       font-weight: 700;
+    }
+  }
+
+  .color-picker-wrapper {
+    border: 1px solid #ABB6BE;
+    border-radius: 4px;
+    padding: 20px;
+
+    .preview-wrapper {
+      margin-top: 20px;
+
+      .preview-button {
+        margin-top: 10px;
+        width: 88px;
+        height: 40px;
+        padding: 4px;
+        border-radius: 4px;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+      }
     }
   }
 }

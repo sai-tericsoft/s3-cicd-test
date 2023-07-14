@@ -125,7 +125,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
         }
     }, [searchParams, navigate, dispatch, medicalRecordId]);
 
-    console.log('progressReportDetails',progressReportDetails);
+    console.log('progressReportDetails', progressReportDetails);
 
     return (
         <div className={'progress-report-view-details-screen'}>
@@ -146,7 +146,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                                 {progressReportDetails?.medical_record_details?.client_details?.first_name || "-"} {progressReportDetails?.medical_record_details?.client_details?.last_name || "-"}
                                         </span>
                                         <ChipComponent
-                                            className={progressReportDetails?.status==='completed' ? "active" : "draft"}
+                                            className={progressReportDetails?.status === 'completed' ? "active" : "draft"}
                                             size={'small'}
                                             label={progressReportDetails?.status || "-"}/>
                                     </span>
@@ -193,6 +193,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                         }
                         {isAddedICD11CodeListLoaded &&
                         <DataLabelValueComponent label={'Medical Diagnosis/ICD-11 Codes:'}>
+                            {addedICD11CodeList?.length > 0 ?
                             <>
                                 {addedICD11CodeList.map((icdCode: any) => (
                                     <div key={icdCode.icd_code} className='d-flex ts-align-items-center mrg-top-5'>
@@ -201,13 +202,14 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                         <div className='mrg-left-10'>{icdCode.description}</div>
                                     </div>
                                 ))}
-                            </>
+                            </> : <div>N/A</div>
+                            }
                         </DataLabelValueComponent>
 
                         }
                     </>
                     }
-                    {addedICD11CodeList?.length > 0 && <div className={'ts-row'}>
+                    <div className={'ts-row'}>
                         <div className={'ts-col-md-4 ts-col-lg'}/>
                         <div className={'ts-col-md-4 ts-col-lg'}/>
                         <div className={'show-more-less'}
@@ -215,7 +217,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                             {isFullCardOpen ? 'Less' : 'More'} Details &nbsp;&nbsp;
                             {isFullCardOpen ? <ImageConfig.UpArrowIcon/> : <ImageConfig.DownArrowIcon/>}
                         </div>
-                    </div>}
+                    </div>
                 </CardComponent>
             }
             {
@@ -247,22 +249,22 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                 (isProgressReportDetailsLoaded && progressReportDetails) && <>
                                     <div className={'progress-report-view-details-component__header'}>
                                         <div className={'progress-report-view-details-wrapper'}>
-                                        <CardComponent title={'Synopsis'} >
-                                            {progressReportDetails?.synopsis ?progressReportDetails?.synopsis.split("\n").map((i: any, key: any) => {
-                                                return <div key={key}>{i}</div>;
-                                            }) : "N/A"}
-                                        </CardComponent>
+                                            <CardComponent title={'Synopsis'}>
+                                                {progressReportDetails?.synopsis ? progressReportDetails?.synopsis.split("\n").map((i: any, key: any) => {
+                                                    return <div key={key}>{i}</div>;
+                                                }) : "N/A"}
+                                            </CardComponent>
 
-                                         <CardComponent title={'Impression'}>
-                                            {progressReportDetails?.impression ? progressReportDetails?.impression.split("\n").map((i: any, key: any) => {
-                                                return <div key={key}>{i}</div>;
-                                            }) : "N/A"}
-                                        </CardComponent>
-                                         <CardComponent title={'Plan'}>
-                                            {progressReportDetails?.plan ? progressReportDetails?.plan.split("\n").map((i: any, key: any) => {
-                                                return <div key={key}>{i}</div>;
-                                            }) : "N/A"}
-                                        </CardComponent>
+                                            <CardComponent title={'Impression'}>
+                                                {progressReportDetails?.impression ? progressReportDetails?.impression.split("\n").map((i: any, key: any) => {
+                                                    return <div key={key}>{i}</div>;
+                                                }) : "N/A"}
+                                            </CardComponent>
+                                            <CardComponent title={'Plan'}>
+                                                {progressReportDetails?.plan ? progressReportDetails?.plan.split("\n").map((i: any, key: any) => {
+                                                    return <div key={key}>{i}</div>;
+                                                }) : "N/A"}
+                                            </CardComponent>
                                         </div>
                                         {
                                             progressReportDetails?.progress_stats?.length > 0 &&

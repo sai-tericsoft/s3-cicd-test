@@ -8,11 +8,11 @@ import {IColorPickerProps} from "../../../models/form-controls.model";
 import ButtonComponent from "../../button/ButtonComponent";
 
 interface ColorPickerComponentProps extends IColorPickerProps {
-
+    // name: string;
 }
 
 const ColorPickerComponent = (props: ColorPickerComponentProps) => {
-    const {value, name, handleChange, label, required, errorMessage, hasError, className, disabled} = props;
+    const {value, handleChange, label, required, errorMessage, hasError, className, disabled} = props;
     const [displayColorPicker, setDisplayColorPicker] = useState(false);
     const [color, setColor] = useState<any>(value);
 
@@ -27,7 +27,7 @@ const ColorPickerComponent = (props: ColorPickerComponentProps) => {
     const handleColorChange = (newColor: any) => {
         setColor(newColor.rgb);
         if (handleChange) {
-            handleChange(newColor.rgb, name);
+            handleChange(newColor.rgb);
         }
     };
 
