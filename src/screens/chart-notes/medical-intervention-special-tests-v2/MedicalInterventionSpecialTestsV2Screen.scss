@@ -12,6 +12,11 @@
   }
 
   .rom-config-table-container {
+    .t-table-wrapper{
+      .t-table {
+        min-height: max-content !important;
+      }
+    }
     .radio-component {
       margin-right: 16px !important;
 

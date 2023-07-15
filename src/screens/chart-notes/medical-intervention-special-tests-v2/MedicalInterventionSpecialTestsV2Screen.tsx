@@ -141,10 +141,10 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                                 mode === 'write' && <>
                                     {
                                         field.form?.values[bodyPart._id]?.special_test_config?.[record]?.comments && <>
-                                            <ToolTipComponent
+                                            <ToolTipComponent position={'bottom'}
                                                 tooltip={field.form?.values[bodyPart._id]?.special_test_config?.[record]?.comments}>
                                                 <div className="movement-comment">
-                                                    {field.form?.values[bodyPart._id]?.special_test_config?.[record]?.comments}
+                                                    {field.form?.values[bodyPart._id]?.special_test_config?.[record]?.comments.length > 60 ? field.form?.values[bodyPart._id]?.special_test_config?.[record]?.comments.substring(0, 60) + '...' : field.form?.values[bodyPart._id]?.special_test_config?.[record]?.comments}
                                                 </div>
                                             </ToolTipComponent>
                                             &nbsp;
@@ -207,6 +207,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                     (field: FieldProps) => (
                         <>
                             <IconButtonComponent
+                                color={"error"}
                                 onClick={() => {
                                     const special_test_config = field.form?.values[bodyPart._id]?.special_test_config;
                                     const new_special_test_config = _.cloneDeep(special_test_config);
@@ -387,7 +388,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
         if (medicalInterventionId) {
             CommonService.onConfirm({
                 image: ImageConfig.ConfirmationLottie,
-                showLottie:true,
+                showLottie: true,
                 confirmationTitle: "REMOVE BODY PART",
                 confirmationSubTitle: "Are you sure you want to remove this body part?",
             }).then(() => {
@@ -588,7 +589,6 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                                                                                 data={Object.keys(bodyPart?.special_test_config) || []}
                                                                                 bordered={true}
                                                                                 columns={bodyPart?.tableConfig}
-
                                                                                 noDataText={"No special test have been added"}
                                                                             />
                                                                         </div>
@@ -615,6 +615,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                                                                                             Cancel
                                                                                         </ButtonComponent>&nbsp;
                                                                                         <ButtonComponent
+                                                                                            className={'mrg-left-15'}
                                                                                             onClick={() => {
                                                                                                 const newComment = values?.[bodyPart._id]?.special_test_config?.[selectedSpecialTestForComments]?.commentsTemp;
                                                                                                 setShowSpecialTestForCommentsModal(false);
@@ -664,6 +665,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                                                 </ButtonComponent>
                                                 <div className={"h-v-center"}>
                                                     <ButtonComponent
+                                                        size={"large"}
                                                         type={"submit"}
                                                         className={'save-rom-config-button'}
                                                         isLoading={isSubmitting}
@@ -684,7 +686,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
             <ModalComponent isOpen={isAddSpecialTestModalOpen}
                             title={"Add Special Test:"}
                             className={"intervention-special-test-selection-modal"}
-                            modalFooter={<>
+                            modalFooter={<div className={'mrg-top-50'}>
                                 <ButtonComponent
                                     onClick={handleSpecialTestAddSelectCancel}
                                     variant={"outlined"}
@@ -692,10 +694,11 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                                     Cancel
                                 </ButtonComponent>&nbsp;&nbsp;
                                 <ButtonComponent
+                                    className={'mrg-left-15'}
                                     onClick={handleSpecialTestSelectConfirm}>
                                     Add Test
                                 </ButtonComponent>
-                            </>}
+                            </div>}
             >
                 <div className={'body-side-modal'}>
                     <div>
@@ -733,6 +736,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                         Cancel
                     </ButtonComponent>&nbsp;
                     <ButtonComponent onClick={handleAddNewBodyPart}
+                                     className={'mrg-left-15'}
                                      disabled={!selectedBodyPartToBeAdded}
                     >
                         Add

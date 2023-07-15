@@ -35,7 +35,6 @@ import AddMedicalRecordDocumentComponent from "../add-medical-record-document/Ad
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import _ from "lodash";
 import LottieFileGenerationComponent
@@ -229,8 +228,8 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     useEffect(() => {
         if (medicalInterventionDetails?.status === 'completed') {
             const options = [
-                <ListItem
-                    onClick={comingSoon}>Print SOAP</ListItem>,
+                // <ListItem
+                //     onClick={comingSoon}>Print SOAP</ListItem>,
                 <ListItem onClick={openTransferSoapNoteDrawer}>Transfer SOAP to</ListItem>,
                 <ListItem onClick={handleNotifyAdminModalOpen}>Notify Admin</ListItem>];
             if (mode === 'view') {
@@ -339,7 +338,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                         {isFullCardOpen && <div className={'ts-row'}>
                             <div className={'ts-col'}>
                                 <DataLabelValueComponent label={'Restrictions/Limitations'}>
-                                    {medicalInterventionDetails?.medical_record_details?.limitations || "-"}
+                                    {medicalInterventionDetails?.medical_record_details?.limitations || "N/A"}
                                 </DataLabelValueComponent>
                             </div>
                         </div>}
@@ -394,11 +393,11 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
             </DrawerComponent>
 
             <DrawerComponent isOpen={isTransferSoapNoteDrawerOpen}
-                             showClose={true}
                              onClose={closeTransferSoapNoteDrawer}>
                 {
                     medicalRecordId && <TransferSoapNoteComponent
                         medicalRecordId={medicalRecordId}
+                        onClose={closeTransferSoapNoteDrawer}
                         medicalInterventionId={medicalInterventionDetails?._id}
                         onTransferSoapNote={handleTransferSoapNote}/>
                 }
@@ -436,12 +435,12 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
             {/*Notify admin for medical record modal start*/}
             <ModalComponent isOpen={isNotifyModalOpen} closeOnBackDropClick={true}
                             className={'notify-admin-modal'}>
-                {/*<div className={'display-flex ts-justify-content-center mrg-bottom-20'}>*/}
+                <div className={'display-flex ts-justify-content-center mrg-bottom-20'}>
                    <LottieFileGenerationComponent loop={true}
                                                   animationData={ImageConfig.PopupLottie}
                                                   autoplay={true}
                                                   />
-                {/*</div>*/}
+                </div>
                 <FormControlLabelComponent label={'NOTIFY ADMIN'}
                                            className={'display-flex ts-justify-content-center '}/>
                 <Formik initialValues={notifyAdminFormInitialValues}
@@ -457,7 +456,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                         }, [values, validateForm]);
                         return (
                             <Form className={'t-form'} noValidate={true}>
-                                <FormDebuggerComponent values={values} showDebugger={false} />
+                                {/*<FormDebuggerComponent values={values} showDebugger={false} />*/}
                                 <div className={'ts-row ts-justify-content-center'}>
                                     <div className={'ts-col-lg-12'}>
                                         <Field name={'message'}>
@@ -474,6 +473,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                 </div>
                                 <div className={'ts-action display-flex ts-justify-content-center'}>
                                     <ButtonComponent variant={'outlined'}
+                                                     className={isNotifyAdminProgressIsLoading?'mrg-right-15':""}
                                                      onClick={() => {
                                                          handleNotifyAdminModalClose();
                                                          resetForm(); // TODO : check if this is required compare with Inventory stock update form
@@ -482,6 +482,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                     </ButtonComponent>
                                     &nbsp;&nbsp;
                                     <ButtonComponent variant={'contained'} color={'primary'}
+                                                     className={'mrg-left-15'}
                                                      isLoading={isNotifyAdminProgressIsLoading}
                                                      disabled={!isValid || isNotifyAdminProgressIsLoading}
                                                      type={'submit'}>

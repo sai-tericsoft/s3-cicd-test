@@ -2,6 +2,9 @@
 
 .transfer-medical-record-component {
   height: calc(100vh - 50px);
+  .transfer-file-to-heading{
+    margin-top: 12px;
+  }
   .back-cross-btn-wrapper {
     display: flex;
     justify-content: space-between;

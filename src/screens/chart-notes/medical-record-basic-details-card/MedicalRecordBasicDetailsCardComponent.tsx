@@ -239,7 +239,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                         Add Progress Report
                     </ListItem>,
                     <ListItem onClick={openTransferMedicalRecordDrawer}>
-                        Transfer File To
+                        Transfer File to
                     </ListItem>,
                     <ListItem onClick={handleNotifyAdminModalOpen}>
                         Notify Admin
