@@ -27,6 +27,8 @@ import MedicalInterventionLinkedToComponent
     from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import {getClientMedicalRecord} from "../../../store/actions/client.action";
+import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
+import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 
 interface MedicalInterventionICDCodesScreenProps {
 
@@ -38,7 +40,12 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {medicalInterventionDetails} = useSelector((state: IRootReducerState) => state.chartNotes);
+    const {
+        isMedicalInterventionDetailsLoading,
+        isMedicalInterventionDetailsLoaded,
+        isMedicalInterventionDetailsLoadingFailed,
+        medicalInterventionDetails
+    } = useSelector((state: IRootReducerState) => state.chartNotes);
     const {medicalRecordId, medicalInterventionId} = useParams();
     const [currentTab, setCurrentTab] = useState<any>("icdCodes");
     const [searchParams, setSearchParams] = useSearchParams();
@@ -123,7 +130,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             }));
 
         }
-    }, [navigate, dispatch, medicalRecordId, medicalInterventionId, searchParams,last_position]);
+    }, [navigate, dispatch, medicalRecordId, medicalInterventionId, searchParams, last_position]);
 
 
     const codeListColumns: ITableColumn[] = [
@@ -291,7 +298,13 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
         <div className={'medical-intervention-icd-codes-screen'}>
             <PageHeaderComponent title={'Add ICD-11 Code'}/>
             {
-                (clientMedicalRecord) && <>
+                isMedicalInterventionDetailsLoading && <LoaderComponent/>
+            }
+            {
+                isMedicalInterventionDetailsLoadingFailed && <StatusCardComponent title={'Failed to load data'}/>
+            }
+            {
+                (isMedicalInterventionDetailsLoaded && clientMedicalRecord) && <>
                     <CardComponent color={'primary'}>
                         <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
@@ -308,7 +321,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                         <div className={'ts-row'}>
                             <div className={'ts-col-6'}>
                                 <DataLabelValueComponent label={'Date of Intervention'}>
-                                    {CommonService.transformTimeStamp(clientMedicalRecord?.created_at || "N/A")}
+                                    {CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.created_at || "N/A")}
                                 </DataLabelValueComponent>
                             </div>
                         </div>
@@ -376,6 +389,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                     {(medicalRecordId && medicalInterventionId) && <LinkComponent
                         route={CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`}>
                         <ButtonComponent variant={"outlined"}
+                                         className={isSubmitting ? 'mrg-right-15': ''}
                                          disabled={isSubmitting}
                         >
                             Cancel
@@ -383,6 +397,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                     </LinkComponent>}
                     &nbsp;&nbsp;
                     <ButtonComponent type={"button"}
+                                     className={'mrg-left-15'}
                                      onClick={() => {
                                          linkICDCodesToIntervention(
                                              selectedICDCodes,

@@ -116,6 +116,7 @@ const ExerciseLogAttachmentListComponent = (props: ExerciseLogAttachmentListComp
                                                 return <span className={'chip-wrapper'}>
                                         <ChipComponent className={'chip chip-items'}
                                                        disabled={isAttachmentBeingDeleted}
+                                                       color={'success'}
                                                        label={attachment.name}
                                                        prefixIcon={<ImageConfig.PDF_ICON/>}
                                                        onDelete={() => removeAttachment(attachment, medicalInterventionId)}/>

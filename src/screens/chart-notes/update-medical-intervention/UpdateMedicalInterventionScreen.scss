@@ -15,7 +15,7 @@
   .t-form{
     .s-o-a-wrapper{
       .card-component{
-        padding-bottom: 4px;
+        //padding-bottom: 4px;
       }
     }
     .clear-cta{
@@ -155,6 +155,12 @@
       border-radius: 5px;
       overflow: hidden;
       //}
+      .t-table-wrapper{
+        .t-table {
+          border: none !important;
+          min-height: max-content !important;
+        }
+      }
     }
 
     .card-body {
@@ -169,5 +175,6 @@
   .rom-special-test-icd-11-cta {
     height: 68px;
    justify-content: flex-start;
+    padding-left: 13px;
   }
 }
