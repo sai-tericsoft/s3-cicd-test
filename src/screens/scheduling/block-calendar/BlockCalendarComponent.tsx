@@ -165,6 +165,8 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
         delete payload.provider_id;
         if (appointmentList && appointmentList.length > 0) {
             payload.appointment_ids = appointmentList.map((item: any) => item.appointment_id)
+        }else{
+            payload.appointment_ids = [];
         }
         CommonService._appointment.BlockCalender(blockCalenderFormDetails?.provider_id, payload)
             .then((response: IAPIResponseType<IServiceCategory>) => {

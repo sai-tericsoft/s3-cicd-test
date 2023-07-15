@@ -485,6 +485,15 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                             if (value) {
                                                                 getServicesList(value?._id);
                                                                 setFieldValue('service', undefined);
+                                                                setFieldValue('appointment_type', undefined);
+                                                                setFieldValue('provider', undefined);
+                                                                setFieldValue('facility', undefined);
+                                                                setFieldValue('date', undefined);
+                                                                setFieldValue('time', undefined);
+                                                                setAvailableRawTimes([]);
+                                                                setAvailableDates([]);
+                                                                setFacilityList([]);
+                                                                setDurationList([]);
                                                             }
                                                         }}
 
@@ -512,8 +521,15 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                             if (value) {
                                                                 getServicesInfo(value?._id)
                                                                 getServiceProviderList(value?._id);
+                                                                setFieldValue('appointment_type', undefined);
+                                                                setFieldValue('provider', undefined);
+                                                                setFieldValue('facility', undefined);
+                                                                setFieldValue('date', undefined);
+                                                                setFieldValue('time', undefined);
                                                                 setAvailableRawTimes([]);
                                                                 setAvailableDates([]);
+                                                                setFacilityList([]);
+                                                                setDurationList([]);
                                                             }
                                                         }}
 
@@ -561,7 +577,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                         </Field>
 
                                         {
-                                            values.appointment_type.includes('follow') && <Field name={'case'}>
+                                            values?.appointment_type?.includes('follow') && <Field name={'case'}>
                                                 {
                                                     (field: FieldProps) => (
                                                         <FormikSelectComponent
