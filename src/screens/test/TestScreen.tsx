@@ -52,7 +52,6 @@ const TestScreen = () => {
                 <div className="ts-col-6">
                     <ColorPickerComponent
                         // defaultColor={{r: 241, g: 112, b: 19, a: 1}}
-                        name="bg_color"
                         required={true}
                         label={'Background Color'}
                         handleChange={handleColorChange}
@@ -61,7 +60,6 @@ const TestScreen = () => {
                 <div className="ts-col-6">
                     <ColorPickerComponent
                         // defaultColor={{r: 241, g: 112, b: 19, a: 1}}
-                        name="text_color"
                         required={true}
                         label={'Text Color'}
                         handleChange={handleColorChange}

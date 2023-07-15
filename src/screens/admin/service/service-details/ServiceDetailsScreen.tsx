@@ -100,13 +100,13 @@ const ServiceDetailsScreen = (props: ServiceDetailsScreenProps) => {
                                 serviceDetails={serviceDetails}/>
                         }
                     </div>
-                    <div className="service-providers-details">
-                        {
-                            (serviceDetails && serviceId) && <ServiceProviderListComponent
-                                serviceId={serviceId}
-                                serviceDetails={serviceDetails}/>
-                        }
-                    </div>
+                    {/*<div className="service-providers-details">*/}
+                    {/*    {*/}
+                    {/*        (serviceDetails && serviceId) && <ServiceProviderListComponent*/}
+                    {/*            serviceId={serviceId}*/}
+                    {/*            serviceDetails={serviceDetails}/>*/}
+                    {/*    }*/}
+                    {/*</div>*/}
                 </>
             }
 

@@ -117,11 +117,10 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
 
     const getAppointmentLite = useCallback(() => {
         if (clientId) {
-            const payload = {client_id: clientId};
+            const payload = {client_id: clientId, is_link_to_intervention: true};
             dispatch(getAppointmentListLite(payload));
         }
     }, [dispatch, clientId])
-
 
     useEffect(() => {
         getAppointmentLite();
@@ -646,12 +645,13 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                                     </div>
                                                                     {
                                                                         index > 0 && <div className="ts-col-lg-1">
-                                                                            <IconButtonComponent id={"delete_body_" + index}
-                                                                                                 color={'error'}
-                                                                                                 className={'mrg-top-25'}
-                                                                                                 onClick={() => {
-                                                                                                     arrayHelpers.remove(index)
-                                                                                                 }}>
+                                                                            <IconButtonComponent
+                                                                                id={"delete_body_" + index}
+                                                                                color={'error'}
+                                                                                className={'mrg-top-25'}
+                                                                                onClick={() => {
+                                                                                    arrayHelpers.remove(index)
+                                                                                }}>
                                                                                 <ImageConfig.DeleteIcon/>
                                                                             </IconButtonComponent>
                                                                         </div>
@@ -712,17 +712,17 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                     </CardComponent>
                                     <div className="t-form-actions">
                                         {clientId &&
-                                            <LinkComponent route={CommonService._routeConfig.MedicalRecordList(clientId)}>
-                                                <ButtonComponent // TODO: Add CTA to take back to the previous screen
-                                                    variant={"outlined"}
-                                                    size={'large'}
-                                                    className={isMedicalRecordAddInProgress ? 'mrg-right-15' : ''}
-                                                    disabled={isMedicalRecordAddInProgress}
-                                                    id={"medical_record_add_cancel_btn"}
-                                                >
-                                                    Cancel
-                                                </ButtonComponent>
-                                            </LinkComponent>
+                                        <LinkComponent route={CommonService._routeConfig.MedicalRecordList(clientId)}>
+                                            <ButtonComponent // TODO: Add CTA to take back to the previous screen
+                                                variant={"outlined"}
+                                                size={'large'}
+                                                className={isMedicalRecordAddInProgress ? 'mrg-right-15' : ''}
+                                                disabled={isMedicalRecordAddInProgress}
+                                                id={"medical_record_add_cancel_btn"}
+                                            >
+                                                Cancel
+                                            </ButtonComponent>
+                                        </LinkComponent>
                                         }
                                         &nbsp;
                                         <ButtonComponent

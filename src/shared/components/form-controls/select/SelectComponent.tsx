@@ -30,6 +30,7 @@ const SelectComponent = (props: SelectComponentProps) => {
         endAdornment,
         selectedValues,
         id,
+        multiple,
         ...otherProps
     } = props;
 
@@ -97,6 +98,7 @@ const SelectComponent = (props: SelectComponentProps) => {
                 endAdornment={(tmpValue && tmpValue !== "" && isClear) ? <ClearOption/> : null}
                 id={id}
                 {...otherProps}
+                multiple={multiple}
             >
                 {
                     (options?.length > 0) ? (options?.map((item, index) => {

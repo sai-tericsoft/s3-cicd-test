@@ -16,6 +16,9 @@ import FilePreviewThumbnailComponent
     from "../../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import FormikTextAreaComponent
     from "../../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
+import FormikColorPickerComponent
+    from "../../../../shared/components/form-controls/formik-color-picker/FormikColorPickerComponent";
+import FormDebuggerComponent from "../../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface ServiceCategoryAddComponentProps {
     onAdd: (data: IServiceCategory) => void;
@@ -27,7 +30,9 @@ const serviceCategoryAddFormValidationSchema = Yup.object({
     description: Yup.string()
         .required("Description is required"),
     image: Yup.mixed()
-        .required("Image is required")
+        .required("Image is required"),
+    bg_color_code: Yup.mixed().required('Background Color is required'),
+    text_color_code: Yup.mixed().required('Text Color is required')
 });
 
 const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) => {
@@ -38,13 +43,19 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
         name: "",
         description: "",
         image: "",
+        bg_color_code: "",
+        text_color_code: ""
     });
 
     const [isServiceCategoryAddInProgress, setIsServiceCategoryAddInProgress] = useState(false);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         setIsServiceCategoryAddInProgress(true);
-        const formData = CommonService.getFormDataFromJSON(values);
+        const payload = {...values}
+        payload.bg_color_code = JSON.stringify(payload.bg_color_code);
+        payload.text_color_code = JSON.stringify(payload.text_color_code);
+        const formData = CommonService.getFormDataFromJSON(payload);
+        console.log(payload);
         CommonService._serviceCategory.ServiceCategoryAddAPICall(formData)
             .then((response: IAPIResponseType<IServiceCategory>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
@@ -77,7 +88,7 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
                         }, [validateForm, values]);
                         return (
                             <Form className="t-form" noValidate={true}>
-                                {/*<FormDebuggerComponent values={values} errors={errors}/>*/}
+                                <FormDebuggerComponent values={values} errors={errors}/>
                                 <div className="t-form-controls">
                                     <div className={'mrg-top-5'}>
                                         <Field name={'name'} className="t-form-control">
@@ -111,6 +122,55 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
                                             )
                                         }
                                     </Field>
+                                    <div className="mrg-bottom-20">
+                                        <FormControlLabelComponent size={"sm"} label={'Service Category Color'}/>
+
+                                        <div className="color-picker-wrapper">
+
+                                            <div className='ts-row'>
+                                                <div className='ts-col-6'>
+                                                    <Field name={'bg_color_code'} className="t-form-control">
+                                                        {
+                                                            (field: FieldProps) => (
+                                                                <FormikColorPickerComponent
+                                                                    label={'Background Color:'}
+                                                                    formikField={field}
+                                                                    required={true}
+                                                                />
+                                                            )
+                                                        }
+                                                    </Field>
+                                                </div>
+                                                <div className='ts-col-6'>
+                                                    <Field name={'text_color_code'} className="t-form-control">
+                                                        {
+                                                            (field: FieldProps) => (
+                                                                <FormikColorPickerComponent
+                                                                    label={'Text Color:'}
+                                                                    formikField={field}
+                                                                    required={true}
+                                                                />
+                                                            )
+                                                        }
+                                                    </Field>
+                                                </div>
+                                            </div>
+
+                                            {values.bg_color_code && <div className='preview-wrapper'>
+                                                <FormControlLabelComponent size={"sm"}
+                                                                           label={"Preview"}/>
+                                                <div className='preview-button' style={{
+                                                    background: `rgba(${values.bg_color_code.r}, ${values.bg_color_code.g}, ${values.bg_color_code.b}, ${values.bg_color_code.a})`,
+                                                    color: `rgba(${values.text_color_code.r}, ${values.text_color_code.g}, ${values.text_color_code.b}, ${values.text_color_code.a})`
+                                                }}>
+                                                    SC (1)
+                                                </div>
+
+                                            </div>
+                                            }
+                                        </div>
+
+                                    </div>
                                     <div className="mrg-bottom-20">
                                         <FormControlLabelComponent size={"sm"}
                                                                    label={"Upload Image for Service Category *"}

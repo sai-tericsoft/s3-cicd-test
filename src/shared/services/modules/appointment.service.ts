@@ -72,8 +72,8 @@ const getAvailableCouponList = (payload: any) => {
     return ApiService[APIConfig.GET_AVAILABLE_COUPONS_LIST.METHOD](APIConfig.GET_AVAILABLE_COUPONS_LIST.URL, payload);
 }
 
-const checkAppointmentExistsToBlock = (providerId: any, payload: any) => {
-    return ApiService[APIConfig.CHECK_SLOTS_EXISTS_TO_BLOCK.METHOD](APIConfig.CHECK_SLOTS_EXISTS_TO_BLOCK.URL(providerId), payload);
+const checkAppointmentExistsToBlock = (payload: any) => {
+    return ApiService[APIConfig.CHECK_SLOTS_EXISTS_TO_BLOCK.METHOD](APIConfig.CHECK_SLOTS_EXISTS_TO_BLOCK.URL, payload);
 }
 
 const BlockCalender = (providerId: any, payload: any) => {

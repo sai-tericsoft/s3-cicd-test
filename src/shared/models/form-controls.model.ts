@@ -162,6 +162,7 @@ export interface ISelectProps {
     variant?: 'filled' | 'outlined' | 'standard';
     isClear?: boolean;
     selectedValues?: any;
+    multiple?: boolean;
 }
 
 export interface IAutoCompleteProps {
@@ -291,7 +292,6 @@ export interface ITimePickerProps {
 
 export interface IColorPickerProps {
     value?: any;
-    name: string;
     handleChange?: Function;
     label?: string;
     required?: boolean;

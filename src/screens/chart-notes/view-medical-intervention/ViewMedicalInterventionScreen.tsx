@@ -2,7 +2,7 @@ import "./ViewMedicalInterventionScreen.scss";
 import * as Yup from "yup";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import React, {useCallback, useEffect, useMemo, useState} from "react";
-import _ from "lodash";
+import _, {values} from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
@@ -414,18 +414,22 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                        }>Clear</div>}
                                                            readonly={<></>}/>}&nbsp;&nbsp;
                                                        {medicalInterventionDetails?.status === 'draft' &&
-                                                           <Field name={'is_flagged'}>
-                                                               {
-                                                                   (field: FieldProps) => (
-                                                                       <FormikCheckBoxComponent
-                                                                           label={'Flag Note'}
-                                                                           formikField={field}
-                                                                           required={false}
-                                                                           labelPlacement={"start"}
-                                                                       />
-                                                                   )
-                                                               }
-                                                           </Field>
+
+                                                       <Field name={'is_flagged'}>
+                                                           {
+                                                               (field: FieldProps) => (
+                                                                   <FormikCheckBoxComponent
+                                                                       label={'Flag Note'}
+                                                                       formikField={field}
+                                                                       required={false}
+                                                                       labelPlacement={"start"}
+                                                                       onChange={(isChecked: any) => {
+                                                                           CommonService._alert.showToast( isChecked ? 'This note has been marked as flagged' : 'This note has been marked as unflagged'  , "success");
+                                                                       }}
+                                                                   />
+                                                               )
+                                                           }
+                                                       </Field>
                                                        }
                                                    </>}
                                     >

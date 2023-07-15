@@ -77,7 +77,11 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
 
     const getAppointmentLite = useCallback(() => {
         if (clientMedicalRecord && clientMedicalRecord.client_id) {
-            const payload = {client_id: clientMedicalRecord.client_id, medicalRecordId: medicalRecordId};
+            const payload = {
+                client_id: clientMedicalRecord.client_id,
+                medicalRecordId: medicalRecordId,
+                is_intervention_linked: true
+            };
             dispatch(getAppointmentListLite(payload));
         }
     }, [clientMedicalRecord, dispatch, medicalRecordId])

@@ -986,3 +986,12 @@
   text-transform: uppercase;
   margin-bottom: 24px;
 }
+
+.block-calender-confirmation-description {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 40px;
+  color: #6D6D6D;
+}

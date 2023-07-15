@@ -402,7 +402,7 @@ const APIConfig: IAPIConfig = {
         METHOD: "get"
     },
     CLIENT_MEDICAL_INFO: {
-        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medicalRecord',
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medicalRecord/list',
         METHOD: "post"
     },
     CLIENT_MEDICAL_DETAIL: {
@@ -918,8 +918,8 @@ const APIConfig: IAPIConfig = {
         METHOD: "get"
     },
     CHECK_SLOTS_EXISTS_TO_BLOCK: {
-        URL: (providerId: string) => ENV.API_URL + '/user/' + providerId + '/checkExists',
-        METHOD: "post"
+        URL: ENV.API_URL + '/appointment/lite',
+        METHOD: "get"
     },
     BLOCK_SLOTS: {
         URL: (providerId: string) => ENV.API_URL + '/user/' + providerId + '/blockSlots',

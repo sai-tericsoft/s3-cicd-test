@@ -1,5 +1,5 @@
 import './ColorPickerComponent.scss';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import reactCSS from 'reactcss';
 import {SketchPicker} from 'react-color';
 import {FormHelperText} from "@mui/material";
@@ -8,15 +8,13 @@ import {IColorPickerProps} from "../../../models/form-controls.model";
 import ButtonComponent from "../../button/ButtonComponent";
 
 interface ColorPickerComponentProps extends IColorPickerProps {
-
+    // name: string;
 }
 
 const ColorPickerComponent = (props: ColorPickerComponentProps) => {
-    const {value, name, handleChange, label, required, errorMessage, hasError, className, disabled} = props;
+    const {value, handleChange, label, required, errorMessage, hasError, className, disabled} = props;
     const [displayColorPicker, setDisplayColorPicker] = useState(false);
     const [color, setColor] = useState<any>(value);
-
-    console.log(props);
 
     const handleClick = () => {
         setDisplayColorPicker(!displayColorPicker);
@@ -29,7 +27,7 @@ const ColorPickerComponent = (props: ColorPickerComponentProps) => {
     const handleColorChange = (newColor: any) => {
         setColor(newColor.rgb);
         if (handleChange) {
-            handleChange(newColor.rgb, name);
+            handleChange(newColor.rgb);
         }
     };
 
@@ -74,6 +72,10 @@ const ColorPickerComponent = (props: ColorPickerComponentProps) => {
         },
     });
 
+    useEffect(() => {
+        setColor(value);
+    }, [value]);
+
     return (
         <div>
             <FormControl className={'color-component ' + className + ' '} error={hasError} disabled={disabled}>
@@ -92,7 +94,7 @@ const ColorPickerComponent = (props: ColorPickerComponentProps) => {
                         <div style={styles.cover} onClick={handleClose}/>
                         <SketchPicker color={color} onChange={handleColorChange}/>
                         <ButtonComponent className="select-button"
-                            onClick={handleSelect}
+                                         onClick={handleSelect}
                         >Select</ButtonComponent>
 
                     </div>
