@@ -603,7 +603,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                         required={true}
                                                         disabled={isProviderListLoading || !values.service}
                                                         options={serviceProvidersList || []}
-                                                        displayWith={(option: any) => option?.provider_name || 'No Name'}
+                                                        displayWith={(option: any) => option?.first_name +' '+ option?.last_name || 'No Name'}
                                                         valueExtractor={(option: any) => option}
                                                         onUpdate={value => {
                                                             if (value) {

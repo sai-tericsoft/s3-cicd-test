@@ -46,6 +46,15 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
 
     const SchedulingListColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
         {
+            title: "Date",
+            key: "date",
+            dataIndex: "date",
+            width: 120,
+            render: (item: any) => {
+                return CommonService.convertDateFormat(item.appointment_date, 'MM-DD-YYYY')
+            }
+        },
+        {
             title: "Time",
             key: "time",
             dataIndex: "time",
@@ -559,6 +568,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                  options={serviceCategoryList || []}
                                                  fullWidth={true}
                                                  isClear={true}
+                                                 // multiple={true}
                                                  onUpdate={(value) => handleFilters(value, 'serviceCategory')}
 
                                 />

@@ -1,5 +1,5 @@
 import './ColorPickerComponent.scss';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import reactCSS from 'reactcss';
 import {SketchPicker} from 'react-color';
 import {FormHelperText} from "@mui/material";
@@ -72,6 +72,10 @@ const ColorPickerComponent = (props: ColorPickerComponentProps) => {
         },
     });
 
+    useEffect(() => {
+        setColor(value);
+    }, [value]);
+
     return (
         <div>
             <FormControl className={'color-component ' + className + ' '} error={hasError} disabled={disabled}>
@@ -90,7 +94,7 @@ const ColorPickerComponent = (props: ColorPickerComponentProps) => {
                         <div style={styles.cover} onClick={handleClose}/>
                         <SketchPicker color={color} onChange={handleColorChange}/>
                         <ButtonComponent className="select-button"
-                            onClick={handleSelect}
+                                         onClick={handleSelect}
                         >Select</ButtonComponent>
 
                     </div>

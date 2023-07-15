@@ -2,7 +2,7 @@ import "./ViewMedicalInterventionScreen.scss";
 import * as Yup from "yup";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import React, {useCallback, useEffect, useMemo, useState} from "react";
-import _ from "lodash";
+import _, {values} from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
@@ -423,6 +423,9 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                        formikField={field}
                                                                        required={false}
                                                                        labelPlacement={"start"}
+                                                                       onChange={(isChecked: any) => {
+                                                                           CommonService._alert.showToast( isChecked ? 'This note has been marked as flagged' : 'This note has been marked as unflagged'  , "success");
+                                                                       }}
                                                                    />
                                                                )
                                                            }
