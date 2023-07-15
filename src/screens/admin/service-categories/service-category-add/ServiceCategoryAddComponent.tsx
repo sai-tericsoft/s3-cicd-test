@@ -18,7 +18,6 @@ import FormikTextAreaComponent
     from "../../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import FormikColorPickerComponent
     from "../../../../shared/components/form-controls/formik-color-picker/FormikColorPickerComponent";
-import FormDebuggerComponent from "../../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface ServiceCategoryAddComponentProps {
     onAdd: (data: IServiceCategory) => void;
@@ -88,7 +87,7 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
                         }, [validateForm, values]);
                         return (
                             <Form className="t-form" noValidate={true}>
-                                <FormDebuggerComponent values={values} errors={errors}/>
+                                {/*<FormDebuggerComponent values={values} errors={errors}/>*/}
                                 <div className="t-form-controls">
                                     <div className={'mrg-top-5'}>
                                         <Field name={'name'} className="t-form-control">

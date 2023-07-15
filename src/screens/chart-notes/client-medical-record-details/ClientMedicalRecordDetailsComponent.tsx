@@ -388,7 +388,6 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                         displayWith={(item: any) => item?.appointment_type + ' ('+(moment(item.appointment_date).format('DD-MMM-YYYY hh:mm A'))+')'}
                         valueExtractor={(item: any) => item?._id}
                         onUpdate={(value: any) => {
-                            console.log(value);
                             setSelectedAppointment(value);
                         }
                         }
