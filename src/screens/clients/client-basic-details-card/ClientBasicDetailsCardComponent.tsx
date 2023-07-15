@@ -47,7 +47,7 @@ const ClientBasicDetailsCardComponent = (props: ClientBasicDetailsCardComponentP
                         (showViewDetailsRedirection && clientBasicDetails._id )&& <>
                             <div className={'dashed-border'}/>
                             <div className={'client-details-info-wrapper'}>
-                                <Link className={'client-details-view-redirection-list'} to={CommonService._routeConfig.ClientDetails(clientBasicDetails._id) + '?referrer=' + location.pathname} >View Details</Link>
+                                <Link className={'client-details-view-redirection-list'} to={CommonService._routeConfig.ClientProfileDetails(clientBasicDetails._id) + '?referrer=' + location.pathname} >View Details</Link>
                             </div>
                         </>
                     }
