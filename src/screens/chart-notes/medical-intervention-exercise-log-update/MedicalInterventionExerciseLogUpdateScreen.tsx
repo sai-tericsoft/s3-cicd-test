@@ -125,10 +125,6 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
     }, [dispatch, medicalInterventionId, selectedAttachment])
 
     const removeAttachment = useCallback((item: any, medicalInterventionId: string) => {
-        CommonService.onConfirm({
-            confirmationTitle: 'Do you want to remove this attachment',
-            confirmationSubTitle: `Do you want to remove "${item.name}" this attachment"?`
-        }).then(() => {
             setIsAttachmentBeingDeleted(true);
             CommonService._chartNotes.RemoveExerciseLogAttachmentAPICall(medicalInterventionId, item._id, {})
                 .then((response) => {
@@ -139,7 +135,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                 setIsAttachmentBeingDeleted(false);
                 CommonService._alert.showToast(error.error || "Error deleting attachment", "error");
             })
-        })
+
     }, [dispatch]);
 
     //--------------------------------ExerciseLogAttachmentEndsHere----------------------------------------------
@@ -165,19 +161,22 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             width: 280,
             align: 'center',
             render: (record: any, index: any) => {
-                return <Field
-                    name={`exercise_records.${index}.name`}
-                    className="t-form-control">
-                    {
-                        (field: FieldProps) => (
-                            <FormikInputComponent
-                                className={'exercise-name'}
-                                size={"small"}
-                                formikField={field}
-                            />
-                        )
-                    }
-                </Field>
+                return <div className={'exercise-record-name'}>
+                    <Field
+                        name={`exercise_records.${index}.name`}
+                        className="t-form-control">
+                        {
+                            (field: FieldProps) => (
+                                <FormikInputComponent
+                                    className={'exercise-name'}
+                                    size={"small"}
+                                    fullWidth={true}
+                                    formikField={field}
+                                />
+                            )
+                        }
+                    </Field>
+                </div>
             }
         },
         {
@@ -304,6 +303,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             title: '',
             key: 'actions',
             align: 'center',
+            width: 50,
             render: (record: any, index: any) => {
                 return (
                     <>
@@ -316,6 +316,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                         (field: FieldProps) => (
 
                                             <IconButtonComponent
+                                                color={'error'}
                                                 onClick={() => {
                                                     const exercise_records = field.form.values.exercise_records;
                                                     exercise_records.splice(index, 1);
@@ -353,7 +354,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             setSubmitting(true)
             CommonService._chartNotes.SaveMedicalInterventionExerciseLogAPICall(medicalInterventionId, payload)
                 .then((response: any) => {
-                    CommonService._alert.showToast(response.message, 'success');
+                    // CommonService._alert.showToast(response.message, 'success');
                     setSubmitting(false);
                     if (mode === 'add' || mode === 'soapNoteEdit') {
                         navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
@@ -464,10 +465,10 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
     return (
         <div className={'medical-intervention-exercise-log-screen'}>
 
-            <PageHeaderComponent
-                title={mode === 'add' ? 'Add Exercise Log' : 'Edit Exercise Log'} actions={
+            <PageHeaderComponent className={'page-header'}
+                                 title={mode === 'add' ? 'Add Exercise Log' : 'Edit Exercise Log'} actions={
                 <div className="last-updated-status">
-                    <div className="last-updated-status-text">Last Updated On:&nbsp;</div>
+                    <div className="last-updated-status-text">Last updated on:&nbsp;</div>
                     <div
                         className="last-updated-status-bold">
                         {(medicalInterventionDetails?.updated_at ? moment(medicalInterventionDetails.updated_at).tz(moment.tz.guess()).format('DD-MM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
@@ -475,7 +476,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     </div>
                 </div>}/>
             {
-                (isClientMedicalRecordLoaded && clientMedicalRecord) && <>
+                (isClientMedicalRecordLoaded && clientMedicalRecord) && <div className={'client-card-wrapper'}>
                     <CardComponent color={'primary'}>
                         <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
@@ -492,12 +493,12 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                         <div className={'ts-row'}>
                             <div className={'ts-col-6'}>
                                 <DataLabelValueComponent label={'Date of Intervention'}>
-                                    {CommonService.transformTimeStamp(clientMedicalRecord?.created_at || "N/A")}
+                                    {CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.created_at || "N/A")}
                                 </DataLabelValueComponent>
                             </div>
                         </div>
                     </CardComponent>
-                </>
+                </div>
             }
             <div className={'provider-name'}>
                 <InputComponent placeholder={'Provider'} fullWidth={true} label={'Provider'}
@@ -531,22 +532,24 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                     <>
 
                                         {(attachmentList.attachments.length > 0) &&
-                                        <>
-                                            {attachmentList?.attachments?.map((attachment: any) => {
-                                                return <span className={'chip-wrapper'}>
+                                            <>
+                                                {attachmentList?.attachments?.map((attachment: any) => {
+                                                    return <span className={'chip-wrapper'}>
                                         <ChipComponent className={'chip chip-items'}
+                                                       color={"success"}
                                                        disabled={isAttachmentBeingDeleted}
                                                        label={attachment.name}
                                                        prefixIcon={<ImageConfig.PDF_ICON/>}
                                                        onDelete={() => removeAttachment(attachment, medicalInterventionId)}
                                         />
                                                 </span>
-                                            })}
-                                        </>
+                                                })}
+                                            </>
                                         }
                                         {selectedAttachment &&
-                                        <span className={'chip-wrapper'}>
+                                            <span className={'chip-wrapper'}>
                                         <ChipComponent className={'chip chip-items'}
+                                                       color={"success"}
                                                        disabled={isAttachmentBeingDeleted}
                                                        label={selectedAttachment.name}
                                                        prefixIcon={<ImageConfig.PDF_ICON/>}
@@ -555,7 +558,8 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                                 </span>
                                         }
                                         {(!selectedAttachment && !attachmentList.attachments.length) &&
-                                        <StatusCardComponent title={'No Attachments'} className={'mrg-bottom-25'}/>
+                                            <StatusCardComponent title={'No Attachments added yet'}
+                                                                 className={'mrg-bottom-25'}/>
                                         }
                                     </>
                                 </CardComponent>
@@ -589,7 +593,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                             className={"display-flex align-items-center flex-direction-row-reverse mrg-bottom-20"}>
                                             <ButtonComponent
                                                 prefixIcon={<ImageConfig.CloseIcon/>}
-                                                disabled={(values.exercise_records.length > 0 && ExerciseLogRecordValidationSchema.isValidSync(values.exercise_records[values.exercise_records.length - 1]) === false)}
+                                                disabled={values.exercise_records[0].name === '' || values.exercise_records[0].name === undefined}
 
                                                 onClick={() => {
                                                     handleExerciseLogClear(values, setFieldValue);
@@ -598,30 +602,33 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                                 Clear Exercise Log
                                             </ButtonComponent>
                                         </div>
-                                        <TableComponent
-                                            data={values.exercise_records}
-                                            bordered={true}
-                                            rowKey={(record: any, index: any) => index}
-                                            columns={medicalInterventionExerciseLogColumns}/>
-                                        <div className={"h-v-center mrg-top-20 mrg-bottom-20"}>
-                                            <ButtonComponent
-                                                size={"large"}
-                                                prefixIcon={<ImageConfig.AddIcon/>}
-                                                disabled={(values.exercise_records.length > 0 && ExerciseLogRecordValidationSchema.isValidSync(values.exercise_records[values.exercise_records.length - 1]) === false)}
-                                                onClick={() => {
-                                                    const exercise_records = _.cloneDeep(values.exercise_records);
-                                                    exercise_records.push({
-                                                        ...MedicalInterventionExerciseLogRow,
-                                                        key: CommonService.getUUID()
-                                                    });
-                                                    setFieldValue("exercise_records", exercise_records);
-                                                }}
-                                            >
-                                                Add Exercise Row
-                                            </ButtonComponent>
+                                        <div className={'card-table-button-wrapper'}>
+                                            <CardComponent>
+                                                <TableComponent
+                                                    data={values.exercise_records}
+                                                    bordered={true}
+                                                    rowKey={(record: any, index: any) => index}
+                                                    columns={medicalInterventionExerciseLogColumns}/>
+                                                <div className={"h-v-center mrg-top-20 mrg-bottom-20"}>
+                                                    <ButtonComponent
+                                                        prefixIcon={<ImageConfig.AddIcon/>}
+                                                        disabled={(values.exercise_records.length > 0 && ExerciseLogRecordValidationSchema.isValidSync(values.exercise_records[values.exercise_records.length - 1]) === false)}
+                                                        onClick={() => {
+                                                            const exercise_records = _.cloneDeep(values.exercise_records);
+                                                            exercise_records.push({
+                                                                ...MedicalInterventionExerciseLogRow,
+                                                                key: CommonService.getUUID()
+                                                            });
+                                                            setFieldValue("exercise_records", exercise_records);
+                                                        }}
+                                                    >
+                                                        Add Exercise Row
+                                                    </ButtonComponent>
+                                                </div>
+                                            </CardComponent>
                                         </div>
 
-                                        <CardComponent title={'Comments (if any)'} className='mrg-top-20 pdd-bottom-20'>
+                                        <CardComponent title={'Comments (if any)'} className='mrg-top-20 pdd-bottom-25'>
                                             <Field name={'comments'} className="t-form-control">
                                                 {
                                                     (field: FieldProps) => (
@@ -636,7 +643,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                             </Field>
                                         </CardComponent>
                                     </div>
-                                    <div className="t-form-actions">
+                                    <div className="t-form-actions mrg-bottom-0">
                                         {(medicalRecordId && medicalInterventionId) && <LinkComponent
                                             route={(mode === 'add' || mode === 'soapNoteEdit') ?
                                                 CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) :
@@ -645,12 +652,16 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                         >
                                             <ButtonComponent variant={"outlined"}
                                                              disabled={isSubmitting}
+                                                             className={isSubmitting ? 'mrg-right-15' : ''}
+                                                             size={'large'}
                                             >
                                                 Cancel
                                             </ButtonComponent>
                                         </LinkComponent>}
                                         &nbsp;&nbsp;
                                         <ButtonComponent type={"submit"}
+                                                         size={'large'}
+                                                         className={'mrg-left-15'}
                                                          disabled={isSubmitting || !isValid}
                                                          isLoading={isSubmitting}>
                                             Save

@@ -501,6 +501,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                                     Cancel
                                                 </ButtonComponent>&nbsp;
                                                 <ButtonComponent
+                                                    className={'mrg-left-15'}
                                                     onClick={() => {
                                                         const newComment = values?.[bodyPart._id]?.[selectedROMMovementComments?.name]?.commentsTemp;
                                                         setShowROMMovementCommentsModal(false);

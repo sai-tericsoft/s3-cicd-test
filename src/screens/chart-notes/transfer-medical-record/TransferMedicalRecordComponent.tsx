@@ -320,7 +320,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                         {/*</ToolTipComponent>*/}
                     </div>
                 }
-                <FormControlLabelComponent label={"Transfer File to"} className={'mrg-top-12'} size={"lg"}/>
+                <FormControlLabelComponent label={"Transfer File to"} className={'transfer-file-to-heading'} size={"lg"}/>
                 {
                     currentStep === "selectClient" && <div className={"select-client-wrapper"}>
                         <SearchComponent label={"Search "}
