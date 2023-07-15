@@ -51,7 +51,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             dataIndex: "date",
             width: 120,
             render: (item: any) => {
-                return CommonService.convertDateFormat(item.appointment_date, 'MM-DD-YYYY')
+                return CommonService.convertDateFormat(item.appointment_date, 'DD-MMM-YYYY')
             }
         },
         {
@@ -561,7 +561,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                             <div className="scheduling-filter-header-action-item">
                                 <SelectComponent size={'small'}
                                                  label={'Service Category'}
-                                                 value={schedulingListFilterState?.category_id || ''}
+                                                 value={schedulingListFilterState?.category_id || []}
                                                  displayWith={item => item ? item?.name : ''}
                                                  keyExtractor={item => item?._id}
                                                  valueExtractor={item => item?._id}

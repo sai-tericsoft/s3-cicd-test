@@ -188,10 +188,10 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
             confirmationSubTitle: "Are you sure you want to block your calendar",
             confirmationDescription: <div className='block-calender-confirmation-description'>
                 <div>
-                    <b> From </b>:{blockCalenderFormDetails?.is_block_all_day ? moment(blockCalenderFormDetails?.start_date).format('MM-DD-YYYY') : moment(blockCalenderFormDetails?.date).format('MM-DD-YYYY') + ' , ' + CommonService.getHoursAndMinutesFromMinutes(blockCalenderFormDetails?.start_time)}
+                    <b> From </b>:{blockCalenderFormDetails?.is_block_all_day ? moment(blockCalenderFormDetails?.start_date).format('DD-MMM-YYYY') : moment(blockCalenderFormDetails?.date).format('DD-MMM-YYYY') + ' , ' + CommonService.getHoursAndMinutesFromMinutes(blockCalenderFormDetails?.start_time)}
                 </div>
                 <div className="mrg-top-10">
-                    <b> To </b>:{blockCalenderFormDetails?.is_block_all_day ? moment(blockCalenderFormDetails?.end_date).format('MM-DD-YYYY') : moment(blockCalenderFormDetails?.date).format('MM-DD-YYYY') + ' , ' + CommonService.getHoursAndMinutesFromMinutes(blockCalenderFormDetails?.end_time)}
+                    <b> To </b>:{blockCalenderFormDetails?.is_block_all_day ? moment(blockCalenderFormDetails?.end_date).format('DD-MMM-YYYY') : moment(blockCalenderFormDetails?.date).format('DD-MMM-YYYY') + ' , ' + CommonService.getHoursAndMinutesFromMinutes(blockCalenderFormDetails?.end_time)}
                 </div>
             </div>,
             yes: {
