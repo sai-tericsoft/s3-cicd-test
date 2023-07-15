@@ -2,7 +2,7 @@ import "./ViewMedicalInterventionScreen.scss";
 import * as Yup from "yup";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import React, {useCallback, useEffect, useMemo, useState} from "react";
-import _, {values} from "lodash";
+import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";

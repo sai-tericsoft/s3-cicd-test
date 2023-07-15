@@ -243,13 +243,8 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
         if (medicalInterventionId) {
             setSubmitting(true);
             setIsSavingProgress(true);
-            console.log(values);
-            const payload = {...values}
-            delete payload.medical_record_id
-            delete payload.treated_by
-            delete payload.appointment_id
-            delete payload.category_id
-            delete payload.service_id
+            const payload = {...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['created_at','medical_record_id','treated_by','appointment_id','category_id','service_id'])};
+
             CommonService._chartNotes.MedicalInterventionBasicDetailsUpdateAPICall(medicalInterventionId, payload)
                 .then((response: IAPIResponseType<any>) => {
                     dispatch(setMedicalInterventionDetails(response.data));
