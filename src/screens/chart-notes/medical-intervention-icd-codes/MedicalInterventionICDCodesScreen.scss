@@ -1,18 +1,22 @@
 .medical-intervention-icd-codes-screen {
-  .ant-table-wrapper .ant-table-container table>thead>tr:first-child th:first-child{
-    padding-left: 43px !important;
-  }
-  .client-name-button-wrapper {
-  display: flex;
-  justify-content: space-between;
-
-  .client-name-wrapper {
-    font-size: 1.4286rem;
-    font-weight: 700;
-
-    .client-name {
-      padding-right: 10px;
+  .ant-table-wrapper {
+    .ant-table {
+      min-height: 500px !important;
     }
   }
-}
+
+  .client-name-button-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+
+    .client-name-wrapper {
+      font-size: 1.4286rem;
+      font-weight: 700;
+
+      .client-name {
+        padding-right: 10px;
+      }
+    }
+  }
 }
