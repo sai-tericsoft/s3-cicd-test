@@ -58,8 +58,17 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                 {clientMedicalDetails?.personal_habits?.["Smoke/Chew Tobacco?"]?.value || "N/A"}
                             </div>
                             <div className={'ts-col-lg-3'}>
-                                {Object.keys(clientMedicalDetails?.personal_habits)?.length > 0 ?
-                                    (clientMedicalDetails?.personal_habits?.["Smoke/Chew Tobacco?"]?.text ? clientMedicalDetails?.personal_habits?.["Smoke/Chew Tobacco?"]?.text + " Cigarettes/day" : "N/A") : ''}
+                                {clientMedicalDetails?.personal_habits &&
+                                Object.keys(clientMedicalDetails.personal_habits).length > 0 ? (
+                                    clientMedicalDetails.personal_habits["Smoke/Chew Tobacco?"]?.text ? (
+                                        clientMedicalDetails.personal_habits["Smoke/Chew Tobacco?"].text +
+                                        " Cigarettes/day"
+                                    ) : (
+                                        "N/A"
+                                    )
+                                ) : (
+                                    ""
+                                )}
                             </div>
                         </div>
                         <div className={'ts-row mrg-bottom-20'}>
@@ -70,8 +79,10 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                 {clientMedicalDetails?.personal_habits?.["Drink Alcohol?"]?.value || "N/A"}
                             </div>
                             <div className={'ts-col-lg-3'}>
-                                {Object.keys(clientMedicalDetails?.personal_habits)?.length > 0 ?
-                                    (clientMedicalDetails?.personal_habits?.["Drink Alcohol?"]?.text ? clientMedicalDetails?.personal_habits?.["Drink Alcohol?"]?.text + " Drinks/week" : "N/A") : ''}
+                                {clientMedicalDetails?.personal_habits &&
+                                Object.keys(clientMedicalDetails?.personal_habits)?.length > 0 ?
+                                    (clientMedicalDetails?.personal_habits?.["Drink Alcohol?"]?.text ? clientMedicalDetails?.personal_habits?.["Drink Alcohol?"]?.text + " Drinks/week" : "N/A") : ''
+                                }
                             </div>
                         </div>
                         <div className={'ts-row mrg-bottom-20'}>
@@ -82,8 +93,12 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                 {clientMedicalDetails?.personal_habits?.["Drink Coffee?"]?.value || "N/A"}
                             </div>
                             <div className={'ts-col-lg-3'}>
-                                {Object.keys(clientMedicalDetails?.personal_habits)?.length > 0 ?
-                                    (clientMedicalDetails?.personal_habits?.["Drink Coffee?"]?.text ? clientMedicalDetails?.personal_habits?.["Drink Coffee?"]?.text + " Cups/day" : "N/A") : ''}
+                                {
+                                    clientMedicalDetails?.personal_habits &&
+                                    Object.keys(clientMedicalDetails?.personal_habits)?.length > 0 ?
+                                        (clientMedicalDetails?.personal_habits?.["Drink Coffee?"]?.text ? clientMedicalDetails?.personal_habits?.["Drink Coffee?"]?.text + " Cups/day" : "N/A") : ''
+                                }
+
                             </div>
                         </div>
                         <div className={'ts-row mrg-bottom-20'}>
@@ -94,7 +109,8 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                 {clientMedicalDetails?.personal_habits?.["Drink Soda/Pop?"]?.value || "N/A"}
                             </div>
                             <div className={'ts-col-lg-3'}>
-                                {Object.keys(clientMedicalDetails?.personal_habits)?.length > 0 ?
+                                {clientMedicalDetails?.personal_habits &&
+                                Object.keys(clientMedicalDetails?.personal_habits)?.length > 0 ?
                                     (clientMedicalDetails?.personal_habits?.["Drink Soda/Pop?"]?.text ? clientMedicalDetails?.personal_habits?.["Drink Soda/Pop?"]?.text + " Cups/day" : "N/A") : ''}
                             </div>
                         </div>
