@@ -10,6 +10,8 @@ export interface IServiceCategory {
     created_at: string;
     updated_at: string;
     services_count: number;
+    bg_color_code?: any;
+    text_color_code?: any;
 }
 
 export interface IServiceCategoryAddForm {
@@ -26,4 +28,6 @@ export interface IServiceCategoryEditForm {
     description: string;
     image: any;
     is_active: boolean;
+    bg_color_code?: any;
+    text_color_code?: any;
 }

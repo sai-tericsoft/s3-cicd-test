@@ -402,7 +402,7 @@ const APIConfig: IAPIConfig = {
         METHOD: "get"
     },
     CLIENT_MEDICAL_INFO: {
-        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medicalRecord',
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medicalRecord/list',
         METHOD: "post"
     },
     CLIENT_MEDICAL_DETAIL: {
