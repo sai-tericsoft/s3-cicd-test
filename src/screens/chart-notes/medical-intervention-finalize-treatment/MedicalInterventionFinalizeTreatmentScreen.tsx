@@ -70,10 +70,8 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                 field.form.setFieldValue(`${record?._id}.notes`, "");
 
                                 const minutes = parseInt(field.form.values[record._id]?.minutes || "0");
-                                console.log(minutes)
                                 if (!isChecked) {
-                                    console.log(minutes)
-                                    setTotalMinutes(prevTotalMinutes => prevTotalMinutes - minutes);
+                                    setTotalMinutes((prevTotalMinutes) => prevTotalMinutes - minutes);
                                 }
                             }}
                         />
@@ -135,27 +133,34 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
     }, []);
 
     const renderMinutesInput = useCallback((record: any) => {
-        return <Field name={`${record._id}.minutes`}>
-            {
-                (field: FieldProps) => (
+        return (
+            <Field name={`${record._id}.minutes`}>
+                {(field: FieldProps) => (
                     <FormikInputComponent
                         size={'small'}
                         validationPattern={Patterns.THREE_DIGITS_ONLY}
                         className={!field.form.values[record._id]?.is_selected ? 'display-none' : ''}
                         disabled={!field.form.values[record._id]?.is_selected}
                         formikField={field}
-                        onBlur={() => {
-                            const minutes = parseInt(field.form.values[record._id]?.minutes || "0");
-                            console.log(minutes);
+                        // onBlur={() => {
+                        //     const minutes = parseInt(field.form.values[record._id]?.minutes || "0");
+                        //     if (field.form.values[record._id]?.is_selected) {
+                        //         setTotalMinutes((prevTotalMinutes) => prevTotalMinutes + minutes);
+                        //     }
+                        // }}
+                        onChange={(value) => {
+                            const minutes = parseInt(value || "0");
                             if (field.form.values[record._id]?.is_selected) {
-                                setTotalMinutes(prevTotalMinutes => prevTotalMinutes + minutes);
+                                setTotalMinutes((prevTotalMinutes) => prevTotalMinutes - field.form.values[record._id]?.minutes + minutes);
                             }
+                            field.form.setFieldValue(`${record._id}.minutes`, value);
                         }}
                     />
-                )
-            }
-        </Field>
+                )}
+            </Field>
+        );
     }, []);
+
 
     const renderNotesInput = useCallback((record: any) => {
         return <Field name={`${record._id}.notes`}>
@@ -313,9 +318,10 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                                    showFooter={true}
                                                                    footer={
                                                                        <div className='cpt-code-list-footer'>
-                                                                           <div className="total-heading">Total number of minutes</div>
+                                                                           <div className="total-heading">Total number
+                                                                               of minutes
+                                                                           </div>
                                                                            <div className="total-minutes-wrapper">{totalMinutes}</div>
-
                                                                        </div>
                                                                    }
                                                                    columns={CPTCodesColumns}/>

@@ -80,7 +80,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
     const [providerList, setProviderList] = useState<any[] | null>(null);
     const [isBlockCalendarIsProgress, setIsBlockCalendarIsProgress] = useState<boolean>();
     const [showAppointmentsModel, setIsShowAppointmentModel] = useState<any>(false);
-    const [appointmentList, setAppointmentList] = useState<any>(undefined)
+    const [appointmentList, setAppointmentList] = useState<any[]>([])
 
 
     const appointmentColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
@@ -159,11 +159,14 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
         getProvidersList()
     }, [getProvidersList]);
 
-    const BlockCalender = useCallback(() => {
+    const BlockCalender = useCallback((blockCalenderFormDetails: any) => {
         setIsBlockCalendarIsProgress(true);
         const payload = {...blockCalenderFormDetails}
         delete payload.provider_id;
-        CommonService._appointment.BlockCalender(blockCalenderFormDetails.provider_id, payload)
+        if (appointmentList && appointmentList.length > 0) {
+            payload.appointment_ids = appointmentList.map((item: any) => item.appointment_id)
+        }
+        CommonService._appointment.BlockCalender(blockCalenderFormDetails?.provider_id, payload)
             .then((response: IAPIResponseType<IServiceCategory>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsBlockCalendarIsProgress(false);
@@ -173,9 +176,9 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                 CommonService._alert.showToast(error?.error || "", "error");
                 setIsBlockCalendarIsProgress(false);
             })
-    }, [blockCalenderFormDetails, onAddSuccess]);
+    }, [onAddSuccess, appointmentList]);
 
-    const handleBlockCalenderConfirmation = useCallback(() => {
+    const handleBlockCalenderConfirmation = useCallback((blockCalenderFormDetails: any) => {
         CommonService.onConfirm({
             image: ImageConfig.ConfirmationLottie,
             showLottie: true,
@@ -183,10 +186,10 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
             confirmationSubTitle: "Are you sure you want to block your calendar",
             confirmationDescription: <div className='block-calender-confirmation-description'>
                 <div>
-                    <b> From </b>:{blockCalenderFormDetails.is_block_all_day ? blockCalenderFormDetails.start_date : blockCalenderFormDetails.date + ' , ' + CommonService.getHoursAndMinutesFromMinutes(blockCalenderFormDetails?.start_time)}
+                    <b> From </b>:{blockCalenderFormDetails?.is_block_all_day ? moment(blockCalenderFormDetails?.start_date).format('MM-DD-YYYY') : moment(blockCalenderFormDetails?.date).format('MM-DD-YYYY') + ' , ' + CommonService.getHoursAndMinutesFromMinutes(blockCalenderFormDetails?.start_time)}
                 </div>
                 <div className="mrg-top-10">
-                    <b> To </b>:{blockCalenderFormDetails.is_block_all_day ? blockCalenderFormDetails.end_date : blockCalenderFormDetails.date + ' , ' + CommonService.getHoursAndMinutesFromMinutes(blockCalenderFormDetails?.end_time)}
+                    <b> To </b>:{blockCalenderFormDetails?.is_block_all_day ? moment(blockCalenderFormDetails?.end_date).format('MM-DD-YYYY') : moment(blockCalenderFormDetails?.date).format('MM-DD-YYYY') + ' , ' + CommonService.getHoursAndMinutesFromMinutes(blockCalenderFormDetails?.end_time)}
                 </div>
             </div>,
             yes: {
@@ -201,15 +204,15 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                 variant: "outlined",
             },
         }).then(() => {
-            BlockCalender();
+            BlockCalender(blockCalenderFormDetails);
         })
-    }, [BlockCalender, blockCalenderFormDetails, isBlockCalendarIsProgress]);
+    }, [BlockCalender, isBlockCalendarIsProgress]);
 
 
     const handleAppointmentsPopup = useCallback(() => {
         setIsShowAppointmentModel(false)
-        handleBlockCalenderConfirmation()
-    }, [handleBlockCalenderConfirmation]);
+        handleBlockCalenderConfirmation(blockCalenderFormDetails)
+    }, [handleBlockCalenderConfirmation, blockCalenderFormDetails]);
 
 
     const onSubmit = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
@@ -229,21 +232,29 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
         }
         setBlockCalenderFormDetails(payload);
         // setIsShowAppointmentModel(true);
-        console.log(payload);
+
+
         CommonService._appointment.checkAppointmentExistsToBlock(payload)
             .then((response: IAPIResponseType<IServiceCategory>) => {
-                if (response?.data?.length > 0) {
-                    setAppointmentList(response.data)
-                    setIsShowAppointmentModel(true);
-                } else {
-                    handleBlockCalenderConfirmation();
-                }
                 setSubmitting(false);
+                if (response?.data?.length > 0) {
+                    setAppointmentList(response.data);
+                    setIsShowAppointmentModel(true);
+                    console.log('if');
+                } else {
+                    // Handle the case when the data is an empty array here
+                    console.log('else');
+                    handleBlockCalenderConfirmation(payload);
+
+                    // For example, you can show a message or perform any other action
+                }
             })
             .catch((error: any) => {
+                // Handle other errors here
+                console.log(error);
                 CommonService.handleErrors(setErrors, error, true);
                 setSubmitting(false);
-            })
+            });
     }, [handleBlockCalenderConfirmation]);
 
     return (
