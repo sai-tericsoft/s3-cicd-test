@@ -8,7 +8,9 @@ import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {ITableColumn} from "../../../shared/models/table.model";
-import RadioButtonGroupComponent, {RadioButtonComponent} from "../../../shared/components/form-controls/radio-button/RadioButtonComponent";
+import RadioButtonGroupComponent, {
+    RadioButtonComponent
+} from "../../../shared/components/form-controls/radio-button/RadioButtonComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
@@ -198,7 +200,8 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
 
         const confirmTransferMedicalRecord = useCallback(() => {
             CommonService.onConfirm({
-                image: ImageConfig.DeleteAttachmentConfirmationIcon,
+                image: ImageConfig.PopupLottie,
+                showLottie: true,
                 confirmationTitle: "TRANSFER COMPLETE RECORD",
                 confirmationSubTitle: "Are you sure you want to transfer the \n" +
                     "complete medical record?"
@@ -213,17 +216,19 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
         const confirmTransferCase = useCallback(() => {
             console.log("selectedMedicalRecordToTransferUnder", selectedMedicalRecordToTransferUnder);
             CommonService.onConfirm({
-                image: ImageConfig.DeleteAttachmentConfirmationIcon,
+                image: ImageConfig.PopupLottie,
+                showLottie: true,
                 confirmationTitle: "TRANSFER FILE TO",
                 confirmationSubTitle: "Are you sure you want to transfer this File to : ",
                 confirmationDescription: <div className="transfer-file-to">
-                    <div>
-                        Client Name: <div>{selectedClient?.first_name} {selectedClient?.last_name}</div>
-                        Case
-                        Name: <div>{selectedMedicalRecordToTransferUnder?.injury_details?.map((injury: any, index: number) => {
-                        return <>{injury.body_part_details.name} {injury.body_side ? `( ${injury.body_side} )` : ''} {index !== selectedMedicalRecordToTransferUnder?.injury_details.length - 1 ? <> | </> : ""}</>
-                    })}</div>
-                    </div>
+                        <div className={'mrg-bottom-10'}>
+                            <span className={'client-case-name-title'}>Client:</span> <span>{selectedClient?.first_name} {selectedClient?.last_name}</span>
+                        </div>
+                        <div>
+                            <span className={'client-case-name-title'}>Case:</span> <span>{selectedMedicalRecordToTransferUnder?.injury_details?.map((injury: any, index: number) => {
+                            return <>{injury.body_part_details.name} {injury.body_side ? `( ${injury.body_side} )` : ''} {index !== selectedMedicalRecordToTransferUnder?.injury_details.length - 1 ? <> | </> : ""}</>
+                        })}</span>
+                        </div>
                 </div>
             })
                 .then(() => {
@@ -231,7 +236,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 }).catch(() => {
 
             });
-        }, [handleTransferMedicalRecord,selectedClient,selectedMedicalRecordToTransferUnder]);
+        }, [handleTransferMedicalRecord, selectedClient, selectedMedicalRecordToTransferUnder]);
 
         const getClientList = useCallback((searchKey: string = '') => {
             setClientSearchKey(searchKey);
@@ -289,7 +294,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                     confirmTransferCase();
                     break;
             }
-        }, [shouldTransferEntireMedicalRecord, currentStep, confirmTransferMedicalRecord, handleTransferMedicalRecord, getSelectedClientMedicalRecordList, getClientMedicalInterventionList,confirmTransferCase]);
+        }, [shouldTransferEntireMedicalRecord,handleTransferMedicalRecord, currentStep, confirmTransferMedicalRecord, handleTransferMedicalRecord, getSelectedClientMedicalRecordList, getClientMedicalInterventionList, confirmTransferCase]);
 
         const handleBack = useCallback(() => {
             switch (currentStep) {
@@ -428,23 +433,23 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                     </div>
                 }
                 {(currentStep === 'selectInterventions' || currentStep === 'selectTargetMedicalRecord') &&
-                <ButtonComponent
-                    fullWidth={true}
-                    className="t-form-actions"
-                    disabled={
-                        (currentStep === "selectInterventions" && (shouldTransferEntireMedicalRecord === false && selectedMedicalInterventions?.length === 0)) ||
-                        (currentStep === "selectTargetMedicalRecord" && !selectedMedicalRecordToTransferUnder) ||
-                        isMedicalRecordTransferUnderProgress
-                    }
-                    isLoading={isMedicalRecordTransferUnderProgress}
-                    onClick={handleConfirmation}>
-                    {
-                        currentStep === "selectInterventions" && "Confirm"
-                    }
-                    {
-                        currentStep === "selectTargetMedicalRecord" && "Transfer"
-                    }
-                </ButtonComponent>
+                    <ButtonComponent
+                        fullWidth={true}
+                        className="t-form-actions"
+                        disabled={
+                            (currentStep === "selectInterventions" && (shouldTransferEntireMedicalRecord === false && selectedMedicalInterventions?.length === 0)) ||
+                            (currentStep === "selectTargetMedicalRecord" && !selectedMedicalRecordToTransferUnder) ||
+                            isMedicalRecordTransferUnderProgress
+                        }
+                        isLoading={isMedicalRecordTransferUnderProgress}
+                        onClick={handleConfirmation}>
+                        {
+                            currentStep === "selectInterventions" && "Confirm"
+                        }
+                        {
+                            currentStep === "selectTargetMedicalRecord" && "Transfer"
+                        }
+                    </ButtonComponent>
                 }
                 {
                     currentStep === "selectClient" && <div className="t-form-actions">
