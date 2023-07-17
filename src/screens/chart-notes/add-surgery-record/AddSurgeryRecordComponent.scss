@@ -19,13 +19,16 @@
 }
 .edit-medical-record-component{
   .t-form{
+    .t-form-controls{
+      height: calc(100vh - 250px);
+    }
     .t-form-actions {
       margin-top: 60px;
       margin-bottom: 0px;
     }
     .t-surgery-record-drawer-form-controls{
       .file-picker-wrapper{
-        margin-bottom: 50px;
+        margin-bottom: 30px;
       }
     }
     .attachment-heading{

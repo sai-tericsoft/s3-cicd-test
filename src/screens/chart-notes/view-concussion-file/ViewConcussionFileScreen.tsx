@@ -166,6 +166,7 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                             medicalRecordDetails={concussionFileDetails?.medical_record_details}
                             attachmentType={"concussionFile"}
                             onEdit={openEditConcussionFileFileDrawer}
+                            showEdit={true}
                         />
                         <div className={'concussion-attachment'}>
                             {
