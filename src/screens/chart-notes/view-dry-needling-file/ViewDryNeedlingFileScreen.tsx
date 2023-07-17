@@ -165,6 +165,7 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                             medicalRecordDetails={dryNeedlingFileDetails?.medical_record_details}
                             attachmentType={"dryNeedlingFile"}
                             onEdit={openEditDryNeedlingFileDrawer}
+                            showEdit={true}
                         />
                         <div className={'dry-needling-attachment'}>
                             {
