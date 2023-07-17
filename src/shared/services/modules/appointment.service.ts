@@ -14,6 +14,10 @@ const getAppointment = (appointmentId: any) => {
     // @ts-ignore
     return ApiService[APIConfig.APPOINTMENT_VIEW.METHOD](APIConfig.APPOINTMENT_VIEW.URL(appointmentId));
 }
+const appointmentGetAmount = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.APPOINTMENT_GET_AMOUNT.METHOD](APIConfig.APPOINTMENT_GET_AMOUNT.URL, payload);
+}
 const addAppointment = (payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.APPOINTMENT_ADD.METHOD](APIConfig.APPOINTMENT_ADD.URL, payload);
@@ -98,7 +102,8 @@ const AppointmentService = {
     setAppointmentSetting,
     getAvailableCouponList,
     checkAppointmentExistsToBlock,
-    BlockCalender
+    BlockCalender,
+    appointmentGetAmount
 }
 
 export default AppointmentService;

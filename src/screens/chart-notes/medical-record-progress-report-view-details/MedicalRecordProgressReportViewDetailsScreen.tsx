@@ -3,7 +3,7 @@ import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import React, {useEffect, useState} from "react";
-import {getAllAddedICD11Code, getProgressReportViewDetails} from "../../../store/actions/chart-notes.action";
+import {getProgressReportViewDetails} from "../../../store/actions/chart-notes.action";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
@@ -81,19 +81,6 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
         progressReportDetails
     } = useSelector((state: IRootReducerState) => state.chartNotes);
 
-    const {
-        addedICD11CodeList,
-        isAddedICD11CodeListLoading,
-        isAddedICD11CodeListLoaded,
-        isAddedICD11CodeListLoadingFailed
-    } = useSelector((state: IRootReducerState) => state.chartNotes);
-
-    useEffect(() => {
-        if (medicalRecordId) {
-            dispatch(getAllAddedICD11Code(medicalRecordId))
-        }
-    }, [dispatch, medicalRecordId]);
-
     useEffect(() => {
         if (progressReportId) {
             dispatch(getProgressReportViewDetails(progressReportId));
@@ -150,14 +137,6 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                             size={'small'}
                                             label={progressReportDetails?.status || "-"}/>
                                     </span>
-                        {/*<div className="ts-row width-auto">*/}
-                        {/*    <div className="">*/}
-                        {/*        <ButtonComponent className={'mrg-right-10'} onClick={handleICDCodeDrawer}*/}
-                        {/*                         variant={'outlined'}>View ICD-11 Code*/}
-                        {/*            (s)</ButtonComponent>*/}
-
-                        {/*    </div>*/}
-                        {/*</div>*/}
                     </div>
                     <MedicalInterventionLinkedToComponent medicalRecordDetails={clientMedicalRecord}/>
                     <div className={'ts-row'}>
@@ -184,18 +163,11 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                     </div>
 
                     {isFullCardOpen && <>
-                        {
-                            isAddedICD11CodeListLoading && <LoaderComponent/>
-                        }
-                        {
-                            isAddedICD11CodeListLoadingFailed &&
-                            <StatusCardComponent title={'Failed to fetch ICD-11 code list'}/>
-                        }
-                        {isAddedICD11CodeListLoaded &&
+
                         <DataLabelValueComponent label={'Medical Diagnosis/ICD-11 Codes:'}>
-                            {addedICD11CodeList?.length > 0 ?
+                            {progressReportDetails?.linked_icd_codes?.length > 0 ?
                             <>
-                                {addedICD11CodeList.map((icdCode: any) => (
+                                {progressReportDetails?.linked_icd_codes.map((icdCode: any) => (
                                     <div key={icdCode.icd_code} className='d-flex ts-align-items-center mrg-top-5'>
                                         <div className='width-5 mrg-right-10'>{icdCode.icd_code}</div>
                                         <div>:</div>
@@ -205,8 +177,6 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                             </> : <div>N/A</div>
                             }
                         </DataLabelValueComponent>
-
-                        }
                     </>
                     }
                     <div className={'ts-row'}>

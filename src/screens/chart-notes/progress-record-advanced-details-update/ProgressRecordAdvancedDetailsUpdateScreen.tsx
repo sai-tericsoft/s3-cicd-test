@@ -19,7 +19,7 @@ import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import {IProgressReportStat} from "../../../shared/models/common.model";
 import _ from "lodash";
 import ESignApprovalComponent from "../../../shared/components/e-sign-approval/ESignApprovalComponent";
-import {getAllAddedICD11Code, getMedicalRecordProgressReportDetails,} from "../../../store/actions/chart-notes.action";
+import {getMedicalRecordProgressReportDetails,} from "../../../store/actions/chart-notes.action";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import TableV2Component from "../../../shared/components/table-v2/TableV2Component";
@@ -31,7 +31,6 @@ import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import EditProgressReportCardComponent from "../edit-progress-report-card/EditProgressReportCardComponent";
 import moment from "moment-timezone";
-import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 
 interface ProgressRecordAdvancedDetailsUpdateScreenProps {
 
@@ -55,12 +54,13 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
         clientMedicalRecordProgressReportDetails,
     } = useSelector((state: IRootReducerState) => state.chartNotes);
 
-    const {
-        addedICD11CodeList,
-        isAddedICD11CodeListLoading,
-        isAddedICD11CodeListLoaded,
-        isAddedICD11CodeListLoadingFailed
-    } = useSelector((state: IRootReducerState) => state.chartNotes);
+    // const {
+    //     addedICD11CodeList,
+    //     isAddedICD11CodeListLoading,
+    //     isAddedICD11CodeListLoaded,
+    //     isAddedICD11CodeListLoadingFailed
+    // } = useSelector((state: IRootReducerState) => state.chartNotes);
+    //
     const {
         clientMedicalRecord,
     } = useSelector((state: IRootReducerState) => state.client);
@@ -145,11 +145,6 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
         }
     ];
 
-    useEffect(() => {
-        if (medicalRecordId) {
-            dispatch(getAllAddedICD11Code(medicalRecordId))
-        }
-    }, [dispatch, medicalRecordId]);
 
     const openEditProgressReportDrawer = useCallback(() => {
         setIsEditProgressReportDrawerOpen(true);
@@ -316,18 +311,10 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                         </div>
 
                         {isFullCardOpen && <>
-                            {
-                                isAddedICD11CodeListLoading && <LoaderComponent/>
-                            }
-                            {
-                                isAddedICD11CodeListLoadingFailed &&
-                                <StatusCardComponent title={'Failed to fetch ICD-11 code list'}/>
-                            }
-                            {isAddedICD11CodeListLoaded &&
                             <DataLabelValueComponent label={'Medical Diagnosis/ICD-11 Codes:'}>
-                                {addedICD11CodeList?.length > 0 ?
+                                {clientMedicalRecordProgressReportDetails?.linked_icd_codes?.length > 0 ?
                                     <>
-                                        {addedICD11CodeList.map((icdCode: any) => (
+                                        {clientMedicalRecordProgressReportDetails?.linked_icd_codes?.length.map((icdCode: any) => (
                                             <div key={icdCode.icd_code}
                                                  className='d-flex ts-align-items-center mrg-top-5'>
                                                 <div className='width-5 mrg-right-10'>{icdCode.icd_code}</div>
@@ -339,7 +326,6 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                 }
                             </DataLabelValueComponent>
 
-                            }
                         </>
                         }
                         <div className={'ts-row'}>
@@ -492,7 +478,8 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                         }
                                         <div className={"sign-note-wrapper"}>
                                             <div className={'sign-note'}>
-                                           Note: By clicking the "Sign" button, your report will be saved along with the added details.
+                                                Note: By clicking the "Sign" button, your report will be saved along
+                                                with the added details.
                                             </div>
                                         </div>
                                         <div

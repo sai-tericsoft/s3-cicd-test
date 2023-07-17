@@ -334,6 +334,11 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + '/appointment',
         METHOD: "get"
     },
+    APPOINTMENT_GET_AMOUNT: {
+        URL: ENV.API_URL + '/appointment/getAmount',
+        METHOD: "post"
+    },
+
     APPOINTMENT_ADD: {
         URL: ENV.API_URL + "/appointment",
         METHOD: "post"

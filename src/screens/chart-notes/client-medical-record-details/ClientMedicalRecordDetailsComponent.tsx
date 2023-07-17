@@ -230,18 +230,20 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
         (booking: any) => {
             setIsBookingLoading(true)
             //medical_record_id
+            console.log(booking);
             const payload: any = {
                 client_id: booking.client._id,
                 category_id: booking.service_category._id,
                 service_id: booking.service._id,
-                provider_id: booking.provider.provider_id,
+                provider_id: booking.provider._id,
+                facility_id: booking.facility._id,
                 appointment_type: booking.appointment_type,
                 consultation_id: booking.duration._id,
                 appointment_date: booking.date,
                 duration: parseInt(booking.duration.duration),
                 start_time: booking.time.start_min,
                 end_time: booking.time.end_min,
-
+                medical_record_id: booking.case._id,
             }
             CommonService._appointment.addAppointment(payload)
                 .then((response: IAPIResponseType<any>) => {

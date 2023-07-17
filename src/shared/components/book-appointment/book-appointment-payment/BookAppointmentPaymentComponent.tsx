@@ -42,7 +42,7 @@ const addAppointmentPaymentValidationSchema = Yup.object().shape({
 });
 
 const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentProps) => {
-    const { onComplete, booking} = props;
+    const {onComplete, booking} = props;
     const {paymentModes} = useSelector((state: IRootReducerState) => state.staticData);
     const [availableCouponsList, setAvailableCouponsList] = useState<any[]>([]);
     const [selectedCoupon, setSelectedCoupon] = useState<any>(undefined);
@@ -90,8 +90,31 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
         getAvailableCouponsList();
     }, [getAvailableCouponsList]);
 
+    const createBooking = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
+            //medical_record_id
+            const payload: any = {
+                ...booking
+            }
+            CommonService._appointment.addAppointment(payload)
+                .then((response: IAPIResponseType<any>) => {
+                    if (response?.data) {
+                        onSubmitAppointmentPayment({
+                            ...values,
+                            appointmentId: response.data._id
+                        }, {setErrors, setSubmitting})
+                    }
+                })
+                .catch((error: any) => {
+                    // CommonService.handleErrors(errors);
+                })
+                .finally(() => {
+                })
+        },
+        [onComplete,booking,onSubmitAppointmentPayment],
+    );
 
-    const onSubmitAppointmentPayment = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
+
+    const onSubmitAppointmentPayment = useCallback((values: any, {setErrors, setSubmitting}: any) => {
         const appointmentId = values.appointmentId;
         delete values.appointmentId;
         CommonService._appointment.appointmentPayment(appointmentId, {
@@ -138,9 +161,8 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                 initialValues={{
                     ...addAppointmentPaymentInitialValues,
                     amount: booking?.amount || 0,
-                    appointmentId: booking?._id
                 }}
-                onSubmit={onSubmitAppointmentPayment}
+                onSubmit={createBooking}
                 validateOnChange={false}
                 validateOnBlur={true}
                 enableReinitialize={true}
@@ -169,7 +191,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                                     <RadioButtonComponent checked={values.payment_type === 'current'}
                                                                           onChange={value => {
                                                                               setFieldValue('payment_type', 'current')
-                                                                             }}
+                                                                          }}
                                                                           name={'payment-type'}/>
                                                 </div>
                                                 <div className="option-item-text">Pay Now</div>
@@ -223,7 +245,8 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                                 <div className="price-item">
                                                     <div className="price-item-text discount">Discount</div>
                                                     <div className="price-item-amount red">
-                                                        {selectedCoupon ? `- $ ${CommonService.convertToDecimals(discountAmount)}` : <div className={'zero-discount'}>$0</div> || 'N/A'}
+                                                        {selectedCoupon ? `- $ ${CommonService.convertToDecimals(discountAmount)}` :
+                                                            <div className={'zero-discount'}>$0</div> || 'N/A'}
 
                                                     </div>
                                                 </div>

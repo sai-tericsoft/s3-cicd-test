@@ -66,9 +66,8 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                 start_time: booking.time.start_min,
                 end_time: booking.time.end_min,
                 medical_record_id: booking.case._id,
-
             }
-            CommonService._appointment.addAppointment(payload)
+            CommonService._appointment.appointmentGetAmount(payload)
                 .then((response: IAPIResponseType<any>) => {
                     if (onComplete) {
                         onComplete(response.data);
