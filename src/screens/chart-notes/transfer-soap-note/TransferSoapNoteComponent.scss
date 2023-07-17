@@ -59,11 +59,6 @@
     margin-bottom: 16px;
   }
   .client-search-table-wrapper {
-
-    .t-table-wrapper {
-      height: calc(100vh - 320px);
-    }
-
     .transfer-soap-heading {
       margin-top: 12px;
     }
@@ -89,14 +84,15 @@
   }
 
   .card-table-button-wrapper {
+    margin-bottom: 30px;
     .card-table {
       .t-cell-date {
         padding-right: 30px !important;
       }
 
-      .t-table-wrapper {
-        height: calc(100vh - 330px);
-      }
+      //.t-table-wrapper {
+      //  height: calc(100vh - 330px);
+      //}
     }
 
     .card-component {
@@ -133,5 +129,4 @@
     }
   }
 
-  height: calc(100vh - 200px);
 }
