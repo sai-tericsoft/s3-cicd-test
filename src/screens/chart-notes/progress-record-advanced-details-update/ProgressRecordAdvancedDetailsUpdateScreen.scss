@@ -30,8 +30,21 @@
       padding-bottom: 24px;
       .card-body {
         padding: 0;
+        .sign-note-wrapper{
+          display: flex;
+          flex-direction: row-reverse;
+          color: #212B36;
+          margin-top: 50px;
+          margin-right: 25px;
+          opacity: 0.5;
+          margin-bottom: 16px;
+          .sign-note{
+            width: 350px;
+          }
+        }
       }
     }
+
     .progress-stats-comment{
      display: flex;
       justify-content: center;

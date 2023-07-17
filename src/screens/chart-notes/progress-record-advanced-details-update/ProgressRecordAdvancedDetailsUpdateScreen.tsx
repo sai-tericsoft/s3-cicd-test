@@ -490,8 +490,13 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                                 }
                                             })
                                         }
+                                        <div className={"sign-note-wrapper"}>
+                                            <div className={'sign-note'}>
+                                           Note: By clicking the "Sign" button, your report will be saved along with the added details.
+                                            </div>
+                                        </div>
                                         <div
-                                            className={"display-flex flex-direction-row-reverse mrg-top-50 mrg-right-25"}>
+                                            className={"display-flex flex-direction-row-reverse mrg-right-25"}>
                                             <ESignApprovalComponent isSigned={false}
                                                                     isSigning={isSigningInProgress}
                                                                     canSign={true}
