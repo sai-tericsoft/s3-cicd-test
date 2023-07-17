@@ -20,10 +20,12 @@ const BasicProgressReportValidationSchema = Yup.object({
 
 interface AddBasicProgressReportComponentProps {
     onCancel?: () => void;
+    setRefreshToken?: any;
 }
 
 const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentProps) => {
 
+    const {setRefreshToken} = props;
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const [isProgressReportAddInProgress, setIsProgressReportAddInProgress] = useState<boolean>(false);
     const [addProgressReportBasicInitialValues, setAddProgressReportBasicInitialValues] = useState<any>({
@@ -53,6 +55,7 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
             CommonService._chartNotes.AddProgressReportUnderMedicalRecordAPICall(clientMedicalRecord?._id, payload)
                 .then((response: IAPIResponseType<any>) => {
                     setIsProgressReportAddInProgress(false);
+                    setRefreshToken(Math.random().toString(36).substring(7));
                     // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     navigate(CommonService._routeConfig.MedicalRecordProgressReportAdvancedDetailsUpdate(clientMedicalRecord?._id, response.data._id, 'add'));
                 }).catch((error: any) => {
@@ -60,7 +63,7 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
                 setIsProgressReportAddInProgress(false);
             });
         }
-    }, [clientMedicalRecord, navigate])
+    }, [clientMedicalRecord, navigate,setRefreshToken])
 
     return (
         <div className={'add-basic-progress-report-component'}>

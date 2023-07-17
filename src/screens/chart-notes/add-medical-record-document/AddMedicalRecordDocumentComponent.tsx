@@ -44,11 +44,12 @@ interface AddMedicalRecordDocumentComponentProps {
     medicalRecordId: string;
     medicalRecordDetails: any;
     onCancel: () => void;
+    setRefreshToken?:any;
 }
 
 const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentComponentProps) => {
 
-    const {onAdd, medicalRecordId, medicalRecordDetails} = props;
+    const {onAdd, medicalRecordId, medicalRecordDetails,setRefreshToken} = props;
     const {medicalRecordDocumentTypes} = useSelector((state: IRootReducerState) => state.staticData);
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const [addMedicalRecordDocumentFormInitialValues] = useState<IMedicalRecordDocumentAddForm>(_.cloneDeep(AddMedicalRecordDocumentFormInitialValues));
@@ -63,13 +64,14 @@ const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentCompon
             .then((response: IAPIResponseType<any>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsMedicalRecordDocumentFileAddInProgress(false);
+                setRefreshToken(Math.random().toString(36).substring(7));
                 onAdd(response.data);
             })
             .catch((error: any) => {
                 CommonService.handleErrors(setErrors, error, true);
                 setIsMedicalRecordDocumentFileAddInProgress(false);
             })
-    }, [medicalRecordId, onAdd]);
+    }, [medicalRecordId, onAdd,setRefreshToken]);
 
     return (
         <div className="add-medical-record-document-component">

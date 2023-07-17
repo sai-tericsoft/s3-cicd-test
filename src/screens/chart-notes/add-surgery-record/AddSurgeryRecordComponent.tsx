@@ -25,7 +25,9 @@ interface AddSurgeryRecordComponentProps {
     medicalRecordId: string;
     medicalRecordDetails: any;
     onSave: () => void;
-    onCancel?: () => void
+    onCancel?: () => void;
+    setRefreshToken?:any;
+
 }
 
 const addSurgeryRecordFormInitialValues: any = {
@@ -43,7 +45,7 @@ const addSurgeryRecordValidationSchema = Yup.object().shape({
 
 const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
 
-    const {medicalRecordDetails, onSave} = props;
+    const {medicalRecordDetails, onSave,setRefreshToken} = props;
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const [isSurgeryRecordAddInProgress, setIsSurgeryRecordAddInProgress] = useState<boolean>(false);
 
@@ -58,6 +60,7 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
             CommonService._chartNotes.AddSurgeryRecordAPICall(medicalRecordDetails._id, formData)
                 .then((response: IAPIResponseType<any>) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    setRefreshToken(Math.random().toString(36).substring(7));
                     // setIsSurgeryRecordAddInProgress(false);
                     onSave();
                 })
@@ -68,7 +71,7 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                     setIsSurgeryRecordAddInProgress(false);
                 })
         }
-    }, [medicalRecordDetails, onSave]);
+    }, [medicalRecordDetails, onSave,setRefreshToken]);
 
     return (
         <div className={'edit-medical-record-component'}>

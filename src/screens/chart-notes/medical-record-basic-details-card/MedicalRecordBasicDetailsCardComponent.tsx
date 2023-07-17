@@ -408,6 +408,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                         <AddSurgeryRecordComponent medicalRecordId={medicalRecordId}
                                                    medicalRecordDetails={clientMedicalRecord}
                                                    onSave={handleSurgeryRecordAdd}
+                                                  setRefreshToken={setRefreshToken}
                                                    onCancel={() => setIsSurgeryAddOpen(false)}/>
                     </DrawerComponent>
                     {/*Add Surgery Record end*/}
@@ -429,6 +430,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                      closeOnBackDropClick={false}
                                      onClose={() => setIsProgressReportDrawerOpen(false)}>
                         <AddBasicProgressReportComponent
+                            setRefreshToken={setRefreshToken}
                             onCancel={() => setIsProgressReportDrawerOpen(false)}
                         />
                     </DrawerComponent>
@@ -454,6 +456,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                      onClose={() => closeMedicalRecordDocumentAddDrawer()}>
                         <AddMedicalRecordDocumentComponent
                             onAdd={handleMedicalRecordDocumentAdd}
+                            setRefreshToken={setRefreshToken}
                             medicalRecordId={medicalRecordId}
                             medicalRecordDetails={clientMedicalRecord}
                             onCancel={() => closeMedicalRecordDocumentAddDrawer()}
