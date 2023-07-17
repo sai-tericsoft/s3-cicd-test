@@ -250,10 +250,20 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             CommonService._serviceCategory.ServiceCategoryListAPICall({is_active: true})
                 .then((response: IAPIResponseType<any>) => {
                     const data = response.data || [];
+                    console.log(data);
                     const colorMap: any = {};
                     data.forEach((item: any) => {
-                        colorMap[item._id] = item.color_code || '#AAAAAA';
+                        console.log(JSON.parse(item.bg_color_code))
+                        const bg_color_code = JSON.parse(item.bg_color_code);
+                        const text_color_code = JSON.parse(item.text_color_code);
+                        const bg_color = `rgba(${bg_color_code.r}, ${bg_color_code.g}, ${bg_color_code.b}, ${bg_color_code.a})`;
+                        const text_color = `rgba(${text_color_code.r}, ${text_color_code.g}, ${text_color_code.b}, ${text_color_code.a})`;
+                        colorMap[item._id] = {
+                            bg_color_code: bg_color || '#AAAAAA',
+                            text_color_code: text_color || '#000000'
+                        };
                     })
+                    console.log(colorMap);
                     setServiceCategoryColorMap(colorMap);
                     setServiceCategoryList(data);
                 })
@@ -310,18 +320,9 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
 
     const getCalenderList = useCallback((payload: any) => {
         delete payload.sort;
+        console.log(payload);
         if (payload.provider_id) {
-            payload.provider_id = payload.provider_id.provider_id || payload.provider_id._id;
-        }
-        if (payload.category_id) {
-            payload.category_id = payload.category_id._id;
-        }
-
-        if (payload.service_id) {
-            payload.service_id = payload.service_id._id;
-        }
-        if (payload.status) {
-            payload.status = payload.status.code;
+            payload.provider_id = payload.provider_id || payload._id;
         }
         setCalendarData(null);
         setCalendarDaysData(null);
@@ -364,14 +365,15 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
     const prepareNewAppointmentBooking = useCallback(
         (preState: any) => {
             const prePayload: any = {};
+            console.log(preState);
             if (preState.category_id) {
-                prePayload.category_id = preState.category_id._id;
+                prePayload.category_id = preState.category_id;
             }
             if (preState.service_id) {
-                prePayload.service_id = preState.service_id._id;
+                prePayload.service_id = preState.service_id;
             }
             if (preState.provider_id) {
-                prePayload.provider_id = preState.provider_id.provider_id || preState.provider_id._id;
+                prePayload.provider_id = preState.provider_id || preState._id;
             }
             if (preState.date) {
                 prePayload.date = preState.date + 'T00:00:00.000Z';
@@ -410,6 +412,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
     // }, [schedulingListFilterState]);
 
     const handleFilters = useCallback((value: any, filterName: string) => {
+        console.log('handleFilters', value);
         if (filterName === 'serviceCategory') {
             setSchedulingListFilterState((oldState: any) => {
                 const newState = {...oldState};
@@ -449,9 +452,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             setSchedulingListFilterState((oldState: any) => {
                 const newState = {...oldState};
                 newState['status'] = value;
-                if (!value) {
-                    delete newState['status'];
-                }
+                console.log(newState);
                 return newState;
             });
         }
@@ -561,14 +562,14 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                             <div className="scheduling-filter-header-action-item">
                                 <SelectComponent size={'small'}
                                                  label={'Service Category'}
-                                                 value={schedulingListFilterState?.category_id || []}
+                                                 value={schedulingListFilterState?.category_id || ''}
                                                  displayWith={item => item ? item?.name : ''}
                                                  keyExtractor={item => item?._id}
                                                  valueExtractor={item => item?._id}
                                                  options={serviceCategoryList || []}
                                                  fullWidth={true}
                                                  isClear={true}
-                                                 // multiple={true}
+                                    // multiple={true}
                                                  onUpdate={(value) => handleFilters(value, 'serviceCategory')}
 
                                 />
@@ -674,7 +675,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                             <ToolTipComponent key={index} tooltip={
                                                                 <>
                                                                     <b>{value?.client_details?.first_name + ' ' + value?.client_details?.last_name || "No title"}</b><br/>
-                                                                    {value?.category_ƒ?.name + ' / ' + value?.service_details?.name + ' - ' + (value?.provider_details?.first_name + ' ' + value?.provider_details?.last_name) || "-"}
+                                                                    {value?.category_details?.name + ' / ' + value?.service_details?.name + ' - ' + (value?.provider_details?.first_name + ' ' + value?.provider_details?.last_name) || "-"}
                                                                     <br/>
                                                                     {CommonService.getHoursAndMinutesFromMinutes(value?.start_time) + ' - ' + CommonService.getHoursAndMinutesFromMinutes(value?.end_time) || "-"}
                                                                     <br/>
@@ -711,16 +712,16 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                      onClick={() => {
                                                                          setSchedulingListFilterState({
                                                                              ...schedulingListFilterState,
-                                                                             provider_id: value
+                                                                             provider_id: value._id
                                                                          })
                                                                      }}
                                                                 >
                                                                     <div className="appointment-count-card-wrapper"
                                                                          style={{
-                                                                             color: '#000000',
-                                                                             background: ((serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id?._id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id?._id] : '#AAAAAA') + '30',
+                                                                             color: ((serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id].text_color_code : '#FFFFFF'),
+                                                                             background: ((serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id].bg_color_code : '#AAAAAA'),
                                                                              // opacity: 0.6,
-                                                                             borderColor: (serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id?._id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id?._id] : '#AAAAAA'
+                                                                             borderColor: (serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id] : '#AAAAAA'
                                                                          }}
                                                                     >
                                                                         <div
@@ -741,21 +742,22 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                 </>
                                                             }
                                                                               backgroundColor={'#000000'}
-                                                                              textColor={'#FFFFFF'}>
+                                                                              textColor={'#FFFFFF'}
+                                                            >
                                                                 <div className={'appointment-count-card'}
                                                                      onClick={() => {
                                                                          setSchedulingListFilterState({
                                                                              ...schedulingListFilterState,
-                                                                             service_id: value
+                                                                             service_id: value._id
                                                                          })
                                                                      }}
                                                                 >
                                                                     <div className="appointment-count-card-wrapper"
                                                                          style={{
-                                                                             color: '#000000',
-                                                                             background: ((serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id?._id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id?._id] : '#AAAAAA') + '60',
+                                                                             color: ((serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id].text_color_code : '#FFFFFF'),
+                                                                             background: ((serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id].bg_color_code : '#AAAAAA'),
                                                                              // opacity: 0.6,
-                                                                             borderColor: (serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id?._id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id?._id] : '#AAAAAA'
+                                                                             borderColor: (serviceCategoryColorMap && serviceCategoryColorMap[schedulingListFilterState.category_id]) ? serviceCategoryColorMap[schedulingListFilterState.category_id] : '#AAAAAA'
                                                                          }}
                                                                     >
                                                                         <div
@@ -780,9 +782,10 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                               textColor={'#FFFFFF'}>
                                                                 <div key={index} className={'appointment-count-card '}
                                                                      onClick={() => {
+                                                                         console.log('value', value);
                                                                          setSchedulingListFilterState({
                                                                              ...schedulingListFilterState,
-                                                                             category_id: value,
+                                                                             category_id: value._id,
                                                                              service_id: undefined,
                                                                              start_date: date,
                                                                              end_date: date,
@@ -794,8 +797,8 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                      }}>
                                                                     <div className="appointment-count-card-wrapper"
                                                                          style={{
-                                                                             color: CommonService.getContrastYIQ((serviceCategoryColorMap && serviceCategoryColorMap[value._id]) ? serviceCategoryColorMap[value._id] : '#AAAAAA'),
-                                                                             background: (serviceCategoryColorMap && serviceCategoryColorMap[value._id]) ? serviceCategoryColorMap[value._id] : '#AAAAAA'
+                                                                             color: (serviceCategoryColorMap && serviceCategoryColorMap[value._id]) ? serviceCategoryColorMap[value._id].text_color_code : '#FFFFFF',
+                                                                             background: (serviceCategoryColorMap && serviceCategoryColorMap[value._id]) ? serviceCategoryColorMap[value._id].bg_color_code : '#AAAAAA'
                                                                          }}>
                                                                         <div
                                                                             className="appointment-title">{CommonService.getNameInitials(value.name)}</div>
@@ -818,9 +821,14 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                         {(serviceCategoryList || []).map((value, index) => {
                                             return <div className={'helper-tooltip-window-item '} key={index}>
                                                 <div className={'helper-tooltip-window-item-color'}
-                                                     style={{background: value.color_code}}></div>
+                                                     style={{
+                                                         color: (serviceCategoryColorMap && serviceCategoryColorMap[value._id]) ? serviceCategoryColorMap[value._id].text_color_code : '#FFFFFF',
+                                                         background: (serviceCategoryColorMap && serviceCategoryColorMap[value._id]) ? serviceCategoryColorMap[value._id].bg_color_code : '#AAAAAA'
+                                                     }}></div>
                                                 <div className={'helper-tooltip-window-item-text'}
-                                                     style={{color: value.color_code}}>{value.name}</div>
+                                                     style={{
+                                                         color: (serviceCategoryColorMap && serviceCategoryColorMap[value._id]) ? serviceCategoryColorMap[value._id].bg_color_code : '#FFFFFF',
+                                                     }}>{value.name}</div>
                                             </div>
                                         })}
                                     </div>}
@@ -984,7 +992,11 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                              showClose={true}
                              onClose={() => setOpenBlockCalenderDrawer(false)}
                              className={'block-calendar-component-drawer'}>
-                <BlockCalendarComponent onAddSuccess={() => setOpenBlockCalenderDrawer(false)}/>
+                <BlockCalendarComponent onAddSuccess={() => {
+                    setOpenBlockCalenderDrawer(false);
+                    getCalenderList({...schedulingListFilterState});
+                }
+                }/>
             </DrawerComponent>
 
         </div>
