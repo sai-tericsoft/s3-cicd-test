@@ -238,15 +238,6 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                     <ListItem onClick={addProgressRecord}>
                         Add Progress Report
                     </ListItem>,
-                    <ListItem onClick={openTransferMedicalRecordDrawer}>
-                        Transfer File to
-                    </ListItem>,
-                    <ListItem onClick={handleNotifyAdminModalOpen}>
-                        Notify Admin
-                    </ListItem>,
-                    <ListItem onClick={openMedicalRecordStatsModal}>
-                        View Case Statistics
-                    </ListItem>,
                     <ListItem onClick={openMedicalRecordDocumentAddDrawer}>
                         Add Document
                     </ListItem>,
@@ -256,6 +247,16 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                             View Exercise Record
                         </ListItem>
                     </Link>,
+                    <ListItem onClick={openTransferMedicalRecordDrawer}>
+                        Transfer File to
+                    </ListItem>,
+                    <ListItem onClick={handleNotifyAdminModalOpen}>
+                        Notify Admin
+                    </ListItem>,
+                    <ListItem onClick={openMedicalRecordStatsModal}>
+                        View Case Statistics
+                    </ListItem>,
+
                     <ListItem onClick={handleDischargeCase}>
                         Discharge Case
                     </ListItem>
