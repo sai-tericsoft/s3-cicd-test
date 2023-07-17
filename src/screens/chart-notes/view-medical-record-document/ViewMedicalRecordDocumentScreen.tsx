@@ -41,16 +41,17 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
             if (medicalRecordId) {
                 const referrer: any = searchParams.get("referrer");
                 const module_name: any = searchParams.get("module_name");
+                const active_tab: any = searchParams.get("activeTab");
                 setModule(module_name);
                 dispatch(setCurrentNavParams("View Document", null, () => {
                     if (referrer && referrer !== "undefined" && referrer !== "null") {
                         if (module_name === "client_module") {
                             navigate(referrer);
                         } else {
-                            navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?referrer=' + referrer);
+                            navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?referrer=' + referrer + '&activeTab=' + active_tab);
                         }
                     } else {
-                        navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+                        navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=' + active_tab);
                     }
                 }));
             }
@@ -125,7 +126,7 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                     CommonService._alert.showToast('Medical Record Document Id is missing', "error");
                 }
             });
-        }, [medicalRecordDocumentId,navigate,searchParams]);
+        }, [medicalRecordDocumentId, navigate, searchParams]);
 
         const handleMedicalRecordDocumentAttachmentAdd = useCallback(() => {
             if (medicalRecordDocumentId) {
@@ -171,16 +172,16 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
             }).then(() => {
                 if (medicalRecordDocumentId) {
                     CommonService._chartNotes.DeleteDocument(medicalRecordDocumentId)
-                .then((response: any) => {
+                        .then((response: any) => {
                             CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Document deleted successfully", "success");
-                                const referrer: any = searchParams.get("referrer");
-                                const module_name: any = searchParams.get("module_name");
-                                setModule(module_name);
-                                    if (module_name === "client_module") {
-                                            navigate(referrer);
-                                        }else {
-                                          (medicalRecordId) &&  navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
-                                    }
+                            const referrer: any = searchParams.get("referrer");
+                            const module_name: any = searchParams.get("module_name");
+                            setModule(module_name);
+                            if (module_name === "client_module") {
+                                navigate(referrer);
+                            } else {
+                                (medicalRecordId) && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+                            }
 
                         }).catch((error: any) => {
                         CommonService._alert.showToast(error?.error || "Error deleting document", "success");
@@ -188,7 +189,7 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                 }
             })
 
-        }, [medicalRecordDocumentId,navigate,searchParams,medicalRecordId])
+        }, [medicalRecordDocumentId, navigate, searchParams, medicalRecordId])
 
 
         return (

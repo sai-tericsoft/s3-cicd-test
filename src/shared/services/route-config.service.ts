@@ -204,8 +204,8 @@ const MedicalInterventionFinalizeTreatment = (medicalRecordId: string, medicalIn
     return "/chart-notes/" + medicalRecordId + "/" + medicalInterventionId + '/finalize-treatment';
 }
 
-const MedicalRecordProgressReportViewDetails = (medicalRecordId: string, progressReportId: string, type?: any) => {
-    return "/chart-notes/" + medicalRecordId + "/" + progressReportId + '/progress-report-view-details?type=' + type;
+const MedicalRecordProgressReportViewDetails = (medicalRecordId: string, progressReportId: string) => {
+    return "/chart-notes/" + medicalRecordId + "/" + progressReportId + '/progress-report-view-details' ;
 }
 
 const MedicalInterventionDryNeedlingFileViewDetails = (medicalRecordId: string, dryNeedlingFileId: string) => {
@@ -216,7 +216,7 @@ const MedicalInterventionConcussionFileViewDetails = (medicalRecordId: string, c
     return "/chart-notes/" + medicalRecordId + "/" + concussionFileId + '/concussion-file-view-details';
 }
 
-const MedicalRecordDocumentViewDetails = (medicalRecordId: string, medicalRecordDocumentId: string) => {
+const MedicalRecordDocumentViewDetails = (medicalRecordId: string, medicalRecordDocumentId: string ) => {
     return "/chart-notes/" + medicalRecordId + "/" + medicalRecordDocumentId + '/medical-record-document-view-details';
 
 }

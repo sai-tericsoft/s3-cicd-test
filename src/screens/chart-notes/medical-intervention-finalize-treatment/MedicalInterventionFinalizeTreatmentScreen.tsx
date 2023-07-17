@@ -46,8 +46,10 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
     } = useSelector((state: IRootReducerState) => state.chartNotes);
     const [linkedCPTCodes, setLinkedCPTCodes] = useState<any[]>([]);
     const [totalMinutes, setTotalMinutes] = useState<number>(0);
+    const [CPTCodes, setCPTCodes] = useState<any[]>([]);
     const [extraPayload, setExtraPayload] = useState<any>({
-        search: ''
+        search: '',
+        medical_record_id: medicalRecordId,
     });
 
     const CPTCodesColumns: ITableColumn[] = [
@@ -57,27 +59,30 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
             dataIndex: 'select',
             width: 390,
             fixed: 'left',
-            render: (_: any, record: any) => <Field name={`${record._id}.is_selected`}>
-                {
-                    (field: FieldProps) => (
-                        <FormikCheckBoxComponent
-                            formikField={field}
-                            label={record?.cpt_code}
-                            size={'small'}
-                            onChange={(isChecked) => {
-                                field.form.setFieldValue(`${record?._id}.units_of_care`, "");
-                                field.form.setFieldValue(`${record?._id}.minutes`, "");
-                                field.form.setFieldValue(`${record?._id}.notes`, "");
+            render: (_: any, record: any) => (
+                <Field name={`${record._id}.is_selected`}>
+                    {(field: FieldProps) => {
+                        return (
+                            <FormikCheckBoxComponent
+                                formikField={field}
+                                label={record?.cpt_code}
+                                size={'small'}
+                                // disabled={record.is_selected}
+                                onChange={(isChecked) => {
+                                    field.form.setFieldValue(`${record?._id}.units_of_care`, "");
+                                    field.form.setFieldValue(`${record?._id}.minutes`, "");
+                                    field.form.setFieldValue(`${record?._id}.notes`, "");
 
-                                const minutes = parseInt(field.form.values[record._id]?.minutes || "0");
-                                if (!isChecked) {
-                                    setTotalMinutes((prevTotalMinutes) => prevTotalMinutes - minutes);
-                                }
-                            }}
-                        />
-                    )
-                }
-            </Field>
+                                    const minutes = parseInt(field.form.values[record._id]?.minutes || "0");
+                                    if (!isChecked) {
+                                        setTotalMinutes((prevTotalMinutes) => prevTotalMinutes - minutes);
+                                    }
+                                }}
+                            />
+                        );
+                    }}
+                </Field>
+            )
         },
         // {
         //     key: 'cpt_code',
@@ -256,11 +261,25 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                     minutes: cptCode.minutes,
                     notes: cptCode.notes
                 };
-            })
+            });
         }
         setLinkedCPTCodes(linked_cpt_codes);
+
+        // // Compare CPTCodes list and set is_selected to true for selected codes
+        // const updatedCPTCodes = CPTCodes.map((cptCode: any) => {
+        //     if (linkedCPTCodesConfig[cptCode._id]) {
+        //         return {
+        //             ...cptCode,
+        //             is_selected: true
+        //         };
+        //     }
+        //     return cptCode;
+        // });
+        //
+        // setCPTCodes(updatedCPTCodes);
         setCptCodesFormInitialValues(linkedCPTCodesConfig);
-    }, [medicalInterventionDetails]);
+    }, [medicalInterventionDetails, CPTCodes]);
+
 
     return (
         <div className={'medical-intervention-finalize-treatment-screen'}>
@@ -316,12 +335,16 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                                    extraPayload={extraPayload}
                                                                    type={"ant"}
                                                                    showFooter={true}
+                                                                   onDataLoad={(data: any) => {
+                                                                       setCPTCodes(data);
+                                                                   }}
                                                                    footer={
                                                                        <div className='cpt-code-list-footer'>
                                                                            <div className="total-heading">Total number
                                                                                of minutes
                                                                            </div>
-                                                                           <div className="total-minutes-wrapper">{totalMinutes}</div>
+                                                                           <div
+                                                                               className="total-minutes-wrapper">{totalMinutes}</div>
                                                                        </div>
                                                                    }
                                                                    columns={CPTCodesColumns}/>

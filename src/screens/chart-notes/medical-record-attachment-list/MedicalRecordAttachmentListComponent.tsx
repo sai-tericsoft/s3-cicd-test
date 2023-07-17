@@ -11,11 +11,12 @@ import {useCallback, useState} from "react";
 
 interface ClientMedicalAttachmentsComponentProps {
     referrer?: any;
-    refreshToken?:any;
+    refreshToken?: any;
+    selectedTab?: any;
 }
 
 const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsComponentProps) => {
-    const {referrer,refreshToken} = props;
+    const {referrer, refreshToken, selectedTab} = props;
     const {medicalRecordId} = useParams();
     const {refreshTokenForMedicalRecordAttachments} = useSelector((state: IRootReducerState) => state.chartNotes)
     const [medicalAttachmentListFilterState, setMedicalAttachmentListFilterState] = useState<any>({
@@ -34,13 +35,13 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
                 //     route = CommonService._routeConfig.MedicalRecordSurgeryRecordDetails(item.medical_record_id, item._id) + '?referrer=' + referrer;
                 // } else
                 if (item.note_type_category.toLowerCase() === 'dry needling') {
-                    route = CommonService._routeConfig.MedicalInterventionDryNeedlingFileViewDetails(item.medical_record_id, item._id) + '?referrer=' + referrer;
+                    route = CommonService._routeConfig.MedicalInterventionDryNeedlingFileViewDetails(item.medical_record_id, item._id) + '?referrer=' + referrer + '&activeTab=' + selectedTab;
                 } else if (item.note_type_category.toLowerCase() === 'concussion') {
-                    route = CommonService._routeConfig.MedicalInterventionConcussionFileViewDetails(item.medical_record_id, item._id) + '?referrer=' + referrer;
+                    route = CommonService._routeConfig.MedicalInterventionConcussionFileViewDetails(item.medical_record_id, item._id) + '?referrer=' + referrer + '&activeTab=' + selectedTab;
                 } else if (item.note_type_category.toLowerCase() === 'document') {
-                    route = CommonService._routeConfig.MedicalRecordDocumentViewDetails(item.medical_record_id, item._id) + '?referrer=' + referrer;
+                    route = CommonService._routeConfig.MedicalRecordDocumentViewDetails(item.medical_record_id, item._id) + '?referrer=' + referrer + '&activeTab=' + selectedTab;
                 } else if (item.note_type_category.toLowerCase() === 'progress report') {
-                    route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(item.medical_record_id, item?._id) + '?referrer=' + referrer;
+                    route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(item.medical_record_id, item?._id) + '?referrer=' + referrer + '&activeTab=' + selectedTab;
                 } else {
                 }
                 return <><LinkComponent
@@ -87,16 +88,15 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             fixed: 'right',
             render: (item: any) => {
                 let route = '';
-                if (item.note_type_category.toLowerCase() === 'surgery record') {
-                    route = CommonService._routeConfig.MedicalRecordSurgeryRecordDetails(item.medical_record_id, item._id) + '?referrer=' + referrer;
-                } else if (item.note_type_category.toLowerCase() === 'dry needling') {
-                    route = CommonService._routeConfig.MedicalInterventionDryNeedlingFileViewDetails(item.medical_record_id, item._id) + '?referrer=' + referrer;
+
+                if (item.note_type_category.toLowerCase() === 'dry needling') {
+                    route = CommonService._routeConfig.MedicalInterventionDryNeedlingFileViewDetails(item.medical_record_id, item._id) + '?referrer=' + referrer + '&activeTab=' + selectedTab;
                 } else if (item.note_type_category.toLowerCase() === 'concussion') {
-                    route = CommonService._routeConfig.MedicalInterventionConcussionFileViewDetails(item.medical_record_id, item._id) + '?referrer=' + referrer;
+                    route = CommonService._routeConfig.MedicalInterventionConcussionFileViewDetails(item.medical_record_id, item._id) + '?referrer=' + referrer + '&activeTab=' + selectedTab;
                 } else if (item.note_type_category.toLowerCase() === 'document') {
-                    route = CommonService._routeConfig.MedicalRecordDocumentViewDetails(item.medical_record_id, item._id) + '?referrer=' + referrer;
+                    route = CommonService._routeConfig.MedicalRecordDocumentViewDetails(item.medical_record_id, item._id) + '?referrer=' + referrer + '&activeTab=' + selectedTab;
                 } else if (item.note_type_category.toLowerCase() === 'progress report') {
-                    route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(item.medical_record_id, item?._id) + '&referrer=' + referrer;
+                    route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(item.medical_record_id, item?._id) + '?referrer=' + referrer + '&activeTab=' + selectedTab;
                 } else {
                 }
                 return <LinkComponent route={route}>

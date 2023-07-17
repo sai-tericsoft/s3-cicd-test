@@ -73,15 +73,18 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
             if (medicalRecordId) {
                 const referrer: any = searchParams.get("referrer");
                 const module_name: any = searchParams.get("module_name");
+                const active_tab: any = searchParams.get("activeTab");
+
                 dispatch(setCurrentNavParams("View Concussion File", null, () => {
                     if (referrer && referrer !== "undefined" && referrer !== "null") {
                         if (module_name === "client_module") {
                             navigate(referrer);
                         } else {
-                            navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?referrer=' + referrer);
+                            navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?referrer=' + referrer + '&activeTab=' + active_tab);
                         }
                     } else {
-                        navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+                        navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=' + active_tab);
+
                     }
                 }));
             }

@@ -96,6 +96,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
     useEffect(() => {
         if (medicalRecordId) {
             const referrer: any = searchParams.get("referrer");
+            const active_tab: any = searchParams.get("activeTab");
             const module_name: any = searchParams.get("module_name");
             setModule(module_name);
             dispatch(setCurrentNavParams("Progress Report Details", null, () => {
@@ -103,10 +104,10 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                     if (module_name === "client_module") {
                         navigate(referrer);
                     } else {
-                        navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?referrer=' + referrer);
+                        navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?referrer=' + referrer + '&activeTab=' + active_tab);
                     }
                 } else {
-                    navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+                    navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=' + active_tab);
                 }
             }));
         }
@@ -166,15 +167,15 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
 
                         <DataLabelValueComponent label={'Medical Diagnosis/ICD-11 Codes:'}>
                             {progressReportDetails?.linked_icd_codes?.length > 0 ?
-                            <>
-                                {progressReportDetails?.linked_icd_codes.map((icdCode: any) => (
-                                    <div key={icdCode.icd_code} className='d-flex ts-align-items-center mrg-top-5'>
-                                        <div className='width-5 mrg-right-10'>{icdCode.icd_code}</div>
-                                        <div>:</div>
-                                        <div className='mrg-left-10'>{icdCode.description}</div>
-                                    </div>
-                                ))}
-                            </> : <div>N/A</div>
+                                <>
+                                    {progressReportDetails?.linked_icd_codes.map((icdCode: any) => (
+                                        <div key={icdCode.icd_code} className='d-flex ts-align-items-center mrg-top-5'>
+                                            <div className='width-5 mrg-right-10'>{icdCode.icd_code}</div>
+                                            <div>:</div>
+                                            <div className='mrg-left-10'>{icdCode.description}</div>
+                                        </div>
+                                    ))}
+                                </> : <div>N/A</div>
                             }
                         </DataLabelValueComponent>
                     </>

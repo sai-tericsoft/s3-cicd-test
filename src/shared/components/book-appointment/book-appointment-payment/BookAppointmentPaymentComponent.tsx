@@ -132,7 +132,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                 .finally(() => {
                 })
         },
-        [onComplete,booking,onSubmitAppointmentPayment],
+        [booking,onSubmitAppointmentPayment],
     );
 
 

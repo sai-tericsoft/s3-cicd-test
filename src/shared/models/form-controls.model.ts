@@ -65,6 +65,7 @@ export interface ICheckBoxProps {
     required?: boolean;
     labelPlacement?: 'bottom' | 'end' | 'start' | 'top';
     size?: "medium" | "small";
+    defaultChecked?: boolean;
 }
 
 export interface ISwitchProps {

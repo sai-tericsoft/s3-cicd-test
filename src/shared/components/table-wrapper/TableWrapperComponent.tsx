@@ -19,10 +19,11 @@ export interface TableComponentProps extends ITableComponentProps {
     extraPayload?: any;
     refreshToken?: string; // TODO review and make it standard
     autoHeight?: boolean;
+    onDataLoaded?: (data: any) => void;
 }
 
 const TableWrapperComponent = (props: TableComponentProps) => {
-    const {refreshToken, moduleName, autoHeight, id, url, method, extraPayload, ...otherProps} = props;
+    const {refreshToken, moduleName, autoHeight, id, url, method, extraPayload, onDataLoaded, ...otherProps} = props;
     const [isDataLoading, setIsDataLoading] = useState<boolean>(false);
     // const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
     const [isDataLoadingFailed, setIsDataLoadingFailed] = useState<boolean>(false);
@@ -69,6 +70,7 @@ const TableWrapperComponent = (props: TableComponentProps) => {
                 }
             }
             setData(listData);
+            onDataLoaded && onDataLoaded(listData);
             setIsDataLoading(false);
             // setIsDataLoaded(true);
             setIsDataLoadingFailed(false);
@@ -79,7 +81,7 @@ const TableWrapperComponent = (props: TableComponentProps) => {
             setIsDataLoadingFailed(true);
 
         })
-    }, [isPaginated, method, url, extraPayload]);
+    }, [isPaginated, method, url, extraPayload,onDataLoaded]);
 
     useEffect(() => {
         if (extraPayload?.page) {
