@@ -11,8 +11,15 @@
         padding-right: 10px;
       }
     }
-
   }
+  .exercise-log-table-wrapper{
+    .t-table-wrapper {
+      .t-table {
+        min-height: max-content !important;
+      }
+    }
+  }
+
   .horizontal-line{
     border-bottom: 2px solid #CECECE;
     margin-top: 30px;

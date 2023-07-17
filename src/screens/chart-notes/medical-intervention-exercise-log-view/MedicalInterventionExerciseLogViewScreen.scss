@@ -1,5 +1,11 @@
 .medical-intervention-exercise-log-view-screen {
-
+.medical-intervention-exercise-log-view-table-container{
+  .t-table-wrapper {
+    .t-table {
+      min-height: max-content !important;
+    }
+  }
+}
   .no-appointment-text-wrapper {
     .card-component {
       .card-body {
