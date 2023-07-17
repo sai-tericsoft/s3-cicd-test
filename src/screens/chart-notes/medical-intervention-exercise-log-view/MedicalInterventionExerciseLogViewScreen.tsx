@@ -190,7 +190,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
             }
 
             {medicalInterventionExerciseLogDetails && medicalInterventionExerciseLogDetails.attachments.length > 0 &&
-            <CardComponent title={'Attachments'}>
+            <CardComponent title={'Attachments'} className={'pdd-bottom-20'}>
 
                 {
                     medicalInterventionExerciseLogDetails.attachments.map((attachment: any) => {
@@ -214,7 +214,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
 
             {medicalInterventionExerciseLogDetails && !medicalInterventionExerciseLogDetails.attachments.length &&<div className={'no-appointment-text-wrapper'}>
                 <CardComponent title={'Attachments'}  >
-                    <StatusCardComponent title={'No Attachments'}/>
+                    <StatusCardComponent title={'No Attachments added yet'}/>
                 </CardComponent>
             </div>
 

@@ -492,7 +492,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                         <FormControlLabelComponent
                                                                             size={'sm'}
                                                                             label={"Range of Motion and Strength"}/>
-                                                                        <div className={'not-texted-text'}>
+                                                                        <div className={'not-texted-text-rom'}>
                                                                             Not Tested
                                                                         </div>
 
@@ -626,7 +626,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                     <FormControlLabelComponent
                                                                         size={'sm'}
                                                                         label={"Special Tests"}/>
-                                                                    <div className={'not-texted-text'}>
+                                                                    <div className={'not-texted-text-special-test'}>
                                                                         Not Tested
                                                                     </div>
 
@@ -869,7 +869,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                     <FormControlLabelComponent
                                                                         size={'sm'}
                                                                         label={"Add Medical Diagnosis / ICD-11 Codes "}/>
-                                                                    <div className={'not-texted-text'}>
+                                                                    <div className={'not-texted-text-icd'}>
                                                                         Not Added
                                                                     </div>
 

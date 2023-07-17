@@ -152,6 +152,7 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                         <div className={'ts-col-md-2'}>
                                             {item?.attachments?.length > 0 && item?.attachments?.map((attachment: any) => {
                                                 return <ChipComponent label={attachment?.name}
+                                                                      className={'pdd-bottom-25'}
                                                                       key={attachment?._id}
                                                                       prefixIcon={ImageConfig.PDFIcon}/>
                                             })}
@@ -160,10 +161,12 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                             }
                                         </div>
                                     </CardComponent>
+                                    <div className={'exercise-log-table-wrapper'}>
                                     <TableComponent data={item?.exercise_records}
                                                     columns={viewExerciseRecordColumn}
                                                     autoHeight={true}
                                     />
+                                    </div>
 
                                     {item && item.comments &&
                                     item.comments.length > 0 &&
