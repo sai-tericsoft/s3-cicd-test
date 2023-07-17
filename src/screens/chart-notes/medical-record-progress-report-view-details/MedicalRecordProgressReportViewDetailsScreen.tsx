@@ -281,7 +281,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                             </div>
                                         }
                                         <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>
-                                            <ESignApprovalComponent isSigned={true}
+                                            <ESignApprovalComponent isSigned={progressReportDetails?.is_signed}
                                                                     signedAt={progressReportDetails?.signed_on}/>
                                         </div>
                                     </div>
