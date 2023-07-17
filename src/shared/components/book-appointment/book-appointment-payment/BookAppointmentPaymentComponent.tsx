@@ -90,6 +90,28 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
         getAvailableCouponsList();
     }, [getAvailableCouponsList]);
 
+    const onSubmitAppointmentPayment = useCallback((values: any, {setErrors, setSubmitting}: any) => {
+        const appointmentId = values.appointmentId;
+        delete values.appointmentId;
+        CommonService._appointment.appointmentPayment(appointmentId, {
+            ...values,
+            total: +values?.amount,
+            discount: 0,
+            coupon_id: selectedCoupon?._id
+        })
+            .then((response: IAPIResponseType<any>) => {
+                if (onComplete) {
+                    onComplete(response.data);
+                }
+            })
+            .catch((error: any) => {
+                CommonService.handleErrors(setErrors, error);
+            })
+            .finally(() => {
+                setSubmitting(false);
+            })
+    }, [onComplete, selectedCoupon?._id]);
+
     const createBooking = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
             //medical_record_id
             const payload: any = {
@@ -113,28 +135,6 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
         [onComplete,booking,onSubmitAppointmentPayment],
     );
 
-
-    const onSubmitAppointmentPayment = useCallback((values: any, {setErrors, setSubmitting}: any) => {
-        const appointmentId = values.appointmentId;
-        delete values.appointmentId;
-        CommonService._appointment.appointmentPayment(appointmentId, {
-            ...values,
-            total: +values?.amount,
-            discount: 0,
-            coupon_id: selectedCoupon?._id
-        })
-            .then((response: IAPIResponseType<any>) => {
-                if (onComplete) {
-                    onComplete(response.data);
-                }
-            })
-            .catch((error: any) => {
-                CommonService.handleErrors(setErrors, error);
-            })
-            .finally(() => {
-                setSubmitting(false);
-            })
-    }, [onComplete, selectedCoupon?._id]);
 
     const formRef = useRef<FormikProps<any>>(null)
 
