@@ -224,6 +224,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                     {
                         <>
                             <div className={'client-list-header'}>Client List</div>
+                            <div className={'mrg-bottom-20'}>
                                 <TableComponent data={clientList}
                                                 columns={clientListColumns}
                                                 loading={isClientListLoading}
@@ -232,6 +233,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                                                     setSelectedClient(row);
                                                 }}
                                 />
+                            </div>
                             <ButtonComponent fullWidth={true}
                                              onClick={() => handleClientSelectionConfirmation()}
                                              disabled={!selectedClient}>
@@ -271,7 +273,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                                         data={medicalRecordList}
                                         noDataText={'Currently, there are no open cases for this client.'}
                                         columns={medicalRecordColumns}
-                                        onRowClick={(row)=>{
+                                        onRowClick={(row) => {
                                             setSelectedMedicalRecord(row)
                                         }}
                                     />
