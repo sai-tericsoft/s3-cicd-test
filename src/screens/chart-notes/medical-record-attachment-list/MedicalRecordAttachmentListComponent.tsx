@@ -60,8 +60,8 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
         },
         {
             title: 'Last Updated',
-            key: 'last_updated',
-            dataIndex: 'last_updated',
+            key: 'updated_at',
+            dataIndex: 'updated_at',
             width: 180,
             align: 'center',
             sortable: true,
