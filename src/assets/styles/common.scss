@@ -321,7 +321,8 @@
     }
   }
 }
-.case-statistics-modal{
+
+.case-statistics-modal {
   .modal-content-wrapper {
     width: 600px;
   }
@@ -522,8 +523,8 @@
       //overflow: auto;
 
       .t-form {
-        .attachment-heading{
-          margin:10px 0 16px 0;
+        .attachment-heading {
+          margin: 10px 0 16px 0;
           font-weight: 700;
           font-size: 1.1429rem;
         }
@@ -994,4 +995,19 @@
   flex-direction: column;
   margin-bottom: 40px;
   color: #6D6D6D;
+}
+
+.transfer-file-to {
+  display: flex;
+  justify-content: center;
+  //align-items: center;
+  flex-direction: column;
+  margin-bottom: 40px;
+  margin-left: 45px;
+  color: #6D6D6D;
+
+  .client-case-name-title {
+    font-weight: 600;
+
+  }
 }
