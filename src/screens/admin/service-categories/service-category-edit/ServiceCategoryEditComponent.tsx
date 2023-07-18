@@ -208,7 +208,7 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                         </div>
 
                                     </div>
-                                    <div className="mrg-bottom-20">
+                                    <div className="mrg-bottom-10">
                                         <FormControlLabelComponent size={"sm"}
                                                                    label={"Upload Image for Service Category *"}/>
                                         <>
@@ -248,7 +248,7 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                         </>
                                     </div>
                                 </div>
-                                <div className="t-form-actions">
+                                <div className="t-form-actions mrg-bottom-20">
                                     <ButtonComponent
                                         isLoading={isServiceCategoryEditInProgress}
                                         type={"submit"}
