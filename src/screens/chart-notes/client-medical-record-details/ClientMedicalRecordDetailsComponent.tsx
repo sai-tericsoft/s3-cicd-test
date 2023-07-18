@@ -301,7 +301,8 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                     <MedicalInterventionListComponent refreshToken={refreshToken} referrer={referrer}/>
                 </TabContentComponent>
                 <TabContentComponent value={"attachmentList"} selectedTab={currentTab}>
-                    <MedicalRecordAttachmentListComponent refreshToken={refreshToken} referrer={referrer} selectedTab={currentTab}/>
+                    <MedicalRecordAttachmentListComponent refreshToken={refreshToken} referrer={referrer}
+                                                          selectedTab={currentTab}/>
                 </TabContentComponent>
             </TabsWrapperComponent>
 
@@ -387,7 +388,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                         required={true}
                         label={"Select Appointment"}
                         value={selectedAppointment}
-                        displayWith={(item: any) => item?.appointment_type + ' ('+(moment(item.appointment_date).format('DD-MMM-YYYY, hh:mm A'))+')'}
+                        displayWith={(item: any) => item?.appointment_type + ' (' + (moment(item.appointment_date).format('DD-MMM-YYYY')) + ", " + CommonService.getHoursAndMinutesFromMinutes(item?.start_time) + ')'}
                         valueExtractor={(item: any) => item?._id}
                         onUpdate={(value: any) => {
                             setSelectedAppointment(value);
