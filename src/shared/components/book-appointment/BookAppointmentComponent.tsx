@@ -17,13 +17,14 @@ interface BookAppointmentComponentProps {
     onClose?: () => void
     onComplete?: () => void
     preFillData?: any
+    selectedClient?: any
 }
 
 const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
 
     const {onClose, onComplete, preFillData} = props;
-    const [step, setStep] = useState<'client' | 'form' | 'overview' | 'payment' | 'confirmation'>('client');
-    const [selectedClient, setSelectedClient] = useState<any | null>(null);
+    const [step, setStep] = useState<'client' | 'form' | 'overview' | 'payment' | 'confirmation'>(props.selectedClient ? 'form' : 'client');
+    const [selectedClient, setSelectedClient] = useState<any | null>(props.selectedClient ? props.selectedClient : null);
     const [clientSearch, setClientSearch] = useState<string>('');
     const [clientList, setClientList] = useState<any[]>([]);
     const [isClientListLoading, setIsClientListLoading] = useState<boolean>(false);
@@ -32,24 +33,23 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
     const [bookingDraft, setBookingDraft] = useState<any | null>(null);
 
     const getClientList = useCallback((search: string) => {
-            // if (search === '') {
-            //     setClientList([]);
-            //     return;
-            // }
-            setIsClientListLoading(true);
-            CommonService._client.GetClientList({search})
-                .then((response: IAPIResponseType<any>) => {
-                    setClientList(response.data.docs || []);
-                })
-                .catch((error: any) => {
-                    setClientList([]);
-                })
-                .finally(() => {
-                    setIsClientListLoading(false);
-                    // setIsClientListLoaded(true);
-                })
-        }, []);
-
+        // if (search === '') {
+        //     setClientList([]);
+        //     return;
+        // }
+        setIsClientListLoading(true);
+        CommonService._client.GetClientList({search})
+            .then((response: IAPIResponseType<any>) => {
+                setClientList(response.data.docs || []);
+            })
+            .catch((error: any) => {
+                setClientList([]);
+            })
+            .finally(() => {
+                setIsClientListLoading(false);
+                // setIsClientListLoaded(true);
+            })
+    }, []);
 
 
     const onFormComplete = useCallback(
@@ -61,13 +61,13 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
         [],
     );
     const onOverviewComplete = useCallback((values: any) => {
-            setBooking(values);
-            setStep('payment');
-        }, [],);
+        setBooking(values);
+        setStep('payment');
+    }, [],);
 
     const onPaymentComplete = useCallback((values: any) => {
-            setStep('confirmation');
-        }, [],);
+        setStep('confirmation');
+    }, [],);
 
     const getClientListOnLoading = useCallback(() => {
         setIsClientListLoading(true);
@@ -84,13 +84,13 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
             })
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         getClientListOnLoading();
-    },[getClientListOnLoading])
+    }, [getClientListOnLoading])
 
     const clientListColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
         {
-            title:"Client Name",
+            title: "Client Name",
             key: "name",
             dataIndex: "name",
             render: (item: any) => {
@@ -131,13 +131,13 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
                             {/*{!isClientListLoading && isClientListLoaded && clientList && clientList.length === 0 &&*/}
                             {/*    <ErrorComponent errorText={'Client not found'}/>}*/}
                             {/*{!isClientListLoading && isClientListLoaded && clientList && clientList.length > 0 && <>*/}
-                                <TableComponent data={clientList} columns={clientListColumns}
-                                                loading={isClientListLoading}
-                                                hideHeader={false}
-                                                onRowClick={(row: any) => {
-                                                    setSelectedClient(row);
-                                                }}
-                                />
+                            <TableComponent data={clientList} columns={clientListColumns}
+                                            loading={isClientListLoading}
+                                            hideHeader={false}
+                                            onRowClick={(row: any) => {
+                                                setSelectedClient(row);
+                                            }}
+                            />
                             {/*</>}*/}
                         </div>
                         <div className="client-search-btn">

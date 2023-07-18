@@ -26,9 +26,8 @@ import {getAppointmentListLite} from "../../../store/actions/appointment.action"
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
-import BookAppointmentFormComponent
-    from "../../../shared/components/book-appointment/book-appointment-form/BookAppointmentFormComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
+import BookAppointmentComponent from "../../../shared/components/book-appointment/BookAppointmentComponent";
 
 const REPEAT_LAST_TREATMENT = "repeat_last_treatment";
 const ADD_NEW_TREATMENT = "add_new_treatment";
@@ -59,7 +58,6 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
     const [isTreatmentWithoutAppointmentModalOpen, setIsTreatmentWithoutAppointmentModalOpen] = useState<boolean>(false);
     const [isBookAppointmentOpen, setIsBookAppointmentOpen] = useState<boolean>(false);
     const [selectedClient, setSelectedClient] = useState<any | null>(null);
-    const [isBookingLoading, setIsBookingLoading] = useState<boolean>(false);
     const [appointmentMode, setAppointmentMode] = useState<string>();
     const [refreshToken, setRefreshToken] = useState<string>('');
 
@@ -225,43 +223,6 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
             dispatch(getMedicalInterventionList(medicalRecordId));
         }
     }, [dispatch, medicalRecordId]);
-
-    const createBooking = useCallback(
-        (booking: any) => {
-            setIsBookingLoading(true)
-            //medical_record_id
-            console.log(booking);
-            const payload: any = {
-                client_id: booking.client._id,
-                category_id: booking.service_category._id,
-                service_id: booking.service._id,
-                provider_id: booking.provider._id,
-                facility_id: booking.facility._id,
-                appointment_type: booking.appointment_type,
-                consultation_id: booking.duration._id,
-                appointment_date: booking.date,
-                duration: parseInt(booking.duration.duration),
-                start_time: booking.time.start_min,
-                end_time: booking.time.end_min,
-                medical_record_id: booking.case._id,
-            }
-            CommonService._appointment.addAppointment(payload)
-                .then((response: IAPIResponseType<any>) => {
-                    if (response) {
-                        getAppointmentLite();
-                        setIsAppointmentSelectionModalOpen(true);
-                        setIsBookingLoading(false);
-                    }
-                })
-                .catch((error: any) => {
-                    // CommonService.handleErrors(errors);
-                })
-                .finally(() => {
-                    setIsBookingLoading(false);
-                })
-        },
-        [getAppointmentLite],
-    );
 
     return (
         <div className={'client-medical-record-details-component'}>
@@ -441,22 +402,46 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
             <DrawerComponent isOpen={isBookAppointmentOpen}
                              onClose={setIsBookAppointmentOpen.bind(null, false)}
                              className={'book-appointment-component-drawer'}>
-                <BookAppointmentFormComponent
-                    client={selectedClient}
-                    isLoading={isBookingLoading}
-                    onComplete={
-                        (values) => {
-                            createBooking(values);
-                            setIsBookAppointmentOpen(false)
+
+                <DrawerComponent isOpen={isBookAppointmentOpen}
+                                 showClose={true}
+                                 onClose={setIsBookAppointmentOpen.bind(null, false)}
+                                 className={'book-appointment-component-drawer'}>
+                    <BookAppointmentComponent
+                        selectedClient={selectedClient}
+                        onComplete={
+                            () => {
+                                getAppointmentLite();
+                                setIsBookAppointmentOpen(false)
+                            }
                         }
-                    }
-                    onClose={
-                        () => {
-                            setIsBookAppointmentOpen(false)
+                        onClose={
+                            () => {
+                                setIsBookAppointmentOpen(false)
+                            }
                         }
-                    }
-                />
+                    />
+                </DrawerComponent>
+
+
+                {/*<BookAppointmentFormComponent*/}
+                {/*    client={selectedClient}*/}
+                {/*    isLoading={isBookingLoading}*/}
+                {/*    onComplete={*/}
+                {/*        (values) => {*/}
+                {/*            createBooking(values);*/}
+                {/*            setIsBookAppointmentOpen(false)*/}
+                {/*        }*/}
+                {/*    }*/}
+                {/*    onClose={*/}
+                {/*        () => {*/}
+                {/*            setIsBookAppointmentOpen(false)*/}
+                {/*        }*/}
+                {/*    }*/}
+                {/*/>*/}
             </DrawerComponent>
+
+
 
         </div>
     );
