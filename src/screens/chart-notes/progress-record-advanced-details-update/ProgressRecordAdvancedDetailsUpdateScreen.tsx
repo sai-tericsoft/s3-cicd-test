@@ -207,7 +207,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
 
     useEffect(() => {
         dispatch(setCurrentNavParams("Update Progress Report Details", null, () => {
-            medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+            medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=attachmentList');
         }));
     }, [medicalRecordId, navigate, dispatch]);
 
@@ -498,7 +498,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                     {
                                         medicalRecordId && <>
                                             <LinkComponent
-                                                route={CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId)}>
+                                                route={CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=attachmentList'}>
                                                 <ButtonComponent
                                                     variant={"outlined"}
                                                     size={'large'}
