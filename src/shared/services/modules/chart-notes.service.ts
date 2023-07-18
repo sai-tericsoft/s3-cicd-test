@@ -88,6 +88,11 @@ const AddSurgeryRecordAttachmentAPICall = (surgeryRecordId: string, payload: any
     return ApiService[APIConfig.ADD_SURGERY_RECORD_ATTACHMENT.METHOD](APIConfig.ADD_SURGERY_RECORD_ATTACHMENT.URL(surgeryRecordId), payload, {'Content-Type': 'multipart/form-data'})
 }
 
+const SurgeryRecordDeleteAPICall = (surgeryRecordId: string) => {
+    // @ts-ignore
+    return ApiService[APIConfig.DELETE_SURGERY_RECORD.METHOD](APIConfig.DELETE_SURGERY_RECORD.URL(surgeryRecordId))
+}
+
 const RemoveSurgeryRecordAttachmentAPICall = (surgeryRecordId: string, attachmentId: string) => {
     // @ts-ignore
     return ApiService[APIConfig.REMOVE_SURGERY_RECORD_ATTACHMENT.METHOD](APIConfig.REMOVE_SURGERY_RECORD_ATTACHMENT.URL(surgeryRecordId, attachmentId))
@@ -369,7 +374,8 @@ const ChartNotesService = {
     SaveMedicalInterventionROMConfigAPICall,
     DiscardSoapNote,
     SaveMedicalInterventionSpecialTestAPICall,
-    DeleteDocument
+    DeleteDocument,
+    SurgeryRecordDeleteAPICall,
 }
 
 export default ChartNotesService;
