@@ -1,6 +1,14 @@
 @import "src/assets/styles/common";
 
 .medical-intervention-surgery-record-screen {
+  .edit-medical-record-component{
+    .t-form {
+      border: 1px solid red;
+      .t-surgery-record-drawer-form-controls {
+        min-height: calc(100vh - 250px) !important;
+      }
+    }
+  }
   .client-name-button-wrapper {
     display: flex;
     justify-content: space-between;
@@ -14,6 +22,7 @@
       }
     }
   }
+
 
   .intervention-injury-details-wrapper {
     .data-value {
