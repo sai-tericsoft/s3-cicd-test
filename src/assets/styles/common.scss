@@ -339,24 +339,26 @@
       display: flex;
       height: 100%;
       flex: 1;
+      width: 510px;
 
       .service-category-add-component {
         display: flex;
-        flex: 1;
+        //flex: 1;
         height: 100%;
 
         .service-category-add-form-container {
           display: flex;
           flex-direction: column;
-          flex: 1;
+          //flex: 1;
 
           .t-form {
             height: 100%;
             display: flex;
             flex-direction: column;
+            width: 500px;
 
             .t-form-controls {
-              flex: 1;
+              //flex: 1;
               padding: 5px 0;
             }
           }
