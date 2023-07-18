@@ -424,6 +424,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                         </CardComponent>
                         <div className={'case-list-table'}>
                             <TableComponent data={medicalRecordList}
+                                            className={isMedicalRecordTransferUnderProgress ? 'mrg-bottom-20':''}
                                             noDataText={'Currently, there are no open cases for this client.'}
                                             columns={MedicalRecordListColumns}
                                             loading={isMedicalRecordListLoading}
@@ -435,7 +436,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 {(currentStep === 'selectInterventions' || currentStep === 'selectTargetMedicalRecord') &&
                     <ButtonComponent
                         fullWidth={true}
-                        className="t-form-actions"
+                        className={"t-form-actions"}
                         disabled={
                             (currentStep === "selectInterventions" && (shouldTransferEntireMedicalRecord === false && selectedMedicalInterventions?.length === 0)) ||
                             (currentStep === "selectTargetMedicalRecord" && !selectedMedicalRecordToTransferUnder) ||

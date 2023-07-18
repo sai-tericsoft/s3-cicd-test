@@ -190,33 +190,36 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
             }
 
             {medicalInterventionExerciseLogDetails && medicalInterventionExerciseLogDetails.attachments.length > 0 &&
-            <CardComponent title={'Attachments'} className={'pdd-bottom-20'}>
+                <CardComponent title={'Attachments'} className={'pdd-bottom-20'}>
 
-                {
-                    medicalInterventionExerciseLogDetails.attachments.map((attachment: any) => {
-                        return (
-                            <div className="medical-intervention-exercise-log-attachments-view-wrapper">
-                                <div className={'medical-intervention-exercise-log-attachments-view'}
-                                     onClick={() => handleView(attachment)}>
-                                    <div><ImageConfig.DocumentIcon/></div>
-                                    <div className={'attachment-chip-view'}>
-                                        {attachment.name}
-                                    </div>
+                    {
+                        medicalInterventionExerciseLogDetails.attachments.map((attachment: any) => {
+                            return (
+                                <div className="medical-intervention-exercise-log-attachments-view-wrapper">
+                                    {/*<div className={'medical-intervention-exercise-log-attachments-view'}*/}
+                                    {/*     onClick={() => handleView(attachment)}>*/}
+                                    {/*    <div><ImageConfig.DocumentIcon/></div>*/}
+                                    {/*    <div className={'attachment-chip-view'}>*/}
+                                    {/*        {attachment.name}*/}
+                                    {/*    </div>*/}
+                                    {/*</div>*/}
+                                    <ChipComponent prefixIcon={<ImageConfig.DocumentIcon/>} color={'success'} onClick={() => handleView(attachment)}
+                                                   label={attachment.name} className={'attachment-chip-view'}/>
                                 </div>
-                            </div>
-                        )
-                    })
-                }
+                            )
+                        })
+                    }
 
-            </CardComponent>
+                </CardComponent>
             }
 
 
-            {medicalInterventionExerciseLogDetails && !medicalInterventionExerciseLogDetails.attachments.length &&<div className={'no-appointment-text-wrapper'}>
-                <CardComponent title={'Attachments'}  >
-                    <StatusCardComponent title={'No Attachments added yet'}/>
-                </CardComponent>
-            </div>
+            {medicalInterventionExerciseLogDetails && !medicalInterventionExerciseLogDetails.attachments.length &&
+                <div className={'no-appointment-text-wrapper'}>
+                    <CardComponent title={'Attachments'}>
+                        <StatusCardComponent title={'No Attachments added yet'}/>
+                    </CardComponent>
+                </div>
 
             }
 
@@ -227,10 +230,10 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
             </div>
 
             {medicalInterventionExerciseLogDetails && medicalInterventionExerciseLogDetails.comments &&
-            medicalInterventionExerciseLogDetails.comments.length > 0 &&
-            <CardComponent title={'Comments'} className='mrg-top-20'>
-                <div className='pdd-bottom-20'>{medicalInterventionExerciseLogDetails.comments}</div>
-            </CardComponent>
+                medicalInterventionExerciseLogDetails.comments.length > 0 &&
+                <CardComponent title={'Comments'} className='mrg-top-20'>
+                    <div className='pdd-bottom-20'>{medicalInterventionExerciseLogDetails.comments}</div>
+                </CardComponent>
             }
 
         </div>

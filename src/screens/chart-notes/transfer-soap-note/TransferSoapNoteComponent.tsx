@@ -150,7 +150,15 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
             image: ImageConfig.PopupLottie,
             showLottie: true,
             confirmationTitle: "TRANSFER SOAP TO",
-            confirmationSubTitle: `Are you sure you want to transfer this SOAP having case ${CommonService.generateInterventionNameFromMedicalRecord(selectedMedicalRecord)} to ${CommonService.extractName(selectedClient)}`,   //Case ${CommonService.generateInterventionNameFromMedicalRecord()}
+            confirmationSubTitle: 'Are you sure you want to transfer this SOAP',
+            confirmationDescription: <div className="transfer-file-to">
+            <div className={'mrg-bottom-10'}>
+                <span className={'client-case-name-title'}>Client:</span> <span>{CommonService.extractName(selectedClient)}</span>
+            </div>
+            <div>
+                <span className={'client-case-name-title'}>Case:</span> <span>{CommonService.generateInterventionNameFromMedicalRecord(selectedMedicalRecord)}</span>
+            </div>
+        </div>
         }).then(() => {
             setIsSoapNoteTransferUnderProgress(true);
             CommonService._chartNotes.TransferSoapNoteAPICall(medicalInterventionId, {
