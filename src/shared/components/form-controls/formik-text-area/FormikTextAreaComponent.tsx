@@ -27,11 +27,13 @@ const FormikTextAreaComponent = (props: FormikTextAreaComponentProps) => {
     otherProps.id = otherProps.id || name;
 
     const textChangeHandler = useCallback((text: string) => {
-        setFieldValue(name, text);
-        setFieldTouched(name);
-        if (onChange) {
-            onChange(text);
-        }
+        _.debounce((text:string) => {
+            setFieldValue(name, text);
+            setFieldTouched(name);
+            if (onChange) {
+                onChange(text);
+            }
+        },300);
     }, [setFieldValue, setFieldTouched, name, onChange]);
 
     const onInputBlur = useCallback(() => {
