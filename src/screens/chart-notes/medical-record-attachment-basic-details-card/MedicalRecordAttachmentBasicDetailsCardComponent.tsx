@@ -36,7 +36,7 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
         <div className={"medical-record-attachment-basic-details-card-component"}>
             <PageHeaderComponent title={pageTitle} actions={<>
                 <div className={"medical-attachment-last-updated-on-wrapper"}>
-                    <DataLabelValueComponent className={'mrg-bottom-0'} label={"Last Updated On: "} direction={"row"}>
+                    <DataLabelValueComponent className={'mrg-bottom-0'} label={"Last updated on: "} direction={"row"}>
                         {(attachmentDetails.updated_at ? moment(attachmentDetails.updated_at).tz(moment.tz.guess()).format('DD-MM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
                         {attachmentDetails?.last_updated_by_details?.first_name ? attachmentDetails?.last_updated_by_details?.first_name + ' ' + attachmentDetails?.last_updated_by_details?.last_name : ' NA'}
                     </DataLabelValueComponent>

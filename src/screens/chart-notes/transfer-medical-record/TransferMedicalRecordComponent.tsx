@@ -294,7 +294,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                     confirmTransferCase();
                     break;
             }
-        }, [shouldTransferEntireMedicalRecord,handleTransferMedicalRecord, currentStep, confirmTransferMedicalRecord, handleTransferMedicalRecord, getSelectedClientMedicalRecordList, getClientMedicalInterventionList, confirmTransferCase]);
+        }, [shouldTransferEntireMedicalRecord, currentStep, confirmTransferMedicalRecord, getSelectedClientMedicalRecordList, getClientMedicalInterventionList, confirmTransferCase]);
 
         const handleBack = useCallback(() => {
             switch (currentStep) {
