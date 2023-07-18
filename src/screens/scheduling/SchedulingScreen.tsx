@@ -316,7 +316,10 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
     }, [getProvidersList]);
 
     const [calendarData, setCalendarData] = useState<any>(null)
-    const [calendarDaysData, setCalendarDaysData] = useState<any>(null)
+    const [calendarDaysData, setCalendarDaysData] = useState<any>({
+        appointments: [],
+        blocked_slots: []
+    })
     const [isCalendarLoading, setIsCalendarLoading] = useState<boolean>(false)
 
     const getCalenderList = useCallback((payload: any) => {
@@ -334,35 +337,46 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                 const daysData: any = {};
                 for (let date in data) {
                     // const dayData = {}
-                    const appointments = data[date].appointments || [];
-                    // const blockedSlots = data[date].blocked_slots || [];
-                    const dayHourData: any = {};
-                    console.log(appointments);
+                    console.log(data);
+                    console.log(data[date]);
+                    const appointments = data[date]?.appointments || [];
+                    const blockedSlots = data[date]?.blocked_slots || [];
+                    const dayHourAppointments: any = {};
+                    const dayHourBlockSlots: any = {};
+                    console.log(blockedSlots);
                     appointments.forEach((appointment: any) => {
                         HOURS_LIST_IN_MINUTES.forEach((hour: any) => {
                             if (appointment.start_time >= hour.start && appointment.start_time < hour.end) {
-                                if (!dayHourData.hasOwnProperty(hour.label)) {
-                                    dayHourData[hour.label] = [];
+                                if (!dayHourAppointments.hasOwnProperty(hour.label)) {
+                                    dayHourAppointments[hour.label] = [];
                                 }
-                                dayHourData[hour.label].push(appointment);
+                                dayHourAppointments[hour.label].push(appointment);
                             }
                         });
                     })
 
-                    // blockedSlots.forEach((blockedSlot: any) => {
-                    //     HOURS_LIST_IN_MINUTES.forEach((hour: any) => {
-                    //         if (blockedSlot.start_time >= hour.start && blockedSlot.start_time < hour.end) {
-                    //             if (!dayHourData.hasOwnProperty(hour.label)) {
-                    //                 dayHourData[hour.label] = [];
-                    //             }
-                    //             dayHourData[hour.label].push(blockedSlot);
-                    //         }
-                    //     });
-                    // })
+                    console.log(blockedSlots);
 
-                    console.log(dayHourData);
-                    daysData[date] = dayHourData
+                    blockedSlots.forEach((blockedSlot: any) => {
+                        HOURS_LIST_IN_MINUTES.forEach((hour: any) => {
+                            if (blockedSlot?.is_block_all_day) {
+
+                            } else {
+                                if (blockedSlot.start_time >= hour.start && blockedSlot.start_time < hour.end) {
+                                    if (!dayHourBlockSlots.hasOwnProperty(hour.label)) {
+                                        dayHourBlockSlots[hour.label] = [];
+                                    }
+                                    dayHourBlockSlots[hour.label].push(blockedSlot);
+                                }
+                            }
+                        });
+                    });
+                    console.log(dayHourBlockSlots);
+
+                    daysData[date].appointments = dayHourAppointments;
+                    daysData[date].blocked_slots = dayHourBlockSlots;
                 }
+                console.log(daysData);
                 setCalendarDaysData(daysData);
                 setIsCalendarLoading(false);
             })
@@ -680,9 +694,9 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                              }
                                                          }
                                                      }
-                                                     className={'calendar-appointments-holder ' + ((calendarData && calendarData[date]?.appointments ? calendarData[date]?.appointments : []).length >= 9 ? ' fit-rows-min' : ((calendarData && calendarData[date]?.appointments ? calendarData[date]?.appointments : []).length >= 3 ? ' fit-rows' : ''))}>
-                                            {calendarData && calendarData[date] && <>
-                                                {(!!schedulingListFilterState.status || !!schedulingListFilterState.provider_id) ? (calendarData[date]?.appointments || [])
+                                                     className={'calendar-appointments-holder ' + ((calendarData?.appointments && calendarData?.appointments[date]?.appointments ? calendarData?.appointments[date]?.appointments : []).length >= 9 ? ' fit-rows-min' : ((calendarData?.appointments && calendarData?.appointments[date]?.appointments ? calendarData?.appointments[date]?.appointments : []).length >= 3 ? ' fit-rows' : ''))}>
+                                            {calendarData?.appointments && calendarData?.appointments[date] && <>
+                                                {(!!schedulingListFilterState.status || !!schedulingListFilterState.provider_id) ? (calendarData?.appointments[date]?.appointments || [])
                                                     .map((value: any, index: number) => {
                                                         return (
                                                             <ToolTipComponent key={index} tooltip={
@@ -709,7 +723,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                 </div>
                                                             </ToolTipComponent>
                                                         )
-                                                    }) : (!!schedulingListFilterState.service_id) ? (calendarData[date]?.meta?.providers || [])
+                                                    }) : (!!schedulingListFilterState.service_id) ? (calendarData?.appointments[date]?.meta?.providers || [])
                                                     .map((value: any, index: number) => {
                                                         return (
                                                             <ToolTipComponent key={index} tooltip={
@@ -745,7 +759,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                     </div>
                                                                 </div>
                                                             </ToolTipComponent>)
-                                                    }) : (!!schedulingListFilterState.category_id) ? (calendarData[date]?.meta?.services || [])
+                                                    }) : (!!schedulingListFilterState.category_id) ? (calendarData?.appointments[date]?.meta?.services || [])
                                                     .map((value: any, index: number) => {
                                                         return (
                                                             <ToolTipComponent key={index} tooltip={
@@ -782,7 +796,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                 </div>
                                                             </ToolTipComponent>
                                                         )
-                                                    }) : (calendarData[date]?.meta?.categories || [])
+                                                    }) : (calendarData?.appointments[date]?.meta?.categories || [])
                                                     .map((value: any, index: number) => {
                                                         return (
                                                             <ToolTipComponent key={index} tooltip={
@@ -893,7 +907,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                 {/*actual logic goes here*/}
 
                                                                 {
-                                                                    (calendarDaysData && calendarDaysData[date] && calendarDaysData[date][value.label] ? calendarDaysData[date][value.label] : [])
+                                                                    (calendarDaysData?.appointments && calendarDaysData?.appointments[date] && calendarDaysData?.appointments[date][value.label] ? calendarDaysData?.appointments[date][value.label] : [])
                                                                         .map((appointment: any, index: number) => {
                                                                             return (
                                                                                 <div className="card-item"
