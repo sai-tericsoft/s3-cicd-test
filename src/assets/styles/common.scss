@@ -351,11 +351,12 @@
           flex-direction: column;
           //flex: 1;
 
+
           .t-form {
-            height: 100%;
             display: flex;
             flex-direction: column;
             width: 500px;
+            //height: calc(100vh - 200px);
 
             .t-form-controls {
               //flex: 1;
