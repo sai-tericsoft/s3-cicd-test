@@ -354,7 +354,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                         </TabsComponent>
                     </div>
 
-                    {userBasicDetails?.assigned_facility_details?.map((facility: any, index: any) => (
+                    {userBasicDetails?.assigned_facility_details?.map((facility: any, facilityIndex: any) => (
                         <TabContentComponent
                             key={facility._id}
                             value={facility._id}
@@ -401,6 +401,9 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                                             render={(arrayHelpers) => (
                                                                 <>
                                                                     {values?.all_scheduled_slots?.map((item: any, index: any) => {
+                                                                        const timings = facility.timings[0];
+                                                                        const start_time = parseInt(timings?.timings?.start_time);
+                                                                        const end_time = parseInt(timings?.timings?.end_time);
                                                                         return (
                                                                             <div className={'ts-row'}>
                                                                                 <div className={'ts-col'}>
@@ -409,7 +412,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                                                                         {
                                                                                             (field: FieldProps) => (
                                                                                                 <FormikSelectComponent
-                                                                                                    options={CommonService.StartTimingsList}
+                                                                                                    options={CommonService.generateTimeSlots(start_time, end_time)}
                                                                                                     displayWith={(item) => item.title}
                                                                                                     valueExtractor={(item) => item.code}
                                                                                                     selectedValues={values?.all_scheduled_slots[index].start_time}
@@ -428,7 +431,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                                                                         {
                                                                                             (field: FieldProps) => (
                                                                                                 <FormikSelectComponent
-                                                                                                    options={CommonService.StartTimingsList}
+                                                                                                    options={CommonService.generateTimeSlots(parseInt(values?.all_scheduled_slots[index].start_time), end_time)}
                                                                                                     displayWith={(item) => item.title}
                                                                                                     valueExtractor={(item) => item.code}
                                                                                                     label={'To'}
@@ -496,6 +499,9 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                                 {!values.is_same_slots && <div className="mrg-top-20">
                                                     <>
                                                         {values?.scheduled_slots?.map((item: any, index: any) => {
+                                                            const timings = facility.timings.find((timing:any) => timing.day_name === item.dayName);
+                                                            const start_time = parseInt(timings?.timings?.start_time);
+                                                            const end_time = parseInt(timings?.timings?.end_time);
                                                             return (
                                                                 <div className={'ts-row '}>
                                                                     {facility.timings.find((timing: any) => {
@@ -509,7 +515,8 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                                                                     (field: FieldProps) => (
                                                                                         <FormikCheckBoxComponent
                                                                                             formikField={field}
-                                                                                            label={item.dayName}/>
+                                                                                            label={item.dayName}
+                                                                                        />
                                                                                     )
                                                                                 }
                                                                             </Field>
@@ -531,7 +538,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                                                                                             {
                                                                                                                 (field: FieldProps) => (
                                                                                                                     <FormikSelectComponent
-                                                                                                                        options={CommonService.StartTimingsList}
+                                                                                                                        options={CommonService.generateTimeSlots(start_time, end_time)}
                                                                                                                         displayWith={(item) => item.title}
                                                                                                                         valueExtractor={(item) => item.code}
                                                                                                                         selectedValues={values?.scheduled_slots[index].slot_timings[slotIndex].start_time}
@@ -540,6 +547,11 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                                                                                                         required={true}
                                                                                                                         formikField={field}
                                                                                                                         fullWidth={true}
+                                                                                                                        onUpdate={(value: any) => {
+                                                                                                                            if (value) {
+                                                                                                                                setFieldValue(`scheduled_slots[${index}].slot_timings[${slotIndex}].end_time`, '')
+                                                                                                                            }
+                                                                                                                        }}
                                                                                                                     />
                                                                                                                 )
                                                                                                             }
@@ -552,12 +564,11 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                                                                                             {
                                                                                                                 (field: FieldProps) => (
                                                                                                                     <FormikSelectComponent
-                                                                                                                        options={CommonService.StartTimingsList}
+                                                                                                                        options={CommonService.generateTimeSlots(parseInt(values?.scheduled_slots[index].slot_timings[slotIndex].start_time), end_time)}
                                                                                                                         displayWith={(item) => item.title}
                                                                                                                         valueExtractor={(item) => item.code}
                                                                                                                         label={'To'}
-                                                                                                                        selectedValues={values?.scheduled_slots[index].slot_timings[slotIndex].end_time}
-                                                                                                                        disabled={!(values?.scheduled_slots[index].is_selected)}
+                                                                                                                        disabled={!(values?.scheduled_slots[index].is_selected && values?.scheduled_slots[index].slot_timings[slotIndex].start_time)}
                                                                                                                         required={true}
                                                                                                                         formikField={field}
                                                                                                                         fullWidth={true}

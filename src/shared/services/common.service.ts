@@ -155,7 +155,7 @@ const generateUseCaseFromCaseDetails2 = (case_details: any) => {
 
 const generateInterventionNameFromMedicalRecord = (medicalRecordDetails: any) => {
     return `${CommonService.convertDateFormat2(medicalRecordDetails?.created_at)} - ${medicalRecordDetails?.injury_details?.map((bodyPart: any, index: number) => {
-        return (bodyPart?.body_part_details?.name +'('+bodyPart?.body_side+')'+ (index === medicalRecordDetails?.injury_details?.length - 1 ? ' ' : '|'))
+        return (bodyPart?.body_part_details?.name + '(' + bodyPart?.body_side + ')' + (index === medicalRecordDetails?.injury_details?.length - 1 ? ' ' : '|'))
     })}  `
 }
 
@@ -636,6 +636,33 @@ const StartTimingsList = Array.from(Array(24).keys()).map((item: number) => {
     return {code: item * 60, title: moment().hour(item).minute(0).format('HH:mm')}
 });
 
+// const generateTimeSlots = (startTime: any, endTime: any) => {
+//     console.log(startTime, endTime);
+//     const timeSlots = [];
+//     while (startTime < endTime) {
+//         console.log(startTime);
+//         const hours = Math.floor(startTime / 60);
+//         const minutes = startTime % 60;
+//         const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+//         timeSlots.push({code: startTime, title: formattedTime});
+//         startTime += 60; // Add one hour in minutes
+//     }
+//     console.log(timeSlots);
+//     return timeSlots;
+// };
+
+const generateTimeSlots = (startTime: number, endTime: number) => {
+    const timeSlots = [];
+    while (startTime < endTime) {
+        const hours = Math.floor(startTime / 60);
+        const minutes = startTime % 60;
+        const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+        timeSlots.push({code: startTime, title: formattedTime});
+        startTime += 60; // Add one hour in minutes
+    }
+    return timeSlots;
+};
+
 const EndTimingsList = (time: any) => {
     const startTime = Math.floor(time / 60); // Convert selected start time to hours
 
@@ -706,6 +733,7 @@ const CommonService = {
     validateDecimal,
     areArraysEqual,
     StartTimingsList,
+    generateTimeSlots,
     EndTimingsList,
     // createValidationsObject,
     // createYupSchema,
