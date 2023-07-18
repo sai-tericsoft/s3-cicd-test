@@ -167,7 +167,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
 
 
         useEffect(() => {
-            if (userSlots && Object.keys(userSlots).length) {
+            if (isUserSlotsLoaded && userSlots && Object.keys(userSlots).length) {
                 if (userSlots?.is_same_slots) {
                     const allScheduledSlots = {
                         is_same_slots: true,
@@ -219,7 +219,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                     setFormInitialValues(updatedFormInitialValues);
                 }
             }
-        }, [userSlots]);
+        }, [userSlots,isUserSlotsLoaded]);
 
 
         useEffect(() => {

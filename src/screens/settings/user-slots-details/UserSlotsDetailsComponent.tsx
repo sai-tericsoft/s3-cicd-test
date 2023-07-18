@@ -24,7 +24,6 @@ interface UserSlotsDetailsComponentProps {
 
 }
 
-const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
 const UserSlotsDetailsComponent = (props: UserSlotsDetailsComponentProps) => {
 
@@ -143,11 +142,11 @@ const UserSlotsDetailsComponent = (props: UserSlotsDetailsComponentProps) => {
                                                     </div>
 
                                                     {
-                                                        weekDays?.map((day: any) => {
+                                                        facility?.timings?.map((day: any) => {
                                                             return (
                                                                 <div className='ts-row slots-timings-row-wrapper' key={`row-${day}`}>
                                                                     <div className={'ts-col-2 mrg-top-10 mrg-bottom-10'}>
-                                                                        {day}
+                                                                        {day.day_name}
                                                                     </div>
                                                                     <div className="ts-col-10">
                                                                         {

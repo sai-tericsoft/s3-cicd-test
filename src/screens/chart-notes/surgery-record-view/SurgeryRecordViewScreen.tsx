@@ -81,7 +81,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
-    const [module, setModule] = useState<any>('');
+    // const [module, setModule] = useState<any>('');
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const {medicalRecordId, surgeryRecordId} = useParams();
     const [isBodyPartsModalOpen, setIsBodyPartsModalOpen] = React.useState<boolean>(false);
@@ -102,7 +102,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
     useEffect(() => {
         const referrer: any = searchParams.get("referrer");
         const module_name: any = searchParams.get("module_name");
-        setModule(module_name);
+        // setModule(module_name);
         dispatch(setCurrentNavParams("Surgery Records", null, () => {
             if (referrer) {
                 console.log(module_name, module_name);

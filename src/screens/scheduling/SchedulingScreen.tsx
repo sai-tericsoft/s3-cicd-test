@@ -244,6 +244,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
 
     const [serviceCategoryList, setServiceCategoryList] = useState<any[] | null>(null);
     const [serviceCategoryColorMap, setServiceCategoryColorMap] = useState<any>({});
+
     const getServiceCategoriesList = useCallback(
         () => {
             setServiceCategoryList([]);
@@ -320,7 +321,6 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
 
     const getCalenderList = useCallback((payload: any) => {
         delete payload.sort;
-        console.log(payload);
         if (payload.provider_id) {
             payload.provider_id = payload.provider_id || payload._id;
         }
@@ -335,7 +335,9 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                 for (let date in data) {
                     // const dayData = {}
                     const appointments = data[date].appointments || [];
+                    // const blockedSlots = data[date].blocked_slots || [];
                     const dayHourData: any = {};
+                    console.log(appointments);
                     appointments.forEach((appointment: any) => {
                         HOURS_LIST_IN_MINUTES.forEach((hour: any) => {
                             if (appointment.start_time >= hour.start && appointment.start_time < hour.end) {
@@ -346,6 +348,19 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                             }
                         });
                     })
+
+                    // blockedSlots.forEach((blockedSlot: any) => {
+                    //     HOURS_LIST_IN_MINUTES.forEach((hour: any) => {
+                    //         if (blockedSlot.start_time >= hour.start && blockedSlot.start_time < hour.end) {
+                    //             if (!dayHourData.hasOwnProperty(hour.label)) {
+                    //                 dayHourData[hour.label] = [];
+                    //             }
+                    //             dayHourData[hour.label].push(blockedSlot);
+                    //         }
+                    //     });
+                    // })
+
+                    console.log(dayHourData);
                     daysData[date] = dayHourData
                 }
                 setCalendarDaysData(daysData);
@@ -663,8 +678,6 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                      date
                                                                  });
                                                              }
-                                                             // @ts-ignore
-                                                             console.log(event.target.className, 'add new appointment', date);
                                                          }
                                                      }
                                                      className={'calendar-appointments-holder ' + ((calendarData && calendarData[date]?.appointments ? calendarData[date]?.appointments : []).length >= 9 ? ' fit-rows-min' : ((calendarData && calendarData[date]?.appointments ? calendarData[date]?.appointments : []).length >= 3 ? ' fit-rows' : ''))}>
