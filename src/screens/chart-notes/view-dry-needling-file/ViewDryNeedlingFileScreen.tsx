@@ -90,7 +90,8 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
 
         const handleDryNeedlingFileDelete = useCallback(() => {
             CommonService.onConfirm({
-                image: ImageConfig.DeleteAttachmentConfirmationIcon,
+                image: ImageConfig.PopupLottie,
+                showLottie: true,
                 confirmationTitle: "DELETE ATTACHMENT",
                 confirmationSubTitle: "Are you sure you want to delete this attachment\n" +
                     "from this file?"
@@ -176,6 +177,7 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                                     attachment={dryNeedlingFileDetails?.attachment}
                                     onDelete={handleDryNeedlingFileDelete}
                                     isDeleting={isDryNeedlingAttachmentDeleting}
+                                    showDelete={true}
                                 />
                             }
                             {
@@ -202,12 +204,14 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                                     <div className="t-form-actions">
                                         <ButtonComponent
                                             variant={"outlined"}
+                                            className={isDryNeedlingAttachmentAdding ? 'mrg-right-15':''}
                                             onClick={() => setDryNeedlingFileAttachmentFile(undefined)}
                                             disabled={isDryNeedlingAttachmentAdding}
                                         >
                                             Cancel
                                         </ButtonComponent>&nbsp;&nbsp;
                                         <ButtonComponent
+                                            className={'mrg-left-15'}
                                             onClick={handleDryNeedlingFileAttachmentAdd}
                                             disabled={!dryNeedlingFileAttachmentFile || isDryNeedlingAttachmentAdding}
                                             isLoading={isDryNeedlingAttachmentAdding}

@@ -92,7 +92,8 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
 
         const handleConcussionFileFileDelete = useCallback(() => {
             CommonService.onConfirm({
-                image: ImageConfig.DeleteAttachmentConfirmationIcon,
+                image: ImageConfig.PopupLottie,
+                showLottie: true,
                 confirmationTitle: "DELETE ATTACHMENT",
                 confirmationSubTitle: "Are you sure you want to delete this attachment\n" +
                     "from this file?"
@@ -178,6 +179,7 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                                     attachment={concussionFileDetails?.attachment}
                                     onDelete={handleConcussionFileFileDelete}
                                     isDeleting={isConcussionFileAttachmentDeleting}
+                                    showDelete={true}
                                 />
                             }
                             {
@@ -204,12 +206,14 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                                     <div className="t-form-actions">
                                         <ButtonComponent
                                             variant={"outlined"}
+                                            className={isConcussionFileAttachmentAdding ? 'mrg-right-15' : ''}
                                             onClick={() => setConcussionFileFileAttachmentFile(undefined)}
                                             disabled={isConcussionFileAttachmentAdding}
                                         >
                                             Cancel
                                         </ButtonComponent>&nbsp;&nbsp;
                                         <ButtonComponent
+                                            className={'mrg-left-15'}
                                             onClick={handleConcussionFileFileAttachmentAdd}
                                             disabled={!concussionFileAttachmentFile || isConcussionFileAttachmentAdding}
                                             isLoading={isConcussionFileAttachmentAdding}

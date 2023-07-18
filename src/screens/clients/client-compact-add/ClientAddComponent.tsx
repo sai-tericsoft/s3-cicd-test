@@ -79,8 +79,16 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
             image: ImageConfig.PopupLottie,
             showLottie:true,
             confirmationTitle: 'SEND INVITE LINK',
-            confirmationSubTitle: `Are you sure you want to send invite link to 
-            ${values.first_name} ${values.last_name} having email ${values.primary_email}?`,
+            confirmationSubTitle: 'Are you sure you want to send invite link to',//${values.first_name} ${values.last_name} having email ${values.primary_email}?`,
+            confirmationDescription:<div className="transfer-file-to">
+                <div className={'mrg-bottom-15'}>
+                    <span className={'client-case-name-title mrg-left-10'}>Client:</span> <span>{values.first_name} {values.last_name}</span>
+                </div>
+                <div>
+                    <span className={'client-case-name-title mrg-left-10'}>Email:</span> <span>{values.primary_email}</span>
+                </div>
+            </div>
+
         }).then(() => {
             CommonService._client.ClientBasicDetailsAddAPICall(payload)
                 .then((response: any) => {

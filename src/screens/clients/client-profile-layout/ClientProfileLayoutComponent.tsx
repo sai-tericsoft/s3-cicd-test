@@ -89,8 +89,15 @@ const ClientProfileLayoutComponent = (props: ClientProfileLayoutComponentProps) 
                 image: ImageConfig.PopupLottie,
                 showLottie:true,
                 confirmationTitle: 'RESEND INVITE LINK',
-                confirmationSubTitle: `Are you sure you want to resend the invite link ${clientBasicDetails?.first_name} ${clientBasicDetails?.last_name} 
-            having email ${clientBasicDetails.primary_email}?`,
+                confirmationSubTitle: 'Are you sure you want to resend the invite link',
+                confirmationDescription:<div className="transfer-file-to">
+                    <div className={'mrg-bottom-15'}>
+                        <span className={'client-case-name-title '}>Client:</span> <span>{clientBasicDetails?.first_name} {clientBasicDetails?.last_name}</span>
+                    </div>
+                    <div>
+                        <span className={'client-case-name-title'}>Email:</span> <span>{clientBasicDetails.primary_email}</span>
+                    </div>
+                </div>
             }).then(() => {
                 CommonService._client.ResendInviteToClient(clientId, clientBasicDetails)
                     .then((response: any) => {
