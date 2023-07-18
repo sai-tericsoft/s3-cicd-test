@@ -540,6 +540,10 @@ const APIConfig: IAPIConfig = {
         URL: (surgeryRecordId: string) => ENV.API_URL + '/surgeryRecord/' + surgeryRecordId + '/attachment/',
         METHOD: 'post'
     },
+    DELETE_SURGERY_RECORD: {
+        URL: (surgeryRecordId: string) => ENV.API_URL + '/surgeryRecord/' + surgeryRecordId,
+        METHOD: 'delete'
+    },
     REMOVE_SURGERY_RECORD_ATTACHMENT: {
         URL: (surgeryRecordId: string, attachmentId: string) => ENV.API_URL + '/surgeryRecord/' + surgeryRecordId + '/attachment/' + attachmentId,
         METHOD: 'delete'

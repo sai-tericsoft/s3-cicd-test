@@ -222,12 +222,34 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                 })
         }
     }, [surgeryRecordId, getSurgeryRecord]);
+
+    const handleDeleteSurgeryRecord = useCallback(() => {
+        CommonService.onConfirm({
+            image: ImageConfig.ConfirmationLottie,
+            showLottie: true,
+            confirmationTitle: "DELETE SURGERY RECORD",
+            confirmationSubTitle: "Are you sure you want to delete this surgery record\n" +
+                "from this file?"
+        }).then((response: any) => {
+                if (surgeryRecordId) {
+                    CommonService._chartNotes.SurgeryRecordDeleteAPICall(surgeryRecordId)
+                        .then((response: IAPIResponseType<any>) => {
+                            CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                            (medicalRecordId) && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+                        })
+                        .catch((error: any) => {
+                            CommonService._alert.showToast(error, "error");
+                        });
+                }
+            }
+        )
+    }, [medicalRecordId,surgeryRecordId,navigate]);
     return (
         <div className={'medical-intervention-surgery-record-screen'}>
 
-             <DrawerComponent isOpen={isEditSurgeryRecordDrawerOpen} showClose={true}
-                              className={'edit-medical-record-drawer'}
-                                                      onClose={setIsEditSurgeryRecordDrawerOpen.bind(null, false)}>
+            <DrawerComponent isOpen={isEditSurgeryRecordDrawerOpen} showClose={true}
+                             className={'edit-medical-record-drawer'}
+                             onClose={setIsEditSurgeryRecordDrawerOpen.bind(null, false)}>
                 <div className={'edit-medical-record-component'}>
                     <Formik
                         validationSchema={surgeryRecordValidationSchema}
@@ -244,7 +266,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                         validateOnBlur={true}
                         enableReinitialize={true}
                         validateOnMount={true}>
-                        {({values, isValid,touched, errors, setFieldValue, validateForm}) => {
+                        {({values, isValid, touched, errors, setFieldValue, validateForm}) => {
                             // eslint-disable-next-line react-hooks/rules-of-hooks
                             useEffect(() => {
                                 validateForm();
@@ -373,8 +395,12 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                                                        label={clientMedicalRecord?.status || "-"}/>
                                     </span>
                             <div className="ts-row width-auto">
-                                 <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
-                                                                                 onClick={setIsEditSurgeryRecordDrawerOpen.bind(null, true)}>
+                                <ButtonComponent variant={'outlined'} color={'error'} className={'mrg-right-20'}
+                                                 onClick={handleDeleteSurgeryRecord}
+                                                 prefixIcon={<ImageConfig.DeleteIcon/>}>Delete Surgery
+                                    Record</ButtonComponent>
+                                <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                                 onClick={setIsEditSurgeryRecordDrawerOpen.bind(null, true)}>
                                     Edit Details
                                 </ButtonComponent>
                             </div>
