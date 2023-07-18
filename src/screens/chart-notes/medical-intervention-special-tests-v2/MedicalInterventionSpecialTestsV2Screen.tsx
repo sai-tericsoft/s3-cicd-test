@@ -516,6 +516,9 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                                 <Formik
                                     initialValues={specialTestFormValues}
                                     enableReinitialize={true}
+                                    validateOnChange={false}
+                                    validateOnBlur={true}
+                                    validateOnMount={true}
                                     onSubmit={handleSpecialTestConfigSave}
                                 >
                                     {(formik) => {
