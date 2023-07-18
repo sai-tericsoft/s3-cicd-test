@@ -69,6 +69,7 @@ const surgeryRecordInitValues = {
     reported_by: undefined,
     surgeon_name: "",
     details: "",
+    documents: [],
 }
 const surgeryRecordValidationSchema = Yup.object().shape({
     surgery_date: Yup.string().required("Surgery date is required"),
@@ -155,15 +156,24 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
 
     const deleteSurgeryAttachment = useCallback(
         (surgeryRecordId: string, attachmentId: string) => {
-            CommonService._chartNotes.RemoveSurgeryRecordAttachmentAPICall(surgeryRecordId, attachmentId)
-                .then((response: IAPIResponseType<any>) => {
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                    getSurgeryRecord(surgeryRecordId);
-                })
-                .catch((error: any) => {
-                    CommonService._alert.showToast(error, "error");
-                    getSurgeryRecord(surgeryRecordId);
-                });
+            CommonService.onConfirm({
+                image: ImageConfig.PopupLottie,
+                showLottie: true,
+                confirmationTitle: "DELETE ATTACHMENT",
+                confirmationSubTitle: "Are you sure you want to delete this attachment\n" +
+                    "from this file?"
+            }).then((response: any) => {
+                CommonService._chartNotes.RemoveSurgeryRecordAttachmentAPICall(surgeryRecordId, attachmentId)
+                    .then((response: IAPIResponseType<any>) => {
+                        CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                        getSurgeryRecord(surgeryRecordId);
+                    })
+                    .catch((error: any) => {
+                        CommonService._alert.showToast(error, "error");
+                        getSurgeryRecord(surgeryRecordId);
+                    });
+            });
+
         },
         [getSurgeryRecord],
     );
@@ -215,7 +225,8 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
     return (
         <div className={'medical-intervention-surgery-record-screen'}>
 
-            {surgeryRecordDetails && <DrawerComponent isOpen={isEditSurgeryRecordDrawerOpen} showClose={true}
+             <DrawerComponent isOpen={isEditSurgeryRecordDrawerOpen} showClose={true}
+                              className={'edit-medical-record-drawer'}
                                                       onClose={setIsEditSurgeryRecordDrawerOpen.bind(null, false)}>
                 <div className={'edit-medical-record-component'}>
                     <Formik
@@ -233,7 +244,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                         validateOnBlur={true}
                         enableReinitialize={true}
                         validateOnMount={true}>
-                        {({values, isValid, errors, setFieldValue, validateForm}) => {
+                        {({values, isValid,touched, errors, setFieldValue, validateForm}) => {
                             // eslint-disable-next-line react-hooks/rules-of-hooks
                             useEffect(() => {
                                 validateForm();
@@ -279,7 +290,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                                             {
                                                 (field: FieldProps) => (
                                                     <FormikTextAreaComponent
-                                                        label={'Brief Surgical Details'}
+                                                        label={'Brief Details'}
                                                         formikField={field}
                                                         fullWidth={true}
                                                     />
@@ -287,6 +298,43 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                                             }
                                         </Field>
                                     </div>
+                                    {/*<div className={'attachment-heading'}>*/}
+                                    {/*    Attachment*/}
+                                    {/*</div>*/}
+                                    {/*<>*/}
+                                    {/*    {*/}
+                                    {/*        (!values.attachment) && <>*/}
+                                    {/*            <FilePickerComponent maxFileCount={1}*/}
+                                    {/*                                 onFilesDrop={(acceptedFiles, rejectedFiles) => {*/}
+                                    {/*                                     if (acceptedFiles && acceptedFiles.length > 0) {*/}
+                                    {/*                                         const file = acceptedFiles[0];*/}
+                                    {/*                                         setFieldValue('attachment', file);*/}
+                                    {/*                                     }*/}
+                                    {/*                                 }}*/}
+                                    {/*                                 acceptedFileTypes={[ "png", "jpg", "jpeg"]}*/}
+                                    {/*                                 acceptedFilesText={"PNG, JPG and JPEG files are allowed upto 100MB"}*/}
+                                    {/*            />*/}
+                                    {/*            {*/}
+                                    {/*                (_.get(touched, "attachment") && !!(_.get(errors, "attachment"))) &&*/}
+                                    {/*                <ErrorComponent*/}
+                                    {/*                    errorText={(_.get(errors, "attachment"))}/>*/}
+                                    {/*            }*/}
+                                    {/*        </>*/}
+                                    {/*    }*/}
+                                    {/*</>*/}
+                                    {/*<>*/}
+                                    {/*    {*/}
+                                    {/*        (values.attachment) && <>*/}
+                                    {/*            <FilePreviewThumbnailComponent*/}
+
+                                    {/*                file={values.attachment}*/}
+                                    {/*                onRemove={() => {*/}
+                                    {/*                    setFieldValue('attachment', undefined);*/}
+                                    {/*                }}*/}
+                                    {/*            />*/}
+                                    {/*        </>*/}
+                                    {/*    }*/}
+                                    {/*</>*/}
                                     <div className="t-form-actions mrg-top-20">
                                         <ButtonComponent fullWidth={true} type={'submit'}
                                                          isLoading={isEditInProgress}
@@ -299,7 +347,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                         }
                     </Formik>
                 </div>
-            </DrawerComponent>}
+            </DrawerComponent>
             <ModalComponent isOpen={isBodyPartsModalOpen} onClose={closeBodyPartsModal}>
                 <FormControlLabelComponent label={'View All Body Parts'} className={'view-all-body-parts-header'}/>
                 <TableComponent data={clientMedicalRecord?.injury_details} columns={bodyPartsColumns}/>
@@ -325,10 +373,10 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                                                        label={clientMedicalRecord?.status || "-"}/>
                                     </span>
                             <div className="ts-row width-auto">
-                                {module === 'client_details' && <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                 <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
                                                                                  onClick={setIsEditSurgeryRecordDrawerOpen.bind(null, true)}>
                                     Edit Details
-                                </ButtonComponent>}
+                                </ButtonComponent>
                             </div>
                         </div>
                         <DataLabelValueComponent label={'Surgery Linked to:'} direction={"row"}
@@ -371,12 +419,12 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                 </>
             }
             <div className="ts-col-12 text-right">
-                {module === 'client_details' && <ButtonComponent
+                <ButtonComponent
                     prefixIcon={<ImageConfig.AddIcon/>}
                     onClick={setShowAddAttachment.bind(null, true)}
                 >
                     Add Attachment
-                </ButtonComponent>}
+                </ButtonComponent>
             </div>
             <div className="ts-row mrg-top-20">
                 <div className="ts-col">
@@ -385,13 +433,14 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                             <AttachmentComponent
                                 attachment={attachment}
                                 key={attachment?._id + index}
+                                showDelete={true}
                                 onDelete={() => deleteSurgeryAttachment(surgeryRecordId, attachment._id)}/>
                         )
                     })}
                 </div>
             </div>
 
-            <DrawerComponent isOpen={showAddAttachment} showClose={true}
+            <DrawerComponent isOpen={showAddAttachment} showClose={true} className={'edit-medical-record-drawer'}
                              onClose={setShowAddAttachment.bind(null, false)}>
                 <div className={'edit-medical-record-component'}>
                     <Formik

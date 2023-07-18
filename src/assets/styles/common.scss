@@ -947,6 +947,19 @@
   }
 }
 
+.edit-medical-record-drawer {
+
+    .drawer-container .drawer-body {
+      .edit-medical-record-component, .add-attachment-drawer{
+      .t-form {
+        .t-surgery-record-drawer-form-controls {
+          min-height: calc(100vh - 215px) !important;
+        }
+      }
+    }
+  }
+}
+
 .treatment-without-application-modal {
   .modal-content-wrapper {
     width: 416px !important;
