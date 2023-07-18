@@ -39,7 +39,7 @@ export interface ITableComponentProps {
     autoHeight?: boolean;
     showFooter?: boolean;
     footer?: React.ReactNode;
-    onDataLoad?: (data: any[]) => void;
+    onDataLoaded?: (data: any) => void;
 }
 
 

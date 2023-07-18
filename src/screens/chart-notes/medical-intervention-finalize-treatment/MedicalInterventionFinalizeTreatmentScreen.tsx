@@ -24,6 +24,7 @@ import MedicalRecordBasicDetailsCardComponent
     from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import FormikSelectComponent from "../../../shared/components/form-controls/formik-select/FormikSelectComponent";
+import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface MedicalInterventionFinalizeTreatmentScreenProps {
 
@@ -251,33 +252,34 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
     }, [linkedCPTCodes, medicalInterventionId, handleInterventionCheckout]);
 
     useEffect(() => {
-        const linkedCPTCodesConfig: any = {};
-        const linked_cpt_codes = medicalInterventionDetails?.linked_cpt_codes;
-        if (linked_cpt_codes?.length) {
-            linked_cpt_codes.forEach((cptCode: any) => {
-                linkedCPTCodesConfig[cptCode.cpt_code_id] = {
-                    is_selected: true,
-                    units_of_care: cptCode.units_of_care,
-                    minutes: cptCode.minutes,
-                    notes: cptCode.notes
-                };
-            });
-        }
-        setLinkedCPTCodes(linked_cpt_codes);
+        if (CPTCodes.length) {
+            const linkedCPTCodesConfig: any = {};
 
-        // // Compare CPTCodes list and set is_selected to true for selected codes
-        // const updatedCPTCodes = CPTCodes.map((cptCode: any) => {
-        //     if (linkedCPTCodesConfig[cptCode._id]) {
-        //         return {
-        //             ...cptCode,
-        //             is_selected: true
-        //         };
-        //     }
-        //     return cptCode;
-        // });
-        //
-        // setCPTCodes(updatedCPTCodes);
-        setCptCodesFormInitialValues(linkedCPTCodesConfig);
+            const linked_cpt_codes = CPTCodes
+                .filter((cptCode) => cptCode.is_selected && cptCode.linked_cpt_code_details)
+                .map((cptCode) => cptCode.linked_cpt_code_details);
+
+            console.log(linked_cpt_codes);
+
+            let totalMinutesFromLinkedCodes = 0;
+            linked_cpt_codes?.forEach((cptCode: any) => {
+                totalMinutesFromLinkedCodes += cptCode?.minutes || 0;
+            });
+            setTotalMinutes(totalMinutesFromLinkedCodes);
+
+            if (linked_cpt_codes?.length) {
+                linked_cpt_codes.forEach((cptCode: any) => {
+                    linkedCPTCodesConfig[cptCode?.cpt_code_id] = {
+                        is_selected: true,
+                        units_of_care: cptCode?.units_of_care,
+                        minutes: cptCode?.minutes,
+                        notes: cptCode?.notes
+                    };
+                });
+            }
+            setLinkedCPTCodes(linked_cpt_codes);
+            setCptCodesFormInitialValues(linkedCPTCodesConfig);
+        }
     }, [medicalInterventionDetails, CPTCodes]);
 
 
@@ -302,7 +304,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                             }, [validateForm, values]);
                             return (
                                 <Form className="t-form" noValidate={true}>
-                                    {/*<FormDebuggerComponent values={values} errors={errors}/>*/}
+                                    <FormDebuggerComponent values={values} errors={errors}/>
                                     <CardComponent className={'finalize-treatment-wrapper'}>
                                         <div className="ts-row display-flex align-items-center">
                                             <div className="ts-col ts-col-6 mrg-bottom-15">
@@ -335,8 +337,10 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                                    extraPayload={extraPayload}
                                                                    type={"ant"}
                                                                    showFooter={true}
-                                                                   onDataLoad={(data: any) => {
-                                                                       setCPTCodes(data);
+                                                                   onDataLoaded={(data: any) => {
+                                                                       if (data) {
+                                                                           setCPTCodes(data);
+                                                                       }
                                                                    }}
                                                                    footer={
                                                                        <div className='cpt-code-list-footer'>
@@ -366,23 +370,28 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                 </>
                                             }
                                         </>
-                                        <ButtonComponent type={"submit"}
-                                                         className={'mrg-left-15'}
-                                                         size={'large'}
-                                                         isLoading={isSubmitting}
-                                                         disabled={
-                                                             isSubmitting || isInterventionCheckingOut || !Object.keys(values).some((cptCodeId) => {
-                                                                 const cptDetails = values[cptCodeId];
-                                                                 return !!(cptDetails?.is_selected && cptDetails?.units_of_care && cptDetails?.minutes);
-                                                             }) || !Object.keys(values).every((cptCodeId) => {
-                                                                 const cptDetails = values[cptCodeId];
-                                                                 if (cptDetails?.is_selected) {
-                                                                     return !!(cptDetails?.units_of_care && cptDetails?.minutes);
-                                                                 } else {
-                                                                     return true;
-                                                                 }
-                                                             })
-                                                         }>
+                                        <ButtonComponent
+                                            type={"submit"}
+                                            className={'mrg-left-15'}
+                                            size={'large'}
+                                            isLoading={isSubmitting}
+                                            disabled={
+                                                isSubmitting ||
+                                                isInterventionCheckingOut ||
+                                                totalMinutes === 0 ||
+                                                !Object.keys(values).some((cptCodeId) => {
+                                                    const cptDetails = values[cptCodeId];
+                                                    return !!(cptDetails?.is_selected && cptDetails?.units_of_care && cptDetails?.minutes);
+                                                }) || !Object.keys(values).every((cptCodeId) => {
+                                                    const cptDetails = values[cptCodeId];
+                                                    if (cptDetails?.is_selected) {
+                                                        return !!(cptDetails?.units_of_care && cptDetails?.minutes);
+                                                    } else {
+                                                        return true;
+                                                    }
+                                                })
+                                            }
+                                        >
                                             Checkout
                                         </ButtonComponent>
                                     </div>

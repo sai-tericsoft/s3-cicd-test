@@ -19,7 +19,7 @@ export interface TableComponentProps extends ITableComponentProps {
     extraPayload?: any;
     refreshToken?: string; // TODO review and make it standard
     autoHeight?: boolean;
-    onDataLoaded?: (data: any) => void;
+    onDataLoaded?: any;
 }
 
 const TableWrapperComponent = (props: TableComponentProps) => {
@@ -79,9 +79,9 @@ const TableWrapperComponent = (props: TableComponentProps) => {
             setIsDataLoading(false);
             // setIsDataLoaded(false);
             setIsDataLoadingFailed(true);
-
         })
-    }, [isPaginated, method, url, extraPayload,onDataLoaded]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isPaginated, method, url, extraPayload]);
 
     useEffect(() => {
         if (extraPayload?.page) {
