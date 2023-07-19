@@ -225,7 +225,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                 cpt_codes: [],
                 mode: "add"
             };
-            if (linkedCPTCodes?.length > 0) {
+            if (medicalInterventionDetails?.linked_cpt_codes > 0 && linkedCPTCodes?.length > 0) {
                 payload.mode = "edit"
             }
             Object.keys(values).forEach((key) => {
@@ -249,7 +249,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                     setSubmitting(false);
                 });
         }
-    }, [linkedCPTCodes, medicalInterventionId, handleInterventionCheckout]);
+    }, [linkedCPTCodes, medicalInterventionId, handleInterventionCheckout, medicalInterventionDetails]);
 
     useEffect(() => {
         if (CPTCodes.length) {
@@ -259,7 +259,6 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                 .filter((cptCode) => cptCode.is_selected && cptCode.linked_cpt_code_details)
                 .map((cptCode) => cptCode.linked_cpt_code_details);
 
-            console.log(linked_cpt_codes);
 
             let totalMinutesFromLinkedCodes = 0;
             linked_cpt_codes?.forEach((cptCode: any) => {
