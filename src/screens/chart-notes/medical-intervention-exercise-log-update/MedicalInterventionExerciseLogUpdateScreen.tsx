@@ -489,7 +489,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                             label={clientMedicalRecord?.status || "-"}/>
                                     </span>
                         </div>
-                        <MedicalInterventionLinkedToComponent medicalRecordDetails={clientMedicalRecord}/>
+                        <MedicalInterventionLinkedToComponent label={'Exercise Log Linked to'} medicalRecordDetails={clientMedicalRecord}/>
                         <div className={'ts-row'}>
                             <div className={'ts-col-6'}>
                                 <DataLabelValueComponent label={'Date of Intervention'}>
@@ -558,7 +558,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                                 </span>
                                         }
                                         {(!selectedAttachment && !attachmentList.attachments.length) &&
-                                            <StatusCardComponent title={'No Attachments added yet'}
+                                            <StatusCardComponent title={'No attachment has been added yet'}
                                                                  className={'mrg-bottom-25'}/>
                                         }
                                     </>

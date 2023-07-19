@@ -329,12 +329,16 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
             image: ImageConfig.PopupLottie,
             showLottie: true,
             confirmationTitle: "DISCARD SOAP NOTE",
-            confirmationSubTitle: "Are you sure you want to permanently discard this\n"+
-                "SOAP note? This action cannot be undone."
+            // confirmationSubTitle: "\n"+
+            //     "",
+            confirmationDescription:<div className={'discard-soap'}>
+                <div>Are you sure you want to permanently discard this</div>
+                <div>SOAP note? This action cannot be undone.</div>
+            </div>
         }).then(() => {
             (medicalInterventionId) && CommonService._chartNotes.DiscardSoapNote(medicalInterventionId, {})
                 .then((response: any) => {
-                    CommonService._alert.showToast("Note has been discarded successfully.", "success");
+                    CommonService._alert.showToast("SOAP note has been discarded successfully.", "success");
                     (medicalRecordId) && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId))
                 }).catch((error: any) => {
                     CommonService._alert.showToast(error.error, "error");
@@ -476,7 +480,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                            required={false}
                                                                            labelPlacement={"start"}
                                                                            onChange={(isChecked: any) => {
-                                                                               CommonService._alert.showToast( isChecked ? 'This note has been marked as flagged' : 'This note has been marked as unflagged'  , "success");
+                                                                               CommonService._alert.showToast( isChecked ? 'This note has been marked as flagged.' : 'This note has been marked as unflagged.'  , "success");
                                                                            }}
                                                                        />
                                                                    )

@@ -22,7 +22,7 @@ import FilePreviewThumbnailComponent
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 
 const AddConcussionFileAddFormValidationSchema = Yup.object({
-    document_date: Yup.string()
+    document_date: Yup.mixed()
         .required("Date of Document is required"),
     attachment: Yup.string()
         .required("Attachment is required"),
@@ -125,8 +125,8 @@ const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
                                                         disabled={true}
                                         />
                                         <InputComponent className="t-form-control"
-                                                        label={'Attached By'}
-                                                        placeholder={'Attached By'}
+                                                        label={'Attached by'}
+                                                        placeholder={'Attached by'}
                                                         value={currentUser?.first_name + " " + currentUser?.last_name}
                                                         required={true}
                                                         fullWidth={true}
@@ -137,7 +137,7 @@ const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
                                                 (field: FieldProps) => (
                                                     <FormikDatePickerComponent
                                                         label={'Date of Document'}
-                                                        placeholder={'Enter Date of Document'}
+                                                        // placeholder={'Enter Date of Document'}
                                                         required={true}
                                                         formikField={field}
                                                         fullWidth={true}
@@ -160,6 +160,7 @@ const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
                                         <div className="mrg-bottom-20">
                                             <FormControlLabelComponent
                                                 label={`Upload ${selectedConcussionFileType?.type} Document`}
+                                                className={'upload-document-heading'}
                                                 required={true}/>
                                             <>
                                                 {
@@ -196,7 +197,7 @@ const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
                                             </>
                                         </div>
                                     </div>
-                                    <div className="t-form-actions mrg-top-70 ">
+                                    <div className="t-form-actions mrg-top-50 ">
                                         <ButtonComponent
                                             isLoading={isConcussionFileAddFileAddInProgress}
                                             type={"submit"}

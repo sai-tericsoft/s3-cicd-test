@@ -90,7 +90,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
         {
             title: 'Date',
             key: 'date',
-            width: 120,
+            width: 150,
             fixed: 'right',
             dataIndex: 'created_at',
             render: (item: any) => {
@@ -150,7 +150,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
             image: ImageConfig.PopupLottie,
             showLottie: true,
             confirmationTitle: "TRANSFER SOAP TO",
-            confirmationSubTitle: 'Are you sure you want to transfer this SOAP',
+            confirmationSubTitle: 'Are you sure you want to transfer this SOAP to:',
             confirmationDescription: <div className="transfer-file-to">
             <div className={'mrg-bottom-10'}>
                 <span className={'client-case-name-title'}>Client:</span> <span>{CommonService.extractName(selectedClient)}</span>
@@ -287,7 +287,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                                     />
                                 </div>
                             </div>
-                            <div className="t-form-actions display-flex ts-justify-content-center mrg-top-30">
+                            <div className="t-form-actions display-flex ts-justify-content-center">
                                 {/*<ButtonComponent*/}
                                 {/*    variant={"outlined"}*/}
                                 {/*    className={isSoapNoteTransferUnderProgress ? 'mrg-right-15' : ''}*/}

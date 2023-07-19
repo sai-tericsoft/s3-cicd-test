@@ -4,12 +4,15 @@
   }
   .add-dry-needling-file-form-container{
     .file-picker-wrapper{
-        margin-bottom: 80px;
+        margin-bottom: 50px;
     }
   }
   .t-form{
-    .t-form-controls{
-      height: calc(100vh - 220px);
+    //.t-form-controls{
+    //  height: calc(100vh - 220px);
+    //}
+    .upload-dry-needling-heading{
+      margin-bottom: 16px;
     }
     .t-form-actions{
       margin-bottom: 0px;

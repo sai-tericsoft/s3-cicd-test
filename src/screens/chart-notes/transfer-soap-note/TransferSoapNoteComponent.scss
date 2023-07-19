@@ -92,6 +92,9 @@
 
       .t-table-wrapper {
         height: calc(100vh - 330px);
+        .t-table{
+          height: calc(100vh - 340px);
+        }
       }
     }
 
