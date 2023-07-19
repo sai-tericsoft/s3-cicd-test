@@ -132,7 +132,7 @@ const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
         <div className={'import-soap-note-component'}>
             <FormControlLabelComponent label={'Import SOAP Note'} size={'lg'}/>
             <InputComponent value={CommonService.generateInterventionNameFromMedicalRecord(medicalRecordDetails)}
-                            disabled={true} label={'Intervention Linked To'} fullWidth={true}/>
+                            disabled={true} label={'Intervention Linked to'} fullWidth={true}/>
             <div className={'import-soap-note-table-wrapper'}>
                 <TableComponent data={interventionList} columns={medicalInterventionListColumns}
                                 loading={isInterventionListLoading}/>
