@@ -475,7 +475,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                                     options={appointmentListLite || []}
                                                                     fullWidth={true}
                                                                     label={"Select Appointment"}
-                                                                    displayWith={(item: any) => item?.appointment_type + ' ' + (moment(item.appointment_date).format('DD-MMM-YYYY'))}
+                                                                    displayWith={(item: any) => item?.appointment_type +' (' + (moment(item.appointment_date).format('DD-MMM-YYYY'))+ ", " + CommonService.getHoursAndMinutesFromMinutes(item?.start_time) + ')'}
                                                                     valueExtractor={(item: any) => item?._id}
                                                                 />
                                                             )
