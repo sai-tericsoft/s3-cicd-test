@@ -580,6 +580,10 @@ const APIConfig: IAPIConfig = {
         URL: (progressReportId: string) => ENV.API_URL + '/progressReport/' + progressReportId,
         METHOD: 'get'
     },
+    PRINT_PROGRESS_REPORT: {
+        URL: (progressReportId: string) => ENV.API_URL + '/progressReport/' + progressReportId + '/print',
+        METHOD: "post"
+    },
     REPEAT_LAST_INTERVENTION: {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/repeatTreatment',
         METHOD: 'post'
@@ -933,7 +937,7 @@ const APIConfig: IAPIConfig = {
     BLOCK_SLOTS: {
         URL: (providerId: string) => ENV.API_URL + '/user/' + providerId + '/blockSlots',
         METHOD: "post"
-    }
+    },
 
 
 }

@@ -17,6 +17,7 @@ const MIN_SCALE = 0.5;
 const MAX_SCALE = 3.0;
 
 const PdfViewerComponent = (props: PdfViewerComponentProps) => {
+    console.log(props);
 
     pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
     const {file, title, onClose} = props;

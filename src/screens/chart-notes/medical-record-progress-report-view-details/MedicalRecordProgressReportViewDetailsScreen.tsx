@@ -2,7 +2,7 @@ import "./MedicalRecordProgressReportViewDetailsScreen.scss";
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {getProgressReportViewDetails} from "../../../store/actions/chart-notes.action";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
@@ -73,6 +73,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
     } = useSelector((state: IRootReducerState) => state.client);
     const [searchParams] = useSearchParams();
     const [isFullCardOpen, setIsFullCardOpen] = useState<boolean>(false);
+    const [isPrintLoading, setIsPrintLoading] = useState<boolean>(false);
 
     const {
         isProgressReportDetailsLoaded,
@@ -92,6 +93,25 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             dispatch(getClientMedicalRecord(medicalRecordId));
         }
     }, [medicalRecordId, dispatch]);
+
+    const handlePrint = useCallback(() => {
+        setIsPrintLoading(true);
+        CommonService._chartNotes.PrintProgressReportAPICall(progressReportId)
+            .then((res: any) => {
+                setIsPrintLoading(false);
+                const attachment = {
+                    type: 'application/pdf',
+                    url: res.data.url,
+                    name: 'progress report',
+                    key: ''
+                };
+                CommonService.printAttachment(attachment);
+            })
+            .catch((err: any) => {
+                setIsPrintLoading(false);
+                console.log(err);
+            })
+    }, [progressReportId])
 
     useEffect(() => {
         if (medicalRecordId) {
@@ -192,12 +212,21 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                 </CardComponent>
             }
             {
-                (medicalRecordId && progressReportId && module === null) && <LinkComponent
-                    route={CommonService._routeConfig.MedicalRecordProgressReportAdvancedDetailsUpdate(medicalRecordId, progressReportId, 'edit')}>
-                    <div className={'display-flex flex-direction-row-reverse mrg-bottom-20'}>
-                        <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>Edit Progress Report</ButtonComponent>
-                    </div>
-                </LinkComponent>
+                (medicalRecordId && progressReportId && module === null) &&
+                <div className={'display-flex justify-content-end mrg-bottom-20'}>
+                    <ButtonComponent
+                        variant={'outlined'}
+                        onClick={handlePrint}
+                        isLoading={isPrintLoading}
+                        disabled={isPrintLoading}
+                        prefixIcon={<ImageConfig.PrintIcon/>}>Print</ButtonComponent>
+                    <LinkComponent
+                        route={CommonService._routeConfig.MedicalRecordProgressReportAdvancedDetailsUpdate(medicalRecordId, progressReportId, 'edit')}>
+                        <div className='mrg-left-15'>
+                            <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>Edit Progress Report</ButtonComponent>
+                        </div>
+                    </LinkComponent>
+                </div>
             }
             <div className={'progress-report-view-details-container'}>
                 <>

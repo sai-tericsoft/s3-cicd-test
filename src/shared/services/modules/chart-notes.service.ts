@@ -173,7 +173,7 @@ const DryNeedlingFileAddAPICall = (medicalInterventionId: string, payload: any) 
 
 const MedicalRecordSoapNoteListAPICall = (medicalRecordId: string, payload: any) => {
     // @ts-ignore
-    return ApiService[APIConfig.GET_MEDICAL_RECORD_SOAP_NOTE_LIST.METHOD](APIConfig.GET_MEDICAL_RECORD_SOAP_NOTE_LIST.URL(medicalRecordId), {status:'completed'});
+    return ApiService[APIConfig.GET_MEDICAL_RECORD_SOAP_NOTE_LIST.METHOD](APIConfig.GET_MEDICAL_RECORD_SOAP_NOTE_LIST.URL(medicalRecordId), {status: 'completed'});
 }
 
 const DryNeedlingFileEditAPICall = (dryNeedlingFileId: string, payload: any) => {
@@ -248,16 +248,16 @@ const MedicalRecordDocumentAddAttachmentAPICall = (medicalRecordDocumentId: stri
 
 const MedicalRecordViewExerciseRecordPICall = (medicalRecordId: string, payload: any) => {
     // @ts-ignore
-    return ApiService[APIConfig.MEDICAL_RECORD_VIEW_EXERCISE_LOG.METHOD](APIConfig.MEDICAL_RECORD_VIEW_EXERCISE_LOG.URL(medicalRecordId), payload,{'Content-Type': 'multipart/form-data'});
+    return ApiService[APIConfig.MEDICAL_RECORD_VIEW_EXERCISE_LOG.METHOD](APIConfig.MEDICAL_RECORD_VIEW_EXERCISE_LOG.URL(medicalRecordId), payload, {'Content-Type': 'multipart/form-data'});
 }
 
 const MedicalRecordInterventionListAPICall = (medicalRecordId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.GET_MEDICAL_RECORD_INTERVENTION_LIST.METHOD](APIConfig.GET_MEDICAL_RECORD_INTERVENTION_LIST.URL(medicalRecordId), payload);
 }
-const ImportSoapNoteAPICall =(selectedInterventionId:string,medicalInterventionId:string,payload:any)=>{
+const ImportSoapNoteAPICall = (selectedInterventionId: string, medicalInterventionId: string, payload: any) => {
     // @ts-ignore
-    return ApiService[APIConfig.IMPORT_SOAP_NOTE_API_CALL.METHOD](APIConfig.IMPORT_SOAP_NOTE_API_CALL.URL(selectedInterventionId,medicalInterventionId), payload);
+    return ApiService[APIConfig.IMPORT_SOAP_NOTE_API_CALL.METHOD](APIConfig.IMPORT_SOAP_NOTE_API_CALL.URL(selectedInterventionId, medicalInterventionId), payload);
 }
 
 const MedicalRecordConsolidatedInterventionAndAttachmentsListAPICall = (medicalRecordId: string) => {
@@ -295,20 +295,24 @@ const ReOpenMedicalRecordAPICall = (medicalRecordId: string, payload: any) => {
     return ApiService[APIConfig.RE_OPEN_MEDICAL_RECORD.METHOD](APIConfig.RE_OPEN_MEDICAL_RECORD.URL(medicalRecordId), payload);
 }
 
-const GetAllAddedICD11CodeList = (medicalRecordId: string, payload: any)=>{
+const GetAllAddedICD11CodeList = (medicalRecordId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.GET_ADDED_ICD_CODES.METHOD](APIConfig.GET_ADDED_ICD_CODES.URL(medicalRecordId), payload);
 
 }
 
-const DiscardSoapNote = (interventionId:string , payload:any)=>{
+const DiscardSoapNote = (interventionId: string, payload: any) => {
     // @ts-ignore
-    return ApiService[APIConfig.DISCARD_SOAP_NOTE.METHOD](APIConfig.DISCARD_SOAP_NOTE.URL(interventionId),payload);
+    return ApiService[APIConfig.DISCARD_SOAP_NOTE.METHOD](APIConfig.DISCARD_SOAP_NOTE.URL(interventionId), payload);
 }
 
-const DeleteDocument = (documentId:string)=>{
+const DeleteDocument = (documentId: string) => {
 // @ts-ignore
     return ApiService[APIConfig.DELETE_DOCUMENT.METHOD](APIConfig.DELETE_DOCUMENT.URL(documentId))
+}
+
+const PrintProgressReportAPICall = (progressReportId: any) => {
+    return ApiService[APIConfig.PRINT_PROGRESS_REPORT.METHOD](APIConfig.PRINT_PROGRESS_REPORT.URL(progressReportId));
 }
 
 const ChartNotesService = {
@@ -376,6 +380,7 @@ const ChartNotesService = {
     SaveMedicalInterventionSpecialTestAPICall,
     DeleteDocument,
     SurgeryRecordDeleteAPICall,
+    PrintProgressReportAPICall
 }
 
 export default ChartNotesService;
