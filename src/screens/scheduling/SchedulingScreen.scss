@@ -373,6 +373,9 @@
                 overflow: hidden;
                 flex: 1;
                 position: relative;
+                .hide-dashed-line {
+                  border-bottom: none;
+                }
               }
             }
 

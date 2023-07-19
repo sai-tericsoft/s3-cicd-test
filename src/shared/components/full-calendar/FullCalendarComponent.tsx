@@ -44,7 +44,6 @@ const FullCalendarComponent = (props: FullCalendarComponentProps) => {
     }, [selectedDates]);
 
     const build = useCallback((date: Moment = moment()) => {
-            console.log('building...')
             const dates: any = {};
             const currentInstanceStart = date.clone();
             const monthStart = date.clone();
