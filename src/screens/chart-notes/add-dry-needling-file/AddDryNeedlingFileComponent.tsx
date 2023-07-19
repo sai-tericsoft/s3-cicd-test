@@ -21,7 +21,7 @@ import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 
 const AddDryNeedlingFormValidationSchema = Yup.object({
-    document_date: Yup.string()
+    document_date: Yup.mixed()
         .required("Date of Document is required"),
     attachment: Yup.string()
         .required("Attachment is required"),
@@ -129,7 +129,7 @@ const AddDryNeedlingFileComponent = (props: AddDryNeedlingFileComponentProps) =>
                                         }
                                     </Field>
                                     <div className="mrg-bottom-20">
-                                        <FormControlLabelComponent label={"Upload Dry Needling File"}
+                                        <FormControlLabelComponent label={"Upload Dry Needling File"} className={'upload-dry-needling-heading'}
                                                                    required={true}/>
                                         <>
                                             {

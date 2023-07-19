@@ -153,7 +153,7 @@ const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentCompon
                                         }
                                     </Field>
                                     <div className="mrg-bottom-20">
-                                        <FormControlLabelComponent label={"Upload Document"}
+                                        <FormControlLabelComponent label={"Upload Document"} className={'upload-document-heading'}
                                                                    required={true}/>
                                         <>
                                             {

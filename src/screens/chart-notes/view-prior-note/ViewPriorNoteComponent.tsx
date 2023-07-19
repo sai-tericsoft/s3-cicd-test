@@ -30,6 +30,7 @@ const {
         {
             title: "Date",
             key: "date",
+            width: 150,
             dataIndex: 'intervention_date',
             render: ( item: any) => {
                 return <>{CommonService.getSystemFormatTimeStamp(item?.intervention_date)}</>
@@ -39,6 +40,7 @@ const {
             title: "Provider",
             key: "provider",
             dataIndex: 'first_name',
+            width: 150,
             render: ( item: any) => {
                 return <span>{item?.treated_by_details?.first_name} {item?.treated_by_details?.last_name}</span>
             }
@@ -46,6 +48,7 @@ const {
         {
             title: "",
             dataIndex: "actions",
+            width: 150,
             key: "actions",
             fixed: "right",
             render: ( item: any) => {
@@ -61,13 +64,14 @@ const {
     return (
         <div className={'view-prior-note-component'}>
             <FormControlLabelComponent label={'View Prior Note'} size={'lg'}/>
-            <InputComponent label={'Intervention Linked To'}
+            <InputComponent label={'Intervention Linked to'}
                             placeholder={'Intervention Linked To'}
                             value={CommonService.generateInterventionNameFromMedicalRecord(medicalRecordDetails)}
                             required={true}
                             fullWidth={true}
                             disabled={true}/>
             <TableComponent data={medicalRecordSoapNoteList}
+                            noDataText={'Currently, there is no prior note to view.'}
                             loading={isMedicalInterventionDetailsLoading}
                             columns={ViewPriorNoteColumns}
             />

@@ -68,7 +68,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: "body_part",
             align: 'center',
             dataIndex: "body_part",
-            width: 150,
+            width: 140,
             render: (item: any) => {
                 if (item?.injury_details?.length === 1) {
                     return <>{item?.injury_details[0]?.body_part_details?.name}</>
@@ -82,7 +82,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: "body_side",
             align: 'center',
             dataIndex: "body_side",
-            width: 110,
+            width: 130,
             render: (item: any) => {
                 return <>{item?.injury_details[0]?.body_side || "N/A"}</>
             }
@@ -103,7 +103,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: "last_provider",
             dataIndex: "last_provider",
             sortable: true,
-            width: 160,
+            width: 150,
         },
         {
             title: "",

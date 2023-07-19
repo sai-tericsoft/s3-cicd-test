@@ -1,0 +1,11 @@
+.view-prior-note-component{
+
+  .t-table-wrapper{
+    .t-table{
+      height: calc(100vh - 240px);
+      .t-cell-actions{
+        padding-right: 30px !important;
+      }
+    }
+  }
+}

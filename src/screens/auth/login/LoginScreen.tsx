@@ -11,7 +11,7 @@ import {setLoggedInUserData, setLoggedInUserToken} from "../../../store/actions/
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {IAccountLoginCredentials, ILoginResponse} from "../../../shared/models/account.model";
 import {useDispatch} from "react-redux";
-import {ENV, Misc} from "../../../constants";
+import {ENV} from "../../../constants";
 
 interface LoginScreenProps {
 
@@ -50,13 +50,13 @@ const LoginScreen = (props: LoginScreenProps) => {
         setIsLoggingIn(true);
         CommonService._account.LoginAPICall(values)
             .then((response: IAPIResponseType<ILoginResponse>) => {
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 dispatch(setLoggedInUserData(response.data.user));
                 dispatch(setLoggedInUserToken(response.data.token));
                 setIsLoggingIn(false);
             })
             .catch((error: any) => {
-                CommonService.handleErrors(setErrors, error);
+                // CommonService.handleErrors(setErrors, error);
                 setIsLoggingIn(false);
             })
     }, [dispatch]);
