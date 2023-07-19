@@ -93,7 +93,7 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
         const linked_service_categories_transformed = linked_service_categories.map((item: any) => {
             return {
                 category_id: item.category_id,
-                services: item?.services?.filter((service: any) => service.is_selected).map((service: any) => service?.service_id)
+                services: item?.services?.filter((service: any) => service?.is_selected).map((service: any) => service?.service_id)
             }
         });
         payload.linked_services = linked_service_categories_transformed;
@@ -410,8 +410,8 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                                                                                                 selectedServices.splice(serviceIndex, 1);
                                                                                             }
                                                                                             const services = service_category?.services;
-                                                                                            console.log('services', values?.service_categories[index]?.services);
-                                                                                            console.log('selectedServices', selectedServices);
+                                                                                            // console.log('services', values?.service_categories[index]?.services);
+                                                                                            // console.log('selectedServices', selectedServices);
                                                                                             if (selectedServices?.length === services?.length) {
                                                                                                 setFieldValue(`service_categories.${index}.is_selected`, true);
                                                                                             } else {
