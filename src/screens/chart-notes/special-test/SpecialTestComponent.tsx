@@ -15,7 +15,6 @@ import FormikRadioButtonGroupComponent
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import {useDispatch} from "react-redux";
 import {
     deleteMedicalInterventionSpecialTestConfigForABodyPart,
@@ -238,7 +237,7 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
-                            <FormDebuggerComponent values={values} showDebugger={false} />
+                            {/*<FormDebuggerComponent values={values} showDebugger={false} />*/}
                             <CardComponent title={"Body Part: " + specialTestFormValues?.name}
                                            actions={<>
                                                {
