@@ -159,9 +159,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
 
     const dateSwitcher = useCallback(
         (mode: 'increasing' | 'decreasing' | 'reset', duration: string) => {
-            console.log(mode);
             setSchedulingListFilterState((old: any) => {
-                console.log(old);
                 const startDate = (mode === 'decreasing' || mode === 'reset') ? moment(old.start_date) : moment(old.start_date);
                 let endDate;
                 if (mode === 'increasing') {
@@ -179,7 +177,6 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                         endDate = startDate.clone().endOf('month');
                     }
                 } else if (mode === 'decreasing') {
-                    console.log(mode);
                     if (duration === 'day') {
                         startDate.subtract(1, 'day');
                         endDate = startDate.clone();
@@ -251,20 +248,21 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             CommonService._serviceCategory.ServiceCategoryListAPICall({is_active: true})
                 .then((response: IAPIResponseType<any>) => {
                     const data = response.data || [];
-                    console.log(data);
                     const colorMap: any = {};
+                    console.log(data);
                     data.forEach((item: any) => {
-                        console.log(JSON.parse(item.bg_color_code))
-                        const bg_color_code = JSON.parse(item.bg_color_code);
-                        const text_color_code = JSON.parse(item.text_color_code);
-                        const bg_color = `rgba(${bg_color_code.r}, ${bg_color_code.g}, ${bg_color_code.b}, ${bg_color_code.a})`;
-                        const text_color = `rgba(${text_color_code.r}, ${text_color_code.g}, ${text_color_code.b}, ${text_color_code.a})`;
-                        colorMap[item._id] = {
-                            bg_color_code: bg_color || '#AAAAAA',
-                            text_color_code: text_color || '#000000'
-                        };
+                        if (item?.bg_color_code && item?.text_color_code) {
+                            const bg_color_code = JSON.parse(item?.bg_color_code);
+                            const text_color_code = JSON.parse(item?.text_color_code);
+                            const bg_color = `rgba(${bg_color_code.r}, ${bg_color_code.g}, ${bg_color_code.b}, ${bg_color_code.a})`;
+                            const text_color = `rgba(${text_color_code.r}, ${text_color_code.g}, ${text_color_code.b}, ${text_color_code.a})`;
+                            colorMap[item._id] = {
+                                bg_color_code: bg_color || '#AAAAAA',
+                                text_color_code: text_color || '#000000'
+                            };
+                        }
                     })
-                    console.log(colorMap);
+                    console.log(data);
                     setServiceCategoryColorMap(colorMap);
                     setServiceCategoryList(data);
                 })
@@ -312,15 +310,12 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
         [],
     );
     useEffect(() => {
-        getProvidersList()
+        getProvidersList();
     }, [getProvidersList]);
 
     const [calendarData, setCalendarData] = useState<any>(null)
-    const [calendarDaysData, setCalendarDaysData] = useState<any>({
-        appointments: [],
-        blocked_slots: []
-    })
-    const [isCalendarLoading, setIsCalendarLoading] = useState<boolean>(false)
+    const [calendarDaysData, setCalendarDaysData] = useState<any>(undefined);
+    const [isCalendarLoading, setIsCalendarLoading] = useState<boolean>(false);
 
     const getCalenderList = useCallback((payload: any) => {
         delete payload.sort;
@@ -335,15 +330,17 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                 const data = response.data || {};
                 setCalendarData(data);
                 const daysData: any = {};
-                for (let date in data) {
-                    // const dayData = {}
-                    console.log(data);
-                    console.log(data[date]);
-                    const appointments = data[date]?.appointments || [];
-                    const blockedSlots = data[date]?.blocked_slots || [];
+                Object.keys(data).forEach((date: any) => {
+                    const dayData = data[date];
+                    daysData[date] = {
+                        appointments: [],
+                        blocked_slots: [],
+                        meta: dayData?.meta
+                    }
+                    const appointments = dayData?.appointments || [];
+                    const blockedSlots = dayData?.blocked_slots || [];
                     const dayHourAppointments: any = {};
                     const dayHourBlockSlots: any = {};
-                    console.log(blockedSlots);
                     appointments.forEach((appointment: any) => {
                         HOURS_LIST_IN_MINUTES.forEach((hour: any) => {
                             if (appointment.start_time >= hour.start && appointment.start_time < hour.end) {
@@ -354,13 +351,22 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                             }
                         });
                     })
-
-                    console.log(blockedSlots);
-
                     blockedSlots.forEach((blockedSlot: any) => {
                         HOURS_LIST_IN_MINUTES.forEach((hour: any) => {
                             if (blockedSlot?.is_block_all_day) {
-
+                                // For all-day blocked slot, assign start_time as 00:00 and end_time as 24:00
+                                const allDaySlot = {
+                                    ...blockedSlot,
+                                    start_time: 0,      // 00:00 in minutes
+                                    end_time: 1439     // 24:00 in minutes
+                                };
+                                // Store the all-day slot in the dayHourBlockSlots object
+                                if (allDaySlot.start_time >= hour.start && allDaySlot.start_time < hour.end) {
+                                    if (!dayHourBlockSlots.hasOwnProperty(hour.label)) {
+                                        dayHourBlockSlots[hour.label] = [];
+                                    }
+                                    dayHourBlockSlots[hour.label].push(allDaySlot);
+                                }
                             } else {
                                 if (blockedSlot.start_time >= hour.start && blockedSlot.start_time < hour.end) {
                                     if (!dayHourBlockSlots.hasOwnProperty(hour.label)) {
@@ -371,12 +377,9 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                             }
                         });
                     });
-                    console.log(dayHourBlockSlots);
-
                     daysData[date].appointments = dayHourAppointments;
                     daysData[date].blocked_slots = dayHourBlockSlots;
-                }
-                console.log(daysData);
+                });
                 setCalendarDaysData(daysData);
                 setIsCalendarLoading(false);
             })
@@ -394,7 +397,6 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
     const prepareNewAppointmentBooking = useCallback(
         (preState: any) => {
             const prePayload: any = {};
-            console.log(preState);
             if (preState.category_id) {
                 prePayload.category_id = preState.category_id;
             }
@@ -441,7 +443,6 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
     // }, [schedulingListFilterState]);
 
     const handleFilters = useCallback((value: any, filterName: string) => {
-        console.log('handleFilters', value);
         if (filterName === 'serviceCategory') {
             setSchedulingListFilterState((oldState: any) => {
                 const newState = {...oldState};
@@ -481,7 +482,6 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             setSchedulingListFilterState((oldState: any) => {
                 const newState = {...oldState};
                 newState['status'] = value;
-                console.log(newState);
                 return newState;
             });
         }
@@ -578,16 +578,20 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                             </div>
                         </div>
                         }
-                        {viewMode === 'list' &&
-                        <DateRangePickerComponent
-                            label={"Select Date Range"}
-                            value={schedulingListFilterState.date_range}
-                            onDateChange={(value: any) => {
-                                handleFilters(value, 'dateRange')
-                            }}
-                        />
+
+                        {viewMode === 'list' && <div className="scheduling-filter-header-action-item">
+                            <DateRangePickerComponent
+                                label={"Select Date Range"}
+                                value={schedulingListFilterState.date_range}
+                                onDateChange={(value: any) => {
+                                    handleFilters(value, 'dateRange')
+                                }}
+                            />
+                        </div>
                         }
+
                         <div className="scheduling-filter-header-actions-wrapper">
+
                             <div className="scheduling-filter-header-action-item">
                                 <SelectComponent size={'small'}
                                                  label={'Service Category'}
@@ -694,9 +698,9 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                              }
                                                          }
                                                      }
-                                                     className={'calendar-appointments-holder ' + ((calendarData?.appointments && calendarData?.appointments[date]?.appointments ? calendarData?.appointments[date]?.appointments : []).length >= 9 ? ' fit-rows-min' : ((calendarData?.appointments && calendarData?.appointments[date]?.appointments ? calendarData?.appointments[date]?.appointments : []).length >= 3 ? ' fit-rows' : ''))}>
-                                            {calendarData?.appointments && calendarData?.appointments[date] && <>
-                                                {(!!schedulingListFilterState.status || !!schedulingListFilterState.provider_id) ? (calendarData?.appointments[date]?.appointments || [])
+                                                     className={'calendar-appointments-holder ' + ((calendarData && calendarData[date]?.appointments ? calendarData[date]?.appointments : []).length >= 9 ? ' fit-rows-min' : ((calendarData && calendarData[date]?.appointments ? calendarData[date]?.appointments : []).length >= 3 ? ' fit-rows' : ''))}>
+                                            {calendarData && calendarData[date]?.appointments && <>
+                                                {(!!schedulingListFilterState?.status || !!schedulingListFilterState?.provider_id) ? (calendarData[date]?.appointments || [])
                                                     .map((value: any, index: number) => {
                                                         return (
                                                             <ToolTipComponent key={index} tooltip={
@@ -723,7 +727,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                 </div>
                                                             </ToolTipComponent>
                                                         )
-                                                    }) : (!!schedulingListFilterState.service_id) ? (calendarData?.appointments[date]?.meta?.providers || [])
+                                                    }) : (!!schedulingListFilterState.service_id) ? (calendarData[date]?.meta?.providers || [])
                                                     .map((value: any, index: number) => {
                                                         return (
                                                             <ToolTipComponent key={index} tooltip={
@@ -796,7 +800,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                 </div>
                                                             </ToolTipComponent>
                                                         )
-                                                    }) : (calendarData?.appointments[date]?.meta?.categories || [])
+                                                    }) : (calendarData[date]?.meta?.categories || [])
                                                     .map((value: any, index: number) => {
                                                         return (
                                                             <ToolTipComponent key={index} tooltip={
@@ -809,7 +813,6 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                               textColor={'#FFFFFF'}>
                                                                 <div key={index} className={'appointment-count-card '}
                                                                      onClick={() => {
-                                                                         console.log('value', value);
                                                                          setSchedulingListFilterState({
                                                                              ...schedulingListFilterState,
                                                                              category_id: value._id,
@@ -904,10 +907,8 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                     }>
                                                             <div className="dashed-line"/>
                                                             <div className="scheduling-calendar-hour-block-content">
-                                                                {/*actual logic goes here*/}
-
                                                                 {
-                                                                    (calendarDaysData?.appointments && calendarDaysData?.appointments[date] && calendarDaysData?.appointments[date][value.label] ? calendarDaysData?.appointments[date][value.label] : [])
+                                                                    (calendarDaysData && calendarDaysData[date]?.appointments && calendarDaysData[date]?.appointments[value?.label] ? calendarDaysData[date]?.appointments[value?.label] : [])
                                                                         .map((appointment: any, index: number) => {
                                                                             return (
                                                                                 <div className="card-item"
@@ -930,8 +931,25 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                             )
                                                                         })
                                                                 }
-
-
+                                                                {
+                                                                    (calendarDaysData && calendarDaysData[date]?.blocked_slots && calendarDaysData[date]?.blocked_slots[value?.label] ? calendarDaysData[date]?.blocked_slots[value?.label] : [])
+                                                                        .map((blocked_slot: any) => {
+                                                                            return (
+                                                                                <div className="card-item"
+                                                                                     style={{
+                                                                                         top: blocked_slot.start_time - value.start,
+                                                                                         height: blocked_slot.end_time - blocked_slot.start_time
+                                                                                     }}>
+                                                                                    <CalendarAppointmentCard
+                                                                                        title={blocked_slot?.provider_details?.first_name + ' ' + blocked_slot?.provider_details?.last_name}
+                                                                                        timeSlot={CommonService.getHoursAndMinutesFromMinutes(blocked_slot?.start_time) + ' - ' + CommonService.getHoursAndMinutesFromMinutes(blocked_slot?.end_time)}
+                                                                                        reason={blocked_slot?.reason}
+                                                                                        status={'blocked'}
+                                                                                    />
+                                                                                </div>
+                                                                            )
+                                                                        })
+                                                                }
                                                             </div>
                                                         </div>
                                                     }

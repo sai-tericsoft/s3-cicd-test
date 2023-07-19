@@ -80,7 +80,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
             const payload = {
                 client_id: clientMedicalRecord.client_id,
                 medicalRecordId: medicalRecordId,
-                is_intervention_linked: true
+                is_link_to_intervention: true
             };
             dispatch(getAppointmentListLite(payload));
         }
