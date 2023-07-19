@@ -763,7 +763,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                     </div>
                                                                 </div>
                                                             </ToolTipComponent>)
-                                                    }) : (!!schedulingListFilterState.category_id) ? (calendarData?.appointments[date]?.meta?.services || [])
+                                                    }) : (!!schedulingListFilterState?.category_id) ? (calendarData[date]?.meta?.services || [])
                                                     .map((value: any, index: number) => {
                                                         return (
                                                             <ToolTipComponent key={index} tooltip={
