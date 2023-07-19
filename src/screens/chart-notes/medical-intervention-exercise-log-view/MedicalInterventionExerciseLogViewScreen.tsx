@@ -170,6 +170,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
                             </div>
                         </div>
                         <MedicalInterventionLinkedToComponent
+                            label={'Exercise Log Linked to'}
                             medicalRecordDetails={medicalInterventionExerciseLogDetails?.medical_record_details}/>
                         <div className={'ts-row'}>
                             <div className={'ts-col-2'}>
@@ -217,7 +218,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
             {medicalInterventionExerciseLogDetails && !medicalInterventionExerciseLogDetails.attachments.length &&
                 <div className={'no-appointment-text-wrapper'}>
                     <CardComponent title={'Attachments'}>
-                        <StatusCardComponent title={'No Attachments added yet'}/>
+                        <StatusCardComponent title={'No attachment has been added yet'}/>
                     </CardComponent>
                 </div>
 

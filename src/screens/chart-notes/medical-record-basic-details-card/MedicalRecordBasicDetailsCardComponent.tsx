@@ -291,7 +291,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
             {
                 medicalRecordId && <>
                     {
-                        isClientMedicalRecordLoading && <div>
+                        isClientMedicalRecordLoading && <div className={'mrg-bottom-25'}>
                             <LoaderComponent/>
                         </div>
                     }

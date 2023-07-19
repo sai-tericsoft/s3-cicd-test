@@ -1,7 +1,9 @@
 .add-concussion-file-component {
   .t-form {
     .t-form-controls {
-      height: calc(100vh - 260px);
+      .upload-document-heading{
+        margin-bottom: 16px;
+      }
     }
 
     .t-form-actions {
@@ -18,8 +20,8 @@
       align-items: center;
       border: 1px solid #ABB6BE;
       border-radius: 5px;
-      margin-bottom: 14px;
-      padding: 18px 30px;
+      margin-bottom: 24px;
+      padding: 16px 24px;
 
       &:hover {
         cursor: pointer;

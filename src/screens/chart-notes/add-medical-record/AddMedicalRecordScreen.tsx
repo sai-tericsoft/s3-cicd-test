@@ -20,7 +20,7 @@ import FormControlLabelComponent from "../../../shared/components/form-control-l
 import FilePreviewThumbnailComponent
     from "../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import FilePickerComponent from "../../../shared/components/file-picker/FilePickerComponent";
-import {ImageConfig, Misc} from "../../../constants";
+import {ImageConfig} from "../../../constants";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
@@ -159,7 +159,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
             const formData = CommonService.getFormDataFromJSON(payload);
             CommonService._chartNotes.MedicalRecordAddAPICall(clientId, formData)
                 .then((response: IAPIResponseType<any>) => {
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    CommonService._alert.showToast('Medical record was successfully created', "success");
                     setIsMedicalRecordAddInProgress(false);
                     navigate(CommonService._routeConfig.ClientMedicalRecordDetails(response?.data._id));
                 })

@@ -32,7 +32,7 @@ const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
             title: '',
             key: 'select',
             dataIndex: 'select',
-            width: 50,
+            width: 40,
             render: ( item: any) => {
                 return <RadioButtonComponent name={"selected-medical-intervention"}
                                              value={item}
@@ -65,7 +65,7 @@ const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
             title: '',
             dataIndex: 'actions',
             key: 'actions',
-            fixed: 'right',
+            // fixed: 'right',
             render: ( item: any) => {
                 return <LinkComponent
                     route={CommonService._routeConfig.MedicalInterventionDetails(item?.medical_record_id, item?._id)}
