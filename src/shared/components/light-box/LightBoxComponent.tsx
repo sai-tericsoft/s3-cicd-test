@@ -38,9 +38,6 @@ const LightBoxComponent = (props: LightBoxComponentProps) => {
         }
     }, [attachments, openLightBox]);
 
-    console.log("attachments", attachments);
-    console.log("activeAttachment", activeAttachment);
-
     useEffect(() => {
         if (activeAttachment) {
             setActiveAttachmentType(CommonService.getNormalizedFileType(activeAttachment.type));

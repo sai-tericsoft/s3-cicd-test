@@ -617,7 +617,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                  valueExtractor={item => item?._id}
                                                  options={serviceList || []}
                                                  fullWidth={true}
-                                                 isClear={true}
+                                                 isClear={schedulingListFilterState?.service_id ? true : false}
                                                  onUpdate={(value) => handleFilters(value, 'service')}
                                 />
                             </div>
@@ -633,7 +633,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                     keyExtractor={item => item?.provider_id || item?._id}
                                     valueExtractor={item => item?.provider_id || item?._id}
                                     onUpdate={(value) => handleFilters(value, 'provider')}
-                                    isClear={true}
+                                    isClear={schedulingListFilterState?.provider_id ? true : false}
                                 />
                             </div>
                             <div className="scheduling-filter-header-action-item">
