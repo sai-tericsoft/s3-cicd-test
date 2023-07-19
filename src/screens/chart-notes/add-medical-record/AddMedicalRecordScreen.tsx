@@ -648,7 +648,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                                             <IconButtonComponent
                                                                                 id={"delete_body_" + index}
                                                                                 color={'error'}
-                                                                                className={'mrg-top-25'}
+                                                                                className={'mrg-top-10'}
                                                                                 onClick={() => {
                                                                                     arrayHelpers.remove(index)
                                                                                 }}>
