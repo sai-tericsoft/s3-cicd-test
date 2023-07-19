@@ -243,7 +243,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                 }
             }
         )
-    }, [medicalRecordId,surgeryRecordId,navigate]);
+    }, [medicalRecordId, surgeryRecordId, navigate]);
     return (
         <div className={'medical-intervention-surgery-record-screen'}>
 
@@ -442,25 +442,27 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                             </div>
                         </div>
                     </CardComponent>
+
+                    <div className="ts-col-12 text-right">
+                        <ButtonComponent
+                            disabled={surgeryRecordDetails?.attachments?.length > 0}
+                            prefixIcon={<ImageConfig.AddIcon/>}
+                            onClick={setShowAddAttachment.bind(null, true)}
+                        >
+                            Add Attachment
+                        </ButtonComponent>
+                    </div>
                 </>
             }
-            <div className="ts-col-12 text-right">
-                <ButtonComponent
-                    prefixIcon={<ImageConfig.AddIcon/>}
-                    onClick={setShowAddAttachment.bind(null, true)}
-                >
-                    Add Attachment
-                </ButtonComponent>
-            </div>
             <div className="ts-row mrg-top-20">
                 <div className="ts-col">
-                    {surgeryRecordDetails && surgeryRecordId && surgeryRecordDetails.attachments.map((attachment: any, index: number) => {
+                    {surgeryRecordDetails && surgeryRecordId && surgeryRecordDetails?.attachments?.map((attachment: any, index: number) => {
                         return (
                             <AttachmentComponent
                                 attachment={attachment}
                                 key={attachment?._id + index}
                                 showDelete={true}
-                                onDelete={() => deleteSurgeryAttachment(surgeryRecordId, attachment._id)}/>
+                                onDelete={() => deleteSurgeryAttachment(surgeryRecordId, attachment?._id)}/>
                         )
                     })}
                 </div>
@@ -503,7 +505,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                                                     })}
                                                 </>
                                             )}/>
-                                        <FilePickerComponent
+                                        {values?.attachment.length===0 && <FilePickerComponent
                                             maxFileCount={1}
                                             id={"sv_upload_btn"}
                                             onFilesDrop={(acceptedFiles, rejectedFiles) => {
@@ -514,7 +516,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                                             }}
                                             acceptedFilesText={"PDF files are allowed"}
                                             acceptedFileTypes={["pdf"]}
-                                        />
+                                        />}
                                     </div>
                                     <div className="t-form-actions mrg-top-20">
                                         <ButtonComponent fullWidth={true} type={'submit'}

@@ -14,7 +14,6 @@ import FilePickerComponent from "../../../shared/components/file-picker/FilePick
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {CommonService} from "../../../shared/services";
-import {Misc} from "../../../constants";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import InputComponent from "../../../shared/components/form-controls/input/InputComponent";
 import moment from "moment";
@@ -59,7 +58,7 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
             const formData = CommonService.getFormDataFromJSON(values);
             CommonService._chartNotes.AddSurgeryRecordAPICall(medicalRecordDetails._id, formData)
                 .then((response: IAPIResponseType<any>) => {
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    CommonService._alert.showToast('Surgery record has been added', "success");
                     setRefreshToken(Math.random().toString(36).substring(7));
                     // setIsSurgeryRecordAddInProgress(false);
                     onSave();
