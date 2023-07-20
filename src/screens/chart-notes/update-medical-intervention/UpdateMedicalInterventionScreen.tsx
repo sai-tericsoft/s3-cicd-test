@@ -91,7 +91,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
     const [addMedicalInterventionFormInitialValues, setAddMedicalInterventionFormInitialValues] = useState<any>(_.cloneDeep(MedicalInterventionAddFormInitialValues));  // TODO type properly
     const [isSigningInProgress, setIsSigningInProgress] = useState<boolean>(false);
     const [isSavingInProgress, setIsSavingProgress] = useState<boolean>(false);
-    const [isFormBeingUpdated, setIsFormBeingUpdated] = useState<boolean>(false);
+    // const [isFormBeingUpdated, setIsFormBeingUpdated] = useState<boolean>(false);
 
     const SpecialTestsColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
         {
@@ -399,7 +399,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                             }, [formik.validateForm, formik.values]);
                             return (
                                 <Form className="t-form" noValidate={true}>
-                                    <FormAutoSave formikCtx={formik} onUpdating={setIsFormBeingUpdated}/>
+                                    <FormAutoSave formikCtx={formik}/>
                                     <div
                                         className={"display-flex align-items-center justify-content-space-between mrg-bottom-25"}>
                                         <FormControlLabelComponent label={"SOAP Note"} size={'lg'}
@@ -1221,8 +1221,8 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                         <div
                                             className={"display-flex flex-direction-row-reverse mrg-top-50 mrg-bottom-25"}>
                                             <ESignApprovalComponent isSigned={medicalInterventionDetails?.is_signed}
-                                                                    isSigning={isSigningInProgress || isFormBeingUpdated}
-                                                                    isLoading={formik.isSubmitting}
+                                                                    isSigning={isSigningInProgress}
+                                                // isLoading={formik.isSubmitting}
                                                                     canSign={true}
                                                                     signedAt={medicalInterventionDetails?.signed_on}
                                                                     onSign={() => {
@@ -1237,6 +1237,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                          className={formik.isSubmitting ? 'mrg-right-15' : ""}>
                                             Discard Note
                                         </ButtonComponent>
+
                                         <ButtonComponent
                                             onClick={(event) => {
                                                 if (medicalInterventionDetails?.is_signed) {
@@ -1244,16 +1245,25 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                         navigate(CommonService._routeConfig.MedicalInterventionFinalizeTreatment(medicalRecordId, medicalInterventionId));
                                                     }
                                                     event.preventDefault();
+                                                } else {
+                                                    const referrer: any = searchParams.get("referrer");
+                                                    if (medicalRecordId) {
+                                                        if (referrer) {
+                                                            navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?referrer=' + referrer);
+                                                        } else {
+                                                            navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+                                                        }
+                                                    }
                                                 }
                                             }}
-                                            isLoading={formik.isSubmitting}
+                                            // isLoading={formik.isSubmitting}
                                             size={'large'}
                                             className={'mrg-left-15'}
                                             type={medicalInterventionDetails?.is_signed ? "button" : "submit"}
                                             id={"medical_intervention_add_save_btn"}
-                                            disabled={isFormBeingUpdated}
+                                            // disabled={isFormBeingUpdated}
                                         >
-                                            {isFormBeingUpdated ? "Typing..." : (medicalInterventionDetails?.is_signed ? "Finalize treatment" : formik.isSubmitting ? "Saving" : "Save")}
+                                            {medicalInterventionDetails?.is_signed ? "Finalize treatment" : "Save"}
                                         </ButtonComponent>
                                     </div>
                                 </Form>

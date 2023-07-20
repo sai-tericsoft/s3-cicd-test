@@ -125,16 +125,16 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
     }, [dispatch, medicalInterventionId, selectedAttachment])
 
     const removeAttachment = useCallback((item: any, medicalInterventionId: string) => {
-            setIsAttachmentBeingDeleted(true);
-            CommonService._chartNotes.RemoveExerciseLogAttachmentAPICall(medicalInterventionId, item._id, {})
-                .then((response) => {
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                    dispatch(getInterventionAttachmentList(medicalInterventionId));
-                    setIsAttachmentBeingDeleted(false);
-                }).catch((error: any) => {
+        setIsAttachmentBeingDeleted(true);
+        CommonService._chartNotes.RemoveExerciseLogAttachmentAPICall(medicalInterventionId, item._id, {})
+            .then((response) => {
+                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                dispatch(getInterventionAttachmentList(medicalInterventionId));
                 setIsAttachmentBeingDeleted(false);
-                CommonService._alert.showToast(error.error || "Error deleting attachment", "error");
-            })
+            }).catch((error: any) => {
+            setIsAttachmentBeingDeleted(false);
+            CommonService._alert.showToast(error.error || "Error deleting attachment", "error");
+        })
 
     }, [dispatch]);
 
@@ -357,7 +357,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     // CommonService._alert.showToast(response.message, 'success');
                     setSubmitting(false);
                     if (mode === 'add' || mode === 'soapNoteEdit') {
-                        navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+                        navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + '?mode=add');
                     } else {
                         navigate(CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, medicalInterventionId));
                     }
@@ -443,10 +443,10 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
         const new_exercise_records = exercise_records.map((record: any) => ({
             ...record,
             name: "",
-            no_of_reps: "",
-            no_of_sets: "",
-            time: "",
-            resistance: "",
+            no_of_reps: "-",
+            no_of_sets: "-",
+            time: "-",
+            resistance: "-",
         }));
         setFieldValue("exercise_records", new_exercise_records);
     }, []);
@@ -489,7 +489,8 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                             label={clientMedicalRecord?.status || "-"}/>
                                     </span>
                         </div>
-                        <MedicalInterventionLinkedToComponent label={'Exercise Log Linked to'} medicalRecordDetails={clientMedicalRecord}/>
+                        <MedicalInterventionLinkedToComponent label={'Exercise Log Linked to'}
+                                                              medicalRecordDetails={clientMedicalRecord}/>
                         <div className={'ts-row'}>
                             <div className={'ts-col-6'}>
                                 <DataLabelValueComponent label={'Date of Intervention'}>
@@ -532,9 +533,9 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                     <>
 
                                         {(attachmentList.attachments.length > 0) &&
-                                            <>
-                                                {attachmentList?.attachments?.map((attachment: any) => {
-                                                    return <span className={'chip-wrapper'}>
+                                        <>
+                                            {attachmentList?.attachments?.map((attachment: any) => {
+                                                return <span className={'chip-wrapper'}>
                                         <ChipComponent className={'chip chip-items'}
                                                        color={"success"}
                                                        disabled={isAttachmentBeingDeleted}
@@ -543,11 +544,11 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                                        onDelete={() => removeAttachment(attachment, medicalInterventionId)}
                                         />
                                                 </span>
-                                                })}
-                                            </>
+                                            })}
+                                        </>
                                         }
                                         {selectedAttachment &&
-                                            <span className={'chip-wrapper'}>
+                                        <span className={'chip-wrapper'}>
                                         <ChipComponent className={'chip chip-items'}
                                                        color={"success"}
                                                        disabled={isAttachmentBeingDeleted}
@@ -558,8 +559,8 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                                 </span>
                                         }
                                         {(!selectedAttachment && !attachmentList.attachments.length) &&
-                                            <StatusCardComponent title={'No attachment has been added yet'}
-                                                                 className={'mrg-bottom-25'}/>
+                                        <StatusCardComponent title={'No attachment has been added yet'}
+                                                             className={'mrg-bottom-25'}/>
                                         }
                                     </>
                                 </CardComponent>
@@ -584,6 +585,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                         {({values, validateForm, isSubmitting, setFieldValue, isValid}) => {
                             // eslint-disable-next-line react-hooks/rules-of-hooks
                             useEffect(() => {
+                                console.log(values);
                                 validateForm();
                             }, [validateForm, values]);
                             return (
@@ -593,8 +595,11 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                             className={"display-flex align-items-center flex-direction-row-reverse mrg-bottom-20"}>
                                             <ButtonComponent
                                                 prefixIcon={<ImageConfig.CloseIcon/>}
-                                                disabled={values.exercise_records[0].name === '' || values.exercise_records[0].name === undefined}
-
+                                                disabled={
+                                                    values.exercise_records.every((record: any) => (
+                                                        !record.name && (record.no_of_reps === '-' || !record.no_of_reps) && (record.no_of_sets === '-' || !record.no_of_sets) && (record.resistance === '-' || !record.resistance) && (record.time === '-' || !record.time)
+                                                    ))
+                                                }
                                                 onClick={() => {
                                                     handleExerciseLogClear(values, setFieldValue);
                                                 }}
