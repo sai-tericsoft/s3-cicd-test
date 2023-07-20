@@ -463,6 +463,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                 newState['service_id'] = value;
                 if (!value) {
                     delete newState['service_id'];
+                    delete newState['provider_id'];
                 }
                 return newState;
             });
