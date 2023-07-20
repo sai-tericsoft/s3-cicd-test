@@ -64,6 +64,7 @@ export interface IClientBasicDetails {
     address: IAddress;
     last_completed_intervention_date?: string;
     last_provider?: any;
+    last_provider_details?: any;
     created_at?: string;
     send_invite?: boolean;
 }

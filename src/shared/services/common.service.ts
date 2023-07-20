@@ -653,7 +653,7 @@ const StartTimingsList = Array.from(Array(24).keys()).map((item: number) => {
 
 const generateTimeSlots = (startTime: number, endTime: number) => {
     const timeSlots = [];
-    while (startTime < endTime) {
+    while (startTime <= endTime) { // Update the condition to <=
         const hours = Math.floor(startTime / 60);
         const minutes = startTime % 60;
         const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;

@@ -499,7 +499,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                                 {!values.is_same_slots && <div className="mrg-top-20">
                                                     <>
                                                         {values?.scheduled_slots?.map((item: any, index: any) => {
-                                                            const timings = facility.timings.find((timing:any) => timing.day_name === item.dayName);
+                                                            const timings = facility.timings.filter((timing:any) => timing.day_name === item.dayName);
                                                             const start_time = parseInt(timings?.timings?.start_time);
                                                             const end_time = parseInt(timings?.timings?.end_time);
                                                             return (
