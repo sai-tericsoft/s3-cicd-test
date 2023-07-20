@@ -23,6 +23,8 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
     const [bookType, setBookType] = useState<any | null>(null);
     const [isBookingLoading, setIsBookingLoading] = useState<boolean>(false);
 
+    console.log(bookingDraft);
+
 
     // const getServiceView = useCallback(
     //     (serviceId: string) => {
@@ -147,13 +149,9 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                                 <div
                                     className="item-value">
                                     <div className="mrg-bottom-10">
-                                        {bookingDraft?.provider?.provider_name}
+                                        {bookingDraft?.provider?.first_name + ' ' + bookingDraft?.provider?.last_name}
                                     </div>
-                                    <div className="d-inline">
-                                        <ChipComponent color={'success'} label={bookType?.title}/>&nbsp;
-                                        <ChipComponent color={'success'}
-                                                       label={bookingDraft?.duration.duration + ' min'}/>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -162,7 +160,14 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                                 <div className="item-heading"><ImageConfig.MedicalServicesIcon/>&nbsp;Service
                                 </div>
                                 <div
-                                    className="item-value">{bookingDraft?.service_category?.name || 'N/A'} / {bookingDraft?.service?.name || 'N/A'}</div>
+                                    className="item-value">
+                                    {bookingDraft?.service_category?.name || 'N/A'} / {bookingDraft?.service?.name || 'N/A'}
+                                    <div className="d-inline">
+                                        <ChipComponent color={'success'} label={bookType?.title}/>&nbsp;
+                                        <ChipComponent color={'success'}
+                                                       label={bookingDraft?.duration.duration + ' min'}/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 

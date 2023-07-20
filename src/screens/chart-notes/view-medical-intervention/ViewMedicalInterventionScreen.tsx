@@ -845,7 +845,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                     }>
                                         <div className="ts-row">
                                             <div className="ts-col-12">
-                                                <div className="icd-codes-wrapper">
+                                                <div className="icd-codes-wrapper mrg-bottom-0">
                                                     {
                                                         medicalRecordId && medicalInterventionId && <>
                                                             {/*{*/}
@@ -868,7 +868,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                 <div className={'display-flex'}>
                                                                     <FormControlLabelComponent
                                                                         size={'sm'}
-                                                                        label={"Add Medical Diagnosis / ICD-11 Codes "}/>
+                                                                        label={"Medical Diagnosis / ICD-11 Codes "}/>
                                                                     <div className={'not-texted-text-icd'}>
                                                                         Not Added
                                                                     </div>

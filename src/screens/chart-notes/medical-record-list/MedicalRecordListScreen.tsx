@@ -102,8 +102,13 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             title: "Last Provider",
             key: "last_provider",
             dataIndex: "last_provider",
-            sortable: true,
-            width: 150,
+            align: "center",
+            width: 140,
+            render: (item: IClientBasicDetails) => {
+                return <span>
+                    {CommonService.capitalizeFirstLetter(item?.last_provider_details?.first_name)|| '-'} {CommonService.capitalizeFirstLetter(item?.last_provider_details?.last_name)}
+                </span>
+            }
         },
         {
             title: "",
