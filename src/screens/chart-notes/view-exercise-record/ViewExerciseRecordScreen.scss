@@ -1,4 +1,12 @@
 .view-exercise-log-component {
+  .t-table-wrapper{
+   .t-table{
+    min-height: max-content !important;
+    .table-no-data-wrapper{
+      background: #FFFFFF;
+    }
+   }
+  }
   .client-name-button-wrapper {
     display: flex;
     justify-content: space-between;
@@ -12,6 +20,9 @@
       }
     }
   }
+  .attachment-card-wrapper{
+    padding-bottom: 24px;
+  }
   .exercise-log-table-wrapper{
     .t-table-wrapper {
       .t-table {
@@ -21,7 +32,7 @@
   }
 
   .horizontal-line{
-    border-bottom: 2px solid #CECECE;
+    border-bottom: 2px solid #A5A5A5;
     margin-top: 30px;
   }
   .ts-row{
