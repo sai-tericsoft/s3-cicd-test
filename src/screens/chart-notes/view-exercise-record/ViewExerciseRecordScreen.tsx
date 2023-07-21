@@ -168,7 +168,7 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                     </CardComponent>
                                     <div className={'exercise-log-table-wrapper'}>
                                         <TableComponent data={item?.exercise_records}
-                                                        noDataText={'No exercise has been added.'}
+                                                        noDataText={'No exercise has been added'}
                                                         columns={viewExerciseRecordColumn}
                                                         autoHeight={true}
                                         />
