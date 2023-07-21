@@ -667,7 +667,9 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                         <ButtonComponent type={"submit"}
                                                          size={'large'}
                                                          className={'mrg-left-15'}
-                                                         disabled={isSubmitting || !isValid}
+                                                         disabled={isSubmitting || (selectedAttachment === null &&  values.exercise_records.every((record: any) => (
+                                                             !record.name && (record.no_of_reps === '-' || !record.no_of_reps) && (record.no_of_sets === '-' || !record.no_of_sets) && (record.resistance === '-' || !record.resistance) && (record.time === '-' || !record.time)
+                                                         )) )}
                                                          isLoading={isSubmitting}>
                                             Save
                                         </ButtonComponent>
