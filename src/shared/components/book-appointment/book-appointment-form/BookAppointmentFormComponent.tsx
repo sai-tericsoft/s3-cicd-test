@@ -139,21 +139,53 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
         },
         [],
     );
+    // const generateTimeSlots = useCallback(
+    //     (times: any[], duration = undefined) => {
+    //         duration = duration || formRef.current?.values.duration.duration;
+    //         const date = duration || formRef.current?.values.date;
+    //         if (duration) {
+    //             const slots: any[] = [];
+    //             times.forEach(value => {
+    //                 const slot = breakupTimeSlots(value, parseInt(duration || ''));
+    //                 if(date){
+    //
+    //                 }
+    //                 console.log(slot);
+    //                 slots.push(...slot);
+    //             })
+    //             setAvailableTimeSlots(slots);
+    //         }
+    //
+    //     },
+    //     [breakupTimeSlots],
+    // );
+
+
     const generateTimeSlots = useCallback(
         (times: any[], duration = undefined) => {
             duration = duration || formRef.current?.values.duration.duration;
-            if (duration) {
+            const date = formRef.current?.values.date;
+            if (duration && times) {
                 const slots: any[] = [];
+                const currentDate = new Date(); // Get the current date and time
+                const currentTimeStamp = currentDate.getHours() * 60 + currentDate.getMinutes();
                 times.forEach(value => {
                     const slot = breakupTimeSlots(value, parseInt(duration || ''));
-                    slots.push(...slot);
-                })
+                    if (date.getDate() === currentDate.getDate()) { // Check if the date is equal to the current date
+                        const filteredSlots = slot.filter((timeSlot: any) => {
+                            return timeSlot.code >= currentTimeStamp;
+                        });
+                        slots.push(...filteredSlots);
+                    } else {
+                        slots.push(...slot);
+                    }
+                });
                 setAvailableTimeSlots(slots);
             }
-
         },
         [breakupTimeSlots],
     );
+
 
     const getAvailableTimesList = useCallback(
         (providerId: string, date: any, serviceId: string, facilityId: string, duration: string) => {
@@ -168,6 +200,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
             CommonService._user.getUserAvailableTimesList(providerId, payload)
                 .then((response: IAPIResponseType<any>) => {
                     setAvailableRawTimes(response.data || []);
+                    generateTimeSlots(response.data);
                 })
                 .catch((error: any) => {
                     setAvailableRawTimes([]);
@@ -176,7 +209,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                     setIsTimesListLoading(false);
                 })
         },
-        [],
+        [generateTimeSlots],
     );
     useEffect(() => {
         if (availableRawTimes) {
@@ -603,7 +636,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                         required={true}
                                                         disabled={isProviderListLoading || !values.service}
                                                         options={serviceProvidersList || []}
-                                                        displayWith={(option: any) => option?.first_name +' '+ option?.last_name || 'No Name'}
+                                                        displayWith={(option: any) => option?.first_name + ' ' + option?.last_name || 'No Name'}
                                                         valueExtractor={(option: any) => option}
                                                         onUpdate={value => {
                                                             if (value) {

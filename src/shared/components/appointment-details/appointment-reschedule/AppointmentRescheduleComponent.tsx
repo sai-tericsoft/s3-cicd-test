@@ -141,17 +141,28 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
         },
         [],
     );
+
     const generateTimeSlots = useCallback(
         (times: any[], duration = undefined) => {
-            if (duration) {
+            duration = duration || formRef.current?.values.duration.duration;
+            const date = formRef.current?.values.date;
+            if (duration && times) {
                 const slots: any[] = [];
+                const currentDate = new Date(); // Get the current date and time
+                const currentTimeStamp = currentDate.getHours() * 60 + currentDate.getMinutes();
                 times.forEach(value => {
                     const slot = breakupTimeSlots(value, parseInt(duration || ''));
-                    slots.push(...slot);
-                })
+                    if (date.getDate() === currentDate.getDate()) { // Check if the date is equal to the current date
+                        const filteredSlots = slot.filter((timeSlot: any) => {
+                            return timeSlot.code >= currentTimeStamp;
+                        });
+                        slots.push(...filteredSlots);
+                    } else {
+                        slots.push(...slot);
+                    }
+                });
                 setAvailableTimeSlots(slots);
             }
-
         },
         [breakupTimeSlots],
     );
@@ -169,6 +180,7 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
             CommonService._user.getUserAvailableTimesList(providerId, payload)
                 .then((response: IAPIResponseType<any>) => {
                     setAvailableRawTimes(response.data || []);
+                    generateTimeSlots(response.data);
                 })
                 .catch((error: any) => {
                     setAvailableRawTimes([]);
@@ -199,7 +211,6 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                     setServiceProvidersList(data);
                     const provider = data.find((v: any) => v._id === details.provider_id)
                     if (provider) {
-                        console.log(provider, data);
                         formRef.current?.setFieldValue('provider', provider);
                         setAvailableRawTimes([]);
                         getProviderFacilityList(serviceId, provider._id);
