@@ -80,6 +80,7 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
         }));
     }, [medicalRecordId, navigate, dispatch]);
 
+
     return (
         <div className={'view-exercise-log-component'}>
             <PageHeaderComponent title={"View Exercise Record"}/>
@@ -127,7 +128,7 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                 <MedicalInterventionLinkedToComponent
                                     medicalRecordDetails={medicalRecordViewExerciseRecord?.medical_record_details}/>
                             </CardComponent>
-                            <div className={'horizontal-line'}></div>
+                            {/*<div className={'horizontal-line'}></div>*/}
                             {/*<PageHeaderComponent title={'View Exercise Record'}/>*/}
                             {medicalRecordViewExerciseRecord?.exercise_logs?.map((item: any) => {
                                 return <>  <CardComponent color={'primary'}>
@@ -159,30 +160,35 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                                                       prefixIcon={ImageConfig.PDFIcon}/>
                                             })}
                                         </div>
-                                            {
-                                                item?.attachments?.length === 0 && <StatusCardComponent title={'No attachment has been added yet'}/>
-                                            }
+                                        {
+                                            item?.attachments?.length === 0 &&
+                                            <StatusCardComponent title={'No attachment has been added'}/>
+                                        }
 
                                     </CardComponent>
                                     <div className={'exercise-log-table-wrapper'}>
-                                    <TableComponent data={item?.exercise_records}
-                                                    columns={viewExerciseRecordColumn}
-                                                    autoHeight={true}
-                                    />
+                                        <TableComponent data={item?.exercise_records}
+                                                        noDataText={'No exercise has been added.'}
+                                                        columns={viewExerciseRecordColumn}
+                                                        autoHeight={true}
+                                        />
                                     </div>
 
                                     {item && item.comments &&
-                                    item.comments.length > 0 &&
-                                    <CardComponent title={'Comments'} className='mrg-top-20'>
-                                        <div className='pdd-bottom-20'>{item.comments}</div>
-                                    </CardComponent>
+                                        item.comments.length > 0 &&
+                                        <CardComponent title={'Comments'} className='mrg-top-20'>
+                                            <div className='pdd-bottom-20'>{item.comments}</div>
+                                        </CardComponent>
                                     }
 
                                     <div className={'horizontal-line'}></div>
                                 </>
                             })}
+
+
                         </>
                     }
+
                 </>
             }
         </div>
