@@ -1258,7 +1258,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                             }}
                                             // isLoading={formik.isSubmitting}
                                             size={'large'}
-                                            className={'mrg-left-15'}
+                                            className={(formik.isSubmitting ? 'mrg-right-10' : '') + 'mrg-left-15'}
                                             type={medicalInterventionDetails?.is_signed ? "button" : "submit"}
                                             id={"medical_intervention_add_save_btn"}
                                             // disabled={isFormBeingUpdated}
