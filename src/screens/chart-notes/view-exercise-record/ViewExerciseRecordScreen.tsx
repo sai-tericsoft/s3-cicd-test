@@ -82,6 +82,7 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
 
     return (
         <div className={'view-exercise-log-component'}>
+            <PageHeaderComponent title={"View Exercise Record"}/>
             <>
                 {
                     !medicalRecordId &&
@@ -126,7 +127,8 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                 <MedicalInterventionLinkedToComponent
                                     medicalRecordDetails={medicalRecordViewExerciseRecord?.medical_record_details}/>
                             </CardComponent>
-                            <PageHeaderComponent title={'View Exercise Record'}/>
+                            <div className={'horizontal-line'}></div>
+                            {/*<PageHeaderComponent title={'View Exercise Record'}/>*/}
                             {medicalRecordViewExerciseRecord?.exercise_logs?.map((item: any) => {
                                 return <>  <CardComponent color={'primary'}>
                                     <div className={'ts-row'}>
@@ -148,18 +150,19 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                         </div>
                                     </div>
                                 </CardComponent>
-                                    <CardComponent title={'Attachments'}>
+                                    <CardComponent title={'Attachments'} className={'attachment-card-wrapper'}>
                                         <div className={'ts-col-md-2'}>
                                             {item?.attachments?.length > 0 && item?.attachments?.map((attachment: any) => {
                                                 return <ChipComponent label={attachment?.name}
-                                                                      className={'pdd-bottom-25'}
+                                                                      color={'success'}
                                                                       key={attachment?._id}
                                                                       prefixIcon={ImageConfig.PDFIcon}/>
                                             })}
-                                            {
-                                                item?.attachments?.length === 0 && <div>No Attachments</div>
-                                            }
                                         </div>
+                                            {
+                                                item?.attachments?.length === 0 && <StatusCardComponent title={'No attachment has been added yet'}/>
+                                            }
+
                                     </CardComponent>
                                     <div className={'exercise-log-table-wrapper'}>
                                     <TableComponent data={item?.exercise_records}
