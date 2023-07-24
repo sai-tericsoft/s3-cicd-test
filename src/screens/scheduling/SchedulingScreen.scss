@@ -30,23 +30,15 @@
 
       .scheduling-header-action-item {
         margin-left: 10px;
-        .left-toggle-btn{
+
+        .left-toggle-btn {
           border-top-left-radius: 8px;
           border-bottom-left-radius: 8px;
         }
-        .right-toggle-btn{
+
+        .right-toggle-btn {
           border-top-right-radius: 8px;
           border-bottom-right-radius: 8px;
-        }
-
-        .MuiToggleButtonGroup-root .MuiToggleButton {
-          border-bottom-left-radius: 8px !important;
-          border-top-left-radius: 8px !important;
-        }
-
-        .MuiToggleButtonGroup-root .MuiToggleButton {
-          border-bottom-right-radius: 8px !important;
-          border-top-right-radius: 8px !important;
         }
 
         .MuiToggleButton-primary {
@@ -86,7 +78,6 @@
 
     .t-table-wrapper {
       .t-table {
-        //min-height: 404px !important;
         height: calc(100vh - 300px);
 
         .t-cell-time {
@@ -536,10 +527,4 @@
     }
   }
 }
-
-
-//.MuiToggleButtonGroup-root {
-//  border-radius: 8px !important;
-//  border: 1px solid red !important;
-//}
 
