@@ -269,7 +269,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                                 className="item-value">{details?.category_details?.name || 'N/A'} / {details?.service_details?.name || 'N/A'}</div>
                                         </div>
 
-                                        <div className={'display-flex ts-justify-content-end mrg-right-100'}>
+                                        <div className={'display-flex ts-justify-content-center pdd-left-80'}>
                                             <ChipComponent color={'success'}
                                                            label={bookType?.title}/>&nbsp;&nbsp;
                                             <ChipComponent color={'success'} label={details.duration + ' min'}/>
