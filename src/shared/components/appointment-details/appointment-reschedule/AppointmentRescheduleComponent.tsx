@@ -189,7 +189,7 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                     setIsTimesListLoading(false);
                 })
         },
-        [],
+        [generateTimeSlots],
     );
 
     useEffect(() => {
