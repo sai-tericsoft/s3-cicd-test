@@ -24,8 +24,7 @@ import FormikTextAreaComponent from "../../../shared/components/form-controls/fo
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
 import {RadioButtonComponent} from "../../../shared/components/form-controls/radio-button/RadioButtonComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
-import FormikRadioButtonGroupComponent
-    from "../../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
+import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 
 interface MedicalInterventionSpecialTestV2ScreenProps {
 
@@ -92,19 +91,29 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
             },
             align: 'center',
             render: (record: any) => {
-                return <Field
-                    name={`${bodyPart._id}.special_test_config.${record}.${side}.result`}
-                    className="t-form-control">
-                    {
-                        (field: FieldProps) => (
-                            <FormikRadioButtonGroupComponent
-                                formikField={field}
-                                direction={"row"}
-                                options={CommonService._staticData.SpecialTestResultOptions}
-                            />
-                        )
-                    }
-                </Field>;
+                return (
+                    <Field name={`${bodyPart._id}.special_test_config.${record}.${side}.result`}
+                           className="t-form-control">
+                        {(field: FieldProps) => (
+                            <div>
+                                {CommonService._staticData.SpecialTestResultOptions.map((option: any) => (
+                                    <Field
+                                        key={option.value}
+                                        name={`${bodyPart._id}.special_test_config.${record}.${side}.result.${option.code}`}
+                                    >
+                                        {(innerField: FieldProps) => (
+                                            <FormikCheckBoxComponent
+                                                formikField={innerField}
+                                                label={option.title}
+                                                key={option.value}
+                                            />
+                                        )}
+                                    </Field>
+                                ))}
+                            </div>
+                        )}
+                    </Field>
+                );
             }
         }
     }, []);
@@ -142,7 +151,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                                     {
                                         field.form?.values[bodyPart._id]?.special_test_config?.[record]?.comments && <>
                                             <ToolTipComponent position={'bottom'}
-                                                tooltip={field.form?.values[bodyPart._id]?.special_test_config?.[record]?.comments}>
+                                                              tooltip={field.form?.values[bodyPart._id]?.special_test_config?.[record]?.comments}>
                                                 <div className="movement-comment">
                                                     {field.form?.values[bodyPart._id]?.special_test_config?.[record]?.comments.length > 60 ? field.form?.values[bodyPart._id]?.special_test_config?.[record]?.comments.substring(0, 60) + '...' : field.form?.values[bodyPart._id]?.special_test_config?.[record]?.comments}
                                                 </div>
