@@ -114,7 +114,7 @@ const SystemLockComponent = (props: SystemLockLockComponentProps) => {
                                 Exit Session
                             </ButtonComponent>&nbsp;&nbsp;
                             <ButtonComponent
-                                className={"pdd-left-30 pdd-right-30"}
+                                className={"pdd-left-30 pdd-right-30 mrg-left-25"}
                                 onClick={() => {
                                     setCurrentStep("login");
                                 }

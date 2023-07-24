@@ -17,7 +17,7 @@ interface AppointmentNoShowComponentProps {
 const AppointmentNoShowComponent = (props: AppointmentNoShowComponentProps) => {
     const {onBack, onComplete, details} = props;
     const [isAPICallRunning, setIsAPIRunning] = useState<boolean>(false);
-    const [noShow, setNoShow] = useState(false);
+    const [noShow, setNoShow] = useState<boolean>(false);
     const [noShowMarked, setNoShowMarked] = useState(false);
 
     const markNoShow = useCallback(
@@ -66,9 +66,8 @@ const AppointmentNoShowComponent = (props: AppointmentNoShowComponentProps) => {
                         <b>{details.provider_details?.first_name + ' ' + details.provider_details?.last_name}</b> on <b>{CommonService.convertDateFormat(details.appointment_date)}</b> as&nbsp;
                         <b>No Show</b>?
                     </div>
-                    <CheckBoxComponent value={noShow} label={'Waive No Show Fee'} onChange={isChecked => {
-                        setNoShow(isChecked);
-                    }}/>
+                    <CheckBoxComponent value={noShow} label={'Waive No Show Fee'} checked={noShow}
+                                       onChange={(isChecked) => setNoShow(isChecked)}/>
                 </div>
                 <div className="action-buttons">
                     <ButtonComponent fullWidth={true} variant={'outlined'}

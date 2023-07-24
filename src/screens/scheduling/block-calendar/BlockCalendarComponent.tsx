@@ -14,7 +14,6 @@ import moment from "moment";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import FormikTimePickerComponent
     from "../../../shared/components/form-controls/formik-time-picker/formikTimePickerComponent";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import {IServiceCategory} from "../../../shared/models/service-category.model";
 import {ImageConfig, Misc} from "../../../constants";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
@@ -272,7 +271,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className={'t-form'} noValidate={true}>
-                            <FormDebuggerComponent values={values} errors={errors} showDebugger={true}/>
+                            {/*<FormDebuggerComponent values={values} errors={errors} showDebugger={true}/>*/}
                             <div className="t-form-controls">
                                 <Field name={'provider_id'}>
                                     {
