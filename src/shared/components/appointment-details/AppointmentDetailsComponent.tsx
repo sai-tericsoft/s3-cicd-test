@@ -64,7 +64,6 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                 .then((response: IAPIResponseType<any>) => {
                     setDetails(response.data);
                     getAppointmentFormStatus(appointment_id); //todo: change to appointment id
-
                 })
                 .catch((error: any) => {
                     setDetails(null);
@@ -188,7 +187,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                 </>}
                             </div>
                             <div className="status-text">
-                                {details?.status}
+                                {details?.status_details?.title}
                             </div>
                         </div>
                         <div className="details-header">
@@ -275,7 +274,8 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                         </div>
                                     </div>
                                     <div className="details-body-block">
-                                        <div className="details-body-item ts-justify-content-center ts-align-items-center">
+                                        <div
+                                            className="details-body-item ts-justify-content-center ts-align-items-center">
                                             <div className="item-heading">
                                                 <ImageConfig.AttachMoneyIcon/>&nbsp;&nbsp;Payment Status
                                             </div>

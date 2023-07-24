@@ -32,6 +32,15 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
             }
         },
         {
+            title: "Duration",
+            key: "duration",
+            dataIndex: "duration",
+            width: 120,
+            render: (item: any) => {
+                return <>{item?.duration ? item.duration + 'mins' : '-'} </>
+            }
+        },
+        {
             title: "Client Name",
             key: "first_name",
             dataIndex: "first_name",
@@ -93,7 +102,7 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
             dataIndex: "actions",
             key: "actions",
             width: 120,
-            align:'center',
+            align: 'center',
             // fixed: "right",
             render: (item: any) => {
                 if (item?.status === 'upcoming') {
