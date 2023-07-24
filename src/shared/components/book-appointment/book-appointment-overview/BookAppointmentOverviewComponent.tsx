@@ -164,7 +164,7 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                                     className="item-value">
                                     {bookingDraft?.service_category?.name || 'N/A'} / {bookingDraft?.service?.name || 'N/A'}
                                     <div className="mrg-top-10">
-                                        <ChipComponent color={'success'} label={bookType?.title}/>&nbsp;
+                                        <ChipComponent color={'success'} label={bookType?.title}/>&nbsp;&nbsp;
                                         <ChipComponent color={'success'}
                                                        label={bookingDraft?.duration.duration + ' min'}/>
                                     </div>
