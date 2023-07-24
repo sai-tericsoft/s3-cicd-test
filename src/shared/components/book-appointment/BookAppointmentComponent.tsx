@@ -134,6 +134,7 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
                             <TableComponent data={clientList} columns={clientListColumns}
                                             loading={isClientListLoading}
                                             hideHeader={false}
+                                            noDataText={'No Client Found'}
                                             onRowClick={(row: any) => {
                                                 setSelectedClient(row);
                                             }}
