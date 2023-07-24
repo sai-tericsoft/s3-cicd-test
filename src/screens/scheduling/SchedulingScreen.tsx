@@ -1011,7 +1011,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                             </div> : '')
                                     }
                                     {
-                                        appointmentDataPresent?.length>0 && <div className={'no-appointment-text-wrapper'}>
+                                        appointmentDataPresent?.length === 0 && <div className={'no-appointment-text-wrapper'}>
                                             <div className={'no-appointment-description'}>Currently, there are no appointments scheduled.</div>
                                         </div>
 
