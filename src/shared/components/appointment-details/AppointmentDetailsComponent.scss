@@ -149,6 +149,7 @@
 
       .details-body-item {
         display: flex;
+        align-items: center;
         .item-heading {
           flex: 1;
           font-weight: 400;
@@ -158,6 +159,7 @@
           color: #83909D;
           padding: 9px;
           margin-left: 10px;
+          align-items: center;
         }
 
         .item-value {
