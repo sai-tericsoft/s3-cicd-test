@@ -30,7 +30,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
 
     const [step, setStep] = useState<'details' | 'payment' | 'noshow' | 'checkin' | 'reschedule' | 'cancel'>('details');
     const [details, setDetails] = useState<any | null>(null);
-    const [formStatus, setFormStatus] = useState<any[] | null>(null);
+    // const [formStatus, setFormStatus] = useState<any[] | null>(null);
     const [isDetailsLoading, setIsDetailsLoading] = useState<boolean>(false);
     const [isDetailsLoaded, setIsDetailsLoaded] = useState<boolean>(false);
 
@@ -41,20 +41,20 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
         }
     }, [appointmentTypes, details]);
 
-    const getAppointmentFormStatus = useCallback(
-        (appointment_id: string) => {
-            CommonService._appointment.getAppointmentFormStatus(appointment_id)
-                .then((response: IAPIResponseType<any>) => {
-                    setFormStatus(response.data || []);
-                })
-                .catch((error: any) => {
-                    setFormStatus([]);
-                })
-                .finally(() => {
-                })
-        },
-        [],
-    );
+    // const getAppointmentFormStatus = useCallback(
+    //     (appointment_id: string) => {
+    //         CommonService._appointment.getAppointmentFormStatus(appointment_id)
+    //             .then((response: IAPIResponseType<any>) => {
+    //                 // setFormStatus(response.data || []);
+    //             })
+    //             .catch((error: any) => {
+    //                 // setFormStatus([]);
+    //             })
+    //             .finally(() => {
+    //             })
+    //     },
+    //     [],
+    // );
 
 
     const getAppointmentDetails = useCallback(
@@ -63,7 +63,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
             CommonService._appointment.getAppointment(appointment_id)
                 .then((response: IAPIResponseType<any>) => {
                     setDetails(response.data);
-                    getAppointmentFormStatus(appointment_id); //todo: change to appointment id
+                    // getAppointmentFormStatus(appointment_id); //todo: change to appointment id
 
                 })
                 .catch((error: any) => {
@@ -74,7 +74,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                     setIsDetailsLoaded(true);
                 })
         },
-        [getAppointmentFormStatus],
+        [],
     );
 
 
