@@ -11,8 +11,9 @@
     .scheduling-header-search-wrapper {
       flex: 1;
       max-width: 40%;
-      .search-component{
-        .input-component{
+
+      .search-component {
+        .input-component {
           margin-bottom: 16px !important;
           margin-top: 0px !important;
         }
@@ -29,11 +30,17 @@
 
       .scheduling-header-action-item {
         margin-left: 10px;
+
         .left-toggle-btn {
-          .MuiToggleButtonGroup-root .MuiToggleButtonGroup-grouped {
-            border-radius: 8px !important;
-          }
+          border-top-left-radius: 8px;
+          border-bottom-left-radius: 8px;
         }
+
+        .right-toggle-btn {
+          border-top-right-radius: 8px;
+          border-bottom-right-radius: 8px;
+        }
+
         .MuiToggleButton-primary {
           color: $white;
           background: $primary-color;
@@ -71,14 +78,16 @@
 
     .t-table-wrapper {
       .t-table {
-        //min-height: 404px !important;
         height: calc(100vh - 300px);
-        .t-cell-time{
+
+        .t-cell-time {
           padding-left: 30px !important;
         }
-        .t-cell-actions{
+
+        .t-cell-actions {
           padding-right: 30px !important;
         }
+
         .table-no-data-wrapper {
           min-height: 360px !important;
         }
@@ -113,13 +122,11 @@
       height: auto;
       justify-content: space-between;
       align-content: center;
-
       padding: 17px 20px 16px 20px;
       position: sticky;
       top: -30px;
-      position: sticky;
       background-color: #FFFFFF;
-      z-index: 2;
+      z-index: 999;
 
       .scheduling-filter-header-date-wrapper {
         flex: 1;
@@ -163,7 +170,8 @@
         .scheduling-filter-header-action-item {
           margin-left: 10px;
           flex: 1;
-          .select-component{
+
+          .select-component {
             margin-bottom: 0px !important;
           }
 
@@ -373,6 +381,7 @@
                 overflow: hidden;
                 flex: 1;
                 position: relative;
+
                 .hide-dashed-line {
                   border-bottom: none;
                 }
@@ -517,10 +526,5 @@
       //text-overflow: ellipsis;
     }
   }
-  .MuiToggleButtonGroup-root {
-    border-radius: 8px !important;
-    border: 1px solid red !important;
-  }
 }
-
 

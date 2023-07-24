@@ -256,11 +256,6 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                                 <div className="mrg-bottom-10">
                                                     {details?.provider_details?.first_name + ' ' + details?.provider_details?.last_name}
                                                 </div>
-                                                <div className="d-inline">
-                                                    <ChipComponent color={'success'}
-                                                                   label={bookType?.title}/>&nbsp;&nbsp;
-                                                    <ChipComponent color={'success'} label={details.duration + ' min'}/>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -271,6 +266,12 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                             </div>
                                             <div
                                                 className="item-value">{details?.category_details?.name || 'N/A'} / {details?.service_details?.name || 'N/A'}</div>
+                                        </div>
+
+                                        <div className={'display-flex ts-justify-content-center pdd-left-80'}>
+                                            <ChipComponent color={'success'}
+                                                           label={bookType?.title}/>&nbsp;&nbsp;
+                                            <ChipComponent color={'success'} label={details.duration + ' min'}/>
                                         </div>
                                     </div>
                                     <div className="details-body-block">
@@ -303,28 +304,28 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                 </div>
                             </div>
                         </div>
-                        <div className="details-box-bottom">
-                            <div className="details-header">
-                                <div className={'form-heading'}>
-                                    Forms
-                                </div>
-                                <div className={'status-heading'}>
-                                    Status
-                                </div>
-                            </div>
-                            <div className="details-body">
-                                <div className="details-body-block-bottom">
-                                    {formStatus && formStatus.map((value, index) => {
-                                        return (<div key={'item-' + index} className="details-body-item">
-                                            <div className="item-heading">{value.name}</div>
-                                            <div
-                                                className={"item-value " + ((value.status === 'Completed' || value.status === 'completed') ? 'green' : 'red')}>{value.status}
-                                            </div>
-                                        </div>)
-                                    })}
-                                </div>
-                            </div>
-                        </div>
+                        {/*<div className="details-box-bottom">*/}
+                        {/*    <div className="details-header">*/}
+                        {/*        <div className={'form-heading'}>*/}
+                        {/*            Forms*/}
+                        {/*        </div>*/}
+                        {/*        <div className={'status-heading'}>*/}
+                        {/*            Status*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*    <div className="details-body">*/}
+                        {/*        <div className="details-body-block-bottom">*/}
+                        {/*            {formStatus && formStatus.map((value, index) => {*/}
+                        {/*                return (<div key={'item-' + index} className="details-body-item">*/}
+                        {/*                    <div className="item-heading">{value.name}</div>*/}
+                        {/*                    <div*/}
+                        {/*                        className={"item-value " + ((value.status === 'Completed' || value.status === 'completed') ? 'green' : 'red')}>{value.status}*/}
+                        {/*                    </div>*/}
+                        {/*                </div>)*/}
+                        {/*            })}*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
 
 
                         <div className="client-search-btn">

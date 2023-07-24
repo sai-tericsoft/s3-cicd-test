@@ -237,7 +237,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                                                 columns={clientListColumns}
                                                 loading={isClientListLoading}
                                                 hideHeader={false}
-                                                noDataText={'no client is found'}
+                                                noDataText={'No Client Found'}
                                                 onRowClick={(row: any) => {
                                                     setSelectedClient(row);
                                                 }}

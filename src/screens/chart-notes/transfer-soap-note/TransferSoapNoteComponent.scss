@@ -52,15 +52,25 @@
       padding: 14px;
     }
   }
+
   .client-list-header {
     font-size: 1.1429rem;
     font-weight: 700;
     color: #212B36;
     margin-bottom: 16px;
   }
+
   .client-search-table-wrapper {
     .transfer-soap-heading {
       margin-top: 12px;
+    }
+
+    .t-table-wrapper {
+      .t-table {
+        .table-no-data-wrapper {
+          min-height: 400px;
+        }
+      }
     }
   }
 
@@ -85,6 +95,7 @@
 
   .card-table-button-wrapper {
     margin-bottom: 30px;
+
     .card-table {
       .t-cell-date {
         padding-right: 30px !important;
@@ -92,8 +103,13 @@
 
       .t-table-wrapper {
         height: calc(100vh - 330px);
-        .t-table{
+
+        .t-table {
           height: calc(100vh - 340px);
+
+          .table-no-data-wrapper {
+            min-height: 340px;
+          }
         }
       }
     }
