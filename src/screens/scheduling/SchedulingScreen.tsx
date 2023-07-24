@@ -534,13 +534,13 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                 <div className="scheduling-header-actions-wrapper">
                     <div className="scheduling-header-action-item">
                         <ToggleButtonGroup value={viewMode} color={"primary"} size={'small'}>
-                            <ToggleButton className={'left-toggle-btn'} value="calendar"
+                            <ToggleButton  className={'left-toggle-btn'} value="calendar"
                                           onClick={setViewModeHandler.bind(null, 'calendar')}
                                           color={viewMode === 'calendar' ? 'primary' : 'standard'} type={'button'}
                                           aria-label="calender view">
                                 <ImageConfig.SchedulingIcon/>
                             </ToggleButton>
-                            <ToggleButton value="list" type={'button'} onClick={setViewModeHandler.bind(null, 'list')}
+                            <ToggleButton className={'right-toggle-btn'} value="list" type={'button'} onClick={setViewModeHandler.bind(null, 'list')}
                                           color={viewMode === 'list' ? 'primary' : 'standard'}
                                           aria-label="list view">
                                 <ImageConfig.ListIcon/>
