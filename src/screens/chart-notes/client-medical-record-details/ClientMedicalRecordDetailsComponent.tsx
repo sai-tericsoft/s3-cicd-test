@@ -28,6 +28,8 @@ import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import BookAppointmentComponent from "../../../shared/components/book-appointment/BookAppointmentComponent";
+import LottieFileGenerationComponent
+    from "../../../shared/components/lottie-file-generation/LottieFileGenerationComponent";
 
 const REPEAT_LAST_TREATMENT = "repeat_last_treatment";
 const ADD_NEW_TREATMENT = "add_new_treatment";
@@ -388,9 +390,9 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                             </>
                             }
             >
-                <img className="treatment-without-application-icon" src={ImageConfig.RemoveBodyPartConfirmationIcon}
-                     alt=""/>
-                <div className={'treatment-without-application-info-title'}>
+                <LottieFileGenerationComponent loop={true} animationData={ImageConfig.ConfirmationLottie}
+                                               autoplay={true}/>
+                <div className={'treatment-without-application-info-title mrg-top-10'}>
                     CONTINUE WITHOUT APPOINTMENT
                 </div>
                 <div className={'treatment-without-application-info-description'}>

@@ -281,6 +281,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                                                 label={"Select Provider"}
                                                 formikField={field}
                                                 fullWidth={true}
+                                                required={true}
                                                 displayWith={item => item ? item?.provider_name || (item?.first_name + ' ' + item?.last_name) : ''}
                                                 keyExtractor={item => item?.provider_id || item?._id}
                                                 valueExtractor={item => item?.provider_id || item?._id}
