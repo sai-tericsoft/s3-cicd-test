@@ -24,7 +24,8 @@ import FormikTextAreaComponent from "../../../shared/components/form-controls/fo
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
 import {RadioButtonComponent} from "../../../shared/components/form-controls/radio-button/RadioButtonComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
-import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
+import FormikRadioButtonGroupComponent
+    from "../../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
 
 interface MedicalInterventionSpecialTestV2ScreenProps {
 
@@ -62,61 +63,79 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
     const last_position: any = searchParams.get("last_position");
 
     const generateSpecialTestForBodySide = useCallback((bodyPart: any, side: string) => {
-        return {
-            key: bodyPart._id + side,
-            width: 176,
-            title: (record: any) => {
-                return <Field
-                    name={`${bodyPart._id}.special_test_config.${record}.${side}.side`}
-                    className="t-form-control">
-                    {
-                        (field: FieldProps) => (
-                            <>
-                                {side} Side <IconButtonComponent onClick={() => {
-                                const specialTestConfig = _.get(field.form.values, `${bodyPart._id}.special_test_config`);
-                                Object.keys(specialTestConfig).forEach((specialTest: any) => {
-                                    if (specialTestConfig[specialTest][side]) {
-                                        specialTestConfig[specialTest][side].result = undefined;
+                return {
+                    key: bodyPart._id + side,
+                    width: 176,
+                    title: (record: any) => {
+                        return <Field
+                            name={`${bodyPart._id}.special_test_config.${record}.${side}.side`}
+                            className="t-form-control">
+                            {
+                                (field: FieldProps) => (
+                                    <>
+                                        {side} Side <IconButtonComponent onClick={() => {
+                                        const specialTestConfig = _.get(field.form.values, `${bodyPart._id}.special_test_config`);
+                                        Object.keys(specialTestConfig).forEach((specialTest: any) => {
+                                            if (specialTestConfig[specialTest][side]) {
+                                                specialTestConfig[specialTest][side].result = undefined;
+                                            }
+                                        });
+                                        field.form.setFieldValue(`${bodyPart._id}.special_test_config`, specialTestConfig);
                                     }
-                                });
-                                field.form.setFieldValue(`${bodyPart._id}.special_test_config`, specialTestConfig);
+                                    }>
+                                        <ImageConfig.ReStartIcon/>
+                                    </IconButtonComponent>
+                                    </>
+                                )
                             }
-                            }>
-                                <ImageConfig.ReStartIcon/>
-                            </IconButtonComponent>
-                            </>
-                        )
+                        </Field>;
+                    },
+                    align: 'center',
+                    render: (record: any) => {
+                        return <Field
+                            name={`${bodyPart._id}.special_test_config.${record}.${side}.result`}
+                            className="t-form-control">
+                            {
+                                (field: FieldProps) => (
+                                    <FormikRadioButtonGroupComponent
+                                        formikField={field}
+                                        direction={"row"}
+                                        options={CommonService._staticData.SpecialTestResultOptions}
+                                    />
+                                )
+                            }
+                        </Field>;
                     }
-                </Field>;
-            },
-            align: 'center',
-            render: (record: any) => {
-                return (
-                    <Field name={`${bodyPart._id}.special_test_config.${record}.${side}.result`}
-                           className="t-form-control">
-                        {(field: FieldProps) => (
-                            <div>
-                                {CommonService._staticData.SpecialTestResultOptions.map((option: any) => (
-                                    <Field
-                                        key={option.value}
-                                        name={`${bodyPart._id}.special_test_config.${record}.${side}.result.${option.code}`}
-                                    >
-                                        {(innerField: FieldProps) => (
-                                            <FormikCheckBoxComponent
-                                                formikField={innerField}
-                                                label={option.title}
-                                                key={option.value}
-                                            />
-                                        )}
-                                    </Field>
-                                ))}
-                            </div>
-                        )}
-                    </Field>
-                );
-            }
-        }
-    }, []);
+                    // align: 'center',
+                    // render: (record: any) => {
+                    //     return (
+                    //         <Field name={`${bodyPart._id}.special_test_config.${record}.${side}.result`}
+                    //                className="t-form-control">
+                    //             {(field: FieldProps) => (
+                    //                 <div>
+                    //                     {CommonService._staticData.SpecialTestResultOptions.map((option: any) => (
+                    //                         <Field
+                    //                             key={option.value}
+                    //                             name={`${bodyPart._id}.special_test_config.${record}.${side}.result.${option.code}`}
+                    //                         >
+                    //                             {(innerField: FieldProps) => (
+                    //                                 <FormikCheckBoxComponent
+                    //                                     formikField={innerField}
+                    //                                     label={option.title}
+                    //                                     key={option.value}
+                    //                                 />
+                    //                             )}
+                    //                         </Field>
+                    //                     ))}
+                    //                 </div>
+                    //             )}
+                    //         </Field>
+                    //     );
+                    // }
+                }
+            }, []
+        )
+    ;
 
     const generateSpecialTestConfigColumns = useCallback((bodyPart: IBodyPart, selectedBodySides: any) => {
         const columns: any = [
@@ -545,55 +564,56 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                                                         Object.keys(values)?.map((bodyPartId: any) => {
                                                             const bodyPart = values[bodyPartId];
                                                             return (
-                                                                <CardComponent title={"Body Part: " + bodyPart?.name}
-                                                                               className={'body-part-special-test-config-card'}
-                                                                               key={bodyPartId}
-                                                                               actions={<>
-                                                                                   <>
-                                                                                       {
-                                                                                           (mode === 'read') && <>
-                                                                                               <ButtonComponent
-                                                                                                   size={"small"}
-                                                                                                   prefixIcon={
-                                                                                                       <ImageConfig.EditIcon/>}
-                                                                                                   // onClick={handleBodyPartEdit}
-                                                                                                   // disabled={isSubmitting || isBodyPartBeingDeleted}
-                                                                                               >
-                                                                                                   Edit
-                                                                                               </ButtonComponent>&nbsp;&nbsp;
-                                                                                           </>
-                                                                                       }
-                                                                                       {
-                                                                                           (mode === 'write') &&
-                                                                                           <>
-                                                                                               <ButtonComponent
-                                                                                                   size={"small"}
-                                                                                                   prefixIcon={
-                                                                                                       <ImageConfig.AddIcon/>}
-                                                                                                   onClick={() => {
-                                                                                                       openAddSpecialTestModal(bodyPart);
-                                                                                                   }
-                                                                                                   }
-                                                                                               >
-                                                                                                   Add Test
-                                                                                               </ButtonComponent>&nbsp;&nbsp;
-                                                                                           </>
-                                                                                       }
-                                                                                   </>
-                                                                                   <ButtonComponent
-                                                                                       size={"small"}
-                                                                                       color={"error"}
-                                                                                       variant={"outlined"}
-                                                                                       prefixIcon={
-                                                                                           <ImageConfig.DeleteIcon/>}
-                                                                                       onClick={() => {
-                                                                                           handleBodyPartDelete(bodyPartId);
-                                                                                       }}
-                                                                                       disabled={isSubmitting || isBodyPartBeingDeleted}
-                                                                                   >
-                                                                                       Delete
-                                                                                   </ButtonComponent>
-                                                                               </>}>
+                                                                <CardComponent
+                                                                    title={"Body Part: " + bodyPart?.name}
+                                                                    className={'body-part-special-test-config-card'}
+                                                                    key={bodyPartId}
+                                                                    actions={<>
+                                                                        <>
+                                                                            {
+                                                                                (mode === 'read') && <>
+                                                                                    <ButtonComponent
+                                                                                        size={"small"}
+                                                                                        prefixIcon={
+                                                                                            <ImageConfig.EditIcon/>}
+                                                                                        // onClick={handleBodyPartEdit}
+                                                                                        // disabled={isSubmitting || isBodyPartBeingDeleted}
+                                                                                    >
+                                                                                        Edit
+                                                                                    </ButtonComponent>&nbsp;&nbsp;
+                                                                                </>
+                                                                            }
+                                                                            {
+                                                                                (mode === 'write') &&
+                                                                                <>
+                                                                                    <ButtonComponent
+                                                                                        size={"small"}
+                                                                                        prefixIcon={
+                                                                                            <ImageConfig.AddIcon/>}
+                                                                                        onClick={() => {
+                                                                                            openAddSpecialTestModal(bodyPart);
+                                                                                        }
+                                                                                        }
+                                                                                    >
+                                                                                        Add Test
+                                                                                    </ButtonComponent>&nbsp;&nbsp;
+                                                                                </>
+                                                                            }
+                                                                        </>
+                                                                        <ButtonComponent
+                                                                            size={"small"}
+                                                                            color={"error"}
+                                                                            variant={"outlined"}
+                                                                            prefixIcon={
+                                                                                <ImageConfig.DeleteIcon/>}
+                                                                            onClick={() => {
+                                                                                handleBodyPartDelete(bodyPartId);
+                                                                            }}
+                                                                            disabled={isSubmitting || isBodyPartBeingDeleted}
+                                                                        >
+                                                                            Delete
+                                                                        </ButtonComponent>
+                                                                    </>}>
                                                                     <div className={'body-part-rom-config'}>
                                                                         <div
                                                                             className={'rom-config-table-container'}>
