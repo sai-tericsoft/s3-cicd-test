@@ -64,6 +64,15 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             }
         },
         {
+            title: "Duration",
+            key: "duration",
+            dataIndex: "duration",
+            width: 120,
+            render: (item: any) => {
+                return <>{item?.duration ? item.duration + 'mins' : '-'} </>
+            }
+        },
+        {
             title: "Client Name",
             key: "first_name",
             dataIndex: "first_name",
@@ -115,8 +124,8 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             align: 'center',
             width: 90,
             render: (item: any) => {
-                return <ChipComponent label={item?.status}
-                                      className={item?.status}
+                return <ChipComponent label={item?.status_details?.title}
+                                      className={item?.status_details?.title}
                 />
             }
         },
