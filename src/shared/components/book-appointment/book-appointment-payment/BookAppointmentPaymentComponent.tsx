@@ -114,6 +114,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
 
     const createBooking = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
             //medical_record_id
+            setSubmitting(true);
             const payload: any = {
                 ...booking
             }
@@ -124,15 +125,17 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                             ...values,
                             appointmentId: response.data._id
                         }, {setErrors, setSubmitting})
+
                     }
                 })
                 .catch((error: any) => {
                     // CommonService.handleErrors(errors);
                 })
                 .finally(() => {
+                    setSubmitting(true);
                 })
         },
-        [booking,onSubmitAppointmentPayment],
+        [booking, onSubmitAppointmentPayment],
     );
 
 
@@ -168,7 +171,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                 enableReinitialize={true}
                 validateOnMount={true}>
                 {
-                    ({values, isValid, errors, setFieldValue, validateForm}) => {
+                    ({values, isValid, errors, setFieldValue, validateForm, isSubmitting}) => {
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
                             validateForm();
@@ -290,7 +293,11 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
 
                                     </div>
                                     <div className="client-search-btn mrg-top-5">
-                                        <ButtonComponent disabled={!isValid} type={'submit'} fullWidth={true}
+                                        <ButtonComponent
+                                            disabled={!isValid}
+                                            isLoading={isSubmitting}
+                                            type={'submit'}
+                                            fullWidth={true}
                                         >Submit</ButtonComponent>
                                     </div>
                                 </>

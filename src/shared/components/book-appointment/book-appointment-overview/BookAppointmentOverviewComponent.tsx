@@ -69,6 +69,7 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                 end_time: booking.time.end_min,
                 medical_record_id: booking.case._id,
             }
+            setIsBookingLoading(true)
             CommonService._appointment.appointmentGetAmount(payload)
                 .then((response: IAPIResponseType<any>) => {
                     if (onComplete) {
@@ -79,7 +80,7 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                     // CommonService.handleErrors(errors);
                 })
                 .finally(() => {
-                    setIsBookingLoading(true)
+                    setIsBookingLoading(false)
                 })
         },
         [onComplete],

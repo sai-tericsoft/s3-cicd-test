@@ -485,6 +485,11 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             setSchedulingListFilterState((oldState: any) => {
                 const newState = {...oldState};
                 newState['status'] = value;
+
+                if (!value) {
+                    delete newState['status'];
+                }
+
                 return newState;
             });
         }

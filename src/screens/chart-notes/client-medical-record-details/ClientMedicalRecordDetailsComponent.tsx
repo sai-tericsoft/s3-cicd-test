@@ -245,8 +245,6 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                         setAppointmentMode(ADD_NEW_TREATMENT)
                         setIsAddTreatmentModalOpen(true)
                     }}
-                                     disabled={isMedicalInterventionBeingAdded}
-                                     isLoading={isMedicalInterventionBeingAdded}
                                      prefixIcon={<ImageConfig.AddIcon/>}>
                         Add New Treatment
                     </ButtonComponent>
@@ -311,7 +309,8 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                             modalFooter={<>
                                 <ButtonComponent variant={'contained'}
                                                  color={'primary'}
-                                                 disabled={!selectedAppointment}
+                                                 disabled={!selectedAppointment || isMedicalInterventionBeingAdded || isMedicalInterventionBeingRepeated}
+                                                 isLoading={isMedicalInterventionBeingAdded || isMedicalInterventionBeingRepeated}
                                                  onClick={() => {
                                                      if (appointmentMode === REPEAT_LAST_TREATMENT) {
                                                          repeatLastTreatment(true)

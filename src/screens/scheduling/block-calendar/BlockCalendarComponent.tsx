@@ -233,18 +233,14 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
         }
         setBlockCalenderFormDetails(payload);
         // setIsShowAppointmentModel(true);
-
-
         CommonService._appointment.checkAppointmentExistsToBlock(payload)
             .then((response: IAPIResponseType<IServiceCategory>) => {
                 setSubmitting(false);
                 if (response?.data?.length > 0) {
                     setAppointmentList(response.data);
                     setIsShowAppointmentModel(true);
-                    console.log('if');
                 } else {
                     // Handle the case when the data is an empty array here
-                    console.log('else');
                     handleBlockCalenderConfirmation(payload);
 
                     // For example, you can show a message or perform any other action
