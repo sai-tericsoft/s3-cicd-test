@@ -275,7 +275,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                         </div>
                                     </div>
                                     <div className="details-body-block">
-                                        <div className="details-body-item">
+                                        <div className="details-body-item ts-justify-content-center ts-align-items-center">
                                             <div className="item-heading">
                                                 <ImageConfig.AttachMoneyIcon/>&nbsp;&nbsp;Payment Status
                                             </div>
