@@ -334,8 +334,8 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                             consultation_title: group.title,
                                             duration: duration.duration,
                                             _id: group.id,
-                                            title: duration.duration + 'min',
-                                            code: duration.duration
+                                            title: group.title ? group.title + ' - ' + duration.duration + ' min' : duration.duration + ' min',
+                                            code: group.title ? group.title + ':' + duration.duration : duration.duration
                                         }
                                     )
                                 })
@@ -618,7 +618,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                             required={true}
                                                             disabled={isClientCasesListLoading}
                                                             options={clientCasesList || []}
-                                                            displayWith={item => (item?.created_at && CommonService.convertDateFormat2(item?.created_at) + " - " + (item?.injury_details.map((injury: any, index: number) => (injury?.body_part_details?.name + "(" + injury?.body_side + ")"))).join(' | '))}
+                                                            displayWith={item => (item?.created_at && CommonService.transformTimeStamp(item?.created_at) + " - " + (item?.injury_details.map((injury: any, index: number) => (injury?.body_part_details?.name + "(" + injury?.body_side + ")"))).join(' | '))}
                                                             valueExtractor={(option: any) => option}
                                                             label={'Case'}
                                                             fullWidth={true}
