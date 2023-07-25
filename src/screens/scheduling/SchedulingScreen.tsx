@@ -76,7 +76,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             title: "Date",
             key: "date",
             dataIndex: "date",
-            width: 110,
+            width: 130,
             render: (item: any) => {
                 return CommonService.convertDateFormat(item.appointment_date, 'DD-MMM-YYYY')
             }
@@ -105,7 +105,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             key: "first_name",
             dataIndex: "first_name",
             sortable: true,
-            width: 170,
+            width: 160,
             render: (item: any) => {
                 return <>{CommonService.extractName(item?.client_details)}</>
             }
@@ -125,7 +125,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             title: "Service",
             key: "service",
             dataIndex: "service",
-            width: 180,
+            width: 150,
             align: 'center',
             render: (item: any) => {
                 return <span>
