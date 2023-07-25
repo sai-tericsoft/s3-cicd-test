@@ -26,6 +26,11 @@ import LoaderComponent from "../../shared/components/loader/LoaderComponent";
 import TableWrapperComponent from "../../shared/components/table-wrapper/TableWrapperComponent";
 import DateRangePickerComponent from "../../shared/components/form-controls/date-range-picker/DateRangePickerComponent";
 import BlockCalendarComponent from "./block-calendar/BlockCalendarComponent";
+import LinkComponent from "../../shared/components/link/LinkComponent";
+import {DatePicker} from "@mui/x-date-pickers/DatePicker";
+import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
+import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
+
 
 interface SchedulingScreenProps {
 
@@ -39,17 +44,39 @@ const HOURS_LIST_IN_MINUTES = Array.from(Array(24).keys()).map((item: number) =>
 });
 
 
+// const useStyles = makeStyles((theme:any) => ({
+//     datePickerPopup: {
+//         bottom: '200 !important',
+//         left: '200 !important',
+//     },
+// }));
+
 const SchedulingScreen = (props: SchedulingScreenProps) => {
 
     const dispatch = useDispatch();
     const [showCategoryColors, setShowCategoryColors] = useState<boolean>(false);
+    const [openDatePicker, setOpenDatePicker] = useState<boolean>(false);
+
+
+    const {appointmentStatus} = useSelector((state: IRootReducerState) => state.staticData);
+    const [schedulingListFilterState, setSchedulingListFilterState] = useState<any>({
+        search: "",
+        // start_date: moment().format('YYYY-MM-DD'),
+        // end_date: moment().format('YYYY-MM-DD'),
+        sort: {}
+    });
+    const [appointmentDataPresent, setAppointmentDataPresent] = useState<any>(null);
+    const [viewMode, setViewMode] = useState<'list' | 'calendar'>('list');
+    // const classes : any = useStyles(
+    //
+    // );
 
     const SchedulingListColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
         {
             title: "Date",
             key: "date",
             dataIndex: "date",
-            width: 130,
+            width: 110,
             render: (item: any) => {
                 return CommonService.convertDateFormat(item.appointment_date, 'DD-MMM-YYYY')
             }
@@ -68,10 +95,9 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             title: "Duration",
             key: "duration",
             dataIndex: "duration",
-            align: 'center',
-            width: 100,
+            width: 90,
             render: (item: any) => {
-                return <>{item?.duration ? item.duration +' mins' : '-'} </>
+                return <>{item?.duration ? item.duration + ' mins' : '-'} </>
             }
         },
         {
@@ -99,7 +125,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             title: "Service",
             key: "service",
             dataIndex: "service",
-            width: 130,
+            width: 180,
             align: 'center',
             render: (item: any) => {
                 return <span>
@@ -124,7 +150,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             dataIndex: "status",
             key: "status",
             align: 'center',
-            width: 130,
+            width: 120,
             render: (item: any) => {
                 return <ChipComponent label={item?.status_details?.title}
                                       className={item?.status_details?.code}
@@ -146,16 +172,6 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             }
         }
     ], []);
-
-    const {appointmentStatus} = useSelector((state: IRootReducerState) => state.staticData);
-    const [schedulingListFilterState, setSchedulingListFilterState] = useState<any>({
-        search: "",
-        // start_date: moment().format('YYYY-MM-DD'),
-        // end_date: moment().format('YYYY-MM-DD'),
-        sort: {}
-    });
-    const [appointmentDataPresent, setAppointmentDataPresent] = useState<any>(null);
-    const [viewMode, setViewMode] = useState<'list' | 'calendar'>('list');
 
     const handleSchedulingSort = useCallback((key: string, order: string) => {
         setSchedulingListFilterState((oldState: any) => {
@@ -373,12 +389,12 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                     end_time: 1439     // 24:00 in minutes
                                 };
                                 // Store the all-day slot in the dayHourBlockSlots object
-                                if (allDaySlot.start_time >= hour.start && allDaySlot.start_time < hour.end) {
-                                    if (!dayHourBlockSlots.hasOwnProperty(hour.label)) {
-                                        dayHourBlockSlots[hour.label] = [];
-                                    }
-                                    dayHourBlockSlots[hour.label].push(allDaySlot);
+                                // if (allDaySlot.start_time >= hour.start && allDaySlot.start_time < hour.end) {
+                                if (!dayHourBlockSlots.hasOwnProperty(hour.label)) {
+                                    dayHourBlockSlots[hour.label] = [];
                                 }
+                                dayHourBlockSlots[hour.label].push(allDaySlot);
+                                // }
                             } else {
                                 if (blockedSlot.start_time >= hour.start && blockedSlot.start_time < hour.end) {
                                     if (!dayHourBlockSlots.hasOwnProperty(hour.label)) {
@@ -392,6 +408,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                     daysData[date].appointments = dayHourAppointments;
                     daysData[date].blocked_slots = dayHourBlockSlots;
                 });
+                console.log(daysData);
                 setCalendarDaysData(daysData);
                 setIsCalendarLoading(false);
             })
@@ -580,24 +597,55 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                 <div className={"list-content-wrapper view-" + viewMode}>
                     <div className='scheduling-filter-header-wrapper'>
                         {viewMode === 'calendar' &&
-                            <div className="scheduling-filter-header-date-wrapper">
-                                <div
-                                    className="filter-header-date-text">{CommonService.convertDateFormat(schedulingListFilterState.start_date, (viewMode === 'calendar' && schedulingListFilterState.duration === 'month') ? ('MMMM YYYY') : 'MMMM DD YYYY')}</div>
-                                <div className="filter-header-date-controls">
-                                    <div className="filter-header-date-control-item">
-                                        <IconButtonComponent
-                                            onClick={dateSwitcher.bind(null, 'decreasing', (viewMode === 'calendar') ? (schedulingListFilterState.duration || 'month') : 'day')}>
-                                            <ImageConfig.LeftArrow/>
-                                        </IconButtonComponent>
-                                    </div>
-                                    <div className="filter-header-date-control-item">
-                                        <IconButtonComponent
-                                            onClick={dateSwitcher.bind(null, 'increasing', (viewMode === 'calendar') ? (schedulingListFilterState.duration || 'month') : 'day')}>
-                                            <ImageConfig.RightArrow/>
-                                        </IconButtonComponent>
-                                    </div>
+                        <div className="scheduling-filter-header-date-wrapper">
+                            {schedulingListFilterState.duration !== 'month' ?
+                                <LinkComponent onClick={() => setOpenDatePicker?.((prev) => !prev)}>
+                                    {CommonService.convertDateFormat(
+                                        schedulingListFilterState.start_date,
+                                        viewMode === 'calendar' && schedulingListFilterState.duration === 'month'
+                                            ? 'MMMM YYYY'
+                                            : 'MMMM DD YYYY'
+                                    )}
+                                </LinkComponent> : <>
+                                    {CommonService.convertDateFormat(
+                                        schedulingListFilterState.start_date,
+                                        viewMode === 'calendar' && schedulingListFilterState.duration === 'month'
+                                            ? 'MMMM YYYY'
+                                            : 'MMMM DD YYYY'
+                                    )}
+                                </>
+                            }
+                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                {openDatePicker && (schedulingListFilterState.duration !== 'month') && (
+                                    <DatePicker
+                                        className={`text-date-picker`}
+                                        open={openDatePicker}
+                                        onClose={() => setOpenDatePicker(false)}
+                                        onChange={(newValue: any) => {
+                                            setSchedulingListFilterState((oldState: any) => {
+                                                const newDate = moment(newValue).format('YYYY-MM-DD');
+                                                return {...oldState, start_date: newDate, end_date: newDate};
+                                            });
+                                        }}
+                                    />
+                                )}
+                            </LocalizationProvider>
+
+                            <div className="filter-header-date-controls">
+                                <div className="filter-header-date-control-item">
+                                    <IconButtonComponent
+                                        onClick={dateSwitcher.bind(null, 'decreasing', (viewMode === 'calendar') ? (schedulingListFilterState.duration || 'month') : 'day')}>
+                                        <ImageConfig.LeftArrow/>
+                                    </IconButtonComponent>
+                                </div>
+                                <div className="filter-header-date-control-item">
+                                    <IconButtonComponent
+                                        onClick={dateSwitcher.bind(null, 'increasing', (viewMode === 'calendar') ? (schedulingListFilterState.duration || 'month') : 'day')}>
+                                        <ImageConfig.RightArrow/>
+                                    </IconButtonComponent>
                                 </div>
                             </div>
+                        </div>
                         }
 
                         {viewMode === 'list' && <div className="scheduling-filter-header-action-item">
@@ -887,100 +935,100 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                 </div>
                             </>}
                             {schedulingListFilterState.duration !== 'month' &&
-                                <div className={'scheduling-calendar-day-wise-holder'}>
-                                    <div className="scheduling-calendar-day-wise-time-wrapper">
-                                        <div className="scheduling-calendar-day-wise-time-header"></div>
-                                        <div className="scheduling-calendar-day-wise-time-body">
-                                            {HOURS_LIST.map((value, index) => {
-                                                return <div className={'scheduling-calendar-time-body-item'}
-                                                            key={index}>{value}</div>
-                                            })}
-                                        </div>
+                            <div className={'scheduling-calendar-day-wise-holder'}>
+                                <div className="scheduling-calendar-day-wise-time-wrapper">
+                                    <div className="scheduling-calendar-day-wise-time-header"></div>
+                                    <div className="scheduling-calendar-day-wise-time-body">
+                                        {HOURS_LIST.map((value, index) => {
+                                            return <div className={'scheduling-calendar-time-body-item'}
+                                                        key={index}>{value}</div>
+                                        })}
                                     </div>
-                                    <div className={'scheduling-calendar-day-wise-wrapper'}>
-                                        {Array.from({
-                                            length: (schedulingListFilterState.duration === 'day' ? 1 :
-                                                schedulingListFilterState.duration === '3day' ? 3 :
-                                                    schedulingListFilterState.duration === '5day' ? 5 : 1)
-                                        }, (v, i) => moment(schedulingListFilterState.start_date).add(i, 'days')).map((day, index) => {
-                                            const date = day.format('YYYY-MM-DD');
-                                            return <div key={index}
-                                                        className={"scheduling-calendar-day-wise-item view-" + schedulingListFilterState.duration}>
-                                                <div className="scheduling-calendar-day-wise-item-header">
-                                                    {day.format(' MMMM DD YYYY')}
-                                                </div>
-                                                <div className="scheduling-calendar-day-wise-item-body">
-                                                    {HOURS_LIST_IN_MINUTES.map(
-                                                        (value, index) => {
-                                                            return <div key={index}
-                                                                        className="scheduling-calendar-hour-block"
-                                                                        onClick={
-                                                                            (event) => {
-                                                                                // @ts-ignore
-                                                                                if (event.target?.className === 'scheduling-calendar-hour-block') {
-                                                                                    prepareNewAppointmentBooking({
-                                                                                        ...schedulingListFilterState, ...value,
-                                                                                        date
-                                                                                    });
-                                                                                    // console.log(event.target.className, 'add new appointment', value, schedulingListFilterState);
-                                                                                }
-                                                                            }
-                                                                        }>
-                                                                <div className="dashed-line"/>
-                                                                <div className="scheduling-calendar-hour-block-content">
-                                                                    {
-                                                                        (calendarDaysData && calendarDaysData[date]?.appointments && calendarDaysData[date]?.appointments[value?.label] ? calendarDaysData[date]?.appointments[value?.label] : [])
-                                                                            .map((appointment: any, index: number) => {
-                                                                                return (
-                                                                                    <div className="card-item"
-                                                                                         onClick={() => {
-                                                                                             setOpenedAppointmentDetails(appointment);
-                                                                                         }}
-                                                                                         style={{
-                                                                                             top: appointment.start_time - value.start,
-                                                                                             height: appointment.end_time - appointment.start_time
-                                                                                         }}>
-                                                                                        <CalendarAppointmentCard
-                                                                                            title={appointment.client_details.first_name + ' ' + appointment.client_details.last_name}
-                                                                                            timeSlot={CommonService.getHoursAndMinutesFromMinutes(appointment.start_time) + ' - ' + CommonService.getHoursAndMinutesFromMinutes(appointment.end_time)}
-                                                                                            description={
-                                                                                                appointment.category_details.name + ' / ' + appointment.service_details.name + ' - ' + (appointment.provider_details.first_name + ' ' + appointment.provider_details.last_name)
-                                                                                            }
-                                                                                            status={appointment.status}
-                                                                                        />
-                                                                                    </div>
-                                                                                )
-                                                                            })
-                                                                    }
-                                                                    {
-                                                                        (calendarDaysData && calendarDaysData[date]?.blocked_slots && calendarDaysData[date]?.blocked_slots[value?.label] ? calendarDaysData[date]?.blocked_slots[value?.label] : [])
-                                                                            .map((blocked_slot: any) => {
-                                                                                return (
-                                                                                    <div className="card-item"
-                                                                                         style={{
-                                                                                             top: blocked_slot.start_time - value.start,
-                                                                                             height: blocked_slot.end_time - blocked_slot.start_time
-                                                                                         }}>
-                                                                                        <CalendarAppointmentCard
-                                                                                            title={blocked_slot?.provider_details?.first_name + ' ' + blocked_slot?.provider_details?.last_name}
-                                                                                            timeSlot={CommonService.getHoursAndMinutesFromMinutes(blocked_slot?.start_time) + ' - ' + CommonService.getHoursAndMinutesFromMinutes(blocked_slot?.end_time)}
-                                                                                            reason={blocked_slot?.reason}
-                                                                                            status={'blocked'}
-                                                                                        />
-                                                                                    </div>
-                                                                                )
-                                                                            })
-                                                                    }
-                                                                </div>
-                                                            </div>
-                                                        }
-                                                    )}
-                                                </div>
+                                </div>
+                                <div className={'scheduling-calendar-day-wise-wrapper'}>
+                                    {Array.from({
+                                        length: (schedulingListFilterState.duration === 'day' ? 1 :
+                                            schedulingListFilterState.duration === '3day' ? 3 :
+                                                schedulingListFilterState.duration === '5day' ? 5 : 1)
+                                    }, (v, i) => moment(schedulingListFilterState.start_date).add(i, 'days')).map((day, index) => {
+                                        const date = day.format('YYYY-MM-DD');
+                                        return <div key={index}
+                                                    className={"scheduling-calendar-day-wise-item view-" + schedulingListFilterState.duration}>
+                                            <div className="scheduling-calendar-day-wise-item-header">
+                                                {day.format(' MMMM DD YYYY')}
                                             </div>
-                                        })
-                                        }
-                                    </div>
-                                </div>}
+                                            <div className="scheduling-calendar-day-wise-item-body">
+                                                {HOURS_LIST_IN_MINUTES.map(
+                                                    (value, index) => {
+                                                        return <div key={index}
+                                                                    className="scheduling-calendar-hour-block"
+                                                                    onClick={
+                                                                        (event) => {
+                                                                            // @ts-ignore
+                                                                            if (event.target?.className === 'scheduling-calendar-hour-block') {
+                                                                                prepareNewAppointmentBooking({
+                                                                                    ...schedulingListFilterState, ...value,
+                                                                                    date
+                                                                                });
+                                                                                // console.log(event.target.className, 'add new appointment', value, schedulingListFilterState);
+                                                                            }
+                                                                        }
+                                                                    }>
+                                                            <div className="dashed-line"/>
+                                                            <div className="scheduling-calendar-hour-block-content">
+                                                                {
+                                                                    (calendarDaysData && calendarDaysData[date]?.appointments && calendarDaysData[date]?.appointments[value?.label] ? calendarDaysData[date]?.appointments[value?.label] : [])
+                                                                        .map((appointment: any, index: number) => {
+                                                                            return (
+                                                                                <div className="card-item"
+                                                                                     onClick={() => {
+                                                                                         setOpenedAppointmentDetails(appointment);
+                                                                                     }}
+                                                                                     style={{
+                                                                                         top: appointment.start_time - value.start,
+                                                                                         height: appointment.end_time - appointment.start_time
+                                                                                     }}>
+                                                                                    <CalendarAppointmentCard
+                                                                                        title={appointment.client_details.first_name + ' ' + appointment.client_details.last_name}
+                                                                                        timeSlot={CommonService.getHoursAndMinutesFromMinutes(appointment.start_time) + ' - ' + CommonService.getHoursAndMinutesFromMinutes(appointment.end_time)}
+                                                                                        description={
+                                                                                            appointment.category_details.name + ' / ' + appointment.service_details.name + ' - ' + (appointment.provider_details.first_name + ' ' + appointment.provider_details.last_name)
+                                                                                        }
+                                                                                        status={appointment.status}
+                                                                                    />
+                                                                                </div>
+                                                                            )
+                                                                        })
+                                                                }
+                                                                {
+                                                                    (calendarDaysData && calendarDaysData[date]?.blocked_slots && calendarDaysData[date]?.blocked_slots[value?.label] ? calendarDaysData[date]?.blocked_slots[value?.label] : [])
+                                                                        .map((blocked_slot: any) => {
+                                                                            return (
+                                                                                <div className="card-item"
+                                                                                     style={{
+                                                                                         top: blocked_slot.start_time - value.start,
+                                                                                         height: blocked_slot.end_time - blocked_slot.start_time
+                                                                                     }}>
+                                                                                    <CalendarAppointmentCard
+                                                                                        title={blocked_slot?.provider_details?.first_name + ' ' + blocked_slot?.provider_details?.last_name}
+                                                                                        timeSlot={CommonService.getHoursAndMinutesFromMinutes(blocked_slot?.start_time) + ' - ' + CommonService.getHoursAndMinutesFromMinutes(blocked_slot?.end_time)}
+                                                                                        reason={blocked_slot?.reason}
+                                                                                        status={'blocked'}
+                                                                                    />
+                                                                                </div>
+                                                                            )
+                                                                        })
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                )}
+                                            </div>
+                                        </div>
+                                    })
+                                    }
+                                </div>
+                            </div>}
                         </> :
                         <>
                             <TableWrapperComponent
@@ -993,14 +1041,14 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                     setAppointmentDataPresent(data)
                                 }}
                                 noDataText={<>{(!!schedulingListFilterState.start_date || !!schedulingListFilterState.category_id || !!schedulingListFilterState.service_id || !!schedulingListFilterState.provider_id || !!schedulingListFilterState.status) &&
-                                    (<div className={'no-appointment-text-wrapper'}>
-                                        <div><img src={ImageConfig.Search} alt="client-search"/></div>
-                                        <div className={'no-appointment-heading'}>No Client Found</div>
-                                        <div className={'no-appointment-description'}>
-                                            Please adjust filters or choose a different date range to refine your
-                                            search.
-                                        </div>
-                                    </div>)}
+                                (<div className={'no-appointment-text-wrapper'}>
+                                    <div><img src={ImageConfig.Search} alt="client-search"/></div>
+                                    <div className={'no-appointment-heading'}>No Client Found</div>
+                                    <div className={'no-appointment-description'}>
+                                        Please adjust filters or choose a different date range to refine your
+                                        search.
+                                    </div>
+                                </div>)}
                                     {
                                         (schedulingListFilterState?.search ?
                                             <div className={'no-appointment-text-wrapper'}>

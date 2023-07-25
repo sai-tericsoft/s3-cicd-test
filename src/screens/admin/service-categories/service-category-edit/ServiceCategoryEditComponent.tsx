@@ -81,8 +81,8 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                 description: serviceCategory.description,
                 image: serviceCategory.image,
                 is_active: serviceCategory.is_active,
-                bg_color_code: serviceCategory?.bg_color_code && JSON.parse(serviceCategory?.bg_color_code),
-                text_color_code: serviceCategory?.text_color_code && JSON.parse(serviceCategory?.text_color_code),
+                bg_color_code: serviceCategory?.bg_color_code ? JSON.parse(serviceCategory?.bg_color_code) : '',
+                text_color_code: serviceCategory?.text_color_code ? JSON.parse(serviceCategory?.text_color_code) : '',
             });
         }
     }, [serviceCategory]);
