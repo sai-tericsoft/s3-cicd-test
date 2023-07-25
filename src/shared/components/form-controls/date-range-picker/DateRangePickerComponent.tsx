@@ -7,6 +7,7 @@ import {IDateRangePickerProps} from "../../../models/form-controls.model";
 import {FormControl, FormHelperText} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import {EventIcon} from "../../../../constants/ImageConfig";
+import {ImageConfig} from "../../../../constants";
 
 interface DateRangePickerComponentProps extends IDateRangePickerProps {
     name?: string;
@@ -70,11 +71,11 @@ const DateRangePickerComponent = (props: DateRangePickerComponentProps) => {
                     readOnly={readOnly}
                     format={format}
                     rangeDivider={<div> &nbsp; to &nbsp; </div>}
-                    calendarIcon={!value?.every((item: any)=> item) && <EventIcon/>}
+                    calendarIcon={!value?.every((item: any)=> item) && <ImageConfig.EventIcon height={'15'} width={'15'}/>}
                     yearPlaceholder={"YYYY"}
                     monthPlaceholder={"MM"}
                     dayPlaceholder={"DD"}
-                    clearIcon={value && value?.some((item: any)=> item) && <CloseIcon/>}
+                    clearIcon={value && value?.some((item: any)=> item) && <ImageConfig.CloseIcon height={'15'} width={'15'}/>}
                     closeCalendar={true}
                     openCalendarOnFocus={true}
                 />
