@@ -81,7 +81,7 @@
       .t-table {
         height: calc(100vh - 300px);
 
-        .t-cell-time {
+        .t-cell-date {
           padding-left: 30px !important;
         }
 
@@ -486,31 +486,37 @@
     &.scheduled {
       background: #E8F2FF;
       color: #1C5EDE;
+      width: 100px;
     }
 
     &.upcoming {
       background: #FFF7EA;
       color: #DE561C;
+      width: 100px;
     }
 
     &.engaged {
       background: #BDE8CA;
       color: #00534F;
+      width: 100px;
     }
 
     &.completed {
       background: #F5F7F8;
       color: #7583A6;
+      width: 100px;
     }
 
     &.cancelled {
       background: #FFE2E9;
       color: #DE1C4E;
+      width: 100px;
     }
 
     &.checked_in {
       background: #FFF7EA;
       color: #DE561C;
+      width: 100px;
     }
 
     .appointment-title {

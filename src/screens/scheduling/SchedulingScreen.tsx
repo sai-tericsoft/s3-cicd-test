@@ -49,7 +49,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             title: "Date",
             key: "date",
             dataIndex: "date",
-            width: 120,
+            width: 130,
             render: (item: any) => {
                 return CommonService.convertDateFormat(item.appointment_date, 'DD-MMM-YYYY')
             }
@@ -99,11 +99,11 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             title: "Service",
             key: "service",
             dataIndex: "service",
-            width: 120,
+            width: 130,
             align: 'center',
             render: (item: any) => {
                 return <span>
-                    {item?.service_details?.name?.length > 10 ? item?.service_details?.name.substring(0, 10) + '...' : item?.service_details?.name}
+                    {item?.service_details?.name?.length > 15 ? item?.service_details?.name.substring(0, 15) + '...' : item?.service_details?.name}
                     </span>
             }
         },
@@ -565,7 +565,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                             variant={'outlined'}
                             onClick={() => setOpenBlockCalenderDrawer(true)}
                             prefixIcon={<ImageConfig.BlockIcon/>}>
-                            Block Calender</ButtonComponent>
+                            Block Calendar</ButtonComponent>
                     </div>
                     <div className="scheduling-header-action-item">
                         <ButtonComponent onClick={setIsBookAppointmentOpen.bind(null, true)}
