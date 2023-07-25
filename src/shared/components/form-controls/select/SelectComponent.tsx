@@ -73,7 +73,7 @@ const SelectComponent = (props: SelectComponentProps) => {
 
     const ClearOption = useCallback(() => (
         <IconButtonComponent onClick={handleClear} className={'mrg-right-10'}>
-            <ImageConfig.CloseIcon/>
+            <ImageConfig.CloseIcon height={'15'} width={'15'}/>
         </IconButtonComponent>
     ), [handleClear]);
 

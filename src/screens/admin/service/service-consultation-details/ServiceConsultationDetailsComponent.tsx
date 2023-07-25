@@ -20,7 +20,7 @@ const ServiceConsultationDetailsComponent = (props: ServiceConsultationDetailsCo
             key: "duration",
             dataIndex: "duration",
             render: ( item: IConsultation) => {
-                return <span> {item?.duration_details?.title} </span>
+                return <span> {item?.duration+' mins'} </span>
             }
         },
         {

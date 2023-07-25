@@ -154,7 +154,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                 </>}
                                 {details?.status === 'upcoming' && <>
                                     <div className="info-text">
-                                        Check-In Time
+                                        Check-in Time
                                         : {CommonService.getHoursAndMinutesFromMinutes(details?.start_time)}
                                     </div>
                                 </>}
@@ -192,7 +192,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                         </div>
                         <div className="details-header">
 
-                            <div className="block-body pdd-top-20">
+                            <div className="block-body pdd-top-20 pdd-bottom-5">
                                 <div className="block-content">
                                     <ImageConfig.CalendarIcon/>
                                     <div
@@ -253,7 +253,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                             </div>
                                             <div
                                                 className="item-value">
-                                                <div className="mrg-bottom-10">
+                                                <div>
                                                     {details?.provider_details?.first_name + ' ' + details?.provider_details?.last_name}
                                                 </div>
                                             </div>
@@ -268,10 +268,10 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                                 className="item-value">{details?.category_details?.name || 'N/A'} / {details?.service_details?.name || 'N/A'}</div>
                                         </div>
 
-                                        <div className={'display-flex ts-justify-content-center pdd-left-80'}>
+                                        <div className={'display-flex ts-justify-content-center pdd-left-80 pdd-bottom-5'}>
                                             <ChipComponent color={'success'}
                                                            label={bookType?.title}/>&nbsp;&nbsp;
-                                            <ChipComponent color={'success'} label={details.duration + ' min'}/>
+                                           <ChipComponent className={'minutes-chip'}  color={'success'} label={details.duration +' mins'}/>
                                         </div>
                                     </div>
                                     <div className="details-body-block">
