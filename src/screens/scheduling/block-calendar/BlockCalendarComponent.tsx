@@ -256,7 +256,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
 
     return (
         <div className={'block-calender-component'}>
-            <FormControlLabelComponent label={'Block Calender'} size={'lg'}/>
+            <FormControlLabelComponent label={'Block Calendar'} size={'lg'}/>
             <Formik initialValues={blockCalenderInitialValues}
                     validationSchema={blockCalendarValidationSchema}
                     validateOnChange={false}

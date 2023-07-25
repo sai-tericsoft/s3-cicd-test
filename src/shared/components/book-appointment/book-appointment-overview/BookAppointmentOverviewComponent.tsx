@@ -128,24 +128,24 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                     <div className="details-body">
                         <div className="details-body-block">
                             <div className="details-body-item">
-                                <div className="item-heading"><ImageConfig.PersonIcon/>&nbsp;Client Name</div>
+                                <div className="item-heading"><ImageConfig.PersonIcon/>&nbsp;&nbsp;Client Name</div>
                                 <div
                                     className="item-value">{bookingDraft?.client?.first_name + ' ' + bookingDraft?.client?.last_name}</div>
                             </div>
                             <div className="details-body-item">
-                                <div className="item-heading"><ImageConfig.CallIcon/>&nbsp;Phone Number</div>
+                                <div className="item-heading"><ImageConfig.CallIcon/>&nbsp;&nbsp;Phone Number</div>
                                 <div
                                     className="item-value">{bookingDraft?.client?.primary_contact_info?.phone ? CommonService.formatPhoneNumber(bookingDraft?.client?.primary_contact_info?.phone) : 'N/A'}</div>
                             </div>
                             <div className="details-body-item">
-                                <div className="item-heading"><ImageConfig.EmailIcon/>&nbsp;Email</div>
+                                <div className="item-heading"><ImageConfig.EmailIcon/>&nbsp;&nbsp;Email</div>
                                 <div
                                     className="item-value">{bookingDraft?.client?.primary_email || 'N/A'}</div>
                             </div>
                         </div>
                         <div className="details-body-block">
                             <div className="details-body-item">
-                                <div className="item-heading"><ImageConfig.AssignmentIcon/>&nbsp;Provider Name
+                                <div className="item-heading"><ImageConfig.AssignmentIcon/>&nbsp;&nbsp;Provider Name
                                 </div>
                                 <div
                                     className="item-value">
@@ -158,7 +158,7 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                         </div>
                         <div className="details-body-block">
                             <div className="details-body-item">
-                                <div className="item-heading"><ImageConfig.MedicalServicesIcon/>&nbsp;Service
+                                <div className="item-heading"><ImageConfig.MedicalServicesIcon/>&nbsp;&nbsp;Service
                                 </div>
                                 <div
                                     className="item-value">

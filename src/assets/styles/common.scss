@@ -674,31 +674,37 @@
   &.no_show {
     background: #EFEFEF;
     color: #717171;
+    width: 100px;
   }
 
   &.scheduled {
     background: #E8F2FF;
     color: #1C5EDE;
+    width: 100px;
   }
 
   &.upcoming {
     background: #FFF7EA;
     color: #DE561C;
+    width: 100px;
   }
 
   &.engaged {
     background: #BDE8CA;
     color: #00534F;
+    width: 100px;
   }
 
   &.completed {
     background: #F5F7F8;
     color: #7583A6;
+    width: 100px;
   }
 
   &.cancelled {
     background: #FFE2E9;
     color: #DE1C4E;
+    width: 100px;
   }
 }
 
