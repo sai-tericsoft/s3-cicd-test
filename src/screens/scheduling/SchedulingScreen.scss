@@ -52,6 +52,7 @@
 
   .scheduling-list-input {
     background-color: #FFFFFF;
+    width: 330px;
   }
 
   .scheduling-list-card {
@@ -505,6 +506,11 @@
     &.cancelled {
       background: #FFE2E9;
       color: #DE1C4E;
+    }
+
+    &.checked_in {
+      background: #FFF7EA;
+      color: #DE561C;
     }
 
     .appointment-title {

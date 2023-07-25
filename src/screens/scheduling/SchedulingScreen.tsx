@@ -58,7 +58,8 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             title: "Time",
             key: "time",
             dataIndex: "time",
-            width: 120,
+            align: 'center',
+            width: 100,
             render: (item: any) => {
                 return CommonService.getHoursAndMinutesFromMinutes(item.start_time)
             }
@@ -67,9 +68,10 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             title: "Duration",
             key: "duration",
             dataIndex: "duration",
-            width: 120,
+            align: 'center',
+            width: 100,
             render: (item: any) => {
-                return <>{item?.duration ? item.duration + 'mins' : '-'} </>
+                return <>{item?.duration ? item.duration +' mins' : '-'} </>
             }
         },
         {
@@ -77,7 +79,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             key: "first_name",
             dataIndex: "first_name",
             sortable: true,
-            width: 150,
+            width: 170,
             render: (item: any) => {
                 return <>{CommonService.extractName(item?.client_details)}</>
             }
@@ -87,7 +89,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             title: "Phone",
             key: "primary_contact_info",
             dataIndex: "primary_contact_info",
-            width: 150,
+            width: 120,
             align: 'center',
             render: (item: any) => {
                 return <span>{item?.client_details?.primary_contact_info?.phone ? CommonService.formatPhoneNumber(item?.client_details?.primary_contact_info?.phone) : ''}</span>
@@ -97,12 +99,12 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             title: "Service",
             key: "service",
             dataIndex: "service",
-            width: 150,
+            width: 120,
             align: 'center',
             render: (item: any) => {
                 return <span>
-                    {item?.service_details?.name}
-                </span>
+                    {item?.service_details?.name?.length > 10 ? item?.service_details?.name.substring(0, 10) + '...' : item?.service_details?.name}
+                    </span>
             }
         },
         {
@@ -122,10 +124,10 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             dataIndex: "status",
             key: "status",
             align: 'center',
-            width: 90,
+            width: 130,
             render: (item: any) => {
                 return <ChipComponent label={item?.status_details?.title}
-                                      className={item?.status_details?.title}
+                                      className={item?.status_details?.code}
                 />
             }
         },
@@ -1010,12 +1012,19 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                 </div>
                                             </div> : '')
                                     }
-                                    {
-                                        appointmentDataPresent?.length === 0 && <div className={'no-appointment-text-wrapper'}>
-                                            <div className={'no-appointment-description'}>Currently, there are no appointments scheduled.</div>
+                                    {appointmentDataPresent?.length === 0 && (
+                                        (!schedulingListFilterState.start_date &&
+                                            !schedulingListFilterState.category_id &&
+                                            !schedulingListFilterState.service_id &&
+                                            !schedulingListFilterState.provider_id &&
+                                            !schedulingListFilterState.status)
+                                    ) && (
+                                        <div className={'no-appointment-text-wrapper'}>
+                                            <div className={'no-appointment-description'}>
+                                                Currently, there are no appointments scheduled.
+                                            </div>
                                         </div>
-
-                                    }
+                                    )}
                                 </>
 
                                 }

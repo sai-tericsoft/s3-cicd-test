@@ -15,7 +15,7 @@ import FormControlLabelComponent from "../../../shared/components/form-control-l
 import FormikTimePickerComponent
     from "../../../shared/components/form-controls/formik-time-picker/formikTimePickerComponent";
 import {IServiceCategory} from "../../../shared/models/service-category.model";
-import {ImageConfig, Misc} from "../../../constants";
+import {ImageConfig} from "../../../constants";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {ITableColumn} from "../../../shared/models/table.model";
@@ -164,12 +164,12 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
         delete payload.provider_id;
         if (appointmentList && appointmentList.length > 0) {
             payload.appointment_ids = appointmentList.map((item: any) => item.appointment_id)
-        }else{
+        } else {
             payload.appointment_ids = [];
         }
         CommonService._appointment.BlockCalender(blockCalenderFormDetails?.provider_id, payload)
             .then((response: IAPIResponseType<IServiceCategory>) => {
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                CommonService._alert.showToast('Calendar has been blocked', "success");
                 setIsBlockCalendarIsProgress(false);
                 onAddSuccess();
             })
@@ -187,11 +187,11 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
             confirmationSubTitle: "Are you sure you want to block your calendar",
             confirmationDescription: <div className='block-calender-confirmation-description'>
                 <div>
-                    <b> From </b>:{blockCalenderFormDetails?.is_block_all_day ? moment(blockCalenderFormDetails?.start_date).format('DD-MMM-YYYY') : moment(blockCalenderFormDetails?.date).format('DD-MMM-YYYY') + ' , ' + CommonService.getHoursAndMinutesFromMinutes(blockCalenderFormDetails?.start_time)}
+                    <b> From </b>: {blockCalenderFormDetails?.is_block_all_day ? moment(blockCalenderFormDetails?.start_date).format('DD-MMM-YYYY') : moment(blockCalenderFormDetails?.date).format('DD-MMM-YYYY') + ' , ' + CommonService.getHoursAndMinutesFromMinutes(blockCalenderFormDetails?.start_time)}
                 </div>
                 <div className="mrg-top-10">
-                    <b> To </b>:{blockCalenderFormDetails?.is_block_all_day ? moment(blockCalenderFormDetails?.end_date).format('DD-MMM-YYYY') : moment(blockCalenderFormDetails?.date).format('DD-MMM-YYYY') + ' , ' + CommonService.getHoursAndMinutesFromMinutes(blockCalenderFormDetails?.end_time)}
-                </div>
+                    <b> To </b><span className={'mrg-left-15'}>: {blockCalenderFormDetails?.is_block_all_day ? moment(blockCalenderFormDetails?.end_date).format('DD-MMM-YYYY') : moment(blockCalenderFormDetails?.date).format('DD-MMM-YYYY') + ' , ' + CommonService.getHoursAndMinutesFromMinutes(blockCalenderFormDetails?.end_time)}
+                </span></div>
             </div>,
             yes: {
                 color: "primary",
@@ -295,7 +295,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                                             <FormikInputComponent
                                                 titleCase={true}
                                                 label={'Reason for block'}
-                                                placeholder={'Reason for block'}
+                                                placeholder={'Enter Reason'}
                                                 formikField={field}
                                                 required={true}
                                                 fullWidth={true}

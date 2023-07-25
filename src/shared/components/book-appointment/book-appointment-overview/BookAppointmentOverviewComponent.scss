@@ -112,8 +112,8 @@
     .block-body {
       display: flex;
       flex-direction: row;
-      padding-bottom:12px ;
-      padding-top: 4px;
+      padding-bottom:20px ;
+      padding-top: 10px;
       .block-content {
         flex-direction: row;
         display: flex;
@@ -126,7 +126,7 @@
 
         .content-title {
           margin-left: 10px;
-          font-weight: 700;
+          font-weight: 500;
           font-size: 16px;
           line-height: 20px;
           color: #83909D;
@@ -144,10 +144,11 @@
     }
     .details-body-block {
       border-top: 1px solid #E7E8EA;
-      padding: 16px 0;
+      padding: 8px 0;
       .details-body-item {
         display: flex;
         flex-direction: row;
+        align-items: center;
         margin-left: 10px;
         .item-heading {
           flex: 1;
@@ -155,6 +156,7 @@
           font-size: 14px;
           line-height: 16px;
           display: flex;
+          align-items: center;
           color: #83909D;
           padding: 9px;
         }
@@ -167,6 +169,9 @@
           //display: flex;
           //align-items: center;
           color: #212B36;
+          .minutes-chip{
+            text-transform: lowercase;
+          }
           .d-inline{
             margin-top: 2px !important;
           }

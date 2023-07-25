@@ -57,6 +57,9 @@
       display: flex;
       align-items: center;
       color: #212B36;
+      .info-text{
+        font-weight: 500;
+      }
     }
 
     .status-text {
@@ -114,7 +117,7 @@
         .content-title {
           margin-left: 10px;
           margin-right: 32px;
-          font-weight: 700;
+          font-weight: 500;
           font-size: 16px;
           line-height: 20px;
           color: #83909D;
@@ -124,7 +127,8 @@
   }
 
   .details-box {
-    margin: 15px 0;
+    margin-top: 15px;
+    margin-bottom: 80px;
     border: 1px solid #E7E8EA;
 
     .details-header {
@@ -145,8 +149,10 @@
 
     .details-body-block {
       border-top: 1px solid #E7E8EA;
-      padding: 16px 0px;
-
+      padding: 8px 0px;
+      .minutes-chip{
+        text-transform: lowercase;
+      }
       .details-body-item {
         display: flex;
         align-items: center;
@@ -179,7 +185,7 @@
 
           .paid {
             color: #00534F;
-            background-color: #BDE8CA;
+            background-color: #E4F6EA;
           }
 
           &.green {
