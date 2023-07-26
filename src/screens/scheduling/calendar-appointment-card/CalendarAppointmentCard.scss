@@ -41,7 +41,8 @@
     }
 
     &.blocked {
-      background: $primary-color;
+    background: $primary-color;
+      width: auto;
     }
 
 
