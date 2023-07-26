@@ -149,7 +149,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                             <div className="status-info">
                                 {details?.status === 'scheduled' && <>
                                     <div className="info-text">
-                                        Appointment Fees : $ {CommonService.convertToDecimals(+(details?.amount))}
+                                        Appointment Fees : ${CommonService.convertToDecimals(+(details?.amount))}
                                     </div>
                                 </>}
                                 {details?.status === 'upcoming' && <>
@@ -173,7 +173,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                 {details?.status === 'no_show' && <>
                                     <div className="info-text">
                                         No Show Fees :
-                                        {(details?.waive_no_show_fee) ? 'Waived Off' : '$' + (details?.no_show_charge?.amount || 0)}
+                                        {(details?.waive_no_show_fee) ? ' Waived Off' : '$' + (details?.no_show_charge?.amount || 0)}
                                     </div>
                                 </>}
                                 {details?.status === 'completed' && <>
@@ -196,7 +196,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                 <div className="block-content">
                                     <ImageConfig.CalendarIcon/>
                                     <div
-                                        className="content-title">{CommonService.convertDateFormat(details.appointment_date)}</div>
+                                        className="content-title">{CommonService.convertDateFormat2(details.appointment_date)}</div>
                                 </div>
                                 <div className="block-content">
                                     <ImageConfig.TimerIcon/>
@@ -212,8 +212,8 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                     } menuOptions={
                                         [
                                             <ListItem onClick={onReschedule}>Reschedule Appointment</ListItem>,
+                                            <ListItem onClick={onCancelAppointment}>Cancel Appointment</ListItem>,
                                             <ListItem onClick={onNoShow}>No Show</ListItem>,
-                                            <ListItem onClick={onCancelAppointment}>Cancel Appointment</ListItem>
                                         ]
                                     }
                                     />}
@@ -268,7 +268,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                                 className="item-value">{details?.category_details?.name || 'N/A'} / {details?.service_details?.name || 'N/A'}</div>
                                         </div>
 
-                                        <div className={'display-flex ts-justify-content-center pdd-left-80 pdd-bottom-5'}>
+                                        <div className={'display-flex ts-justify-content-center pdd-left-50 pdd-bottom-10'}>
                                             <ChipComponent color={'success'}
                                                            label={bookType?.title}/>&nbsp;&nbsp;
                                            <ChipComponent className={'minutes-chip'}  color={'success'} label={details.duration +' mins'}/>
@@ -340,7 +340,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                         }
                                     }
                                 }
-                            >{details.payment_status === 'unpaid' ? 'Update Payment Status' : 'Check In'}</ButtonComponent>
+                            >{details.payment_status === 'unpaid' ? 'Update Payment Status' : 'Check-in'}</ButtonComponent>
                             }
                         </div>
 

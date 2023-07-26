@@ -2,6 +2,9 @@
 
   .t-form-controls {
     height: calc(100vh - 210px);
+    .MuiCheckbox-root,.MuiTypography-root {
+      color: #212B36;
+    }
   }
 
   .t-form-actions {
