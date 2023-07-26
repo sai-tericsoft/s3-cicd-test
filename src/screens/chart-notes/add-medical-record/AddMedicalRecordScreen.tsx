@@ -20,7 +20,7 @@ import FormControlLabelComponent from "../../../shared/components/form-control-l
 import FilePreviewThumbnailComponent
     from "../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import FilePickerComponent from "../../../shared/components/file-picker/FilePickerComponent";
-import {ImageConfig} from "../../../constants";
+import {ImageConfig, Misc} from "../../../constants";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
@@ -117,7 +117,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
 
     const getAppointmentLite = useCallback(() => {
         if (clientId) {
-            const payload = {client_id: clientId, is_link_to_intervention: true};
+            const payload = {client_id: clientId};
             dispatch(getAppointmentListLite(payload));
         }
     }, [dispatch, clientId])
@@ -140,6 +140,52 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
         setIsSurgeryRecordDrawerOpen(false);
     }, []);
 
+    const addNewTreatment = useCallback(
+        (medicalRecordId: any, appointmentId: any) => {
+            if (!medicalRecordId) {
+                CommonService._alert.showToast('Medical Record ID not found!', "error");
+                return;
+            }
+            const payload = {
+                "intervention_date": moment().format('YYYY-MM-DD'),
+                "subjective": "",
+                "objective": {
+                    "observation": "",
+                    "palpation": "",
+                    "functional_tests": "",
+                    "treatment": "",
+                    "treatment_response": ""
+                },
+                "assessment": {
+                    "suspicion_index": "",
+                    "surgery_procedure": ""
+                },
+                "plan": {
+                    "plan": "",
+                    "md_recommendations": "",
+                    "education": "",
+                    "treatment_goals": ""
+                },
+                is_discharge: false,
+                is_link_to_appointment: true,
+                appointment_id: appointmentId,
+            };
+            CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, payload)
+                .then((response: IAPIResponseType<any>) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, response?.data._id) + '?mode=add');
+                    setIsMedicalRecordAddInProgress(false);
+                })
+                .catch((error: any) => {
+                    CommonService._alert.showToast(error?.error || "Error creating a medical intervention", "error");
+                })
+                .finally(() => {
+                    setIsMedicalRecordAddInProgress(false);
+                });
+        },
+        [navigate],
+    );
+
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         if (clientId) {
             const payload = _.cloneDeep({...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['body_part_details'])});
@@ -160,15 +206,16 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
             CommonService._chartNotes.MedicalRecordAddAPICall(clientId, formData)
                 .then((response: IAPIResponseType<any>) => {
                     CommonService._alert.showToast('Medical record was successfully created', "success");
-                    setIsMedicalRecordAddInProgress(false);
-                    navigate(CommonService._routeConfig.ClientMedicalRecordDetails(response?.data._id));
+                    setIsMedicalRecordAddInProgress(true);
+                    // navigate(CommonService._routeConfig.ClientMedicalRecordDetails(response?.data._id));
+                    addNewTreatment(response?.data._id, payload?.appointment_id);
                 })
                 .catch((error: any) => {
                     CommonService.handleErrors(setErrors, error, true);
                     setIsMedicalRecordAddInProgress(false);
                 })
         }
-    }, [navigate, clientId, surgeryRecord]);
+    }, [clientId, surgeryRecord, addNewTreatment]);
 
     const onSurgeryRecordSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         setSurgeryRecord(values);
@@ -475,7 +522,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                                     options={appointmentListLite || []}
                                                                     fullWidth={true}
                                                                     label={"Select Appointment"}
-                                                                    displayWith={(item: any) => item?.appointment_type +' (' + (moment(item.appointment_date).format('DD-MMM-YYYY'))+ ", " + CommonService.getHoursAndMinutesFromMinutes(item?.start_time) + ')'}
+                                                                    displayWith={(item: any) => item?.appointment_type + ' (' + (moment(item.appointment_date).format('DD-MMM-YYYY')) + ", " + CommonService.getHoursAndMinutesFromMinutes(item?.start_time) + ')'}
                                                                     valueExtractor={(item: any) => item?._id}
                                                                 />
                                                             )
