@@ -117,7 +117,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
 
     const getAppointmentLite = useCallback(() => {
         if (clientId) {
-            const payload = {client_id: clientId};
+            const payload = {client_id: clientId,is_link_to_intervention: true};
             dispatch(getAppointmentListLite(payload));
         }
     }, [dispatch, clientId])
