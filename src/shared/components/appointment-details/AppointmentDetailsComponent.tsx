@@ -173,7 +173,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                 {details?.status === 'no_show' && <>
                                     <div className="info-text">
                                         No Show Fees :
-                                        {(details?.waive_no_show_fee) ? ' Waived Off' : '$' + (details?.no_show_charge?.amount || 0)}
+                                        {(details?.waive_no_show_fee) ? ' Waived Off' : ' $' + (details?.no_show_charge?.amount || 0)}
                                     </div>
                                 </>}
                                 {details?.status === 'completed' && <>
@@ -356,7 +356,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
 
                             </div>
                             <div className="checkin-confirmation-status-text">
-                                Check In Successful!
+                                Check-in Successful!
                             </div>
                         </div>
                         <div className="action-buttons">
