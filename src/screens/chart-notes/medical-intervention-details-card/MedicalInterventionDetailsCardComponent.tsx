@@ -404,12 +404,12 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
             </DrawerComponent>
 
             <DrawerComponent isOpen={isAddConcussionFileDrawerOpen}
-                             showClose={true}
                              onClose={closeAddConcussionFileDrawer}>
                 <AddConcussionFileComponent
                     medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
                     medicalInterventionDetails={medicalInterventionDetails}
                     medicalInterventionId={medicalInterventionDetails?._id}
+                    onClose={closeAddConcussionFileDrawer}
                     onAdd={handleConcussionFileAdd}/>
             </DrawerComponent>
             {/*Add Concussion File Drawer End*/}

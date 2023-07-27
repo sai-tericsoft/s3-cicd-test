@@ -41,11 +41,12 @@ interface AddConcussionFileComponentProps {
     medicalInterventionId: string;
     medicalRecordDetails: any;
     medicalInterventionDetails: any;
+    onClose?: () => void;
 }
 
 const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
 
-    const {onAdd, medicalInterventionId, medicalRecordDetails} = props;
+    const {onAdd, medicalInterventionId, medicalRecordDetails,onClose} = props;
     const [currentStep, setCurrentStep] = useState<"selectType" | "form">("selectType");
     const {concussionFileTypes} = useSelector((state: IRootReducerState) => state.staticData);
     const [selectedConcussionFileType, setSelectedConcussionFileType] = useState<IConcussionFileType | undefined>(undefined);
@@ -76,8 +77,30 @@ const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
         setCurrentStep("form");
     }, []);
 
+    const handleBack = useCallback(() => {
+        if (currentStep === "form") {
+            setCurrentStep("selectType");
+        }
+    },[currentStep]);
+
     return (
         <div className={'add-concussion-file-component'}>
+            {
+                (currentStep === "form") &&
+                <div className={'back-cross-btn-wrapper'}>
+                    <div className="back-btn" onClick={handleBack}><ImageConfig.LeftArrow/></div>
+                    {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
+                    <div className="drawer-close"
+                         id={'book-appointment-close-btn'}
+                         onClick={(event) => {
+                             if (onClose) {
+                                 onClose();
+                             }
+                         }
+                         }><ImageConfig.CloseIcon/></div>
+                    {/*</ToolTipComponent>*/}
+                </div>
+            }
             {
                 currentStep === "selectType" && <>
                     <FormControlLabelComponent size={"lg"} label={"Add Concussion File"}/>

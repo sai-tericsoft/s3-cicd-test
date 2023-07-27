@@ -1,4 +1,41 @@
+@import "src/assets/styles/common";
+
 .add-concussion-file-component {
+  .back-cross-btn-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+
+    .drawer-close {
+      cursor: pointer;
+      position: relative;
+      top: 2px;
+      background: #F4F4F8;
+      padding: 16px;
+      border-radius: 50%;
+      height: 46px;
+      width: 46px;
+      @include display-center();
+    }
+  }
+  .cross-btn {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+
+    .drawer-close {
+      cursor: pointer;
+      position: relative;
+      top: 2px;
+      background: #F4F4F8;
+      padding: 16px;
+      border-radius: 50%;
+      height: 46px;
+      width: 46px;
+      @include display-center();
+    }
+
+  }
   .t-form {
     .t-form-controls {
       .upload-document-heading{
