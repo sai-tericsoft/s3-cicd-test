@@ -371,10 +371,12 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                     {(medicalInterventionDetails?.updated_at ? moment(medicalInterventionDetails.updated_at).tz(moment.tz.guess()).format('DD-MM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
                                     {medicalInterventionDetails?.last_updated_by_details?.first_name ? medicalInterventionDetails?.last_updated_by_details?.first_name + ' ' + medicalInterventionDetails?.last_updated_by_details?.last_name : ' N/A'}
                                 </div>
-                                {isSavingInProgress && <div className="last-updated-status-status">
+                                {isSavingInProgress ? <div className="last-updated-status-status">
                                     <ImageConfig.SYNC className={'spin-item'}
                                                       width={16}/>
-                                    &nbsp;Saving...</div>}
+                                    &nbsp;Saving...</div> : <div className="last-updated-status-status mrg-top-5 mrg-right-5">
+                                    <ImageConfig.CloudIcon
+                                                            width={16}/>&nbsp;Saved</div>}
                             </div>}/>
                     <MedicalInterventionDetailsCardComponent medicalInterventionDetails={medicalInterventionDetails}
                                                              mode={"edit"}

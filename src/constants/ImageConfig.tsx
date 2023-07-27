@@ -35,7 +35,7 @@ import {ReactComponent as AttachMoneyIcon} from './../assets/icons/attach_money.
 import {ReactComponent as CancelIcon} from './../assets/icons/cancel.svg';
 import {ReactComponent as ConfirmIcon} from './../assets/confirmation/confirm.svg';
 import {ReactComponent as FORWARD_ICON} from './../assets/icons/forward_icon.svg';
-
+import {ReactComponent as CloudIcon} from "./../assets/icons/cloud_done.svg";
 
 import {ReactComponent as CircleCheck} from './../assets/icons/check_circle.svg';
 import {ReactComponent as CircleInfo} from './../assets/icons/info_circle.svg';
@@ -225,5 +225,6 @@ export {
     FORWARD_ICON,
     PopupLottie,
     ConfirmationLottie,
-    LockLottie
+    LockLottie,
+    CloudIcon
 }
