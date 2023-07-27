@@ -12,6 +12,7 @@ import {IAPIResponseType} from "../../../models/api.model";
 import moment from "moment/moment";
 import InputComponent from "../../form-controls/input/InputComponent";
 import FormikDatePickerComponent from "../../form-controls/formik-date-picker/FormikDatePickerComponent";
+import LoaderComponent from "../../loader/LoaderComponent";
 
 interface AppointmentRescheduleComponentProps {
     onClose?: () => void,
@@ -268,6 +269,9 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
 
     return (
         <div className={`book-appointment-reschedule-component`}>
+            {
+                (isFacilityListLoading || isProviderListLoading) && <LoaderComponent/>
+            }
             {step === 'form' && <>
                 <div className="drawer-header">
                     {/*<div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>*/}
