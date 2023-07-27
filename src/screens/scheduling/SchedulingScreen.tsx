@@ -1036,7 +1036,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                 noDataText={<>{(!!schedulingListFilterState.start_date || !!schedulingListFilterState.category_id || !!schedulingListFilterState.service_id || !!schedulingListFilterState.provider_id || !!schedulingListFilterState.status) &&
                                     (<div className={'no-appointment-text-wrapper'}>
                                         <div><img src={ImageConfig.Search} alt="client-search"/></div>
-                                        <div className={'no-appointment-heading'}>No Client Found</div>
+                                        <div className={'no-appointment-heading'}>No Client Found!</div>
                                         <div className={'no-appointment-description'}>
                                             Please adjust filters or choose a different date range to refine your
                                             search.
