@@ -565,7 +565,7 @@ const APIConfig: IAPIConfig = {
     },
 
     ADD_EXERCISE_LOG_ATTACHMENT: {
-        URL: (interventionId: string) => ENV.API_URL + '/intervention/' + interventionId + '/exerciseLog/attachment',
+        URL: (interventionId: string) => ENV.API_URL + '/intervention/' + interventionId + '/exerciseLog/attachments',
         METHOD: 'post'
     },
     ADD_PROGRESS_REPORT_UNDER_MEDICAL_RECORD: {

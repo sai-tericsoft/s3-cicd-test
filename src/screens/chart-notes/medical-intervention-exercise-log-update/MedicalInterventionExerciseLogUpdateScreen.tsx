@@ -27,8 +27,8 @@ import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import {getInterventionAttachmentList, getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
 import moment from "moment-timezone";
 import InputComponent from "../../../shared/components/form-controls/input/InputComponent";
-import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
+import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 
 
 interface MedicalInterventionExerciseLogScreenProps {
@@ -81,13 +81,12 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const location = useLocation();
     const formRef = useRef<FormikProps<any>>(null);
-    const [selectedAttachment, setSelectedAttachment] = useState<any>(null);
+    const [selectedAttachments, setSelectedAttachments] = useState<any>([]);
 
     //-----------------------------------ExerciseLogAttachmentStartsHere-------------------------------------
     const [isAttachmentBeingUploaded, setIsAttachmentBeingUploaded] = React.useState<boolean>(false);
     const [isAttachmentBeingDeleted, setIsAttachmentBeingDeleted] = React.useState<boolean>(false);
 
-    console.log(attachmentList);
 
     useEffect(() => {
         if (medicalInterventionId) {
@@ -109,20 +108,20 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
     const handleFileSubmit = useCallback(() => {
         if (medicalInterventionId) {
             setIsAttachmentBeingUploaded(true);
-            const formData = CommonService.getFormDataFromJSON({attachment: selectedAttachment});
+            const formData = CommonService.getFormDataFromJSON({attachments: selectedAttachments});
             CommonService._chartNotes.AddExerciseLogAttachment(medicalInterventionId, formData)
                 .then((response: any) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     dispatch(getInterventionAttachmentList(medicalInterventionId));
                     setIsAttachmentBeingUploaded(false);
-                    setSelectedAttachment(null);
+                    setSelectedAttachments([]);
                 })
                 .catch((error: any) => {
                     setIsAttachmentBeingUploaded(false);
                     CommonService._alert.showToast(error[Misc.API_RESPONSE_MESSAGE_KEY], "error");
                 })
         }
-    }, [dispatch, medicalInterventionId, selectedAttachment])
+    }, [dispatch, medicalInterventionId, selectedAttachments])
 
     const removeAttachment = useCallback((item: any, medicalInterventionId: string) => {
         setIsAttachmentBeingDeleted(true);
@@ -337,7 +336,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
     ], []);
 
     const handleSubmit = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
-        if (selectedAttachment) {
+        if (selectedAttachments.length > 0) {
             handleFileSubmit();
         }
         if (medicalInterventionId && medicalRecordId) {
@@ -367,7 +366,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     setSubmitting(false);
                 });
         }
-    }, [medicalRecordId, navigate, medicalInterventionId, selectedAttachment, handleFileSubmit, mode]);
+    }, [medicalRecordId, navigate, medicalInterventionId, selectedAttachments, handleFileSubmit, mode]);
 
 
     const {
@@ -514,8 +513,11 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                         ref={hiddenFileInput}
                         accept={"application/pdf"}
                         onChange={(event: any) => {
-                            const selectedAttachment = event.target.files[0];
-                            setSelectedAttachment(selectedAttachment)
+                            console.log(event);
+                            console.log(event.target.files[0]);
+                            const selectedFile = event.target.files[0];
+                            console.log(selectedFile);
+                            setSelectedAttachments((prevState: any) => [...prevState, selectedFile]);
                         }}
                         style={{display: 'none'}}/>
                 </div>
@@ -525,7 +527,6 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                             isAttachmentListLoaded && <>
                                 <CardComponent title={'Attachments'}
                                                actions={<ButtonComponent
-                                                   disabled={selectedAttachment}
                                                    isLoading={isAttachmentBeingUploaded}
                                                    onClick={handleClick}
                                                    prefixIcon={<ImageConfig.AddIcon/>}>
@@ -547,18 +548,24 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                             })}
                                         </>
                                         }
-                                        {selectedAttachment &&
-                                        <span className={'chip-wrapper'}>
-                                        <ChipComponent className={'chip chip-items'}
-                                                       color={"success"}
-                                                       disabled={isAttachmentBeingDeleted}
-                                                       label={selectedAttachment.name}
-                                                       prefixIcon={<ImageConfig.PDF_ICON/>}
-                                                       onDelete={() => setSelectedAttachment(null)}
-                                        />
-                                                </span>
+                                        {selectedAttachments.length > 0 &&
+                                        <>
+                                            {selectedAttachments?.map((attachment: any) => {
+                                                return <span className={'chip-wrapper'}>
+                                            <ChipComponent className={'chip chip-items'}
+                                                           color={"success"}
+                                                           disabled={isAttachmentBeingDeleted}
+                                                           label={attachment.name}
+                                                           prefixIcon={<ImageConfig.PDF_ICON/>}
+                                                           onDelete={() => setSelectedAttachments(null)}
+                                            />
+                                            </span>
+                                            })
+                                            }
+                                        </>
                                         }
-                                        {(!selectedAttachment && !attachmentList.attachments.length) &&
+
+                                        {(!selectedAttachments.length && !attachmentList.attachments.length) &&
                                         <StatusCardComponent title={'No attachment has been added yet'}
                                                              className={'mrg-bottom-25'}/>
                                         }
@@ -633,7 +640,8 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                             </CardComponent>
                                         </div>
 
-                                        <CardComponent title={'Comments (if any)'} className='mrg-top-20 pdd-bottom-25'>
+                                        <CardComponent title={'Comments (if any)'}
+                                                       className='mrg-top-20 pdd-bottom-25'>
                                             <Field name={'comments'} className="t-form-control">
                                                 {
                                                     (field: FieldProps) => (
@@ -667,9 +675,9 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                         <ButtonComponent type={"submit"}
                                                          size={'large'}
                                                          className={'mrg-left-15'}
-                                                         disabled={isSubmitting || (selectedAttachment === null &&  values.exercise_records.every((record: any) => (
+                                                         disabled={isSubmitting || (selectedAttachments === [] && values.exercise_records.every((record: any) => (
                                                              !record.name && (record.no_of_reps === '-' || !record.no_of_reps) && (record.no_of_sets === '-' || !record.no_of_sets) && (record.resistance === '-' || !record.resistance) && (record.time === '-' || !record.time)
-                                                         )) )}
+                                                         )))}
                                                          isLoading={isSubmitting}>
                                             Save
                                         </ButtonComponent>
