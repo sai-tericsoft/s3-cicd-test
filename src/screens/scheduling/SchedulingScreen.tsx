@@ -592,14 +592,14 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                 ? 'MMMM YYYY'
                                                 : 'MMMM DD YYYY'
                                         )}
-                                    </LinkComponent> : <>
+                                    </LinkComponent> : <div className={'filter-header-date-text'}>
                                         {CommonService.convertDateFormat(
                                             schedulingListFilterState.start_date,
                                             viewMode === 'calendar' && schedulingListFilterState.duration === 'month'
                                                 ? 'MMMM YYYY'
                                                 : 'MMMM DD YYYY'
                                         )}
-                                    </>
+                                    </div>
                                 }
                                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                                     {openDatePicker && (schedulingListFilterState.duration !== 'month') && (
@@ -709,8 +709,8 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                      [
                                                          {value: 'month', label: 'Month'},
                                                          {value: 'day', label: '1 Day'},
-                                                         {value: '3day', label: '3 Day'},
-                                                         {value: '5day', label: '5 Day'}
+                                                         {value: '3day', label: '3 Days'},
+                                                         {value: '5day', label: '5 Days'}
                                                      ]
                                                  }
                                                  label={'Duration'}
