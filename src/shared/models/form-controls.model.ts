@@ -231,6 +231,7 @@ export interface IDatePickerProps {
     mask?: string;
     onBlur?: () => void;
     enableDates?: any;
+    onFocus?: () => void;
 }
 
 

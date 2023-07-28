@@ -193,6 +193,7 @@ const MedicalInterventionRomConfigScreen = (props: MedicalInterventionRomConfigS
                         Cancel
                     </ButtonComponent>&nbsp;
                     <ButtonComponent onClick={handleAddNewBodyPart}
+                                     className={'mrg-left-15'}
                                      disabled={!selectedBodyPartToBeAdded}
                     >
                         Add
