@@ -162,7 +162,10 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
     const handleSchedulingSort = useCallback((key: string, order: string) => {
         setSchedulingListFilterState((oldState: any) => {
             const newState = {...oldState};
-            newState["sort"][key] = order;
+            newState["sort"] = {
+                key,
+                order
+            }
             return newState;
         });
     }, []);
@@ -998,7 +1001,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                                     <div className="card-item"
                                                                                          style={{
                                                                                              top: nonFirstAllDayBlock ? blocked_slot.start_time - value.start : 0,
-                                                                                             height: nonFirstAllDayBlock ? blocked_slot.end_time - blocked_slot.start_time: 0
+                                                                                             height: nonFirstAllDayBlock ? blocked_slot.end_time - blocked_slot.start_time : 0
                                                                                          }}>
                                                                                         {nonFirstAllDayBlock &&
                                                                                             <CalendarAppointmentCard
