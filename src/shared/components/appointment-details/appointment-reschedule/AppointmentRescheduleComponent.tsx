@@ -331,7 +331,7 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                                                             required={true}
                                                             disabled={isProviderListLoading}
                                                             options={serviceProvidersList || []}
-                                                            displayWith={(option: any) => option?.provider_name || 'No Name'}
+                                                            displayWith={(option: any) => option?.first_name+' '+option?.last_name || 'No Name'}
                                                             valueExtractor={(option: any) => option}
                                                             onUpdate={value => {
                                                                 if (value) {
