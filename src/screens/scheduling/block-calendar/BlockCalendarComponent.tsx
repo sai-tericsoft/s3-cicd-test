@@ -324,7 +324,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                                                         (field: FieldProps) => (
                                                             <FormikDatePickerComponent
                                                                 label={'Start Date'}
-                                                                placeholder={'hh/mm aa'}
+                                                                placeholder={'MM/DD/YYYY'}
                                                                 formikField={field}
                                                                 required={true}
                                                                 minDate={moment()}
@@ -340,7 +340,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                                                         (field: FieldProps) => (
                                                             <FormikDatePickerComponent
                                                                 label={'End Date'}
-                                                                placeholder={'hh/mm aa'}
+                                                                placeholder={'MM/DD/YYYY'}
                                                                 formikField={field}
                                                                 required={true}
                                                                 minDate={moment()}
