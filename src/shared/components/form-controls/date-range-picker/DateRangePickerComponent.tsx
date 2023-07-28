@@ -73,7 +73,10 @@ const DateRangePickerComponent = (props: DateRangePickerComponentProps) => {
                     yearPlaceholder={"YYYY"}
                     monthPlaceholder={"MM"}
                     dayPlaceholder={"DD"}
-                    clearIcon={value && value?.some((item: any)=> item) && <ImageConfig.CloseIcon height={'18'} width={'18'}/>}
+                    clearIcon={value && value?.some((item: any)=> item) ? (<div className={'close-icon-container'}>
+                        <ImageConfig.CloseIcon height={'18'} width={'18'} />
+                        </div>
+                        ) : null}
                     closeCalendar={true}
                     openCalendarOnFocus={true}
                 />
