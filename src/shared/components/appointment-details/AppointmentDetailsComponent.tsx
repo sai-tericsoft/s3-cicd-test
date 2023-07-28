@@ -203,7 +203,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                     <div
                                         className="content-title">{moment(Math.floor(details.start_time / 60) + ':' + details.start_time % 60, 'hh:mm').format('hh:mm A')}</div>
                                 </div>
-                                <div className="block-content mrg-left-40">
+                                <div className="block-content select-dropdown">
                                     {details?.status === 'scheduled' && <MenuDropdownComponent menuBase={
                                         <ButtonComponent size={'large'} className={'select-dropdown'}
                                                          variant={'outlined'} fullWidth={true}>
@@ -268,7 +268,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                                 className="item-value">{details?.category_details?.name || 'N/A'} / {details?.service_details?.name || 'N/A'}</div>
                                         </div>
 
-                                        <div className={'display-flex ts-justify-content-center pdd-left-50 pdd-bottom-10'}>
+                                        <div className={'display-flex ts-justify-content-center pdd-left-85 pdd-bottom-10'}>
                                             <ChipComponent color={'success'}
                                                            label={bookType?.title}/>&nbsp;&nbsp;
                                            <ChipComponent className={'minutes-chip'}  color={'success'} label={details.duration +' mins'}/>
