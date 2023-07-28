@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import "./AppointmentDetailsComponent.scss";
 import {CommonService} from "../../services";
 import {IAPIResponseType} from "../../models/api.model";
-import {ImageConfig} from "../../../constants";
+import {ImageConfig, Misc} from "../../../constants";
 import moment from "moment";
 import ButtonComponent from "../button/ButtonComponent";
 import {ListItem} from "@mui/material";
@@ -16,6 +16,7 @@ import AppointmentNoShowComponent from "./appointment-noshow/AppointmentNoShowCo
 import AppointmentCancelComponent from "./appointment-cancel/AppointmentCancelComponent";
 import AppointmentRescheduleComponent from "./appointment-reschedule/AppointmentRescheduleComponent";
 import AppointmentPaymentComponent from "./appointment-payment/AppointmentPaymentComponent";
+import {useNavigate} from "react-router-dom";
 
 interface AppointmentDetailsComponentProps {
     onClose?: () => void
@@ -27,12 +28,13 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
     const {onClose, appointment_id, onComplete} = props;
     const {appointmentTypes} = useSelector((state: IRootReducerState) => state.staticData);
     const [bookType, setBookType] = useState<any | null>(null);
-
+    const navigate = useNavigate();
     const [step, setStep] = useState<'details' | 'payment' | 'noshow' | 'checkin' | 'reschedule' | 'cancel'>('details');
     const [details, setDetails] = useState<any | null>(null);
     // const [formStatus, setFormStatus] = useState<any[] | null>(null);
     const [isDetailsLoading, setIsDetailsLoading] = useState<boolean>(false);
     const [isDetailsLoaded, setIsDetailsLoaded] = useState<boolean>(false);
+    const [isStartAppointmentLoading, setIsStartAppointmentLoading] = useState<boolean>(false);
 
     useEffect(() => {
         if (details) {
@@ -122,6 +124,85 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
         [appointment_id],
     );
 
+    const addNewTreatment = useCallback(
+        () => {
+            if (!details.medical_record_id) {
+                CommonService._alert.showToast('Medical Record ID not found!', "error");
+                return;
+            }
+            const payload = {
+                "intervention_date": moment().format('YYYY-MM-DD'),
+                "subjective": "",
+                "objective": {
+                    "observation": "",
+                    "palpation": "",
+                    "functional_tests": "",
+                    "treatment": "",
+                    "treatment_response": ""
+                },
+                "assessment": {
+                    "suspicion_index": "",
+                    "surgery_procedure": ""
+                },
+                "plan": {
+                    "plan": "",
+                    "md_recommendations": "",
+                    "education": "",
+                    "treatment_goals": ""
+                },
+                is_discharge: false,
+                is_link_to_appointment: true,
+                appointment_id: appointment_id,
+            };
+            CommonService._chartNotes.AddNewMedicalInterventionAPICall(details.medical_record_id, payload)
+                .then((response: IAPIResponseType<any>) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(details.medical_record_id, response?.data._id) + '?mode=add');
+                    setIsStartAppointmentLoading(false);
+                })
+                .catch((error: any) => {
+                    CommonService._alert.showToast(error?.error || "Error creating a medical intervention", "error");
+                })
+                .finally(() => {
+                    setIsStartAppointmentLoading(false);
+                });
+        },
+        [navigate, appointment_id, details],
+    );
+
+    const handleStartAppointment = useCallback(() => {
+        const payload = {};
+        setIsStartAppointmentLoading(true);
+        CommonService._appointment.appointmentStart(appointment_id, payload)
+            .then((response: IAPIResponseType<any>) => {
+                if (details?.appointment_type === 'initial_consultation') {
+                    setIsStartAppointmentLoading(false);
+                    navigate(CommonService._routeConfig.AddMedicalRecord(details?.client_id))
+                } else {
+                    addNewTreatment()
+                }
+            })
+            .catch((error: any) => {
+                setIsStartAppointmentLoading(false);
+            })
+            .finally(() => {
+            })
+    }, [appointment_id, details, navigate, addNewTreatment]);
+
+    const handleStopAppointment = useCallback(() => {
+        const payload = {};
+        setIsStartAppointmentLoading(true);
+        CommonService._appointment.appointmentStop(appointment_id, payload)
+            .then((response: IAPIResponseType<any>) => {
+                onComplete && onComplete();
+            })
+            .catch((error: any) => {
+                setIsStartAppointmentLoading(false);
+            })
+            .finally(() => {
+            })
+    }, [appointment_id, onComplete]);
+
 
     return (
         <div className={`appointment-details-component`}>
@@ -204,7 +285,8 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                         className="content-title">{moment(Math.floor(details.start_time / 60) + ':' + details.start_time % 60, 'hh:mm').format('hh:mm A')}</div>
                                 </div>
                                 <div className="block-content mrg-left-40">
-                                    {details?.status === 'scheduled' && <MenuDropdownComponent menuBase={
+                                    {details?.status === 'scheduled' &&
+                                    <MenuDropdownComponent menuBase={
                                         <ButtonComponent size={'large'} className={'select-dropdown'}
                                                          variant={'outlined'} fullWidth={true}>
                                             Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
@@ -214,6 +296,22 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                             <ListItem onClick={onReschedule}>Reschedule Appointment</ListItem>,
                                             <ListItem onClick={onCancelAppointment}>Cancel Appointment</ListItem>,
                                             <ListItem onClick={onNoShow}>No Show</ListItem>,
+                                        ]
+                                    }
+                                    />}
+                                </div>
+
+                                <div className="block-content">
+                                    {details?.status === 'engaged' &&
+                                    <MenuDropdownComponent menuBase={
+                                        <ButtonComponent size={'large'} className={'select-dropdown'}
+                                                         variant={'outlined'}>
+                                            Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
+                                        </ButtonComponent>
+                                    } menuOptions={
+                                        [
+                                            <ListItem onClick={onReschedule}>Reschedule Appointment</ListItem>,
+                                            <ListItem onClick={onCancelAppointment}>Cancel Appointment</ListItem>,
                                         ]
                                     }
                                     />}
@@ -268,10 +366,12 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                                 className="item-value">{details?.category_details?.name || 'N/A'} / {details?.service_details?.name || 'N/A'}</div>
                                         </div>
 
-                                        <div className={'display-flex ts-justify-content-center pdd-left-50 pdd-bottom-10'}>
+                                        <div
+                                            className={'display-flex ts-justify-content-center pdd-left-50 pdd-bottom-10'}>
                                             <ChipComponent color={'success'}
                                                            label={bookType?.title}/>&nbsp;&nbsp;
-                                           <ChipComponent className={'minutes-chip'}  color={'success'} label={details.duration +' mins'}/>
+                                            <ChipComponent className={'minutes-chip'} color={'success'}
+                                                           label={details.duration + ' mins'}/>
                                         </div>
                                     </div>
                                     <div className="details-body-block">
@@ -329,6 +429,16 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
 
 
                         <div className="client-search-btn">
+                            {details && details.status === 'upcoming' && <ButtonComponent
+                                fullWidth={true}
+                                isLoading={isStartAppointmentLoading}
+                                onClick={handleStartAppointment}
+                            >Start Appointment</ButtonComponent>
+                            }
+                        </div>
+
+
+                        <div className="client-search-btn">
                             {details && details.status === 'scheduled' && <ButtonComponent
                                 fullWidth={true}
                                 onClick={
@@ -341,6 +451,22 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                     }
                                 }
                             >{details.payment_status === 'unpaid' ? 'Update Payment Status' : 'Check-in'}</ButtonComponent>
+                            }
+                        </div>
+
+                        <div className="client-search-btn">
+                            {details && details.status === 'engaged' && <ButtonComponent
+                                fullWidth={true}
+                                onClick={
+                                    () => {
+                                        if (details.payment_status === 'unpaid') {
+                                            setStep('payment');
+                                        } else {
+                                            handleStopAppointment();
+                                        }
+                                    }
+                                }
+                            >{details.payment_status === 'unpaid' ? 'Update Payment Status' : 'Check-out'}</ButtonComponent>
                             }
                         </div>
 

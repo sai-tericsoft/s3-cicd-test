@@ -46,9 +46,13 @@ const CalendarAppointmentCard = (props: CalendarAppointmentCardProps) => {
                         {CommonService.capitalizeFirstLetter(status) || "-"}
                     </div>
                 </div>
-                {description && <div className="card-appointment-description">
-                    {description || "-"}
-                </div>}
+                {status !== 'blocked' ?
+                    <>{description && <div className="card-appointment-description">
+                        {description || "-"}
+                    </div>}</> :
+                    <div className="card-appointment-description">{reason || "-"}</div>
+                }
+
             </div>
         </ToolTipComponent>
     );

@@ -500,8 +500,8 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                                     <>
                                                         {values?.scheduled_slots?.map((item: any, index: any) => {
                                                             const timings = facility.timings.filter((timing:any) => timing.day_name === item.dayName);
-                                                            const start_time = parseInt(timings?.timings?.start_time);
-                                                            const end_time = parseInt(timings?.timings?.end_time);
+                                                            const start_time = parseInt(timings[0]?.timings?.start_time);
+                                                            const end_time = parseInt(timings[0]?.timings?.end_time);
                                                             return (
                                                                 <div className={'ts-row '}>
                                                                     {facility.timings.find((timing: any) => {

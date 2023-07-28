@@ -174,6 +174,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
     const dateSwitcher = useCallback(
         (mode: 'increasing' | 'decreasing' | 'reset', duration: string) => {
             setSchedulingListFilterState((old: any) => {
+                console.log('old', old);
                 const startDate = (mode === 'decreasing' || mode === 'reset') ? moment(old.start_date) : moment(old.start_date);
                 let endDate;
                 if (mode === 'increasing') {
@@ -206,6 +207,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                     }
                 } else if (mode === 'reset') {
                     if (duration === 'day') {
+                        startDate.startOf('day');
                         endDate = startDate.clone();
                     } else if (duration === '3day') {
                         endDate = startDate.clone().add(2, 'day');

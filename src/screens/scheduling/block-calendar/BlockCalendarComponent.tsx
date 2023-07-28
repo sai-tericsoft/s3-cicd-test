@@ -343,7 +343,6 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                                                                 placeholder={'End Date'}
                                                                 formikField={field}
                                                                 required={true}
-                                                                minDate={moment()}
                                                                 fullWidth={true}
                                                             />
                                                         )
