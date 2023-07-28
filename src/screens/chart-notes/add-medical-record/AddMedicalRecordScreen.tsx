@@ -65,9 +65,9 @@ const surgeryDetailsInitValues = {
     documents: []
 }
 
-const surgeryRecordValidationSchema = Yup.object().shape({
+const surgeryRecordValidationSchema = Yup.object({
     surgery_date: Yup.mixed().required("Date of Surgery is required"),
-    reported_by: Yup.mixed().required("Reported by is required"),
+    // reported_by: Yup.mixed().required("Reported by is required"),
 });
 
 const InjuryDetailsValidationSchema = Yup.object().shape({
