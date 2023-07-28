@@ -1036,7 +1036,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                 onDataLoaded={(data: any) => {
                                     setAppointmentDataPresent(data)
                                 }}
-                                noDataText={<>{(!!schedulingListFilterState.start_date || !!schedulingListFilterState.category_id || !!schedulingListFilterState.service_id || !!schedulingListFilterState.provider_id || !!schedulingListFilterState.status) &&
+                                noDataText={<>{(!schedulingListFilterState?.search && (!!schedulingListFilterState.start_date || !!schedulingListFilterState.category_id || !!schedulingListFilterState.service_id || !!schedulingListFilterState.provider_id || !!schedulingListFilterState.status)) &&
                                     (<div className={'no-appointment-text-wrapper'}>
                                         <div><img src={ImageConfig.Search} alt="client-search"/></div>
                                         <div className={'no-appointment-heading'}>No Client Found!</div>
@@ -1046,18 +1046,21 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                         </div>
                                     </div>)}
                                     {
-                                        (schedulingListFilterState?.search ?
+                                        (schedulingListFilterState?.search && !(schedulingListFilterState.start_date || schedulingListFilterState.category_id || schedulingListFilterState.service_id || schedulingListFilterState.provider_id || schedulingListFilterState.status) ?
                                             <div className={'no-appointment-text-wrapper'}>
                                                 <div><img src={ImageConfig.Search} alt="client-search"/></div>
-                                                <div className={'no-appointment-heading'}>No Client Found!</div>
+                                                <div className={'no-appointment-heading'}>No Client Found!
+                                                </div>
                                                 <div className={'no-appointment-description'}>
-                                                    Oops! It seems like there are no appointments available for the
+                                                    Oops! It seems like there are no appointments available
+                                                    for the
                                                     client name you have searched.
                                                 </div>
                                             </div> : '')
                                     }
                                     {appointmentDataPresent?.length === 0 && (
                                         (!schedulingListFilterState.start_date &&
+                                            !schedulingListFilterState.search &&
                                             !schedulingListFilterState.category_id &&
                                             !schedulingListFilterState.service_id &&
                                             !schedulingListFilterState.provider_id &&
@@ -1069,6 +1072,22 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                             </div>
                                         </div>
                                     )}
+                                    {
+                                        ((schedulingListFilterState?.search && appointmentDataPresent?.length === 0 &&
+                                            (!!schedulingListFilterState.start_date ||
+                                                !!schedulingListFilterState.category_id ||
+                                                !!schedulingListFilterState.service_id ||
+                                                !!schedulingListFilterState.provider_id ||
+                                                !!schedulingListFilterState.status)) ?
+                                            <div className={'no-appointment-text-wrapper'}>
+                                                <div><img src={ImageConfig.Search} alt="client-search"/></div>
+                                                <div className={'no-appointment-heading'}>chika</div>
+                                                {/*<div className={'no-appointment-description'}>*/}
+                                                {/*    Oops! It seems like there are no appointments available for the*/}
+                                                {/*    client name you have searched.*/}
+                                                {/*</div>*/}
+                                            </div> : '')
+                                    }
                                 </>
 
                                 }
