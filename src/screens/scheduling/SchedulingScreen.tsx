@@ -1081,7 +1081,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                 !!schedulingListFilterState.status)) ?
                                             <div className={'no-appointment-text-wrapper'}>
                                                 <div><img src={ImageConfig.Search} alt="client-search"/></div>
-                                                <div className={'no-appointment-heading'}>chika</div>
+                                                <div className={'no-appointment-heading'}>No Client Found!</div>
                                                 {/*<div className={'no-appointment-description'}>*/}
                                                 {/*    Oops! It seems like there are no appointments available for the*/}
                                                 {/*    client name you have searched.*/}
