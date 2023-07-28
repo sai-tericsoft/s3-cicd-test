@@ -611,7 +611,7 @@ const calculateFinalAmountFromDiscountPercentage = (percentage: any, totalAmount
 }
 
 const getHoursAndMinutesFromMinutes = (minutes: number) => {
-    return moment().startOf('day').add(minutes, 'minutes').format('h:mm A');
+    return moment().startOf('day').add(minutes, 'minutes').format('hh:mm A');
 }
 
 const areArraysEqual = (arr1: any[], arr2: any[]) => {
