@@ -65,7 +65,7 @@
     .status-text {
       font-style: italic;
       font-weight: bold;
-      text-transform: capitalize;
+      text-transform: none;
     }
 
     &.no_show {
@@ -114,6 +114,10 @@
         margin-right: 2px;
         white-space: nowrap;
 
+        &.select-dropdown{
+          margin-left: 48px;
+        }
+
         .content-title {
           margin-left: 10px;
           margin-right: 32px;
@@ -128,7 +132,7 @@
 
   .details-box {
     margin-top: 15px;
-    margin-bottom: 80px;
+    margin-bottom: 50px;
     border: 1px solid #E7E8EA;
 
     .details-header {

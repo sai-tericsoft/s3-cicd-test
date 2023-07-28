@@ -21,6 +21,12 @@
             .t-table {
               min-height: max-content !important;
               border: none !important;
+              .t-tr {
+                &:last-child {
+                  border-bottom: 1px solid #F3F3F3;
+                }
+
+              }
             }
           }
         }

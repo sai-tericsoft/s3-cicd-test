@@ -62,8 +62,8 @@ const AppointmentCancelComponent = (props: AppointmentCancelComponentProps) => {
                         <ImageConfig.VerifiedCross width={24}/>
                     </div>
                     <div className="booking-confirmation-status-text">
-                        Do you want to <b>cancel</b> the appointment with&nbsp;
-                        <b>{details.provider_details?.first_name + ' ' + details.provider_details?.last_name}</b> on <b>{CommonService.convertDateFormat(details.appointment_date)}</b>?
+                        Do you want to cancel the appointment with&nbsp;
+                        <b>{details.provider_details?.first_name + ' ' + details.provider_details?.last_name}</b> on<br/> <b>{CommonService.convertDateFormat2(details.appointment_date)}</b>?
                     </div>
                     <CheckBoxComponent value={cancel} checked={cancel} label={'Waive Cancellation Fee'}
                                        onChange={isChecked => {

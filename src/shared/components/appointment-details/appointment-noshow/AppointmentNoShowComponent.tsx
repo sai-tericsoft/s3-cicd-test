@@ -63,8 +63,8 @@ const AppointmentNoShowComponent = (props: AppointmentNoShowComponentProps) => {
                     </div>
                     <div className="booking-confirmation-status-text">
                         Do you want to mark the appointment with&nbsp;
-                        <b>{details.provider_details?.first_name + ' ' + details.provider_details?.last_name}</b> on <b>{CommonService.convertDateFormat(details.appointment_date)}</b> as&nbsp;
-                        <b>No Show</b>?
+                        <b>{details.provider_details?.first_name + ' ' + details.provider_details?.last_name}</b> on <br/><b>{CommonService.convertDateFormat2(details.appointment_date)}</b> as&nbsp;
+                        no show?
                     </div>
                     <CheckBoxComponent value={noShow} label={'Waive No Show Fee'} checked={noShow}
                                        onChange={(isChecked) => setNoShow(isChecked)}/>

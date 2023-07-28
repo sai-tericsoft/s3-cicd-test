@@ -52,7 +52,7 @@
 
   .scheduling-list-input {
     background-color: #FFFFFF;
-    width: 330px;
+    width: 327px;
   }
 
   .scheduling-list-card {
@@ -139,9 +139,11 @@
         //margin-bottom: 20px;
 
         .filter-header-date-text {
-          font-weight: 600;
-          font-size: 18px;
-          color: $body-color;
+          font-weight: 700;
+          font-size: 14px;
+          line-height: 16px;
+          letter-spacing: 0.002em;
+          color: #00534F;
           //margin-bottom: 4px;
         }
 

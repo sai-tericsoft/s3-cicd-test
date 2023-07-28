@@ -162,7 +162,10 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
     const handleSchedulingSort = useCallback((key: string, order: string) => {
         setSchedulingListFilterState((oldState: any) => {
             const newState = {...oldState};
-            newState["sort"][key] = order;
+            newState["sort"] = {
+                key,
+                order
+            }
             return newState;
         });
     }, []);
@@ -594,14 +597,14 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                 ? 'MMMM YYYY'
                                                 : 'MMMM DD YYYY'
                                         )}
-                                    </LinkComponent> : <>
+                                    </LinkComponent> : <div className={'filter-header-date-text'}>
                                         {CommonService.convertDateFormat(
                                             schedulingListFilterState.start_date,
                                             viewMode === 'calendar' && schedulingListFilterState.duration === 'month'
                                                 ? 'MMMM YYYY'
                                                 : 'MMMM DD YYYY'
                                         )}
-                                    </>
+                                    </div>
                                 }
                                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                                     {openDatePicker && (schedulingListFilterState.duration !== 'month') && (
@@ -711,8 +714,8 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                      [
                                                          {value: 'month', label: 'Month'},
                                                          {value: 'day', label: '1 Day'},
-                                                         {value: '3day', label: '3 Day'},
-                                                         {value: '5day', label: '5 Day'}
+                                                         {value: '3day', label: '3 Days'},
+                                                         {value: '5day', label: '5 Days'}
                                                      ]
                                                  }
                                                  label={'Duration'}
@@ -1000,7 +1003,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                                     <div className="card-item"
                                                                                          style={{
                                                                                              top: nonFirstAllDayBlock ? blocked_slot.start_time - value.start : 0,
-                                                                                             height: nonFirstAllDayBlock ? blocked_slot.end_time - blocked_slot.start_time: 0
+                                                                                             height: nonFirstAllDayBlock ? blocked_slot.end_time - blocked_slot.start_time : 0
                                                                                          }}>
                                                                                         {nonFirstAllDayBlock &&
                                                                                             <CalendarAppointmentCard
@@ -1035,28 +1038,31 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                 onDataLoaded={(data: any) => {
                                     setAppointmentDataPresent(data)
                                 }}
-                                noDataText={<>{(!!schedulingListFilterState.start_date || !!schedulingListFilterState.category_id || !!schedulingListFilterState.service_id || !!schedulingListFilterState.provider_id || !!schedulingListFilterState.status) &&
+                                noDataText={<>{(!schedulingListFilterState?.search && (!!schedulingListFilterState.start_date || !!schedulingListFilterState.category_id || !!schedulingListFilterState.service_id || !!schedulingListFilterState.provider_id || !!schedulingListFilterState.status)) &&
                                     (<div className={'no-appointment-text-wrapper'}>
                                         <div><img src={ImageConfig.Search} alt="client-search"/></div>
-                                        <div className={'no-appointment-heading'}>No Client Found</div>
+                                        <div className={'no-appointment-heading'}>No Client Found!</div>
                                         <div className={'no-appointment-description'}>
                                             Please adjust filters or choose a different date range to refine your
                                             search.
                                         </div>
                                     </div>)}
                                     {
-                                        (schedulingListFilterState?.search ?
+                                        (schedulingListFilterState?.search && !(schedulingListFilterState.start_date || schedulingListFilterState.category_id || schedulingListFilterState.service_id || schedulingListFilterState.provider_id || schedulingListFilterState.status) ?
                                             <div className={'no-appointment-text-wrapper'}>
                                                 <div><img src={ImageConfig.Search} alt="client-search"/></div>
-                                                <div className={'no-appointment-heading'}>No Client Found!</div>
+                                                <div className={'no-appointment-heading'}>No Client Found!
+                                                </div>
                                                 <div className={'no-appointment-description'}>
-                                                    Oops! It seems like there are no appointments available for the
+                                                    Oops! It seems like there are no appointments available
+                                                    for the
                                                     client name you have searched.
                                                 </div>
                                             </div> : '')
                                     }
                                     {appointmentDataPresent?.length === 0 && (
                                         (!schedulingListFilterState.start_date &&
+                                            !schedulingListFilterState.search &&
                                             !schedulingListFilterState.category_id &&
                                             !schedulingListFilterState.service_id &&
                                             !schedulingListFilterState.provider_id &&
@@ -1068,6 +1074,22 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                             </div>
                                         </div>
                                     )}
+                                    {
+                                        ((schedulingListFilterState?.search && appointmentDataPresent?.length === 0 &&
+                                            (!!schedulingListFilterState.start_date ||
+                                                !!schedulingListFilterState.category_id ||
+                                                !!schedulingListFilterState.service_id ||
+                                                !!schedulingListFilterState.provider_id ||
+                                                !!schedulingListFilterState.status)) ?
+                                            <div className={'no-appointment-text-wrapper'}>
+                                                <div><img src={ImageConfig.Search} alt="client-search"/></div>
+                                                <div className={'no-appointment-heading'}>No Client Found!</div>
+                                                {/*<div className={'no-appointment-description'}>*/}
+                                                {/*    Oops! It seems like there are no appointments available for the*/}
+                                                {/*    client name you have searched.*/}
+                                                {/*</div>*/}
+                                            </div> : '')
+                                    }
                                 </>
 
                                 }

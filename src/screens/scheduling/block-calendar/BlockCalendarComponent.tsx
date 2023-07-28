@@ -31,31 +31,31 @@ const blockCalendarValidationSchema = Yup.object({
     is_block_all_day: Yup.boolean().nullable(),
     start_date: Yup.string().when("is_block_all_day", {
         is: true,
-        then: Yup.string().required('Start Date is required'),
+        then: Yup.string().nullable().required('Start Date is required'),
         otherwise: Yup.string().nullable()
     }),
 
     end_date: Yup.string().when("is_block_all_day", {
         is: true,
-        then: Yup.string().required('End Date is required'),
+        then: Yup.string().nullable().required('End Date is required'),
         otherwise: Yup.string().nullable()
     }),
 
     date: Yup.string().when("is_block_all_day", {
         is: false,
-        then: Yup.string().required('Date is required'),
+        then: Yup.string().nullable().required('Date is required'),
         otherwise: Yup.string().nullable()
     }),
 
     start_time: Yup.string().when("is_block_all_day", {
         is: false,
-        then: Yup.string().required('Start Time is required'),
+        then: Yup.string().nullable().required('Start Time is required'),
         otherwise: Yup.string().nullable()
     }),
 
     end_time: Yup.string().when("is_block_all_day", {
         is: false,
-        then: Yup.string().required('End Time is required'),
+        then: Yup.string().nullable().required('End Time is required'),
         otherwise: Yup.string().nullable()
     })
 });
@@ -324,7 +324,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                                                         (field: FieldProps) => (
                                                             <FormikDatePickerComponent
                                                                 label={'Start Date'}
-                                                                placeholder={'Start Date'}
+                                                                placeholder={'MM/DD/YYYY'}
                                                                 formikField={field}
                                                                 required={true}
                                                                 minDate={moment()}
@@ -340,7 +340,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                                                         (field: FieldProps) => (
                                                             <FormikDatePickerComponent
                                                                 label={'End Date'}
-                                                                placeholder={'End Date'}
+                                                                placeholder={'MM/DD/YYYY'}
                                                                 formikField={field}
                                                                 required={true}
                                                                 fullWidth={true}
@@ -356,7 +356,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                                                     (field: FieldProps) => (
                                                         <FormikDatePickerComponent
                                                             label={'Date'}
-                                                            placeholder={'Date'}
+                                                            placeholder={'MM/DD/YYYY'}
                                                             formikField={field}
                                                             required={true}
                                                             minDate={moment()}
@@ -372,7 +372,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                                                             (field: FieldProps) => (
                                                                 <FormikTimePickerComponent
                                                                     label={'Start Time'}
-                                                                    placeholder={'Start Time'}
+                                                                    placeholder={'hh/mm aa'}
                                                                     formikField={field}
                                                                     required={true}
                                                                     fullWidth={true}
@@ -387,7 +387,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                                                             (field: FieldProps) => (
                                                                 <FormikTimePickerComponent
                                                                     label={'End Time'}
-                                                                    placeholder={'End Time'}
+                                                                    placeholder={'hh/mm aa'}
                                                                     formikField={field}
                                                                     required={true}
                                                                     fullWidth={true}

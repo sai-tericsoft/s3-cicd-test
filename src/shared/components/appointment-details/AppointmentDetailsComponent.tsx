@@ -248,13 +248,13 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                 {details?.status === 'cancelled' && <>
                                     <div className="info-text">
                                         Cancellation Fees
-                                        : {(details?.waive_cancellation_fee) ? 'Waived Off' : '$' + (details?.cancellation_charge?.amount || 0)}
+                                        : {(details?.waive_cancellation_fee) ? 'Waived Off' : '$' + (CommonService.convertToDecimals(+(details?.cancellation_charge?.amount)) || '0.00')}
                                     </div>
                                 </>}
                                 {details?.status === 'no_show' && <>
                                     <div className="info-text">
                                         No Show Fees :
-                                        {(details?.waive_no_show_fee) ? ' Waived Off' : '$' + (details?.no_show_charge?.amount || 0)}
+                                        {(details?.waive_no_show_fee) ? ' Waived Off' : ' $' + (CommonService.convertToDecimals(+(details?.no_show_charge?.amount)) || '0.00')}
                                     </div>
                                 </>}
                                 {details?.status === 'completed' && <>
@@ -367,7 +367,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                         </div>
 
                                         <div
-                                            className={'display-flex ts-justify-content-center pdd-left-50 pdd-bottom-10'}>
+                                className={'display-flex ts-justify-content-center pdd-left-50 pdd-bottom-10'}>
                                             <ChipComponent color={'success'}
                                                            label={bookType?.title}/>&nbsp;&nbsp;
                                             <ChipComponent className={'minutes-chip'} color={'success'}
@@ -482,7 +482,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
 
                             </div>
                             <div className="checkin-confirmation-status-text">
-                                Check In Successful!
+                                Check-in Successful!
                             </div>
                         </div>
                         <div className="action-buttons">

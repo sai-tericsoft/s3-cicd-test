@@ -162,7 +162,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                                                 Total Amount
                                             </div>
                                             <div className="block-body payment-price ts-row">
-                                                $ {CommonService.convertToDecimals(+details?.amount) || 0}
+                                                $ {CommonService.convertToDecimals(+details?.amount) || '0.00'}
                                             </div>
                                         </div>
                                         <div className="ts-row option-item-wrapper mrg-bottom-15 mrg-top-15">

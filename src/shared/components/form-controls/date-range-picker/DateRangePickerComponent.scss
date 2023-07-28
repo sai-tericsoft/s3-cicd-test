@@ -4,7 +4,20 @@
   &.full-width {
     width: 100%;
   }
+  .close-icon-container{
+    color: $primary-color;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    padding-right: 6px;
+
+
+  }
   .react-daterange-picker__wrapper {
+    position: relative;
     padding: 4px 10px;
     margin-top: 2px;
     //padding-left: ;
@@ -23,11 +36,15 @@
 
     .react-daterange-picker__inputGroup {
       color: #000;
+      min-height: 28px;
+      display: flex;
+      align-items: center;
     }
   }
 
   .react-daterange-picker__button {
     color: #8a8686;
+    padding: 5px;
   }
 
   .react-daterange-picker__inputGroup__input:invalid {
