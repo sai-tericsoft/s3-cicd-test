@@ -91,11 +91,12 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
 
         const handleMedicalRecordDocumentDelete = useCallback(() => {
             CommonService.onConfirm({
-                image: ImageConfig.PopupLottie,
+                image: ImageConfig.ConfirmationLottie,
                 showLottie: true,
                 confirmationTitle: "DELETE ATTACHMENT",
-                confirmationSubTitle: "Are you sure you want to delete this attachment\n" +
-                    "from this file?"
+                confirmationDescription:<div className="delete-document">
+                    <div className={'delete-document-text text-center '}>Are you sure you want to delete this attachment <br/> from this file</div>
+                </div>
             }).then(() => {
                 setIsMedicalRecordAttachmentDeleting(true);
                 if (medicalRecordDocumentId) {
@@ -167,8 +168,11 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                 image: ImageConfig.ConfirmationLottie,
                 showLottie: true,
                 confirmationTitle: "DELETE DOCUMENT",
-                confirmationSubTitle: "Are you sure you want to delete this document\n" +
-                    "from this file?"
+                // confirmationSubTitle: "Are you sure you want to delete this document\n" +
+                //     "from this file?"
+                confirmationDescription:<div className="delete-document">
+                    <div className={'delete-document-text text-center '}>Are you sure you want to delete this document <br/> from this file</div>
+                </div>
             }).then(() => {
                 if (medicalRecordDocumentId) {
                     CommonService._chartNotes.DeleteDocument(medicalRecordDocumentId)
@@ -238,8 +242,8 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                                                                  onFilesDrop={(files: any) => {
                                                                      setMedicalRecordDocumentAttachmentFile(files[0]);
                                                                  }}
-                                                                 acceptedFileTypes={["mp4", "pdf", "png", "jpg", "jpeg", "avi"]}
-                                                                 acceptedFilesText={"PNG, JPG, JPEG, PDF, MP4 and AVI files are allowed upto 100MB"}
+                                                                 acceptedFileTypes={["mp4", "pdf", "png", "jpeg", "avi"]}
+                                                                 acceptedFilesText={"PNG, JPEG, PDF, MP4 and AVI files are allowed upto 100MB"}
                                             />
                                         }
                                     </div>

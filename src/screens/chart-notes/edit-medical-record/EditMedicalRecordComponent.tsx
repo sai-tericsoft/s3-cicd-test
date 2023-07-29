@@ -263,7 +263,6 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                     render={arrayHelpers => (
                                         <>
                                             {values?.injury_details && values?.injury_details?.map((item: any, index: any) => {
-                                                console.log('item',item)
                                                 return (
                                                     <>
                                                         {

@@ -29,6 +29,7 @@ import * as Yup from "yup";
 import AttachmentComponent from "../../../shared/attachment/AttachmentComponent";
 import InputComponent from "../../../shared/components/form-controls/input/InputComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
+import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 
 interface SurgeryRecordViewScreenProps {
 
@@ -160,8 +161,9 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                 image: ImageConfig.PopupLottie,
                 showLottie: true,
                 confirmationTitle: "DELETE ATTACHMENT",
-                confirmationSubTitle: "Are you sure you want to delete this attachment\n" +
-                    "from this file?"
+                confirmationDescription:<div className="delete-document">
+                    <div className={'delete-document-text text-center '}>Are you sure you want to delete this attachment <br/> from this file</div>
+                </div>
             }).then((response: any) => {
                 CommonService._chartNotes.RemoveSurgeryRecordAttachmentAPICall(surgeryRecordId, attachmentId)
                     .then((response: IAPIResponseType<any>) => {
@@ -228,8 +230,9 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
             image: ImageConfig.ConfirmationLottie,
             showLottie: true,
             confirmationTitle: "DELETE SURGERY RECORD",
-            confirmationSubTitle: "Are you sure you want to delete this surgery record\n" +
-                "from this file?"
+            confirmationDescription:<div className="delete-document">
+                <div className={'delete-document-text text-center '}>Are you sure you want to delete this surgery record <br/> from this file</div>
+            </div>
         }).then((response: any) => {
                 if (surgeryRecordId) {
                     CommonService._chartNotes.SurgeryRecordDeleteAPICall(surgeryRecordId)
@@ -377,6 +380,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                     <ButtonComponent variant={'contained'} onClick={closeBodyPartsModal}>Close</ButtonComponent>
                 </div>
             </ModalComponent>
+            <PageHeaderComponent title={'View Surgery Record'}/>
             {
                 isSurgeryRecordDetailsLoading && <div>
                     <LoaderComponent/>
@@ -392,7 +396,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                                             </span>
                                         <ChipComponent className={clientMedicalRecord?.status ? "active" : "inactive"}
                                                        size={'small'}
-                                                       label={clientMedicalRecord?.status || "-"}/>
+                                                       label={clientMedicalRecord?.status_details?.title || "-"}/>
                                     </span>
                             <div className="ts-row width-auto">
                                 <ButtonComponent variant={'outlined'} color={'error'} className={'mrg-right-20'}

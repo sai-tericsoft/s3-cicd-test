@@ -165,8 +165,8 @@ const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentCompon
                                                                                  setFieldValue('attachment', file);
                                                                              }
                                                                          }}
-                                                                         acceptedFileTypes={["mp4", "pdf", "png", "jpg", "jpeg", "avi"]}
-                                                                         acceptedFilesText={"PNG, JPG, JPEG, PDF, MP4 and AVI files are allowed upto 100MB"}
+                                                                         acceptedFileTypes={["mp4", "pdf", "png", "jpeg", "avi"]}
+                                                                         acceptedFilesText={"PNG, JPEG, PDF, MP4 and AVI files are allowed upto 100MB"}
                                                     />
                                                     {
                                                         (_.get(touched, "attachment") && !!(_.get(errors, "attachment"))) &&
