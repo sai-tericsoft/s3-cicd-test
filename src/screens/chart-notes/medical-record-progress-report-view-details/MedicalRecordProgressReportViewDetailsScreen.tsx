@@ -158,7 +158,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                             label={progressReportDetails?.status || "-"}/>
                                     </span>
                     </div>
-                    <MedicalInterventionLinkedToComponent medicalRecordDetails={clientMedicalRecord}/>
+                    <MedicalInterventionLinkedToComponent label={'Report Linked to:'} medicalRecordDetails={clientMedicalRecord}/>
                     <div className={'ts-row'}>
                         <div className={'ts-col-md-4 ts-col-lg'}>
                             <DataLabelValueComponent label={'Date of Onset'}>

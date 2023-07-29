@@ -30,7 +30,7 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
             onEdit();
         }
     }, [onEdit]);
-
+console.log('attachmentDetails,',attachmentDetails);
 
     return (
         <div className={"medical-record-attachment-basic-details-card-component"}>
@@ -50,9 +50,9 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                                 {CommonService.extractName(medicalRecordDetails.client_details)}
                             </div>
                             <div className={"medical-record-attachment-basic-details-status"}>
-                                <ChipComponent label={attachmentDetails?.medical_record_details?.status}
+                                <ChipComponent label={attachmentDetails?.medical_record_details?.status ==="open" ? "Open - Unresolved" : 'Closed - Resolved'}
                                                color={"success"}
-                                               className={attachmentDetails?.status === "open" ? "open" : 'closed'}/>
+                                               className={attachmentDetails?.medical_record_details?.status === "open" ? 'active' : 'inactive'}/>
                             </div>
                         </div>
                         <div className={"medical-record-attachment-basic-details-actions"}>
@@ -76,7 +76,7 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                             </ButtonComponent>}
                         </div>
                     </div>
-                    <MedicalInterventionLinkedToComponent medicalRecordDetails={medicalRecordDetails}/>
+                    <MedicalInterventionLinkedToComponent label={'Document Linked to:'} medicalRecordDetails={medicalRecordDetails}/>
                     <div className={"ts-row"}>
                         <div className="ts-col-md-6 ts-col-lg-3">
                             <DataLabelValueComponent label={"Date of Document"}>
@@ -93,7 +93,7 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                             }
                         </>
                         <div className="ts-col-md-6 ts-col-lg-3">
-                            <DataLabelValueComponent label={"Attached By"}>
+                            <DataLabelValueComponent label={"Attached by"}>
                                 {CommonService.extractName(attachmentDetails?.attached_by_details)}
                             </DataLabelValueComponent>
                         </div>

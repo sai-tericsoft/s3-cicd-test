@@ -71,7 +71,7 @@ const MedicalInterventionLinkedToComponent = (props: MedicalInterventionLinkedTo
 
         return (
             <div className={'medical-intervention-linked-to-component'}>
-                <DataLabelValueComponent label={label ? label : 'Report Linked to: '} direction={"row"}
+                <DataLabelValueComponent label={label ? label : 'Intervention Linked to: '} direction={"row"}
                                          className={'medical-record-injury-details-wrapper'}>
                     <div className={'medical-record-injury-details'} ref={interventionDivRef}>
                         {medicalRecordDetails?.intervention_linked_to}
