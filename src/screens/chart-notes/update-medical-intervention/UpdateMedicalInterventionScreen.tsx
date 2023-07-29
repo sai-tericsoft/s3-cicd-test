@@ -334,7 +334,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
 
     const handleDiscardNote = useCallback(() => {
         CommonService.onConfirm({
-            image: ImageConfig.PopupLottie,
+            image: ImageConfig.ConfirmationLottie,
             showLottie: true,
             confirmationTitle: "DISCARD SOAP NOTE",
             // confirmationSubTitle: "\n"+
