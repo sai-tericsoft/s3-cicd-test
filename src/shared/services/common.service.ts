@@ -442,7 +442,7 @@ const getSystemFormatTimeStamp = (date: Date | string, showTime: boolean = false
         return "N/A"
     }
     if (showTime) {
-        return moment(date).format('DD-MMM-YYYY hh:mm A');
+        return moment(date).format('DD-MMM-YYYY, hh:mm A');
     } else {
         return moment(date).format('DD-MMM-YYYY');
     }

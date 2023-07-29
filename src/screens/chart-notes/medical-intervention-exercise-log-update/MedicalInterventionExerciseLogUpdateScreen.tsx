@@ -485,7 +485,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                         <ChipComponent
                                             className={clientMedicalRecord?.status === "open" ? "active" : "inactive"}
                                             size={'small'}
-                                            label={clientMedicalRecord?.status || "-"}/>
+                                            label={clientMedicalRecord?.status_details?.title || "-"}/>
                                     </span>
                         </div>
                         <MedicalInterventionLinkedToComponent label={'Exercise Log Linked to'}
