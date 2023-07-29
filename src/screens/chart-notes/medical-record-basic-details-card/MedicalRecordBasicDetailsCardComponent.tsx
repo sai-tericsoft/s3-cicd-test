@@ -184,7 +184,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
         if (medicalRecordId) {
             CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, MedicalInterventionFormInitialValues)
                 .then((response) => {
-                    CommonService._alert.showToast( "Case has been discharged successfully", "success");
+                    CommonService._alert.showToast( "Discharge Summary created successfully", "success");
                     navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, response.data._id));
                 }).catch((error) => {
                 CommonService._alert.showToast( "Existing notes must be completed for case discharge.", "error");

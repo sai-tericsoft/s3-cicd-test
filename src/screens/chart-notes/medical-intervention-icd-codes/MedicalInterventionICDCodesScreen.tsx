@@ -314,7 +314,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                                         <ChipComponent
                                             className={clientMedicalRecord?.status === "open" ? "active" : "inactive"}
                                             size={'small'}
-                                            label={clientMedicalRecord?.status || "-"}/>
+                                            label={clientMedicalRecord?.status_details.title || "-"}/>
                                     </span>
                         </div>
                         <MedicalInterventionLinkedToComponent medicalRecordDetails={clientMedicalRecord}/>
