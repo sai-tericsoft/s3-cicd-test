@@ -698,7 +698,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
 
                                                             <FormikDatePickerComponent
                                                                 label={'Date'}
-                                                                placeholder={'Date'}
+                                                                placeholder={'MM/DD/YYYY'}
                                                                 disabled={isDatesListLoading || !values?.facility}
                                                                 formikField={field}
                                                                 required={true}
