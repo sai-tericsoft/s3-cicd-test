@@ -254,9 +254,9 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                 }
                 {
                     medicalInterventionId && currentStep === "medicalRecordList" && <>
-                        {
-                            isMedicalRecordListLoading && <div><LoaderComponent/></div>
-                        }
+                        {/*{*/}
+                        {/*    isMedicalRecordListLoading && <div><LoaderComponent/></div>*/}
+                        {/*}*/}
                         {
                             isMedicalRecordListLoadingFailed &&
                             <StatusCardComponent title={'Failed to load Medical Record list'}/>
@@ -280,6 +280,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                                 <div className={'card-table'}>
                                     <TableComponent
                                         data={medicalRecordList}
+                                        loading={isMedicalRecordListLoading}
                                         noDataText={'Currently, there are no open cases for this client.'}
                                         columns={medicalRecordColumns}
                                         onRowClick={(row) => {
