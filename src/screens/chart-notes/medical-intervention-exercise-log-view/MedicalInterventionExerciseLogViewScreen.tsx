@@ -32,6 +32,8 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
     const navigate = useNavigate();
     const [medicalInterventionExerciseLogDetails, setMedicalInterventionExerciseLogDetails] = useState<any>(undefined);
     const [isMedicalInterventionExerciseLogDetailsLoading, setIsMedicalInterventionExerciseLogDetailsLoading] = useState<boolean>(false);
+    const [isMedicalInterventionExerciseLogDetailsLoaded, setIsMedicalInterventionExerciseLogDetailsLoaded] = useState<boolean>(false);
+
     const location = useLocation();
 
 
@@ -96,12 +98,15 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
 
     const fetchMedicalInterventionExerciseLogDetails = useCallback((medicalInterventionId: string) => {
         setIsMedicalInterventionExerciseLogDetailsLoading(true);
+        setIsMedicalInterventionExerciseLogDetailsLoaded(false);
         CommonService._chartNotes.FetchMedicalInterventionExerciseLogAPICall(medicalInterventionId, {})
             .then((response: IAPIResponseType<IService>) => {
                 setMedicalInterventionExerciseLogDetails(response.data);
+                setIsMedicalInterventionExerciseLogDetailsLoaded(true);
                 setIsMedicalInterventionExerciseLogDetailsLoading(false);
             }).catch((error: any) => {
             setMedicalInterventionExerciseLogDetails({});
+            setIsMedicalInterventionExerciseLogDetailsLoaded(true);
             setIsMedicalInterventionExerciseLogDetailsLoading(false);
         })
     }, []);
@@ -139,7 +144,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
             }
 
             {
-                (medicalInterventionExerciseLogDetails && medicalInterventionExerciseLogDetails?.medical_record_details) && <>
+                (isMedicalInterventionExerciseLogDetailsLoaded &&medicalInterventionExerciseLogDetails && medicalInterventionExerciseLogDetails?.medical_record_details) && <>
                     <CardComponent color={'primary'}>
                         <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
@@ -190,7 +195,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
                 </>
             }
 
-            {medicalInterventionExerciseLogDetails && medicalInterventionExerciseLogDetails.attachments.length > 0 &&
+            {isMedicalInterventionExerciseLogDetailsLoaded && medicalInterventionExerciseLogDetails && medicalInterventionExerciseLogDetails.attachments.length > 0 &&
                 <CardComponent title={'Attachments'} className={'pdd-bottom-20'}>
 
                     {
@@ -215,7 +220,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
             }
 
 
-            {medicalInterventionExerciseLogDetails && !medicalInterventionExerciseLogDetails.attachments.length &&
+            {isMedicalInterventionExerciseLogDetailsLoaded && medicalInterventionExerciseLogDetails && !medicalInterventionExerciseLogDetails.attachments.length &&
                 <div className={'no-appointment-text-wrapper'}>
                     <CardComponent title={'Attachments'}>
                         <StatusCardComponent title={'No attachment has been added yet'}/>
@@ -224,13 +229,13 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
 
             }
 
-            <div className={'medical-intervention-exercise-log-view-table-container'}>
+            {isMedicalInterventionExerciseLogDetailsLoaded && <div className={'medical-intervention-exercise-log-view-table-container'}>
                 <TableComponent data={medicalInterventionExerciseLogDetails?.exercise_records}
                     // loading={isMedicalInterventionExerciseLogDetailsLoading}
                                 columns={medicalInterventionExerciseLogColumns}/>
             </div>
-
-            {medicalInterventionExerciseLogDetails && medicalInterventionExerciseLogDetails.comments &&
+            }
+            {isMedicalInterventionExerciseLogDetailsLoaded && medicalInterventionExerciseLogDetails && medicalInterventionExerciseLogDetails.comments &&
                 medicalInterventionExerciseLogDetails.comments.length > 0 &&
                 <CardComponent title={'Comments'} className='mrg-top-20'>
                     <div className='pdd-bottom-20'>{medicalInterventionExerciseLogDetails.comments}</div>
