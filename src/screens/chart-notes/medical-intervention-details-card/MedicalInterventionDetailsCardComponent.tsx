@@ -39,6 +39,7 @@ import FormikTextAreaComponent from "../../../shared/components/form-controls/fo
 import _ from "lodash";
 import LottieFileGenerationComponent
     from "../../../shared/components/lottie-file-generation/LottieFileGenerationComponent";
+import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 
 interface MedicalInterventionDetailsCardComponentProps {
     showAction?: boolean,
@@ -73,6 +74,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
 
     const {
         clientMedicalRecord,
+        isClientMedicalRecordLoading,
         isClientMedicalRecordLoaded,
     } = useSelector((state: IRootReducerState) => state.client);
 
@@ -190,6 +192,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
             }
         }
     }, [medicalRecordId, medicalInterventionDetails, closeImportSoapNoteDrawer, navigate]);
+    
 
     const handleNotifyAdminModalOpen = useCallback(() => {
         setNotifyAdminFormInitialValues(_.cloneDeep(NotifyAdminInitialValues));
@@ -259,6 +262,17 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                 !medicalRecordId &&
                 <StatusCardComponent title={"Medical Record ID missing. Cannot fetch Medical Record  details"}/>
             }
+            {
+                medicalRecordId &&  <>
+                    {
+                        isClientMedicalRecordLoading &&
+                        <div className={'mrg-bottom-25'}>
+                            <LoaderComponent/>
+                        </div>
+                    }
+                </>
+
+            }
             {medicalRecordId &&
                 <DrawerComponent isOpen={isSurgeryAddOpen}
                                  showClose={true}
@@ -275,7 +289,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                 </DrawerComponent>
             }
             {
-                (isClientMedicalRecordLoaded && clientMedicalRecord && medicalRecordId) &&
+                (isClientMedicalRecordLoaded &&  medicalRecordId) &&
                 <>
                     <CardComponent color={'primary'}>
                         <div className={'client-name-button-wrapper'}>

@@ -195,8 +195,8 @@ const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
                                                                                      setFieldValue('attachment', file);
                                                                                  }
                                                                              }}
-                                                                             acceptedFileTypes={["pdf", "png", "jpg", "jpeg"]}
-                                                                             acceptedFilesText={"PNG, JPG, JPEG and PDF files are allowed upto 100MB"}
+                                                                             acceptedFileTypes={["pdf", "png", "jpeg"]}
+                                                                             acceptedFilesText={"PNG, JPEG and PDF files are allowed upto 100MB"}
                                                         />
                                                         {
                                                             (_.get(touched, "attachment") && !!(_.get(errors, "attachment"))) &&

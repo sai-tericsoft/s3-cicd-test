@@ -238,8 +238,8 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                                                                  onFilesDrop={(files: any) => {
                                                                      setMedicalRecordDocumentAttachmentFile(files[0]);
                                                                  }}
-                                                                 acceptedFileTypes={["mp4", "pdf", "png", "jpg", "jpeg", "avi"]}
-                                                                 acceptedFilesText={"PNG, JPG, JPEG, PDF, MP4 and AVI files are allowed upto 100MB"}
+                                                                 acceptedFileTypes={["mp4", "pdf", "png", "jpeg", "avi"]}
+                                                                 acceptedFilesText={"PNG, JPEG, PDF, MP4 and AVI files are allowed upto 100MB"}
                                             />
                                         }
                                     </div>
