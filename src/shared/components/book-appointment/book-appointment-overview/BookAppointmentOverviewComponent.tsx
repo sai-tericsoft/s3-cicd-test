@@ -23,7 +23,7 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
     const [bookType, setBookType] = useState<any | null>(null);
     const [isBookingLoading, setIsBookingLoading] = useState<boolean>(false);
 
-    console.log(bookingDraft);
+    console.log('bookingDraft',bookingDraft);
 
 
     // const getServiceView = useCallback(

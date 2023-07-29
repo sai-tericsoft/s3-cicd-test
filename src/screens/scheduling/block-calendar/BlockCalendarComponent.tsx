@@ -132,7 +132,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
             align: "center",
             render: (item: any) => {
                 return <span>
-                    {item?.appointment_date ? CommonService.getSystemFormatTimeStamp(item?.appointment_date, true) : "-"}
+                    {item?.appointment_date ? CommonService.getSystemFormatTimeStamp(item?.appointment_date, false)+', '+ CommonService.getHoursAndMinutesFromMinutes(item?.start_time) : "-"}
                 </span>
             }
         },
@@ -423,7 +423,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                 size={'lg'}
                 title={'Appointments'}
                 onClose={() => setIsShowAppointmentModel(false)}
-                modalFooter={<>
+                modalFooter={<div className={'mrg-top-40'}>
                     <ButtonComponent variant={'outlined'}
                                      className={'mrg-right-15'}
                                      onClick={() => setIsShowAppointmentModel(false)}
@@ -436,11 +436,11 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                     >
                         Proceed
                     </ButtonComponent>
-                </>
+                </div>
                 }
             >
 
-                <div className='text-center font-weight-bold mrg-bottom-15'>The following clients will be notified of
+                <div className=' font-weight-bold mrg-bottom-15'>The following clients will be notified of
                     your unavailability and will be asked to reschedule their
                     appointments.
                 </div>
