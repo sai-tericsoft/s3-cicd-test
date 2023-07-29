@@ -490,7 +490,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                            required={false}
                                                                            labelPlacement={"start"}
                                                                            onChange={(isChecked: any) => {
-                                                                               CommonService._alert.showToast(isChecked ? 'This note has been marked as flagged.' : 'This note has been marked as unflagged.', "success");
+                                                                               CommonService._alert.showToast(isChecked ? 'Note has been flagged.' : 'Note has been unflagged.', "success");
                                                                            }}
                                                                        />
                                                                    )
