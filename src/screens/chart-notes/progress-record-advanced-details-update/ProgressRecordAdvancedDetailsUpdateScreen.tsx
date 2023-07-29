@@ -270,9 +270,9 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                                 {clientMedicalRecordProgressReportDetails?.medical_record_details?.client_details?.first_name || "-"} {clientMedicalRecordProgressReportDetails?.medical_record_details?.client_details?.last_name || "-"}
                                         </span>
                                         <ChipComponent
-                                            className={clientMedicalRecordProgressReportDetails?.status === "completed" ? "active" : "draft"}
+                                            className={clientMedicalRecordProgressReportDetails?.medical_record_details?.status === "open" ? "active" : "inactive"}
                                             size={'small'}
-                                            label={clientMedicalRecordProgressReportDetails?.status || "-"}/>
+                                            label={clientMedicalRecordProgressReportDetails?.medical_record_details?.status === "open"? "Open - Unresolved" : "Closed - Resolved" || "-"}/>
                                     </span>
                             <div className="ts-row width-auto">
                                 <div className="">

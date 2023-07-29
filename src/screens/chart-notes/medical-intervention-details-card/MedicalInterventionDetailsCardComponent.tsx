@@ -284,7 +284,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                                {clientMedicalRecord?.client_details?.first_name || "N/A"} {clientMedicalRecord?.client_details?.last_name || "N/A"}
                                         </span>
                                         <ChipComponent
-                                            className={clientMedicalRecord?.status==='open' ? "active" : "draft"}
+                                            className={clientMedicalRecord?.status==='open' ? "active" : "inactive"}
                                             size={'small'}
                                             label={clientMedicalRecord?.status_details?.title || "N/A"}/>
                                     </span>
