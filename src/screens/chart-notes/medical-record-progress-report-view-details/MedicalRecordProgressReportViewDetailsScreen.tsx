@@ -133,7 +133,6 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
         }
     }, [searchParams, navigate, dispatch, medicalRecordId]);
 
-    console.log('progressReportDetails', progressReportDetails);
 
     return (
         <div className={'progress-report-view-details-screen'}>

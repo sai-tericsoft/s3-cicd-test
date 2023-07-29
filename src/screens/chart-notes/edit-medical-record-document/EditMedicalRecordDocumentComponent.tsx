@@ -18,7 +18,7 @@ import {IRootReducerState} from "../../../store/reducers";
 import FormikSelectComponent from "../../../shared/components/form-controls/formik-select/FormikSelectComponent";
 
 const EditMedicalRecordDocumentFormValidationSchema = Yup.object({
-    document_date: Yup.string()
+    document_date: Yup.mixed()
         .required("Date of Document is required"),
     document_type_id: Yup.string()
         .required("Document Type is required"),
@@ -102,8 +102,8 @@ const EditMedicalRecordDocumentComponent = (props: EditMedicalRecordDocumentFile
                                                     disabled={true}
                                     />
                                     <InputComponent className="t-form-control"
-                                                    label={'Attached By'}
-                                                    placeholder={'Attached By'}
+                                                    label={'Attached by'}
+                                                    placeholder={'Attached by'}
                                                     value={currentUser?.first_name + " " + currentUser?.last_name}
                                                     required={true}
                                                     fullWidth={true}
@@ -150,7 +150,7 @@ const EditMedicalRecordDocumentComponent = (props: EditMedicalRecordDocumentFile
                                         }
                                     </Field>
                                 </div>
-                                <div className="t-form-actions">
+                                <div className="t-form-actions ">
                                     <ButtonComponent
                                         isLoading={isMedicalRecordDocumentFileEditInProgress}
                                         type={"submit"}
