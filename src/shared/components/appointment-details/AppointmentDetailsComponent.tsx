@@ -367,11 +367,11 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                         </div>
 
                                         <div
-                                className={'display-flex ts-justify-content-center pdd-left-50 pdd-bottom-10'}>
-                                            <ChipComponent color={'success'}
+                                className={'display-flex ts-justify-content-center pdd-left-90 pdd-bottom-10'}>
+                                            <ChipComponent className={'mrg-left-80'} color={'success'}
                                                            label={bookType?.title}/>&nbsp;&nbsp;
                                             <ChipComponent className={'minutes-chip'} color={'success'}
-                                                           label={details.duration + ' mins'}/>
+                                                           label={details?.service_details?.name +' - '+ details.duration + ' mins'}/>
                                         </div>
                                     </div>
                                     <div className="details-body-block">
