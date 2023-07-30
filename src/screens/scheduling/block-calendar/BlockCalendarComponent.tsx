@@ -19,6 +19,8 @@ import {ImageConfig} from "../../../constants";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {ITableColumn} from "../../../shared/models/table.model";
+import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
+import ErrorComponent from "../../../shared/components/error/ErrorComponent";
 
 interface BlockCalenderComponentProps {
     onAddSuccess: Function
@@ -272,7 +274,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className={'t-form'} noValidate={true}>
-                            {/*<FormDebuggerComponent values={values} errors={errors} showDebugger={true}/>*/}
+                            <FormDebuggerComponent values={values} errors={errors} showDebugger={true}/>
                             <div className="t-form-controls">
                                 <Field name={'provider_id'}>
                                     {
@@ -341,8 +343,10 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                                                         (field: FieldProps) => (
                                                             <FormikDatePickerComponent
                                                                 label={'End Date'}
+                                                                disabled={!values.start_date}
                                                                 placeholder={'MM/DD/YYYY'}
                                                                 formikField={field}
+                                                                minDate={moment(values.start_date)}
                                                                 required={true}
                                                                 fullWidth={true}
                                                             />
@@ -398,6 +402,13 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                                                     </Field>
                                                 </div>
                                             </div>
+                                        <div className="ts-row">
+                                            <div className="ts-col d-flex ts-justify-content-center">
+                                                {(values.end_time && values.start_time) && (values.end_time < values.start_time) && <>
+                                                    <ErrorComponent errorText={'End time should be greater than start time'}/>
+                                                </>}
+                                            </div>
+                                        </div>
                                         </div>
                                 }
 
@@ -407,7 +418,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                                     fullWidth={true}
                                     type={"submit"}
                                     isLoading={isSubmitting}
-                                    disabled={!isValid || isSubmitting || isBlockCalendarIsProgress}
+                                    disabled={!isValid || isSubmitting || isBlockCalendarIsProgress || (!values.is_block_all_day ? ((values.end_time && values.start_time) && (values.end_time < values.start_time)) : false)}
                                 >
                                     Submit
                                 </ButtonComponent>

@@ -754,10 +754,21 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                  displayWith={item => item.label}
                                                  onUpdate={
                                                      (value) => {
-                                                         setSchedulingListFilterState({
-                                                             ...schedulingListFilterState,
-                                                             duration: value
-                                                         });
+
+                                                         console.log(moment(schedulingListFilterState.start_date).format('llll'));
+                                                         if(moment(schedulingListFilterState.start_date).add(1, 'hour').isBetween(moment().startOf('month'), moment().endOf('month'))){
+                                                             console.log('is between');
+                                                             setSchedulingListFilterState({
+                                                                    ...schedulingListFilterState,
+                                                                    duration: value,
+                                                                    start_date: moment().format('YYYY-MM-DD')
+                                                                });
+                                                         } else {
+                                                             setSchedulingListFilterState({
+                                                                 ...schedulingListFilterState,
+                                                                 duration: value
+                                                             });
+                                                         }
                                                          dateSwitcher("reset", value);
                                                      }
                                                  }
