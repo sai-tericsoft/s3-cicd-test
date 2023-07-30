@@ -42,7 +42,7 @@
 
     &.blocked {
     background: $primary-color;
-      width: auto;
+      //width: auto;
     }
 
 
@@ -84,6 +84,7 @@
 
     &.blocked {
       color: #F2F6F6;
+      padding: 2px;
     }
 
     color: #00534F;

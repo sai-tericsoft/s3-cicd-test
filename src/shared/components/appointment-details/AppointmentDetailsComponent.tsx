@@ -248,13 +248,13 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                 {details?.status === 'cancelled' && <>
                                     <div className="info-text">
                                         Cancellation Fees
-                                        : {(details?.waive_cancellation_fee) ? 'Waived Off' : '$' + (CommonService.convertToDecimals(+(details?.cancellation_charge?.amount)) || '0.00')}
+                                        : {(details?.waive_cancellation_fee) ? 'Waived Off' : '$' + (CommonService.convertToDecimals(+(details?.amount)) || '0.00')}
                                     </div>
                                 </>}
                                 {details?.status === 'no_show' && <>
                                     <div className="info-text">
                                         No Show Fees :
-                                        {(details?.waive_no_show_fee) ? ' Waived Off' : ' $' + (CommonService.convertToDecimals(+(details?.no_show_charge?.amount)) || '0.00')}
+                                        {(details?.waive_no_show_fee) ? ' Waived Off' : ' $' + (CommonService.convertToDecimals(+(details?.amount)) || '0.00')}
                                     </div>
                                 </>}
                                 {details?.status === 'completed' && <>
