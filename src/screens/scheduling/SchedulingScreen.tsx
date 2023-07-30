@@ -63,7 +63,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             title: "Date",
             key: "date",
             dataIndex: "date",
-            // width: 130,
+            width: 140,
             render: (item: any) => {
                 return CommonService.convertDateFormat(item.appointment_date, 'DD-MMM-YYYY')
             }
@@ -73,7 +73,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             key: "time",
             dataIndex: "time",
             align: 'center',
-            // width: 100,
+            width: 100,
             render: (item: any) => {
                 return CommonService.getHoursAndMinutesFromMinutes(item.start_time)
             }
@@ -83,7 +83,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             key: "duration",
             dataIndex: "duration",
             align: 'center',
-            // width: 90,
+            width: 100,
             render: (item: any) => {
                 return <>{item?.duration ? item.duration + ' mins' : '-'} </>
             }
