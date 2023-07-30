@@ -44,7 +44,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
         },
         {
             title: "Client Name",
-            key: "name",
+            key: "last_name",
             dataIndex: "first_name",
             sortable: true,
             width: 150,
