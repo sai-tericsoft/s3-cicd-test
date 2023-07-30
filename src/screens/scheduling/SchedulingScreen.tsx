@@ -636,6 +636,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                             <div className="scheduling-filter-header-date-wrapper">
                                 {schedulingListFilterState.duration !== 'month' ?
                                     <LinkComponent onClick={() => setOpenDatePicker?.((prev) => !prev)}>
+
                                         {CommonService.convertDateFormat(
                                             schedulingListFilterState.start_date,
                                             viewMode === 'calendar' && schedulingListFilterState.duration === 'month'
@@ -654,6 +655,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                                     {openDatePicker && (schedulingListFilterState.duration !== 'month') && (
                                         <DatePicker
+                                            value={moment(schedulingListFilterState.start_date).toDate()}
                                             className={`text-date-picker`}
                                             open={openDatePicker}
                                             onClose={() => setOpenDatePicker(false)}

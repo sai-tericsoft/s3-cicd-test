@@ -205,9 +205,8 @@ const MedicalInterventionFinalizeTreatment = (medicalRecordId: string, medicalIn
 }
 
 const MedicalRecordProgressReportViewDetails = (medicalRecordId: string, progressReportId: string) => {
-    return "/chart-notes/" + medicalRecordId + "/" + progressReportId + '/progress-report-view-details' ;
+    return "/chart-notes/" + medicalRecordId + "/" + progressReportId + '/progress-report-view-details';
 }
-
 const MedicalInterventionDryNeedlingFileViewDetails = (medicalRecordId: string, dryNeedlingFileId: string) => {
     return "/chart-notes/" + medicalRecordId + "/" + dryNeedlingFileId + '/dry-needling-file-view-details';
 }
