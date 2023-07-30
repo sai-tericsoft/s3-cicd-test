@@ -6,7 +6,6 @@ import {ITableColumn} from "../../../shared/models/table.model";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {RadioButtonComponent} from "../../../shared/components/form-controls/radio-button/RadioButtonComponent";
 import {CommonService} from "../../../shared/services";
-import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import AvatarComponent from "../../../shared/components/avatar/AvatarComponent";

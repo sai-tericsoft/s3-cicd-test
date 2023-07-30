@@ -89,8 +89,8 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
         },
         {
             title: "Client Name",
-            key: "first_name",
-            dataIndex: "first_name",
+            key: "last_name",
+            dataIndex: "last_name",
             sortable: true,
             width: 160,
             render: (item: any) => {

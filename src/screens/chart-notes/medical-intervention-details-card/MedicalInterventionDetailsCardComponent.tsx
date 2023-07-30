@@ -192,7 +192,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
             }
         }
     }, [medicalRecordId, medicalInterventionDetails, closeImportSoapNoteDrawer, navigate]);
-    
+
 
     const handleNotifyAdminModalOpen = useCallback(() => {
         setNotifyAdminFormInitialValues(_.cloneDeep(NotifyAdminInitialValues));
@@ -209,7 +209,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
         if (medicalInterventionId) {
             CommonService._chartNotes.MedicalInterventionNotifyAdminAPICall(medicalInterventionId, values)
                 .then((response) => {
-                    CommonService._alert.showToast( "Admin has been notified.", "success");
+                    CommonService._alert.showToast("Admin has been notified.", "success");
                     setIsNotifyAdminProgressIsLoading(false);
                     handleNotifyAdminModalClose();
                     resetForm();
@@ -263,7 +263,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                 <StatusCardComponent title={"Medical Record ID missing. Cannot fetch Medical Record  details"}/>
             }
             {
-                medicalRecordId &&  <>
+                medicalRecordId && <>
                     {
                         isClientMedicalRecordLoading &&
                         <div className={'mrg-bottom-25'}>
@@ -289,7 +289,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                 </DrawerComponent>
             }
             {
-                (isClientMedicalRecordLoaded &&  medicalRecordId) &&
+                (isClientMedicalRecordLoaded && medicalRecordId) &&
                 <>
                     <CardComponent color={'primary'}>
                         <div className={'client-name-button-wrapper'}>
@@ -298,7 +298,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                                {clientMedicalRecord?.client_details?.first_name || "N/A"} {clientMedicalRecord?.client_details?.last_name || "N/A"}
                                         </span>
                                         <ChipComponent
-                                            className={clientMedicalRecord?.status==='open' ? "active" : "inactive"}
+                                            className={clientMedicalRecord?.status === 'open' ? "active" : "inactive"}
                                             size={'small'}
                                             label={clientMedicalRecord?.status_details?.title || "N/A"}/>
                                     </span>
@@ -312,7 +312,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                 </div>
                                 {showAction && <div className="ts-col">
                                     <MenuDropdownComponent menuBase={
-                                        <ButtonComponent  variant={'outlined'} fullWidth={true}>
+                                        <ButtonComponent variant={'outlined'} fullWidth={true}>
                                             Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
                                         </ButtonComponent>
                                     } menuOptions={medicalInterventionDropDownOptions}
@@ -362,7 +362,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                             <div className={'show-more-less'}
                                  onClick={() => setIsFullCardOpen(!isFullCardOpen)}>
                                 {isFullCardOpen ? 'Less' : 'More'} Details &nbsp;&nbsp;
-                                {isFullCardOpen ? <ImageConfig.UpArrowIcon/> : <ImageConfig.DownArrowIcon/> }
+                                {isFullCardOpen ? <ImageConfig.UpArrowIcon/> : <ImageConfig.DownArrowIcon/>}
                             </div>
                         </div>
                         <DrawerComponent isOpen={isEditMedicalRecordDrawerOpen}
@@ -450,10 +450,10 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
             <ModalComponent isOpen={isNotifyModalOpen} closeOnBackDropClick={true}
                             className={'notify-admin-modal'}>
                 <div className={'display-flex ts-justify-content-center mrg-bottom-20'}>
-                   <LottieFileGenerationComponent loop={true}
-                                                  animationData={ImageConfig.PopupLottie}
-                                                  autoplay={true}
-                                                  />
+                    <LottieFileGenerationComponent loop={true}
+                                                   animationData={ImageConfig.PopupLottie}
+                                                   autoplay={true}
+                    />
                 </div>
                 <FormControlLabelComponent label={'NOTIFY ADMIN'}
                                            className={'display-flex ts-justify-content-center '}/>
@@ -487,7 +487,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                 </div>
                                 <div className={'ts-action display-flex ts-justify-content-center'}>
                                     <ButtonComponent variant={'outlined'}
-                                                     className={isNotifyAdminProgressIsLoading?'mrg-right-15':""}
+                                                     className={isNotifyAdminProgressIsLoading ? 'mrg-right-15' : ""}
                                                      onClick={() => {
                                                          handleNotifyAdminModalClose();
                                                          resetForm(); // TODO : check if this is required compare with Inventory stock update form
