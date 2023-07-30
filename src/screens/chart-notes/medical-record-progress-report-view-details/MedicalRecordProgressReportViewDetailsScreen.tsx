@@ -2,7 +2,7 @@ import "./MedicalRecordProgressReportViewDetailsScreen.scss";
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {getProgressReportViewDetails} from "../../../store/actions/chart-notes.action";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
@@ -12,8 +12,6 @@ import {ITableColumn} from "../../../shared/models/table.model";
 import ESignApprovalComponent from "../../../shared/components/e-sign-approval/ESignApprovalComponent";
 import {CommonService} from "../../../shared/services";
 import {ImageConfig} from "../../../constants";
-import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
@@ -65,7 +63,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
 
     const {progressReportId, medicalRecordId} = useParams();
     const dispatch = useDispatch();
-    const [module, setModule] = useState<any>('');
+    // const [module, setModule] = useState<any>('');
     const navigate = useNavigate();
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const {
@@ -73,7 +71,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
     } = useSelector((state: IRootReducerState) => state.client);
     const [searchParams] = useSearchParams();
     const [isFullCardOpen, setIsFullCardOpen] = useState<boolean>(false);
-    const [isPrintLoading, setIsPrintLoading] = useState<boolean>(false);
+    // const [isPrintLoading, setIsPrintLoading] = useState<boolean>(false);
 
     const {
         isProgressReportDetailsLoaded,
@@ -94,31 +92,31 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
         }
     }, [medicalRecordId, dispatch]);
 
-    const handlePrint = useCallback(() => {
-        setIsPrintLoading(true);
-        CommonService._chartNotes.PrintProgressReportAPICall(progressReportId)
-            .then((res: any) => {
-                setIsPrintLoading(false);
-                const attachment = {
-                    type: 'application/pdf',
-                    url: res.data.url,
-                    name: 'progress report',
-                    key: ''
-                };
-                CommonService.printAttachment(attachment);
-            })
-            .catch((err: any) => {
-                setIsPrintLoading(false);
-                console.log(err);
-            })
-    }, [progressReportId])
+    // const handlePrint = useCallback(() => {
+    //     setIsPrintLoading(true);
+    //     CommonService._chartNotes.PrintProgressReportAPICall(progressReportId)
+    //         .then((res: any) => {
+    //             setIsPrintLoading(false);
+    //             const attachment = {
+    //                 type: 'application/pdf',
+    //                 url: res.data.url,
+    //                 name: 'progress report',
+    //                 key: ''
+    //             };
+    //             CommonService.printAttachment(attachment);
+    //         })
+    //         .catch((err: any) => {
+    //             setIsPrintLoading(false);
+    //             console.log(err);
+    //         })
+    // }, [progressReportId])
 
     useEffect(() => {
         if (medicalRecordId) {
             const referrer: any = searchParams.get("referrer");
             const active_tab: any = searchParams.get("activeTab");
             const module_name: any = searchParams.get("module_name");
-            setModule(module_name);
+            // setModule(module_name);
             dispatch(setCurrentNavParams("Progress Report Details", null, () => {
                 if (referrer && referrer !== "undefined" && referrer !== "null") {
                     if (module_name === "client_module") {
@@ -210,23 +208,23 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                     </div>
                 </CardComponent>
             }
-            {
-                (medicalRecordId && progressReportId && module === null) &&
-                <div className={'display-flex justify-content-end mrg-bottom-20'}>
-                    <ButtonComponent
-                        variant={'outlined'}
-                        onClick={handlePrint}
-                        isLoading={isPrintLoading}
-                        disabled={isPrintLoading}
-                        prefixIcon={<ImageConfig.PrintIcon/>}>Print</ButtonComponent>
-                    <LinkComponent
-                        route={CommonService._routeConfig.MedicalRecordProgressReportAdvancedDetailsUpdate(medicalRecordId, progressReportId, 'edit')}>
-                        <div className='mrg-left-15'>
-                            <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>Edit Progress Report</ButtonComponent>
-                        </div>
-                    </LinkComponent>
-                </div>
-            }
+            {/*{*/}
+            {/*    (medicalRecordId && progressReportId && module === null) &&*/}
+            {/*    <div className={'display-flex justify-content-end mrg-bottom-20'}>*/}
+            {/*        <ButtonComponent*/}
+            {/*            variant={'outlined'}*/}
+            {/*            onClick={handlePrint}*/}
+            {/*            isLoading={isPrintLoading}*/}
+            {/*            disabled={isPrintLoading}*/}
+            {/*            prefixIcon={<ImageConfig.PrintIcon/>}>Print</ButtonComponent>*/}
+            {/*        <LinkComponent*/}
+            {/*            route={CommonService._routeConfig.MedicalRecordProgressReportAdvancedDetailsUpdate(medicalRecordId, progressReportId, 'edit')}>*/}
+            {/*            <div className='mrg-left-15'>*/}
+            {/*                <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>Edit Progress Report</ButtonComponent>*/}
+            {/*            </div>*/}
+            {/*        </LinkComponent>*/}
+            {/*    </div>*/}
+            {/*}*/}
             <div className={'progress-report-view-details-container'}>
                 <>
                     {

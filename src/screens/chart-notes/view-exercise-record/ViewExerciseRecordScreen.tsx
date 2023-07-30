@@ -143,12 +143,12 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                                 {item?.provider_details?.first_name} {item?.provider_details?.last_name}
                                             </DataLabelValueComponent>
                                         </div>
-                                        <div className={'print-button-wrapper'}>
-                                            <ButtonComponent prefixIcon={<ImageConfig.PrintIcon/>}
-                                                             onClick={() => {
-                                                                 CommonService._alert.showToast('Coming Soon', 'info');
-                                                             }}>Print</ButtonComponent>
-                                        </div>
+                                        {/*<div className={'print-button-wrapper'}>*/}
+                                        {/*    <ButtonComponent prefixIcon={<ImageConfig.PrintIcon/>}*/}
+                                        {/*                     onClick={() => {*/}
+                                        {/*                         CommonService._alert.showToast('Coming Soon', 'info');*/}
+                                        {/*                     }}>Print</ButtonComponent>*/}
+                                        {/*</div>*/}
                                     </div>
                                 </CardComponent>
                                     <CardComponent title={'Attachments'} className={'attachment-card-wrapper'}>
