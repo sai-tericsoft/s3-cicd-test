@@ -101,7 +101,10 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
             }
             CommonService._user.getUserAvailableDatesList(providerId, payload)
                 .then((response: IAPIResponseType<any>) => {
-                    setAvailableDates(response.data || []);
+                    const dates = response.data || [];
+                    const currentDate = moment().format('YYYY-MM-DD').toString();
+                    const filteredDates = dates.filter((date: any) => date >= currentDate);
+                    setAvailableDates(filteredDates);
                 })
                 .catch((error: any) => {
                     setAvailableDates([]);

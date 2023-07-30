@@ -228,7 +228,8 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
             payload.end_date = moment(payload?.end_date).format('YYYY-MM-DD');
         } else {
             payload.date = moment(payload?.date).format('YYYY-MM-DD');
-            delete payload.start_date
+            payload.start_date = moment(payload?.date).format('YYYY-MM-DD');
+            // delete payload.start_date
             delete payload.end_date
         }
         setBlockCalenderFormDetails(payload);
