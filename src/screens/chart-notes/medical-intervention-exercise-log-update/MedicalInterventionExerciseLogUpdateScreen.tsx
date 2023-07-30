@@ -512,11 +512,16 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                         ref={hiddenFileInput}
                         accept={"application/pdf"}
                         onChange={(event: any) => {
-                            console.log(event);
-                            console.log(event.target.files[0]);
-                            const selectedFile = event.target.files[0];
-                            console.log(selectedFile);
-                            setSelectedAttachments((prevState: any) => [...prevState, selectedFile]);
+                            if(event.target.files.length > 0 ) {
+                                console.log(event);
+                                console.log(event.target.files[0]);
+                                const selectedFile = event.target.files[0];
+                                console.log(selectedFile);
+                                if (selectedFile) {
+                                    setSelectedAttachments((prevState: any) => [...(prevState || []), selectedFile]);
+                                }
+                                event.target.value = null;
+                            }
                         }}
                         style={{display: 'none'}}/>
                 </div>
@@ -533,9 +538,9 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                     <>
 
                                         {(attachmentList.attachments.length > 0) &&
-                                        <>
-                                            {attachmentList?.attachments?.map((attachment: any) => {
-                                                return <span className={'chip-wrapper'}>
+                                            <>
+                                                {attachmentList?.attachments?.map((attachment: any) => {
+                                                    return <span className={'chip-wrapper'}>
                                         <ChipComponent className={'chip chip-items'}
                                                        color={"success"}
                                                        disabled={isAttachmentBeingDeleted}
@@ -544,33 +549,33 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                                        onDelete={() => removeAttachment(attachment, medicalInterventionId)}
                                         />
                                                 </span>
-                                            })}
-                                        </>
+                                                })}
+                                            </>
                                         }
                                         {selectedAttachments.length > 0 &&
-                                        <>
-                                            {selectedAttachments?.map((attachment: any, index: number) => {
-                                                return <span className={'chip-wrapper'}>
+                                            <>
+                                                {selectedAttachments?.map((attachment: any, index: number) => {
+                                                    return <span className={'chip-wrapper'}>
                                             <ChipComponent className={'chip chip-items'}
                                                            color={"success"}
                                                            disabled={isAttachmentBeingDeleted}
                                                            label={attachment.name}
                                                            prefixIcon={<ImageConfig.PDF_ICON/>}
                                                            onDelete={() => setSelectedAttachments((prevState: any) => {
-                                                                const newState = [...prevState];
-                                                                newState.splice(index, 1);
-                                                                return newState;
+                                                               const newState = [...prevState];
+                                                               newState.splice(index, 1);
+                                                               return newState;
                                                            })}
                                             />
                                             </span>
-                                            })
-                                            }
-                                        </>
+                                                })
+                                                }
+                                            </>
                                         }
 
                                         {(!selectedAttachments.length && !attachmentList.attachments.length) &&
-                                        <StatusCardComponent title={'No attachment has been added yet'}
-                                                             className={'mrg-bottom-25'}/>
+                                            <StatusCardComponent title={'No attachment has been added yet'}
+                                                                 className={'mrg-bottom-25'}/>
                                         }
                                     </>
                                 </CardComponent>
