@@ -24,8 +24,7 @@ import FormikTextAreaComponent from "../../../shared/components/form-controls/fo
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
 import {RadioButtonComponent} from "../../../shared/components/form-controls/radio-button/RadioButtonComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
-import FormikRadioButtonGroupComponent
-    from "../../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
+import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 
 interface MedicalInterventionSpecialTestV2ScreenProps {
 
@@ -62,6 +61,27 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
     const [searchParams] = useSearchParams();
     const last_position: any = searchParams.get("last_position");
 
+    const handleCheckBoxChange = (formik: any, groupName: string, selectedValue: any) => {
+        return (isChecked: boolean) => {
+            console.log(groupName, selectedValue, isChecked);
+            const result = { ...formik.values[groupName].result };
+            for (const key in result) {
+                if (key === selectedValue) {
+                    // Set the value of the selected checkbox
+                    result[key] = isChecked;
+                    formik.setFieldValue(`${groupName}.result.${key}`, isChecked);
+                } else {
+                    // Clear other checkboxes in the same group
+                    result[key] = false;
+                    formik.setFieldValue(`${groupName}.result.${key}`, false);
+                }
+            }
+            formik.setFieldValue(`${groupName}.result`, result);
+        };
+    };
+
+
+
     const generateSpecialTestForBodySide = useCallback((bodyPart: any, side: string) => {
                 return {
                     key: bodyPart._id + side,
@@ -90,48 +110,49 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                             }
                         </Field>;
                     },
-                    align: 'center',
-                    render: (record: any) => {
-                        return <Field
-                            name={`${bodyPart._id}.special_test_config.${record}.${side}.result`}
-                            className="t-form-control">
-                            {
-                                (field: FieldProps) => (
-                                    <FormikRadioButtonGroupComponent
-                                        formikField={field}
-                                        direction={"row"}
-                                        options={CommonService._staticData.SpecialTestResultOptions}
-                                    />
-                                )
-                            }
-                        </Field>;
-                    }
                     // align: 'center',
                     // render: (record: any) => {
-                    //     return (
-                    //         <Field name={`${bodyPart._id}.special_test_config.${record}.${side}.result`}
-                    //                className="t-form-control">
-                    //             {(field: FieldProps) => (
-                    //                 <div>
-                    //                     {CommonService._staticData.SpecialTestResultOptions.map((option: any) => (
-                    //                         <Field
-                    //                             key={option.value}
-                    //                             name={`${bodyPart._id}.special_test_config.${record}.${side}.result.${option.code}`}
-                    //                         >
-                    //                             {(innerField: FieldProps) => (
-                    //                                 <FormikCheckBoxComponent
-                    //                                     formikField={innerField}
-                    //                                     label={option.title}
-                    //                                     key={option.value}
-                    //                                 />
-                    //                             )}
-                    //                         </Field>
-                    //                     ))}
-                    //                 </div>
-                    //             )}
-                    //         </Field>
-                    //     );
+                    //     return <Field
+                    //         name={`${bodyPart._id}.special_test_config.${record}.${side}.result`}
+                    //         className="t-form-control">
+                    //         {
+                    //             (field: FieldProps) => (
+                    //                 <FormikRadioButtonGroupComponent
+                    //                     formikField={field}
+                    //                     direction={"row"}
+                    //                     options={CommonService._staticData.SpecialTestResultOptions}
+                    //                 />
+                    //             )
+                    //         }
+                    //     </Field>;
                     // }
+                    align: 'center',
+                    render: (record: any) => {
+                        return (
+                            <Field name={`${bodyPart._id}.special_test_config.${record}.${side}.result`}
+                                   className="t-form-control">
+                                {(field: FieldProps) => (
+                                    <div>
+                                        {CommonService._staticData.SpecialTestResultOptions.map((option: any) => (
+                                            <Field
+                                                key={option.value}
+                                                name={`${bodyPart._id}.special_test_config.${record}.${side}.result.${option.code}`}
+                                            >
+                                                {(innerField: FieldProps) => (
+                                                    <FormikCheckBoxComponent
+                                                        formikField={innerField}
+                                                        label={option.title}
+                                                        key={option.value}
+                                                        onChange={handleCheckBoxChange(field, `${bodyPart._id}.special_test_config.${record}.${side}`, option.code)}
+                                                    />
+                                                )}
+                                            </Field>
+                                        ))}
+                                    </div>
+                                )}
+                            </Field>
+                        );
+                    }
                 }
             }, []
         )
@@ -376,6 +397,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
 
     const handleSpecialTestConfigSave = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
         if (medicalInterventionId) {
+            console.log('values', values);
             const config: any = [];
             Object.keys(values).forEach((bodyPartId: string) => {
                 const bodyPartConfig = values[bodyPartId];
@@ -397,6 +419,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
             });
             setSubmitting(true);
             console.log('config', config);
+            // return;
             CommonService._chartNotes.SaveMedicalInterventionSpecialTestAPICall(medicalInterventionId, {config})
                 .then((response: any) => {
                     CommonService._alert.showToast(response.message || 'Saved Special Test information', 'success');

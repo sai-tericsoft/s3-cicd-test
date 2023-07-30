@@ -274,19 +274,19 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
 
             }
             {medicalRecordId &&
-                <DrawerComponent isOpen={isSurgeryAddOpen}
-                                 showClose={true}
-                                 onClose={setIsSurgeryAddOpen.bind(null, false)}
-                                 className={"t-surgery-record-drawer"}
-                >
-                    <AddSurgeryRecordComponent medicalRecordId={medicalRecordId}
-                                               medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
-                                               onCancel={() => setIsSurgeryAddOpen(false)}
-                                               onSave={() => {
-                                                   dispatch(getClientMedicalRecord(medicalRecordId));
-                                                   setIsSurgeryAddOpen(false);
-                                               }}/>
-                </DrawerComponent>
+            <DrawerComponent isOpen={isSurgeryAddOpen}
+                             showClose={true}
+                             onClose={setIsSurgeryAddOpen.bind(null, false)}
+                             className={"t-surgery-record-drawer"}
+            >
+                <AddSurgeryRecordComponent medicalRecordId={medicalRecordId}
+                                           medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
+                                           onCancel={() => setIsSurgeryAddOpen(false)}
+                                           onSave={() => {
+                                               dispatch(getClientMedicalRecord(medicalRecordId));
+                                               setIsSurgeryAddOpen(false);
+                                           }}/>
+            </DrawerComponent>
             }
             {
                 (isClientMedicalRecordLoaded && medicalRecordId) &&
@@ -328,24 +328,29 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                         {/*    {medicalInterventionDetails?.created_by_details?.first_name ? medicalInterventionDetails?.created_by_details?.first_name + ' ' + medicalInterventionDetails?.created_by_details?.last_name : ' N/A'}*/}
                         {/*</DataLabelValueComponent>*/}
                         <div className={'ts-row'}>
-                            <div className={'ts-col-md-3'}>
+                            <div className={'ts-col'}>
                                 <DataLabelValueComponent label={'Date of Intervention'}>
                                     {medicalInterventionDetails?.intervention_date ? CommonService.convertDateFormat2(medicalInterventionDetails?.intervention_date) : "N/A"}
                                 </DataLabelValueComponent>
                             </div>
-                            <div className={'ts-col-md-3'}>
+                            <div className={'ts-col'}>
                                 <DataLabelValueComponent label={'Treated by'}>
                                     {CommonService.capitalizeFirstLetter(medicalInterventionDetails?.treated_by_details?.first_name ? (medicalInterventionDetails?.treated_by_details?.first_name) + ' ' + CommonService.capitalizeFirstLetter(medicalInterventionDetails?.treated_by_details?.last_name) : "N/A")}
                                 </DataLabelValueComponent>
                             </div>
-                            <div className={'ts-col-md-3'}>
+                            <div className={'ts-col'}>
                                 <DataLabelValueComponent label={'Case Physician'}>
                                     {medicalInterventionDetails?.medical_record_details?.case_physician.name || "N/A"}
                                 </DataLabelValueComponent>
                             </div>
-                            <div className={'ts-col-md-3'}>
-                                <DataLabelValueComponent label={'Next Appointment'}>
-                                    {medicalInterventionDetails?.medical_record_details?.case_physician?.next_appointment ? CommonService.getSystemFormatTimeStamp(medicalInterventionDetails?.medical_record_details?.case_physician?.next_appointment) : "N/A"}
+                            <div className={'ts-col'}>
+                                <DataLabelValueComponent label={'Appointment Start Time'}>
+                                    {medicalInterventionDetails?.appointment_details?.start_time ? CommonService.getHoursAndMinutesFromMinutes(medicalInterventionDetails?.appointment_details?.start_time) : "N/A"}
+                                </DataLabelValueComponent>
+                            </div>
+                            <div className={'ts-col'}>
+                                <DataLabelValueComponent label={'Appointment End Time'}>
+                                    {medicalInterventionDetails?.appointment_details?.end_time ? CommonService.getHoursAndMinutesFromMinutes(medicalInterventionDetails?.appointment_details?.end_time) : "N/A"}
                                 </DataLabelValueComponent>
                             </div>
                         </div>

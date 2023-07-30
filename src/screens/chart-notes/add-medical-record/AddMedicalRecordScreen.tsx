@@ -604,6 +604,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                                         label={'Next MD Appointment'}
                                                                         formikField={field}
                                                                         fullWidth={true}
+                                                                        minDate={moment()}
                                                                     />
                                                                 )
                                                             }

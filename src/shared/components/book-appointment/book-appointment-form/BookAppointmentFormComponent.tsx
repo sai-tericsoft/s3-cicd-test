@@ -53,7 +53,6 @@ const addAppointmentValidationSchema = Yup.object().shape({
 
 const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) => {
     const {onComplete, preFillData, client, isLoading} = props;
-
     const {appointmentTypes} = useSelector((state: IRootReducerState) => state.staticData);
     const [clientCasesList, setClientCasesList] = useState<any[] | null>(null);
     const [serviceCategoryList, setServiceCategoryList] = useState<any[] | null>(null);
@@ -69,9 +68,10 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
     const [isTimesListLoading, setIsTimesListLoading] = useState<boolean>(false);
     const [isProviderListLoading, setIsProviderListLoading] = useState<boolean>(false);
     const [isServiceListLoading, setIsServiceListLoading] = useState<boolean>(false);
-
     const [isFacilityListLoading, setIsFacilityListLoading] = useState<boolean>(false);
     const [facilityList, setFacilityList] = useState<any[]>([]);
+    const today = moment();
+    const nextThreeMonths = moment().add(3, 'months');
 
     const getClientCasesList = useCallback(
         (clientId: string) => {
@@ -703,6 +703,8 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                                 formikField={field}
                                                                 required={true}
                                                                 fullWidth={true}
+                                                                minDate={today}
+                                                                maxDate={nextThreeMonths}
                                                                 enableDates={availableDates || []}
                                                                 onUpdate={(value: any) => {
                                                                     console.log(value);

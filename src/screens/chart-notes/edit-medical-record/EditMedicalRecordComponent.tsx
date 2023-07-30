@@ -249,6 +249,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                             label={'Next MD Appointment'}
                                                             formikField={field}
                                                             fullWidth={true}
+                                                            minDate={moment()}
                                                         />
                                                     )
                                                 }
