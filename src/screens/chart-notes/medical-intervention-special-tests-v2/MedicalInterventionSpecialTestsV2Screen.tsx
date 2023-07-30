@@ -63,7 +63,12 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
 
     const handleCheckBoxChange = (formik: any, groupName: string, selectedValue: any) => {
         return (isChecked: boolean) => {
-            console.log(groupName, selectedValue, isChecked);
+            console.log(groupName, selectedValue, isChecked, formik);
+
+            CommonService._staticData.SpecialTestResultOptions.map((option: any) => {
+                formik.setFieldValue(`${groupName}.result.${option.code}`, false);
+            });
+
             const result = { ...formik.values[groupName].result };
             for (const key in result) {
                 if (key === selectedValue) {
@@ -76,7 +81,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                     formik.setFieldValue(`${groupName}.result.${key}`, false);
                 }
             }
-            formik.setFieldValue(`${groupName}.result`, result);
+            // formik.setFieldValue(`${groupName}.result`, result);
         };
     };
 

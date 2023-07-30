@@ -504,7 +504,6 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                 <InputComponent placeholder={'Provider'} fullWidth={true} label={'Provider'}
                                 value={CommonService.extractName(currentUser)} disabled={true}/>
             </div>
-
             {/*------------------<ExerciseLogAttachmentListComponent/>-----------------------*/}
             <div className={'exercise-log-attachment-list-component'}>
                 <div className={'exercise-log-attachment-add-component'}>
@@ -550,14 +549,18 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                         }
                                         {selectedAttachments.length > 0 &&
                                         <>
-                                            {selectedAttachments?.map((attachment: any) => {
+                                            {selectedAttachments?.map((attachment: any, index: number) => {
                                                 return <span className={'chip-wrapper'}>
                                             <ChipComponent className={'chip chip-items'}
                                                            color={"success"}
                                                            disabled={isAttachmentBeingDeleted}
                                                            label={attachment.name}
                                                            prefixIcon={<ImageConfig.PDF_ICON/>}
-                                                           onDelete={() => setSelectedAttachments(null)}
+                                                           onDelete={() => setSelectedAttachments((prevState: any) => {
+                                                                const newState = [...prevState];
+                                                                newState.splice(index, 1);
+                                                                return newState;
+                                                           })}
                                             />
                                             </span>
                                             })
