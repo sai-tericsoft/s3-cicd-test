@@ -369,7 +369,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                          showClose={true}
                                          onClose={closeEditMedicalRecordDrawer}>
                             <EditMedicalRecordComponent medicalRecordId={medicalRecordId}
-                                                        medicalRecordDetails={clientMedicalRecord}
+                                                        medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
                                                         onSave={handleMedicalRecordEdit}/>
                         </DrawerComponent>
                         <DrawerComponent isOpen={isAddDryNeedlingFileDrawerOpen}

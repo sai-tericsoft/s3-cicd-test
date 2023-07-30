@@ -61,10 +61,10 @@ export const setClientAccountDetails = (clientAccountDetails: IClientAccountDeta
     };
 };
 
-export const getClientMedicalRecord = (clientId: string) => {
+export const getClientMedicalRecord = (medicalRecordId: string) => {
     return {
         type: GET_CLIENT_MEDICAL_RECORD, payload: {
-            clientId
+            medicalRecordId
         }
     };
 };

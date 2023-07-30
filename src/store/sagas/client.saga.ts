@@ -32,7 +32,7 @@ function* getClientMedicalDetails(action: any) {
 function* getClientMedicalRecord(action: any) {
     try {
         // @ts-ignore
-        const resp = yield call(CommonService._client.ClientMedicalRecordApiCall, action.payload.clientId);
+        const resp = yield call(CommonService._client.ClientMedicalRecordApiCall, action.payload.medicalRecordId);
         yield put(setClientMedicalRecord(resp.data));
     } catch (error) {
         yield put(setClientMedicalRecord(undefined));
