@@ -61,30 +61,28 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
     const [searchParams] = useSearchParams();
     const last_position: any = searchParams.get("last_position");
 
-    const handleCheckBoxChange = (formik: any, groupName: string, selectedValue: any) => {
+    const handleCheckBoxChange = (formik: any, groupName: string, selectedValue: any, options:any[]) => {
         return (isChecked: boolean) => {
-            console.log(groupName, selectedValue, isChecked, formik);
+            console.log(groupName, ' ::: ', selectedValue, isChecked, formik);
+            // console.log(formik.form.values[groupName+'.result'], 'formik.form.values[groupName]')
+            const result = {...(formik.form.values[groupName+'.result'] || {})};
 
-            CommonService._staticData.SpecialTestResultOptions.map((option: any) => {
-                formik.setFieldValue(`${groupName}.result.${option.code}`, false);
-            });
-
-            const result = { ...formik.values[groupName].result };
-            for (const key in result) {
+            for (const item of options) {
+                console.log(item.code, ' ::: ', item);
+                const key  = item.code;
                 if (key === selectedValue) {
                     // Set the value of the selected checkbox
                     result[key] = isChecked;
-                    formik.setFieldValue(`${groupName}.result.${key}`, isChecked);
+                    formik.form.setFieldValue(`${groupName}.result.${key}`, isChecked);
                 } else {
                     // Clear other checkboxes in the same group
                     result[key] = false;
-                    formik.setFieldValue(`${groupName}.result.${key}`, false);
+                    formik.form.setFieldValue(`${groupName}.result.${key}`, false);
                 }
             }
-            // formik.setFieldValue(`${groupName}.result`, result);
+            formik.form.setFieldValue(`${groupName}.result`, result);
         };
     };
-
 
 
     const generateSpecialTestForBodySide = useCallback((bodyPart: any, side: string) => {
@@ -98,18 +96,19 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                             {
                                 (field: FieldProps) => (
                                     <>
-                                        {side} Side <IconButtonComponent onClick={() => {
-                                        const specialTestConfig = _.get(field.form.values, `${bodyPart._id}.special_test_config`);
-                                        Object.keys(specialTestConfig).forEach((specialTest: any) => {
-                                            if (specialTestConfig[specialTest][side]) {
-                                                specialTestConfig[specialTest][side].result = undefined;
-                                            }
-                                        });
-                                        field.form.setFieldValue(`${bodyPart._id}.special_test_config`, specialTestConfig);
-                                    }
-                                    }>
-                                        <ImageConfig.ReStartIcon/>
-                                    </IconButtonComponent>
+                                        {side} Side
+                                    {/*    <IconButtonComponent onClick={() => {*/}
+                                    {/*    const specialTestConfig = _.get(field.form.values, `${bodyPart._id}.special_test_config`);*/}
+                                    {/*    Object.keys(specialTestConfig).forEach((specialTest: any) => {*/}
+                                    {/*        if (specialTestConfig[specialTest][side]) {*/}
+                                    {/*            specialTestConfig[specialTest][side].result = undefined;*/}
+                                    {/*        }*/}
+                                    {/*    });*/}
+                                    {/*    field.form.setFieldValue(`${bodyPart._id}.special_test_config`, specialTestConfig);*/}
+                                    {/*}*/}
+                                    {/*}>*/}
+                                    {/*    <ImageConfig.ReStartIcon/>*/}
+                                    {/*</IconButtonComponent>*/}
                                     </>
                                 )
                             }
@@ -148,7 +147,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                                                         formikField={innerField}
                                                         label={option.title}
                                                         key={option.value}
-                                                        onChange={handleCheckBoxChange(field, `${bodyPart._id}.special_test_config.${record}.${side}`, option.code)}
+                                                        onChange={handleCheckBoxChange(field, `${bodyPart._id}.special_test_config.${record}.${side}`, option.code, CommonService._staticData.SpecialTestResultOptions)}
                                                     />
                                                 )}
                                             </Field>
