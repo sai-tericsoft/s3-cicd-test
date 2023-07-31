@@ -1,5 +1,5 @@
-import React from "react";
-import {Outlet} from "react-router-dom";
+import React, {useEffect} from "react";
+import {Outlet, useLocation} from "react-router-dom";
 import BrandingComponent from "../../shared/components/layout/branding/BrandingComponent";
 import SideMenuComponent from "../../shared/components/layout/side-menu/SideMenuComponent";
 import HeaderComponent from "../../shared/components/layout/header/HeaderComponent";
@@ -12,42 +12,16 @@ export interface AppLayoutProps {
 }
 
 const AppLayout = (props: AppLayoutProps) => {
-    const {sideMenuView} = useSelector(
-        (state: IRootReducerState) => state.navigation
-    );
+    const {sideMenuView} = useSelector((state: IRootReducerState) => state.navigation);
     const dispatch = useDispatch();
-    // const [scrollPosition, setScrollPosition] = useState(0);
+    const location = useLocation();
 
-    // useEffect(() => {
-    //     const handleScroll = () => {
-    //         setScrollPosition(window.pageYOffset);
-    //     };
-    //
-    //     window.addEventListener("scroll", handleScroll);
-    //
-    //     return () => {
-    //         window.removeEventListener("scroll", handleScroll);
-    //     };
-    // }, []);
-    //
-    // useEffect(() => {
-    //     const handleBeforeUnload = () => {
-    //         localStorage.setItem("scrollPosition", scrollPosition.toString());
-    //     };
-    //
-    //     window.addEventListener("beforeunload", handleBeforeUnload);
-    //
-    //     return () => {
-    //         window.removeEventListener("beforeunload", handleBeforeUnload);
-    //     };
-    // }, [scrollPosition]);
-    //
-    // useEffect(() => {
-    //     const storedScrollPosition = localStorage.getItem("scrollPosition");
-    //     if (storedScrollPosition) {
-    //         setScrollPosition(parseInt(storedScrollPosition));
-    //     }
-    // }, []);
+    useEffect(() => {
+        const ele = document.getElementById('page-content-holder');
+        if (ele) {
+            ele.scrollTo(0, 0);
+        }
+    }, [location]);
 
     return (
         <div className="app-layout">
