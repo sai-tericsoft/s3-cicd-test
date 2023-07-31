@@ -1,4 +1,5 @@
 import "./BlockCalendarComponent.scss";
+import "./BlockCalendarComponent.scss";
 import * as Yup from "yup";
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {CommonService} from "../../../shared/services";
@@ -274,7 +275,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className={'t-form'} noValidate={true}>
-                            <FormDebuggerComponent values={values} errors={errors} showDebugger={true}/>
+                            {/*<FormDebuggerComponent values={values} errors={errors} showDebugger={false}/>*/}
                             <div className="t-form-controls">
                                 <Field name={'provider_id'}>
                                     {

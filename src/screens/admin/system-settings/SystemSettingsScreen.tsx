@@ -18,6 +18,7 @@ import HorizontalLineComponent
     from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 import {getSystemSettings} from "../../../store/actions/settings.action";
 import DefaultMessageComponent from "./default-message/DefaultMessageComponent";
+import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 
 const SystemSettingsFormValidationSchema = Yup.object({
     other_settings: Yup.object({
@@ -26,7 +27,9 @@ const SystemSettingsFormValidationSchema = Yup.object({
         uneditable_after_days: Yup.string()
             .required("Input is required"),
         buffer_time: Yup.string()
-            .required("Input is required"),
+            .required("Buffer Time is required"),
+        admin_email: Yup.string()
+            .required("Admin Email is required"),
     })
 });
 
@@ -35,7 +38,8 @@ const SystemSettingsFormInitialValues = {
     other_settings: {
         auto_lock_minutes: 10,
         uneditable_after_days: 7,
-        buffer_time: 15
+        buffer_time: 15,
+        admin_email:""
     }
 }
 
@@ -77,7 +81,8 @@ const SystemSettingsScreen = (props: SystemSettingsScreenProps) => {
                 other_settings: {
                     auto_lock_minutes: systemSettings?.other_settings?.auto_lock_minutes,
                     uneditable_after_days: systemSettings?.other_settings?.uneditable_after_days,
-                    buffer_time: systemSettings?.other_settings?.buffer_time
+                    buffer_time: systemSettings?.other_settings?.buffer_time,
+                    admin_email: systemSettings?.other_settings?.admin_email
                 }
             });
         }
@@ -192,6 +197,31 @@ const SystemSettingsScreen = (props: SystemSettingsScreenProps) => {
                                                     </Field>
                                                 </div>
                                             </div>
+                                            <HorizontalLineComponent/>
+                                            <div className="ts-row">
+                                                <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-7">
+                                                    <QuestionComponent title={"Admin Email"}
+                                                                       description={"The email address provided here will be notified by application users of any chart note or SOAP Note, if required."}
+                                                    ></QuestionComponent>
+                                                </div>
+                                                <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-1"}/>
+                                                <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
+                                                    <Field name={'other_settings.admin_email'}
+                                                           className="t-form-control">
+                                                        {
+                                                            (field: FieldProps) => (
+                                                                <FormikInputComponent
+                                                                    label={'Enter Admin Email'}
+                                                                    required={true}
+                                                                    formikField={field}
+                                                                    fullWidth={true}
+                                                                />
+                                                            )
+                                                        }
+                                                    </Field>
+                                                </div>
+                                            </div>
+
                                         </div>
                                         <div className="t-form-actions">
                                             <ButtonComponent
