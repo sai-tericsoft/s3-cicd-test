@@ -352,7 +352,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                                    columns={CPTCodesColumns}/>
                                         </div>
                                     </CardComponent>
-                                    <div className="t-form-actions">
+                                    <div className="t-form-actions mrg-bottom-0">
                                         <>
                                             {
                                                 medicalRecordId && <>
