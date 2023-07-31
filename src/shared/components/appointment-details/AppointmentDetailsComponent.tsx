@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import "./AppointmentDetailsComponent.scss";
 import {CommonService} from "../../services";
 import {IAPIResponseType} from "../../models/api.model";
-import {ImageConfig, Misc} from "../../../constants";
+import {ImageConfig} from "../../../constants";
 import moment from "moment";
 import ButtonComponent from "../button/ButtonComponent";
 import {ListItem} from "@mui/material";
@@ -124,52 +124,6 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
         [appointment_id],
     );
 
-    const addNewTreatment = useCallback(
-        () => {
-            if (!details.medical_record_id) {
-                CommonService._alert.showToast('Medical Record ID not found!', "error");
-                return;
-            }
-            const payload = {
-                "intervention_date": moment().format('YYYY-MM-DD'),
-                "subjective": "",
-                "objective": {
-                    "observation": "",
-                    "palpation": "",
-                    "functional_tests": "",
-                    "treatment": "",
-                    "treatment_response": ""
-                },
-                "assessment": {
-                    "suspicion_index": "",
-                    "surgery_procedure": ""
-                },
-                "plan": {
-                    "plan": "",
-                    "md_recommendations": "",
-                    "education": "",
-                    "treatment_goals": ""
-                },
-                is_discharge: false,
-                is_link_to_appointment: true,
-                appointment_id: appointment_id,
-            };
-            CommonService._chartNotes.AddNewMedicalInterventionAPICall(details.medical_record_id, payload)
-                .then((response: IAPIResponseType<any>) => {
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(details.medical_record_id, response?.data._id) + '?mode=add');
-                    setIsStartAppointmentLoading(false);
-                })
-                .catch((error: any) => {
-                    CommonService._alert.showToast(error?.error || "Error creating a medical intervention", "error");
-                })
-                .finally(() => {
-                    setIsStartAppointmentLoading(false);
-                });
-        },
-        [navigate, appointment_id, details],
-    );
-
     const handleStartAppointment = useCallback(() => {
         const payload = {};
         setIsStartAppointmentLoading(true);
@@ -179,7 +133,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                     setIsStartAppointmentLoading(false);
                     navigate(CommonService._routeConfig.AddMedicalRecord(details?.client_id))
                 } else {
-                    addNewTreatment()
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(details.medical_record_id, details.intervention_id) + '?mode=add');
                 }
             })
             .catch((error: any) => {
@@ -187,7 +141,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
             })
             .finally(() => {
             })
-    }, [appointment_id, details, navigate, addNewTreatment]);
+    }, [appointment_id, details, navigate]);
 
     const handleStopAppointment = useCallback(() => {
         const payload = {};
@@ -367,11 +321,11 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                         </div>
 
                                         <div
-                                className={'display-flex ts-justify-content-center pdd-left-90 pdd-bottom-10'}>
+                                            className={'display-flex ts-justify-content-center pdd-left-90 pdd-bottom-10'}>
                                             <ChipComponent className={'mrg-left-80'} color={'success'}
                                                            label={bookType?.title}/>&nbsp;&nbsp;
                                             <ChipComponent className={'minutes-chip'} color={'success'}
-                                                           label={details?.service_details?.name +' - '+ details.duration + ' mins'}/>
+                                                           label={details?.service_details?.name + ' - ' + details.duration + ' mins'}/>
                                         </div>
                                     </div>
                                     <div className="details-body-block">

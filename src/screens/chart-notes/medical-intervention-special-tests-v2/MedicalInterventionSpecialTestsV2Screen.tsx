@@ -365,8 +365,22 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
         const injury_details = medicalInterventionDetails?.medical_record_details?.injury_details;
         if (medicalInterventionDetails?.is_special_test_configured) {
             special_test_config?.forEach((injury: any) => {
-                console.log(injury);
-                // const configArray = injury?.special_tests || [];
+                console.log(injury.special_tests);
+                const configArray = injury?.special_tests || [];
+                const finalConfigArray: any = [];
+                configArray?.forEach((config: any) => {
+                    const configData = config?.config;
+                    const configDataKeys = Object.keys(configData);
+                    console.log(configDataKeys);
+                    console.log(config);
+                    console.log(configData);
+                    // console.log(config[configDataKeys]);
+                    finalConfigArray['result'] =
+                        {
+                            configDataKeys: config[configData?.result]
+                        };
+
+                });
 
 
                 if (!specialTestConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {

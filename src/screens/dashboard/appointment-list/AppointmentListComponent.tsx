@@ -5,14 +5,13 @@ import {CommonService} from "../../../shared/services";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
-import {APIConfig, Misc} from "../../../constants";
+import {APIConfig} from "../../../constants";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import AppointmentDetailsComponent from "../../../shared/components/appointment-details/AppointmentDetailsComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {useNavigate} from "react-router-dom";
-import moment from "moment";
 
 interface AppointmentListComponentProps {
 
@@ -25,51 +24,6 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
     const [isStartAppointmentLoading, setIsStartAppointmentLoading] = useState<boolean>(false);
     const navigate = useNavigate();
 
-    const addNewTreatment = useCallback(
-        (appointmentId: any, medicalRecordId: any) => {
-            if (!medicalRecordId) {
-                CommonService._alert.showToast('Medical Record ID not found!', "error");
-                return;
-            }
-            const payload = {
-                "intervention_date": moment().format('YYYY-MM-DD'),
-                "subjective": "",
-                "objective": {
-                    "observation": "",
-                    "palpation": "",
-                    "functional_tests": "",
-                    "treatment": "",
-                    "treatment_response": ""
-                },
-                "assessment": {
-                    "suspicion_index": "",
-                    "surgery_procedure": ""
-                },
-                "plan": {
-                    "plan": "",
-                    "md_recommendations": "",
-                    "education": "",
-                    "treatment_goals": ""
-                },
-                is_discharge: false,
-                is_link_to_appointment: true,
-                appointment_id: appointmentId,
-            };
-            CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, payload)
-                .then((response: IAPIResponseType<any>) => {
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(appointmentId, response?.data._id) + '?mode=add');
-                    setIsStartAppointmentLoading(false);
-                })
-                .catch((error: any) => {
-                    CommonService._alert.showToast(error?.error || "Error creating a medical intervention", "error");
-                })
-                .finally(() => {
-                    setIsStartAppointmentLoading(false);
-                });
-        },
-        [navigate],
-    );
 
     const handleStartAppointment = useCallback((item: any) => {
         const payload = {};
@@ -79,7 +33,7 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
                 if (item?.appointment_type === 'initial_consultation') {
                     navigate(CommonService._routeConfig.AddMedicalRecord(item?.client_id))
                 } else {
-                    addNewTreatment(item._id, item?.medical_record_id)
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(item.medical_record_id, item.intervention_id) + '?mode=add');
                 }
             })
             .catch((error: any) => {
@@ -87,7 +41,7 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
             .finally(() => {
                 setIsStartAppointmentLoading(false);
             })
-    }, [navigate, addNewTreatment]);
+    }, [navigate]);
 
 
     const appointmentListColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
