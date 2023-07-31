@@ -20,6 +20,8 @@ import MedicalInterventionLinkedToComponent
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import moment from "moment-timezone";
+import LinkComponent from "../../../shared/components/link/LinkComponent";
+import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 
 interface ProgressReportViewDetailsComponentProps {
 
@@ -63,7 +65,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
 
     const {progressReportId, medicalRecordId} = useParams();
     const dispatch = useDispatch();
-    // const [module, setModule] = useState<any>('');
+    const [module, setModule] = useState<any>('');
     const navigate = useNavigate();
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const {
@@ -116,7 +118,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             const referrer: any = searchParams.get("referrer");
             const active_tab: any = searchParams.get("activeTab");
             const module_name: any = searchParams.get("module_name");
-            // setModule(module_name);
+            setModule(module_name);
             dispatch(setCurrentNavParams("Progress Report Details", null, () => {
                 if (referrer && referrer !== "undefined" && referrer !== "null") {
                     if (module_name === "client_module") {
@@ -208,23 +210,23 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                     </div>
                 </CardComponent>
             }
-            {/*{*/}
-            {/*    (medicalRecordId && progressReportId && module === null) &&*/}
-            {/*    <div className={'display-flex justify-content-end mrg-bottom-20'}>*/}
-            {/*        <ButtonComponent*/}
-            {/*            variant={'outlined'}*/}
-            {/*            onClick={handlePrint}*/}
-            {/*            isLoading={isPrintLoading}*/}
-            {/*            disabled={isPrintLoading}*/}
-            {/*            prefixIcon={<ImageConfig.PrintIcon/>}>Print</ButtonComponent>*/}
-            {/*        <LinkComponent*/}
-            {/*            route={CommonService._routeConfig.MedicalRecordProgressReportAdvancedDetailsUpdate(medicalRecordId, progressReportId, 'edit')}>*/}
-            {/*            <div className='mrg-left-15'>*/}
-            {/*                <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>Edit Progress Report</ButtonComponent>*/}
-            {/*            </div>*/}
-            {/*        </LinkComponent>*/}
-            {/*    </div>*/}
-            {/*}*/}
+            {
+                (medicalRecordId && progressReportId && module === null) &&
+                <div className={'display-flex justify-content-end mrg-bottom-20'}>
+                    {/*<ButtonComponent*/}
+                    {/*    variant={'outlined'}*/}
+                    {/*    onClick={handlePrint}*/}
+                    {/*    isLoading={isPrintLoading}*/}
+                    {/*    disabled={isPrintLoading}*/}
+                    {/*    prefixIcon={<ImageConfig.PrintIcon/>}>Print</ButtonComponent>*/}
+                    <LinkComponent
+                        route={CommonService._routeConfig.MedicalRecordProgressReportAdvancedDetailsUpdate(medicalRecordId, progressReportId, 'edit')}>
+                        <div className='mrg-left-15'>
+                            <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>Edit Progress Report</ButtonComponent>
+                        </div>
+                    </LinkComponent>
+                </div>
+            }
             <div className={'progress-report-view-details-container'}>
                 <>
                     {
