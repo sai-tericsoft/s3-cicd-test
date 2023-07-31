@@ -166,7 +166,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             dataIndex: "status",
             key: "status",
             align: 'center',
-            // width: 100,
+            width: 100,
             render: (item: any) => {
                 return <ChipComponent label={item?.status_details?.title}
                                       className={item?.status_details?.code}
@@ -177,8 +177,8 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             title: "",
             dataIndex: "actions",
             key: "actions",
-            // width: 120,
-            fixed: "right",
+            width: 120,
+            fixed: "left",
             render: (item: any) => {
                 if (item?._id) {
                     return <div className={'link-component'} onClick={setOpenedAppointmentDetails.bind(null, item)}>
