@@ -20,7 +20,7 @@ import FormControlLabelComponent from "../../../shared/components/form-control-l
 import FilePreviewThumbnailComponent
     from "../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import FilePickerComponent from "../../../shared/components/file-picker/FilePickerComponent";
-import {ImageConfig, Misc} from "../../../constants";
+import {ImageConfig} from "../../../constants";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
@@ -140,51 +140,51 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
         setIsSurgeryRecordDrawerOpen(false);
     }, []);
 
-    const addNewTreatment = useCallback(
-        (medicalRecordId: any, appointmentId: any) => {
-            if (!medicalRecordId) {
-                CommonService._alert.showToast('Medical Record ID not found!', "error");
-                return;
-            }
-            const payload = {
-                "intervention_date": moment().format('YYYY-MM-DD'),
-                "subjective": "",
-                "objective": {
-                    "observation": "",
-                    "palpation": "",
-                    "functional_tests": "",
-                    "treatment": "",
-                    "treatment_response": ""
-                },
-                "assessment": {
-                    "suspicion_index": "",
-                    "surgery_procedure": ""
-                },
-                "plan": {
-                    "plan": "",
-                    "md_recommendations": "",
-                    "education": "",
-                    "treatment_goals": ""
-                },
-                is_discharge: false,
-                is_link_to_appointment: true,
-                appointment_id: appointmentId,
-            };
-            CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, payload)
-                .then((response: IAPIResponseType<any>) => {
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, response?.data._id) + '?mode=add');
-                    setIsMedicalRecordAddInProgress(false);
-                })
-                .catch((error: any) => {
-                    CommonService._alert.showToast(error?.error || "Error creating a medical intervention", "error");
-                })
-                .finally(() => {
-                    setIsMedicalRecordAddInProgress(false);
-                });
-        },
-        [navigate],
-    );
+    // const addNewTreatment = useCallback(
+    //     (medicalRecordId: any, appointmentId: any) => {
+    //         if (!medicalRecordId) {
+    //             CommonService._alert.showToast('Medical Record ID not found!', "error");
+    //             return;
+    //         }
+    //         const payload = {
+    //             "intervention_date": moment().format('YYYY-MM-DD'),
+    //             "subjective": "",
+    //             "objective": {
+    //                 "observation": "",
+    //                 "palpation": "",
+    //                 "functional_tests": "",
+    //                 "treatment": "",
+    //                 "treatment_response": ""
+    //             },
+    //             "assessment": {
+    //                 "suspicion_index": "",
+    //                 "surgery_procedure": ""
+    //             },
+    //             "plan": {
+    //                 "plan": "",
+    //                 "md_recommendations": "",
+    //                 "education": "",
+    //                 "treatment_goals": ""
+    //             },
+    //             is_discharge: false,
+    //             is_link_to_appointment: true,
+    //             appointment_id: appointmentId,
+    //         };
+    //         CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, payload)
+    //             .then((response: IAPIResponseType<any>) => {
+    //                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+    //                 navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, response?.data._id) + '?mode=add');
+    //                 setIsMedicalRecordAddInProgress(false);
+    //             })
+    //             .catch((error: any) => {
+    //                 CommonService._alert.showToast(error?.error || "Error creating a medical intervention", "error");
+    //             })
+    //             .finally(() => {
+    //                 setIsMedicalRecordAddInProgress(false);
+    //             });
+    //     },
+    //     [navigate],
+    // );
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         if (clientId) {
@@ -207,15 +207,14 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                 .then((response: IAPIResponseType<any>) => {
                     CommonService._alert.showToast('Medical record was successfully created', "success");
                     setIsMedicalRecordAddInProgress(true);
-                    // navigate(CommonService._routeConfig.ClientMedicalRecordDetails(response?.data._id));
-                    addNewTreatment(response?.data._id, payload?.appointment_id);
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(response?.data._id, response?.data?.intervention_id) + '?mode=add');
                 })
                 .catch((error: any) => {
                     CommonService.handleErrors(setErrors, error, true);
                     setIsMedicalRecordAddInProgress(false);
                 })
         }
-    }, [clientId, surgeryRecord, addNewTreatment]);
+    }, [clientId, surgeryRecord, navigate]);
 
     const onSurgeryRecordSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         setSurgeryRecord(values);

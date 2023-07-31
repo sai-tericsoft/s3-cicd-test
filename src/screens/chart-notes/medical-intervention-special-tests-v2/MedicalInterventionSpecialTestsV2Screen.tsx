@@ -366,8 +366,8 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
         if (medicalInterventionDetails?.is_special_test_configured) {
             special_test_config?.forEach((injury: any) => {
                 console.log(injury);
-                const configArray = injury?.special_tests || [];
-                
+                // const configArray = injury?.special_tests || [];
+
 
                 if (!specialTestConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
                     specialTestConfig.push({
