@@ -412,14 +412,12 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                 });
             }
         }
-        console.log(specialTestConfig);
         setGlobalSpecialTestConfig(specialTestConfig);
         buildSpecialTestConfig(specialTestConfig);
     }, [medicalInterventionDetails, buildSpecialTestConfig]);
 
     const handleSpecialTestConfigSave = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
         if (medicalInterventionId) {
-            console.log('values', values);
             const config: any = [];
             Object.keys(values).forEach((bodyPartId: string) => {
                 const bodyPartConfig = values[bodyPartId];
@@ -451,7 +449,6 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
 
             });
             setSubmitting(true);
-            console.log('config', config);
             CommonService._chartNotes.SaveMedicalInterventionSpecialTestAPICall(medicalInterventionId, {config})
                 .then((response: any) => {
                     CommonService._alert.showToast(response.message || 'Saved Special Test information', 'success');
@@ -574,11 +571,11 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
             <PageHeaderComponent title={'Special Test'}/>
             <MedicalRecordBasicDetailsCardComponent/>
             <>
-                {
-                    (isMedicalInterventionDetailsLoading) && <>
-                        <LoaderComponent/>
-                    </>
-                }
+                {/*{*/}
+                {/*    (isMedicalInterventionDetailsLoading) && <>*/}
+                {/*        <LoaderComponent/>*/}
+                {/*    </>*/}
+                {/*}*/}
                 {
                     (isMedicalInterventionDetailsLoaded && medicalInterventionId) && <>
                         {
