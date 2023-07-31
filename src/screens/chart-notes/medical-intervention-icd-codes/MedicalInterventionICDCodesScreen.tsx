@@ -389,6 +389,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                     {(medicalRecordId && medicalInterventionId) && <LinkComponent
                         route={CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`}>
                         <ButtonComponent variant={"outlined"}
+                                         size={"large"}
                                          className={isSubmitting ? 'mrg-right-15': ''}
                                          disabled={isSubmitting}
                         >
@@ -397,6 +398,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                     </LinkComponent>}
                     &nbsp;&nbsp;
                     <ButtonComponent type={"button"}
+                                     size={"large"}
                                      className={'mrg-left-15'}
                                      onClick={() => {
                                          linkICDCodesToIntervention(

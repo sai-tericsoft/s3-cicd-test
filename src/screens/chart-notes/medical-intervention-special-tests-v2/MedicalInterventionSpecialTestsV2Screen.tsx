@@ -578,7 +578,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                 {/*}*/}
                 {
                     (isMedicalInterventionDetailsLoaded && medicalInterventionId) && <>
-                        {
+                            {
                             (globalSpecialTestConfig?.length === 0) && <>
                                 <StatusCardComponent
                                     title={"There are no body parts listed under the Special Test. Please add a body part."}>
