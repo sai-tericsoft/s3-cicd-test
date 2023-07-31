@@ -330,7 +330,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             }
             <div className="ts-row">
                 <div className="ts-col ts-col-6">
-                    <SearchComponent label={'Search ICD-11 Code'}
+                    <SearchComponent label={'Search'}
                                      placeholder={'Search ICD-11 Code'}
                                      value={searchICDCodes.search}
                                      onSearchChange={(value) => {

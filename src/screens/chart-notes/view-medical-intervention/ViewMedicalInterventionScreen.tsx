@@ -650,7 +650,8 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                             className={"card-styling mrg-right-30 mrg-bottom-20"}>
                                                                             {/*+ ((medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0) ?' white-card-header ' : '')*/}
 
-                                                                            <CardComponent className={'special-test-header'}
+                                                                            <CardComponent title={"Special Test"}
+                                                                                className={'special-test-header'}
                                                                                            actions={
                                                                                                <DraftReadonlySwitcherComponent
                                                                                                    condition={true}

@@ -133,6 +133,8 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
         }
     }, [searchParams, navigate, dispatch, medicalRecordId]);
 
+    console.log('progressReportDetails', progressReportDetails);
+
 
     return (
         <div className={'progress-report-view-details-screen'}>
@@ -153,9 +155,9 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                                 {progressReportDetails?.medical_record_details?.client_details?.first_name || "-"} {progressReportDetails?.medical_record_details?.client_details?.last_name || "-"}
                                         </span>
                                         <ChipComponent
-                                            className={progressReportDetails?.status === 'completed' ? "active" : "draft"}
+                                            className={progressReportDetails?.status === 'completed' ? "inactive" : "active"}
                                             size={'small'}
-                                            label={progressReportDetails?.status || "-"}/>
+                                            label={progressReportDetails?.status === 'completed'? 'Closed - Resolved' : 'Open - Unresolved'}/>
                                     </span>
                     </div>
                     <MedicalInterventionLinkedToComponent label={'Report Linked to:'} medicalRecordDetails={clientMedicalRecord}/>

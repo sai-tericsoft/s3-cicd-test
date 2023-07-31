@@ -306,7 +306,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                     <CardComponent className={'finalize-treatment-wrapper'}>
                                         <div className="ts-row display-flex align-items-center">
                                             <div className="ts-col ts-col-6 mrg-bottom-15">
-                                                <SearchComponent label={'Search CPT Code'}
+                                                <SearchComponent label={'Search'}
                                                                  placeholder={'Search CPT Code'}
                                                                  value={extraPayload.search}
                                                                  onSearchChange={(value) => {
@@ -352,7 +352,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                                    columns={CPTCodesColumns}/>
                                         </div>
                                     </CardComponent>
-                                    <div className="t-form-actions">
+                                    <div className="t-form-actions mrg-bottom-0">
                                         <>
                                             {
                                                 medicalRecordId && <>
