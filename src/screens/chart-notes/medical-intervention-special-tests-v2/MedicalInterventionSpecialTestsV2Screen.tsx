@@ -61,15 +61,15 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
     const [searchParams] = useSearchParams();
     const last_position: any = searchParams.get("last_position");
 
-    const handleCheckBoxChange = (formik: any, groupName: string, selectedValue: any, options:any[]) => {
+    const handleCheckBoxChange = (formik: any, groupName: string, selectedValue: any, options: any[]) => {
         return (isChecked: boolean) => {
             console.log(groupName, ' ::: ', selectedValue, isChecked, formik);
             // console.log(formik.form.values[groupName+'.result'], 'formik.form.values[groupName]')
-            const result = {...(formik.form.values[groupName+'.result'] || {})};
+            const result = {...(formik.form.values[groupName + '.result'] || {})};
 
             for (const item of options) {
                 console.log(item.code, ' ::: ', item);
-                const key  = item.code;
+                const key = item.code;
                 if (key === selectedValue) {
                     // Set the value of the selected checkbox
                     result[key] = isChecked;
@@ -97,18 +97,18 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                                 (field: FieldProps) => (
                                     <>
                                         {side} Side
-                                    {/*    <IconButtonComponent onClick={() => {*/}
-                                    {/*    const specialTestConfig = _.get(field.form.values, `${bodyPart._id}.special_test_config`);*/}
-                                    {/*    Object.keys(specialTestConfig).forEach((specialTest: any) => {*/}
-                                    {/*        if (specialTestConfig[specialTest][side]) {*/}
-                                    {/*            specialTestConfig[specialTest][side].result = undefined;*/}
-                                    {/*        }*/}
-                                    {/*    });*/}
-                                    {/*    field.form.setFieldValue(`${bodyPart._id}.special_test_config`, specialTestConfig);*/}
-                                    {/*}*/}
-                                    {/*}>*/}
-                                    {/*    <ImageConfig.ReStartIcon/>*/}
-                                    {/*</IconButtonComponent>*/}
+                                        {/*    <IconButtonComponent onClick={() => {*/}
+                                        {/*    const specialTestConfig = _.get(field.form.values, `${bodyPart._id}.special_test_config`);*/}
+                                        {/*    Object.keys(specialTestConfig).forEach((specialTest: any) => {*/}
+                                        {/*        if (specialTestConfig[specialTest][side]) {*/}
+                                        {/*            specialTestConfig[specialTest][side].result = undefined;*/}
+                                        {/*        }*/}
+                                        {/*    });*/}
+                                        {/*    field.form.setFieldValue(`${bodyPart._id}.special_test_config`, specialTestConfig);*/}
+                                        {/*}*/}
+                                        {/*}>*/}
+                                        {/*    <ImageConfig.ReStartIcon/>*/}
+                                        {/*</IconButtonComponent>*/}
                                     </>
                                 )
                             }
@@ -365,6 +365,10 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
         const injury_details = medicalInterventionDetails?.medical_record_details?.injury_details;
         if (medicalInterventionDetails?.is_special_test_configured) {
             special_test_config?.forEach((injury: any) => {
+                console.log(injury);
+                const configArray = injury?.special_tests || [];
+                
+
                 if (!specialTestConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
                     specialTestConfig.push({
                         body_part: injury?.body_part_details,
@@ -412,18 +416,28 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                 const special_test_config = bodyPartConfig?.special_test_config;
                 Object.keys(special_test_config).forEach((special_test_name: string) => {
                     const specialTestConfig = special_test_config[special_test_name];
-                    bodyPartData.special_tests.push({
-                        name: special_test_name,
-                        config: specialTestConfig,
-                        comments: specialTestConfig?.comments,
-                        commentsTemp: specialTestConfig?.commentsTemp,
+                    console.log(specialTestConfig);
+                    Object.keys(specialTestConfig).forEach((side: any) => {
+                        console.log(side);
+                        const resultKeys = Object?.keys(specialTestConfig[side]?.result);
+                        const result = resultKeys.find((key) => specialTestConfig[side]?.result[key] === true);
+                        bodyPartData.special_tests.push({
+                            name: special_test_name,
+                            config: {
+                                [side]: {
+                                    result: result ? result : "Unknown"
+                                }
+                            },
+                            comments: specialTestConfig[side]?.comments,
+                            commentsTemp: specialTestConfig[side]?.commentsTemp,
+                        });
                     });
                 });
                 config.push(bodyPartData);
+
             });
             setSubmitting(true);
             console.log('config', config);
-            // return;
             CommonService._chartNotes.SaveMedicalInterventionSpecialTestAPICall(medicalInterventionId, {config})
                 .then((response: any) => {
                     CommonService._alert.showToast(response.message || 'Saved Special Test information', 'success');
