@@ -225,7 +225,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                                                     <div className="price-item-text discount">Discount</div>
                                                     <div className="price-item-amount red">
                                                         {/*{selectedCoupon ? `- $ ${CommonService.convertToDecimals(discountAmount)}` : `$0` || 'N/A'}*/}
-                                                        {selectedCoupon ? `- $ ${CommonService.convertToDecimals(discountAmount)}` : <div className={'zero-discount'}>$0</div> || 'N/A'}
+                                                        {selectedCoupon ? `- $${CommonService.convertToDecimals(discountAmount)}` : <div className={'zero-discount'}>$0.00</div> || 'N/A'}
 
                                                     </div>
                                                 </div>
