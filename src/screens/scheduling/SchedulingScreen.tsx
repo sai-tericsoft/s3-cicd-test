@@ -1143,7 +1143,8 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                 <div><img src={ImageConfig.Search} alt="client-search"/></div>
                                                 <div className={'no-appointment-heading'}>No Client Found!</div>
                                                 <div className={'no-appointment-description'}>
-                                                   Please adjust filters.
+                                                    Please adjust filters or choose a different date range to refine your
+                                                    search.
                                                 </div>
                                             </div> : '')
                                     }
