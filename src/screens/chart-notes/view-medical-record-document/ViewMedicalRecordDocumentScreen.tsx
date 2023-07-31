@@ -95,7 +95,7 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                 showLottie: true,
                 confirmationTitle: "DELETE ATTACHMENT",
                 confirmationDescription:<div className="delete-document">
-                    <div className={'delete-document-text text-center '}>Are you sure you want to delete this attachment <br/> from this file</div>
+                    <div className={'delete-document-text text-center '}>Are you sure you want to delete this attachment <br/> from this file?</div>
                 </div>
             }).then(() => {
                 setIsMedicalRecordAttachmentDeleting(true);
@@ -171,7 +171,7 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                 // confirmationSubTitle: "Are you sure you want to delete this document\n" +
                 //     "from this file?"
                 confirmationDescription:<div className="delete-document">
-                    <div className={'delete-document-text text-center '}>Are you sure you want to delete this document <br/> from this file</div>
+                    <div className={'delete-document-text text-center '}>Are you sure you want to delete this document <br/> from this file?</div>
                 </div>
             }).then(() => {
                 if (medicalRecordDocumentId) {

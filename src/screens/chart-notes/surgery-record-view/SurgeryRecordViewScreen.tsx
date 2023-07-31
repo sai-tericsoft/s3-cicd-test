@@ -162,7 +162,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                 showLottie: true,
                 confirmationTitle: "DELETE ATTACHMENT",
                 confirmationDescription:<div className="delete-document">
-                    <div className={'delete-document-text text-center '}>Are you sure you want to delete this attachment <br/> from this file</div>
+                    <div className={'delete-document-text text-center '}>Are you sure you want to delete this attachment <br/> from this file?</div>
                 </div>
             }).then((response: any) => {
                 CommonService._chartNotes.RemoveSurgeryRecordAttachmentAPICall(surgeryRecordId, attachmentId)
@@ -231,7 +231,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
             showLottie: true,
             confirmationTitle: "DELETE SURGERY RECORD",
             confirmationDescription:<div className="delete-document">
-                <div className={'delete-document-text text-center '}>Are you sure you want to delete this surgery record <br/> from this file</div>
+                <div className={'delete-document-text text-center '}>Are you sure you want to delete this surgery record <br/> from this file?</div>
             </div>
         }).then((response: any) => {
                 if (surgeryRecordId) {
