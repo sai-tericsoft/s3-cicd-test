@@ -53,7 +53,7 @@ const NotifyAdminInitialValues: any = {
 
 const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetailsCardComponentProps) => {
 
-    const {showAction, mode, medicalInterventionDetails} = props;
+    const {showAction, mode, medicalInterventionDetails,} = props;
 
     const {medicalRecordId, medicalInterventionId} = useParams();
     const dispatch = useDispatch();
@@ -157,8 +157,11 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
         closeEditMedicalRecordDrawer();
         if (medicalRecordId) {
             dispatch(getClientMedicalRecord(medicalRecordId));
+            if (medicalInterventionId) {
+                dispatch(getMedicalInterventionDetails(medicalInterventionId));
+            }
         }
-    }, [dispatch, medicalRecordId, closeEditMedicalRecordDrawer]);
+    }, [dispatch, medicalRecordId, closeEditMedicalRecordDrawer, medicalInterventionId]);
 
     const handleDryNeedlingFileAdd = useCallback(() => {
         if (medicalInterventionDetails?._id) {
@@ -274,19 +277,19 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
 
             }
             {medicalRecordId &&
-            <DrawerComponent isOpen={isSurgeryAddOpen}
-                             showClose={true}
-                             onClose={setIsSurgeryAddOpen.bind(null, false)}
-                             className={"t-surgery-record-drawer"}
-            >
-                <AddSurgeryRecordComponent medicalRecordId={medicalRecordId}
-                                           medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
-                                           onCancel={() => setIsSurgeryAddOpen(false)}
-                                           onSave={() => {
-                                               dispatch(getClientMedicalRecord(medicalRecordId));
-                                               setIsSurgeryAddOpen(false);
-                                           }}/>
-            </DrawerComponent>
+                <DrawerComponent isOpen={isSurgeryAddOpen}
+                                 showClose={true}
+                                 onClose={setIsSurgeryAddOpen.bind(null, false)}
+                                 className={"t-surgery-record-drawer"}
+                >
+                    <AddSurgeryRecordComponent medicalRecordId={medicalRecordId}
+                                               medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
+                                               onCancel={() => setIsSurgeryAddOpen(false)}
+                                               onSave={() => {
+                                                   dispatch(getClientMedicalRecord(medicalRecordId));
+                                                   setIsSurgeryAddOpen(false);
+                                               }}/>
+                </DrawerComponent>
             }
             {
                 (isClientMedicalRecordLoaded && medicalRecordId) &&
