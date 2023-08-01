@@ -16,6 +16,7 @@ import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import FilePreviewThumbnailComponent
     from "../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import EditMedicalRecordDocumentComponent from "../edit-medical-record-document/EditMedicalRecordDocumentComponent";
+import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 
 interface ViewMedicalRecordDocumentScreenProps {
 
@@ -94,8 +95,10 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                 image: ImageConfig.ConfirmationLottie,
                 showLottie: true,
                 confirmationTitle: "DELETE ATTACHMENT",
-                confirmationDescription:<div className="delete-document">
-                    <div className={'delete-document-text text-center '}>Are you sure you want to delete this attachment <br/> from this file?</div>
+                confirmationDescription: <div className="delete-document">
+                    <div className={'delete-document-text text-center '}>Are you sure you want to delete this
+                        attachment <br/> from this file?
+                    </div>
                 </div>
             }).then(() => {
                 setIsMedicalRecordAttachmentDeleting(true);
@@ -170,8 +173,10 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                 confirmationTitle: "DELETE DOCUMENT",
                 // confirmationSubTitle: "Are you sure you want to delete this document\n" +
                 //     "from this file?"
-                confirmationDescription:<div className="delete-document">
-                    <div className={'delete-document-text text-center '}>Are you sure you want to delete this document <br/> from this file?</div>
+                confirmationDescription: <div className="delete-document">
+                    <div className={'delete-document-text text-center '}>Are you sure you want to delete this
+                        document <br/> from this file?
+                    </div>
                 </div>
             }).then(() => {
                 if (medicalRecordDocumentId) {
@@ -227,43 +232,45 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                                 />
                             }
                             {
-                                !medicalRecordDocumentDetails?.attachment &&
-                                <div className={'t-form'}>
-                                    <div className="t-form-controls">
-                                        {
-                                            medicalRecordDocumentAttachmentFile &&
-                                            <FilePreviewThumbnailComponent file={medicalRecordDocumentAttachmentFile}
-                                                                           onRemove={() => setMedicalRecordDocumentAttachmentFile(undefined)}
-                                            />
-                                        }
-                                        {
-                                            !medicalRecordDocumentAttachmentFile &&
-                                            <FilePickerComponent maxFileCount={1}
-                                                                 onFilesDrop={(files: any) => {
-                                                                     setMedicalRecordDocumentAttachmentFile(files[0]);
-                                                                 }}
-                                                                 acceptedFileTypes={["mp4", "pdf", "png", "jpeg", "avi"]}
-                                                                 acceptedFilesText={"PNG, JPEG, PDF, MP4 and AVI files are allowed upto 100MB"}
-                                            />
-                                        }
+                                !medicalRecordDocumentDetails?.attachment && <>
+                                    <FormControlLabelComponent label={"Upload Document*"}/>
+                                    <div className={'t-form'}>
+                                        <div className="t-form-controls">
+                                            {
+                                                medicalRecordDocumentAttachmentFile &&
+                                                <FilePreviewThumbnailComponent file={medicalRecordDocumentAttachmentFile}
+                                                                               onRemove={() => setMedicalRecordDocumentAttachmentFile(undefined)}
+                                                />
+                                            }
+                                            {
+                                                !medicalRecordDocumentAttachmentFile &&
+                                                <FilePickerComponent maxFileCount={1}
+                                                                     onFilesDrop={(files: any) => {
+                                                                         setMedicalRecordDocumentAttachmentFile(files[0]);
+                                                                     }}
+                                                                     acceptedFileTypes={["mp4", "pdf", "png", "jpeg", "avi"]}
+                                                                     acceptedFilesText={"PNG, JPEG, PDF, MP4 and AVI files are allowed upto 100MB"}
+                                                />
+                                            }
+                                        </div>
+                                        <div className="t-form-actions">
+                                            <ButtonComponent
+                                                variant={"outlined"}
+                                                onClick={() => setMedicalRecordDocumentAttachmentFile(undefined)}
+                                                disabled={isMedicalRecordAttachmentAdding}
+                                            >
+                                                Cancel
+                                            </ButtonComponent>&nbsp;&nbsp;
+                                            <ButtonComponent
+                                                onClick={handleMedicalRecordDocumentAttachmentAdd}
+                                                disabled={!medicalRecordDocumentAttachmentFile || isMedicalRecordAttachmentAdding}
+                                                isLoading={isMedicalRecordAttachmentAdding}
+                                            >
+                                                Save
+                                            </ButtonComponent>
+                                        </div>
                                     </div>
-                                    <div className="t-form-actions">
-                                        <ButtonComponent
-                                            variant={"outlined"}
-                                            onClick={() => setMedicalRecordDocumentAttachmentFile(undefined)}
-                                            disabled={isMedicalRecordAttachmentAdding}
-                                        >
-                                            Cancel
-                                        </ButtonComponent>&nbsp;&nbsp;
-                                        <ButtonComponent
-                                            onClick={handleMedicalRecordDocumentAttachmentAdd}
-                                            disabled={!medicalRecordDocumentAttachmentFile || isMedicalRecordAttachmentAdding}
-                                            isLoading={isMedicalRecordAttachmentAdding}
-                                        >
-                                            Save
-                                        </ButtonComponent>
-                                    </div>
-                                </div>
+                                </>
                             }
                         </div>
                     </>

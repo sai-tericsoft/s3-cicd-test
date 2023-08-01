@@ -133,13 +133,10 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
         }
     }, [searchParams, navigate, dispatch, medicalRecordId]);
 
-    console.log('progressReportDetails', progressReportDetails);
-
-
     return (
         <div className={'progress-report-view-details-screen'}>
             <PageHeaderComponent title={"View Progress Report"} actions={
-                <div className="last-updated-status">
+                <div className="last-updated-status mrg-top-10">
                     <div className="last-updated-status-text">Last updated on:&nbsp;</div>
                     <div
                         className="last-updated-status-bold">

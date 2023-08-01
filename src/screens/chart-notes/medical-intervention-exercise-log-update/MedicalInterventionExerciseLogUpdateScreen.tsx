@@ -532,8 +532,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                 <CardComponent title={'Attachments'}
                                                actions={<ButtonComponent
                                                    isLoading={isAttachmentBeingUploaded}
-                                                   onClick={handleClick}
-                                                   prefixIcon={<ImageConfig.AddIcon/>}>
+                                                   onClick={handleClick}>
                                                    Attach Exercise Log</ButtonComponent>}>
                                     <>
 
