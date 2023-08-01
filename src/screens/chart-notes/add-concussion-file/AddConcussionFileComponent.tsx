@@ -103,6 +103,19 @@ const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
             }
             {
                 currentStep === "selectType" && <>
+                    <div className={'back-cross-btn-wrapper'}>
+                        <div className="back-btn"></div>
+                        {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
+                        <div className="drawer-close"
+                             id={'book-appointment-close-btn'}
+                             onClick={(event) => {
+                                 if (onClose) {
+                                     onClose();
+                                 }
+                             }
+                             }><ImageConfig.CloseIcon/></div>
+                        {/*</ToolTipComponent>*/}
+                    </div>
                     <FormControlLabelComponent size={"lg"} label={"Add Concussion File"}/>
                     <div className={"concussion-file-type-list"}>
                         {
