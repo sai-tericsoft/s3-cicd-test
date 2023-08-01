@@ -32,6 +32,7 @@ export interface ISystemSettingsConfig {
         auto_lock_minutes?: number,
         uneditable_after_days?: number
         buffer_time?: any
+        admin_email: string
     },
     default_message?:string
 }
