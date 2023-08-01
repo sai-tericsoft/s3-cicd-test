@@ -11,7 +11,6 @@ import {CommonService} from "../../../shared/services";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {useDispatch, useSelector} from "react-redux";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {IService} from "../../../shared/models/service.model";
 import * as Yup from "yup";
@@ -664,21 +663,21 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                         </CardComponent>
                                     </div>
                                     <div className="t-form-actions mrg-bottom-0">
-                                        {(medicalRecordId && medicalInterventionId) && <LinkComponent
-                                            route={(mode === 'add' || mode === 'soapNoteEdit') ?
-                                                CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) :
-                                                CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, medicalInterventionId)
-                                            }
-                                        >
-                                            <ButtonComponent variant={"outlined"}
-                                                             disabled={isSubmitting}
-                                                             className={isSubmitting ? 'mrg-right-15' : ''}
-                                                             size={'large'}
-                                            >
-                                                Cancel
-                                            </ButtonComponent>
-                                        </LinkComponent>}
-                                        &nbsp;&nbsp;
+                                        {/*{(medicalRecordId && medicalInterventionId) && <LinkComponent*/}
+                                        {/*    route={(mode === 'add' || mode === 'soapNoteEdit') ?*/}
+                                        {/*        CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) :*/}
+                                        {/*        CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, medicalInterventionId)*/}
+                                        {/*    }*/}
+                                        {/*>*/}
+                                        {/*    <ButtonComponent variant={"outlined"}*/}
+                                        {/*                     disabled={isSubmitting}*/}
+                                        {/*                     className={isSubmitting ? 'mrg-right-15' : ''}*/}
+                                        {/*                     size={'large'}*/}
+                                        {/*    >*/}
+                                        {/*        Cancel*/}
+                                        {/*    </ButtonComponent>*/}
+                                        {/*</LinkComponent>}*/}
+                                        {/*&nbsp;&nbsp;*/}
                                         <ButtonComponent type={"submit"}
                                                          size={'large'}
                                                          className={'mrg-left-15'}

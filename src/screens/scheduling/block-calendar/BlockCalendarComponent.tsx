@@ -20,7 +20,6 @@ import {ImageConfig} from "../../../constants";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {ITableColumn} from "../../../shared/models/table.model";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import ErrorComponent from "../../../shared/components/error/ErrorComponent";
 
 interface BlockCalenderComponentProps {
@@ -401,15 +400,15 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                                                             )
                                                         }
                                                     </Field>
+                                                    <div className="ts-row">
+                                                        <div className="ts-col d-flex ts-justify-content-center">
+                                                            {(values.end_time && values.start_time) && (values.end_time < values.start_time) && <>
+                                                                <ErrorComponent errorText={'End time should be greater than start time'}/>
+                                                            </>}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        <div className="ts-row">
-                                            <div className="ts-col d-flex ts-justify-content-center">
-                                                {(values.end_time && values.start_time) && (values.end_time < values.start_time) && <>
-                                                    <ErrorComponent errorText={'End time should be greater than start time'}/>
-                                                </>}
-                                            </div>
-                                        </div>
                                         </div>
                                 }
 
