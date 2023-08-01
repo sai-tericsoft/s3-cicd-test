@@ -10,8 +10,6 @@ import {ImageConfig} from "../../../constants";
 import {useNavigate, useParams} from "react-router-dom";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
-import FormikRadioButtonGroupComponent
-    from "../../../shared/components/form-controls/formik-radio-button/FormikRadioButtonComponent";
 import {ITableColumn} from "../../../shared/models/table.model";
 import {IRootReducerState} from "../../../store/reducers";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
@@ -31,6 +29,7 @@ import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import EditProgressReportCardComponent from "../edit-progress-report-card/EditProgressReportCardComponent";
 import moment from "moment-timezone";
+import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
 
 interface ProgressRecordAdvancedDetailsUpdateScreenProps {
 
@@ -78,6 +77,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
         progress_stats: {}
     });
 
+
     const ProgressStatsColumns: ITableColumn[] = [
         {
             title: "Name",
@@ -94,16 +94,32 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
             dataIndex: "results",
             key: "results",
             fixed: "left",
+            align:'left',
             width: 300,
             render: (_: any, item: any) => <Field name={`progress_stats.${item?._id}.result`}>
                 {
                     (field: FieldProps) => (
-                        <FormikRadioButtonGroupComponent
-                            formikField={field}
-                            keyExtractor={(item: any) => item}
-                            displayWith={(item: any) => item}
-                            valueExtractor={(item: any) => item}
-                            options={item?.results}/>
+                        <div className={'progress_stats_overview_checkbox_holder'}>
+                            {
+                                (item.results || []).map((option: any, index: number) => {
+                                    return <div className={'progress_stats_overview_checkbox_wrapper '}>
+                                        <CheckBoxComponent
+                                            label={option}
+                                            value={option}
+                                            checked={field.form.values.progress_stats[`${item?._id}`]?.result === option}
+                                            key={index}
+                                            onChange={(isChecked: boolean) => {
+                                                if (isChecked) {
+                                                    field.form.setFieldValue(`progress_stats.${item?._id}.result`, option);
+                                                } else {
+                                                    field.form.setFieldValue(`progress_stats.${item?._id}.result`, undefined);
+                                                }
+                                            }}
+                                        />
+                                    </div>
+                                })
+                            }
+                        </div>
                     )}
             </Field>
         },
@@ -272,7 +288,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                         <ChipComponent
                                             className={clientMedicalRecordProgressReportDetails?.medical_record_details?.status === "open" ? "active" : "inactive"}
                                             size={'small'}
-                                            label={clientMedicalRecordProgressReportDetails?.medical_record_details?.status === "open"? "Open - Unresolved" : "Closed - Resolved" || "-"}/>
+                                            label={clientMedicalRecordProgressReportDetails?.medical_record_details?.status === "open" ? "Open - Unresolved" : "Closed - Resolved" || "-"}/>
                                     </span>
                             <div className="ts-row width-auto">
                                 <div className="">

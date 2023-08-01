@@ -58,7 +58,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             width: 600,
             render: (item: any) => {
                 return <div className={'comment'}>{item?.comment ||
-                <div className={'display-flex ts-justify-content-center'}>N/A</div>}</div>
+                    <div className={'display-flex ts-justify-content-center'}>N/A</div>}</div>
             }
         }
     ];
@@ -157,7 +157,8 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                             label={clientMedicalRecord?.status === 'completed'? 'Closed - Resolved' : 'Open - Unresolved'}/>
                                     </span>
                     </div>
-                    <MedicalInterventionLinkedToComponent label={'Report Linked to:'} medicalRecordDetails={clientMedicalRecord}/>
+                    <MedicalInterventionLinkedToComponent label={'Report Linked to:'}
+                                                          medicalRecordDetails={clientMedicalRecord}/>
                     <div className={'ts-row'}>
                         <div className={'ts-col-md-4 ts-col-lg'}>
                             <DataLabelValueComponent label={'Date of Onset'}>
