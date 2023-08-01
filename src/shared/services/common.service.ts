@@ -124,11 +124,11 @@ const getPayloadFilterDates = (mode: 'day' | 'week' | 'month' | 'year'): { start
 }
 
 const transformTimeStamp = (date: Date | string | undefined) => {
-    return moment(date).format('D-MMM-YYYY | hh:mm A');
+    return moment(date).format('DD-MMM-YYYY | hh:mm A');
 }
 
 const transformTimeStamp2 = (date: Date | string | undefined) => {
-    return moment(date).format('hh:mm A, D-MMM-YYYY ');
+    return moment(date).format('hh:mm A, DD-MMM-YYYY ');
 }
 
 

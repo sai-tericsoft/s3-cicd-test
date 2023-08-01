@@ -143,7 +143,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                     <div className="last-updated-status-text">Last updated on:&nbsp;</div>
                     <div
                         className="last-updated-status-bold">
-                        {(progressReportDetails?.updated_at ? moment(progressReportDetails.updated_at).tz(moment.tz.guess()).format('DD-MMMM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
+                        {(progressReportDetails?.updated_at ? moment(progressReportDetails.updated_at).tz(moment.tz.guess()).format('DD-MMM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
                         {progressReportDetails?.last_updated_by_details?.first_name ? progressReportDetails?.last_updated_by_details?.first_name + ' ' + progressReportDetails?.last_updated_by_details?.last_name : ' N/A'}
                     </div>
                 </div>}/>
