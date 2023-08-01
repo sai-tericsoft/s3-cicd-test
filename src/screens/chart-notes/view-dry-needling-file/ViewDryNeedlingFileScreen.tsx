@@ -16,6 +16,7 @@ import FilePickerComponent from "../../../shared/components/file-picker/FilePick
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import FilePreviewThumbnailComponent
     from "../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
+import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 
 interface ViewDryNeedlingFileScreenProps {
 
@@ -170,6 +171,7 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                             onEdit={openEditDryNeedlingFileDrawer}
                             showEdit={true}
                         />
+                    <FormControlLabelComponent label={'Upload Document*'}/>
                         <div className={'dry-needling-attachment'}>
                             {
                                 dryNeedlingFileDetails?.attachment &&
