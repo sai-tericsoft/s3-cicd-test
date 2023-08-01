@@ -94,8 +94,10 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                 image: ImageConfig.ConfirmationLottie,
                 showLottie: true,
                 confirmationTitle: "DELETE ATTACHMENT",
-                confirmationDescription:<div className="delete-document">
-                    <div className={'delete-document-text text-center '}>Are you sure you want to delete this attachment <br/> from this file?</div>
+                confirmationDescription: <div className="delete-document">
+                    <div className={'delete-document-text text-center '}>Are you sure you want to delete this
+                        attachment <br/> from this file?
+                    </div>
                 </div>
             }).then(() => {
                 setIsMedicalRecordAttachmentDeleting(true);
@@ -170,8 +172,10 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                 confirmationTitle: "DELETE DOCUMENT",
                 // confirmationSubTitle: "Are you sure you want to delete this document\n" +
                 //     "from this file?"
-                confirmationDescription:<div className="delete-document">
-                    <div className={'delete-document-text text-center '}>Are you sure you want to delete this document <br/> from this file?</div>
+                confirmationDescription: <div className="delete-document">
+                    <div className={'delete-document-text text-center '}>Are you sure you want to delete this
+                        document <br/> from this file?
+                    </div>
                 </div>
             }).then(() => {
                 if (medicalRecordDocumentId) {
@@ -184,7 +188,7 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                             if (module_name === "client_module") {
                                 navigate(referrer);
                             } else {
-                                (medicalRecordId) && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+                                medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=attachmentList');
                             }
 
                         }).catch((error: any) => {
