@@ -128,7 +128,7 @@ const AddDryNeedlingFileComponent = (props: AddDryNeedlingFileComponentProps) =>
                                             )
                                         }
                                     </Field>
-                                    <div className="mrg-bottom-20">
+                                    <div >
                                         <FormControlLabelComponent label={"Upload Dry Needling File"} className={'upload-dry-needling-heading'}
                                                                    required={true}/>
                                         <>
