@@ -615,12 +615,15 @@
 .intervention-special-test-selection-modal {
   .modal-content-wrapper {
     width: 900px !important;
+    .modal-footer{
+      margin-top: 24px;
+    }
   }
 
   .intervention-special-test-selection-modal-title {
     font-weight: 700;
     margin-top: 20px;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
   }
 }
 

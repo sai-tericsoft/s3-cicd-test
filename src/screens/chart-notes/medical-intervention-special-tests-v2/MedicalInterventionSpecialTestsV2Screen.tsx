@@ -769,7 +769,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
             <ModalComponent isOpen={isAddSpecialTestModalOpen}
                             title={"Add Special Test:"}
                             className={"intervention-special-test-selection-modal"}
-                            modalFooter={<div className={'mrg-top-50'}>
+                            modalFooter={<div>
                                 <ButtonComponent
                                     onClick={handleSpecialTestAddSelectCancel}
                                     variant={"outlined"}
