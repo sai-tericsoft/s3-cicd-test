@@ -442,7 +442,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                     className={'case-statistics-modal'}
                                     onClose={closeMedicalRecordStatsModal}
                                     modalFooter={<>
-                                        <ButtonComponent onClick={closeMedicalRecordStatsModal}>Close</ButtonComponent>
+                                        <ButtonComponent className={'close-btn'} onClick={closeMedicalRecordStatsModal}>Close</ButtonComponent>
                                     </>
                                     }
                     >
