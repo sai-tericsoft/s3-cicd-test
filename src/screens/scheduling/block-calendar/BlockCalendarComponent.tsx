@@ -20,7 +20,6 @@ import {ImageConfig} from "../../../constants";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {ITableColumn} from "../../../shared/models/table.model";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import ErrorComponent from "../../../shared/components/error/ErrorComponent";
 
 interface BlockCalenderComponentProps {
