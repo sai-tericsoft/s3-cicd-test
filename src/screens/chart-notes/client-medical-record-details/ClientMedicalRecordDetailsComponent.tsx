@@ -364,16 +364,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                             className={'treatment-without-application-modal'}
                             onClose={() => setIsTreatmentWithoutAppointmentModalOpen(false)}
                             modalFooter={<>
-                                <ButtonComponent variant={'outlined'}
-                                                 className={'mrg-right-10'}
-                                                 onClick={() => {
-                                                     setIsTreatmentWithoutAppointmentModalOpen(false)
-                                                     setIsBookAppointmentOpen(true)
-                                                 }}
-                                >
-                                    Create Appointment
-                                </ButtonComponent>
-                                <ButtonComponent variant={'contained'}
+                                <ButtonComponent
                                                  color={'primary'}
                                                  isLoading={isMedicalInterventionBeingAdded}
                                                  onClick={() => {
@@ -385,7 +376,16 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                                                  }
                                                  }
                                 >
-                                    Yes
+                                    Continue
+                                </ButtonComponent>
+                                <ButtonComponent variant={'outlined'}
+                                                 className={'mrg-left-10'}
+                                                 onClick={() => {
+                                                     setIsTreatmentWithoutAppointmentModalOpen(false)
+                                                     setIsBookAppointmentOpen(true)
+                                                 }}
+                                >
+                                    Create Appointment
                                 </ButtonComponent>
                             </>
                             }
