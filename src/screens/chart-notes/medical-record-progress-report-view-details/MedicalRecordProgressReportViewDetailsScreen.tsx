@@ -135,7 +135,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
 
     return (
         <div className={'progress-report-view-details-screen'}>
-            <PageHeaderComponent title={"View Progress Report"} actions={
+            <PageHeaderComponent title={"View Therapy Progress Report"} actions={
                 <div className="last-updated-status mrg-top-10">
                     <div className="last-updated-status-text">Last updated on:&nbsp;</div>
                     <div
@@ -220,7 +220,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                     {/*    prefixIcon={<ImageConfig.PrintIcon/>}>Print</ButtonComponent>*/}
                     <LinkComponent
                         route={CommonService._routeConfig.MedicalRecordProgressReportAdvancedDetailsUpdate(medicalRecordId, progressReportId, 'edit')}>
-                        <div className='mrg-left-15'>
+                        <div className='edit-progress-report-cta'>
                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>Edit Progress Report</ButtonComponent>
                         </div>
                     </LinkComponent>
