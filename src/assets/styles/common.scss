@@ -325,6 +325,11 @@
 .case-statistics-modal {
   .modal-content-wrapper {
     width: 600px;
+    .modal-footer{
+      .close-btn{
+        margin-top: 14px;
+      }
+    }
   }
 }
 
