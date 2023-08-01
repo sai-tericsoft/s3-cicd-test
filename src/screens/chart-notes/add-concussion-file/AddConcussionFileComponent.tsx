@@ -144,7 +144,7 @@ const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
                         validateOnMount={true}
                         onSubmit={onSubmit}
                     >
-                        {({values, touched, errors, setFieldValue, validateForm}) => {
+                        {({values,isValid, touched, errors, setFieldValue, validateForm}) => {
                             // eslint-disable-next-line react-hooks/rules-of-hooks
                             useEffect(() => {
                                 validateForm();
@@ -237,6 +237,7 @@ const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
                                         <ButtonComponent
                                             isLoading={isConcussionFileAddFileAddInProgress}
                                             type={"submit"}
+                                            disabled={isConcussionFileAddFileAddInProgress || !isValid}
                                             fullWidth={true}
                                         >
                                             {isConcussionFileAddFileAddInProgress ? "Saving" : "Save"}
