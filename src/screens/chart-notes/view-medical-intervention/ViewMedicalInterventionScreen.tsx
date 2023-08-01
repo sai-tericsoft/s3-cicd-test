@@ -490,6 +490,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                 {medicalInterventionDetails?.rom_config?.length === 0 &&
                                                                     <div className={'display-flex mrg-bottom-0'}>
                                                                         <FormControlLabelComponent
+                                                                            className={'mrg-bottom-5'}
                                                                             size={'sm'}
                                                                             label={"Range of Motion and Strength"}/>
                                                                         <div className={'not-texted-text-rom'}>
@@ -625,6 +626,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                 <div className={'display-flex mrg-bottom-0'}>
                                                                     <FormControlLabelComponent
                                                                         size={'sm'}
+                                                                        className={'mrg-bottom-20'}
                                                                         label={"Special Tests"}/>
                                                                     <div className={'not-texted-text-special-test'}>
                                                                         Not Tested
