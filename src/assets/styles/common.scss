@@ -742,8 +742,8 @@
 
     .system-lock-back-navigation {
       position: absolute;
-      top: 15px;
-      left: 15px;
+      top: 25px;
+      left: 25px;
       display: flex;
       align-items: center;
       text-transform: uppercase;
@@ -777,13 +777,14 @@
       font-size: 1.1429rem;
       line-height: 22px;
       color: #212B36;
-      margin: 20px 0 10px;
+      margin: 30px 0 10px;
       text-transform: uppercase;
     }
 
     .system-lock-sub-title {
       font-weight: $font-weight-bold;
       font-size: 1rem;
+      text-align: center;
       line-height: 22px;
       color: #6D6D6D;
       margin-bottom: 30px;
