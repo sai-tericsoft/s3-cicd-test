@@ -16,6 +16,7 @@ import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import FilePreviewThumbnailComponent
     from "../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import EditConcussionFileComponent from "../edit-concussion-file/EditConcussionFileComponent";
+import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 
 interface ViewConcussionFileScreenProps {
 
@@ -187,6 +188,9 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                                 <div className={'t-form'}>
                                     <div className="t-form-controls">
                                         {
+                                            concussionFileAttachmentFile && <FormControlLabelComponent label={'Add Document'}/>
+                                        }
+                                        {
                                             concussionFileAttachmentFile &&
                                             <FilePreviewThumbnailComponent file={concussionFileAttachmentFile}
                                                                            onRemove={() => setConcussionFileFileAttachmentFile(undefined)}
@@ -198,8 +202,8 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                                                                  onFilesDrop={(files: any) => {
                                                                      setConcussionFileFileAttachmentFile(files[0]);
                                                                  }}
-                                                                 acceptedFileTypes={["pdf", "png", "jpg", "jpeg"]}
-                                                                 acceptedFilesText={"PNG, JPG, JPEG and PDF files are allowed upto 100MB"}
+                                                                 acceptedFileTypes={["pdf", "png","jpeg"]}
+                                                                 acceptedFilesText={"PNG,  JPEG and PDF files are allowed upto 100MB"}
                                             />
                                         }
                                     </div>

@@ -291,7 +291,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                             {
                                                 (field: FieldProps) => (
                                                     <FormikTextAreaComponent
-                                                        label={'Brief Details'}
+                                                        label={'Brief Surgical Details'}
                                                         placeholder={'Enter Details'}
                                                         formikField={field}
                                                         fullWidth={true}

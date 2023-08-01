@@ -450,7 +450,6 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                     <div className="ts-col-12 text-right">
                         <ButtonComponent
                             disabled={surgeryRecordDetails?.attachments?.length > 0}
-                            prefixIcon={<ImageConfig.AddIcon/>}
                             onClick={setShowAddAttachment.bind(null, true)}
                         >
                             Add Attachment

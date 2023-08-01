@@ -427,7 +427,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                     <DrawerComponent isOpen={isProgressReportDrawerOpen}
                                      showClose={true}
                                      closeOnEsc={false}
-                                     closeOnBackDropClick={false}
+                                     closeOnBackDropClick={true}
                                      onClose={() => setIsProgressReportDrawerOpen(false)}>
                         <AddBasicProgressReportComponent
                             setRefreshToken={setRefreshToken}
