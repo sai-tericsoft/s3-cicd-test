@@ -76,7 +76,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     const referrer: any = searchParams.get("referrer");
     const mode: any = searchParams.get("mode");
 
@@ -168,7 +168,6 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                         width: 180,
                         // fixed: 'left',
                         render: (record: any) => {
-                            console.log(record);
                             return <div className="movement-name">
                                 {record?.movement_name}
                             </div>
@@ -251,16 +250,10 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                 .then((response: IAPIResponseType<any>) => {
                     dispatch(setMedicalInterventionDetails(response.data));
                     if (announce) {
-                        // const referrer: any = searchParams.get("referrer");
-                        // if (medicalRecordId) {
-                        //     if (referrer) {
-                        //         navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?referrer=' + referrer);
-                        //     } else {
-                        //         navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
-                        //     }
-                        // }
-                        // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     }
+                    searchParams.set("last_position", '');
+                    searchParams.delete("last_position");
+                    setSearchParams(searchParams);
                     setIsSavingProgress(false);
                     setSubmitting(false);
                     if (cb) {
@@ -276,7 +269,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                     }
                 })
         }
-    }, [dispatch, medicalInterventionId]);
+    }, [dispatch, medicalInterventionId, searchParams, setSearchParams]);
 
 
     useEffect(() => {
@@ -294,6 +287,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
     useEffect(() => {
         if (isMedicalInterventionDetailsLoaded && medicalInterventionDetails?.created_at) {
             const last_position: any = searchParams.get("last_position");
+            console.log(last_position);
             if (last_position) {
                 const ele = document.getElementById(last_position);
                 const scroller = document.getElementById('page-content-holder');

@@ -43,7 +43,7 @@ interface AddDryNeedlingFileComponentProps {
 
 const AddDryNeedlingFileComponent = (props: AddDryNeedlingFileComponentProps) => {
 
-    const {onAdd,onCancel, medicalInterventionId, medicalRecordDetails} = props;
+    const {onAdd, medicalInterventionId, medicalRecordDetails} = props;
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const [addDryNeedlingFormInitialValues] = useState<IDryNeedlingAddForm>(_.cloneDeep(AddDryNeedlingFormInitialValues));
 
