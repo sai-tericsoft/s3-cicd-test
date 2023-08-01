@@ -254,7 +254,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                          <div className="last-updated-status-text">Last updated on:&nbsp;</div>
                                          <div
                                              className="last-updated-status-bold">
-                                             {(clientMedicalRecordProgressReportDetails?.updated_at ? moment(clientMedicalRecordProgressReportDetails.updated_at).tz(moment.tz.guess()).format('DD-MMMM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
+                                             {(clientMedicalRecordProgressReportDetails?.updated_at ? moment(clientMedicalRecordProgressReportDetails.updated_at).tz(moment.tz.guess()).format('DD-MMM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
                                              {clientMedicalRecordProgressReportDetails?.last_updated_by_details?.first_name ? clientMedicalRecordProgressReportDetails?.last_updated_by_details?.first_name + ' ' + clientMedicalRecordProgressReportDetails?.last_updated_by_details?.last_name : ' N/A'}
                                          </div>
                                      </div>}/>

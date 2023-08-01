@@ -315,7 +315,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                                             {
                                                 (field: FieldProps) => (
                                                     <FormikTextAreaComponent
-                                                        label={'Brief Details'}
+                                                        label={'Brief Surgical Details'}
                                                         formikField={field}
                                                         fullWidth={true}
                                                     />
