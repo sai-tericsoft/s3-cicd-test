@@ -676,6 +676,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                                 {medicalInterventionDetails?.special_tests.length > 0 ? medicalInterventionDetails?.special_tests.map((body_part: any) => {
                                                                                     return (<div className={''}>
                                                                                         <CardComponent
+                                                                                            size={'sm'}
                                                                                             className={'body-part-card'}
                                                                                             title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
                                                                                         </CardComponent>
