@@ -167,15 +167,16 @@ const AddDryNeedlingFileComponent = (props: AddDryNeedlingFileComponentProps) =>
                                     </div>
                                 </div>
                                 <div className="t-form-actions">
-                                    <ButtonComponent className={'mrg-right-15'}
-                                        variant={"outlined"}
-                                        id={"medical_intervention_add_cancel_btn"}
-                                        onClick={onCancel}
-                                    >
-                                        Cancel
-                                    </ButtonComponent>
-                                    &nbsp;
+                                    {/*<ButtonComponent className={'mrg-right-15'}*/}
+                                    {/*    variant={"outlined"}*/}
+                                    {/*    id={"medical_intervention_add_cancel_btn"}*/}
+                                    {/*    onClick={onCancel}*/}
+                                    {/*>*/}
+                                    {/*    Cancel*/}
+                                    {/*</ButtonComponent>*/}
+                                    {/*&nbsp;*/}
                                     <ButtonComponent
+                                        fullWidth={true}
                                         isLoading={isDryNeedlingFileAddInProgress}
                                         type={"submit"}
                                         disabled={!isValid || isDryNeedlingFileAddInProgress}
