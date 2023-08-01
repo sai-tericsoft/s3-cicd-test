@@ -332,12 +332,13 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                         (data[value.code] || []).forEach((group: any) => {
                             if (group && group.hasOwnProperty('consultation_details')) {
                                 (group.consultation_details || []).forEach((duration: any) => {
+                                    console.log(duration, 'duration');
                                     finalData[value.code].push(
                                         {
                                             consultation_title: group.title,
-                                            duration: duration.duration,
+                                            duration: parseInt(duration.duration || 0),
                                             _id: group.id,
-                                            title: group.title ? group.title + ' - ' + duration.duration + ' min' : duration.duration + ' min',
+                                            title: group.title ? group.title + ' - ' + duration.duration + ' min' : (duration.duration || '-') + ' min',
                                             code: group.title ? group.title + ':' + duration.duration : duration.duration
                                         }
                                     )
@@ -466,18 +467,25 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                     validationSchema={addAppointmentValidationSchema}
                     initialValues={{...addAppointmentFormInitialValues, client: client}}
                     onSubmit={onSubmitAppointment}
-                    validateOnChange={false}
+                    validateOnChange={true}
                     validateOnBlur={true}
                     enableReinitialize={true}
                     validateOnMount={true}>
                     {
-                        ({values, isValid, errors, setFieldValue, validateForm}) => {
+                        (formik) => {
+                            const {
+                                values,
+                                setFieldTouched,
+                                setFieldValue,
+                                validateForm
+                            } = formik;
                             // eslint-disable-next-line react-hooks/rules-of-hooks
                             useEffect(() => {
                                 validateForm();
                             }, [validateForm, values]);
                             return (
                                 <Form className="t-form" noValidate={true}>
+                                    {/*<FormDebuggerComponent form={formik}  showDebugger={true}/>*/}
                                     <div className={"t-appointment-drawer-form-controls"}>
                                         <Field name={'client'}>
                                             {
@@ -521,11 +529,17 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                             if (value) {
                                                                 getServicesList(value?._id);
                                                                 setFieldValue('service', undefined);
+                                                                setFieldTouched('service', false);
                                                                 setFieldValue('appointment_type', undefined);
+                                                                setFieldTouched('appointment_type', false);
                                                                 setFieldValue('provider', undefined);
+                                                                setFieldTouched('provider', false);
                                                                 setFieldValue('facility', undefined);
+                                                                setFieldTouched('facility', false);
                                                                 setFieldValue('date', undefined);
+                                                                setFieldTouched('date', false);
                                                                 setFieldValue('time', undefined);
+                                                                setFieldTouched('time', false);
                                                                 setAvailableRawTimes([]);
                                                                 setAvailableDates([]);
                                                                 setFacilityList([]);
@@ -558,10 +572,15 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                                 getServicesInfo(value?._id)
                                                                 getServiceProviderList(value?._id);
                                                                 setFieldValue('appointment_type', undefined);
+                                                                setFieldTouched('appointment_type', false);
                                                                 setFieldValue('provider', undefined);
+                                                                setFieldTouched('provider', false);
                                                                 setFieldValue('facility', undefined);
+                                                                setFieldTouched('facility', false);
                                                                 setFieldValue('date', undefined);
+                                                                setFieldTouched('date', false);
                                                                 setFieldValue('time', undefined);
+                                                                setFieldTouched('time', false);
                                                                 setAvailableRawTimes([]);
                                                                 setAvailableDates([]);
                                                                 setFacilityList([]);
@@ -597,7 +616,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                         formikField={field}
                                                         required={true}
                                                         disabled={!values?.appointment_type || ((durationList && durationList[values?.appointment_type]) || []).length === 0}
-                                                        options={(durationList && durationList[values?.appointment_type]) || []}
+                                                        options={(durationList && durationList[values?.appointment_type]) || null}
                                                         displayWith={(option: any) => (option.title)}
                                                         valueExtractor={(option: any) => option}
                                                         label={'Duration'}

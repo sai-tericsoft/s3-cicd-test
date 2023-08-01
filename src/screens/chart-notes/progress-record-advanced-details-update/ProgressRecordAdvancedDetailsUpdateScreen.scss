@@ -1,4 +1,27 @@
 .progress-record-advanced-details-update-screen {
+  .progress_stats_overview_checkbox_holder {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    .progress_stats_overview_checkbox_wrapper {
+      flex: 1;
+      justify-content: flex-start;
+      align-items: flex-start;
+      &:first-child {
+        .check-box-component {
+            padding-left: 10px;
+          }
+      }
+      .check-box-component {
+        //&:first-child {
+        //  padding-left: 10px;
+        //}
+        display: flex;
+        text-align: left;
+      }
+    }
+  }
+
   .show-more-less {
     color: #83909D;
     cursor: pointer;
@@ -12,25 +35,30 @@
 
     }
   }
-  .progress-report-form-wrapper{
-    .card-component{
+
+  .progress-report-form-wrapper {
+    .card-component {
       padding-bottom: 4px;
     }
   }
+
   .t-cell-comments, .t-cell-results {
     text-align: center !important;
   }
 
   .progress-stats-table {
-    .name{
+    .name {
       font-weight: 700;
       margin-left: 5px;
     }
+
     .card-component {
       padding-bottom: 24px;
+
       .card-body {
         padding: 0;
-        .sign-note-wrapper{
+
+        .sign-note-wrapper {
           display: flex;
           flex-direction: row-reverse;
           color: #212B36;
@@ -38,23 +66,25 @@
           margin-right: 25px;
           opacity: 0.5;
           margin-bottom: 16px;
-          .sign-note{
+
+          .sign-note {
             width: 350px;
           }
         }
       }
     }
 
-    .progress-stats-comment{
-     display: flex;
+    .progress-stats-comment {
+      display: flex;
       justify-content: center;
 
-      .comment-edit-wrapper{
+      .comment-edit-wrapper {
         display: flex;
         justify-content: space-between;
         flex: 1 1;
         align-items: center;
-        .edit-icon{
+
+        .edit-icon {
           height: 34px;
           width: 34px;
           display: flex;
@@ -62,7 +92,8 @@
           align-items: center;
         }
       }
-      .add-comment-heading{
+
+      .add-comment-heading {
         color: #00534F;
         font-weight: 700;
         cursor: pointer;

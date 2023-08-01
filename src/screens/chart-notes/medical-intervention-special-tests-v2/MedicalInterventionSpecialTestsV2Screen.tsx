@@ -25,6 +25,7 @@ import CheckBoxComponent from "../../../shared/components/form-controls/check-bo
 import {RadioButtonComponent} from "../../../shared/components/form-controls/radio-button/RadioButtonComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
+import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface MedicalInterventionSpecialTestV2ScreenProps {
 
@@ -300,8 +301,12 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
             selectedBodySides?.forEach((side: any) => {
                 if (special_test.config && Object.keys(special_test.config).includes(side)) {
                     const configSideData = special_test?.config[side];
+                    const result: any = {};
+                    CommonService._staticData.SpecialTestResultOptions.forEach(value => {
+                        result[value.code] = value.code === configSideData?.result;
+                    })
                     bodyPartConfig['special_test_config'][special_test.name][side] = {
-                        result: configSideData?.result,
+                        result
                     }
                 }
             });
@@ -428,20 +433,24 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                 Object.keys(special_test_config).forEach((special_test_name: string) => {
                     const specialTestConfig = special_test_config[special_test_name];
                     console.log(specialTestConfig);
+
+                    const config:any= {
+                        comments: specialTestConfig?.comments,
+                        commentsTemp: specialTestConfig?.commentsTemp,
+                    }
                     Object.keys(specialTestConfig).forEach((side: any) => {
                         console.log(side);
+                        if(side === 'commentsTemp') return;
+                        if (side === 'comments') return;
                         const resultKeys = Object?.keys(specialTestConfig[side]?.result);
                         const result = resultKeys.find((key) => specialTestConfig[side]?.result[key] === true);
-                        bodyPartData.special_tests.push({
-                            name: special_test_name,
-                            config: {
-                                [side]: {
-                                    result: result ? result : "Unknown"
-                                }
-                            },
-                            comments: specialTestConfig[side]?.comments,
-                            commentsTemp: specialTestConfig[side]?.commentsTemp,
-                        });
+                        config[side] = {
+                            result: result ? result : "Unknown"
+                        }
+                    });
+                    bodyPartData.special_tests.push({
+                        name: special_test_name,
+                        config,
                     });
                 });
                 config.push(bodyPartData);
@@ -577,7 +586,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                 }
                 {
                     (isMedicalInterventionDetailsLoaded && medicalInterventionId) && <>
-                            {
+                        {
                             (globalSpecialTestConfig?.length === 0) && <>
                                 <StatusCardComponent
                                     title={"There are no body parts listed under the Special Test. Please add a body part."}>
@@ -609,7 +618,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                                         }, [validateForm, values]);
                                         return (
                                             <Form className="t-form" noValidate={true}>
-                                                {/*<FormDebuggerComponent form={formik}/>*/}
+                                                <FormDebuggerComponent form={formik}/>
                                                 <div>
                                                     {
                                                         Object.keys(values)?.map((bodyPartId: any) => {
