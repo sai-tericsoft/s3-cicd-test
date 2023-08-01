@@ -548,7 +548,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                                 fullWidth={true}
                                                                                 variant={'outlined'}
                                                                                 size={"large"}
-                                                                                className={'rom-special-test-icd-11-cta'}
+                                                                                className={'rom-special-test-icd-11-cta mrg-bottom-10'}
                                                                             >
                                                                                 Range of Motion and Strength
                                                                             </ButtonComponent>
@@ -643,7 +643,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                             fullWidth={true}
                                                                             variant={'outlined'}
                                                                             size={"large"}
-                                                                            className={'rom-special-test-icd-11-cta'}
+                                                                            className={'rom-special-test-icd-11-cta mrg-bottom-10'}
                                                                         >
                                                                             Special Tests
                                                                         </ButtonComponent>

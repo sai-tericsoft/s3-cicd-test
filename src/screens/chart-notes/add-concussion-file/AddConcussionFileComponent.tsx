@@ -20,6 +20,7 @@ import ErrorComponent from "../../../shared/components/error/ErrorComponent";
 import FilePreviewThumbnailComponent
     from "../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
+import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 
 const AddConcussionFileAddFormValidationSchema = Yup.object({
     document_date: Yup.mixed()
@@ -88,7 +89,7 @@ const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
             {
                 (currentStep === "form") &&
                 <div className={'back-cross-btn-wrapper'}>
-                    <div className="back-btn" onClick={handleBack}><ImageConfig.LeftArrow/></div>
+                    <IconButtonComponent className="back-btn" onClick={handleBack}><ImageConfig.LeftArrow/></IconButtonComponent>
                     {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
                     <div className="drawer-close"
                          id={'book-appointment-close-btn'}

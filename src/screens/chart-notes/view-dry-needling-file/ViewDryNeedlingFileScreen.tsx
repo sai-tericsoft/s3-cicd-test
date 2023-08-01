@@ -171,7 +171,7 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                             onEdit={openEditDryNeedlingFileDrawer}
                             showEdit={true}
                         />
-                    <FormControlLabelComponent label={'Upload Document*'}/>
+
                         <div className={'dry-needling-attachment'}>
                             {
                                 dryNeedlingFileDetails?.attachment &&
@@ -183,45 +183,47 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                                 />
                             }
                             {
-                                !dryNeedlingFileDetails?.attachment &&
-                                <div className={'t-form'}>
-                                    <div className="t-form-controls">
-                                        {
-                                            dryNeedlingFileAttachmentFile &&
-                                            <FilePreviewThumbnailComponent file={dryNeedlingFileAttachmentFile}
-                                                                           onRemove={() => setDryNeedlingFileAttachmentFile(undefined)}
-                                            />
-                                        }
-                                        {
-                                            !dryNeedlingFileAttachmentFile &&
-                                            <FilePickerComponent maxFileCount={1}
-                                                                 onFilesDrop={(files: any) => {
-                                                                     setDryNeedlingFileAttachmentFile(files[0]);
-                                                                 }}
-                                                                 acceptedFileTypes={["pdf", "png", "jpg", "jpeg"]}
-                                                                 acceptedFilesText={"PNG, JPG, JPEG and PDF files are allowed upto 100MB"}
-                                            />
-                                        }
+                                !dryNeedlingFileDetails?.attachment && <>
+                                    <FormControlLabelComponent label={'Upload Dry Needling File*'}/>
+                                    <div className={'t-form'}>
+                                        <div className="t-form-controls">
+                                            {
+                                                dryNeedlingFileAttachmentFile &&
+                                                <FilePreviewThumbnailComponent file={dryNeedlingFileAttachmentFile}
+                                                                               onRemove={() => setDryNeedlingFileAttachmentFile(undefined)}
+                                                />
+                                            }
+                                            {
+                                                !dryNeedlingFileAttachmentFile &&
+                                                <FilePickerComponent maxFileCount={1}
+                                                                     onFilesDrop={(files: any) => {
+                                                                         setDryNeedlingFileAttachmentFile(files[0]);
+                                                                     }}
+                                                                     acceptedFileTypes={["pdf", "png","jpeg"]}
+                                                                     acceptedFilesText={"PNG,JPEG and PDF files are allowed upto 100MB"}
+                                                />
+                                            }
+                                        </div>
+                                        <div className="t-form-actions">
+                                            <ButtonComponent
+                                                variant={"outlined"}
+                                                className={isDryNeedlingAttachmentAdding ? 'mrg-right-15' : ''}
+                                                onClick={() => setDryNeedlingFileAttachmentFile(undefined)}
+                                                disabled={isDryNeedlingAttachmentAdding}
+                                            >
+                                                Cancel
+                                            </ButtonComponent>&nbsp;&nbsp;
+                                            <ButtonComponent
+                                                className={'mrg-left-15'}
+                                                onClick={handleDryNeedlingFileAttachmentAdd}
+                                                disabled={!dryNeedlingFileAttachmentFile || isDryNeedlingAttachmentAdding}
+                                                isLoading={isDryNeedlingAttachmentAdding}
+                                            >
+                                                Save
+                                            </ButtonComponent>
+                                        </div>
                                     </div>
-                                    <div className="t-form-actions">
-                                        <ButtonComponent
-                                            variant={"outlined"}
-                                            className={isDryNeedlingAttachmentAdding ? 'mrg-right-15':''}
-                                            onClick={() => setDryNeedlingFileAttachmentFile(undefined)}
-                                            disabled={isDryNeedlingAttachmentAdding}
-                                        >
-                                            Cancel
-                                        </ButtonComponent>&nbsp;&nbsp;
-                                        <ButtonComponent
-                                            className={'mrg-left-15'}
-                                            onClick={handleDryNeedlingFileAttachmentAdd}
-                                            disabled={!dryNeedlingFileAttachmentFile || isDryNeedlingAttachmentAdding}
-                                            isLoading={isDryNeedlingAttachmentAdding}
-                                        >
-                                            Save
-                                        </ButtonComponent>
-                                    </div>
-                                </div>
+                                </>
                             }
                         </div>
                     </>
