@@ -663,6 +663,12 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                         onUpdate={value => {
                                                             if (value) {
                                                                 getProviderFacilityList(values.service._id, value._id);
+                                                                setFieldValue('facility', undefined);
+                                                                setFieldTouched('facility', false);
+                                                                setFieldValue('date', undefined);
+                                                                setFieldTouched('date', false);
+                                                                setFieldValue('time', undefined);
+                                                                setFieldTouched('time', false);
                                                             }
                                                         }}
                                                         label={'Provider'}
@@ -687,6 +693,10 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                             if (value) {
                                                                 setAvailableRawTimes([]);
                                                                 setAvailableDates([]);
+                                                                setFieldValue('date', undefined);
+                                                                setFieldTouched('date', false);
+                                                                setFieldValue('time', undefined);
+                                                                setFieldTouched('time', false);
                                                                 getAvailableDatesList(values.provider._id, values.service._id, value._id);
                                                             }
                                                         }}
@@ -731,7 +741,8 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                                 onUpdate={(value: any) => {
                                                                     console.log(value);
                                                                     if (value) {
-                                                                        getAvailableTimesList(values.provider?._id, value, values.service?._id, values.facility?._id, values.duration.duration);
+                                                                        setFieldValue('time', undefined);
+                                                                        setFieldTouched('time', false);
                                                                     }
                                                                 }}
                                                             />
