@@ -152,9 +152,9 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                                 {progressReportDetails?.medical_record_details?.client_details?.first_name || "-"} {progressReportDetails?.medical_record_details?.client_details?.last_name || "-"}
                                         </span>
                                         <ChipComponent
-                                            className={progressReportDetails?.status === 'completed' ? "inactive" : "active"}
+                                            className={clientMedicalRecord?.status === 'completed' ? "inactive" : "active"}
                                             size={'small'}
-                                            label={progressReportDetails?.status === 'completed'? 'Closed - Resolved' : 'Open - Unresolved'}/>
+                                            label={clientMedicalRecord?.status === 'completed'? 'Closed - Resolved' : 'Open - Unresolved'}/>
                                     </span>
                     </div>
                     <MedicalInterventionLinkedToComponent label={'Report Linked to:'} medicalRecordDetails={clientMedicalRecord}/>
