@@ -28,7 +28,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
             key: 'created_at',
             dataIndex: 'date_of_attachment',
             width: 150,
-            align: 'center',
+            align: 'left',
             sortable: true,
             render: (item: any) => {
                 let route = '';

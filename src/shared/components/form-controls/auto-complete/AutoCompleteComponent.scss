@@ -1,5 +1,11 @@
 .autoComplete-component-wrapper {
   margin-bottom: 20px !important;
+  border-radius: 8px !important;
+
+  .MuiAutocomplete-root {
+    border-radius: 8px !important;
+    background-color: #FFFFFF !important;
+  }
 
   &.full-width {
     width: 100%;

@@ -1,6 +1,4 @@
 import "./ClientDocumentsComponent.scss";
-import AutoCompleteComponent from "../../../shared/components/form-controls/auto-complete/AutoCompleteComponent";
-import {APIConfig} from "../../../constants";
 import React, {useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import {IClientDocumentsFilterState} from "../../../shared/models/client.model";
@@ -45,34 +43,34 @@ const ClientDocumentsComponent = (props: ClientDocumentsComponentProps) => {
     return (
         <div className={'client-document-list-screen'}>
             <div className="ts-row">
-                <div className="ts-col-md-6 ts-col-lg-5">
-                    <AutoCompleteComponent
-                        size={'small'}
-                        label={'Search '}
-                        value={clientDocumentListFilterState?.posted_by}
-                        placeholder={'Search using Posted by'}
-                        dataListKey={'data'}
-                        displayWith={item => item ? (item?.first_name + ' ' + item?.last_name) : ''}
-                        keyExtractor={item => item?._id}
-                        valueExtractor={item => item}
-                        searchMode={'serverSide'}
-                        url={APIConfig.USER_LIST_LITE.URL}
-                        method={APIConfig.USER_LIST_LITE.METHOD}
-                        fullWidth={true}
-                        clearDefaultData={true}
-                        freeSolo={true}
-                        openOnFocus={true}
-                        onUpdate={
-                            (value) => {
-                                setClientDocumentListFilterState({
-                                    ...clientDocumentListFilterState,
-                                    posted_by: value
-                                })
-                            }
-                        }
-                    />
-                </div>
-                <div className="ts-col-md-6 ts-col-lg-3">
+                {/*<div className="ts-col-md-6 ts-col-lg-5">*/}
+                {/*    <AutoCompleteComponent*/}
+                {/*        size={'small'}*/}
+                {/*        label={'Search '}*/}
+                {/*        value={clientDocumentListFilterState?.posted_by}*/}
+                {/*        placeholder={'Search using Posted by'}*/}
+                {/*        dataListKey={'data'}*/}
+                {/*        displayWith={item => item ? (item?.first_name + ' ' + item?.last_name) : ''}*/}
+                {/*        keyExtractor={item => item?._id}*/}
+                {/*        valueExtractor={item => item}*/}
+                {/*        searchMode={'serverSide'}*/}
+                {/*        url={APIConfig.USER_LIST_LITE.URL}*/}
+                {/*        method={APIConfig.USER_LIST_LITE.METHOD}*/}
+                {/*        fullWidth={true}*/}
+                {/*        clearDefaultData={true}*/}
+                {/*        freeSolo={true}*/}
+                {/*        openOnFocus={true}*/}
+                {/*        onUpdate={*/}
+                {/*            (value) => {*/}
+                {/*                setClientDocumentListFilterState({*/}
+                {/*                    ...clientDocumentListFilterState,*/}
+                {/*                    posted_by: value*/}
+                {/*                })*/}
+                {/*            }*/}
+                {/*        }*/}
+                {/*    />*/}
+                {/*</div>*/}
+                <div className="ts-col-md-6 ts-col-lg-3 date-range-wrapper">
                     <DateRangePickerComponent
                         label={"Select Date Range"}
                         value={clientDocumentListFilterState.date_range}
