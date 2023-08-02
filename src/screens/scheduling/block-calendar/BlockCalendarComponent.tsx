@@ -1,5 +1,4 @@
 import "./BlockCalendarComponent.scss";
-import "./BlockCalendarComponent.scss";
 import * as Yup from "yup";
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {CommonService} from "../../../shared/services";
@@ -134,7 +133,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
             align: "center",
             render: (item: any) => {
                 return <span>
-                    {item?.appointment_date ? CommonService.getSystemFormatTimeStamp(item?.appointment_date, false)+', '+ CommonService.getHoursAndMinutesFromMinutes(item?.start_time) : "-"}
+                    {item?.appointment_date ? CommonService.getSystemFormatTimeStamp(item?.appointment_date, false) + ', ' + CommonService.getHoursAndMinutesFromMinutes(item?.start_time) : "-"}
                 </span>
             }
         },
@@ -192,7 +191,8 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                     <b> From </b>: {blockCalenderFormDetails?.is_block_all_day ? moment(blockCalenderFormDetails?.start_date).format('DD-MMM-YYYY') : moment(blockCalenderFormDetails?.date).format('DD-MMM-YYYY') + ' , ' + CommonService.getHoursAndMinutesFromMinutes(blockCalenderFormDetails?.start_time)}
                 </div>
                 <div className="mrg-top-10">
-                    <b> To </b><span className={'mrg-left-15'}>: {blockCalenderFormDetails?.is_block_all_day ? moment(blockCalenderFormDetails?.end_date).format('DD-MMM-YYYY') : moment(blockCalenderFormDetails?.date).format('DD-MMM-YYYY') + ' , ' + CommonService.getHoursAndMinutesFromMinutes(blockCalenderFormDetails?.end_time)}
+                    <b> To </b><span
+                    className={'mrg-left-15'}>: {blockCalenderFormDetails?.is_block_all_day ? moment(blockCalenderFormDetails?.end_date).format('DD-MMM-YYYY') : moment(blockCalenderFormDetails?.date).format('DD-MMM-YYYY') + ' , ' + CommonService.getHoursAndMinutesFromMinutes(blockCalenderFormDetails?.end_time)}
                 </span></div>
             </div>,
             yes: {
@@ -402,8 +402,9 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                                                     </Field>
                                                     <div className="ts-row">
                                                         <div className="ts-col d-flex ts-justify-content-center">
-                                                            {(values.end_time && values.start_time) && (values.end_time < values.start_time) && <>
-                                                                <ErrorComponent errorText={'End time should be greater than start time'}/>
+                                                            {(values.end_time && values.start_time) && (values.end_time <= values.start_time) && <>
+                                                                <ErrorComponent
+                                                                    errorText={'End time should be greater than start time'}/>
                                                             </>}
                                                         </div>
                                                     </div>

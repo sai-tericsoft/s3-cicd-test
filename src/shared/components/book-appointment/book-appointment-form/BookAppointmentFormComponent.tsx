@@ -175,7 +175,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                 times.forEach(value => {
                     const slot = breakupTimeSlots(value, parseInt(duration || ''));
                     if (date.getDate() === currentDate.getDate()) { // Check if the date is equal to the current date
-                        const filteredSlots = slot.filter((timeSlot: any) => {
+                        const filteredSlots = slot?.filter((timeSlot: any) => {
                             return timeSlot.code >= currentTimeStamp;
                         });
                         slots.push(...filteredSlots);
@@ -605,6 +605,20 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                         valueExtractor={(option: any) => option.code}
                                                         label={'Appointment Type'}
                                                         fullWidth={true}
+                                                        onUpdate={(value) => {
+                                                            if (value) {
+                                                                setFieldValue('duration', undefined);
+                                                                setFieldTouched('duration', false);
+                                                                setFieldValue('provider', undefined);
+                                                                setFieldTouched('provider', false);
+                                                                setFieldValue('facility', undefined);
+                                                                setFieldTouched('facility', false);
+                                                                setFieldValue('date', undefined);
+                                                                setFieldTouched('date', false);
+                                                                setFieldValue('time', undefined);
+                                                                setFieldTouched('time', false);
+                                                            }
+                                                        }}
                                                     />
                                                 )
                                             }
@@ -623,7 +637,15 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                         fullWidth={true}
                                                         onUpdate={value => {
                                                             if (value && availableRawTimes) {
-                                                                generateTimeSlots(availableRawTimes, value.duration);
+                                                                // generateTimeSlots(availableRawTimes, value.duration);
+                                                                setFieldValue('provider', undefined);
+                                                                setFieldTouched('provider', false);
+                                                                setFieldValue('facility', undefined);
+                                                                setFieldTouched('facility', false);
+                                                                setFieldValue('date', undefined);
+                                                                setFieldTouched('date', false);
+                                                                setFieldValue('time', undefined);
+                                                                setFieldTouched('time', false);
                                                             }
                                                         }}
                                                     />
