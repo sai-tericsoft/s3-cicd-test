@@ -520,11 +520,11 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
             <PageHeaderComponent title={'Range of Motion and Strength'}/>
             <MedicalRecordBasicDetailsCardComponent/>
             <>
-                {
-                    (isMedicalInterventionDetailsLoading) && <>
-                        <LoaderComponent/>
-                    </>
-                }
+                {/*{*/}
+                {/*    (isMedicalInterventionDetailsLoading) && <>*/}
+                {/*        <LoaderComponent/>*/}
+                {/*    </>*/}
+                {/*}*/}
                 {
                     (isMedicalInterventionDetailsLoaded && medicalInterventionId) && <>
                         {

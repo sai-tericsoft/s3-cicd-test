@@ -63,6 +63,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             title: "Date",
             key: "date",
             dataIndex: "date",
+            align:'center',
             width: 140,
             render: (item: any) => {
                 return CommonService.convertDateFormat(item.appointment_date, 'DD-MMM-YYYY')

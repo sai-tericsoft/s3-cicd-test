@@ -285,11 +285,11 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
         <div className={'medical-intervention-finalize-treatment-screen'}>
             <PageHeaderComponent title={'Finalize Treatment'}/>
             <MedicalRecordBasicDetailsCardComponent/>
-            {
-                isMedicalInterventionDetailsLoading && <>
-                    <LoaderComponent/>
-                </>
-            }
+            {/*{*/}
+            {/*    isMedicalInterventionDetailsLoading && <>*/}
+            {/*        <LoaderComponent/>*/}
+            {/*    </>*/}
+            {/*}*/}
             {
                 isMedicalInterventionDetailsLoaded && <>
                     <Formik initialValues={cptCodesFormInitialValues}

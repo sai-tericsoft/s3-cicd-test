@@ -358,7 +358,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
             {
                 isMedicalInterventionDetailsLoaded && <>
                     <PageHeaderComponent
-                        title={medicalInterventionDetails?.is_discharge ? "Add Discharge Summary" : (mode === 'add' ? 'Add' : 'Update') + " Medical Intervention"}
+                        title={medicalInterventionDetails?.is_discharge ? "Add Discharge Summary" : (mode === 'add' ? 'Add' : 'Update') + " Treatment Intervention"}
                         actions={
                             <div className="last-updated-status">
                                 <div className="last-updated-status-text">Last updated on:&nbsp;</div>
