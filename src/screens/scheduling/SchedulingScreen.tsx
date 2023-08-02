@@ -578,9 +578,9 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
 
     return (
         <div className={'scheduling-list-component'}>
-            <div className="scheduling-header-wrapper">
-                <div className="scheduling-header-search-wrapper">
-                    {viewMode === "list" && <SearchComponent size={'small'}
+            <div className="ts-row scheduling-header-wrapper">
+                <div className=" scheduling-header-search-wrapper">
+                    {viewMode === "list" && <SearchComponent
                                                              className={'scheduling-list-input mrg-top-20'}
                                                              label={'Search'}
                                                              placeholder={'Search using Client Name'}
