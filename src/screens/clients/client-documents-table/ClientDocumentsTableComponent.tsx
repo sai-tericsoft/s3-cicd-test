@@ -38,20 +38,20 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
             title: "Case Name",
             key: "case_name",
             dataIndex: "case_name",
-            width: 350,
+            width: 300,
             align: "left",
             fixed: "left",
             render: (item: any) => {
                 if (item?._id) {
                     return <>
-                        {CommonService.generateUseCaseFromCaseDetails(item?.case_details).length > 50 ?
+                        {CommonService.generateUseCaseFromCaseDetails(item?.case_details).length > 30 ?
                             <ToolTipComponent
                                 tooltip={item?.case_details && CommonService.generateUseCaseFromCaseDetails(item?.case_details)}
                                 position={"top"}
                                 showArrow={true}
                             >
-                                <div className={"ellipses-for-table-data"}>
-                                    {item?.case_details && CommonService.generateUseCaseFromCaseDetails(item?.case_details)}
+                                <div>
+                                    {item?.case_details && CommonService.generateUseCaseFromCaseDetails(item?.case_details).substring(0, 30) + '...'}
                                 </div>
                             </ToolTipComponent> :
                             <>
@@ -69,7 +69,15 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
             // sortable: true,
             width: 150,
             render: (item: any) => {
-                return <span>{item?.note_type}</span>
+                return <>
+                    {item?.note_type?.length > 15 ?
+                        <ToolTipComponent
+                            tooltip={item?.note_type && item?.note_type}
+                            position={"top"}
+                            showArrow={true}>
+                            <div>{item?.note_type?.substring(0, 15) + '...'}</div>
+                        </ToolTipComponent> : item?.note_type}
+                </>
             }
         },
 
@@ -133,7 +141,6 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
                     route = CommonService._routeConfig.MedicalRecordDocumentViewDetails(item.medical_record_id, item?._id) + '?referrer=' + location.pathname + '&module_name=client_module';
                 } else if (item.note_type_category.toLowerCase() === 'progress report') {
                     route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(item.medical_record_id, item?._id) + '?referrer=' + location.pathname + '&module_name=client_module';
-                    console.log(route, 'route')
                 } else {
                 }
                 return <LinkComponent route={route}>
@@ -149,15 +156,15 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
         <div className={'client-documents-list-table-component'}>
             {clientDocumentFilters &&
                 <div className={'client-documents-list'}>
-            <TableWrapperComponent
-                url={APIConfig.GET_CLIENT_DOCUMENTS.URL(clientId)}
-                method={APIConfig.GET_CLIENT_DOCUMENTS.METHOD}
-                columns={ClientDocumentListTableColumns}
-                extraPayload={clientDocumentFilters}
-                moduleName={moduleName}
-                noDataText={'No Documents To Show'}
-                noDataImage={<ImageConfig.NoDataDocumentsIcon/>}
-            />
+                    <TableWrapperComponent
+                        url={APIConfig.GET_CLIENT_DOCUMENTS.URL(clientId)}
+                        method={APIConfig.GET_CLIENT_DOCUMENTS.METHOD}
+                        columns={ClientDocumentListTableColumns}
+                        extraPayload={clientDocumentFilters}
+                        moduleName={moduleName}
+                        noDataText={'No Documents To Show'}
+                        noDataImage={<ImageConfig.NoDataDocumentsIcon/>}
+                    />
                 </div>
             }
         </div>
