@@ -11,6 +11,7 @@
     .scheduling-header-search-wrapper {
       flex: 1;
       max-width: 40%;
+      margin-left: 10px;
 
       .search-component {
         .input-component {
@@ -30,6 +31,7 @@
 
       .scheduling-header-action-item {
         margin-left: 10px;
+        margin-right: 10px;
 
         .left-toggle-btn {
           border-top-left-radius: 8px;
