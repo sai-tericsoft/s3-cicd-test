@@ -741,6 +741,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                                 onUpdate={(value: any) => {
                                                                     console.log(value);
                                                                     if (value) {
+                                                                        getAvailableTimesList(values.provider?._id, value, values.service?._id, values.facility?._id, values.duration.duration);
                                                                         setFieldValue('time', undefined);
                                                                         setFieldTouched('time', false);
                                                                     }
