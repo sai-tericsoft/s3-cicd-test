@@ -467,7 +467,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                     </div>
                                                 }
                                                 />
-                                                <div className={"card-styling padding-card-5 range-of-motion-wrapper"}>
+                                                <div className={"card-styling padding-card-5 range-of-motion-wrapper mrg-bottom-25"}>
                                                     <>
                                                         {
                                                             medicalRecordId && medicalInterventionId && <>
@@ -490,6 +490,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                 {medicalInterventionDetails?.rom_config?.length === 0 &&
                                                                     <div className={'display-flex mrg-bottom-0'}>
                                                                         <FormControlLabelComponent
+                                                                            className={'mrg-bottom-5'}
                                                                             size={'sm'}
                                                                             label={"Range of Motion and Strength"}/>
                                                                         <div className={'not-texted-text-rom'}>
@@ -625,6 +626,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                 <div className={'display-flex mrg-bottom-0'}>
                                                                     <FormControlLabelComponent
                                                                         size={'sm'}
+                                                                        className={'mrg-bottom-20'}
                                                                         label={"Special Tests"}/>
                                                                     <div className={'not-texted-text-special-test'}>
                                                                         Not Tested
@@ -647,7 +649,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                     medicalInterventionDetails?.special_tests?.length > 0 &&
                                                                     <div className="icd-codes-wrapper">
                                                                         <div
-                                                                            className={"card-styling mrg-right-30 mrg-bottom-20"}>
+                                                                            className={"card-styling mrg-right-30 "}>
                                                                             {/*+ ((medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0) ?' white-card-header ' : '')*/}
 
                                                                             <CardComponent title={"Special Test"}
@@ -846,7 +848,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                     }>
                                         <div className="ts-row">
                                             <div className="ts-col-12">
-                                                <div className="icd-codes-wrapper mrg-bottom-0">
+                                                <div className="icd-codes-wrapper mrg-bottom-10">
                                                     {
                                                         medicalRecordId && medicalInterventionId && <>
                                                             {/*{*/}
