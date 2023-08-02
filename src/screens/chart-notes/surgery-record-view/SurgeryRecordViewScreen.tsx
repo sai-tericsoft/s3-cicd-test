@@ -158,7 +158,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
     const deleteSurgeryAttachment = useCallback(
         (surgeryRecordId: string, attachmentId: string) => {
             CommonService.onConfirm({
-                image: ImageConfig.PopupLottie,
+                image: ImageConfig.ConfirmationLottie,
                 showLottie: true,
                 confirmationTitle: "DELETE ATTACHMENT",
                 confirmationDescription:<div className="delete-document">
