@@ -159,7 +159,7 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                     const slot = breakupTimeSlots(value, parseInt(duration || ''));
                     if (date.getDate() === currentDate.getDate()) { // Check if the date is equal to the current date
                         const filteredSlots = slot.filter((timeSlot: any) => {
-                            return timeSlot.code >= currentTimeStamp;
+                            return timeSlot.end_min >= currentTimeStamp;
                         });
                         slots.push(...filteredSlots);
                     } else {
