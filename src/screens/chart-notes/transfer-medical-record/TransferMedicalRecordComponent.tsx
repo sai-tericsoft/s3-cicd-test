@@ -90,7 +90,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                         }}
                     />
                 },
-                width: 200,
+                width: 150,
             },
             {
                 title: 'Date',
@@ -105,7 +105,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
             {
                 title: '',
                 key: 'view_details',
-                width: 100,
+                width: 55,
                 render: (item: any) => {
                     let route = '';
                     if (medicalRecordId) {

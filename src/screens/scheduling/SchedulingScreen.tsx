@@ -63,6 +63,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             title: "Date",
             key: "date",
             dataIndex: "date",
+            align:'center',
             width: 140,
             render: (item: any) => {
                 return CommonService.convertDateFormat(item.appointment_date, 'DD-MMM-YYYY')
@@ -640,15 +641,15 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                         {CommonService.convertDateFormat(
                                             schedulingListFilterState.start_date,
                                             viewMode === 'calendar' && schedulingListFilterState.duration === 'month'
-                                                ? 'MMMM YYYY'
-                                                : 'MMMM DD YYYY'
+                                                ? 'MMM-YYYY'
+                                                : 'DD-MMM-YYYY'
                                         )}
                                     </LinkComponent> : <div className={'filter-header-date-text'}>
                                         {CommonService.convertDateFormat(
                                             schedulingListFilterState.start_date,
                                             viewMode === 'calendar' && schedulingListFilterState.duration === 'month'
-                                                ? 'MMMM YYYY'
-                                                : 'MMMM DD YYYY'
+                                                ? 'MMM-YYYY'
+                                                : 'DD-MMM-YYYY'
                                         )}
                                     </div>
                                 }
@@ -1004,11 +1005,11 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                 schedulingListFilterState.duration === '3day' ? 3 :
                                                     schedulingListFilterState.duration === '5day' ? 5 : 1)
                                         }, (v, i) => moment(schedulingListFilterState.start_date).add(i, 'days')).map((day, index) => {
-                                            const date = day.format('YYYY-MM-DD');
+                                            const date = day.format('DD-MMM-YYYY');
                                             return <div key={index}
                                                         className={"scheduling-calendar-day-wise-item view-" + schedulingListFilterState.duration}>
                                                 <div className="scheduling-calendar-day-wise-item-header">
-                                                    {day.format(' MMMM DD YYYY')}
+                                                    {day.format('DD-MMM-YYYY')}
                                                 </div>
                                                 <div className="scheduling-calendar-day-wise-item-body">
                                                     {HOURS_LIST_IN_MINUTES.map(

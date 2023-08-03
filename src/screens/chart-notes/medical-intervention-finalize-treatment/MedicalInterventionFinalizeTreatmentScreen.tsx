@@ -19,7 +19,6 @@ import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
-import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import MedicalRecordBasicDetailsCardComponent
     from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
@@ -41,7 +40,6 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
     const [isEightMinuteRuleChartDrawerOpen, setEightMinuteRuleChartDrawerOpen] = useState<boolean>(false);
     const {
         medicalInterventionDetails,
-        isMedicalInterventionDetailsLoading,
         isMedicalInterventionDetailsLoaded,
     } = useSelector((state: IRootReducerState) => state.chartNotes);
     const [linkedCPTCodes, setLinkedCPTCodes] = useState<any[]>([]);
@@ -285,11 +283,11 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
         <div className={'medical-intervention-finalize-treatment-screen'}>
             <PageHeaderComponent title={'Finalize Treatment'}/>
             <MedicalRecordBasicDetailsCardComponent/>
-            {
-                isMedicalInterventionDetailsLoading && <>
-                    <LoaderComponent/>
-                </>
-            }
+            {/*{*/}
+            {/*    isMedicalInterventionDetailsLoading && <>*/}
+            {/*        <LoaderComponent/>*/}
+            {/*    </>*/}
+            {/*}*/}
             {
                 isMedicalInterventionDetailsLoaded && <>
                     <Formik initialValues={cptCodesFormInitialValues}
