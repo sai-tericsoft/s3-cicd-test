@@ -55,9 +55,9 @@
     }
 
     .t-table-wrapper {
-      height: calc(100vh - 290px);
+      height: calc(100vh - 330px);
       .t-table{
-        height: calc(100vh - 290px);
+        height: calc(100vh - 330px);
         .table-no-data-wrapper{
           min-height: 400px;
         }
@@ -72,7 +72,7 @@
     .medical-intervention-list-wrapper{
       .t-table-wrapper{
         .t-table{
-          height: calc(100vh - 350px);
+          height: calc(100vh - 405px);
           .table-no-data-wrapper{
             min-height: 400px;
           }
@@ -115,7 +115,7 @@
   .case-list-table{
     .t-table-wrapper{
       .t-table{
-        height: calc(100vh - 310px);
+        height: calc(100vh - 345px);
         .table-no-data-wrapper{
           min-height: 400px;
         }
