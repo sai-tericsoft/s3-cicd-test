@@ -249,6 +249,9 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
             CommonService._chartNotes.MedicalInterventionBasicDetailsUpdateAPICall(medicalInterventionId, payload)
                 .then((response: IAPIResponseType<any>) => {
                     dispatch(setMedicalInterventionDetails(response.data));
+                    if (medicalInterventionDetails?.is_flagged !== payload.is_flagged) {
+                        CommonService._alert.showToast(payload.is_flagged ? 'Note has been flagged.' : 'Note has been unflagged.', "success");
+                    }
                     if (announce) {
                     }
                     searchParams.set("last_position", '');
@@ -269,7 +272,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                     }
                 })
         }
-    }, [dispatch, medicalInterventionId, searchParams, setSearchParams]);
+    }, [dispatch, medicalInterventionId, searchParams, setSearchParams, medicalInterventionDetails]);
 
 
     useEffect(() => {
@@ -488,9 +491,6 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                            formikField={field}
                                                                            required={false}
                                                                            labelPlacement={"start"}
-                                                                           onChange={(isChecked: any) => {
-                                                                               CommonService._alert.showToast(isChecked ? 'Note has been flagged.' : 'Note has been unflagged.', "success");
-                                                                           }}
                                                                        />
                                                                    )
                                                                }
@@ -535,8 +535,9 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                         </div>
                                                     }
                                                     />
-                                                    <div className="card-styling padding-card-5 range-of-motion-wrapper mrg-bottom-20"
-                                                         id={'range-of-motion-wrapper'}>
+                                                    <div
+                                                        className="card-styling padding-card-5 range-of-motion-wrapper mrg-bottom-20"
+                                                        id={'range-of-motion-wrapper'}>
                                                         <>
                                                             {
                                                                 medicalRecordId && medicalInterventionId && <>
