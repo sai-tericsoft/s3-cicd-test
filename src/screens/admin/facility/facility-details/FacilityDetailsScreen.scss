@@ -108,13 +108,15 @@
 
     .weeks-days-table-container {
       //width: 554px;
-
       border-bottom: 1px solid rgb(231, 231, 231);
 
-      &.right-container {
-        border-left: 1px solid rgb(231, 231, 231) !important;
-      }
 
+      //&.right-container {
+      //  //border-left: 1px solid rgb(231, 231, 231) !important;
+      //}
+      &.left-container{
+        border-right: 1px solid rgb(231, 231, 231) !important;
+      }
 
       .horizontal-line-wrapper {
         margin-bottom: 0px;
