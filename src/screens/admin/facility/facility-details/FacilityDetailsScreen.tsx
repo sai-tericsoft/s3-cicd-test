@@ -181,7 +181,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                                     const timing = facilityDetails.timings.find((item: any) => item.day_name === day);
 
                                     return (
-                                        <div key={index} className='weeks-days-table-container'>
+                                        <div key={index} className='weeks-days-table-container left-container'>
                                             <DataLabelValueComponent direction="row" label={day}>
                                                 {timing?.timings?.start_time && CommonService.getHoursAndMinutesFromMinutes(timing?.timings?.start_time) + " - "}
                                                 {timing?.timings?.end_time && CommonService.getHoursAndMinutesFromMinutes(timing?.timings?.end_time)}
