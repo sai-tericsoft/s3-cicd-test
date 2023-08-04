@@ -188,7 +188,7 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                                 <div className={'t-form'}>
                                     <div className="t-form-controls">
                                         {
-                                            !concussionFileAttachmentFile && <FormControlLabelComponent label={'Add Document'}/>
+                                            !concussionFileAttachmentFile && <FormControlLabelComponent label={'Upload Document*'}/>
                                         }
                                         {
                                             concussionFileAttachmentFile &&
