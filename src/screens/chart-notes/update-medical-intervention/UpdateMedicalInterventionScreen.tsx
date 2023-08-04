@@ -536,7 +536,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                     }
                                                     />
                                                     <div
-                                                        className="card-styling padding-card-5 range-of-motion-wrapper mrg-bottom-20"
+                                                        className="card-styling padding-card-5 range-of-motion-wrapper mrg-bottom-10"
                                                         id={'range-of-motion-wrapper'}>
                                                         <>
                                                             {
