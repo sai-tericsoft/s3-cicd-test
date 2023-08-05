@@ -17,8 +17,6 @@ const ClientBasicDetailsCardComponent = (props: ClientBasicDetailsCardComponentP
     const {clientBasicDetails, showViewDetailsRedirection} = props;
     const location = useLocation();
 
-    console.log(location.pathname);
-
     return (
         <div className={'client-basic-detail-card-wrapper'}>
             <div className={'client-basic-detail-card'}>
