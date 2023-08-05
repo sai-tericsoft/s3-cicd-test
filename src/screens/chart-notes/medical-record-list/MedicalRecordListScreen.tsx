@@ -70,11 +70,16 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             dataIndex: "body_part",
             width: 153,
             render: (item: any) => {
-                if (item?.injury_details?.length === 1) {
-                    return <>{item?.injury_details[0]?.body_part_details?.name}</>
-                } else {
-                    return <>{item?.injury_details[0]?.body_part_details?.name} (+{item?.injury_details?.length})</>
-                }
+                return <>{item?.injury_details?.length > 1 ?
+                    <ToolTipComponent
+                        showArrow={true}
+                        position={"right"}
+                        tooltip={item?.injury_details?.map((injury: any) => <div className={'mrg-bottom-5'}>{injury?.body_part_details?.name}</div>)}
+                    >
+                       <div> {item?.injury_details[0]?.body_part_details?.name} (+{item?.injury_details?.length})</div>
+                    </ToolTipComponent> : <>{item?.injury_details[0]?.body_part_details?.name}</>}
+                </>
+
             }
         },
         {
@@ -106,7 +111,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             width: 140,
             render: (item: IClientBasicDetails) => {
                 return <span>
-                    {CommonService.capitalizeFirstLetter(item?.last_provider_details?.first_name)|| '-'} {CommonService.capitalizeFirstLetter(item?.last_provider_details?.last_name)}
+                    {CommonService.capitalizeFirstLetter(item?.last_provider_details?.first_name) || '-'} {CommonService.capitalizeFirstLetter(item?.last_provider_details?.last_name)}
                 </span>
             }
         },
@@ -240,7 +245,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                                                                method={APIConfig.CLIENT_MEDICAL_INFO.METHOD}
                                                                extraPayload={medicalRecordListStatusDateAndProviderFilterState}
                                                                onSort={handleClientMedicalListSort}
-                                                               noDataText={(medicalRecordListStatusDateAndProviderFilterState?.status === "open" || medicalRecordListStatusDateAndProviderFilterState?.status === "closed") ? " No medical record was found for the applied status filter.":"Currently, there is no medical record added"}
+                                                               noDataText={(medicalRecordListStatusDateAndProviderFilterState?.status === "open" || medicalRecordListStatusDateAndProviderFilterState?.status === "closed") ? " No medical record was found for the applied status filter." : "Currently, there is no medical record added"}
                                                                columns={MedicalRecordListTableColumns}/>
                                     </div>
                                 </div>
