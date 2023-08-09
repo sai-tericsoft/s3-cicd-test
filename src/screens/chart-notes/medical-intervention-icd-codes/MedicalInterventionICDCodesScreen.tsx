@@ -153,7 +153,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
         //     }
         // },
         {
-            title: 'ICD-11 Codes',
+            title: 'ICD Codes',
             dataIndex: 'icd_code',
             key: 'icd_code',
             width: 180,
@@ -225,7 +225,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
         //
         // },
         {
-            title: 'ICD-11 Codes',
+            title: 'ICD Codes',
             dataIndex: 'icd_code',
             key: 'icd_code',
             width: 180,
@@ -296,7 +296,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
     }, [medicalInterventionDetails]);
     return (
         <div className={'medical-intervention-icd-codes-screen'}>
-            <PageHeaderComponent title={'Add ICD-11 Code'}/>
+            <PageHeaderComponent title={'Add ICD Code'}/>
             {
                 isMedicalInterventionDetailsLoading && <LoaderComponent/>
             }
@@ -331,7 +331,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             <div className="ts-row">
                 <div className="ts-col ts-col-6">
                     <SearchComponent label={'Search'}
-                                     placeholder={'Search ICD-11 Code'}
+                                     placeholder={'Search ICD Code'}
                                      value={searchICDCodes.search}
                                      onSearchChange={(value) => {
                                          setSearchICDCodes({...searchICDCodes, search: value})
@@ -349,7 +349,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                             }
                         }
                     >
-                        <ClearSharp/> Clear ICD-11 Codes
+                        <ClearSharp/> Clear ICD Codes
                     </ButtonComponent>
                 </div>
             </div>
@@ -360,7 +360,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                     variant={"fullWidth"}
                     onUpdate={handleTabChange}
                 >
-                    <TabComponent label={'ALL ICD-11 CODES'} value={'icdCodes'}/>
+                    <TabComponent label={'ALL ICD CODES'} value={'icdCodes'}/>
                     <TabComponent label={'FAVOURITES'} value={'favourites'}/>
                 </TabsComponent>
                 <TabContentComponent value={'icdCodes'} selectedTab={currentTab}>
