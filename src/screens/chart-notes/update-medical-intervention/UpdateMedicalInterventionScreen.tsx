@@ -306,7 +306,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                 }
             }
         }
-    }, [isMedicalInterventionDetailsLoaded, medicalInterventionDetails, searchParams]);
+    }, [isMedicalInterventionDetailsLoaded, medicalInterventionDetails,setSearchParams, searchParams]);
 
 
     useEffect(() => {
