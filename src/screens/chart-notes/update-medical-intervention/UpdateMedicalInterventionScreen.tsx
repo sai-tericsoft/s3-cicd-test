@@ -190,7 +190,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                         key: side + 'arom',
                         align: 'center',
                         // fixed: 'left',
-                        width: 87,
+                        width: 37,
                         render: (item: any) => {
                             return <div className={'movement-name'}>{item?.config[side]?.arom || '-'}</div>
                         }
@@ -201,7 +201,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                         key: side + 'prom',
                         align: 'center',
                         // fixed: 'left',
-                        width: 87,
+                        width: 37,
                         render: (item: any) => {
                             return <div className={'movement-name'}>{item?.config[side]?.prom || "-"}</div>
                         }
@@ -212,7 +212,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                         key: side + 'strength',
                         align: 'center',
                         // fixed: 'left',
-                        width: 107,
+                        width: 37,
                         render: (item: any) => {
                             return <div className={'movement-name'}>{item?.config[side]?.strength || "-"}</div>
                         }
@@ -227,7 +227,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                 dataIndex: 'comments',
                 key: 'comments',
                 fixed: 'right',
-                width: 300,
+                width: 500,
                 render: (item: any) => {
                     return <div
                         className={'comment-text'}>{item?.config?.comments ? CommonService.capitalizeFirstLetter(item?.config?.comments) : "-"}</div>
