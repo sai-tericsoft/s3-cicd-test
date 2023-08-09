@@ -18,10 +18,11 @@ const AppLayout = (props: AppLayoutProps) => {
 
     useEffect(() => {
         const ele = document.getElementById('page-content-holder');
+        console.log('ele', location);
         if (ele) {
             ele.scrollTo(0, 0);
         }
-    }, [location]);
+    }, [location?.pathname]);
 
     return (
         <div className="app-layout">

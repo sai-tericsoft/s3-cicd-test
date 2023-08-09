@@ -254,9 +254,6 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                     }
                     if (announce) {
                     }
-                    searchParams.set("last_position", '');
-                    searchParams.delete("last_position");
-                    setSearchParams(searchParams);
                     setIsSavingProgress(false);
                     setSubmitting(false);
                     if (cb) {
@@ -272,7 +269,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                     }
                 })
         }
-    }, [dispatch, medicalInterventionId, searchParams, setSearchParams, medicalInterventionDetails]);
+    }, [dispatch, medicalInterventionId, medicalInterventionDetails]);
 
 
     useEffect(() => {
@@ -290,19 +287,22 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
     useEffect(() => {
         if (isMedicalInterventionDetailsLoaded && medicalInterventionDetails?.created_at) {
             const last_position: any = searchParams.get("last_position");
-            console.log(last_position);
             if (last_position) {
                 const ele = document.getElementById(last_position);
                 const scroller = document.getElementById('page-content-holder');
                 if (ele && scroller) {
-                    setTimeout(() => {
+                    (async () => {
                         const rect = ele.getBoundingClientRect();
                         const containerRect = scroller.getBoundingClientRect();
                         const targetScrollTop = scroller.scrollTop + rect.top - containerRect.top;
                         const maxScrollTop = scroller.scrollHeight - scroller.clientHeight;
                         const scrollPosition = Math.min(targetScrollTop, maxScrollTop);
-                        scroller.scrollTo({top: scrollPosition, behavior: 'smooth'});
-                    }, 100);
+                        await scroller.scrollTo({top: scrollPosition, behavior: 'smooth'})
+                        setTimeout(() => {
+                            searchParams.delete("last_position");
+                            setSearchParams(searchParams);
+                        }, 1000);
+                    })();
                 }
             }
         }
@@ -621,7 +621,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                                                 body_part?.rom_config?.length === 0 &&
                                                                                                 <StatusCardComponent
                                                                                                     title={"The following body part does not have any Range of Motion or Strength " +
-                                                                                                    "                                                measurements. \n Please choose another body part."}/>
+                                                                                                        "                                                measurements. \n Please choose another body part."}/>
                                                                                             }
                                                                                         </>
                                                                                     )
@@ -700,15 +700,15 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                     <div className={'ts-row'}>
                                                         <div className={'ts-col-12'}>
                                                             {search.showClear &&
-                                                            <div className={'clear-cta'}>
-                                                                <DraftReadonlySwitcherComponent
-                                                                    condition={true}
-                                                                    draft={<div className={'intervention-clear-button'}
-                                                                                onClick={event => {
-                                                                                    formik.setFieldValue('objective.palpation', '');
-                                                                                }
-                                                                                }>Clear</div>}
-                                                                    readonly={<></>}/></div>}
+                                                                <div className={'clear-cta'}>
+                                                                    <DraftReadonlySwitcherComponent
+                                                                        condition={true}
+                                                                        draft={<div className={'intervention-clear-button'}
+                                                                                    onClick={event => {
+                                                                                        formik.setFieldValue('objective.palpation', '');
+                                                                                    }
+                                                                                    }>Clear</div>}
+                                                                        readonly={<></>}/></div>}
                                                         </div>
                                                     </div>
                                                     <DraftReadonlySwitcherComponent
@@ -741,15 +741,15 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                     <div className={'ts-row'}>
                                                         <div className={'ts-col-12'}>
                                                             {search.showClear &&
-                                                            <div className={'clear-cta'}>
-                                                                <DraftReadonlySwitcherComponent
-                                                                    condition={true}
-                                                                    draft={<div className={'intervention-clear-button'}
-                                                                                onClick={event => {
-                                                                                    formik.setFieldValue('objective.functional_tests', '');
-                                                                                }
-                                                                                }>Clear</div>}
-                                                                    readonly={<></>}/></div>}
+                                                                <div className={'clear-cta'}>
+                                                                    <DraftReadonlySwitcherComponent
+                                                                        condition={true}
+                                                                        draft={<div className={'intervention-clear-button'}
+                                                                                    onClick={event => {
+                                                                                        formik.setFieldValue('objective.functional_tests', '');
+                                                                                    }
+                                                                                    }>Clear</div>}
+                                                                        readonly={<></>}/></div>}
                                                         </div>
                                                     </div>
                                                     <DraftReadonlySwitcherComponent
@@ -782,15 +782,15 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                     <div className={'ts-row'}>
                                                         <div className={'ts-col-12'}>
                                                             {search.showClear &&
-                                                            <div className={'clear-cta'}>
-                                                                <DraftReadonlySwitcherComponent
-                                                                    condition={true}
-                                                                    draft={<div className={'intervention-clear-button'}
-                                                                                onClick={event => {
-                                                                                    formik.setFieldValue('objective.treatment', '');
-                                                                                }
-                                                                                }>Clear</div>}
-                                                                    readonly={<></>}/></div>}
+                                                                <div className={'clear-cta'}>
+                                                                    <DraftReadonlySwitcherComponent
+                                                                        condition={true}
+                                                                        draft={<div className={'intervention-clear-button'}
+                                                                                    onClick={event => {
+                                                                                        formik.setFieldValue('objective.treatment', '');
+                                                                                    }
+                                                                                    }>Clear</div>}
+                                                                        readonly={<></>}/></div>}
                                                         </div>
                                                     </div>
                                                     <DraftReadonlySwitcherComponent
@@ -823,15 +823,15 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                     <div className={'ts-row'}>
                                                         <div className={'ts-col-12'}>
                                                             {search.showClear &&
-                                                            <div className={'clear-cta'}>
-                                                                <DraftReadonlySwitcherComponent
-                                                                    condition={true}
-                                                                    draft={<div className={'intervention-clear-button'}
-                                                                                onClick={event => {
-                                                                                    formik.setFieldValue('objective.treatment_response', '');
-                                                                                }
-                                                                                }>Clear</div>}
-                                                                    readonly={<></>}/></div>}
+                                                                <div className={'clear-cta'}>
+                                                                    <DraftReadonlySwitcherComponent
+                                                                        condition={true}
+                                                                        draft={<div className={'intervention-clear-button'}
+                                                                                    onClick={event => {
+                                                                                        formik.setFieldValue('objective.treatment_response', '');
+                                                                                    }
+                                                                                    }>Clear</div>}
+                                                                        readonly={<></>}/></div>}
                                                         </div>
                                                     </div>
                                                     <DraftReadonlySwitcherComponent
@@ -938,14 +938,14 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                     <div className={'ts-row'}>
                                                         <div className={'ts-col-12'}>
                                                             {search.showClear &&
-                                                            <div className={'clear-cta'}><DraftReadonlySwitcherComponent
-                                                                condition={true}
-                                                                draft={<div className={'intervention-clear-button'}
-                                                                            onClick={event => {
-                                                                                formik.setFieldValue('assessment.suspicion_index', '');
-                                                                            }
-                                                                            }>Clear</div>}
-                                                                readonly={<></>}/></div>}
+                                                                <div className={'clear-cta'}><DraftReadonlySwitcherComponent
+                                                                    condition={true}
+                                                                    draft={<div className={'intervention-clear-button'}
+                                                                                onClick={event => {
+                                                                                    formik.setFieldValue('assessment.suspicion_index', '');
+                                                                                }
+                                                                                }>Clear</div>}
+                                                                    readonly={<></>}/></div>}
                                                         </div>
                                                     </div>
                                                     <DraftReadonlySwitcherComponent
@@ -978,14 +978,14 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                     <div className={'ts-row'}>
                                                         <div className={'ts-col-12'}>
                                                             {search.showClear &&
-                                                            <div className={'clear-cta'}><DraftReadonlySwitcherComponent
-                                                                condition={true}
-                                                                draft={<div className={'intervention-clear-button'}
-                                                                            onClick={event => {
-                                                                                formik.setFieldValue('assessment.surgery_procedure', '');
-                                                                            }
-                                                                            }>Clear</div>}
-                                                                readonly={<></>}/></div>}
+                                                                <div className={'clear-cta'}><DraftReadonlySwitcherComponent
+                                                                    condition={true}
+                                                                    draft={<div className={'intervention-clear-button'}
+                                                                                onClick={event => {
+                                                                                    formik.setFieldValue('assessment.surgery_procedure', '');
+                                                                                }
+                                                                                }>Clear</div>}
+                                                                    readonly={<></>}/></div>}
                                                         </div>
                                                     </div>
                                                     <DraftReadonlySwitcherComponent
