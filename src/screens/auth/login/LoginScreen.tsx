@@ -56,7 +56,7 @@ const LoginScreen = (props: LoginScreenProps) => {
                 setIsLoggingIn(false);
             })
             .catch((error: any) => {
-                // CommonService.handleErrors(setErrors, error);
+                CommonService.handleErrors(setErrors, error);
                 setIsLoggingIn(false);
             })
     }, [dispatch]);
