@@ -286,7 +286,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
             console.log(serviceId, providerId);
             setIsFacilityListLoading(true);
             setFacilityList([]);
-            CommonService._facility.providerFacilityList(serviceId, providerId, {})
+            CommonService._facility.providerFacilityList(serviceId, providerId, {is_active:true})
                 .then((response: IAPIResponseType<any>) => {
                     setFacilityList(response.data || []);
                 })
