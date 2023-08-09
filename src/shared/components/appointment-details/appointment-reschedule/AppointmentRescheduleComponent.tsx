@@ -424,7 +424,9 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                                                             valueExtractor={(option: any) => option}
                                                             onUpdate={value => {
                                                                 if (value) {
-                                                                    getProviderFacilityList(values.service._id, value._id);
+                                                                    console.log(value);
+                                                                    console.log(values);
+                                                                    getProviderFacilityList(details?.service_id, value?._id);
                                                                     setFieldValue('facility', undefined);
                                                                     setFieldTouched('facility', false);
                                                                     setFieldValue('date', undefined);
@@ -459,7 +461,7 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                                                                     setFieldTouched('date', false);
                                                                     setFieldValue('time', undefined);
                                                                     setFieldTouched('time', false);
-                                                                    getAvailableDatesList(values.provider._id, values.service._id, value._id);
+                                                                    getAvailableDatesList(values.provider._id, details?.service_id, value._id);
                                                                 }
                                                             }}
                                                             fullWidth={true}
