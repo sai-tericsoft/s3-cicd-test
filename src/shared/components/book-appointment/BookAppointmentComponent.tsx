@@ -71,7 +71,7 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
 
     const getClientListOnLoading = useCallback(() => {
         setIsClientListLoading(true);
-        CommonService._client.GetClientList({})
+        CommonService._client.GetClientList({is_active: true})
             .then((response: IAPIResponseType<any>) => {
                 setClientList(response.data.docs || []);
             })
