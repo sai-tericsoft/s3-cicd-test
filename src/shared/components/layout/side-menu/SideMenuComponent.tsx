@@ -29,15 +29,20 @@ const menuList: IMenuItem[] = [
         title: 'Chart Notes',
         icon: ImageConfig.ChartNotes
     },
-     {
+    {
         path: CommonService._routeConfig.SchedulingView(),
         title: 'Scheduling',
         icon: ImageConfig.EventIcon
     },
     {
-        path:CommonService._routeConfig.BillingList(),
-        title:'Billing',
-        icon:ImageConfig.BillingIcon
+        path: CommonService._routeConfig.BillingList(),
+        title: 'Billing',
+        icon: ImageConfig.BillingIcon
+    },
+    {
+        path: CommonService._routeConfig.InventoryList(),
+        title: 'Inventory',
+        icon: ImageConfig.InventoryIcon
     },
     {
         path: CommonService._routeConfig.Help(),
