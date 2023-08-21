@@ -957,7 +957,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                 label={'Index of Suspicion'}/></div>
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
-                                                            {medicalInterventionDetails?.objective?.suspicion_index ? medicalInterventionDetails?.objective?.suspicion_index?.split("\n").map((i: any, key: any) => {
+                                                            {medicalInterventionDetails?.assessment?.suspicion_index ? medicalInterventionDetails?.assessment?.suspicion_index?.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) : "N/A"}
                                                         </div>
@@ -989,7 +989,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                 label={'Surgery Procedure Complete'}/></div>
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
-                                                            {medicalInterventionDetails?.objective?.surgery_procedure ? medicalInterventionDetails?.objective?.surgery_procedure?.split("\n").map((i: any, key: any) => {
+                                                            {medicalInterventionDetails?.assessment?.surgery_procedure ? medicalInterventionDetails?.assessment?.surgery_procedure?.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
                                                             }) : "N/A"}
                                                         </div>
