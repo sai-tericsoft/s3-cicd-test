@@ -25,7 +25,6 @@ import CheckBoxComponent from "../../../shared/components/form-controls/check-bo
 import {RadioButtonComponent} from "../../../shared/components/form-controls/radio-button/RadioButtonComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface MedicalInterventionSpecialTestV2ScreenProps {
 
@@ -618,7 +617,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                                         }, [validateForm, values]);
                                         return (
                                             <Form className="t-form" noValidate={true}>
-                                                <FormDebuggerComponent form={formik}/>
+                                                {/*<FormDebuggerComponent form={formik}/>*/}
                                                 <div>
                                                     {
                                                         Object.keys(values)?.map((bodyPartId: any) => {
