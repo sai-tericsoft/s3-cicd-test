@@ -154,7 +154,7 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
                                 couponDetails?.discount_type === 'amount' && <>
                                     <div className={'ts-col-md-4 ts-col-lg'}>
                                         <DataLabelValueComponent label={'Discount Amount'}>
-                                            {couponDetails?.discount_amount ? <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(+couponDetails?.discount_amount)}</> : "N/A"}
+                                            {couponDetails?.amount ? <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(+couponDetails?.amount)}</> : "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-4 ts-col-lg'}/>
