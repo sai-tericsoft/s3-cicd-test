@@ -40,10 +40,10 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
         //     title: "Insurance",
         //     path: ""
         // },
-        // {
-        //     title: "Appointments",
-        //     path: clientId ? CommonService._routeConfig.ClientAppointments(clientId) : ""
-        // },
+        {
+            title: "Appointments",
+            path: clientId ? CommonService._routeConfig.ClientAppointments(clientId) : ""
+        },
         // {
         //     title: "Billing",
         //     path: clientId ? CommonService._routeConfig.ClientBillingDetails(clientId) : ""
