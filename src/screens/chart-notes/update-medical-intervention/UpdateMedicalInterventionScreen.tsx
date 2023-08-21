@@ -1250,7 +1250,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                             id={"medical_intervention_add_save_btn"}
                                             // disabled={isFormBeingUpdated}
                                         >
-                                            {medicalInterventionDetails?.is_signed ? "Finalize treatment" : "Save"}
+                                            {medicalInterventionDetails?.is_signed ? "Finalize Treatment" : "Save"}
                                         </ButtonComponent>
                                     </div>
                                 </Form>
