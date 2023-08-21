@@ -580,22 +580,22 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                                                                                        </ButtonComponent>&nbsp;&nbsp;
                                                                                                    </>
                                                                                                }
-                                                                                               {
-                                                                                                   (mode === 'write') &&
-                                                                                                   <>
-                                                                                                       <ButtonComponent
-                                                                                                           size={"small"}
-                                                                                                           prefixIcon={
-                                                                                                               <ImageConfig.AddIcon/>}
-                                                                                                           onClick={() => {
-                                                                                                               openBodySideSelectionModal(bodyPart);
-                                                                                                           }
-                                                                                                           }
-                                                                                                       >
-                                                                                                           Add Body Side
-                                                                                                       </ButtonComponent>&nbsp;&nbsp;
-                                                                                                   </>
-                                                                                               }
+                                                                                               {/*{*/}
+                                                                                               {/*    (mode === 'write') &&*/}
+                                                                                               {/*    <>*/}
+                                                                                               {/*        <ButtonComponent*/}
+                                                                                               {/*            size={"small"}*/}
+                                                                                               {/*            prefixIcon={*/}
+                                                                                               {/*                <ImageConfig.AddIcon/>}*/}
+                                                                                               {/*            onClick={() => {*/}
+                                                                                               {/*                openBodySideSelectionModal(bodyPart);*/}
+                                                                                               {/*            }*/}
+                                                                                               {/*            }*/}
+                                                                                               {/*        >*/}
+                                                                                               {/*            Add Body Side*/}
+                                                                                               {/*        </ButtonComponent>&nbsp;&nbsp;*/}
+                                                                                               {/*    </>*/}
+                                                                                               {/*}*/}
                                                                                            </>
                                                                                        }
                                                                                        <ButtonComponent
