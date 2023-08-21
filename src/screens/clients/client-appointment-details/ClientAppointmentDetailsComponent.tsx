@@ -1,5 +1,5 @@
 import "./ClientAppointmentDetailsComponent.scss";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
@@ -10,8 +10,6 @@ import PageHeaderComponent from "../../../shared/components/page-header/PageHead
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
-import MedicalInterventionLinkedToComponent
-    from "../../chart-notes/medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {useDispatch} from "react-redux";
 
@@ -67,6 +65,8 @@ const ClientAppointmentDetailsComponent = (props: ClientAppointmentDetailsCompon
         }
     }, [getAppointmentDetails, clientAppointmentId]);
 
+    console.log('appointmentDetails', appointmentDetails);
+
     return (
         <div className={'medical-record-attachment-basic-details-card-component'}>
             {
@@ -92,9 +92,16 @@ const ClientAppointmentDetailsComponent = (props: ClientAppointmentDetailsCompon
                                     </div>
                                 </div>
                             </div>
-                            <MedicalInterventionLinkedToComponent
-                                label={"Appointment Linked to:"}
-                                medicalRecordDetails={appointmentDetails.medicalRecordDetails}/>
+                            {/*<MedicalInterventionLinkedToComponent*/}
+                            {/*    label={"Appointment Linked to:"}*/}
+                            {/*    medicalRecordDetails={appointmentDetails.case_details}/>*/}
+                            <DataLabelValueComponent direction={'row'} label={'Appointment Linked to:'}>
+                                {/*{appointmentDetails?.intervention_linked_to}*/}
+                                {appointmentDetails?.case_details?.case_date && CommonService.convertDateFormat2(appointmentDetails?.created_at)}{" "}
+                                {"-"} {appointmentDetails?.case_details?.injury_details?.map((injury: any, index: number) => {
+                                return <>{injury.body_part_details.name} {injury.body_side ? `( ${injury.body_side} )` : ''} {index !== appointmentDetails?.case_details?.injury_details.length - 1 ? <> | </> : ""}</>
+                            })}
+                            </DataLabelValueComponent>
 
                             <div className={"ts-row"}>
                                 <div className="ts-col-md-6 ts-col-lg-3">
