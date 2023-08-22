@@ -11,11 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Install Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: '16.x'
-      - name: Yarn install cache
-        uses: c-hive/gha-yarn-cache@v1
+        uses: actions/setup-node@v3
         with:
           node-version: '16.x'
           cache: 'yarn'
