@@ -261,7 +261,6 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
         }
     }, [patchDataToProgressReportForm, clientMedicalRecordProgressReportDetails]);
 
-
     return (
         <div className={'progress-record-advanced-details-update-screen'}>
             <PageHeaderComponent title={mode === 'add' ? "Add Therapy Progress Report" : "Edit Therapy Progress Report"}
@@ -328,14 +327,14 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
 
                         {isFullCardOpen && <>
                             <DataLabelValueComponent label={'Medical Diagnosis/ICD-11 Codes:'}>
-                                {clientMedicalRecordProgressReportDetails?.linked_icd_codes?.length > 0 ?
+                                { clientMedicalRecordProgressReportDetails?.linked_icd_codes?.length > 0 ?
                                     <>
-                                        {clientMedicalRecordProgressReportDetails?.linked_icd_codes?.length.map((icdCode: any) => (
-                                            <div key={icdCode.icd_code}
+                                        {clientMedicalRecordProgressReportDetails?.linked_icd_codes?.map((icdCode: any,index:number) => (
+                                            <div key={index}
                                                  className='d-flex ts-align-items-center mrg-top-5'>
-                                                <div className='width-5 mrg-right-10'>{icdCode.icd_code}</div>
+                                                <div className='width-5 mrg-right-10'>{icdCode?.icd_code}</div>
                                                 <div>:</div>
-                                                <div className='mrg-left-10'>{icdCode.description}</div>
+                                                <div className='mrg-left-10'>{icdCode?.description}</div>
                                             </div>
                                         ))}
                                     </> : <div>N/A</div>

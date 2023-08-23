@@ -429,13 +429,13 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         }
     }, [globalRomConfig, romFormValues, medicalInterventionId]);
 
-    const openBodySideSelectionModal = useCallback((bodyPart: IBodyPart) => {
-        setSelectedBodyPartForSideSelection({
-            ...bodyPart,
-            tempSelectedSides: _.cloneDeep(romFormValues?.[bodyPart?._id]?.selected_sides) || []
-        });
-        setIsBodySidesModalOpen(true);
-    }, [romFormValues]);
+    // const openBodySideSelectionModal = useCallback((bodyPart: IBodyPart) => {
+    //     setSelectedBodyPartForSideSelection({
+    //         ...bodyPart,
+    //         tempSelectedSides: _.cloneDeep(romFormValues?.[bodyPart?._id]?.selected_sides) || []
+    //     });
+    //     setIsBodySidesModalOpen(true);
+    // }, [romFormValues]);
 
     const closeBodySideSelectionModal = useCallback(() => {
         setSelectedBodyPartForSideSelection(undefined);
