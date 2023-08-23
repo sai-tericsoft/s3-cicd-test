@@ -169,7 +169,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             align: 'center',
             width: 100,
             render: (item: any) => {
-                return <ChipComponent label={item?.status_details?.title}
+                return <ChipComponent label={item?.status_details?.admin_title}
                                       className={item?.status_details?.code}
                 />
             }
@@ -748,7 +748,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                 <SelectComponent size={'small'}
                                                  value={schedulingListFilterState?.status || ''}
                                                  options={appointmentStatus || []}
-                                                 displayWith={(option: any) => (option?.title || '')}
+                                                 displayWith={(option: any) => (option?.admin_title || '')}
                                                  valueExtractor={(option: any) => option?.code || ''}
                                                  label={'Status'}
                                                  isClear={true}
