@@ -36,7 +36,7 @@ import {
     BASIC_DETAILS,
     BILLING,
     BILLING_DETAILS,
-    BILLING_LIST,
+    BILLING_LIST, BILLING_SETTINGS,
     CHART_NOTES_LIST,
     CLIENT,
     CLIENT_ADD,
@@ -187,6 +187,7 @@ import UserAccountDetailsEditComponent
     from "../screens/settings/user-account-details-edit/UserAccountDetailsEditComponent";
 import UserSlotsDetailsComponent from "../screens/settings/user-slots-details/UserSlotsDetailsComponent";
 import UserSlotsEditComponent from "../screens/settings/user-slots-edit/UserSlotsEditComponent";
+import ThankYouNoteComponent from "../screens/admin/billing-settings/thank-you-note/ThankYouNoteComponent";
 
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
@@ -502,6 +503,14 @@ const Navigator = (props: NavigatorProps) => {
                             element={
                                 <ProtectedRoute>
                                     <SystemSettingsScreen/>
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path={BILLING_SETTINGS}
+                            element={
+                                <ProtectedRoute>
+                                    <ThankYouNoteComponent/>
                                 </ProtectedRoute>
                             }
                         />

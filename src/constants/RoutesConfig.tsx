@@ -97,6 +97,8 @@ const USER_PERSONAL_DETAILS_EDIT = "/admin/user-details-edit";
 const USER_ACCOUNT_DETAILS_EDIT = "/admin/user-account-details-edit";
 const USER_SLOTS_EDIT = "/admin/user-slots-edit";
 
+const BILLING_SETTINGS = "/admin/billing-settings";
+
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
 export {
@@ -184,5 +186,6 @@ export {
     BASIC_DETAILS,
     PERSONAL_SLOTS_EDIT,
     USER_SLOTS_EDIT,
+    BILLING_SETTINGS
 
 };

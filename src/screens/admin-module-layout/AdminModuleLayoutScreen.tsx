@@ -44,6 +44,11 @@ const ADMIN_MENU_ITEMS = [
     //     title: "Access Management",
     //     path: ""
     // }
+    {
+        title: "Billing Settings",
+        path: CommonService._routeConfig.BillingSettings()
+
+    }
 ]
 
 const AdminModuleLayoutScreen = (props: AdminModuleLayoutScreenProps) => {

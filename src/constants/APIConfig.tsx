@@ -938,6 +938,14 @@ const APIConfig: IAPIConfig = {
         URL: (providerId: string) => ENV.API_URL + '/user/' + providerId + '/blockSlots',
         METHOD: "post"
     },
+    ADD_BILLING_SETTINGS: {
+        URL: ENV.API_URL + '/billingSetting',
+        METHOD: "post"
+    },
+    GET_BILLING_SETTINGS: {
+        URL: ENV.API_URL + '/billingSetting',
+        METHOD: "get"
+    }
 
 
 }

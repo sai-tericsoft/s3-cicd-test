@@ -33,7 +33,7 @@ const GetBillingStatsCountAPICall = (payload: any) => {
     return ApiService[APIConfig.GET_BILLING_STATS_COUNT.METHOD](APIConfig.GET_BILLING_STATS_COUNT.URL, payload)
 }
 
-const GetBillingStatsAPICall = (clientId:any,payload: any) => {
+const GetBillingStatsAPICall = (clientId: any, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.GET_BILLING_STATS.METHOD](APIConfig.GET_BILLING_STATS.URL(clientId), payload)
 }
@@ -43,9 +43,19 @@ const GetBillingPDFDocument = (billingDocumentId: any, type: BillingType, payloa
     return ApiService[APIConfig.GENERATE_BILLING_DOCUMENT_PDF.METHOD](APIConfig.GENERATE_BILLING_DOCUMENT_PDF.URL(billingDocumentId, type), payload)
 }
 
-const GetBillingFromAddress = (payload:any)=>{
+const GetBillingFromAddress = (payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.GET_BILLING_FROM_ADDRESS.METHOD](APIConfig.GET_BILLING_FROM_ADDRESS.URL, payload)
+}
+
+const AddBillingSettings = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.ADD_BILLING_SETTINGS.METHOD](APIConfig.ADD_BILLING_SETTINGS.URL, payload)
+}
+
+const GetBillingSettings = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.GET_BILLING_SETTINGS.METHOD](APIConfig.GET_BILLING_SETTINGS.URL, payload)
 }
 
 const BillingService = {
@@ -57,7 +67,9 @@ const BillingService = {
     GetBillingStatsCountAPICall,
     GetBillingPDFDocument,
     GetBillingStatsAPICall,
-    GetBillingFromAddress
+    GetBillingFromAddress,
+    AddBillingSettings,
+    GetBillingSettings
 }
 
 export default BillingService;

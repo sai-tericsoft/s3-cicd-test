@@ -455,7 +455,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             {
                 confirmationTitle: "DISCARD RECEIPT",
                 image: ImageConfig.RemoveImage,
-                confirmationSubTitle: `Are you sure you do not wish to generate an receipt, as it will be deleted?"?`
+                confirmationSubTitle: `Are you sure you do not wish to generate an receipt, as it will be deleted?`
             }
         )
             .then((result: any) => {
@@ -758,7 +758,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                          className={isSubmitting ? 'mrg-right-15' : ''}
                                                          onClick={handleAddReceiptCancel}
                                         >
-                                            Cancel
+                                            Discard Receipt
                                         </ButtonComponent>&nbsp;&nbsp;
                                         <ButtonComponent
                                             type="submit"

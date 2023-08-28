@@ -337,6 +337,10 @@ const UserSlotsEdit = (userId: any) => {
     return '/admin/user-slots-edit/' + userId;
 }
 
+const BillingSettings = () => {
+    return '/admin/billing-settings';
+}
+
 const RouteConfigService = {
     DefaultRoute,
     LoginRoute,
@@ -415,7 +419,8 @@ const RouteConfigService = {
     PersonalSlotsDetails,
     PersonalSlotsEdit,
     UserSlotsEdit,
-    Settings
+    Settings,
+    BillingSettings
 
 }
 
