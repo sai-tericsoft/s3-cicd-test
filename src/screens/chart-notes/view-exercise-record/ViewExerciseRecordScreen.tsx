@@ -32,26 +32,31 @@ const viewExerciseRecordColumn: any = [
         title: 'Exercise Name',
         key: 'exercise_name',
         dataIndex: 'name',
+        align:'center'
     },
     {
         title: "SET",
         key: "set",
         dataIndex: 'no_of_sets',
+        align:'center'
     },
     {
         title: "REP",
         key: "rep",
         dataIndex: 'no_of_reps',
+        align:'center'
     },
     {
         title: "Time",
         key: "time",
         dataIndex: 'time',
+        align:'center'
     },
     {
         title: "Resistance",
         key: "resistance",
         dataIndex: 'resistance',
+        align:'center'
     }
 ];
 
@@ -130,7 +135,8 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                             </CardComponent>
                             {/*<div className={'horizontal-line'}></div>*/}
                             {/*<PageHeaderComponent title={'View Exercise Record'}/>*/}
-                            {medicalRecordViewExerciseRecord?.exercise_logs?.map((item: any) => {
+                            {medicalRecordViewExerciseRecord?.exercise_logs?.map((item: any,index:number) => {
+
                                 return <>  <CardComponent color={'primary'}>
                                     <div className={'ts-row'}>
                                         <div className={'ts-col-4'}>
@@ -180,8 +186,9 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                             <div className='pdd-bottom-20'>{item.comments}</div>
                                         </CardComponent>
                                     }
-
-                                    <div className={'horizontal-line'}></div>
+                                    {index !== medicalRecordViewExerciseRecord.exercise_logs.length - 1 && (
+                                        <div className={'horizontal-line'}></div>
+                                    )}
                                 </>
                             })}
 
