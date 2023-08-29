@@ -582,7 +582,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                             </div>
                                             <div
                                                 className="add-new-invoice__payment__block__row__value">
-                                                - {Misc.CURRENCY_SYMBOL} {CommonService.convertToDecimals(billingDetails?.discount ? parseInt(billingDetails?.discount) : 0)}
+                                                - {Misc.CURRENCY_SYMBOL} {CommonService.convertToDecimals(billingDetails?.discount ? (billingDetails?.discount) : 0)}
                                             </div>
                                         </div>
                                         <div className="add-new-invoice__payment__block__row grand">
@@ -592,7 +592,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                             <div
                                                 className="add-new-invoice__payment__block__row__value">{Misc.CURRENCY_SYMBOL}
                                                 {
-                                                    CommonService.convertToDecimals(parseInt(billingDetails?.total) - (billingDetails?.discount ? parseInt(billingDetails?.discount) : 0))
+                                                    CommonService.convertToDecimals((billingDetails?.total) - (billingDetails?.discount ? (billingDetails?.discount) : 0))
                                                 }
                                             </div>
                                         </div>
