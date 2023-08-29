@@ -76,6 +76,7 @@ const ProductRow = {
     amount: undefined,
     units: undefined,
     quantity: undefined,
+    discount: undefined,
     showQuantity: false,
     // productIndex: undefined,
 }
@@ -110,7 +111,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
     const [isClientBillingAddressDrawerOpened, setIsClientBillingAddressDrawerOpened] = useState<boolean>(false);
     const [selectedPaymentMode, setSelectedPaymentMode] = useState<string | undefined>(undefined);
     const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
-    const [total, setTotal] = useState<number>(0);
+    const [total, setTotal] = useState<any>(0);
 
     const {
         paymentModes
@@ -231,6 +232,51 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             </Field>
         },
         {
+            title: "Discount",
+            dataIndex: "discount",
+            key: "discount",
+            align: 'center',
+            width: 70,
+            render: (record: any, index: number) => <Field name={`products[${index}].discount`}
+                                                           className="t-form-control">
+                {
+                    (field: FieldProps) => {
+                        const quantity = _.get(field.form?.values, `products[${index}].quantity`);
+                        return <>
+                            {
+                                (field.form.values?.products?.[index]?.quantity !== undefined && field.form.values?.products?.[index]?.quantity !== null && field.form.values?.products?.[index]?.quantity > 0) ?
+                                    <FormikInputComponent
+                                        required={true}
+                                        formikField={field}
+                                        size={"small"}
+                                        placeholder={'$0.00'}
+                                        onFocus={() => {
+                                            field.form.setFieldValue(`products[${index}].showQuantity`, true);
+                                        }}
+                                        onBlur={() => {
+                                            field.form.setFieldValue(`products[${index}].showQuantity`, true);
+                                        }}
+                                        maxValue={quantity > 0 ? quantity : 0}
+                                        disabled={!field.form.values?.products?.[index]?.product_id || !field.form.values?.products?.[index]?.units}
+                                        onChange={(value: any) => {
+                                            if (isNaN(value) || value === 0) {
+                                                const amount = field.form.values?.products?.[index]?.rate * field.form.values?.products?.[index]?.units;
+                                                field.form.setFieldValue(`products[${index}].amount`, amount);
+                                            } else {
+                                                const initialAmount = field.form.values?.products?.[index]?.rate * field.form.values?.products?.[index]?.units;
+                                                const amountAfterDiscount = (initialAmount - value);
+                                                field.form.setFieldValue(`products[${index}].amount`, amountAfterDiscount);
+                                            }
+                                        }
+                                        }
+                                    /> : "-"
+                            }
+                        </>
+                    }
+                }
+            </Field>
+        },
+        {
             title: "Rate",
             dataIndex: "rate",
             key: "rate",
@@ -240,7 +286,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 {
                     (field: FieldProps) => (
                         <>
-                            {field.form.values?.products?.[index]?.rate ? <> {Misc.CURRENCY_SYMBOL} {field.form.values?.products?.[index]?.rate || "-"} </> : "-"}
+                            {field.form.values?.products?.[index]?.rate ? <> {Misc.CURRENCY_SYMBOL}{field.form.values?.products?.[index]?.rate || "-"} </> : "-"}
                         </>
                     )
                 }
@@ -256,7 +302,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 {
                     (field: FieldProps) => (
                         <>
-                            <>{Misc.CURRENCY_SYMBOL} {(field.form.values?.products?.[index]?.amount || 0)}</>
+                            <>{Misc.CURRENCY_SYMBOL}{(CommonService.convertToDecimals(+field.form.values?.products?.[index]?.amount) || '0.00')}</>
                         </>
                     )
                 }
@@ -467,14 +513,15 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         let totalAmount = 0;
         if (formRef.current?.values?.products) {
             totalAmount = formRef.current?.values?.products?.reduce((acc: number, curr: any) => {
-                return (curr.rate && curr.units) ? acc + (parseInt(curr?.rate) * parseInt(curr?.units)) : acc;
+                console.log(curr?.discount)
+                return (curr.rate && curr.units) ? acc + ((curr?.rate) * (curr?.units)) - ((curr?.discount || "0")) : acc;
             }, 0);
         } else {
             totalAmount = 0;
         }
         formRef.current?.setFieldValue('total', totalAmount);
         formRef.current?.setFieldTouched('discount');
-        setTotal(totalAmount);
+        setTotal(CommonService.convertToDecimals(totalAmount));
     }, [formRef.current?.values?.products]);
 
     const handleEditBillingAddress = useCallback((values: any) => {
@@ -717,7 +764,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                         </div>
                                                         <div
                                                             className="add-new-receipt__payment__block__row__value">
-                                                            {Misc.CURRENCY_SYMBOL} {total}
+                                                            {Misc.CURRENCY_SYMBOL}{total}
                                                         </div>
                                                     </div>
                                                     <div>
@@ -727,7 +774,6 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                                     <FormikInputComponent
                                                                         label="Discount"
                                                                         fullWidth={true}
-                                                                        type={"number"}
                                                                         max={total}
                                                                         formikField={field}
                                                                         disabled={!(total > 0)}
@@ -745,7 +791,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                         <div
                                                             className="add-new-receipt__payment__block__row__value">{Misc.CURRENCY_SYMBOL}
                                                             {
-                                                                total - (addNewReceiptFormInitialValues.discount ? parseInt(addNewReceiptFormInitialValues.discount) : 0)
+                                                                CommonService.convertToDecimals(total - (addNewReceiptFormInitialValues.discount && (addNewReceiptFormInitialValues.discount) ||  '0.00'))
                                                             }
                                                         </div>
                                                     </div>
