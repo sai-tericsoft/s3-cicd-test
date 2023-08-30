@@ -400,8 +400,8 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                             </div>
                         </div>
                         <HorizontalLineComponent/>
-                        <div className={"billing-address-wrapper"}>
-                            <div className={"billing-address-block from"}>
+                        <div className={"billing-address-wrapper ts-row"}>
+                            <div className={"billing-address-block from ts-col-lg-3"}>
                                 <div className={"billing-address-block__header"}>
                                     <div className={"billing-address-block__title"}>Billing From</div>
                                 </div>
@@ -418,13 +418,16 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                         className={"billing-address-block__detail__row"}> {billingFromAddress?.phone} </div>
                                 </div>
                             </div>
-                            <div className={"billing-address-block to"}>
+                            <div className={'ts-col-lg-3'}/>
+                            <div className={"billing-address-block to ts-col-lg-3"}>
                                 <div className={"billing-address-block__header"}>
                                     <div className={"billing-address-block__title"}>Billing To</div>
                                     &nbsp;&nbsp;
                                     {(billingDetails?.billing_address && type === 'invoice') &&
                                         <LinkComponent onClick={openBillingAddressFormDrawer}>
-                                            (Edit Billing To)
+                                              <span>  <ImageConfig.EditIcon height={'15'}
+                                                                            width={'15'}/> </span>
+                                            <span className={'edit-text'}>Edit</span>
                                         </LinkComponent>}
                                 </div>
                                 <div className={"billing-address-block__details"}>
