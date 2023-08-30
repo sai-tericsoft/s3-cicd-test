@@ -31,7 +31,7 @@ import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import EditBillingAddressComponent from "../edit-billing-address/EditBillingAddressComponent";
-import {getBillingFromAddress} from "../../../store/actions/billings.action";
+import {getBillingFromAddress, getBillingSettings} from "../../../store/actions/billings.action";
 
 interface AddNewReceiptScreenProps {
 
@@ -67,6 +67,8 @@ const AddNewReceiptFormValidationSchema = Yup.object({
     client_id: Yup.string().required("Client is required"),
     provider_id: Yup.string().required("Provider is required"),
     comments: Yup.string().nullable().max(200, "Comments cannot be more than 200 characters"),
+    thankyou_note: Yup.string().max(90, ' '),
+
 });
 
 const ProductRow = {
@@ -81,19 +83,13 @@ const ProductRow = {
     // productIndex: undefined,
 }
 
-const AddNewReceiptFormInitialValues = {
-    products: [
-        {
-            ...ProductRow,
-            key: CommonService.getUUID(),
-        }
-    ]
-}
-
 const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const {
+        billingSettings,
+    } = useSelector((state: IRootReducerState) => state.billings);
     const formRef = useRef<FormikProps<any>>(null);
     const [clientListSearch, setClientListSearch] = useState<string>("");
     const [clientList, setClientList] = useState<any>([]);
@@ -107,11 +103,20 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
     const [selectedProvider, setSelectedProvider] = useState<any>(null);
     const [isClientSelectionDrawerOpened, setIsClientSelectionDrawerOpened] = useState<boolean>(false);
     const [isProviderSelectionDrawerOpened, setIsProviderSelectionDrawerOpened] = useState<boolean>(false);
-    const [addNewReceiptFormInitialValues, setAddNewReceiptFormFormInitialValues] = useState<any>(_.cloneDeep(AddNewReceiptFormInitialValues));
+    const [addNewReceiptFormInitialValues, setAddNewReceiptFormFormInitialValues] = useState<any>({
+        thankyou_note: billingSettings?.default_thankyou_note || '',
+        products: [
+            {
+                ...ProductRow,
+                key: CommonService.getUUID(),
+            }
+        ],
+    });
     const [isClientBillingAddressDrawerOpened, setIsClientBillingAddressDrawerOpened] = useState<boolean>(false);
     const [selectedPaymentMode, setSelectedPaymentMode] = useState<string | undefined>(undefined);
     const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
     const [total, setTotal] = useState<any>(0);
+
 
     const {
         paymentModes
@@ -130,6 +135,9 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         dispatch(getBillingFromAddress())
     }, [dispatch]);
 
+    useEffect(() => {
+        dispatch(getBillingSettings())
+    }, [dispatch]);
 
     const productListTableColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
         {
@@ -155,7 +163,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                         const quantity = _.get(field.form?.values, `products[${index}].quantity`);
                         const showQuantity = _.get(field.form?.values, `products[${index}].showQuantity`);
                         const units = _.get(field.form?.values, `products[${index}].units`);
-                        const selectedProducts = _.get(field.form?.values, `products`).map((item: any) => item.product);
+                        const selectedProducts = _.get(field.form?.values, `products`)?.map((item: any) => item?.product);
                         const showAvailableQuantity = (quantity !== undefined && (units === undefined || units === '' || units === null || units === 0 || isNaN(units)));
                         return <>
                             <span className={'ts-col-8'}>
@@ -513,7 +521,6 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         let totalAmount = 0;
         if (formRef.current?.values?.products) {
             totalAmount = formRef.current?.values?.products?.reduce((acc: number, curr: any) => {
-                console.log(curr?.discount)
                 return (curr.rate && curr.units) ? acc + ((curr?.rate) * (curr?.units)) - ((curr?.discount || "0")) : acc;
             }, 0);
         } else {
@@ -726,7 +733,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                 <ButtonComponent
                                                     variant={"text"}
                                                     prefixIcon={<ImageConfig.AddIcon/>}
-                                                    disabled={!ProductValidationSchema.isValidSync(values?.products[values.products.length - 1])}
+                                                    // disabled={!ProductValidationSchema?.isValidSync(values?.products[values.products?.length - 1])}
                                                     onClick={() => {
                                                         setAddNewReceiptFormFormInitialValues((prev: any) => ({
                                                             ...prev,
@@ -802,6 +809,35 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div className={'ts-row mrg-top-30'}>
+                                        <div className={'ts-col'}>
+                                            <CardComponent title={'Thank You Note'}>
+                                                <div className={'ts-col-lg-12'}>
+                                                    <Field name={'thankyou_note'}>
+                                                        {
+                                                            (field: FieldProps) => (
+                                                                <FormikTextAreaComponent
+                                                                    label={'Note'}
+                                                                    placeholder={' '}
+                                                                    formikField={field}
+                                                                    fullWidth={true}
+                                                                />
+                                                            )
+                                                        }
+                                                    </Field>
+                                                </div>
+                                                    <div className={'ts-col-md-12'}>
+                                                        {(values.thankyou_note?.length) >= 90 ?
+                                                            <div className={'alert-error'}>Characters
+                                                                Limit:{(values.thankyou_note?.length)}/90</div> :
+                                                            <div className={'no-alert'}>Characters
+                                                                Limit:{(values.thankyou_note?.length)}/90</div>}
+                                                    </div>
+                                            </CardComponent>
+
+                                        </div>
+
                                     </div>
                                     <div className="t-form-actions mrg-bottom-0">
                                         <ButtonComponent variant={"outlined"}
