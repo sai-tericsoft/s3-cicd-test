@@ -570,8 +570,8 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                         </div>
                                     </div>
                                     <HorizontalLineComponent/>
-                                    <div className={"billing-address-wrapper"}>
-                                        <div className={"billing-address-block from"}>
+                                    <div className={"billing-address-wrapper ts-row"}>
+                                        <div className={"billing-address-block from ts-col-lg-3"}>
                                             <div className={"billing-address-block__header"}>
                                                 <div className={"billing-address-block__title"}>Billing From</div>
                                             </div>
@@ -588,13 +588,17 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                     className={"billing-address-block__detail__row"}> {billingFromAddress?.phone} </div>
                                             </div>
                                         </div>
-                                        <div className={"billing-address-block to"}>
+                                        <div className={'ts-col-lg-3'}/>
+                                        {/*<div className={'ts-col-lg-3'}/>*/}
+                                        <div className={"billing-address-block to ts-col-lg-3"}>
                                             <div className={"billing-address-block__header"}>
                                                 <div className={"billing-address-block__title"}>Billing To</div>
                                                 &nbsp;&nbsp;
                                                 {selectedClientBillingAddress &&
                                                     <LinkComponent onClick={openBillingAddressFormDrawer}>
-                                                        (Edit Billing To)
+                                                        <span>  <ImageConfig.EditIcon height={'15'}
+                                                                                      width={'15'}/> </span>
+                                                        <span className={'edit-text'}>Edit</span>
                                                     </LinkComponent>}
                                             </div>
                                             <div className={"billing-address-block__details"}>
@@ -791,7 +795,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                         <div
                                                             className="add-new-receipt__payment__block__row__value">{Misc.CURRENCY_SYMBOL}
                                                             {
-                                                                CommonService.convertToDecimals(total - (addNewReceiptFormInitialValues.discount && (addNewReceiptFormInitialValues.discount) ||  '0.00'))
+                                                                CommonService.convertToDecimals(total - ((addNewReceiptFormInitialValues.discount && (addNewReceiptFormInitialValues.discount)) || '0.00'))
                                                             }
                                                         </div>
                                                     </div>
